@@ -1,0 +1,60 @@
+table
+{
+    width:fit-content;
+}
+th {
+  background-color: #e60000;
+  color:white;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.mat-header-cell {
+  color: white;
+  width: auto;
+  font-size:small;
+  
+}
+.mat-header-row,.mat-row {
+  height: 10px;
+  border: 5px
+}
+
+
+
+
+
+  /* .mat-row:nth-child(odd){
+    background-color: #dee2e6;
+  } */
+  .mat-row:nth-child(even){
+    background-color: #dee2e6;
+  }
+
+/* mat-cell, mat-header-cell, mat-footer-cell {
+  flex: 1;
+  display: inline-block;
+  align-items: center;
+  overflow: hidden;
+  min-height: initial;
+  height:auto;
+  width:auto;
+} */
+
+
+/* .mat-header-row {
+  display: table-row;
+} */
+
+
+
+
+
+
+
+
+
+ 
+

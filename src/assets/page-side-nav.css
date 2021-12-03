@@ -1,0 +1,72 @@
+/* Side-panel Starts */
+.side-nav .mat-form-field,.side-nav .mat-form-field + .mat-form-field {
+    margin-left: 15px;  
+    margin-bottom: 1px;  
+    margin-top:1px;  
+    font-size: smaller;  
+    width: 170px;
+  }
+  
+  .side-nav button{
+    margin-left: 25px
+  }
+  .side-nav {  
+    width: 220px;    
+    /* margin: 10px;
+    border: 1px solid #555; */
+  }
+  
+  .res-save-div
+  {
+    /* background-color: yellow; */
+    float: right;  
+    margin-top: -230px;
+  }
+  
+  
+  
+  .res-save-div .mat-form-field
+  {
+    margin-bottom: 1px;  
+    margin-top:1px;  
+    font-size: smaller;  
+    width: 170px;
+  }
+  
+  .side-left-div .side-textarea{
+    /* background-color: lawngreen!important; */
+    width: 360px;
+    font-size: smaller;  
+  position:absolute;
+  margin-top: 90px;
+    
+  }
+  .side-left-div textarea{ height: 100px;}
+  .side-container {
+      position: absolute;
+    width: 100%; 
+    height: inherit;
+    }
+  
+   
+  .side-content{
+      overflow: hidden;
+    }
+    .side-left-div{    
+      max-width: 50%;
+      float: left;
+      /* background-color: lightseagreen; */
+    }
+  
+  .side-right-div{   
+      float: right;
+      max-width: 50%;
+      /* background-color:magenta; */
+  }
+  
+  /* Side-panel Ends */
+   
+    
+  
+  
+  

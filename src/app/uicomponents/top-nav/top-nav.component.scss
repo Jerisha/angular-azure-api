@@ -1,0 +1,34 @@
+
+
+.mat-toolbar, .mat-toolbar h1, .mat-toolbar h2, .mat-toolbar h3, .mat-toolbar h4, .mat-toolbar h5, .mat-toolbar h6 {
+    font: 500 27px/35px Roboto, "Helvetica Neue", sans-serif;
+    letter-spacing: normal;
+    margin: 0;
+}
+.vflogo{
+  margin-left: 0.5%;
+  margin-top: 0.5%;
+  cursor: pointer;
+}
+.appheader{
+  margin: 0.5%;
+}
+
+.ylb-app-content{
+  padding: 16px;
+}
+
+.menuheaderright{
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+  vertical-align: bottom;
+}
+
+.mat-menu-item:hover{
+  color: red;
+}
+.mat-menu-item:hover .mat-icon{
+  color: red;
+  
+}

@@ -1,0 +1,81 @@
+<!-- <mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 25px; width:10%;
+font-size: smaller;  ">
+  <mat-label>Filter</mat-label>
+  <input [(ngModel)]="fltvalue" #Input matInput (keyup)="applyFilter()" name="fltvalue" placeholder="Filter">
+</mat-form-field> -->
+
+<mat-form-field style="margin-left: 8px;margin-top: 4px; " >
+  <mat-label>Column Headers</mat-label>
+  <mat-select  #select multiple>
+    <div class="select-all">
+        <mat-checkbox [(ngModel)]="allSelected"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="toggleAllSelection()">Select All</mat-checkbox>
+    </div>
+    <ng-container></ng-container>
+    <mat-option (click)="optionClick()" *ngFor="let cols of (this.tableitem?.dataColumns || []); let fltIndex = index" [value]="cols">
+      {{ getDisplayName(cols) }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button type="Grid Header" mat-icon-button color="primary" (click)="filterGridColumns()"matTooltip="Search">
+  <mat-icon>search</mat-icon>
+</button>
+<!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
+<div class="table-container" >
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <ng-container *ngFor="let disCol of dataColumns; let colIndex = index" matColumnDef="{{disCol}}" >
+
+    <!-- Checkbox Column -->
+    <div *ngIf="disCol === 'Select'">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </td>
+    </div>
+    <!-- Image Columns -->
+    <div *ngIf="imgColumns?.includes(disCol)">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{columnHeaders[colIndex]}}</th>
+      <td mat-cell *matCellDef="let element ">
+        <ng-container *ngFor="let img of imgList; let imgIndex = index ;">
+          <a [href]="img.route" target="_blank">
+            <mat-icon *ngIf="img.column === disCol" style="cursor: pointer;">
+              {{img.icon}}</mat-icon>
+          </a>
+        </ng-container>        
+    </div>
+    <!-- Other Columns -->
+    <div *ngIf="disCol != 'Select' && !imgColumns?.includes(disCol)">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{columnHeaders[colIndex]}}</th>
+      <td mat-cell *matCellDef="let element "> {{element[disCol]}} </td>
+    </div>  
+  
+  </ng-container> 
+ 
+
+  <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: dataColumns;" (click)="selection.toggle(row)"> </tr>
+</table>
+</div>
+
+
+
+<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[100, 500, 1000]" showFirstLastButtons>
+</mat-paginator>
+
+<div style="margin: auto;">
+<button type="reset" mat-raised-button color="primary" matTooltip="Export">
+  <mat-icon>import_export</mat-icon>Export
+</button>&nbsp;&nbsp;
+<button type="reset" mat-raised-button color="primary" matTooltip="Clipboard">
+  <mat-icon>file_copy</mat-icon>Copy To Clipboard
+</button>
+</div>
+<mat-divider></mat-divider>

@@ -1,0 +1,16 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container *ngFor="let disCol of dataColumns; let colIndex = index" matColumnDef="{{disCol}}" >
+        
+      <!-- Other Columns -->
+      <div>
+        <th mat-header-cell *matHeaderCellDef>{{disCol}}</th>
+        <td mat-cell *matCellDef="let element "> {{element[disCol]}} </td>
+      </div>  
+    
+    </ng-container> 
+   
+  
+    <tr mat-header-row *matHeaderRowDef="dataColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: dataColumns;"> </tr>
+  </table>
+  

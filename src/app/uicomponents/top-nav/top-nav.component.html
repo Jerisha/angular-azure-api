@@ -1,0 +1,33 @@
+<mat-toolbar color="primary" class="mat-elevation-z1">
+  <button mat-icon-button id="menu" (click)="navService.openNav()">
+    <mat-icon>apps</mat-icon>
+  </button> 
+
+  <div class="vflogo"  [routerLink]="['']" >    
+    <img src="/assets/images/vodafone.png" alt="image">
+  </div>
+  <span class='appheader'>OSN Provisioning</span>
+
+
+  <span class="menuheaderright">    
+    <button  mat-icon-button value="Logout"  color="primary">
+     <mat-icon matTooltip="About"  [matTooltipPosition]="position.value" >info</mat-icon>
+   </button>    
+     <button  mat-icon-button matTooltip="John Doe" [matMenuTriggerFor]="menu" [matTooltipPosition]="position.value"  color="primary">
+      <mat-icon>perm_identity</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">     
+        <button mat-menu-item>
+          <!-- <mat-icon>power_settings_new</mat-icon> -->
+          Settings
+        </button>
+    </mat-menu>
+    <button  mat-icon-button value="Logout"  color="primary">
+      <mat-icon matTooltip="Logout" [matTooltipPosition]="position.value">logout</mat-icon>
+    </button>  
+
+
+
+    
+  </span>  
+</mat-toolbar>

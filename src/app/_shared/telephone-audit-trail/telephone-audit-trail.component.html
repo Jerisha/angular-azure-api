@@ -1,0 +1,384 @@
+<table mat-table [dataSource]="transactionDetails ? transactionDetails : []" multiTemplateDataRows
+    class="mat-elevation-z8">
+    <ng-container *ngFor="let col of columnsToDisplay ; let colIndex = index" matColumnDef="{{col}}">
+        <ng-container *ngIf="col != 'action'">
+            <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+            <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+        </ng-container>
+        <ng-container *ngIf="col === 'action'">
+
+            <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+            <td mat-cell *matCellDef="let element">
+                <button type="button" class="btn btn-default" aria-label="Left Align"
+                    (click)="(expandedElement = expandedElement === element ? null : element);">
+                    <span>
+                        <!-- <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon> -->
+                        {{expandedElement === element ? 'Hide' : 'Show'}}
+                    </span>
+                </button>
+            </td>
+        </ng-container>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element">
+      <button type="button" class="btn btn-default" aria-label="Left Align"
+        (click)="(expandedElement = expandedElement === element ? null : element);"
+      >
+        <span></span>
+      </button>
+    </td>
+  </ng-container> -->
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail" mu>
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="example-element-diagram">
+                    <!-- <table class="inner-table" mat-table [dataSource]="element.options">
+                         Seq Column 
+                        <ng-container matColumnDef="optionName">
+                            <th mat-header-cell *matHeaderCellDef> Option Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element.optionName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="optionDescription">
+                            <th mat-header-cell *matHeaderCellDef> Option Description</th>
+                            <td mat-cell *matCellDef="let element"> {{element.optionDescription}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="expandDisplayedColumns"></tr>
+                        <tr mat-row *matRowDef="let element; columns: expandDisplayedColumns;"></tr>
+                    </table> -->
+                    <div class="maindiv">
+                        <div class="details-sec">
+                            <div class="coloumn1" style="display: inline-block; ">
+                                <table>
+                                    <tr>
+                                        <td><b> Tran ID</b></td>
+                                        <td>{{element.Details.Tran_ID}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Tran.Cmd</b></td>
+                                        <td>{{element.Details.Tran_Cmd}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>BT Cmd</b></td>
+                                        <td>{{element.Details.BT_Cmd}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Parent Cupid</b></td>
+                                        <td>{{element.Details.Parent_CUPID}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Child CUPID</b></td>
+                                        <td>{{element.Details.Child_CUPID}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Change CUPID</b></td>
+                                        <td>{{element.Details.Change_CUPID}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Cust Title</b></td>
+                                        <td>{{element.Details.Cust_Title}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Cust.Forename</b></td>
+                                        <td>{{element.Details.CustForename}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Cust.Name</b></td>
+                                        <td>{{element.Details.CustName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Busn.Suffix</b></td>
+                                        <td>{{element.Details.Busn_Suffix}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Premises</b></td>
+                                        <td>{{element.Details.Premises}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Thoroughfare</b></td>
+                                        <td>{{element.Details.Thoroughfare}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Locality</b></td>
+                                        <td>{{element.Details.Locality}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Postcode</b></td>
+                                        <td>{{element.Details.Postcode}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Retailer ID</b></td>
+                                        <td>{{element.Details.Retailer_ID}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Addr.ID</b></td>
+                                        <td>{{element.Details.Addr_ID}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Addr.ID.srce</b></td>
+                                        <td>{{element.Details.Addr_ID_Srce}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>SAR Ref.Num.</b></td>
+                                        <td>{{element.Details.SAR_Ref_Num}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>SAR Trn.Num</b></td>
+                                        <td>{{element.Details.SAR_Trn_Num}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Reference</b></td>
+                                        <td>{{element.Details.Reference}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Conn.Type</b></td>
+                                        <td>{{element.Details.Conn_Type}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Access Method</b></td>
+                                        <td>{{element.Details.Access_Method}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Prev.Tran.ID</b></td>
+                                        <td>{{element.Details.Prev_Tran_ID}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--coloumn1-->
+
+                            <div class="coloumn2" style="display: inline-block;  margin-left: 300px;">
+                                <table>
+                                    <tr>
+                                        <td><b>Tran.Ref</b></td>
+                                        <td>{{element.Details.Tran_Ref_}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Status</b></td>
+                                        <td>{{element.Details.Status}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>BT Source</b></td>
+                                        <td>{{element.Details.BT_Source}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Source</b></td>
+                                        <td>{{element.Details.Source}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Franchise</b></td>
+                                        <td>{{element.Details.Franchise}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Order.Ref</b></td>
+                                        <td>{{element.Details.Order_Ref}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Created</b></td>
+                                        <td>{{element.Details.Created}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Created By</b></td>
+                                        <td>{{element.Details.Created_By}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Source Type</b></td>
+                                        <td>{{element.Details.Source_Type}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Internal Addr1</b></td>
+                                        <td>{{element.Details.Internal_Addr1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Internal Addr2</b></td>
+                                        <td>{{element.Details.Internal_Addr2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Internal Addr3</b></td>
+                                        <td>{{element.Details.Internal_Addr3}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Internal Addr4</b></td>
+                                        <td>{{element.Details.Internal_Addr4}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Force validate</b></td>
+                                        <td>{{element.Details.Force_validate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>New Tel. No.</b></td>
+                                        <td>{{element.Details.New_Tel_no}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>XRef</b></td>
+                                        <td>{{element.Details.XRef}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Line Type</b></td>
+                                        <td>{{element.Details.Line_Type}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Provide</b></td>
+                                        <td>{{element.Details.Provide}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Effective</b></td>
+                                        <td>{{element.Details.Effective}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>End Status</b></td>
+                                        <td>{{element.Details.End_Status}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Callback</b></td>
+                                        <td>{{element.Details.Callback}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Type of Line</b></td>
+                                        <td>{{element.Details.Type_of_Line}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Next Tran.ID</b></td>
+                                        <td>{{element.Details.Next_Tran_Id}}</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <!--coloumn2-->
+                        </div>
+                        <mat-divider></mat-divider>
+                        
+                        <div class="notification-sec">
+                            <div class="page-header">
+                                Notification Data
+                            </div>
+                            <!-- <app-table [tableitem]="toTableItem(element.NotificationData)" 
+                            ></app-table>-->
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="comment-sec">
+                            <div class="page-header">
+                                Comment : {{element.CommentText}}
+                            </div>
+                            <app-table [tableitem]="toTableItem(element.Comment)"
+                            ></app-table>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="resolution-sec">
+                            <app-table [tableitem]="toTableItem(element.Resolution)"
+                            ></app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+
+<!-- Audit Trail Panel -->
+<mat-accordion [togglePosition]="'before'" >
+  
+    <mat-expansion-panel [hideToggle]="'true'" (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        
+        <mat-panel-title>
+            <button type="button" class="btn btn-default" aria-label="Left Align">
+                <span>
+                    <!-- <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon> -->
+                    {{panelOpenState ? 'Hide' : 'Show'}}
+                </span>
+            </button>&nbsp;&nbsp;
+            Audit Trail Details for : 01512104200  
+        </mat-panel-title>
+        <!-- <mat-panel-description>
+          some description!!
+        </mat-panel-description> -->
+      </mat-expansion-panel-header>
+  
+      <div class="page-header">
+        Internal Audit Trail
+    </div>
+    <ng-container *ngIf="!auditDetails?.internalAudit">
+    <!-- <table mat-table [dataSource]="auditDetails?.internalAudit" multiTemplateDataRows
+    class="mat-elevation-z8">
+    <ng-container *ngFor="let col of columnsToDisplay ; let colIndex = index" matColumnDef="{{col}}">
+        <ng-container *ngIf="col != 'action'">
+            <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+            <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+        </ng-container>
+        <ng-container *ngIf="col === 'User Comments'">
+
+            <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+            <td mat-cell *matCellDef="let element">
+                <button type="button" class="btn btn-default" aria-label="Left Align"
+                    (click)="(expandedElement = expandedElement === element ? null : element);">
+                    <span>
+                        <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
+                        {{expandedElement === element ? 'Hide' : 'Show'}}
+                    </span>
+                </button>
+            </td>
+        </ng-container>
+    </ng-container>
+
+    
+
+    Expanded Content Column - The detail row is made up of this one column that spans across all columns 
+    <ng-container matColumnDef="expandedDetail" mu>
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="example-element-diagram">
+                                   
+                       
+                    
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>  -->
+</ng-container>
+    <mat-divider></mat-divider>
+    <div class="page-header">
+        External Audit Panel
+    </div>
+    <mat-divider></mat-divider>
+    <div class="page-header">
+        Full Audit
+    </div>
+    <mat-divider></mat-divider>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Self aware panel
+        </mat-panel-title>
+        <mat-panel-description>
+          Currently I am {{panelOpenState ? 'open' : 'closed'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>I'm visible because I am open</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+  
+  
+
+
+<!-- Copyright 2020 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

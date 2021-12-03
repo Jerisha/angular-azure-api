@@ -1,0 +1,8 @@
+<p>unsolicitederrors works!
+    {{selMultiple.selectedValues}}
+</p>
+<app-select-multiple #selMultiple [listItems]= "listItems" (changes)="selChange($event)"></app-select-multiple>
+<br>
+<app-select-single></app-select-single>
+<br>
+<app-expression-select (click)="print($event)"></app-expression-select>

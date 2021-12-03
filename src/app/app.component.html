@@ -1,0 +1,28 @@
+<!-- <app-top-nav class="fixed-topnav" fxHide.gt-xs></app-top-nav> -->
+<mat-sidenav-container>
+  <mat-sidenav #appDrawer mode="over" opened="false">
+
+    <div style="background-color: #e60000;">
+      <div style="margin-left: 10%;
+      margin-top: 5%;">
+        <img src="/assets/images/vodafone.png" class="search-logo" alt="Logo">
+        <mat-form-field class="example-full-width" style="margin-left:4%; margin-top: 4%;" appearance="outline">
+          
+           <input matInput name="strSearch" [(ngModel)]="strSearch" placeholder="Search" autocomplete="off">
+          <button *ngIf="strSearch" matSuffix mat-icon-button aria-label="Clear" (click)="strSearch=''">
+            <mat-icon>close</mat-icon>
+          </button>
+         
+        </mat-form-field>
+      </div>
+    </div>
+    
+    <mat-nav-list>
+      <app-menu-list *ngFor="let item of navItems | filter:strSearch" [item]="item"></app-menu-list>
+    </mat-nav-list>
+  </mat-sidenav>
+  <app-top-nav fxHide.xs></app-top-nav>
+  <router-outlet></router-outlet>
+  <div fxFlex></div>
+  <span class="version-info">Current build: {{version.full ? version.full : version}}</span>
+</mat-sidenav-container>

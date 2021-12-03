@@ -1,0 +1,142 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-toolbar.mat-primary {
+  background: #e60000;
+  color: white;
+}
+
+.page-header
+  {   
+    background-color: whitesmoke;
+    color: #e60000;
+    margin:5px;
+    text-align: left;
+     font-size:12px bold;
+  }
+
+/* .container {
+    padding: 8px 24px 108px 24px;
+  } */
+  
+
+.mat-icon-button.mat-primary,.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+    color: white;
+    background-color: #e60000!important;
+    margin-left: 8px;    
+}
+
+.example-container .mat-form-field,.example-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;  
+  margin-bottom: 8px;
+  width:10%;
+  font-size: smaller;  
+}
+
+/* Scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:#c2c0c0; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background:#686464; 
+}
+
+/* Scrollbar Ends */
+
+
+
+
+ 
+/* Side-panel Starts */
+.side-nav .mat-form-field,.side-nav .mat-form-field + .mat-form-field {
+  margin-left: 15px;  
+  margin-bottom: 1px;  
+  margin-top:1px;  
+  font-size: smaller;  
+  width: 170px;
+}
+
+.side-nav button{
+  margin-left: 25px
+}
+.side-nav {  
+  width: 220px!important;    
+  /* margin: 10px;
+  border: 1px solid #555; */
+}
+
+.res-save-div
+{
+  /* background-color: yellow; */
+  /* float: right;   */
+position: relative;
+  margin-top: -230px;
+margin-left: 200px;
+
+}
+
+
+
+.res-save-div .mat-form-field
+{
+  margin-bottom: 1px;  
+  margin-top:1px;  
+  font-size: smaller;  
+  width: 170px;
+}
+
+.side-left-div .side-textarea{
+  /* background-color: lawngreen!important; */
+  width: 360px;
+  font-size: smaller;  
+/* position:absolute; 
+margin-top: 90px;*/
+margin-left: 200px;
+  
+}
+.side-left-div textarea{ height: 100px;}
+.side-container {
+    position: absolute;
+  width: 100%; 
+  height: inherit!important;
+  }
+
+ 
+.side-content{
+    overflow: hidden!important;
+  }
+  .side-left-div{    
+    max-width: 50%;
+    float: left;
+    /* background-color: lightseagreen; */
+  }
+
+.side-right-div{   
+    float: right;
+    max-width: 50%;
+    /* background-color:magenta; */
+}
+
+/* Side-panel Ends */
+ 
+  
+
+
