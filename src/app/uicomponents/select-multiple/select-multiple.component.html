@@ -25,11 +25,9 @@
         <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSelection()">
           Select All</mat-checkbox>
       </div>
-      <mat-option (onSelectionChange)="selectionChange($event)" 
-      *ngFor="let option of filteredOptions | async"
-      [disabled]= "mandatoryItems.includes(option) ? true : false"
-        [value]="option">
-        {{option}}
+      <mat-option (onSelectionChange)="selectionChange($event)" *ngFor="let option of filteredOptions | async"
+        [disabled]="option.default" [value]="option.viewValue">
+        {{option.view}}
       </mat-option>
     </div>
   </mat-select>

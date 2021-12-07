@@ -4,7 +4,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { SelectMultiple } from 'src/app/_models/select-multiple';
+import { Select } from 'src/app/_models/select';
 
 @Component({
   selector: 'app-select-multiple',
@@ -15,23 +15,24 @@ export class SelectMultipleComponent implements OnInit {
   @ViewChild('select') select!: MatSelect;
   @ViewChild('search') searchTextBox!: ElementRef;
   allSelected = false;
-  @Input() listItems!: SelectMultiple ;
-  @Output() changes = new EventEmitter<string[]>();
+  @Input() listItems!: Select[];
+  @Output() changes = new EventEmitter<MatSelect>();
 
 
   selectFormControl = new FormControl();
   searchTextboxControl = new FormControl();
   selectedValues: string[] = [];
   filteredOptions!: Observable<any[]>;
-  data!: string[] ;
-  mandatoryItems!: string[];
+  data!: string[];
+  mandatoryItems: string[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
-    this.data = this.listItems.data;
-    this.mandatoryItems = this.listItems.default.map((item) => item);
-    this.selectedValues = this.listItems.default;
+    //this.data = this.listItems?.map((e) => e.viewValue);
+    //this.mandatoryItems = this.listItems?.filter((e) => e.default == true).map((i) => i.viewValue);
+    this.selectedValues = this.listItems?.filter((e) => e.default == true).map((i) => i.viewValue);
+
     /**
     * Set filter event based on value changes 
     */
@@ -40,18 +41,20 @@ export class SelectMultipleComponent implements OnInit {
         startWith<string>(''),
         map(name => this._filter(name))
       );
-     
+
   }
 
   /**
    * Used to filter data based on search input 
    */
-  private _filter(name: string): String[] {
+  private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
     // Set selected values to retain the selected checkbox state 
     this.setSelectedValues();
     this.selectFormControl.patchValue(this.selectedValues);
-    let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    // return filteredList;
+    let filteredList = this.listItems.filter(option => option.viewValue.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
 
@@ -71,12 +74,12 @@ export class SelectMultipleComponent implements OnInit {
       });
       this.allSelected = flag;
     }
-    
+    this.changes.emit(this.select);
   }
 
   openedChange(e: any) {
 
-    this.changes.emit(this.selectedValues);
+
     // Set search textbox value as empty while opening selectbox 
     this.searchTextboxControl.patchValue('');
     // Focus to search textbox while clicking on selectbox
@@ -107,8 +110,9 @@ export class SelectMultipleComponent implements OnInit {
     }
   }
 
-  setMandatoryValues(values: string[]) {
+  setMandatoryValues() {
     //console.log('selectFormControl', this.selectFormControl.value);
+    let values = this.listItems?.filter((e) => e.default == true).map((i) => i.viewValue)
     if (values && values.length > 0) {
       values.forEach((e: string) => {
         if (this.selectedValues.indexOf(e) == -1) {
@@ -116,7 +120,7 @@ export class SelectMultipleComponent implements OnInit {
         }
       });
     }
-    
+
   }
 
 
@@ -125,13 +129,14 @@ export class SelectMultipleComponent implements OnInit {
 */
   toggleAllSelection() {
     if (this.allSelected) {
-      this.selectFormControl.patchValue(this.data)
+      let values = this.listItems?.map((e) => e.viewValue)
+      this.selectFormControl.patchValue(values)
     } else {
       this.selectedValues = []
-      this.setMandatoryValues(this.mandatoryItems);
+      this.setMandatoryValues();
       this.selectFormControl.patchValue(this.selectedValues)
     }
-    
+
   }
 
 }

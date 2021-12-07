@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { Select } from 'src/app/_models/select';
 const listItems: string[] = ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res Type', 'Error/List'];
 
 @Component({
@@ -15,7 +16,8 @@ export class SelectSingleComponent implements OnInit {
 
   @ViewChild('select') select!: MatSelect;
   @ViewChild('search') searchTextBox!: ElementRef;
-
+  @Input() listItems!: Select[];
+  @Output() changes = new EventEmitter<MatSelect>();
 
   selectFormControl = new FormControl();
   searchTextboxControl = new FormControl();
@@ -25,7 +27,7 @@ export class SelectSingleComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.data = listItems
+    this.data = this.listItems?.map((e) => e.viewValue);
     /**
     * Set filter event based on value changes 
     */
@@ -43,13 +45,16 @@ export class SelectSingleComponent implements OnInit {
   /**
    * Used to filter data based on search input 
    */
-  private _filter(name: string): String[] {
+  private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
-    let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    // return filteredList;
+    let filteredList = this.listItems.filter(option => option.viewValue.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }  
 
   openedChange(e: any) {
+    this.changes.emit(this.select);
     // Set search textbox value as empty while opening selectbox 
     this.searchTextboxControl.patchValue('');
     // Focus to search textbox while clicking on selectbox

@@ -10,12 +10,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .page-header
   {   
-    background-color: whitesmoke;
+    background-color:#EFEFEF;
     color: #e60000;
     margin:5px;
-    text-align: left;
-     font-size:12px bold;
+    /* text-align: left; */
+    font-size:15px ;
   }
+  .page-header button{
+    float: left;
+    border :none;
+    background-color: #e60000;
+    color: white;
+    border-radius: 12%;
+  }
+ 
 
 /* .container {
     padding: 8px 24px 108px 24px;

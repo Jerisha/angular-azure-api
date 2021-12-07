@@ -14,8 +14,8 @@
       <mat-optgroup *ngIf="(filteredOptions | async)?.length == 0">
         <div>No results found!</div>
       </mat-optgroup>
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-        {{option}}
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.viewValue">
+        {{option.view}}
       </mat-option>
     </div>
   </mat-select>
