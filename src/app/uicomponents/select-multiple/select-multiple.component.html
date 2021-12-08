@@ -1,5 +1,5 @@
 <mat-form-field>
-  <mat-select #select (openedChange)="openedChange($event)" placeholder="Select" [formControl]="selectFormControl"
+  <mat-select #select (openedChange)="openedChange($event)" placeholder="Filters" [formControl]="selectFormControl"
     multiple>
     <mat-select-trigger>
       {{selectFormControl.value ? selectFormControl.value[0] : ''}}
@@ -32,4 +32,4 @@
     </div>
   </mat-select>
 </mat-form-field>
-{{selectedValues | json}}
+<!-- {{selectedValues | json}} -->

@@ -8,6 +8,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: white;
 }
 
+/* side-nav-page-header starts */
 .page-header
   {   
     background-color:#EFEFEF;
@@ -18,12 +19,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
   .page-header button{
     float: left;
-    border :none;
+    border:none;
+   /* border:1px solid #e60000; */
     background-color: #e60000;
-    color: white;
+    color:  #EFEFEF;
     border-radius: 12%;
   }
- 
+ /* side-nav-page-header ends */
 
 /* .container {
     padding: 8px 24px 108px 24px;
@@ -74,10 +76,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
  
 /* Side-panel Starts */
-.side-nav .mat-form-field,.side-nav .mat-form-field + .mat-form-field {
+.mat-drawer-inner-container {
+  overflow-x: hidden !important;
+}
+
+.side-nav  form .mat-form-field,.side-nav form .mat-form-field + .mat-form-field {
   margin-left: 15px;  
-  margin-bottom: 1px;  
-  margin-top:1px;  
+  /* margin-bottom: 1px;  
+  margin-top:1px;   */
   font-size: smaller;  
   width: 170px;
 }
@@ -96,14 +102,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   /* background-color: yellow; */
   /* float: right;   */
 position: relative;
-  margin-top: -230px;
+margin-top: -230px;
 margin-left: 200px;
 
 }
 
+.res-select{
+  margin:25px;
+  /* position: relative;
+  margin-top:-85px; */
+  border-radius: 8%; 
+  border: 2px solid rgb(245 245 245);
+  height:200px;
+  width:150px;
+}
 
-
-.res-save-div .mat-form-field
+.side-container .mat-form-field
 {
   margin-bottom: 1px;  
   margin-top:1px;  
@@ -126,23 +140,22 @@ margin-left: 200px;
   width: 100%; 
   height: inherit!important;
   }
-
  
 .side-content{
     overflow: hidden!important;
   }
-  .side-left-div{    
+
+.side-left-div{   
     max-width: 50%;
     float: left;
     /* background-color: lightseagreen; */
   }
 
-.side-right-div{   
+.side-right-div{  
     float: right;
     max-width: 50%;
-    /* background-color:magenta; */
+        /* background-color:magenta; */
 }
-
 /* Side-panel Ends */
  
   

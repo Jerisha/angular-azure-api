@@ -9,7 +9,7 @@ import { ResolvingoferrorsModule } from './resolvingoferrors/resolvingoferrors.m
 import { AuditreportsModule } from './auditreports/auditreports.module';
 import { UicomponentsModule } from './uicomponents/uicomponents.module';
 import { MaterialModule } from './_shared/material/material.module';
-import { MenuSearchPipe } from './_helper/pipe/menusearch.pipe';
+import { MenuSearchPipe } from './_helper/index';
 import { PopupComponent } from './popup/popup.component';
 
 

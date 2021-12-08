@@ -54,7 +54,7 @@ export class SelectMultipleComponent implements OnInit {
     this.selectFormControl.patchValue(this.selectedValues);
     // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
     // return filteredList;
-    let filteredList = this.listItems.filter(option => option.viewValue.toLowerCase().indexOf(filterValue) === 0);
+    let filteredList = this.listItems.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
 
@@ -78,8 +78,6 @@ export class SelectMultipleComponent implements OnInit {
   }
 
   openedChange(e: any) {
-
-
     // Set search textbox value as empty while opening selectbox 
     this.searchTextboxControl.patchValue('');
     // Focus to search textbox while clicking on selectbox

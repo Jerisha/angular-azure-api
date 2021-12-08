@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../_shared/material/material.module';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TablefieldsearchPipe } from '../_helper/pipe/tablefieldsearch.pipe';
+
 import {
   TableSelectionComponent,
   MenuListComponent,
@@ -15,12 +15,8 @@ import {
 } from './index';
 
 
-
-
-
 @NgModule({
-  declarations: [
-    TablefieldsearchPipe,
+  declarations: [    
     TableSelectionComponent,
     MenuListComponent,
     TopNavComponent,
@@ -29,7 +25,6 @@ import {
     SelectSingleComponent,
     SelectExpressionComponent,
     SelectSingleComponent
-
   ],
   imports: [
     CommonModule,
@@ -46,7 +41,6 @@ import {
     SelectExpressionComponent,
     SelectMultipleComponent,
     SelectSingleComponent
-
   ]
 })
 export class UicomponentsModule { }

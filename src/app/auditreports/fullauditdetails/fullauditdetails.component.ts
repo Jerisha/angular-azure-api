@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { FullAuditDetails } from 'src/app/_models/fullauditdetailsmodel';
+import { Select } from 'src/app/_models/select';
 import { TableItem } from 'src/app/_models/table-item';
 
 const ELEMENT_DATA: FullAuditDetails[] = [
@@ -140,6 +142,28 @@ const ELEMENT_DATA: FullAuditDetails[] = [
   }
 ];
 
+const Items: Select[] = [
+  { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
+  { view: 'TelNo End', viewValue: 'TelNoEnd', default: true },
+  { view: 'Audit ActId', viewValue: 'AuditActId', default: true },
+  { view: 'CUP Id', viewValue: 'CUPId', default: true },
+  { view: 'Batch Id', viewValue: 'BatchId', default: true },
+  { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: false },
+  { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: false },
+  { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: false },
+  { view: 'Source', viewValue: 'Source', default: false },
+  { view: 'OSN2 Source', viewValue: 'OSN2SOurce', default: false },
+  { view: 'Porting Status', viewValue: 'PortingStatus', default: false },
+  { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: false },
+  { view: 'Resolution Type', viewValue: 'ResType', default: false },
+  { view: 'Switch Status', viewValue: 'SwitchStatus', default: false },
+  { view: 'Mori Status', viewValue: 'MoriStatus', default: false },
+  { view: 'Post Code Diff', viewValue: 'PostCodeDiff', default: false },
+  { view: 'Full Address Diff', viewValue: 'FullAddDiff', default: false },
+  { view: 'Customer Diff', viewValue: 'CustomerDiff', default: false },
+  { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: false },
+
+];
 @Component({
   selector: 'app-fullauditdetails',
   templateUrl: './fullauditdetails.component.html',
@@ -152,7 +176,8 @@ export class FullauditdetailsComponent implements OnInit {
   select!: MatSelect;
   allSelected = false;
   myTable!: TableItem
-
+  myForm!: FormGroup;
+  listItems!: Select[];
   constructor() {
     this.myTable = {
       data: ELEMENT_DATA,
@@ -203,19 +228,38 @@ export class FullauditdetailsComponent implements OnInit {
     this.allSelected = newStatus;
   }
 
+  selChange(matSelect: MatSelect) {
+    matSelect.options.forEach((item) => {
+      debugger;
+      if (item.selected) {
+        // if (!this.filtered.includes(item.value))
+        //   this.filtered.push(item.value)
+        this.myForm.controls[item.value].enable();
+      }
+      else {
+        // if (this.filtered.includes(item.value)) {
+        //   let index = this.filtered.indexOf(item.value);
+        //   this.filtered.splice(index, 1)
+        // }
+        console.log(this.myForm.value);
+        this.myForm.controls[item.value].disable();
+      }
+    });
+  }
+
   showLog() {
 
     var selectedColumns: string[] = this.select.value;
-    console.log(selectedColumns);    
+    console.log(selectedColumns);
     for (let col of selectedColumns) {
 
 
       //this.myTable.dataColumns
-      this.myTable.dataColumns= this.myTable.dataColumns?.filter((item: string) => item !== col);
+      this.myTable.dataColumns = this.myTable.dataColumns?.filter((item: string) => item !== col);
       var index: any = this.myTable.dataColumns?.indexOf(col);
 
       console.log(index);
-      
+
       // if (index !== -1) {
       //   this.myTable.dataColumns?.splice(index, 1);
       //   this.myTable.coulmnHeaders?.splice(index, 1);
@@ -241,6 +285,44 @@ export class FullauditdetailsComponent implements OnInit {
     { value: 'LinkReasonCode', viewValue: 'Link Reason Code' }, { value: 'OrderArchiveFlag', viewValue: 'Order Archive Flag' }, { value: 'DeadEntry', viewValue: 'DeadEntry' }]
 
   ngOnInit(): void {
+    this.createForm();
+    this.listItems = Items;
+  }
 
+  createForm() {
+
+    this.myForm = new FormGroup({
+      TelNoStart: new FormControl({ value: '', disabled: true },
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(99)
+        ]
+      ),
+      TelNoEnd: new FormControl({ value: '', disabled: true },
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(99)
+        ]
+      ),
+      AuditActId: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      CUPId: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      BatchId: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      ExternalCLIStatus: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      FullAuditCLIStatus: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      MonthlyRefreshFlag: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      OSN2Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      PortingStatus: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      VodafoneRangeHolder: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      ResType: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      SwitchStatus: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      MoriStatus: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      PostCodeDiff: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      FullAddDiff: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      CustomerDiff : new FormControl({ value: '', disabled: true }, [Validators.required]),
+      OverlappingStatus: new FormControl({ value: '', disabled: true }, [Validators.required])
+    })
   }
 }
