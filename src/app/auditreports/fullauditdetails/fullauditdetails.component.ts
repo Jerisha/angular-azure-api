@@ -152,7 +152,7 @@ const Items: Select[] = [
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: false },
   { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: false },
   { view: 'Source', viewValue: 'Source', default: false },
-  { view: 'OSN2 Source', viewValue: 'OSN2SOurce', default: false },
+  { view: 'OSN2 Source', viewValue: 'OSN2Source', default: false },
   { view: 'Porting Status', viewValue: 'PortingStatus', default: false },
   { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: false },
   { view: 'Resolution Type', viewValue: 'ResType', default: false },
