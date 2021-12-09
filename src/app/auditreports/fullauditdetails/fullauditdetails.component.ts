@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetails } from 'src/app/_models/fullauditdetailsmodel';
 import { Select } from 'src/app/_models/select';
 import { TableItem } from 'src/app/_models/table-item';
@@ -172,9 +173,9 @@ const Items: Select[] = [
 
 
 export class FullauditdetailsComponent implements OnInit {
-  @ViewChild('select')
-  select!: MatSelect;
-  allSelected = false;
+
+  @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
+  
   myTable!: TableItem
   myForm!: FormGroup;
   listItems!: Select[];
@@ -210,27 +211,11 @@ export class FullauditdetailsComponent implements OnInit {
     }
   }
 
-  toggleAllSelection() {
-    if (this.allSelected) {
-      this.select.options.forEach((item: MatOption) => item.select());
-    } else {
-      this.select.options.forEach((item: MatOption) => item.deselect());
-    }
-  }
-
-  optionClick() {
-    let newStatus = true;
-    this.select.options.forEach((item: MatOption) => {
-      if (!item.selected) {
-        newStatus = false;
-      }
-    });
-    this.allSelected = newStatus;
-  }
 
   selChange(matSelect: MatSelect) {
+    console.log(this.selMultiple.selectedValues)
     matSelect.options.forEach((item) => {
-      debugger;
+      
       if (item.selected) {
         // if (!this.filtered.includes(item.value))
         //   this.filtered.push(item.value)
@@ -241,33 +226,11 @@ export class FullauditdetailsComponent implements OnInit {
         //   let index = this.filtered.indexOf(item.value);
         //   this.filtered.splice(index, 1)
         // }
-        console.log(this.myForm.value);
+        //console.log(this.myForm.value);
         this.myForm.controls[item.value].disable();
       }
     });
   }
-
-  showLog() {
-
-    var selectedColumns: string[] = this.select.value;
-    console.log(selectedColumns);
-    for (let col of selectedColumns) {
-
-
-      //this.myTable.dataColumns
-      this.myTable.dataColumns = this.myTable.dataColumns?.filter((item: string) => item !== col);
-      var index: any = this.myTable.dataColumns?.indexOf(col);
-
-      console.log(index);
-
-      // if (index !== -1) {
-      //   this.myTable.dataColumns?.splice(index, 1);
-      //   this.myTable.coulmnHeaders?.splice(index, 1);
-      // }
-    }
-    console.log(this.myTable.dataColumns?.length);
-  }
-
 
   colHeader: any[] = [
     { value: 'TelNo', viewValue: 'TelNo' }, { value: 'View', viewValue: 'View' }, { value: 'OSN2Source', viewValue: 'OSN2 Source' }, { value: 'Source', viewValue: 'Source' }, { value: 'ACTID', viewValue: 'ACT ID' },

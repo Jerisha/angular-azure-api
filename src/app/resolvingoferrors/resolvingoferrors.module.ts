@@ -7,10 +7,12 @@ import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
 
 
+
 @NgModule({
   declarations: [
     SolicitederrorsComponent,
     UnsolicitederrorsComponent
+    
   ],
   imports: [
     CommonModule,

@@ -16,6 +16,7 @@ export class SelectMultipleComponent implements OnInit {
   @ViewChild('search') searchTextBox!: ElementRef;
   allSelected = false;
   @Input() listItems!: Select[];
+  @Input() icon!: string;
   @Output() changes = new EventEmitter<MatSelect>();
 
 

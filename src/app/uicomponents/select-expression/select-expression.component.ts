@@ -1,7 +1,7 @@
 import { Component, OnInit,  Output, EventEmitter, Input  } from '@angular/core';
 
 @Component({
-  selector: 'app-expression-select',
+  selector: 'app-select-expression',
   templateUrl: './select-expression.component.html',
   styleUrls: ['./select-expression.component.css']
 })

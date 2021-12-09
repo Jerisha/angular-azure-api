@@ -80,7 +80,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   overflow-x: hidden !important;
 }
 
-.side-nav  form .mat-form-field,.side-nav form .mat-form-field + .mat-form-field {
+.side-nav form .mat-form-field,.side-nav form .mat-form-field + .mat-form-field {
   margin-left: 15px;  
   /* margin-bottom: 1px;  
   margin-top:1px;   */
@@ -89,7 +89,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .side-nav button{
-  margin-left: 25px
+  /* margin-left: 2px; */
+  margin-top: 5px
 }
 .side-nav {  
   width: 220px!important;    
