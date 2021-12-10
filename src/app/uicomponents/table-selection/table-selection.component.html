@@ -9,7 +9,7 @@ font-size: smaller;  ">
   <mat-select #select multiple>
 
     <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns()" matTooltip="Submit">
-      <!-- <mat-icon>submit</mat-icon> -->
+      <!-- <mat-icon>play_arrow</mat-icon> -->
       Submit
     </button>
     <div class="select-all">
@@ -17,10 +17,13 @@ font-size: smaller;  ">
         Select All</mat-checkbox>
     </div>
 
-    <mat-option (click)="optionClick()" *ngFor="let cols of (this.tableitem?.dataColumns || []); let fltIndex = index"
+    <mat-option color="primary"  (click)="optionClick()" *ngFor="let cols of (this.tableitem?.dataColumns || []); let fltIndex = index"
       [value]="cols">
       {{ getDisplayName(cols) }}
     </mat-option>
+    <mat-optgroup>
+      
+    </mat-optgroup>
   </mat-select>
 </mat-form-field>
 
