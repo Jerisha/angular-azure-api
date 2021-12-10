@@ -24,5 +24,8 @@
   <app-top-nav fxHide.xs></app-top-nav>
   <router-outlet></router-outlet>
   <div fxFlex></div>
-  <span class="version-info">Current build: {{version.full ? version.full : version}}</span>
+  <div style="background-color: #EFEFEF;">
+    <span class="version-info">Current build: {{version.full ? version.full : version}}</span>
+  </div>
+  
 </mat-sidenav-container>

@@ -64,6 +64,17 @@ th.mat-sort-header-sorted {
   height: 10px;
 }
 
+.select-submit{
+    border:none;
+   /* border:1px solid #e60000; */
+    background-color: #e60000;
+    color:  #EFEFEF;
+    border-radius: 8%;
+  float:right;
+  top: 0px;
+  position: sticky;
+  z-index: 10;
+}
 
 
 

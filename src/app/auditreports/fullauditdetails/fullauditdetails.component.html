@@ -1,7 +1,8 @@
 <mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
 
-        <app-select-multiple border [bColor]="'black'" #selMultiple [listItems]="listItems" [icon]="'filter_list'" (changes)="selChange($event)">
+        <app-select-multiple class="filter-sticky" border #selMultiple [listItems]="listItems" [icon]="'filter_list'"
+            (changes)="selChange($event)">
         </app-select-multiple>
 
         <form [formGroup]="myForm">

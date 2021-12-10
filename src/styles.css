@@ -98,6 +98,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border: 1px solid #555; */
 }
 
+.filter-sticky
+{
+  position: sticky;
+  top:0;
+  background-color:#EFEFEF;
+}
 .res-save-div
 {
   /* background-color: yellow; */

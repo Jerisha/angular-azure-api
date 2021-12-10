@@ -53,7 +53,7 @@
                     </table> -->
                     <div class="maindiv">
                         <div class="details-sec">
-                            <div class="coloumn1" style="display: inline-block; ">
+                            <div style="display: inline-block;">
                                 <table>
                                     <tr>
                                         <td><b> Tran ID</b></td>
@@ -99,6 +99,13 @@
                                         <td><b>Premises</b></td>
                                         <td>{{element.Details.Premises}}</td>
                                     </tr>
+
+                                </table>
+                            </div>
+
+                            <div class="coloumn1" style="display: inline-block; ">
+                                <table>
+
                                     <tr>
                                         <td><b>Thoroughfare</b></td>
                                         <td>{{element.Details.Thoroughfare}}</td>
@@ -150,8 +157,7 @@
                                 </table>
                             </div>
                             <!--coloumn1-->
-
-                            <div class="coloumn2" style="display: inline-block;  margin-left: 300px;">
+                            <div style="display: inline-block;">
                                 <table>
                                     <tr>
                                         <td><b>Tran.Ref</b></td>
@@ -197,6 +203,11 @@
                                         <td><b>Internal Addr2</b></td>
                                         <td>{{element.Details.Internal_Addr2}}</td>
                                     </tr>
+                                </table>
+                            </div>
+                            <div class="coloumn2" style="display: inline-block; ">
+                                <table>
+
                                     <tr>
                                         <td><b>Internal Addr3</b></td>
                                         <td>{{element.Details.Internal_Addr3}}</td>
@@ -251,11 +262,33 @@
                             <!--coloumn2-->
                         </div>
                         <mat-divider></mat-divider>
-                        
-                        <div class="notification-sec">
+
+                        <div class="notification-sec">                            
                             <div class="page-header">
                                 Notification Data
                             </div>
+
+                            <div class="coloumn1" style="display: inline-block;  ">
+                                <table>
+                                <tr> <td><b>Start Tel. No.</b></td> <td>{{element.NotificationData.StartTelNo}}</td></tr>
+                                <tr> <td><b>Source</b></td> <td>{{element.NotificationData.Source}}</td></tr>
+                                <tr> <td><b>Notification Status</b></td> <td>{{element.NotificationData.Notification_Status}}</td></tr>
+                                <tr> <td><b>Notification Error</b></td> <td>{{element.NotificationData.Notification_Error}}</td></tr>
+                                <tr> <td><b>Extracted Date</b></td> <td>{{element.NotificationData.Extracted_Date}}</td></tr>
+                                <tr> <td><b>Updated Date</b></td> <td>{{element.NotificationData.Updated_Date}}</td></tr>
+                            </table>
+                        </div>
+                        
+                        <div class="coloumn2" style="display: inline-block; ;">
+                            <table>
+                            <tr> <td><b>End Tel. No.</b></td> <td>{{element.NotificationData.End_Tel_No}}</td></tr>
+                            <tr> <td><b>Order.Ref.</b></td> <td>{{element.NotificationData.Order_Ref}}</td></tr>
+                            <tr> <td><b>Created</b></td> <td>{{element.NotificationData.Created}}</td></tr>
+                            <tr> <td><b>BT Status</b></td> <td>{{element.NotificationData.BT_Status}}</td></tr>
+                            <tr> <td><b>BT Error <Code></Code></b></td> <td>{{element.NotificationData.BT_Error_Code}}</td></tr>
+                            <tr> <td><b>BT Error Message</b></td> <td>{{element.NotificationData.BT_Error_Message}}</td></tr>
+                        </table>
+                        </div>
                             <!-- <app-table [tableitem]="toTableItem(element.NotificationData)" 
                             ></app-table>-->
                         </div>
@@ -264,13 +297,11 @@
                             <div class="page-header">
                                 Comment : {{element.CommentText}}
                             </div>
-                            <app-table [tableitem]="toTableItem(element.Comment)"
-                            ></app-table>
+                            <app-table [tableitem]="toTableItem(element.Comment)"></app-table>
                         </div>
                         <mat-divider></mat-divider>
                         <div class="resolution-sec">
-                            <app-table [tableitem]="toTableItem(element.Resolution)"
-                            ></app-table>
+                            <app-table [tableitem]="toTableItem(element.Resolution)"></app-table>
                         </div>
                     </div>
                 </div>
@@ -285,45 +316,44 @@
 </table>
 
 <!-- Audit Trail Panel -->
-<mat-accordion [togglePosition]="'before'" >
-  
-    <mat-expansion-panel [hideToggle]="'true'" (opened)="panelOpenState = true"
-    (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        
-        <mat-panel-title>
-            <button type="button" class="btn btn-default" aria-label="Left Align">
-                <span>
-                    <!-- <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon> -->
-                    {{panelOpenState ? 'Hide' : 'Show'}}
-                </span>
-            </button>&nbsp;&nbsp;
-            Audit Trail Details for : 01512104200  
-        </mat-panel-title>
-        <!-- <mat-panel-description>
+<mat-accordion [togglePosition]="'before'">
+
+    <mat-expansion-panel [hideToggle]="'true'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+
+            <mat-panel-title>
+                <button type="button" class="btn btn-default" aria-label="Left Align">
+                    <span>
+                        <!-- <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon> -->
+                        {{panelOpenState ? 'Hide' : 'Show'}}
+                    </span>
+                </button>&nbsp;&nbsp;
+                Audit Trail Details for : 01512104200
+            </mat-panel-title>
+            <!-- <mat-panel-description>
           some description!!
         </mat-panel-description> -->
-      </mat-expansion-panel-header>
-  
-      <div class="page-header">
-        Internal Audit Trail
-    </div>
-    <ng-container *ngIf="!auditDetails?.internalAudit">
-    <!-- <table mat-table [dataSource]="auditDetails?.internalAudit" multiTemplateDataRows
+        </mat-expansion-panel-header>
+
+        <div class="page-header">
+            Internal Audit Trail
+        </div>
+        <ng-container *ngIf="auditDetails?.internalAudit">
+            <table mat-table [dataSource]="auditDetails!.internalAudit" multiTemplateDataRows
     class="mat-elevation-z8">
-    <ng-container *ngFor="let col of columnsToDisplay ; let colIndex = index" matColumnDef="{{col}}">
-        <ng-container *ngIf="col != 'action'">
+    <ng-container *ngFor="let col of auditTrailInternalDisplay ; let colIndex = index" matColumnDef="{{col}}">
+        <ng-container *ngIf="col != 'UserComments'">
             <th mat-header-cell *matHeaderCellDef>{{col}}</th>
             <td mat-cell *matCellDef="let element">{{element[col]}}</td>
         </ng-container>
-        <ng-container *ngIf="col === 'User Comments'">
+        <ng-container *ngIf="col === 'UserComments'">
 
             <th mat-header-cell *matHeaderCellDef>{{col}}</th>
             <td mat-cell *matCellDef="let element">
                 <button type="button" class="btn btn-default" aria-label="Left Align"
                     (click)="(expandedElement = expandedElement === element ? null : element);">
                     <span>
-                        <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
+                        <!-- <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon> -->
                         {{expandedElement === element ? 'Hide' : 'Show'}}
                     </span>
                 </button>
@@ -333,50 +363,40 @@
 
     
 
-    Expanded Content Column - The detail row is made up of this one column that spans across all columns 
-    <ng-container matColumnDef="expandedDetail" mu>
-        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="auditTrailInternalDisplay.length">
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                 <div class="example-element-diagram">
                                    
-                       
+                      <app-table [tableitem]="toTableItem(element.UserComments)" 
+                            ></app-table>
                     
                 </div>
             </div>
         </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+    <tr mat-header-row *matHeaderRowDef="auditTrailInternalDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: auditTrailInternalDisplay;" class="example-element-row"
         [class.example-expanded-row]="expandedElement === element"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-</table>  -->
-</ng-container>
-    <mat-divider></mat-divider>
-    <div class="page-header">
-        External Audit Panel
-    </div>
-    <mat-divider></mat-divider>
-    <div class="page-header">
-        Full Audit
-    </div>
-    <mat-divider></mat-divider>
+</table> 
+        </ng-container>
+        <mat-divider></mat-divider>
+        <div class="page-header">
+            External Audit Panel
+        </div>
+        <mat-divider></mat-divider>
+        <div class="page-header">
+            Full Audit
+        </div>
+        <mat-divider></mat-divider>
     </mat-expansion-panel>
-    <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Self aware panel
-        </mat-panel-title>
-        <mat-panel-description>
-          Currently I am {{panelOpenState ? 'open' : 'closed'}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>I'm visible because I am open</p>
-    </mat-expansion-panel>
-  </mat-accordion>
-  
-  
+    
+</mat-accordion>
+
+
 
 
 <!-- Copyright 2020 Google LLC. All Rights Reserved.
