@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -29,6 +29,7 @@ export class TableSelectionComponent {
   columnFilter?: boolean = false;
   imgList?: ViewColumn[];
   imgColumns?: string[];
+  @Output() openTabSelected = new EventEmitter<any[]>();
 
   constructor(private cdr: ChangeDetectorRef) { }
   ngOnInit() {
@@ -138,6 +139,12 @@ export class TableSelectionComponent {
 
   logSelection() {
     this.selection.selected.forEach(s => console.log(s.name));
+  }
+
+  openTab(tabName:string,telephoneNo:string)
+  {
+  console.log("tabName: "+tabName,"telephoneNo: "+telephoneNo)
+  this.openTabSelected.emit( [tabName,telephoneNo]);
   }
 
 }

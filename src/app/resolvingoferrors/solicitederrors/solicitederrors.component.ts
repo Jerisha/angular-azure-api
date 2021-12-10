@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
@@ -123,6 +123,9 @@ export class SolicitederrorsComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
+  @Output() AuditTrailSelected= new EventEmitter<any[]>();
+  @Output() NewTabSelected = new EventEmitter<any[]>();
+
   ngOnInit(): void {
     this.myTable = {
       data: ELEMENT_DATA,
@@ -151,5 +154,20 @@ export class SolicitederrorsComponent implements OnInit {
 
   onFormSubmit(): void { }
   resetForm(): void { }
+
+  OnOpenTabSelected(tabDetails:any[])
+  {
+    console.log("tab",tabDetails);
+    if (tabDetails[0]=="description")
+      {
+        this.AuditTrailSelected.emit([true]);
+      }
+    else if(tabDetails[0]=="tab")
+    {
+      this.NewTabSelected.emit([true]);
+    }
+      
+    
+  }
 
 }

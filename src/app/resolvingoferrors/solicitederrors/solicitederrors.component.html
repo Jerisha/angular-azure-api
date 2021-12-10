@@ -103,7 +103,7 @@
       <div style="margin: 5px; float: left;"> Resolving Of Errors > Solicited Errors</div>
     </div>
 
-    <app-table-selection [tableitem]="myTable"></app-table-selection>
+    <app-table-selection [tableitem]="myTable" (openTabSelected)="OnOpenTabSelected($event)" ></app-table-selection>
 
     <form>
 

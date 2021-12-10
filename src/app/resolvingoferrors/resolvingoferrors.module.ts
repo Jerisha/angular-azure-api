@@ -4,14 +4,15 @@ import { ResolvingoferrorsRoutingModule } from './resolvingoferrors-routing.modu
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { MaterialModule } from '../_shared/material/material.module';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
-import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
+import { SolicitederrorsComponent ,UnsolicitederrorsComponent,SolicitederrorsMainComponent} from './index';
 
 
 
 @NgModule({
   declarations: [
     SolicitederrorsComponent,
-    UnsolicitederrorsComponent
+    UnsolicitederrorsComponent,
+    SolicitederrorsMainComponent
     
   ],
   imports: [

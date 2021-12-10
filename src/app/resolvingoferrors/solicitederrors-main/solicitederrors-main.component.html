@@ -1,0 +1,20 @@
+<mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">        
+    <mat-tab label="Main">
+      <app-solicitederrors
+      (AuditTrailSelected)="OnAuditTrailSelected($event)"
+      (NewTabSelected)="OnNewTabSelected($event)"
+      ></app-solicitederrors>
+    </mat-tab> 
+    <mat-tab label="Audit Trail"
+    *ngIf="auditTrailSuccess" >
+    <div class="container mat-elevation-z4">
+      Audit Trail Content
+    </div>
+    </mat-tab>
+    <mat-tab label="new tab"
+      *ngIf="newTabSuccess" >
+      <div class="container mat-elevation-z4">
+       New Tab content
+      </div>
+    </mat-tab>
+</mat-tab-group>

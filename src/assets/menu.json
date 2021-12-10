@@ -5,6 +5,11 @@
     "route": "",
     "children": [
       {
+        "displayName": "Solicited Errors Main",
+        "iconName": "error",
+        "route": "resolvingoferrors/solicitederrors-main"
+      },
+      {
         "displayName": "Solicited Errors",
         "iconName": "error",
         "route": "resolvingoferrors/solicitederrors"

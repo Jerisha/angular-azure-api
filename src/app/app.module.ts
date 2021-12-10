@@ -11,6 +11,7 @@ import { UicomponentsModule } from './uicomponents/uicomponents.module';
 import { MaterialModule } from './_shared/material/material.module';
 import { MenuSearchPipe } from './_helper/index';
 import { PopupComponent } from './popup/popup.component';
+import { TransactionsModule } from './transactions/transactions.module';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { PopupComponent } from './popup/popup.component';
     UicomponentsModule,
     MaterialModule,
     ResolvingoferrorsModule,
-    AuditreportsModule
+    AuditreportsModule,
+    TransactionsModule
   ],
   providers: [NavService],
   bootstrap: [AppComponent]

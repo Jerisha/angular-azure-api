@@ -1,1 +1,17 @@
-<p>transactions works!</p>
+<mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">        
+    <mat-tab label="Main">
+      <app-transactions-views 
+      (AuditTrailSelected)="OnAuditTrailSelected($event)"
+      (AddressCheckSelected)="OnAddressCheckSelected($event)"
+      ></app-transactions-views>
+    </mat-tab>
+    <!-- <mat-tab label="Addr. Check" *ngIf="addressCheckSuccess">       -->
+      <mat-tab label="Addr. Check" >    
+        <app-address-check></app-address-check>     
+    </mat-tab>
+    <mat-tab label="Audit Trail" *ngIf="auditTrailSuccess" >
+      <div class="example-large-box mat-elevation-z4">
+        Large content
+      </div>
+    </mat-tab>
+</mat-tab-group>
