@@ -5,6 +5,7 @@ import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { MaterialModule } from '../_shared/material/material.module';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { SolicitederrorsComponent ,UnsolicitederrorsComponent,SolicitederrorsMainComponent} from './index';
+import { SharedModule } from '../_shared/shared.module';
 
 
 
@@ -21,7 +22,8 @@ import { SolicitederrorsComponent ,UnsolicitederrorsComponent,SolicitederrorsMai
     UicomponentsModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class ResolvingoferrorsModule { }
