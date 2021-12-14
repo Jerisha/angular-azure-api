@@ -34,7 +34,7 @@ const ele: TelephoneAuditTrail =
         },
         CommentText: '',
         Comment: [{ 'Code': '2100', 'Description/Error': 'Interim transaction not sent' }],
-        Resolution: []
+        Resolution: [{}]
       },
       {
         action: '',
@@ -116,6 +116,8 @@ const ele: TelephoneAuditTrail =
   }
 }
 
+
+
 @Component({
   selector: 'app-telephone-audit-trail',
   templateUrl: './telephone-audit-trail.component.html',
@@ -148,8 +150,8 @@ export class TelephoneAuditTrailComponent implements OnInit {
       }
     }
   }
-
-
+  columnsToDisplay = ["action", "Cnt", "Transaction", "Status", "Created", "Source", "CustName"];
+  auditTrailInternalDisplay:string[]=['AuditACTID','TelephoneNo','ResolutionType','CLIStatus','UserComments'];
 
   ngOnInit(): void {
     this.liverecord = ele.liveRecord;
@@ -196,7 +198,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
       ]
     }
   ];
-  columnsToDisplay = ["action", "Cnt", "Transaction", "Status", "Created", "Source", "CustName"];
+
   expandDisplayedColumns = ["optionName", "optionDescription"];
   expandedElement: PeriodicElement | null | undefined;
 

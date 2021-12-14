@@ -1,5 +1,4 @@
-table
-{
+table{
     width:fit-content;
 }
 th {
@@ -14,14 +13,18 @@ th.mat-sort-header-sorted {
 .mat-header-cell {
   color: white;
   width: auto;
-  font-size:small;
-  
+  font-size:smaller;  
 }
 .mat-header-row,.mat-row {
   height: 10px;
-  border: 5px
+  border: 5px;
+  /* font-size: smaller; */
 }
 
+.mat-cell
+{
+  border: 1px solid black;
+}
 
 
 

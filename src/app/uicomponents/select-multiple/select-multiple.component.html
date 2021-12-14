@@ -3,7 +3,7 @@
                 
                
   <mat-select #select (openedChange)="openedChange($event)" placeholder="Filters" [formControl]="selectFormControl"
-    multiple>
+     multiple>
     <mat-select-trigger>
       <mat-icon>{{icon}}</mat-icon>
       {{selectFormControl.value ? selectFormControl.value[0] : ''}}

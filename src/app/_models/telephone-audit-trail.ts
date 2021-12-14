@@ -1,7 +1,7 @@
-export class TelephoneAuditTrail {
+export interface TelephoneAuditTrail {
     liveRecord?: LiveRecord[];
     transactionDetails?: TransactionDetails[];
-    auditDetails: AuditDetails | null| undefined;
+    auditDetails: AuditDetails;
 }
 export interface LiveRecord {
 

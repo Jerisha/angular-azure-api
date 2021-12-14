@@ -39,6 +39,11 @@ th.mat-sort-header-sorted {
   .mat-row:nth-child(even){
     background-color: #dee2e6;
   }
+  
+  /* .mat-cell
+  {
+    border: 0.5px solid gray;
+  } */
 
 /* mat-cell, mat-header-cell, mat-footer-cell {
   flex: 1;
@@ -64,6 +69,18 @@ th.mat-sort-header-sorted {
   height: 10px;
 }
 
+.select-submit{
+    border:none;   
+    background-color: #e60000;
+    color:  #EFEFEF;
+    border-radius: 8%;
+  float:right;
+  top: 0px;
+  position: sticky;
+  z-index: 10;
+  height: 25px;
+  /* margin-top: 3px; */
+}
 
 
 
