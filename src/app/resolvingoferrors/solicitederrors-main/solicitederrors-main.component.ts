@@ -17,14 +17,14 @@ export class SolicitederrorsMainComponent implements OnInit {
   OnAuditTrailSelected(initAuditTrail:any[])
   {
     this.auditTrailSuccess=initAuditTrail[0];
-     console.log(this.auditTrailSuccess)
+     //console.log(this.auditTrailSuccess)
     this.selectedIndex=1;
     
   }
   OnNewTabSelected(initNewTab:any[])
   {
     this.newTabSuccess=initNewTab[0];
-     console.log(this.newTabSuccess)
+    // console.log(this.newTabSuccess)
     this.selectedIndex=2;
     
   }

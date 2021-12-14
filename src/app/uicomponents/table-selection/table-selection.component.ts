@@ -143,7 +143,7 @@ export class TableSelectionComponent {
 
   openTab(tabName:string,telephoneNo:string)
   {
-  console.log("tabName: "+tabName,"telephoneNo: "+telephoneNo)
+  //console.log("tabName: "+tabName,"telephoneNo: "+telephoneNo)
   this.openTabSelected.emit( [tabName,telephoneNo]);
   }
 
