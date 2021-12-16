@@ -2,6 +2,7 @@ button
 {
     margin-left: 5px;
     height: 40px;   
+    width: 40px;
     padding-top: 5px;
     /* background-color: white; */
     border-color: #EFEFEF;
