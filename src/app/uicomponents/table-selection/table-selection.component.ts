@@ -36,7 +36,7 @@ export class TableSelectionComponent {
   ngOnInit() {
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
     this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
-    this.imgColumns = this.tableitem?.colToSetImage;
+    //this.imgColumns = this.tableitem?.colToSetImage;
     this.imgList = this.tableitem?.imgConfig;
     this.filter = this.tableitem?.filter;
     if (this.tableitem?.selectCheckbox) {
@@ -44,10 +44,10 @@ export class TableSelectionComponent {
       this.ColumnDetails.unshift(selItem);
       //this.dataColumns = this.tableitem?.dataColumns ? ['Select'].concat(this.tableitem?.dataColumns) : undefined;
       this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-      this.columnHeaders = this.tableitem?.coulmnHeaders ? ['Select'].concat(this.tableitem?.coulmnHeaders) : undefined;
+      //this.columnHeaders = this.tableitem?.coulmnHeaders ? ['Select'].concat(this.tableitem?.coulmnHeaders) : undefined;
     } else {
       this.dataColumns = this.tableitem?.Columns?.map((e) => e.headerValue);// this.tableitem?.dataColumns;
-      this.columnHeaders = this.tableitem?.coulmnHeaders;
+      //this.columnHeaders = this.tableitem?.coulmnHeaders;
     }
   }
 
@@ -111,11 +111,11 @@ export class TableSelectionComponent {
     this.allSelected = newStatus;
   }
 
-  getDisplayName(data: string) {
-    let index = this.tableitem?.dataColumns ? this.tableitem?.dataColumns.indexOf(data) : -1;
-    return this.tableitem?.coulmnHeaders ? this.tableitem?.coulmnHeaders[index] : undefined;
+  // getDisplayName(data: string) {
+  //   let index = this.tableitem?.dataColumns ? this.tableitem?.dataColumns.indexOf(data) : -1;
+  //   return this.tableitem?.coulmnHeaders ? this.tableitem?.coulmnHeaders[index] : undefined;
 
-  }
+  // }
 
   filterGridColumns() {
     let selectedColumns: string[] = this.select.value;

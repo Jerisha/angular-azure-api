@@ -135,8 +135,8 @@ export class SolicitederrorsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       // colToSetImage: ['View'],
-      imgConfig: [{ column: 'View', icon: 'tab', route: '' },
-      { column: 'View', icon: 'description', route: '' }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '' },
+      { headerValue: 'View', icon: 'description', route: '' }]
 
     }    // this.employeeForm = this.formbulider.group({
     //   FirstName: ['', [Validators.required]],

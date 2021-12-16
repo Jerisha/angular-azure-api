@@ -1,18 +1,20 @@
 export interface TableItem {
     data: any;
     Columns?: ColumnDetails[];
-    dataColumns?: string[];
-    coulmnHeaders?: string[];
-    colToHighlight?: string[];
-    colToHighlightInnerText?: string[];
-    colToSetImage?: string[];
     filter?: boolean;
     selectCheckbox?: boolean;
     imgConfig?: ViewColumn[];
+    // dataColumns?: string[];
+    // coulmnHeaders?: string[];
+    // colToSetImage?: string[];
+    colToHighlight?: string[];
+    colToHighlightInnerText?: string[];
+    
+    
 }
 
 export interface ViewColumn {
-    column: string;
+    headerValue: string;
     icon: string;
     route: string;
 }

@@ -175,47 +175,50 @@ const Items: Select[] = [
 export class FullauditdetailsComponent implements OnInit {
 
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
-  
+
   myTable!: TableItem
   myForm!: FormGroup;
   listItems!: Select[];
   constructor() {
     this.myTable = {
       data: ELEMENT_DATA,
-      dataColumns: ['TelNo', 'View', 'OSN2Source', 'Source', 'ACTID',
-        'RangeReport', 'InflightOrder', 'CUPID', 'BatchId', 'ExternalCLIStatus', 'FullAuditCLIStatus',
-        'Monthly Refresh Flag', 'Resolution Type', 'SourceSystemStatus', 'MoriCircuitStatus', 'SwitchStatus',
-        'SwitchPortingStatus', 'PortingPrefixOwner', 'Switch Type', 'CDMSNMSRPIPO', 'CDMSNMSR Prefix',
-        'CDMSNMSRType', 'CDMSNMSRAreacall', 'IsVodafoneRangeHolder', 'BTCustomer', 'BTPostcode',
-        'BTLocality', 'BTPremise', 'BTThouroughfare', 'OSN2Customer', 'OSN2Postcode', 'OSN2Locality',
-        'OSN2Premise', 'OSN2Thouroughfare', 'SourceCustomer', 'SourcePostcode', 'SourceLocality',
-        'SourcePremise', 'SourceThouroughfare', 'ParentCUPID', 'ChildCUPID', 'LineType', 'Franchise',
-        'OrderType', 'OrderReference', 'OrderServiceType', 'TypeOfLine', 'CommentsRange',
-        'LinkOrderRef', 'LinkReasonCode', 'OrderArchiveFlag', 'DeadEntry'],
-      coulmnHeaders: ['TelNo', 'View', 'OSN2 Source', 'Source', 'ACT ID',
-        'Range Report', 'Inflight Order', 'CUPID', 'Batch Id', 'External CLI Status', 'Full Audit CLI Status',
-        'Monthly Refresh Flag', 'Resolution Type', 'Source System Status', 'Mori Circuit Status', 'Switch Status',
-        'Switch Porting Status', 'Porting Prefix Owner', 'Switch Type', 'CDMS/NMSR PI/PO', 'CDMS/NMSR Prefix',
-        'CDMS/NMSR Type', 'CDMS/NMSR Areacall', 'Is Vodafone RangeHolder', 'BT Customer', 'BT Postcode',
-        'BT Locality', 'BT Premise', 'BT Thouroughfare', 'OSN2 Customer', 'OSN2 Postcode', 'OSN2 Locality',
-        'OSN2 Premise', 'OSN2 Thouroughfare', 'Source Customer', 'Source Postcode', 'Source Locality',
-        'Source Premise', 'Source Thouroughfare', 'Parent CUPID', 'Child CUPID', 'Line Type', 'Franchise',
-        'Order Type', 'Order Reference', 'Order Service Type', 'Type Of Line', 'Comments(Range)',
-        'Link Order Ref', 'Link Reason Code', 'Order Archive Flag', 'Dead Entry'],
+      Columns: this.colHeader,
       filter: true,
-      colToSetImage: ['View', 'MoriCircuitStatus'],
-      imgConfig: [{ column: 'View', icon: 'tab', route: '' },
-      { column: 'View', icon: 'description', route: '' },
-      { column: 'MoriCircuitStatus', icon: 'search', route: '' }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '' },
+      { headerValue: 'View', icon: 'description', route: '' },
+      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '' }]
+      // dataColumns: ['TelNo', 'View', 'OSN2Source', 'Source', 'ACTID',
+      //   'RangeReport', 'InflightOrder', 'CUPID', 'BatchId', 'ExternalCLIStatus', 'FullAuditCLIStatus',
+      //   'Monthly Refresh Flag', 'Resolution Type', 'SourceSystemStatus', 'MoriCircuitStatus', 'SwitchStatus',
+      //   'SwitchPortingStatus', 'PortingPrefixOwner', 'Switch Type', 'CDMSNMSRPIPO', 'CDMSNMSR Prefix',
+      //   'CDMSNMSRType', 'CDMSNMSRAreacall', 'IsVodafoneRangeHolder', 'BTCustomer', 'BTPostcode',
+      //   'BTLocality', 'BTPremise', 'BTThouroughfare', 'OSN2Customer', 'OSN2Postcode', 'OSN2Locality',
+      //   'OSN2Premise', 'OSN2Thouroughfare', 'SourceCustomer', 'SourcePostcode', 'SourceLocality',
+      //   'SourcePremise', 'SourceThouroughfare', 'ParentCUPID', 'ChildCUPID', 'LineType', 'Franchise',
+      //   'OrderType', 'OrderReference', 'OrderServiceType', 'TypeOfLine', 'CommentsRange',
+      //   'LinkOrderRef', 'LinkReasonCode', 'OrderArchiveFlag', 'DeadEntry'],
+      // coulmnHeaders: ['TelNo', 'View', 'OSN2 Source', 'Source', 'ACT ID',
+      //   'Range Report', 'Inflight Order', 'CUPID', 'Batch Id', 'External CLI Status', 'Full Audit CLI Status',
+      //   'Monthly Refresh Flag', 'Resolution Type', 'Source System Status', 'Mori Circuit Status', 'Switch Status',
+      //   'Switch Porting Status', 'Porting Prefix Owner', 'Switch Type', 'CDMS/NMSR PI/PO', 'CDMS/NMSR Prefix',
+      //   'CDMS/NMSR Type', 'CDMS/NMSR Areacall', 'Is Vodafone RangeHolder', 'BT Customer', 'BT Postcode',
+      //   'BT Locality', 'BT Premise', 'BT Thouroughfare', 'OSN2 Customer', 'OSN2 Postcode', 'OSN2 Locality',
+      //   'OSN2 Premise', 'OSN2 Thouroughfare', 'Source Customer', 'Source Postcode', 'Source Locality',
+      //   'Source Premise', 'Source Thouroughfare', 'Parent CUPID', 'Child CUPID', 'Line Type', 'Franchise',
+      //   'Order Type', 'Order Reference', 'Order Service Type', 'Type Of Line', 'Comments(Range)',
+      //   'Link Order Ref', 'Link Reason Code', 'Order Archive Flag', 'Dead Entry'],
+     
+      // colToSetImage: ['View', 'MoriCircuitStatus'],
+      
 
     }
   }
 
 
   selChange(matSelect: MatSelect) {
-    console.log(this.selMultiple.selectedValues)
+    //console.log(this.selMultiple.selectedValues)
     matSelect.options.forEach((item) => {
-      
+
       if (item.selected) {
         // if (!this.filtered.includes(item.value))
         //   this.filtered.push(item.value)
@@ -232,20 +235,61 @@ export class FullauditdetailsComponent implements OnInit {
     });
   }
 
+ 
+      
   colHeader: any[] = [
-    { value: 'TelNo', viewValue: 'TelNo' }, { value: 'View', viewValue: 'View' }, { value: 'OSN2Source', viewValue: 'OSN2 Source' }, { value: 'Source', viewValue: 'Source' }, { value: 'ACTID', viewValue: 'ACT ID' },
-    { value: 'RangeReport', viewValue: 'Range Report' }, { value: 'InflightOrder', viewValue: 'Inflight Order' }, { value: 'CUPID', viewValue: 'CUPID' },
-    { value: 'BatchId', viewValue: 'Batch Id' }, { value: 'ExternalCLIStatus', viewValue: 'External CLI Status' }, { value: 'FullAuditCLIStatus', viewValue: 'Full Audit CLI Status' },
-    { value: 'MonthlyRefreshFlag', viewValue: 'Monthly Refresh Flag' }, { value: 'ResolutionType', viewValue: 'ResolutionType' }, { value: 'SourceSystemStatus', viewValue: 'Source System Status' }, { value: 'MoriCircuitStatus', viewValue: 'Mori Circuit Status' },
-    { value: 'SwitchStatus', viewValue: 'Switch Status' }, { value: 'SwitchPortingStatus', viewValue: 'Switch Porting Status' }, { value: 'PortingPrefixOwner', viewValue: 'Porting Prefix Owner' },
-    { value: 'SwitchType', viewValue: 'Switch Type' }, { value: 'CDMSNMSRPIPO', viewValue: 'CDMSNMSRPIPO' }, { value: 'CDMSNMSRPrefix', viewValue: 'CDMSNMSR Prefix' },
-    { value: 'CDMSNMSRType', viewValue: 'CDMSNMSR Type' }, { value: 'CDMSNMSRAreacall', viewValue: 'CDMSNMSR Area call' }, { value: 'IsVodafoneRangeHolder', viewValue: 'Is VodafoneRange Holder' }, { value: 'BTCustomer', viewValue: 'BT Customer' }, { value: 'BTPostcode', viewValue: 'BTP ostcode' },
-    { value: 'BTLocality', viewValue: 'BT Locality' }, { value: 'BTPremise', viewValue: 'BT Premise' }, { value: 'BTThouroughfare', viewValue: 'BT Thourough fare' }, { value: 'OSN2Customer', viewValue: 'OSN2 Customer' }, { value: 'OSN2Postcode', viewValue: 'OSN2 Postcode' }, { value: 'OSN2Locality', viewValue: 'OSN2 Locality' },
-    { value: 'OSN2Premise', viewValue: 'OSN2 Premise' }, { value: 'OSN2Thouroughfare', viewValue: 'OSN2 Thourough fare' }, { value: 'SourceCustomer', viewValue: 'Source Customer' }, { value: 'SourcePostcode', viewValue: 'Source Postcode' }, { value: 'SourceLocality', viewValue: 'Source Locality' },
-    { value: 'SourcePremise', viewValue: 'Source Premise' }, { value: 'SourceThouroughfare', viewValue: 'Source Thouroughfare' }, { value: 'ParentCUPID', viewValue: 'ParentCUPID' }, { value: 'ChildCUPID', viewValue: 'Child CUPID' }, { value: 'LineType', viewValue: 'LineType' }, { value: 'Franchise', viewValue: 'Franchise' },
-    { value: 'OrderType', viewValue: 'Order Type' }, { value: 'OrderReference', viewValue: 'Order Reference' }, { value: 'OrderServiceType', viewValue: 'Order Service Type' }, { value: 'TypeOfLine', viewValue: 'Type Of Line' }, { value: 'CommentsRange', viewValue: 'Comments Range' }
-    , { value: 'LinkOrderRef', viewValue: 'Link OrderRef' },
-    { value: 'LinkReasonCode', viewValue: 'Link Reason Code' }, { value: 'OrderArchiveFlag', viewValue: 'Order Archive Flag' }, { value: 'DeadEntry', viewValue: 'DeadEntry' }]
+    { headerValue: 'TelNo', header: 'TelNo', showDefault: true, imageColumn: false },
+    { headerValue: 'View', header: 'View', showDefault: true, imageColumn: true },
+    { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: true, imageColumn: false },
+    { headerValue: 'Source', header: 'Source', showDefault: true, imageColumn: false },
+    { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, imageColumn: false },
+    { headerValue: 'RangeReport', header: 'Range Report', showDefault: true, imageColumn: false },
+    { headerValue: 'InflightOrder', header: 'Inflight Order', showDefault: true, imageColumn: false },
+    { headerValue: 'CUPID', header: 'CUPID', showDefault: true, imageColumn: false },
+    { headerValue: 'BatchId', header: 'Batch Id', showDefault: true, imageColumn: false },
+    { headerValue: 'ExternalCLIStatus', header: 'External CLI Status', showDefault: true, imageColumn: false },
+    { headerValue: 'FullAuditCLIStatus', header: 'Full Audit CLI Status', showDefault: true, imageColumn: false },
+    { headerValue: 'MonthlyRefreshFlag', header: 'Monthly Refresh Flag', showDefault: true, imageColumn: false },
+    { headerValue: 'ResolutionType', header: 'ResolutionType', showDefault: true, imageColumn: false },
+    { headerValue: 'SourceSystemStatus', header: 'Source System Status', showDefault: true, imageColumn: false },
+    { headerValue: 'MoriCircuitStatus', header: 'Mori Circuit Status', showDefault: true, imageColumn: true },
+    { headerValue: 'SwitchStatus', header: 'Switch Status', showDefault: true, imageColumn: false },
+    { headerValue: 'SwitchPortingStatus', header: 'Switch Porting Status', showDefault: true, imageColumn: false },
+    { headerValue: 'PortingPrefixOwner', header: 'Porting Prefix Owner', showDefault: true, imageColumn: false },
+    { headerValue: 'SwitchType', header: 'Switch Type', showDefault: true, imageColumn: false },
+    { headerValue: 'CDMSNMSRPIPO', header: 'CDMSNMSRPIPO', showDefault: true, imageColumn: false },
+    { headerValue: 'CDMSNMSRPrefix', header: 'CDMSNMSR Prefix', showDefault: true, imageColumn: false },
+    { headerValue: 'CDMSNMSRType', header: 'CDMSNMSR Type', showDefault: true, imageColumn: false },
+    { headerValue: 'CDMSNMSRAreacall', header: 'CDMSNMSR Area call', showDefault: true, imageColumn: false },
+    { headerValue: 'IsVodafoneRangeHolder', header: 'Is VodafoneRange Holder', showDefault: true, imageColumn: false },
+    { headerValue: 'BTCustomer', header: 'BT Customer', showDefault: true, imageColumn: false },
+    { headerValue: 'BTPostcode', header: 'BTP ostcode', showDefault: true, imageColumn: false },
+    { headerValue: 'BTLocality', header: 'BT Locality', showDefault: true, imageColumn: false },
+    { headerValue: 'BTPremise', header: 'BT Premise', showDefault: true, imageColumn: false },
+    { headerValue: 'BTThouroughfare', header: 'BT Thourough fare', showDefault: true, imageColumn: false },
+    { headerValue: 'OSN2Customer', header: 'OSN2 Customer', showDefault: true, imageColumn: false },
+    { headerValue: 'OSN2Postcode', header: 'OSN2 Postcode', showDefault: true, imageColumn: false },
+    { headerValue: 'OSN2Locality', header: 'OSN2 Locality', showDefault: true, imageColumn: false },
+    { headerValue: 'OSN2Premise', header: 'OSN2 Premise', showDefault: true, imageColumn: false },
+    { headerValue: 'OSN2Thouroughfare', header: 'OSN2 Thourough fare', showDefault: true, imageColumn: false },
+    { headerValue: 'SourceCustomer', header: 'Source Customer', showDefault: true, imageColumn: false },
+    { headerValue: 'SourcePostcode', header: 'Source Postcode', showDefault: true, imageColumn: false },
+    { headerValue: 'SourceLocality', header: 'Source Locality', showDefault: true, imageColumn: false },
+    { headerValue: 'SourcePremise', header: 'Source Premise', showDefault: true, imageColumn: false },
+    { headerValue: 'SourceThouroughfare', header: 'Source Thouroughfare', showDefault: true, imageColumn: false },
+    { headerValue: 'ParentCUPID', header: 'ParentCUPID', showDefault: true, imageColumn: false },
+    { headerValue: 'ChildCUPID', header: 'Child CUPID', showDefault: true, imageColumn: false },
+    { headerValue: 'LineType', header: 'LineType', showDefault: true, imageColumn: false },
+    { headerValue: 'Franchise', header: 'Franchise', showDefault: true, imageColumn: false },
+    { headerValue: 'OrderType', header: 'Order Type', showDefault: true, imageColumn: false },
+    { headerValue: 'OrderReference', header: 'Order Reference', showDefault: true, imageColumn: false },
+    { headerValue: 'OrderServiceType', header: 'Order Service Type', showDefault: true, imageColumn: false },
+    { headerValue: 'TypeOfLine', header: 'Type Of Line', showDefault: true, imageColumn: false },
+    { headerValue: 'CommentsRange', header: 'Comments Range', showDefault: true, imageColumn: false },
+    { headerValue: 'LinkOrderRef', header: 'Link OrderRef', showDefault: true, imageColumn: false },
+    { headerValue: 'LinkReasonCode', header: 'Link Reason Code', showDefault: true, imageColumn: false },
+    { headerValue: 'OrderArchiveFlag', header: 'Order Archive Flag', showDefault: true, imageColumn: false },
+    { headerValue: 'DeadEntry', header: 'DeadEntry', showDefault: true, imageColumn: false }]
 
   ngOnInit(): void {
     this.createForm();
@@ -284,7 +328,7 @@ export class FullauditdetailsComponent implements OnInit {
       MoriStatus: new FormControl({ value: '', disabled: true }, [Validators.required]),
       PostCodeDiff: new FormControl({ value: '', disabled: true }, [Validators.required]),
       FullAddDiff: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      CustomerDiff : new FormControl({ value: '', disabled: true }, [Validators.required]),
+      CustomerDiff: new FormControl({ value: '', disabled: true }, [Validators.required]),
       OverlappingStatus: new FormControl({ value: '', disabled: true }, [Validators.required])
     })
   }
