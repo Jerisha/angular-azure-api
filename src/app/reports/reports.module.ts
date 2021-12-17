@@ -5,8 +5,9 @@ import { TransactiondetailsComponent } from './transactiondetails/transactiondet
 import { ProvidereportComponent } from './providereport/providereport.component';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { MaterialModule } from '../_shared/material/material.module';
-import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { DialogComponent } from './providereport/dialog/dialog.component';
+import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
+
 
 
 
@@ -14,7 +15,8 @@ import { DialogComponent } from './providereport/dialog/dialog.component';
   declarations: [
     TransactiondetailsComponent,
     ProvidereportComponent,
-    DialogComponent
+    DialogComponent,
+
   ],
   imports: [
     CommonModule,

@@ -13,6 +13,7 @@ import { MenuSearchPipe } from './_helper/index';
 import { PopupComponent } from './popup/popup.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

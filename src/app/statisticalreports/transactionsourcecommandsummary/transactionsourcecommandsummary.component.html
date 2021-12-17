@@ -1,0 +1,81 @@
+<mat-sidenav-container class="side-container">
+    <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+        <form >
+            <div class="">
+               <mat-icon matTooltip="List Selection">info</mat-icon> 
+                        <mat-label> List Selection</mat-label><br>
+                        <app-select-exp></app-select-exp> 
+                            <mat-form-field appearance="outline">
+                                <mat-label>Statistic Month</mat-label>
+                                <input matInput [matDatepicker]="picker">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                              </mat-form-field>
+                              <br>
+                              <app-select-exp></app-select-exp> 
+                              <mat-form-field appearance="outline">
+                                <mat-label>Source.Sys</mat-label>
+                                <mat-select>
+                                    <mat-option></mat-option>
+                                    <mat-option>A - AUDITr</mat-option>
+                                    <mat-option>C - SAS/COMS</mat-option>
+                                    <mat-option>D - DVA Siebel</mat-option>
+                                    <mat-option>E - VA/WAD</mat-option>
+                                    <mat-option>F - Ring Central</mat-option>
+                                    <mat-option>G - Content Guru</mat-option>
+                                    <mat-option>>N - ONENET</mat-option>
+                                    <mat-option>R - Clarify</mat-option>
+                                    <mat-option>S - Amdocs SOM</mat-option>
+                                    <mat-option>X - Unknown</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+ 
+                        </div>
+                    </form>
+                    <button type="reset" mat-raised-button color="primary" matTooltip="Refresh">
+                        <mat-icon>refresh</mat-icon>Clear
+                        
+                      </button>
+                    <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+                        <mat-icon>search</mat-icon>Search
+                    </button>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="side-content">
+         <div class="page-header">
+            <button mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+                matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+                <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+            </button>
+            <div style="margin: 5px; float: left;"> Statistical Reports > Transaction Source Command Summary</div>
+        </div>
+<br>
+        <mat-label color="primary">This report lists the transaction commands that were created on a specific date</mat-label>
+
+        <mat-tab-group color="primary" >
+    <mat-tab label="First" color="primary"> Content 1 </mat-tab>
+    <mat-tab label="Second"> Content 2 </mat-tab>
+    <mat-tab label="Third"> Content 3 </mat-tab>
+  </mat-tab-group>
+  
+        <app-table-selection ></app-table-selection>
+
+        <form>
+            <div class="side-left-div">
+                <fieldset>
+                    <legend>Fixed/Optional Columns</legend>
+                        <mat-label  (click)="openSnackBar(message.value)"></mat-label>
+                            <mat-button-toggle-group appearance="legacy" >
+                                <mat-button-toggle value="Fixed column - Always appears on the report" (click)="openSnackBar(message.value)" #message >Statistic Month</mat-button-toggle>
+                                <mat-button-toggle value="Fixed column - Always appears on the report" (click)="openSnackBar(message.value)"  #message>Adds</mat-button-toggle>
+                                <mat-button-toggle value="Fixed column - Always appears on the report" (click)="openSnackBar(message.value)" #message>Ceases</mat-button-toggle>
+                                <mat-button-toggle value="Fixed column - Always appears on the report" (click)="openSnackBar(message.value)" #message>Modifies</mat-button-toggle>
+                                <mat-button-toggle value="Fixed column - Always appears on the report" (click)="openSnackBar(message.value)" #message>Exports</mat-button-toggle>
+                                <mat-button-toggle value="Fixed column - Always appears on the report" (click)="openSnackBar(message.value)" #message>Imports</mat-button-toggle>
+                                <mat-button-toggle value="Fixed column - Always appears on the report" (click)="openSnackBar(message.value)" #message>Total Cmds</mat-button-toggle>
+                            </mat-button-toggle-group>
+                            </fieldset>
+                </div>
+        </form>
+    </mat-sidenav-content>
+</mat-sidenav-container>
