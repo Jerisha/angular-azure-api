@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, ViewChild,} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { TableItem } from 'src/app/_models/table-item';
+
 
 @Component({
   selector: 'app-table',
@@ -9,7 +9,7 @@ import { TableItem } from 'src/app/_models/table-item';
 })
 export class TableComponent implements OnInit {
 
-  @Input() tableitem?: TableItem;
+  @Input() tableitem?: any;
 
 
   dataSource!: MatTableDataSource<any>;
@@ -18,13 +18,28 @@ export class TableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  
-    this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-    this.dataColumns = this.tableitem?.dataColumns;
-      //this.columnHeaders = this.tableitem?.coulmnHeaders;
+
+    this.dataSource = new MatTableDataSource<any>(this.tableitem);
+    this.dataColumns = this.toTableheaders(this.tableitem);
+    //this.columnHeaders = this.tableitem?.coulmnHeaders;
   }
-  ngAfterInit():void{
-    
+  ngAfterInit(): void {
+
+  }
+  toTableheaders(item: any): string[] {
+    let array = [];
+    if (this.tableitem != undefined) {
+
+      let thisItem = item[0];
+      for (let key in thisItem) {
+        if (thisItem.hasOwnProperty(key)) {
+          array.push(key);
+        }
+      }
+    }
+    return array;
+    //console.log(table);
+
   }
 
 }

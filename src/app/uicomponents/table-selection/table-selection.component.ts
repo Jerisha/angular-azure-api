@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { TableItem, ViewColumn } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
@@ -23,6 +23,8 @@ export class TableSelectionComponent {
   allSelected = true;
   selection = new SelectionModel<any>(true, []);
   dataSource!: MatTableDataSource<any>;
+  selectedrows: any;
+  ColumnDetails!: ColumnDetails[];
   dataColumns: any;
   columnHeaders: any;
   filter?: boolean = false;
@@ -33,15 +35,19 @@ export class TableSelectionComponent {
   constructor(private cdr: ChangeDetectorRef) { }
   ngOnInit() {
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-    this.imgColumns = this.tableitem?.colToSetImage;
+    this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+    //this.imgColumns = this.tableitem?.colToSetImage;
     this.imgList = this.tableitem?.imgConfig;
     this.filter = this.tableitem?.filter;
     if (this.tableitem?.selectCheckbox) {
-      this.dataColumns = this.tableitem?.dataColumns ? ['Select'].concat(this.tableitem?.dataColumns) : undefined;
-      this.columnHeaders = this.tableitem?.coulmnHeaders ? ['Select'].concat(this.tableitem?.coulmnHeaders) : undefined;
+      const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, imageColumn: false };
+      this.ColumnDetails.unshift(selItem);
+      //this.dataColumns = this.tableitem?.dataColumns ? ['Select'].concat(this.tableitem?.dataColumns) : undefined;
+      this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
+      //this.columnHeaders = this.tableitem?.coulmnHeaders ? ['Select'].concat(this.tableitem?.coulmnHeaders) : undefined;
     } else {
-      this.dataColumns = this.tableitem?.dataColumns;
-      this.columnHeaders = this.tableitem?.coulmnHeaders;
+      this.dataColumns = this.tableitem?.Columns?.map((e) => e.headerValue);// this.tableitem?.dataColumns;
+      //this.columnHeaders = this.tableitem?.coulmnHeaders;
     }
   }
 
@@ -105,39 +111,33 @@ export class TableSelectionComponent {
     this.allSelected = newStatus;
   }
 
-  getDisplayName(data: string) {
-    let index = this.tableitem?.dataColumns ? this.tableitem?.dataColumns.indexOf(data) : -1;
-    return this.tableitem?.coulmnHeaders ? this.tableitem?.coulmnHeaders[index] : undefined;
+  // getDisplayName(data: string) {
+  //   let index = this.tableitem?.dataColumns ? this.tableitem?.dataColumns.indexOf(data) : -1;
+  //   return this.tableitem?.coulmnHeaders ? this.tableitem?.coulmnHeaders[index] : undefined;
 
-  }
+  // }
 
   filterGridColumns() {
     let selectedColumns: string[] = this.select.value;
-    let coulmnHeader: string[] = [];
-    let staticColumns = this.tableitem?.coulmnHeaders ?
-      this.tableitem?.coulmnHeaders : undefined;
-    selectedColumns.forEach(function (selectedColumn) {
-      let displayedColumn = staticColumns?.
-            find(x => x.replace(/[^a-zA-Z0-9]/g, "") == selectedColumn)
-      coulmnHeader.push(displayedColumn ? displayedColumn : '');
-    });
-    this.columnHeaders = this.tableitem?.selectCheckbox ? ['Select'].concat(coulmnHeader) : coulmnHeader;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
+    // let coulmnHeader: string[] = [];
+    // let staticColumns = this.tableitem?.coulmnHeaders ?
+    //   this.tableitem?.coulmnHeaders : undefined;
+    // selectedColumns.forEach(function (selectedColumn) {
+    //   let displayedColumn = staticColumns?.
+    //     find(x => x.replace(/[^a-zA-Z0-9]/g, "") == selectedColumn)
+    //   coulmnHeader.push(displayedColumn ? displayedColumn : '');
+    // });
+    // this.columnHeaders = this.tableitem?.selectCheckbox ? ['Select'].concat(coulmnHeader) : coulmnHeader;
+
   }
 
 
-  
 
-  clearColmnFilter() {
-    if (this.dataColumns && this.columnHeaders) {
 
-      this.dataColumns = this.tableitem?.dataColumns;
-      this.columnHeaders = this.tableitem?.coulmnHeaders;
-    }
-  }
-
-  logSelection() {
-    this.selection.selected.forEach(s => console.log(s.name));
+  logSelection(a: any) {
+    this.selectedrows = this.selection.selected ? this.selection.selected : undefined;
+    return true;
   }
 
 }
