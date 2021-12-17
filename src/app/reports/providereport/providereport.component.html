@@ -1,9 +1,10 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
     
-     <mat-card class="mat-elevation-z8">
+     <mat-card >
        <mat-card-content class="">
-     <form class= "">
+     <form >
+       <div class= "mat-elevation-z8">
         <mat-icon matTooltip="Report Wildcard Selection" (click)="openDialog()">info</mat-icon> 
         <label >Wildcard Selection</label>
       <br>
@@ -37,11 +38,11 @@
        <mat-label>Postcode</mat-label>
        <input type="Postcode"  matInput> 
      </mat-form-field>
-     
+     </div>
     </form>
 
-    <form>
-      <div class="" >
+    <form >
+      <div >
     <mat-icon matTooltip="List Selection" (click)="openDialog()">info</mat-icon> 
     <label>List Selection</label> 
      <br>
