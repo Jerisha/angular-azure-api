@@ -1,4 +1,5 @@
-import { Component, OnInit,  Output, EventEmitter, Input  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Select } from 'src/app/_models/select';
 
 @Component({
   selector: 'app-select-exp',
@@ -6,17 +7,17 @@ import { Component, OnInit,  Output, EventEmitter, Input  } from '@angular/core'
   styleUrls: ['./select-expression.component.css']
 })
 export class SelectExpressionComponent implements OnInit {
-select : string = 'Exp';
-@Input() lisItems :string[] = [];
-@Output() click = new EventEmitter<string>();
+  selectedValue: string = '=';
+  @Input() listItems: Select[] = [];
+  @Output() click = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  selected(s:string): void{
-    this.select= s;
+  selected(s: string): void {
+    this.selectedValue = s;
     this.click.emit(s);
   }
 }

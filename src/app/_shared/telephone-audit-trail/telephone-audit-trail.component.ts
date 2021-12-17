@@ -202,20 +202,20 @@ export class TelephoneAuditTrailComponent implements OnInit {
   expandDisplayedColumns = ["optionName", "optionDescription"];
   expandedElement: PeriodicElement | null | undefined;
 
-  toTableItem(item: any): TableItem {
+  // toTableItem(item: any): TableItem {
     
 
-    let array = [];
-    let thisItem = item[0];
-    for (let key in thisItem) {
-      if (thisItem.hasOwnProperty(key)) {
-        array.push(key);
-      }
-    }
-    return  { data: item, dataColumns: array };
-    //console.log(table);
+  //   let array = [];
+  //   let thisItem = item[0];
+  //   for (let key in thisItem) {
+  //     if (thisItem.hasOwnProperty(key)) {
+  //       array.push(key);
+  //     }
+  //   }
+  //   return  { data: item, dataColumns: array };
+  //   //console.log(table);
      
-  }
+  // }
 
 }
 

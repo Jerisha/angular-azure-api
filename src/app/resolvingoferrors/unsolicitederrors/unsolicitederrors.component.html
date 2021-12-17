@@ -7,4 +7,4 @@
 <app-select-single [listItems]= "listItems" (changes)="selChangeSingle($event)"></app-select-single>
 {{selected}}
 <br>
-<app-select-exp (click)="print($event)"></app-select-exp>
+<app-select-exp [listItems]="expDefault" (click)="print($event)"></app-select-exp>

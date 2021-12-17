@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
+import { select } from 'src/app/_helper/Constants/exp-consts';
 import { Select } from 'src/app/_models/select';
 
 const Items: Select[] = [
@@ -30,6 +31,7 @@ export class UnsolicitederrorsComponent implements OnInit {
   multiplevalues: any;
   filtered: string[] = [];
 selected :string='';
+expDefault =select.default;
   constructor() { }
 
   ngOnInit(): void {
