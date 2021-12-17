@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: small;}
 
 .mat-toolbar.mat-primary {
   background: #e60000;
@@ -15,7 +15,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: #e60000;
     margin:5px;
     /* text-align: left; */
-    font-size:15px ;
+    font-size:small ;
   }
   .page-header button{
     float: left;
@@ -24,6 +24,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 12%;
+    font-size: small;
   }
  /* side-nav-page-header ends */
 
@@ -142,7 +143,7 @@ margin-left: 200px;
   width: 170px;
 }
 
-.side-left-div .side-textarea{
+.side-bottom .side-left-div .side-textarea{
   /* background-color: lawngreen!important; */
   width: 360px;
   font-size: smaller;  

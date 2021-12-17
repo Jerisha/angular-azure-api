@@ -13,17 +13,29 @@ th.mat-sort-header-sorted {
 
 .mat-header-cell {
   color: white;
-  width: auto;
-  font-size:medium;
-  
+  /* width: auto;
+  height: fit-content; */
+  font-size:small;
 }
-.mat-header-row
-{
-  min-height: 20px;
+.mat-header-row{
+  height: 30px;
 }
+
+.mat-cell{
+  font-size:small;
+}
+
 .mat-row {
   height: 10px;
 }
+
+.table-icon{
+  cursor: pointer; 
+  font-size: 18px;
+  height: 0px;
+  width:auto;
+}
+
 
 
 .table-container {
