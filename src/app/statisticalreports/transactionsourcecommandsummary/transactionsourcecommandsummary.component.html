@@ -13,7 +13,7 @@
                               </mat-form-field>
                               <br>
                               <app-select-exp></app-select-exp> 
-                              <mat-form-field appearance="outline">
+                              <mat-form-field appearance="outline" >
                                 <mat-label>Source.Sys</mat-label>
                                 <mat-select>
                                     <mat-option></mat-option>
@@ -29,7 +29,7 @@
                                     <mat-option>X - Unknown</mat-option>
                                 </mat-select>
                             </mat-form-field>
- 
+                          
                         </div>
                     </form>
                     <button type="reset" mat-raised-button color="primary" matTooltip="Refresh">
@@ -50,20 +50,13 @@
             <div style="margin: 5px; float: left;"> Statistical Reports > Transaction Source Command Summary</div>
         </div>
 <br>
-        <mat-label color="primary">This report lists the transaction commands that were created on a specific date</mat-label>
-
-        <mat-tab-group color="primary" >
-    <mat-tab label="First" color="primary"> Content 1 </mat-tab>
-    <mat-tab label="Second"> Content 2 </mat-tab>
-    <mat-tab label="Third"> Content 3 </mat-tab>
-  </mat-tab-group>
-  
-        <app-table-selection ></app-table-selection>
-
+        <app-table-selection [tableitem]="myTable"></app-table-selection>
+     
         <form>
             <div class="side-left-div">
                 <fieldset>
                     <legend>Fixed/Optional Columns</legend>
+                    <mat-slide-toggle>Slide me!</mat-slide-toggle>
                         <mat-label  (click)="openSnackBar(message.value)"></mat-label>
                             <mat-button-toggle-group appearance="legacy" >
                                 <mat-button-toggle value="Fixed column - Always appears on the report" (click)="openSnackBar(message.value)" #message >Statistic Month</mat-button-toggle>
