@@ -8,6 +8,42 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   color: white;
 }
 
+/* app-select-multiple - filter Starts */
+
+/* to set background color for matselect */
+app-select-multiple .mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
+  background-color: #EFEFEF;
+  height: 45px;
+}
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+/* to change border color on hover */
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #EFEFEF;
+  border:0
+}
+
+/* to change border color after selection */
+app-select-multiple .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  color: #EFEFEF;
+  border:0
+}
+/* app-select-multiple .mat-focused{
+  color: green;
+} */
+
+/* to adjust padding space between value and v icon */
+app-select-multiple  .mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 1.50em 0 0.75em;
+}
+
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0px;
+}
+/* app-select-multiple - filter Ends */
+
 /* side-nav-page-header starts */
 .page-header
   {   
@@ -111,9 +147,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 
 .filter-sticky
 {
+  margin-left: 20px;
   position: sticky;
-  top:0;
-  background-color:#EFEFEF;
+  top:0;  
+  /* background-color:#EFEFEF; */
 }
 .res-save-div
 {

@@ -9,8 +9,12 @@ import { ResolvingoferrorsModule } from './resolvingoferrors/resolvingoferrors.m
 import { AuditreportsModule } from './auditreports/auditreports.module';
 import { UicomponentsModule } from './uicomponents/uicomponents.module';
 import { MaterialModule } from './_shared/material/material.module';
-import { MenuSearchPipe } from './_helper/index';
+import { BorderDirective, MenuSearchPipe } from './_helper/index';
 import { PopupComponent } from './popup/popup.component';
+import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import { HttpWrapperService } from './_services/http/http-wrapper.service';
+import { HttpErrorInterceptor } from './_services/http/http-error-interceptor';
+import { HttpRequestHeader } from './_services/http/http-request-header.service';
 
 
 
@@ -18,7 +22,8 @@ import { PopupComponent } from './popup/popup.component';
   declarations: [
     AppComponent,
     MenuSearchPipe,
-        PopupComponent        
+        PopupComponent,
+        BorderDirective       
   ],
   imports: [
     BrowserModule,
@@ -27,10 +32,20 @@ import { PopupComponent } from './popup/popup.component';
     BrowserAnimationsModule,
     UicomponentsModule,
     MaterialModule,
+    HttpClientModule,
     ResolvingoferrorsModule,
     AuditreportsModule
   ],
-  providers: [NavService],
+  providers: [NavService,{
+    provide: HTTP_INTERCEPTORS, 
+    useClass: HttpErrorInterceptor, 
+    multi: true 
+  },
+  {
+    provide: HTTP_INTERCEPTORS, 
+    useClass: HttpRequestHeader, 
+    multi: true 
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

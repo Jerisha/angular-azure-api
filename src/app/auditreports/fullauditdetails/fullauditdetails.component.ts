@@ -1,11 +1,16 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { pipe, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetails } from 'src/app/_models/fullauditdetailsmodel';
+import {  WeatherForecast } from 'src/app/_models/samplemodel';
 import { Select } from 'src/app/_models/select';
 import { TableItem } from 'src/app/_models/table-item';
+import { FullAuditDetailsService } from './fullauditdetails.service';
 
 const ELEMENT_DATA: FullAuditDetails[] = [
   {
@@ -179,7 +184,8 @@ export class FullauditdetailsComponent implements OnInit {
   myTable!: TableItem
   myForm!: FormGroup;
   listItems!: Select[];
-  constructor() {
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  constructor(private ser: FullAuditDetailsService) {
     this.myTable = {
       data: ELEMENT_DATA,
       Columns: this.colHeader,
@@ -294,7 +300,34 @@ export class FullauditdetailsComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.listItems = Items;
+
+    this.ser.getDetails()
+    .subscribe((res)=>{
+      debugger;
+      this.audit = res;
+      console.log(res)
+    })
+
+      
+    this.audit = [{ summary: "Chilly", temperatureC: 13 }]
+       this.ser.postDetails(this.audit).subscribe(res=>{
+         console.log('post res'+ JSON.stringify(res))},(error)=>{
+           debugger;
+           console.log(error)
+         })
+      
+  
+     
   }
+  audit:WeatherForecast[]=[];
+
+    ngOnDestroy() {
+        this.destroy$.next(true);
+        debugger;
+        console.log('destroying')
+        // Unsubscribe from the subject
+        this.destroy$.unsubscribe();
+      }
 
   createForm() {
 
