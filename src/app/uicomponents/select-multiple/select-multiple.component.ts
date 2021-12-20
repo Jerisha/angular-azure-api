@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import {ViewEncapsulation, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, startWith, take, takeUntil } from 'rxjs/operators';
@@ -9,7 +9,8 @@ import { Select } from 'src/app/_models/select';
 @Component({
   selector: 'app-select-multiple',
   templateUrl: './select-multiple.component.html',
-  styleUrls: ['./select-multiple.component.css']
+  styleUrls: ['./select-multiple.component.css'],
+  encapsulation :ViewEncapsulation.None
 })
 export class SelectMultipleComponent implements OnInit {
   @ViewChild('select') select!: MatSelect;
