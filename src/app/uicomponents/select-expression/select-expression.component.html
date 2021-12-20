@@ -1,19 +1,5 @@
-<button mat-button-basic [matMenuTriggerFor]="menu">{{select}}</button>
+<button mat-button-basic [matMenuTriggerFor]="menu">{{selectedValue}}</button>
 <mat-menu #menu="matMenu">
-  <button  mat-menu-item (click)="selected('~=')">~=...begins with</button>
-  <button mat-menu-item (click)="selected('!~')">!~...not begin with</button>
-  <button mat-menu-item (click)="selected('=%')">=%...contains</button>
-  <button mat-menu-item (click)="selected('!%')">!%...not contains</button>
-  <button mat-menu-item (click)="selected('=')">=...exact match</button>
-  <button mat-menu-item (click)="selected('!=')">!=...not =</button>
-  <button mat-menu-item (click)="selected('.<.')"> .<...less than</button>
-  <button mat-menu-item (click)="selected('>')"> .>...greater than</button>
-  <button mat-menu-item (click)="selected('.<.=')"> .<=...less or =</button>
-  <button mat-menu-item (click)="selected('=>')"> .>=...greater or =</button>
-  <button mat-menu-item (click)="selected('--')">--...empty(null)</button>
-  <button mat-menu-item (click)="selected('++')">++...is not empty</button>
-  <button mat-menu-item (click)="selected('<>')"><>...Between(Range)</button>
-  <button mat-menu-item (click)="selected('<!>')"><!>...Not Between(Range)</button>
-  <button mat-menu-item (click)="selected('(.)')">(.)...In List</button>
-  <button mat-menu-item (click)="selected('(!)')">(!)...Not in List</button>
+  <span mat-menu-item  *ngFor="let item of listItems"
+  (click)="selected(item.viewValue)">{{item.view}}</span> 
 </mat-menu>

@@ -1,12 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: small;}
 
 .mat-toolbar.mat-primary {
   background: #e60000;
   color: white;
 }
+
+/* app-select-multiple - filter Starts */
+
+/* to set background color for matselect */
+app-select-multiple .mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
+  background-color: #EFEFEF;
+  height: 45px;
+}
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+/* to change border color on hover */
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #EFEFEF;
+  border:0
+}
+
+/* to change border color after selection */
+app-select-multiple .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  color: #EFEFEF;
+  border:0
+}
+/* app-select-multiple .mat-focused{
+  color: green;
+} */
+
+/* to adjust padding space between value and v icon */
+app-select-multiple  .mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 1.50em 0 0.75em;
+}
+
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0px;
+}
+/* app-select-multiple - filter Ends */
 
 /* side-nav-page-header starts */
 .page-header
@@ -15,7 +51,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: #e60000;
     margin:5px;
     /* text-align: left; */
-    font-size:15px ;
+    font-size:small ;
   }
   .page-header button{
     float: left;
@@ -24,6 +60,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 12%;
+    font-size: small;
   }
  /* side-nav-page-header ends */
 
@@ -80,6 +117,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   overflow-x: hidden !important;
 }
 
+.side-nav form app-select-exp +  .mat-form-field
+{
+   margin-left: 0px;   
+  /* margin-bottom: 1px;  
+  margin-top:1px;   */
+  font-size: smaller;  
+  width: 170px;
+}
+
 .side-nav form .mat-form-field,.side-nav form .mat-form-field + .mat-form-field {
   margin-left: 15px;  
   /* margin-bottom: 1px;  
@@ -87,6 +133,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-size: smaller;  
   width: 170px;
 }
+
 
 .side-nav button{
   /* margin-left: 2px; */
@@ -100,9 +147,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .filter-sticky
 {
+  margin-left: 20px;
   position: sticky;
-  top:0;
-  background-color:#EFEFEF;
+  top:0;  
+  /* background-color:#EFEFEF; */
 }
 .res-save-div
 {
@@ -124,7 +172,7 @@ margin-left: 200px;
   width:150px;
 }
 
-.side-container .mat-form-field
+.side-container .side-bottom .mat-form-field
 {
   margin-bottom: 1px;  
   margin-top:1px;  
@@ -132,7 +180,7 @@ margin-left: 200px;
   width: 170px;
 }
 
-.side-left-div .side-textarea{
+.side-bottom .side-left-div .side-textarea{
   /* background-color: lawngreen!important; */
   width: 360px;
   font-size: smaller;  

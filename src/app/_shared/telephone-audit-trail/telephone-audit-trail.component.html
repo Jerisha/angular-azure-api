@@ -297,11 +297,11 @@
                             <div class="page-header">
                                 Comment : {{element.CommentText}}
                             </div>
-                            <app-table [tableitem]="toTableItem(element.Comment)"></app-table>
+                            <app-table [tableitem]="element.Comment"></app-table>
                         </div>
                         <mat-divider></mat-divider>
                         <div class="resolution-sec">
-                            <app-table [tableitem]="toTableItem(element.Resolution)"></app-table>
+                            <app-table [tableitem]="element.Resolution"></app-table>
                         </div>
                     </div>
                 </div>
@@ -369,7 +369,7 @@
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                 
                                    
-                      <app-table [tableitem]="toTableItem(element.UserComments)" 
+                      <app-table [tableitem]="element.UserComments" 
                             ></app-table>
                     
                
