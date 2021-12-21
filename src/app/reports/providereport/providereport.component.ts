@@ -6,16 +6,11 @@ import { MatSelect } from '@angular/material/select';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/_models/select';
 import { Component, OnInit,ViewChild } from '@angular/core';
-<<<<<<< HEAD
-import { ProvideReport } from 'src/app/_models/providereport';
 
-
-=======
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { ProvideReport } from 'src/app/_models/provide-report';
 import { select } from 'src/app/_helper/Constants/exp-consts';
 
->>>>>>> dev
 const ELEMENT_DATA: ProvideReport[] = [
   {
     Link: 'image', Telephone: '1977722725'
