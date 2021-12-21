@@ -9,6 +9,59 @@ import { TableItem } from 'src/app/_models/table-item';
 import { Component, OnInit,ViewChild } from '@angular/core';
 
 
+<<<<<<< Updated upstream
+=======
+const ELEMENT_DATA: ProvideReport[] = [
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+  {
+    Link: 'image', Telephone: '1977722725'
+  },
+];
+>>>>>>> Stashed changes
 
 const Items: Select[] = [
   { view: 'Telephone', viewValue: 'Telephone', default: true },
