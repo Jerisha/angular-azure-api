@@ -7,10 +7,9 @@ import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/_models/select';
 import { TableItem } from 'src/app/_models/table-item';
 import { Component, OnInit,ViewChild } from '@angular/core';
+import { ProvideReport } from 'src/app/_models/providereport';
 
 
-<<<<<<< Updated upstream
-=======
 const ELEMENT_DATA: ProvideReport[] = [
   {
     Link: 'image', Telephone: '1977722725'
@@ -61,7 +60,6 @@ const ELEMENT_DATA: ProvideReport[] = [
     Link: 'image', Telephone: '1977722725'
   },
 ];
->>>>>>> Stashed changes
 
 const Items: Select[] = [
   { view: 'Telephone', viewValue: 'Telephone', default: true },
