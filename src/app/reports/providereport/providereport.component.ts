@@ -5,11 +5,17 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { MatSelect } from '@angular/material/select';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/_models/select';
-import { TableItem } from 'src/app/_models/table-item';
 import { Component, OnInit,ViewChild } from '@angular/core';
+<<<<<<< HEAD
 import { ProvideReport } from 'src/app/_models/providereport';
 
 
+=======
+import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
+import { ProvideReport } from 'src/app/_models/provide-report';
+import { select } from 'src/app/_helper/Constants/exp-consts';
+
+>>>>>>> dev
 const ELEMENT_DATA: ProvideReport[] = [
   {
     Link: 'image', Telephone: '1977722725'
@@ -110,13 +116,7 @@ const Items: Select[] = [
 })
 export class ProvidereportComponent implements OnInit   {
 
-
-@Component({
-  selector: 'my-app',
-  templateUrl: './app.component.html',
-  styleUrls: [ './app.component.css' ]
-})
- 
+expDefault =select.default;
     public positionOptions: TooltipPosition[] = ['before']; // Tooltip postion  
     public position = new FormControl(this.positionOptions[0]);
     @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
@@ -135,7 +135,6 @@ export class ProvidereportComponent implements OnInit   {
   selChange(matSelect: MatSelect) {
     console.log(this.selMultiple.selectedValues)
     matSelect.options.forEach((item) => {
-      
       if (item.selected) {
         // if (!this.filtered.includes(item.value))
         //   this.filtered.push(item.value)
@@ -151,15 +150,28 @@ export class ProvidereportComponent implements OnInit   {
       }
     });
   }
- 
+
+  columns: ColumnDetails[] = [
+    { header: 'Link', headerValue: 'Link', showDefault: true, imageColumn: true },
+    { header: 'Telephone', headerValue: 'Telephone', showDefault: true, imageColumn: false },
+  ];
+
   ngOnInit(): void {
     this.createForm();
     this.listItems = Items;
+    this.myTable = {
+      data: ELEMENT_DATA,
+      Columns: this.columns,
+      filter: true,
+      selectCheckbox: false,
+      // colToSetImage: ['View'],
+      imgConfig: [{ headerValue: 'Link', icon: 'search', route: '' },]
+
+    }  
   }
 
 
   createForm() {
-
     this.myForm = new FormGroup({
       Telephone: new FormControl({ value: '', disabled: true },
         [
@@ -214,6 +226,8 @@ export class ProvidereportComponent implements OnInit   {
   selectData(): void {
     ''
   }
- 
+  onFormSubmit(): void { }
+  resetForm(): void { }
+
   
 }

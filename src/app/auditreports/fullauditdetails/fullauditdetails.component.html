@@ -1,9 +1,11 @@
 <mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
 
-        <app-select-multiple class="filter-sticky" border #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
-            (changes)="selChange($event)">
+        <div class="filter-sticky">
+        <app-select-multiple  #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
+            (changes)="selChange($event)"> 
         </app-select-multiple>
+    </div>
 
         <form [formGroup]="myForm">
             <div class="">
@@ -309,3 +311,5 @@
         </form>
     </mat-sidenav-content>
 </mat-sidenav-container>
+
+{{audit |json}}

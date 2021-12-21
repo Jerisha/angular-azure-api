@@ -1,39 +1,37 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-    
-     <mat-card >
-       <mat-card-content class="">
      <form >
        <div class= "mat-elevation-z8">
         <mat-icon matTooltip="Report Wildcard Selection" (click)="openDialog()">info</mat-icon> 
         <label >Wildcard Selection</label>
       <br>
-        <app-select-exp></app-select-exp> 
+      <!-- <app-select-exp [listItems]="expDefault" (click)="print($event)"></app-select-exp> -->
+        <app-select-exp [listItems]="expDefault"></app-select-exp> 
       <mat-form-field   appearance="outline">
        <mat-label>Telephone</mat-label>
        <input type="Telephone"  matInput> 
       </mat-form-field>
-      <app-select-exp></app-select-exp> 
+      <app-select-exp [listItems]="expDefault"></app-select-exp> 
      <mat-form-field  appearance="outline"> 
         <mat-label>Cust Name Full</mat-label>
        <input type="CustNameFull"  matInput> 
      </mat-form-field>
-     <app-select-exp></app-select-exp> 
+     <app-select-exp [listItems]="expDefault"></app-select-exp> 
      <mat-form-field  appearance="outline"> 
        <mat-label>Cupid</mat-label>
        <input type="Cupid"  matInput> 
      </mat-form-field>
-     <app-select-exp></app-select-exp> 
+     <app-select-exp [listItems]="expDefault"></app-select-exp> 
      <mat-form-field  appearance="outline"> 
        <mat-label>Address Line 1</mat-label>
        <input type="AddressLine1"  matInput> 
      </mat-form-field>
-     <app-select-exp></app-select-exp> 
+     <app-select-exp [listItems]="expDefault"></app-select-exp> 
      <mat-form-field  appearance="outline"> 
        <mat-label>Address Line 2</mat-label>
        <input type="AddressLine2"  matInput> 
      </mat-form-field>
-     <app-select-exp></app-select-exp> 
+     <app-select-exp [listItems]="expDefault"></app-select-exp> 
      <mat-form-field  appearance="outline"> 
        <mat-label>Postcode</mat-label>
        <input type="Postcode"  matInput> 
@@ -42,11 +40,11 @@
     </form>
 
     <form >
-      <div >
+      <div class= "mat-elevation-z8" >
     <mat-icon matTooltip="List Selection" (click)="openDialog()">info</mat-icon> 
     <label>List Selection</label> 
      <br>
-     <app-select-exp></app-select-exp> 
+     <app-select-exp [listItems]="expDefault"></app-select-exp> 
    <mat-form-field appearance="outline">
              <mat-label>Trans.Type</mat-label>
              <mat-select>
@@ -58,7 +56,7 @@
                  <mat-option>Modify</mat-option>
              </mat-select>
          </mat-form-field>
-         <app-select-exp></app-select-exp> 
+         <app-select-exp [listItems]="expDefault"></app-select-exp> 
              <mat-form-field appearance="outline">
                  <mat-label>Source.Sys</mat-label>
                  <mat-select>
@@ -84,9 +82,7 @@
             </div>
            
   </form>
-  
-</mat-card-content>
-</mat-card>
+
 
 </mat-sidenav>
 
@@ -100,11 +96,9 @@
       
     </div>
 
+    <app-table-selection [tableitem]="myTable"></app-table-selection>
 
-
-    
-<app-table-selection></app-table-selection>
-    <form>
+    <!-- <form>
       <div class="side-left-div">
         <mat-icon matTooltip="Report Wildcard Selection" (click)="openDialog()">info</mat-icon> 
        
@@ -138,7 +132,7 @@
       </app-select-multiple>
         </fieldset>
       </div>
-    </form>
+    </form> -->
   </mat-sidenav-content>
 </mat-sidenav-container>
 

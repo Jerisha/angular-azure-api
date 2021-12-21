@@ -5,6 +5,7 @@ import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { MaterialModule } from '../_shared/material/material.module';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
+import { BorderDirective } from '../_helper/directives/border.directive';
 
 
 
@@ -12,6 +13,7 @@ import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
   declarations: [
     SolicitederrorsComponent,
     UnsolicitederrorsComponent
+    //BorderDirective
     
   ],
   imports: [
