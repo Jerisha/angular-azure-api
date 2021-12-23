@@ -328,7 +328,7 @@
                                 Notification Data
                             </div>
 
-                            <div class="" style="display: inline-block;  ">
+                            <div>
                                 <table>
                                 <tr> 
                                     <td><b>Start Tel. No.</b></td> <td>{{element.notificationData.startTelNo}}</td>
@@ -443,6 +443,7 @@
         <td mat-cell *matCellDef="let element" [attr.colspan]="auditTrailInternalDisplay.length">
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                 
+                <div *ngIf="element.userComments ? false : true">No Records Found.</div>
                       <app-table [tableitem]="element.userComments"></app-table>
                     
                
@@ -539,8 +540,8 @@
         <td mat-cell *matCellDef="let element" [attr.colspan]="fullAuditTrailDisplay.length">
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                     
-                      <app-table [tableitem]="element.userComments" 
-                            ></app-table>
+                <div *ngIf="element.userComments ? false : true">No Records Found.</div>
+                      <app-table [tableitem]="element.userComments" ></app-table>
                     
                
             </div>
