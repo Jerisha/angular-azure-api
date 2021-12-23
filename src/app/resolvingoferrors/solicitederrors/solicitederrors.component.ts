@@ -130,13 +130,15 @@ export class SolicitederrorsComponent implements OnInit {
     this.myTable = {
       data: ELEMENT_DATA,
       Columns: this.columns,
-      // dataColumns: ['TranId', 'View', 'TelNo', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'ResType', 'ErrorList'],
-      // coulmnHeaders: ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res-Type', 'Error/List'],
       filter: true,
       selectCheckbox: true,
-      // colToSetImage: ['View'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '' },
       { headerValue: 'View', icon: 'description', route: '' }]
+      // dataColumns: ['TranId', 'View', 'TelNo', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'ResType', 'ErrorList'],
+      // coulmnHeaders: ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res-Type', 'Error/List'],
+     
+      // colToSetImage: ['View'],
+      
 
     }    // this.employeeForm = this.formbulider.group({
     //   FirstName: ['', [Validators.required]],

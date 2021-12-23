@@ -1,15 +1,21 @@
-<mat-form-field>
+
+<mat-form-field  appearance="outline" style="
+width:180px;height:70px;
+">
     
                 
-               
-  <mat-select #select (openedChange)="openedChange($event)" placeholder="Filters" [formControl]="selectFormControl"
+  <button matPrefix mat-icon-button aria-label="Clear">
+    <mat-icon >{{icon}}</mat-icon>
+  </button>
+  <mat-select  #select (openedChange)="openedChange($event)"  [formControl]="selectFormControl"
      multiple>
     <mat-select-trigger>
-      <mat-icon>{{icon}}</mat-icon>
-      {{selectFormControl.value ? selectFormControl.value[0] : ''}}
+      Filters
+      
+      <!-- {{selectFormControl.value ? selectFormControl.value[0] : ''}}
       <span *ngIf="selectFormControl.value?.length > 1" class="additional-selection">
         (+{{selectFormControl.value.length - 1}} {{selectFormControl.value?.length === 2 ? 'other' : 'others'}})
-      </span>
+      </span> -->
     </mat-select-trigger>
     <div class="select-container">
       <mat-optgroup>
@@ -38,4 +44,5 @@
 
 
 </mat-form-field>
+
 <!-- {{selectedValues | json}} -->
