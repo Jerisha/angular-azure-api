@@ -8,6 +8,62 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   color: white;
 }
 
+/* mat-select panel position start */
+.matselhorzPanel
+{
+  /*position: relative;
+  
+  min-width: calc(100% + 902px) !important;
+  max-width: 100% !important;
+  
+  margin-left: auto;
+  display: flex;
+  flex-direction: inherit;
+  overflow: auto; */
+
+  top: 26px;
+  position:absolute;
+  pointer-events:auto;
+  box-sizing:border-box;
+  /* z-index:1000; */
+  display:flex;
+  flex-flow: wrap;
+  min-width: calc(100% + 946px) !important;  
+ max-height: calc(100% + 250px) !important;
+ height: auto;
+ width: auto;
+ transform: translateX(32px) !important; 
+}
+
+.matselrgtPanel
+{
+  /*position: relative;
+  
+  min-width: calc(100% + 902px) !important;
+  max-width: 100% !important;
+  
+  margin-left: auto;
+  display: flex;
+  flex-direction: inherit;
+  overflow: auto; 
+    top: 26px;*/
+
+
+  position:absolute;
+  pointer-events:auto;
+  box-sizing:border-box;
+  /* z-index:1000; */
+  /* display:flex;
+  flex-flow: wrap;
+  min-width: calc(100% + 946px) !important;  
+  width: auto; */
+  max-height: calc(100% + 480px) !important;
+ /* height: auto; */ 
+ transform: translateX(840px) !important;
+}
+/* mat-select panel position ends */
+
+
 /* app-select-multiple - filter Starts */
 
 /* to set background color for matselect */
@@ -147,8 +203,9 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 
 .filter-sticky
 {
+
   margin-left: 20px;
-  position: sticky;
+    position:sticky;
   top:0;  
   /* background-color:#EFEFEF; */
 }

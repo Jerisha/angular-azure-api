@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Select } from 'src/app/_models/select';
 import { SolicitedErrors } from 'src/app/_models/solicited-errors';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 
@@ -113,7 +115,14 @@ export class SolicitederrorsComponent implements OnInit {
   isFeMale = false;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
+  errorCodesOptions!: Observable<any[]>;
+  errorCodeData: Select[] =[ 
+    {    view:'101',viewValue:'101', default:true  },
+    {    view:'202',viewValue:'202', default:true  },
+    {    view:'303',viewValue:'303', default:true  },
+  ];
+  errorCode = new FormControl();
+  
   columns: ColumnDetails[] = [
     { header: 'Tran.Id', headerValue: 'TranId', showDefault: true, imageColumn: false },
     { header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },
@@ -127,6 +136,7 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, imageColumn: false },
   ];
   ngOnInit(): void {
+    this.setOptions();
     this.myTable = {
       data: ELEMENT_DATA,
       Columns: this.columns,
@@ -155,6 +165,22 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
 
+  setOptions()
+  {
+    this.errorCodesOptions = this.errorCode.valueChanges
+      .pipe(
+        startWith<string>(''),
+        map(name => this._filter(name))
+      );
+  }
+
+  private _filter(name: string): any[] {
+    const filterValue = name.toLowerCase();
+    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    // return filteredList;
+    let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
+    return filteredList;
+  }
   onFormSubmit(): void { }
   resetForm(): void { }
 

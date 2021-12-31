@@ -4,27 +4,24 @@ font-size: smaller;  ">
   <input [(ngModel)]="fltvalue" #Input matInput (keyup)="applyFilter()" name="fltvalue" placeholder="Filter">
 </mat-form-field> -->
 
-<mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 4px; ">
-  <mat-label>Column Headers</mat-label>
-  <mat-select #select multiple>
-
-    <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns()" matTooltip="Submit">
-      <!-- <mat-icon>play_arrow</mat-icon> -->
-      Submit
-    </button>
-    <div class="select-all">
-      <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
-        Select All</mat-checkbox>
-    </div>
-
+<mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 0px; ">
+  <mat-select #select multiple  placeholder="Column Headers" disableOptionCentering panelClass="matselhorzPanel">
+    <mat-optgroup>      
+        <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
+          Select All</mat-checkbox>      
+    </mat-optgroup>
     <mat-option color="primary"  (click)="optionClick()" *ngFor="let cols of (this.tableitem?.Columns || []); let fltIndex = index"
       [value]="cols.headerValue">
       {{ cols.header }}
     </mat-option>
-   
+    <mat-optgroup>  
+    <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns()" matTooltip="Submit">
+      <!-- <mat-icon>play_arrow</mat-icon> -->
+      Submit
+    </button>
+  </mat-optgroup>  
   </mat-select>
 </mat-form-field>
-
 
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
 <div class="table-container">
