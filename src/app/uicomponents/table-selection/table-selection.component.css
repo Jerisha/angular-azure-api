@@ -14,18 +14,13 @@ th.mat-sort-header-sorted {
   color: white;
   /* width: auto;
   height: fit-content; */
-  font-size:small;
+  font-size:small; 
 }
+
 .mat-header-row{
   height: 30px;
 }
-.mat-cell {
-  font-size: 14px;
-  min-height: 48px;
-  text-align: center;
-  /* border-right: 1px solid black;
-  border-bottom: 1px solid black; */
-}
+
 
 .mat-cell{
   font-size:small;
@@ -41,8 +36,6 @@ th.mat-sort-header-sorted {
   height: 0px;
   width:auto;
 }
-
-
 
 .table-container {
   height: 350px;

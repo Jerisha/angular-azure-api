@@ -4,6 +4,13 @@ font-size: smaller;  ">
   <input [(ngModel)]="fltvalue" #Input matInput (keyup)="applyFilter()" name="fltvalue" placeholder="Filter">
 </mat-form-field> -->
 
+<!-- <button mat-raised-button color="primary" (click)="pagesidenav.toggle()"
+matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+<mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+</button> -->
+<button  class="slidderbtn" mat-basic-button color="primary" >
+<mat-icon>keyboard_arrow_left</mat-icon>
+</button>
 <mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 0px; ">
   <mat-select #select multiple  placeholder="Column Headers" disableOptionCentering panelClass="matselhorzPanel">
     <mat-optgroup>      
