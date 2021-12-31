@@ -1,6 +1,27 @@
 button{
     margin-left: 25px;
 }
-/* .example-full-width {
-    width: 10%;
-  } */
+
+table {
+  
+    border-collapse: collapse;
+    /* width: 100%; */
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  .cRepTitle{
+      background-color: lightblue;
+      padding-left: 4px;
+  }
+
+  .tablediv{
+      overflow: auto;
+      
+
+  }
+

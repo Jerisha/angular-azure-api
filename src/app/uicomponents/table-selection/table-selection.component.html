@@ -34,12 +34,13 @@ font-size: smaller;  ">
       <!-- Checkbox Column -->
       <div *ngIf="disCol.headerValue === 'Select'">
         <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+          <mat-checkbox style="margin-right:20px;"(change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="logSelection($event) ? selection.toggle(row) : null"
+          <mat-checkbox  style="margin-right:20px;" (click)="$event.stopPropagation()" (change)="selectRow($event,row)"
+          (change)="$event ? selection.toggle(row) : null"
             [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </td>
@@ -58,14 +59,13 @@ font-size: smaller;  ">
       <!-- Other Columns -->
       <div *ngIf="disCol.headerValue != 'Select' && !disCol.imageColumn">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{disCol.header}}</th>
-        <td mat-cell *matCellDef="let element "> {{element[disCol.headerValue]}} </td>
+        <td  mat-cell *matCellDef="let element "> {{element[disCol.headerValue]}} </td>
       </div>
 
     </ng-container>
 
-
     <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: dataColumns;" (click)="selection.toggle(row)"> </tr>
+    <tr  mat-row *matRowDef="let row; columns: dataColumns;"  (change)="selectRow($event,row)" (click)="selection.toggle(row)"> </tr>
   </table>
 </div>
 

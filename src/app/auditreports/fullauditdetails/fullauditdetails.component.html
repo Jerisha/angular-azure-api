@@ -1,16 +1,12 @@
 <mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-
-        <div class="filter-sticky">
-        <app-select-multiple  #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
-            (changes)="selChange($event)"> 
-        </app-select-multiple>
-    </div>
-
+        <div class="filter-sticky filterposition">
+            <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
+                (changes)="setControlAttribute($event)">
+            </app-select-multiple>
+        </div>
         <form [formGroup]="myForm">
             <div class="">
-               
-                    
                 <mat-form-field [ngClass]="{'hidden':myForm.controls.TelNoStart.disabled}" hintLabel="Max 10 characters"
                     appearance="outline">
                     <mat-label>Tel.No Start</mat-label>
@@ -18,8 +14,8 @@
                         placeholder="Tel.No Start" style="margin-right: 24%;">
                     <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
                 </mat-form-field>
-               
-                
+
+
                 <mat-form-field [ngClass]="{'hidden':myForm.controls.TelNoEnd.disabled}" hintLabel="Max 10 characters"
                     appearance="outline">
                     <mat-label>Tel.No End</mat-label>
@@ -203,33 +199,20 @@
         </form>
     </mat-sidenav>
 
-    <mat-sidenav-content class="side-content">
-        <!-- <mat-toolbar class="page-header"
-        style="margin-top:5px;margin-bottom:5px; height: 32px;;box-shadow: 0 3px 5px -1px rgba(207, 27, 27, 0.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
-        <div align="left" style="text-align: right; font-size:medium;">
-            Full Audit Details
-        </div>
-    </mat-toolbar> -->
-
-        <div class="page-header">
+    <mat-sidenav-content class="side-content">      
+        <div class="page-header" style="height: 28px;">
             <button mat-basic-button color="primary" (click)="pagesidenav.toggle()"
                 matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
                 <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
             </button>
             <div style="margin: 5px; float: left;"> Audit Reports > Full Audit Details</div>
         </div>
-        <app-table-selection [tableitem]="myTable"></app-table-selection>
+        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"></app-table-selection>
         <form>
-
             <div class="mat-elevation-z8 side-bottom">
                 <div class="side-left-div">
                     <select class="res-select" Name="Name_of_list_box" size="4">
-                        <option> List item 1 </option>
-                        <option> List item 2 </option>
-                        <option> List item 3 </option>
-                        <option> List item N </option>
-                        <option> List item 3 </option>
-                        <option> List item N </option>
+                        <option *ngFor="let list of selectListItems"> {{list}} </option>
                     </select>
 
                     <div class="res-save-div">
@@ -311,5 +294,3 @@
         </form>
     </mat-sidenav-content>
 </mat-sidenav-container>
-
-{{audit |json}}

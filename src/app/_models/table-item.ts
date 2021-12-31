@@ -9,6 +9,7 @@ export interface TableItem {
     // colToSetImage?: string[];
     colToHighlight?: string[];
     colToHighlightInnerText?: string[];
+    selectionColumn?:string
     
     
 }
@@ -22,8 +23,8 @@ export interface ViewColumn {
 export interface ColumnDetails {
     header: string;
     headerValue: string;
-    showDefault: boolean;
-    imageColumn: boolean;
+    showDefault?: boolean;
+    imageColumn?: boolean;
 }
 
 
