@@ -119,13 +119,13 @@
       <div style="margin: 5px; float: left;"> Resolving Of Errors > Solicited Errors</div>
     </div>
 
-    <app-table-selection [tableitem]="myTable"></app-table-selection>
+    <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"></app-table-selection>
 
     <form>
 
       <div class="mat-elevation-z8 side-bottom">
         <div class="side-left-div">
-          <select class="res-select" Name="Name_of_list_box" size="4"
+          <!-- <select class="res-select" Name="Name_of_list_box" size="4"
             >
             <option> List item 1 </option>
             <option> List item 2 </option>
@@ -133,8 +133,10 @@
             <option> List item N </option>
             <option> List item 3 </option>
             <option> List item N </option>
-          </select>
-
+          </select> -->
+          <select class="res-select" Name="Name_of_list_box" size="4">
+            <option *ngFor="let list of selectListItems"> {{list}} </option>
+        </select>
           <div class="res-save-div">
             <mat-form-field appearance="outline">
               <mat-label>Res.Type</mat-label>

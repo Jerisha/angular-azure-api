@@ -15,6 +15,7 @@ import {
   
  
 } from './index';
+import { TableGroupHeaderComponent } from './table-group-header/table-group-header.component';
 
 
 
@@ -28,7 +29,8 @@ import {
     SelectMultipleComponent,
     SelectSingleComponent,
     SelectExpressionComponent,
-    SelectSingleComponent
+    SelectSingleComponent,
+    TableGroupHeaderComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import {
   ],
   exports: [
     TableSelectionComponent,
+    TableGroupHeaderComponent,
     TopNavComponent,
     MenuListComponent,
     TableComponent,

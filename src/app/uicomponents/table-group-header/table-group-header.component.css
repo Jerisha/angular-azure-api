@@ -1,5 +1,6 @@
 table
-{    width:100%;
+{
+    width:100%;
 }
 th {
   background-color: #e60000;
@@ -92,13 +93,70 @@ th.mat-sort-header-sorted {
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 8%;
-  /* float:right; */
+  float:right;
   top: 0px;
   position: sticky;
-  /* z-index: 10; */
+  z-index: 10;
   height: 25px;
   /* margin-top: 3px; */
 }
 
+th.mat-header-cell {
+  text-align: center;
+  border: 0.5px  #EFEFEF;
+  padding: 0 !important;
+
+}
 
 
+
+
+ 
+
+
+
+/* table {
+    width: 100%;
+  }
+  
+  th.mat-header-cell, td.mat-cell {
+      text-align: center;
+      border: 1px solid black;
+      padding: 0 !important;
+    
+  }
+
+  .tablediv{
+    overflow: auto;   
+
+}
+th {
+    background-color: gray;
+    color:white;
+  }
+  
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+  
+  .mat-header-cell {
+    color: black;
+  
+    font-size:small;
+  }
+  .mat-header-row{
+    height: 30px;
+  }
+  .mat-cell {
+    font-size:small;
+    min-height: 48px;
+    text-align: center;
+    
+}
+  
+  
+  .mat-row {
+    height: 10px;
+  }
+
+ */

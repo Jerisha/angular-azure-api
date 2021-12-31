@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -22,6 +22,7 @@ export class TableSelectionComponent {
   @ViewChild('select') select!: MatSelect;
   allSelected = true;
   selection = new SelectionModel<any>(true, []);
+  @Output() rowChanges = new EventEmitter<any>();
   dataSource!: MatTableDataSource<any>;
   selectedrows: any;
   ColumnDetails!: ColumnDetails[];
@@ -31,6 +32,8 @@ export class TableSelectionComponent {
   columnFilter?: boolean = false;
   imgList?: ViewColumn[];
   imgColumns?: string[];
+  selectColumn: string = '';
+  selectedTelnos: string[] = [];
 
   constructor(private cdr: ChangeDetectorRef) { }
   ngOnInit() {
@@ -44,6 +47,7 @@ export class TableSelectionComponent {
       this.ColumnDetails.unshift(selItem);
       //this.dataColumns = this.tableitem?.dataColumns ? ['Select'].concat(this.tableitem?.dataColumns) : undefined;
       this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
+      this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';
       //this.columnHeaders = this.tableitem?.coulmnHeaders ? ['Select'].concat(this.tableitem?.coulmnHeaders) : undefined;
     } else {
       this.dataColumns = this.tableitem?.Columns?.map((e) => e.headerValue);// this.tableitem?.dataColumns;
@@ -58,6 +62,11 @@ export class TableSelectionComponent {
     this.cdr.detectChanges();
   }
 
+  selectRow(event: any, row: any) {
+    debugger;
+    this.rowChanges.emit([row[this.selectColumn]]);
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -67,9 +76,15 @@ export class TableSelectionComponent {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
+    if (this.isAllSelected()) {
+      this.selection.clear()
+      this.selectedTelnos = [];
+    }
+    else {
       this.dataSource.data.forEach(row => this.selection.select(row));
+      this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
+    }
+    this.rowChanges.emit(this.selectedTelnos);
   }
 
   applyFilter() {

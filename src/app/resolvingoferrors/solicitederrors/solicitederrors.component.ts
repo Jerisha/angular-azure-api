@@ -106,6 +106,7 @@ export class SolicitederrorsComponent implements OnInit {
   employeeForm: any;
   employeeIdUpdate = null;
   massage = null;
+  selectListItems: string[] = [];
 
   CountryId = null;
   StateId = null;
@@ -142,6 +143,7 @@ export class SolicitederrorsComponent implements OnInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      selectionColumn:'TranId',
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '' },
       { headerValue: 'View', icon: 'description', route: '' }]
       // dataColumns: ['TranId', 'View', 'TelNo', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'ResType', 'ErrorList'],
@@ -183,5 +185,24 @@ export class SolicitederrorsComponent implements OnInit {
   }
   onFormSubmit(): void { }
   resetForm(): void { }
+
+  rowDetect(item: any) {
+    //debugger;
+    if (item.length == 0) {
+      this.selectListItems = [];
+    } else {
+      item.forEach((el: string) => {
+        if (!this.selectListItems.includes(el)) {
+          this.selectListItems.push(el)
+        }
+        else {
+          if (this.selectListItems.includes(el)) {
+            let index = this.selectListItems.indexOf(el);
+            this.selectListItems.splice(index, 1)
+          }
+        }
+      });
+    }
+  }
 
 }
