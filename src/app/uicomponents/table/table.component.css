@@ -14,6 +14,7 @@ th.mat-sort-header-sorted {
   color: white;
   width: auto;
   font-size:smaller;  
+  text-align: center;
 }
 .mat-header-row,.mat-row {
   height: 10px;

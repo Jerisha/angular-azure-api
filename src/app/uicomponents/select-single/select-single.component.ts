@@ -16,9 +16,11 @@ export class SelectSingleComponent implements OnInit {
 
   @ViewChild('select') select!: MatSelect;
   @ViewChild('search') searchTextBox!: ElementRef;
+
+  
   @Input() listItems!: Select[];
   @Output() changes = new EventEmitter<MatSelect>();
-
+  myControl = new FormControl();
   selectFormControl = new FormControl();
   searchTextboxControl = new FormControl();
   filteredOptions!: Observable<any[]>;
@@ -31,7 +33,7 @@ export class SelectSingleComponent implements OnInit {
     /**
     * Set filter event based on value changes 
     */
-    this.filteredOptions = this.searchTextboxControl.valueChanges
+    this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith<string>(''),
         map(name => this._filter(name))
