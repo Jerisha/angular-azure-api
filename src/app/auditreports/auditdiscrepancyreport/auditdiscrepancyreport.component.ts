@@ -278,8 +278,8 @@ export class AuditdiscrepancyreportComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
     this.ColumnDetails = [
-      { Headers: 'ACT ID', DataHeaders: 'ACTID', rowspan: "3", colspan: "1" },
-      { Headers: 'Source System', DataHeaders: 'SourceSystem', rowspan: "3", colspan: "1" },
+      { Headers: 'ACT ID', DataHeaders: 'ACTID', rowspan: "2", colspan: "1" },
+      { Headers: 'Source System', DataHeaders: 'SourceSystem', rowspan: "2", colspan: "1" },
       { Headers: 'BA-BT Only - Source Active', DataHeaders: 'BABTOnlySourceActive', rowspan: "1", colspan: "1" },
       { Headers: 'BN-BT Only - Source Not Found', DataHeaders: 'BNBTOnlySourceNotFound', rowspan: "1", colspan: "1" },
       { Headers: 'BC-BT Only - Source Cease', DataHeaders: 'BCBTOnlySourceCease', rowspan: "1", colspan: "1" },
