@@ -373,8 +373,8 @@ export class FullauditdetailsComponent implements OnInit {
 
   ngOnDestroy() {
     this.destroy$.next(true);
-    debugger;
-    console.log('destroying')
+    //debugger;
+    //console.log('destroying')
     // Unsubscribe from the subject
     this.destroy$.unsubscribe();
   }

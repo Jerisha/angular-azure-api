@@ -105,9 +105,9 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   {   
     background-color:#EFEFEF;
     color: #e60000;
-    margin:5px;
-    /* text-align: left; */
-    font-size:small ;
+    margin: 2px;
+    font-size:small;
+    display: flex;
   }
   .slidderbtn{
     float: left;

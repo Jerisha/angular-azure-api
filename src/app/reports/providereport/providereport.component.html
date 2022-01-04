@@ -87,14 +87,7 @@
 </mat-sidenav>
 
   <mat-sidenav-content class="side-content">
-    <div class="page-header">
-      <button mat-basic-button color="primary" (click)="pagesidenav.toggle()"
-        matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
-        <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-      </button>
-      <div style="margin: 5px; float: left;"> Reports > Provide Reports</div>
-      
-    </div>
+  
 
     <app-table-selection [tableitem]="myTable"></app-table-selection>
 
