@@ -1,0 +1,30 @@
+
+<mat-card class="mat-elevation-z8">
+    <mat-card-content>
+        <form (ngSubmit)="onFormSubmit()">
+            <div class="example-container mat-elevation-z8 center">
+                <br>
+              <mat-form-field hintLabel="Max 10 characters" appearance="outline">
+                <mat-label>Tel.No Start</mat-label>
+                <input matInput #input1 maxlength="10" placeholder="Tel.No Start">
+                <mat-hint align="end">{{input1.value?.length || 0}}/10</mat-hint>
+              </mat-form-field>
+              <mat-form-field hintLabel="Max 10 characters" appearance="outline">
+                <mat-label>Tel.No End</mat-label>
+                <input matInput #input2 maxlength="10" placeholder="Tel.No End">
+                <mat-hint align="end">{{input2.value?.length || 0}}/10</mat-hint>
+              </mat-form-field>
+              
+              <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+                <mat-icon>search</mat-icon>Search
+              </button>
+              <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
+                <mat-icon>refresh</mat-icon>Reset
+              </button>
+
+            </div>
+            
+            <app-table-selection #table1 [tableitem] = "myTable"></app-table-selection>
+        </form>
+    </mat-card-content>
+</mat-card>
