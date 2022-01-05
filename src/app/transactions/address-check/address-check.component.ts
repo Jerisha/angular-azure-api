@@ -1,10 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-export interface Tile1 {
-  color: string;
-  cols: number;
-  rows: number;
-  text: string;  
-}
 export interface Tile {  
   text: string;
   class:string;
@@ -103,14 +97,6 @@ export class AddressCheckComponent implements OnInit {
   ReturnAddress()
   {
     window.alert("Return Address");
-  }
-  Help()
-  {
-    window.alert("Help");
-  }
-  Print()
-  {
-    window.alert("Print");
-  }
+  }  
 
 }
