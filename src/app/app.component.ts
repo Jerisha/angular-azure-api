@@ -2,9 +2,7 @@ import { Component, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit } fr
 import { VERSION } from '@angular/material/core';
 import { NavItem } from './_models/nav-item';
 import { NavService } from './_services/nav.services';
-import *  as  menu from '../assets/menu.json';
-import { MenuListComponent } from './uicomponents';
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import * as  menu from '../assets/menu.json';
 
 const MENU_SOURCE = (menu as any).default;
 @Component({
@@ -15,16 +13,13 @@ const MENU_SOURCE = (menu as any).default;
 })
 export class AppComponent implements AfterViewInit {
   //title = 'OSN';
-  @ViewChild('appDrawer')
-
-
-  appDrawer!: ElementRef;
+  @ViewChild('appDrawer')  appDrawer!: ElementRef;
   version = VERSION;
   strSearch: string = '';
   mainmenu: any;
   navItems: NavItem[] = MENU_SOURCE;
   menuSelected: string = '';
-  baseRoot = '';
+  baseRoot = 'Home';
   childRoot: any;
   constructor(private navService: NavService) {
   }

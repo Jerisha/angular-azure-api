@@ -12,6 +12,7 @@ import { UicomponentsModule } from '../uicomponents/uicomponents.module';
     SharedRoutingModule,
     MaterialModule,
     UicomponentsModule
-  ]
+  ],
+  exports :[TelephoneAuditTrailComponent]
 })
 export class SharedModule { }
