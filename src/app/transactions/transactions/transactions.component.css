@@ -51,17 +51,17 @@
     /* box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12); */
     box-shadow: inset 3px 2px 5px 1px rgb(0 0 0 / 20%), 0 1px 3px 0 rgb(0 0 0 / 14%), 0 0.5px 3px 0 rgb(0 0 0 / 12%);
 }
-:host ::ng-deep div.mat-tab-label {
-  /* background-color: #e60000; */
+/* :host ::ng-deep div.mat-tab-label {
+  
   background-color: #009de6;
-  /* background-color: #cfc2c2; */
+  
     color:white;
-    /* box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12); */
+    
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
-    /* box-shadow: inset 3px 2px 5px 1px rgb(0 0 0 / 20%), 0 1px 3px 0 rgb(0 0 0 / 14%), 0 0.5px 3px 0 rgb(0 0 0 / 12%); */
+    
 
-}
+} */
 .mat-form-field-appearance-outline .mat-form-field-infix {
   /* padding: 1em 0 1em 0; */
   padding-top: 2px;
@@ -94,10 +94,10 @@
 /* :host ::ng-deep.mat-ripple mat-tab-list mat-tab-labels mat-tab-label mat-focus-indicator mat-tab-label-active ng-star-inserted{
   height: 30px !important;
 } */
-:host ::ng-deep .mat-tab-list{
+/* :host ::ng-deep .mat-tab-list{
   height: 30px !important;
 }
 :host ::ng-deep .mat-tab-label{
   height: 30px !important;
   color: rgb(11, 11, 158);
-}
+} */
