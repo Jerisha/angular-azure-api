@@ -1,6 +1,5 @@
 table
-{
-    width:100%;
+{    width:100%;
 }
 th {
   background-color: #e60000;
@@ -13,18 +12,31 @@ th.mat-sort-header-sorted {
 
 .mat-header-cell {
   color: white;
-  width: auto;
-  font-size:medium;
-  
+  /* width: auto;
+  height: fit-content; */
+  font-size:small; 
 }
-.mat-header-row
-{
-  min-height: 20px;
+
+.mat-header-row{
+  height: 30px;
 }
+
+
+.mat-cell{
+  font-size:small;
+}
+
 .mat-row {
   height: 10px;
 }
 
+.table-icon{
+  cursor: pointer; 
+  font-size: 18px;
+  height: 0px;
+  width:auto;
+  color: #e60000;
+}
 
 .table-container {
   height: 350px;
@@ -74,16 +86,13 @@ th.mat-sort-header-sorted {
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 8%;
-  float:right;
+  /* float:right; */
   top: 0px;
   position: sticky;
-  z-index: 10;
+  /* z-index: 10; */
   height: 25px;
   /* margin-top: 3px; */
 }
 
 
-
-
- 
 

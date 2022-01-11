@@ -1,4 +1,4 @@
-<mat-form-field>
+<!-- <mat-form-field>
   <mat-select #select (openedChange)="openedChange($event)" placeholder="Select" [formControl]="selectFormControl">
     <div class="select-container">
       <mat-optgroup>
@@ -20,4 +20,19 @@
     </div>
   </mat-select>
 </mat-form-field>
-<!-- {{select.value}} -->
+{{select.value}} -->
+<mat-form-field  appearance="fill">
+  <mat-label>Select</mat-label>
+  <input
+    type="text"
+    placeholder="type to find"    
+    matInput
+    [formControl]="myControl"
+    [matAutocomplete]="auto"
+  />
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.viewValue">
+      {{option.view}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

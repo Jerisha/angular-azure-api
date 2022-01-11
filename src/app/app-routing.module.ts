@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'resolvingoferrors',
     loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule)
+  },  
+  {
+    path: 'transactions',
+    loadChildren: () => import('./transactions/transactions-routing.module').then(x => x.TransactionsRoutingModule)
   },
   {
     path: 'auditreports',
@@ -27,7 +31,11 @@ const routes: Routes = [
   {
     path: 'reports',
     loadChildren: () => import('./reports/reports.module').then(x => x.ReportsModule)
-  }
+  },
+{
+path: 'statisticalreports',
+loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule)
+}
 ];
 
 @NgModule({

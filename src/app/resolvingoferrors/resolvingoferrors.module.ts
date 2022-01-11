@@ -5,13 +5,17 @@ import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { MaterialModule } from '../_shared/material/material.module';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
+import { BorderDirective } from '../_helper/directives/border.directive';
+import { SharedModule } from '../_shared/shared.module';
 
 
 
 @NgModule({
   declarations: [
     SolicitederrorsComponent,
-    UnsolicitederrorsComponent
+    UnsolicitederrorsComponent,
+  
+    //BorderDirective
     
   ],
   imports: [
@@ -20,7 +24,8 @@ import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
     UicomponentsModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class ResolvingoferrorsModule { }

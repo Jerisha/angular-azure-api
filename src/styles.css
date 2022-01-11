@@ -1,29 +1,123 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: small;}
 
 .mat-toolbar.mat-primary {
   background: #e60000;
   color: white;
 }
 
+/* mat-select panel position start */
+.matselhorzPanel
+{
+  /*position: relative;
+  
+  min-width: calc(100% + 902px) !important;
+  max-width: 100% !important;
+  
+  margin-left: auto;
+  display: flex;
+  flex-direction: inherit;
+  overflow: auto; */
+
+  top: 26px;
+  position:absolute;
+  pointer-events:auto;
+  box-sizing:border-box;
+  /* z-index:1000; */
+  display:flex;
+  flex-flow: wrap;
+  min-width: calc(100% + 946px) !important;  
+ max-height: calc(100% + 250px) !important;
+ height: auto;
+ width: auto;
+ transform: translateX(32px) !important; 
+}
+
+.matselrgtPanel
+{
+  /*position: relative;
+  
+  min-width: calc(100% + 902px) !important;
+  max-width: 100% !important;
+  
+  margin-left: auto;
+  display: flex;
+  flex-direction: inherit;
+  overflow: auto; 
+    top: 26px;*/
+
+
+  position:absolute;
+  pointer-events:auto;
+  box-sizing:border-box;
+  /* z-index:1000; */
+  /* display:flex;
+  flex-flow: wrap;
+  min-width: calc(100% + 946px) !important;  
+  width: auto; */
+  max-height: calc(100% + 480px) !important;
+ /* height: auto; */ 
+ transform: translateX(840px) !important;
+}
+/* mat-select panel position ends */
+
+
+/* app-select-multiple - filter Starts */
+
+/* to set background color for matselect */
+app-select-multiple .mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
+  background-color: #EFEFEF;
+  height: 45px;
+}
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+/* to change border color on hover */
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #EFEFEF;
+  border:0
+}
+
+/* to change border color after selection */
+app-select-multiple .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  color: #EFEFEF;
+  border:0
+}
+/* app-select-multiple .mat-focused{
+  color: green;
+} */
+
+/* to adjust padding space between value and v icon */
+app-select-multiple  .mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 1.50em 0 0.75em;
+}
+
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0px;
+}
+/* app-select-multiple - filter Ends */
+
 /* side-nav-page-header starts */
 .page-header
   {   
     background-color:#EFEFEF;
     color: #e60000;
-    margin:5px;
-    /* text-align: left; */
-    font-size:15px ;
+    margin: 2px;
+    font-size:small;
+    display: flex;
   }
-  .page-header button{
+  .slidderbtn{
     float: left;
     border:none;
    /* border:1px solid #e60000; */
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 12%;
+    font-size: small;
+    margin: 5px;
   }
  /* side-nav-page-header ends */
 
@@ -110,9 +204,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .filter-sticky
 {
-  position: sticky;
-  top:0;
-  background-color:#EFEFEF;
+
+  margin-left: 20px;
+    position:sticky;
+  top:0;  
+  /* background-color:#EFEFEF; */
 }
 .res-save-div
 {
@@ -142,7 +238,7 @@ margin-left: 200px;
   width: 170px;
 }
 
-.side-left-div .side-textarea{
+.side-bottom .side-left-div .side-textarea{
   /* background-color: lawngreen!important; */
   width: 360px;
   font-size: smaller;  
