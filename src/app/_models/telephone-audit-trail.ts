@@ -2,7 +2,7 @@ export interface TelephoneAuditTrail {
     liveRecord?: LiveRecord;
     unsolicitedDetails?: UnsolicitedDetails[];
     transactionDetails?: TransactionDetails[];
-    auditDetails: AuditDetails;
+    auditDetails?: AuditDetails;
 }
 
 export interface UnsolicitedDetails {
