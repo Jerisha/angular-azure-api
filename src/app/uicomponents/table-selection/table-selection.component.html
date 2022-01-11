@@ -62,8 +62,10 @@ font-size: smaller;  ">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{disCol.header}}</th>
         <td  mat-cell *matCellDef="let element "> {{element[disCol.headerValue]}} </td>
       </div>
+      
+    </ng-container>  
 
-    </ng-container>
+   
 
     <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
     <tr  mat-row *matRowDef="let row; columns: dataColumns;"  (change)="selectRow($event,row)" (click)="selection.toggle(row)"> </tr>

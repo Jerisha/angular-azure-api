@@ -1,19 +1,37 @@
-<mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">        
-    <mat-tab label="Main">
-      <app-transactions-views 
-      (AuditTrailSelected)="OnAuditTrailSelected($event)"
-      (AddressCheckSelected)="OnAddressCheckSelected($event)"
-      ></app-transactions-views>
-    </mat-tab>
-    <!-- <mat-tab label="Addr. Check" *ngIf="addressCheckSuccess">       -->
-      <mat-tab label="Addr. Check" >    
-        <app-address-check></app-address-check>     
-    </mat-tab>
-    <mat-tab label="Audit Trail">
-      <!-- <mat-tab label="Audit Trail" *ngIf="auditTrailSuccess" ></mat-tab> -->
-      <!-- <div class="example-large-box mat-elevation-z4">
-        Large content
-      </div> -->
-  <app-telephone-audit-trail></app-telephone-audit-trail>
-    </mat-tab>
-</mat-tab-group>
+<!-- <mat-toolbar class ="docs-primary-header component-page-header"> -->
+  
+<div style="font-size: 12px;color:slategray;padding-left:1%;margin-block:0;">Transactions > Transactions</div>
+<div class ="wrap">
+    <div class ="left-box">
+        <ng-container>
+              <app-transactions-views 
+                (AuditTrailSelected)="OnAuditTrailSelected($event)"
+                (AddressCheckSelected)="OnAddressCheckSelected($event)"
+                (ResetTabs)="OnResetTabs($event)"
+                  ></app-transactions-views>
+          </ng-container>
+      </div>
+    <div class ="right-box" *ngIf ="addressCheckSuccess||auditTrailSuccess">
+          <mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex" >        
+              <!-- <mat-tab label="Main"> 
+                </mat-tab> -->
+              <mat-tab label="Address Check" *ngIf="addressCheckSuccess" isActive="addCheckState">  
+              <!-- <mat-tab label="Address Check" >  -->
+                    <ng-container> 
+                        <app-address-check></app-address-check> 
+                      </ng-container>    
+                  </mat-tab>    
+              <mat-tab label="Audit Trail" *ngIf="auditTrailSuccess" isActive="auditTrailState" >
+                  <ng-container>
+                      <div><app-telephone-no
+                      (TelephoneNoSelected)="OnTelephoneNoSelected($event)"
+                      ></app-telephone-no>
+                    </div>
+                    <div>
+                      <app-telephone-audit-trail></app-telephone-audit-trail>
+                    </div>
+                    </ng-container>
+                </mat-tab>
+            </mat-tab-group>
+      </div>      
+  </div>
