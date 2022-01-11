@@ -103,7 +103,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 /* side-nav-page-header starts */
 .page-header
   {   
-    /* background-color:#EFEFEF; */
+    background-color:#EFEFEF;
     color: #54575a;
     margin: 2px;
     font-size:small;
@@ -117,7 +117,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
     color:  #EFEFEF;
     border-radius: 12%;
     font-size: small;
-    margin: 5px;
+    margin: 2px;
   }
  /* side-nav-page-header ends */
 
