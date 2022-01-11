@@ -255,9 +255,9 @@ export class FullauditdetailsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn:'TelNo',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '' },
-      { headerValue: 'View', icon: 'description', route: '' },
-      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '' }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 },
+      { headerValue: 'View', icon: 'description', route: '',tabIndex:2 },
+      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '' ,tabIndex:3}]
       // dataColumns: ['TelNo', 'View', 'OSN2Source', 'Source', 'ACTID',
       //   'RangeReport', 'InflightOrder', 'CUPID', 'BatchId', 'ExternalCLIStatus', 'FullAuditCLIStatus',
       //   'Monthly Refresh Flag', 'Resolution Type', 'SourceSystemStatus', 'MoriCircuitStatus', 'SwitchStatus',
@@ -373,8 +373,8 @@ export class FullauditdetailsComponent implements OnInit {
 
   ngOnDestroy() {
     this.destroy$.next(true);
-    debugger;
-    console.log('destroying')
+    //debugger;
+    //console.log('destroying')
     // Unsubscribe from the subject
     this.destroy$.unsubscribe();
   }
