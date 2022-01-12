@@ -45,14 +45,6 @@
           Full Audit Details
       </div>
   </mat-toolbar> -->
-      <div class="page-header">
-        <button mat-basic-button color="primary" (click)="pagesidenav.toggle()"
-          matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
-          <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-        </button>
-        <div style="margin: 5px; float: left;"> Audit Reports > Audit Discrepancy Report</div>
-      </div>
-  
      
         <app-table-group-header [GrpTableitem]="grpTableitem"></app-table-group-header>
 

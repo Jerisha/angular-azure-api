@@ -1,0 +1,38 @@
+<div id=vftrans1 class="vf-flex-container">  
+    <mat-card class="mat-elevation-z8"style="min-width: 90%;">
+       <!-- <mat-card-title class ="vf-card-title" >PAF Address Check -->
+          <!-- <span style="align-items: flex-end;margin-left: 5rem;padding-top: 2px;">            
+                <button  mat-button matTooltip="Return Address"  (click)="ReturnAddress()"><mat-icon >update</mat-icon> Return Address </button>                         
+                <button  mat-button style ="margin-left:1rem" matTooltip="Print"(click)="Print()"><mat-icon >print</mat-icon></button>
+                <button  mat-button style ="margin-block:1rem" matTooltip="Help" (click)="Help()"><mat-icon >help</mat-icon></button>              
+          </span> -->
+      <!-- </mat-card-title>  -->
+        <mat-card-content>           
+            <mat-grid-list cols="3" rowHeight="18px" gutterSize="3px" style="padding-bottom:3px;">                
+                <mat-grid-tile
+                    *ngFor="let tile of summaryTiles"
+                    [ngClass]="tile.class"                  
+                    >
+                    <div style="right: auto;text-justify: auto;">{{tile.text}}</div>
+                </mat-grid-tile>                  
+              </mat-grid-list>
+            <mat-grid-list cols="3" rowHeight="18px" gutterSize="3px" style="padding-bottom:3px;">                              
+                <mat-grid-tile
+                    *ngFor="let tile of pafTiles"                                      
+                    [ngClass]="tile.class"
+                    >
+                    {{tile.text}}
+                </mat-grid-tile>
+              </mat-grid-list>
+            <mat-grid-list cols="3" rowHeight="18px" gutterSize="3px" style="padding-bottom:3px;">                
+                <mat-grid-tile
+                    *ngFor="let tile of btTiles"
+                    [ngClass]="tile.class"                    
+                    >
+                    {{tile.text}}
+                </mat-grid-tile>
+              </mat-grid-list>
+              <div class ="vf-primary-btn"><button mat-flat-button class ="vf-primary-btn"><mat-icon>save</mat-icon>Return PAF Address</button></div>
+        </mat-card-content>        
+    </mat-card>
+</div>

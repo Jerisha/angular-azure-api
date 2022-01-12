@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'resolvingoferrors',
     loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule)
+  },  
+  {
+    path: 'transactions',
+    loadChildren: () => import('./transactions/transactions-routing.module').then(x => x.TransactionsRoutingModule)
   },
   {
     path: 'auditreports',
