@@ -248,6 +248,20 @@ export class FullauditdetailsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   audit: WeatherForecast[] = [];
   selectListItems: string[] = [];
+
+  selectedTab!: number;
+  public tabs = [{
+    tabType: 0,
+    name: 'Main'
+  },
+    //  {
+    //   tabType: 1,
+    //   name: 'Audit Trail Report'
+    // },{
+    //   tabType: 2,
+    //   name: 'Transaction Details'
+    // }
+  ];
   constructor(private ser: FullAuditDetailsService) {
     this.myTable = {
       data: ELEMENT_DATA,
@@ -283,6 +297,39 @@ export class FullauditdetailsComponent implements OnInit {
 
 
     }
+  }
+
+  removeTab(index: number) {
+    this.tabs.splice(index, 1);
+  }
+
+  newTab(tab: any) {
+    switch (tab.tabType) {
+      case 1: {
+
+        //tab.row contains row data- fetch data from api and bind to respetive component
+
+        this.tabs.push({
+          tabType: 1,
+          name: 'Audit Trail Report'
+        });
+        break;
+      }
+      case 2: {
+        this.tabs.push({
+          tabType: 2,
+          name: 'Transaction Details'
+        })
+        break;
+      }
+      default: {
+        //statements; 
+        break;
+      }
+    }
+
+    
+
   }
 
   setControlAttribute(matSelect: MatSelect) {
