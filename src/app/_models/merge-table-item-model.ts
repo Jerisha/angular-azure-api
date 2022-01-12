@@ -14,3 +14,10 @@ export interface MergeTableItem {
     DetailedColumns:string[];
     DisplayedColumns:string[];
   }
+
+  export interface GroupHeaderTableDetails{
+    AuditType:string;
+    TableName:string;
+    ColumnDetails:MergeTableItem[];
+    GroupHeaders: MergeTableItem[];
+  }

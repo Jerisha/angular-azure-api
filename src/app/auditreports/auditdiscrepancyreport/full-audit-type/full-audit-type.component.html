@@ -1,0 +1,7 @@
+<mat-tab-group [selectedIndex]="selectedTab">
+    <mat-tab label="{{tab.name}}" *ngFor="let tab of tabs;  trackBy: trackTabs">
+        <ng-template matTabContent>
+            <app-table-group-header [GrpTableitem]="tab.data"></app-table-group-header>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>

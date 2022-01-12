@@ -5,14 +5,12 @@
     <div style="background-color: #e60000;">
       <div style="margin-left: 10%;
       margin-top: 5%;">
-        <img src="/assets/images/vodafone.png" class="search-logo" alt="Logo">
-        <mat-form-field class="example-full-width" style="margin-left:4%; margin-top: 4%;" appearance="outline">
-          
+        <img src="assets/images/vodafone.png" class="search-logo" alt="Logo">
+        <mat-form-field class="example-full-width" style="margin-left:4%; margin-top: 4%;" appearance="outline">          
            <input matInput name="strSearch" [(ngModel)]="strSearch" placeholder="Search" autocomplete="off">
           <button *ngIf="strSearch" matSuffix mat-icon-button aria-label="Clear" (click)="strSearch=''">
             <mat-icon>close</mat-icon>
-          </button>
-         
+          </button>         
         </mat-form-field>
       </div>
     </div>
@@ -22,9 +20,9 @@
     </mat-nav-list>
   </mat-sidenav>
   <app-top-nav fxHide.xs></app-top-nav>
-  <div class="page-header">      
+  <!-- <div class="page-header">      
     <div style="margin: 5px; float: left;"> Resolving Of Errors > Solicited Errors</div>
-  </div>
+  </div> -->
   <router-outlet></router-outlet>
   <div fxFlex></div>
   <div style="background-color: #EFEFEF;">

@@ -101,12 +101,14 @@ th.mat-sort-header-sorted {
   /* margin-top: 3px; */
 }
 
-th.mat-header-cell {
+th.mat-header-cell,td.mat-cell {
   text-align: center;
-  border: 0.5px solid #EFEFEF;
+  border: 0.5px solid black;
   padding: 0 !important;
 
 }
+
+
 
 
 

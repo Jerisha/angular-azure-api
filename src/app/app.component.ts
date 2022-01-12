@@ -4,7 +4,11 @@ import { NavItem } from './_models/nav-item';
 import { NavService } from './_services/nav.services';
 import *  as  menu from '../assets/menu.json';
 
+
+
 const MENU_SOURCE = (menu as any).default;
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
