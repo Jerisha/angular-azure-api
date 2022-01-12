@@ -9,7 +9,9 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { ProvideReport } from 'src/app/_models/provide-report';
-import { select } from 'src/app/_helper/Constants/exp-consts';
+import { select, selectcupid, selectlist } from 'src/app/_helper/Constants/exp-consts';
+
+
 
 const ELEMENT_DATA: ProvideReport[] = [
   {
@@ -112,12 +114,18 @@ const Items: Select[] = [
 export class ProvidereportComponent implements OnInit   {
 
 expDefault =select.default;
+expDefaultcupid = selectcupid.defaultcupid;
+expDefaultlist = selectlist.defaultlist;
+
     public positionOptions: TooltipPosition[] = ['before']; // Tooltip postion  
     public position = new FormControl(this.positionOptions[0]);
     @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
     myTable!: TableItem
     myForm!: FormGroup;
     listItems!: Select[];
+    
+    
+   
     constructor(public dialog: MatDialog) {}
     openDialog(): void {
       this.dialog.open(DialogComponent, {
@@ -164,7 +172,8 @@ expDefault =select.default;
 
     }  
   }
-
+  isChecked = true;
+ 
 
   createForm() {
     this.myForm = new FormGroup({
@@ -223,6 +232,7 @@ expDefault =select.default;
   }
   onFormSubmit(): void { }
   resetForm(): void { }
+  
 
   
 }

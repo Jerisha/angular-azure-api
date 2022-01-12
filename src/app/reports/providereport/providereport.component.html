@@ -1,12 +1,13 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
      <form >
-       <div class= "mat-elevation-z8">
+       <div class= "mat-elevation-z8" >
+      
         <mat-icon matTooltip="Report Wildcard Selection" (click)="openDialog()">info</mat-icon> 
         <label >Wildcard Selection</label>
       <br>
       <!-- <app-select-exp [listItems]="expDefault" (click)="print($event)"></app-select-exp> -->
-        <app-select-exp [listItems]="expDefault"></app-select-exp> 
+      <app-select-exp [listItems]="expDefault"></app-select-exp> 
       <mat-form-field   appearance="outline">
        <mat-label>Telephone</mat-label>
        <input type="Telephone"  matInput> 
@@ -16,7 +17,8 @@
         <mat-label>Cust Name Full</mat-label>
        <input type="CustNameFull"  matInput> 
      </mat-form-field>
-     <app-select-exp [listItems]="expDefault"></app-select-exp> 
+    
+     <app-select-exp [listItems]="expDefaultcupid" ></app-select-exp> 
      <mat-form-field  appearance="outline"> 
        <mat-label>Cupid</mat-label>
        <input type="Cupid"  matInput> 
@@ -44,7 +46,7 @@
     <mat-icon matTooltip="List Selection" (click)="openDialog()">info</mat-icon> 
     <label>List Selection</label> 
      <br>
-     <app-select-exp [listItems]="expDefault"></app-select-exp> 
+     <app-select-exp [listItems]="expDefaultlist"></app-select-exp> 
    <mat-form-field appearance="outline">
              <mat-label>Trans.Type</mat-label>
              <mat-select>
@@ -56,7 +58,7 @@
                  <mat-option>Modify</mat-option>
              </mat-select>
          </mat-form-field>
-         <app-select-exp [listItems]="expDefault"></app-select-exp> 
+         <app-select-exp [listItems]="expDefaultlist"></app-select-exp> 
              <mat-form-field appearance="outline">
                  <mat-label>Source.Sys</mat-label>
                  <mat-select>
@@ -76,7 +78,7 @@
                <button type="submit" mat-raised-button color="primary" matTooltip="Search">
                 <mat-icon>search</mat-icon>Search
             </button>
-            <button type="reset" mat-raised-button color="primary" matTooltip="Refresh">
+            <button type="reset" mat-raised-button color="primary"  matTooltip="Refresh">
               <mat-icon>refresh</mat-icon>Clear
             </button>
             </div>
@@ -97,7 +99,8 @@
     </div>
 
     <app-table-selection [tableitem]="myTable"></app-table-selection>
-
+   <!-- <mat-slide-toggle [(ngModel)]="isChecked">Slide Toggle Checked: {{isChecked}}</mat-slide-toggle>-->
+        
     <!-- <form>
       <div class="side-left-div">
         <mat-icon matTooltip="Report Wildcard Selection" (click)="openDialog()">info</mat-icon> 

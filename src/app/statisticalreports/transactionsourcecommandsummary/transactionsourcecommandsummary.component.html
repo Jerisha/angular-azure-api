@@ -2,6 +2,8 @@
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
         <form >
             <div class="">
+                
+                <br>
                <mat-icon matTooltip="List Selection">info</mat-icon> 
                         <mat-label> List Selection</mat-label><br>
                         <app-select-exp></app-select-exp> 
@@ -56,7 +58,7 @@
             <div class="side-left-div">
                 <fieldset>
                     <legend>Fixed/Optional Columns</legend>
-                    <mat-slide-toggle>Slide me!</mat-slide-toggle>
+                  
                         <mat-label  (click)="openSnackBar(message.value)"></mat-label>
                             <mat-button-toggle-group appearance="legacy" >
                                 <mat-button-toggle value="Fixed column - Always appears on the report" (click)="openSnackBar(message.value)" #message >Statistic Month</mat-button-toggle>
