@@ -250,7 +250,101 @@ export class FullauditdetailsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   audit!: any;
   selectListItems: string[] = [];
-  grpTblHdrDtls:GroupHeaderTableDetails[]=[];
+
+  selectedTab!: number;
+  public tabs = [{
+    tabType: 0,
+    name: 'Main'
+  },
+    //  {
+    //   tabType: 1,
+    //   name: 'Audit Trail Report'
+    // },{
+    //   tabType: 2,
+    //   name: 'Transaction Details'
+    // }
+  ];
+  // constructor(private ser: FullAuditDetailsService) {
+  //   this.myTable = {
+  //     data: ELEMENT_DATA,
+  //     Columns: this.colHeader,
+  //     filter: true,
+  //     selectCheckbox: true,
+  //     selectionColumn:'TelNo',
+  //     imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 },
+  //     { headerValue: 'View', icon: 'description', route: '',tabIndex:2 },
+  //     { headerValue: 'MoriCircuitStatus', icon: 'search', route: '' ,tabIndex:3}]
+  //     // dataColumns: ['TelNo', 'View', 'OSN2Source', 'Source', 'ACTID',
+  //     //   'RangeReport', 'InflightOrder', 'CUPID', 'BatchId', 'ExternalCLIStatus', 'FullAuditCLIStatus',
+  //     //   'Monthly Refresh Flag', 'Resolution Type', 'SourceSystemStatus', 'MoriCircuitStatus', 'SwitchStatus',
+  //     //   'SwitchPortingStatus', 'PortingPrefixOwner', 'Switch Type', 'CDMSNMSRPIPO', 'CDMSNMSR Prefix',
+  //     //   'CDMSNMSRType', 'CDMSNMSRAreacall', 'IsVodafoneRangeHolder', 'BTCustomer', 'BTPostcode',
+  //     //   'BTLocality', 'BTPremise', 'BTThouroughfare', 'OSN2Customer', 'OSN2Postcode', 'OSN2Locality',
+  //     //   'OSN2Premise', 'OSN2Thouroughfare', 'SourceCustomer', 'SourcePostcode', 'SourceLocality',
+  //     //   'SourcePremise', 'SourceThouroughfare', 'ParentCUPID', 'ChildCUPID', 'LineType', 'Franchise',
+  //     //   'OrderType', 'OrderReference', 'OrderServiceType', 'TypeOfLine', 'CommentsRange',
+  //     //   'LinkOrderRef', 'LinkReasonCode', 'OrderArchiveFlag', 'DeadEntry'],
+  //     // coulmnHeaders: ['TelNo', 'View', 'OSN2 Source', 'Source', 'ACT ID',
+  //     //   'Range Report', 'Inflight Order', 'CUPID', 'Batch Id', 'External CLI Status', 'Full Audit CLI Status',
+  //     //   'Monthly Refresh Flag', 'Resolution Type', 'Source System Status', 'Mori Circuit Status', 'Switch Status',
+  //     //   'Switch Porting Status', 'Porting Prefix Owner', 'Switch Type', 'CDMS/NMSR PI/PO', 'CDMS/NMSR Prefix',
+  //     //   'CDMS/NMSR Type', 'CDMS/NMSR Areacall', 'Is Vodafone RangeHolder', 'BT Customer', 'BT Postcode',
+  //     //   'BT Locality', 'BT Premise', 'BT Thouroughfare', 'OSN2 Customer', 'OSN2 Postcode', 'OSN2 Locality',
+  //     //   'OSN2 Premise', 'OSN2 Thouroughfare', 'Source Customer', 'Source Postcode', 'Source Locality',
+  //     //   'Source Premise', 'Source Thouroughfare', 'Parent CUPID', 'Child CUPID', 'Line Type', 'Franchise',
+  //     //   'Order Type', 'Order Reference', 'Order Service Type', 'Type Of Line', 'Comments(Range)',
+  //     //   'Link Order Ref', 'Link Reason Code', 'Order Archive Flag', 'Dead Entry'],
+
+  //     // colToSetImage: ['View', 'MoriCircuitStatus'],
+
+
+  //   }
+  // }
+
+  removeTab(index: number) {
+    this.tabs.splice(index, 1);
+  }
+
+  newTab(tab: any) {
+    switch (tab.tabType) {
+      case 1: {
+
+        //tab.row contains row data- fetch data from api and bind to respetive component
+
+        this.tabs.push({
+          tabType: 1,
+          name: 'Audit Trail Report'
+        });
+        break;
+      }
+      case 2: {
+        this.tabs.push({
+          tabType: 2,
+          name: 'Transaction Details'
+        })
+        break;
+      }
+      default: {
+        //statements; 
+        break;
+      }
+    }
+
+    
+
+  }
+
+  setControlAttribute(matSelect: MatSelect) {
+    matSelect.options.forEach((item) => {
+      if (item.selected) {
+        this.fullAuditForm.controls[item.value].enable();
+      }
+      else {
+        this.fullAuditForm.controls[item.value].disable();
+      }
+    });
+  }
+
   colHeader: any[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, imageColumn: false },
     { headerValue: 'View', header: 'View', showDefault: true, imageColumn: true },
@@ -331,9 +425,9 @@ export class FullauditdetailsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TelNo',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '' },
-      { headerValue: 'View', icon: 'description', route: '' },
-      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '' }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 },
+      { headerValue: 'View', icon: 'description', route: '',tabIndex:2 },
+      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '',tabIndex:3 }]
 
     }
   }
@@ -364,23 +458,30 @@ export class FullauditdetailsComponent implements OnInit {
 
  
 
-  setControlAttribute(matSelect: MatSelect) {
-    matSelect.options.forEach((item) => {
-      if (item.selected) {
-        this.fullAuditForm.controls[item.value].enable();
-      }
-      else {
-        this.fullAuditForm.controls[item.value].disable();
-      }
-    });
-  }
+  // setControlAttribute(matSelect: MatSelect) {
+  //   matSelect.options.forEach((item) => {
+  //     if (item.selected) {
+  //       this.fullAuditForm.controls[item.value].enable();
+  //     }
+  //     else {
+  //       this.fullAuditForm.controls[item.value].disable();
+  //     }
+  //   });
+  // }
 
    
   public checkError = (controlName: string, errorName: string)=>  {
     return this.fullAuditForm.controls[controlName].hasError(errorName) && 
     ( this.fullAuditForm.controls[controlName].dirty || this.fullAuditForm.controls[controlName].touched)
+  }
 
   
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    //debugger;
+    //console.log('destroying')
+    // Unsubscribe from the subject
+    this.destroy$.unsubscribe();
   }
 
   validation_messages = {

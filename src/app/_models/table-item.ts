@@ -18,6 +18,7 @@ export interface ViewColumn {
     headerValue: string;
     icon: string;
     route: string;
+    tabIndex : number;
 }
 
 export interface ColumnDetails {

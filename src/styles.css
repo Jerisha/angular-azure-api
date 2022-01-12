@@ -104,10 +104,10 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 .page-header
   {   
     background-color:#EFEFEF;
-    color: #e60000;
-    margin:5px;
-    /* text-align: left; */
-    font-size:small ;
+    color: #54575a;
+    margin: 2px;
+    font-size:small;
+    display: flex;
   }
   .slidderbtn{
     float: left;
@@ -117,7 +117,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
     color:  #EFEFEF;
     border-radius: 12%;
     font-size: small;
-    margin: 5px;
+    margin: 2px;
   }
  /* side-nav-page-header ends */
 
@@ -126,11 +126,38 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   } */
   
 
-.mat-icon-button.mat-primary,.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
     color: white;
-    background-color: #e60000!important;
+    background-color: #54575a!important;
     margin-left: 8px;    
 }
+
+.mat-icon-button.mat-primary{
+  color: white;
+    margin-left: 8px; 
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.3em 0 0.3em 0 !important;
+  top: -0.60em !important;
+} 
+
+/* tab design start */
+ .mat-tab-list{
+  height: 30px !important;
+}
+.mat-tab-label{
+  height: 30px !important;
+  color: rgb(11, 11, 158);
+}
+
+ div.mat-tab-label {
+  background-color: #009de6;
+    color:white;    
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+/* tab design end */
 
 .example-container .mat-form-field,.example-container .mat-form-field + .mat-form-field {
   margin-left: 8px;  

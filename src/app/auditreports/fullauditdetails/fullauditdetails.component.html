@@ -186,49 +186,24 @@
                             <mat-option>1</mat-option>
                             <mat-option>2</mat-option>
                         </mat-select>
-
-                    </mat-form-field>
-                    <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.FullAddDiff.disabled}"
-                        appearance="outline">
-                        <mat-label>Full Address Diff.</mat-label>
-                        <mat-select id="FullAddDiff" formControlName="FullAddDiff">
-                            <mat-option></mat-option>
-                            <mat-option>1</mat-option>
-                            <mat-option>2</mat-option>
-                        </mat-select>
-
-                    </mat-form-field>
-                    <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.CustomerDiff.disabled}"
-                        appearance="outline">
-                        <mat-label>Customer Diff.</mat-label>
-                        <mat-select id="CustomerDiff" formControlName="CustomerDiff">
-                            <mat-option></mat-option>
-                            <mat-option>1</mat-option>
-                            <mat-option>2</mat-option>
-                        </mat-select>
-
-                    </mat-form-field>
-                    <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.OverlappingStatus.disabled}"
-                        appearance="outline">
-                        <mat-label>Overlapping Status</mat-label>
-                        <mat-select id="OverlappingStatus" formControlName="OverlappingStatus">
-                            <mat-option></mat-option>
-                            <mat-option>1</mat-option>
-                            <mat-option>2</mat-option>
-                        </mat-select>
-
-                    </mat-form-field>
-                    <button type="submit" style="margin-left: 25px;" mat-raised-button [disabled]="!fullAuditForm.valid"
-                        color="primary" matTooltip="Search">
-                        <mat-icon>search</mat-icon>Search
-                    </button>
-                </div>
-
-            </form>
-        </div>
+                        </mat-form-field>
+                        </div>
+                        </form>
+                        </div>
     </mat-sidenav>
-    <mat-sidenav-content class="side-content">
-        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"></app-table-selection>
+
+    <mat-sidenav-content class="side-content">      
+        <!-- <div class="page-header">
+            <button mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+                matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+                <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+            </button>
+            <div style="margin: 5px; float: left;"> Audit Reports > Full Audit Details</div>
+        </div> -->
+        <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+        (addNewTab)="newTab($event)">
+      </app-table-selection>
+        <!-- <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"></app-table-selection> -->
         <form>
             <div class="mat-elevation-z8 side-bottom">
                 <div class="side-left-div">

@@ -32,19 +32,13 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="side-content">
-    <div class="page-header">
-      <button mat-basic-button color="primary" (click)="pagesidenav.toggle()"
-        matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
-        <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-      </button>
-      <span style="margin :5px;"> Audit Reports > Audit Discrepancy Report</span>
-    </div>
     <div [ngSwitch]="auditType">
       <div *ngSwitchCase="'Full Audit'">
         <app-full-audit-type [FullAuditTableDetails]="grpFullAuditTableDetails"></app-full-audit-type>
       </div>
       <div *ngSwitchCase="'Seperate Internal Audit'">
-        <app-seperate-internal-audit-type [InternalAuditTableDetails]="grpInternalAuditTableDetails"></app-seperate-internal-audit-type>
+        <app-seperate-internal-audit-type [InternalAuditTableDetails]="grpInternalAuditTableDetails">
+        </app-seperate-internal-audit-type>
       </div>
       <div *ngSwitchCase="'External Audit'">
         <app-seperate-internal-audit-type></app-seperate-internal-audit-type>

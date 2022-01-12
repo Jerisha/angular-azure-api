@@ -18,11 +18,13 @@ export class TableSelectionComponent {
   fltvalue: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() tableitem?: TableItem;
   @ViewChild('select') select!: MatSelect;
   allSelected = true;
   selection = new SelectionModel<any>(true, []);
+  @Input() tableitem?: TableItem;
+  @Input() sidePan: any;
   @Output() rowChanges = new EventEmitter<any>();
+  @Output() addNewTab = new EventEmitter<any>();
   dataSource!: MatTableDataSource<any>;
   selectedrows: any;
   ColumnDetails!: ColumnDetails[];
@@ -63,7 +65,6 @@ export class TableSelectionComponent {
   }
 
   selectRow(event: any, row: any) {
-    debugger;
     this.rowChanges.emit([row[this.selectColumn]]);
   }
 
@@ -148,6 +149,10 @@ export class TableSelectionComponent {
   }
 
 
+  addTabs(event: any, tabType: number, row: any) {
+    event.stopPropagation();
+    this.addNewTab.emit({ tabType, row });
+  }
 
 
   logSelection(a: any) {
