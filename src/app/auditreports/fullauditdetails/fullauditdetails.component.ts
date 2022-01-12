@@ -1,25 +1,88 @@
-import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { pipe, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetails } from 'src/app/_models/fullauditdetailsmodel';
-import {  WeatherForecast } from 'src/app/_models/samplemodel';
+import { WeatherForecast } from 'src/app/_models/samplemodel';
 import { Select } from 'src/app/_models/select';
 import { TableItem } from 'src/app/_models/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
 
 const ELEMENT_DATA: FullAuditDetails[] = [
   {
-    TelNo: '01131100030 ', View: '', OSN2Source: 'DetailsVie', Source: 'DetailsVie', ACTID: 'DetailsVie', RangeReport: 'DetailsVie', InflightOrder: 'DetailsVie',
-    CUPID: '', BatchId: 'DetailsVie', ExternalCLIStatus: 'DetailsVie', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'DetailsVie', SwitchStatus: 'DetailsVie', SwitchPortingStatus: '', PortingPrefixOwner: '',
+    TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
+    CUPID: '', BatchId: 'Details Vie', ExternalCLIStatus: 'Not Found', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
+    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
     BTPostcode: '', BTLocality: '',
-    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'DetailsVie', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
+    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'Amdocs SOM ', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
+    OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
+    ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
+    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: ''
+  },
+  {
+    TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
+    CUPID: '', BatchId: 'Details Vie', ExternalCLIStatus: 'Not Found', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
+    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
+    SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
+    BTPostcode: '', BTLocality: '',
+    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'Amdocs SOM ', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
+    OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
+    ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
+    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: ''
+  },
+  {
+    TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
+    CUPID: '', BatchId: 'Details Vie', ExternalCLIStatus: 'Not Found', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
+    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
+    SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
+    BTPostcode: '', BTLocality: '',
+    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'Amdocs SOM ', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
+    OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
+    ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
+    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: ''
+  },
+  {
+    TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
+    CUPID: '', BatchId: 'Details Vie', ExternalCLIStatus: 'Not Found', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
+    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
+    SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
+    BTPostcode: '', BTLocality: '',
+    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'Amdocs SOM ', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
+    OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
+    ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
+    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: ''
+  },
+  {
+    TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
+    CUPID: '', BatchId: 'Details Vie', ExternalCLIStatus: 'Not Found', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
+    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
+    SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
+    BTPostcode: '', BTLocality: '',
+    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'Amdocs SOM ', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
+    OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
+    ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
+    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: ''
+  },
+  {
+    TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM Amdocsy SOM', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
+    CUPID: '', BatchId: 'Details Vie', ExternalCLIStatus: 'Not Found', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
+    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
+    SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
+    BTPostcode: '', BTLocality: '',
+    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'Amdocs SOM ', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
+    OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
+    ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
+    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: ''
+  },
+  {
+    TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
+    CUPID: '', BatchId: 'Details Vie', ExternalCLIStatus: 'Not Found', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
+    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
+    SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
+    BTPostcode: '', BTLocality: '',
+    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'Amdocs SOM ', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
     OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
     ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
     Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: ''
@@ -170,29 +233,31 @@ const Items: Select[] = [
   { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: false },
 
 ];
+
 @Component({
   selector: 'app-fullauditdetails',
   templateUrl: './fullauditdetails.component.html',
   styleUrls: ['./fullauditdetails.component.css']
 })
 
-
 export class FullauditdetailsComponent implements OnInit {
-
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
-
   myTable!: TableItem
   myForm!: FormGroup;
   listItems!: Select[];
   destroy$: Subject<boolean> = new Subject<boolean>();
+  audit: WeatherForecast[] = [];
+  selectListItems: string[] = [];
   constructor(private ser: FullAuditDetailsService) {
     this.myTable = {
       data: ELEMENT_DATA,
       Columns: this.colHeader,
       filter: true,
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '' },
-      { headerValue: 'View', icon: 'description', route: '' },
-      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '' }]
+      selectCheckbox: true,
+      selectionColumn:'TelNo',
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 },
+      { headerValue: 'View', icon: 'description', route: '',tabIndex:2 },
+      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '' ,tabIndex:3}]
       // dataColumns: ['TelNo', 'View', 'OSN2Source', 'Source', 'ACTID',
       //   'RangeReport', 'InflightOrder', 'CUPID', 'BatchId', 'ExternalCLIStatus', 'FullAuditCLIStatus',
       //   'Monthly Refresh Flag', 'Resolution Type', 'SourceSystemStatus', 'MoriCircuitStatus', 'SwitchStatus',
@@ -213,36 +278,24 @@ export class FullauditdetailsComponent implements OnInit {
       //   'Source Premise', 'Source Thouroughfare', 'Parent CUPID', 'Child CUPID', 'Line Type', 'Franchise',
       //   'Order Type', 'Order Reference', 'Order Service Type', 'Type Of Line', 'Comments(Range)',
       //   'Link Order Ref', 'Link Reason Code', 'Order Archive Flag', 'Dead Entry'],
-     
+
       // colToSetImage: ['View', 'MoriCircuitStatus'],
-      
+
 
     }
   }
 
-
-  selChange(matSelect: MatSelect) {
-    //console.log(this.selMultiple.selectedValues)
+  setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
-
       if (item.selected) {
-        // if (!this.filtered.includes(item.value))
-        //   this.filtered.push(item.value)
         this.myForm.controls[item.value].enable();
       }
       else {
-        // if (this.filtered.includes(item.value)) {
-        //   let index = this.filtered.indexOf(item.value);
-        //   this.filtered.splice(index, 1)
-        // }
-        //console.log(this.myForm.value);
         this.myForm.controls[item.value].disable();
       }
     });
   }
 
- 
-      
   colHeader: any[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, imageColumn: false },
     { headerValue: 'View', header: 'View', showDefault: true, imageColumn: true },
@@ -301,33 +354,30 @@ export class FullauditdetailsComponent implements OnInit {
     this.createForm();
     this.listItems = Items;
 
-    this.ser.getDetails()
-    .subscribe((res)=>{
-      debugger;
-      this.audit = res;
-      console.log(res)
-    })
+    // this.ser.getDetails()
+    //   .subscribe((res) => {
+    //     debugger;
+    //     this.audit = res;
+    //     console.log(res)
+    //   })
 
-      
-    this.audit = [{ summary: "Chilly", temperatureC: 13 }]
-       this.ser.postDetails(this.audit).subscribe(res=>{
-         console.log('post res'+ JSON.stringify(res))},(error)=>{
-           debugger;
-           console.log(error)
-         })
-      
-  
-     
+
+    // this.audit = [{ summary: "Chilly", temperatureC: 13 }]
+    // this.ser.postDetails(this.audit).subscribe(res => {
+    //   console.log('post res' + JSON.stringify(res))
+    // }, (error) => {
+    //   debugger;
+    //   console.log(error)
+    // })
   }
-  audit:WeatherForecast[]=[];
 
-    ngOnDestroy() {
-        this.destroy$.next(true);
-        debugger;
-        console.log('destroying')
-        // Unsubscribe from the subject
-        this.destroy$.unsubscribe();
-      }
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    //debugger;
+    //console.log('destroying')
+    // Unsubscribe from the subject
+    this.destroy$.unsubscribe();
+  }
 
   createForm() {
 
@@ -364,5 +414,24 @@ export class FullauditdetailsComponent implements OnInit {
       CustomerDiff: new FormControl({ value: '', disabled: true }, [Validators.required]),
       OverlappingStatus: new FormControl({ value: '', disabled: true }, [Validators.required])
     })
+  }
+
+  rowDetect(item: any) {
+    //debugger;
+    if (item.length == 0) {
+      this.selectListItems = [];
+    } else {
+      item.forEach((el: string) => {
+        if (!this.selectListItems.includes(el)) {
+          this.selectListItems.push(el)
+        }
+        else {
+          if (this.selectListItems.includes(el)) {
+            let index = this.selectListItems.indexOf(el);
+            this.selectListItems.splice(index, 1)
+          }
+        }
+      });
+    }
   }
 }

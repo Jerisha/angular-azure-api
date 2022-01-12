@@ -168,7 +168,7 @@ expDefaultlist = selectlist.defaultlist;
       filter: true,
       selectCheckbox: false,
       // colToSetImage: ['View'],
-      imgConfig: [{ headerValue: 'Link', icon: 'search', route: '' },]
+      imgConfig: [{ headerValue: 'Link', icon: 'search', route: '' ,tabIndex:1}]
 
     }  
   }

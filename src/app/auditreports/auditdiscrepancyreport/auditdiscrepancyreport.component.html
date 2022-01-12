@@ -1,63 +1,68 @@
-<div class="container">
-    <mat-card class="mat-elevation-z8">
-        <mat-toolbar color="primary"
-            style="box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
-            <div align="center" style="color:white;text-align: right;">
-            Audit Discrepancy Report
+<mat-sidenav-container class="side-container">
+    <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+      <form >
+        <div class="">     
+          
+         
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Status/Final Date</mat-label>
+            <mat-select>
+              <mat-option></mat-option>
+              <mat-option>ERROR</mat-option>
+              <mat-option>ERROR Final</mat-option>
+  
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          </mat-form-field>
+  
+          
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Res.Type</mat-label>
+            <mat-select>
+              <mat-option></mat-option>
+              <mat-option>New</mat-option>
+              <mat-option>Under Investigation</mat-option>
+              <mat-option>Under Governance</mat-option>
+              <mat-option>Under Governance</mat-option>
+              <mat-option>Port Req Complete</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          </mat-form-field>
+          <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+            <mat-icon>search</mat-icon>Search
+          </button>
+        </div>
+  
+      </form>
+    </mat-sidenav>
+  
+    <mat-sidenav-content class="side-content">
+      <!-- <mat-toolbar class="page-header"
+      style="margin-top:5px;margin-bottom:5px; height: 32px;;box-shadow: 0 3px 5px -1px rgba(207, 27, 27, 0.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
+      <div align="left" style="text-align: right; font-size:medium;">
+          Full Audit Details
+      </div>
+  </mat-toolbar> -->
+     
+        <app-table-group-header [GrpTableitem]="grpTableitem"></app-table-group-header>
+
+
+        <div class="mat-elevation-z8 side-bottom">
+            <div class="side-left-div">           
+             
+            
+             
+    
             </div>
-        </mat-toolbar>
-        <br>
-        <mat-card-content>
-            <form >
-                <div class="example-container mat-elevation-z8">
-                    <br>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Audit Type</mat-label>
-                        <mat-select>
-                            <mat-option></mat-option>
-                            <mat-option>Activate Customer</mat-option>
-                            <mat-option>Cease Customer</mat-option>
-                            <mat-option>Import</mat-option>
-                            <mat-option>Export</mat-option>
-                            <mat-option>Modify</mat-option>
-                        </mat-select>
-                        <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
-                    </mat-form-field>
+            <div class="side-right-div">
+            </div>
+    
+          </div>
+   
+  
+    
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 
-                    <mat-form-field appearance="outline">
-                        <mat-label>ACT ID</mat-label>
-                        <mat-select>
-                            <mat-option></mat-option>
-                            <mat-option>AUDIT</mat-option>
-                            <mat-option>SAS/COMS</mat-option>
-                            <mat-option>DVA Siebel</mat-option>
-                            <mat-option>VA/WAD</mat-option>
-                            <mat-option>Ring Central</mat-option>
-                            <mat-option>Content Guru</mat-option>
-                            <mat-option>ONENET</mat-option>
-                            <mat-option>Clarify</mat-option>
-                            <mat-option>Amdocs SOM</mat-option>
-                            <mat-option>Unknown</mat-option>
-                        </mat-select>
-                        <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline">
-                        <mat-label>Set No</mat-label>
-                        <mat-select>
-                            <mat-option></mat-option>
-                            <mat-option>1</mat-option>
-                            <mat-option>2</mat-option>                            
-                        </mat-select>
-                        <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
-                    </mat-form-field>
-                    <button type="submit" mat-raised-button color="primary" matTooltip="Search">
-                        <mat-icon>search</mat-icon>Search
-                    </button>                   
-                </div>
-                <br>
-            </form>
-        </mat-card-content>
-        <!-- <app-table-selection [tableitem]="myTable"></app-table-selection> -->
-    </mat-card>
-</div>

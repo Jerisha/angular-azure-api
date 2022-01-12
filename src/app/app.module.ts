@@ -11,10 +11,13 @@ import { UicomponentsModule } from './uicomponents/uicomponents.module';
 import { MaterialModule } from './_shared/material/material.module';
 import { BorderDirective, MenuSearchPipe } from './_helper/index';
 import { PopupComponent } from './popup/popup.component';
+
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { HttpWrapperService } from './_services/http/http-wrapper.service';
 import { HttpErrorInterceptor } from './_services/http/http-error-interceptor';
 import { HttpRequestHeader } from './_services/http/http-request-header.service';
+import { TransactionsModule } from './transactions/transactions.module';
+
 
 
 
@@ -34,7 +37,8 @@ import { HttpRequestHeader } from './_services/http/http-request-header.service'
     MaterialModule,
     HttpClientModule,
     ResolvingoferrorsModule,
-    AuditreportsModule
+    AuditreportsModule,
+    TransactionsModule
   ],
   providers: [NavService,{
     provide: HTTP_INTERCEPTORS, 

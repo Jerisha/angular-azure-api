@@ -1,1 +1,31 @@
 .hidden {display:none;}
+
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.4;
+}
+button{
+    margin-bottom:10px;    
+}
+
+/* .filterposition{
+    margin-left:10px;
+    margin-top:15px;
+} */
+
+
+.mat-column-TelNo {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    width: 28% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }

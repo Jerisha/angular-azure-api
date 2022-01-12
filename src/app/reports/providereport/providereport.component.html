@@ -69,7 +69,7 @@
                      <mat-option>E - VA/WAD</mat-option>
                      <mat-option>F - Ring Central</mat-option>
                      <mat-option>G - Content Guru</mat-option>
-                     <mat-option>>N - ONENET</mat-option>
+                     <mat-option>N - ONENET</mat-option>
                      <mat-option>R - Clarify</mat-option>
                      <mat-option>S - Amdocs SOM</mat-option>
                      <mat-option>X - Unknown</mat-option>
@@ -89,14 +89,7 @@
 </mat-sidenav>
 
   <mat-sidenav-content class="side-content">
-    <div class="page-header">
-      <button mat-basic-button color="primary" (click)="pagesidenav.toggle()"
-        matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
-        <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-      </button>
-      <div style="margin: 5px; float: left;"> Reports > Provide Reports</div>
-      
-    </div>
+  
 
     <app-table-selection [tableitem]="myTable"></app-table-selection>
    <!-- <mat-slide-toggle [(ngModel)]="isChecked">Slide Toggle Checked: {{isChecked}}</mat-slide-toggle>-->

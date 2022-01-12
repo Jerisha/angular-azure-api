@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Select } from 'src/app/_models/select';
 import { SolicitedErrors } from 'src/app/_models/solicited-errors';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 
@@ -11,15 +13,15 @@ const ELEMENT_DATA: SolicitedErrors[] = [
     Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591109', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591107', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591108', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
   },
   {
@@ -104,6 +106,7 @@ export class SolicitederrorsComponent implements OnInit {
   employeeForm: any;
   employeeIdUpdate = null;
   massage = null;
+  selectListItems: string[] = [];
 
   CountryId = null;
   StateId = null;
@@ -113,6 +116,26 @@ export class SolicitederrorsComponent implements OnInit {
   isFeMale = false;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  errorCodesOptions!: Observable<any[]>;
+  errorCodeData: Select[] = [
+    { view: '101', viewValue: '101', default: true },
+    { view: '202', viewValue: '202', default: true },
+    { view: '303', viewValue: '303', default: true },
+  ];
+  errorCode = new FormControl();
+  selectedTab!: number;
+  public tabs = [{
+    tabType: 0,
+    name: 'Main'
+  },
+    //  {
+    //   tabType: 1,
+    //   name: 'Audit Trail Report'
+    // },{
+    //   tabType: 2,
+    //   name: 'Transaction Details'
+    // }
+  ];
 
   columns: ColumnDetails[] = [
     { header: 'Tran.Id', headerValue: 'TranId', showDefault: true, imageColumn: false },
@@ -127,18 +150,21 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, imageColumn: false },
   ];
   ngOnInit(): void {
+
+    this.setOptions();
     this.myTable = {
       data: ELEMENT_DATA,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '' },
-      { headerValue: 'View', icon: 'description', route: '' }]
+      selectionColumn: 'TranId',
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 },
+      { headerValue: 'View', icon: 'description', route: '',tabIndex:2 }]
       // dataColumns: ['TranId', 'View', 'TelNo', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'ResType', 'ErrorList'],
       // coulmnHeaders: ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res-Type', 'Error/List'],
-     
+
       // colToSetImage: ['View'],
-      
+
 
     }    // this.employeeForm = this.formbulider.group({
     //   FirstName: ['', [Validators.required]],
@@ -152,10 +178,80 @@ export class SolicitederrorsComponent implements OnInit {
     //   City: ['', [Validators.required]],
     //   Pincode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{6}')])]
     //});
-
+    this.selectedTab = this.tabs.length - 1;
   }
 
+  ngAfterViewInit() {
+
+  }
+  setOptions() {
+    this.errorCodesOptions = this.errorCode.valueChanges
+      .pipe(
+        startWith<string>(''),
+        map(name => this._filter(name))
+      );
+  }
+
+  private _filter(name: string): any[] {
+    const filterValue = name.toLowerCase();
+    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    // return filteredList;
+    let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
+    return filteredList;
+  }
   onFormSubmit(): void { }
   resetForm(): void { }
+
+  rowDetect(item: any) {
+    //debugger;
+    if (item.length == 0) {
+      this.selectListItems = [];
+    } else {
+      item.forEach((el: string) => {
+        if (!this.selectListItems.includes(el)) {
+          this.selectListItems.push(el)
+        }
+        else {
+          if (this.selectListItems.includes(el)) {
+            let index = this.selectListItems.indexOf(el);
+            this.selectListItems.splice(index, 1)
+          }
+        }
+      });
+    }
+  }
+
+  removeTab(index: number) {
+    this.tabs.splice(index, 1);
+  }
+
+  newTab(tab: any) {
+    switch (tab.tabType) {
+      case 1: {
+
+        //tab.row contains row data- fetch data from api and bind to respetive component
+
+        this.tabs.push({
+          tabType: 1,
+          name: 'Audit Trail Report'
+        });
+        break;
+      }
+      case 2: {
+        this.tabs.push({
+          tabType: 2,
+          name: 'Transaction Details'
+        })
+        break;
+      }
+      default: {
+        //statements; 
+        break;
+      }
+    }
+
+    
+
+  }
 
 }
