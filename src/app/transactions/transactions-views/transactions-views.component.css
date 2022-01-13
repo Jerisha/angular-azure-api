@@ -66,7 +66,7 @@
     
   :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 0.3em 0 0.3em 0 !important;
-    top: -0.60em !important;
+    top: -0.60em !important;    
   } 
 
   :host ::ng-deep .mat-expansion-panel-body {
@@ -77,6 +77,14 @@
 .vf-primary-btn{
   background-color:#54575a;
   color: white;
+}
+.vf-min-primary-btn{
+  /* background-color:#54575a !important; */
+  /* color: white;   */
+  height:3em;
+  font-size:x-small;
+  /* line-height: 16px !important; */
+
 }
 .vf-sub-title{  
   background-color:#007c92;
