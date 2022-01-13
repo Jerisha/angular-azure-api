@@ -29,3 +29,7 @@ button{
     -webkit-hyphens: auto;
     hyphens: auto;
   }
+
+  .controlsStylediv{
+    margin-right:20px 
+  }

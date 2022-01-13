@@ -6,9 +6,7 @@ import { catchError, first, map, retry } from 'rxjs/operators';
 import { HttpWrapperService } from 'src/app/_services/http/http-wrapper.service';
 import { FullAuditDetails } from 'src/app/_models/fullauditdetailsmodel';
 import { WeatherForecast } from 'src/app/_models/samplemodel';
-@Injectable({
-  providedIn: 'root' // just before your class
-})
+@Injectable()
 export class FullAuditDetailsService {
 
   constructor(private wrapperService: HttpWrapperService,
@@ -17,8 +15,23 @@ export class FullAuditDetailsService {
   audi!: Observable<FullAuditDetails[]>;
   dc$ = of(1, 2)
 
-  getDetails(): Observable<WeatherForecast[]> {
-    return this.wrapperService.processRequst<WeatherForecast[]>('GET', 'weatherforecast');
+  // getDetails(): Observable<WeatherForecast[]> {
+  //   return this.wrapperService.processRequst<WeatherForecast[]>('GET', 'weatherforecast');
+  // }
+
+  getDetails(): Observable<any> {
+
+
+    let headers = new HttpHeaders();
+headers = headers.set('Content-Type','application/json');
+
+    return this.httpclient.get('https://jsonplaceholder.typicode.com/posts/1',{headers:headers})
+    .pipe(catchError(this.formatError))
+    
+  }
+
+  formatError(err:HttpResponse<any>){
+    return throwError(err);
   }
 
 
@@ -28,6 +41,8 @@ export class FullAuditDetailsService {
     });
     return this.wrapperService.processRequst('POST', 'weatherforecast', data, headers);
   }
+
+ 
 
   //   postdeta(data:WeatherForecast[]): Observable<any> {
   //     const headers1 = new HttpHeaders().set('Content-Type', 'application/json');
