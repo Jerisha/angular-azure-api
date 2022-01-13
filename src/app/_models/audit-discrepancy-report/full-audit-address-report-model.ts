@@ -1,4 +1,4 @@
-export interface FullAuditDetailsFourth{
+export interface FullAuditAddresReport{
     ACTID:string;
     SourceSystem:string;
     CLIStatus:string;

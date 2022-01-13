@@ -11,6 +11,7 @@ import { FullAuditTypeComponent } from './auditdiscrepancyreport/full-audit-type
 import { ExternalAuditTypeComponent } from './auditdiscrepancyreport/external-audit-type/external-audit-type.component';
 import { SeperateInternalAuditTypeComponent } from './auditdiscrepancyreport/seperate-internal-audit-type/seperate-internal-audit-type.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule 
   ],
-  providers: [FullAuditDetailsService,HttpWrapperService,]
+  providers: [FullAuditDetailsService,HttpWrapperService,AuditDiscpancyReportService]
     // {
     //   provide: HTTP_INTERCEPTORS, 
     //   useClass: HttpErrorInterceptor, 

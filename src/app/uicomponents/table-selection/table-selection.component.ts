@@ -39,6 +39,8 @@ export class TableSelectionComponent {
 
   constructor(private cdr: ChangeDetectorRef) { }
   ngOnInit() {
+
+   console.log('sapn',this.sidePan);
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
     this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     //this.imgColumns = this.tableitem?.colToSetImage;

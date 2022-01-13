@@ -1,4 +1,4 @@
-export interface FullAuditDetailsThird{
+export interface ExternalAuditMonthReport{
     AllMonths:string,
     AutoFailedMonth:number;
     AutoFailedBacklog:number;
@@ -20,7 +20,4 @@ export interface FullAuditDetailsThird{
     AutoSpecialCeaseBacklog:number;
     TotalMonth:number;
     TotalBacklog:number;
-
-
-
 }

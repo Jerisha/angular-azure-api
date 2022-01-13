@@ -1,4 +1,4 @@
-export interface InternalAuditSecond {
+export interface InternalAuditProgressReport {
     ACTID: string;
     SourceSystem: string;
     CLIStatus: string;
