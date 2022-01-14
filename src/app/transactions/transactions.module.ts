@@ -8,12 +8,14 @@ import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { TransactionsViewsComponent } from './transactions-views/transactions-views.component';
 import { AddressCheckComponent} from "./address-check/address-check.component";
 import { SharedModule } from '../_shared/shared.module';
+import { TelephoneNoComponent } from './telephone-no/telephone-no.component';
 
 @NgModule({
   declarations: [
     TransactionsComponent,
     TransactionsViewsComponent,
-    AddressCheckComponent    
+    AddressCheckComponent,
+    TelephoneNoComponent    
   ],
   imports: [
     CommonModule,

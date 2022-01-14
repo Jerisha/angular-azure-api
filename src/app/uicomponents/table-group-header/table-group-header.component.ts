@@ -19,18 +19,22 @@ export class TableGroupHeaderComponent implements OnInit {
   groupHeaders: MergeTableItem[] = [];
   grpHdrColumnsArray!: Array<string[]>;
 
-  constructor() { }
+  constructor() {     
+  }
 
   ngOnInit(): void {
+
+    
     this.dataSource = new MatTableDataSource<any>(this.GrpTableitem?.data);
     this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
-    this.groupHeaders = this.GrpTableitem?.GroupHeaders;
+    this.groupHeaders = this.GrpTableitem?.GroupHeaders?this.GrpTableitem?.GroupHeaders:[];
     this.displayedColumns = this.GrpTableitem?.DisplayedColumns;
     this.detailedColumnsArray = this.GrpTableitem?.DetailedColumns;
     this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray
   }
 
   ngAfterViewInit() {
+   // console.log('table onint', this.data)
     this.dataSource.paginator = this.paginator;
   }
 }

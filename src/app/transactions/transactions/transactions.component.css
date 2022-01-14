@@ -1,3 +1,20 @@
+.wrap{display:flex;}
+.left-box{
+      /* min-height: 80vh; */
+      /* height: 90vh; */
+      /* min-width: 80%; */
+      width: 60vw;
+      /* background-color: rgb(230, 129, 176); */
+      overflow: auto;
+      /* padding-left: 5px; */
+  }
+  .right-box{
+    /* min-height: 80vh; */
+    height: 80vh; 
+    width: 90vw;
+    /* background-color: rgb(230, 129, 176); */
+    overflow: auto;
+}
 .container-fluid {
     width: 100%;
     padding-right: 15px;
@@ -5,29 +22,82 @@
     margin-right: auto;
     margin-left: auto;
   }
-  
+  .vf-flex-container-col {
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    justify-content: center;        
+  }
   .mt-2 {
     margin-top: 2rem;
-  }
-  .example-small-box, .example-large-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 16px;
-    padding: 16px;
-    border-radius: 8px;
-  }
-  
-  .example-small-box {
-    height: 100px;
-    width: 100px;
-  }
-  
-  .example-large-box {
-    height: 300px;
-    width: 300px;
-  }
+  }    
   .vf-tab-style1{
     background: #e60000;
     color: white;
   }
+  .vf-card-title{
+    box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
+    background-color:#e60000;
+    color:white;
+    text-align:left;
+    font-size: 14px;
+    padding-block: 1px;
+    padding-left: 5px;
+  } 
+  .mat-toolbar-single-row {
+    height: 30px;
+    background-color: #e60000;
+    color:white;
+    /* box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12); */
+    box-shadow: inset 3px 2px 5px 1px rgb(0 0 0 / 20%), 0 1px 3px 0 rgb(0 0 0 / 14%), 0 0.5px 3px 0 rgb(0 0 0 / 12%);
+}
+/* :host ::ng-deep div.mat-tab-label {
+  
+  background-color: #009de6;
+  
+    color:white;
+    
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    
+
+} */
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  /* padding: 1em 0 1em 0; */
+  padding-top: 2px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+}
+
+  .docs-primary-header {
+    background: #e60000;;
+    background-image: initial;
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    /* background-repeat-x: initial;
+    background-repeat-y: initial; */
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: #e60000;;
+}
+.component-page-header {
+  display: flex;
+  align-items: center;
+  padding-left: 0;
+}
+/* .mat-tab-labels{
+  height: 20px;
+} */
+/* :host ::ng-deep.mat-ripple mat-tab-list mat-tab-labels mat-tab-label mat-focus-indicator mat-tab-label-active ng-star-inserted{
+  height: 30px !important;
+} */
+/* :host ::ng-deep .mat-tab-list{
+  height: 30px !important;
+}
+:host ::ng-deep .mat-tab-label{
+  height: 30px !important;
+  color: rgb(11, 11, 158);
+} */

@@ -1,68 +1,57 @@
 <mat-sidenav-container class="side-container">
-    <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-      <form >
-        <div class="">     
-          
-         
-  
-          <mat-form-field appearance="outline">
-            <mat-label>Status/Final Date</mat-label>
-            <mat-select>
-              <mat-option></mat-option>
-              <mat-option>ERROR</mat-option>
-              <mat-option>ERROR Final</mat-option>
-  
-            </mat-select>
-            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
-          </mat-form-field>
-  
-          
-  
-          <mat-form-field appearance="outline">
-            <mat-label>Res.Type</mat-label>
-            <mat-select>
-              <mat-option></mat-option>
-              <mat-option>New</mat-option>
-              <mat-option>Under Investigation</mat-option>
-              <mat-option>Under Governance</mat-option>
-              <mat-option>Under Governance</mat-option>
-              <mat-option>Port Req Complete</mat-option>
-            </mat-select>
-            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
-          </mat-form-field>
-          <button type="submit" mat-raised-button color="primary" matTooltip="Search">
-            <mat-icon>search</mat-icon>Search
-          </button>
-        </div>
-  
+  <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+    <div class="controlsStylediv">
+      <form [formGroup]="auditDiscrepancyForm" (ngSubmit)="submitAuditDiscrepancyForm()">
+        <mat-form-field appearance="outline">
+          <mat-label>Audit Type</mat-label>
+          <mat-select id="AuditType" formControlName="AuditType" [(ngModel)]="selectedAuditType">
+            <mat-option></mat-option>
+            <mat-option value="Full Audit">Full Audit</mat-option>
+            <mat-option value="Seperate Internal Audit">Seperate Internal Audit</mat-option>
+            <mat-option value="External Audit">External Audit</mat-option>
+          </mat-select>
+          <mat-error class="error-message" *ngIf="checkError('AuditType', 'required')">Please Select Audit Type
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>ACT ID</mat-label>
+          <mat-select id="ACTID" formControlName="ACTID">
+            <mat-option></mat-option>
+            <mat-option value="New">New</mat-option>
+            <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
+            <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
+          </mat-select>
+          <mat-error class="error-message" *ngIf="checkError('ACTID', 'required')">Please Select ACTID</mat-error>
+        </mat-form-field>
+        <button type="submit" mat-raised-button style="margin-left: 25px;" color="primary"
+          [disabled]="auditDiscrepancyForm.invalid" matTooltip="Search">
+          <mat-icon>search</mat-icon>Search
+        </button>
       </form>
-    </mat-sidenav>
-  
-    <mat-sidenav-content class="side-content">
-      <!-- <mat-toolbar class="page-header"
-      style="margin-top:5px;margin-bottom:5px; height: 32px;;box-shadow: 0 3px 5px -1px rgba(207, 27, 27, 0.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
-      <div align="left" style="text-align: right; font-size:medium;">
-          Full Audit Details
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="side-content">
+    <div [ngSwitch]="auditType">
+      <div *ngSwitchCase="'Full Audit'">
+        <app-full-audit-type [FullAuditTableDetails]="grpFullAuditTableDetails"></app-full-audit-type>
       </div>
-  </mat-toolbar> -->
-     
+      <div *ngSwitchCase="'Seperate Internal Audit'">
+        <app-seperate-internal-audit-type [InternalAuditTableDetails]="grpInternalAuditTableDetails">
+        </app-seperate-internal-audit-type>
+      </div>
+      <div *ngSwitchCase="'External Audit'">
+        <app-seperate-internal-audit-type></app-seperate-internal-audit-type>
+      </div>
+      <div *ngSwitchDefault style="height: 650px;">
         <app-table-group-header [GrpTableitem]="grpTableitem"></app-table-group-header>
-
-
-        <div class="mat-elevation-z8 side-bottom">
-            <div class="side-left-div">           
-             
-            
-             
-    
-            </div>
-            <div class="side-right-div">
-            </div>
-    
-          </div>
-   
-  
-    
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-
+      </div>
+    </div>
+    <div class="mat-elevation-z8 side-bottom">
+      <div class="side-left-div">
+      </div>
+      <div class="side-right-div">
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
