@@ -23,14 +23,14 @@ export class FullAuditDetailsService {
 
 
     let headers = new HttpHeaders();
-headers = headers.set('Content-Type','application/json');
+    headers = headers.set('Content-Type', 'application/json');
 
-    return this.httpclient.get('https://jsonplaceholder.typicode.com/posts/1',{headers:headers})
-    .pipe(catchError(this.formatError))
-    
+    return this.httpclient.get('https://jsonplaceholder.typicode.com/posts/1', { headers: headers })
+      .pipe(catchError(this.formatError))
+
   }
 
-  formatError(err:HttpResponse<any>){
+  formatError(err: HttpResponse<any>) {
     return throwError(err);
   }
 
@@ -42,7 +42,7 @@ headers = headers.set('Content-Type','application/json');
     return this.wrapperService.processRequst('POST', 'weatherforecast', data, headers);
   }
 
- 
+
 
   //   postdeta(data:WeatherForecast[]): Observable<any> {
   //     const headers1 = new HttpHeaders().set('Content-Type', 'application/json');
