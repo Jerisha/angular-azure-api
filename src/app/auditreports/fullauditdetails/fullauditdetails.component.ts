@@ -2,16 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
-import { FullAuditDetails } from 'src/app/_models/fullauditdetailsmodel';
-import { GroupHeaderTableDetails } from 'src/app/_models/merge-table-item-model';
-import { WeatherForecast } from 'src/app/_models/samplemodel';
+import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from 'src/app/_models/index';
 import { Select } from 'src/app/_models/select';
 import { TableItem } from 'src/app/_models/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
 
-const ELEMENT_DATA: FullAuditDetails[] = [
+const ELEMENT_DATA: FullAuditDetailsSummary[] = [
   {
     TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
     CUPID: '', BatchId: 'Details Vie', ExternalCLIStatus: 'Not Found', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
@@ -213,6 +210,42 @@ const ELEMENT_DATA: FullAuditDetails[] = [
   }
 ];
 
+const ELEMENT_DATA1: RangeReport[] = [
+  {
+    SourceSystem: 'sys', CustomerAddress: 'xyz', CustomerName: 'john', EndTelNo: '01234567'
+    , StartTelNo: '01234567', InflightTransaction: 'Yes', Lineup: 'NA', OrderRef: '5678', Transaction: 'override'
+  },
+  {
+    SourceSystem: 'sys', CustomerAddress: 'xyz', CustomerName: 'john', EndTelNo: '01234567'
+    , StartTelNo: '01234567', InflightTransaction: 'Yes', Lineup: 'NA', OrderRef: '5678', Transaction: 'override'
+  },
+  {
+    SourceSystem: 'sys', CustomerAddress: 'xyz', CustomerName: 'john', EndTelNo: '01234567'
+    , StartTelNo: '01234567', InflightTransaction: 'Yes', Lineup: 'NA', OrderRef: '5678', Transaction: 'override'
+  }];
+
+const ELEMENT_DATA2: InflightReport[] = [{
+  OrderRef: 'RE34', OrderType: 'Full', OrderUpdateDate: "20-01-2022", Range: 'NA', TelNo: '01234567'
+},
+
+{
+  OrderRef: 'RE34', OrderType: 'Full', OrderUpdateDate: "20-01-2022", Range: 'NA', TelNo: '01234567'
+}];
+const ELEMENT_DATA3: MoriCircuitStatus[] = [{
+  CircuitReference: 'REF564', CompletionDate: '20-01-2022', DerivedStatus: 'NA'
+},
+{
+  CircuitReference: 'REF564', CompletionDate: '20-01-2022', DerivedStatus: 'NA'
+}
+];
+const ELEMENT_DATA4: MonthlyRefreshReport[] = [{
+  Customers: 'xyz', IsInflightOrder: 'y', LocalityOrderStatus: 'NA', MomStatus: 'NA', Postcode: '09NM', Premises: 'OFC',
+  ReferenceType: 'NA', SwitchDumpStatus: 'N', SwitchPoPS: '', ThorughFare: ''
+},
+{
+  Customers: 'xyz', IsInflightOrder: 'y', LocalityOrderStatus: 'NA', MomStatus: 'NA', Postcode: '09NM', Premises: 'OFC',
+  ReferenceType: 'NA', SwitchDumpStatus: 'N', SwitchPoPS: '', ThorughFare: ''
+}];
 const Items: Select[] = [
   { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
   { view: 'TelNo End', viewValue: 'TelNoEnd', default: true },
@@ -243,107 +276,76 @@ const Items: Select[] = [
 })
 
 export class FullauditdetailsComponent implements OnInit {
-  @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
-  myTable!: TableItem
-  fullAuditForm!: FormGroup;
-  listItems!: Select[];
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  audit!: any;
-  selectListItems: string[] = [];
 
+  @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  fullAuditForm!: FormGroup;
+
+  myTable!: TableItem;
+  rangeRptTable!: TableItem;
+  inflightRptTable!: TableItem;
+  monthlyRefreshRptTable!: TableItem;
+  moriCircuitRptTable!: TableItem;
   selectedTab!: number;
+  selectListItems: string[] = [];
+  listItems!: Select[];
+
   public tabs = [{
     tabType: 0,
     name: 'Main'
-  },
-    //  {
-    //   tabType: 1,
-    //   name: 'Audit Trail Report'
-    // },{
-    //   tabType: 2,
-    //   name: 'Transaction Details'
-    // }
+  }
   ];
-  // constructor(private ser: FullAuditDetailsService) {
-  //   this.myTable = {
-  //     data: ELEMENT_DATA,
-  //     Columns: this.colHeader,
-  //     filter: true,
-  //     selectCheckbox: true,
-  //     selectionColumn:'TelNo',
-  //     imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 },
-  //     { headerValue: 'View', icon: 'description', route: '',tabIndex:2 },
-  //     { headerValue: 'MoriCircuitStatus', icon: 'search', route: '' ,tabIndex:3}]
-  //     // dataColumns: ['TelNo', 'View', 'OSN2Source', 'Source', 'ACTID',
-  //     //   'RangeReport', 'InflightOrder', 'CUPID', 'BatchId', 'ExternalCLIStatus', 'FullAuditCLIStatus',
-  //     //   'Monthly Refresh Flag', 'Resolution Type', 'SourceSystemStatus', 'MoriCircuitStatus', 'SwitchStatus',
-  //     //   'SwitchPortingStatus', 'PortingPrefixOwner', 'Switch Type', 'CDMSNMSRPIPO', 'CDMSNMSR Prefix',
-  //     //   'CDMSNMSRType', 'CDMSNMSRAreacall', 'IsVodafoneRangeHolder', 'BTCustomer', 'BTPostcode',
-  //     //   'BTLocality', 'BTPremise', 'BTThouroughfare', 'OSN2Customer', 'OSN2Postcode', 'OSN2Locality',
-  //     //   'OSN2Premise', 'OSN2Thouroughfare', 'SourceCustomer', 'SourcePostcode', 'SourceLocality',
-  //     //   'SourcePremise', 'SourceThouroughfare', 'ParentCUPID', 'ChildCUPID', 'LineType', 'Franchise',
-  //     //   'OrderType', 'OrderReference', 'OrderServiceType', 'TypeOfLine', 'CommentsRange',
-  //     //   'LinkOrderRef', 'LinkReasonCode', 'OrderArchiveFlag', 'DeadEntry'],
-  //     // coulmnHeaders: ['TelNo', 'View', 'OSN2 Source', 'Source', 'ACT ID',
-  //     //   'Range Report', 'Inflight Order', 'CUPID', 'Batch Id', 'External CLI Status', 'Full Audit CLI Status',
-  //     //   'Monthly Refresh Flag', 'Resolution Type', 'Source System Status', 'Mori Circuit Status', 'Switch Status',
-  //     //   'Switch Porting Status', 'Porting Prefix Owner', 'Switch Type', 'CDMS/NMSR PI/PO', 'CDMS/NMSR Prefix',
-  //     //   'CDMS/NMSR Type', 'CDMS/NMSR Areacall', 'Is Vodafone RangeHolder', 'BT Customer', 'BT Postcode',
-  //     //   'BT Locality', 'BT Premise', 'BT Thouroughfare', 'OSN2 Customer', 'OSN2 Postcode', 'OSN2 Locality',
-  //     //   'OSN2 Premise', 'OSN2 Thouroughfare', 'Source Customer', 'Source Postcode', 'Source Locality',
-  //     //   'Source Premise', 'Source Thouroughfare', 'Parent CUPID', 'Child CUPID', 'Line Type', 'Franchise',
-  //     //   'Order Type', 'Order Reference', 'Order Service Type', 'Type Of Line', 'Comments(Range)',
-  //     //   'Link Order Ref', 'Link Reason Code', 'Order Archive Flag', 'Dead Entry'],
 
-  //     // colToSetImage: ['View', 'MoriCircuitStatus'],
+  rangeReportTableDetails: any = [
+    { headerValue: 'StartTelNo', header: 'Start TelNo', showDefault: true, imageColumn: false },
+    { headerValue: 'EndTelNo', header: 'End TelNo', showDefault: true, imageColumn: false },
+    { headerValue: 'SourceSystem', header: 'Source System', showDefault: true, imageColumn: false },
+    { headerValue: 'Lineup', header: 'Lineup', showDefault: true, imageColumn: false },
+    { headerValue: 'Transaction', header: 'Transaction', showDefault: true, imageColumn: false },
+    { headerValue: 'InflightTransaction', header: 'Inflight Transaction', showDefault: true, imageColumn: false },
+    { headerValue: 'CustomerName', header: 'Customer Name', showDefault: true, imageColumn: false },
+    { headerValue: 'CustomerAddress', header: 'Customer Address', showDefault: true, imageColumn: false },
+    { headerValue: 'OrderRef', header: 'Order Ref', showDefault: true, imageColumn: false },
+  ];
 
 
-  //   }
-  // }
+  inflightTableDetails: any = [
+    { headerValue: 'TelNo', header: 'TelNo', showDefault: true, imageColumn: false },
+    { headerValue: 'Range', header: 'Range', showDefault: true, imageColumn: false },
+    { headerValue: 'OrderRef', header: 'Order Ref', showDefault: true, imageColumn: false },
+    { headerValue: 'OrderType', header: 'Order Type', showDefault: true, imageColumn: false },
+    { headerValue: 'OrderUpdateDate', header: 'Order Updated Date', showDefault: true, imageColumn: false },
+  ];
 
-  removeTab(index: number) {
-    this.tabs.splice(index, 1);
-  }
+  moriCicuitTableDetails: any = [
+    { headerValue: 'CircuitReference', header: 'Circuit Reference', showDefault: true, imageColumn: false },
+    { headerValue: 'CompletionDate', header: 'Completion Date', showDefault: true, imageColumn: false },
+    { headerValue: 'DerivedStatus', header: 'Derived Status', showDefault: true, imageColumn: false }
+  ];
 
-  newTab(tab: any) {
-    switch (tab.tabType) {
-      case 1: {
 
-        //tab.row contains row data- fetch data from api and bind to respetive component
+  monthlyRefreshReportTableDetails: any = [
+    { headerValue: 'ReferenceType', header: 'Reference Type', showDefault: true, imageColumn: false },
+    { headerValue: 'Customers', header: 'Customers', showDefault: true, imageColumn: false },
+    { headerValue: 'Postcode', header: 'Postcode', showDefault: true, imageColumn: false },
+    { headerValue: 'Premises', header: 'Premises', showDefault: true, imageColumn: false },
+    { headerValue: 'ThorughFare', header: 'ThorughFare', showDefault: true, imageColumn: false },
+    { headerValue: 'LocalityOrderStatus', header: 'Locality Order Status', showDefault: true, imageColumn: false },
+    { headerValue: 'IsInflightOrder', header: 'Is Inflight Order', showDefault: true, imageColumn: false },
+    { headerValue: 'MomStatus', header: 'Mom Status', showDefault: true, imageColumn: false },
+    { headerValue: 'SwitchDumpStatus', header: 'Switch Dump Status', showDefault: true, imageColumn: false },
+    { headerValue: 'SwitchPoPS', header: 'Switch PoPS', showDefault: true, imageColumn: false },
+  ];
 
-        this.tabs.push({
-          tabType: 1,
-          name: 'Audit Trail Report'
-        });
-        break;
-      }
-      case 2: {
-        this.tabs.push({
-          tabType: 2,
-          name: 'Transaction Details'
-        })
-        break;
-      }
-      default: {
-        //statements; 
-        break;
-      }
-    }
+  validation_messages = {
+    'TelNo': [
+      { type: 'required', message: 'TelNo is required' },
+      { type: 'minlength', message: 'TelNo should be 10 characters long' }
 
-    
+    ]
+  };
 
-  }
 
-  setControlAttribute(matSelect: MatSelect) {
-    matSelect.options.forEach((item) => {
-      if (item.selected) {
-        this.fullAuditForm.controls[item.value].enable();
-      }
-      else {
-        this.fullAuditForm.controls[item.value].disable();
-      }
-    });
-  }
 
   colHeader: any[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, imageColumn: false },
@@ -351,13 +353,13 @@ export class FullauditdetailsComponent implements OnInit {
     { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: true, imageColumn: false },
     { headerValue: 'Source', header: 'Source', showDefault: true, imageColumn: false },
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, imageColumn: false },
-    { headerValue: 'RangeReport', header: 'Range Report', showDefault: true, imageColumn: false },
-    { headerValue: 'InflightOrder', header: 'Inflight Order', showDefault: true, imageColumn: false },
+    { headerValue: 'RangeReport', header: 'Range Report', showDefault: true, imageColumn: true },
+    { headerValue: 'InflightOrder', header: 'Inflight Order', showDefault: true, imageColumn: true },
     { headerValue: 'CUPID', header: 'CUPID', showDefault: true, imageColumn: false },
     { headerValue: 'BatchId', header: 'Batch Id', showDefault: true, imageColumn: false },
     { headerValue: 'ExternalCLIStatus', header: 'External CLI Status', showDefault: true, imageColumn: false },
     { headerValue: 'FullAuditCLIStatus', header: 'Full Audit CLI Status', showDefault: true, imageColumn: false },
-    { headerValue: 'MonthlyRefreshFlag', header: 'Monthly Refresh Flag', showDefault: true, imageColumn: false },
+    { headerValue: 'MonthlyRefreshFlag', header: 'Monthly Refresh Flag', showDefault: true, imageColumn: true },
     { headerValue: 'ResolutionType', header: 'ResolutionType', showDefault: true, imageColumn: false },
     { headerValue: 'SourceSystemStatus', header: 'Source System Status', showDefault: true, imageColumn: false },
     { headerValue: 'MoriCircuitStatus', header: 'Mori Circuit Status', showDefault: true, imageColumn: true },
@@ -398,84 +400,134 @@ export class FullauditdetailsComponent implements OnInit {
     { headerValue: 'LinkReasonCode', header: 'Link Reason Code', showDefault: true, imageColumn: false },
     { headerValue: 'OrderArchiveFlag', header: 'Order Archive Flag', showDefault: true, imageColumn: false },
     { headerValue: 'DeadEntry', header: 'DeadEntry', showDefault: true, imageColumn: false }];
-  
+
   constructor(private ser: FullAuditDetailsService,
-    private formBuilder:FormBuilder) {  
-      
-
-      this.ser.getDetails().
-      subscribe(
-        res => {
-          this.audit = res
-          console.log('in',this.audit)
-        },
-        err=>{
-          console.log(err)
-        },
-        ()=>{
-          console.log('completed')
-        }
-      );
-
-      console.log('out',this.audit)
-      
+    private formBuilder: FormBuilder) {
     this.myTable = {
       data: ELEMENT_DATA,
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
+      isEmailRequired: true,
       selectionColumn: 'TelNo',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 },
-      { headerValue: 'View', icon: 'description', route: '',tabIndex:2 },
-      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '',tabIndex:3 }]
-
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
+      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
+      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
+      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
+      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
     }
   }
 
-  assign(res:any){
-    this.audit = res
-    console.log('method',this.audit)
+
+
+  monthlyRefreshReportInit() {
+    this.monthlyRefreshRptTable
+      = {
+      data: ELEMENT_DATA4,
+      Columns: this.monthlyRefreshReportTableDetails,
+      filter: true,
+    }
+  }
+
+  rangeReportInit() {
+    this.rangeRptTable = {
+      data: ELEMENT_DATA1,
+      Columns: this.rangeReportTableDetails,
+      filter: true,
+    }
+  }
+
+  moriCircuitStatusReportInit() {
+    this.moriCircuitRptTable = {
+      data: ELEMENT_DATA3,
+      Columns: this.moriCicuitTableDetails,
+      filter: true,
+    }
+  }
+
+  inflightReportInit() {
+    this.inflightRptTable = {
+      data: ELEMENT_DATA2,
+      Columns: this.inflightTableDetails,
+      filter: true
+    }
   }
 
   ngOnInit(): void {
-
-    // console.log('in',this.grpTblHdrDtls)
     this.createForm();
     this.listItems = Items;
-
-    console.log('out', this.audit)
-            
-
-    // this.audit = [{ summary: "Chilly", temperatureC: 13 }]
-    // this.ser.postDetails(this.audit).subscribe(res => {
-    //   console.log('post res' + JSON.stringify(res))
-    // }, (error) => {
-    //   debugger;cons
-    //   console.log(error)
-    // })
   }
 
-
- 
-
-  // setControlAttribute(matSelect: MatSelect) {
-  //   matSelect.options.forEach((item) => {
-  //     if (item.selected) {
-  //       this.fullAuditForm.controls[item.value].enable();
-  //     }
-  //     else {
-  //       this.fullAuditForm.controls[item.value].disable();
-  //     }
-  //   });
-  // }
-
-   
-  public checkError = (controlName: string, errorName: string)=>  {
-    return this.fullAuditForm.controls[controlName].hasError(errorName) && 
-    ( this.fullAuditForm.controls[controlName].dirty || this.fullAuditForm.controls[controlName].touched)
+  removeTab(index: number) {
+    this.tabs.splice(index, 1);
   }
 
-  
+  newTab(tab: any) {
+    debugger;
+    switch (tab.tabType) {
+      case 1: {
+        this.tabs.push({
+          tabType: 1,
+          name: 'Audit Trail Report'
+        });
+        break;
+      }
+      case 3: {
+        this.rangeReportInit();
+        this.tabs.push({
+          tabType: 2,
+          name: 'Range Report'
+        })
+        break;
+      }
+      case 4: {
+        this.inflightReportInit();
+        this.tabs.push({
+          tabType: 4,
+          name: 'Inflight Report'
+        })
+        break;
+      }
+      case 5: {
+        this.monthlyRefreshReportInit();
+        this.tabs.push({
+          tabType: 5,
+          name: 'Monthly Refresh Report'
+        })
+        break;
+      }
+      case 6: {
+        this.moriCircuitStatusReportInit();
+        this.tabs.push({
+          tabType: 6,
+          name: 'Mori Circuit Status Report'
+        })
+        break;
+      }
+      default: {
+        //statements; 
+        break;
+      }
+    }
+  }
+
+  setControlAttribute(matSelect: MatSelect) {
+    matSelect.options.forEach((item) => {
+      if (item.selected) {
+        this.fullAuditForm.controls[item.value].enable();
+      }
+      else {
+        this.fullAuditForm.controls[item.value].disable();
+      }
+    });
+  }
+
+  public checkError = (controlName: string, errorName: string) => {
+    return this.fullAuditForm.controls[controlName].hasError(errorName) &&
+      (this.fullAuditForm.controls[controlName].dirty || this.fullAuditForm.controls[controlName].touched)
+  }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     //debugger;
@@ -484,33 +536,18 @@ export class FullauditdetailsComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
-  validation_messages = {
-    'TelNo': [
-      { type: 'required', message: 'TelNo is required' },
-       { type: 'minlength', message: 'TelNo should be 10 characters long' }     
-      
-     ],
-     
-    // 'email': [
-    //   { type: 'required', message: 'Email is required' },
-    //   { type: 'pattern', message: 'Enter a valid mail' }
-    // ]
-    
-  };
-
-
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
       TelNoStart: new FormControl({ value: '', disabled: true },
         [
           Validators.required,
-          Validators.minLength(10)        
+          Validators.minLength(10)
         ]
       ),
       TelNoEnd: new FormControl({ value: '', disabled: true },
         [
           Validators.required,
-          Validators.minLength(10)         
+          Validators.minLength(10)
         ]
       ),
       AuditActId: new FormControl({ value: '', disabled: true }, [Validators.required]),
@@ -534,7 +571,6 @@ export class FullauditdetailsComponent implements OnInit {
   }
 
   rowDetect(item: any) {
-    //debugger;
     if (item.length == 0) {
       this.selectListItems = [];
     } else {

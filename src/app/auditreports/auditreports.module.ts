@@ -12,6 +12,7 @@ import { ExternalAuditTypeComponent } from './auditdiscrepancyreport/external-au
 import { SeperateInternalAuditTypeComponent } from './auditdiscrepancyreport/seperate-internal-audit-type/seperate-internal-audit-type.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscrepancyreport.component.service';
+import { SharedModule } from '../_shared/shared.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscr
     ReactiveFormsModule,
     MaterialModule,
     FormsModule,
-    HttpClientModule 
+    HttpClientModule ,
+    SharedModule
   ],
   providers: [FullAuditDetailsService,HttpWrapperService,AuditDiscpancyReportService]
     // {

@@ -1,4 +1,4 @@
-export interface FullAuditDetails {
+export interface FullAuditDetailsSummary {
     TelNo: string;
     View: string;
     OSN2Source: string;
