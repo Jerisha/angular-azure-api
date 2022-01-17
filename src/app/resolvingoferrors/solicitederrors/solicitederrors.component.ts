@@ -126,7 +126,7 @@ export class SolicitederrorsComponent implements OnInit {
   selectedTab!: number;
   public tabs = [{
     tabType: 0,
-    name: 'Main'
+    name: 'Summary'
   },
     //  {
     //   tabType: 1,
@@ -158,8 +158,8 @@ export class SolicitederrorsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 },
-      { headerValue: 'View', icon: 'description', route: '',tabIndex:2 }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
       // dataColumns: ['TranId', 'View', 'TelNo', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'ResType', 'ErrorList'],
       // coulmnHeaders: ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res-Type', 'Error/List'],
 
@@ -178,7 +178,7 @@ export class SolicitederrorsComponent implements OnInit {
     //   City: ['', [Validators.required]],
     //   Pincode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{6}')])]
     //});
-    this.selectedTab = this.tabs.length - 1;
+    //this.selectedTab = this.tabs.length - 1;
   }
 
   ngAfterViewInit() {
@@ -228,20 +228,24 @@ export class SolicitederrorsComponent implements OnInit {
   newTab(tab: any) {
     switch (tab.tabType) {
       case 1: {
-
         //tab.row contains row data- fetch data from api and bind to respetive component
-
-        this.tabs.push({
-          tabType: 1,
-          name: 'Audit Trail Report'
-        });
+        if (!this.tabs.find(x => x.tabType == 1)) {
+          this.tabs.push({
+            tabType: 1,
+            name: 'Audit Trail Report (1977722725)'
+          });
+          this.selectedTab = 1;
+        }
         break;
       }
       case 2: {
-        this.tabs.push({
-          tabType: 2,
-          name: 'Transaction Details'
-        })
+        if (!this.tabs.find(x => x.tabType == 2)) {
+          this.tabs.push({
+            tabType: 2,
+            name: 'Transaction Details'
+          })
+          this.selectedTab = 2;
+        }
         break;
       }
       default: {
@@ -249,9 +253,6 @@ export class SolicitederrorsComponent implements OnInit {
         break;
       }
     }
-
-    
-
   }
 
 }

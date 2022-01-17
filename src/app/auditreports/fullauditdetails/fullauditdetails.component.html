@@ -186,13 +186,13 @@
                             <mat-option>1</mat-option>
                             <mat-option>2</mat-option>
                         </mat-select>
-                        </mat-form-field>
-                        </div>
-                        </form>
-                        </div>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
     </mat-sidenav>
 
-    <mat-sidenav-content class="side-content">      
+    <mat-sidenav-content class="side-content">
         <!-- <div class="page-header">
             <button mat-basic-button color="primary" (click)="pagesidenav.toggle()"
                 matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
@@ -201,8 +201,8 @@
             <div style="margin: 5px; float: left;"> Audit Reports > Full Audit Details</div>
         </div> -->
         <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
-        (addNewTab)="newTab($event)">
-      </app-table-selection>
+            (addNewTab)="newTab($event)">
+        </app-table-selection>
         <!-- <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"></app-table-selection> -->
         <form>
             <div class="mat-elevation-z8 side-bottom">

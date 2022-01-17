@@ -1,8 +1,17 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+
+    <div class="filterdataby">
+      <div style="font-size: small;">
+        <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
+          <mat-icon>filter_alt</mat-icon>
+          Filter Data By
+        </button>
+        
+      </div>
+    </div>
     <form (ngSubmit)="onFormSubmit()">
       <div class="">
-
         <mat-form-field hintLabel="Max 10 characters" appearance="outline">
           <mat-label>Tel.No Start</mat-label>
           <input matInput #input maxlength="10" placeholder="Tel.No Start">
@@ -112,7 +121,7 @@
         </button>
         <div style="margin: 5px; float: left;"> Resolving Of Errors > Solicited Errors</div>
       </div> -->
-    <mat-tab-group [selectedIndex]="selectedTab">
+    <mat-tab-group [(selectedIndex)]="selectedTab">
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
           <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
