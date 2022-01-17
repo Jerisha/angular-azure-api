@@ -4,14 +4,14 @@
               <mat-card-content >
                   <form  #ff ="ngForm" (ngSubmit)="onSubmit()" >
                       <div> 
-                        <mat-form-field appearance="outline" style="margin-left:2px; margin-top: auto;">
+                        <mat-form-field appearance="outline" style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>Tel.No Start</mat-label>
                           <input matInput [(ngModel)]="model.telno"  pattern ="^[0-9 ]*$" maxlength="11" placeholder="Tel.No Start"  name = "telno" size = 11 style="margin-right:auto" (change)="onChangeEvent($event)">
                           <!-- <div *ngIf="mobNumber.errors && userForm.submitted && !isValidFormSubmitted" [ngClass] = "'error'">  
                             <div *ngIf="mobNumber.errors.pattern">  
                               Mobile number not valid.   -->
                         </mat-form-field>              
-                        <mat-form-field appearance="outline" style="margin-left:2px; margin-top: auto;">
+                        <mat-form-field appearance="outline" style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>Tel.No End</mat-label>
                           <input matInput [(ngModel)]="model.rangeEnd" pattern ="^[0-9 ]*$" maxlength="11" placeholder="Tel.No End" name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)">
                         </mat-form-field>             
@@ -108,18 +108,7 @@
                                         <mat-option value="V">VOIP</mat-option>
                                       </mat-select>
                                     </mat-form-field>             
-                                </div>   
-                                <!-- <div>
-                                  <mat-form-field appearance="outline" class="vf-mr-negative">
-                                    <mat-label class="vf-label">Conn.Type</mat-label> 
-                                      <mat-select name="txt" onchange="check_list(this,20)">                            
-                                              <mat-option value=""></mat-option>
-                                              <mat-option value="C">Centrex</mat-option>
-                                              <mat-option value="D">Direct</mat-option>
-                                              <mat-option value="I">Indirect</mat-option>
-                                      </mat-select>               
-                                  </mat-form-field>
-                                </div>                              -->
+                                </div> 
                                 <div style="margin-bottom: 6px;">
                                   <mat-form-field appearance="outline" class="vf-mr-negative" >
                                     <mat-label class="vf-label">Type of Line *</mat-label> 
@@ -196,45 +185,57 @@
                                         <mat-option value="Z6">Z6 - VCC SIP Tnk Nom IN No-s on C20</mat-option>
                                       </mat-select>               
                                   </mat-form-field>
-                                </div>
-                                <div style="margin-bottom: 6px;">                            
-                                    <mat-form-field appearance="outline" class="vf-mr-negative">
-                                      <mat-label class="vf-label">Custemer Name *</mat-label>
-                                      <textarea matInput placeholder="Custermer Name *"
-                                      cdkTextareaAutosize
-                                      #autosize="cdkTextareaAutosize"
-                                      cdkAutosizeMinRows="1"
-                                      cdkAutosizeMaxRows="2"
-                                      onblur="triggerResize()" 
-                                      size="20" maxlength="20"                  
-                                      ></textarea>                                  
-                                    </mat-form-field> 
-                                </div>                                                                                             
+                                </div>                                                                                                                            
                             <div style="margin-bottom: 6px;">
                               <mat-form-field appearance="outline" class="vf-mr-negative" style="width:100px;">
                                 <mat-label class="vf-label">Order Ref.</mat-label>
                                 <input type="text" matInput  placeholder="Order Ref. *" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
-                              </mat-form-field> 
-                            <!-- </div> -->
-                            <!-- <div style="margin-bottom: 6px;">     -->
+                              </mat-form-field>                             
                               <mat-form-field appearance="outline" class="vf-mr-negative" style="width:100px">
                                 <mat-label class="vf-label">Imp./Exp. CUPID</mat-label>
                                 <input type="text" matInput  placeholder="Imp./Exp. CUPID" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             </mat-form-field> 
                             </div>
+                            <div >
+                              <mat-form-field appearance="outline" style="width:100%;" >
+                              <mat-label class="vf-label">Comments</mat-label>
+                              <textarea matInput placeholder="Comments"
+                                cdkTextareaAutosize
+                                #autosize="cdkTextareaAutosize"
+                                cdkAutosizeMinRows="3"
+                                cdkAutosizeMaxRows="3"
+                                onblur="triggerResize()" 
+                                size="20" maxlength="40"                  
+                              ></textarea>              
+                            </mat-form-field>
+                          </div> 
                                 </div>      
-                              <div class="vf-flex-container-col" style="margin: 2px;float: left;"> 
-                                <!-- <div>
-                                  <mat-form-field appearance="outline" class="vf-mr-negative">
-                                    <mat-label class="vf-label">Access Method *</mat-label> 
-                                      <mat-select name="txt" onchange="check_list(this,22)">
-                                          <mat-option value=""></mat-option>
-                                          <mat-option value="L">L - Bulldog Access</mat-option>
-                                          <mat-option value="W">W - Ethernet Radio Access</mat-option>
-                                      </mat-select>               
-                                  </mat-form-field>
-                                </div>  -->
-                                      <div style="margin-bottom: 6px;">
+                              <div class="vf-flex-container-col" style="margin: 2px;float: left;">
+                                <div style="margin-bottom: 6px;">                            
+                                  <mat-form-field appearance="outline" class="vf-mr-negative" style="width:250px;">
+                                    <mat-label class="vf-label">Customer Name *</mat-label>
+                                    <textarea matInput placeholder="Customer Name *"
+                                    cdkTextareaAutosize
+                                    #autosize="cdkTextareaAutosize"
+                                    cdkAutosizeMinRows="1"
+                                    cdkAutosizeMaxRows="2"
+                                    onblur="triggerResize()" 
+                                    size="20" maxlength="20"                  
+                                    ></textarea>                                  
+                                  </mat-form-field> 
+                                  <button type="button" mat-mini-fab  style="margin-left: 6px; width: 30px;height:30px;font-size: small;line-height: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
+                                    <mat-icon style ="font-size:small;width:24px;height: 24px;">content_copy</mat-icon>
+                                  </button>
+                                  <!-- <div style ="display: flex;justify-content: center;width: 24px;"> -->
+                                    <!-- <button mat-icon-button type="button"  style = "background-color: red;width: fit-content;"aria-label="update Default Office Address Details"  matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->
+                                      <!-- <mat-icon>content-copy</mat-icon>V -->
+                                    <!-- </button> -->
+                                  <!-- </div> -->
+                                  <!-- <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->
+                                    <!-- <mat-icon style ="font-size:small;width:50px;height: 16px; color: deeppink;">content-copy</mat-icon> -->
+                                  <!-- </button> -->
+                              </div>       
+                                <div style="margin-bottom: 6px;">
                                         <mat-form-field appearance="outline" class="vf-mr-negative"style="width:300px;" >
                                           <mat-label class="vf-label">Address1 *</mat-label>
                                           <textarea matInput placeholder="Address1 *"
@@ -286,27 +287,14 @@
                                     ></textarea>              
                                   </mat-form-field>
                                 </div>
-                                <div style="margin-bottom: 6px;">
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" style="width:300px;">
+                                <div >
+                                  <mat-form-field appearance="outline" class="vf-mr-negative" style="width:100%;">
                                       <mat-label class="vf-label">Post code *</mat-label>
                                       <input type="text" matInput  placeholder="Post code *" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
-                                  </mat-form-field>
+                                  </mat-form-field>                                  
                                   </div>                                                  
                                 </div>                               
-                        </div>
-                        <div style="margin-bottom: 6px;">
-                          <mat-form-field appearance="outline" class="vf-mr-negative"style="width:100%" >
-                          <mat-label class="vf-label">Comments</mat-label>
-                          <textarea matInput placeholder="Comments"
-                            cdkTextareaAutosize
-                            #autosize="cdkTextareaAutosize"
-                            cdkAutosizeMinRows="1"
-                            cdkAutosizeMaxRows="2"
-                            onblur="triggerResize()" 
-                            size="20" maxlength="40"                  
-                          ></textarea>              
-                        </mat-form-field>
-                      </div> 
+                        </div>                        
                         <div class =vf-flex-container style="margin-block: 1px; padding-bottom: 2px;">                           
                               <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Save" (click)="saveTran(0)" [disabled]="saveState">
                               <mat-icon style ="font-size:small;width:30px;height: 16px;">save</mat-icon>Save
