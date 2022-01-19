@@ -10,7 +10,7 @@ import { FullAuditDetailsService } from './fullauditdetails.service';
 
 const ELEMENT_DATA: FullAuditDetailsSummary[] = [
   {
-    TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
+    TelNo: '01131100030', View: '23', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
     CUPID: '', BatchId: 'Details Vie', ExternalCLIStatus: 'Not Found', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
@@ -29,7 +29,7 @@ const ELEMENT_DATA: FullAuditDetailsSummary[] = [
     BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'Amdocs SOM ', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
     OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
     ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
-    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: ''
+    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: 'some', DeadEntry: ''
   },
   {
     TelNo: '01131100030', View: '', OSN2Source: 'Details Viee', Source: 'Amdocs SOM ', ACTID: 'Details Vie', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
@@ -288,6 +288,7 @@ export class FullauditdetailsComponent implements OnInit {
   moriCircuitRptTable!: TableItem;
   selectedTab!: number;
   selectListItems: string[] = [];
+  unSelectListItems: string[] = [];
   listItems!: Select[];
 
   public tabs = [{
@@ -347,10 +348,14 @@ export class FullauditdetailsComponent implements OnInit {
 
 
 
+
+
+
+
   colHeader: any[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, imageColumn: false },
     { headerValue: 'View', header: 'View', showDefault: true, imageColumn: true },
-    { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: true, imageColumn: false },
+    { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, imageColumn: false },
     { headerValue: 'Source', header: 'Source', showDefault: true, imageColumn: false },
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, imageColumn: false },
     { headerValue: 'RangeReport', header: 'Range Report', showDefault: true, imageColumn: true },
@@ -454,9 +459,40 @@ export class FullauditdetailsComponent implements OnInit {
     }
   }
 
+   emptyColumns: string[] = [];
+     nonemptyColumns: string[] = [];
+
+  checkIsNullOrEmptyProperties(obj: any) {
+    for (var key in obj) {
+      if (obj[key] === null || obj[key] === "")
+        this.emptyColumns.push(key);
+      else {
+        this.nonemptyColumns.push(key)
+      }
+    }
+  }
+
+  getEmptyColumns() {
+    let summaryData = ELEMENT_DATA;
+    summaryData.forEach(item => {
+      this.checkIsNullOrEmptyProperties(item)
+    });
+
+    var emptySet = new Set(this.emptyColumns);
+    this.emptyColumns = [...emptySet];
+
+    var nonEmptySet = new Set(this.nonemptyColumns);
+    this.nonemptyColumns = [...nonEmptySet];
+
+    this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
+    console.log('withoutdataingrid', this.unSelectListItems);
+
+  }
+
   ngOnInit(): void {
     this.createForm();
     this.listItems = Items;
+   this.getEmptyColumns();
   }
 
   removeTab(index: number) {
