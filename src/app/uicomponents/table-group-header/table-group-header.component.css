@@ -3,7 +3,7 @@ table
     width:100%;
 }
 th {
-  background-color: lightblue;;
+  background-color: #e60000;;;
   color:white;
 }
 
@@ -12,7 +12,7 @@ th.mat-sort-header-sorted {
 }
 
 .mat-header-cell {
-  color: black;
+  color: white;
   /* width: auto;
   height: fit-content; */
   font-size:small;

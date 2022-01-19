@@ -1,10 +1,9 @@
-export interface FullAuditSummary {
+export interface ExternalAuditProgressReport {
     ACTID:string;
     SourceSystem:string;
-    FullAuditCLIStatus:string;    
+    CLIStatus:string;    
     New:number;
     AutoFailed:number;
-
     UnderInvestigation:number;
     UnderGovernance:number;
     UnderPorting:number; 
@@ -13,10 +12,7 @@ export interface FullAuditSummary {
     Resolved:number; 
     UnResolved:number;
     AutoResolved:number;
-    AutoClosed:number;
-    AutoLogicResolved:number;    
-    AutoResolvedAreacall:number;
-    AuditDiscrepancyOverride:number;
+    AutoClosed:number; 
     AuditTransactionOverride:number;
     AutoActive:number;
     AutoModify:number;

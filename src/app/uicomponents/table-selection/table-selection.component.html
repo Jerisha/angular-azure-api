@@ -73,17 +73,22 @@ font-size: smaller;  ">
   </table>
 </div>
 
-
-
 <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[100, 500, 1000]" showFirstLastButtons>
 </mat-paginator>
 
-<div style="margin: auto;">
+<!-- <div style="margin: auto;"> -->
+  <div style="margin-bottom:10px" >
   <button type="reset" mat-raised-button color="primary" matTooltip="Export">
     <mat-icon>import_export</mat-icon>Export
   </button>&nbsp;&nbsp;
   <button type="reset" mat-raised-button color="primary" matTooltip="Clipboard">
-    <mat-icon>file_copy</mat-icon>Copy To Clipboard
+    <mat-icon>file_copy</mat-icon> Copy To Clipboard
   </button>
+  
+  <span *ngIf="isEmailRequired">
+  <button type="reset" mat-raised-button color="primary" matTooltip="Export to email">
+    <mat-icon>email</mat-icon> Export to email
+  </button>
+  </span>  
 </div>
 <mat-divider></mat-divider>

@@ -17,7 +17,8 @@ import { HttpWrapperService } from './_services/http/http-wrapper.service';
 import { HttpErrorInterceptor } from './_services/http/http-error-interceptor';
 import { HttpRequestHeader } from './_services/http/http-request-header.service';
 import { TransactionsModule } from './transactions/transactions.module';
-
+import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 
@@ -49,7 +50,13 @@ import { TransactionsModule } from './transactions/transactions.module';
     provide: HTTP_INTERCEPTORS, 
     useClass: HttpRequestHeader, 
     multi: true 
-  }],
+  },
+  AuditDiscpancyReportService,
+  // {
+  //   provide: LocationStrategy, 
+  //   useClass: HashLocationStrategy
+  // }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
