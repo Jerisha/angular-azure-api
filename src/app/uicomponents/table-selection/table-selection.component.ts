@@ -37,10 +37,11 @@ export class TableSelectionComponent {
   selectColumn: string = '';
   selectedTelnos: string[] = [];
   isEmailRequired:boolean =false
+  selectList:string[]=[];
 
   constructor(private cdr: ChangeDetectorRef) { }
   ngOnInit() {
-   
+    // this.selectList = this.tableitem?.Columns?.filter((e) => e.showDefault == true).map((i) => i.header);
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
     this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     //this.imgColumns = this.tableitem?.colToSetImage;

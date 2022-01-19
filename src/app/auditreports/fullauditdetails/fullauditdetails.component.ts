@@ -346,12 +346,6 @@ export class FullauditdetailsComponent implements OnInit {
     ]
   };
 
-
-
-
-
-
-
   colHeader: any[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, imageColumn: false },
     { headerValue: 'View', header: 'View', showDefault: true, imageColumn: true },
@@ -423,8 +417,6 @@ export class FullauditdetailsComponent implements OnInit {
       { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
     }
   }
-
-
 
   monthlyRefreshReportInit() {
     this.monthlyRefreshRptTable

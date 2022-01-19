@@ -15,7 +15,7 @@ font-size: smaller;  ">
           Select All</mat-checkbox>      
     </mat-optgroup>
     <mat-option color="primary"  (click)="optionClick()" *ngFor="let cols of (this.tableitem?.Columns || []); let fltIndex = index"
-      [value]="cols.headerValue">
+      [value]="cols.headerValue" [>
       {{ cols.header }}
     </mat-option>
     <mat-optgroup>  
