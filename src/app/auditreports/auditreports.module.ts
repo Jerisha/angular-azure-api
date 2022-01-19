@@ -11,6 +11,8 @@ import { FullAuditTypeComponent } from './auditdiscrepancyreport/full-audit-type
 import { ExternalAuditTypeComponent } from './auditdiscrepancyreport/external-audit-type/external-audit-type.component';
 import { SeperateInternalAuditTypeComponent } from './auditdiscrepancyreport/seperate-internal-audit-type/seperate-internal-audit-type.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscrepancyreport.component.service';
+import { SharedModule } from '../_shared/shared.module';
 
 
 @NgModule({
@@ -30,9 +32,10 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     MaterialModule,
     FormsModule,
-    HttpClientModule 
+    HttpClientModule ,
+    SharedModule
   ],
-  providers: [FullAuditDetailsService,HttpWrapperService,]
+  providers: [FullAuditDetailsService,HttpWrapperService,AuditDiscpancyReportService]
     // {
     //   provide: HTTP_INTERCEPTORS, 
     //   useClass: HttpErrorInterceptor, 

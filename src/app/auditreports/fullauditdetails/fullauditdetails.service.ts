@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest, HttpResponse }
 import { environment } from 'src/environments/environment';
 import { catchError, first, map, retry } from 'rxjs/operators';
 import { HttpWrapperService } from 'src/app/_services/http/http-wrapper.service';
-import { FullAuditDetails } from 'src/app/_models/fullauditdetailsmodel';
+import { FullAuditSummary } from 'src/app/_models/index';
 import { WeatherForecast } from 'src/app/_models/samplemodel';
 @Injectable()
 export class FullAuditDetailsService {
@@ -12,7 +12,7 @@ export class FullAuditDetailsService {
   constructor(private wrapperService: HttpWrapperService,
     private httpclient: HttpClient) {
   }
-  audi!: Observable<FullAuditDetails[]>;
+  audi!: Observable<FullAuditSummary[]>;
   dc$ = of(1, 2)
 
   // getDetails(): Observable<WeatherForecast[]> {
@@ -35,11 +35,11 @@ export class FullAuditDetailsService {
   }
 
 
-  postDetails(data: WeatherForecast[]): Observable<any> {
+  postDetails(data: WeatherForecast[]): Observable<WeatherForecast[]> {
     var headers = new HttpHeaders({
       'auth': 'OAuth'
     });
-    return this.wrapperService.processRequst('POST', 'weatherforecast', data, headers);
+    return this.wrapperService.processRequst<WeatherForecast[]>('POST', 'weatherforecast', data, headers);
   }
 
 
