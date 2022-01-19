@@ -1,22 +1,5 @@
-<!-- <mat-accordion>
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header class="vf-panel-title-btn">
-        <mat-panel-title >
-          Telephone No
-        </mat-panel-title>
-        <mat-panel-description>
-            <p> Selected no: 0123456789</p>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p> Selected no: 0123456789</p>
-    </mat-expansion-panel>    
-  </mat-accordion> -->
-  <button mat-button [matMenuTriggerFor]="menu" class="vf-panel-title-btn">Select Telephone No</button>
-<mat-menu #menu="matMenu">
-  <!-- <button mat-menu-item>01234567890</button>
-  <button mat-menu-item>01234567890</button>
-  <button mat-menu-item>01234567890</button>
-  <button mat-menu-item>01234567890</button> -->
+<button mat-button [matMenuTriggerFor]="menu" class="vf-panel-title-btn">Select Telephone No</button>
+<mat-menu #menu="matMenu">  
   <mat-radio-group aria-label="Select an option">
     <mat-radio-button value="1">01234567890</mat-radio-button>
     <mat-radio-button value="2">01234567890</mat-radio-button>
@@ -28,7 +11,7 @@
     <mat-radio-button value="2">01234567890</mat-radio-button>
   </mat-radio-group>
 </mat-menu>
-<button type="button" mat-mini-fab  style="float: right; width: 30px;height:30px;font-size: small;line-height: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Update matched Details"  (click)="updateMatchedDetails()">
-  <mat-icon style ="font-size:small;width:24px;height: 24px;">content_copy</mat-icon>
+<button type="button" mat-mini-fab  style="width:30px;height:30px;margin-left:46%;margin-top:6px;font-size:small;line-height:0px !important;background-color:rgb(230, 60, 160);" matTooltip="Update matched Details"  (click)="updateMatchedDetails()">
+  <mat-icon style ="font-size:small;width:24px;height:24px;">content_copy</mat-icon>
 </button>
-<span style="float: right;margin-top: 0.5rem;margin-right:0.5rem;">Selected Telephone:<strong>01234567890</strong></span>
+<span style="margin-top: 0.6rem;margin-right:0.5rem;float:right;">Selected Telephone:<strong>01234567890</strong></span>
