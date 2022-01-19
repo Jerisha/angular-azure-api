@@ -220,9 +220,8 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
   setOptions() {
-    debugger;
-
-    this.service.configDetails(configInput);
+    // debugger;
+    // this.service.configDetails(configInput);
 
     this.errorCodesOptions = this.errorCode.valueChanges
       .pipe(
