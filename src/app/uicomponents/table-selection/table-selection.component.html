@@ -3,10 +3,11 @@ font-size: smaller;  ">
   <mat-label>Filter</mat-label>
   <input [(ngModel)]="fltvalue" #Input matInput (keyup)="applyFilter()" name="fltvalue" placeholder="Filter">
 </mat-form-field> -->
-<button style="display: inline-block;" class="slidderbtn" mat-basic-button color="primary"
+
+<!-- <button style="display: inline-block;" class="slidderbtn" mat-basic-button color="primary"
 (click)="sidePan.toggle()" matTooltip="{{sidePan.opened ? 'Hide Filters' : 'Show Filters'}}">
   <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-  </button>
+  </button> -->
 
 <mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 0px;margin-bottom: 0px;">
   <mat-select #select multiple  placeholder="Column Headers" disableOptionCentering panelClass="matselhorzPanel">
