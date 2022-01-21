@@ -21,11 +21,15 @@ export class TableGroupHeaderComponent implements OnInit {
   grpColumnsArray!: string[];
   detailedColumnsArray!: string[];
   groupHeaders: MergeTableItem[] = [];
+  totalCols: string[] = [];
   grpHdrColumnsArray!: Array<string[]>;
+  // filterValues:Array<string[]>;
   filterColumn: boolean = false;
+  isRowTot: boolean = false;
 
   sourceSystemList: string[] = ['df', 'kl', 'fg'];
   cliStatusList: string[] = ['jk', 'pp', 'df'];
+
   filterValues = {
     SourceSystem: [],
     CLIStatus: []
@@ -44,9 +48,13 @@ export class TableGroupHeaderComponent implements OnInit {
     this.dataSource = new MatTableDataSource<any>(this.GrpTableitem?.data);
     this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
     this.groupHeaders = this.GrpTableitem?.GroupHeaders ? this.GrpTableitem?.GroupHeaders : [];
-    this.displayedColumns = this.GrpTableitem?.DisplayedColumns;
-    this.detailedColumnsArray = this.GrpTableitem?.DetailedColumns;
+    this.displayedColumns = this.GrpTableitem?.DisplayedColumns ? this.GrpTableitem?.DisplayedColumns : [];
+    this.detailedColumnsArray = this.GrpTableitem?.DetailedColumns ? this.GrpTableitem?.DetailedColumns : [];
     this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
+    this.isRowTot = this.GrpTableitem?.isRowLvlTot ? true : false;
+
+    var nonTotCols = ['ACTID', 'SourceSystem'];
+    this.totalCols = this.displayedColumns.filter(x => !nonTotCols.includes(x));
 
     if (this.filterColumn) {
       this.formControlsSubscribe();
@@ -56,6 +64,17 @@ export class TableGroupHeaderComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  getTotal(cellname?: string) {
+    var cell = cellname ? cellname : '';
+    var totalcell = this.totalCols.filter(x => x.includes(cell))
+    if (totalcell.length > 0) {
+      return this.GrpTableitem?.data.reduce((a: number, b: any) => a + b[cell], 0);
+    }
+    else {
+      return 'Total';
+    }
   }
 
   formControlsSubscribe() {

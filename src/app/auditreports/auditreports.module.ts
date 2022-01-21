@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuditreportsRoutingModule } from './auditreports-routing.module';
 import { AuditexcelreportsComponent, FullauditdetailsComponent, AuditdiscrepancyreportComponent } from './index';
@@ -10,9 +10,13 @@ import { HttpWrapperService } from '../_services/http/http-wrapper.service';
 import { FullAuditTypeComponent } from './auditdiscrepancyreport/full-audit-type/full-audit-type.component';
 import { ExternalAuditTypeComponent } from './auditdiscrepancyreport/external-audit-type/external-audit-type.component';
 import { SeperateInternalAuditTypeComponent } from './auditdiscrepancyreport/seperate-internal-audit-type/seperate-internal-audit-type.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { SharedModule } from '../_shared/shared.module';
+import { HttpErrorInterceptor } from '../_services/http/http-error-interceptor';
+import { HttpRequestHeader } from '../_services/http/http-request-header.service';
+import { BorderDirective } from '../_helper';
+import { HelperModule } from '../_helper/helper/helper.module';
 
 
 @NgModule({
@@ -23,7 +27,7 @@ import { SharedModule } from '../_shared/shared.module';
     FullAuditTypeComponent,
     ExternalAuditTypeComponent,
     SeperateInternalAuditTypeComponent,
-    //BorderDirective
+    // BorderDirective
   ],
   imports: [
     CommonModule,
@@ -32,19 +36,10 @@ import { SharedModule } from '../_shared/shared.module';
     ReactiveFormsModule,
     MaterialModule,
     FormsModule,
-    HttpClientModule ,
-    SharedModule
+    HttpClientModule,
+    SharedModule,
+    HelperModule
   ],
-  providers: [FullAuditDetailsService,HttpWrapperService,AuditDiscpancyReportService]
-    // {
-    //   provide: HTTP_INTERCEPTORS, 
-    //   useClass: HttpErrorInterceptor, 
-    //   multi: true 
-    // },
-    // {
-    //   provide: HTTP_INTERCEPTORS, 
-    //   useClass: HttpRequestHeader, 
-    //   multi: true 
-    // }]
+  providers: [FullAuditDetailsService, AuditDiscpancyReportService]
 })
 export class AuditreportsModule { }

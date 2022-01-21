@@ -383,9 +383,10 @@ export class FullAuditTypeComponent implements OnInit {
             GroupHeaders: gridDesignDetails[0].GroupHeaders,
             DisplayedColumns: displayedColumns,
             DetailedColumns: detailedColumnsArray,
-            GroupHeaderColumnsArray: grpHdrColumnsArray
+            GroupHeaderColumnsArray: grpHdrColumnsArray,
+            isRowLvlTot:true
           }
-          this.tabs[0].data = this.auditSummaryTable
+          this.tabs[0].data = this.auditSummaryTable;
           break;
         case 'ProgressReport':
           headerswithDetails = ['ACTID', 'SourceSystem', 'FullAuditCLIStatus', 'New', 'AutoFailed'];

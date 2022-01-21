@@ -5,14 +5,13 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class HttpRequestHeader implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
         const authReq = req.clone({
             setHeaders: {
-                Authorization: `Basic${'OSN2User:OSN2User'}`
+                'Content-Type': 'application/json'
             }
         });
 
-        //console.log('Intercepted HTTP call', authReq);
-        return next.handle(authReq);
+        console.log('Intercepted HTTP call', authReq);
+           return next.handle(authReq);
     }
 }

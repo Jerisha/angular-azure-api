@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-table-selection',
@@ -36,14 +37,28 @@ export class TableSelectionComponent {
   imgColumns?: string[];
   selectColumn: string = '';
   selectedTelnos: string[] = [];
-  isEmailRequired:boolean =false
-  selectList:string[]=[];
+  isEmailRequired: boolean = false;
+  selectList: string[] = [];
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  emptyColumns: string[] = [];
+  nonemptyColumns: string[] = [];
+  unSelectListItems: string[] = [];
+
+  constructor(private cdr: ChangeDetectorRef) {
+
+  }
   ngOnInit() {
+    if (this.tableitem?.isBlankCoulmnsRemoved) {   
+      this.getEmptyColumns();     
+      let filterdColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
+      this.ColumnDetails = filterdColumns ? filterdColumns : [];
+    }
+    else {
+      this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+    }
     // this.selectList = this.tableitem?.Columns?.filter((e) => e.showDefault == true).map((i) => i.header);
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-    this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+    //this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];   
     //this.imgColumns = this.tableitem?.colToSetImage;
     this.imgList = this.tableitem?.imgConfig;
     this.filter = this.tableitem?.filter;
@@ -58,7 +73,7 @@ export class TableSelectionComponent {
       this.dataColumns = this.tableitem?.Columns?.map((e) => e.headerValue);// this.tableitem?.dataColumns;
       //this.columnHeaders = this.tableitem?.coulmnHeaders;
     }
-    this.isEmailRequired = this.tableitem?.isEmailRequired?true:false;
+    this.isEmailRequired = this.tableitem?.isEmailRequired ? true : false;
   }
 
   ngAfterViewInit() {
@@ -164,4 +179,29 @@ export class TableSelectionComponent {
     return true;
   }
 
+  getEmptyColumns() {
+    let summaryData = this.tableitem?.data;
+    summaryData.forEach((item: any) => {
+      this.checkIsNullOrEmptyProperties(item)
+    });
+
+    var emptySet = new Set(this.emptyColumns);
+    this.emptyColumns = [...emptySet];
+
+    var nonEmptySet = new Set(this.nonemptyColumns);
+    this.nonemptyColumns = [...nonEmptySet];
+
+    this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
+
+  }
+
+  checkIsNullOrEmptyProperties(obj: any) {
+    for (var key in obj) {
+      if (obj[key] === null || obj[key] === "")
+        this.emptyColumns.push(key);
+      else {
+        this.nonemptyColumns.push(key)
+      }
+    }
+  }
 }

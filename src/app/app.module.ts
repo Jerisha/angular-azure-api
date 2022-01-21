@@ -19,15 +19,14 @@ import { HttpRequestHeader } from './_services/http/http-request-header.service'
 import { TransactionsModule } from './transactions/transactions.module';
 import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-
-
+import { HelperModule } from './_helper/helper/helper.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuSearchPipe,
         PopupComponent,
-        BorderDirective       
+        // BorderDirective       
   ],
   imports: [
     BrowserModule,
@@ -39,9 +38,11 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     HttpClientModule,
     ResolvingoferrorsModule,
     AuditreportsModule,
-    TransactionsModule
+    TransactionsModule,
+    HelperModule   
   ],
-  providers: [NavService,{
+  providers: [NavService,HttpWrapperService,
+    {
     provide: HTTP_INTERCEPTORS, 
     useClass: HttpErrorInterceptor, 
     multi: true 
@@ -50,12 +51,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     provide: HTTP_INTERCEPTORS, 
     useClass: HttpRequestHeader, 
     multi: true 
-  },
-  AuditDiscpancyReportService,
-  // {
-  //   provide: LocationStrategy, 
-  //   useClass: HashLocationStrategy
-  // }
+  },  
+  AuditDiscpancyReportService
+  
 ],
   bootstrap: [AppComponent]
 })
