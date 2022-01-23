@@ -1,81 +1,129 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { ColumnDetails, TableItem , ViewColumn} from 'src/app/_models/table-item';
-import { Transactionsourcecommandhistory ,Transactionsourcecommandhistory1 } from 'src/app/_models/transactionsourcecommandhistory';
+import { Transactionsourcecommandhistory } from 'src/app/_models/transactionsourcecommandhistory';
 import {FormControl} from '@angular/forms';
 import { selectmonth, selectsrc } from 'src/app/_helper/Constants/exp-consts';
-
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { PeriodicElement } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
+import { DataSource } from '@angular/cdk/collections';
+
+// const ELEMENT_DATA: Transactionsourocecommandhistory =
+// {
+
+//   statics:
+//   {
+//     staticmonths: [
+//       { Link: [
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//    ],
+//     StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//     { Link: [
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//    ], StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//     { Link: [
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//    ],
+//       StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//     { Link: [
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//    ],  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//     { Link: [
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//    ],  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//     { Link: [
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//       {  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS ', Adds: '2,784',Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//    ], StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+//      ]
+ 
+   
+//     }
+ 
+//   }
 
 
-const ELEMENT_DATA: Transactionsourcecommandhistory[] = [
-  { 
-    Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-    Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-  },
-    { 
-      Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-      Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-    },
-    { 
-      Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-      Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-    },
-      { 
-        Link: 'image', StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-        Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-      },
-      { 
-        Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-        Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-      },
-        { 
-          Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-          Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-        },
-        { 
-          Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-          Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-        },
-          { 
-            Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-            Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-          },
-          { 
-            Link: 'image', StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-            Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-          },
-          { 
-            Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-            Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-          },
-            { 
-              Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-              Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-            },   
-];
+  const ELEMENT_DATA: Transactionsourcecommandhistory[] =
+   [
+        { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
+      { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},  
 
-const ELEMENT_DATA1: Transactionsourcecommandhistory1[] = [
-  { 
-    Link: 'image',  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS	', Adds: '2,784', 
-    Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-  },
-    { 
-      Link: 'image',  StatisticDate: '2021/12/02', Source: ' C - SAS/COMS	', Adds: '2,784', 
-      Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-    },
-];
+    ]
+   
+     
+     
+
+
+
 @Component({
   selector: 'app-transactionsourcecommandhistory',
   templateUrl: './transactionsourcecommandhistory.component.html',
-  styleUrls: ['./transactionsourcecommandhistory.component.css']
+  styleUrls: ['./transactionsourcecommandhistory.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class TransactionsourcecommandhistoryComponent implements OnInit {
+
+
+  panelOpenState: boolean = false;
+  panelOpenState1: boolean = false;
+  panelOpenState2: boolean = false;
+  
+
+  // Transaction?: Transactionsourocecommandhistory[];
+
+  // statics: Statics[] | undefined;
+ 
+  // staticmonth: StaticMonths | null | undefined;
   selectedTab!: number;
   public tabs = [{
     tabType: 0,
-    name: 'Summary Data'
+    name: 'M-O-M Summary'
   },
     //  {
     //   tabType: 1,
@@ -93,8 +141,8 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 expDefaultmonth = selectmonth.defaultmonth;
 expDefaultsrc =  selectsrc.defaultsrc;
 
-  ctrl = new FormControl(true); 
-    
+  ctrl = new FormControl(true);
+   
   columns: ColumnDetails[] = [
     { header: 'Link', headerValue: 'Link', showDefault: true, imageColumn: true },
     { header: 'Statistic Month', headerValue: 'StatisticMonth', showDefault: true, imageColumn: false },
@@ -106,45 +154,24 @@ expDefaultsrc =  selectsrc.defaultsrc;
     { header: 'Imports', headerValue: 'Imports', showDefault: true, imageColumn: false },
     { header: 'Total Cmds', headerValue: 'TotalCmds', showDefault: true, imageColumn: false },
   ];
-  columns1: ColumnDetails[] = [
-    { header: 'Link', headerValue: 'Link', showDefault: true, imageColumn: true },
-    { header: 'Statistic Date', headerValue: 'StatisticDate', showDefault: true, imageColumn: false },
-    { header: 'Source', headerValue: 'Source', showDefault: false, imageColumn: false },
-    { header: 'Adds', headerValue: 'Adds', showDefault: true, imageColumn: false },
-    { header: 'Ceases', headerValue: 'Ceases', showDefault: true, imageColumn: false },
-    { header: 'Modifies', headerValue: 'Modifies', showDefault: true, imageColumn: false },
-    { header: 'Exports', headerValue: 'Exports', showDefault: true, imageColumn: false },
-    { header: 'Imports', headerValue: 'Imports', showDefault: true, imageColumn: false },
-    { header: 'Total Cmds', headerValue: 'TotalCmds', showDefault: true, imageColumn: false },
-  ];
-    
-  
-
-
   ngOnInit(): void {
 
     this.myTable = {
       data: ELEMENT_DATA,
-      Columns: this.columns,
+    Columns: this.columns,
       filter: true,
       selectCheckbox: true,
       // colToSetImage: ['View'],
-      imgConfig: [{ headerValue: 'Link', icon: 'add_box', route: '' }]
+      imgConfig: [{ headerValue: 'Link', icon: 'add_box', route: '',tabIndex:1 }]
      
     }  
-  
-  //    this.myTable = {
-     
-  //     data: ELEMENT_DATA1,
-  //   Columns: this.columns1,
-  //   filter: false,
-  //   selectCheckbox: true,
-  // //    //colToSetImage: ['View'],
-  //      imgConfig: [{ headerValue: 'Link', icon: 'add_box', route: '' },]
-
-  //  }
 }
- 
+expandDisplayedColumns = ["link"];
+expandedElement: PeriodicElement | null | undefined;
+checked =false;
+disabled = false;
+
+  
 selected(s:string): void{
   this.select= s;
 }
@@ -182,7 +209,7 @@ newTab(tab: any) {
 
       this.tabs.push({
         tabType: 1,
-        name: 'Audit Trail Report'
+        name: 'telephone'
       });
       break;
     }
@@ -193,16 +220,20 @@ newTab(tab: any) {
       })
       break;
     }
+    case 3:{
+      this.tabs.push({
+        tabType: 3 ,
+        name: 'Audit Trail Report'
+      })
+      break;
+    }
     default: {
-      //statements; 
+      //statements;
       break;
     }
   }
 
-  
+ 
 
 }
 }
-
-
-
