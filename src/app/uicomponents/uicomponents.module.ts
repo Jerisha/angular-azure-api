@@ -11,11 +11,13 @@ import {
   TableComponent,
   SelectMultipleComponent,
   SelectSingleComponent,
-  SelectExpressionComponent
+  SelectExpressionComponent,
+  TableTransComponent
   
  
 } from './index';
 import { TableGroupHeaderComponent } from './table-group-header/table-group-header.component';
+
 
 
 
@@ -30,7 +32,9 @@ import { TableGroupHeaderComponent } from './table-group-header/table-group-head
     SelectSingleComponent,
     SelectExpressionComponent,
     SelectSingleComponent,
-    TableGroupHeaderComponent
+    TableGroupHeaderComponent,
+    TableTransComponent
+
   ],
   imports: [
     CommonModule,
@@ -47,7 +51,8 @@ import { TableGroupHeaderComponent } from './table-group-header/table-group-head
     TableComponent,
     SelectExpressionComponent,
     SelectMultipleComponent,
-    SelectSingleComponent
+    SelectSingleComponent,
+    TableTransComponent
   ]
 })
 export class UicomponentsModule { }

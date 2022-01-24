@@ -76,7 +76,6 @@ import { DataSource } from '@angular/cdk/collections';
 
   const ELEMENT_DATA: Transactionsourcecommandhistory[] =
    [
-        { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
       { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
       { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
       { Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436',Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954'},
@@ -152,7 +151,8 @@ expDefaultsrc =  selectsrc.defaultsrc;
     { header: 'Modifies', headerValue: 'Modifies', showDefault: true, imageColumn: false },
     { header: 'Exports', headerValue: 'Exports', showDefault: true, imageColumn: false },
     { header: 'Imports', headerValue: 'Imports', showDefault: true, imageColumn: false },
-    { header: 'Total Cmds', headerValue: 'TotalCmds', showDefault: true, imageColumn: false },
+    { header: 'Total Cmds', headerValue: 'TotalCmds', showDefault: true, imageColumn: false }
+   
   ];
   ngOnInit(): void {
 
@@ -162,14 +162,14 @@ expDefaultsrc =  selectsrc.defaultsrc;
       filter: true,
       selectCheckbox: true,
       // colToSetImage: ['View'],
-      imgConfig: [{ headerValue: 'Link', icon: 'add_box', route: '',tabIndex:1 }]
+      imgConfig: [{ headerValue: 'Link', icon: 'add_box', route: '',tabIndex:2 }
+      ]
      
     }  
 }
 expandDisplayedColumns = ["link"];
 expandedElement: PeriodicElement | null | undefined;
-checked =false;
-disabled = false;
+
 
   
 selected(s:string): void{
