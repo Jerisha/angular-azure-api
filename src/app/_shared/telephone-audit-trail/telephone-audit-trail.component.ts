@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_models/telephone-audit-trail';
 import { TableItem } from 'src/app/_models/table-item';
+import { AddressDetails } from 'src/app/_models/address-details';
 
 const ele: TelephoneAuditTrail =
 {
-  liveRecord:
+  liveRecord: 
       {
         tranId: '1014284011',
         parentCupid: '13',
@@ -34,7 +35,8 @@ const ele: TelephoneAuditTrail =
         newTelNo: '',
         xRef: '',
         lineType: 'D - DDI',
-      },
+      }
+    ,
   unsolicitedDetails: [
         { code: '1046',	errorMessage: 'Import is 10 days overdue.',	date: 'THU 28 JUL 2016 08:25:23',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101328071601.CAR' },
         { code: '1045',	errorMessage: 'Import Record is Missing.',	date: 'WED 27 JUL 2016 08:26:46',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101327071601.CAR' },
@@ -56,7 +58,7 @@ const ele: TelephoneAuditTrail =
         created: '08-JAN-14',
         source: 'R - Clarify',
         custName: 'ERNST & YOUNG',
-        details: { tranId: '1015002930', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AA', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', created: 'THU 08 JUL 2021 10:20:02', createdBy: 'RODDA.MANIRATHNAM@VODAFONE.COM', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' },
+        details: { tranId: '1015002930', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AA', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', created: 'THU 08 JUL 2021 10:20:02', createdBy: 'RODDA.MANIRATHNAM@VODAFONE.COM', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' , comment: 'DDI RANGE- 01619526000- 01619526699'},
         notificationData:
         {
           startTelNo: '0123467890',
@@ -72,7 +74,6 @@ const ele: TelephoneAuditTrail =
           btErrorCode: 'BT3456',
           btErrorMessage: 'errorcode'
         },
-        commentText: 'DDI RANGE- 01619526000- 01619526699',
         errorDescription: [{ error: '2100', description: 'Interim transaction not sent' }],
         commentResponse: [{code: '1057', response: 'Data/Record is Invalid.', date:'FRI 25 OCT 2013 17:26:55', final: 'Y', fileName: 'BT101303101301.CAR'}, 
         {code: '1018', response: 'OLO does not own Entry.', date:'FRI 25 OCT 2013 17:26:55', final: 'N', fileName: 'BT101303101302.CAR'}],
@@ -86,7 +87,7 @@ const ele: TelephoneAuditTrail =
         created: '08-JAN-14',
         source: 'R - Clarify',
         custName: 'ERNST & YOUNG',
-        details: { tranId: '1015002931', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AA', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', created: 'THU 08 JUL 2021 10:20:02', createdBy: 'RODDA.MANIRATHNAM@VODAFONE.COM', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' },
+        details: { tranId: '1015002931', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AB', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', created: 'THU 08 JUL 2021 10:20:02', createdBy: 'RODDA.MANIRATHNAM@VODAFONE.COM', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0', comment: 'DDI RANGE- 01619526000- 01619526699' },
         notificationData:
         {
           startTelNo: '0123467890',
@@ -102,22 +103,23 @@ const ele: TelephoneAuditTrail =
           btErrorCode: 'BT3456',
           btErrorMessage: 'errorcode'
         },
-        commentText: 'DDI RANGE- 01619526000- 01619526699',
-        commentResponse: [],
-        errorDescription: [],
-        resolution: []
+        commentResponse: undefined,
+        errorDescription: undefined,
+        resolution: undefined
       }
-    ],
+    ], 
   auditDetails:
   {
-    internalAudit: [
+    internalAudit: undefined,
+     /* internalAudit: [
       {
         auditActId: '0099876543',
         telephoneNo: '01234567890',
         resolutionType: 'New',
         cliStatus: 'Active',
         comments: 'clarify',
-        userComments: [
+        userComments: null,
+         userComments: [
           {
             auditActId: '0099876543',
             telephoneNo: '01234567890',
@@ -126,8 +128,8 @@ const ele: TelephoneAuditTrail =
             resolutionType: 'New',
             comments: 'The testing is in process'
           }
-        ]
-      },
+        ] 
+      }, 
       {
         auditActId: '0099876543',
         telephoneNo: '01234567890',
@@ -145,7 +147,7 @@ const ele: TelephoneAuditTrail =
           }
         ]
       }
-    ],
+    ], */
     externalAudit: [
       {
         auditActId: '21 - 03 APR 2019',
@@ -178,17 +180,18 @@ const ele: TelephoneAuditTrail =
       resolutionType: 'Auto Closed',
       externalCliStatus: 'S-Matched',
       fullAuditCliStatus: 'SAD-Matched - Source Active MisMatched',
-      comments: 'show',
+      userComments: null,
+      /*
       userComments: [{ auditActId: '28',
       telephoneNo: '01619526181',
       creationDate: '21-NOV-20 02.33.46.878459 PM',
       createdBy: 'SYSTEM',
       resolutionType: 'Auto Closed',
-      comments: 'Auto closed occurs when a new audit run is generated.', }],
+      comments: 'Auto closed occurs when a new audit run is generated.', }], */
       }
-    ]
-  }
-}
+    ]  
+  } 
+} 
 
 
 
@@ -211,13 +214,18 @@ export class TelephoneAuditTrailComponent implements OnInit {
   panelOpenState: boolean = false;
   panelOpenState1: boolean = false;
   panelOpenState2: boolean = false;
+  
+  step: number = 2;
 
   Telephone?: TelephoneAuditTrail[];
+  addressDetails: AddressDetails = {postcode: '', custName: '', internalAddr1: '', internalAddr2: '', internalAddr3: '', internalAddr4: ''};
   
-  liverecord?: LiveRecord | null | undefined;
-  unsolicitedDetails?: UnsolicitedDetails[] | null | undefined;
+  liverecord?: LiveRecord;
+  unsolicitedDetails?: UnsolicitedDetails[];
   transactionDetails?: TransactionDetails[];
-  auditDetails: AuditDetails | null | undefined;
+  auditDetails?: AuditDetails;
+
+
 
   // ELEMENT_DATA: Option[] = [];
   constructor() {
@@ -231,16 +239,35 @@ export class TelephoneAuditTrailComponent implements OnInit {
 
   columnsToDisplay = ["action", "cnt", "transaction", "status", "created", "source", "custName"];
   auditTrailInternalDisplay:string[]=['auditActId','telephoneNo','resolutionType','cliStatus','userComments'];
-  fullAuditTrailDisplay: string[]=['auditActId','telephoneNo','resolutionType','externalCliStatus', 'fullAuditCliStatus', 'comments', 'userComments'];
-  // unsolicitedDetailsDisplay: string[]=['code','errorMessage','date','fran','postcode','fileName'];
+  fullAuditTrailDisplay: string[]=['auditActId','telephoneNo','resolutionType','externalCliStatus', 'fullAuditCliStatus', 'userComments'];
 
   ngOnInit(): void {
-    this.liverecord =  ele?.liveRecord;
+    this.liverecord =  ele.liveRecord;
     this.transactionDetails = ele?.transactionDetails;
     this.auditDetails = ele.auditDetails;
     this.unsolicitedDetails = ele?.unsolicitedDetails;
   }
 
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  ActiveAddressDetails(): AddressDetails {
+    return this.addressDetails;
+  }
+
+  setAddressDetails(section: string, element: any) {
+    // console.log(element.details.postcode);
+    if(section == 'transactionDetails') {
+    this.addressDetails.postcode = element.details.postcode;
+    this.addressDetails.custName = element.details.custName;
+    this.addressDetails.internalAddr1 = element.details.internalAddr1;
+    this.addressDetails.internalAddr2 = element.details.internalAddr2;
+    this.addressDetails.internalAddr3 = element.details.internalAddr3;
+    this.addressDetails.internalAddr4 = element.details.internalAddr4;
+    } 
+    console.log(this.addressDetails);
+  }
 
   // dataSource = [
   //   {
