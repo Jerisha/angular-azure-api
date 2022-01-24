@@ -29,7 +29,7 @@ export class TransactionsViewsComponent implements OnInit {
   saveState:boolean=true;
   views:any={view1:false,view2:false,view3:false}  
   enableFrancise:boolean=false;
-
+  telephoneSet="";
     model:any ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
     transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
     addressDetails:any ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
@@ -68,6 +68,16 @@ export class TransactionsViewsComponent implements OnInit {
   {
      
   }
+  onTfSubmit()
+  {
+     
+  }
+  onSfSubmit()
+  {
+     
+  }
+  
+
   onSubmit()
 {
   
@@ -167,6 +177,10 @@ SearchTel(){
       this.enableFrancise=true;
       //load francise with this value
     }
+  }
+  addRangeTel()
+  {
+    alert('add telephone range!');
   }
   check_franchise()
   {  
