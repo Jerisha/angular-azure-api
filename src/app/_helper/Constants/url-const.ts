@@ -4,5 +4,5 @@ export const resolvingoferrors = {
 }
 
 export const dropdown = {
-    config: '/ws/VS_OSN2SampleAPI_St3/1.0/OperatorServiceNetwork/ConfigObject'//'restv2/OperatorServiceNetwork/ConfigObject'
+    config: 'restv2/OperatorServiceNetwork/ConfigObject'//'/ws/VS_OSN2SampleAPI_St3/1.0/OperatorServiceNetwork/ConfigObject'
 }

@@ -11,21 +11,18 @@ export class HttpWrapperService {
     constructor(private httpClient: HttpClient) {
     }
 
-    processRequst<Type>(httpVerb: HttpVerbs, endPoint: string, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON): 
-    Observable<Type> {
-         headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `Basic${'OSN2User:OSN2User'}`});
-        let options = { headers: headers };
-console.log('headers: ' +headers)
+    processRequst<Type>(httpVerb: HttpVerbs, endPoint: string, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
+        Observable<Type> {       
+
+        console.log('headers: ' + headers)
         this.http(httpVerb.toString(),
-        `${environment.api_url}${endPoint}`,
-        JSON.stringify(body),
-        responseType,
-        headers,
-        params).subscribe((response: Type) => {
-            console.log("response: " +response);
-        });
+            `${environment.api_url}${endPoint}`,
+            JSON.stringify(body),
+            responseType,
+            headers,
+            params).subscribe((response: Type) => {
+                console.log("response: " + response);
+            });
 
         // const observerRes = new Observable((observer: Observer<Type>) => {
         //     this.http(httpVerb.toString(),
@@ -34,7 +31,7 @@ console.log('headers: ' +headers)
         //         responseType,
         //         headers,
         //         params).subscribe((response: Type) => {
-                    
+
         //             observer.next(response);
         //         })
         // });
@@ -43,10 +40,22 @@ console.log('headers: ' +headers)
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
+        debugger;
+        let options = {
+            body: body, headers: headers,
+            params: params,
+            responseType: responseType
+        };
 
+        //   headers = new HttpHeaders({
+        //     'Content-Type': 'application/json',
+        //     'Authorization': `Basic${'OSN2User:OSN2User'}`,
+        //     'Access-Control-Allow-Origin': '*',
+        //     'Access-Control-Allow-Methods': 'GET, DELETE, HEAD, OPTIONS, POST'
+        // });
         switch (responseType) {
             case ResponseType.JSON:
-                return this.httpClient.request<any>(httpVerb, url, { body, headers, params, responseType: 'json' });
+                return this.httpClient.request(httpVerb, url, { body, headers,  params, responseType: 'json' });
                 break;
             case ResponseType.BLOB:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' })
