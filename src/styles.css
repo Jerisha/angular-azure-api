@@ -68,8 +68,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 
 /* to set background color for matselect */
 app-select-multiple .mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
-  background-color: #EFEFEF;
-  height: 45px;
+  background-color: #007C92;
+  height: 37px;
 }
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
   margin: 0;
@@ -77,13 +77,13 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
 
 /* to change border color on hover */
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: #EFEFEF;
+  color: #007C92;
   border:0
 }
 
 /* to change border color after selection */
 app-select-multiple .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
-  color: #EFEFEF;
+  color: #007C92;
   border:0
 }
 /* app-select-multiple .mat-focused{
@@ -125,6 +125,13 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 8px 24px 108px 24px;
   } */
   
+  .filterdataby{
+    background-color:#007C92;
+    color: black; 
+    height: 35px;
+    width:180px;
+    margin-left: 15px;
+  }
 
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
     color: white;
@@ -137,25 +144,28 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
     margin-left: 8px; 
 }
 
-.mat-form-field-appearance-outline .mat-form-field-infix {
+/* .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 0.3em 0 0.3em 0 !important;
   top: -0.60em !important;
-} 
+}  */
 
 /* tab design start */
  .mat-tab-list{
-  height: 30px !important;
+  height: 35px !important;
+  overflow: hidden;
 }
 .mat-tab-label{
-  height: 30px !important;
+  height: 35px !important;
   color: rgb(11, 11, 158);
 }
 
  div.mat-tab-label {
-  background-color: #009de6;
-    color:white;    
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+  /* background-color: #009de6; */
+  background-color: #007C92;
+  color:white;    
+  border-right: solid 1px;
+    /* border-top-right-radius: 10px;
+    border-top-left-radius: 10px; */
 }
 /* tab design end */
 
@@ -219,10 +229,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 }
 
 
-.side-nav button{
-  /* margin-left: 2px; */
-  margin-top: 5px
-}
+
 .side-nav {  
   width: 220px!important;    
   /* margin: 10px;
@@ -231,9 +238,8 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 
 .filter-sticky
 {
-
   margin-left: 20px;
-    position:sticky;
+  position:sticky;
   top:0;  
   /* background-color:#EFEFEF; */
 }
@@ -241,9 +247,10 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 {
   /* background-color: yellow; */
   /* float: right;   */
-position: relative;
-margin-top: -230px;
-margin-left: 200px;
+/* position: relative; */
+display: inline-block;
+/* margin-top: -230px;
+margin-left: 200px; */
 
 }
 
@@ -259,8 +266,9 @@ margin-left: 200px;
 
 .side-container .side-bottom .mat-form-field
 {
-  margin-bottom: 1px;  
-  margin-top:1px;  
+  /* margin-bottom: 1px;  
+  margin-top:1px;   */
+  margin: 1px;
   font-size: smaller;  
   width: 170px;
 }
@@ -271,7 +279,7 @@ margin-left: 200px;
   font-size: smaller;  
 /* position:absolute; 
 margin-top: 90px;*/
-margin-left: 200px;
+/* margin-left: 200px; */
   
 }
 .side-left-div textarea{ height: 100px;}
@@ -283,11 +291,13 @@ margin-left: 200px;
  
 .side-content{
     overflow: hidden!important;
+    min-height: 525px;
   }
 
 .side-left-div{   
     max-width: 50%;
     float: left;
+    min-height: 200px;
     /* background-color: lightseagreen; */
   }
 

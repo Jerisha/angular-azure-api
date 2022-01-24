@@ -31,16 +31,25 @@
     width:100%;    
   } 
   .mat-grid-tile{  
-    background-color:#007c92;
-    color: white;
+    /* background-color:#007c92; */
+    /* color: white; */
+    color: #54575a;
   }
   .vf-sub-title{
-    background-color:#007c92;
-    color: white;    
+    /*background-color:#007c92; */
+    /* background-color: #e60000; */
+    background-color: #666666;
+    color: white;   
+    font-size: small;    
+    /* color: #54575a; */
+    /* border-style:double; */
   }
   .vf-grid-value{
-    background-color:#ece7e7c7;
-    color:#000000;    
+    /* background-color:#666666; */
+    color:#000000; 
+    font-size: small; 
+    font-weight:600  
+    /* border-style:solid */
   }
   .vf-grid-header{
     background-color:#e60000;

@@ -9,9 +9,13 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { ProvideReport } from 'src/app/_models/provide-report';
+<<<<<<< HEAD
 import { select, selectcupid, selectlist } from 'src/app/_helper/Constants/exp-consts';
 
 
+=======
+import { select } from 'src/app/_helper/Constants/exp-const';
+>>>>>>> faed6d53708ed3438aa8f0e117ff7ce5c24d1748
 
 const ELEMENT_DATA: ProvideReport[] = [
   {

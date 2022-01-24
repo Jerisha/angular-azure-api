@@ -1,4 +1,4 @@
-export interface AuditDiscrepancyModel{
+export interface FullAuditSummary{
     ACTID:string;
     SourceSystem:string;
     BABTOnlySourceActive:number;
