@@ -5,4 +5,5 @@ export * from './table/table.component';
 export * from './select-multiple/select-multiple.component';
 export * from './select-expression/select-expression.component';
 export * from  './select-single/select-single.component';
+export * from './table-trans/table-trans.component';
 

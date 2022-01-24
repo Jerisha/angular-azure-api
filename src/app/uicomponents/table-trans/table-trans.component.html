@@ -1,0 +1,133 @@
+
+<!-- <table mat-table [dataSource]="transaction ? transaction : []" multiTemplateDataRows
+    class="mat-elevation-z8">
+    <ng-container *ngFor="let col of columnsToDisplay ; let colIndex = index" matColumnDef="{{col}}">
+        <ng-container *ngIf="col != 'link'">
+            <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+            <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+        </ng-container>
+        <ng-container *ngIf="col === 'link'">
+            <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon style="cursor: pointer;"
+                    (click)="(expandedElement = expandedElement === element ? null : element);">{{expandedElement ===
+                    element ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
+                <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
+                    >
+                    <span>
+                        <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
+                        {{expandedElement === element ? 'Hide' : 'Show'}}
+                    </span>
+                </button> -->
+            <!-- </td>
+        </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="example-element-diagram">
+                    <div class="maindiv">
+                       
+      <ng-container matColumnDef="staticmonth">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Static Month</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.staticmonth }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="source">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Source</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.source }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="adds">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Adds</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.adds }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ceases">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Ceases</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.ceases }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="modifies">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Modifies</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.modifies }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="exports">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Exports</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.exports }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="imports">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Imports</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.imports }} </mat-cell>
+      </ng-container>
+      
+      <ng-container matColumnDef="totalcmds">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Total Cmds</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.totalcmds }} </mat-cell>
+      </ng-container>
+                     
+                    </div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table> -->
+
+        <ng-container *ngIf="transaction ? transaction : []">
+            <table mat-table [dataSource]="transaction ? transaction : []" multiTemplateDataRows class="mat-elevation-z8">
+                <ng-container *ngFor="let col of columnsToDisplay  ; let colIndex = index"
+                    matColumnDef="{{col}}">
+                    <ng-container *ngIf="col != 'Link'">
+                        <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                        <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+                    </ng-container>
+                    <ng-container *ngIf="col === 'Link'">
+
+                        <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-icon style="cursor: pointer;"
+                                (click)="(expandedElement = expandedElement === element ? null : element);">
+                                {{expandedElement === element ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
+                            <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
+                    (click)="(expandedElement = expandedElement === element ? null : element);">
+                    <span>
+                        <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
+                        {{expandedElement === element ? 'Hide' : 'Show'}}
+                    </span>
+                </button> -->
+                        </td>
+                    </ng-container>
+                </ng-container>
+
+
+
+                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
+                <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                        <div class="example-element-detail"
+                            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                            <app-table [tableitem]="element.Link"></app-table>
+
+
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+                    [class.example-expanded-row]="expandedElement === element"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+            </table>
+        </ng-container>
+        <mat-divider></mat-divider>
+
+
