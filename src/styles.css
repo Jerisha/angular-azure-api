@@ -110,14 +110,16 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
     display: flex;
   }
   .slidderbtn{
-    float: left;
+    /* float: left; */
+  cursor: pointer;
     border:none;
    /* border:1px solid #e60000; */
     background-color: #e60000;
     color:  #EFEFEF;
-    border-radius: 12%;
+    /* border-radius: 12%; */
     font-size: small;
-    margin: 2px;
+    margin-left: -19px;
+    height: 35px;
   }
  /* side-nav-page-header ends */
 
@@ -126,7 +128,8 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   } */
   
   .filterdataby{
-    background-color:#007C92;
+    /* background-color:#007C92; */
+    background-color:#EFEFEF;
     color: black; 
     height: 35px;
     width:180px;
@@ -161,13 +164,27 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 
  div.mat-tab-label {
   /* background-color: #009de6; */
-  background-color: #007C92;
-  color:white;    
-  border-right: solid 1px;
+  /* background-color: #007C92; */
+   background-color: #EFEFEF; 
+  color:#e60000;    
+  border-right: solid 3px white;
+  padding-left:initial ;
     /* border-top-right-radius: 10px;
     border-top-left-radius: 10px; */
 }
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #e60000;
+}
 /* tab design end */
+
+
+
+/* element.style {
+  visibility: visible;
+  left: 0px;
+  width: 160px;
+} */
 
 .example-container .mat-form-field,.example-container .mat-form-field + .mat-form-field {
   margin-left: 8px;  
@@ -228,7 +245,9 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   width: 170px;
 }
 
-
+.side-nav button{
+  margin-left: 2px;
+}
 
 .side-nav {  
   width: 220px!important;    
@@ -268,7 +287,7 @@ margin-left: 200px; */
 {
   /* margin-bottom: 1px;  
   margin-top:1px;   */
-  margin: 1px;
+  margin: 5px;
   font-size: smaller;  
   width: 170px;
 }
