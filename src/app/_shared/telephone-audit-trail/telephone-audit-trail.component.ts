@@ -266,7 +266,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
     this.addressDetails.internalAddr3 = element.details.internalAddr3;
     this.addressDetails.internalAddr4 = element.details.internalAddr4;
     } 
-    console.log(this.addressDetails);
+    // console.log(this.addressDetails);
   }
 
   // dataSource = [
