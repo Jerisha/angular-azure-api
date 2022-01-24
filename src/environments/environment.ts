@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api_url:'http://localhost:59809/'
+  api_url:'https://wm-mediator-tst.hosts.plc.cwintra.com:26231'//'http://10.196.220.58:6054/'
 };
 
 /*

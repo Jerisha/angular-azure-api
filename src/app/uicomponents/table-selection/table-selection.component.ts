@@ -36,9 +36,11 @@ export class TableSelectionComponent {
   imgColumns?: string[];
   selectColumn: string = '';
   selectedTelnos: string[] = [];
+  isEmailRequired:boolean =false
 
   constructor(private cdr: ChangeDetectorRef) { }
   ngOnInit() {
+   
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
     this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     //this.imgColumns = this.tableitem?.colToSetImage;
@@ -55,6 +57,7 @@ export class TableSelectionComponent {
       this.dataColumns = this.tableitem?.Columns?.map((e) => e.headerValue);// this.tableitem?.dataColumns;
       //this.columnHeaders = this.tableitem?.coulmnHeaders;
     }
+    this.isEmailRequired = this.tableitem?.isEmailRequired?true:false;
   }
 
   ngAfterViewInit() {

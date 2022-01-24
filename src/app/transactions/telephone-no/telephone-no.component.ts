@@ -17,5 +17,9 @@ export class TelephoneNoComponent implements OnInit {
   {
     this.TelephoneNoSelected.emit(["true","0123456789"])
   }
+  updateMatchedDetails()
+  {
+    
+  }
 
 }

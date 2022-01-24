@@ -6,6 +6,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Select } from 'src/app/_models/select';
 import { SolicitedErrors } from 'src/app/_models/solicited-errors';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
+import { ResolvingOfErrorsService } from '../resolving-of-errors.service';
 
 const ELEMENT_DATA: SolicitedErrors[] = [
   {
@@ -90,6 +91,40 @@ const ELEMENT_DATA: SolicitedErrors[] = [
   },
 ];
 
+const configInput: any = {
+  "ConfigObjectRequestType": {
+    "RequestIdentifiers": {
+      "Identifier": [{
+        "Name": "UserId",
+        "Value": ["abc"]
+      }, {
+        "Name": "Destination",
+        "Value": ["OSN2"]
+      }]
+    },
+    "ListofConfigObjectCategory": {
+      "ConfigObjectCategory": [{
+        "ItemName": "ConfigObject",
+        "ListofIdentifiers": {
+          "Identifier": [{
+            "Name": "ObjectName",
+            "Value": ["TelephoneNumber"]
+          }]
+        },
+        "ListofAttributes": {
+          "Attribute": [{
+            "Name": "Action",
+            "Value": ["Search"]
+          }, {
+            "Name": "Filter",
+            "Value": ["Command", "Source", "ResolutionType"]
+          }]
+        }
+      }]
+    }
+  }
+};
+
 
 
 @Component({
@@ -99,7 +134,7 @@ const ELEMENT_DATA: SolicitedErrors[] = [
 })
 export class SolicitederrorsComponent implements OnInit {
   formbulider: any;
-  constructor() { }
+  constructor(private service: ResolvingOfErrorsService) { }
   myTable!: TableItem;
   //test
   dataSaved = false;
@@ -126,7 +161,7 @@ export class SolicitederrorsComponent implements OnInit {
   selectedTab!: number;
   public tabs = [{
     tabType: 0,
-    name: 'Main'
+    name: 'Summary'
   },
     //  {
     //   tabType: 1,
@@ -158,8 +193,8 @@ export class SolicitederrorsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 },
-      { headerValue: 'View', icon: 'description', route: '',tabIndex:2 }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
       // dataColumns: ['TranId', 'View', 'TelNo', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'ResType', 'ErrorList'],
       // coulmnHeaders: ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res-Type', 'Error/List'],
 
@@ -178,13 +213,16 @@ export class SolicitederrorsComponent implements OnInit {
     //   City: ['', [Validators.required]],
     //   Pincode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{6}')])]
     //});
-    this.selectedTab = this.tabs.length - 1;
+    //this.selectedTab = this.tabs.length - 1;
   }
 
   ngAfterViewInit() {
 
   }
   setOptions() {
+    // debugger;
+    // this.service.configDetails(configInput);
+
     this.errorCodesOptions = this.errorCode.valueChanges
       .pipe(
         startWith<string>(''),
@@ -228,20 +266,24 @@ export class SolicitederrorsComponent implements OnInit {
   newTab(tab: any) {
     switch (tab.tabType) {
       case 1: {
-
         //tab.row contains row data- fetch data from api and bind to respetive component
-
-        this.tabs.push({
-          tabType: 1,
-          name: 'Audit Trail Report'
-        });
+        if (!this.tabs.find(x => x.tabType == 1)) {
+          this.tabs.push({
+            tabType: 1,
+            name: 'Audit Trail Report (1977722725)'
+          });
+          this.selectedTab = 1;
+        }
         break;
       }
       case 2: {
-        this.tabs.push({
-          tabType: 2,
-          name: 'Transaction Details'
-        })
+        if (!this.tabs.find(x => x.tabType == 2)) {
+          this.tabs.push({
+            tabType: 2,
+            name: 'Transaction Details'
+          })
+          this.selectedTab = 2;
+        }
         break;
       }
       default: {
@@ -249,9 +291,6 @@ export class SolicitederrorsComponent implements OnInit {
         break;
       }
     }
-
-    
-
   }
 
 }

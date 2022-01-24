@@ -5,7 +5,6 @@ export interface MergeTableItem {
     colspan?: string;
   }
 
-
   export interface GroupHeaderTableItem {
     data: any;
     ColumnDetails:MergeTableItem[];
@@ -13,4 +12,13 @@ export interface MergeTableItem {
     GroupHeaderColumnsArray:Array<string[]>;
     DetailedColumns:string[];
     DisplayedColumns:string[];
+    FilterColumn?:boolean;
+    FilterValues?:Array<string[]>;
+  }
+
+  export interface GroupHeaderTableDetails{
+    AuditType:string;
+    TableName:string;
+    ColumnDetails:MergeTableItem[];
+    GroupHeaders: MergeTableItem[];
   }

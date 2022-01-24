@@ -31,6 +31,9 @@ export class TransactionsViewsComponent implements OnInit {
   enableFrancise:boolean=false;
 
     model:any ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
+    transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
+    addressDetails:any ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
+    transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};
     @Output() AddressCheckSelected = new EventEmitter<any[]>();
     @Output() AuditTrailSelected = new EventEmitter<any[]>();
     @Output() ResetTabs = new EventEmitter<any[]>();
@@ -100,6 +103,10 @@ check_list(this:TableItem,val:number)
 check_text(this:TableItem,val:number,val2:string,val3:string)
 {
 
+}
+updateDefaultOfficeAddressDetails()
+{  
+  this.addressDetails={customerName:"VODAFONE",address1:"THE CONNECTION",address2:"NEW BERKSHIRE",address3:"",address4:"",postcode:"RG14 2FN"};
 }
 viewAddressCheck()
 {

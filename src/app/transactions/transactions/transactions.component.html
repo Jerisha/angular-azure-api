@@ -16,7 +16,7 @@
           <app-address-check></app-address-check>
         </ng-container>
       </mat-tab>
-      <mat-tab label="Audit Trail" *ngIf="auditTrailSuccess" isActive="auditTrailState">
+      <mat-tab label="Audit Trail" *ngIf="auditTrailSuccess" isActive="auditTrailState" style ="height:60%;">
         <ng-container>
           <div>
             <app-telephone-no (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>

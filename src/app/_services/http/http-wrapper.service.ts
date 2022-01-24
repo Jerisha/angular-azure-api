@@ -1,33 +1,57 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { observable, Observable, Observer } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
+import { ResponseType } from 'src/app/_enums/response-type.enum';
+import { HttpVerbs } from 'src/app/_enums/http-verbs.enum';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class HttpWrapperService {
-    
+
     constructor(private httpClient: HttpClient) {
     }
 
-    processRequst<Type>(verb: string, path: string, body: object = {}, headers?: HttpHeaders, params?: HttpParams, isBlob: boolean = false): Observable<Type> {
-        const observerRes = new Observable((observer: Observer<Type>) => {
-            this.http(verb, `${environment.api_url}${path}`, JSON.stringify(body),isBlob, headers, params)
-                .subscribe((response: Type) => {
-                    observer.next(response);
-                })
+    processRequst<Type>(httpVerb: HttpVerbs, endPoint: string, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON): 
+    Observable<Type> {
+         headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Basic${'OSN2User:OSN2User'}`});
+        let options = { headers: headers };
+console.log('headers: ' +headers)
+        this.http(httpVerb.toString(),
+        `${environment.api_url}${endPoint}`,
+        JSON.stringify(body),
+        responseType,
+        headers,
+        params).subscribe((response: Type) => {
+            console.log("response: " +response);
         });
-        return observerRes;
+
+        // const observerRes = new Observable((observer: Observer<Type>) => {
+        //     this.http(httpVerb.toString(),
+        //         `${environment.api_url}${endPoint}`,
+        //         JSON.stringify(body),
+        //         responseType,
+        //         headers,
+        //         params).subscribe((response: Type) => {
+                    
+        //             observer.next(response);
+        //         })
+        // });
+        //return observerRes;
+        return new Observable<Type>();
     }
 
-    http(httpVerb: string, url: string, body: string,isBlob: boolean, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
+    private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
 
-        if (!isBlob) {
-            return this.httpClient.request<any>(httpVerb, url, { body, headers, params, responseType: 'json' });
+        switch (responseType) {
+            case ResponseType.JSON:
+                return this.httpClient.request<any>(httpVerb, url, { body, headers, params, responseType: 'json' });
+                break;
+            case ResponseType.BLOB:
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' })
+                break;
         }
-        else {
-            return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' })
-        }
+
     }
 }
