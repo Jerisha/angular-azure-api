@@ -2,7 +2,7 @@ export interface TelephoneAuditTrail {
     liveRecord?: LiveRecord;
     unsolicitedDetails?: UnsolicitedDetails[];
     transactionDetails?: TransactionDetails[];
-    auditDetails: AuditDetails;
+    auditDetails?: AuditDetails;
 }
 
 export interface UnsolicitedDetails {
@@ -55,10 +55,9 @@ export interface TransactionDetails
     custName: string;
     details:FullTransactionDetails;
     notificationData: NotificationData;
-    commentText: string;
-    errorDescription: ErrorDescription[];
-    commentResponse: Response[];
-    resolution: ResolutionType[];
+    errorDescription: ErrorDescription[] | undefined;
+    commentResponse: Response[] | undefined;
+    resolution: ResolutionType[] | undefined;
 }
 
 export interface FullTransactionDetails extends LiveRecord {
@@ -81,7 +80,7 @@ export interface FullTransactionDetails extends LiveRecord {
     callback: string;
     typeOfLine: string;
     nextTranId:string;    
-    
+    comment: string;
 }
 
 export interface NotificationData
@@ -126,9 +125,9 @@ export interface ResolutionType{
 
 export interface AuditDetails {
     // TelNo: string;
-    internalAudit: InternalAudit[];
-    externalAudit: ExternalAudit[];
-    fullAudit: FullAudit[];
+    internalAudit?: InternalAudit[];
+    externalAudit?: ExternalAudit[];
+    fullAudit?: FullAudit[];
 }
 
 export interface InternalExternalAudit{
@@ -161,6 +160,5 @@ export interface FullAudit {
     resolutionType: string;
     externalCliStatus: string;
     fullAuditCliStatus: string;
-    comments: string;
-    userComments: UserComments[];
+    userComments: UserComments[] | null;
 }

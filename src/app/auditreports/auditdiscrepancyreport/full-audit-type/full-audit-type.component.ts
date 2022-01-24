@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { forkJoin, from, Observable } from 'rxjs';
-import { AuditDiscrepancyModel } from 'src/app/_models/AuditDiscrepancyModel';
-import { FullAuditDetailsFourth } from 'src/app/_models/full-audit-details-fourth';
-import { FullAuditDetailsThird } from 'src/app/_models/full-audit-details-third';
-import { FullAuditSummary } from 'src/app/_models/full-audit-summary-model';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { forkJoin, Observable } from 'rxjs';
+import { FullAuditAddresReport, FullAuditMonthReport, FullAuditProgressReport, FullAuditSummary } from 'src/app/_models/index';
 import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/merge-table-item-model';
 import { Tab } from 'src/app/_models/tab';
+import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
 
 // const ELEMENT_DATA: AuditDiscrepancyModel[] = [{
 //   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -261,7 +260,7 @@ import { Tab } from 'src/app/_models/tab';
 
 // }];
 
-const ELEMENT_DATA1: FullAuditSummary[] = [
+const ELEMENT_DATA1: FullAuditProgressReport[] = [
   {
     ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
     AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
@@ -276,7 +275,7 @@ const ELEMENT_DATA1: FullAuditSummary[] = [
   }
 ];
 
-const ELEMENT_DATA2: FullAuditDetailsThird[] = [
+const ELEMENT_DATA2: FullAuditMonthReport[] = [
   {
     AllMonths: "234", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
     AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
@@ -292,7 +291,7 @@ const ELEMENT_DATA2: FullAuditDetailsThird[] = [
 
 ];
 
-const ELEMENT_DATA3: FullAuditDetailsFourth[] = [
+const ELEMENT_DATA3: FullAuditAddresReport[] = [
   {
     ACTID: "str", CLIStatus: "open", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "fg", SelectedMonthCLICountsENDStatusY: 1
@@ -312,36 +311,40 @@ const ELEMENT_DATA3: FullAuditDetailsFourth[] = [
 })
 
 export class FullAuditTypeComponent implements OnInit {
-  grpTableitem!: GroupHeaderTableItem;
-  grpTableitem2!: GroupHeaderTableItem;
-  grpTableitem3!: GroupHeaderTableItem;
-  grpTableitem4!: GroupHeaderTableItem;
+  auditSummaryTable!: GroupHeaderTableItem;
+  progressReportTable!: GroupHeaderTableItem;
+  monthReportTable!: GroupHeaderTableItem;
+  addressReportTable!: GroupHeaderTableItem;
   @Input() FullAuditTableDetails!: GroupHeaderTableDetails[];
+  @ViewChild('sidePan') public sidenav: MatSidenav | undefined;
+  sidePan!: MatSidenav;
   selectedTab!: number;
   tabs: Tab[] = [];
-  tabsName: string[] = [];
+  tabsName: string[] = [];  
 
-  constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef) {
-    this.tabsName = ['FullauditFirst', 'FullauditSecond', 'FullauditThird', 'FullauditFourth'];
+  constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef,
+    private service:AuditDiscpancyReportService) {
+    this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];    
+    this.service.passValue(this.sidePan);
   }
 
   ngOnInit(): void {
     this.tabs = [
       {
         tabType: 0,
-        name: 'FullauditFirst'
+        name: 'Audit Summary'
       },
       {
         tabType: 1,
-        name: 'FullauditSecond',
+        name: 'Progress Report',
       },
       {
         tabType: 2,
-        name: 'FullauditThird'
+        name: 'Month Report'
       },
       {
         tabType: 3,
-        name: 'FullauditFourth'
+        name: 'Address/ Postcode Report'
       }
     ];
 
@@ -351,15 +354,15 @@ export class FullAuditTypeComponent implements OnInit {
     });
   }
 
-  getJsonData(): Observable<AuditDiscrepancyModel[]> {
-    return this.httpClient.get<AuditDiscrepancyModel[]>("../assets/data.json")
+  getJsonData(): Observable<FullAuditSummary[]> {
+    return this.httpClient.get<FullAuditSummary[]>("../assets/data.json")
   }
 
   trackTabs(index: number, tab: any) {
     return tab ? tab.data : undefined;
   }
 
-  loadGridDetails(data: AuditDiscrepancyModel[]) {
+  loadGridDetails(data: FullAuditSummary[]) {
     for (var tab of this.tabsName) {
       var headerswithDetails: string[];
       var displayedColumns: string[];
@@ -369,12 +372,12 @@ export class FullAuditTypeComponent implements OnInit {
       var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
 
       switch (labelName) {
-        case 'FullauditFirst':
+        case 'AuditSummary':
           headerswithDetails = ['ACTID', 'SourceSystem'].concat(gridDesignDetails[0].GroupHeaders.map(x => x.DataHeaders));
           displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
           detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
           grpHdrColumnsArray = [headerswithDetails];
-          this.grpTableitem = {
+          this.auditSummaryTable = {
             data: data,
             ColumnDetails: gridDesignDetails[0].ColumnDetails,
             GroupHeaders: gridDesignDetails[0].GroupHeaders,
@@ -382,29 +385,30 @@ export class FullAuditTypeComponent implements OnInit {
             DetailedColumns: detailedColumnsArray,
             GroupHeaderColumnsArray: grpHdrColumnsArray
           }
-          this.tabs[0].data = this.grpTableitem
+          this.tabs[0].data = this.auditSummaryTable
           break;
-        case 'FullauditSecond':
+        case 'ProgressReport':
           headerswithDetails = ['ACTID', 'SourceSystem', 'FullAuditCLIStatus', 'New', 'AutoFailed'];
           displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
           detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
           grpHdrColumnsArray = [['ACTID', 'SourceSystem', 'FullAuditCLIStatus', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
-          this.grpTableitem2 = {
+          this.progressReportTable = {
             data: ELEMENT_DATA1,
             ColumnDetails: gridDesignDetails[0].ColumnDetails,
             GroupHeaders: gridDesignDetails[0].GroupHeaders,
             DisplayedColumns: displayedColumns,
             DetailedColumns: detailedColumnsArray,
-            GroupHeaderColumnsArray: grpHdrColumnsArray
+            GroupHeaderColumnsArray: grpHdrColumnsArray,
+            FilterColumn: true
           }
-          this.tabs[1].data = this.grpTableitem2
+          this.tabs[1].data = this.progressReportTable
           break;
 
-        case 'FullauditThird':
+        case 'MonthReport':
           displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
           detailedColumnsArray = gridDesignDetails[0].GroupHeaders.map(x => x.DataHeaders);
           grpHdrColumnsArray = [detailedColumnsArray];
-          this.grpTableitem3 = {
+          this.monthReportTable = {
             data: ELEMENT_DATA2,
             ColumnDetails: gridDesignDetails[0].ColumnDetails,
             GroupHeaders: gridDesignDetails[0].GroupHeaders,
@@ -412,23 +416,25 @@ export class FullAuditTypeComponent implements OnInit {
             DetailedColumns: displayedColumns,
             GroupHeaderColumnsArray: grpHdrColumnsArray
           }
-          this.tabs[2].data = this.grpTableitem3
+          this.tabs[2].data = this.monthReportTable
           break;
 
-        case 'FullauditFourth':
+        case 'AddressReport':
           var headerswithDetails = ['ACTID', 'SourceSystem', 'CLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
           var displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
           var detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
           var grpHdrColumnsArray = [headerswithDetails];
-          this.grpTableitem4 = {
+          this.addressReportTable = {
             data: ELEMENT_DATA3,
             ColumnDetails: gridDesignDetails[0].ColumnDetails,
             GroupHeaders: gridDesignDetails[0].GroupHeaders,
             DisplayedColumns: displayedColumns,
             DetailedColumns: detailedColumnsArray,
-            GroupHeaderColumnsArray: grpHdrColumnsArray
+            GroupHeaderColumnsArray: grpHdrColumnsArray,
+            FilterColumn: true,
+            FilterValues: [ELEMENT_DATA3.map(x => x.CLIStatus), ELEMENT_DATA3.map(x => x.SourceSystem)]
           }
-          this.tabs[3].data = this.grpTableitem4
+          this.tabs[3].data = this.addressReportTable;
           break;
       }
     }

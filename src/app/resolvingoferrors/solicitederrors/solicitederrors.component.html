@@ -7,7 +7,7 @@
           <mat-icon>filter_alt</mat-icon>
           Filter Data By
         </button>
-        
+
       </div>
     </div>
     <form (ngSubmit)="onFormSubmit()">
@@ -38,7 +38,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>source</mat-label>
+          <mat-label>Source</mat-label>
           <mat-select>
             <mat-option></mat-option>
             <mat-option>AUDIT</mat-option>
@@ -55,19 +55,10 @@
           <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Status/Final Date</mat-label>
-          <mat-select>
-            <mat-option></mat-option>
-            <mat-option>ERROR</mat-option>
-            <mat-option>ERROR Final</mat-option>
-
-          </mat-select>
-          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
-        </mat-form-field>
+        
 
         <mat-form-field appearance="outline">
-          <mat-label>Enter a date range</mat-label>
+          <mat-label>Date range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
             <input matStartDate placeholder="Start date">
             <input matEndDate placeholder="End date">
@@ -78,7 +69,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Res.Type</mat-label>
+          <mat-label>Error Type</mat-label>
           <mat-select>
             <mat-option></mat-option>
             <mat-option>New</mat-option>
@@ -99,8 +90,23 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>999 Reference</mat-label>
+          <mat-select>
+            <mat-option></mat-option>
+            <mat-option>ERROR</mat-option>
+            <mat-option>ERROR Final</mat-option>
+
+          </mat-select>
+          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+        </mat-form-field>
+        
         <button type="submit" mat-raised-button color="primary" matTooltip="Search">
           <mat-icon>search</mat-icon>Search
+        </button>
+        <button type="reset" mat-raised-button color="primary" matTooltip="Reset">
+          <mat-icon>refresh</mat-icon>Reset
         </button>
       </div>
 
@@ -124,10 +130,16 @@
     <mat-tab-group [(selectedIndex)]="selectedTab">
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
+
+          <button *ngIf="tab.tabType == 0" class="slidderbtn" mat-basic-button color="primary"
+            (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+            <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+          </button>
           <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
-          <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
+          <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
             <mat-icon style="font-size: large;">close</mat-icon>
           </button>
+
         </ng-template>
 
         <span [ngSwitch]="tab.tabType">
@@ -137,20 +149,11 @@
             </app-table-selection>
             <form>
               <div class="mat-elevation-z8 side-bottom">
-                <div class="side-left-div">
-                  <!-- <select class="res-select" Name="Name_of_list_box" size="4"
-              >
-              <option> List item 1 </option>
-              <option> List item 2 </option>
-              <option> List item 3 </option>
-              <option> List item N </option>
-              <option> List item 3 </option>
-              <option> List item N </option>
-            </select> -->
-                  <select class="res-select" Name="Name_of_list_box" size="4">
+                <div>             
+                  <!-- <select class="res-select" Name="Name_of_list_box" size="4">
                     <option *ngFor="let list of selectListItems"> {{list}} </option>
-                  </select>
-                  <div class="res-save-div">
+                  </select> -->
+                  <div style="display: inline-block;">
                     <mat-form-field appearance="outline">
                       <mat-label>Res.Type</mat-label>
                       <mat-select>
@@ -164,6 +167,25 @@
                       <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
                     </mat-form-field>
 
+                    <mat-form-field appearance="outline">
+                      <mat-label>999 Reference</mat-label>
+                      <mat-select>
+                        <mat-option></mat-option>
+                        <mat-option>New</mat-option>
+                        <mat-option>Under Investigation</mat-option>
+                        <mat-option>Under Governance</mat-option>
+                        <mat-option>Under Governance</mat-option>
+                        <mat-option>Port Req Complete</mat-option>
+                      </mat-select>
+                      <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters" appearance="outline">
+                      <mat-label>Resolution</mat-label>
+                      <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
+                      <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                    </mat-form-field>
+
                     <button type="submit" mat-raised-button color="primary" matTooltip="Save">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
@@ -173,11 +195,11 @@
                       <mat-icon>help</mat-icon>Help
                     </button>
                   </div>
-                  <mat-form-field class="side-textarea" hintLabel="Max 500 characters" appearance="outline">
+                  <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters" appearance="outline">
                     <mat-label>Resolution</mat-label>
                     <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
                     <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                  </mat-form-field>
+                  </mat-form-field> -->
 
                 </div>
                 <div class="side-right-div">

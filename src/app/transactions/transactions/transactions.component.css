@@ -111,3 +111,13 @@
   height: 30px !important;
   color: rgb(11, 11, 158);
 } */
+
+.audit-trail-view::ng-deep .fluid-item {
+  flex: 46% 1 1;
+}
+
+@media screen and (max-width: 1314px) {
+  .audit-trail-view::ng-deep .fluid-item {
+    flex: 95% 1 1;
+  }
+}

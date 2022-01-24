@@ -6,6 +6,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Select } from 'src/app/_models/select';
 import { SolicitedErrors } from 'src/app/_models/solicited-errors';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
+import { ResolvingOfErrorsService } from '../resolving-of-errors.service';
 
 const ELEMENT_DATA: SolicitedErrors[] = [
   {
@@ -90,6 +91,40 @@ const ELEMENT_DATA: SolicitedErrors[] = [
   },
 ];
 
+const configInput: any = {
+  "ConfigObjectRequest":{
+  "ConfigObjectRequestType" : {
+  "RequestIdentifiers" : {
+  "Identifier" : [ {
+  "Name" : "UserId",
+  "Value" : [ "abc" ]
+  }, {
+  "Name" : "Destination",
+  "Value" : [ "OSN2" ]
+  } ]
+  },
+  "ListofConfigObjectCategory" : {
+  "ConfigObjectCategory" : [ {
+  "ItemName" : "ConfigObject",
+  "ListofIdentifiers" : {
+  "Identifier" : [ {
+  "Name" : "ObjectName",
+  "Value" : [ "TelephoneNumber" ]
+  } ]
+  },
+  "ListofAttributes" : {
+  "Attribute" : [ {
+  "Name" : "Action",
+  "Value" : [ "Search" ]
+  }, {
+  "Name" : "Filter",
+  "Value" : [ "Command", "Source", "ResolutionType", "ErrorType", "ErrorCode" ]
+  } ]
+  }
+  } ]
+  }
+  }
+  }} 
 
 
 @Component({
@@ -99,7 +134,7 @@ const ELEMENT_DATA: SolicitedErrors[] = [
 })
 export class SolicitederrorsComponent implements OnInit {
   formbulider: any;
-  constructor() { }
+  constructor(private service: ResolvingOfErrorsService) { }
   myTable!: TableItem;
   //test
   dataSaved = false;
@@ -185,6 +220,9 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
   setOptions() {
+    debugger;
+    this.service.configDetails(configInput);
+
     this.errorCodesOptions = this.errorCode.valueChanges
       .pipe(
         startWith<string>(''),
