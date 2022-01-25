@@ -14,7 +14,7 @@ font-size: smaller;  ">
         <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
           Select All</mat-checkbox>      
     </mat-optgroup>
-    <mat-option color="primary"  (click)="optionClick()" *ngFor="let cols of (ColumnDetails || []); let fltIndex = index"
+    <mat-option color="primary"  (click)="optionClick()" *ngFor="let cols of (gridSelectList || []); let fltIndex = index"
       [value]="cols.headerValue" >
       {{ cols.header }}
     </mat-option>

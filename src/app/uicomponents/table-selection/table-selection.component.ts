@@ -43,22 +43,31 @@ export class TableSelectionComponent {
   emptyColumns: string[] = [];
   nonemptyColumns: string[] = [];
   unSelectListItems: string[] = [];
+  gridSelectList:ColumnDetails[]=[];
+  filteredDataColumns:ColumnDetails[]=[];
 
   constructor(private cdr: ChangeDetectorRef) {
 
   }
+ 
   ngOnInit() {
     if (this.tableitem?.isBlankCoulmnsRemoved) {   
-      this.getEmptyColumns();     
-      let filterdColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
-      this.ColumnDetails = filterdColumns ? filterdColumns : [];
+      this.getEmptyColumns();  
+      this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue))?
+      this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)):[];   
+      const selectList = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
+      this.gridSelectList = selectList ? selectList : [];   
+      
     }
     else {
-      this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+      this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];     
     }
+
+    var filteredColumns=this.filteredDataColumns;
     // this.selectList = this.tableitem?.Columns?.filter((e) => e.showDefault == true).map((i) => i.header);
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-    //this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];   
+    this.ColumnDetails = this.tableitem?.isBlankCoulmnsRemoved?filteredColumns
+                 :(this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);   
     //this.imgColumns = this.tableitem?.colToSetImage;
     this.imgList = this.tableitem?.imgConfig;
     this.filter = this.tableitem?.filter;
@@ -192,7 +201,7 @@ export class TableSelectionComponent {
     this.nonemptyColumns = [...nonEmptySet];
 
     this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
-
+  
   }
 
   checkIsNullOrEmptyProperties(obj: any) {

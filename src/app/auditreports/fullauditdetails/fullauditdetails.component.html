@@ -177,7 +177,6 @@
                             <mat-option>1</mat-option>
                             <mat-option>2</mat-option>
                         </mat-select>
-
                     </mat-form-field>
                     <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.PostCodeDiff.disabled}"
                         appearance="outline">
@@ -188,6 +187,38 @@
                             <mat-option>2</mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.FullAddDiff.disabled}"
+                    appearance="outline">
+                    <mat-label>Full Address Diff.</mat-label>
+                    <mat-select id="FullAddDiff" formControlName="FullAddDiff">
+                        <mat-option></mat-option>
+                        <mat-option>Yes</mat-option>
+                        <mat-option>No</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.CustomerDiff.disabled}"
+                appearance="outline">
+                <mat-label>Customer Diff.</mat-label>
+                <mat-select id="CustomerDiff" formControlName="CustomerDiff">
+                    <mat-option></mat-option>
+                    <mat-option>Yes</mat-option>
+                    <mat-option>No</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.OverlappingStatus.disabled}"
+            appearance="outline">
+            <mat-label>Overlapping Status.</mat-label>
+            <mat-select id="OverlappingStatus" formControlName="OverlappingStatus">
+                <mat-option></mat-option>
+                <mat-option>Yes</mat-option>
+                <mat-option>No</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+                    <button type="submit" mat-raised-button style="margin-left: 25px;" color="primary"
+                     matTooltip="Search">
+                    <mat-icon>search</mat-icon>Search
+                  </button>
                 </div>
             </form>
         </div>

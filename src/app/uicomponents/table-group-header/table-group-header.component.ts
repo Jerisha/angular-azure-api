@@ -53,7 +53,7 @@ export class TableGroupHeaderComponent implements OnInit {
     this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
     this.isRowTot = this.GrpTableitem?.isRowLvlTot ? true : false;
 
-    var nonTotCols = ['ACTID', 'SourceSystem'];
+    var nonTotCols = ['ACTID', 'SourceSystem','CLIStatus','FullAuditCLIStatus'];
     this.totalCols = this.displayedColumns.filter(x => !nonTotCols.includes(x));
 
     if (this.filterColumn) {
@@ -65,16 +65,34 @@ export class TableGroupHeaderComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-
+isTotDisplayed:boolean=false;
   getTotal(cellname?: string) {
     var cell = cellname ? cellname : '';
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
       return this.GrpTableitem?.data.reduce((a: number, b: any) => a + b[cell], 0);
     }
-    else {
-      return 'Total';
+    else {   
+      debugger; 
+      if(!this.isTotDisplayed  && cellname=="ACTID"){
+      this.totShowed=true;
+      return 'Total'; 
     }
+    }
+  }
+
+  totShowed:boolean=false;
+
+  getColSpan(cellname:string){
+
+    if(cellname=="ACTID"){
+      this.totShowed= true;
+      return "2"
+    }
+    
+    return ""
+    // }
+
   }
 
   formControlsSubscribe() {

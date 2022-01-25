@@ -400,6 +400,7 @@ export class FullAuditTypeComponent implements OnInit {
             DisplayedColumns: displayedColumns,
             DetailedColumns: detailedColumnsArray,
             GroupHeaderColumnsArray: grpHdrColumnsArray,
+            isRowLvlTot:true,
             FilterColumn: true
           }
           this.tabs[1].data = this.progressReportTable

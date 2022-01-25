@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
@@ -8,6 +9,7 @@ import { WeatherForecast } from 'src/app/_models/samplemodel';
 import { Select } from 'src/app/_models/select';
 import { TableItem } from 'src/app/_models/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
+import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 
 const ELEMENT_DATA: FullAuditDetailsSummary[] = [
   {
@@ -398,7 +400,7 @@ export class FullauditdetailsComponent implements OnInit {
     { headerValue: 'OrderArchiveFlag', header: 'Order Archive Flag', showDefault: true, imageColumn: false },
     { headerValue: 'DeadEntry', header: 'DeadEntry', showDefault: true, imageColumn: false }];
 
-  constructor(private ser: FullAuditDetailsService,
+  constructor(private ser: FullAuditDetailsService,private dialog: MatDialog,
     private formBuilder: FormBuilder) {
     this.myTable = {
       data: ELEMENT_DATA,
@@ -415,6 +417,16 @@ export class FullauditdetailsComponent implements OnInit {
       { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
       { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
     }
+  }
+  comments:string='Not available'
+
+  openDialog() {
+    const dialogRef = this.dialog.open(UserCommentsDialogComponent,{
+      width: '300px',
+      // height: '400px',
+       data: {  defaultValue: this.comments }
+    }
+      );
   }
 
   ngOnInit(): void {
@@ -434,6 +446,10 @@ export class FullauditdetailsComponent implements OnInit {
           tabType: 1,
           name: 'Audit Trail Report'
         });
+        break;
+      }
+      case 2: {
+       this.openDialog();
         break;
       }
       case 3: {

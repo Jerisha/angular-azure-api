@@ -17,6 +17,7 @@ import { HttpErrorInterceptor } from '../_services/http/http-error-interceptor';
 import { HttpRequestHeader } from '../_services/http/http-request-header.service';
 import { BorderDirective } from '../_helper';
 import { HelperModule } from '../_helper/helper/helper.module';
+import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { HelperModule } from '../_helper/helper/helper.module';
     FullAuditTypeComponent,
     ExternalAuditTypeComponent,
     SeperateInternalAuditTypeComponent,
+    UserCommentsDialogComponent
     // BorderDirective
   ],
   imports: [
