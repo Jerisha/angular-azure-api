@@ -15,7 +15,7 @@ import { PopupComponent } from './popup/popup.component';
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { HttpWrapperService } from './_services/http/http-wrapper.service';
 import { HttpErrorInterceptor } from './_services/http/http-error-interceptor';
-import { HttpRequestHeader } from './_services/http/http-request-header.service';
+import { HttpHeaderInterceptor } from './_services/http/http-header-interceptor';
 import { TransactionsModule } from './transactions/transactions.module';
 import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -48,7 +48,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   },
   {
     provide: HTTP_INTERCEPTORS, 
-    useClass: HttpRequestHeader, 
+    useClass: HttpHeaderInterceptor, 
     multi: true 
   },
   AuditDiscpancyReportService,

@@ -14,7 +14,6 @@ import { MatSelect } from '@angular/material/select';
 })
 
 export class TableSelectionComponent {
-
   fltvalue: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -68,7 +67,7 @@ export class TableSelectionComponent {
   }
 
   selectRow(event: any, row: any) {
-    this.rowChanges.emit([row[this.selectColumn]]);
+        this.rowChanges.emit([row[this.selectColumn]]);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -83,11 +82,13 @@ export class TableSelectionComponent {
     if (this.isAllSelected()) {
       this.selection.clear()
       this.selectedTelnos = [];
+     
     }
     else {
       this.dataSource.data.forEach(row => this.selection.select(row));
       this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
     }
+       
     this.rowChanges.emit(this.selectedTelnos);
   }
 
@@ -159,7 +160,9 @@ export class TableSelectionComponent {
 
 
   logSelection(a: any) {
+    console.log(this.selection.selected)
     this.selectedrows = this.selection.selected ? this.selection.selected : undefined;
+    //this.selectedrowsCount = this.selection.selected ? this.selection.selected.length: 0;
     return true;
   }
 

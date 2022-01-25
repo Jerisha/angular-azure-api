@@ -12,16 +12,14 @@ export class HttpWrapperService {
     }
 
     processRequst<Type>(httpVerb: HttpVerbs, endPoint: string, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
-        Observable<Type> {       
-
-        console.log('headers: ' + headers)
+        Observable<Type> {
         this.http(httpVerb.toString(),
             `${environment.api_url}${endPoint}`,
             JSON.stringify(body),
             responseType,
             headers,
             params).subscribe((response: Type) => {
-                console.log("response: " + response);
+                console.log("Response: " + JSON.stringify(response));
             });
 
         // const observerRes = new Observable((observer: Observer<Type>) => {
@@ -40,22 +38,19 @@ export class HttpWrapperService {
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
-        debugger;
-        let options = {
-            body: body, headers: headers,
-            params: params,
-            responseType: responseType
-        };
 
-        //   headers = new HttpHeaders({
-        //     'Content-Type': 'application/json',
-        //     'Authorization': `Basic${'OSN2User:OSN2User'}`,
-        //     'Access-Control-Allow-Origin': '*',
-        //     'Access-Control-Allow-Methods': 'GET, DELETE, HEAD, OPTIONS, POST'
-        // });
+        // let options = {
+        //     body: body, headers: headers,
+        //     params: params,
+        //     responseType: responseType
+        // };
+
+        //params = new HttpParams().set('ConfigObjectRequest', body);
+
+        debugger;
         switch (responseType) {
             case ResponseType.JSON:
-                return this.httpClient.request(httpVerb, url, { body, headers,  params, responseType: 'json' });
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
                 break;
             case ResponseType.BLOB:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' })
