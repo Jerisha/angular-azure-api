@@ -17,7 +17,7 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
                 'Authorization': `Basic ${window.btoa('OSN2User:OSN2User')}`            }
         });
 
-        //console.log('Intercepted HttpRequestHeader call', authReq);
+        //console.log('Intercepted HttpHeaderInterceptor call', authReq);
         return next.handle(authReq);
     }
 }

@@ -7,6 +7,18 @@ th {
   color:white;
 }
 
+.totalRow{
+  background-color: #e60000;;;
+  color:white;
+  font-size: small;
+  min-height: 38px;
+  text-align: center;
+  border: 0.5px solid black;
+  padding: 0 !important;
+
+
+}
+
 th.mat-sort-header-sorted {
   color: black;
 }
@@ -106,6 +118,10 @@ th.mat-header-cell,td.mat-cell {
   border: 0.5px solid black;
   padding: 0 !important;
 
+}
+
+table td, table th {
+  padding: 2px 10px;
 }
 
 

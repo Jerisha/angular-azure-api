@@ -13,7 +13,12 @@ const ELEMENT_DATA: InternalAuditSummary[] = [
 ];
 const ELEMENT_DATA1: InternalAuditProgressReport[] = [
   {
-    ACTID: "df", SourceSystem: "fg", Total: 0, New: 0, CLIStatus: "df", AuditTransactionOverride: 0, AutoClosed: 0, AutoResolved: 0,
+    ACTID: "df", SourceSystem: "fg", Total: 2, New: 0, CLIStatus: "df", AuditTransactionOverride: 0, AutoClosed: 0, AutoResolved: 0,
+    PortReqComplete: 0, Resolved: 0, SumTotal: 1, UnResolved: 0, UnderGovernance: 0, UnderInvestigation: 0, UnderPorting: 0
+
+  },
+  {
+    ACTID: "df", SourceSystem: "fg1", Total: 2, New: 0, CLIStatus: "df", AuditTransactionOverride: 0, AutoClosed: 0, AutoResolved: 0,
     PortReqComplete: 0, Resolved: 0, SumTotal: 1, UnResolved: 0, UnderGovernance: 0, UnderInvestigation: 0, UnderPorting: 0
 
   }

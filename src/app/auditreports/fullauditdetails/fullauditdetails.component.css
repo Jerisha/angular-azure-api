@@ -8,10 +8,11 @@ button{
     margin-bottom:10px;    
 }
 
-/* .filterposition{
+.filterposition{
     margin-left:10px;
     margin-top:15px;
-} */
+    margin-bottom:10px;
+}
 
 
 .mat-column-TelNo {

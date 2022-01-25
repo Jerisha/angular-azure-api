@@ -33,8 +33,19 @@ export class HttpWrapperService {
         //             observer.next(response);
         //         })
         // });
-        //return observerRes;
-        return new Observable<Type>();
+
+        const observerRes = new Observable((observer: Observer<Type>) => {
+            this.http(httpVerb.toString(),
+                `${environment.api_url}${endPoint}`,
+                JSON.stringify(body),
+                responseType,
+                headers,
+                params).subscribe((response: Type) => {                    
+                    observer.next(response);
+                })
+        });
+        return observerRes;
+       // return new Observable<Type>();
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
@@ -54,7 +65,6 @@ export class HttpWrapperService {
                 break;
             case ResponseType.BLOB:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' })
-                break;
         }
 
     }
