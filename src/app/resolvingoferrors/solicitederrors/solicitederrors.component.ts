@@ -92,39 +92,39 @@ const ELEMENT_DATA: SolicitedErrors[] = [
 ];
 
 const configInput: any = {
-  "ConfigObjectRequestType": {
-    "RequestIdentifiers": {
-      "Identifier": [{
-        "Name": "UserId",
-        "Value": ["abc"]
-      }, {
-        "Name": "Destination",
-        "Value": ["OSN2"]
-      }]
-    },
-    "ListofConfigObjectCategory": {
-      "ConfigObjectCategory": [{
-        "ItemName": "ConfigObject",
-        "ListofIdentifiers": {
-          "Identifier": [{
-            "Name": "ObjectName",
-            "Value": ["TelephoneNumber"]
-          }]
-        },
-        "ListofAttributes": {
-          "Attribute": [{
-            "Name": "Action",
-            "Value": ["Search"]
-          }, {
-            "Name": "Filter",
-            "Value": ["Command", "Source", "ResolutionType"]
-          }]
-        }
-      }]
-    }
+  "ConfigObjectRequest":{
+  "ConfigObjectRequestType" : {
+  "RequestIdentifiers" : {
+  "Identifier" : [ {
+  "Name" : "UserId",
+  "Value" : [ "abc" ]
+  }, {
+  "Name" : "Destination",
+  "Value" : [ "OSN2" ]
+  } ]
+  },
+  "ListofConfigObjectCategory" : {
+  "ConfigObjectCategory" : [ {
+  "ItemName" : "ConfigObject",
+  "ListofIdentifiers" : {
+  "Identifier" : [ {
+  "Name" : "ObjectName",
+  "Value" : [ "TelephoneNumber" ]
+  } ]
+  },
+  "ListofAttributes" : {
+  "Attribute" : [ {
+  "Name" : "Action",
+  "Value" : [ "Search" ]
+  }, {
+  "Name" : "Filter",
+  "Value" : [ "Command", "Source", "ResolutionType", "ErrorType", "ErrorCode" ]
+  } ]
   }
-};
-
+  } ]
+  }
+  }
+  }} 
 
 
 @Component({
@@ -220,8 +220,8 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
   setOptions() {
-    // debugger;
-    // this.service.configDetails(configInput);
+    debugger;
+    this.service.configDetails(configInput);
 
     this.errorCodesOptions = this.errorCode.valueChanges
       .pipe(

@@ -1,6 +1,6 @@
 {
-    "/api/*": {
-        "target": "http://localhost:5124",
+    "/ws/VS_OSN2SampleAPI_St3/1.0/*": {
+        "target": "https://wm-mediator-tst.hosts.plc.cwintra.com:26231",
         "secure": false,
         "logLevel": "debug"
     }
