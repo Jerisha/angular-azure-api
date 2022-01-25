@@ -14,7 +14,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { SharedModule } from '../_shared/shared.module';
 import { HttpErrorInterceptor } from '../_services/http/http-error-interceptor';
-import { HttpRequestHeader } from '../_services/http/http-request-header.service';
+import { HttpHeaderInterceptor } from '../_services/http/http-header-interceptor';
 import { BorderDirective } from '../_helper';
 import { HelperModule } from '../_helper/helper/helper.module';
 import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';

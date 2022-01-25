@@ -15,7 +15,11 @@ th.mat-sort-header-sorted {
   padding: 2px 10px;
   /* width: auto;
   height: fit-content; */
-  font-size:small; 
+  font-size:small;
+}
+
+table td, table th {
+  padding: 2px 10px;
 }
 
 .mat-header-row{
@@ -96,9 +100,7 @@ th.mat-sort-header-sorted {
 }
 
 
-table td, table th {
-  padding: 2px 10px;
-}
+
 
 /* .test-wrapper{ 
   padding-right: 0; 

@@ -36,7 +36,7 @@ font-size: smaller;  ">
   </mat-select>
 </mat-form-field>
 &nbsp;
-<span><b>No of selected rows : {{selection.selected.length}}</b></span>
+<span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span>
  
 
 

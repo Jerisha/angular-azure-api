@@ -10,7 +10,7 @@ import { SharedModule } from '../_shared/shared.module';
 import { ResolvingOfErrorsService } from './resolving-of-errors.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from '../_services/http/http-error-interceptor';
-import { HttpRequestHeader } from '../_services/http/http-request-header.service';
+import { HttpHeaderInterceptor } from '../_services/http/http-header-interceptor';
 import { HttpWrapperService } from '../_services/http/http-wrapper.service';
 
 
