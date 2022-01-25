@@ -8,15 +8,14 @@ font-size: smaller;  ">
 (click)="sidePan.toggle()" matTooltip="{{sidePan.opened ? 'Hide Filters' : 'Show Filters'}}">
   <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
   </button> -->
-
-<mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 0px;margin-bottom: 0px;">
+<mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 10px;margin-bottom: 0px;">
   <mat-select #select multiple  placeholder="Column Headers" disableOptionCentering panelClass="matselhorzPanel">
     <mat-optgroup>      
         <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
           Select All</mat-checkbox>      
     </mat-optgroup>
-    <mat-option color="primary"  (click)="optionClick()" *ngFor="let cols of (this.tableitem?.Columns || []); let fltIndex = index"
-      [value]="cols.headerValue" [>
+    <mat-option color="primary"  (click)="optionClick()" *ngFor="let cols of (gridSelectList || []); let fltIndex = index"
+      [value]="cols.headerValue" >
       {{ cols.header }}
     </mat-option>
     <mat-optgroup>  
@@ -29,7 +28,8 @@ font-size: smaller;  ">
 </mat-form-field>
 
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
-<div class="table-container">
+<div >
+<div  class="table-container">
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
 
@@ -72,11 +72,12 @@ font-size: smaller;  ">
     <tr  mat-row *matRowDef="let row; columns: dataColumns;"  (change)="selectRow($event,row)" (click)="selection.toggle(row)"> </tr>
   </table>
 </div>
+</div>
 
 <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[100, 500, 1000]" showFirstLastButtons>
 </mat-paginator>
 
-<!-- <div style="margin: auto;"> -->
+<!-- <div class="test-wrapper"> -->
   <div style="margin-bottom:10px" >
   <button type="reset" mat-raised-button color="primary" matTooltip="Export">
     <mat-icon>import_export</mat-icon>Export
@@ -91,4 +92,5 @@ font-size: smaller;  ">
   </button>
   </span>  
 </div>
+
 <mat-divider></mat-divider>

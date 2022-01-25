@@ -1,12 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from 'src/app/_models/index';
+import { WeatherForecast } from 'src/app/_models/samplemodel';
 import { Select } from 'src/app/_models/select';
 import { TableItem } from 'src/app/_models/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
+import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 
 const ELEMENT_DATA: FullAuditDetailsSummary[] = [
   {
@@ -209,7 +212,6 @@ const ELEMENT_DATA: FullAuditDetailsSummary[] = [
     Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: 'Orange'
   }
 ];
-
 const ELEMENT_DATA1: RangeReport[] = [
   {
     SourceSystem: 'sys', CustomerAddress: 'xyz', CustomerName: 'john', EndTelNo: '01234567'
@@ -223,7 +225,6 @@ const ELEMENT_DATA1: RangeReport[] = [
     SourceSystem: 'sys', CustomerAddress: 'xyz', CustomerName: 'john', EndTelNo: '01234567'
     , StartTelNo: '01234567', InflightTransaction: 'Yes', Lineup: 'NA', OrderRef: '5678', Transaction: 'override'
   }];
-
 const ELEMENT_DATA2: InflightReport[] = [{
   OrderRef: 'RE34', OrderType: 'Full', OrderUpdateDate: "20-01-2022", Range: 'NA', TelNo: '01234567'
 },
@@ -274,9 +275,7 @@ const Items: Select[] = [
   templateUrl: './fullauditdetails.component.html',
   styleUrls: ['./fullauditdetails.component.css']
 })
-
 export class FullauditdetailsComponent implements OnInit {
-
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
@@ -288,14 +287,11 @@ export class FullauditdetailsComponent implements OnInit {
   moriCircuitRptTable!: TableItem;
   selectedTab!: number;
   selectListItems: string[] = [];
-  unSelectListItems: string[] = [];
-  listItems!: Select[];
 
-  public tabs = [{
-    tabType: 0,
-    name: 'Main'
-  }
-  ];
+  listItems!: Select[];
+  emptyColumns: string[] = [];
+  nonemptyColumns: string[] = [];
+  unSelectListItems: string[] = [];
 
   rangeReportTableDetails: any = [
     { headerValue: 'StartTelNo', header: 'Start TelNo', showDefault: true, imageColumn: false },
@@ -308,8 +304,6 @@ export class FullauditdetailsComponent implements OnInit {
     { headerValue: 'CustomerAddress', header: 'Customer Address', showDefault: true, imageColumn: false },
     { headerValue: 'OrderRef', header: 'Order Ref', showDefault: true, imageColumn: false },
   ];
-
-
   inflightTableDetails: any = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, imageColumn: false },
     { headerValue: 'Range', header: 'Range', showDefault: true, imageColumn: false },
@@ -317,14 +311,11 @@ export class FullauditdetailsComponent implements OnInit {
     { headerValue: 'OrderType', header: 'Order Type', showDefault: true, imageColumn: false },
     { headerValue: 'OrderUpdateDate', header: 'Order Updated Date', showDefault: true, imageColumn: false },
   ];
-
   moriCicuitTableDetails: any = [
     { headerValue: 'CircuitReference', header: 'Circuit Reference', showDefault: true, imageColumn: false },
     { headerValue: 'CompletionDate', header: 'Completion Date', showDefault: true, imageColumn: false },
     { headerValue: 'DerivedStatus', header: 'Derived Status', showDefault: true, imageColumn: false }
   ];
-
-
   monthlyRefreshReportTableDetails: any = [
     { headerValue: 'ReferenceType', header: 'Reference Type', showDefault: true, imageColumn: false },
     { headerValue: 'Customers', header: 'Customers', showDefault: true, imageColumn: false },
@@ -342,9 +333,18 @@ export class FullauditdetailsComponent implements OnInit {
     'TelNo': [
       { type: 'required', message: 'TelNo is required' },
       { type: 'minlength', message: 'TelNo should be 10 characters long' }
-
+    ],
+    'BatchId': [
+      { type: 'required', message: 'BatchId is required' },
+      { type: 'minlength', message: 'BatchId should be 3 characters long' }
     ]
   };
+
+  public tabs = [{
+    tabType: 0,
+    name: 'Main'
+  }
+  ];
 
   colHeader: any[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, imageColumn: false },
@@ -394,20 +394,21 @@ export class FullauditdetailsComponent implements OnInit {
     { headerValue: 'OrderReference', header: 'Order Reference', showDefault: true, imageColumn: false },
     { headerValue: 'OrderServiceType', header: 'Order Service Type', showDefault: true, imageColumn: false },
     { headerValue: 'TypeOfLine', header: 'Type Of Line', showDefault: true, imageColumn: false },
-    { headerValue: 'CommentsRange', header: 'Comments Range', showDefault: true, imageColumn: false },
+    { headerValue: 'Comments', header: 'Comments (Range)', showDefault: true, imageColumn: false },
     { headerValue: 'LinkOrderRef', header: 'Link OrderRef', showDefault: true, imageColumn: false },
     { headerValue: 'LinkReasonCode', header: 'Link Reason Code', showDefault: true, imageColumn: false },
     { headerValue: 'OrderArchiveFlag', header: 'Order Archive Flag', showDefault: true, imageColumn: false },
     { headerValue: 'DeadEntry', header: 'DeadEntry', showDefault: true, imageColumn: false }];
 
-  constructor(private ser: FullAuditDetailsService,
+  constructor(private ser: FullAuditDetailsService,private dialog: MatDialog,
     private formBuilder: FormBuilder) {
     this.myTable = {
       data: ELEMENT_DATA,
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
-      isEmailRequired: true,
+      showEmail: true,
+      showBlankCoulmns: true,
       selectionColumn: 'TelNo',
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
@@ -417,74 +418,20 @@ export class FullauditdetailsComponent implements OnInit {
       { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
     }
   }
+  comments:string='Not available'
 
-  monthlyRefreshReportInit() {
-    this.monthlyRefreshRptTable
-      = {
-      data: ELEMENT_DATA4,
-      Columns: this.monthlyRefreshReportTableDetails,
-      filter: true,
+  openDialog() {
+    const dialogRef = this.dialog.open(UserCommentsDialogComponent,{
+      width: '300px',
+      // height: '400px',
+       data: {  defaultValue: this.comments }
     }
-  }
-
-  rangeReportInit() {
-    this.rangeRptTable = {
-      data: ELEMENT_DATA1,
-      Columns: this.rangeReportTableDetails,
-      filter: true,
-    }
-  }
-
-  moriCircuitStatusReportInit() {
-    this.moriCircuitRptTable = {
-      data: ELEMENT_DATA3,
-      Columns: this.moriCicuitTableDetails,
-      filter: true,
-    }
-  }
-
-  inflightReportInit() {
-    this.inflightRptTable = {
-      data: ELEMENT_DATA2,
-      Columns: this.inflightTableDetails,
-      filter: true
-    }
-  }
-
-   emptyColumns: string[] = [];
-     nonemptyColumns: string[] = [];
-
-  checkIsNullOrEmptyProperties(obj: any) {
-    for (var key in obj) {
-      if (obj[key] === null || obj[key] === "")
-        this.emptyColumns.push(key);
-      else {
-        this.nonemptyColumns.push(key)
-      }
-    }
-  }
-
-  getEmptyColumns() {
-    let summaryData = ELEMENT_DATA;
-    summaryData.forEach(item => {
-      this.checkIsNullOrEmptyProperties(item)
-    });
-
-    var emptySet = new Set(this.emptyColumns);
-    this.emptyColumns = [...emptySet];
-
-    var nonEmptySet = new Set(this.nonemptyColumns);
-    this.nonemptyColumns = [...nonEmptySet];
-
-    this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
-    console.log('withoutdataingrid', this.unSelectListItems);
-
+      );
   }
 
   ngOnInit(): void {
     this.createForm();
     this.listItems = Items;
-   this.getEmptyColumns();
   }
 
   removeTab(index: number) {
@@ -499,6 +446,10 @@ export class FullauditdetailsComponent implements OnInit {
           tabType: 1,
           name: 'Audit Trail Report'
         });
+        break;
+      }
+      case 2: {
+       this.openDialog();
         break;
       }
       case 3: {
@@ -538,7 +489,7 @@ export class FullauditdetailsComponent implements OnInit {
         break;
       }
     }
-  }
+  } 
 
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
@@ -580,7 +531,7 @@ export class FullauditdetailsComponent implements OnInit {
       ),
       AuditActId: new FormControl({ value: '', disabled: true }, [Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      BatchId: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      BatchId: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
       FullAuditCLIStatus: new FormControl({ value: '', disabled: true }),
       MonthlyRefreshFlag: new FormControl({ value: '', disabled: true }),
@@ -613,6 +564,39 @@ export class FullauditdetailsComponent implements OnInit {
           }
         }
       });
+    }
+  }
+
+  monthlyRefreshReportInit() {
+    this.monthlyRefreshRptTable
+      = {
+      data: ELEMENT_DATA4,
+      Columns: this.monthlyRefreshReportTableDetails,
+      filter: true,
+    }
+  }
+
+  rangeReportInit() {
+    this.rangeRptTable = {
+      data: ELEMENT_DATA1,
+      Columns: this.rangeReportTableDetails,
+      filter: true,
+    }
+  }
+
+  moriCircuitStatusReportInit() {
+    this.moriCircuitRptTable = {
+      data: ELEMENT_DATA3,
+      Columns: this.moriCicuitTableDetails,
+      filter: true,
+    }
+  }
+
+  inflightReportInit() {
+    this.inflightRptTable = {
+      data: ELEMENT_DATA2,
+      Columns: this.inflightTableDetails,
+      filter: true
     }
   }
 }

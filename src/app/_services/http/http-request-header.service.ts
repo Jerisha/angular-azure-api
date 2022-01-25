@@ -20,7 +20,7 @@ export class HttpRequestHeader implements HttpInterceptor {
             }
         });
 
-        //console.log('Intercepted HTTP call', authReq);
-        return next.handle(authReq);
+        console.log('Intercepted HTTP call', authReq);
+           return next.handle(authReq);
     }
 }

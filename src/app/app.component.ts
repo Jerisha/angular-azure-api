@@ -3,11 +3,10 @@ import { VERSION } from '@angular/material/core';
 import { NavItem } from './_models/nav-item';
 import { NavService } from './_services/nav.services';
 import * as  menu from '../assets/menu.json';
-
-
+import * as  dat from '../assets/full-audit-table-details.json';
 
 const MENU_SOURCE = (menu as any).default;
-
+const MENU_SOURCE1 = (dat as any).default;
 
 @Component({
   selector: 'app-root',
