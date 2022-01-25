@@ -53,6 +53,8 @@ export class AuditdiscrepancyreportComponent implements OnInit {
   grpInternalAuditTableDetails: GroupHeaderTableDetails[] = [];
   grpExternalAuditTableDetails: GroupHeaderTableDetails[] = [];
 
+  totalColmns:any;
+
   public sidep = new Subject<MatSidenav>();
 
 
@@ -91,6 +93,10 @@ export class AuditdiscrepancyreportComponent implements OnInit {
     this.displayedColumns = this.ColumnDetails.map(x => x.DataHeaders);
     this.detailedColumnsArray = this.displayedColumns.filter(x => !this.headerswithDetails.includes(x));
     this.grpHdrColumnsArray = [this.headerswithDetails];
+
+    var colm =['ACTID', 'SourceSystem']
+    this.totalColmns= this.displayedColumns.filter(x=>!colm.includes(x));
+    //console.log(this.totalColmns);
   }
 
   ngOnInit(): void {
@@ -102,7 +108,8 @@ export class AuditdiscrepancyreportComponent implements OnInit {
       DisplayedColumns: this.displayedColumns,
       DetailedColumns: this.detailedColumnsArray,
       GroupHeaderColumnsArray: this.grpHdrColumnsArray,
-      GroupHeaders: this.groupHeaders
+      GroupHeaders: this.groupHeaders,
+      isRowLvlTot:true
     }
   }
 

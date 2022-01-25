@@ -10,10 +10,11 @@ export interface MergeTableItem {
     ColumnDetails:MergeTableItem[];
     GroupHeaders: MergeTableItem[];
     GroupHeaderColumnsArray:Array<string[]>;
-    DetailedColumns:string[];
+    DetailedColumns?:string[];
     DisplayedColumns:string[];
     FilterColumn?:boolean;
     FilterValues?:Array<string[]>;
+    isRowLvlTot?:boolean;
   }
 
   export interface GroupHeaderTableDetails{

@@ -17,7 +17,6 @@ th {
   height: 30px;
 }
 
-
 .mat-cell{
   font-size:small;
 }
@@ -25,6 +24,11 @@ th {
 .mat-row {
   height: 10px;
 }
+
+/* .mat-row:nth-child(even){
+  background-color: #dee2e6;
+} */
+
 tr.example-detail-row {
   height: 0;
 }
@@ -108,6 +112,11 @@ h4 {
 .notification-sec .container-fluid{
   justify-content: flex-start;
   column-gap: 20px;
+}
+.mat-expansion-panel-header.mat-expansion-toggle-indicator-before {
+  /* flex-direction: row-reverse; */
+  height: 32px;
+  font-size: small;
 }
 
 @media screen and (max-width: 1254px) {

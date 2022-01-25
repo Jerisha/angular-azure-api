@@ -3,7 +3,15 @@
         <ng-container *ngIf="views.view1" >            
               <mat-card-content >
                   <form  #ff ="ngForm" (ngSubmit)="onSubmit()" >
-                      <div> 
+                    <div class="vf-flex-container">
+                    <div>
+                    <div style="margin-left:1rem;margin-top:1rem;">
+                      <mat-radio-group aria-label="Select an Option for Telephone(s) No set">
+                        <mat-radio-button value="1" [checked]=true style="padding-right: 16px;">Single/One set Telephone</mat-radio-button>
+                        <mat-radio-button value="2">Multi set Telephone Nos</mat-radio-button>
+                      </mat-radio-group>                      
+                    </div>  
+                    <div> 
                         <mat-form-field appearance="outline" style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>Start Tel.No</mat-label>
                           <input matInput [(ngModel)]="model.telno"  pattern ="^[0-9 ]*$" maxlength="11" placeholder="Start Tel.No"  name = "telno" size = 11 style="margin-right:auto" (change)="onChangeEvent($event)">
@@ -15,11 +23,66 @@
                           <mat-label>End Tel.No</mat-label>
                           <input matInput [(ngModel)]="model.rangeEnd" pattern ="^[0-9 ]*$" maxlength="11" placeholder="End Tel.No" name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)">
                         </mat-form-field>             
-                        <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="The maximum CLIs in a range is limited to 10000.Only enter an End Tel No. if you intend to specify a range." matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>
-                        <button type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:50px" (click)="SearchTel()" [disabled]="searchTelState">
-                            <mat-icon>search</mat-icon>Search
+                        <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="The maximum CLIs in a range is limited to 10000.Only enter an End Tel No. if you intend to specify a range." matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                        
+                      </div>  
+                       
+                      <div style =" width:100%;margin-bottom: 2rem;"> 
+                        <mat-list style ="background-color:rgb(247, 242, 242);overflow:hidden; overflow-y:scroll;">
+                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;">                              
+                            <p matLine >
+                              <span style="padding-left: 2rem;font-size: small;color: black;">Start Tel. No. 01234567890</span>
+                              <span style="padding-left: 2rem;font-size: small;color: black;">End Tel.No. 01234567890</span>
+                            </p>                                                      
+                          </mat-list-item>
+                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;">                              
+                            <p matLine >
+                              <span style="padding-left: 2rem;font-size: small;color: black;">Start Tel. No. 01234567890</span>
+                              <span style="padding-left: 2rem;font-size: small;color: black;">End Tel.No. 01234567890</span>
+                            </p>                                                      
+                          </mat-list-item>
+                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;">                              
+                            <p matLine >
+                              <span style="padding-left: 2rem;font-size: small;color: black;">Start Tel. No. 01234567890</span>
+                              <span style="padding-left: 2rem;font-size: small;color: black;">End Tel.No. 01234567890</span>
+                            </p>                                                      
+                          </mat-list-item>
+                         
+                        </mat-list>
+                        <!-- <mat-expansion-panel hideToggle>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>
+                              Multi Range Telephone No(s)
+                            </mat-panel-title>
+                            <mat-panel-description>
+                              Added multi Telephone No(s) Count:
+                            </mat-panel-description>
+                          </mat-expansion-panel-header>
+                          <mat-list>
+                            <mat-list-item >                              
+                              <p matLine>
+                                <span>Start Tel. No. 01234567890</span>
+                                <span style="float:right">End Tel.No. 01234567890</span>
+                              </p>
+                                <p matLine>
+                                <span>Start Tel. No. 01234567890</span>
+                                <span style="float:right">End Tel.No. 01234567890</span>
+                              </p>                                
+                            </mat-list-item>
+                          </mat-list>
+                        </mat-expansion-panel> -->
+                      </div>
+                    </div>
+                      <div style="display: flex;align-items: center;">
+                        <span>
+                          <button type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()">
+                            <mat-icon>add</mat-icon>
                           </button>
-                      </div>        
+                        <button type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
+                          <mat-icon>search</mat-icon>Search
+                        </button>
+                      </span>
+                      </div> 
+                    </div>    
                     </form> 
                 </mat-card-content>
           </ng-container>  
@@ -32,7 +95,7 @@
                             </div>               
                         </div> 
                     <div class ="vf-flex-container"style= "min-width:100%;text-align:center;">
-                        <form #sf ="ngForm"  (ngSubmit)="onFormSubmit()">
+                        <form #sf ="ngForm"  (ngSubmit)="onSfSubmit()">
                           <div>
                             <div style="float: left;">
                                 <mat-label style="font-size:x-small;padding-left:6px;"><strong>Provide: </strong>{{Provide}}</mat-label>                             
@@ -82,14 +145,14 @@
           </ng-container>
         <ng-container *ngIf="views.view3">          
             <mat-card-content >              
-                <form #tf ="ngForm" (ngSubmit)="onFormSubmit()" class="vf-box-shadow1" (change)="OnstateItemChange($event)">
+                <form #tf ="ngForm" (ngSubmit)="onTfSubmit()" class="vf-box-shadow1" (change)="OnstateItemChange($event)">
                     <div class="vf-flex-container-col">
                         <div class="vf-flex-container">
                             <div class="vf-flex-container-col" style="margin: 2px;"> 
                                 <div style="margin-bottom: 6px;">
                                   <mat-form-field appearance="outline" class="vf-mr-negative" >
                                     <mat-label class="vf-label">Trans. Type *</mat-label>
-                                    <mat-select name="txt"  onchange="check_list(this,1)">
+                                    <mat-select #transtype name="txt"  onchange="check_list(this,1)">
                                     <mat-option value=""></mat-option>
                                     <mat-option value="A">Activate Customer</mat-option>
                                     <mat-option value="C">Cease Customer</mat-option>
@@ -187,17 +250,17 @@
                                   </mat-form-field>
                                 </div>                                                                                                                            
                             <div style="margin-bottom: 6px;">
-                              <mat-form-field appearance="outline" class="vf-mr-negative" style="width:100px;">
+                              <mat-form-field appearance="outline" class="vf-mr-negative" [ngStyle]="{'width':false?'90px' :'200px'}">
                                 <mat-label class="vf-label">Order Ref.</mat-label>
-                                <input type="text" matInput  placeholder="Order Ref. *" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
+                                <input type="text" matInput  placeholder="Order Ref. *"  size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                               </mat-form-field>                             
-                              <mat-form-field appearance="outline" class="vf-mr-negative" style="width:100px">
+                              <span [ngStyle]="{'display': true ? 'none' : 'inline-flex' }" ><mat-form-field appearance="outline" class="vf-mr-negative" style="width:106px;margin-left: 4px;">
                                 <mat-label class="vf-label">Imp./Exp. CUPID</mat-label>
                                 <input type="text" matInput  placeholder="Imp./Exp. CUPID" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
-                            </mat-form-field> 
+                            </mat-form-field> </span>
                             </div>
                             <div >
-                              <mat-form-field appearance="outline" style="width:100%;" >
+                              <mat-form-field appearance="outline">
                               <mat-label class="vf-label">Comments</mat-label>
                               <textarea matInput placeholder="Comments"
                                 cdkTextareaAutosize

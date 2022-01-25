@@ -11,120 +11,141 @@ import { ResolvingOfErrorsService } from '../resolving-of-errors.service';
 const ELEMENT_DATA: SolicitedErrors[] = [
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591109', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591107', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591108', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    LatestCmtDate: '02-May-2019'
   },
 ];
 
 const configInput: any = {
-  "ConfigObjectRequestType": {
-    "RequestIdentifiers": {
-      "Identifier": [{
-        "Name": "UserId",
-        "Value": ["abc"]
-      }, {
-        "Name": "Destination",
-        "Value": ["OSN2"]
-      }]
-    },
-    "ListofConfigObjectCategory": {
-      "ConfigObjectCategory": [{
-        "ItemName": "ConfigObject",
-        "ListofIdentifiers": {
-          "Identifier": [{
-            "Name": "ObjectName",
-            "Value": ["TelephoneNumber"]
-          }]
-        },
-        "ListofAttributes": {
-          "Attribute": [{
-            "Name": "Action",
-            "Value": ["Search"]
-          }, {
-            "Name": "Filter",
-            "Value": ["Command", "Source", "ResolutionType"]
-          }]
-        }
-      }]
+  "ConfigObjectRequest": {
+    "ConfigObjectRequestType": {
+      "RequestIdentifiers": {
+        "Identifier": [{
+          "Name": "UserId",
+          "Value": ["abc"]
+        }, {
+          "Name": "Destination",
+          "Value": ["OSN2"]
+        }]
+      },
+      "ListofConfigObjectCategory": {
+        "ConfigObjectCategory": [{
+          "ItemName": "ConfigObject",
+          "ListofIdentifiers": {
+            "Identifier": [{
+              "Name": "ObjectName",
+              "Value": ["TelephoneNumber"]
+            }]
+          },
+          "ListofAttributes": {
+            "Attribute": [{
+              "Name": "Action",
+              "Value": ["Search"]
+            }, {
+              "Name": "Filter",
+              "Value": ["Command", "Source", "ResolutionType", "ErrorType", "ErrorCode"]
+            }]
+          }
+        }]
+      }
     }
   }
-};
-
+}
 
 
 @Component({
@@ -152,6 +173,7 @@ export class SolicitederrorsComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   errorCodesOptions!: Observable<any[]>;
+  selectedRowsCount: number = 0;
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
@@ -172,17 +194,18 @@ export class SolicitederrorsComponent implements OnInit {
     // }
   ];
 
-  columns: ColumnDetails[] = [
-    { header: 'Tran.Id', headerValue: 'TranId', showDefault: true, imageColumn: false },
+  columns: ColumnDetails[] = [    
     { header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },
     { header: 'Tel No', headerValue: 'TelNo', showDefault: true, imageColumn: false },
     { header: 'Cmd', headerValue: 'Cmd', showDefault: true, imageColumn: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, imageColumn: false },
     { header: 'Created', headerValue: 'Created', showDefault: true, imageColumn: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, imageColumn: false },
-    { header: 'Ovd', headerValue: 'Ovd', showDefault: true, imageColumn: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, imageColumn: false },   
     { header: 'Res Type', headerValue: 'ResType', showDefault: true, imageColumn: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, imageColumn: false },
+    { header: '999 Reference', headerValue: 'Reference', showDefault: true, imageColumn: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserCmt', showDefault: true, imageColumn: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, imageColumn: false }
   ];
   ngOnInit(): void {
 
@@ -220,8 +243,8 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
   setOptions() {
-    // debugger;
-    // this.service.configDetails(configInput);
+    debugger;
+    this.service.configDetails(configInput);
 
     this.errorCodesOptions = this.errorCode.valueChanges
       .pipe(
@@ -242,6 +265,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   rowDetect(item: any) {
     //debugger;
+    this.selectedRowsCount = item.length;
     if (item.length == 0) {
       this.selectListItems = [];
     } else {
@@ -266,11 +290,12 @@ export class SolicitederrorsComponent implements OnInit {
   newTab(tab: any) {
     switch (tab.tabType) {
       case 1: {
+        //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
         if (!this.tabs.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report (1977722725)'
+            name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
           this.selectedTab = 1;
         }
@@ -280,7 +305,7 @@ export class SolicitederrorsComponent implements OnInit {
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Details'
+            name: 'Transaction Errors'
           })
           this.selectedTab = 2;
         }
