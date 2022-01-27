@@ -12,6 +12,8 @@ export interface TableItem {
     selectionColumn?:string;
     showEmail?:boolean;
     showBlankCoulmns?:boolean;
+    highlightedCells?:string[];
+    backhighlightedCells?:string[];
     
     
 }
