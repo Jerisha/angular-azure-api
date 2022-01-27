@@ -22,9 +22,8 @@
         <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan">
           {{disCol.Headers}}</th>
         <td mat-cell *matCellDef="let element"> {{element[disCol.DataHeaders]}} </td>
-        <ng-container *ngIf="isRowTot">        
-            <!-- <td class="totalRow" [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell *matFooterCellDef> {{ getTotal(disCol.DataHeaders)}} </td> -->
-            <td class="totalRow"  mat-footer-cell *matFooterCellDef> {{ getTotal(disCol.DataHeaders)}} </td>
+        <ng-container *ngIf="isRowTot">      
+            <td class="totalRow"  mat-footer-cell *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders,'')}} </td>
           </ng-container>
       </ng-container>
     </ng-container>

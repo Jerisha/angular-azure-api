@@ -106,3 +106,9 @@
 
 nav ul{height:200px; width:18%;}
 nav ul{overflow:hidden; overflow-y:scroll;}
+:host ::ng-deep .mat-mini-fab .mat-button-wrapper {
+  padding-top:0px !important;
+  padding-bottom:0px !important;
+  line-height: 0px !important;
+
+}

@@ -66,14 +66,16 @@ export class TableGroupHeaderComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 isTotDisplayed:boolean=false;
-  getTotal(cellname?: string) {
+
+  getTotal(cellname: string, element:any) {
+    console.log('elemnt',element)
     var cell = cellname ? cellname : '';
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
       return this.GrpTableitem?.data.reduce((a: number, b: any) => a + b[cell], 0);
     }
     else {   
-      debugger; 
+      //debugger; 
       if(!this.isTotDisplayed  && cellname=="ACTID"){
       this.totShowed=true;
       return 'Total'; 
@@ -133,6 +135,8 @@ isTotDisplayed:boolean=false;
       const result = isSourceSystemAvailable && isCLIStatusAvailbale;
       return result;
     }
+    
     this.dataSource.filter = JSON.stringify(this.filterValues);
+    //console.log('filtering',this.dataSource)
   }
 }
