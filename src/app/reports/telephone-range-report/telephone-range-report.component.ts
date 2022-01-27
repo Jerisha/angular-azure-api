@@ -1,7 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableSelectionComponent } from 'src/app/uicomponents';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { TelephoneRangeReport } from 'src/app/_models/telephone-range-report-model';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Select } from 'src/app/_models/select';
+import { MatSelect } from '@angular/material/select';
 
 const ELEMENT_DATA = [
   {
@@ -34,6 +40,11 @@ const ELEMENT_DATA = [
   },
 ];
 
+const FilterListItems: Select[] = [
+  { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
+  { view: 'TelNo End', viewValue: 'TelNoEnd', default: false }
+];
+
 @Component({
   selector: 'app-telephone-range-report',
   templateUrl: './telephone-range-report.component.html',
@@ -45,6 +56,15 @@ export class TelephoneRangeReportComponent implements OnInit {
   myTable!: TableItem;
   dataSaved = false;
   selectListItems: string[] = [];
+  filterItems: Select[] = FilterListItems;
+  
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  errorCodesOptions!: Observable<any[]>;
+  selectedRowsCount: number = 0;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  thisForm!: FormGroup;
 
   selectedTab!: number;
   public tabs = [{
@@ -74,10 +94,12 @@ export class TelephoneRangeReportComponent implements OnInit {
     { header: 'Order Ref', headerValue: 'orderRef', showDefault: true, imageColumn: false },
   ];
   data1:TelephoneRangeReport[] = ELEMENT_DATA;
-
-  constructor() { }
+  
+  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    this.createForm();
+
     this.myTable = {
       data: this.data1,
       Columns: this.columns,
@@ -93,7 +115,32 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   }
   resetForm():void{
+    this._snackBar.open('Reset Form Completed!', 'Close', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
+
+  createForm() {
+    this.thisForm = this.formBuilder.group({
+      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
+      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
+
+    })
+  }
+
+  setControlAttribute(matSelect: MatSelect) {
+    matSelect.options.forEach((item) => {
+      if (item.selected) {
+        this.thisForm.controls[item.value].enable();
+      }
+      else {
+        this.thisForm.controls[item.value].disable();
+      }
+    });
+  }
+
   rowDetect(item: any) {
     //debugger;
     if (item.length == 0) {
