@@ -14,7 +14,8 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
         const authReq = req.clone({
             setHeaders: {
                'Content-Type': 'application/json',
-                'Authorization': `Basic ${window.btoa('OSN2User:OSN2User')}`            }
+                'Authorization': `Basic ${window.btoa('OSN2User:OSN2User')}`           
+             }
         });
 
         //console.log('Intercepted HttpHeaderInterceptor call', authReq);

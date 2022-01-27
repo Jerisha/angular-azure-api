@@ -21,6 +21,7 @@ export interface ViewColumn {
     icon: string;
     route: string;
     tabIndex : number;
+    // toolTipText :string
 }
 
 export interface ColumnDetails {

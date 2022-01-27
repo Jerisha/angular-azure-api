@@ -1,6 +1,6 @@
 export const resolvingoferrors = {
     solicitederrors: '',
-    unsolicitederrors:''
+    unsolicitederrors:'/ws/VS_OSN2SampleAPI_St3/1.0/OperatorServiceNetwork/ConfigObject'
 }
 
 export const dropdown = {
