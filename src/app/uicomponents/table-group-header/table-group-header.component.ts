@@ -73,7 +73,7 @@ isTotDisplayed:boolean=false;
       return this.GrpTableitem?.data.reduce((a: number, b: any) => a + b[cell], 0);
     }
     else {   
-      debugger; 
+      //debugger; 
       if(!this.isTotDisplayed  && cellname=="ACTID"){
       this.totShowed=true;
       return 'Total'; 
@@ -133,6 +133,8 @@ isTotDisplayed:boolean=false;
       const result = isSourceSystemAvailable && isCLIStatusAvailbale;
       return result;
     }
+    
     this.dataSource.filter = JSON.stringify(this.filterValues);
+    console.log('filtering',this.dataSource)
   }
 }

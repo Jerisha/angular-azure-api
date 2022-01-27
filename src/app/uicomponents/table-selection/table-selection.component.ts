@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-table-selection',
@@ -43,30 +42,35 @@ export class TableSelectionComponent {
   emptyColumns: string[] = [];
   nonemptyColumns: string[] = [];
   unSelectListItems: string[] = [];
-  gridSelectList:ColumnDetails[]=[];
-  filteredDataColumns:ColumnDetails[]=[];
+  gridSelectList: ColumnDetails[] = [];
+  filteredDataColumns: ColumnDetails[] = [];
+  highlightedCells:string[]=[];
+  backhighlightedCells:string[]=[]
 
   constructor(private cdr: ChangeDetectorRef) {
 
   }
- 
+
   ngOnInit() {
-    if (this.tableitem?.showBlankCoulmns) {   
-      this.getEmptyColumns();  
-      this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue))?
-      this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)):[];   
+    if (this.tableitem?.showBlankCoulmns) {
+      this.getEmptyColumns();
+      this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
+        this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
       const selectList = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
-      this.gridSelectList = selectList ? selectList : []; 
+      this.gridSelectList = selectList ? selectList : [];
     }
     else {
-      this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];     
+      this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
 
-   // var filteredColumns=this.filteredDataColumns;
+    this.highlightedCells = this.tableitem?.highlightedCells?this.tableitem?.highlightedCells:[];
+    this.backhighlightedCells = this.tableitem?.backhighlightedCells?this.tableitem?.backhighlightedCells:[];
+
+    // var filteredColumns=this.filteredDataColumns;
     // this.selectList = this.tableitem?.Columns?.filter((e) => e.showDefault == true).map((i) => i.header);
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-    this.ColumnDetails = this.tableitem?.showBlankCoulmns?this.filteredDataColumns
-                 :(this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);   
+    this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
+      : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
     //this.imgColumns = this.tableitem?.colToSetImage;
     this.imgList = this.tableitem?.imgConfig;
     this.filter = this.tableitem?.filter;
@@ -78,7 +82,8 @@ export class TableSelectionComponent {
       this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';
       //this.columnHeaders = this.tableitem?.coulmnHeaders ? ['Select'].concat(this.tableitem?.coulmnHeaders) : undefined;
     } else {
-      this.dataColumns = this.tableitem?.Columns?.map((e) => e.headerValue);// this.tableitem?.dataColumns;
+      this.dataColumns = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns.map((e) => e.headerValue) : this.tableitem?.Columns?.map((e) => e.headerValue);
+      // this.dataColumns = this.tableitem?.Columns?.map((e) => e.headerValue);
       //this.columnHeaders = this.tableitem?.coulmnHeaders;
     }
     this.isEmailRequired = this.tableitem?.showEmail ? true : false;
@@ -135,7 +140,6 @@ export class TableSelectionComponent {
     }
   }
 
-
   toggleAllSelection() {
     if (this.allSelected) {
       this.select.options.forEach((item: MatOption) => item.select());
@@ -175,12 +179,10 @@ export class TableSelectionComponent {
 
   }
 
-
   addTabs(event: any, tabType: number, row: any) {
     event.stopPropagation();
     this.addNewTab.emit({ tabType, row });
   }
-
 
   logSelection(a: any) {
     this.selectedrows = this.selection.selected ? this.selection.selected : undefined;
@@ -200,7 +202,7 @@ export class TableSelectionComponent {
     this.nonemptyColumns = [...nonEmptySet];
 
     this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
-  
+
   }
 
   checkIsNullOrEmptyProperties(obj: any) {
@@ -211,5 +213,26 @@ export class TableSelectionComponent {
         this.nonemptyColumns.push(key)
       }
     }
-  }
+  }  
+
+  highlightCell(cell: any, disCol: any) {
+    debugger;
+    let applyStyles = {};
+    if (this.backhighlightedCells)
+      if (this.backhighlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+        applyStyles = {
+          'background-color': '#ff9999'
+        }
+      }
+
+    if (this.highlightedCells) 
+      if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+        debugger;
+        applyStyles = {
+          'color': '#ff9999',
+          'font-weight': 'bold',
+        }
+      }
+    return applyStyles;
+  }  
 }

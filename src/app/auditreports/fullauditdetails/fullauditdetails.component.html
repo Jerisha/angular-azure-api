@@ -227,7 +227,6 @@
         <mat-tab-group [selectedIndex]="selectedTab">
             <mat-tab *ngFor="let tab of tabs; let index = index">
                 <ng-template mat-tab-label>
-
                     <button *ngIf="tab.tabType == 0" class="slidderbtn" mat-basic-button color="primary"
                     (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
                     <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
@@ -245,7 +244,7 @@
                         </app-table-selection>
                         </div>                        
                         <div>                                           
-                            <div border [bHeight]=310 class=" side-bottom">
+                            <div border [bHeight]=320 class=" side-bottom">
                                 <div class="side-left-div" style="margin-top: 15px; width: 450px; margin-left: 30px;">
                                     <!-- <select class="res-select" Name="Name_of_list_box" size="4">
                                         <option *ngFor="let list of selectListItems"> {{list}} </option>

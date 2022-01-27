@@ -1,12 +1,13 @@
-export interface MonthlyRefreshReport{
-    ReferenceType:string;
+export interface MonthlyRefreshReport {
+    RefreshType:string;
     Customers:string;
     Postcode:string;
     Premises:string;
     ThorughFare:string;
-    LocalityOrderStatus:string;
+    Locality:string;
+    OrderStatus:string;
     IsInflightOrder:string;
-    MomStatus:string;
+    MoriStatus:string;
     SwitchDumpStatus:string;
-    SwitchPoPS:string;
+   // SwitchPoPS:string;
 }
