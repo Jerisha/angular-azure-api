@@ -49,4 +49,5 @@ export interface FullAuditDetailsSummary {
     LinkOrderRef: string;
     LinkReasonCode: string;
     OrderArchiveFlag: string; DeadEntry: string;
+    isLive:boolean;
 }
