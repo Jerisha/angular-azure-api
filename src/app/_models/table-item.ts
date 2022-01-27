@@ -12,6 +12,8 @@ export interface TableItem {
     selectionColumn?:string;
     isEmailRequired?:boolean;
     Colu?: ColumnDe[];
+    showEmail?:boolean;
+    showBlankCoulmns?:boolean;
     
     
 }

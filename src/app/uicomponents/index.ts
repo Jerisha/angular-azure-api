@@ -7,3 +7,4 @@ export * from './select-expression/select-expression.component';
 export * from  './select-single/select-single.component';
 export * from './table-expansion/table-expansion.component';
 
+export * from './table-group-header/table-group-header.component';

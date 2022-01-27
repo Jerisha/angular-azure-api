@@ -59,10 +59,7 @@
                         <mat-select id="CUPId" formControlName="CUPId">
                             <mat-option></mat-option>
                             <mat-option value="Activate Customer">Activate Customer</mat-option>
-                            <mat-option value="Cease Customer">Cease Customer</mat-option>
-                            <!-- <mat-option>Import</mat-option>
-                        <mat-option>Export</mat-option>
-                        <mat-option>Modify</mat-option> -->
+                            <mat-option value="Cease Customer">Cease Customer</mat-option>                           
                         </mat-select>
                         <mat-error class="error-message" *ngIf="checkError('CUPId', 'required')">Please Select CUPID
                         </mat-error>
@@ -72,11 +69,15 @@
                     <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.BatchId.disabled}"
                         hintLabel="Max 3 characters" appearance="outline">
                         <mat-label>Batch Id</mat-label>
-                        <input id="BatchId" formControlName="BatchId" matInput #input maxlength="10"
+                        <input id="BatchId" formControlName="BatchId"  #BatchId matInput #input maxlength="3"
                             placeholder="Batch Id">
-                        <mat-error class="error-message" *ngIf="checkError('BatchId', 'required')">Please Enter BatchId
-                        </mat-error>
-                        <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                            <mat-error *ngFor="let validation of validation_messages.BatchId">
+                                <mat-error class="error-message" *ngIf="checkError('BatchId',validation.type)">
+                                    {{validation.message}}</mat-error>
+                            </mat-error>
+                        <!-- <mat-error class="error-message" *ngIf="checkError('BatchId', 'required')">Please Enter BatchId
+                        </mat-error> -->
+                        <mat-hint align="end">{{input.value?.length || 0}}/3</mat-hint>
                     </mat-form-field>
 
                     <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.ExternalCLIStatus.disabled}"
@@ -176,7 +177,6 @@
                             <mat-option>1</mat-option>
                             <mat-option>2</mat-option>
                         </mat-select>
-
                     </mat-form-field>
                     <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.PostCodeDiff.disabled}"
                         appearance="outline">
@@ -187,14 +187,52 @@
                             <mat-option>2</mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.FullAddDiff.disabled}"
+                    appearance="outline">
+                    <mat-label>Full Address Diff.</mat-label>
+                    <mat-select id="FullAddDiff" formControlName="FullAddDiff">
+                        <mat-option></mat-option>
+                        <mat-option>Yes</mat-option>
+                        <mat-option>No</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.CustomerDiff.disabled}"
+                appearance="outline">
+                <mat-label>Customer Diff.</mat-label>
+                <mat-select id="CustomerDiff" formControlName="CustomerDiff">
+                    <mat-option></mat-option>
+                    <mat-option>Yes</mat-option>
+                    <mat-option>No</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.OverlappingStatus.disabled}"
+            appearance="outline">
+            <mat-label>Overlapping Status.</mat-label>
+            <mat-select id="OverlappingStatus" formControlName="OverlappingStatus">
+                <mat-option></mat-option>
+                <mat-option>Yes</mat-option>
+                <mat-option>No</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+                    <button type="submit" mat-raised-button style="margin-left: 25px;" color="primary"
+                     matTooltip="Search">
+                    <mat-icon>search</mat-icon>Search
+                  </button>
                 </div>
             </form>
         </div>
     </mat-sidenav>
     <mat-sidenav-content class="side-content">
+        <button  class="slidderbtn" mat-basic-button color="primary"
+        (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+        <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+      </button>
         <mat-tab-group [selectedIndex]="selectedTab">
             <mat-tab *ngFor="let tab of tabs; let index = index">
                 <ng-template mat-tab-label>
+
+                   
                     <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
                     <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
                         <mat-icon style="font-size: large;">close</mat-icon>
@@ -202,16 +240,18 @@
                 </ng-template>
                 <span [ngSwitch]="tab.tabType">
                     <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+                        <div >
                         <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable"
                             (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
                         </app-table-selection>
-                        <form>
-                            <div class="mat-elevation-z8 side-bottom">
-                                <div class="side-left-div">
+                        </div>                        
+                        <div>                                           
+                            <div border [bHeight]=310 class=" side-bottom">
+                                <div class="side-left-div" style="margin-top: 15px; width: 450px; margin-left: 30px;">
                                     <!-- <select class="res-select" Name="Name_of_list_box" size="4">
                                         <option *ngFor="let list of selectListItems"> {{list}} </option>
                                     </select> -->
-                                    <div class="res-save-div">
+                                    <div  class="res-save-div">
                                         <mat-form-field appearance="outline">
                                             <mat-label>Res.Type</mat-label>
                                             <mat-select>
@@ -223,6 +263,12 @@
                                                 <mat-option>Port Req Complete</mat-option>
                                             </mat-select>
                                         </mat-form-field>
+                                        
+                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters" appearance="outline">
+                        <mat-label>Resolution</mat-label>
+                        <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
+                        <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                      </mat-form-field>
                                         <button type="submit" mat-raised-button color="primary" matTooltip="Save">
                                             <mat-icon>save</mat-icon>Save
                                         </button>&nbsp;&nbsp;
@@ -230,15 +276,15 @@
                                             <mat-icon>help</mat-icon>Help
                                         </button>
                                     </div>
-                                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters"
+                                    <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"
                                         appearance="outline">
                                         <mat-label>Resolution</mat-label>
                                         <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
                                         <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                                    </mat-form-field>
+                                    </mat-form-field> -->
                                 </div>
                                 <div class="side-right-div">
-                                    <fieldset style="margin: 25px;">
+                                    <fieldset style="margin: 15px;">
                                         <legend>Auto Correction</legend>
                                         <mat-form-field appearance="outline">
                                             <mat-label>Auto Correction Volume</mat-label>
@@ -286,7 +332,9 @@
                                     </fieldset>
                                 </div>
                             </div>
-                        </form>
+                        
+                    </div>
+                 
                     </div>
                     <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                         <app-telephone-audit-trail></app-telephone-audit-trail>

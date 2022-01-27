@@ -6,9 +6,7 @@ import { HttpVerbs } from '../_enums/http-verbs.enum';
 import { dropdown } from '../_helper/Constants/url-const';
 import { HttpWrapperService } from '../_services/http/http-wrapper.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ResolvingOfErrorsService {
 
 
@@ -19,5 +17,4 @@ export class ResolvingOfErrorsService {
     return this.wrapperService.processRequst(HttpVerbs.POST, dropdown.config, data);
     
   }
-
 }

@@ -12,11 +12,13 @@ import {
   SelectMultipleComponent,
   SelectSingleComponent,
   SelectExpressionComponent,
-  TableExpansionComponent
+  TableExpansionComponent,
+  TableGroupHeaderComponent
   
  
 } from './index';
-import { TableGroupHeaderComponent } from './table-group-header/table-group-header.component';
+
+import { HelperModule } from '../_helper/helper/helper.module';
 
 
 
@@ -41,7 +43,8 @@ import { TableGroupHeaderComponent } from './table-group-header/table-group-head
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    HelperModule
   ],
   exports: [
     TableSelectionComponent,
