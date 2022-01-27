@@ -21,11 +21,13 @@ import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyrepo
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HelperModule } from './_helper/helper/helper.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     MenuSearchPipe,
         PopupComponent,
+        
         // BorderDirective       
   ],
   imports: [

@@ -21,7 +21,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   flex-direction: inherit;
   overflow: auto; */
 
-  top: 26px;
+  top: 32px;
   position:absolute;
   pointer-events:auto;
   box-sizing:border-box;
@@ -68,7 +68,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 
 /* to set background color for matselect */
 app-select-multiple .mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
-  background-color: #007C92;
+  /* background-color: #007C92; */
+  background-color: #EFEFEF;
   height: 37px;
 }
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
@@ -77,13 +78,13 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
 
 /* to change border color on hover */
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: #007C92;
+  color: #EFEFEF;
   border:0
 }
 
 /* to change border color after selection */
 app-select-multiple .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
-  color: #007C92;
+  color: #EFEFEF;
   border:0
 }
 /* app-select-multiple .mat-focused{
@@ -111,15 +112,17 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   }
   .slidderbtn{
     /* float: left; */
-  cursor: pointer;
-    border:none;
-   /* border:1px solid #e60000; */
+     /* border:1px solid #e60000; */
+     /* border-radius: 12%; */
+     /* margin-left: -19px; */
+    cursor: pointer;
+    border:none;  
     background-color: #e60000;
-    color:  #EFEFEF;
-    /* border-radius: 12%; */
-    font-size: small;
-    margin-left: -19px;
+    color:  #EFEFEF;    
+    font-size: small;    
     height: 35px;
+    position: absolute;
+    z-index: 2;  
   }
  /* side-nav-page-header ends */
 
@@ -127,6 +130,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 8px 24px 108px 24px;
   } */
   
+  .hidden {display:none;}
   .filterdataby{
     /* background-color:#007C92; */
     background-color:#EFEFEF;
@@ -238,7 +242,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 }
 
 .side-nav form .mat-form-field,.side-nav form .mat-form-field + .mat-form-field {
-  margin-left: 15px;  
+  margin-left: 24px;  
   /* margin-bottom: 1px;  
   margin-top:1px;   */
   font-size: smaller;  

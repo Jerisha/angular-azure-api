@@ -224,14 +224,15 @@
         </div>
     </mat-sidenav>
     <mat-sidenav-content class="side-content">
+        <button  class="slidderbtn" mat-basic-button color="primary"
+        (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+        <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+      </button>
         <mat-tab-group [selectedIndex]="selectedTab">
             <mat-tab *ngFor="let tab of tabs; let index = index">
                 <ng-template mat-tab-label>
 
-                    <button *ngIf="tab.tabType == 0" class="slidderbtn" mat-basic-button color="primary"
-                    (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
-                    <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-                  </button>
+                   
                     <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
                     <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
                         <mat-icon style="font-size: large;">close</mat-icon>

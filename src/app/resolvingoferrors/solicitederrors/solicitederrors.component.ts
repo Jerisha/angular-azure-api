@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Select } from 'src/app/_models/select';
-import { SolicitedErrors } from 'src/app/_models/solicited-errors';
+import { SolicitedErrors } from 'src/app/_models/resolvingoferrors/solicited-errors';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { ResolvingOfErrorsService } from '../resolving-of-errors.service';
+import { MatSelect } from '@angular/material/select';
 
 const ELEMENT_DATA: SolicitedErrors[] = [
   {
@@ -111,6 +112,17 @@ const ELEMENT_DATA: SolicitedErrors[] = [
   },
 ];
 
+const FilterListItems: Select[] = [
+  { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
+  { view: 'TelNo End', viewValue: 'TelNoEnd', default: false },  
+  { view: 'Source', viewValue: 'Source', default: false },
+  { view: 'Command', viewValue: 'Command', default: false },
+  { view: 'Error Type', viewValue: 'ErrorType', default: false },
+  // { view: 'Date Range', viewValue: 'Date', default: true },
+  { view: 'Error Codes', viewValue: 'ErrorCodes', default: false },
+  { view: '999 Reference', viewValue: 'Reference', default: false }
+];
+
 const configInput: any = {
   "ConfigObjectRequest": {
     "ConfigObjectRequestType": {
@@ -155,7 +167,7 @@ const configInput: any = {
 })
 export class SolicitederrorsComponent implements OnInit {
   formbulider: any;
-  constructor(private service: ResolvingOfErrorsService) { }
+  constructor(private formBuilder: FormBuilder, private service: ResolvingOfErrorsService, private _snackBar: MatSnackBar) { }
   myTable!: TableItem;
   //test
   dataSaved = false;
@@ -163,15 +175,10 @@ export class SolicitederrorsComponent implements OnInit {
   employeeIdUpdate = null;
   massage = null;
   selectListItems: string[] = [];
-
-  CountryId = null;
-  StateId = null;
-  CityId = null;
-  SelectedDate = null;
-  isMale = true;
-  isFeMale = false;
+filterItems: Select[] = FilterListItems;
+  
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
   selectedRowsCount: number = 0;
   errorCodeData: Select[] = [
@@ -184,23 +191,18 @@ export class SolicitederrorsComponent implements OnInit {
   public tabs = [{
     tabType: 0,
     name: 'Summary'
-  },
-    //  {
-    //   tabType: 1,
-    //   name: 'Audit Trail Report'
-    // },{
-    //   tabType: 2,
-    //   name: 'Transaction Details'
-    // }
+  }
   ];
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  thisForm!: FormGroup;
 
-  columns: ColumnDetails[] = [    
+  columns: ColumnDetails[] = [
     { header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },
     { header: 'Tel No', headerValue: 'TelNo', showDefault: true, imageColumn: false },
     { header: 'Cmd', headerValue: 'Cmd', showDefault: true, imageColumn: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, imageColumn: false },
     { header: 'Created', headerValue: 'Created', showDefault: true, imageColumn: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, imageColumn: false },   
+    { header: 'Status', headerValue: 'Status', showDefault: true, imageColumn: false },
     { header: 'Res Type', headerValue: 'ResType', showDefault: true, imageColumn: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, imageColumn: false },
     { header: '999 Reference', headerValue: 'Reference', showDefault: true, imageColumn: false },
@@ -208,7 +210,7 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, imageColumn: false }
   ];
   ngOnInit(): void {
-
+this.createForm();
     this.setOptions();
     this.myTable = {
       data: ELEMENT_DATA,
@@ -240,8 +242,22 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
   }
+
+  createForm() {
+    this.thisForm = this.formBuilder.group({
+      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
+      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
+      Command: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      //Date: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      ErrorCodes: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      ErrorType: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      Reference: new FormControl({ value: '', disabled: true }, [Validators.required])
+
+    })
+  }
+
   setOptions() {
     debugger;
     this.service.configDetails(configInput);
@@ -261,7 +277,25 @@ export class SolicitederrorsComponent implements OnInit {
     return filteredList;
   }
   onFormSubmit(): void { }
-  resetForm(): void { }
+  resetForm(): void {
+    this._snackBar.open('Reset Form Completed!', 'Close', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+
+  }
+
+  setControlAttribute(matSelect: MatSelect) {
+    matSelect.options.forEach((item) => {
+      if (item.selected) {
+        this.thisForm.controls[item.value].enable();
+      }
+      else {
+        this.thisForm.controls[item.value].disable();
+      }
+    });
+  }
 
   rowDetect(item: any) {
     //debugger;
