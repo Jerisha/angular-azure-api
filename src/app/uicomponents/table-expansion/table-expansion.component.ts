@@ -3,43 +3,38 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AddressDetails } from 'src/app/_models/address-details';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Transaction } from 'src/app/_models/TableExpansion';
-import { ColumnDe, TableItem } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 
 const ELEMENT_DATA: Transaction[] =
   [
-
     {
-      Link: [{View: '+', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , {View: '+', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , {View: '+', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , { View: '+',StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }],
+      Link: [{ View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }],
       StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954',
     },
     {
-      Link: [{View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , {View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , {View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , { View: 'image',StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }],
+      Link: [{ View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }],
       StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954',
     },
     {
-      Link: [{View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , {View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , {View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , { View: 'image',StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }],
+      Link: [{ View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }],
       StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954',
     },
     {
-      Link: [{View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , {View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , {View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
-        , { View: 'image',StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }],
+      Link: [{ View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }
+        , { View: 'image', StatisticDate: '2021/12/01', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954' }],
       StatisticMonth: '2021/12', Source: ' C - SAS/COMS ', Adds: '2,784', Ceases: '36,008', Modifies: '46,436', Exports: '7,697 ', Imports: '3,029', TotalCmds: '95,954',
     },
-   
-   
-   
-
   ]
 
 @Component({
@@ -56,20 +51,23 @@ const ELEMENT_DATA: Transaction[] =
 })
 export class TableExpansionComponent implements OnInit {
 
-
   step: number = 2;
-
   myTable!: TableItem;
-
   panelOpenState: boolean = false;
   panelOpenState1: boolean = false;
   panelOpenState2: boolean = false;
   transaction?: Transaction[];
   columnsToDisplay = ['Link', 'StatisticMonth', 'Source', 'Adds', 'Ceases', 'Modifies', 'Exports', 'Imports', 'TotalCmds'];
-
+  // selectedRowsCount: number = 0;
+  // selectedTab!: number;
+  // selectListItems: string[] = [];
+  // public tabs = [{
+  //   tabType: 0,
+  //   name: 'Summary'
+  // }
+  // ];
   addressDetails: AddressDetails = { postcode: '', custName: '', internalAddr1: '', internalAddr2: '', internalAddr3: '', internalAddr4: '' };
 
-  transactionToDisplay = ['Statistic Date', 'Source', 'Adds', 'Ceases', 'Modifies', 'Exports', 'Imports', 'Total Cmds'];
 
   // dataSource: MatTableDataSource<Element>;
   // expandedElement: any;
@@ -86,24 +84,21 @@ export class TableExpansionComponent implements OnInit {
     //   }
     // }
   }
-  colu: ColumnDe[] = [
-  
-    { header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },
-   
-  ];
+  column: ColumnDetails[] =
+    [{ header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },];
+
   ngOnInit() {
     // this.dataSource.data =   }
     this.transaction = ELEMENT_DATA;
-
     this.myTable = {
       data: ELEMENT_DATA,
-      Colu: this.colu,
-      filter: true,
-      selectCheckbox: true,
+      Columns: this.column,
+      filter: false,
+      selectCheckbox: false,
       selectionColumn: 'View',
       imgConfig: [{ headerValue: 'View', icon: 'description', route: '', tabIndex: 1 },
-    ]
-    } 
+      ]
+    }
   }
 
   setStep(index: number) {
@@ -126,8 +121,64 @@ export class TableExpansionComponent implements OnInit {
     }
     // console.log(this.addressDetails);
   }
+  
+  // rowDetect(item: any) {
+  //   //debugger;
+  //   this.selectedRowsCount = item.length;
+  //   if (item.length == 0) {
+  //     this.selectListItems = [];
+  //   } else {
+  //     item.forEach((el: string) => {
+  //       if (!this.selectListItems.includes(el)) {
+  //         this.selectListItems.push(el)
+  //       }
+  //       else {
+  //         if (this.selectListItems.includes(el)) {
+  //           let index = this.selectListItems.indexOf(el);
+  //           this.selectListItems.splice(index, 1)
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
 
-  expandDisplayedColumns = ["link"];
+  // removeTab(index: number) {
+  //   this.tabs.splice(index, 1);
+  // }
+
+  // newTab(tab: any) {
+  //   switch (tab.tabType) {
+  //     case 1: {
+  //       //console.log('New Tab: '+ JSON.stringify(tab.row) )
+  //       //tab.row contains row data- fetch data from api and bind to respetive component
+  //       if (!this.tabs.find(x => x.tabType == 1)) {
+  //         this.tabs.push({
+  //           tabType: 1,
+  //           name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+  //         });
+  //         this.selectedTab = 1;
+  //       }
+  //       break;
+  //     }
+  //     case 2: {
+  //       if (!this.tabs.find(x => x.tabType == 2)) {
+  //         this.tabs.push({
+  //           tabType: 2,
+  //           name: 'Transaction Errors'
+  //         })
+  //         this.selectedTab = 2;
+  //       }
+  //       break;
+  //     }
+  //     default: {
+  //       //statements; 
+  //       break;
+  //     }
+  //   }
+  // }
+
+
+  expandDisplayedColumns = ["View"];
   expandedElement: PeriodicElement | null | undefined;
 }
 

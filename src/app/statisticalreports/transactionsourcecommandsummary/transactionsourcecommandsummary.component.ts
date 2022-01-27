@@ -7,49 +7,36 @@ import {FormControl} from '@angular/forms';
 
 const ELEMENT_DATA: Transactionsourcecommandsummary[] = [
   { 
-    Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-    Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
   },
-    { 
-      Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-      Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-    },
-    { 
-      Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-      Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-    },
-      { 
-        Link: 'image', StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-        Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-      },
-      { 
-        Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-        Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-      },
-        { 
-          Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-          Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-        },
-        { 
-          Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-          Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-        },
-          { 
-            Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-            Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-          },
-          { 
-            Link: 'image', StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-            Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-          },
-          { 
-            Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-            Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-          },
-            { 
-              Link: 'image',  StatisticMonth: '2021/12', Source: ' C - SAS/COMS	', Adds: '2,784', 
-              Ceases: '36,008', Modifies: '46,436',Exports: '7,697	', Imports: '3,029', TotalCmds: '95,954' 
-            },   
+  { 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
+  },
+  { 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
+  },
+  { 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
+  },
+  { 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
+  },
+  { 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
+  },
+  { 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
+  },
+  { 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
+  },
+  { 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
+  },
+  { 
+    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
+  },
+
 ];
 
 @Component({
@@ -62,6 +49,14 @@ export class TransactionsourcecommandsummaryComponent implements OnInit {
   select:string='Exp';
     isDisabled = true;
     myTable!: TableItem;
+    selectedRowsCount: number = 0;
+  selectListItems: string[] = [];
+  selectedTab!: number;
+  public tabs = [{
+    tabType: 0,
+    name: 'Telephone No.Details'
+  }
+  ];
   constructor(private _snackBar: MatSnackBar) {}
 
     openSnackBar(message: string) {
@@ -71,15 +66,14 @@ export class TransactionsourcecommandsummaryComponent implements OnInit {
   ctrl = new FormControl(true); 
     
   columns: ColumnDetails[] = [
-    { header: 'Link', headerValue: 'Link', showDefault: true, imageColumn: true },
-    { header: 'Statistic Month', headerValue: 'StatisticMonth', showDefault: true, imageColumn: false },
-    { header: 'Source', headerValue: 'Source', showDefault: false, imageColumn: false },
-    { header: 'Adds', headerValue: 'Adds', showDefault: true, imageColumn: false },
-    { header: 'Ceases', headerValue: 'Ceases', showDefault: true, imageColumn: false },
-    { header: 'Modifies', headerValue: 'Modifies', showDefault: true, imageColumn: false },
-    { header: 'Exports', headerValue: 'Exports', showDefault: true, imageColumn: false },
-    { header: 'Imports', headerValue: 'Imports', showDefault: true, imageColumn: false },
-    { header: 'Total Cmds', headerValue: 'TotalCmds', showDefault: true, imageColumn: false },
+    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: true, imageColumn: true },
+    { header: 'TelephoneNos', headerValue: 'TelephoneNos', showDefault: true, imageColumn: false },
+    { header: 'AddCommands', headerValue: 'AddCommands', showDefault: true, imageColumn: false },
+    { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: true, imageColumn: false },
+    { header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: true, imageColumn: false },
+    { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: true, imageColumn: false },
+    { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: true, imageColumn: false },
+    { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: true, imageColumn: false },
   ];
 
   ngOnInit(): void {
@@ -88,9 +82,9 @@ export class TransactionsourcecommandsummaryComponent implements OnInit {
       data: ELEMENT_DATA,
       Columns: this.columns,
       filter: true,
-      selectCheckbox: false,
+      selectCheckbox: true,
       // colToSetImage: ['View'],
-      imgConfig: [{ headerValue: 'Link', icon: 'search', route: '',tabIndex:1 },]
+      imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '',tabIndex:1 },]
 
     }  
 }
@@ -99,4 +93,58 @@ selected(s:string): void{
   this.select= s;
 }
 
+rowDetect(item: any) {
+  //debugger;
+  this.selectedRowsCount = item.length;
+  if (item.length == 0) {
+    this.selectListItems = [];
+  } else {
+    item.forEach((el: string) => {
+      if (!this.selectListItems.includes(el)) {
+        this.selectListItems.push(el)
+      }
+      else {
+        if (this.selectListItems.includes(el)) {
+          let index = this.selectListItems.indexOf(el);
+          this.selectListItems.splice(index, 1)
+        }
+      }
+    });
+  }
+}
+
+removeTab(index: number) {
+  this.tabs.splice(index, 1);
+}
+
+newTab(tab: any) {
+  switch (tab.tabType) {
+    case 1: {
+      //console.log('New Tab: '+ JSON.stringify(tab.row) )
+      //tab.row contains row data- fetch data from api and bind to respetive component
+      if (!this.tabs.find(x => x.tabType == 1)) {
+        this.tabs.push({
+          tabType: 1,
+          name: 'Audit Trail Report'
+        });
+        this.selectedTab = 1;
+      }
+      break;
+    }
+    // case 2: {
+    //   if (!this.tabs.find(x => x.tabType == 2)) {
+    //     this.tabs.push({
+    //       tabType: 2,
+    //       name: 'Transaction Errors'
+    //     })
+    //     this.selectedTab = 2;
+    //   }
+    //   break;
+    // }
+    default: {
+      //statements; 
+      break;
+    }
+  }
+}
 }

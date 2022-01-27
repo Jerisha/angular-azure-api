@@ -2,14 +2,31 @@
     <ng-container *ngFor="let disCol of dataColumns; let colIndex = index" matColumnDef="{{disCol}}" >
         
       <!-- Other Columns -->
-      <div>
+      <div *ngIf="disCol!='View'">
         <th mat-header-cell *matHeaderCellDef>{{disCol}}</th>
         <td mat-cell *matCellDef="let element "> {{element[disCol]}} </td>
       </div>  
+
+      
+    <div *ngIf="disCol==='View'">
+      <th mat-header-cell *matHeaderCellDef >{{disCol}}</th>
+      <td mat-cell *matCellDef="let element ">
+        <ng-container *ngFor="let img of imageItem; let imgIndex = index;">            
+            <mat-icon class="table-icon"  *ngIf="img.headerValue === disCol" >
+              {{img.icon}}</mat-icon>           
+        </ng-container>
+    </div> 
+
+    <!-- <div *ngIf="disCol.imageColumn">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{disCol.header}}</th>
+      <td mat-cell *matCellDef="let row ">
+        <ng-container *ngFor="let img of imgList; let imgIndex = index;">            
+            <mat-icon class="table-icon" (click)="addTabs($event,img.tabIndex,row)" *ngIf="img.headerValue === disCol.headerValue" >
+              {{img.icon}}</mat-icon>           
+        </ng-container>
+    </div> -->
     
-    </ng-container> 
-   
-  
+  </ng-container> 
     <tr mat-header-row *matHeaderRowDef="dataColumns;"></tr>
     <tr mat-row *matRowDef="let row; columns: dataColumns;"> </tr>
   </table>

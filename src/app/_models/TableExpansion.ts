@@ -17,7 +17,7 @@ export interface Transaction {
 
 
 export interface Link {
-View:string;
+    View:string;
     StatisticDate: string;
     Source: string;
     Adds: string;

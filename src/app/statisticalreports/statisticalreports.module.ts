@@ -6,12 +6,14 @@ import { TransactionsourcecommandsummaryComponent } from './transactionsourcecom
 import { MaterialModule } from '../_shared/material/material.module';
 import { ReactiveFormsModule , FormsModule } from '@angular/forms';
 import { TransactionsourcecommandhistoryComponent } from './transactionsourcecommandhistory/transactionsourcecommandhistory.component';
+import { TelephoneDetailsComponent } from './telephone-details/telephone-details.component';
 
 
 @NgModule({
   declarations: [
     TransactionsourcecommandsummaryComponent,
-    TransactionsourcecommandhistoryComponent
+    TransactionsourcecommandhistoryComponent,
+    TelephoneDetailsComponent
   ],
   imports: [
     CommonModule,
