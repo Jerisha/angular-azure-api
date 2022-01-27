@@ -69,9 +69,11 @@
             Switch to D-2-D Summary View
         </mat-slide-toggle>
       </section>
-              <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable"  (rowChanges)="rowDetect($event)"
+              <!-- <app-table-trans [sidePan]="pagesidenav" [tableitem]="myTable"  (rowChanges)="rowDetect($event)"
                 (addNewTab)="newTab($event)">
-            </app-table-selection>
+            </app-table-trans> -->
+            
+      <app-table-exp ></app-table-exp>
             </div>
             
             <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
@@ -84,7 +86,7 @@
           </span>
         </mat-tab>
       </mat-tab-group>
-      <app-table-trans></app-table-trans>
+
       
         </mat-sidenav-content>  
       </mat-sidenav-container>

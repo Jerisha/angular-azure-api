@@ -12,7 +12,7 @@ import {
   SelectMultipleComponent,
   SelectSingleComponent,
   SelectExpressionComponent,
-  TableTransComponent
+  TableExpansionComponent
   
  
 } from './index';
@@ -33,7 +33,7 @@ import { TableGroupHeaderComponent } from './table-group-header/table-group-head
     SelectExpressionComponent,
     SelectSingleComponent,
     TableGroupHeaderComponent,
-    TableTransComponent
+    TableExpansionComponent
 
   ],
   imports: [
@@ -52,7 +52,7 @@ import { TableGroupHeaderComponent } from './table-group-header/table-group-head
     SelectExpressionComponent,
     SelectMultipleComponent,
     SelectSingleComponent,
-    TableTransComponent
+    TableExpansionComponent
   ]
 })
 export class UicomponentsModule { }

@@ -4,7 +4,7 @@
 // }
 export interface Transaction {
 
-    Link: Link | null;
+    Link: Link[] | null;
     StatisticMonth: string;
     Source: string;
     Adds: string;
@@ -17,7 +17,7 @@ export interface Transaction {
 
 
 export interface Link {
-
+View:string;
     StatisticDate: string;
     Source: string;
     Adds: string;
@@ -27,5 +27,6 @@ export interface Link {
     Imports: string;
     TotalCmds: string;
 
+ 
 
 }

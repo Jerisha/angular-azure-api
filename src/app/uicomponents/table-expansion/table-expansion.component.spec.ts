@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableTransComponent } from './table-trans.component';
+import { TableExpansionComponent } from './table-expansion.component';
 
 describe('TableTransComponent', () => {
-  let component: TableTransComponent;
-  let fixture: ComponentFixture<TableTransComponent>;
+  let component: TableExpansionComponent;
+  let fixture: ComponentFixture<TableExpansionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TableTransComponent ]
+      declarations: [ TableExpansionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TableTransComponent);
+    fixture = TestBed.createComponent(TableExpansionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
