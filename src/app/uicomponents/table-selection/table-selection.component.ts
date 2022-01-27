@@ -14,7 +14,6 @@ import { MatSelect } from '@angular/material/select';
 })
 
 export class TableSelectionComponent {
-
   fltvalue: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -36,13 +35,41 @@ export class TableSelectionComponent {
   imgColumns?: string[];
   selectColumn: string = '';
   selectedTelnos: string[] = [];
-  isEmailRequired:boolean =false
+  isEmailRequired: boolean = false;
+  selectList: string[] = [];
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  emptyColumns: string[] = [];
+  nonemptyColumns: string[] = [];
+  unSelectListItems: string[] = [];
+  gridSelectList: ColumnDetails[] = [];
+  filteredDataColumns: ColumnDetails[] = [];
+  highlightedCells:string[]=[];
+  backhighlightedCells:string[]=[]
+
+  constructor(private cdr: ChangeDetectorRef) {
+
+  }
+
   ngOnInit() {
-   
+    if (this.tableitem?.showBlankCoulmns) {
+      this.getEmptyColumns();
+      this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
+        this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
+      const selectList = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
+      this.gridSelectList = selectList ? selectList : [];
+    }
+    else {
+      this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+    }
+
+    this.highlightedCells = this.tableitem?.highlightedCells?this.tableitem?.highlightedCells:[];
+    this.backhighlightedCells = this.tableitem?.backhighlightedCells?this.tableitem?.backhighlightedCells:[];
+
+    // var filteredColumns=this.filteredDataColumns;
+    // this.selectList = this.tableitem?.Columns?.filter((e) => e.showDefault == true).map((i) => i.header);
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-    this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+    this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
+      : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
     //this.imgColumns = this.tableitem?.colToSetImage;
     this.imgList = this.tableitem?.imgConfig;
     this.filter = this.tableitem?.filter;
@@ -54,10 +81,11 @@ export class TableSelectionComponent {
       this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';
       //this.columnHeaders = this.tableitem?.coulmnHeaders ? ['Select'].concat(this.tableitem?.coulmnHeaders) : undefined;
     } else {
-      this.dataColumns = this.tableitem?.Columns?.map((e) => e.headerValue);// this.tableitem?.dataColumns;
+      this.dataColumns = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns.map((e) => e.headerValue) : this.tableitem?.Columns?.map((e) => e.headerValue);
+      // this.dataColumns = this.tableitem?.Columns?.map((e) => e.headerValue);
       //this.columnHeaders = this.tableitem?.coulmnHeaders;
     }
-    this.isEmailRequired = this.tableitem?.isEmailRequired?true:false;
+    this.isEmailRequired = this.tableitem?.showEmail ? true : false;
   }
 
   ngAfterViewInit() {
@@ -68,7 +96,7 @@ export class TableSelectionComponent {
   }
 
   selectRow(event: any, row: any) {
-    this.rowChanges.emit([row[this.selectColumn]]);
+        this.rowChanges.emit([row[this.selectColumn]]);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -83,11 +111,13 @@ export class TableSelectionComponent {
     if (this.isAllSelected()) {
       this.selection.clear()
       this.selectedTelnos = [];
+     
     }
     else {
       this.dataSource.data.forEach(row => this.selection.select(row));
       this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
     }
+       
     this.rowChanges.emit(this.selectedTelnos);
   }
 
@@ -110,7 +140,6 @@ export class TableSelectionComponent {
       alert("Select at least one row");
     }
   }
-
 
   toggleAllSelection() {
     if (this.allSelected) {
@@ -151,16 +180,62 @@ export class TableSelectionComponent {
 
   }
 
-
   addTabs(event: any, tabType: number, row: any) {
     event.stopPropagation();
     this.addNewTab.emit({ tabType, row });
   }
 
-
   logSelection(a: any) {
+    console.log(this.selection.selected)
     this.selectedrows = this.selection.selected ? this.selection.selected : undefined;
+    //this.selectedrowsCount = this.selection.selected ? this.selection.selected.length: 0;
     return true;
   }
 
+  getEmptyColumns() {
+    let summaryData = this.tableitem?.data;
+    summaryData.forEach((item: any) => {
+      this.checkIsNullOrEmptyProperties(item)
+    });
+
+    var emptySet = new Set(this.emptyColumns);
+    this.emptyColumns = [...emptySet];
+
+    var nonEmptySet = new Set(this.nonemptyColumns);
+    this.nonemptyColumns = [...nonEmptySet];
+
+    this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
+
+  }
+
+  checkIsNullOrEmptyProperties(obj: any) {
+    for (var key in obj) {
+      if (obj[key] === null || obj[key] === "")
+        this.emptyColumns.push(key);
+      else {
+        this.nonemptyColumns.push(key)
+      }
+    }
+  }  
+
+  highlightCell(cell: any, disCol: any) {
+    debugger;
+    let applyStyles = {};
+    if (this.backhighlightedCells)
+      if (this.backhighlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+        applyStyles = {
+          'background-color': '#ff9999'
+        }
+      }
+
+    if (this.highlightedCells) 
+      if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+        debugger;
+        applyStyles = {
+          'color': '#ff9999',
+          'font-weight': 'bold',
+        }
+      }
+    return applyStyles;
+  }  
 }

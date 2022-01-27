@@ -7,6 +7,12 @@ import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
 import { BorderDirective } from '../_helper/directives/border.directive';
 import { SharedModule } from '../_shared/shared.module';
+import { ResolvingOfErrorsService } from './resolving-of-errors.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from '../_services/http/http-error-interceptor';
+import { HttpHeaderInterceptor } from '../_services/http/http-header-interceptor';
+import { HttpWrapperService } from '../_services/http/http-wrapper.service';
+import { TransactionErrorsComponent } from './transaction-errors/transaction-errors.component';
 
 
 
@@ -14,8 +20,9 @@ import { SharedModule } from '../_shared/shared.module';
   declarations: [
     SolicitederrorsComponent,
     UnsolicitederrorsComponent,
+    TransactionErrorsComponent,
   
-    //BorderDirective
+    // BorderDirective
     
   ],
   imports: [
@@ -25,7 +32,8 @@ import { SharedModule } from '../_shared/shared.module';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule
-  ]
+    SharedModule,        
+  ],
+  providers:[ResolvingOfErrorsService]
 })
 export class ResolvingoferrorsModule { }

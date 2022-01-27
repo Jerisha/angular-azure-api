@@ -10,7 +10,10 @@ export interface TableItem {
     colToHighlight?: string[];
     colToHighlightInnerText?: string[];
     selectionColumn?:string;
-    isEmailRequired?:boolean
+    showEmail?:boolean;
+    showBlankCoulmns?:boolean;
+    highlightedCells?:string[];
+    backhighlightedCells?:string[];
     
     
 }

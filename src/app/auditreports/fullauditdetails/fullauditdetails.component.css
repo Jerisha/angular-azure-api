@@ -8,10 +8,24 @@ button{
     margin-bottom:10px;    
 }
 
-/* .filterposition{
+.filterposition{
     margin-left:10px;
     margin-top:15px;
-} */
+    margin-bottom:10px;
+}
+/* 
+.slidderbtn{
+  
+  cursor: pointer;
+    border:none;
+   
+    background-color: #e60000;
+    color:  #EFEFEF;
+    
+    font-size:small;
+    margin-left: -18px;
+    height: 40px;
+  } */
 
 
 .mat-column-TelNo {
