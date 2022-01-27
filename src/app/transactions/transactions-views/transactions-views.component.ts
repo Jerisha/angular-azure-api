@@ -29,8 +29,11 @@ export class TransactionsViewsComponent implements OnInit {
   saveState:boolean=true;
   views:any={view1:false,view2:false,view3:false}  
   enableFrancise:boolean=false;
-
+  telephoneSet="";
     model:any ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
+    transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
+    addressDetails:any ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
+    transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};
     @Output() AddressCheckSelected = new EventEmitter<any[]>();
     @Output() AuditTrailSelected = new EventEmitter<any[]>();
     @Output() ResetTabs = new EventEmitter<any[]>();
@@ -65,6 +68,16 @@ export class TransactionsViewsComponent implements OnInit {
   {
      
   }
+  onTfSubmit()
+  {
+     
+  }
+  onSfSubmit()
+  {
+     
+  }
+  
+
   onSubmit()
 {
   
@@ -100,6 +113,10 @@ check_list(this:TableItem,val:number)
 check_text(this:TableItem,val:number,val2:string,val3:string)
 {
 
+}
+updateDefaultOfficeAddressDetails()
+{  
+  this.addressDetails={customerName:"VODAFONE",address1:"THE CONNECTION",address2:"NEW BERKSHIRE",address3:"",address4:"",postcode:"RG14 2FN"};
 }
 viewAddressCheck()
 {
@@ -160,6 +177,10 @@ SearchTel(){
       this.enableFrancise=true;
       //load francise with this value
     }
+  }
+  addRangeTel()
+  {
+    alert('add telephone range!');
   }
   check_franchise()
   {  

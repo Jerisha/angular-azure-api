@@ -1,14 +1,17 @@
 export interface SolicitedErrors {
-    TranId: string;
     View: string;
     TelNo: string;
     Cmd: string;
     Source: string;
     Created: string;
-    Ovd: string;
     Status: string;
     ResType: string;
     ErrorList: string;
+    Reference: string;
+    LatestUserCmt: string;
+    LatestCmtDate: string;
+    TranId: string; 
+    // Ovd: string;  
 }
 
 

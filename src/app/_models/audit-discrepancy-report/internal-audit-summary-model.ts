@@ -1,4 +1,4 @@
-export interface InternalAuditFirst{
+export interface InternalAuditSummary{
     ACTID:string;
     SourceSystem:string;
     CSASCOMSOnly:number;

@@ -9,7 +9,9 @@ export interface TableItem {
     // colToSetImage?: string[];
     colToHighlight?: string[];
     colToHighlightInnerText?: string[];
-    selectionColumn?:string
+    selectionColumn?:string;
+    showEmail?:boolean;
+    showBlankCoulmns?:boolean;
     
     
 }

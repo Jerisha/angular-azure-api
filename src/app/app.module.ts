@@ -9,16 +9,17 @@ import { ResolvingoferrorsModule } from './resolvingoferrors/resolvingoferrors.m
 import { AuditreportsModule } from './auditreports/auditreports.module';
 import { UicomponentsModule } from './uicomponents/uicomponents.module';
 import { MaterialModule } from './_shared/material/material.module';
-import { BorderDirective, MenuSearchPipe } from './_helper/index';
+import {  MenuSearchPipe } from './_helper/index';
 import { PopupComponent } from './popup/popup.component';
 
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { HttpWrapperService } from './_services/http/http-wrapper.service';
 import { HttpErrorInterceptor } from './_services/http/http-error-interceptor';
-import { HttpRequestHeader } from './_services/http/http-request-header.service';
+import { HttpHeaderInterceptor } from './_services/http/http-header-interceptor';
 import { TransactionsModule } from './transactions/transactions.module';
-
-
+import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HelperModule } from './_helper/helper/helper.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { TransactionsModule } from './transactions/transactions.module';
     AppComponent,
     MenuSearchPipe,
         PopupComponent,
-        BorderDirective       
+        
+        // BorderDirective       
   ],
   imports: [
     BrowserModule,
@@ -38,18 +40,23 @@ import { TransactionsModule } from './transactions/transactions.module';
     HttpClientModule,
     ResolvingoferrorsModule,
     AuditreportsModule,
-    TransactionsModule
+    TransactionsModule,
+    HelperModule   
   ],
-  providers: [NavService,{
+  providers: [NavService,HttpWrapperService,
+    {
     provide: HTTP_INTERCEPTORS, 
     useClass: HttpErrorInterceptor, 
     multi: true 
   },
   {
     provide: HTTP_INTERCEPTORS, 
-    useClass: HttpRequestHeader, 
+    useClass: HttpHeaderInterceptor, 
     multi: true 
-  }],
+  },  
+  AuditDiscpancyReportService
+  
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

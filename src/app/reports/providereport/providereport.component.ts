@@ -8,7 +8,7 @@ import { Select } from 'src/app/_models/select';
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { ProvideReport } from 'src/app/_models/provide-report';
-import { select } from 'src/app/_helper/Constants/exp-consts';
+import { select } from 'src/app/_helper/Constants/exp-const';
 
 const ELEMENT_DATA: ProvideReport[] = [
   {
