@@ -8,7 +8,7 @@ import { MaterialModule } from '../_shared/material/material.module';
 import { DialogComponent } from './providereport/dialog/dialog.component';
 import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 import { TelephoneRangeReportComponent } from './telephone-range-report/telephone-range-report.component';
-
+import { SharedModule } from '../_shared/shared.module';
 
 
 
@@ -25,7 +25,8 @@ import { TelephoneRangeReportComponent } from './telephone-range-report/telephon
     UicomponentsModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class ReportsModule { }
