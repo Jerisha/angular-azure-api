@@ -1,3 +1,6 @@
+<!-- <button type="button" mat-button (click)="clicked('Internal error')">Internal error</button>
+<button type="button" mat-button (click)="clicked('Server Error')">Server Error</button> -->
+
 <mat-accordion *ngIf="liverecord?.tranId != null; else elseBlock" [togglePosition]="'before'">
 
     <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0" (opened)="setStep(0); panelOpenState1 = true; " (closed)="panelOpenState1 = false">
@@ -172,7 +175,7 @@
                     element ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon> -->
 
                     <mat-icon style="cursor: pointer;"
-                    (click)="(expandedElement = expandedElement === element ? null : element); (expandedElement === element ? setAddressDetails('transactionDetails', element) : null); setStep(2) ">
+                    (click)="(expandedElement = expandedElement === element ? null : element); (expandedElement === element ? setAddressDetails('transactionDetails', element) : setAddressDetails('removeAddress')); setStep(2) ">
                     {{expandedElement === element && step === 2 ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
             </td>
         </ng-container>

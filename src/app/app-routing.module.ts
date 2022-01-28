@@ -33,10 +33,15 @@ const routes: Routes = [
     path: 'reports',
     loadChildren: () => import('./reports/reports.module').then(x => x.ReportsModule)
   },
-{
-path: 'statisticalreports',
-loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule)
-}
+  {
+  path: 'statisticalreports',
+  loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule)
+  },
+  
+  {
+  path: 'errors',
+  loadChildren: () => import('./errors/errors.module').then(x => x.ErrorsModule),
+  }
 ];
 
 @NgModule({
