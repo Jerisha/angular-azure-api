@@ -12,8 +12,7 @@ th.mat-sort-header-sorted {
 
 .mat-header-cell {
   color: white;
-  padding: 2px 10px;
-  
+  padding: 2px 10px;  
   /* width: auto;
   height: fit-content; */
   font-size:small;
@@ -100,18 +99,12 @@ table td, table th {
   /* margin-top: 3px; */
 }
 
-
-
-
-/* .test-wrapper{ 
-  padding-right: 0; 
-  padding-left: 16px; 
-  width: 20%; 
-  display: flex; 
-  flex-direction: column; 
+.truncate-cell {
+  /* max-width: 120px;  */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.test-wrapper > *{ 
-  margin: 0; 
-}  */
+
 
