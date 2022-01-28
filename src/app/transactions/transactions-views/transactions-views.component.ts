@@ -29,6 +29,10 @@ export class TransactionsViewsComponent implements OnInit {
   saveState:boolean=true;
   views:any={view1:false,view2:false,view3:false}  
   enableFrancise:boolean=false;
+  multiRangeChecked =false;
+  visibleSearchOption:any;
+  multiRangeTelephoneList:string="Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890";
+
   telephoneSet="";
     model:any ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
     transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
