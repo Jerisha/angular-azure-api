@@ -5,12 +5,12 @@
                   <form  #ff ="ngForm" (ngSubmit)="onSubmit()" >
                     <div class="vf-flex-container">
                     <div>
-                    <div style="margin-left:1rem;margin-top:1rem;">
+                    <!-- <div style="margin-left:1rem;margin-top:1rem;">
                       <mat-radio-group aria-label="Select an Option for Telephone(s) No set">
-                        <mat-radio-button value="0" #visibleSearchOption1  [checked]=true style="padding-right: 16px;">Single/One set Telephone</mat-radio-button>
-                        <mat-radio-button value="1" #visibleSearchOption2  >Multi set Telephone Nos</mat-radio-button>
+                        <mat-radio-button value="0" #visibleSearchOption1  [checked]=true style="padding-right: 16px;">Single CLI</mat-radio-button>
+                        <mat-radio-button value="1" #visibleSearchOption2  >Multiple CLI(s)</mat-radio-button>
                       </mat-radio-group>                      
-                    </div>  
+                    </div>   -->
                     <div> 
                         <mat-form-field appearance="outline" style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>Start Tel.No</mat-label>
@@ -26,65 +26,48 @@
                         <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="The maximum CLIs in a range is limited to 10000.Only enter an End Tel No. if you intend to specify a range." matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                        
                       </div>  
                        
-                      <div  *ngIf="visibleSearchOption2.checked == true" style =" width:100%;margin-bottom: 2rem;" #MultiRangeList > 
-                        <mat-list style ="background-color:rgb(247, 242, 242);overflow:hidden; overflow-y:scroll;">
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;">                              
+                      <!-- <div  *ngIf="visibleSearchOption2.checked == true" style ="margin-bottom: 2rem;" #MultiRangeList >  -->
+                        <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
+                        <mat-list style ="overflow-x:hidden; overflow-y:auto;">
+                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
                             <p matLine >
-                              <span style="padding-left: 2rem;font-size: small;color: black;">Start Tel. No. 01234567890</span>
-                              <span style="padding-left: 2rem;font-size: small;color: black;">End Tel.No. 01234567890</span>
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="updateDefaultOfficeAddressDetails()">
-                                <!-- <mat-icon style ="width:3px;height: 3px;">minius</mat-icon> -->-
+                              <span class = vf-list-header  style="border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;">Start  Tel. No.</span>
+                              <span class = vf-list-header style="border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;">End   Tel.No.</span>
+                              <span class = vf-list-header style="border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;">Remove</span>                                                            
+                            </p>                                                      
+                          </mat-list-item>
+                          <mat-list-item style ="height: 12px;padding-top: 3px;padding:1em;border-top: 3px solid rgb(60, 190, 180);">                              
+                            <p matLine >
+                              <span class = vf-list-value style="border: 3px solid rgb(60, 190, 180); padding:2rem;">01234567890</span>
+                              <span class = vf-list-value style="border: 3px solid rgb(60, 190, 180); padding:2rem;">01234567895</span>
+                              <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
+                              </button>
+                            </p>                                                      
+                          </mat-list-item>
+                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
+                            <p matLine >
+                              <span class = vf-list-value >01234567898</span>
+                              <span class = vf-list-value >01234567899</span>
+                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
                               </button>
                             </p>                                                      
                           </mat-list-item>
                           <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;">                              
                             <p matLine >
-                              <span style="padding-left: 2rem;font-size: small;color: black;">Start Tel. No. 01234567890</span>
-                              <span style="padding-left: 2rem;font-size: small;color: black;">End Tel.No. 01234567890</span>
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="updateDefaultOfficeAddressDetails()">
-                                <!-- <mat-icon style ="width:3px;height: 3px;">minius</mat-icon> -->-
+                              <span class = vf-list-value >01234567990</span>
+                              <span class = vf-list-value >01234567995</span>
+                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
                               </button>
                             </p>                                                      
-                          </mat-list-item>
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;">                              
-                            <p matLine >
-                              <span style="padding-left: 2rem;font-size: small;color: black;">Start Tel. No. 01234567890</span>
-                              <span style="padding-left: 2rem;font-size: small;color: black;">End Tel.No. 01234567890</span>
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="updateDefaultOfficeAddressDetails()">
-                                <!-- <mat-icon style ="width:3px;height: 3px;">minius</mat-icon> -->-
-                              </button>
-                            </p>                                                      
-                          </mat-list-item>
-                         
-                        </mat-list>
-                        <!-- <mat-expansion-panel hideToggle>
-                          <mat-expansion-panel-header>
-                            <mat-panel-title>
-                              Multi Range Telephone No(s)
-                            </mat-panel-title>
-                            <mat-panel-description>
-                              Added multi Telephone No(s) Count:
-                            </mat-panel-description>
-                          </mat-expansion-panel-header>
-                          <mat-list>
-                            <mat-list-item >                              
-                              <p matLine>
-                                <span>Start Tel. No. 01234567890</span>
-                                <span style="float:right">End Tel.No. 01234567890</span>
-                              </p>
-                                <p matLine>
-                                <span>Start Tel. No. 01234567890</span>
-                                <span style="float:right">End Tel.No. 01234567890</span>
-                              </p>                                
-                            </mat-list-item>
-                          </mat-list>
-                        </mat-expansion-panel> -->
+                          </mat-list-item>                         
+                        </mat-list>                        
                       </div>
                     </div>
                       <div style="display: flex;align-items: center;">
                         <span>
-                          <button  *ngIf="visibleSearchOption2.checked == true" type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()">
-                            <mat-icon>add_box</mat-icon>Add Range(s)
+                          <!-- <button  *ngIf="visibleSearchOption2.checked == true" type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()"> -->
+                            <button  type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()">
+                            <mat-icon>add_box</mat-icon>Add Cli(s)
                           </button>
                         <button type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
                           <mat-icon>search</mat-icon>Search
@@ -98,19 +81,26 @@
         <ng-container *ngIf="views.view2">              
                 <mat-card-content>                      
                       <div class ="flex-container"> 
-                          <div *ngIf="multiRangeChecked == true" >
+                          <!-- <div *ngIf="multiRangeChecked == true" > -->
+                            <div *ngIf="CliRangeSet.length===1" >
                               <mat-label style="font-size:large;padding-right:1rem"><strong>Start Tel.No. </strong>{{model.telno}}</mat-label>                                                          
                               <mat-label style="font-size:large;"><strong>End Tel.No. </strong>{{model.rangeEnd}}</mat-label>                          
                             </div>
-                            <div *ngIf="multiRangeChecked == !true" style ="padding-bottom: 10px;">
-                              <mat-label style="font-size:large;padding-right:1rem"><strong>Multi Range Telephone(s) </strong>{{10}}</mat-label>                                                          
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 24px;height:24px;font-size: small;line-height: 3px !important; padding: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Multi Range Telephone List" matTooltipPosition="above" (click)="updateDefaultOfficeAddressDetails()">
+                            <!-- <div *ngIf="multiRangeChecked == !true" style ="padding-bottom: 10px;"> -->
+                              <div *ngIf="CliRangeSet.length>1" style ="padding-bottom: 10px;">
+                              <span style ="float:left;">
+                              <mat-label style="font-size:large;padding-right:1rem;"><strong>Multiple CLI(s) </strong>{{CliRangeSet.length}}</mat-label>                                                          
+                              
+                            </span>
+                            <span style ="float: right;">
+                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 24px;height:24px;font-size: small;line-height: 3px !important; padding: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Multi Range Telephone List" matTooltipPosition="above" (click)="ReviewCli()">
                                 <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> -->i
                               </button>
                               <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip= mutliRangeTelephoneList matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon> -->
                               <button type="sumit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; width:fit-content;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="resetTel(this)">
-                                <i class="material-icons" style ="font-size:xx-larger;width:30px; vertical-align: middle;">edit_attributes</i>ReValidate
-                              </button>                           
+                                <i class="material-icons" style ="font-size:larger;width:30px; vertical-align: middle;">edit</i>Review
+                              </button>  
+                            </span>                         
                             </div>          
                         </div> 
                     <div class ="vf-flex-container"style= "min-width:100%;text-align:center;">
@@ -121,15 +111,19 @@
                                 <mat-label style="font-size:x-small;padding-left:6px;"><strong>Master: </strong>{{Master}}</mat-label>                             
                                 <mat-label style="font-size:x-small;padding-left:6px;"><strong>Live: </strong>{{Live}}</mat-label>   
                               </div>                          
-                            
-                      <button type="submit" mat-raised-button [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;"  matTooltip="Audit Trail"  (click)="AuditTrail()">                        
-                        <i class="material-icons" style ="font-size:small;vertical-align: middle;font-size: small;">history</i>Audit Trail 
-                      </button>
-                      <button type="cancel" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; height:2em;font-size: small;line-height: 16px !important;" matTooltip="Reset"  (click)="resetTel(this)">
+                       <!-- <div style ="float:right"> -->
+                      <span><button type="submit" mat-raised-button [ngClass]="btncolor" style="margin-left: 10px; margin-top:6px;height: 2em;font-size: small;line-height: 16px !important;"  matTooltip="Audit Trail"  (click)="AuditTrail()">                        
+                        <i class="material-icons" style ="font-size:small;vertical-align: middle;">history</i>Audit Trail 
+                      </button></span>
+                      <span>
+                      <button type="cancel" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;" matTooltip="Reset"  (click)="resetTel(this)">
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">refresh</i>Reset
-                      </button>                    
+                      </button>  
+                    </span>
+                    <!-- </div>                        -->
                     </div> 
                     <div style="padding-top: 1rem;">
+                      <span>
                       <mat-form-field appearance="outline" style="margin-left:5px;">
                         <mat-label class="vf-label" >CUPID</mat-label>  
                         <mat-select [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
@@ -138,8 +132,10 @@
                           <mat-option *ngFor="let cupid of cupIds" [value]="cupid.value">
                             {{cupid.viewValue}}
                           </mat-option>
-                        </mat-select> 
-                      </mat-form-field>            
+                        </mat-select>                       
+                      </mat-form-field> 
+                    </span>
+                    <span>           
                         <mat-form-field *ngIf = "enableFrancise"
                         appearance="outline" style="margin-left:2px;width:300px;">
                           <mat-label class="vf-label">Franchise</mat-label>             
@@ -156,7 +152,8 @@
                             <mat-option value="VOD,C,13" selected="">SAS/COMS VOD-VOD-VOD Default Franchise</mat-option>
                             <mat-option value="VOD,O,13">FMC VOD-VOD-VOD Default Franchise</mat-option>
                             </mat-select>          
-                        </mat-form-field> 
+                        </mat-form-field>
+                      </span> 
                       </div>                                 
                           </form> 
                       </div>                      
