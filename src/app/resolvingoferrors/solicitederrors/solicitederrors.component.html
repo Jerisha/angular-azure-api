@@ -89,7 +89,7 @@
 
         <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.ErrorCodes.disabled}">
           <mat-label>Error Codes</mat-label>
-          <input formControlName="ErrorCodes" type="text" placeholder="type to find" matInput [formControl]="errorCode"
+          <input  formControlName="ErrorCodes" type="text" placeholder="type to find" matInput 
             [matAutocomplete]="auto" />
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option.viewValue">

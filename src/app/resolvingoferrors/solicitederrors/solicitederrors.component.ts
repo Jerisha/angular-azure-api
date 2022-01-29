@@ -249,7 +249,7 @@ const queryInput: any = {
 export class SolicitederrorsComponent implements OnInit {
   
   constructor(private formBuilder: FormBuilder, private service: ResolvingOfErrorsService, private _snackBar: MatSnackBar) { }
-  formbulider: any;
+  
   myTable!: TableItem;
   dataSaved = false;
   employeeForm: any;
@@ -267,7 +267,7 @@ export class SolicitederrorsComponent implements OnInit {
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
   ];
-  errorCode = new FormControl();
+  // errorCode = new FormControl();
   selectedTab!: number;
   public tabs = [{
     tabType: 0,
@@ -333,23 +333,22 @@ export class SolicitederrorsComponent implements OnInit {
       Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
       //Date: new FormControl({ value: '', disabled: true }, [Validators.required]),
       ErrorCodes: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      
       ErrorType: new FormControl({ value: '', disabled: true }, [Validators.required]),
       Reference: new FormControl({ value: '', disabled: true }, [Validators.required])
 
     })
+    this.errorCodesOptions = this.thisForm.controls.ErrorCodes.valueChanges
+    .pipe(
+      startWith<string>(''),
+      map(name => this._filter(name))
+    );
   }
 
-  setOptions() {
-    //debugger;
-    this.errorCodesOptions = this.errorCode.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
-    
-    this.service.configDetails(configInput);
-
-    
+  setOptions() {  
+    //debugger;     
+    //this.service.apiTest(queryInput);    
+    // this.service.configDetails(configInput);
   }
 
   private _filter(name: string): any[] {
