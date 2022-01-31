@@ -219,7 +219,7 @@ export class TableSelectionComponent {
   }  
 
   highlightCell(cell: any, disCol: any) {
-    debugger;
+    //debugger;
     let applyStyles = {};
     if (this.backhighlightedCells)
       if (this.backhighlightedCells.includes(disCol.headerValue) && cell['isLive']) {
