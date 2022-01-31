@@ -106,3 +106,24 @@
 
 nav ul{height:200px; width:18%;}
 nav ul{overflow:hidden; overflow-y:scroll;}
+:host ::ng-deep .mat-mini-fab .mat-button-wrapper {
+  padding-top:0px !important;
+  padding-bottom:0px !important;
+  line-height: 0px !important;
+
+}
+
+vf-list-header1 {
+  /* border:3px solid grey; */
+  border-left: 3px solid rgb(60, 190, 180);border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;
+}
+vf-list-value1 {
+  /* border:3px solid grey; */
+  border-left: 3px solid rgb(60, 190, 180);border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;
+
+}
+
+ /* :host ::ng-deep .mat-list-base .mat-list-item ::after{ */
+  /* content: ""; */
+  /* clear: bottom;  */
+/* }  */
