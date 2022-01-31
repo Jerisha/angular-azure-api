@@ -11,6 +11,7 @@ import { ThrowStmt } from '@angular/compiler';
   templateUrl: './transactions-views.component.html',
   styleUrls: ['./transactions-views.component.css']
 })
+
 export class TransactionsViewsComponent implements OnInit {
   
   view1Toggle: string ="";
@@ -29,7 +30,11 @@ export class TransactionsViewsComponent implements OnInit {
   saveState:boolean=true;
   views:any={view1:false,view2:false,view3:false}  
   enableFrancise:boolean=false;
+  multiRangeChecked =false;
+  visibleSearchOption:any;
+  multiRangeTelephoneList:string="Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890";
 
+  telephoneSet="";
     model:any ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
     transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
     addressDetails:any ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
@@ -37,6 +42,8 @@ export class TransactionsViewsComponent implements OnInit {
     @Output() AddressCheckSelected = new EventEmitter<any[]>();
     @Output() AuditTrailSelected = new EventEmitter<any[]>();
     @Output() ResetTabs = new EventEmitter<any[]>();
+    
+    CliRangeSet: [number, number][] = [];
 
     panelOpenState = false;
     btncolor: string ="secondary"
@@ -68,9 +75,22 @@ export class TransactionsViewsComponent implements OnInit {
   {
      
   }
+  onTfSubmit()
+  {
+     
+  }
+  onSfSubmit()
+  {
+     
+  }
+  
+
   onSubmit()
 {
   
+}
+removeRangeCli(){
+
 }
 
 onChangeEvent(event:any)
@@ -118,15 +138,23 @@ sysEditText(val:string)
 }
 saveTran(val:number)
 {
+          
   
 }
+ReviewCli()
+{
+  this.views.view1=true;
+  this.views.view2 =false;
+  this.views.view3 =false;
+}
 SearchTel(){ 
-    if(this.model.tel !="" ||this.model.rangeEnd !="")
+    if(this.model.tel !="" ||this.model.rangeEnd !="" ||this.CliRangeSet.length>0)
       {
         //console.log(this.model.tel,this.model.rangeEnd )   
           //this.view2Toggle ="display: block;visibility:visible;";
           //this.view1Toggle ="display: none;visibility:hidden;";
           // this.view3Toggle ="display: none;visibility:hidden;";
+          this.CliRangeSet.push([this.model.tel,this.model.rangeEnd]);
           this.views.view1=false;
           this.views.view2 =true;
           this.views.view3 =false;
@@ -148,6 +176,7 @@ SearchTel(){
     this.savebtnColor ="secondary";
     this.enableFrancise =false;
     this.ResetTabs.emit(["true"]);
+    this.CliRangeSet=[];
     
   }   
   resetTel1(sf:any) {
@@ -167,6 +196,14 @@ SearchTel(){
       this.enableFrancise=true;
       //load francise with this value
     }
+  }
+  addRangeTel()
+  {
+    // alert('add telephone range!');
+    this.CliRangeSet.push([this.model.tel,this.model.rangeEnd])
+    this.model ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
+    
+
   }
   check_franchise()
   {  

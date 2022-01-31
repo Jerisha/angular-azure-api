@@ -41,7 +41,6 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 
-
 const modules = [CommonModule,
   A11yModule,
   CdkStepperModule,
@@ -85,7 +84,6 @@ const modules = [CommonModule,
   CdkAccordionModule,
   MatSelectModule,
   MatCheckboxModule,
-
 ]
 @NgModule({
   declarations: [],

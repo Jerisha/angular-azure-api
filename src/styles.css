@@ -21,7 +21,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   flex-direction: inherit;
   overflow: auto; */
 
-  top: 26px;
+  top: 32px;
   position:absolute;
   pointer-events:auto;
   box-sizing:border-box;
@@ -68,7 +68,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 
 /* to set background color for matselect */
 app-select-multiple .mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
-  background-color: #007C92;
+  /* background-color: #007C92; */
+  background-color: #EFEFEF;
   height: 37px;
 }
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
@@ -77,13 +78,13 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
 
 /* to change border color on hover */
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: #007C92;
+  color: #EFEFEF;
   border:0
 }
 
 /* to change border color after selection */
 app-select-multiple .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
-  color: #007C92;
+  color: #EFEFEF;
   border:0
 }
 /* app-select-multiple .mat-focused{
@@ -110,14 +111,18 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
     display: flex;
   }
   .slidderbtn{
-    float: left;
-    border:none;
-   /* border:1px solid #e60000; */
+    /* float: left; */
+     /* border:1px solid #e60000; */
+     /* border-radius: 12%; */
+     /* margin-left: -19px; */
+    cursor: pointer;
+    border:none;  
     background-color: #e60000;
-    color:  #EFEFEF;
-    border-radius: 12%;
-    font-size: small;
-    margin: 2px;
+    color:  #EFEFEF;    
+    font-size: small;    
+    height: 35px;
+    position: absolute;
+    z-index: 2;  
   }
  /* side-nav-page-header ends */
 
@@ -125,8 +130,10 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 8px 24px 108px 24px;
   } */
   
+  .hidden {display:none;}
   .filterdataby{
-    background-color:#007C92;
+    /* background-color:#007C92; */
+    background-color:#EFEFEF;
     color: black; 
     height: 35px;
     width:180px;
@@ -156,18 +163,40 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 }
 .mat-tab-label{
   height: 35px !important;
-  color: rgb(11, 11, 158);
+  /* color: rgb(11, 11, 158); */
+  color: block;
 }
 
  div.mat-tab-label {
-  /* background-color: #009de6; */
-  background-color: #007C92;
-  color:white;    
-  border-right: solid 1px;
-    /* border-top-right-radius: 10px;
-    border-top-left-radius: 10px; */
+  background-color: rgb(84, 87, 90);
+  /* background-color: #007C92; */
+   /* background-color: #EFEFEF; 
+  color:#e60000;     */
+  border-right: solid 3px white;
+  padding-left:initial ;
+     border-top-right-radius: 10px;
+    border-top-left-radius: 10px; 
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  /* background-color: #e60000; */
+  background-color:rgb(255, 6, 6);
+  height: 4px;
+  
+}
+div .mat-focus-indicator.mat-tab-label {
+  color: white !important;
+
 }
 /* tab design end */
+
+
+
+/* element.style {
+  visibility: visible;
+  left: 0px;
+  width: 160px;
+} */
 
 .example-container .mat-form-field,.example-container .mat-form-field + .mat-form-field {
   margin-left: 8px;  
@@ -221,14 +250,16 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 }
 
 .side-nav form .mat-form-field,.side-nav form .mat-form-field + .mat-form-field {
-  margin-left: 15px;  
+  margin-left: 24px;  
   /* margin-bottom: 1px;  
   margin-top:1px;   */
   font-size: smaller;  
   width: 170px;
 }
 
-
+.side-nav button{
+  margin-left: 2px;
+}
 
 .side-nav {  
   width: 220px!important;    
@@ -268,7 +299,7 @@ margin-left: 200px; */
 {
   /* margin-bottom: 1px;  
   margin-top:1px;   */
-  margin: 1px;
+  margin: 5px;
   font-size: smaller;  
   width: 170px;
 }

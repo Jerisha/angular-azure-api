@@ -1,0 +1,108 @@
+<mat-sidenav-container class="side-container">
+  <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+    
+    <!-- <div class="filterdataby">
+      <div style="font-size: small;">
+        <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
+          <mat-icon>filter_alt</mat-icon>
+          Filter Data By
+        </button>
+      </div>
+    </div> -->
+    <div class="filter-sticky">
+      <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+        (changes)="setControlAttribute($event)">
+      </app-select-multiple>
+    </div>
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+      <div class="">
+        <mat-form-field hintLabel="Max 10 characters" appearance="outline"
+        [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
+          <mat-label>Tel.No Start</mat-label>
+          <input matInput formControlName="TelNoStart" #input1 maxlength="10" placeholder="Tel.No Start">
+          <mat-hint align="end">{{input1.value?.length || 0}}/10</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="Max 10 characters" appearance="outline"
+        [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
+          <mat-label>Tel.No End</mat-label>
+          <input matInput formControlName="TelNoEnd" #input2 maxlength="10" placeholder="Tel.No End">
+          <mat-hint align="end">{{input2.value?.length || 0}}/10</mat-hint>
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+          <mat-icon>search</mat-icon>Search
+        </button>
+        <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+
+      </div>
+
+    </form>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="side-content">
+
+    <button class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+      matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+      <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+    </button>
+
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+      <mat-tab *ngFor="let tab of tabs; let index = index">
+        <ng-template mat-tab-label>
+          
+          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+          <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
+            <mat-icon style="font-size: large;">close</mat-icon>
+          </button>
+        </ng-template>
+
+        <span [ngSwitch]="tab.tabType">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            <div class="table-view">
+            <app-table-selection [sidePan]="pagesidenav" #table1 [tableitem] = "myTable"></app-table-selection>
+            </div>
+          </div>
+
+          <div *ngSwitchDefault>
+
+          </div>
+        </span>
+
+      </mat-tab>
+    </mat-tab-group>
+ 
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- <mat-card class="mat-elevation-z8">
+    <mat-card-content>
+        <form (ngSubmit)="onFormSubmit()">
+            <div class="example-container mat-elevation-z8 center">
+                <br>
+              <mat-form-field hintLabel="Max 10 characters" appearance="outline">
+                <mat-label>Tel.No Start</mat-label>
+                <input matInput #input1 maxlength="10" placeholder="Tel.No Start">
+                <mat-hint align="end">{{input1.value?.length || 0}}/10</mat-hint>
+              </mat-form-field>
+              <mat-form-field hintLabel="Max 10 characters" appearance="outline">
+                <mat-label>Tel.No End</mat-label>
+                <input matInput #input2 maxlength="10" placeholder="Tel.No End">
+                <mat-hint align="end">{{input2.value?.length || 0}}/10</mat-hint>
+              </mat-form-field>
+              
+              <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+                <mat-icon>search</mat-icon>Search
+              </button>
+              <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
+                <mat-icon>refresh</mat-icon>Reset
+              </button>
+
+            </div>
+            
+            <app-table-selection #table1 [tableitem] = "myTable"></app-table-selection>
+        </form>
+    </mat-card-content>
+</mat-card> -->

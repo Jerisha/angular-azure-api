@@ -25,3 +25,17 @@ table {
     margin:10px 
   }
 
+  
+.slidderbtn{
+  /* float: left; */
+cursor: pointer;
+  border:none;
+ /* border:1px solid #e60000; */
+  background-color: #e60000;
+  color:  #EFEFEF;
+  /* border-radius: 12%; */
+  font-size:x-small;
+  margin-left: -50px;
+  height: 40px;
+}
+

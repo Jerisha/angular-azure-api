@@ -1,129 +1,141 @@
 <mat-accordion *ngIf="liverecord?.tranId != null; else elseBlock" [togglePosition]="'before'">
 
-    <mat-expansion-panel [hideToggle]="'true'" (opened)="panelOpenState1 = true" (closed)="panelOpenState1 = false">
+    <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0" (opened)="setStep(0); panelOpenState1 = true; "
+        (closed)="panelOpenState1 = false">
+        <!-- (opened)="panelOpenState1 = true" (closed)="panelOpenState1 = false"> -->
         <mat-expansion-panel-header>
 
             <mat-panel-title>
                 <mat-icon>{{panelOpenState1 ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
                 &nbsp;&nbsp;
-                <!-- <button type="button" class="btn btn-default" aria-label="Left Align">
-                    <span>
-                        <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
-                        {{panelOpenState1 ? 'Hide' : 'Show'}}
-                    </span>
-                </button>&nbsp;&nbsp; -->
                 Current Live Details
             </mat-panel-title>
-            <!-- <mat-panel-description>
-          some description!!
-        </mat-panel-description> -->
         </mat-expansion-panel-header>
 
         <div class="liverecord-sec">
-            <table>
-                <tr>
-                    <td><b> Tran.ID</b></td>
-                    <td>{{liverecord?.tranId}}</td>
+            <div class="container-fluid">
+                <div class="fluid-item liverecord-sec-1">
+                    <span><b> Tran.ID</b>
+                        {{liverecord?.tranId}}</span>
 
-                    <td><b>Tran.Ref</b></td>
-                    <td>{{liverecord?.tranRef}}</td>
+                    <span><b>Tran.Ref</b>
+                        {{liverecord?.tranRef}}</span>
 
-                    <td><b>Parent CUPID</b></td>
-                    <td>{{liverecord?.parentCupid}}</td>
+                    <span><b>Parent CUPID</b>
+                        {{liverecord?.parentCupid}}</span>
 
-                    <td><b>Created</b></td>
-                    <td>{{liverecord?.created}}</td>
-                </tr>
-                <tr>
-                    <td><b>Child CUPID</b></td>
-                    <td>{{liverecord?.childCupid}}</td>
+                    <span><b>Created</b>
+                        {{liverecord?.created}}</span>
 
-                    <td><b>Created By</b></td>
-                    <td>{{liverecord?.createdBy}}</td>
 
-                    <td><b>Cust.Title</b></td>
-                    <td>{{liverecord?.custTitle}}</td>
+                    <span><b>Child CUPID</b>
+                        {{liverecord?.childCupid}}</span>
 
-                    <td><b>Source</b></td>
-                    <td>{{liverecord?.source}}</td>
-                </tr>
-                <tr>
-                    <td><b>Cust.Forename</b></td>
-                    <td>{{liverecord?.custForename}}</td>
+                    <span><b>Created By</b>
+                        {{liverecord?.createdBy}}</span>
 
-                    <td><b>Franchise</b></td>
-                    <td>{{liverecord?.franchise}}</td>
+                    <span><b>Cust.Title</b>
+                        {{liverecord?.custTitle}}</span>
 
-                    <td><b>Cust.Name</b></td>
-                    <td>{{liverecord?.custName}}</td>
+                </div>
 
-                    <td><b>Source Type</b></td>
-                    <td>{{liverecord?.sourceType}}</td>
-                </tr>
-                <tr>
-                    <td><b>Busn.Suffix</b></td>
-                    <td>{{liverecord?.busnSuffix}}</td>
+                <div class="fluid-item liverecord-sec-2">
 
-                    <td><b>Internal Addr1</b></td>
-                    <td>{{liverecord?.internalAddr1}}</td>
+                    <span><b>Internal Addr1</b>
+                        {{liverecord?.internalAddr1}}</span>
 
-                    <td><b>Premises</b></td>
-                    <td>{{liverecord?.premises}}</td>
+                    <span><b>Internal Addr2</b>
+                        {{liverecord?.internalAddr2}}</span>
 
-                    <td><b>Internal Addr2</b></td>
-                    <td>{{liverecord?.internalAddr2}}</td>
-                </tr>
-                <tr>
-                    <td><b>Thoroughfare</b></td>
-                    <td>{{liverecord?.thoroughfare}}</td>
+                    <span><b>Internal Addr3</b>
+                        {{liverecord?.internalAddr3}}</span>
 
-                    <td><b>Internal Addr3</b></td>
-                    <td>{{liverecord?.internalAddr3}}</td>
+                    <span><b>Internal Addr4</b>
+                        {{liverecord?.internalAddr4}}</span>
 
-                    <td><b>Locality</b></td>
-                    <td>{{liverecord?.locality}}</td>
+                    <span><b>Thoroughfare</b>
+                        {{liverecord?.thoroughfare}}</span>
 
-                    <td><b>Internal Addr4</b></td>
-                    <td>{{liverecord?.internalAddr4}}</td>
-                </tr>
-                <tr>
-                    <td><b>Postcode</b></td>
-                    <td>{{liverecord?.postcode}}</td>
+                    <span><b>Locality</b>
+                        {{liverecord?.locality}}</span>
 
-                    <td><b>Retailer ID</b></td>
-                    <td>{{liverecord?.retailerId}}</td>
+                    <span><b>Postcode</b>
+                        {{liverecord?.postcode}}</span>
 
-                    <td><b>New Tel.No.</b></td>
-                    <td>{{liverecord?.newTelNo}}</td>
 
-                    <td><b>Addr.ID</b></td>
-                    <td>{{liverecord?.addrId}}</td>
-                </tr>
-                <tr>
-                    <td><b>XRef</b></td>
-                    <td>{{liverecord?.xRef}}</td>
+                </div>
 
-                    <td><b>Addr.ID.srce</b></td>
-                    <td>{{liverecord?.addrIdSrce}}</td>
+                <div class="fluid-item liverecord-sec-3">
 
-                    <td><b>Line Type</b></td>
-                    <td>{{liverecord?.lineType}}</td>
-                </tr>
-            </table>
+                    <span><b>Source</b>
+                        {{liverecord?.source}}</span>
+
+
+                    <span><b>Cust.Forename</b>
+                        {{liverecord?.custForename}}</span>
+
+                    <span><b>Franchise</b>
+                        {{liverecord?.franchise}}</span>
+
+                    <span><b>Cust.Name</b>
+                        {{liverecord?.custName}}</span>
+
+                    <span><b>Source Type</b>
+                        {{liverecord?.sourceType}}</span>
+
+                    <span><b>Busn.Suffix</b>
+                        {{liverecord?.busnSuffix}}</span>
+
+                    <span><b>Premises</b>
+                        {{liverecord?.premises}}</span>
+
+
+                </div>
+
+                <div class="fluid-item liverecord-sec-4">
+
+                    <span><b>Retailer ID</b>
+                        {{liverecord?.retailerId}}</span>
+
+                    <span><b>New Tel.No.</b>
+                        {{liverecord?.newTelNo}}</span>
+
+                    <span><b>Addr.ID</b>
+                        {{liverecord?.addrId}}</span>
+
+                    <span><b>XRef</b>
+                        {{liverecord?.xRef}}</span>
+
+                    <span><b>Addr.ID.srce</b>
+                        {{liverecord?.addrIdSrce}}</span>
+
+                    <span><b>Line Type</b>
+                        {{liverecord?.lineType}}</span>
+
+                </div>
+
+            </div>
         </div>
 
     </mat-expansion-panel>
 
 </mat-accordion>
 
-<ng-template #elseBlock>No Current Live Record </ng-template>
+<ng-template #elseBlock>
+    <div class="liveRecord-error">
+        <span>No Current Live Record</span>
+    </div>
+</ng-template>
+
 
 <mat-accordion *ngIf="unsolicitedDetails != null;" [togglePosition]="'before'">
 
-    <mat-expansion-panel [hideToggle]="'true'" (opened)="panelOpenState2 = true" (closed)="panelOpenState2 = false">
+    <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true"
+        (closed)="panelOpenState2 = false">
         <mat-expansion-panel-header>
 
             <mat-panel-title>
+
                 <mat-icon>{{panelOpenState2 ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
                 &nbsp;&nbsp;
                 <!-- <button type="button" class="btn btn-default" aria-label="Left Align">
@@ -140,7 +152,7 @@
         </mat-expansion-panel-header>
 
         <div class="unsolicitedDetails-sec">
-            <app-table [tableitem]="unsolicitedDetails"></app-table>
+            <app-table class="appTable" [tableitem]="unsolicitedDetails"></app-table>
         </div>
 
     </mat-expansion-panel>
@@ -157,250 +169,223 @@
 
             <th mat-header-cell *matHeaderCellDef>{{col}}</th>
             <td mat-cell *matCellDef="let element">
-                <mat-icon style="cursor: pointer;"
+                <!-- <mat-icon style="cursor: pointer;"
                     (click)="(expandedElement = expandedElement === element ? null : element);">{{expandedElement ===
-                    element ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
-                <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
-                    >
-                    <span>
-                        <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
-                        {{expandedElement === element ? 'Hide' : 'Show'}}
-                    </span>
-                </button> -->
+                    element ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon> -->
+
+                <mat-icon style="cursor: pointer;"
+                    (click)="(expandedElement = expandedElement === element ? null : element); (expandedElement === element ? setAddressDetails('transactionDetails', element) : null); setStep(2) ">
+                    {{expandedElement === element && step === 2 ? 'remove_circle_outline' : 'add_circle_outline'}}
+                </mat-icon>
             </td>
         </ng-container>
     </ng-container>
 
-    <!-- <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef>Action</th>
-    <td mat-cell *matCellDef="let element">
-      <button type="button" class="btn btn-default" aria-label="Left Align"
-        (click)="(expandedElement = expandedElement === element ? null : element);"
-      >
-        <span></span>
-      </button>
-    </td>
-  </ng-container> -->
-
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-    <ng-container matColumnDef="expandedDetail">
+    <ng-container matColumnDef="expandedDetail" *ngIf="step   === 2">
         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="example-element-detail"
+                [@detailExpand]="(element == expandedElement && step   === 2 ? 'expanded' : 'collapsed')">
                 <div class="example-element-diagram">
-                    <!-- <table class="inner-table" mat-table [dataSource]="element.options">
-                         Seq Column 
-                        <ng-container matColumnDef="optionName">
-                            <th mat-header-cell *matHeaderCellDef> Option Name</th>
-                            <td mat-cell *matCellDef="let element"> {{element.optionName}} </td>
-                        </ng-container>
 
-                        <ng-container matColumnDef="optionDescription">
-                            <th mat-header-cell *matHeaderCellDef> Option Description</th>
-                            <td mat-cell *matCellDef="let element"> {{element.optionDescription}} </td>
-                        </ng-container>
-
-                        <tr mat-header-row *matHeaderRowDef="expandDisplayedColumns"></tr>
-                        <tr mat-row *matRowDef="let element; columns: expandDisplayedColumns;"></tr>
-                    </table> -->
                     <div class="maindiv">
                         <div class="details-sec">
-                            <table>
-                                <tr>
-                                    <td><b> Tran ID</b></td>
-                                    <td>{{element.details.tranId}}</td>
-                                    <td><b>Thoroughfare</b></td>
-                                    <td>{{element.details.thoroughfare}}</td>
-                                    <td><b>Tran.Ref</b></td>
-                                    <td>{{element.details.tranRef}}</td>
-                                    <td><b>Internal Addr3</b></td>
-                                    <td>{{element.details.internalAddr3}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Tran.Cmd</b></td>
-                                    <td>{{element.details.tranCmd}}</td>
-                                    <td><b>Locality</b></td>
-                                    <td>{{element.details.locality}}</td>
-                                    <td><b>Status</b></td>
-                                    <td>{{element.details.status}}</td>
-                                    <td><b>Internal Addr4</b></td>
-                                    <td>{{element.details.internalAddr4}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>BT Cmd</b></td>
-                                    <td>{{element.details.btCmd}}</td>
-                                    <td><b>Postcode</b></td>
-                                    <td>{{element.details.postcode}}</td>
-                                    <td><b>BT Source</b></td>
-                                    <td>{{element.details.btSource}}</td>
-                                    <td><b>Force validate</b></td>
-                                    <td>{{element.details.forceValidate}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Parent Cupid</b></td>
-                                    <td>{{element.details.parentCupId}}</td>
-                                    <td><b>Retailer ID</b></td>
-                                    <td>{{element.details.retailerId}}</td>
-                                    <td><b>Source</b></td>
-                                    <td>{{element.details.source}}</td>
-                                    <td><b>New Tel. No.</b></td>
-                                    <td>{{element.details.newTelNo}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Child CUPID</b></td>
-                                    <td>{{element.details.childCupId}}</td>
-                                    <td><b>Addr.ID</b></td>
-                                    <td>{{element.details.addrId}}</td>
-                                    <td><b>Franchise</b></td>
-                                    <td>{{element.details.franchise}}</td>
-                                    <td><b>XRef</b></td>
-                                    <td>{{element.details.xRef}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Change CUPID</b></td>
-                                    <td>{{element.details.changeCupId}}</td>
-                                    <td><b>Addr.ID.srce</b></td>
-                                    <td>{{element.details.addrIdSrce}}</td>
-                                    <td><b>Order.Ref</b></td>
-                                    <td>{{element.details.orderRef}}</td>
-                                    <td><b>Line Type</b></td>
-                                    <td>{{element.details.lineType}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Cust Title</b></td>
-                                    <td>{{element.details.custTitle}}</td>
-                                    <td><b>SAR Ref.Num.</b></td>
-                                    <td>{{element.details.sarRefNum}}</td>
-                                    <td><b>Created</b></td>
-                                    <td>{{element.details.created}}</td>
-                                    <td><b>Provide</b></td>
-                                    <td>{{element.details.provide}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Cust.Forename</b></td>
-                                    <td>{{element.details.custForename}}</td>
-                                    <td><b>SAR Trn.Num</b></td>
-                                    <td>{{element.details.sarTrnNum}}</td>
-                                    <td><b>Created By</b></td>
-                                    <td>{{element.details.createdBy}}</td>
-                                    <td><b>Effective</b></td>
-                                    <td>{{element.details.effective}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Cust.Name</b></td>
-                                    <td>{{element.details.custName}}</td>
-                                    <td><b>Reference</b></td>
-                                    <td>{{element.details.reference}}</td>
-                                    <td><b>Source Type</b></td>
-                                    <td>{{element.details.sourceType}}</td>
-                                    <td><b>End Status</b></td>
-                                    <td>{{element.details.endStatus}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Busn.Suffix</b></td>
-                                    <td>{{element.details.busnSuffix}}</td>
-                                    <td><b>Conn.Type</b></td>
-                                    <td>{{element.details.connType}}</td>
-                                    <td><b>Internal Addr1</b></td>
-                                    <td>{{element.details.internalAddr1}}</td>
-                                    <td><b>Callback</b></td>
-                                    <td>{{element.details.callback}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Premises</b></td>
-                                    <td>{{element.details.premises}}</td>
-                                    <td><b>Access Method</b></td>
-                                    <td>{{element.details.accessMethod}}</td>
-                                    <td><b>Internal Addr2</b></td>
-                                    <td>{{element.details.internalAddr2}}</td>
-                                    <td><b>Type of Line</b></td>
-                                    <td>{{element.details.typeOfLine}}</td>
 
-                                </tr>
+                            <div class="container-fluid">
+                                <div class="fluid-item details-sec-1">
+                                    <span><b> Tran ID</b>
+                                        {{element.details.tranId}}</span>
+                                    <span><b>Thoroughfare</b>
+                                        {{element.details.thoroughfare}}</span>
+                                    <span><b>Tran.Ref</b>
+                                        {{element.details.tranRef}}</span>
 
-                                <tr>
-                                    <td><b>Prev.Tran.ID</b></td>
-                                    <td>{{element.details.prevTranId}}</td>
-                                    <td><b>Next Tran.ID</b></td>
-                                    <td>{{element.details.nextTranId}}</td>
-                                </tr>
+                                    <span><b>Tran.Cmd</b>
+                                        {{element.details.tranCmd}}</span>
+                                    <span><b>Locality</b>
+                                        {{element.details.locality}}</span>
+                                    <span><b>Status</b>
+                                        {{element.details.status}}</span>
+                                    <span><b>Busn.Suffix</b>
+                                        {{element.details.busnSuffix}}</span>
+                                    <span><b>Conn.Type</b>
+                                        {{element.details.connType}}</span>
 
-                            </table>
+                                    <span><b>BT Cmd</b>
+                                        {{element.details.btCmd}}</span>
+                                    <span><b>Postcode</b>
+                                        {{element.details.postcode}}</span>
+                                    <span><b>BT Source</b>
+                                        {{element.details.btSource}}</span>
+                                    <span><b>Force validate</b>
+                                        {{element.details.forceValidate}}</span>
 
-                            <!--coloumn2-->
-                        </div>
+                                </div>
+
+                                <div class="fluid-item details-sec-2">
+
+                                    <span><b>Parent Cupid</b>
+                                        {{element.details.parentCupId}}</span>
+                                    <span><b>Child CUPID</b>
+                                        {{element.details.childCupId}}</span>
+                                    <span><b>Change CUPID</b>
+                                        {{element.details.changeCupId}}</span>
+                                    <span><b>Retailer ID</b>
+                                        {{element.details.retailerId}}</span>
+
+                                    <span><b>Source</b>
+                                        {{element.details.source}}</span>
+                                    <span><b>New Tel. No.</b>
+                                        {{element.details.newTelNo}}</span>
+                                    <span><b>Addr.ID</b>
+                                        {{element.details.addrId}}</span>
+                                    <span><b>Franchise</b>
+                                        {{element.details.franchise}}</span>
+
+                                    <span><b>XRef</b>
+                                        {{element.details.xRef}}</span>
+                                    <span><b>Addr.ID.srce</b>
+                                        {{element.details.addrIdSrce}}</span>
+                                    <span><b>Order.Ref</b>
+                                        {{element.details.orderRef}}</span>
+                                    <span><b>Line Type</b>
+                                        {{element.details.lineType}}</span>
+
+                                </div>
+
+                                <div class="fluid-item details-sec-3">
+
+                                    <span><b>Cust Title</b>
+                                        {{element.details.custTitle}}</span>
+                                    <span><b>SAR Ref.Num.</b>
+                                        {{element.details.sarRefNum}}</span>
+                                    <span><b>Created</b>
+                                        {{element.details.created}}</span>
+                                    <span><b>Provide</b>
+                                        {{element.details.provide}}</span>
+
+
+                                    <span><b>Cust.Forename</b>
+                                        {{element.details.custForename}}</span>
+                                    <span><b>SAR Trn.Num</b>
+                                        {{element.details.sarTrnNum}}</span>
+                                    <span><b>Created By</b>
+                                        {{element.details.createdBy}}</span>
+                                    <span><b>Effective</b>
+                                        {{element.details.effective}}</span>
+
+
+                                    <span><b>Cust.Name</b>
+                                        {{element.details.custName}}</span>
+                                    <span><b>Reference</b>
+                                        {{element.details.reference}}</span>
+                                    <span><b>Source Type</b>
+                                        {{element.details.sourceType}}</span>
+                                    <span><b>End Status</b>
+                                        {{element.details.endStatus}}</span>
+
+                                </div>
+
+                                <div class="fluid-item details-sec-4">
+
+                                    <span><b>Premises</b>
+                                        {{element.details.premises}}</span>
+                                    <span><b>Access Method</b>
+                                        {{element.details.accessMethod}}</span>
+                                    <span><b>Callback</b>
+                                        {{element.details.callback}}</span>
+                                    <span><b>Internal Addr1</b>
+                                        {{element.details.internalAddr1}}</span>
+                                    <span><b>Internal Addr2</b>
+                                        {{element.details.internalAddr2}}</span>
+                                    <span><b>Internal Addr3</b>
+                                        {{element.details.internalAddr3}}</span>
+                                    <span><b>Internal Addr4</b>
+
+                                        {{element.details.internalAddr4}}</span>
+                                    <span><b>Type of Line</b>
+                                        {{element.details.typeOfLine}}</span>
+                                    <span><b>Prev.Tran.ID</b>
+                                        {{element.details.prevTranId}}</span>
+                                    <span><b>Next Tran.ID</b>
+                                        {{element.details.nextTranId}}</span>
+                                    <span><b>Comment</b>
+                                        {{element.details.comment}}</span>
+
+                                </div>
+
+                            </div> <!-- container-fluid -->
+
+                        </div> <!-- details-sec -->
+
                         <mat-divider></mat-divider>
 
                         <div class="notification-sec">
                             <div class="page-header">
-                                Notification Data
+                                <span>Notification Data</span>
                             </div>
 
-                            <div>
-                                <table>
-                                    <tr>
-                                        <td><b>Start Tel. No.</b></td>
-                                        <td>{{element.notificationData.startTelNo}}</td>
-                                        <td><b>End Tel. No.</b></td>
-                                        <td>{{element.notificationData.endTelNo}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Source</b></td>
-                                        <td>{{element.notificationData.source}}</td>
-                                        <td><b>Order.Ref.</b></td>
-                                        <td>{{element.notificationData.orderRef}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Notification Status</b></td>
-                                        <td>{{element.notificationData.notificationStatus}}</td>
-                                        <td><b>Created</b></td>
-                                        <td>{{element.notificationData.created}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Notification Error</b></td>
-                                        <td>{{element.notificationData.notificationError}}</td>
-                                        <td><b>BT Status</b></td>
-                                        <td>{{element.notificationData.btStatus}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Extracted Date</b></td>
-                                        <td>{{element.notificationData.extractedDate}}</td>
-                                        <td><b>BT Error <Code></Code></b></td>
-                                        <td>{{element.notificationData.btErrorCode}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Updated Date</b></td>
-                                        <td>{{element.notificationData.updatedDate}}</td>
-                                        <td><b>BT Error Message</b></td>
-                                        <td>{{element.notificationData.btErrorMessage}}</td>
-                                    </tr>
+                            <div class="container-fluid">
+                                <div class="fluid-item notification-sec-1">
+                                    <span><b>Start Tel. No.</b>
+                                        {{element.notificationData.startTelNo}}</span>
+                                    <span><b>End Tel. No.</b>
+                                        {{element.notificationData.endTelNo}}</span>
 
-                                </table>
-                            </div>
-                            <!-- <app-table [tableitem]="toTableItem(element.notificationData)" ></app-table> -->
-                        </div>
+
+                                    <span><b>Source</b>
+                                        {{element.notificationData.source}}</span>
+                                    <span><b>Order.Ref.</b>
+                                        {{element.notificationData.orderRef}}</span>
+
+
+                                    <span><b>Notification Status</b>
+                                        {{element.notificationData.notificationStatus}}</span>
+                                    <span><b>Created</b>
+                                        {{element.notificationData.created}}</span>
+
+                                </div>
+
+                                <div class="fluid-item notification-sec-2">
+
+                                    <span><b>Notification Error</b>
+                                        {{element.notificationData.notificationError}}</span>
+                                    <span><b>BT Status</b>
+                                        {{element.notificationData.btStatus}}</span>
+
+
+                                    <span><b>Extracted Date</b>
+                                        {{element.notificationData.extractedDate}}</span>
+                                    <span><b>BT Error <Code></Code></b>
+                                        {{element.notificationData.btErrorCode}}</span>
+
+
+                                    <span><b>Updated Date</b>
+                                        {{element.notificationData.updatedDate}}</span>
+                                    <span><b>BT Error Message</b>
+                                        {{element.notificationData.btErrorMessage}}</span>
+
+                                </div>
+
+                            </div> <!-- container-fluid -->
+                        </div> <!-- notification-sec-->
                         <mat-divider></mat-divider>
-                        <div class="comment-sec">
-                            <div class="page-header">
-                                Comment : {{element.commentText}}
-                            </div>
-                            <div *ngIf="element.comment===[]">No Records Found.</div>
-                            <app-table [tableitem]="element.comment"></app-table>
-                        </div>
                         <mat-divider></mat-divider>
-                        <div class="errDescription-sec">
-                            <div *ngIf="element.errorDescription ===[]">No Records Found.</div>
-                            <app-table [tableitem]="element.errorDescription"></app-table>
-                        </div>
-                        <mat-divider></mat-divider>
+
+
                         <div class="response-sec">
-                            <div *ngIf="element.commentResponse ===[]">No Records Found.</div>
-                            <app-table [tableitem]="element.commentResponse"></app-table>
+                            <h4>Response Data</h4>
+                            <div *ngIf="!element.commentResponse">No Records Found.</div>
+                            <app-table class="appTable" [tableitem]="element.commentResponse"></app-table>
                         </div>
                         <mat-divider></mat-divider>
                         <div class="resolution-sec">
-                            <app-table [tableitem]="element.resolution"></app-table>
+                            <h4>Resolution Data</h4>
+                            <div *ngIf="!element.resolution">No Records Found.</div>
+                            <app-table class="appTable" [tableitem]="element.resolution"></app-table>
                         </div>
-                    </div>
+
+                    </div> <!-- maindiv -->
                 </div>
             </div>
         </td>
@@ -413,185 +398,208 @@
 </table>
 
 <!-- Audit Trail Panel -->
-<mat-accordion [togglePosition]="'before'">
+<div class="audit-sec">
+    <mat-accordion [togglePosition]="'before'">
 
-    <mat-expansion-panel [hideToggle]="'true'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 3" (opened)="setStep(3); panelOpenState = true"
+            (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
 
-            <mat-panel-title>
-                <mat-icon>{{panelOpenState ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
-                &nbsp;&nbsp;
-                <!-- <button type="button" class="btn btn-default" aria-label="Left Align">
-                    <span>
-                        <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
-                        {{panelOpenState ? 'Hide' : 'Show'}}
-                    </span>
-                </button> -->
-                Audit Trail Details for : 01512104200
-            </mat-panel-title>
-            <!-- <mat-panel-description>
+                <mat-panel-title>
+                    <mat-icon>{{panelOpenState ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
+                    &nbsp;&nbsp;
+
+                    Audit Trail Details for : {{auditDetails!.internalAudit != null ?
+                    auditDetails!.internalAudit[0].telephoneNo :
+                    auditDetails!.externalAudit != null ? auditDetails!.externalAudit[0].telephoneNo :
+                    auditDetails!.fullAudit != null ? auditDetails!.fullAudit[0].telephoneNo : null}}
+
+                </mat-panel-title>
+                <!-- <mat-panel-description>
           some description!!
         </mat-panel-description> -->
-        </mat-expansion-panel-header>
+            </mat-expansion-panel-header>
 
-        <div class="page-header">
-            Internal Audit Trail
-        </div>
-        <ng-container *ngIf="auditDetails?.internalAudit">
-            <table mat-table [dataSource]="auditDetails!.internalAudit" multiTemplateDataRows class="mat-elevation-z8">
-                <ng-container *ngFor="let col of auditTrailInternalDisplay ; let colIndex = index"
-                    matColumnDef="{{col}}">
-                    <ng-container *ngIf="col != 'userComments'">
-                        <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                        <td mat-cell *matCellDef="let element">{{element[col]}}</td>
-                    </ng-container>
-                    <ng-container *ngIf="col === 'userComments'">
+            <div class="page-header">
+                <ng-container [ngTemplateOutlet]="noRecordsMessage"
+                    [ngTemplateOutletContext]="{ $implicit : auditDetails?.internalAudit != null ? 'Internal Audit ' : 'No Records for Internal Audit'}">
+                </ng-container>
+            </div>
 
-                        <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            <mat-icon style="cursor: pointer;"
-                                (click)="(expandedElement = expandedElement === element ? null : element);">
-                                {{expandedElement === element ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
-                            <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
+            <ng-template #noRecordsMessage let-data>
+                {{data}}
+            </ng-template>
+
+            <div class="internalAudit-sec" *ngIf="auditDetails!.internalAudit != null">
+                <ng-container *ngIf="auditDetails?.internalAudit != null">
+                    <table mat-table [dataSource]="auditDetails!.internalAudit" multiTemplateDataRows
+                        class="mat-elevation-z8">
+                        <ng-container *ngFor="let col of auditTrailInternalDisplay ; let colIndex = index"
+                            matColumnDef="{{col}}">
+                            <ng-container *ngIf="col != 'userComments'">
+                                <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                                <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+                            </ng-container>
+                            <ng-container *ngIf="col === 'userComments'">
+
+                                <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-icon style="cursor: pointer;"
+                                        (click)="(expandedElement = expandedElement === element ? null : element);">
+                                        {{expandedElement === element ? 'remove_circle_outline' : 'add_circle_outline'}}
+                                    </mat-icon>
+                                </td>
+                            </ng-container>
+                        </ng-container>
+
+
+
+                        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="auditTrailInternalDisplay.length">
+                                <div class="example-element-detail"
+                                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                                    <div *ngIf="!element.userComments">No Records Found.</div>
+                                    <app-table class="appTable" [tableitem]="element.userComments"></app-table>
+
+
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="auditTrailInternalDisplay"></tr>
+                        <tr mat-row *matRowDef="let element; columns: auditTrailInternalDisplay;"
+                            class="example-element-row" [class.example-expanded-row]="expandedElement === element"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    </table>
+                </ng-container>
+            </div>
+
+            <mat-divider></mat-divider>
+            <div class="page-header">
+                <ng-container [ngTemplateOutlet]="noRecordsMessage"
+                    [ngTemplateOutletContext]="{ $implicit : auditDetails?.externalAudit != null ? 'External Audit' : 'No Records for External Audit'}">
+                </ng-container>
+            </div>
+
+            <div class="externalAudit-sec" *ngIf="auditDetails!.externalAudit != null">
+                <ng-container>
+                    <table mat-table [dataSource]="auditDetails!.externalAudit" multiTemplateDataRows
+                        class="mat-elevation-z8">
+                        <ng-container *ngFor="let col of auditTrailInternalDisplay ; let colIndex = index"
+                            matColumnDef="{{col}}">
+                            <ng-container *ngIf="col != 'userComments'">
+                                <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                                <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+                            </ng-container>
+                            <ng-container *ngIf="col === 'userComments'">
+
+                                <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-icon style="cursor: pointer;"
+                                        (click)="(expandedElement = expandedElement === element ? null : element);">
+                                        {{expandedElement === element ? 'remove_circle_outline' : 'add_circle_outline'}}
+                                    </mat-icon>
+                                    <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
                     (click)="(expandedElement = expandedElement === element ? null : element);">
                     <span>
                         <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
                         {{expandedElement === element ? 'Hide' : 'Show'}}
                     </span>
                 </button> -->
-                        </td>
-                    </ng-container>
+                                </td>
+                            </ng-container>
+                        </ng-container>
+
+
+
+                        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
+                        <ng-container matColumnDef="expandedDetail">
+
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="auditTrailInternalDisplay.length">
+                                <div class="example-element-detail"
+                                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                                    <div *ngIf="!element.userComments">No Records Found.</div>
+                                    <app-table class="appTable" [tableitem]="element.userComments"></app-table>
+
+
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="auditTrailInternalDisplay"></tr>
+                        <tr mat-row *matRowDef="let element; columns: auditTrailInternalDisplay;"
+                            class="example-element-row" [class.example-expanded-row]="expandedElement === element"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    </table>
                 </ng-container>
+            </div>
 
-
-
-                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
-                <ng-container matColumnDef="expandedDetail">
-                    <td mat-cell *matCellDef="let element" [attr.colspan]="auditTrailInternalDisplay.length">
-                        <div class="example-element-detail"
-                            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-
-                            <app-table [tableitem]="element.userComments"></app-table>
-
-
-                        </div>
-                    </td>
+            <mat-divider></mat-divider>
+            <div class="page-header">
+                <ng-container [ngTemplateOutlet]="noRecordsMessage"
+                    [ngTemplateOutletContext]="{ $implicit : auditDetails?.fullAudit != null ? 'Full Audit' : 'No Records for Full Audit'}">
                 </ng-container>
+            </div>
 
-                <tr mat-header-row *matHeaderRowDef="auditTrailInternalDisplay"></tr>
-                <tr mat-row *matRowDef="let element; columns: auditTrailInternalDisplay;" class="example-element-row"
-                    [class.example-expanded-row]="expandedElement === element"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-            </table>
-        </ng-container>
-        <mat-divider></mat-divider>
-        <div class="page-header">
-            External Audit Panel
-        </div>
-        <ng-container *ngIf="auditDetails?.externalAudit">
-            <table mat-table [dataSource]="auditDetails!.externalAudit" multiTemplateDataRows class="mat-elevation-z8">
-                <ng-container *ngFor="let col of auditTrailInternalDisplay ; let colIndex = index"
-                    matColumnDef="{{col}}">
-                    <ng-container *ngIf="col != 'userComments'">
-                        <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                        <td mat-cell *matCellDef="let element">{{element[col]}}</td>
-                    </ng-container>
-                    <ng-container *ngIf="col === 'userComments'">
+            <div class="fullAudit-sec" *ngIf="auditDetails!.fullAudit != null">
+                <ng-container>
+                    <table mat-table [dataSource]="auditDetails!.fullAudit" multiTemplateDataRows
+                        class="mat-elevation-z8">
+                        <ng-container *ngFor="let col of fullAuditTrailDisplay ; let colIndex = index"
+                            matColumnDef="{{col}}">
+                            <ng-container *ngIf="col != 'userComments'">
+                                <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                                <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+                            </ng-container>
+                            <ng-container *ngIf="col === 'userComments'">
 
-                        <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            <mat-icon style="cursor: pointer;"
+                                <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-icon style="cursor: pointer;"
+                                        (click)="(expandedElement = expandedElement === element ? null : element);">
+                                        {{expandedElement === element ? 'remove_circle_outline' : 'add_circle_outline'}}
+                                    </mat-icon>
+
+                                    <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
                                 (click)="(expandedElement = expandedElement === element ? null : element);">
-                                {{expandedElement === element ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
-                            <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
-                    (click)="(expandedElement = expandedElement === element ? null : element);">
-                    <span>
-                        <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
-                        {{expandedElement === element ? 'Hide' : 'Show'}}
-                    </span>
-                </button> -->
-                        </td>
-                    </ng-container>
-                </ng-container>
-
-
-
-                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
-                <ng-container matColumnDef="expandedDetail">
-
-                    <td mat-cell *matCellDef="let element" [attr.colspan]="auditTrailInternalDisplay.length">
-                        <div class="example-element-detail"
-                            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-
-                            <div *ngIf="!element.userComments">No Records Found.</div>
-                            <app-table [tableitem]="element.userComments"></app-table>
-
-
-                        </div>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="auditTrailInternalDisplay"></tr>
-                <tr mat-row *matRowDef="let element; columns: auditTrailInternalDisplay;" class="example-element-row"
-                    [class.example-expanded-row]="expandedElement === element"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-            </table>
-        </ng-container>
-        <mat-divider></mat-divider>
-        <div class="page-header">
-            Full Audit
-        </div>
-        <ng-container *ngIf="auditDetails?.fullAudit">
-            <table mat-table [dataSource]="auditDetails!.fullAudit" multiTemplateDataRows class="mat-elevation-z8">
-                <ng-container *ngFor="let col of fullAuditTrailDisplay ; let colIndex = index" matColumnDef="{{col}}">
-                    <ng-container *ngIf="col != 'userComments'">
-                        <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                        <td mat-cell *matCellDef="let element">{{element[col]}}</td>
-                    </ng-container>
-                    <ng-container *ngIf="col === 'userComments'">
-
-                        <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            <button type="button" class="btn btn-default" aria-label="Left Align"
-                                (click)="(expandedElement = expandedElement === element ? null : element);">
-                                <span>
+                                <span> -->
                                     <!-- <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon> -->
-                                    {{expandedElement === element ? 'Hide' : 'Show'}}
+                                    <!-- {{expandedElement === element ? 'Hide' : 'Show'}}
                                 </span>
-                            </button>
-                        </td>
-                    </ng-container>
+                            </button> -->
+                                </td>
+                            </ng-container>
+                        </ng-container>
+
+
+
+                        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="fullAuditTrailDisplay.length">
+                                <div class="example-element-detail"
+                                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                                    <div *ngIf="!element.userComments">No Records Found.</div>
+                                    <app-table class="appTable" [tableitem]="element.userComments"></app-table>
+
+
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="fullAuditTrailDisplay"></tr>
+                        <tr mat-row *matRowDef="let element; columns: fullAuditTrailDisplay;"
+                            class="example-element-row" [class.example-expanded-row]="expandedElement === element"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    </table>
                 </ng-container>
+            </div>
 
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
 
-
-                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
-                <ng-container matColumnDef="expandedDetail">
-                    <td mat-cell *matCellDef="let element" [attr.colspan]="fullAuditTrailDisplay.length">
-                        <div class="example-element-detail"
-                            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-
-                            <app-table [tableitem]="element.userComments"></app-table>
-
-
-                        </div>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="fullAuditTrailDisplay"></tr>
-                <tr mat-row *matRowDef="let element; columns: fullAuditTrailDisplay;" class="example-element-row"
-                    [class.example-expanded-row]="expandedElement === element"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-            </table>
-        </ng-container>
-        <mat-divider></mat-divider>
-    </mat-expansion-panel>
-
-</mat-accordion>
-
-
-
-
-<!-- Copyright 2020 Google LLC. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license -->
+    </mat-accordion>
+</div> <!-- audit-sec-->

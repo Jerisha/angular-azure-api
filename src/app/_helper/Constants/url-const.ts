@@ -3,6 +3,9 @@ export const resolvingoferrors = {
     unsolicitederrors:''
 }
 
-export const dropdown = {
-    config: '/ws/VS_OSN2SampleAPI_St3/1.0/OperatorServiceNetwork/ConfigObject'//'restv2/OperatorServiceNetwork/ConfigObject'
+export const webMethods ={
+    config : '/ConfigObject',
+    get : '/GetObject',
+    query : '/QueryObject',
+    update : '/UpdateObject'
 }
