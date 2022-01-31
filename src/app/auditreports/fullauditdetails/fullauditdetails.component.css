@@ -13,6 +13,14 @@ button{
     margin-top:15px;
     margin-bottom:10px;
 }
+
+:host{
+  padding: 0em;
+}
+
+:host::ng-deep app-table-selection .table-container {  
+  height: 450px !important;
+}
 /* 
 .slidderbtn{
   
