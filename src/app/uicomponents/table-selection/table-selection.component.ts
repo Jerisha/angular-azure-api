@@ -22,6 +22,7 @@ export class TableSelectionComponent {
   selection = new SelectionModel<any>(true, []);
   @Input() tableitem?: TableItem;
   @Input() sidePan: any;
+  @Input() isShown: boolean = true ;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   dataSource!: MatTableDataSource<any>;

@@ -9,6 +9,7 @@ import { DialogComponent } from './providereport/dialog/dialog.component';
 import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 import { TelephoneRangeReportComponent } from './telephone-range-report/telephone-range-report.component';
 import { SharedModule } from '../_shared/shared.module';
+import { LiverecordsComponent } from './liverecords/liverecords.component';
 
 
 
@@ -17,7 +18,8 @@ import { SharedModule } from '../_shared/shared.module';
     TransactiondetailsComponent,
     ProvidereportComponent,
     DialogComponent,
-    TelephoneRangeReportComponent
+    TelephoneRangeReportComponent,
+    LiverecordsComponent
   ],
   imports: [
     CommonModule,

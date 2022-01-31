@@ -92,7 +92,7 @@ font-size: smaller;  ">
 </mat-paginator>
 
 <!-- <div class="test-wrapper"> -->
-<div style="margin-bottom:10px">
+<div style="margin-bottom:10px" *ngIf="isShown">
   <button type="reset" mat-raised-button color="primary" matTooltip="Export">
     <mat-icon>import_export</mat-icon>Export
   </button>&nbsp;&nbsp;
@@ -105,6 +105,12 @@ font-size: smaller;  ">
       <mat-icon>email</mat-icon> Export to email
     </button>
   </span>
+</div>
+<div style="margin: auto;"  *ngIf="!isShown">
+  <button type="reset" mat-raised-button color="primary" matTooltip="Reset">
+    <mat-icon>import_export</mat-icon>Refresh
+  </button>&nbsp;&nbsp;
+  
 </div>
 
 <mat-divider></mat-divider>
