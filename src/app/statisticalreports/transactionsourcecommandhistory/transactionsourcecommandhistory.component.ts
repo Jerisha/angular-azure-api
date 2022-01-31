@@ -86,6 +86,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     { header: 'Total Cmds', headerValue: 'TotalCmds', showDefault: true, imageColumn: false }
 
   ];
+  
   ngOnInit(): void {
 
     this.myTable = {
