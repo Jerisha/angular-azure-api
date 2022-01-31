@@ -19,7 +19,7 @@ button{
 }
 
 :host::ng-deep app-table-selection .table-container {  
-  height: 450px !important;
+  height: 350px !important;
 }
 /* 
 .slidderbtn{
