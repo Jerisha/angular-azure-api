@@ -74,10 +74,11 @@ export class TableGroupHeaderComponent implements OnInit {
   isTotDisplayed: boolean = false;
 
   getTotal(cellname: string, element: any) {
+    debugger;
     var cell = cellname ? cellname : '';
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
-      return this.GrpTableitem?.data.reduce((a: number, b: any) => a + b[cell], 0);
+      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
     }
     else {
       //debugger; 
@@ -116,6 +117,7 @@ export class TableGroupHeaderComponent implements OnInit {
   createFilter() {
 
     this.dataSource.filterPredicate = (data, filter: string): boolean => {
+      debugger;
       let searchString = JSON.parse(filter);
       let isSourceSystemAvailable = false;
       let isCLIStatusAvailbale = false;
@@ -139,8 +141,11 @@ export class TableGroupHeaderComponent implements OnInit {
         isCLIStatusAvailbale = true;
       }
       const result = isSourceSystemAvailable && isCLIStatusAvailbale;
+      //debugger;
+      //this.dataSource.filter = JSON.stringify(this.filterValues);
       return result;
     }
-    this.dataSource.filter = JSON.stringify(this.filterValues);
+    //debugger;
+    
   }
 }
