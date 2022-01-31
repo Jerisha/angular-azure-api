@@ -42,7 +42,7 @@ const ELEMENT_DATA = [
 
 const FilterListItems: Select[] = [
   { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-  { view: 'TelNo End', viewValue: 'TelNoEnd', default: false }
+  { view: 'TelNo End', viewValue: 'TelNoEnd', default: true }
 ];
 
 @Component({
