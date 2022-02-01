@@ -277,13 +277,13 @@ const ELEMENT_DATA1: FullAuditProgressReport[] = [
 
 const ELEMENT_DATA2: FullAuditMonthReport[] = [
   {
-    AllMonths: "234", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
     AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
     AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
     ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
   },
   {
-    AllMonths: "234", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
     AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
     AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
     ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
@@ -293,12 +293,12 @@ const ELEMENT_DATA2: FullAuditMonthReport[] = [
 
 const ELEMENT_DATA3: FullAuditAddresReport[] = [
   {
-    ACTID: "str", CLIStatus: "open", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "fg", SelectedMonthCLICountsENDStatusY: 1
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
   },
   {
-    ACTID: "str", CLIStatus: "open", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "fg", SelectedMonthCLICountsENDStatusY: 1
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
   },
 
 
@@ -316,8 +316,7 @@ export class FullAuditTypeComponent implements OnInit {
   monthReportTable!: GroupHeaderTableItem;
   addressReportTable!: GroupHeaderTableItem;
   @Input() FullAuditTableDetails!: GroupHeaderTableDetails[];
-  @ViewChild('sidePan') public sidenav: MatSidenav | undefined;
-  sidePan!: MatSidenav;
+  @Input() sidePan!: MatSidenav;
   selectedTab!: number;
   tabs: Tab[] = [];
   tabsName: string[] = [];  
@@ -325,7 +324,7 @@ export class FullAuditTypeComponent implements OnInit {
   constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef,
     private service:AuditDiscpancyReportService) {
     this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];    
-    this.service.passValue(this.sidePan);
+    
   }
 
   ngOnInit(): void {
@@ -352,6 +351,7 @@ export class FullAuditTypeComponent implements OnInit {
     forkJoin([data]).subscribe(results => {
       this.loadGridDetails(results[0]);
     });
+    
   }
 
   getJsonData(): Observable<FullAuditSummary[]> {
@@ -400,6 +400,7 @@ export class FullAuditTypeComponent implements OnInit {
             DisplayedColumns: displayedColumns,
             DetailedColumns: detailedColumnsArray,
             GroupHeaderColumnsArray: grpHdrColumnsArray,
+            FilterValues: [ELEMENT_DATA1.map(x => x.FullAuditCLIStatus), ELEMENT_DATA1.map(x => x.SourceSystem)],
             isRowLvlTot:true,
             FilterColumn: true
           }
@@ -416,7 +417,7 @@ export class FullAuditTypeComponent implements OnInit {
             GroupHeaders: gridDesignDetails[0].GroupHeaders,
             DisplayedColumns: displayedColumns,
             DetailedColumns: displayedColumns,
-            GroupHeaderColumnsArray: grpHdrColumnsArray
+            GroupHeaderColumnsArray: grpHdrColumnsArray           
           }
           this.tabs[2].data = this.monthReportTable
           break;
@@ -434,6 +435,7 @@ export class FullAuditTypeComponent implements OnInit {
             DetailedColumns: detailedColumnsArray,
             GroupHeaderColumnsArray: grpHdrColumnsArray,
             FilterColumn: true,
+            isRowLvlTot:true,
             FilterValues: [ELEMENT_DATA3.map(x => x.CLIStatus), ELEMENT_DATA3.map(x => x.SourceSystem)]
           }
           this.tabs[3].data = this.addressReportTable;

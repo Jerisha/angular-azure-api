@@ -200,7 +200,8 @@ SearchTel(){
   addRangeTel()
   {
     // alert('add telephone range!');
-    this.CliRangeSet.push([this.model.tel,this.model.rangeEnd])
+    console.log(this.model.telno,'-',this.model.rangeEnd);
+    this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);
     this.model ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
     
 

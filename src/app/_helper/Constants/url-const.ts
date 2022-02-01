@@ -3,9 +3,3 @@ export const resolvingoferrors = {
     unsolicitederrors:''
 }
 
-export const webMethods ={
-    config : '/ConfigObject',
-    get : '/GetObject',
-    query : '/QueryObject',
-    update : '/UpdateObject'
-}
