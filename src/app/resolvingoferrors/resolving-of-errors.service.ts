@@ -12,7 +12,7 @@ export class ResolvingOfErrorsService {
   test?: any;
 
 
-  constructor(private wrapperService: HttpWrapperService, private http: HttpClient) { }
+  constructor(private wrapperService: HttpWrapperService) { }
   apiTest(data: any) {
     return this.wrapperService.processRequst(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
       console.log("response : " + JSON.stringify(x));
@@ -25,7 +25,7 @@ export class ResolvingOfErrorsService {
 
 
   configDetails(data: any): ConfigDetails | undefined {
-    this.wrapperService.processRequst(HttpVerbs.POST, WebMethods.CONFIG, data).subscribe(x => {
+    this.wrapperService.processRequst(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
       console.log("response : " + JSON.stringify(x));
       //this.processQuery(x, webMethods.query);
     });

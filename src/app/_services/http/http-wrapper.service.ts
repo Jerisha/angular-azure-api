@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ResponseType } from 'src/app/_enums/response-type.enum';
 import { HttpVerbs } from 'src/app/_enums/http-verbs.enum';
 import { WebMethods } from 'src/app/_enums/web-methods.enum';
-import { webMethods } from 'src/app/_helper/Constants/url-const';
+
 
 @Injectable({ providedIn: 'root' })
 export class HttpWrapperService {
@@ -63,18 +63,79 @@ export class HttpWrapperService {
 
     private resolveRespone(val: any, requestType: WebMethods): any {
         debugger;
-
         let categories = [];
+        let jsonResult = '';
         switch (requestType) {
             case WebMethods.CONFIG:
-                categories = val.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory
+                categories = val.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory;
+                jsonResult = this.processConfigObject(categories);
                 break;
             case WebMethods.QUERY:
-                categories = val.QueryObjectResponseType.ListofQueryObjectCategory.QueryObjectCategory
+                categories = val.QueryObjectResponseType.ListofQueryObjectCategory.QueryObjectCategory;
+                jsonResult = this.processQueryObject(categories);
                 break;
+            case WebMethods.GET:
+
+                break;
+            case WebMethods.UPDATE:
+
+                break;
+            case WebMethods.QUERY:
+
+                break;
+
         }
-        //----
-        var jsonCreation = `[`;
+        console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
+        return JSON.parse(jsonResult);
+    }
+
+    private processConfigObject(categories: any) {
+        var jsonCreation = `[`
+        if (categories != undefined && categories.length > 0) {
+            //Iterate categories object
+            categories?.forEach((category: any) => {
+                //Check ItemName is not Update
+                if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update"
+                    && category?.hasOwnProperty("ListofConfigObjectCharacteristics")) {
+                    jsonCreation += `{`
+                    //Iterate characteristics object
+                    let configCharacteristics = category.ListofConfigObjectCharacteristics.ConfigObjectCharacteristics;
+
+                    configCharacteristics?.forEach((characteristic: any) => {
+                        //Bind configCharacteristics
+                        if (characteristic.hasOwnProperty("ListofCharacteristics")) {
+                            characteristic.ListofCharacteristics.Characteristic?.forEach((char: any) => {
+
+                                if (char.hasOwnProperty("ListofIdentifiers")) {
+                                    char.ListofIdentifiers.Identifier?.forEach((element: any) => {
+                                        if (element.hasOwnProperty("Name"))
+                                            jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`;
+                                    });
+                                }
+                                //Bind Attributes
+                                if (char.hasOwnProperty("ListofAttributes")) {
+                                    let attr = char.ListofAttributes.Attribute;
+                                    for (let i = 0; i < attr.length; i++) {
+                                        if (attr[i].hasOwnProperty("Name"))
+                                            jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`;
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                    jsonCreation += `},`;
+                }
+            });
+            jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+            jsonCreation += `]`;
+
+        }
+        return jsonCreation;
+    }
+
+    private processQueryObject(categories: any) {
+        var jsonCreation = `[`
         if (categories != undefined && categories.length > 0) {
             //Iterate categories object
             categories?.forEach((category: any) => {
@@ -83,7 +144,8 @@ export class HttpWrapperService {
                     && category?.hasOwnProperty("ListofQueryObjectCharacteristics")) {
                     jsonCreation += `{`
                     //Iterate characteristics object
-                    jsonCreation = this.resolveCharacteristic(category, jsonCreation, requestType);
+                    let characteristics = category.ListofQueryObjectCharacteristics.QueryObjectCharacteristics
+                    jsonCreation = this.resolveCharacteristic(characteristics, jsonCreation);
                     jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
                     jsonCreation += `},`;
                 } else if (category?.hasOwnProperty("ItemName") && category["ItemName"] === "Update"
@@ -98,23 +160,14 @@ export class HttpWrapperService {
             });
             jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
             jsonCreation += `]`;
+
         }
-        console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonCreation)));
-        return JSON.parse(jsonCreation);
+        return jsonCreation;
     }
 
 
-    private resolveCharacteristic(category: any, jsonCreation: string, requestType: WebMethods) {
-        let setCategory = [];
-        switch (requestType) {
-            case WebMethods.CONFIG:
-                setCategory = category.ListofConfigObjectCharacteristics.ConfigObjectCharacteristics;
-                break;
-            case WebMethods.QUERY:
-                setCategory = category.ListofQueryObjectCharacteristics.QueryObjectCharacteristics;
-                break;
-        }
-        setCategory?.forEach((Characteristic: any) => {
+    private resolveCharacteristic(characteristics: any, jsonCreation: string) {
+        characteristics?.forEach((Characteristic: any) => {
             //Bind Identifiers
             if (Characteristic.hasOwnProperty("ListofIdentifiers")) {
                 Characteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
