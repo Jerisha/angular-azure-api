@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { GroupHeaderTableItem, MergeTableItem } from 'src/app/_models/merge-table-item-model';
 
@@ -14,6 +14,7 @@ export class TableGroupHeaderComponent implements OnInit {
   @Input() GrpTableitem!: GroupHeaderTableItem;
   @Input() sidePan: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
 
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = [];
@@ -23,12 +24,12 @@ export class TableGroupHeaderComponent implements OnInit {
   groupHeaders: MergeTableItem[] = [];
   totalCols: string[] = [];
   grpHdrColumnsArray!: Array<string[]>;
-  // filterValues:Array<string[]>;
+  filterSelectedItems!: Array<string[]>;
   filterColumn: boolean = false;
   isRowTot: boolean = false;
-
-  sourceSystemList: string[] = ['df', 'kl', 'fg'];
-  cliStatusList: string[] = ['jk', 'pp', 'df'];
+  totShowed: boolean = false;
+  sourceSystemList: string[] = [];
+  cliStatusList: string[] = [];
 
   filterValues = {
     SourceSystem: [],
@@ -42,7 +43,7 @@ export class TableGroupHeaderComponent implements OnInit {
 
   constructor(private service: AuditDiscpancyReportService) {
   }
-
+ 
   ngOnInit(): void {
     this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
     this.dataSource = new MatTableDataSource<any>(this.GrpTableitem?.data);
@@ -53,10 +54,13 @@ export class TableGroupHeaderComponent implements OnInit {
     this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
     this.isRowTot = this.GrpTableitem?.isRowLvlTot ? true : false;
 
-    var nonTotCols = ['ACTID', 'SourceSystem','CLIStatus','FullAuditCLIStatus'];
+    var nonTotCols = ['ACTID', 'SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
     this.totalCols = this.displayedColumns.filter(x => !nonTotCols.includes(x));
 
     if (this.filterColumn) {
+      this.filterSelectedItems = this.GrpTableitem?.FilterValues ? this.GrpTableitem?.FilterValues : [];
+      this.cliStatusList = [...new Set(this.filterSelectedItems[0])];
+      this.sourceSystemList = [...new Set(this.filterSelectedItems[1])]
       this.formControlsSubscribe();
       this.createFilter();
     }
@@ -65,36 +69,32 @@ export class TableGroupHeaderComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-isTotDisplayed:boolean=false;
 
-  getTotal(cellname: string, element:any) {
-    console.log('elemnt',element)
+  isTotDisplayed: boolean = false;
+
+  getTotal(cellname: string, element: any) {
+    debugger;
     var cell = cellname ? cellname : '';
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
-      return this.GrpTableitem?.data.reduce((a: number, b: any) => a + b[cell], 0);
+      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
     }
-    else {   
+    else {
       //debugger; 
-      if(!this.isTotDisplayed  && cellname=="ACTID"){
-      this.totShowed=true;
-      return 'Total'; 
-    }
+      if (!this.isTotDisplayed && cellname == "ACTID") {
+        this.totShowed = true;
+        return 'Total';
+      }
     }
   }
 
-  totShowed:boolean=false;
+  getColSpan(cellname: string) {
 
-  getColSpan(cellname:string){
-
-    if(cellname=="ACTID"){
-      this.totShowed= true;
+    if (cellname == "ACTID") {
+      this.totShowed = true;
       return "2"
     }
-    
-    return ""
-    // }
-
+    return "";   
   }
 
   formControlsSubscribe() {
@@ -109,7 +109,9 @@ isTotDisplayed:boolean=false;
   }
 
   createFilter() {
+
     this.dataSource.filterPredicate = (data, filter: string): boolean => {
+      debugger;
       let searchString = JSON.parse(filter);
       let isSourceSystemAvailable = false;
       let isCLIStatusAvailbale = false;
@@ -133,10 +135,11 @@ isTotDisplayed:boolean=false;
         isCLIStatusAvailbale = true;
       }
       const result = isSourceSystemAvailable && isCLIStatusAvailbale;
+      //debugger;
+      //this.dataSource.filter = JSON.stringify(this.filterValues);
       return result;
     }
+    //debugger;
     
-    this.dataSource.filter = JSON.stringify(this.filterValues);
-    //console.log('filtering',this.dataSource)
   }
 }

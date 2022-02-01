@@ -240,7 +240,7 @@
                 <span [ngSwitch]="tab.tabType">
                     <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
                         <div >
-                        <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable"
+                        <app-table-selection  [tableitem]="myTable"
                             (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
                         </app-table-selection>
                         </div>                        
