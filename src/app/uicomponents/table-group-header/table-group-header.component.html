@@ -23,7 +23,7 @@
           {{disCol.Headers}}</th>
         <td mat-cell class="truncate-cell" *matCellDef="let element"> {{element[disCol.DataHeaders]}} </td>
         <ng-container *ngIf="isRowTot">
-          <td class="totalRow" mat-footer-cell *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders,'')}}
+          <td class="totalRow"  [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders,'')}}
           </td>
         </ng-container>
       </ng-container>
@@ -40,7 +40,7 @@
     <tr mat-header-row *matHeaderRowDef="detailedColumnsArray; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <ng-container *ngIf="isRowTot">
-      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      <tr mat-footer-row *matFooterRowDef="totalCols"></tr>
     </ng-container>
   </table>
   <mat-paginator [pageSizeOptions]="[10,50,100]" showFirstLastButtons>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { observable, Observable, Observer } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
 import { ResponseType } from 'src/app/_enums/response-type.enum';
@@ -54,6 +54,5 @@ export class HttpWrapperService {
             case ResponseType.BLOB:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' })
         }
-
     }
 }
