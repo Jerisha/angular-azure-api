@@ -39,8 +39,10 @@
            <mat-form-field [ngClass]="{'hidden':myForm.controls.CreationDate.disabled}"  hintLabel="Max 10 characters"
       appearance="outline">
       <mat-label>Creation Date</mat-label>
-      <input id="CreationDate" formControlName="CreationDate" matInput #input maxlength="10"
-          placeholder="Tel.No End">
+      <input id="CreationDate" [matDatepicker]="picker" formControlName="CreationDate" matInput #input maxlength="10"
+          placeholder="Creation Date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
       <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
           </mat-form-field>
   
@@ -50,7 +52,7 @@
       appearance="outline">
       <mat-label>Business Suffix</mat-label>
       <input id="BusinessSuffix" formControlName="BusinessSuffix" matInput #input maxlength="10"
-          placeholder="Tel.No End">
+          placeholder="Business Suffix">
       <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
   </mat-form-field>
              

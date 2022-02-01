@@ -16,7 +16,7 @@ th.mat-sort-header-sorted {
   
   /* width: auto;
   height: fit-content; */
-  /* font-size:small; */
+  font-size:small;
 }
 
 table td, table th {
@@ -45,10 +45,12 @@ table td, table th {
 }
 
 .table-container {
-  height: 350px;
+  /* height: 350px; */
   overflow: auto;
   /* max-width: 100%; */  
   /* font-size:large; */
+  min-height:50px;
+  max-height: 350px;
 }
 
   /* .mat-row:nth-child(odd){
