@@ -28,38 +28,24 @@
                        
                       <!-- <div  *ngIf="visibleSearchOption2.checked == true" style ="margin-bottom: 2rem;" #MultiRangeList >  -->
                         <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
-                        <mat-list style ="overflow-x:hidden; overflow-y:auto;">
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
+                        <mat-list style ="height:10vh;overflow-x:hidden; overflow-y:auto;" >
+                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white">                              
                             <p matLine >
-                              <span class = vf-list-header  style="border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;">Start  Tel. No.</span>
-                              <span class = vf-list-header style="border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;">End   Tel.No.</span>
-                              <span class = vf-list-header style="border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;">Remove</span>                                                            
+                              <span style="padding:2rem;width: 3rem;">Start  Tel. No.</span>
+                              <span style="padding:2rem;width: 3rem;">End   Tel.No.</span>
+                              <span style="padding:2rem;width: 3rem;">Remove</span>                                                            
                             </p>                                                      
-                          </mat-list-item>
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding:1em;border-top: 3px solid rgb(60, 190, 180);">                              
+                          </mat-list-item>  
+                          <mat-list-item  *ngFor="let cli of CliRangeSet" style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
                             <p matLine >
-                              <span class = vf-list-value style="border: 3px solid rgb(60, 190, 180); padding:2rem;">01234567890</span>
-                              <span class = vf-list-value style="border: 3px solid rgb(60, 190, 180); padding:2rem;">01234567895</span>
-                              <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
-                              </button>
+                              <span style="padding:2rem;width: 3rem;">{{cli[0]}}</span>
+                              <span style="padding:2rem;width: 3rem;">{{cli[1]}}</span>
+                              <span style="padding:2rem;width: 3rem;">
+                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
+                                </button>
+                              </span>                                                            
                             </p>                                                      
-                          </mat-list-item>
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
-                            <p matLine >
-                              <span class = vf-list-value >01234567898</span>
-                              <span class = vf-list-value >01234567899</span>
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
-                              </button>
-                            </p>                                                      
-                          </mat-list-item>
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;">                              
-                            <p matLine >
-                              <span class = vf-list-value >01234567990</span>
-                              <span class = vf-list-value >01234567995</span>
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
-                              </button>
-                            </p>                                                      
-                          </mat-list-item>                         
+                          </mat-list-item>                                             
                         </mat-list>                        
                       </div>
                     </div>
@@ -89,15 +75,15 @@
                             <!-- <div *ngIf="multiRangeChecked == !true" style ="padding-bottom: 10px;"> -->
                               <div *ngIf="CliRangeSet.length>1" style ="padding-bottom: 10px;">
                               <span style ="float:left;">
-                              <mat-label style="font-size:large;padding-right:1rem;"><strong>Multiple CLI(s) </strong>{{CliRangeSet.length}}</mat-label>                                                          
+                              <mat-label style="font-size:large;padding-right:1rem;"><strong>Multiple CLI(s) </strong>{{CliRangeSet.length-1}}</mat-label>                                                          
                               
                             </span>
                             <span style ="float: right;">
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 24px;height:24px;font-size: small;line-height: 3px !important; padding: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Multi Range Telephone List" matTooltipPosition="above" (click)="ReviewCli()">
-                                <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> -->i
-                              </button>
+                              <!-- <button type="button" mat-mini-fab  style="margin-left: 6px; width: 24px;height:24px;font-size: small;line-height: 3px !important; padding: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Multi Range Telephone List" matTooltipPosition="above" (click)="ReviewCli()"> -->
+                                <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> i-->
+                              <!-- </button> -->
                               <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip= mutliRangeTelephoneList matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon> -->
-                              <button type="sumit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; width:fit-content;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="resetTel(this)">
+                              <button type="submit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="resetTel(this)">
                                 <i class="material-icons" style ="font-size:larger;width:30px; vertical-align: middle;">edit</i>Review
                               </button>  
                             </span>                         
@@ -302,8 +288,8 @@
                                     size="20" maxlength="20"                  
                                     ></textarea>                                  
                                   </mat-form-field> 
-                                  <button type="button" mat-mini-fab  style="margin-left: 6px; width: 30px;height:30px;font-size: small;line-height: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
-                                    <mat-icon style ="font-size:small;width:24px;height: 24px;">content_copy</mat-icon>
+                                  <button type="button" mat-mini-fab  style="margin-left: 6px; height:36px;width:36px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
+                                    <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle;">content_copy</mat-icon>
                                   </button>
                                   <!-- <div style ="display: flex;justify-content: center;width: 24px;"> -->
                                     <!-- <button mat-icon-button type="button"  style = "background-color: red;width: fit-content;"aria-label="update Default Office Address Details"  matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->

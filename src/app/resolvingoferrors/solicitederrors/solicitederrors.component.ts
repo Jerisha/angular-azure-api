@@ -8,6 +8,7 @@ import { SolicitedErrors } from 'src/app/_models/resolvingoferrors/solicited-err
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { ResolvingOfErrorsService } from '../resolving-of-errors.service';
 import { MatSelect } from '@angular/material/select';
+import { query } from '@angular/animations';
 
 const ELEMENT_DATA: SolicitedErrors[] = [
   {
@@ -348,7 +349,7 @@ export class SolicitederrorsComponent implements OnInit {
   setOptions() {  
     //debugger;     
     //this.service.apiTest(queryInput);    
-    // this.service.configDetails(configInput);
+    this.service.configDetails(queryInput);
   }
 
   private _filter(name: string): any[] {
