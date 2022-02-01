@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { TelephoneDetails } from 'src/app/_models/telephone-details';
@@ -49,6 +49,7 @@ export class TelephoneDetailsComponent implements OnInit {
   selectedRowsCount: number = 0;
   selectListItems: string[] = [];
   selectedTab!: number;
+  @Output() addNewTab = new EventEmitter<any>();
   public tabs = [{
     tabType: 0,
     name: 'Telephone No.Details'
@@ -115,36 +116,10 @@ export class TelephoneDetailsComponent implements OnInit {
   }
 
   newTab(tab: any) {
-    switch (tab.tabType) {
-      case 1: {
-        //console.log('New Tab: '+ JSON.stringify(tab.row) )
-        //tab.row contains row data- fetch data from api and bind to respetive component
-        if (!this.tabs.find(x => x.tabType == 1)) {
-          this.tabs.push({
-            tabType: 1,
-            name: 'Audit Trail Report'
-          });
-          this.selectedTab = 1;
-        }
-        break;
-      }
-      // case 2: {
-      //   if (!this.tabs.find(x => x.tabType == 2)) {
-      //     this.tabs.push({
-      //       tabType: 2,
-      //       name: 'Transaction Errors'
-      //     })
-      //     this.selectedTab = 2;
-      //   }
-      //   break;
-      // }
-      default: {
-        //statements; 
-        break;
-      }
-    }
+    this.addNewTab.emit({ tab });}
+    
   }
-}
+
 
 
 

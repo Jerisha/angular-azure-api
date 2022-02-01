@@ -1,17 +1,32 @@
 export interface Transactionsourcecommandhistory {
 
-  Link: string;
-         StatisticMonth: string;
-         Source: string;
-         Adds: string;
-         Ceases: string;
-         Modifies: string;
-         Exports: string;
-         Imports: string;
-         TotalCmds: string;
-  
-  
-     }
+  Link: Link[] | null;
+  StatisticMonthDate: string;
+  Source: string;
+  Adds: string;
+  Ceases: string;
+  Modifies: string;
+  Exports: string;
+  Imports: string;
+  TotalCmds: string;
+}
+
+
+export interface Link {
+  View:string;
+  StatisticDate: string;
+  Source: string;
+  Adds: string;
+  Ceases: string;
+  Modifies: string;
+  Exports: string;
+  Imports: string;
+  TotalCmds: string;
+
+
+
+}
+
 
 // export interface Transactionsourcecommandhistory {
 //     statics?: Statics[];

@@ -63,11 +63,7 @@ export const selectlist = {
     };
         export const selectsrc = {
             defaultsrc: [
-                { view: '~=...begins with', viewValue: '~=', default: true },
-                { view: '!~...not begin with', viewValue: '!~', default: true },
-                { view: '=%...contains', viewValue: '=%', default: true },
-                { view: '!%...not contains', viewValue: '!%', default: true },
-               
+                { view: '=...Equal to', viewValue: '=', default: true },
             ]
 };
 

@@ -5,7 +5,7 @@
 export interface Transaction {
 
     Link: Link[] | null;
-    StatisticMonth: string;
+    StatisticMonthDate: string;
     Source: string;
     Adds: string;
     Ceases: string;

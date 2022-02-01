@@ -1,35 +1,4 @@
-<mat-sidenav-container class="side-container">
-  <mat-sidenav-content class="side-content">
-
-    <mat-tab-group [selectedIndex]="selectedTab">
-      <mat-tab *ngFor="let tab of tabs; let index = index">
-        <ng-template mat-tab-label>
-          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
-          <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
-            <mat-icon style="font-size: large;">close</mat-icon>
-          </button>
-        </ng-template>
-
-        <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-            <section class="example-section">
-              <mat-slide-toggle class="example-margin">
-                Switch to D-2-D Summary View
-              </mat-slide-toggle>
-            </section>
-            <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
-            </app-table-selection>
-
-          </div>
-          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-            <app-telephone-audit-trail></app-telephone-audit-trail>
-          </div>
-          <div *ngSwitchDefault></div>
-
-
-        </span>
-      </mat-tab>
-    </mat-tab-group>
-
-
-  </mat-sidenav-content>
+  <span ><b> Data displayed for choosen date: </b></span>
+  <br>
+  <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
+  </app-table-selection>
