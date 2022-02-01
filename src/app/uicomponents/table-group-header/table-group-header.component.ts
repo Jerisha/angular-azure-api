@@ -24,10 +24,10 @@ export class TableGroupHeaderComponent implements OnInit {
   groupHeaders: MergeTableItem[] = [];
   totalCols: string[] = [];
   grpHdrColumnsArray!: Array<string[]>;
-  // filterValues:Array<string[]>;
+  filterSelectedItems!: Array<string[]>;
   filterColumn: boolean = false;
   isRowTot: boolean = false;
-
+  totShowed: boolean = false;
   sourceSystemList: string[] = [];
   cliStatusList: string[] = [];
 
@@ -43,8 +43,7 @@ export class TableGroupHeaderComponent implements OnInit {
 
   constructor(private service: AuditDiscpancyReportService) {
   }
-
-  filterSelectedItems!: Array<string[]>;
+ 
   ngOnInit(): void {
     this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
     this.dataSource = new MatTableDataSource<any>(this.GrpTableitem?.data);
@@ -89,18 +88,13 @@ export class TableGroupHeaderComponent implements OnInit {
     }
   }
 
-  totShowed: boolean = false;
-
   getColSpan(cellname: string) {
 
     if (cellname == "ACTID") {
       this.totShowed = true;
       return "2"
     }
-
-    return ""
-    // }
-
+    return "";   
   }
 
   formControlsSubscribe() {

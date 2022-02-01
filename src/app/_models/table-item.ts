@@ -14,6 +14,8 @@ export interface TableItem {
     showBlankCoulmns?:boolean;
     highlightedCells?:string[];
     backhighlightedCells?:string[];
+    totalRowCols?:string[];
+    shouldTotalRow?:boolean;
     
     
 }

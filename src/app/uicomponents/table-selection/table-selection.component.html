@@ -73,11 +73,18 @@ font-size: smaller;  ">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>{{disCol.header}}</th>
           <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)">
             {{element[disCol.headerValue]}} </td>
+            <ng-container *ngIf="shouldTotalRow">
+              <td class="totalRow" mat-footer-cell *matFooterCellDef="let element"> {{ getTotal(disCol.headerValue)}}
+              </td>
+            </ng-container>
         </div>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: dataColumns;" (change)="selectRow($event,row)"
         (click)="selection.toggle(row)"> </tr>
+        <ng-container *ngIf="shouldTotalRow">
+          <tr mat-footer-row *matFooterRowDef="dataColumns"></tr>
+        </ng-container>
     </table>
   </div>
 </div>
