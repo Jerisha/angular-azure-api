@@ -220,12 +220,9 @@ export class TableSelectionComponent {
 
     var emptySet = new Set(this.emptyColumns);
     this.emptyColumns = [...emptySet];
-
     var nonEmptySet = new Set(this.nonemptyColumns);
     this.nonemptyColumns = [...nonEmptySet];
-
     this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
-
   }
 
   checkIsNullOrEmptyProperties(obj: any) {

@@ -9,8 +9,7 @@ font-size: smaller;  ">
   <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
   </button> -->
 
-<mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 0px;margin-bottom: 0px;">
-
+<mat-form-field *ngIf="filter" class="colfilter" style="margin-left: 8px;">
   <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
     <mat-select-trigger>
       <mat-icon>filter_list</mat-icon>
@@ -39,6 +38,7 @@ font-size: smaller;  ">
 <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span>
 
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
+
 <div>
   <div class="table-container">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -87,7 +87,7 @@ font-size: smaller;  ">
         </ng-container>
     </table>
   </div>
-</div>
+
 
 <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[100, 500, 1000]" showFirstLastButtons>
 </mat-paginator>
@@ -103,5 +103,6 @@ font-size: smaller;  ">
       <mat-icon>email</mat-icon> Export to email
     </button>
   </span>
+</div>
 </div>
 <mat-divider></mat-divider>

@@ -110,13 +110,14 @@ table td, table th {
 }
 
 .totalRow{
-  background-color: #e60000;;;
+  background-color: #e60000;
   color:white;
   font-size: small;
   min-height: 38px;
   /* text-align: center; */
   padding: 0 !important;
 }
+
 
 
 

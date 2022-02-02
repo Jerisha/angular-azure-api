@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { observable, Observable, Observer } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
 import { ResponseType } from 'src/app/_enums/response-type.enum';
@@ -31,7 +31,7 @@ export class HttpWrapperService {
                 responseType,
                 headers,
                 params).subscribe((response: Type) => {
-                    // observer.next(this.resolveRespone(response, endPoint));
+                    // observer.next(this.resolveRespone(response, endPoint))
                     this.resolveRespone(response, endPoint);
                 })
         });
@@ -40,28 +40,18 @@ export class HttpWrapperService {
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
-
-        // let options = {
-        //     body: body, headers: headers,
-        //     params: params,
-        //     responseType: responseType
-        // };
-
-        //params = new HttpParams().set('ConfigObjectRequest', body);
-
         debugger;
         switch (responseType) {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
-                break;
             case ResponseType.BLOB:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' })
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' });
         }
-
     }
 
 
     private resolveRespone(val: any, requestType: WebMethods): any {
+        
         debugger;
         let categories = [];
         let jsonResult = '';
