@@ -19,7 +19,6 @@ export const select = {
         { view: '(.)...In List', viewValue: '(.)', default: true },
         { view: '(!)...Not in List', viewValue: '(!)', default: true },
     ]
-
 };
 
 

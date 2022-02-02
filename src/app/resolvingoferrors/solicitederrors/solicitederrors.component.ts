@@ -3,9 +3,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Select } from 'src/app/_models/select';
+import { Select } from 'src/app/_models/uicomponents/select';
 import { SolicitedErrors } from 'src/app/_models/resolvingoferrors/solicited-errors';
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { ResolvingOfErrorsService } from '../resolving-of-errors.service';
 import { MatSelect } from '@angular/material/select';
 
@@ -278,17 +278,17 @@ export class SolicitederrorsComponent implements OnInit {
   thisForm!: FormGroup;
 
   columns: ColumnDetails[] = [
-    { header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },
-    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, imageColumn: false },
-    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, imageColumn: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, imageColumn: false },
-    { header: 'Created', headerValue: 'Created', showDefault: true, imageColumn: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, imageColumn: false },
-    { header: 'Res Type', headerValue: 'ResType', showDefault: true, imageColumn: false },
-    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, imageColumn: false },
-    { header: '999 Reference', headerValue: 'Reference', showDefault: true, imageColumn: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserCmt', showDefault: true, imageColumn: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, imageColumn: false }
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, isImage: false },
+    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Created', headerValue: 'Created', showDefault: true, isImage: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
+    { header: 'Res Type', headerValue: 'ResType', showDefault: true, isImage: false },
+    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserCmt', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, isImage: false }
   ];
   ngOnInit(): void {
     this.createForm();
@@ -299,8 +299,8 @@ export class SolicitederrorsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',toolTipText:'Audit Trail Report', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '',toolTipText:'Transaction Error', tabIndex: 2 }]
       // dataColumns: ['TranId', 'View', 'TelNo', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'ResType', 'ErrorList'],
       // coulmnHeaders: ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res-Type', 'Error/List'],
 
@@ -332,8 +332,7 @@ export class SolicitederrorsComponent implements OnInit {
       Command: new FormControl({ value: '', disabled: true }, [Validators.required]),
       Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
       //Date: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      ErrorCodes: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      
+      ErrorCodes: new FormControl({ value: '', disabled: true }, [Validators.required]),      
       ErrorType: new FormControl({ value: '', disabled: true }, [Validators.required]),
       Reference: new FormControl({ value: '', disabled: true }, [Validators.required])
 
