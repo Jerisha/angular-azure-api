@@ -1,114 +1,98 @@
 <mat-sidenav-container class="side-container">
-    <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-      <form >
-        <div class="">
-            <button mat-raised-button color="primary">Filter Data By</button>
-            <br>
-            <app-select-exp [listItems]="expDefaultmonth"></app-select-exp> 
-                        <mat-form-field appearance="outline">
-                            <mat-label>Statistic Month</mat-label>
-                            <input matInput [matDatepicker]="picker" >
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker 
-                            startView="multi-year"  ></mat-datepicker>
-                           
-                          </mat-form-field>
-                          <!-- <mat-datepicker #dp
+  <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+    <form>
+      <div class="">
+        <button mat-raised-button color="primary">Filter Data By</button>
+        <br>
+        <app-select-exp [listItems]="expDefaultmonth"></app-select-exp>
+        <mat-form-field appearance="outline">
+          <mat-label>Statistic Month</mat-label>
+          <input matInput [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="multi-year"></mat-datepicker>
+
+        </mat-form-field>
+        <!-- <mat-datepicker #dp
                   startView="multi-year"
                   (yearSelected)="chosenYearHandler($event)"
                   (monthSelected)="chosenMonthHandler($event, dp)"
                   panelClass="example-month-picker">
   </mat-datepicker> -->
-                          <br>
-                          <app-select-exp [listItems]="expDefaultsrc"></app-select-exp> 
-                          <mat-form-field appearance="outline" >
-                            <mat-label>Source.Sys</mat-label>
-                            <mat-select>
-                                <mat-option></mat-option>
-                                <mat-option>A - AUDITr</mat-option>
-                                <mat-option>C - SAS/COMS</mat-option>
-                                <mat-option>D - DVA Siebel</mat-option>
-                                <mat-option>E - VA/WAD</mat-option>
-                                <mat-option>F - Ring Central</mat-option>
-                                <mat-option>G - Content Guru</mat-option>
-                                <mat-option>>N - ONENET</mat-option>
-                                <mat-option>R - Clarify</mat-option>
-                                <mat-option>S - Amdocs SOM</mat-option>
-                                <mat-option>X - Unknown</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                      
-                    </div>
-                    <button type="submit" mat-raised-button color="primary"  matTooltip="Search" (click)="search">
-                        <mat-icon>search</mat-icon>Search
-                    </button>
-                    <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
-                      <mat-icon>refresh</mat-icon>Reset
-                    </button>
-                
-      </form>
-    </mat-sidenav>
+        <br>
+        <app-select-exp [listItems]="expDefaultsrc"></app-select-exp>
+        <mat-form-field appearance="outline">
+          <mat-label>Source.Sys</mat-label>
+          <mat-select>
+            <mat-option></mat-option>
+            <mat-option>A - AUDITr</mat-option>
+            <mat-option>C - SAS/COMS</mat-option>
+            <mat-option>D - DVA Siebel</mat-option>
+            <mat-option>E - VA/WAD</mat-option>
+            <mat-option>F - Ring Central</mat-option>
+            <mat-option>G - Content Guru</mat-option>
+            <mat-option>>N - ONENET</mat-option>
+            <mat-option>R - Clarify</mat-option>
+            <mat-option>S - Amdocs SOM</mat-option>
+            <mat-option>X - Unknown</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-sidenav-content class="side-content"> 
-   
-      <mat-tab-group [selectedIndex]="selectedTab">
-        <mat-tab *ngFor="let tab of tabs; let index = index">
-          <ng-template mat-tab-label>
-            <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
-            <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
-              <mat-icon style="font-size: large;">close</mat-icon>
-            </button>
-          </ng-template>
-           
-            <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
-          
-            <span [ngSwitch]="tab.tabType">
-            <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+      </div>
+      <button type="submit" mat-raised-button color="primary" matTooltip="Search" (click)="search">
+        <mat-icon>search</mat-icon>Search
+      </button>
+      <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
+        <mat-icon>refresh</mat-icon>Reset
+      </button>
 
-      <form class="example-form"#form="ngForm" onclick="slideevent()" >
-      <mat-slide-toggle ngModel name="Dview" >   Switch to D-2-D Summary View</mat-slide-toggle>
-      </form>
-        
-        
-        
-<!-- 
-        <div class="basic-container">
-          <form [formGroup]="form" novalidate>
-            <div>
-              <mat-slide-toggle formControlName="enable" (change)="onChange($event.checked)">
-                Enable
-              </mat-slide-toggle>
+    </form>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="side-content">
+    <!-- <div class="filter-sticky">
+      <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+        (changes)="setControlAttribute($event)">
+      </app-select-multiple>
+    </div> -->
+    <mat-tab-group [selectedIndex]="selectedTab">
+      <mat-tab *ngFor="let tab of tabs; let index = index">
+        <ng-template mat-tab-label>
+          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+          <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
+            <mat-icon style="font-size: large;">close</mat-icon>
+          </button>
+        </ng-template>
+
+        <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
+
+        <span [ngSwitch]="tab.tabType">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            <div class="basic-container">
+              <form [formGroup]="form" novalidate>
+                <div>
+                  <mat-slide-toggle formControlName="Enable" (change)="onchange($event.checked)">
+                    Switch to D-2-D Summary View</mat-slide-toggle>
+                </div>
+              </form>
             </div>
-            <div>
-              <mat-form-field class="full-width">
-                <input matInput formControlName="text" required [placeholder]="text">
-              </mat-form-field>
-            </div>
-          </form>
-        </div> -->
-  
-              <!-- <app-table-trans [sidePan]="pagesidenav" [tableitem]="myTable"  (rowChanges)="rowDetect($event)"
-                (addNewTab)="newTab($event)">
-            </app-table-trans> -->
-            
-      
-      <app-table-exp (addNewTab)="OnTelephoneDetailSelected($event)"></app-table-exp>
-            </div>
-            
-            <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-     
-             <app-telephone-details (addNewTab)="Onauditselected($event)" ></app-telephone-details>
-             
-             </div>
-             <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+
+
+            <app-table-exp (addNewTab)="OnTelephoneDetailSelected($event)"></app-table-exp>
+          </div>
+
+          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+
+            <app-telephone-details (addNewTab)="Onauditselected($event)"></app-telephone-details>
+
+          </div>
+          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
             <app-telephone-audit-trail></app-telephone-audit-trail>
 
-            </div>
-          </span>
-        </mat-tab>
-      </mat-tab-group>
+          </div>
+        </span>
+      </mat-tab>
+    </mat-tab-group>
 
-      
-        </mat-sidenav-content>  
-      </mat-sidenav-container>
-     
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

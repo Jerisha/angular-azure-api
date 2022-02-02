@@ -151,7 +151,7 @@ export class TableExpansionComponent implements OnInit {
     name: 'Summary'
   }
   ];
-  columnsToDisplay = ['Link', 'StatisticMonthDate', 'Source', 'Adds', 'Ceases', 'Modifies', 'Exports', 'Imports', 'TotalCmds'];
+  columnsToDisplay = ['select', 'Link', 'StatisticMonthDate', 'Source', 'Adds', 'Ceases', 'Modifies', 'Exports', 'Imports', 'TotalCmds'];
   
   addressDetails: AddressDetails = { postcode: '', custName: '', internalAddr1: '', internalAddr2: '', internalAddr3: '', internalAddr4: '' };
 
@@ -205,8 +205,29 @@ export class TableExpansionComponent implements OnInit {
     }
     // console.log(this.addressDetails);
   }
-  
-  
+  selectRow(event: any, row: any) {
+    this.rowChanges.emit([row[this.selectColumn]]);
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear()
+      this.selectedTelnos = [];
+
+    }
+    else {
+      this.dataSource.data.forEach(row => this.selection.select(row));
+      this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
+    }
+
+    this.rowChanges.emit(this.selectedTelnos);
+  }
+
   
   addTabs(event: any, tabType: number, row: any) {
     event.stopPropagation();

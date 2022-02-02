@@ -1,3 +1,14 @@
+.side-bottom .side-textarea{
+  /* background-color: lawngreen!important; */
+  width: 360px;
+  font-size: smaller;  
+/* position:absolute; 
+margin-top: 90px;*/
+/* margin-left: 200px; */
+margin: 5px;
+
+}
+.hidden{display: none;}
 table
 {    width:100%;
 }
@@ -121,3 +132,60 @@ h4 {
     flex: 95% 1 1;
   }
 }
+.hidden {display:none;}
+
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.4;
+}
+button{
+    margin-bottom:10px;    
+}
+
+.filterposition{
+    margin-left:10px;
+    margin-top:15px;
+    margin-bottom:10px;
+}
+
+:host{
+  padding: 0em;
+}
+
+:host::ng-deep app-table-selection .table-container {  
+  height: 350px !important;
+}
+/* 
+.slidderbtn{
+  
+  cursor: pointer;
+    border:none;
+   
+    background-color: #e60000;
+    color:  #EFEFEF;
+    
+    font-size:small;
+    margin-left: -18px;
+    height: 40px;
+  } */
+
+
+.mat-column-TelNo {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    width: 28% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .controlsStylediv{
+    margin-right:20px 
+  }

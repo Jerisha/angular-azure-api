@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
 import { Transactionsourcecommandhistory } from 'src/app/_models/transactionsourcecommandhistory';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { selectmonth, selectsrc } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatOption } from '@angular/material/core';
@@ -92,6 +92,11 @@ const ELEMENT_DATA: Transactionsourcecommandhistory[] =
     },
   ]
 
+  // const FilterListItems: Select[] = [
+  //   { view: '', viewValue: 'TelNoStart', default: true },
+  //   { view: 'TelNo End', viewValue: 'TelNoEnd', default: false }
+  // ];
+  
 @Component({
   selector: 'app-transactionsourcecommandhistory',
   templateUrl: './transactionsourcecommandhistory.component.html',
@@ -127,6 +132,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   selectListItems: string[] = [];
   expDefaultmonth = selectmonth.defaultmonth;
   expDefaultsrc = selectsrc.defaultsrc;
+  filter?: boolean = false;
   
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -137,8 +143,36 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
   form: any;
   
-  constructor( private _snackBar: MatSnackBar) { }
-  
+  // constructor( private _snackBar: MatSnackBar) { }
+
+ 
+
+  text: string | undefined;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      enable: false,
+      text: [
+        {
+          value: null,
+          disabled: true,
+        },
+      ],
+    });
+    this.updateText();
+}
+  private updateText() {
+    this.text = this.form.value.enable ? "Asterisk OK" : "Should not show the asterisk";
+  }
+  onchange(enable: boolean) {
+    const field = this.form.get('');
+    if (enable) {
+      field.enable();
+    } else {
+      field.disable();
+    }
+    this.updateText();
+  }
   ngOnInit(): void {
 
     this.myTable = {
@@ -284,6 +318,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   // }
   // }
   
+ 
   
   
   }

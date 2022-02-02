@@ -64,14 +64,14 @@ export class TelephoneDetailsComponent implements OnInit {
 
 
   columns: ColumnDetails[] = [
-    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: true, imageColumn: true },
+    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, imageColumn: true },
     { header: 'TelephoneNos', headerValue: 'TelephoneNos', showDefault: true, imageColumn: false },
     { header: 'AddCommands', headerValue: 'AddCommands', showDefault: true, imageColumn: false },
     { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: true, imageColumn: false },
     { header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: true, imageColumn: false },
     { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: true, imageColumn: false },
     { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: true, imageColumn: false },
-    { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: true, imageColumn: false },
+    { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, imageColumn: false },
   ];
 
   ngOnInit(): void {
