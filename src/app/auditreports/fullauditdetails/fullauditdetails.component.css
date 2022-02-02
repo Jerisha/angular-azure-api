@@ -21,37 +21,28 @@ button{
 :host::ng-deep app-table-selection .table-container {  
   height: 350px !important;
 }
-/* 
-.slidderbtn{
-  
-  cursor: pointer;
-    border:none;
-   
-    background-color: #e60000;
-    color:  #EFEFEF;
-    
-    font-size:small;
-    margin-left: -18px;
-    height: 40px;
-  } */
 
+.grid-container-element { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  grid-gap: 1px; 
 
-.mat-column-TelNo {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 28% !important;
-    width: 28% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  
-    word-break: break-word;
-  
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-
+  width: 100%; 
+} 
+.grid-child-element { 
+  margin: 1px; 
+}
   .controlsStylediv{
     margin-right:20px 
+  }
+
+  .side-bottom .side-textarea{
+    /* background-color: lawngreen!important; */
+    width: 360px;
+    font-size: smaller;  
+  /* position:absolute; 
+  margin-top: 90px;*/
+  /* margin-left: 200px; */
+  margin: 5px;
+ 
   }

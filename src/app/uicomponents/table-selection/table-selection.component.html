@@ -38,6 +38,7 @@ font-size: smaller;  ">
 <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span>
 
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
+
 <div>
   <div class="table-container">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -86,7 +87,7 @@ font-size: smaller;  ">
         </ng-container>
     </table>
   </div>
-</div>
+
 
 <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[100, 500, 1000]" showFirstLastButtons>
 </mat-paginator>
@@ -102,5 +103,6 @@ font-size: smaller;  ">
       <mat-icon>email</mat-icon> Export to email
     </button>
   </span>
+</div>
 </div>
 <mat-divider></mat-divider>
