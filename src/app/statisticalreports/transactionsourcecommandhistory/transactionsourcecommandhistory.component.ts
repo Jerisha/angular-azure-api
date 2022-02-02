@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
-import { Transactionsourcecommandhistory } from 'src/app/_models/transactionsourcecommandhistory';
+import { Transactionsourcecommandhistory } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { selectmonth, selectsrc } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';

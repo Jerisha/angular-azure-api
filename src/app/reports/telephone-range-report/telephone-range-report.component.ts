@@ -4,7 +4,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { TelephoneRangeReport } from 'src/app/_models/telephone-range-report-model';
+import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report-model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from 'src/app/_models/select';
 import { MatSelect } from '@angular/material/select';

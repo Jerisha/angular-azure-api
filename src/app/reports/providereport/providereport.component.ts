@@ -8,7 +8,7 @@ import { Select } from 'src/app/_models/select';
 import { Component, OnInit,ViewChild } from '@angular/core';
 
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { ProvideReport } from 'src/app/_models/provide-report';
+import { ProvideReport } from 'src/app/reports/models/provide-report';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';

@@ -4,9 +4,9 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Select } from 'src/app/_models/select';
-import { SolicitedErrors } from 'src/app/_models/resolvingoferrors/solicited-errors';
+import { SolicitedErrors } from '../models/solicited-errors';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { ResolvingOfErrorsService } from '../resolving-of-errors.service';
+import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
 import { MatSelect } from '@angular/material/select';
 
 const ELEMENT_DATA: SolicitedErrors[] = [

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { TelephoneDetails } from 'src/app/_models/telephone-details';
+import { TelephoneDetails } from '../models/telephone-details';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
   {

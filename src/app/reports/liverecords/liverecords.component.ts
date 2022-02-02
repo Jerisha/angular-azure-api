@@ -7,7 +7,7 @@ import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/_models/select';
 import { FormControl, FormGroup , Validators} from '@angular/forms';
 import { Component, OnInit,ViewChild } from '@angular/core';
-import { liverecords } from 'src/app/_models/liverecord';
+import { liverecords } from 'src/app/reports/models/liverecord';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 

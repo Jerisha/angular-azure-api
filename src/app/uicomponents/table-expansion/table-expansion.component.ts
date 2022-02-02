@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output ,ViewChild,Input} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AddressDetails } from 'src/app/_models/address-details';
+import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Transaction } from 'src/app/_models/TableExpansion';
 import { SelectionModel } from '@angular/cdk/collections';

@@ -7,7 +7,7 @@ import { select } from 'src/app/_helper/Constants/exp-const';
 import { Select } from 'src/app/_models/select';
 import { FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { UnSolicitedErrors } from 'src/app/_models/unsolicited-error';
+import { UnSolicitedErrors } from 'src/app/resolvingoferrors/models/unsolicited-error';
 import { map, startWith } from 'rxjs/operators';
 
 const Items: Select[] = [

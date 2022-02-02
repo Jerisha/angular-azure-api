@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { Transactionsourcecommandsummary } from 'src/app/_models/transactionsourcecommandsummary';
+import { Transactionsourcecommandsummary } from '../models/transactionsourcecommandsummary';
 
 import {FormControl} from '@angular/forms';
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_models/telephone-audit-trail';
+import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_shared/models/telephone-audit-trail';
 import { TableItem } from 'src/app/_models/table-item';
-import { AddressDetails } from 'src/app/_models/address-details';
+import { AddressDetails } from 'src/app/_shared/models/address-details';
 
 const ele: TelephoneAuditTrail =
 {
