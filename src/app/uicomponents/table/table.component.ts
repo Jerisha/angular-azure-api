@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ViewColumn } from 'src/app/_models/table-item';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem ,ViewColumn} from 'src/app/_models/uicomponents//table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { debounceTime } from 'rxjs/operators';

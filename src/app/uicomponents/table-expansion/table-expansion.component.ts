@@ -7,7 +7,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponents/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
@@ -167,7 +167,7 @@ export class TableExpansionComponent implements OnInit {
 
   }
   column: ColumnDetails[] =
-    [{ header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },];
+    [{ header: 'View', headerValue: 'View', showDefault: true, isImage: true },];
 
   ngOnInit() {
     

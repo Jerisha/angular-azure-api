@@ -1,10 +1,10 @@
 
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
-import { Select } from 'src/app/_models/select';
+import { Select } from 'src/app/_models/uicomponents/select';
 import { FormControl, FormGroup , Validators} from '@angular/forms';
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { liverecords } from 'src/app/_models/liverecord';
@@ -203,30 +203,30 @@ export class LiverecordsComponent implements OnInit {
   ];
 
   columns: ColumnDetails[] = [
-    { header: 'Links', headerValue: 'Links', showDefault: true, imageColumn: true },
-    { header: 'Tele phone', headerValue: 'Telephone', showDefault: true, imageColumn: false },
-    { header: 'Cust Name', headerValue: 'CustName', showDefault: true, imageColumn: false },
-    { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, imageColumn: false },
-    { header: 'Premises', headerValue: 'Premises', showDefault: true, imageColumn: false },
-    { header: 'Thoroughfare', headerValue: 'Thoroughfare', showDefault: true, imageColumn: false },
-    { header: 'Locality', headerValue: 'Locality', showDefault: true, imageColumn: false },
-    { header: 'Postcode', headerValue: 'Postcode', showDefault: true, imageColumn: false },
-    { header: 'Transaction Ref', headerValue: 'TransactionRef', showDefault: true, imageColumn: false },
-    { header: 'Cust Title', headerValue: 'CustTitle', showDefault: true, imageColumn: false },
-    { header: 'Cust Forename', headerValue: 'CustForename', showDefault: true, imageColumn: false },
-    { header: 'Franchise', headerValue: 'Franchise', showDefault: true, imageColumn: false },
-    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, imageColumn: false },
-    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, imageColumn: false },
-    { header: 'Created by', headerValue: 'Createdby', showDefault: true, imageColumn: false },
-    { header: 'Creation Date', headerValue: 'CreationDate', showDefault: true, imageColumn: false },
-    { header: 'Address Line 1', headerValue: 'AddressLine1', showDefault: true, imageColumn: false },
-    { header: 'Address Line 2', headerValue: 'AddressLine2', showDefault: true, imageColumn: false },
-    { header: 'Address Line 3', headerValue: 'AddressLine3', showDefault: true, imageColumn: false },
-    { header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, imageColumn: false },
-    { header: 'Parent CUPID', headerValue: 'ParentCUPID', showDefault: true, imageColumn: false },
-    { header: 'Child CUPID', headerValue: 'ChildCUPID', showDefault: true, imageColumn: false },
-    { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, imageColumn: false },
-    { header: 'New Tel.No', headerValue: 'NewTelNo', showDefault: true, imageColumn: false }
+    { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
+    { header: 'Tele phone', headerValue: 'Telephone', showDefault: true, isImage: false },
+    { header: 'Cust Name', headerValue: 'CustName', showDefault: true, isImage: false },
+    { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
+    { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
+    { header: 'Thoroughfare', headerValue: 'Thoroughfare', showDefault: true, isImage: false },
+    { header: 'Locality', headerValue: 'Locality', showDefault: true, isImage: false },
+    { header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
+    { header: 'Transaction Ref', headerValue: 'TransactionRef', showDefault: true, isImage: false },
+    { header: 'Cust Title', headerValue: 'CustTitle', showDefault: true, isImage: false },
+    { header: 'Cust Forename', headerValue: 'CustForename', showDefault: true, isImage: false },
+    { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
+    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
+    { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
+    { header: 'Creation Date', headerValue: 'CreationDate', showDefault: true, isImage: false },
+    { header: 'Address Line 1', headerValue: 'AddressLine1', showDefault: true, isImage: false },
+    { header: 'Address Line 2', headerValue: 'AddressLine2', showDefault: true, isImage: false },
+    { header: 'Address Line 3', headerValue: 'AddressLine3', showDefault: true, isImage: false },
+    { header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
+    { header: 'Parent CUPID', headerValue: 'ParentCUPID', showDefault: true, isImage: false },
+    { header: 'Child CUPID', headerValue: 'ChildCUPID', showDefault: true, isImage: false },
+    { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
+    { header: 'New Tel.No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
   ];
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {

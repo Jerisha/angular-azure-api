@@ -17,8 +17,6 @@ export const select = {
         { view: '(.)...In List', viewValue: '(.)', default: true },
         { view: '(!)...Not in List', viewValue: '(!)', default: true },
     ]
-<<<<<<< HEAD
-=======
 };
 export const selectcupid= {
     defaultcupid: [
@@ -67,7 +65,6 @@ export const selectlist = {
             defaultsrc: [
                 { view: '=...Equal to', viewValue: '=', default: true },
             ]
->>>>>>> 8064132bc5270abd083961131394554bf2689cd5
 };
 
 
