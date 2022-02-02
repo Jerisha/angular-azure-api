@@ -42,7 +42,7 @@ const ELEMENT_DATA = [
 
 const FilterListItems: Select[] = [
   { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-  { view: 'TelNo End', viewValue: 'TelNoEnd', default: false }
+  { view: 'TelNo End', viewValue: 'TelNoEnd', default: true }
 ];
 
 @Component({
@@ -87,7 +87,7 @@ export class TelephoneRangeReportComponent implements OnInit {
     { header: 'Source System', headerValue: 'source', showDefault: true, imageColumn: false },
     { header: 'Line Type', headerValue: 'line', showDefault: true, imageColumn: false },
     { header: 'Live Records', headerValue: 'live', showDefault: true, imageColumn: false },
-    { header: 'Trans', headerValue: 'trans', showDefault: true, imageColumn: false },
+    { header: 'Inactive Records', headerValue: 'trans', showDefault: true, imageColumn: false },
     { header: 'Not Available', headerValue: 'null', showDefault: true, imageColumn: false },
     { header: 'Customer Name', headerValue: 'name', showDefault: true, imageColumn: false },
     { header: 'Customer Address', headerValue: 'address', showDefault: true, imageColumn: false },
