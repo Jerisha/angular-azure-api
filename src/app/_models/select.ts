@@ -3,3 +3,10 @@ export interface Select{
     viewValue :string;
     default: boolean;
 }
+export interface selectts{
+    view :string;
+    viewValue :string;
+    defaultcupid: boolean;
+}
+
+

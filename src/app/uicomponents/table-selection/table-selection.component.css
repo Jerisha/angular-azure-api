@@ -16,7 +16,7 @@ th.mat-sort-header-sorted {
 
   /* width: auto;
   height: fit-content; */
-  font-size:small;
+  /* font-size:small; */
 }
 
 table td, table th {
@@ -110,13 +110,14 @@ table td, table th {
 }
 
 .totalRow{
-  background-color: #e60000;;;
+  background-color: #e60000;
   color:white;
   font-size: small;
   min-height: 38px;
   /* text-align: center; */
   padding: 0 !important;
 }
+
 
 
 

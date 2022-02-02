@@ -22,6 +22,7 @@ export class TableSelectionComponent {
   selection = new SelectionModel<any>(true, []);
   @Input() tableitem?: TableItem;
   @Input() sidePan: any;
+  @Input() isShown: boolean = true ;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   dataSource!: MatTableDataSource<any>;
@@ -220,12 +221,9 @@ export class TableSelectionComponent {
 
     var emptySet = new Set(this.emptyColumns);
     this.emptyColumns = [...emptySet];
-
     var nonEmptySet = new Set(this.nonemptyColumns);
     this.nonemptyColumns = [...nonEmptySet];
-
     this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
-
   }
 
   checkIsNullOrEmptyProperties(obj: any) {

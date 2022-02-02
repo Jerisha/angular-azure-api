@@ -27,9 +27,9 @@ export class TableGroupHeaderComponent implements OnInit {
   filterSelectedItems!: Array<string[]>;
   filterColumn: boolean = false;
   isRowTot: boolean = false;
-  totShowed: boolean = false;
   sourceSystemList: string[] = [];
   cliStatusList: string[] = [];
+  nonNumericCols: string[] = [];
 
   filterValues = {
     SourceSystem: [],
@@ -43,7 +43,7 @@ export class TableGroupHeaderComponent implements OnInit {
 
   constructor(private service: AuditDiscpancyReportService) {
   }
- 
+
   ngOnInit(): void {
     this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
     this.dataSource = new MatTableDataSource<any>(this.GrpTableitem?.data);
@@ -54,8 +54,9 @@ export class TableGroupHeaderComponent implements OnInit {
     this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
     this.isRowTot = this.GrpTableitem?.isRowLvlTot ? true : false;
 
-    var nonTotCols = ['ACTID', 'SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
-    this.totalCols = this.displayedColumns.filter(x => !nonTotCols.includes(x));
+    var nonTotRowCols = ['SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
+    this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
+    this.nonNumericCols = this.displayedColumns.filter(x => !this.totalCols.includes(x));
 
     if (this.filterColumn) {
       this.filterSelectedItems = this.GrpTableitem?.FilterValues ? this.GrpTableitem?.FilterValues : [];
@@ -70,31 +71,23 @@ export class TableGroupHeaderComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  isTotDisplayed: boolean = false;
-
   getTotal(cellname: string, element: any) {
-    debugger;
     var cell = cellname ? cellname : '';
+    if (this.ColumnDetails[0].DataHeaders == cellname) {
+      return 'Total';
+    }
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
       return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
     }
-    else {
-      //debugger; 
-      if (!this.isTotDisplayed && cellname == "ACTID") {
-        this.totShowed = true;
-        return 'Total';
-      }
-    }
+    return '';
   }
 
   getColSpan(cellname: string) {
-
-    if (cellname == "ACTID") {
-      this.totShowed = true;
-      return "2"
+    if (this.ColumnDetails[0].DataHeaders == cellname) {
+      return this.nonNumericCols.length + 1;
     }
-    return "";   
+    return 1;
   }
 
   formControlsSubscribe() {
@@ -109,7 +102,6 @@ export class TableGroupHeaderComponent implements OnInit {
   }
 
   createFilter() {
-
     this.dataSource.filterPredicate = (data, filter: string): boolean => {
       debugger;
       let searchString = JSON.parse(filter);
@@ -135,11 +127,8 @@ export class TableGroupHeaderComponent implements OnInit {
         isCLIStatusAvailbale = true;
       }
       const result = isSourceSystemAvailable && isCLIStatusAvailbale;
-      //debugger;
-      //this.dataSource.filter = JSON.stringify(this.filterValues);
       return result;
     }
-    //debugger;
-    
+    this.dataSource.filter = JSON.stringify(this.filterValues);
   }
 }

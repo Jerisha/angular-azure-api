@@ -9,6 +9,8 @@ import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 import { TelephoneRangeReportComponent } from './telephone-range-report/telephone-range-report.component';
 import { SharedModule } from '../_shared/shared.module';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
+import { LiverecordsComponent } from './liverecords/liverecords.component';
+
 
 
 @NgModule({
@@ -16,8 +18,8 @@ import { TransactionDetailsComponent } from './transaction-details/transaction-d
     ProvidereportComponent,
     DialogComponent,
     TelephoneRangeReportComponent,
-    TransactionDetailsComponent
-    
+    TransactionDetailsComponent,    
+    LiverecordsComponent
   ],
   imports: [
     CommonModule,

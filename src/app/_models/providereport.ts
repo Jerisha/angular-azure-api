@@ -1,7 +1,6 @@
 export interface ProvideReport {
-   
-  
+
+
+    Link: string;
     Telephone: string;
-    Trans:string;
-    Sourcesys:string;
 }
