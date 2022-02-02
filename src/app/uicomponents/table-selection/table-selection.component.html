@@ -9,8 +9,7 @@ font-size: smaller;  ">
   <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
   </button> -->
 
-<mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 0px;margin-bottom: 0px;">
-
+<mat-form-field *ngIf="filter" class="colfilter" style="margin-left: 8px;">
   <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
     <mat-select-trigger>
       <mat-icon>filter_list</mat-icon>
