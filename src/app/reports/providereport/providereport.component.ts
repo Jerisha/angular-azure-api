@@ -4,11 +4,10 @@ import { DialogComponent } from './dialog/dialog.component';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { MatSelect } from '@angular/material/select';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
-import { Select } from 'src/app/_models/select';
+import { Select } from 'src/app/_models/uicomponents/select';
 import { Component, OnInit,ViewChild } from '@angular/core';
-
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { ProvideReport } from 'src/app/reports/models/provide-report';
+import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -89,16 +88,31 @@ public tabs = [{
 errorCode = new FormControl();
 constructor(private _snackBar: MatSnackBar) {}
 
-  openSnackBar(message: string) {
-    this._snackBar.open(message);
-  }
+  // columns: ColumnDetails[] = [
+  //   { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
+  //   { header: 'Telephone', headerValue: 'Telephone', showDefault: true, isImage: false }
+  // ];
+
+  // ngOnInit(): void {
+  //   this.createForm();
+  //   this.listItems = Itemstwo;
+  //   this.myTable = {
+  //     data: ELEMENT_DATA,
+  //     Columns: this.columns,
+  //     filter: true,
+  //     selectCheckbox: false,
+  //     // colToSetImage: ['View'],
+  //     imgConfig: [{ headerValue: 'Link', icon: 'search', route: '' ,tabIndex:1}]
+
+  //   }  
+  // }
 
   
 columns: ColumnDetails[] = [
   
-  { header: 'Telephone', headerValue: 'Telephone', showDefault: true, imageColumn: false },
-  { header: 'Trans', headerValue: 'Trans', showDefault: true, imageColumn: false },
-  { header: 'Sourcesys.', headerValue: 'Sourcesys', showDefault: true, imageColumn: false }
+  { header: 'Telephone', headerValue: 'Telephone', showDefault: true, isImage: false },
+  { header: 'Trans', headerValue: 'Trans', showDefault: true, isImage: false },
+  { header: 'Sourcesys.', headerValue: 'Sourcesys', showDefault: true, isImage: false }
 
   
 ];

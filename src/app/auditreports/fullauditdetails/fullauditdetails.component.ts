@@ -6,8 +6,8 @@ import { Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from 'src/app/_models/index';
 import { WeatherForecast } from 'src/app/_models/samplemodel';
-import { Select } from 'src/app/_models/select';
-import { TableItem } from 'src/app/_models/table-item';
+import { Select } from 'src/app/_models/uicomponents/select';
+import { TableItem } from 'src/app/_models/uicomponents/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
 import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 

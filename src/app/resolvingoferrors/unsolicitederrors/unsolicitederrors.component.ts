@@ -4,10 +4,10 @@ import { MatSelect } from '@angular/material/select';
 import { Observable } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { select } from 'src/app/_helper/Constants/exp-const';
-import { Select } from 'src/app/_models/select';
+import { Select } from 'src/app/_models/uicomponents/select';
 import { FormControl, Validators } from '@angular/forms';
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { UnSolicitedErrors } from 'src/app/resolvingoferrors/models/unsolicited-error';
+import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { map, startWith } from 'rxjs/operators';
 
 const Items: Select[] = [
@@ -140,16 +140,16 @@ export class UnsolicitederrorsComponent implements OnInit {
     // }
   ];
   columns: ColumnDetails[] = [
-    { header: 'Tran.Id', headerValue: 'TranId', showDefault: true, imageColumn: false },
-    { header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },
-    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, imageColumn: false },
-    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, imageColumn: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, imageColumn: false },
-    { header: 'Created', headerValue: 'Created', showDefault: true, imageColumn: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, imageColumn: false },
-    { header: 'Ovd', headerValue: 'Ovd', showDefault: true, imageColumn: false },
-    { header: 'Res Type', headerValue: 'ResType', showDefault: true, imageColumn: false },
-    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, imageColumn: false },
+    { header: 'Tran.Id', headerValue: 'TranId', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, isImage: false },
+    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Created', headerValue: 'Created', showDefault: true, isImage: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
+    { header: 'Ovd', headerValue: 'Ovd', showDefault: true, isImage: false },
+    { header: 'Res Type', headerValue: 'ResType', showDefault: true, isImage: false },
+    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
   ];
 selected :string='';
 expDefault =select.default;

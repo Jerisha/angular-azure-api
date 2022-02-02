@@ -19,10 +19,7 @@ import { HttpWrapperService } from '../_services/http/http-wrapper.service';
 @NgModule({
   declarations: [
     SolicitederrorsComponent,
-    UnsolicitederrorsComponent,   
-  
-    // BorderDirective
-    
+    UnsolicitederrorsComponent
   ],
   imports: [
     CommonModule,

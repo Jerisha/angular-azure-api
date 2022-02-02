@@ -1,0 +1,16 @@
+button
+{
+    margin-left: 5px;
+    height: 40px;   
+    width: 30px;
+    padding-top: 5px;
+     /* background-color: white;  */
+    border-color: #EFEFEF;
+    border-width :1px;
+    border-style : solid;
+    border-radius: 2px;
+}
+.mat-menu-item{
+    height: 22px;
+    line-height: 22px;
+} 

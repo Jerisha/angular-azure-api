@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
 import { Transactionsourcecommandsummary } from '../models/transactionsourcecommandsummary';
-
+import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import {FormControl} from '@angular/forms';
 
 const ELEMENT_DATA: Transactionsourcecommandsummary[] = [
@@ -66,14 +65,15 @@ export class TransactionsourcecommandsummaryComponent implements OnInit {
   ctrl = new FormControl(true); 
     
   columns: ColumnDetails[] = [
-    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: true, imageColumn: true },
-    { header: 'TelephoneNos', headerValue: 'TelephoneNos', showDefault: true, imageColumn: false },
-    { header: 'AddCommands', headerValue: 'AddCommands', showDefault: true, imageColumn: false },
-    { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: true, imageColumn: false },
-    { header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: true, imageColumn: false },
-    { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: true, imageColumn: false },
-    { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: true, imageColumn: false },
-    { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: true, imageColumn: false },
+    { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
+    { header: 'Statistic Month', headerValue: 'StatisticMonth', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
+    { header: 'Adds', headerValue: 'Adds', showDefault: true, isImage: false },
+    { header: 'Ceases', headerValue: 'Ceases', showDefault: true, isImage: false },
+    { header: 'Modifies', headerValue: 'Modifies', showDefault: true, isImage: false },
+    { header: 'Exports', headerValue: 'Exports', showDefault: true, isImage: false },
+    { header: 'Imports', headerValue: 'Imports', showDefault: true, isImage: false },
+    { header: 'Total Cmds', headerValue: 'TotalCmds', showDefault: true, isImage: false },
   ];
 
   ngOnInit(): void {
