@@ -10,6 +10,8 @@ export interface TableItem {
     colToHighlight?: string[];
     colToHighlightInnerText?: string[];
     selectionColumn?:string;
+    isEmailRequired?:boolean;
+    Colu?: ColumnDe[];
     showEmail?:boolean;
     showBlankCoulmns?:boolean;
     highlightedCells?:string[];
@@ -35,4 +37,10 @@ export interface ColumnDetails {
     isImage?: boolean;
 }
 
+export interface ColumnDe{
+    header: string;
+    headerValue: string;
+    showDefault?: boolean;
+    imageColumn?: boolean;
+}
 
