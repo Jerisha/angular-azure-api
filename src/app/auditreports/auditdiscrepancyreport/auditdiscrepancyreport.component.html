@@ -31,10 +31,10 @@
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content class="side-content">
+  <mat-sidenav-content class="side-content"> 
     <div [ngSwitch]="auditType">
       <div *ngSwitchCase="'Full Audit'">
-        <app-full-audit-type  [FullAuditTableDetails]="grpFullAuditTableDetails"></app-full-audit-type>
+        <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails"></app-full-audit-type>
       </div>
       <div *ngSwitchCase="'Seperate Internal Audit'">
         <app-seperate-internal-audit-type [InternalAuditTableDetails]="grpInternalAuditTableDetails">
@@ -44,7 +44,7 @@
         <app-external-audit-type [ExternalAuditTableDetails]="grpExternalAuditTableDetails"></app-external-audit-type>
       </div>
       <div *ngSwitchDefault style="height: 650px;">
-        <app-table-group-header [GrpTableitem]="grpTableitem"></app-table-group-header>
+        <!-- <app-table-group-header [GrpTableitem]="grpTableitem"></app-table-group-header> -->
       </div>
     </div>
     <div class="mat-elevation-z8 side-bottom">

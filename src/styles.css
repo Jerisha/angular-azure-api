@@ -11,11 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 /* mat-select panel position start */
 .matselhorzPanel
 {
-  /*position: relative;
-  
+  /*position: relative;  
   min-width: calc(100% + 902px) !important;
-  max-width: 100% !important;
-  
+  max-width: 100% !important;  
   margin-left: auto;
   display: flex;
   flex-direction: inherit;
@@ -37,18 +35,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 
 .matselrgtPanel
 {
-  /*position: relative;
-  
+  /*position: relative;  
   min-width: calc(100% + 902px) !important;
-  max-width: 100% !important;
-  
+  max-width: 100% !important;  
   margin-left: auto;
   display: flex;
   flex-direction: inherit;
   overflow: auto; 
-    top: 26px;*/
-
-
+  top: 26px;*/
   position:absolute;
   pointer-events:auto;
   box-sizing:border-box;
@@ -56,9 +50,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   /* display:flex;
   flex-flow: wrap;
   min-width: calc(100% + 946px) !important;  
-  width: auto; */
-  max-height: calc(100% + 480px) !important;
+  width: auto; */  
  /* height: auto; */ 
+ max-height: calc(100% + 480px) !important;
  transform: translateX(840px) !important;
 }
 /* mat-select panel position ends */
@@ -173,7 +167,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
    /* background-color: #EFEFEF; 
   color:#e60000;     */
   border-right: solid 3px white;
-  padding-left:initial ;
+  /* padding-left:initial ; */
      border-top-right-radius: 10px;
     border-top-left-radius: 10px; 
 }

@@ -37,6 +37,7 @@ const routes: Routes = [
 path: 'statisticalreports',
 loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule)
 }
+
 ];
 
 @NgModule({

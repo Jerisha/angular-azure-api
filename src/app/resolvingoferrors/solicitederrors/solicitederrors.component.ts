@@ -348,7 +348,7 @@ export class SolicitederrorsComponent implements OnInit {
   setOptions() {  
     //debugger;     
     //this.service.apiTest(queryInput);    
-    // this.service.configDetails(configInput);
+    this.service.configDetails(queryInput);
   }
 
   private _filter(name: string): any[] {
