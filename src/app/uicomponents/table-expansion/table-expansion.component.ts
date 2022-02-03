@@ -167,22 +167,23 @@ export class TableExpansionComponent implements OnInit {
 
   }
   column: ColumnDetails[] =
-    [{ header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },];
-
-  ngOnInit() {
+  [
+  { header: 'StatisticMonthDate', headerValue: 'View', showDefault: true, imageColumn: true },
+  { header: 'Source', headerValue: 'View', showDefault: true, imageColumn: true },
+  { header: 'Adds', headerValue: 'View', showDefault: true, imageColumn: true },
+  { header: 'Ceases', headerValue: 'View', showDefault: true, imageColumn: true },
+  { header: 'Modifies', headerValue: 'View', showDefault: true, imageColumn: true },
+  { header: 'Exports', headerValue: 'View', showDefault: true, imageColumn: true },
+  { header: 'Imports', headerValue: 'View', showDefault: true, imageColumn: true },
+  { header: 'TotalCmds', headerValue: 'View', showDefault: true, imageColumn: true }
+  ];
+  
+  ngOnInit(){
     
-    // this.dataSource.data =   }
     this.transaction = ELEMENT_DATA;
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.column,
-      filter: true,
-      selectCheckbox: true,
-      selectionColumn: 'View',
-      imgConfig: [{ headerValue: 'View', icon: 'description', route: '', tabIndex: 1 },
-      
-      ]
-    }
+    const selectList = this.myTable?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
+    console.log(selectList);
+    this.gridSelectList =this.column;
   }
 
   setStep(index: number) {

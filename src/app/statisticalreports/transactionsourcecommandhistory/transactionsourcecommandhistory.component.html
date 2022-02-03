@@ -54,6 +54,10 @@
         (changes)="setControlAttribute($event)">
       </app-select-multiple>
     </div> -->
+    <button class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+      matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+      <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+    </button>
     <mat-tab-group [selectedIndex]="selectedTab">
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
@@ -62,21 +66,28 @@
             <mat-icon style="font-size: large;">close</mat-icon>
           </button>
         </ng-template>
-
+        <!-- <div class="basic-container">
+        <form class="example-form" [formGroup]="formGroup" novalidate>
+          <div class="toggleclass">
+          <mat-slide-toggle class="toggleclass" formControlName="Enable" (change)="onchange($event.checked)">
+          Switch to D-2-D Summary View</mat-slide-toggle>
+          </div>
+          <app-table-exp formControlName="OnTelephoneDetailSelected($event)"></app-table-exp>
+          </form>
+        </div> -->
+        <form [formGroup]="form" novalidate>
+          <div class="toggleclass">
+          <mat-slide-toggle class="toggleclass" formControlName="Enable" (change)="onchange($event.checked)">
+          Switch to D-2-D Summary View</mat-slide-toggle>
+          </div>
+          </form>
         <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
 
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
             <div class="basic-container">
-              <form [formGroup]="form" novalidate>
-                <div>
-                  <mat-slide-toggle formControlName="Enable" (change)="onchange($event.checked)">
-                    Switch to D-2-D Summary View</mat-slide-toggle>
-                </div>
-              </form>
+              <span ><b>No of selected rows : </b></span>
             </div>
-
-
             <app-table-exp (addNewTab)="OnTelephoneDetailSelected($event)"></app-table-exp>
           </div>
 
