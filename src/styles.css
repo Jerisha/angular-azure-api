@@ -266,6 +266,7 @@ div .mat-focus-indicator.mat-tab-label {
   margin-left: 20px;
   position:sticky;
   top:0;  
+  z-index: 2;
   /* background-color:#EFEFEF; */
 }
 .res-save-div
