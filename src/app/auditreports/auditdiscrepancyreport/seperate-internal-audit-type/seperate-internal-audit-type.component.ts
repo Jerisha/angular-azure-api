@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { InternalAuditAddressReport, InternalAuditMonthReport, InternalAuditProgressReport, InternalAuditSummary } from 'src/app/_models/index';
 import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/uicomponents/merge-table-item-model';
 import { Tab } from 'src/app/_models/uicomponents/tab';
@@ -71,6 +72,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
   monthReportTable!: GroupHeaderTableItem;
   addressReportTable!: GroupHeaderTableItem;
   @Input() InternalAuditTableDetails!: GroupHeaderTableDetails[];
+  @Input() sidePan!: MatSidenav;
   selectedTab!: number;
   tabs: Tab[] = [];
   tabsName: string[] = [];
