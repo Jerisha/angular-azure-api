@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ErrorsRoutingModule } from './errors-routing.module';
 import { ErrorComponent } from './error/error.component';
+import { MaterialModule } from '../_shared/material/material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ErrorComponent } from './error/error.component';
   ],
   imports: [
     CommonModule,
-    ErrorsRoutingModule
+    ErrorsRoutingModule,
+    MaterialModule
   ]
 })
 export class ErrorsModule { }

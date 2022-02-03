@@ -4,6 +4,7 @@ import { NavItem } from './_models/nav-item';
 import { NavService } from './_services/nav.services';
 import * as  menu from '../assets/menu.json';
 import * as  dat from '../assets/full-audit-table-details.json';
+import { Router } from '@angular/router';
 
 const MENU_SOURCE = (menu as any).default;
 const MENU_SOURCE1 = (dat as any).default;
@@ -24,7 +25,10 @@ export class AppComponent implements AfterViewInit {
   menuSelected: string = '';
   baseRoot = 'Home';
   childRoot: any;
-  constructor(private navService: NavService) {
+
+  isError!: boolean;
+
+  constructor(private navService: NavService, private _router: Router) {
   }
 
   ngOnInit() {
@@ -49,6 +53,16 @@ export class AppComponent implements AfterViewInit {
     });
 
   }
+
+  removeError() {
+    this.isError = true;
+  }
+  
+    Unsubscribe() {
+      this.isError = false;
+      console.log("router unsubscribed");
+    }
+      
 
 }
 

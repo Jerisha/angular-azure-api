@@ -1,5 +1,5 @@
-<!-- <button type="button" mat-button (click)="clicked('Internal error')">Internal error</button>
-<button type="button" mat-button (click)="clicked('Server Error')">Server Error</button> -->
+<button type="button" mat-button (click)="clicked('500 Internal server error', 'Oops, something went wrong')">Internal error</button>
+<button type="button" mat-button (click)="clicked('404 ', 'Page not found')">404 Error</button>
 
 <mat-accordion *ngIf="liverecord?.tranId != null; else elseBlock" [togglePosition]="'before'">
 
@@ -9,7 +9,7 @@
         <mat-expansion-panel-header>
 
             <mat-panel-title>
-                <mat-icon>{{panelOpenState1 ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
+                <mat-icon class="table-icon">{{panelOpenState1 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                 &nbsp;&nbsp;
                 Current Live Details
             </mat-panel-title>
@@ -139,7 +139,7 @@
 
             <mat-panel-title>
 
-                <mat-icon>{{panelOpenState2 ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
+                <mat-icon class="table-icon">{{panelOpenState2 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                 &nbsp;&nbsp;
                 <!-- <button type="button" class="btn btn-default" aria-label="Left Align">
                     <span>
@@ -174,11 +174,11 @@
             <td mat-cell *matCellDef="let element">
                 <!-- <mat-icon style="cursor: pointer;"
                     (click)="(expandedElement = expandedElement === element ? null : element);">{{expandedElement ===
-                    element ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon> -->
+                    element ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon> -->
 
-                    <mat-icon style="cursor: pointer;"
+                    <mat-icon class="table-icon" style="cursor: pointer;"
                     (click)="(expandedElement = expandedElement === element ? null : element); (expandedElement === element ? setAddressDetails('transactionDetails', element) : setAddressDetails('removeAddress')); setStep(2) ">
-                    {{expandedElement === element && step === 2 ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
+                    {{expandedElement === element && step === 2 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
             </td>
         </ng-container>
     </ng-container>
@@ -408,7 +408,7 @@
             <mat-expansion-panel-header>
 
                 <mat-panel-title>
-                    <mat-icon>{{panelOpenState ? 'remove_circle_outline' : 'add_circle_outline'}}</mat-icon>
+                    <mat-icon class="table-icon">{{panelOpenState ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                     &nbsp;&nbsp;
 
                     Audit Trail Details for : {{auditDetails!.internalAudit != null ?
@@ -446,9 +446,9 @@
 
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <mat-icon style="cursor: pointer;"
+                                    <mat-icon class="table-icon" style="cursor: pointer;"
                                         (click)="(expandedElement = expandedElement === element ? null : element);">
-                                        {{expandedElement === element ? 'remove_circle_outline' : 'add_circle_outline'}}
+                                        {{expandedElement === element ? 'remove_box_outline' : 'add_box_outline'}}
                                     </mat-icon>
                                 </td>
                             </ng-container>
@@ -499,9 +499,9 @@
 
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <mat-icon style="cursor: pointer;"
+                                    <mat-icon class="table-icon" class="table-icon" style="cursor: pointer;"
                                         (click)="(expandedElement = expandedElement === element ? null : element);">
-                                        {{expandedElement === element ? 'remove_circle_outline' : 'add_circle_outline'}}
+                                        {{expandedElement === element ? 'remove_box_outline' : 'add_box_outline'}}
                                     </mat-icon>
                                     <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
                     (click)="(expandedElement = expandedElement === element ? null : element);">
@@ -560,9 +560,9 @@
 
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <mat-icon style="cursor: pointer;"
+                                    <mat-icon class="table-icon" style="cursor: pointer;"
                                         (click)="(expandedElement = expandedElement === element ? null : element);">
-                                        {{expandedElement === element ? 'remove_circle_outline' : 'add_circle_outline'}}
+                                        {{expandedElement === element ? 'remove_box_outline' : 'add_box_outline'}}
                                     </mat-icon>
 
                                     <!-- <button type="button" class="btn btn-default" aria-label="Left Align"

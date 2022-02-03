@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { PopupComponent } from './popup/popup.component';
-import { TelephoneAuditTrailComponent } from './_shared/telephone-audit-trail/telephone-audit-trail.component';
+
 
 const routes: Routes = [
   {

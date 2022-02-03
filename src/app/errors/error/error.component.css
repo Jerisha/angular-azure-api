@@ -1,0 +1,19 @@
+.error-main {
+    height: 200px;
+    width: 500px;
+    margin: auto;
+    margin-top: 200px;
+}
+
+.error-message {
+    color: red;
+}
+
+h1 {
+    font-size: xx-large;
+    /* font-weight: bold; */
+}
+
+h4 {
+    font-size: medium;
+}

@@ -257,8 +257,9 @@ export class TelephoneAuditTrailComponent implements OnInit {
     return this.addressDetails;
   }
 
-  clicked(errMessage: string) {
-    this._route.navigate(['/errors/errorpage'], {state: {data: errMessage}});
+  clicked(errCode: string, errMessage: string) {
+    this._route.navigate(['/errors', {outlets: {errorPage: 'error'}}], {state: {errData1: errCode, errData2: errMessage}});
+    // this._route.navigate([ {outlets: {errorPage: 'Myerror'}}], {state: {data1: errCode, data2: errMessage}});
   }
 
   
