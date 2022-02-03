@@ -6,9 +6,10 @@ import { TelephoneAuditTrailComponent } from './telephone-audit-trail/telephone-
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { TelephoneAuditTrail } from './models/telephone-audit-trail';
 import { TransactionErrorsComponent } from './transaction-errors/transaction-errors.component';
+import { StartUpComponent } from './start-up/start-up.component';
 
 @NgModule({
-  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent],
+  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -17,7 +18,8 @@ import { TransactionErrorsComponent } from './transaction-errors/transaction-err
   ],
   exports :[
     TelephoneAuditTrailComponent,
-    TransactionErrorsComponent  
+    TransactionErrorsComponent  ,
+    StartUpComponent
   ]  
 
 })

@@ -8,6 +8,7 @@ import { ResolvingOfErrorsService } from '../services/resolving-of-errors.servic
 import { Select } from 'src/app/_models/uicomponents/select';
 import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { MatSelect } from '@angular/material/select';
+import { Tab } from 'src/app/_models/tab';
 
 const ELEMENT_DATA: SolicitedErrors[] = [
   {
@@ -247,9 +248,9 @@ const queryInput: any = {
   styleUrls: ['./solicitederrors.component.css']
 })
 export class SolicitederrorsComponent implements OnInit {
-  
+
   constructor(private formBuilder: FormBuilder, private service: ResolvingOfErrorsService, private _snackBar: MatSnackBar) { }
-  
+
   myTable!: TableItem;
   dataSaved = false;
   employeeForm: any;
@@ -269,11 +270,7 @@ export class SolicitederrorsComponent implements OnInit {
   ];
   // errorCode = new FormControl();
   selectedTab!: number;
-  public tabs = [{
-    tabType: 0,
-    name: 'Summary'
-  }
-  ];
+  public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
 
@@ -293,33 +290,7 @@ export class SolicitederrorsComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.setOptions();
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.columns,
-      filter: true,
-      selectCheckbox: true,
-      selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',toolTipText:'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '',toolTipText:'Transaction Error', tabIndex: 2 }]
-      // dataColumns: ['TranId', 'View', 'TelNo', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'ResType', 'ErrorList'],
-      // coulmnHeaders: ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res-Type', 'Error/List'],
 
-      // colToSetImage: ['View'],
-
-
-    }    // this.employeeForm = this.formbulider.group({
-    //   FirstName: ['', [Validators.required]],
-    //   LastName: ['', [Validators.required]],
-    //   DateofBirth: ['', [Validators.required]],
-    //   EmailId: ['', [Validators.required]],
-    //   Gender: ['', [Validators.required]],
-    //   Address: ['', [Validators.required]],
-    //   Country: ['', [Validators.required]],
-    //   State: ['', [Validators.required]],
-    //   City: ['', [Validators.required]],
-    //   Pincode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{6}')])]
-    //});
-    //this.selectedTab = this.tabs.length - 1;
   }
 
   ngAfterViewInit() {
@@ -327,24 +298,24 @@ export class SolicitederrorsComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
-      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
-      Command: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      //Date: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      ErrorCodes: new FormControl({ value: '', disabled: true }, [Validators.required]),      
-      ErrorType: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Reference: new FormControl({ value: '', disabled: true }, [Validators.required])
+      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      Command: new FormControl({ value: '', disabled: true }, []),
+      Source: new FormControl({ value: '', disabled: true }, []),
+      //Date: new FormControl({ value: '', disabled: true }, []),
+      ErrorCodes: new FormControl({ value: '', disabled: true }, []),
+      ErrorType: new FormControl({ value: '', disabled: true }, []),
+      Reference: new FormControl({ value: '', disabled: true }, [])
 
     })
     this.errorCodesOptions = this.thisForm.controls.ErrorCodes.valueChanges
-    .pipe(
-      startWith<string>(''),
-      map(name => this._filter(name))
-    );
+      .pipe(
+        startWith<string>(''),
+        map(name => this._filter(name))
+      );
   }
 
-  setOptions() {  
+  setOptions() {
     //debugger;     
     //this.service.apiTest(queryInput);    
     this.service.configDetails(queryInput);
@@ -357,7 +328,25 @@ export class SolicitederrorsComponent implements OnInit {
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  onFormSubmit(): void { }
+  onFormSubmit(): void {
+    this.myTable = {
+      data: ELEMENT_DATA,
+      Columns: this.columns,
+      filter: true,
+      selectCheckbox: true,
+      selectionColumn: 'TranId',
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+    }
+    if (!this.tabs.find(x => x.tabType == 0)) {
+      this.tabs.push({
+        tabType: 0,
+        name: 'Summary'
+      });
+    }
+    this.selectedTab = this.tabs.length;
+
+  }
   resetForm(): void {
     this._snackBar.open('Reset Form Completed!', 'Close', {
       duration: 5000,
@@ -403,33 +392,33 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   newTab(tab: any) {
+    if (this.tabs === []) return;
     switch (tab.tabType) {
-      case 1: {
+      case 1:
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
-        if (!this.tabs.find(x => x.tabType == 1)) {
+
+        if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
-          this.selectedTab = 1;
         }
+
         break;
-      }
-      case 2: {
+
+      case 2:
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
             name: 'Transaction Errors'
           })
-          this.selectedTab = 2;
         }
         break;
-      }
-      default: {
+      default:
         //statements; 
         break;
-      }
+        this.selectedTab = this.tabs.length;
     }
   }
 
