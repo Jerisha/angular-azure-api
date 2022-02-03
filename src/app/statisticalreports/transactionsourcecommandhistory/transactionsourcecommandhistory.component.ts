@@ -5,11 +5,7 @@ import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponen
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { selectmonth, selectsrc } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
-import { PeriodicElement } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
-import { DataSource } from '@angular/cdk/collections';
-import { MatSidenav } from '@angular/material/sidenav';
+
 
 const ELEMENT_DATA: Transactionsourcecommandhistory[] =
   [
@@ -187,7 +183,6 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     }
   }
 
-  expandedElement: PeriodicElement | null | undefined;
 
 
 
