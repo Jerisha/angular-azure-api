@@ -20,6 +20,7 @@ CustTitle:string;
 CustForename:string;
 CustName:string;
 AddressBussinessSuffix:string;
+AddressPremises:string;
 AddressThoroughfare:string;
 AddressLocality:string;
 Postcode:string;

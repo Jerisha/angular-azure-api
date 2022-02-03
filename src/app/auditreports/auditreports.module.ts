@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuditreportsRoutingModule } from './auditreports-routing.module';
 import { AuditexcelreportsComponent, FullauditdetailsComponent, AuditdiscrepancyreportComponent } from './index';
-import { MaterialModule } from '../_shared/material/material.module';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { FullAuditDetailsService } from './fullauditdetails/fullauditdetails.service';
 import { FullAuditTypeComponent } from './auditdiscrepancyreport/full-audit-type/full-audit-type.component';
@@ -25,14 +24,12 @@ import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-di
     ExternalAuditTypeComponent,
     SeperateInternalAuditTypeComponent,
     UserCommentsDialogComponent
-    // BorderDirective
   ],
   imports: [
     CommonModule,
     AuditreportsRoutingModule,
     UicomponentsModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
-    MaterialModule,
     FormsModule,
     HttpClientModule,
     SharedModule,

@@ -1,12 +1,12 @@
 <div *ngIf="filterColumn">
   <form [formGroup]="filterForm">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance ="standard">
       <mat-label>Source System</mat-label>
       <mat-select formControlName="sourceSystemFilter" multiple>
         <mat-option *ngFor="let sourcesystem of sourceSystemList" [value]="sourcesystem">{{sourcesystem}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance ="standard">
       <mat-label>CLI Status</mat-label>
       <mat-select formControlName="cliStatusFilter" multiple>
         <mat-option *ngFor="let cliStatus of cliStatusList" [value]="cliStatus">{{cliStatus}}</mat-option>

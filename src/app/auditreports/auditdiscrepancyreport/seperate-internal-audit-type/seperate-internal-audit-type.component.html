@@ -1,5 +1,13 @@
+<button class="slidderbtn" mat-basic-button color="primary" (click)="sidePan.toggle()"
+    matTooltip="{{sidePan.opened ? 'Hide Filters' : 'Show Filters'}}">
+    <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+</button>
 <mat-tab-group [selectedIndex]="selectedTab">
-    <mat-tab label="{{tab.name}}" *ngFor="let tab of tabs;  trackBy: trackTabs">
+    <mat-tab *ngFor="let tab of tabs;  trackBy: trackTabs">
+        <ng-template mat-tab-label>
+            <div *ngIf="tab.tabType===0" style="margin-left: 20px;">{{tab.name}}</div>
+            <div *ngIf="tab.tabType!=0">{{tab.name}}</div>
+        </ng-template>
         <ng-template matTabContent>
             <app-table-group-header [GrpTableitem]="tab.data"></app-table-group-header>
         </ng-template>
