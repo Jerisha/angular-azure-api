@@ -1,0 +1,41 @@
+
+.hideme {
+height: 1px; border: none }
+.noborder{border: none}
+.offscreen {
+height: 1px; width: 1px; position: absolute; overflow: hidden; top: -10px; }
+
+.filterposition{
+    margin-left:10px;
+    margin-top:15px;
+    margin-bottom:10px;
+}
+
+/* :host{
+  padding: 0em;
+}
+
+:host::ng-deep app-table-selection .table-container {  
+  height: 350px !important;
+} */
+
+
+.mat-column-TelNo {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    width: 28% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .controlsStylediv{
+    margin-right:20px 
+  }

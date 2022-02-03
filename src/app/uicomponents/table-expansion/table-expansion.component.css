@@ -1,0 +1,110 @@
+.side-bottom .side-textarea{
+  /* background-color: lawngreen!important; */
+  width: 360px;
+  font-size: smaller;  
+/* position:absolute; 
+margin-top: 90px;*/
+/* margin-left: 200px; */
+margin: 5px;
+
+}
+.hidden{display: none;}
+table
+{    width:100%;
+}
+th {
+  background-color: #e60000;
+  color:white;
+}
+
+.mat-header-cell {
+  color: white;
+  /* width: auto;
+  height: fit-content; */
+  font-size:small; 
+}
+
+.mat-header-row{
+  height: 30px;
+}
+
+
+.mat-cell{
+  font-size:small;
+}
+
+.mat-row {
+  height: 10px;
+}
+tr.example-detail-row {
+  height: 0;
+}
+
+/* tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+} */
+/* 
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+} */
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail, .liverecord-sec {
+  overflow: hidden;
+  /* display: flex; */
+}
+
+.example-element-diagram, .liverecord-sec {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 100%;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+/* th, .appTable::ng-deep  th {
+  font-weight: bold;
+  background-color: #e60000;
+  color: black;
+} */
+
+.mat-column-TelNo {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 28% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.controlsStylediv{
+  margin-right:20px 
+}
+
+
+

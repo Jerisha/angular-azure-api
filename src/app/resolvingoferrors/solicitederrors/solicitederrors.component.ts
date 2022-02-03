@@ -3,10 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Select } from 'src/app/_models/select';
-import { SolicitedErrors } from 'src/app/_models/resolvingoferrors/solicited-errors';
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { ResolvingOfErrorsService } from '../resolving-of-errors.service';
+import { SolicitedErrors } from '../models/solicited-errors';
+import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
+import { Select } from 'src/app/_models/uicomponents/select';
+import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { MatSelect } from '@angular/material/select';
 
 const ELEMENT_DATA: SolicitedErrors[] = [
@@ -114,7 +114,7 @@ const ELEMENT_DATA: SolicitedErrors[] = [
 
 const FilterListItems: Select[] = [
   { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-  { view: 'TelNo End', viewValue: 'TelNoEnd', default: false },  
+  { view: 'TelNo End', viewValue: 'TelNoEnd', default: false },
   { view: 'Source', viewValue: 'Source', default: false },
   { view: 'Command', viewValue: 'Command', default: false },
   { view: 'Error Type', viewValue: 'ErrorType', default: false },
@@ -159,6 +159,87 @@ const configInput: any = {
   }
 }
 
+const queryInput: any = {
+  "QueryObjectRequest": {
+    "QueryObjectRequestType": {
+      "RequestIdentifiers": {
+        "Identifier": [
+          {
+            "Name": "UserId",
+            "Value": [
+              "abc"
+            ]
+          },
+          {
+            "Name": "Destination",
+            "Value": [
+              "OSN2"
+            ]
+          }
+        ]
+      },
+      "ListofQueryObjectCategory": {
+        "QueryObjectCategory": [
+          {
+            "ItemName": "TelephoneNumberError",
+            "ListofIdentifiers": {
+              "Identifier": [
+                {
+                  "Name": "ReportIdentifier",
+                  "Value": [
+                    "Unsolicited Errors"
+                  ]
+                }
+              ]
+            },
+            "ListofQueryObjectCharacteristics": {
+              "QueryObjectCharacteristics": [
+                {
+                  "ItemName": "QueryParameters",
+                  "ListofIdentifiers": {
+                    "Identifier": [
+                      {
+                        "Name": "StartTelephoneNumber"
+                      },
+                      {
+                        "Name": "EndTelephoneNumber"
+                      },
+                      {
+                        "Name": "Command"
+                      },
+                      {
+                        "Name": "Source"
+                      },
+                      {
+                        "Name": "FromDate"
+                      },
+                      {
+                        "Name": "ToDate"
+                      },
+                      {
+                        "Name": "ResolutionType"
+                      },
+                      {
+                        "Name": "PageNumber"
+                      },
+                      {
+                        "Name": "ErrorType"
+                      },
+                      {
+                        "Name": "ErrorCode"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+
 
 @Component({
   selector: 'app-solicitederrors',
@@ -166,17 +247,17 @@ const configInput: any = {
   styleUrls: ['./solicitederrors.component.css']
 })
 export class SolicitederrorsComponent implements OnInit {
-  formbulider: any;
+  
   constructor(private formBuilder: FormBuilder, private service: ResolvingOfErrorsService, private _snackBar: MatSnackBar) { }
+  
   myTable!: TableItem;
-  //test
   dataSaved = false;
   employeeForm: any;
   employeeIdUpdate = null;
   massage = null;
   selectListItems: string[] = [];
-filterItems: Select[] = FilterListItems;
-  
+  filterItems: Select[] = FilterListItems;
+
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
@@ -186,7 +267,7 @@ filterItems: Select[] = FilterListItems;
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
   ];
-  errorCode = new FormControl();
+  // errorCode = new FormControl();
   selectedTab!: number;
   public tabs = [{
     tabType: 0,
@@ -197,20 +278,20 @@ filterItems: Select[] = FilterListItems;
   thisForm!: FormGroup;
 
   columns: ColumnDetails[] = [
-    { header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },
-    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, imageColumn: false },
-    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, imageColumn: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, imageColumn: false },
-    { header: 'Created', headerValue: 'Created', showDefault: true, imageColumn: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, imageColumn: false },
-    { header: 'Res Type', headerValue: 'ResType', showDefault: true, imageColumn: false },
-    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, imageColumn: false },
-    { header: '999 Reference', headerValue: 'Reference', showDefault: true, imageColumn: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserCmt', showDefault: true, imageColumn: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, imageColumn: false }
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, isImage: false },
+    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Created', headerValue: 'Created', showDefault: true, isImage: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
+    { header: 'Res Type', headerValue: 'ResType', showDefault: true, isImage: false },
+    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserCmt', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, isImage: false }
   ];
   ngOnInit(): void {
-this.createForm();
+    this.createForm();
     this.setOptions();
     this.myTable = {
       data: ELEMENT_DATA,
@@ -218,8 +299,8 @@ this.createForm();
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',toolTipText:'Audit Trail Report', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '',toolTipText:'Transaction Error', tabIndex: 2 }]
       // dataColumns: ['TranId', 'View', 'TelNo', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'ResType', 'ErrorList'],
       // coulmnHeaders: ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res-Type', 'Error/List'],
 
@@ -251,22 +332,22 @@ this.createForm();
       Command: new FormControl({ value: '', disabled: true }, [Validators.required]),
       Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
       //Date: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      ErrorCodes: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      ErrorCodes: new FormControl({ value: '', disabled: true }, [Validators.required]),      
       ErrorType: new FormControl({ value: '', disabled: true }, [Validators.required]),
       Reference: new FormControl({ value: '', disabled: true }, [Validators.required])
 
     })
+    this.errorCodesOptions = this.thisForm.controls.ErrorCodes.valueChanges
+    .pipe(
+      startWith<string>(''),
+      map(name => this._filter(name))
+    );
   }
 
-  setOptions() {
-    debugger;
-    this.service.configDetails(configInput);
-
-    this.errorCodesOptions = this.errorCode.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
+  setOptions() {  
+    //debugger;     
+    //this.service.apiTest(queryInput);    
+    this.service.configDetails(queryInput);
   }
 
   private _filter(name: string): any[] {

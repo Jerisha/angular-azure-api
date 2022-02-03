@@ -9,7 +9,7 @@
         <mat-expansion-panel-header>
 
             <mat-panel-title>
-                <mat-icon class="table-icon">{{panelOpenState1 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
+                <mat-icon>{{panelOpenState1 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                 &nbsp;&nbsp;
                 Current Live Details
             </mat-panel-title>
@@ -139,7 +139,7 @@
 
             <mat-panel-title>
 
-                <mat-icon class="table-icon">{{panelOpenState2 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
+                <mat-icon>{{panelOpenState2 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                 &nbsp;&nbsp;
                 <!-- <button type="button" class="btn btn-default" aria-label="Left Align">
                     <span>
@@ -176,9 +176,10 @@
                     (click)="(expandedElement = expandedElement === element ? null : element);">{{expandedElement ===
                     element ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon> -->
 
-                    <mat-icon class="table-icon" style="cursor: pointer;"
-                    (click)="(expandedElement = expandedElement === element ? null : element); (expandedElement === element ? setAddressDetails('transactionDetails', element) : setAddressDetails('removeAddress')); setStep(2) ">
-                    {{expandedElement === element && step === 2 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
+                <mat-icon style="cursor: pointer;"
+                    (click)="(expandedElement = expandedElement === element ? null : element); (expandedElement === element ? setAddressDetails('transactionDetails', element) : null); setStep(2) ">
+                    {{expandedElement === element && step === 2 ? 'remove_box_outline' : 'add_box_outline'}}
+                </mat-icon>
             </td>
         </ng-container>
     </ng-container>
@@ -408,7 +409,7 @@
             <mat-expansion-panel-header>
 
                 <mat-panel-title>
-                    <mat-icon class="table-icon">{{panelOpenState ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
+                    <mat-icon>{{panelOpenState ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                     &nbsp;&nbsp;
 
                     Audit Trail Details for : {{auditDetails!.internalAudit != null ?

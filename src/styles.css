@@ -11,11 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 /* mat-select panel position start */
 .matselhorzPanel
 {
-  /*position: relative;
-  
+  /*position: relative;  
   min-width: calc(100% + 902px) !important;
-  max-width: 100% !important;
-  
+  max-width: 100% !important;  
   margin-left: auto;
   display: flex;
   flex-direction: inherit;
@@ -37,18 +35,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 
 .matselrgtPanel
 {
-  /*position: relative;
-  
+  /*position: relative;  
   min-width: calc(100% + 902px) !important;
-  max-width: 100% !important;
-  
+  max-width: 100% !important;  
   margin-left: auto;
   display: flex;
   flex-direction: inherit;
   overflow: auto; 
-    top: 26px;*/
-
-
+  top: 26px;*/
   position:absolute;
   pointer-events:auto;
   box-sizing:border-box;
@@ -56,9 +50,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   /* display:flex;
   flex-flow: wrap;
   min-width: calc(100% + 946px) !important;  
-  width: auto; */
-  max-height: calc(100% + 480px) !important;
+  width: auto; */  
  /* height: auto; */ 
+ max-height: calc(100% + 480px) !important;
  transform: translateX(840px) !important;
 }
 /* mat-select panel position ends */
@@ -163,22 +157,30 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 }
 .mat-tab-label{
   height: 35px !important;
-  color: rgb(11, 11, 158);
+  /* color: rgb(11, 11, 158); */
+  color: block;
 }
 
  div.mat-tab-label {
-  /* background-color: #009de6; */
+  background-color: rgb(84, 87, 90);
   /* background-color: #007C92; */
-   background-color: #EFEFEF; 
-  color:#e60000;    
+   /* background-color: #EFEFEF; 
+  color:#e60000;     */
   border-right: solid 3px white;
-  padding-left:initial ;
-    /* border-top-right-radius: 10px;
-    border-top-left-radius: 10px; */
+  /* padding-left:initial ; */
+     border-top-right-radius: 10px;
+    border-top-left-radius: 10px; 
 }
 
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  background-color: #e60000;
+  /* background-color: #e60000; */
+  background-color:rgb(255, 6, 6);
+  height: 4px;
+  
+}
+div .mat-focus-indicator.mat-tab-label {
+  color: white !important;
+
 }
 /* tab design end */
 
@@ -264,6 +266,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   margin-left: 20px;
   position:sticky;
   top:0;  
+  z-index: 2;
   /* background-color:#EFEFEF; */
 }
 .res-save-div

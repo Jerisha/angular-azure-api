@@ -7,6 +7,7 @@ import { HttpWrapperService } from 'src/app/_services/http/http-wrapper.service'
 import { FullAuditSummary } from 'src/app/_models/index';
 import { WeatherForecast } from 'src/app/_models/samplemodel';
 import { HttpVerbs } from 'src/app/_enums/http-verbs.enum';
+import { WebMethods } from 'src/app/_enums/web-methods.enum';
 @Injectable()
 export class FullAuditDetailsService {
 
@@ -40,7 +41,7 @@ export class FullAuditDetailsService {
     var headers = new HttpHeaders({
       'auth': 'OAuth'
     });
-    return this.wrapperService.processRequst(HttpVerbs.POST, 'weatherforecast', data, headers);
+    return this.wrapperService.processRequst(HttpVerbs.POST, WebMethods.QUERY, data, headers);
   }
 
 

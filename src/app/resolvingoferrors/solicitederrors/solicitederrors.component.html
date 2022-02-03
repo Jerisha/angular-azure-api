@@ -89,7 +89,7 @@
 
         <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.ErrorCodes.disabled}">
           <mat-label>Error Codes</mat-label>
-          <input formControlName="ErrorCodes" type="text" placeholder="type to find" matInput [formControl]="errorCode"
+          <input formControlName="ErrorCodes" type="text" placeholder="type to find" matInput
             [matAutocomplete]="auto" />
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option.viewValue">
@@ -144,7 +144,7 @@
         <ng-template mat-tab-label>
 
 
-          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+          <div style="margin-left: 20px;">{{tab.name}}</div>
           <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
             <mat-icon style="font-size: large;">close</mat-icon>
           </button>
