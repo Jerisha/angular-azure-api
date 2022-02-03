@@ -1,7 +1,7 @@
 
-<mat-form-field  appearance="outline" style="
+<mat-form-field style="
 width:180px;height: 35px;;
-">
+" >
     
                 
   <button matPrefix mat-icon-button aria-label="Clear">
@@ -19,7 +19,7 @@ width:180px;height: 35px;;
     </mat-select-trigger>
     <div class="select-container">
       <mat-optgroup>
-        <mat-form-field style="width:100%;">
+        <mat-form-field appearance="standard" style="width:100%;">
           <input #search autocomplete="off" placeholder="Search" aria-label="Search" matInput
             [formControl]="searchTextboxControl" (keydown)="$event.stopPropagation()">
           <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear"
