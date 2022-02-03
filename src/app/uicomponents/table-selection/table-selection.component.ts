@@ -249,8 +249,9 @@ export class TableSelectionComponent {
 
     if (this.highlightedCells)
       if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+        debugger;
         applyStyles = {
-          'color': '#ff9999',
+          'color': 'red',
           'font-weight': 'bold',
         }
       }

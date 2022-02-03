@@ -360,7 +360,7 @@ export class FullauditdetailsComponent implements OnInit {
       showEmail: true,
       showBlankCoulmns: true,
       selectionColumn: 'TelNo',
-      highlightedCells: ['TelNo'],
+      highlightedCells: ['TelNo','OSN2Source'],
       backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
@@ -532,10 +532,7 @@ export class FullauditdetailsComponent implements OnInit {
     this.rangeRptTable = {
       data: ELEMENT_DATA1,
       Columns: this.rangeReportTableDetails,
-      filter: true,
-      shouldTotalRow:true,
-      showBlankCoulmns: true,
-      totalRowCols:['Transaction']
+      filter: true      
     }
   }
 
