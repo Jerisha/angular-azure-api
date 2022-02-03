@@ -4,7 +4,6 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { MaterialModule } from './material/material.module';
 import { TelephoneAuditTrailComponent } from './telephone-audit-trail/telephone-audit-trail.component';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
-import { TelephoneAuditTrail } from '../_models/telephone-audit-trail';
 
 @NgModule({
   declarations: [TelephoneAuditTrailComponent],
@@ -14,7 +13,7 @@ import { TelephoneAuditTrail } from '../_models/telephone-audit-trail';
     MaterialModule,
     UicomponentsModule
   ],
-  exports :[TelephoneAuditTrailComponent]  
+  exports :[MaterialModule,TelephoneAuditTrailComponent]  
 
 })
 export class SharedModule { }

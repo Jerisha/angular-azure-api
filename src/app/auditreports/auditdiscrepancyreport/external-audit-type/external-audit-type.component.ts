@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { ExternalAuditAddressReport,ExternalAuditMonthReport,ExternalAuditProgressReport,ExternalAuditSummary } from 'src/app/_models/index';
 
 import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/merge-table-item-model';
@@ -72,9 +73,11 @@ export class ExternalAuditTypeComponent implements OnInit {
   monthReportTable!: GroupHeaderTableItem;
   addressReportTable!: GroupHeaderTableItem;
   @Input() ExternalAuditTableDetails!: GroupHeaderTableDetails[];
+  @Input() sidePan!: MatSidenav;
   selectedTab!: number;
   tabs: Tab[] = [];
   tabsName: string[] = [];
+
 
   constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef) {
     this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];

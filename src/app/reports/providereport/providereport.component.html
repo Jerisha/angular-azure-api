@@ -7,32 +7,32 @@
       <br>
       <!-- <app-select-exp [listItems]="expDefault" (click)="print($event)"></app-select-exp> -->
         <app-select-exp [listItems]="expDefault"></app-select-exp> 
-      <mat-form-field   appearance="outline">
+      <mat-form-field    >
        <mat-label>Telephone</mat-label>
        <input type="Telephone"  matInput> 
       </mat-form-field>
       <app-select-exp [listItems]="expDefault"></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
+      <mat-form-field> 
         <mat-label>Cust Name Full</mat-label>
        <input type="CustNameFull"  matInput> 
      </mat-form-field>
      <app-select-exp [listItems]="expDefault"></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
+      <mat-form-field> 
        <mat-label>Cupid</mat-label>
        <input type="Cupid"  matInput> 
      </mat-form-field>
      <app-select-exp [listItems]="expDefault"></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
+      <mat-form-field> 
        <mat-label>Address Line 1</mat-label>
        <input type="AddressLine1"  matInput> 
      </mat-form-field>
      <app-select-exp [listItems]="expDefault"></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
+      <mat-form-field> 
        <mat-label>Address Line 2</mat-label>
        <input type="AddressLine2"  matInput> 
      </mat-form-field>
      <app-select-exp [listItems]="expDefault"></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
+      <mat-form-field> 
        <mat-label>Postcode</mat-label>
        <input type="Postcode"  matInput> 
      </mat-form-field>
@@ -45,7 +45,7 @@
     <label>List Selection</label> 
      <br>
      <app-select-exp [listItems]="expDefault"></app-select-exp> 
-   <mat-form-field appearance="outline">
+   <mat-form-field  >
              <mat-label>Trans.Type</mat-label>
              <mat-select>
                  <mat-option value=""></mat-option>
@@ -57,7 +57,7 @@
              </mat-select>
          </mat-form-field>
          <app-select-exp [listItems]="expDefault"></app-select-exp> 
-             <mat-form-field appearance="outline">
+             <mat-form-field  >
                  <mat-label>Source.Sys</mat-label>
                  <mat-select>
                      <mat-option></mat-option>
@@ -99,7 +99,7 @@
         <fieldset>
             <legend>Fixed/Optional Columns</legend>
 
-            <mat-form-field   appearance="outline">
+            <mat-form-field    >
              
                 <mat-label >Favourites</mat-label>
                 <mat-select  >
@@ -120,7 +120,7 @@
                 matTooltip="Search">Promote
             </button>
         
-          <app-select-multiple class="filters"  appearance="outline" #selMultiple [listItems]="listItems" 
+          <app-select-multiple class="filters"    #selMultiple [listItems]="listItems" 
           (changes)="selChange($event)">
       </app-select-multiple>
         </fieldset>
