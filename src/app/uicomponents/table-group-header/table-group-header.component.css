@@ -55,10 +55,8 @@ th.mat-sort-header-sorted {
   width:auto;
 }
 
-
-
 .table-container {
-  /* height: 350px; */
+  height: auto;
   overflow: auto;
   /* max-width: 100%; */  
   /* font-size:large; */

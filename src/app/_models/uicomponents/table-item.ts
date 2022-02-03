@@ -4,14 +4,10 @@ export interface TableItem {
     filter?: boolean;
     selectCheckbox?: boolean;
     imgConfig?: ViewColumn[];
-    // dataColumns?: string[];
-    // coulmnHeaders?: string[];
-    // colToSetImage?: string[];
     colToHighlight?: string[];
     colToHighlightInnerText?: string[];
     selectionColumn?:string;
     isEmailRequired?:boolean;
-    Colu?: ColumnDe[];
     showEmail?:boolean;
     showBlankCoulmns?:boolean;
     highlightedCells?:string[];
@@ -35,12 +31,5 @@ export interface ColumnDetails {
     headerValue: string;
     showDefault?: boolean;
     isImage?: boolean;
-}
-
-export interface ColumnDe{
-    header: string;
-    headerValue: string;
-    showDefault?: boolean;
-    imageColumn?: boolean;
 }
 
