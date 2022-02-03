@@ -8,6 +8,7 @@ import { TelephoneRangeReport } from 'src/app/_models/telephone-range-report-mod
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from 'src/app/_models/select';
 import { MatSelect } from '@angular/material/select';
+import { AlertService } from 'src/app/_shared/alert';
 
 const ELEMENT_DATA = [
   {
@@ -87,15 +88,21 @@ export class TelephoneRangeReportComponent implements OnInit {
     { header: 'Source System', headerValue: 'source', showDefault: true, imageColumn: false },
     { header: 'Line Type', headerValue: 'line', showDefault: true, imageColumn: false },
     { header: 'Live Records', headerValue: 'live', showDefault: true, imageColumn: false },
-    { header: 'Trans', headerValue: 'trans', showDefault: true, imageColumn: false },
+    { header: 'Inactive Records', headerValue: 'trans', showDefault: true, imageColumn: false },
     { header: 'Not Available', headerValue: 'null', showDefault: true, imageColumn: false },
     { header: 'Customer Name', headerValue: 'name', showDefault: true, imageColumn: false },
     { header: 'Customer Address', headerValue: 'address', showDefault: true, imageColumn: false },
     { header: 'Order Ref', headerValue: 'orderRef', showDefault: true, imageColumn: false },
   ];
   data1:TelephoneRangeReport[] = ELEMENT_DATA;
+
+  spinner:boolean=false;
+  options = {
+    autoClose: true,
+    keepAfterRouteChange: false
+};
   
-  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar,private alertService:AlertService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -120,6 +127,10 @@ export class TelephoneRangeReportComponent implements OnInit {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+    // this.spinner = true;
+    // setTimeout(()=>{
+    //  this.spinner= false;
+    // },3000);
   }
 
   createForm() {
@@ -194,4 +205,7 @@ export class TelephoneRangeReportComponent implements OnInit {
     }
   }
 
+  hello(){
+    this.alertService.success('Success!! hshs dhdh hdhdhdh hdhdhd hdhdhdhd dhdddbb', this.options)
+  }
 }
