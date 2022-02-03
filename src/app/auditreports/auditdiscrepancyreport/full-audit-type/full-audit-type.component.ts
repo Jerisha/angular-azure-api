@@ -3,8 +3,8 @@ import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular
 import { MatSidenav } from '@angular/material/sidenav';
 import { forkJoin, Observable } from 'rxjs';
 import { FullAuditAddresReport, FullAuditMonthReport, FullAuditProgressReport, FullAuditSummary } from 'src/app/_models/index';
-import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/merge-table-item-model';
-import { Tab } from 'src/app/_models/tab';
+import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/uicomponents/merge-table-item-model';
+import { Tab } from 'src/app/_models/uicomponents/tab';
 import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
 
 // const ELEMENT_DATA: AuditDiscrepancyModel[] = [{

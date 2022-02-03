@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { InternalAuditAddressReport, InternalAuditMonthReport, InternalAuditProgressReport, InternalAuditSummary } from 'src/app/_models/index';
-import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/merge-table-item-model';
-import { Tab } from 'src/app/_models/tab';
+import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/uicomponents/merge-table-item-model';
+import { Tab } from 'src/app/_models/uicomponents/tab';
 
 const ELEMENT_DATA: InternalAuditSummary[] = [
   {
