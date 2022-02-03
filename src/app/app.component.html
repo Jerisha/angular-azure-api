@@ -21,6 +21,9 @@
       <app-menu-list *ngFor="let item of navItems | filter:strSearch" [item]="item"></app-menu-list>
     </mat-nav-list>
   </mat-sidenav>
+
+  <ng-container *ngIf="!isError">
+
   <app-top-nav fxHide.xs></app-top-nav>
   <div class="page-header">    
        <div style="padding: 2px;"> {{baseRoot}}</div>
@@ -28,9 +31,17 @@
       <div style="padding: 2px;">{{childRoot}}</div>    
   </div>
   <router-outlet></router-outlet>
+  
   <div fxFlex></div>
   <div style="background-color: #EFEFEF;">
     <span class="version-info">Current build: {{version.full ? version.full : version}}</span>
   </div>
+  </ng-container>
+
+  <ng-container>
+  <router-outlet name="errorPage" (activate)="removeError()" (deactivate)="Unsubscribe()"></router-outlet>
+</ng-container>
 
 </mat-sidenav-container>
+
+<!-- /errors/(errorPage:error) -->
