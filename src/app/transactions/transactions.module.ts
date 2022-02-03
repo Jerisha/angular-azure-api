@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from "../_shared/material/material.module";
 import { TransactionsRoutingModule } from './transactions-routing.module';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,8 +17,7 @@ import { TelephoneNoComponent } from './telephone-no/telephone-no.component';
     TelephoneNoComponent    
   ],
   imports: [
-    CommonModule,
-    MaterialModule,        
+    CommonModule,  
     ReactiveFormsModule,
     FormsModule,
     UicomponentsModule,        

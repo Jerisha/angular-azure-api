@@ -1,3 +1,5 @@
+
+
 <mat-accordion *ngIf="liverecord?.tranId != null; else elseBlock" [togglePosition]="'before'">
 
     <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0" (opened)="setStep(0); panelOpenState1 = true; "
@@ -444,7 +446,7 @@
 
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <mat-icon style="cursor: pointer;"
+                                    <mat-icon class="table-icon" style="cursor: pointer;"
                                         (click)="(expandedElement = expandedElement === element ? null : element);">
                                         {{expandedElement === element ? 'remove_box_outline' : 'add_box_outline'}}
                                     </mat-icon>
@@ -497,7 +499,7 @@
 
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <mat-icon style="cursor: pointer;"
+                                    <mat-icon class="table-icon" class="table-icon" style="cursor: pointer;"
                                         (click)="(expandedElement = expandedElement === element ? null : element);">
                                         {{expandedElement === element ? 'remove_box_outline' : 'add_box_outline'}}
                                     </mat-icon>
@@ -558,7 +560,7 @@
 
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <mat-icon style="cursor: pointer;"
+                                    <mat-icon class="table-icon" style="cursor: pointer;"
                                         (click)="(expandedElement = expandedElement === element ? null : element);">
                                         {{expandedElement === element ? 'remove_box_outline' : 'add_box_outline'}}
                                     </mat-icon>
