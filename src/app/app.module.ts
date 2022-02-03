@@ -10,7 +10,7 @@ import { AuditreportsModule } from './auditreports/auditreports.module';
 import { UicomponentsModule } from './uicomponents/uicomponents.module';
 import { MaterialModule } from './_shared/material/material.module';
 import {  MenuSearchPipe } from './_helper/index';
-import { PopupComponent } from './popup/popup.component';
+
 
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { HttpWrapperService } from './_services/http/http-wrapper.service';
@@ -25,10 +25,7 @@ import { HelperModule } from './_helper/helper/helper.module';
 @NgModule({
   declarations: [
     AppComponent,
-    MenuSearchPipe,
-        PopupComponent,
-        
-        // BorderDirective       
+    MenuSearchPipe     
   ],
   imports: [
     BrowserModule,

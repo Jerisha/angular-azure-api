@@ -134,21 +134,18 @@
         </button>
         <div style="margin: 5px; float: left;"> Resolving Of Errors > Solicited Errors</div>
       </div> -->
-
-    <button class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+<app-start-up *ngIf="tabs.length===0"></app-start-up>
+    <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
       matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
       <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
     </button>
     <mat-tab-group [(selectedIndex)]="selectedTab">
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
-
-
           <div style="margin-left: 20px;">{{tab.name}}</div>
           <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
             <mat-icon style="font-size: large;">close</mat-icon>
           </button>
-
         </ng-template>
 
         <span [ngSwitch]="tab.tabType">

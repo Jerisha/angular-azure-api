@@ -3,6 +3,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_shared/models/telephone-audit-trail';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { TableItem } from 'src/app/_models/uicomponents/table-item';
+import { Router } from '@angular/router';
 
 const ele: TelephoneAuditTrail =
 {
@@ -218,7 +219,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
   step: number = 2;
 
   Telephone?: TelephoneAuditTrail[];
-  addressDetails: AddressDetails = {postcode: '', custName: '', internalAddr1: '', internalAddr2: '', internalAddr3: '', internalAddr4: ''};
+  addressDetails = new AddressDetails();
   
   liverecord?: LiveRecord;
   unsolicitedDetails?: UnsolicitedDetails[];
@@ -228,7 +229,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
 
 
   // ELEMENT_DATA: Option[] = [];
-  constructor() {
+  constructor( private _route: Router) {
     // for (let i = 0; i < this.dataSource.length; i++) {
     //   for (let item of this.dataSource[i].options) {
 
@@ -256,7 +257,13 @@ export class TelephoneAuditTrailComponent implements OnInit {
     return this.addressDetails;
   }
 
-  setAddressDetails(section: string, element: any) {
+  clicked(errCode: string, errMessage: string) {
+    this._route.navigate(['/errors', {outlets: {errorPage: 'error'}}], {state: {errData1: errCode, errData2: errMessage}});
+    // this._route.navigate([ {outlets: {errorPage: 'Myerror'}}], {state: {data1: errCode, data2: errMessage}});
+  }
+
+  
+  setAddressDetails(section: string, element?: any) {
     // console.log(element.details.postcode);
     if(section == 'transactionDetails') {
     this.addressDetails.postcode = element.details.postcode;
@@ -265,7 +272,9 @@ export class TelephoneAuditTrailComponent implements OnInit {
     this.addressDetails.internalAddr2 = element.details.internalAddr2;
     this.addressDetails.internalAddr3 = element.details.internalAddr3;
     this.addressDetails.internalAddr4 = element.details.internalAddr4;
-    } 
+    } else if( section == 'removeAddress') {
+      this.addressDetails = new AddressDetails();
+    }
     // console.log(this.addressDetails);
   }
 

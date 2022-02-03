@@ -320,18 +320,18 @@ export class TransactionDetailsComponent implements OnInit {
 { header: 'Cust Name Full',headerValue:'CustNameFull', showDefault: true, isImage: false },
 { header: 'Cust Name Compact',headerValue:'CustNameCompact', showDefault: true, isImage: false },
 { header: 'Reference',headerValue:'Reference', showDefault: true, isImage: false },
-{ header: 'Callback',headerValue:'Callback', showDefault: true, isImage: false },
+{ header: 'Callback',headerValue:'Callback', showDefault: true, isImage: false }, // never populate need to check
 { header: 'Order Ref.',headerValue:'OrderRef.', showDefault: true, isImage: false },
 { header: 'Sar Ref Num',headerValue:'SarRefNum', showDefault: true, isImage: false },
 { header: 'Sar Trans Num',headerValue:'SarTransNum', showDefault: true, isImage: false },
 { header: 'Comment',headerValue:'Comment', showDefault: true, isImage: false },
-{ header: 'Conn. Type',headerValue:'Conn.Type', showDefault: true, isImage: false },
-{ header: 'Type of Line',headerValue:'TypeofLine', showDefault: true, isImage: false },
-{ header: 'Service Type',headerValue:'ServiceType', showDefault: true, isImage: false },
-{ header: 'Access Method',headerValue:'AccessMethod', showDefault: true, isImage: false },
-{ header: 'Internal Errors',headerValue:'InternalErrors', showDefault: true, isImage: false },
-{ header: 'BT Responses',headerValue:'BTResponses', showDefault: true, isImage: false },
-{ header: 'BT File Name',headerValue:'BTFileName', showDefault: true, isImage: false }
+{ header: 'Conn. Type',headerValue:'Conn.Type', showDefault: true, isImage: false }, // never populate need to check; wire frame field na
+{ header: 'Type of Line',headerValue:'TypeofLine', showDefault: true, isImage: false }, //wire frame field na
+{ header: 'Service Type',headerValue:'ServiceType', showDefault: true, isImage: false }, //wire frame field na
+{ header: 'Access Method',headerValue:'AccessMethod', showDefault: true, isImage: false }, // never populate need to check wire frame field na
+{ header: 'Internal Errors',headerValue:'InternalErrors', showDefault: true, isImage: false },//wire frame field na
+{ header: 'BT Responses',headerValue:'BTResponses', showDefault: true, isImage: false }, //wire frame field na
+{ header: 'BT File Name',headerValue:'BTFileName', showDefault: true, isImage: false } //wire frame field na
   ];
   ngOnInit(): void {
     this.createForm();
