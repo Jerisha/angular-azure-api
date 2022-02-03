@@ -8,7 +8,7 @@ import { ResolvingOfErrorsService } from '../services/resolving-of-errors.servic
 import { Select } from 'src/app/_models/uicomponents/select';
 import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { MatSelect } from '@angular/material/select';
-import { Tab } from 'src/app/_models/tab';
+import { Tab } from 'src/app/_models/uicomponents/tab';
 
 const ELEMENT_DATA: SolicitedErrors[] = [
   {

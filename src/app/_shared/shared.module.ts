@@ -19,7 +19,8 @@ import { StartUpComponent } from './start-up/start-up.component';
   exports :[
     TelephoneAuditTrailComponent,
     TransactionErrorsComponent  ,
-    StartUpComponent
+    StartUpComponent,
+    MaterialModule
   ]  
 
 })
