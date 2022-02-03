@@ -71,7 +71,7 @@ font-size: smaller;  ">
         <!-- Other Columns -->
         <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>{{disCol.header}}</th>
-          <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)">
+          <td mat-cell class="truncate-cell" *matCellDef="let element"(click)="$event.stopPropagation()" [ngStyle]="highlightCell(element,disCol)">
             {{element[disCol.headerValue]}} </td>
             <ng-container *ngIf="shouldTotalRow">
               <td class="totalRow" mat-footer-cell *matFooterCellDef="let element"> {{ getTotal(disCol.headerValue)}}
