@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BTResponses, InternalError, ResolutionHistory, TransactionErrors } from 'src/app/_models/resolvingoferrors/transaction-errors';
+import { BTResponses, InternalError, ResolutionHistory, TransactionErrors } from '../models/ITransactionErrors';
 
 const ele: TransactionErrors = {
   InternalError: [{ TelNo: '12345', TransId: '19967456', Comment: 'Awaiting Customer' }],

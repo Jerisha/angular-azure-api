@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
-import { GroupHeaderTableItem, MergeTableItem } from 'src/app/_models/merge-table-item-model';
+import { GroupHeaderTableItem, MergeTableItem } from 'src/app/_models/uicomponents/merge-table-item-model';
 
 @Component({
   selector: 'app-table-group-header',

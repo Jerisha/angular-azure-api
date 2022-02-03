@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
-import { Transactionsourcecommandhistory } from 'src/app/_models/transactionsourcecommandhistory';
+import { Transactionsourcecommandhistory } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponents/table-item';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { selectmonth, selectsrc } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -139,7 +139,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
   ctrl = new FormControl(true);
   columns: ColumnDetails[] =
-    [{ header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },];
+    [{ header: 'View', headerValue: 'View', showDefault: true, isImage: true },];
 
   form: any;
   

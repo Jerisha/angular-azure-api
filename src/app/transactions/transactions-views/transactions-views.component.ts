@@ -2,7 +2,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field/autosize';
 import { Component, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CupId } from 'src/app/_data/listValues/CupId';
-import { TableItem } from 'src/app/_models/table-item';
+import { TableItem } from 'src/app/_models/uicomponents/table-item';
 import { take } from 'rxjs/operators';
 import { ThrowStmt } from '@angular/compiler';
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { TelephoneDetails } from 'src/app/_models/telephone-details';
+import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { TelephoneDetails } from '../models/telephone-details';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
   {
@@ -64,14 +64,14 @@ export class TelephoneDetailsComponent implements OnInit {
 
 
   columns: ColumnDetails[] = [
-    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, imageColumn: true },
-    { header: 'TelephoneNos', headerValue: 'TelephoneNos', showDefault: true, imageColumn: false },
-    { header: 'AddCommands', headerValue: 'AddCommands', showDefault: true, imageColumn: false },
-    { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: true, imageColumn: false },
-    { header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: true, imageColumn: false },
-    { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: true, imageColumn: false },
-    { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: true, imageColumn: false },
-    { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, imageColumn: false },
+    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
+    { header: 'TelephoneNos', headerValue: 'TelephoneNos', showDefault: true, isImage: false },
+    { header: 'AddCommands', headerValue: 'AddCommands', showDefault: true, isImage: false },
+    { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: true, isImage: false },
+    { header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false },
+    { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: true, isImage: false },
+    { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: true, isImage: false },
+    { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, isImage: false },
   ];
 
   ngOnInit(): void {

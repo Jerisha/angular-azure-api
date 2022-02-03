@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AddressDetails } from 'src/app/_models/address-details';
+import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Transaction } from 'src/app/_models/TableExpansion';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponents/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
@@ -170,16 +170,16 @@ export class TableExpansionComponent implements OnInit {
   }
   columns: ColumnDetails[] =
   [
-  { header: 'select', headerValue: 'select', showDefault: true, imageColumn: true },
-  { header: 'Link', headerValue: 'Link', showDefault: true, imageColumn: true },
-  { header: 'StatisticMonthDate', headerValue: 'StatisticMonthDate', showDefault: false, imageColumn: false },
-  { header: 'Source', headerValue: 'Source', showDefault: false, imageColumn: false },
-  { header: 'Adds', headerValue: 'Adds', showDefault: false, imageColumn: false },
-  { header: 'Ceases', headerValue: 'Ceases', showDefault: false, imageColumn: false },
-  { header: 'Modifies', headerValue: 'Modifies', showDefault: false, imageColumn: false },
-  { header: 'Exports', headerValue: 'Exports', showDefault: false, imageColumn: false },
-  { header: 'Imports', headerValue: 'Imports', showDefault: false, imageColumn: false },
-  { header: 'TotalCmds', headerValue: 'TotalCmds', showDefault: false, imageColumn: false }
+  { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
+  { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
+  { header: 'StatisticMonthDate', headerValue: 'StatisticMonthDate', showDefault: false, isImage: false },
+  { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
+  { header: 'Adds', headerValue: 'Adds', showDefault: false, isImage: false },
+  { header: 'Ceases', headerValue: 'Ceases', showDefault: false, isImage: false },
+  { header: 'Modifies', headerValue: 'Modifies', showDefault: false, isImage: false },
+  { header: 'Exports', headerValue: 'Exports', showDefault: false, isImage: false },
+  { header: 'Imports', headerValue: 'Imports', showDefault: false, isImage: false },
+  { header: 'TotalCmds', headerValue: 'TotalCmds', showDefault: false, isImage: false }
   ];
 
   ngOnInit() {
@@ -196,7 +196,8 @@ export class TableExpansionComponent implements OnInit {
       this.columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
       this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
       : (this.columns ? this.columns.map(e => e) : []);
-      const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, imageColumn: false };
+      // const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, imageColumn: false };
+      const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
       //this.getEmptyColumns();
       this.ColumnDetails.unshift(selItem);
       this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);

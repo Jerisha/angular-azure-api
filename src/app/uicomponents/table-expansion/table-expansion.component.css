@@ -40,13 +40,13 @@ tr.example-detail-row {
   height: 0;
 }
 
-tr.example-element-row:not(.example-expanded-row):hover {
+/* tr.example-element-row:not(.example-expanded-row):hover {
   background: whitesmoke;
-}
-
+} */
+/* 
 tr.example-element-row:not(.example-expanded-row):active {
   background: #efefef;
-}
+} */
 
 .example-element-row td {
   border-bottom-width: 0;
@@ -86,106 +86,25 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: black;
 } */
 
-.notification-sec .page-header {
-  font-weight: bold;
-  background-color: #e60000;
-  color:  white;
-  justify-content: center;
-}
-
-.liveRecord-error {
-  text-align: center;
-}
-h4 {
-  font-weight: bold;
-  font-size: small;
-}
-
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around ;
-}
-
-.fluid-item {
-  margin: 5px;
-  flex: 0 1 1;
-}
-
-.details-sec span, .liverecord-sec span, .notification-sec span {
-  display: block;
-}
-
-.notification-sec .container-fluid{
-  justify-content: flex-start;
-  column-gap: 20px;
-}
-
-@media screen and (max-width: 1254px) {
-  .fluid-item{
-    flex: 47% 1 1;
-  }
-}
-
-@media screen and (max-width: 950px) {
-  .fluid-item{
-    flex: 95% 1 1;
-  }
-}
-.hidden {display:none;}
-
-.disabledbutton {
-    pointer-events: none;
-    opacity: 0.4;
-}
-button{
-    margin-bottom:10px;    
-}
-
-.filterposition{
-    margin-left:10px;
-    margin-top:15px;
-    margin-bottom:10px;
-}
-
-:host{
-  padding: 0em;
-}
-
-:host::ng-deep app-table-selection .table-container {  
-  height: 350px !important;
-}
-/* 
-.slidderbtn{
-  
-  cursor: pointer;
-    border:none;
-   
-    background-color: #e60000;
-    color:  #EFEFEF;
-    
-    font-size:small;
-    margin-left: -18px;
-    height: 40px;
-  } */
-
-
 .mat-column-TelNo {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 28% !important;
-    width: 28% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  
-    word-break: break-word;
-  
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 28% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 
-  .controlsStylediv{
-    margin-right:20px 
-  }
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.controlsStylediv{
+  margin-right:20px 
+}
+
+
+

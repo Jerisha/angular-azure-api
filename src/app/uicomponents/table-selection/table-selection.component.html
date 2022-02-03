@@ -9,7 +9,7 @@ font-size: smaller;  ">
   <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
   </button> -->
 
-<mat-form-field *ngIf="filter" class="colfilter" style="margin-left: 8px;">
+<mat-form-field appearance="standard" *ngIf="filter" class="colfilter" style="margin-left: 8px;">
   <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
     <mat-select-trigger>
       <mat-icon>filter_list</mat-icon>
@@ -59,19 +59,19 @@ font-size: smaller;  ">
           </td>
         </div>
         <!-- Image Columns -->
-        <div *ngIf="disCol.imageColumn">
+        <div *ngIf="disCol.isImage">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>{{disCol.header}}</th>
           <td mat-cell *matCellDef="let row ">
             <ng-container *ngFor="let img of imgList; let imgIndex = index;">
-              <mat-icon class="table-icon" (click)="addTabs($event,img.tabIndex,row)"
+              <mat-icon matTooltip="{{img.toolTipText}}" class="table-icon" (click)="addTabs($event,img.tabIndex,row)"
                 *ngIf="img.headerValue === disCol.headerValue">
                 {{img.icon}}</mat-icon>
             </ng-container>
         </div>
         <!-- Other Columns -->
-        <div *ngIf="disCol.headerValue != 'Select' && !disCol.imageColumn">
+        <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>{{disCol.header}}</th>
-          <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)">
+          <td mat-cell class="truncate-cell" *matCellDef="let element"(click)="$event.stopPropagation()" [ngStyle]="highlightCell(element,disCol)">
             {{element[disCol.headerValue]}} </td>
             <ng-container *ngIf="shouldTotalRow">
               <td class="totalRow" mat-footer-cell *matFooterCellDef="let element"> {{ getTotal(disCol.headerValue)}}
@@ -91,7 +91,9 @@ font-size: smaller;  ">
 
 <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[100, 500, 1000]" showFirstLastButtons>
 </mat-paginator>
-<div style="margin-bottom:10px">
+
+<!-- <div class="test-wrapper"> -->
+<div style="margin-bottom:10px" *ngIf="isShown">
   <button type="reset" mat-raised-button color="primary" matTooltip="Export">
     <mat-icon>import_export</mat-icon>Export
   </button>&nbsp;&nbsp;
@@ -104,5 +106,11 @@ font-size: smaller;  ">
     </button>
   </span>
 </div>
+<div style="margin: auto;"  *ngIf="!isShown">
+  <button type="reset" mat-raised-button color="primary" matTooltip="Reset">
+    <mat-icon>import_export</mat-icon>Refresh
+  </button>&nbsp;&nbsp;
+  
 </div>
+
 <mat-divider></mat-divider>

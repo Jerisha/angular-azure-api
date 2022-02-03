@@ -27,14 +27,14 @@ export interface ViewColumn {
     icon: string;
     route: string;
     tabIndex : number;
-    // toolTipText :string
+    toolTipText? :string
 }
 
 export interface ColumnDetails {
     header: string;
     headerValue: string;
     showDefault?: boolean;
-    imageColumn?: boolean;
+    isImage?: boolean;
 }
 
 export interface ColumnDe{

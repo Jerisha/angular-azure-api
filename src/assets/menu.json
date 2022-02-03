@@ -68,7 +68,7 @@
       {
         "displayName": "Transaction Details",
         "iconName": "report",
-        "route": "reports/transactiondetails"
+        "route": "reports/transactiondetailsreport"
       },      
       {
         "displayName": "Telephone Range Source Report",

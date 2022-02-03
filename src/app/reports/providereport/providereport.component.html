@@ -1,135 +1,74 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-     <form >
-       <div class= "mat-elevation-z8" >
-      
-        <mat-icon matTooltip="Report Wildcard Selection" (click)="openDialog()">info</mat-icon> 
-        <label >Wildcard Selection</label>
-      <br>
-      <!-- <app-select-exp [listItems]="expDefault" (click)="print($event)"></app-select-exp> -->
-      <app-select-exp [listItems]="expDefault"></app-select-exp> 
-      <mat-form-field   appearance="outline">
-       <mat-label>Telephone</mat-label>
-       <input type="Telephone"  matInput> 
-      </mat-form-field>
-      <app-select-exp [listItems]="expDefault"></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
-        <mat-label>Cust Name Full</mat-label>
-       <input type="CustNameFull"  matInput> 
-     </mat-form-field>
-    
-     <app-select-exp [listItems]="expDefaultcupid" ></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
-       <mat-label>Cupid</mat-label>
-       <input type="Cupid"  matInput> 
-     </mat-form-field>
-     <app-select-exp [listItems]="expDefault"></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
-       <mat-label>Address Line 1</mat-label>
-       <input type="AddressLine1"  matInput> 
-     </mat-form-field>
-     <app-select-exp [listItems]="expDefault"></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
-       <mat-label>Address Line 2</mat-label>
-       <input type="AddressLine2"  matInput> 
-     </mat-form-field>
-     <app-select-exp [listItems]="expDefault"></app-select-exp> 
-     <mat-form-field  appearance="outline"> 
-       <mat-label>Postcode</mat-label>
-       <input type="Postcode"  matInput> 
-     </mat-form-field>
-     </div>
-    </form>
-
-    <form >
-      <div class= "mat-elevation-z8" >
-    <mat-icon matTooltip="List Selection" (click)="openDialog()">info</mat-icon> 
-    <label>List Selection</label> 
-     <br>
-     <app-select-exp [listItems]="expDefaultlist"></app-select-exp> 
-   <mat-form-field appearance="outline">
-             <mat-label>Trans.Type</mat-label>
-             <mat-select>
-                 <mat-option value=""></mat-option>
-                 <mat-option >Activate Customer</mat-option>
-                 <mat-option>Cease Customer</mat-option>
-                 <mat-option>Export</mat-option>
-                 <mat-option>Import</mat-option>
-                 <mat-option>Modify</mat-option>
-             </mat-select>
-         </mat-form-field>
-         <app-select-exp [listItems]="expDefaultlist"></app-select-exp> 
-             <mat-form-field appearance="outline">
-                 <mat-label>Source.Sys</mat-label>
-                 <mat-select>
-                     <mat-option></mat-option>
-                     <mat-option>A - AUDITr</mat-option>
-                     <mat-option>C - SAS/COMS</mat-option>
-                     <mat-option>D - DVA Siebel</mat-option>
-                     <mat-option>E - VA/WAD</mat-option>
-                     <mat-option>F - Ring Central</mat-option>
-                     <mat-option>G - Content Guru</mat-option>
-                     <mat-option>N - ONENET</mat-option>
-                     <mat-option>R - Clarify</mat-option>
-                     <mat-option>S - Amdocs SOM</mat-option>
-                     <mat-option>X - Unknown</mat-option>
-                 </mat-select>
-               </mat-form-field>
-               <button type="submit" mat-raised-button color="primary" matTooltip="Search">
-                <mat-icon>search</mat-icon>Search
-            </button>
-            <button type="reset" mat-raised-button color="primary"  matTooltip="Refresh">
-              <mat-icon>refresh</mat-icon>Clear
-            </button>
-            </div>
-           
-  </form>
-
-
-</mat-sidenav>
-
-  <mat-sidenav-content class="side-content">
-  
-
-    <app-table-selection [tableitem]="myTable"></app-table-selection>
-   <!-- <mat-slide-toggle [(ngModel)]="isChecked">Slide Toggle Checked: {{isChecked}}</mat-slide-toggle>-->
-        
-    <!-- <form>
-      <div class="side-left-div">
-        <mat-icon matTooltip="Report Wildcard Selection" (click)="openDialog()">info</mat-icon> 
-       
-        <br>
-        <fieldset>
-            <legend>Fixed/Optional Columns</legend>
-
-            <mat-form-field   appearance="outline">
-             
-                <mat-label >Favourites</mat-label>
-                <mat-select  >
-                    <mat-option selected>Default</mat-option>
-                    <mat-option>Default</mat-option>
-                    <mat-option>Default3</mat-option>
-                    <mat-option>Default5</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <button class="disabledbutton" type="submit" mat-raised-button color="primary"
-                matTooltip="Search">Add
-            </button>
-           
-            <button class="disabledbutton" disabled type="submit" mat-raised-button color="primary"
-                matTooltip="Search">Delete
-            </button>
-            <button class="disabledbutton" disabled type="submit" mat-raised-button color="primary"
-                matTooltip="Search">Promote
-            </button>
-        
-          <app-select-multiple class="filters"  appearance="outline" #selMultiple [listItems]="listItems" 
-          (changes)="selChange($event)">
+    <div class="filter-sticky filterposition">
+      <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'search'"
+          (changes)="setControlAttribute($event)">
       </app-select-multiple>
-        </fieldset>
+  </div>
+  <form [formGroup]="myForm">
+      <div class="">
+          <mat-form-field  [ngClass]="{'hidden':myForm.controls.TelephoneNo.disabled}"  hintLabel="Max 10 characters"
+              appearance="outline">
+              <mat-label>Tel.No Start</mat-label>
+              <input id="TelephoneNo" formControlName="TelephoneNo" matInput #input maxlength="10"
+                  placeholder="Tel.No Start" style="margin-right: 24%;">
+              <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+          </mat-form-field>
+
+          <!-- <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+              <mat-icon>search</mat-icon>Search
+          </button> -->
       </div>
-    </form> -->
+
+  </form>
+                   <button type="reset" mat-raised-button color="primary" matTooltip="Search">
+                      <mat-icon>search</mat-icon>Search
+                      
+                    </button>
+                  <button type="submit" mat-raised-button color="primary" matTooltip="reset">
+                      <mat-icon>refresh</mat-icon>Reset
+                  </button> 
+  </mat-sidenav>
+  <mat-sidenav-content class="side-content">
+   
+
+    <button class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+      matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+      <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+    </button>
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+      <mat-tab *ngFor="let tab of tabs; let index = index">
+        <ng-template mat-tab-label>
+
+
+          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+          <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button>
+            <mat-icon style="font-size: large;">close</mat-icon>
+          </button>
+
+        </ng-template>
+
+        <span [ngSwitch]="tab.tabType">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+           
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" [isShown]='false'>
+            </app-table-selection> 
+          </div>
+         
+        </span>
+
+
+
+        <!-- <button mat-raised-button
+   class="example-delete-tab-button"
+   [disabled]="tabs.length === 1"
+   (click)="removeTab(index)">
+Delete Tab
+</button> -->
+      </mat-tab>
+    </mat-tab-group>
   </mat-sidenav-content>
+  
 </mat-sidenav-container>
 
 

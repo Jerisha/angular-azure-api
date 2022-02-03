@@ -3,10 +3,10 @@ import { TableSelectionComponent } from 'src/app/uicomponents';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { TelephoneRangeReport } from 'src/app/_models/telephone-range-report-model';
+import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report-model';
+import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select } from 'src/app/_models/select';
+import { Select } from 'src/app/_models/uicomponents/select';
 import { MatSelect } from '@angular/material/select';
 
 const ELEMENT_DATA = [
@@ -42,7 +42,7 @@ const ELEMENT_DATA = [
 
 const FilterListItems: Select[] = [
   { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-  { view: 'TelNo End', viewValue: 'TelNoEnd', default: false }
+  { view: 'TelNo End', viewValue: 'TelNoEnd', default: true }
 ];
 
 @Component({
@@ -82,16 +82,16 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   
   columns: ColumnDetails[] =[
-    { header: 'Start Tel. No.', headerValue: 'startTel', showDefault: true, imageColumn: false },
-    { header: 'End Tel. No.', headerValue: 'endTel', showDefault: true, imageColumn: false },
-    { header: 'Source System', headerValue: 'source', showDefault: true, imageColumn: false },
-    { header: 'Line Type', headerValue: 'line', showDefault: true, imageColumn: false },
-    { header: 'Live Records', headerValue: 'live', showDefault: true, imageColumn: false },
-    { header: 'Trans', headerValue: 'trans', showDefault: true, imageColumn: false },
-    { header: 'Not Available', headerValue: 'null', showDefault: true, imageColumn: false },
-    { header: 'Customer Name', headerValue: 'name', showDefault: true, imageColumn: false },
-    { header: 'Customer Address', headerValue: 'address', showDefault: true, imageColumn: false },
-    { header: 'Order Ref', headerValue: 'orderRef', showDefault: true, imageColumn: false },
+    { header: 'Start Tel. No.', headerValue: 'startTel', showDefault: true, isImage: false },
+    { header: 'End Tel. No.', headerValue: 'endTel', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'source', showDefault: true, isImage: false },
+    { header: 'Line Type', headerValue: 'line', showDefault: true, isImage: false },
+    { header: 'Live Records', headerValue: 'live', showDefault: true, isImage: false },
+    { header: 'Trans', headerValue: 'trans', showDefault: true, isImage: false },
+    { header: 'Not Available', headerValue: 'null', showDefault: true, isImage: false },
+    { header: 'Customer Name', headerValue: 'name', showDefault: true, isImage: false },
+    { header: 'Customer Address', headerValue: 'address', showDefault: true, isImage: false },
+    { header: 'Order Ref', headerValue: 'orderRef', showDefault: true, isImage: false },
   ];
   data1:TelephoneRangeReport[] = ELEMENT_DATA;
   

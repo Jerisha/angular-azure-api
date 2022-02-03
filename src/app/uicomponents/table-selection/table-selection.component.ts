@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, EventEmitter, O
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponents/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
@@ -22,6 +22,7 @@ export class TableSelectionComponent {
   selection = new SelectionModel<any>(true, []);
   @Input() tableitem?: TableItem;
   @Input() sidePan: any;
+  @Input() isShown: boolean = true ;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   dataSource!: MatTableDataSource<any>;
@@ -190,7 +191,8 @@ export class TableSelectionComponent {
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
-    //   this.tableitem?.coulmnHeaders : undefined;
+    //   this.tableitem?.coulmnHeaders : undefined;filter
+    
     // selectedColumns.forEach(function (selectedColumn) {
     //   let displayedColumn = staticColumns?.
     //     find(x => x.replace(/[^a-zA-Z0-9]/g, "") == selectedColumn)
