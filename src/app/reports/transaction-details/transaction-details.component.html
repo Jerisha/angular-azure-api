@@ -16,10 +16,10 @@
           </mat-form-field> 
           <app-select-exp [listItems]="expDefault"></app-select-exp> 
           <mat-form-field hintLabel="Max 10 characters" appearance="outline"
-            [ngClass]="{'hidden':thisForm.controls.TelephoneNumber.disabled}">
-            <mat-label>Tran Id</mat-label>            
-            <input formControlName="TranId" matInput #TranId maxlength="15" placeholder="Tran Id">
-            <mat-hint align="end">{{TranId.value?.length || 0}}/15</mat-hint>
+            [ngClass]="{'hidden':thisForm.controls.CustName.disabled}">
+            <mat-label>Customer Name</mat-label>            
+            <input formControlName="CustName" matInput #CustName maxlength="15" placeholder="CustName">
+            <mat-hint align="end">{{CustName.value?.length || 0}}/15</mat-hint>
           </mat-form-field> 
           <app-select-exp [listItems]="expDefault"></app-select-exp> 
           <mat-form-field hintLabel="Max 10 characters" appearance="outline"
@@ -28,31 +28,15 @@
             <input formControlName="Postcode" matInput #Postcode maxlength="10" placeholder="Postcode">
             <mat-hint align="end">{{Postcode.value?.length || 0}}/10</mat-hint>
           </mat-form-field> 
-          <app-select-exp [listItems]="expDefault"></app-select-exp> 
-          <mat-form-field hintLabel="Max 10 characters" appearance="outline"
-            [ngClass]="{'hidden':thisForm.controls.AddressLocality.disabled}">
-            <mat-label>Address Locality</mat-label>            
-            <input formControlName="AddressLocality" matInput #AddressLocality maxlength="15" placeholder="Address Locality">
-            <mat-hint align="end">{{AddressLocality.value?.length || 0}}/15</mat-hint>
-          </mat-form-field> 
-          <app-select-exp [listItems]="expDefault"></app-select-exp> 
-          <mat-form-field hintLabel="Max 200 characters" appearance="outline"
-            [ngClass]="{'hidden':thisForm.controls.Comment.disabled}">
-            <mat-label>Comment</mat-label>            
-            <input formControlName="Comment" matInput #Comment maxlength="15" placeholder="Comment">
-            <mat-hint align="end">{{Comment.value?.length || 0}}/200</mat-hint>
-          </mat-form-field> 
           <app-select-exp [listItems]="expDefault"></app-select-exp>
-          <mat-form-field appearance="outline"  [ngClass]="{'hidden':thisForm.controls.ServiceType.disabled}" >
-            <mat-label>Service Type</mat-label>
-            <mat-select formControlName="ServiceType">
-            <mat-option value=""></mat-option>
-            <mat-option value="A">Activate Customer</mat-option>
-            <mat-option value="C">Cease Customer</mat-option>
-            <mat-option value="E">Export</mat-option>
-            <mat-option value="I">Import</mat-option>
-            <mat-option value="M">Modify</mat-option>
-            </mat-select>
+          <mat-form-field hintLabel="Max 10 characters" appearance="outline"
+            [ngClass]="{'hidden':thisForm.controls.CreatedOn.disabled}">
+            <mat-label>Created On</mat-label>
+            <input  formControlName="CreatedOn" matInput #CreatedOn maxlength="10"
+            placeholder="Created On" [matDatepicker]="picker" >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            <mat-hint align="end">{{CreatedOn.value?.length || 0}}/10</mat-hint>
           </mat-form-field>
           <app-select-exp [listItems]="expDefault"></app-select-exp>
           <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.SourceSystem.disabled}">
@@ -72,6 +56,137 @@
             </mat-select>
             <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
           </mat-form-field>
+          <app-select-exp [listItems]="expDefault"></app-select-exp>
+          <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.SourceSystem.disabled}">
+            <mat-label>Source System</mat-label>
+            <mat-select formControlName="SourceSystem">
+              <mat-option></mat-option>
+              <mat-option>AUDIT</mat-option>
+              <mat-option>SAS/COMS</mat-option>
+              <mat-option>DVA Siebel</mat-option>
+              <mat-option>VA/WAD</mat-option>
+              <mat-option>Ring Central</mat-option>
+              <mat-option>Content Guru</mat-option>
+              <mat-option>ONENET</mat-option>
+              <mat-option>Clarify</mat-option>
+              <mat-option>Amdocs SOM</mat-option>
+              <mat-option>Unknown</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          </mat-form-field>
+          <app-select-exp [listItems]="expDefault"></app-select-exp>
+          <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.ParentCupid.disabled}">
+            <mat-label>Cupid</mat-label>
+            <mat-select formControlName="ParentCupid">
+              <mat-option></mat-option>
+              <mat-option>AUDIT</mat-option>
+              <mat-option>SAS/COMS</mat-option>
+              <mat-option>DVA Siebel</mat-option>
+              <mat-option>VA/WAD</mat-option>
+              <mat-option>Ring Central</mat-option>
+              <mat-option>Content Guru</mat-option>
+              <mat-option>ONENET</mat-option>
+              <mat-option>Clarify</mat-option>
+              <mat-option>Amdocs SOM</mat-option>
+              <mat-option>Unknown</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          </mat-form-field>
+          <app-select-exp [listItems]="expDefault"></app-select-exp>
+          <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.SourceSystem.disabled}">
+            <mat-label>Source System</mat-label>
+            <mat-select formControlName="SourceSystem">
+              <mat-option></mat-option>
+              <mat-option>AUDIT</mat-option>
+              <mat-option>SAS/COMS</mat-option>
+              <mat-option>DVA Siebel</mat-option>
+              <mat-option>VA/WAD</mat-option>
+              <mat-option>Ring Central</mat-option>
+              <mat-option>Content Guru</mat-option>
+              <mat-option>ONENET</mat-option>
+              <mat-option>Clarify</mat-option>
+              <mat-option>Amdocs SOM</mat-option>
+              <mat-option>Unknown</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          </mat-form-field>
+          <app-select-exp [listItems]="expDefault"></app-select-exp>
+          <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.TypeofLine.disabled}">
+            <mat-label>Type Of Line</mat-label>
+            <mat-select formControlName="TypeofLine">
+              <mat-option value=""></mat-option>
+              <mat-option value="AC">AC - Areacall Products/Numbers</mat-option>
+              <mat-option value="AUD">AUD - Audit</mat-option>
+              <mat-option value="BB">BB - Multisite and Dual Parenting Bothway</mat-option>
+              <mat-option value="BI">BI - Multisite and Dual Parenting Incoming</mat-option>
+              <mat-option value="BO">BO - Multisite and Dual Parenting Outgoing</mat-option>
+              <mat-option value="BW">BW - Bothway</mat-option>
+              <mat-option value="C">C - IP Handset</mat-option>
+              <mat-option value="C1">C1 - SIP Trunking Fixed C20 Numbers</mat-option>
+              <mat-option value="C3">C3 - SIP Trunking Nom C20 Numbers</mat-option>
+              <mat-option value="C6">C6 VCC SIP Trunk Nom C20 Numbers</mat-option>
+              <mat-option value="CC">CC - Complete Contact Number Mgmt</mat-option>
+              <mat-option value="CE">CE - IP Centrex (CS2K Numbers)</mat-option>
+              <mat-option value="CX">CX - IP Centrex (IN Numbers)</mat-option>
+              <mat-option value="DVA">DVA Siebel (Digital Voice Assistant)</mat-option>
+              <mat-option value="FM">FM - FMC Geographic Numbers</mat-option>
+              <mat-option value="G1">G1 - Genesys SIP Trunking Fixed</mat-option>
+              <mat-option value="G2">G2 - Genesys SIP Trunking Plus Fixed</mat-option>
+              <mat-option value="GC">GC - Genesys SIP Tnk FXD C20 Number</mat-option>
+              <mat-option value="IC">IC - Incoming</mat-option>
+              <mat-option value="IT">IT - INTERNATIONAL  IP TRUNKING</mat-option>
+              <mat-option value="K1">K1 - Sub-Allocated To Skype</mat-option>
+              <mat-option value="K2">K2 - Skype Number Ported Out</mat-option>
+              <mat-option value="M">M - Analogue Gateway</mat-option>
+              <mat-option value="MB">MB - Multisite Bothway</mat-option>
+              <mat-option value="MI">MI - Multisite Incoming</mat-option>
+              <mat-option value="MO">MO - Multisite Outgoing</mat-option>
+              <mat-option value="MS">MS - Multi-Site (Over-ride LT, see LTOV)</mat-option>
+              <mat-option value="OF">OF - Unknown location for C&amp;W ofcom orders</mat-option>
+              <mat-option value="OG">OG - Outgoing</mat-option>
+              <mat-option value="ON">ON - ONENET</mat-option>
+              <mat-option value="P1">P1 - STORM SIP TRUNKING-NOMADIC</mat-option>
+              <mat-option value="PB">PB - IP Trunking Plus Bothway</mat-option>
+              <mat-option value="R">R - Roaming (used by EDIS)</mat-option>
+              <mat-option value="S">S - Intelligent Working</mat-option>
+              <mat-option value="S1">S1 - SIP Trunking Fixed (CS2K Numbers)</mat-option>
+              <mat-option value="S2">S2 - SIP Trunking Plus Fixed  (CS2K Numbers)</mat-option>
+              <mat-option value="S3">S3 - SIP Trunking Nomadic (CS2K numbers)</mat-option>
+              <mat-option value="S4">S4 - SIP Trunking Plus Nomadic model (CS2K)</mat-option>
+              <mat-option value="S5">S5 - Microsoft Lync SIP Trunking CS2K numbers</mat-option>
+              <mat-option value="SB">SB - TDM SINGLE HUB SITE</mat-option>
+              <mat-option value="SS">SS - SIP Evolved Voice over public internet</mat-option>
+              <mat-option value="SX">SX - STORM IP CENTREX-IN Numbers</mat-option>
+              <mat-option value="TB">TB - IP trunking Bothway</mat-option>
+              <mat-option value="TD">TD - Combined - B/W, I/C &amp; O/G group for CDMS</mat-option>
+              <mat-option value="TS">TS - SWI (TDM) Satellite site SysX numbers</mat-option>
+              <mat-option value="TX">TX - SWI (TDM) Satellite site IN numbers</mat-option>
+              <mat-option value="V1">V1 - IP Trunking FIXED new ver (CS2K Numbers)</mat-option>
+              <mat-option value="V2">V2 - IP Trunking+ FIXED new ver (CS2K numbers</mat-option>
+              <mat-option value="V3">V3 - IP Trunking NOMADIC new ver (CS2K Nos)</mat-option>
+              <mat-option value="V4">V4 - IP Trunking+ NOMADIC new ver (CS2K Nos)</mat-option>
+              <mat-option value="S6">VCC Sip Trunking Nomadic (CS2K)</mat-option>
+              <mat-option value="VM">VM -VOM - VONE-M1 (UK Prov)</mat-option>
+              <mat-option value="M2">VM2 - VONE-M2 (Group Prov )</mat-option>
+              <mat-option value="VC">VONE-C (Voda Onenet - Cisco) (VOC)</mat-option>
+              <mat-option value="WB">WB - PBX Gateway Bothway</mat-option>
+              <mat-option value="WI">WI - PBX Gateway Incoming</mat-option>
+              <mat-option value="WO">WO - PBX Gateway Outgoing</mat-option>
+              <mat-option value="X1">X1 - IP Trunking FIXED new ver (IN numbers)</mat-option>
+              <mat-option value="X2">X2 - IP Trunking+ FIXED new ver (IN numbers)</mat-option>
+              <mat-option value="X3">X3 - SIP Trunking FIXED (IN Numbers)</mat-option>
+              <mat-option value="X4">X4 - SIP Trunking Plus FIXED (IN Numbers)</mat-option>
+              <mat-option value="X5">X5 - IP Trunking NOMADIC new ver (IN Nos)</mat-option>
+              <mat-option value="X6">X6 - SIP Trunking Nomadic IN Numbers</mat-option>
+              <mat-option value="X7">X7 - IP Trunking Plus (IN Numbers)</mat-option>
+              <mat-option value="X8">X8 - SIP Trunking Plus Nomadic model (IN)</mat-option>
+              <mat-option value="X9">X9 - VCC Sip Trunking Nomadic (IN)</mat-option>
+              <mat-option value="Z1">Z1 - Sip Trunk FXD IN Numbers on C20</mat-option>
+              <mat-option value="Z3">Z3 - SIP Tnk Nom IN Numbers on C20</mat-option>
+              <mat-option value="Z6">Z6 - VCC SIP Tnk Nom IN No-s on C20</mat-option>                                     
+            </mat-select>        
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          </mat-form-field>          
           <button type="submit" mat-raised-button color="primary" matTooltip="Search">
             <mat-icon>search</mat-icon>Search
           </button>
