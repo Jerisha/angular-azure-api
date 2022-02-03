@@ -334,6 +334,9 @@ margin-top: 90px;*/
 }
 /* Side-panel Ends */
  
-  
+  .mat-cell{
+    color: black !important;
+    font-weight: 500 !important;
+  }
 
 
