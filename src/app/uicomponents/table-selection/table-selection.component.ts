@@ -191,7 +191,8 @@ export class TableSelectionComponent {
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
-    //   this.tableitem?.coulmnHeaders : undefined;
+    //   this.tableitem?.coulmnHeaders : undefined;filter
+    
     // selectedColumns.forEach(function (selectedColumn) {
     //   let displayedColumn = staticColumns?.
     //     find(x => x.replace(/[^a-zA-Z0-9]/g, "") == selectedColumn)

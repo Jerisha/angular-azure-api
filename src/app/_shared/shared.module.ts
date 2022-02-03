@@ -15,10 +15,7 @@ import { TransactionErrorsComponent } from './transaction-errors/transaction-err
     MaterialModule,
     UicomponentsModule
   ],
-  exports :[
-    TelephoneAuditTrailComponent,
-    TransactionErrorsComponent  
-  ]  
+  exports :[MaterialModule,TransactionErrorsComponent,TelephoneAuditTrailComponent]  
 
 })
 export class SharedModule { }

@@ -16,21 +16,21 @@
     </div>
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
       <div class="">
-        <mat-form-field hintLabel="Max 10 characters" appearance="outline"
+        <mat-form-field hintLabel="Max 10 characters"  
           [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
           <mat-label>Tel.No Start</mat-label>
           <input formControlName="TelNoStart" matInput #input maxlength="10" placeholder="Tel.No Start">
           <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
         </mat-form-field>
 
-        <mat-form-field hintLabel="Max 10 characters" appearance="outline"
+        <mat-form-field hintLabel="Max 10 characters"  
           [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
           <mat-label>Tel.No End</mat-label>
           <input formControlName="TelNoEnd" matInput #input maxlength="10" placeholder="Tel.No End">
           <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Command.disabled}">
+        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.Command.disabled}">
           <mat-label>Command</mat-label>
           <mat-select formControlName="Command">
             <mat-option></mat-option>
@@ -43,7 +43,7 @@
           <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
+        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
           <mat-label>Source</mat-label>
           <mat-select formControlName="Source">
             <mat-option></mat-option>
@@ -63,7 +63,7 @@
 
 
 
-        <mat-form-field appearance="outline">
+        <mat-form-field  >
           <mat-label>Date range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
             <input matStartDate placeholder="Start date">
@@ -74,7 +74,7 @@
           <mat-hint align="end">Here's the date picker</mat-hint>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.ErrorType.disabled}">
+        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.ErrorType.disabled}">
           <mat-label>Error Type</mat-label>
           <mat-select formControlName="ErrorType">
             <mat-option></mat-option>
@@ -87,7 +87,7 @@
           <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.ErrorCodes.disabled}">
+        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.ErrorCodes.disabled}">
           <mat-label>Error Codes</mat-label>
           <input formControlName="ErrorCodes" type="text" placeholder="type to find" matInput
             [matAutocomplete]="auto" />
@@ -98,7 +98,7 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Reference.disabled}">
+        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.Reference.disabled}">
           <mat-label>999 Reference</mat-label>
           <mat-select formControlName="Reference">
             <mat-option></mat-option>
@@ -163,7 +163,7 @@
                     <option *ngFor="let list of selectListItems"> {{list}} </option>
                   </select> -->
                   <div style="display: inline-block;">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field  >
                       <mat-label>Res.Type</mat-label>
                       <mat-select>
                         <mat-option></mat-option>
@@ -176,7 +176,7 @@
                       <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline">
+                    <mat-form-field  >
                       <mat-label>999 Reference</mat-label>
                       <mat-select>
                         <mat-option></mat-option>
@@ -189,7 +189,7 @@
                       <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
                     </mat-form-field>
 
-                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters" appearance="outline">
+                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
                       <mat-label>Resolution</mat-label>
                       <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
@@ -204,7 +204,7 @@
                       <mat-icon>help</mat-icon>Help
                     </button>
                   </div>
-                  <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters" appearance="outline">
+                  <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
                     <mat-label>Resolution</mat-label>
                     <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
                     <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>

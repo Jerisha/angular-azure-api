@@ -12,14 +12,14 @@
                       </mat-radio-group>                      
                     </div>   -->
                     <div> 
-                        <mat-form-field appearance="outline" style="margin-left:2px; margin-top: 1rem;">
+                        <mat-form-field   style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>Start Tel.No</mat-label>
                           <input matInput [(ngModel)]="model.telno"  pattern ="^[0-9 ]*$" maxlength="11" placeholder="Start Tel.No"  name = "telno" size = 11 style="margin-right:auto" (change)="onChangeEvent($event)">
                           <!-- <div *ngIf="mobNumber.errors && userForm.submitted && !isValidFormSubmitted" [ngClass] = "'error'">  
                             <div *ngIf="mobNumber.errors.pattern">  
                               Mobile number not valid.   -->
                         </mat-form-field>              
-                        <mat-form-field appearance="outline" style="margin-left:2px; margin-top: 1rem;">
+                        <mat-form-field   style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>End Tel.No</mat-label>
                           <input matInput [(ngModel)]="model.rangeEnd" pattern ="^[0-9 ]*$" maxlength="11" placeholder="End Tel.No" name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)">
                         </mat-form-field>             
@@ -110,7 +110,7 @@
                     </div> 
                     <div style="padding-top: 1rem;">
                       <span>
-                      <mat-form-field appearance="outline" style="margin-left:5px;">
+                      <mat-form-field   style="margin-left:5px;">
                         <mat-label class="vf-label" >CUPID</mat-label>  
                         <mat-select [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
                           <mat-option [value]="">                  
@@ -123,7 +123,7 @@
                     </span>
                     <span>           
                         <mat-form-field *ngIf = "enableFrancise"
-                        appearance="outline" style="margin-left:2px;width:300px;">
+                          style="margin-left:2px;width:300px;">
                           <mat-label class="vf-label">Franchise</mat-label>             
                           <mat-select  [(ngModel)]="model.Franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
                             <mat-option value= ""></mat-option>
@@ -152,7 +152,7 @@
                         <div class="vf-flex-container">
                             <div class="vf-flex-container-col" style="margin: 2px;"> 
                                 <div style="margin-bottom: 6px;">
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" >
+                                  <mat-form-field   class="vf-mr-negative" >
                                     <mat-label class="vf-label">Trans. Type *</mat-label>
                                     <mat-select #transtype name="txt"  onchange="check_list(this,1)">
                                     <mat-option value=""></mat-option>
@@ -165,7 +165,7 @@
                                   </mat-form-field>
                                 </div>
                                 <div style="margin-bottom: 6px;">
-                                    <mat-form-field appearance="outline" class="vf-mr-negative">
+                                    <mat-form-field   class="vf-mr-negative">
                                       <mat-label class="vf-label">Line Type</mat-label>
                                       <mat-select name="txt" onchange="check_list(this,3)">
                                         <mat-option value=""></mat-option>
@@ -175,7 +175,7 @@
                                     </mat-form-field>             
                                 </div> 
                                 <div style="margin-bottom: 6px;">
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" >
+                                  <mat-form-field   class="vf-mr-negative" >
                                     <mat-label class="vf-label">Type of Line *</mat-label> 
                                       <mat-select name="txt" onchange="check_list(this,24)" style="font-size:x-small;">
                                         <mat-option value=""></mat-option>
@@ -252,17 +252,17 @@
                                   </mat-form-field>
                                 </div>                                                                                                                            
                             <div style="margin-bottom: 6px;">
-                              <mat-form-field appearance="outline" class="vf-mr-negative" [ngStyle]="{'width':false?'90px' :'200px'}">
+                              <mat-form-field   class="vf-mr-negative" [ngStyle]="{'width':false?'90px' :'200px'}">
                                 <mat-label class="vf-label">Order Ref.</mat-label>
                                 <input type="text" matInput  placeholder="Order Ref. *"  size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                               </mat-form-field>                             
-                              <span [ngStyle]="{'display': true ? 'none' : 'inline-flex' }" ><mat-form-field appearance="outline" class="vf-mr-negative" style="width:106px;margin-left: 4px;">
+                              <span [ngStyle]="{'display': true ? 'none' : 'inline-flex' }" ><mat-form-field   class="vf-mr-negative" style="width:106px;margin-left: 4px;">
                                 <mat-label class="vf-label">Imp./Exp. CUPID</mat-label>
                                 <input type="text" matInput  placeholder="Imp./Exp. CUPID" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             </mat-form-field> </span>
                             </div>
                             <div >
-                              <mat-form-field appearance="outline">
+                              <mat-form-field  >
                               <mat-label class="vf-label">Comments</mat-label>
                               <textarea matInput placeholder="Comments"
                                 cdkTextareaAutosize
@@ -277,7 +277,7 @@
                                 </div>      
                               <div class="vf-flex-container-col" style="margin: 2px;float: left;">
                                 <div style="margin-bottom: 6px;">                            
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" style="width:250px;">
+                                  <mat-form-field   class="vf-mr-negative" style="width:250px;">
                                     <mat-label class="vf-label">Customer Name *</mat-label>
                                     <textarea matInput placeholder="Customer Name *"
                                     cdkTextareaAutosize
@@ -301,7 +301,7 @@
                                   <!-- </button> -->
                               </div>       
                                 <div style="margin-bottom: 6px;">
-                                        <mat-form-field appearance="outline" class="vf-mr-negative"style="width:300px;" >
+                                        <mat-form-field   class="vf-mr-negative"style="width:300px;" >
                                           <mat-label class="vf-label">Address1 *</mat-label>
                                           <textarea matInput placeholder="Address1 *"
                                             cdkTextareaAutosize
@@ -314,7 +314,7 @@
                                         </mat-form-field>
                                     </div>
                                     <div style="margin-bottom: 6px;">
-                                      <mat-form-field appearance="outline" class="vf-mr-negative" style="width:300px;">
+                                      <mat-form-field   class="vf-mr-negative" style="width:300px;">
                                         <mat-label class="vf-label">Address2 *</mat-label>
                                         <textarea matInput placeholder="Address2 *"
                                           cdkTextareaAutosize
@@ -327,7 +327,7 @@
                                       </mat-form-field>
                                   </div>
                                   <div style="margin-bottom: 6px;">
-                                    <mat-form-field appearance="outline" class="vf-mr-negative" style="width:300px;">
+                                    <mat-form-field   class="vf-mr-negative" style="width:300px;">
                                       <mat-label class="vf-label">Address3</mat-label>
                                       <textarea matInput placeholder="Address3"
                                         cdkTextareaAutosize
@@ -340,7 +340,7 @@
                                     </mat-form-field>
                                 </div>
                                 <div style="margin-bottom: 6px;">
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" style="width:300px;">
+                                  <mat-form-field   class="vf-mr-negative" style="width:300px;">
                                     <mat-label class="vf-label">Address4</mat-label>
                                     <textarea matInput placeholder="Address4"
                                       cdkTextareaAutosize
@@ -353,7 +353,7 @@
                                   </mat-form-field>
                                 </div>
                                 <div >
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" style="width:100%;">
+                                  <mat-form-field   class="vf-mr-negative" style="width:100%;">
                                       <mat-label class="vf-label">Post code *</mat-label>
                                       <input type="text" matInput  placeholder="Post code *" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                                   </mat-form-field>                                  
