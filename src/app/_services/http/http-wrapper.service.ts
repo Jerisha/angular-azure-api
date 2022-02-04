@@ -68,15 +68,17 @@ export class HttpWrapperService {
                 jsonResult = this.processQueryObject(categories);
                 break;
             case WebMethods.GET:
-
+                categories = val.GetObjectResponseType.ListofGetObjectCategory.GetObjectCategory;
+                this.validateResponseStatus(this.checkResponseStatus(categories));
                 break;
             case WebMethods.UPDATE:
-
+                categories = val.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
+                this.validateResponseStatus(this.checkResponseStatus(categories));
                 break;
-            case WebMethods.QUERY:
-
+            case WebMethods.CREATE:
+                categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
+                this.validateResponseStatus(this.checkResponseStatus(categories));
                 break;
-
         }
         console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
         return JSON.parse(jsonResult);
@@ -98,21 +100,7 @@ export class HttpWrapperService {
                         //Bind configCharacteristics
                         if (characteristic.hasOwnProperty("ListofCharacteristics")) {
                             characteristic.ListofCharacteristics.Characteristic?.forEach((char: any) => {
-
-                                if (char.hasOwnProperty("ListofIdentifiers")) {
-                                    char.ListofIdentifiers.Identifier?.forEach((element: any) => {
-                                        if (element.hasOwnProperty("Name"))
-                                            jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`;
-                                    });
-                                }
-                                //Bind Attributes
-                                if (char.hasOwnProperty("ListofAttributes")) {
-                                    let attr = char.ListofAttributes.Attribute;
-                                    for (let i = 0; i < attr.length; i++) {
-                                        if (attr[i].hasOwnProperty("Name"))
-                                            jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`;
-                                    }
-                                }
+                                jsonCreation = this.resolveCharacteristic(char, jsonCreation);
                             });
                         }
                     });
@@ -132,23 +120,27 @@ export class HttpWrapperService {
         if (categories != undefined && categories.length > 0) {
             //Iterate categories object
             categories?.forEach((category: any) => {
-                //Check ItemName is not Update
-                if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update"
-                    && category?.hasOwnProperty("ListofQueryObjectCharacteristics")) {
+
+                //Check ListofIdentifiers
+                if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update") {
                     jsonCreation += `{`
-                    //Iterate characteristics object
-                    let characteristics = category.ListofQueryObjectCharacteristics.QueryObjectCharacteristics
-                    jsonCreation = this.resolveCharacteristic(characteristics, jsonCreation);
-                    jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+
+                    if (category?.hasOwnProperty("ListofIdentifiers")) {
+                        //Iterate category object
+                        jsonCreation = this.resolveCharacteristic(category, jsonCreation);
+                        //jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                    }
+                    if (category?.hasOwnProperty("ListofQueryObjectCharacteristics")) {
+
+                        //Iterate characteristics object
+                        let characteristics = category.ListofQueryObjectCharacteristics.QueryObjectCharacteristics
+                        characteristics?.forEach((characteristic: any) => {
+                            jsonCreation = this.resolveCharacteristic(characteristic, jsonCreation);
+                        });
+                        jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+
+                    }
                     jsonCreation += `},`;
-                } else if (category?.hasOwnProperty("ItemName") && category["ItemName"] === "Update"
-                    && category?.hasOwnProperty("ListofQueryObjectCharacteristics")) {
-                    //jsonCreation += `{`
-                    //Iterate characteristics object
-                    //Check category - Status
-                    // jsonCreation = this.resolveCharacteristic(category, jsonCreation);
-                    // jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
-                    // jsonCreation += `},`;
                 }
             });
             jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
@@ -158,30 +150,29 @@ export class HttpWrapperService {
         return jsonCreation;
     }
 
-
-    private resolveCharacteristic(characteristics: any, jsonCreation: string) {
-        characteristics?.forEach((Characteristic: any) => {
-            //Bind Identifiers
-            if (Characteristic.hasOwnProperty("ListofIdentifiers")) {
-                Characteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
-                    if (element.hasOwnProperty("Name"))
-                        jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`;
-                });
+    private resolveCharacteristic(characteristic: any, jsonCreation: string) {
+        // characteristics?.forEach((Characteristic: any) => {
+        //Bind Identifiers
+        if (characteristic.hasOwnProperty("ListofIdentifiers")) {
+            characteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
+                if (element.hasOwnProperty("Name"))
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`;
+            });
+        }
+        //Bind Attributes
+        if (characteristic.hasOwnProperty("ListofAttributes")) {
+            let attr = characteristic.ListofAttributes.Attribute;
+            for (let i = 0; i < attr.length; i++) {
+                if (attr[i].hasOwnProperty("Name"))
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`;
             }
-            //Bind Attributes
-            if (Characteristic.hasOwnProperty("ListofAttributes")) {
-                let attr = Characteristic.ListofAttributes.Attribute;
-                for (let i = 0; i < attr.length; i++) {
-                    if (attr[i].hasOwnProperty("Name"))
-                        jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`;
-                }
-            }
-        });
+        }
+        // });
         return jsonCreation;
     }
 
     private checkResponseStatus(categories: any) {
-        var jsonCreation = `[`
+        var jsonCreation = ``
         if (categories != undefined && categories.length > 0) {
 
             //Iterate categories object
@@ -202,19 +193,19 @@ export class HttpWrapperService {
                 }
             });
         }
-        jsonCreation += `]`;
+        // jsonCreation += `]`;
         console.log("StatusResponse :" + jsonCreation);
-        return jsonCreation;
+        return JSON.parse(jsonCreation);
     }
 
     private validateResponseStatus(wmResponse: any) {
-        switch (wmResponse.MessageType) {
-            case WMMessageType.Informational:
+        
+        switch(wmResponse.MessageType as WMMessageType) {
+            case WMMessageType.Informational:                
                 break;
-            case WMMessageType.Error:
+            case WMMessageType.Error:                
                 this._route.navigate(['/errors', { outlets: { errorPage: 'error' } }], { state: { errData1: wmResponse.StatusCode, errData2: wmResponse.StatusMessage } });
                 break;
         }
-
     }
 }

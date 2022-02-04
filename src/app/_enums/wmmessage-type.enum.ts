@@ -1,4 +1,4 @@
 export enum WMMessageType {
-    Informational,
-    Error
+    Informational ='Informational',
+    Error='Error'
 }
