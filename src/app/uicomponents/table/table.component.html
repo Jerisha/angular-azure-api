@@ -1,6 +1,6 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table [ngClass]="cssClass == 1 ? 'tbfitcontent' : 'tbwidth100'" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container *ngFor="let disCol of dataColumns; let colIndex = index" matColumnDef="{{disCol}}" >
-        
+      
       <!-- Other Columns -->
       <div *ngIf="disCol!='View'">
         <th mat-header-cell *matHeaderCellDef>{{disCol}}</th>

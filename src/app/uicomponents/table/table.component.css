@@ -1,15 +1,12 @@
-table{
-    width:fit-content ;
-}
-/* .tablefitcontent
+.tbfitcontent
 {
   width:fit-content;
 }
 
-.tablewidth100
+.tbwidth100
 {
   width:100%;
-} */
+}
 th {
   background-color: #e60000;
   color:white;
@@ -34,5 +31,6 @@ th.mat-sort-header-sorted {
 
 .mat-cell
 {
+  text-align: center;
   border: 1px solid black;
 }
