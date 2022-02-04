@@ -16,7 +16,7 @@ export class TableComponent implements OnInit {
 
   @Input() tableitem?: any;
    @Input() imageItem?: ViewColumn[];
-   @Input() width?: string;
+   @Input() cssClass?: number =1;
    
   // imageItem?: ViewColumn[]=[
   //     {headerValue:'View',icon:'tab',route:'',tabIndex:0}

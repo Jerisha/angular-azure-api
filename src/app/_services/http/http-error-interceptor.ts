@@ -23,7 +23,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     } else {
                         // Server-side errors
                         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-                        console.log(errorMessage);
+                        //console.log(errorMessage);
                         this._route.navigate(['/errors', {outlets: {errorPage: 'error'}}], {state: {errData1: error.status, errData2: error.message}});
                     }
                     return throwError(errorMessage);
