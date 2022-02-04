@@ -96,7 +96,6 @@ export class AuditdiscrepancyreportComponent implements OnInit {
 
     var colm =['ACTID', 'SourceSystem']
     this.totalColmns= this.displayedColumns.filter(x=>!colm.includes(x));
-    //console.log(this.totalColmns);
   }
 
   ngOnInit(): void {
