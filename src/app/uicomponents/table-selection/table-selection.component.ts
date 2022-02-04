@@ -95,7 +95,7 @@ export class TableSelectionComponent {
     this.imgList = this.tableitem?.imgConfig;
     this.filter = this.tableitem?.filter;
     if (this.tableitem?.selectCheckbox) {
-      const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, imageColumn: false };
+      const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
       this.ColumnDetails.unshift(selItem);
       //this.dataColumns = this.tableitem?.dataColumns ? ['Select'].concat(this.tableitem?.dataColumns) : undefined;
       this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
@@ -249,8 +249,9 @@ export class TableSelectionComponent {
 
     if (this.highlightedCells)
       if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+        debugger;
         applyStyles = {
-          'color': '#ff9999',
+          'color': 'red',
           'font-weight': 'bold',
         }
       }

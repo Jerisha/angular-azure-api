@@ -21,9 +21,6 @@ import {
 import { HelperModule } from '../_helper/helper/helper.module';
 
 
-
-
-
 @NgModule({
   declarations: [    
     TableSelectionComponent,
@@ -56,6 +53,6 @@ import { HelperModule } from '../_helper/helper/helper.module';
     SelectMultipleComponent,
     SelectSingleComponent,
     TableExpansionComponent
-  ]
-})
+  ],
+ })
 export class UicomponentsModule { }

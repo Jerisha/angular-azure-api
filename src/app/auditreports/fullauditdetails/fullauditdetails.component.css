@@ -26,11 +26,13 @@ button{
   display: grid; 
   grid-template-columns: 1fr 1fr; 
   grid-gap: 1px; 
-
+  /* margin :5px; */
   width: 100%; 
 } 
 .grid-child-element { 
-  margin: 1px; 
+  margin-top: 15px;
+  margin-right: 10px; 
+  margin-left: 10px; 
 }
   .controlsStylediv{
     margin-right:20px 
@@ -38,7 +40,7 @@ button{
 
   .side-bottom .side-textarea{
     /* background-color: lawngreen!important; */
-    width: 360px;
+    width: 380px;
     font-size: smaller;  
   /* position:absolute; 
   margin-top: 90px;*/
