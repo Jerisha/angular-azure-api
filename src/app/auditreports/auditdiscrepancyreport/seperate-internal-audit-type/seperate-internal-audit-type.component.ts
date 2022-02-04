@@ -1,24 +1,35 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { InternalAuditAddressReport, InternalAuditMonthReport, InternalAuditProgressReport, InternalAuditSummary } from 'src/app/_models/index';
-import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/merge-table-item-model';
-import { Tab } from 'src/app/_models/tab';
+import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/uicomponents/merge-table-item-model';
+import { Tab } from 'src/app/_models/uicomponents/tab';
 
 const ELEMENT_DATA: InternalAuditSummary[] = [
   {
-    ACTID: "df", SourceSystem: "fg", PostcodeDiff: 1, CustomerDiff: 2, AutoResolvedSAS: 1, FullAddDiff: 0, New: 1,
+    ACTID: "25", SourceSystem: "C-SAS/COMS", PostcodeDiff: 1, CustomerDiff: 2, AutoResolvedSAS: 1, FullAddDiff: 0, New: 1,
+    CSASCOMSOnly: 1, Total: 12, DMismatched: 1, DODVASiebelOnly: 2, EVAWADOnly: 1, RClarifyOnly: 1, SMatched: 1,
+    SOAmdocsSOMOnly: 1, VOSN2Only: 2
+  },
+  {
+    ACTID: "25", SourceSystem: "D-DVA Siebel", PostcodeDiff: 1, CustomerDiff: 2, AutoResolvedSAS: 1, FullAddDiff: 0, New: 1,
+    CSASCOMSOnly: 1, Total: 12, DMismatched: 1, DODVASiebelOnly: 2, EVAWADOnly: 1, RClarifyOnly: 1, SMatched: 1,
+    SOAmdocsSOMOnly: 1, VOSN2Only: 2
+  },
+  {
+    ACTID: "25", SourceSystem: "E-VA/WAD", PostcodeDiff: 1, CustomerDiff: 2, AutoResolvedSAS: 1, FullAddDiff: 0, New: 1,
     CSASCOMSOnly: 1, Total: 12, DMismatched: 1, DODVASiebelOnly: 2, EVAWADOnly: 1, RClarifyOnly: 1, SMatched: 1,
     SOAmdocsSOMOnly: 1, VOSN2Only: 2
   }
 ];
 const ELEMENT_DATA1: InternalAuditProgressReport[] = [
   {
-    ACTID: "df", SourceSystem: "fg", Total: 2, New: 0, CLIStatus: "df", AuditTransactionOverride: 0, AutoClosed: 0, AutoResolved: 0,
+    ACTID: "25", SourceSystem: "D-DVA Siebel", Total: 2, New: 0, CLIStatus: "S-Matched", AuditTransactionOverride: 0, AutoClosed: 0, AutoResolved: 0,
     PortReqComplete: 0, Resolved: 0, SumTotal: 1, UnResolved: 0, UnderGovernance: 0, UnderInvestigation: 0, UnderPorting: 0
 
   },
   {
-    ACTID: "df", SourceSystem: "fg1", Total: 2, New: 0, CLIStatus: "df", AuditTransactionOverride: 0, AutoClosed: 0, AutoResolved: 0,
+    ACTID: "25", SourceSystem: "C-SAS/COM", Total: 2, New: 0, CLIStatus: "D-Mismatchedf", AuditTransactionOverride: 0, AutoClosed: 0, AutoResolved: 0,
     PortReqComplete: 0, Resolved: 0, SumTotal: 1, UnResolved: 0, UnderGovernance: 0, UnderInvestigation: 0, UnderPorting: 0
 
   }
@@ -26,11 +37,11 @@ const ELEMENT_DATA1: InternalAuditProgressReport[] = [
 
 const ELEMENT_DATA2: InternalAuditMonthReport[] = [
   {
-    AllMonths: "234", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0,
+    AllMonths: "2019/08", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0,
     InProgressBacklog: 0, InProgressMonth: 0, ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
   },
   {
-    AllMonths: "234", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0,
+    AllMonths: "2019/09", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0,
     InProgressBacklog: 0, InProgressMonth: 0, ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
   },
 
@@ -39,12 +50,12 @@ const ELEMENT_DATA2: InternalAuditMonthReport[] = [
 
 const ELEMENT_DATA3: InternalAuditAddressReport[] = [
   {
-    ACTID: "str", CLIStatus: "open", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "fg", SelectedMonthCLICountsENDStatusY: 1
+    ACTID: "25", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
   },
   {
-    ACTID: "str", CLIStatus: "open", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "fg", SelectedMonthCLICountsENDStatusY: 1
+    ACTID: "25", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
   },
 
 
@@ -61,6 +72,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
   monthReportTable!: GroupHeaderTableItem;
   addressReportTable!: GroupHeaderTableItem;
   @Input() InternalAuditTableDetails!: GroupHeaderTableDetails[];
+  @Input() sidePan!: MatSidenav;
   selectedTab!: number;
   tabs: Tab[] = [];
   tabsName: string[] = [];
@@ -122,7 +134,8 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
             GroupHeaders: gridDesignDetails[0].GroupHeaders,
             DisplayedColumns: displayedColumns,
             DetailedColumns: detailedColumnsArray,
-            GroupHeaderColumnsArray: grpHdrColumnsArray
+            GroupHeaderColumnsArray: grpHdrColumnsArray,
+            isRowLvlTot:true,
           }
           this.tabs[0].data = this.internalSummaryTable
           break;
@@ -139,6 +152,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
             DisplayedColumns: displayedColumns,
             DetailedColumns: detailedColumnsArray,
             GroupHeaderColumnsArray: grpHdrColumnsArray,
+            FilterValues: [ELEMENT_DATA1.map(x => x.CLIStatus), ELEMENT_DATA1.map(x => x.SourceSystem)],
             isRowLvlTot:true,
             FilterColumn: true
           }
@@ -173,7 +187,9 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
             DisplayedColumns: displayedColumns,
             DetailedColumns: detailedColumnsArray,
             GroupHeaderColumnsArray: grpHdrColumnsArray,
-            FilterColumn: true
+            FilterValues: [ELEMENT_DATA3.map(x => x.CLIStatus), ELEMENT_DATA3.map(x => x.SourceSystem)],
+            FilterColumn: true,
+            isRowLvlTot:true,
           }
           this.tabs[3].data = this.addressReportTable
           break;

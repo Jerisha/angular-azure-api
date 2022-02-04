@@ -1,6 +1,15 @@
 table{
-    width:fit-content;
+    width:fit-content ;
 }
+/* .tablefitcontent
+{
+  width:fit-content;
+}
+
+.tablewidth100
+{
+  width:100%;
+} */
 th {
   background-color: #e60000;
   color:white;
@@ -22,43 +31,8 @@ th.mat-sort-header-sorted {
   /* font-size: smaller; */
 }
 
+
 .mat-cell
 {
   border: 1px solid black;
 }
-
-
-
-
-  /* .mat-row:nth-child(odd){
-    background-color: #dee2e6;
-  } */
-  .mat-row:nth-child(even){
-    background-color: #dee2e6;
-  }
-
-/* mat-cell, mat-header-cell, mat-footer-cell {
-  flex: 1;
-  display: inline-block;
-  align-items: center;
-  overflow: hidden;
-  min-height: initial;
-  height:auto;
-  width:auto;
-} */
-
-
-/* .mat-header-row {
-  display: table-row;
-} */
-
-
-
-
-
-
-
-
-
- 
-

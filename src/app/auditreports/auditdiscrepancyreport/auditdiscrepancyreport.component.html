@@ -2,7 +2,7 @@
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
     <div class="controlsStylediv">
       <form [formGroup]="auditDiscrepancyForm" (ngSubmit)="submitAuditDiscrepancyForm()">
-        <mat-form-field appearance="outline">
+        <mat-form-field  >
           <mat-label>Audit Type</mat-label>
           <mat-select id="AuditType" formControlName="AuditType" [(ngModel)]="selectedAuditType">
             <mat-option></mat-option>
@@ -13,7 +13,7 @@
           <mat-error class="error-message" *ngIf="checkError('AuditType', 'required')">Please Select Audit Type
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field  >
           <mat-label>ACT ID</mat-label>
           <mat-select id="ACTID" formControlName="ACTID">
             <mat-option></mat-option>
@@ -31,20 +31,20 @@
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content class="side-content">
+  <mat-sidenav-content class="side-content"> 
     <div [ngSwitch]="auditType">
       <div *ngSwitchCase="'Full Audit'">
-        <app-full-audit-type  [FullAuditTableDetails]="grpFullAuditTableDetails"></app-full-audit-type>
+        <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails"></app-full-audit-type>
       </div>
       <div *ngSwitchCase="'Seperate Internal Audit'">
-        <app-seperate-internal-audit-type [InternalAuditTableDetails]="grpInternalAuditTableDetails">
+        <app-seperate-internal-audit-type [sidePan]="pagesidenav" [InternalAuditTableDetails]="grpInternalAuditTableDetails">
         </app-seperate-internal-audit-type>
       </div>
       <div *ngSwitchCase="'External Audit'">
-        <app-external-audit-type [ExternalAuditTableDetails]="grpExternalAuditTableDetails"></app-external-audit-type>
+        <app-external-audit-type [sidePan]="pagesidenav" [ExternalAuditTableDetails]="grpExternalAuditTableDetails"></app-external-audit-type>
       </div>
       <div *ngSwitchDefault style="height: 650px;">
-        <app-table-group-header [GrpTableitem]="grpTableitem"></app-table-group-header>
+        <!-- <app-table-group-header [GrpTableitem]="grpTableitem"></app-table-group-header> -->
       </div>
     </div>
     <div class="mat-elevation-z8 side-bottom">

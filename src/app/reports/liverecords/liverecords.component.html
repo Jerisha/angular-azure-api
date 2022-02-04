@@ -1,0 +1,185 @@
+
+<mat-sidenav-container class="side-container">
+    <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+      <div class="filter-sticky filterposition">
+          <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'search'"
+              (changes)="setControlAttribute($event)">
+          </app-select-multiple>
+      </div>
+      <form [formGroup]="myForm">
+          <div class="">
+              <mat-form-field  [ngClass]="{'hidden':myForm.controls.TelephoneNo.disabled}"  hintLabel="Max 10 characters"
+                  appearance="outline">
+                  <mat-label>Tel.No Start</mat-label>
+                  <input id="TelephoneNo" formControlName="TelephoneNo" matInput #input maxlength="10"
+                      placeholder="Tel.No Start" style="margin-right: 24%;">
+                  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+              </mat-form-field>
+  
+  
+              <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}"  hintLabel="Max 10 characters"
+                  appearance="outline">
+                  <mat-label>Customer Name</mat-label>
+                  <input id="CustomerName" formControlName="CustomerName" matInput #input maxlength="10"
+                      placeholder="CustomerName">
+                  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+              </mat-form-field>
+              
+             <mat-form-field [ngClass]="{'hidden':myForm.controls.PostCode.disabled}" hintLabel="Max 10 characters"
+              appearance="outline">
+              <mat-label>Post Code</mat-label>
+              <input id="PostCode" formControlName="PostCode" matInput #input maxlength="10"
+                  placeholder="PostCode">
+              <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+            </mat-form-field>
+              
+  
+        
+      
+           <mat-form-field [ngClass]="{'hidden':myForm.controls.CreationDate.disabled}"  hintLabel="Max 10 characters"
+      appearance="outline">
+      <mat-label>Creation Date</mat-label>
+      <input id="CreationDate" [matDatepicker]="picker" formControlName="CreationDate" matInput #input maxlength="10"
+          placeholder="Creation Date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+      <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+          </mat-form-field>
+  
+        
+  
+  <mat-form-field [ngClass]="{'hidden':myForm.controls.BusinessSuffix.disabled}"  hintLabel="Max 10 characters"
+      appearance="outline">
+      <mat-label>Business Suffix</mat-label>
+      <input id="BusinessSuffix" formControlName="BusinessSuffix" matInput #input maxlength="10"
+          placeholder="Business Suffix">
+      <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>
+             
+  
+  <mat-form-field [ngClass]="{'hidden':myForm.controls.Premises.disabled}"  hintLabel="Max 10 characters"
+      appearance="outline">
+      <mat-label>Premises</mat-label>
+      <input id="Premises" formControlName="Premises" matInput #input maxlength="10"
+          placeholder="Premises">
+      <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>
+  
+  <mat-form-field  [ngClass]="{'hidden':myForm.controls.Throughtfare.disabled}" hintLabel="Max 10 characters"
+      appearance="outline">
+      <mat-label>Throught fare</mat-label>
+      <input id="Throughtfare" formControlName="Throughtfare" matInput #input maxlength="10"
+          placeholder="Throughtfare">
+      <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>
+  
+  <mat-form-field [ngClass]="{'hidden':myForm.controls.Locality.disabled}"  hintLabel="Max 10 characters"
+  appearance="outline">
+  <mat-label>Locality</mat-label>
+  <input id="Locality" formControlName="Locality" matInput #input maxlength="10"
+      placeholder="Locality">
+  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>      
+  
+  <mat-form-field  [ngClass]="{'hidden':myForm.controls.TranRef.disabled}" hintLabel="Max 10 characters"
+  appearance="outline">
+  <mat-label>Tel.No End</mat-label>
+  <input id="TranRef" formControlName="TranRef" matInput #input maxlength="10"
+      placeholder="TranRef">
+  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>   
+       
+  <mat-form-field  [ngClass]="{'hidden':myForm.controls.TransID.disabled}" hintLabel="Max 10 characters"
+  appearance="outline">
+  <mat-label>TransID</mat-label>
+  <input id="TransID" formControlName="TransID" matInput #input maxlength="10"
+      placeholder="TransID">
+  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>  
+    
+  <mat-form-field [ngClass]="{'hidden':myForm.controls.Cupid.disabled}" hintLabel="Max 10 characters"
+  appearance="outline">
+  <mat-label>Cupid</mat-label>
+  <input id="Cupid" formControlName="Cupid" matInput #input maxlength="10"
+      placeholder="Cupid">
+  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>  
+  
+  <mat-form-field [ngClass]="{'hidden':myForm.controls.Title.disabled}"  hintLabel="Max 10 characters"
+  appearance="outline">
+  <mat-label>Title</mat-label>
+  <input id="Title" formControlName="Title" matInput #input maxlength="10"
+      placeholder="Title">
+  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>  
+  
+  <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerForename.disabled}"  hintLabel="Max 10 characters"
+  appearance="outline">
+  <mat-label>Customer Forename</mat-label>
+  <input id="CustomerForename" formControlName="CustomerForename" matInput #input maxlength="10"
+      placeholder="Customer Forename">
+  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>  
+  
+  <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+    <mat-icon>search</mat-icon>Search
+  </button>
+  <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
+    <mat-icon>refresh</mat-icon>Reset
+  </button>  
+              
+            
+              
+            
+          </div>
+  
+      </form>
+  </mat-sidenav>
+  
+  <mat-sidenav-content class="side-content">
+   
+
+    <button class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+      matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+      <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+    </button>
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+      <mat-tab *ngFor="let tab of tabs; let index = index">
+        <ng-template mat-tab-label>
+
+
+          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+          <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
+            <mat-icon style="font-size: large;">close</mat-icon>
+          </button>
+
+        </ng-template>
+
+        <span [ngSwitch]="tab.tabType">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+            (addNewTab)="newTab($event)">
+          </app-table-selection>
+           
+          </div>
+          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+            <app-telephone-audit-trail></app-telephone-audit-trail>
+          </div>
+          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+           
+          </div>
+          <div *ngSwitchDefault></div>
+        </span>
+
+
+
+        <!-- <button mat-raised-button
+   class="example-delete-tab-button"
+   [disabled]="tabs.length === 1"
+   (click)="removeTab(index)">
+Delete Tab
+</button> -->
+      </mat-tab>
+    </mat-tab-group>
+  </mat-sidenav-content>
+  </mat-sidenav-container>

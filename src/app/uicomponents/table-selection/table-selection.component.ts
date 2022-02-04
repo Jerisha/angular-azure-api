@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, EventEmitter, O
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponents/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
@@ -22,6 +22,7 @@ export class TableSelectionComponent {
   selection = new SelectionModel<any>(true, []);
   @Input() tableitem?: TableItem;
   @Input() sidePan: any;
+  @Input() isShown: boolean = true ;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   dataSource!: MatTableDataSource<any>;
@@ -43,30 +44,50 @@ export class TableSelectionComponent {
   unSelectListItems: string[] = [];
   gridSelectList: ColumnDetails[] = [];
   filteredDataColumns: ColumnDetails[] = [];
-  highlightedCells:string[]=[];
-  backhighlightedCells:string[]=[]
+  highlightedCells: string[] = [];
+  backhighlightedCells: string[] = []
+  isTotDisplayed: boolean = false;
+  totShowed: boolean = false;
+  shouldTotalRow: boolean = false;
+
+  totalRowCols: string[] = []
 
   constructor(private cdr: ChangeDetectorRef) {
 
   }
 
+  getTotal(cellname: string) {
+    var cell = cellname ? cellname : '';
+    if (this.ColumnDetails[0].headerValue === cell) {
+      return 'Total';
+    }
+    var totalcell = this.totalRowCols.filter(x => x.includes(cell))
+    if (totalcell.length > 0) {
+      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+    }
+    else {
+      return '';
+    }
+  }
+
   ngOnInit() {
+    this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
+    this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
+    this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false
+    this.totalRowCols = this.tableitem?.totalRowCols ? this.tableitem?.totalRowCols : [];
     if (this.tableitem?.showBlankCoulmns) {
       this.getEmptyColumns();
       this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
         this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
       const selectList = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
       this.gridSelectList = selectList ? selectList : [];
+      debugger;
+      this.totalRowCols = this.filteredDataColumns.filter(x => this.totalRowCols.includes(x.headerValue)).map(x => x.headerValue)
     }
     else {
       this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
 
-    this.highlightedCells = this.tableitem?.highlightedCells?this.tableitem?.highlightedCells:[];
-    this.backhighlightedCells = this.tableitem?.backhighlightedCells?this.tableitem?.backhighlightedCells:[];
-
-    // var filteredColumns=this.filteredDataColumns;
-    // this.selectList = this.tableitem?.Columns?.filter((e) => e.showDefault == true).map((i) => i.header);
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
     this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
       : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
@@ -96,7 +117,7 @@ export class TableSelectionComponent {
   }
 
   selectRow(event: any, row: any) {
-        this.rowChanges.emit([row[this.selectColumn]]);
+    this.rowChanges.emit([row[this.selectColumn]]);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -111,13 +132,13 @@ export class TableSelectionComponent {
     if (this.isAllSelected()) {
       this.selection.clear()
       this.selectedTelnos = [];
-     
+
     }
     else {
       this.dataSource.data.forEach(row => this.selection.select(row));
       this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
     }
-       
+
     this.rowChanges.emit(this.selectedTelnos);
   }
 
@@ -170,7 +191,8 @@ export class TableSelectionComponent {
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
-    //   this.tableitem?.coulmnHeaders : undefined;
+    //   this.tableitem?.coulmnHeaders : undefined;filter
+    
     // selectedColumns.forEach(function (selectedColumn) {
     //   let displayedColumn = staticColumns?.
     //     find(x => x.replace(/[^a-zA-Z0-9]/g, "") == selectedColumn)
@@ -200,12 +222,9 @@ export class TableSelectionComponent {
 
     var emptySet = new Set(this.emptyColumns);
     this.emptyColumns = [...emptySet];
-
     var nonEmptySet = new Set(this.nonemptyColumns);
     this.nonemptyColumns = [...nonEmptySet];
-
     this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
-
   }
 
   checkIsNullOrEmptyProperties(obj: any) {
@@ -216,10 +235,10 @@ export class TableSelectionComponent {
         this.nonemptyColumns.push(key)
       }
     }
-  }  
+  }
 
   highlightCell(cell: any, disCol: any) {
-    debugger;
+
     let applyStyles = {};
     if (this.backhighlightedCells)
       if (this.backhighlightedCells.includes(disCol.headerValue) && cell['isLive']) {
@@ -228,14 +247,13 @@ export class TableSelectionComponent {
         }
       }
 
-    if (this.highlightedCells) 
+    if (this.highlightedCells)
       if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
-        debugger;
         applyStyles = {
           'color': '#ff9999',
           'font-weight': 'bold',
         }
       }
     return applyStyles;
-  }  
+  }
 }

@@ -4,20 +4,24 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { MaterialModule } from './material/material.module';
 import { TelephoneAuditTrailComponent } from './telephone-audit-trail/telephone-audit-trail.component';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
-import { TelephoneAuditTrail } from '../_models/telephone-audit-trail';
 import { AlertComponent } from './alert/alert.component';
 
+import { TransactionErrorsComponent } from './transaction-errors/transaction-errors.component';
+import { StartUpComponent } from './start-up/start-up.component';
+
 @NgModule({
-  declarations: [TelephoneAuditTrailComponent,
-    AlertComponent
-  ],
+  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent,AlertComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
     MaterialModule,
     UicomponentsModule
   ],
-  exports :[TelephoneAuditTrailComponent,
+  exports :[
+    TelephoneAuditTrailComponent,
+    TransactionErrorsComponent  ,
+    StartUpComponent,
+    MaterialModule,
     AlertComponent
   ]  
 

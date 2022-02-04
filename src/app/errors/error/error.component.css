@@ -1,0 +1,25 @@
+.error-main {
+    height: 200px;
+    width: 500px;
+    /* margin: auto; */
+    margin-top: 200px;
+    margin-left: 200px;
+}
+
+.error-message {
+    color: red;
+    margin-left: 0;
+}
+
+h1 {
+    font-size: 100px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+h4 {
+    font-size: medium;
+    font-weight: bold;
+
+}
+
