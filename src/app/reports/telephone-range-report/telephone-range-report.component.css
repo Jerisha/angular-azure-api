@@ -14,11 +14,10 @@
 } */
 
 /* For making content center in header */
-.table-view::ng-deep.mat-sort-header-container{
+/* .table-view::ng-deep.mat-sort-header-container{
   justify-content: center !important;
-}
+} */
 
-.hidden{display: none;}
 
 .spinner{
   justify-content: center;
