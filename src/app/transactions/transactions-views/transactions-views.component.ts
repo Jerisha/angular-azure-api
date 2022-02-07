@@ -95,6 +95,7 @@ removeRangeCli(){
 
 onChangeEvent(event:any)
 {
+  // this.ValidateTelno(event.target.value);
   if(event.target.value !="")
   {
     // console.log(this.searchTelState,this.btncolor)
@@ -162,6 +163,7 @@ SearchTel(){
       }      
   }
   ValidateTelno(telno:string){
+    
     let regNumberOnly = new RegExp("^[0-9 ]*$"); 
 
     if(!(telno.length==0))
@@ -169,12 +171,16 @@ SearchTel(){
       alert("Telephone Number should not Empty.");      
       return false;
    }   
-   if(!telno.match(regNumberOnly))
+   else if(!telno.match(regNumberOnly))
    {
       alert("Telephone Number Contains Number Only.");      
       return false;
-   }  
+   }  else
+   {  
+    this.searchTelState =false;
+    this.btncolor ="vf-primary-btn";  
    return true;
+   }
   }
 
   resetTel(sf:any) {
