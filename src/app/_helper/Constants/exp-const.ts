@@ -61,10 +61,10 @@ export const selectlist = {
            
         ]
     };
-        export const selectsrc = {
-            defaultsrc: [
-                { view: '=...Equal to', viewValue: '=', default: true },
-            ]
-};
+//         export const selectsrc = {
+//             defaultsrc: [
+//                 { view: '=...Equal to', viewValue: '=', default: true },
+//             ]
+// };
 
 
