@@ -10,8 +10,8 @@ export class ErrorComponent implements OnInit {
   errMessage: string ;
   errDescription: string;
   constructor(private _route: Router) {
-    this.errMessage = (this._route.getCurrentNavigation()!.extras.state)?.errData1;
-    this.errDescription = (this._route.getCurrentNavigation()!.extras.state)?.errData2;
+    this.errMessage = (this._route.getCurrentNavigation()!.extras.state)?.errCode;
+    this.errDescription = (this._route.getCurrentNavigation()!.extras.state)?.errMsg;
  
    }
 

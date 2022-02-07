@@ -24,7 +24,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         // Server-side errors
                         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
                         //console.log(errorMessage);
-                        this._route.navigate(['/errors', {outlets: {errorPage: 'error'}}], {state: {errData1: error.status, errData2: error.message}});
+                        this._route.navigate(['/shared/', {outlets: {errorPage: 'error'}}], {state: {errCode: error.status, errMsg: error.message}});
                     }
                     return throwError(errorMessage);
                 })
