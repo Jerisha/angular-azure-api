@@ -38,13 +38,7 @@ table td, table th {
   height: 10px;
 }
 
-.table-icon{
-  cursor: pointer; 
-  font-size: 18px;
-  height: 0px;
-  width:auto;
-  color: #e60000;
-}
+
 
 .table-container {
   min-height: 100px;

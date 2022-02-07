@@ -232,6 +232,14 @@ div .mat-focus-indicator.mat-tab-label {
   color: black !important;
   font-weight: 500 !important;
 }
+
+.table-icon{
+  cursor: pointer; 
+  font-size: 18px;
+  height: 0px;
+  width:auto;
+  color: #e60000;
+}
 /* material table controls common design ends */
 
 /* Scrollbar */
