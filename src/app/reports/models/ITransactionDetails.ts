@@ -45,7 +45,7 @@ SarRefNum:string;
 SarTransNum:string;
 Comment:string;
 ConnType:string;
-TypeofLine:string;
+TypeOfLine:string;
 ServiceType:string;
 AccessMethod:string;
 InternalErrors:string;
