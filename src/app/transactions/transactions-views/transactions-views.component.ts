@@ -159,8 +159,24 @@ SearchTel(){
           this.views.view2 =true;
           this.views.view3 =false;
           this.panelOpenState =true;
-      }
+      }      
   }
+  ValidateTelno(telno:string){
+    let regNumberOnly = new RegExp("^[0-9 ]*$"); 
+
+    if(!(telno.length==0))
+   {
+      alert("Telephone Number should not Empty.");      
+      return false;
+   }   
+   if(!telno.match(regNumberOnly))
+   {
+      alert("Telephone Number Contains Number Only.");      
+      return false;
+   }  
+   return true;
+  }
+
   resetTel(sf:any) {
     
     // this.view1Toggle ="display: block;visibility:visible;";

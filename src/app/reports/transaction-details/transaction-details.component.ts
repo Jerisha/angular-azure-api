@@ -295,8 +295,8 @@ export class TransactionDetailsComponent implements OnInit {
    this.createForm();
    this.setOptions(); 
    this.myTable = {
-    // data: this.service.getTransactionDetailsSourceData(),
-    data:this.getTransactionDetailsSourceData(),
+    data: this.service.getTransactionDetailsSourceData(),
+    // data:this.getTransactionDetailsSourceData(),
     Columns: this.columns,
     filter: true,
     selectCheckbox: true,
