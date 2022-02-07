@@ -30,11 +30,12 @@ const routes: Routes = [
   path: 'statisticalreports',
   loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule)
   },
-  
   {
-  path: 'errors',
-  loadChildren: () => import('./errors/errors.module').then(x => x.ErrorsModule),
-  }
+    path: 'shared',
+    loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule)
+    },
+    
+
 ];
 
 @NgModule({

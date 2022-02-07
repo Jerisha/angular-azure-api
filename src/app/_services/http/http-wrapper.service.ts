@@ -15,7 +15,7 @@ export class HttpWrapperService {
     constructor(private httpClient: HttpClient, private _route: Router) {
     }
 
-    processRequst<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
+    processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
         // this.http(httpVerb.toString(),
         //     `${environment.api_url}${endPoint}`,
@@ -59,25 +59,25 @@ export class HttpWrapperService {
         switch (requestType) {
             case WebMethods.CONFIG:
                 categories = val.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory;
-                this.validateResponseStatus(this.checkResponseStatus(categories));
+                this.validateResponseStatus(this.resolveResponseStatus(categories));
                 jsonResult = this.processConfigObject(categories);
                 break;
             case WebMethods.QUERY:
                 categories = val.QueryObjectResponseType.ListofQueryObjectCategory.QueryObjectCategory;
-                this.validateResponseStatus(this.checkResponseStatus(categories));
+                this.validateResponseStatus(this.resolveResponseStatus(categories));
                 jsonResult = this.processQueryObject(categories);
                 break;
             case WebMethods.GET:
                 categories = val.GetObjectResponseType.ListofGetObjectCategory.GetObjectCategory;
-                this.validateResponseStatus(this.checkResponseStatus(categories));
+                this.validateResponseStatus(this.resolveResponseStatus(categories));
                 break;
             case WebMethods.UPDATE:
                 categories = val.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
-                this.validateResponseStatus(this.checkResponseStatus(categories));
+                this.validateResponseStatus(this.resolveResponseStatus(categories));
                 break;
             case WebMethods.CREATE:
                 categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
-                this.validateResponseStatus(this.checkResponseStatus(categories));
+                this.validateResponseStatus(this.resolveResponseStatus(categories));
                 break;
         }
         console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
@@ -120,32 +120,27 @@ export class HttpWrapperService {
         if (categories != undefined && categories.length > 0) {
             //Iterate categories object
             categories?.forEach((category: any) => {
-
                 //Check ListofIdentifiers
                 if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update") {
                     jsonCreation += `{`
-
                     if (category?.hasOwnProperty("ListofIdentifiers")) {
                         //Iterate category object
                         jsonCreation = this.resolveCharacteristic(category, jsonCreation);
                         //jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
                     }
                     if (category?.hasOwnProperty("ListofQueryObjectCharacteristics")) {
-
                         //Iterate characteristics object
                         let characteristics = category.ListofQueryObjectCharacteristics.QueryObjectCharacteristics
                         characteristics?.forEach((characteristic: any) => {
                             jsonCreation = this.resolveCharacteristic(characteristic, jsonCreation);
                         });
                         jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
-
                     }
                     jsonCreation += `},`;
                 }
             });
             jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
             jsonCreation += `]`;
-
         }
         return jsonCreation;
     }
@@ -171,7 +166,7 @@ export class HttpWrapperService {
         return jsonCreation;
     }
 
-    private checkResponseStatus(categories: any) {
+    private resolveResponseStatus(categories: any) {
         var jsonCreation = ``
         if (categories != undefined && categories.length > 0) {
 
@@ -204,7 +199,7 @@ export class HttpWrapperService {
             case WMMessageType.Informational:                
                 break;
             case WMMessageType.Error:                
-                this._route.navigate(['/errors', { outlets: { errorPage: 'error' } }], { state: { errData1: wmResponse.StatusCode, errData2: wmResponse.StatusMessage } });
+                this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 break;
         }
     }

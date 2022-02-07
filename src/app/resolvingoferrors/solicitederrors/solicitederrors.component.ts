@@ -249,7 +249,9 @@ const queryInput: any = {
 })
 export class SolicitederrorsComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private service: ResolvingOfErrorsService, private _snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder,
+    private service: ResolvingOfErrorsService,
+    private _snackBar: MatSnackBar) { }
 
   myTable!: TableItem;
   dataSaved = false;
@@ -317,8 +319,9 @@ export class SolicitederrorsComponent implements OnInit {
 
   setOptions() {
     //debugger;     
-    //this.service.apiTest(queryInput);    
-    this.service.configDetails(queryInput);
+    //this.service.apiTest(queryInput); 
+    //let transformInput = JSON.parse(queryInput);    
+    //this.service.configDetails(queryInput);
   }
 
   private _filter(name: string): any[] {

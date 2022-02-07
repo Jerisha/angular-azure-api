@@ -206,22 +206,39 @@ div .mat-focus-indicator.mat-tab-label {
 /* material form controls default design ends */
 
 /* material table controls common design starts */
-app-table-selection .mat-form-field-infix {
-  padding: 0 0 !important;
+/* To remove border-top for mat-form-field-wrapper  */
+.colfilter .mat-form-field-infix {
+  /* padding: 0 0 !important; */
   border-top: 0 !important;
 }
 
-app-table-selection .mat-form-field-appearance-standard .mat-form-field-flex {
+/* To remove padding-top for mat-form-field-wrapper  */
+.colfilter .mat-form-field-flex {
   padding-top: 0em!important;
 }
 
-/* app-table-selection .mat-form-field-wrapper {
+/* To remove padding-bottom for mat-form-field-wrapper  */
+.colfilter .mat-form-field-wrapper {
   padding-bottom: 0em!important;
-} */
+}
 
+/* To remove underline for mat-form-field  */
+.colfilter .mat-form-field-underline {
+  display: none;
+}
+
+/* All mat-cell */
 .mat-cell{
   color: black !important;
   font-weight: 500 !important;
+}
+
+.table-icon{
+  cursor: pointer; 
+  font-size: 18px;
+  height: 0px;
+  width:auto;
+  color: #e60000;
 }
 /* material table controls common design ends */
 
@@ -317,8 +334,7 @@ margin-left: 200px; */
 }
 
 .side-container .side-bottom .mat-form-field
-{
-  /* margin-bottom: 1px;  
+{  /* margin-bottom: 1px;  
   margin-top:1px;   */
   margin: 5px;
   font-size: smaller;  
@@ -359,7 +375,5 @@ margin-top: 90px;*/
         /* background-color:magenta; */
 }
 /* Side-panel Ends */
- 
-
 
 
