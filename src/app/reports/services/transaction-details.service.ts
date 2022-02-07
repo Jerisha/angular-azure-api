@@ -466,7 +466,7 @@ dataSource:ITransactionDetails []=[];
 
 
   apiTest(data: any) {
-    return this.wrapperService.processRequst(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
       console.log("response : " + JSON.stringify(x));
       //this.processConfig(x);
     });
@@ -475,7 +475,7 @@ dataSource:ITransactionDetails []=[];
   }
 
   configDetails(data: any): ConfigDetails | undefined {
-    this.wrapperService.processRequst(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
+    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
       console.log("response : " + JSON.stringify(x));
       //this.processQuery(x, webMethods.query);
     });

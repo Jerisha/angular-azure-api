@@ -74,7 +74,7 @@ table td, table th {
   /* margin-top: 3px; */
 }
 
-.truncate-cell {
+.nowrap-cell {
   /* max-width: 120px;  */
   white-space: nowrap;
   overflow: hidden;
