@@ -8,8 +8,50 @@ import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-ite
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from 'src/app/_models/uicomponents/select';
 import { MatSelect } from '@angular/material/select';
+import { AlertService } from 'src/app/_shared/alert';
+import { Tab } from 'src/app/_models/uicomponents/tab';
 
 const ELEMENT_DATA = [
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
+  {
+    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
+    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+  },
   {
     startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
     address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
@@ -52,6 +94,8 @@ const FilterListItems: Select[] = [
 })
 export class TelephoneRangeReportComponent implements OnInit {
 
+  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar,private alertService:AlertService) { }
+
   @ViewChild('table1') table1?:TableSelectionComponent;
   myTable!: TableItem;
   dataSaved = false;
@@ -65,12 +109,8 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
-
   selectedTab!: number;
-  public tabs = [{
-    tabType: 0,
-    name: 'Summary'
-  },
+  public tabs:Tab[] = [
     //  {
     //   tabType: 1,
     //   name: 'Audit Trail Report'
@@ -87,19 +127,28 @@ export class TelephoneRangeReportComponent implements OnInit {
     { header: 'Source System', headerValue: 'source', showDefault: true, isImage: false },
     { header: 'Line Type', headerValue: 'line', showDefault: true, isImage: false },
     { header: 'Live Records', headerValue: 'live', showDefault: true, isImage: false },
-    { header: 'Trans', headerValue: 'trans', showDefault: true, isImage: false },
+    { header: 'Inactive Records', headerValue: 'trans', showDefault: true, isImage: false },
     { header: 'Not Available', headerValue: 'null', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'name', showDefault: true, isImage: false },
     { header: 'Customer Address', headerValue: 'address', showDefault: true, isImage: false },
     { header: 'Order Ref', headerValue: 'orderRef', showDefault: true, isImage: false },
   ];
   data1:TelephoneRangeReport[] = ELEMENT_DATA;
+
+  spinner:boolean=false;
+  options = {
+    autoClose: true,
+    keepAfterRouteChange: false
+  };
   
-  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
+  
 
   ngOnInit(): void {
     this.createForm();
 
+  }
+  
+  onFormSubmit():void{
     this.myTable = {
       data: this.data1,
       Columns: this.columns,
@@ -109,17 +158,26 @@ export class TelephoneRangeReportComponent implements OnInit {
       // imgConfig:[{ headerValue: 'View', icon: 'tab', route: '' },
       // { headerValue: 'View', icon: 'description', route: '' }]
     }
-  }
-  
-  onFormSubmit():void{
 
+    if (!this.tabs.find(x => x.tabType == 0)) {
+      this.tabs.push({
+        tabType: 0,
+        name: 'Summary'
+      });
+    }
+    this.selectedTab = this.tabs.length;
   }
+
   resetForm():void{
     this._snackBar.open('Reset Form Completed!', 'Close', {
       duration: 5000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+    // this.spinner = true;
+    // setTimeout(()=>{
+    //  this.spinner= false;
+    // },3000);
   }
 
   createForm() {
@@ -194,4 +252,7 @@ export class TelephoneRangeReportComponent implements OnInit {
     }
   }
 
+  hello(){
+    this.alertService.success('Success!! hshs dhdh hdhdhdh hdhdhd hdhdhdhd dhdddbb', this.options)
+  }
 }
