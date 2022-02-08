@@ -80,8 +80,8 @@ font-size: smaller;  ">
         </div>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: dataColumns;" (change)="selectRow($event,row)"
-        (click)="selection.toggle(row)"> </tr>
+      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}"*matRowDef="let row; columns: dataColumns;" (change)="selectRow($event,row)"
+        (click)="selection.toggle(row)"> </tr>        
         <ng-container *ngIf="shouldTotalRow">
           <tr mat-footer-row *matFooterRowDef="dataColumns"></tr>
         </ng-container>
@@ -89,7 +89,7 @@ font-size: smaller;  ">
   </div>
 
 
-<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[100, 500, 1000]" showFirstLastButtons>
+<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
 </mat-paginator>
 
 <!-- <div class="test-wrapper"> -->

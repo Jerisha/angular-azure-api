@@ -1,6 +1,7 @@
 <mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
         <div class="filter-sticky filterposition">
+            <!-- <div class="colfilter"> -->
             <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
                 (changes)="setControlAttribute($event)">
             </app-select-multiple>
