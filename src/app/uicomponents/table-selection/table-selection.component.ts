@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponents/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-table-selection',
@@ -116,10 +117,23 @@ export class TableSelectionComponent {
     this.cdr.detectChanges();
   }
 
+  isRowselected:boolean=false;
+
   selectRow(event: any, row: any) {
+    this.dataSource.data = this.dataSource.data.filter(r => r !== row);
+    if (event.checked) {
+      this.dataSource.data = [row].concat(this.dataSource.data);
+      debugger;
+      //this.highlightCellb(true)
+    }
+    else {
+      this.dataSource.data = this.dataSource.data.concat(row);
+     // this.highlightCellb(false)
+    }
     this.rowChanges.emit([row[this.selectColumn]]);
   }
 
+ 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -249,7 +263,7 @@ export class TableSelectionComponent {
 
     if (this.highlightedCells)
       if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
-        debugger;
+       
         applyStyles = {
           'color': 'red',
           'font-weight': 'bold',

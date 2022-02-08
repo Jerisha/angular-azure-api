@@ -405,13 +405,13 @@ export class SolicitederrorsComponent implements OnInit {
     this.selectedTab = this.tabs.length;
 
   }
+  
   resetForm(): void {
     this._snackBar.open('Reset Form Completed!', 'Close', {
       duration: 5000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
-
   }
 
   setControlAttribute(matSelect: MatSelect) {

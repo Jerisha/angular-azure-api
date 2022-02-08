@@ -377,3 +377,11 @@ margin-top: 90px;*/
 /* Side-panel Ends */
 
 
+/* tool tip styles start */
+.mat-tooltip {
+  /* your own custom styles here */ 
+  background-color:#EFEFEF;
+  color:black !important;
+  font-size: 12px;
+}
+/* tool tip styles end */

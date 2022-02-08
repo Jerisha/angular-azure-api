@@ -57,6 +57,10 @@ tr.example-detail-row {
   opacity: 0.5;
 }
 
+.highlight {
+  background-color: #dee2e6;
+}
+
 
 
 .mat-column-TelNo {

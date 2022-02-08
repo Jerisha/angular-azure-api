@@ -1,12 +1,12 @@
 <div *ngIf="filterColumn">
   <form [formGroup]="filterForm">
-    <mat-form-field appearance ="standard" class="colfilter">
+    <mat-form-field appearance="standard">
       <mat-label>Source System</mat-label>
       <mat-select formControlName="sourceSystemFilter" multiple>
         <mat-option *ngFor="let sourcesystem of sourceSystemList" [value]="sourcesystem">{{sourcesystem}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance ="standard">
+    <mat-form-field appearance="standard">
       <mat-label>CLI Status</mat-label>
       <mat-select formControlName="cliStatusFilter" multiple>
         <mat-option *ngFor="let cliStatus of cliStatusList" [value]="cliStatus">{{cliStatus}}</mat-option>
@@ -23,7 +23,8 @@
           {{disCol.Headers}}</th>
         <td mat-cell class="truncate-cell" *matCellDef="let element"> {{element[disCol.DataHeaders]}} </td>
         <ng-container *ngIf="isRowTot">
-          <td class="totalRow"  [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders,'')}}
+          <td class="totalRow" [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell
+            *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders,'')}}
           </td>
         </ng-container>
       </ng-container>
@@ -43,6 +44,6 @@
       <tr mat-footer-row *matFooterRowDef="totalCols"></tr>
     </ng-container>
   </table>
-  <mat-paginator [pageSizeOptions]="[10,50,100]" showFirstLastButtons>
-  </mat-paginator>
 </div>
+<mat-paginator  [pageSizeOptions]="[10,50,100]" showFirstLastButtons>
+</mat-paginator>

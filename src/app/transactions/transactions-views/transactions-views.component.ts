@@ -27,6 +27,7 @@ export class TransactionsViewsComponent implements OnInit {
   isEndTelNo:Boolean =false;
   cupIds:any =new CupId().cupIds; 
   searchTelState:boolean=true;
+  addCliState:boolean=true;
   saveState:boolean=true;
   views:any={view1:false,view2:false,view3:false}  
   enableFrancise:boolean=false;
@@ -35,7 +36,7 @@ export class TransactionsViewsComponent implements OnInit {
   multiRangeTelephoneList:string="Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890";
 
   telephoneSet="";
-    model:any ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
+    model:any ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
     transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
     addressDetails:any ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
     transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};
@@ -48,6 +49,8 @@ export class TransactionsViewsComponent implements OnInit {
     panelOpenState = false;
     btncolor: string ="secondary"
     savebtnColor:string ="secondary"
+
+    addbtncolor:string ="secondary"
     
 
   constructor(private _ngZone: NgZone)  {}
@@ -95,12 +98,15 @@ removeRangeCli(){
 
 onChangeEvent(event:any)
 {
+  // this.ValidateTelno(event.target.value);
   if(event.target.value !="")
   {
     // console.log(this.searchTelState,this.btncolor)
     // console.log(event.target.value);
     this.searchTelState =false;
+    this.addCliState=false;
     this.btncolor ="vf-primary-btn";
+    this.addbtncolor="vf-add-btn";
     // console.log(event.target.value); 
     // console.log(this.searchTelState,this.btncolor)   
 
@@ -148,30 +154,59 @@ ReviewCli()
   this.views.view3 =false;
 }
 SearchTel(){ 
-    if(this.model.tel !="" ||this.model.rangeEnd !="" ||this.CliRangeSet.length>0)
+    if(this.model.telno !="" ||this.model.rangeEnd !="" ||this.CliRangeSet.length>0)
       {
         //console.log(this.model.tel,this.model.rangeEnd )   
           //this.view2Toggle ="display: block;visibility:visible;";
           //this.view1Toggle ="display: none;visibility:hidden;";
           // this.view3Toggle ="display: none;visibility:hidden;";
-          this.CliRangeSet.push([this.model.tel,this.model.rangeEnd]);
+          if (this.CliRangeSet.length===0)
+          {this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);}
           this.views.view1=false;
           this.views.view2 =true;
           this.views.view3 =false;
           this.panelOpenState =true;
-      }
+      }   
+      else{
+        alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
+      }   
   }
+  ValidateTelno(telno:string){
+    
+    let regNumberOnly = new RegExp("^[0-9 ]*$"); 
+
+    if(!(telno.length==0))
+   {
+      alert("Telephone Number should not Empty.");      
+      return false;
+   }   
+   else if(!telno.match(regNumberOnly))
+   {
+      alert("Telephone Number Contains Number Only.");      
+      return false;
+   }  else
+   {  
+    this.searchTelState =false;
+    this.addCliState=false;
+    this.btncolor ="vf-primary-btn";  
+    this.addbtncolor="vf-add-btn";
+   return true;
+   }
+  }
+
   resetTel(sf:any) {
     
     // this.view1Toggle ="display: block;visibility:visible;";
     // this.view2Toggle ="display: none;visibility:hidden;";
     // this.view3Toggle ="display: none;visibility:hidden;";
-    this.model={tel:"",rangeEnd:"",CupId:"",Franchise:""};
+    this.model={telno:"",rangeEnd:"",CupId:"",Franchise:""};
     this.views.view3=false;
     this.views.view2=false;
     this.views.view1=true;
     this.searchTelState =true;
+    this.addCliState =true;
     this.btncolor ="secondary";
+    this.addbtncolor="secondary";
     this.saveState =true;
     this.savebtnColor ="secondary";
     this.enableFrancise =false;
@@ -199,11 +234,16 @@ SearchTel(){
   }
   addRangeTel()
   {
+    if(this.model.telno !="" ||this.model.rangeEnd !="")
+      {
     // alert('add telephone range!');
-    console.log(this.model.telno,'-',this.model.rangeEnd);
+    // console.log(this.model.telno,'-',this.model.rangeEnd);
     this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);
-    this.model ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
-    
+    this.model ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
+      }
+      else{
+        alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
+      }
 
   }
   check_franchise()
