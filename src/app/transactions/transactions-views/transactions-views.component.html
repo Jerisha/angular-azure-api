@@ -52,7 +52,7 @@
                       <div style="display: flex;align-items: center;">
                         <span>
                           <!-- <button  *ngIf="visibleSearchOption2.checked == true" type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()"> -->
-                            <button  type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()">
+                            <button  type="submit"  mat-raised-button [ngClass]="addbtncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;" (click)="addRangeTel()" [disabled]="addCliState">
                             <mat-icon>add_box</mat-icon>Add Cli(s)
                           </button>
                         <button type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
@@ -69,13 +69,13 @@
                       <div class ="flex-container"> 
                           <!-- <div *ngIf="multiRangeChecked == true" > -->
                             <div *ngIf="CliRangeSet.length===1" >
-                              <mat-label style="font-size:large;padding-right:1rem"><strong>Start Tel.No. </strong>{{model.telno}}</mat-label>                                                          
-                              <mat-label style="font-size:large;"><strong>End Tel.No. </strong>{{model.rangeEnd}}</mat-label>                          
+                              <mat-label style="font-size:large;padding-right:1rem"><strong>Start Tel.No. </strong>{{CliRangeSet[0]}}</mat-label>                                                          
+                              <mat-label style="font-size:large;"><strong>End Tel.No. </strong>{{CliRangeSet[1]}}</mat-label>                          
                             </div>
                             <!-- <div *ngIf="multiRangeChecked == !true" style ="padding-bottom: 10px;"> -->
                               <div *ngIf="CliRangeSet.length>1" style ="padding-bottom: 10px;">
                               <span style ="float:left;">
-                              <mat-label style="font-size:large;padding-right:1rem;"><strong>Multiple CLI(s) </strong>{{CliRangeSet.length-1}}</mat-label>                                                          
+                              <mat-label style="font-size:large;padding-right:1rem;"><strong>Multiple CLI(s) </strong>{{CliRangeSet.length}}</mat-label>                                                          
                               
                             </span>
                             <span style ="float: right;">
