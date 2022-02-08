@@ -1,4 +1,5 @@
-<mat-sidenav-container class="side-container">
+  <!-- <div class="container-page"> -->
+<mat-sidenav-container class="side-container-report">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>  
       <div class="filter-sticky">
         <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
@@ -267,7 +268,7 @@
             </button>  
           </ng-template>  
           <span [ngSwitch]="tab.tabType">
-            <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            <div *ngSwitchCase="0" >
               <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
                 (addNewTab)="newTab($event)">
               </app-table-selection>              
@@ -285,3 +286,4 @@
       </mat-tab-group>
     </mat-sidenav-content>
   </mat-sidenav-container>
+<!-- </div> -->

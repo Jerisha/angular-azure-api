@@ -9,3 +9,13 @@
  
   }
 .hidden{display: none;}
+.container-page{
+  height:520px;
+  width: auto;
+  box-sizing: border-box;
+}
+/* :host ::ng-deep .app-table-selection .table-container {
+  overflow-y: hidden!important;
+  min-height: 333px !important;
+
+} */
