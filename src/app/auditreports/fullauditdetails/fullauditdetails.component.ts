@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from 'src/app/_models/index';
 import { Select } from 'src/app/_models/uicomponents/select';
+import { Tab } from 'src/app/_models/uicomponents/tab';
 import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
 import { UserCommentsDialogComponent } from './user-comments-dialog.component';
@@ -174,7 +176,7 @@ const ELEMENT_DATA1: RangeReport[] = [
   },
   {
     SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '', Lineup: 'V', OrderRef: '', Transaction:1
+    , StartTelNo: '02080114211', InflightTransaction: '', Lineup: 'V', OrderRef: '', Transaction: 1
   },
   {
     SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
@@ -269,11 +271,15 @@ export class FullauditdetailsComponent implements OnInit {
   moriCircuitRptTable!: TableItem;
   selectedTab!: number;
   selectListItems: string[] = [];
-
   listItems!: Select[];
   emptyColumns: string[] = [];
   nonemptyColumns: string[] = [];
   unSelectListItems: string[] = [];
+  tabs: Tab[] = [];
+
+  comments: string = 'Not available';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   rangeReportTableDetails: any = [
     { headerValue: 'StartTelNo', header: 'Start TelNo', showDefault: true, isImage: false },
@@ -321,12 +327,6 @@ export class FullauditdetailsComponent implements OnInit {
       { type: 'minlength', message: 'BatchId should be 3 characters long' }
     ]
   };
-
-  public tabs = [{
-    tabType: 0,
-    name: 'Summary'
-  }
-  ];
 
   colHeader: ColumnDetails[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
@@ -383,26 +383,16 @@ export class FullauditdetailsComponent implements OnInit {
     { headerValue: 'DeadEntry', header: 'DeadEntry', showDefault: true, isImage: false }];
 
   constructor(private ser: FullAuditDetailsService, private dialog: MatDialog,
-    private formBuilder: FormBuilder) {
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.colHeader,  
-      filter: true,
-      selectCheckbox: true,
-      showEmail: true,
-      showBlankCoulmns: true,
-      selectionColumn: 'TelNo',
-      highlightedCells: ['TelNo','OSN2Source'],
-      backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
-      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
-      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
-    }
+    private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
   }
-  comments: string = 'Not available';
+
+  resetForm(): void {
+    this.snackBar.open('Reset Form Completed!', 'Close', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
@@ -418,18 +408,48 @@ export class FullauditdetailsComponent implements OnInit {
     this.listItems = Items;
   }
 
+  onFormSubmit(): void {
+    this.myTable = {
+      data: ELEMENT_DATA,
+      Columns: this.colHeader,
+      filter: true,
+      selectCheckbox: true,
+      showEmail: true,
+      showBlankCoulmns: true,
+      selectionColumn: 'TelNo',
+      highlightedCells: ['TelNo', 'OSN2Source'],
+      backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
+      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
+      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
+      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
+      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
+    }
+
+    if (!this.tabs.find(x => x.tabType == 0)) {
+      this.tabs.push({
+        tabType: 0,
+        name: 'Summary'
+      });
+    }
+    this.selectedTab = this.tabs.length;
+  }
+
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
 
   newTab(tab: any) {
-    debugger;
+    if (this.tabs === []) return;
     switch (tab.tabType) {
       case 1: {
-        this.tabs.push({
-          tabType: 1,
-          name: 'Audit Trail Report'
-        });
+        if (!this.tabs?.find(x => x.tabType == 1)) {
+          this.tabs.push({
+            tabType: 1,
+            name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+          });
+        }
         break;
       }
       case 2: {
@@ -437,35 +457,43 @@ export class FullauditdetailsComponent implements OnInit {
         break;
       }
       case 3: {
-        this.rangeReportInit();
-        this.tabs.push({
-          tabType: 2,
-          name: 'Range Report'
-        })
+        if (!this.tabs?.find(x => x.tabType == 2)) {
+          this.rangeReportInit();
+          this.tabs.push({
+            tabType: 2,
+            name: 'Range Report'
+          })
+        }
         break;
       }
       case 4: {
-        this.inflightReportInit();
-        this.tabs.push({
-          tabType: 4,
-          name: 'Inflight Report'
-        })
+        if (!this.tabs?.find(x => x.tabType == 4)) {
+          this.inflightReportInit();
+          this.tabs.push({
+            tabType: 4,
+            name: 'Inflight Report'
+          })
+        }
         break;
       }
       case 5: {
-        this.monthlyRefreshReportInit();
-        this.tabs.push({
-          tabType: 5,
-          name: 'Monthly Refresh Report'
-        })
+        if (!this.tabs?.find(x => x.tabType == 5)) {
+          this.monthlyRefreshReportInit();
+          this.tabs.push({
+            tabType: 5,
+            name: 'Monthly Refresh Report'
+          })
+        }
         break;
       }
       case 6: {
-        this.moriCircuitStatusReportInit();
-        this.tabs.push({
-          tabType: 6,
-          name: 'Mori Circuit Status Report'
-        })
+        if (!this.tabs?.find(x => x.tabType == 6)) {
+          this.moriCircuitStatusReportInit();
+          this.tabs.push({
+            tabType: 6,
+            name: 'Mori Circuit Status Report'
+          })
+        }
         break;
       }
       default: {
@@ -503,18 +531,18 @@ export class FullauditdetailsComponent implements OnInit {
     this.fullAuditForm = this.formBuilder.group({
       TelNoStart: new FormControl({ value: '', disabled: true },
         [
-          Validators.required,
+          // Validators.required,
           Validators.minLength(10)
         ]
       ),
       TelNoEnd: new FormControl({ value: '', disabled: true },
         [
-          Validators.required,
+          // Validators.required,
           Validators.minLength(10)
         ]
       ),
-      AuditActId: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      CUPId: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      AuditActId: new FormControl({ value: '', disabled: true }),
+      CUPId: new FormControl({ value: '', disabled: true }),
       BatchId: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
       FullAuditCLIStatus: new FormControl({ value: '', disabled: true }),
@@ -564,7 +592,7 @@ export class FullauditdetailsComponent implements OnInit {
     this.rangeRptTable = {
       data: ELEMENT_DATA1,
       Columns: this.rangeReportTableDetails,
-      filter: true      
+      filter: true
     }
   }
 

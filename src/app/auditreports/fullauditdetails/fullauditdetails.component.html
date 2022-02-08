@@ -6,8 +6,8 @@
                 (changes)="setControlAttribute($event)">
             </app-select-multiple>
         </div>
-        <div class="controlsStylediv">
-            <form [formGroup]="fullAuditForm">
+            <form [formGroup]="fullAuditForm" (ngSubmit)="onFormSubmit()">
+                <div class="">
                 <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.TelNoStart.disabled}"
                     hintLabel="Max 10 characters">
                     <mat-label>Tel.No Start</mat-label>
@@ -193,15 +193,21 @@
                     </mat-select>
                 </mat-form-field>
 
-                <button type="submit" mat-raised-button style="margin-left: 25px;" color="primary" matTooltip="Search">
+                <button type="submit" mat-raised-button color="primary" matTooltip="Search"
+                [disabled]="fullAuditForm.invalid">
                     <mat-icon>search</mat-icon>Search
                 </button>
-            </form>
-        </div>
+                <button type="reset" mat-raised-button color="primary" matTooltip="Reset"
+                [disabled]="!fullAuditForm.touched" (click)="resetForm()">
+                    <mat-icon>refresh</mat-icon>Reset
+                </button>
+            </div>
+            </form>      
     </mat-sidenav>
 
     <mat-sidenav-content class="side-content">
-        <button class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+        <app-start-up *ngIf="tabs.length===0"></app-start-up>
+        <button *ngIf="tabs.length!=0" class="slidderbtn"  mat-basic-button color="primary" (click)="pagesidenav.toggle()"
             matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
             <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
         </button>
@@ -293,7 +299,6 @@
                                 </fieldset>
                             </div>
                         </div>
-
                     </div>
                     <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                         <app-telephone-audit-trail></app-telephone-audit-trail>

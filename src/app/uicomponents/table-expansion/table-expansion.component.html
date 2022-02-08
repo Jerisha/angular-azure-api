@@ -98,7 +98,7 @@
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: dataColumns;" (change)="selectRow($event,row)"> </tr>
+      <tr mat-row  [ngClass]="{'highlight':selection.isSelected(row)}"  *matRowDef="let row; columns: dataColumns;" (change)="selectRow($event,row)"> </tr>
       <ng-container *ngIf="shouldTotalRow">
         <tr mat-footer-row *matFooterRowDef="dataColumns"></tr>
 
