@@ -3,7 +3,8 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\uicomponents"
+    "\\src\\app\\uicomponents\\table-group-header"
   ],
+  "SelectedNode": "\\src\\app\\uicomponents",
   "PreviewInSolutionExplorer": false
 }
