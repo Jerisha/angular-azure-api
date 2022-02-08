@@ -149,6 +149,7 @@ saveTran(val:number)
 }
 ReviewCli()
 {
+  this.ResetTabs.emit(["true"]);
   this.views.view1=true;
   this.views.view2 =false;
   this.views.view3 =false;

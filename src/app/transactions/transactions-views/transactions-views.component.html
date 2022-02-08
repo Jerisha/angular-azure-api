@@ -69,8 +69,8 @@
                       <div class ="flex-container"> 
                           <!-- <div *ngIf="multiRangeChecked == true" > -->
                             <div *ngIf="CliRangeSet.length===1" >
-                              <mat-label style="font-size:large;padding-right:1rem"><strong>Start Tel.No. </strong>{{CliRangeSet[0]}}</mat-label>                                                          
-                              <mat-label style="font-size:large;"><strong>End Tel.No. </strong>{{CliRangeSet[1]}}</mat-label>                          
+                              <mat-label style="font-size:large;padding-right:1rem"><strong>Start Tel.No. </strong>{{CliRangeSet[0][0]}}</mat-label>                                                          
+                              <mat-label style="font-size:large;"><strong>End Tel.No. </strong>{{CliRangeSet[0][1]}}</mat-label>                          
                             </div>
                             <!-- <div *ngIf="multiRangeChecked == !true" style ="padding-bottom: 10px;"> -->
                               <div *ngIf="CliRangeSet.length>1" style ="padding-bottom: 10px;">
@@ -83,7 +83,7 @@
                                 <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> i-->
                               <!-- </button> -->
                               <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip= mutliRangeTelephoneList matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon> -->
-                              <button type="submit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="resetTel(this)">
+                              <button type="submit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="ReviewCli()">
                                 <i class="material-icons" style ="font-size:larger;width:30px; vertical-align: middle;">edit</i>Review
                               </button>  
                             </span>                         
