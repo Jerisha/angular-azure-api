@@ -241,7 +241,62 @@ const queryInput: any = {
   }
 }
 
-
+const AuditInput: any= {
+  "GetObjectRequest": {
+      "GetObjectRequestType": {
+          "RequestIdentifiers": {
+              "Identifier": [
+                  {
+                      "Name": "UserId",
+                      "Value": [
+                          "abc"
+                      ]
+                  },
+                  {
+                      "Name": "Destination",
+                      "Value": [
+                          "OSN2"
+                      ]
+                  }
+              ]
+          },
+          "ListofGetObjectCategory": {
+              "GetObjectCategory": [
+                  {
+                      "ItemName": "TelephoneNumberTransactionError",
+                      "ListofIdentifiers": {
+                          "Identifier": [
+                              {
+                                  "Name": "ReportIdentifier",
+                                  "Value": [
+                                      "Solicited Errors"
+                                  ]
+                              }
+                          ]
+                      },
+                      "ListofGetObjectCharacteristics": {
+                          "GetObjectCharacteristics": [
+                              {
+                                  "ItemName": "GetParameters",
+                                  "ListofIdentifiers": {
+                                      "Identifier": [
+                                          {
+                                              "Name": "TelephoneNumber",
+                                              "Value": [
+                                                  "02071117400"
+                                              ]
+                                          }
+                                      ]
+                                  }
+                              }
+                          ]
+                      }
+                  }
+              ]
+          }
+      }
+  }
+}
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
@@ -321,7 +376,7 @@ export class SolicitederrorsComponent implements OnInit {
     //debugger;     
     //this.service.apiTest(queryInput); 
     //let transformInput = JSON.parse(queryInput);    
-    //this.service.configDetails(queryInput);
+    this.service.configDetails(AuditInput);
   }
 
   private _filter(name: string): any[] {
