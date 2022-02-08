@@ -295,8 +295,8 @@ export class TransactionDetailsComponent implements OnInit {
    this.createForm();
    this.setOptions(); 
    this.myTable = {
-    // data: this.service.getTransactionDetailsSourceData(),
-    data:this.getTransactionDetailsSourceData(),
+    data: this.service.getTransactionDetailsSourceData(),
+    // data:this.getTransactionDetailsSourceData(),
     Columns: this.columns,
     filter: true,
     selectCheckbox: true,
@@ -840,7 +840,7 @@ export class TransactionDetailsComponent implements OnInit {
         if (!this.tabs.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+            name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
           this.selectedTab = 1;
         }

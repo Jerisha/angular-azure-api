@@ -199,7 +199,7 @@ export class HttpWrapperService {
             case WMMessageType.Informational:                
                 break;
             case WMMessageType.Error:                
-                this._route.navigate(['/errors', { outlets: { errorPage: 'error' } }], { state: { errData1: wmResponse.StatusCode, errData2: wmResponse.StatusMessage } });
+                this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 break;
         }
     }

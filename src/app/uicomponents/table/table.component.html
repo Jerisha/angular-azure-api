@@ -15,7 +15,7 @@
         <!-- <mat-icon class="table-icon" (addNewTab)="newTab($event)" >tab</mat-icon> -->
         <!-- {{imageItem|json}} -->
          <ng-container *ngFor="let img of imageItem; let imgIndex = index;">            
-            <mat-icon  *ngIf="img.headerValue === disCol" (addNewTab)="newTab($event)"  (click)="addTabs($event,img.tabIndex)"  >
+            <mat-icon class="table-icon"  *ngIf="img.headerValue === disCol" (addNewTab)="newTab($event)"  (click)="addTabs($event,img.tabIndex)"  >
               {{img.icon}}</mat-icon>  
         </ng-container> 
       </td>

@@ -7,8 +7,8 @@
       margin-top: 5%;">
         <img src="assets/images/vodafone.png" class="search-logo" alt="Logo">
         <!-- <mat-form-field class="example-full-width" style="margin-left:4%; margin-top: 4%;"  > -->
-          <mat-form-field class="main-search"  >
-          <input matInput name="strSearch" [(ngModel)]="strSearch" placeholder="Search" autocomplete="on">
+          <mat-form-field appearance="standard" class="main-search colfilter"  >
+          <input  matInput name="strSearch" [(ngModel)]="strSearch"  placeholder="Search" autocomplete="off">
           <button *ngIf="strSearch" matSuffix mat-icon-button aria-label="Clear" (click)="strSearch=''">
             <mat-icon>close</mat-icon>
           </button>
@@ -29,6 +29,7 @@
       <mat-icon>arrow_right</mat-icon>
       <div style="padding: 2px;">{{childRoot}}</div>    
   </div>
+
   <router-outlet></router-outlet>
   
   <div fxFlex></div>
@@ -43,4 +44,5 @@
 
 </mat-sidenav-container>
 
-<!-- /errors/(errorPage:error) -->
+
+

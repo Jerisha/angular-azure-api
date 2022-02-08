@@ -14,21 +14,21 @@
                     <div> 
                         <mat-form-field   style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>Start Tel.No</mat-label>
-                          <input matInput [(ngModel)]="model.telno"  pattern ="^[0-9 ]*$" maxlength="11" placeholder="Start Tel.No"  name = "telno" size = 11 style="margin-right:auto" (change)="onChangeEvent($event)">
+                          <input matInput [(ngModel)]="model.telno"  #startTel pattern ="^[0-9 ]*$" size =11 maxlength="11" placeholder="Start Tel.No"  name = "telno" size = 11 style="margin-right:auto"  (change)="onChangeEvent($event)">
                           <!-- <div *ngIf="mobNumber.errors && userForm.submitted && !isValidFormSubmitted" [ngClass] = "'error'">  
                             <div *ngIf="mobNumber.errors.pattern">  
                               Mobile number not valid.   -->
                         </mat-form-field>              
                         <mat-form-field   style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>End Tel.No</mat-label>
-                          <input matInput [(ngModel)]="model.rangeEnd" pattern ="^[0-9 ]*$" maxlength="11" placeholder="End Tel.No" name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)">
+                          <input matInput [(ngModel)]="model.rangeEnd" #endTel pattern ="^[0-9 ]*$" size =11 maxlength="11" placeholder="End Tel.No" name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)">
                         </mat-form-field>             
                         <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="The maximum CLIs in a range is limited to 10000.Only enter an End Tel No. if you intend to specify a range." matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                        
                       </div>  
                        
                       <!-- <div  *ngIf="visibleSearchOption2.checked == true" style ="margin-bottom: 2rem;" #MultiRangeList >  -->
                         <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
-                        <mat-list style ="height:10vh;overflow-x:hidden; overflow-y:auto;" >
+                        <mat-list style ="height:10vh;overflow-x:hidden; overflow-y:auto;" #cliList>
                           <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white">                              
                             <p matLine >
                               <span style="padding:2rem;width: 3rem;">Start  Tel. No.</span>

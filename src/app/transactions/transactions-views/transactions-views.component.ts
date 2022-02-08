@@ -95,6 +95,7 @@ removeRangeCli(){
 
 onChangeEvent(event:any)
 {
+  // this.ValidateTelno(event.target.value);
   if(event.target.value !="")
   {
     // console.log(this.searchTelState,this.btncolor)
@@ -159,8 +160,29 @@ SearchTel(){
           this.views.view2 =true;
           this.views.view3 =false;
           this.panelOpenState =true;
-      }
+      }      
   }
+  ValidateTelno(telno:string){
+    
+    let regNumberOnly = new RegExp("^[0-9 ]*$"); 
+
+    if(!(telno.length==0))
+   {
+      alert("Telephone Number should not Empty.");      
+      return false;
+   }   
+   else if(!telno.match(regNumberOnly))
+   {
+      alert("Telephone Number Contains Number Only.");      
+      return false;
+   }  else
+   {  
+    this.searchTelState =false;
+    this.btncolor ="vf-primary-btn";  
+   return true;
+   }
+  }
+
   resetTel(sf:any) {
     
     // this.view1Toggle ="display: block;visibility:visible;";

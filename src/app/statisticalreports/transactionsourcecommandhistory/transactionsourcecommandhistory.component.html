@@ -1,35 +1,27 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-        <div class="filterdataby">
-          <div style="font-size: small;">
-            <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
-              <mat-icon>filter_alt</mat-icon>
-              Filter Data By
-            </button>
-          </div>
-        </div>
-        <br>
-        <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
-          <div class="">
+    <div class="filterdataby">
+      <div style="font-size: small;">
+        <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
+          <mat-icon>filter_alt</mat-icon>
+          Filter Data By
+        </button>
+      </div>
+    </div>
+    <br>
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+      <div class="">
         <app-select-exp [listItems]="expDefaultmonth"></app-select-exp>
         <mat-form-field appearance="outline">
           <mat-label>Statistic Month</mat-label>
-          <input matInput [matDatepicker]="picker">
+          <input  formControlName="StatisticMonth" matInput [matDatepicker]="picker">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker startView="multi-year"></mat-datepicker>
-
+          <mat-datepicker  #picker startView="multi-year"></mat-datepicker>
         </mat-form-field>
-        <!-- <mat-datepicker #dp
-                  startView="multi-year"
-                  (yearSelected)="chosenYearHandler($event)"
-                  (monthSelected)="chosenMonthHandler($event, dp)"
-                  panelClass="example-month-picker">
-  </mat-datepicker> -->
-        <br>
-        <!-- <app-select-exp [listItems]="expDefaultsrc"></app-select-exp> -->
+     
         <mat-form-field appearance="outline">
           <mat-label>Source</mat-label>
-          <mat-select>
+          <mat-select formControlName="Source">
             <mat-option></mat-option>
             <mat-option>A - AUDITr</mat-option>
             <mat-option>C - SAS/COMS</mat-option>
@@ -45,25 +37,25 @@
         </mat-form-field>
 
 
-      <button type="submit" mat-raised-button color="primary" matTooltip="Search" (click)="search">
-        <mat-icon>search</mat-icon>Search
-      </button>
-      <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
-        <mat-icon>refresh</mat-icon>Reset
-      </button>
-          </div>
-        </form>
+        <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+          <mat-icon>search</mat-icon>Search
+        </button>
+        <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+      </div>
+    </form>
   </mat-sidenav>
 
   <mat-sidenav-content class="side-content">
-  
+
     <app-start-up *ngIf="tabs.length===0"></app-start-up>
 
     <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
       matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
       <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
     </button>
-    
+
     <mat-tab-group [selectedIndex]="selectedTab">
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
@@ -81,12 +73,12 @@
           <app-table-exp formControlName="OnTelephoneDetailSelected($event)"></app-table-exp>
           </form>
         </div> -->
-        <form [formGroup]="form" novalidate>
-          <div class="toggleclass">
+        
+        
             <mat-slide-toggle class="toggleclass" formControlName="Enable" (change)="onchange($event.checked)">
               Switch to D-2-D Summary View</mat-slide-toggle>
-          </div>
-        </form>
+       
+   
         <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
 
         <span [ngSwitch]="tab.tabType">
@@ -94,7 +86,10 @@
             <div class="basic-container">
               <!-- <span ><b>No of selected rows : </b></span> -->
             </div>
-            <app-table-exp (addNewTab)="OnTelephoneDetailSelected($event)"></app-table-exp>
+            <!-- <app-table-exp (addNewTab)="OnTelephoneDetailSelected($event)"></app-table-exp> -->
+            <app-table-exp class="childtb" [sidePan]="pagesidenav"  (addNewTab)="OnTelephoneDetailSelected($event)" [tableitem]="myTable"
+              (rowChanges)="rowDetect($event)">
+            </app-table-exp>
           </div>
 
           <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
