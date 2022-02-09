@@ -1,4 +1,4 @@
-<mat-sidenav-container class="side-container">
+<mat-sidenav-container class="side-container-report">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
     <div class="filterdataby">
       <div style="font-size: small;">
@@ -73,12 +73,12 @@
           <app-table-exp formControlName="OnTelephoneDetailSelected($event)"></app-table-exp>
           </form>
         </div> -->
-        <form [formGroup]="form" novalidate>
-          <div class="toggleclass">
+        
+        
             <mat-slide-toggle class="toggleclass" formControlName="Enable" (change)="onchange($event.checked)">
               Switch to D-2-D Summary View</mat-slide-toggle>
-          </div>
-        </form>
+       
+   
         <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
 
         <span [ngSwitch]="tab.tabType">
@@ -87,7 +87,7 @@
               <!-- <span ><b>No of selected rows : </b></span> -->
             </div>
             <!-- <app-table-exp (addNewTab)="OnTelephoneDetailSelected($event)"></app-table-exp> -->
-            <app-table-exp [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)" [tableitem]="myTable"
+            <app-table-exp class="childtb" [sidePan]="pagesidenav"  (addNewTab)="OnTelephoneDetailSelected($event)" [tableitem]="myTable"
               (rowChanges)="rowDetect($event)">
             </app-table-exp>
           </div>

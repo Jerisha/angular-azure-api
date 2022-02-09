@@ -80,8 +80,8 @@ font-size: smaller;  ">
         </div>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: dataColumns;" (change)="selectRow($event,row)"
-        (click)="selection.toggle(row)"> </tr>
+      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}"*matRowDef="let row; columns: dataColumns;" (change)="selectRow($event,row)"
+        (click)="selection.toggle(row)"> </tr>        
         <ng-container *ngIf="shouldTotalRow">
           <tr mat-footer-row *matFooterRowDef="dataColumns"></tr>
         </ng-container>
@@ -89,7 +89,7 @@ font-size: smaller;  ">
   </div>
 
 
-<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[100, 500, 1000]" showFirstLastButtons>
+<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
 </mat-paginator>
 
 <!-- <div class="test-wrapper"> -->
@@ -97,7 +97,8 @@ font-size: smaller;  ">
   <button type="reset" mat-raised-button color="primary" matTooltip="Export">
     <mat-icon>import_export</mat-icon>Export
   </button>&nbsp;&nbsp;
-  <button type="reset" mat-raised-button color="primary" matTooltip="Clipboard">
+  <button type="reset" mat-raised-button color="primary" matTooltip="Clipboard" 
+  [disabled]="selection.selected.length > 0 ? false : true">
     <mat-icon>file_copy</mat-icon> Copy To Clipboard
   </button>
   <span *ngIf="isEmailRequired">
