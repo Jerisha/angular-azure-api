@@ -38,18 +38,13 @@ table td, table th {
   height: 10px;
 }
 
-.table-icon{
-  cursor: pointer; 
-  font-size: 18px;
-  height: 0px;
-  width:auto;
-  color: #e60000;
-}
+
 
 .table-container {
   min-height: 100px;
   max-height: 350px;
-  overflow: auto;
+  /* overflow: auto; */
+  overflow-y: hidden;
   /* max-width: 100%; */  
   /* font-size:large; */
 }
@@ -90,6 +85,10 @@ table td, table th {
   padding: 0 !important;
 }
 
+.highlight {
+  background-color: #dee2e6;
+}
+
 
   /* .mat-row:nth-child(odd){
     background-color: #dee2e6;
@@ -102,8 +101,6 @@ table td, table th {
   {
     border: 0.5px solid gray;
   } */
-
-
 
 /* mat-cell, mat-header-cell, mat-footer-cell {
   flex: 1;
@@ -119,11 +116,3 @@ table td, table th {
 /* .mat-header-row {
   display: table-row;
 } */
-
-
-
-
-
-
-
-

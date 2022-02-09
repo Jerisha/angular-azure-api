@@ -13,67 +13,6 @@ import { MatSelect } from '@angular/material/select';
 
 
 
-const ELEMENT_DATA: Transaction[] =
-  [
-    {
-      Link: [{ View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '12/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifyCommands: '8', ExportCommands: '8 ', ImportCommands: '8', TotalCommands: '40',
-    },
-    {
-      Link: [{ View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '12/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifyCommands: '8', ExportCommands: '8 ', ImportCommands: '8', TotalCommands: '40',
-    },
-    {
-      Link: [{ View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '12/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifyCommands: '8', ExportCommands: '8 ', ImportCommands: '8', TotalCommands: '40',
-    },
-    {
-      Link: [{ View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '12/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifyCommands: '8', ExportCommands: '8 ', ImportCommands: '8', TotalCommands: '40',
-    },
-    {
-      Link: [{ View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '12/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifyCommands: '8', ExportCommands: '8 ', ImportCommands: '8', TotalCommands: '40',
-    },
-    {
-      Link: [{ View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '12/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifyCommands: '8', ExportCommands: '8 ', ImportCommands: '8', TotalCommands: '40',
-    },
-    {
-      Link: [{ View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '12/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifyCommands: '8', ExportCommands: '8 ', ImportCommands: '8', TotalCommands: '40',
-    },
-    {
-      Link: [{ View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '01/12/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '12/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifyCommands: '8', ExportCommands: '8 ', ImportCommands: '8', TotalCommands: '40',
-    },
-
-  ]
-
 @Component({
   selector: 'app-table-exp',
   templateUrl: './table-expansion.component.html',
@@ -95,8 +34,12 @@ export class TableExpansionComponent implements OnInit {
   selection = new SelectionModel<any>(true, []);
   @Input() tableitem?: TableItem;
   @Input() sidePan: any;
+  @Input() isShown: boolean = true ;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
+  
+  
+  
   dataSource!: MatTableDataSource<any>;
   selectedrows: any;
   ColumnDetails!: ColumnDetails[];
@@ -106,296 +49,295 @@ export class TableExpansionComponent implements OnInit {
   columnFilter?: boolean = false;
   imgList?: ViewColumn[];
   imgColumns?: string[];
+  step: number = 2;
   selectColumn: string = '';
   selectedTelnos: string[] = [];
   isEmailRequired: boolean = false;
   selectList: string[] = [];
+  childcolumns?:string[];
   emptyColumns: string[] = [];
   nonemptyColumns: string[] = [];
   unSelectListItems: string[] = [];
   gridSelectList: ColumnDetails[] = [];
   filteredDataColumns: ColumnDetails[] = [];
   highlightedCells: string[] = [];
-  backhighlightedCells: string[] = [];
-  step: number = 2;
-  myTable!: TableItem;
-  panelOpenState: boolean = false;
-  panelOpenState1: boolean = false;
-  panelOpenState2: boolean = false;
-  transaction?: Transaction[];
+  backhighlightedCells: string[] = []
+  isTotDisplayed: boolean = false;
+  totShowed: boolean = false;
   shouldTotalRow: boolean = false;
+  
+  
+  
   totalRowCols: string[] = []
-  selectedTab!: number;
-  img!: any[];
-  tabIndex!: number;
-  public tabs = [{
-    tabType: 0,
-    name: 'Summary'
-  }
-  ];
-  columnsToDisplay = ['select', 'Link', 'StatisticMonthDate', 'Source', 'AddCommands', 'CeaseCommands', 'ModifyCommands', 'ExportCommands', 'ImportCommands', 'TotalCommands'];
-
-  addressDetails: AddressDetails = { postcode: '', custName: '', internalAddr1: '', internalAddr2: '', internalAddr3: '', internalAddr4: '' };
-
-
-  // dataSource: MatTableDataSource<Element>;
-  // expandedElement: any;
-  // constructor() {
-  //   this.dataSource = new MatTableDataSource();
-  // }
-
-  // ELEMENT_DATA: Option[] = [];
+  
+  
+  
   constructor(private cdr: ChangeDetectorRef) {
-
+  
+  
+  
   }
-  columns: ColumnDetails[] =
-  [
-  { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
-  { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
-  { header: 'StatisticMonthDate', headerValue: 'StatisticMonthDate', showDefault: false, isImage: false },
-  { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-  { header: 'AddCommands', headerValue: 'AddCommands', showDefault: false, isImage: false },
-  { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-  { header: 'ModifyCommands', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-  { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-  { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-  { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
-  ];
-
+  
+  
+  
+  getTotal(cellname: string) {
+  var cell = cellname ? cellname : '';
+  if (this.ColumnDetails[0].headerValue === cell) {
+  return 'Total';
+  }
+  var totalcell = this.totalRowCols.filter(x => x.includes(cell))
+  if (totalcell.length > 0) {
+  return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+  }
+  else {
+  return '';
+  }
+  }
+  
+  
+  
   ngOnInit() {
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.columns,
-      filter: true,
-      selectCheckbox: true,
-      selectionColumn: 'Links',
-      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '',tabIndex:1 }]
-      
-      }
-      this.filteredDataColumns = this.columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
-      this.columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
-      this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
-      : (this.columns ? this.columns.map(e => e) : []);
-      // const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, imageColumn: false };
-      const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
-      //this.getEmptyColumns();
-      this.ColumnDetails.unshift(selItem);
-      this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-      this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';
-      this.transaction = ELEMENT_DATA;
-      const selectList = this.columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
-      console.log(selectList);
-      this.gridSelectList =this.columns;
+  this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
+  this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
+  this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false
+  this.totalRowCols = this.tableitem?.totalRowCols ? this.tableitem?.totalRowCols : [];
+  if (this.tableitem?.showBlankCoulmns) {
+  this.getEmptyColumns();
+  this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
+  this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
+  const selectList = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
+  this.gridSelectList = selectList ? selectList : [];
+  debugger;
+  this.totalRowCols = this.filteredDataColumns.filter(x => this.totalRowCols.includes(x.headerValue)).map(x => x.headerValue)
   }
+  else {
+  this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+  }
+  
+  
+  
+  this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
+  this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
+  : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
+  //this.imgColumns = this.tableitem?.colToSetImage;
+  this.imgList = this.tableitem?.imgConfig;
+  // this.childcolumns=this.tableitem?.Childcolumns;
+  this.filter = this.tableitem?.filter;
+  if (this.tableitem?.selectCheckbox) {
+  const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, imageColumn: false };
+  this.ColumnDetails.unshift(selItem);  
+  this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
+  this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';
+  } else {
+  this.dataColumns = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns.map((e) => e.headerValue) : this.tableitem?.Columns?.map((e) => e.headerValue);
+  }
+  this.isEmailRequired = this.tableitem?.showEmail ? true : false;
+  }
+  
+  
+  
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.toggleAllSelection();
-    this.cdr.detectChanges();
+  this.dataSource.paginator = this.paginator;
+  this.dataSource.sort = this.sort;
+  this.toggleAllSelection();
+  this.cdr.detectChanges();
   }
-  // getTotalCost() {
-  //   return this..map(t => t.headerValue).reduce((acc, value) => acc + value, 0);
-  // }
+  
+  
+  
+  selectRow(event: any, row: any) {
+    this.dataSource.data = this.dataSource.data.filter(r => r !== row);
+    if (event.checked) {
+      this.dataSource.data = [row].concat(this.dataSource.data);     
+    }
+    else {
+      this.dataSource.data = this.dataSource.data.concat(row);
+    }
+  this.rowChanges.emit([row[this.selectColumn]]);
+  }
+  
+  
+  
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+  }
+  
+  
+  
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+  if (this.isAllSelected()) {
+  this.selection.clear()
+  this.selectedTelnos = [];
+  
+  
+  
+  }
+  else {
+  this.dataSource.data.forEach(row => this.selection.select(row));
+  this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
+  }
+  
+  
+  
+  this.rowChanges.emit(this.selectedTelnos);
+  }
+  setStep(index: number) {
+  this.step = index;
+  }
+  setAddressDetails(section: string, element: any) {
+  // console.log(element.details.postcode);
+  
+  }
   applyFilter() {
-    this.dataSource.filter = this.fltvalue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+  this.dataSource.filter = this.fltvalue.trim().toLowerCase();
+  
+  
+  
+  if (this.dataSource.paginator) {
+  this.dataSource.paginator.firstPage();
   }
+  }
+  
+  
+  
   DeleteData() {
-    const numSelected = this.selection.selected;
-    if (numSelected.length > 0) {
-      if (confirm("Are you sure to delete items ")) {
-        alert("deleted");
-      }
-    } else {
-      alert("Select at least one row");
-    }
+  const numSelected = this.selection.selected;
+  if (numSelected.length > 0) {
+  if (confirm("Are you sure to delete items ")) {
+  alert("deleted");
+  
+  
+  
   }
-
-
-
+  } else {
+  alert("Select at least one row");
+  }
+  }
+  
+  
+  
   toggleAllSelection() {
-    if (this.allSelected) {
-      this.select.options.forEach((item: MatOption) => item.select());
-    } else {
-      this.select.options.forEach((item: MatOption) => item.deselect());
-    }
+  if (this.allSelected) {
+  this.select.options.forEach((item: MatOption) => item.select());
+  } else {
+  this.select.options.forEach((item: MatOption) => item.deselect());
   }
-
-
-
+  }
+  
+  
+  
   optionClick() {
-    let newStatus = true;
-    this.select.options.forEach((item: MatOption) => {
-      if (!item.selected) {
-        newStatus = false;
-      }
-    });
-    this.allSelected = newStatus;
+  let newStatus = true;
+  this.select.options.forEach((item: MatOption) => {
+  if (!item.selected) {
+  newStatus = false;
   }
-
-
-
+  });
+  this.allSelected = newStatus;
+  }
+  
+  
+  
   // getDisplayName(data: string) {
   // let index = this.tableitem?.dataColumns ? this.tableitem?.dataColumns.indexOf(data) : -1;
   // return this.tableitem?.coulmnHeaders ? this.tableitem?.coulmnHeaders[index] : undefined;
-
-
-
+  
+  
+  
   // }
-
-
-
+  
+  
+  
   filterGridColumns() {
-    let selectedColumns: string[] = this.select.value;
-    this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
-    // let coulmnHeader: string[] = [];
-    // let staticColumns = this.tableitem?.coulmnHeaders ?
-    // this.tableitem?.coulmnHeaders : undefined;
-    // selectedColumns.forEach(function (selectedColumn) {
-    // let displayedColumn = staticColumns?.
-    // find(x => x.replace(/[^a-zA-Z0-9]/g, "") == selectedColumn)
-    // coulmnHeader.push(displayedColumn ? displayedColumn : '');
-    // });
-    // this.columnHeaders = this.tableitem?.selectCheckbox ? ['Select'].concat(coulmnHeader) : coulmnHeader;
-
-
-
+  let selectedColumns: string[] = this.select.value;
+  this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
   }
-
-
-  logSelection(a: any) {
-    console.log(this.selection.selected)
-    this.selectedrows = this.selection.selected ? this.selection.selected : undefined;
-    //this.selectedrowsCount = this.selection.selected ? this.selection.selected.length: 0;
-    return true;
-  }
-
-
-
-  getEmptyColumns() {
-    let summaryData = this.tableitem?.data;
-    summaryData.forEach((item: any) => {
-      this.checkIsNullOrEmptyProperties(item)
-    });
-
-
-
-    var emptySet = new Set(this.emptyColumns);
-    this.emptyColumns = [...emptySet];
-    var nonEmptySet = new Set(this.nonemptyColumns);
-    this.nonemptyColumns = [...nonEmptySet];
-    this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
-  }
-
-
-
-  checkIsNullOrEmptyProperties(obj: any) {
-    for (var key in obj) {
-      if (obj[key] === null || obj[key] === "")
-        this.emptyColumns.push(key);
-      else {
-        this.nonemptyColumns.push(key)
-      }
-    }
-  }
-
-
-
-  highlightCell(cell: any, disCol: any) {
-
-
-
-    let applyStyles = {};
-    if (this.backhighlightedCells)
-      if (this.backhighlightedCells.includes(disCol.headerValue) && cell['isLive']) {
-        applyStyles = {
-          'background-color': '#ff9999'
-        }
-      }
-
-
-
-    if (this.highlightedCells)
-      if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
-        applyStyles = {
-          'color': '#ff9999',
-          'font-weight': 'bold',
-        }
-      }
-    return applyStyles;
-  }
-  setStep(index: number) {
-    this.step = index;
-  }
-
-  ActiveAddressDetails(): AddressDetails {
-    return this.addressDetails;
-  }
-
-  setAddressDetails(section: string, element: any) {
-    // console.log(element.details.postcode);
-    if (section == 'transaction') {
-      this.addressDetails.postcode = element.details.postcode;
-      this.addressDetails.custName = element.details.custName;
-      this.addressDetails.internalAddr1 = element.details.internalAddr1;
-      this.addressDetails.internalAddr2 = element.details.internalAddr2;
-      this.addressDetails.internalAddr3 = element.details.internalAddr3;
-      this.addressDetails.internalAddr4 = element.details.internalAddr4;
-    }
-    // console.log(this.addressDetails);
-  }
-  selectRow(event: any, row: any) {
-    this.rowChanges.emit([row[this.selectColumn]]);
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear()
-      this.selectedTelnos = [];
-
-    }
-    else {
-      this.dataSource.data.forEach(row => this.selection.select(row));
-      this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
-    }
-
-    this.rowChanges.emit(this.selectedTelnos);
-  }
-
-
-  addTabs(event: any, tabType: number, row: any) {
-    event.stopPropagation();
-    this.addNewTab.emit({ tabType, row });
-  }
-
-  removeTab(index: number) {
-    this.tabs.splice(index, 1);
-  }
+  
+  
+  
   newTab(tab: any) {
-
-
-
-    this.addNewTab.emit({ tab });
+  
+  
+  
+  
+  console.log('event log');
+  this.addNewTab.emit({ tab });
   }
-
-
+  
+  
+  
+  logSelection(a: any) {
+  console.log(this.selection.selected)
+  this.selectedrows = this.selection.selected ? this.selection.selected : undefined;
+  //this.selectedrowsCount = this.selection.selected ? this.selection.selected.length: 0;
+  return true;
+  }
+  
+  
+  
+  getEmptyColumns() {
+  let summaryData = this.tableitem?.data;
+  summaryData.forEach((item: any) => {
+  this.checkIsNullOrEmptyProperties(item)
+  });
+  
+  
+  
+  var emptySet = new Set(this.emptyColumns);
+  this.emptyColumns = [...emptySet];
+  var nonEmptySet = new Set(this.nonemptyColumns);
+  this.nonemptyColumns = [...nonEmptySet];
+  this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
+  }
+  
+  
+  
+  checkIsNullOrEmptyProperties(obj: any) {
+  for (var key in obj) {
+  if (obj[key] === null || obj[key] === "")
+  this.emptyColumns.push(key);
+  else {
+  this.nonemptyColumns.push(key)
+  }
+  }
+  }
+  
+  
+  
+  highlightCell(cell: any, disCol: any) {
+  
+  
+  
+  let applyStyles = {};
+  if (this.backhighlightedCells)
+  if (this.backhighlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+  applyStyles = {
+  'background-color': '#ff9999'
+  }
+  }
+  
+  
+  
+  if (this.highlightedCells)
+  if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+  applyStyles = {
+  'color': '#ff9999',
+  'font-weight': 'bold',
+  }
+  }
+  return applyStyles;
+  }
   expandedElement: PeriodicElement | null | undefined;
-}
-
-export interface PeriodicElement {
+  }
+  interface PeriodicElement {
   name: string;
   position: number;
   weight: number;
   symbol: string;
   description: string;
-}
-
-const ele: PeriodicElement[] = [];
-
+  }
+  const ele: PeriodicElement[] = [];
