@@ -12,10 +12,10 @@ font-size: smaller;  ">
 <mat-form-field appearance="standard" *ngIf="filter" class="colfilter" style="margin-left: 8px;">
   <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
     <mat-select-trigger>
-      <mat-icon>filter_list</mat-icon>
+      <mat-icon matPrefix>filter_list</mat-icon>
       {{select.value ? select.value[0] : ''}}
       <span *ngIf="select.value?.length > 1" class="additional-selection">
-        (+{{select.value.length - 1}} {{select.value?.length === 2 ? 'other' : 'others'}})
+        (+{{select.value.length - 1}} {{select.value?.length === 2 ? 'other' : 'others'}})       
       </span>
     </mat-select-trigger>
     <mat-optgroup style="min-width:220px">
@@ -94,21 +94,21 @@ font-size: smaller;  ">
 
 <!-- <div class="test-wrapper"> -->
 <div style="margin-bottom:10px" *ngIf="isShown">
-  <button type="reset" mat-raised-button color="primary" matTooltip="Export">
+  <button type="reset" mat-raised-button color="primary">
     <mat-icon>import_export</mat-icon>Export
   </button>&nbsp;&nbsp;
-  <button type="reset" mat-raised-button color="primary" matTooltip="Clipboard" 
+  <button type="reset" mat-raised-button color="primary" 
   [disabled]="selection.selected.length > 0 ? false : true">
     <mat-icon>file_copy</mat-icon> Copy To Clipboard
   </button>
   <span *ngIf="isEmailRequired">
-    <button type="reset" mat-raised-button color="primary" matTooltip="Export to email">
+    <button type="reset" mat-raised-button color="primary">
       <mat-icon>email</mat-icon> Export to email
     </button>
   </span>
 </div>
 <div style="margin: auto;"  *ngIf="!isShown">
-  <button type="reset" mat-raised-button color="primary" matTooltip="Reset">
+  <button type="reset" mat-raised-button color="primary">
     <mat-icon>import_export</mat-icon>Refresh
   </button>&nbsp;&nbsp;
   

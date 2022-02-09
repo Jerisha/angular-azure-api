@@ -201,19 +201,7 @@ expDefault =select.default;
   ngOnInit(): void {
 
     this.setOptions();
-    this.informationTable1 = {
-      data: ELEMENT_DATA_InformationTable1,
-      Columns: this.columns_informationTable1,
-      filter:true,
-
-    }
-
-    this.informationTable2 = {
-      data: ELEMENT_DATA_InformationTable2,
-      Columns: this.columns_informationTable2,
-      filter:true,
-      
-    }
+    
     this.myTable = {
       data: ELEMENT_DATA,
       Columns: this.columns,
@@ -221,8 +209,7 @@ expDefault =select.default;
       selectCheckbox: true,
       selectionColumn: 'TranId',
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 3 }]
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
       
 
 
@@ -240,6 +227,13 @@ expDefault =select.default;
       Columns: this.columns_informationTable1,
       filter:true,
 
+    }
+
+    this.informationTable2 = {
+      data: ELEMENT_DATA_InformationTable2,
+      Columns: this.columns_informationTable2,
+      filter:true,
+      
     }
     if (!this.tabs.find(x => x.tabType == 3)) {
       this.tabs.push({
