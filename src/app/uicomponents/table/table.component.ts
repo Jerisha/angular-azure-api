@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 
@@ -15,17 +15,18 @@ export class TableComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   dataColumns: any;
   columnHeaders: any;
-  constructor() { }
+  constructor(private cdr:ChangeDetectorRef) { }
 
   ngOnInit(): void {
-
+    console.log(this.tableitem);
     this.dataSource = new MatTableDataSource<any>(this.tableitem);
     this.dataColumns = this.toTableheaders(this.tableitem);
     //this.columnHeaders = this.tableitem?.coulmnHeaders;
+    
   }
-  ngAfterInit(): void {
-
-  }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+}
   toTableheaders(item: any): string[] {
     let array = [];
     if (this.tableitem != undefined) {
