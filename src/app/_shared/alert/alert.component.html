@@ -7,9 +7,9 @@
     </mat-card-content>
 </mat-card> -->
 
-<div *ngFor="let alert of alerts" class="{{cssClass(alert)}} popup">
+<div *ngFor="let alert of alerts" class="{{cssClass(alert)}} alert-dismissible popup">
     <span class="text" [innerHTML]="alert.message"></span>
-    <!-- <button class="close btn" (click)="removeAlert(alert)">&times;</button> -->
+    <!-- <button class="close" (click)="removeAlert(alert)">&times;</button> -->
     <mat-icon class="close" (click)="removeAlert(alert)">close</mat-icon>
 </div>
 

@@ -253,6 +253,8 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
 
   hello(){
-    this.alertService.success('Success!! hshs dhdh hdhdhdh hdhdhd hdhdhdhd dhdddbb', this.options)
+    this.alertService.success('Success!! Alert is Working', this.options);
+    this.alertService.warn('Warning!! Alert is Working', this.options);
+    this.alertService.error('Error!! Alert is Working', this.options);
   }
 }

@@ -1,4 +1,6 @@
-<alert></alert>
+<div class="container text-center">
+  <alert></alert>
+</div>
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
     
@@ -36,6 +38,10 @@
         </button>
         <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
           <mat-icon>refresh</mat-icon>Reset
+        </button>
+
+        <button type="button" mat-raised-button color="primary" matTooltip="Alert" (click)="hello()">
+          <mat-icon></mat-icon>Alert
         </button>
 
       </div>
