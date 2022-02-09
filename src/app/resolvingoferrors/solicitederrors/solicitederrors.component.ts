@@ -376,7 +376,7 @@ export class SolicitederrorsComponent implements OnInit {
     //debugger;     
     //this.service.apiTest(queryInput); 
     //let transformInput = JSON.parse(queryInput);    
-    this.service.configDetails(AuditInput);
+    this.service.configDetails(queryInput);
   }
 
   private _filter(name: string): any[] {
