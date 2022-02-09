@@ -18,15 +18,15 @@ font-size: smaller;  ">
         (+{{select.value.length - 1}} {{select.value?.length === 2 ? 'other' : 'others'}})
       </span>
     </mat-select-trigger>
-    <mat-optgroup>
+    <mat-optgroup style="min-width:220px">
       <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
         Select All</mat-checkbox>
     </mat-optgroup>
-    <mat-option color="primary" (click)="optionClick()"
+    <mat-option  style="min-width:220px" color="primary" (click)="optionClick()"
       *ngFor="let cols of (gridSelectList || []); let fltIndex = index" [value]="cols.headerValue">
       {{ cols.header }}
     </mat-option>
-    <mat-optgroup>
+    <mat-optgroup style="min-width:220px">
       <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns()" matTooltip="Submit">
         <!-- <mat-icon>play_arrow</mat-icon> -->
         Submit

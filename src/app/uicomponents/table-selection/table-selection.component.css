@@ -43,7 +43,8 @@ table td, table th {
 .table-container {
   min-height: 100px;
   max-height: 350px;
-  overflow: auto;
+  /* overflow: auto; */
+  overflow-y: hidden;
   /* max-width: 100%; */  
   /* font-size:large; */
 }

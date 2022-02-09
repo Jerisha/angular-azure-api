@@ -9,3 +9,10 @@
  
   }
 .hidden{display: none;}
+.container-page{
+  height:520px;
+  width: auto;
+  box-sizing: border-box;
+}
+
+

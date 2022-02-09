@@ -385,3 +385,10 @@ margin-top: 90px;*/
   font-size: 12px;
 }
 /* tool tip styles end */
+/* report container start */
+.side-container-report {  
+width: auto; 
+height: 520px !important;
+box-sizing: border-box;
+}
+/* report container end */
