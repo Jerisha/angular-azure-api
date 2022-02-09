@@ -115,12 +115,12 @@
           <button type="submit" mat-raised-button color="primary" matTooltip="Search">
             Search
           </button>
-          <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+          <button type="button" mat-raised-button color="primary" matTooltip="Search">
             Reset
           </button>
-          <!-- <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+          <button type="button" mat-raised-button color="primary" matTooltip="Search" (click) = "DisplayInformationTab()">
             Information
-          </button> -->
+          </button> 
         </div>
   
       </form>
@@ -212,6 +212,11 @@
                 <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                   <app-telephone-audit-trail></app-telephone-audit-trail>
                 </div>
+                <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
+                  <app-table class="appTable" [tableitem]="informationTable1"></app-table>
+                  </div>
+                  <!-- <app-table class="appTable" [tableitem]="informationTable2"></app-table> -->
+                
                 <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
                   <app-transaction-errors></app-transaction-errors>
                 </div>
