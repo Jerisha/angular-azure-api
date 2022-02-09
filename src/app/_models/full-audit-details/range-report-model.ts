@@ -3,7 +3,7 @@ export interface RangeReport{
     EndTelNo:string;
     SourceSystem:string;
     Lineup:string;
-    Transaction:string;
+    Transaction:number;
     InflightTransaction:string;
     CustomerName:string; 
     CustomerAddress:string;

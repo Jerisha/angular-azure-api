@@ -5,17 +5,33 @@
     justify-content: center;
   }
 
-.table-view::ng-deep .mat-cell {
+/* .table-view::ng-deep .mat-cell {
   padding-right:15px ;
   white-space: nowrap;
-}
+} */
 /* .table-view::ng-deep.mat-table{
   overflow-x: scroll;
 } */
 
 /* For making content center in header */
-.table-view::ng-deep.mat-sort-header-container{
+/* .table-view::ng-deep.mat-sort-header-container{
   justify-content: center !important;
-}
+} */
 
-.hidden{display: none;}
+
+.spinner{
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 12;
+}
+.spinnerdiv{
+  justify-content: center;
+  z-index: 11;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0%;
+}

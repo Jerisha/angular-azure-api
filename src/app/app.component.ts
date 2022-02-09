@@ -1,9 +1,10 @@
 import { Component, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { VERSION } from '@angular/material/core';
-import { NavItem } from './_models/nav-item';
+import { NavItem } from './_models/uicomponents/nav-item';
 import { NavService } from './_services/nav.services';
 import * as  menu from '../assets/menu.json';
 import * as  dat from '../assets/full-audit-table-details.json';
+import { Router } from '@angular/router';
 
 const MENU_SOURCE = (menu as any).default;
 const MENU_SOURCE1 = (dat as any).default;
@@ -16,7 +17,7 @@ const MENU_SOURCE1 = (dat as any).default;
 })
 export class AppComponent implements AfterViewInit {
   //title = 'OSN';
-  @ViewChild('appDrawer')  appDrawer!: ElementRef;
+  @ViewChild('appDrawer') appDrawer!: ElementRef;
   version = VERSION;
   strSearch: string = '';
   mainmenu: any;
@@ -24,7 +25,10 @@ export class AppComponent implements AfterViewInit {
   menuSelected: string = '';
   baseRoot = 'Home';
   childRoot: any;
-  constructor(private navService: NavService) {
+
+  isError!: boolean;
+
+  constructor(private navService: NavService, private _router: Router) {
   }
 
   ngOnInit() {
@@ -34,21 +38,32 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.navService.appDrawer = this.appDrawer;
     this.navService.currentUrl.subscribe((url: any) => {
-      if (url) {
+      if (url !== '/') {
         this.navItems.forEach(item => {
-          //console.log('URL: ' + url);
           var val = item.children?.filter(child => url.includes(child.route));
           if (val.length > 0) {
             this.baseRoot = item.displayName;
             this.childRoot = val[0].displayName;
-            // console.log('base: ' + this.baseRoot + ' child: ' + val[0].displayName);            
             return;
           }
         });
       }
+      else {
+        this.baseRoot = "Home";
+        this.childRoot = "";
+      }
     });
-
   }
+
+  removeError() {
+    this.isError = true;
+  }
+
+  Unsubscribe() {
+    this.isError = false;
+    console.log("router unsubscribed");
+  }
+
 
 }
 

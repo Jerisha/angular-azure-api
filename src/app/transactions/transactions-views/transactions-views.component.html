@@ -12,61 +12,47 @@
                       </mat-radio-group>                      
                     </div>   -->
                     <div> 
-                        <mat-form-field appearance="outline" style="margin-left:2px; margin-top: 1rem;">
+                        <mat-form-field   style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>Start Tel.No</mat-label>
-                          <input matInput [(ngModel)]="model.telno"  pattern ="^[0-9 ]*$" maxlength="11" placeholder="Start Tel.No"  name = "telno" size = 11 style="margin-right:auto" (change)="onChangeEvent($event)">
+                          <input matInput [(ngModel)]="model.telno"  #startTel pattern ="^[0-9 ]*$" size =11 maxlength="11" placeholder="Start Tel.No"  name = "telno" size = 11 style="margin-right:auto"  (change)="onChangeEvent($event)">
                           <!-- <div *ngIf="mobNumber.errors && userForm.submitted && !isValidFormSubmitted" [ngClass] = "'error'">  
                             <div *ngIf="mobNumber.errors.pattern">  
                               Mobile number not valid.   -->
                         </mat-form-field>              
-                        <mat-form-field appearance="outline" style="margin-left:2px; margin-top: 1rem;">
+                        <mat-form-field   style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>End Tel.No</mat-label>
-                          <input matInput [(ngModel)]="model.rangeEnd" pattern ="^[0-9 ]*$" maxlength="11" placeholder="End Tel.No" name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)">
+                          <input matInput [(ngModel)]="model.rangeEnd" #endTel pattern ="^[0-9 ]*$" size =11 maxlength="11" placeholder="End Tel.No" name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)">
                         </mat-form-field>             
                         <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="The maximum CLIs in a range is limited to 10000.Only enter an End Tel No. if you intend to specify a range." matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                        
                       </div>  
                        
                       <!-- <div  *ngIf="visibleSearchOption2.checked == true" style ="margin-bottom: 2rem;" #MultiRangeList >  -->
                         <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
-                        <mat-list style ="overflow-x:hidden; overflow-y:auto;">
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
+                        <mat-list style ="height:10vh;overflow-x:hidden; overflow-y:auto;" #cliList>
+                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white">                              
                             <p matLine >
-                              <span class = vf-list-header  style="border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;">Start  Tel. No.</span>
-                              <span class = vf-list-header style="border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;">End   Tel.No.</span>
-                              <span class = vf-list-header style="border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;">Remove</span>                                                            
+                              <span style="padding:2rem;width: 3rem;">Start  Tel. No.</span>
+                              <span style="padding:2rem;width: 3rem;">End   Tel.No.</span>
+                              <span style="padding:2rem;width: 3rem;">Remove</span>                                                            
                             </p>                                                      
-                          </mat-list-item>
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding:1em;border-top: 3px solid rgb(60, 190, 180);">                              
+                          </mat-list-item>  
+                          <mat-list-item  *ngFor="let cli of CliRangeSet" style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
                             <p matLine >
-                              <span class = vf-list-value style="border: 3px solid rgb(60, 190, 180); padding:2rem;">01234567890</span>
-                              <span class = vf-list-value style="border: 3px solid rgb(60, 190, 180); padding:2rem;">01234567895</span>
-                              <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
-                              </button>
+                              <span style="padding:2rem;width: 3rem;">{{cli[0]}}</span>
+                              <span style="padding:2rem;width: 3rem;">{{cli[1]}}</span>
+                              <span style="padding:2rem;width: 3rem;">
+                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
+                                </button>
+                              </span>                                                            
                             </p>                                                      
-                          </mat-list-item>
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
-                            <p matLine >
-                              <span class = vf-list-value >01234567898</span>
-                              <span class = vf-list-value >01234567899</span>
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
-                              </button>
-                            </p>                                                      
-                          </mat-list-item>
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;">                              
-                            <p matLine >
-                              <span class = vf-list-value >01234567990</span>
-                              <span class = vf-list-value >01234567995</span>
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
-                              </button>
-                            </p>                                                      
-                          </mat-list-item>                         
+                          </mat-list-item>                                             
                         </mat-list>                        
                       </div>
                     </div>
                       <div style="display: flex;align-items: center;">
                         <span>
                           <!-- <button  *ngIf="visibleSearchOption2.checked == true" type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()"> -->
-                            <button  type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()">
+                            <button  type="submit"  mat-raised-button [ngClass]="addbtncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;" (click)="addRangeTel()" [disabled]="addCliState">
                             <mat-icon>add_box</mat-icon>Add Cli(s)
                           </button>
                         <button type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
@@ -83,8 +69,8 @@
                       <div class ="flex-container"> 
                           <!-- <div *ngIf="multiRangeChecked == true" > -->
                             <div *ngIf="CliRangeSet.length===1" >
-                              <mat-label style="font-size:large;padding-right:1rem"><strong>Start Tel.No. </strong>{{model.telno}}</mat-label>                                                          
-                              <mat-label style="font-size:large;"><strong>End Tel.No. </strong>{{model.rangeEnd}}</mat-label>                          
+                              <mat-label style="font-size:large;padding-right:1rem"><strong>Start Tel.No. </strong>{{CliRangeSet[0][0]}}</mat-label>                                                          
+                              <mat-label style="font-size:large;"><strong>End Tel.No. </strong>{{CliRangeSet[0][1]}}</mat-label>                          
                             </div>
                             <!-- <div *ngIf="multiRangeChecked == !true" style ="padding-bottom: 10px;"> -->
                               <div *ngIf="CliRangeSet.length>1" style ="padding-bottom: 10px;">
@@ -93,11 +79,11 @@
                               
                             </span>
                             <span style ="float: right;">
-                              <button type="button" mat-mini-fab  style="margin-left: 6px; width: 24px;height:24px;font-size: small;line-height: 3px !important; padding: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Multi Range Telephone List" matTooltipPosition="above" (click)="ReviewCli()">
-                                <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> -->i
-                              </button>
+                              <!-- <button type="button" mat-mini-fab  style="margin-left: 6px; width: 24px;height:24px;font-size: small;line-height: 3px !important; padding: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Multi Range Telephone List" matTooltipPosition="above" (click)="ReviewCli()"> -->
+                                <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> i-->
+                              <!-- </button> -->
                               <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip= mutliRangeTelephoneList matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon> -->
-                              <button type="sumit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; width:fit-content;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="resetTel(this)">
+                              <button type="submit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="ReviewCli()">
                                 <i class="material-icons" style ="font-size:larger;width:30px; vertical-align: middle;">edit</i>Review
                               </button>  
                             </span>                         
@@ -124,7 +110,7 @@
                     </div> 
                     <div style="padding-top: 1rem;">
                       <span>
-                      <mat-form-field appearance="outline" style="margin-left:5px;">
+                      <mat-form-field   style="margin-left:5px;">
                         <mat-label class="vf-label" >CUPID</mat-label>  
                         <mat-select [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
                           <mat-option [value]="">                  
@@ -137,7 +123,7 @@
                     </span>
                     <span>           
                         <mat-form-field *ngIf = "enableFrancise"
-                        appearance="outline" style="margin-left:2px;width:300px;">
+                          style="margin-left:2px;width:300px;">
                           <mat-label class="vf-label">Franchise</mat-label>             
                           <mat-select  [(ngModel)]="model.Franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
                             <mat-option value= ""></mat-option>
@@ -166,7 +152,7 @@
                         <div class="vf-flex-container">
                             <div class="vf-flex-container-col" style="margin: 2px;"> 
                                 <div style="margin-bottom: 6px;">
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" >
+                                  <mat-form-field   class="vf-mr-negative" >
                                     <mat-label class="vf-label">Trans. Type *</mat-label>
                                     <mat-select #transtype name="txt"  onchange="check_list(this,1)">
                                     <mat-option value=""></mat-option>
@@ -179,7 +165,7 @@
                                   </mat-form-field>
                                 </div>
                                 <div style="margin-bottom: 6px;">
-                                    <mat-form-field appearance="outline" class="vf-mr-negative">
+                                    <mat-form-field   class="vf-mr-negative">
                                       <mat-label class="vf-label">Line Type</mat-label>
                                       <mat-select name="txt" onchange="check_list(this,3)">
                                         <mat-option value=""></mat-option>
@@ -189,7 +175,7 @@
                                     </mat-form-field>             
                                 </div> 
                                 <div style="margin-bottom: 6px;">
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" >
+                                  <mat-form-field   class="vf-mr-negative" >
                                     <mat-label class="vf-label">Type of Line *</mat-label> 
                                       <mat-select name="txt" onchange="check_list(this,24)" style="font-size:x-small;">
                                         <mat-option value=""></mat-option>
@@ -266,17 +252,17 @@
                                   </mat-form-field>
                                 </div>                                                                                                                            
                             <div style="margin-bottom: 6px;">
-                              <mat-form-field appearance="outline" class="vf-mr-negative" [ngStyle]="{'width':false?'90px' :'200px'}">
+                              <mat-form-field   class="vf-mr-negative" [ngStyle]="{'width':false?'90px' :'200px'}">
                                 <mat-label class="vf-label">Order Ref.</mat-label>
                                 <input type="text" matInput  placeholder="Order Ref. *"  size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                               </mat-form-field>                             
-                              <span [ngStyle]="{'display': true ? 'none' : 'inline-flex' }" ><mat-form-field appearance="outline" class="vf-mr-negative" style="width:106px;margin-left: 4px;">
+                              <span [ngStyle]="{'display': true ? 'none' : 'inline-flex' }" ><mat-form-field   class="vf-mr-negative" style="width:106px;margin-left: 4px;">
                                 <mat-label class="vf-label">Imp./Exp. CUPID</mat-label>
                                 <input type="text" matInput  placeholder="Imp./Exp. CUPID" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             </mat-form-field> </span>
                             </div>
                             <div >
-                              <mat-form-field appearance="outline">
+                              <mat-form-field  >
                               <mat-label class="vf-label">Comments</mat-label>
                               <textarea matInput placeholder="Comments"
                                 cdkTextareaAutosize
@@ -291,7 +277,7 @@
                                 </div>      
                               <div class="vf-flex-container-col" style="margin: 2px;float: left;">
                                 <div style="margin-bottom: 6px;">                            
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" style="width:250px;">
+                                  <mat-form-field   class="vf-mr-negative" style="width:250px;">
                                     <mat-label class="vf-label">Customer Name *</mat-label>
                                     <textarea matInput placeholder="Customer Name *"
                                     cdkTextareaAutosize
@@ -302,8 +288,8 @@
                                     size="20" maxlength="20"                  
                                     ></textarea>                                  
                                   </mat-form-field> 
-                                  <button type="button" mat-mini-fab  style="margin-left: 6px; width: 30px;height:30px;font-size: small;line-height: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
-                                    <mat-icon style ="font-size:small;width:24px;height: 24px;">content_copy</mat-icon>
+                                  <button type="button" mat-mini-fab  style="margin-left: 6px; height:36px;width:36px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
+                                    <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle;">content_copy</mat-icon>
                                   </button>
                                   <!-- <div style ="display: flex;justify-content: center;width: 24px;"> -->
                                     <!-- <button mat-icon-button type="button"  style = "background-color: red;width: fit-content;"aria-label="update Default Office Address Details"  matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->
@@ -315,7 +301,7 @@
                                   <!-- </button> -->
                               </div>       
                                 <div style="margin-bottom: 6px;">
-                                        <mat-form-field appearance="outline" class="vf-mr-negative"style="width:300px;" >
+                                        <mat-form-field   class="vf-mr-negative"style="width:300px;" >
                                           <mat-label class="vf-label">Address1 *</mat-label>
                                           <textarea matInput placeholder="Address1 *"
                                             cdkTextareaAutosize
@@ -328,7 +314,7 @@
                                         </mat-form-field>
                                     </div>
                                     <div style="margin-bottom: 6px;">
-                                      <mat-form-field appearance="outline" class="vf-mr-negative" style="width:300px;">
+                                      <mat-form-field   class="vf-mr-negative" style="width:300px;">
                                         <mat-label class="vf-label">Address2 *</mat-label>
                                         <textarea matInput placeholder="Address2 *"
                                           cdkTextareaAutosize
@@ -341,7 +327,7 @@
                                       </mat-form-field>
                                   </div>
                                   <div style="margin-bottom: 6px;">
-                                    <mat-form-field appearance="outline" class="vf-mr-negative" style="width:300px;">
+                                    <mat-form-field   class="vf-mr-negative" style="width:300px;">
                                       <mat-label class="vf-label">Address3</mat-label>
                                       <textarea matInput placeholder="Address3"
                                         cdkTextareaAutosize
@@ -354,7 +340,7 @@
                                     </mat-form-field>
                                 </div>
                                 <div style="margin-bottom: 6px;">
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" style="width:300px;">
+                                  <mat-form-field   class="vf-mr-negative" style="width:300px;">
                                     <mat-label class="vf-label">Address4</mat-label>
                                     <textarea matInput placeholder="Address4"
                                       cdkTextareaAutosize
@@ -367,7 +353,7 @@
                                   </mat-form-field>
                                 </div>
                                 <div >
-                                  <mat-form-field appearance="outline" class="vf-mr-negative" style="width:100%;">
+                                  <mat-form-field   class="vf-mr-negative" style="width:100%;">
                                       <mat-label class="vf-label">Post code *</mat-label>
                                       <input type="text" matInput  placeholder="Post code *" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                                   </mat-form-field>                                  

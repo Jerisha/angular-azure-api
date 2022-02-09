@@ -5,8 +5,9 @@ import { environment } from 'src/environments/environment';
 import { catchError, first, map, retry } from 'rxjs/operators';
 import { HttpWrapperService } from 'src/app/_services/http/http-wrapper.service';
 import { FullAuditSummary } from 'src/app/_models/index';
-import { WeatherForecast } from 'src/app/_models/samplemodel';
+
 import { HttpVerbs } from 'src/app/_enums/http-verbs.enum';
+import { WebMethods } from 'src/app/_enums/web-methods.enum';
 @Injectable()
 export class FullAuditDetailsService {
 
@@ -36,12 +37,12 @@ export class FullAuditDetailsService {
   }
 
 
-  postDetails(data: WeatherForecast[]): Observable<WeatherForecast[]> {
-    var headers = new HttpHeaders({
-      'auth': 'OAuth'
-    });
-    return this.wrapperService.processRequst(HttpVerbs.POST, 'weatherforecast', data, headers);
-  }
+  // postDetails(data: WeatherForecast[]): Observable<WeatherForecast[]> {
+  //   var headers = new HttpHeaders({
+  //     'auth': 'OAuth'
+  //   });
+  //   return this.wrapperService.processRequst(HttpVerbs.POST, WebMethods.QUERY, data, headers);
+  // }
 
 
 

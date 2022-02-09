@@ -11,11 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 /* mat-select panel position start */
 .matselhorzPanel
 {
-  /*position: relative;
-  
+  /*position: relative;  
   min-width: calc(100% + 902px) !important;
-  max-width: 100% !important;
-  
+  max-width: 100% !important;  
   margin-left: auto;
   display: flex;
   flex-direction: inherit;
@@ -37,18 +35,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 
 .matselrgtPanel
 {
-  /*position: relative;
-  
+  /*position: relative;  
   min-width: calc(100% + 902px) !important;
-  max-width: 100% !important;
-  
+  max-width: 100% !important;  
   margin-left: auto;
   display: flex;
   flex-direction: inherit;
   overflow: auto; 
-    top: 26px;*/
-
-
+  top: 26px;*/
   position:absolute;
   pointer-events:auto;
   box-sizing:border-box;
@@ -56,9 +50,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   /* display:flex;
   flex-flow: wrap;
   min-width: calc(100% + 946px) !important;  
-  width: auto; */
-  max-height: calc(100% + 480px) !important;
+  width: auto; */  
  /* height: auto; */ 
+ max-height: calc(100% + 480px) !important;
  transform: translateX(840px) !important;
 }
 /* mat-select panel position ends */
@@ -99,6 +93,17 @@ app-select-multiple  .mat-form-field-appearance-outline .mat-form-field-flex {
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 0px;
 }
+
+/* filterbar-static */
+.filterdataby{
+  /* background-color:#007C92; */
+  background-color:#EFEFEF;
+  color: black; 
+  height: 35px;
+  width:180px;
+  margin-left: 15px;
+}
+
 /* app-select-multiple - filter Ends */
 
 /* side-nav-page-header starts */
@@ -126,20 +131,10 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   }
  /* side-nav-page-header ends */
 
-/* .container {
-    padding: 8px 24px 108px 24px;
-  } */
-  
-  .hidden {display:none;}
-  .filterdataby{
-    /* background-color:#007C92; */
-    background-color:#EFEFEF;
-    color: black; 
-    height: 35px;
-    width:180px;
-    margin-left: 15px;
-  }
 
+  
+  /* mat icon,buttons,fab icons desgin strats */
+ 
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
     color: white;
     background-color: #54575a!important;
@@ -150,6 +145,8 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   color: white;
     margin-left: 8px; 
 }
+
+  /* mat icon,buttons,fab icons desgin ends */
 
 /* .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 0.3em 0 0.3em 0 !important;
@@ -173,7 +170,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
    /* background-color: #EFEFEF; 
   color:#e60000;     */
   border-right: solid 3px white;
-  padding-left:initial ;
+  /* padding-left:initial ; */
      border-top-right-radius: 10px;
     border-top-left-radius: 10px; 
 }
@@ -198,12 +195,52 @@ div .mat-focus-indicator.mat-tab-label {
   width: 160px;
 } */
 
+/* material form controls common design starts */
 .example-container .mat-form-field,.example-container .mat-form-field + .mat-form-field {
   margin-left: 8px;  
   margin-bottom: 8px;
   width:10%;
   font-size: smaller;  
 }
+
+/* material form controls default design ends */
+
+/* material table controls common design starts */
+/* To remove border-top for mat-form-field-wrapper  */
+.colfilter .mat-form-field-infix {
+  /* padding: 0 0 !important; */
+  border-top: 0 !important;
+}
+
+/* To remove padding-top for mat-form-field-wrapper  */
+.colfilter .mat-form-field-flex {
+  padding-top: 0em!important;
+}
+
+/* To remove padding-bottom for mat-form-field-wrapper  */
+.colfilter .mat-form-field-wrapper {
+  padding-bottom: 0em!important;
+}
+
+/* To remove underline for mat-form-field  */
+.colfilter .mat-form-field-underline {
+  display: none;
+}
+
+/* All mat-cell */
+.mat-cell{
+  color: black !important;
+  font-weight: 500 !important;
+}
+
+.table-icon{
+  cursor: pointer; 
+  font-size: 18px;
+  height: 0px;
+  width:auto;
+  color: #e60000;
+}
+/* material table controls common design ends */
 
 /* Scrollbar */
 
@@ -272,6 +309,7 @@ div .mat-focus-indicator.mat-tab-label {
   margin-left: 20px;
   position:sticky;
   top:0;  
+  z-index: 2;
   /* background-color:#EFEFEF; */
 }
 .res-save-div
@@ -296,8 +334,7 @@ margin-left: 200px; */
 }
 
 .side-container .side-bottom .mat-form-field
-{
-  /* margin-bottom: 1px;  
+{  /* margin-bottom: 1px;  
   margin-top:1px;   */
   margin: 5px;
   font-size: smaller;  
@@ -338,7 +375,20 @@ margin-top: 90px;*/
         /* background-color:magenta; */
 }
 /* Side-panel Ends */
- 
-  
 
 
+/* tool tip styles start */
+.mat-tooltip {
+  /* your own custom styles here */ 
+  background-color:#EFEFEF;
+  color:black !important;
+  font-size: 12px;
+}
+/* tool tip styles end */
+/* report container start */
+.side-container-report {  
+width: auto; 
+height: 520px !important;
+box-sizing: border-box;
+}
+/* report container end */

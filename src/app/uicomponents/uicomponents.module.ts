@@ -12,12 +12,13 @@ import {
   SelectMultipleComponent,
   SelectSingleComponent,
   SelectExpressionComponent,
-  TableGroupHeaderComponent 
+  TableExpansionComponent,
+  TableGroupHeaderComponent
+  
+ 
 } from './index';
 
 import { HelperModule } from '../_helper/helper/helper.module';
-
-
 
 
 @NgModule({
@@ -30,7 +31,9 @@ import { HelperModule } from '../_helper/helper/helper.module';
     SelectSingleComponent,
     SelectExpressionComponent,
     SelectSingleComponent,
-    TableGroupHeaderComponent
+    TableGroupHeaderComponent,
+    TableExpansionComponent
+
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,8 @@ import { HelperModule } from '../_helper/helper/helper.module';
     TableComponent,
     SelectExpressionComponent,
     SelectMultipleComponent,
-    SelectSingleComponent
-  ]
-})
+    SelectSingleComponent,
+    TableExpansionComponent
+  ],
+ })
 export class UicomponentsModule { }

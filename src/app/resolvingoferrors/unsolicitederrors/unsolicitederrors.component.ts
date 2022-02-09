@@ -4,10 +4,10 @@ import { MatSelect } from '@angular/material/select';
 import { Observable } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { select } from 'src/app/_helper/Constants/exp-const';
-import { Select } from 'src/app/_models/select';
+import { Select } from 'src/app/_models/uicomponents/select';
 import { FormControl, Validators } from '@angular/forms';
-import { ColumnDetails, TableItem } from 'src/app/_models/table-item';
-import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/_models/unsolicited-error';
+import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
 
 const Items: Select[] = [
@@ -159,36 +159,36 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     // }
   ];
   columns: ColumnDetails[] = [
-    { header: 'Reference', headerValue: 'Reference', showDefault: true, imageColumn: false },
-    { header: 'View', headerValue: 'View', showDefault: true, imageColumn: true },
-    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, imageColumn: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, imageColumn: false },
-    { header: 'Error[cnt]', headerValue: 'ErrorCount', showDefault: true, imageColumn: false },
-    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, imageColumn: false },
-    { header: 'Request Start', headerValue: 'RequestStart', showDefault: true, imageColumn: false },
-    { header: 'Request End', headerValue: 'RequestEnd', showDefault: true, imageColumn: false },
-    { header: 'Diff', headerValue: 'Diff', showDefault: true, imageColumn: false },
-    { header: '999 Reference', headerValue: 'Reference1', showDefault: true, imageColumn: false },
-    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, imageColumn: false },
-    { header: 'Latest Comment Date: ', headerValue: 'LatestCommentDate', showDefault: true, imageColumn: false },
+    { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Error[cnt]', headerValue: 'ErrorCount', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
+    { header: 'Request Start', headerValue: 'RequestStart', showDefault: true, isImage: false },
+    { header: 'Request End', headerValue: 'RequestEnd', showDefault: true, isImage: false },
+    { header: 'Diff', headerValue: 'Diff', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
+    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date: ', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
   columns_informationTable1: ColumnDetails[] = [
-    { header: 'Month', headerValue: 'Month', showDefault: true, imageColumn: false },
-    { header: 'Resolve', headerValue: 'Resolve', showDefault: true, imageColumn: false },
-    { header: 'Count', headerValue: 'Count', showDefault: true, imageColumn: false },
+    { header: 'Month', headerValue: 'Month', showDefault: true, isImage: false },
+    { header: 'Resolve', headerValue: 'Resolve', showDefault: true, isImage: false },
+    { header: 'Count', headerValue: 'Count', showDefault: true, isImage: false },
     
   ];
 
   columns_informationTable2: ColumnDetails[] = [
-    { header: 'Month', headerValue: 'Month', showDefault: true, imageColumn: false },
-    { header: 'New', headerValue: 'New', showDefault: true, imageColumn: false },
-    { header: 'Investigation', headerValue: 'Investigation', showDefault: true, imageColumn: false },
-    { header: 'Governance', headerValue: 'Governance', showDefault: true, imageColumn: false },
-    { header: 'Port', headerValue: 'Port', showDefault: true, imageColumn: false },
-    { header: 'pComp', headerValue: 'PComp', showDefault: true, imageColumn: false },
-    { header: 'Resolve', headerValue: 'Resolve', showDefault: true, imageColumn: false },
-    { header: 'Other', headerValue: 'Other', showDefault: true, imageColumn: false },
+    { header: 'Month', headerValue: 'Month', showDefault: true, isImage: false },
+    { header: 'New', headerValue: 'New', showDefault: true, isImage: false },
+    { header: 'Investigation', headerValue: 'Investigation', showDefault: true, isImage: false },
+    { header: 'Governance', headerValue: 'Governance', showDefault: true, isImage: false },
+    { header: 'Port', headerValue: 'Port', showDefault: true, isImage: false },
+    { header: 'pComp', headerValue: 'PComp', showDefault: true, isImage: false },
+    { header: 'Resolve', headerValue: 'Resolve', showDefault: true, isImage: false },
+    { header: 'Other', headerValue: 'Other', showDefault: true, isImage: false },
   ];
 
 selected :string='';

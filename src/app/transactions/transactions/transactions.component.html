@@ -1,6 +1,7 @@
 <!-- <mat-toolbar class ="docs-primary-header component-page-header"> -->
 
 <!-- <div style="font-size: 12px;color:slategray;padding-left:1%;margin-block:0;">Transactions > Transactions</div> -->
+<div class="container-page">
 <div class="wrap">
   <div class="left-box">
     <ng-container>
@@ -20,6 +21,9 @@
         <ng-container>
           <div>
             <app-telephone-no (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
+            <button type="button" mat-mini-fab  style="width:36px;height:36px;margin-left:46%;margin-top:6px;font-size:small;line-height:0px !important;background-color:rgb(230, 60, 160);" matTooltip="Update matched Details"  >
+              <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align: middle;">content_copy</mat-icon>
+            </button>
           </div>
             <div class="audit-trail-view">
             <app-telephone-audit-trail></app-telephone-audit-trail>
@@ -28,4 +32,5 @@
       </mat-tab>
     </mat-tab-group>
   </div>
+</div>
 </div>

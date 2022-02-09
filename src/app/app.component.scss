@@ -14,7 +14,7 @@
   }
 }
 .sidenav-toolbar {
-  height: 64px;
+  height: 36px;
   background-color: mat-color($app-primary);
   display: flex;
   flex-direction: row;
@@ -43,6 +43,7 @@
 .menu-list-item.mat-list-item {
   .mat-list-item-content {
     flex: 1 1 100%;
+    font-size: 14px;
   }
 }
 .version-info {
@@ -52,7 +53,16 @@
 }
 .search-logo{
   
-    margin-left: -6%;
+    // margin-left: -6%;
     margin-bottom: -4%;
+    margin-right: 20px;
 
+}
+.main-search{  
+   background-color: white;
+   color: black; 
+  //  padding: 1px;
+   margin: 6px;
+   height: 45px;  
+   border-radius: 10px; 
 }

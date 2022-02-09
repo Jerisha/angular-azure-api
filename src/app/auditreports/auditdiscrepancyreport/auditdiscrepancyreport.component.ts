@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { InternalAuditSummary } from 'src/app/_models/index';
-import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 'src/app/_models/merge-table-item-model';
+import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 'src/app/_models/uicomponents/merge-table-item-model';
 import { AuditDiscpancyReportService } from './auditdiscrepancyreport.component.service';
 
 const ELEMENT_DATA: InternalAuditSummary[] = [
@@ -96,7 +96,6 @@ export class AuditdiscrepancyreportComponent implements OnInit {
 
     var colm =['ACTID', 'SourceSystem']
     this.totalColmns= this.displayedColumns.filter(x=>!colm.includes(x));
-    //console.log(this.totalColmns);
   }
 
   ngOnInit(): void {

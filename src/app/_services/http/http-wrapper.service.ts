@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
-import { observable, Observable, Observer } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
 import { ResponseType } from 'src/app/_enums/response-type.enum';
 import { HttpVerbs } from 'src/app/_enums/http-verbs.enum';
+import { WebMethods } from 'src/app/_enums/web-methods.enum';
+import { WMMessageType } from 'src/app/_enums/wmmessage-type.enum';
+import { Router } from '@angular/router';
+
 
 @Injectable({ providedIn: 'root' })
 export class HttpWrapperService {
 
-    constructor(private httpClient: HttpClient) {
+    constructor(private httpClient: HttpClient, private _route: Router) {
     }
 
-    processRequst<Type>(httpVerb: HttpVerbs, endPoint: string, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
+    processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
         // this.http(httpVerb.toString(),
         //     `${environment.api_url}${endPoint}`,
@@ -24,12 +28,13 @@ export class HttpWrapperService {
 
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_url}${endPoint}`,
+                `${environment.api_url}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
                 params).subscribe((response: Type) => {
-                    observer.next(response);
+                    // observer.next(this.resolveRespone(response, endPoint))
+                    this.resolveRespone(response, endPoint);
                 })
         });
         return observerRes;
@@ -37,23 +42,206 @@ export class HttpWrapperService {
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
-
-        // let options = {
-        //     body: body, headers: headers,
-        //     params: params,
-        //     responseType: responseType
-        // };
-
-        //params = new HttpParams().set('ConfigObjectRequest', body);
-
         debugger;
         switch (responseType) {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
-                break;
             case ResponseType.BLOB:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' })
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' });
         }
+    }
 
+
+    private resolveRespone(val: any, requestType: WebMethods): any {
+        debugger;
+        let categories = [];
+        let jsonResult = '';
+        switch (requestType) {
+            case WebMethods.CONFIG:
+                categories = val.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory;
+                this.validateResponseStatus(this.resolveResponseStatus(categories));
+                jsonResult = this.processConfigObject(categories);
+                break;
+            case WebMethods.QUERY:
+                categories = val.QueryObjectResponse.QueryObjectResponseType.ListofQueryObjectCategory.QueryObjectCategory;
+                if(this.validateResponseStatus(this.resolveResponseStatus(categories)))
+                jsonResult = this.processQueryObject(categories);
+                break;
+            case WebMethods.GET:
+                categories = val.GetObjectResponse.GetObjectResponseType.ListofGetObjectCategory.GetObjectCategory;
+                if(this.validateResponseStatus(this.resolveResponseStatus(categories)))
+                jsonResult = this.processGetObject(categories);
+                break;
+            case WebMethods.UPDATE:
+                categories = val.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
+                this.validateResponseStatus(this.resolveResponseStatus(categories));
+                break;
+            case WebMethods.CREATE:
+                categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
+                this.validateResponseStatus(this.resolveResponseStatus(categories));
+                break;
+        }
+        console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
+        return JSON.parse(jsonResult);
+    }
+
+    private processConfigObject(categories: any) {
+        var jsonCreation = `[`
+        if (categories != undefined && categories.length > 0) {
+            //Iterate categories object
+            categories?.forEach((category: any) => {
+                //Check ItemName is not Update
+                if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update"
+                    && category?.hasOwnProperty("ListofConfigObjectCharacteristics")) {
+                    jsonCreation += `{`
+                    //Iterate characteristics object
+                    let configCharacteristics = category.ListofConfigObjectCharacteristics.ConfigObjectCharacteristics;
+
+                    configCharacteristics?.forEach((characteristic: any) => {
+                        //Bind configCharacteristics
+                        if (characteristic.hasOwnProperty("ListofCharacteristics")) {
+                            characteristic.ListofCharacteristics.Characteristic?.forEach((char: any) => {
+                                jsonCreation = this.resolveCharacteristic(char, jsonCreation);
+                            });
+                        }
+                    });
+                    jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                    jsonCreation += `},`;
+                }
+            });
+            jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+            jsonCreation += `]`;
+
+        }
+        return jsonCreation;
+    }
+
+    private processQueryObject(categories: any) {
+        var jsonCreation = `[`
+        if (categories != undefined && categories.length > 0) {
+            //Iterate categories object
+            categories?.forEach((category: any) => {
+                //Check ListofIdentifiers
+                if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update") {
+                    jsonCreation += `{`
+                    if (category?.hasOwnProperty("ListofIdentifiers")||category?.hasOwnProperty("ListofAttributes")) {
+                        //Iterate category object
+                        jsonCreation = this.resolveCharacteristic(category, jsonCreation);
+                        //jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                    }
+                    if (category?.hasOwnProperty("ListofQueryObjectCharacteristics")) {
+                        //Iterate characteristics object
+                        let characteristics = category.ListofQueryObjectCharacteristics.QueryObjectCharacteristics
+                        characteristics?.forEach((characteristic: any) => {
+                            jsonCreation = this.resolveCharacteristic(characteristic, jsonCreation);
+                        });
+                        jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                    }
+                    jsonCreation += `},`;
+                }
+            });
+            jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+            jsonCreation += `]`;
+        }
+        return jsonCreation;
+    }
+
+    private processGetObject(categories: any) {
+        var jsonCreation = `[`
+        if (categories != undefined && categories.length > 0) {
+            //Iterate categories object
+            categories?.forEach((category: any) => {
+                //Check ListofIdentifiers
+                if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update") {
+                    jsonCreation += `{`
+                    if (category?.hasOwnProperty("ListofIdentifiers")||category?.hasOwnProperty("ListofAttributes")) {
+                        //Iterate category object
+                        jsonCreation = this.resolveCharacteristic(category, jsonCreation);
+                        //jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                    }
+                    if (category?.hasOwnProperty("ListofGetObjectCharacteristics")) {
+                        //Iterate characteristics object
+                        let characteristics = category.ListofGetObjectCharacteristics.GetObjectCharacteristics
+                        characteristics?.forEach((characteristic: any) => {
+                            jsonCreation = this.resolveCharacteristic(characteristic, jsonCreation);
+                        });
+                        jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                    }
+                    jsonCreation += `},`;
+                }
+            });
+            jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+            jsonCreation += `]`;
+        }
+        return jsonCreation;
+    }
+
+    private resolveCharacteristic(objCharacteristic: any, jsonCreation: string) {
+        // objCharacteristics?.forEach((Characteristic: any) => {
+        //Bind Identifiers
+        if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
+            objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
+                if (element.hasOwnProperty("Name"))
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`;
+            });
+        }
+        //Bind Attributes
+        if (objCharacteristic.hasOwnProperty("ListofAttributes")) {
+            let attr = objCharacteristic.ListofAttributes.Attribute;
+            for (let i = 0; i < attr.length; i++) {
+                if (attr[i].hasOwnProperty("Name"))
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`;
+            }
+        }
+        //Bind Characteristics
+        if (objCharacteristic.hasOwnProperty("ListofCharacteristics")) {
+            let char = objCharacteristic.ListofCharacteristics.Characteristic;
+            char?.forEach((characteristic: any) => {
+                jsonCreation = this.resolveCharacteristic(characteristic, jsonCreation);
+            });
+        }
+        // });
+        return jsonCreation;
+    }
+
+    private resolveResponseStatus(categories: any) {
+        var jsonCreation = ``
+        if (categories != undefined && categories.length > 0) {
+
+            //Iterate categories object
+            categories?.find((category: any) => {
+                //Check ItemName is not Update
+                if (category?.hasOwnProperty("ItemName") && category["ItemName"] === "Update") {
+                    //Bind Attributes
+                    if (category.hasOwnProperty("ListofAttributes")) {
+                        let attr = category.ListofAttributes.Attribute;
+                        jsonCreation += `{`;
+                        for (let i = 0; i < attr.length; i++) {
+                            if (attr[i].hasOwnProperty("Name"))
+                                jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`;
+                        }
+                        jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                        jsonCreation += `}`;
+                    }
+                }
+            });
+        }
+        // jsonCreation += `]`;
+        console.log("StatusResponse :" + jsonCreation);
+        return JSON.parse(jsonCreation);
+    }
+
+    private validateResponseStatus(wmResponse: any) {
+        let status = false;
+        switch (wmResponse.MessageType as WMMessageType) {
+            case WMMessageType.Informational:
+                status = true;
+                return status;
+                break;
+            case WMMessageType.Error:
+                this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
+                return status;
+                break;
+        }
     }
 }

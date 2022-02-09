@@ -1,0 +1,110 @@
+<mat-sidenav-container class="side-container-report">
+  <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+    <div class="filterdataby">
+      <div style="font-size: small;">
+        <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
+          <mat-icon>filter_alt</mat-icon>
+          Filter Data By
+        </button>
+      </div>
+    </div>
+    <br>
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+      <div class="">
+        <app-select-exp [listItems]="expDefaultmonth"></app-select-exp>
+        <mat-form-field appearance="outline">
+          <mat-label>Statistic Month</mat-label>
+          <input  formControlName="StatisticMonth" matInput [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker  #picker startView="multi-year"></mat-datepicker>
+        </mat-form-field>
+     
+        <mat-form-field appearance="outline">
+          <mat-label>Source</mat-label>
+          <mat-select formControlName="Source">
+            <mat-option></mat-option>
+            <mat-option>A - AUDITr</mat-option>
+            <mat-option>C - SAS/COMS</mat-option>
+            <mat-option>D - DVA Siebel</mat-option>
+            <mat-option>E - VA/WAD</mat-option>
+            <mat-option>F - Ring Central</mat-option>
+            <mat-option>G - Content Guru</mat-option>
+            <mat-option>>N - ONENET</mat-option>
+            <mat-option>R - Clarify</mat-option>
+            <mat-option>S - Amdocs SOM</mat-option>
+            <mat-option>X - Unknown</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+          <mat-icon>search</mat-icon>Search
+        </button>
+        <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+      </div>
+    </form>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="side-content">
+
+    <app-start-up *ngIf="tabs.length===0"></app-start-up>
+
+    <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+      matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+      <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+    </button>
+
+    <mat-tab-group [selectedIndex]="selectedTab">
+      <mat-tab *ngFor="let tab of tabs; let index = index">
+        <ng-template mat-tab-label>
+          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+          <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
+            <mat-icon style="font-size: large;">close</mat-icon>
+          </button>
+        </ng-template>
+        <!-- <div class="basic-container">
+        <form class="example-form" [formGroup]="formGroup" novalidate>
+          <div class="toggleclass">
+          <mat-slide-toggle class="toggleclass" formControlName="Enable" (change)="onchange($event.checked)">
+          Switch to D-2-D Summary View</mat-slide-toggle>
+          </div>
+          <app-table-exp formControlName="OnTelephoneDetailSelected($event)"></app-table-exp>
+          </form>
+        </div> -->
+        
+        
+            <mat-slide-toggle class="toggleclass" formControlName="Enable" (change)="onchange($event.checked)">
+              Switch to D-2-D Summary View</mat-slide-toggle>
+       
+   
+        <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
+
+        <span [ngSwitch]="tab.tabType">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            <div class="basic-container">
+              <!-- <span ><b>No of selected rows : </b></span> -->
+            </div>
+            <!-- <app-table-exp (addNewTab)="OnTelephoneDetailSelected($event)"></app-table-exp> -->
+            <app-table-exp class="childtb" [sidePan]="pagesidenav"  (addNewTab)="OnTelephoneDetailSelected($event)" [tableitem]="myTable"
+              (rowChanges)="rowDetect($event)">
+            </app-table-exp>
+          </div>
+
+          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+
+            <app-telephone-details (addNewTab)="Onauditselected($event)"></app-telephone-details>
+
+          </div>
+          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+            <app-telephone-audit-trail></app-telephone-audit-trail>
+
+          </div>
+        </span>
+      </mat-tab>
+    </mat-tab-group>
+
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
