@@ -51,7 +51,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   min-width: 80px;
   border: 2px solid black;
   padding: 8px;
-  font-weight: lighter;
+  /* font-weight: lighter; */
   margin: 8px 0;
   height: 100%;
 }
@@ -85,7 +85,13 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .liveRecord-error {
   text-align: center;
+  /* color: red; */
 }
+
+.error {
+  color: red;
+}
+
 h4 {
   font-weight: bold;
   font-size: small;
@@ -104,6 +110,14 @@ h4 {
 
 .details-sec span, .liverecord-sec span, .notification-sec span {
   display: block;
+  font-size: small;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 500;
+  min-width: 50px;
+}
+
+.text {
+  display: inline-block
 }
 
 .notification-sec .container-fluid{
@@ -133,4 +147,10 @@ h4 {
   height: 0px;
   /* width:auto; */
   /* color: #e60000; */
+  }
+
+  mat-panel-title {
+    font-size: small;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 1);
   }
