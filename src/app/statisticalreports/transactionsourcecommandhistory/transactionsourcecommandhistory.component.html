@@ -14,11 +14,11 @@
         <app-select-exp [listItems]="expDefaultmonth"></app-select-exp>
         <mat-form-field appearance="outline">
           <mat-label>Statistic Month</mat-label>
-          <input  formControlName="StatisticMonth" matInput [matDatepicker]="picker">
+          <input formControlName="StatisticMonth" matInput [matDatepicker]="picker">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker  #picker startView="multi-year"></mat-datepicker>
+          <mat-datepicker #picker startView="multi-year"></mat-datepicker>
         </mat-form-field>
-     
+
         <mat-form-field appearance="outline">
           <mat-label>Source</mat-label>
           <mat-select formControlName="Source">
@@ -64,21 +64,8 @@
             <mat-icon style="font-size: large;">close</mat-icon>
           </button>
         </ng-template>
-        <!-- <div class="basic-container">
-        <form class="example-form" [formGroup]="formGroup" novalidate>
-          <div class="toggleclass">
-          <mat-slide-toggle class="toggleclass" formControlName="Enable" (change)="onchange($event.checked)">
-          Switch to D-2-D Summary View</mat-slide-toggle>
-          </div>
-          <app-table-exp formControlName="OnTelephoneDetailSelected($event)"></app-table-exp>
-          </form>
-        </div> -->
-        
-        
-            <mat-slide-toggle class="toggleclass" formControlName="Enable" (change)="onchange($event.checked)">
-              Switch to D-2-D Summary View</mat-slide-toggle>
-       
-   
+
+
         <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
 
         <span [ngSwitch]="tab.tabType">
@@ -87,11 +74,23 @@
               <!-- <span ><b>No of selected rows : </b></span> -->
             </div>
             <!-- <app-table-exp (addNewTab)="OnTelephoneDetailSelected($event)"></app-table-exp> -->
-            <app-table-exp class="childtb" [sidePan]="pagesidenav"  (addNewTab)="OnTelephoneDetailSelected($event)" [tableitem]="myTable"
-              (rowChanges)="rowDetect($event)">
-            </app-table-exp>
-          </div>
+            <mat-slide-toggle [(ngModel)]="isChecked" class="toggleclass">
+              {{isChecked?'Switch to M-O-M Summary View':'Switch to D-2-D Summary View'}} </mat-slide-toggle>
 
+
+
+            <div *ngIf="!isChecked">
+              <app-table-exp class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
+                [tableitem]="myTable" (rowChanges)="rowDetect($event)">
+              </app-table-exp>
+            </div>
+
+            <div *ngIf="isChecked">
+              <app-table-selection class="childtb" [sidePan]="pagesidenav" (addNewTab)="OndayTodayselected($event)"
+                [tableitem]="myTableChild" (rowChanges)="rowDetect($event)"></app-table-selection>
+
+            </div>
+          </div>
           <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
 
             <app-telephone-details (addNewTab)="Onauditselected($event)"></app-telephone-details>
@@ -102,6 +101,8 @@
 
           </div>
         </span>
+
+
       </mat-tab>
     </mat-tab-group>
 
