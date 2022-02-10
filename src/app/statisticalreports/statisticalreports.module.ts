@@ -7,6 +7,8 @@ import { ReactiveFormsModule , FormsModule } from '@angular/forms';
 import { TransactionsourcecommandhistoryComponent } from './transactionsourcecommandhistory/transactionsourcecommandhistory.component';
 import { TelephoneDetailsComponent } from './telephone-details/telephone-details.component';
 import { SharedModule } from '../_shared/shared.module';
+import{statisticalreport}from '../statisticalreports/services/statisticalreports.service';
+
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { SharedModule } from '../_shared/shared.module';
     FormsModule,
     SharedModule, 
     ReactiveFormsModule
-  ]
+  ],
+  providers:[statisticalreport]
 })
 export class StatisticalreportsModule { }

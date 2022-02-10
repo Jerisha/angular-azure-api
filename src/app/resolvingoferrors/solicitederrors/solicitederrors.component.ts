@@ -441,8 +441,9 @@ export class SolicitederrorsComponent implements OnInit {
         tabType: 0,
         name: 'Summary'
       });
+     
     }
-    this.selectedTab = this.tabs.length;
+    
 
   }
   
@@ -501,6 +502,7 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
+          this.selectedTab = 1;
         }
 
         break;
@@ -511,12 +513,13 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 2,
             name: 'Transaction Errors'
           })
+          this.selectedTab = 2;
         }
         break;
       default:
         //statements; 
         break;
-        this.selectedTab = this.tabs.length;
+        
     }
   }
 
