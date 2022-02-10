@@ -5,7 +5,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { InternalAuditSummary } from 'src/app/_models/index';
+import { InternalAuditSummary } from 'src/app/auditreports/models/index';
 import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 'src/app/_models/uicomponents/merge-table-item-model';
 import { AuditDiscpancyReportService } from './auditdiscrepancyreport.component.service';
 

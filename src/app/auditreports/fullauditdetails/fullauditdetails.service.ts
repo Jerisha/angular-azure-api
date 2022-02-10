@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest, HttpResponse }
 import { environment } from 'src/environments/environment';
 import { catchError, first, map, retry } from 'rxjs/operators';
 import { HttpWrapperService } from 'src/app/_services/http/http-wrapper.service';
-import { FullAuditSummary } from 'src/app/_models/index';
+import { FullAuditSummary } from '../models/index';
 
 import { HttpVerbs } from 'src/app/_enums/http-verbs.enum';
 import { WebMethods } from 'src/app/_enums/web-methods.enum';
