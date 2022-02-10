@@ -122,8 +122,8 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   
   columns: ColumnDetails[] =[
-    { header: 'Start Tel. No.', headerValue: 'startTel', showDefault: true, isImage: false },
-    { header: 'End Tel. No.', headerValue: 'endTel', showDefault: true, isImage: false },
+    { header: 'Start Telephone No.', headerValue: 'startTel', showDefault: true, isImage: false },
+    { header: 'End Telephone No.', headerValue: 'endTel', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'source', showDefault: true, isImage: false },
     { header: 'Line Type', headerValue: 'line', showDefault: true, isImage: false },
     { header: 'Live Records', headerValue: 'live', showDefault: true, isImage: false },
