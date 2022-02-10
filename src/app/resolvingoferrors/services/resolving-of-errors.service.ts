@@ -25,7 +25,7 @@ export class ResolvingOfErrorsService {
 
 
   configDetails(data: any): ConfigDetails | undefined {
-    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, data).subscribe(x => {
+    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
       console.log("response : " + JSON.stringify(x));
       //this.processQuery(x, webMethods.query);
     });

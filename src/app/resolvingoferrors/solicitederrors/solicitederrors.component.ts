@@ -297,6 +297,46 @@ const AuditInput: any= {
       }
   }
 }
+
+const transInput: any ={
+  "QueryObjectRequest" : {
+  "QueryObjectRequestType" : {
+    "RequestIdentifiers" : {
+      "Identifier" : [ {
+        "Name" : "UserId",
+        "Value" : [ "Sample" ]
+      }, {
+        "Name" : "Destination",
+        "Value" : [ "OSN2" ]
+      } ]
+    },
+    "ListofQueryObjectCategory" : {
+      "QueryObjectCategory" : [ {
+        "ItemName" : "ProvideReports",
+        "ListofIdentifiers" : {
+          "Identifier" : [ {
+            "Name" : "ReportIdentifier",
+            "Value" : [ "TelephoneNumberDetails" ]
+          } ]
+        },
+        "ListofAttributes" : {
+        },
+        "ListofQueryObjectCharacteristics" : {
+          "QueryObjectCharacteristics" : [ {
+            "ItemName" : "QueryParameters",
+            "ListofIdentifiers" : {
+              "Identifier" : [ {
+                "Name" : "PageNumber",
+                "Value" : [ "1" ]
+              } ]
+            }
+          } ]
+        }
+      } ]
+    }
+  }
+}
+}
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
@@ -376,7 +416,7 @@ export class SolicitederrorsComponent implements OnInit {
     //debugger;     
     //this.service.apiTest(queryInput); 
     //let transformInput = JSON.parse(queryInput);    
-    this.service.configDetails(AuditInput);
+    this.service.configDetails(queryInput);
   }
 
   private _filter(name: string): any[] {
