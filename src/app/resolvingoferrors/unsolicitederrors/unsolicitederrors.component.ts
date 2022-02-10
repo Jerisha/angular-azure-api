@@ -9,6 +9,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
+import { Tab } from 'src/app/_models/uicomponents/tab';
 
 const Items: Select[] = [
   { view: 'Tran.Id', viewValue: 'Tran.Id', default: true },
@@ -146,10 +147,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   ];
   errorCode = new FormControl();
   selectedTab!: number;
-  public tabs = [{
-    tabType: 0,
-    name: 'Summary'
-  },
+   tabs :Tab[]=[] ;
     //  {
     //   tabType: 1,
     //   name: 'Audit Trail Report'
@@ -157,7 +155,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     //   tabType: 2,
     //   name: 'Transaction Details'
     // }
-  ];
+  
   columns: ColumnDetails[] = [
     { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
@@ -202,19 +200,7 @@ expDefault =select.default;
 
     this.setOptions();
     
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.columns,
-      filter: true,
-      selectCheckbox: true,
-      selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
-      
-
-
-    }    
-  }
+      }
   ngAfterViewInit() {
        this.cdr.detectChanges();
   }
@@ -261,7 +247,32 @@ expDefault =select.default;
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  onFormSubmit(): void { }
+  onFormSubmit(): void { 
+
+    this.myTable = {
+      data: ELEMENT_DATA,
+      Columns: this.columns,
+      filter: true,
+      selectCheckbox: true,
+      selectionColumn: 'TranId',
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]    
+
+
+    } 
+
+    if (!this.tabs.find(x => x.tabType == 0)) {
+      this.tabs.push({
+        tabType: 0,
+        name: 'Summary'
+      
+      });
+      this.selectedTab = 0;
+    }   
+
+   
+
+  }
   resetForm(): void { }
 
   rowDetect(item: any) {
@@ -304,7 +315,7 @@ expDefault =select.default;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Details'
+            name: 'Transaction Errors'
           })
           this.selectedTab = 2;
         }
