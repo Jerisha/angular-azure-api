@@ -1,18 +1,22 @@
 .popup{
-    z-index: 10;
+    /* z-index: 10;
     position: absolute;
-    max-width: 400px;
-    overflow: hidden;
-    text-align: center;
     left: 40%;
     top: 10%;
+    max-width: 400px; */
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .alert {
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-bottom: 5px;
     border: 1px solid transparent;
     border-radius: 4px;
+    font-weight: 500;
   }
   
   .alert h4 {
@@ -40,20 +44,20 @@
   
   .alert-dismissable .close,
   .alert-dismissible .close {
-    position: relative;
-    top: -2px;
-    right: -21px;
+    position: absolute;
+    top: 2px;
+    right: 5px;
     color: inherit;
-    background-color: Transparent;
+    background-color: transparent;
     background-repeat:no-repeat;
     border: none;
     cursor: pointer;
   }
   
   .alert-success {
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-    color: #3c763d;
+    background-color: lightgreen;
+    border-color: #c9e2b3;
+    color: #2b542c;
   }
   
   .alert-success hr {
@@ -79,7 +83,7 @@
   }
   
   .alert-warning {
-    background-color: #fcf8e3;
+    background-color: rgb(253, 253, 115);
     border-color: #faebcc;
     color: #8a6d3b;
   }
@@ -109,20 +113,3 @@
   p {
       font-weight: 500;
   }
-
-
-
-/* .alert-success{
-    background-color: lightgreen;
-    color: darkgreen;
-    font-weight: 400;
-}
-
-.text{
-    margin-right:2%;
-}
-.close{
-    position: absolute;
-    top: 0%;
-    right: 0%;
-} */

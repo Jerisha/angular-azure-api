@@ -6,12 +6,12 @@ export interface TelephoneAuditTrail {
 }
 
 export interface UnsolicitedDetails {
-    code: string;
-    errorMessage: string;
-    date: string;
-    fran: string;
-    postcode: string;
-    fileName: string;
+    Code: string;
+    ErrorMessage: string;
+    Date: string;
+    Franchise: string;
+    Postcode: string;
+    FileName: string;
 }
 
 export interface LiveRecord {
@@ -102,25 +102,25 @@ export interface NotificationData
 
 export interface Response
 {
-    code: string;
-    response: string;
-    date: string;
-    final: string;
-    fileName: string;
+    ResponseCode: string;
+    ResponseMessage: string;
+    Date: string;
+    IsFinal: string;
+    FileName: string;
 }
 
 export interface ErrorDescription
 {
-    error: string;
-    description: string;
+    ResponseCode: string;
+    ResponseMessage: string;
 }
 
 export interface ResolutionType{
-    resolution: string;
-    createdBy: string;
-    createDate: string;
-    duration: string;
-    remarks: string;
+    Resolution: string;
+    CreatedBy: string;
+    CreateDate: string;
+    Duration: string;
+    Remarks: string;
 }
 
 export interface AuditDetails {
@@ -131,34 +131,34 @@ export interface AuditDetails {
 }
 
 export interface InternalExternalAudit{
-    auditActId: string;
-    telephoneNo: string;
-    resolutionType: string;
-    cliStatus: string;
-    comments: string;
-    userComments: UserComments[] | null;
+    AuditActId: string;
+    TelephoneNo: string;
+    ResolutionType: string;
+    CliStatus: string;
+    Comments: string;
+    UserComments: UserComments[] | null;
 }
 
 export interface InternalAudit extends InternalExternalAudit{
 }
 
 export interface UserComments {
-    auditActId: string;
-    telephoneNo: string;
-    creationDate: string;
-    createdBy: string;
-    resolutionType: string;
-    comments: string;
+    AuditActId: string;
+    TelephoneNo: string;
+    CreationDate: string;
+    CreatedBy: string;
+    ResolutionType: string;
+    Comments: string;
 }
 
 export interface ExternalAudit extends InternalExternalAudit {
 }
 
 export interface FullAudit {
-    auditActId: string;
-    telephoneNo: string;
-    resolutionType: string;
-    externalCliStatus: string;
-    fullAuditCliStatus: string;
-    userComments: UserComments[] | null;
+    AuditActId: string;
+    TelephoneNo: string;
+    ResolutionType: string;
+    ExternalCliStatus: string;
+    FullAuditCliStatus: string;
+    UserComments: UserComments[] | null;
 }
