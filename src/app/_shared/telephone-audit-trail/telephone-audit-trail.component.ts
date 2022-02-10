@@ -52,14 +52,15 @@ const ele: TelephoneAuditTrail =
   transactionDetails:
     [
       {
-        action: '',
-        cnt: '1',
-        transaction: 'A - Activate Customer',
-        status: '110 - ERROR FINAL',
-        created: '08-JAN-14',
-        source: 'R - Clarify',
-        custName: 'ERNST & YOUNG',
-        details: { tranId: '1015002930', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AA', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', created: 'THU 08 JUL 2021 10:20:02', createdBy: 'RODDA.MANIRATHNAM@VODAFONE.COM', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' , comment: 'DDI RANGE- 01619526000- 01619526699'},
+        Action: '',
+        Count: '1',
+        Transaction: 'A - Activate Customer',
+        Status: '110 - ERROR FINAL',
+        Created: '08-JAN-14',
+        Source: 'R - Clarify',
+        CustomerName: 'ERNST & YOUNG',
+        // email --RODDA.MANIRATHNAM@VODAFONE.COM  comment DDI RANGE- 01619526000- 01619526699
+        details: { tranId: '1015002930', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AA', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', created: 'THU 08 JUL 2021 10:20:02', createdBy: ' ', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' , comment: ' DDI RANGE- 01619526000'},
         notificationData:
         {
           startTelNo: '0123467890',
@@ -81,14 +82,14 @@ const ele: TelephoneAuditTrail =
         resolution: [{resolution: 'Superseded', createdBy: 'SYSTEM', createDate: '08 Jul 2021', duration: ' ', remarks: 'Superseded by a later transaction' }]
       },
       {
-        action: '',
-        cnt: '2',
-        transaction: 'A - Activate Customer',
-        status: '110 - ERROR FINAL',
-        created: '08-JAN-14',
-        source: 'R - Clarify',
-        custName: 'ERNST & YOUNG',
-        details: { tranId: '1015002931', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AB', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', created: 'THU 08 JUL 2021 10:20:02', createdBy: 'RODDA.MANIRATHNAM@VODAFONE.COM', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0', comment: 'DDI RANGE- 01619526000- 01619526699' },
+        Action: '',
+        Count: '2',
+        Transaction: 'A - Activate Customer',
+        Status: '110 - ERROR FINAL',
+        Created: '08-JAN-14',
+        Source: 'R - Clarify',
+        CustomerName: 'ERNST & YOUNG',
+        details: { tranId: '1015002931', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AB', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', created: 'THU 08 JUL 2021 10:20:02', createdBy: ' ', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0', comment: ' DDI RANGE- 01619526000' },
         notificationData:
         {
           startTelNo: '0123467890',
@@ -238,7 +239,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
     // }
   }
 
-  columnsToDisplay = ["action", "cnt", "transaction", "status", "created", "source", "custName"];
+  columnsToDisplay = ["Action", "Count", "Transaction", "Status", "Created", "Source", "CustomerName"];
   auditTrailInternalDisplay:string[]=['auditActId','telephoneNo','resolutionType','cliStatus','userComments'];
   fullAuditTrailDisplay: string[]=['auditActId','telephoneNo','resolutionType','externalCliStatus', 'fullAuditCliStatus', 'userComments'];
 
@@ -267,7 +268,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
     // console.log(element.details.postcode);
     if(section == 'transactionDetails') {
     this.addressDetails.postcode = element.details.postcode;
-    this.addressDetails.custName = element.details.custName;
+    this.addressDetails.CustomerName = element.details.CustomerName;
     this.addressDetails.internalAddr1 = element.details.internalAddr1;
     this.addressDetails.internalAddr2 = element.details.internalAddr2;
     this.addressDetails.internalAddr3 = element.details.internalAddr3;
@@ -281,10 +282,10 @@ export class TelephoneAuditTrailComponent implements OnInit {
   // dataSource = [
   //   {
   //     folderName: "folderA",
-  //     cnt: 1,
-  //     transaction: 'A - Activate Customer',
-  //     status: '110 - ERROR FINAL',
-  //     created: '08-JAN-14',
+  //     Count: 1,
+  //     Transaction: 'A - Activate Customer',
+  //     Status: '110 - ERROR FINAL',
+  //     Created: '08-JAN-14',
   //     source: 'R - Clarify',
   //     custName: 'ERNST & YOUNG',
   //     options: [
@@ -293,10 +294,10 @@ export class TelephoneAuditTrailComponent implements OnInit {
   //   },
   //   {
   //     folderName: "folderB",
-  //     cnt: 2,
-  //     transaction: 'A - Activate Customer',
-  //     status: '110 - ERROR FINAL',
-  //     created: '08-JAN-14',
+  //     Count: 2,
+  //     Transaction: 'A - Activate Customer',
+  //     Status: '110 - ERROR FINAL',
+  //     Created: '08-JAN-14',
   //     source: 'R - Clarify',
   //     custName: 'ERNST & YOUNG',
   //     options: [
@@ -305,10 +306,10 @@ export class TelephoneAuditTrailComponent implements OnInit {
   //   },
   //   {
   //     folderName: "folderC",
-  //     cnt: 3,
-  //     transaction: 'A - Activate Customer',
-  //     status: '110 - ERROR FINAL',
-  //     created: '08-JAN-14',
+  //     Count: 3,
+  //     Transaction: 'A - Activate Customer',
+  //     Status: '110 - ERROR FINAL',
+  //     Created: '08-JAN-14',
   //     source: 'R - Clarify',
   //     custName: 'ERNST & YOUNG',
   //     options: [
