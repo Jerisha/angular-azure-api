@@ -183,8 +183,8 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
-      TelNoEnd: new FormControl({ value: '', disabled: true }),
+      TelNoStart: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(10)]),
+      TelNoEnd: new FormControl({value: '', disabled: false}),
 
     })
   }

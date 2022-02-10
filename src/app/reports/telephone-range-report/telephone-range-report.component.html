@@ -10,10 +10,14 @@
         </button>
       </div>
     </div> -->
-    <div class="filter-sticky">
-      <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+    <div class="filterdataby">
+      <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
+      <mat-icon>filter_alt</mat-icon>
+          Filter Data By
+      </button>
+      <!-- <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
         (changes)="setControlAttribute($event)">
-      </app-select-multiple>
+      </app-select-multiple> -->
     </div>
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
       <div class="">
