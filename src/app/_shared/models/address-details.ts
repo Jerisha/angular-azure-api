@@ -4,7 +4,7 @@ export interface IAddressDetails {
     internalAddr2: string;
     internalAddr3:	string;
     internalAddr4: string;
-    custName: string;
+    CustomerName: string;
 }
 
 export class AddressDetails implements IAddressDetails {
@@ -13,6 +13,6 @@ export class AddressDetails implements IAddressDetails {
     internalAddr2: string = '';
     internalAddr3: string = '';
     internalAddr4: string = '';
-    custName: string = '';
+    CustomerName: string = '';
     
 }

@@ -11,7 +11,7 @@ import { SeperateInternalAuditTypeComponent } from './auditdiscrepancyreport/sep
 import { HttpClientModule} from '@angular/common/http';
 import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { SharedModule } from '../_shared/shared.module';
-import { HelperModule } from '../_helper/helper/helper.module';
+import { HelperModule } from '../_helper/helper.module';
 import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';
 
 

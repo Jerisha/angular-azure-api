@@ -25,6 +25,8 @@ export class TransactionsComponent implements OnInit {
     // console.log(this.auditTrailSuccess)
     this.selectedIndex=2;
     this.auditTrailState=true;
+    this.addCheckState=false;
+
     
   }
 
@@ -34,6 +36,7 @@ export class TransactionsComponent implements OnInit {
     //console.log(this.addressCheckSuccess)
     this.selectedIndex=1;
     this.addCheckState=true;
+    this.auditTrailState=false;
     
   }
   OnTelephoneNoSelected(inittelno:any[])

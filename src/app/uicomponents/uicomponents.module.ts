@@ -18,7 +18,7 @@ import {
  
 } from './index';
 
-import { HelperModule } from '../_helper/helper/helper.module';
+import { HelperModule } from '../_helper/helper.module';
 
 
 @NgModule({
