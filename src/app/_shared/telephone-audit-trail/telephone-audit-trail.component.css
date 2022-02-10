@@ -152,7 +152,7 @@ h4 {
     font: 500 14px/20px Roboto, "Helvetica Neue";
     color: rgba(0, 0, 0, 1);
     /* font-weight: 500; */
-    min-width: 150px;
+    min-width: 160px;
   }
   
   .text-display {
@@ -161,6 +161,6 @@ h4 {
     /* font-weight: 400; */
   }
 
-  .notification-sec .label {
-    min-width: 120px;
-  }
+  /* .notification-sec .label {
+    min-width: 160px;
+  } */
