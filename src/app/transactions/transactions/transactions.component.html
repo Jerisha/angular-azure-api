@@ -5,19 +5,21 @@
 <div class="wrap">
   <div class="left-box">
     <ng-container>
-      <app-transactions-views (AuditTrailSelected)="OnAuditTrailSelected($event)"
-        (AddressCheckSelected)="OnAddressCheckSelected($event)" (ResetTabs)="OnResetTabs($event)">
+      <app-transactions-views 
+        (AddressCheckSelected)="OnAddressCheckSelected($event)" 
+        (AuditTrailSelected)="OnAuditTrailSelected($event)"
+        (ResetTabs)="OnResetTabs($event)">
       </app-transactions-views>
     </ng-container>
   </div>
   <div class="right-box" *ngIf="addressCheckSuccess||auditTrailSuccess">
-    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex">     
-      <mat-tab label="Address Check" *ngIf="addressCheckSuccess" isActive="addCheckState">
+    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex" (selectedIndexChange)="setSelectedIndex" #tabgrp>     
+      <mat-tab label="Address Check"  *ngIf="addressCheckSuccess" isActive="addCheckState">
         <ng-container>
           <app-address-check></app-address-check>
         </ng-container>
       </mat-tab>
-      <mat-tab label="Audit Trail" *ngIf="auditTrailSuccess" isActive="auditTrailState" style ="height:60%;">
+      <mat-tab label="Audit Trail"  *ngIf="auditTrailSuccess" isActive="auditTrailState" style ="height:60%;">
         <ng-container>
           <div>
             <app-telephone-no (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
