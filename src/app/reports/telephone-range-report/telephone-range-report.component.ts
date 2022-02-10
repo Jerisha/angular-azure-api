@@ -170,11 +170,11 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
 
   resetForm():void{
-    this._snackBar.open('Reset Form Completed!', 'Close', {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
+    // this._snackBar.open('Reset Form Completed!', 'Close', {
+    //   duration: 5000,
+    //   horizontalPosition: this.horizontalPosition,
+    //   verticalPosition: this.verticalPosition,
+    // });
     // this.spinner = true;
     // setTimeout(()=>{
     //  this.spinner= false;
