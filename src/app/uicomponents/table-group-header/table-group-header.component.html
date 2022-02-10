@@ -36,10 +36,10 @@
       </ng-container>
     </ng-container>
     <ng-container *ngFor="let grpHeaders of grpHdrColumnsArray">
-      <tr mat-header-row *matHeaderRowDef="grpHeaders; sticky: true"> </tr>
+      <tr mat-header-row *matHeaderRowDef="grpHeaders;sticky: true"> </tr>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="detailedColumnsArray; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="detailedColumnsArray;sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;sticky: true"></tr>
     <ng-container *ngIf="isRowTot">
       <tr mat-footer-row *matFooterRowDef="totalCols"></tr>
     </ng-container>

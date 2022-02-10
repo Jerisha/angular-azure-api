@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
@@ -278,7 +278,7 @@ export class FullauditdetailsComponent implements OnInit {
   unSelectListItems: string[] = [];
   tabs: Tab[] = [];
 
-  comments: string = 'Not available';
+  comments: string = 'No Records Found';
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -403,7 +403,7 @@ export class FullauditdetailsComponent implements OnInit {
     }];
 
   constructor(private ser: FullAuditDetailsService, private dialog: MatDialog,
-    private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
+    private formBuilder: FormBuilder, private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {
   }
 
   resetForm(): void {
@@ -416,7 +416,7 @@ export class FullauditdetailsComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-      width: '300px',
+      width: '500px',
       // height: '400px',
       data: { defaultValue: this.comments }
     }
@@ -428,6 +428,10 @@ export class FullauditdetailsComponent implements OnInit {
     this.listItems = Items;
   }
 
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
   onFormSubmit(): void {
     this.myTable = {
       data: ELEMENT_DATA,
@@ -437,8 +441,8 @@ export class FullauditdetailsComponent implements OnInit {
       showEmail: true,
       showBlankCoulmns: true,
       selectionColumn: 'TelNo',
-      highlightedCells: ['TelNo', 'OSN2Source'],
-      backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
+      // highlightedCells: ['TelNo', 'OSN2Source'],
+      // backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
@@ -469,8 +473,10 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
+          this.selectedTab = 1;
         }
         break;
+
       }
       case 2: {
         this.openDialog();

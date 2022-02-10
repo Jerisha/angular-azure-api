@@ -216,7 +216,7 @@ expDefault =select.default;
     }    
   }
   ngAfterViewInit() {
-       this.cdr.detectChanges();
+       //this.cdr.detectChanges();
   }
 
   DisplayInformationTab()

@@ -7,7 +7,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
     template: `<button mat-icon-button class="close-button" [mat-dialog-close]="true">
     <mat-icon class="close-icon" color="warn">close</mat-icon>
   </button>
-    <h3 mat-dialog-title>User Comments</h3>
+  <div class="highlight">
+    <h3 >User Comments</h3>
+    </div>
     <mat-dialog-content>
    <div *ngIf="data.defaultValue">
      {{data.defaultValue}}
@@ -28,6 +30,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
             float: right;
             top:-24px;
             right:-24px;
+          }
+          highlight{
+            background-color:red;
+            color:White;
           }
         `
       ]
