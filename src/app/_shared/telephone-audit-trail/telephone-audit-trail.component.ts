@@ -14,7 +14,8 @@ const ele: TelephoneAuditTrail =
         childCupid: '13',
         custTitle: '',
         custForename: '',
-        custName: 'SOUTH BIRMINGHAM HEALTH AUTH',
+        // custName: 'SOUTH BIRMINGHAM HEALTH AUTH',
+        custName: 'SOUTH BIRMINGHAM',
         busnSuffix: '',
         premises: 'Edgbaston',
         thoroughfare: 'BIRMINGHAM',
@@ -39,15 +40,15 @@ const ele: TelephoneAuditTrail =
       }
     ,
   unsolicitedDetails: [
-        { code: '1046',	errorMessage: 'Import is 10 days overdue.',	date: 'THU 28 JUL 2016 08:25:23',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101328071601.CAR' },
-        { code: '1045',	errorMessage: 'Import Record is Missing.',	date: 'WED 27 JUL 2016 08:26:46',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101327071601.CAR' },
-        { code: '1045',	errorMessage: 'Import Record is Missing.',	date: 'TUE 26 JUL 2016 08:25:20',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101326071601.CAR' },
-        { code: '1045',	errorMessage: 'Import Record is Missing.',	date: 'MON 25 JUL 2016 08:25:19',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101325071601.CAR' },
-        { code: '1045',	errorMessage: 'Import Record is Missing.',	date: 'SUN 24 JUL 2016 08:25:23',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101324071601.CAR' },
-        { code: '1045',	errorMessage: 'Import Record is Missing.',	date: 'SAT 23 JUL 2016 08:25:18',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101323071601.CAR' },
-        { code: '1045',	errorMessage: 'Import Record is Missing.',	date: 'FRI 22 JUL 2016 08:25:34',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101322071601.CAR' },
-        { code: '1045',	errorMessage: 'Import Record is Missing.',	date: 'THU 21 JUL 2016 08:25:30',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101321071601.CAR' },
-        { code: '1045',	errorMessage: 'Import Record is Missing.',	date: 'WED 20 JUL 2016 17:55:06',	fran: 'EDB',	postcode: 'SG1 1AG',	fileName: 'BT101320071606.CAR' },
+        { Code: '1046',	ErrorMessage: 'Import is 10 days overdue.',	Date: 'THU 28 JUL 2016 08:25:23',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101328071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'WED 27 JUL 2016 08:26:46',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101327071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'TUE 26 JUL 2016 08:25:20',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101326071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'MON 25 JUL 2016 08:25:19',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101325071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'SUN 24 JUL 2016 08:25:23',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101324071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'SAT 23 JUL 2016 08:25:18',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101323071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'FRI 22 JUL 2016 08:25:34',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101322071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'THU 21 JUL 2016 08:25:30',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101321071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'WED 20 JUL 2016 17:55:06',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101320071606.CAR' },
       ],
   transactionDetails:
     [
@@ -59,7 +60,7 @@ const ele: TelephoneAuditTrail =
         Created: '08-JAN-14',
         Source: 'R - Clarify',
         CustomerName: 'ERNST & YOUNG',
-        // email --RODDA.MANIRATHNAM@VODAFONE.COM  comment DDI RANGE- 01619526000- 01619526699
+        // email --RODDA.MANIRATHNAM@VODAFONE.COM  comment
         details: { tranId: '1015002930', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AA', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', created: 'THU 08 JUL 2021 10:20:02', createdBy: ' ', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' , comment: ' DDI RANGE- 01619526000'},
         notificationData:
         {
@@ -76,10 +77,10 @@ const ele: TelephoneAuditTrail =
           btErrorCode: 'BT3456',
           btErrorMessage: 'errorcode'
         },
-        errorDescription: [{ error: '2100', description: 'Interim transaction not sent' }],
-        commentResponse: [{code: '1057', response: 'Data/Record is Invalid.', date:'FRI 25 OCT 2013 17:26:55', final: 'Y', fileName: 'BT101303101301.CAR'}, 
-        {code: '1018', response: 'OLO does not own Entry.', date:'FRI 25 OCT 2013 17:26:55', final: 'N', fileName: 'BT101303101302.CAR'}],
-        resolution: [{resolution: 'Superseded', createdBy: 'SYSTEM', createDate: '08 Jul 2021', duration: ' ', remarks: 'Superseded by a later transaction' }]
+        errorDescription: [{ ResponseCode: '2100', ResponseMessage: 'Interim transaction not sent' }],
+        commentResponse: [{ResponseCode: '1057', ResponseMessage: 'Data/Record is Invalid.', Date:'FRI 25 OCT 2013 17:26:55', IsFinal: 'Y', FileName: 'BT101303101301.CAR'}, 
+        {ResponseCode: '1018', ResponseMessage: 'OLO does not own Entry.', Date:'FRI 25 OCT 2013 17:26:55', IsFinal: 'N', FileName: 'BT101303101302.CAR'}],
+        resolution: [{Resolution: 'Superseded', CreatedBy: 'SYSTEM', CreateDate: '08 Jul 2021', Duration: ' ', Remarks: 'Superseded by a later transaction' }]
       },
       {
         Action: '',
@@ -115,81 +116,81 @@ const ele: TelephoneAuditTrail =
     internalAudit: undefined,
      /* internalAudit: [
       {
-        auditActId: '0099876543',
-        telephoneNo: '01234567890',
-        resolutionType: 'New',
-        cliStatus: 'Active',
-        comments: 'clarify',
-        userComments: null,
-         userComments: [
+        AuditActId: '0099876543',
+        TelephoneNo: '01234567890',
+        ResolutionType: 'New',
+        CliStatus: 'Active',
+        Comments: 'clarify',
+        UserComments: null,
+         UserComments: [
           {
-            auditActId: '0099876543',
-            telephoneNo: '01234567890',
-            creationDate: '25/12/1992',
-            createdBy: 'xyz',
-            resolutionType: 'New',
-            comments: 'The testing is in process'
+            AuditActId: '0099876543',
+            TelephoneNo: '01234567890',
+            CreationDate: '25/12/1992',
+            CreatedBy: 'xyz',
+            ResolutionType: 'New',
+            Comments: 'The testing is in process'
           }
         ] 
       }, 
       {
-        auditActId: '0099876543',
-        telephoneNo: '01234567890',
-        resolutionType: 'New',
-        cliStatus: 'Active',
-        comments: 'clarify',
-        userComments: [
+        AuditActId: '0099876543',
+        TelephoneNo: '01234567890',
+        ResolutionType: 'New',
+        CliStatus: 'Active',
+        Comments: 'clarify',
+        UserComments: [
           {
-            auditActId: '0099876543',
-            telephoneNo: '01234567890',
-            creationDate: '25/12/1992',
-            createdBy: 'xyz',
-            resolutionType: 'New',
-            comments: 'The testing is in process'
+            AuditActId: '0099876543',
+            TelephoneNo: '01234567890',
+            CreationDate: '25/12/1992',
+            CreatedBy: 'xyz',
+            ResolutionType: 'New',
+            Comments: 'The testing is in process'
           }
         ]
       }
     ], */
     externalAudit: [
       {
-        auditActId: '21 - 03 APR 2019',
-        telephoneNo: '01619526181',
-        resolutionType: 'Auto Resolved',
-        cliStatus: 'Matched',
-        comments: 'show',
-        userComments: null,
+        AuditActId: '21 - 03 APR 2019',
+        TelephoneNo: '01619526181',
+        ResolutionType: 'Auto Resolved',
+        CliStatus: 'Matched',
+        Comments: 'show',
+        UserComments: null,
     },
     {
-        auditActId: '21 - 03 APR 2019',
-        telephoneNo: '01619526181',
-        resolutionType: 'Auto Resolved',
-        cliStatus: 'Matched',
-        comments: 'show',
-        userComments: [{
-          auditActId: '28',
-          telephoneNo: '01412702810',
-          creationDate: '21-NOV-20 02.32.17.040358 PM',
-          createdBy: 'SYSTEM',
-          resolutionType: 'Auto Closed',
-          comments: 'Auto closed occurs when a new Audit run is generated.'
+        AuditActId: '21 - 03 APR 2019',
+        TelephoneNo: '01619526181',
+        ResolutionType: 'Auto Resolved',
+        CliStatus: 'Matched',
+        Comments: 'show',
+        UserComments: [{
+          AuditActId: '28',
+          TelephoneNo: '01412702810',
+          CreationDate: '21-NOV-20 02.32.17.040358 PM',
+          CreatedBy: 'SYSTEM',
+          ResolutionType: 'Auto Closed',
+          Comments: 'Auto closed occurs when a new Audit run is generated.'
         }],
     }
     ],
     fullAudit: [
       {
-        auditActId: '28 - 29 AUG 2020',
-      telephoneNo: '01619526181',
-      resolutionType: 'Auto Closed',
-      externalCliStatus: 'S-Matched',
-      fullAuditCliStatus: 'SAD-Matched - Source Active MisMatched',
-      userComments: null,
+        AuditActId: '28 - 29 AUG 2020',
+      TelephoneNo: '01619526181',
+      ResolutionType: 'Auto Closed',
+      ExternalCliStatus: 'S-Matched',
+      FullAuditCliStatus: 'SAD-Matched - Source Active MisMatched',
+      UserComments: null,
       /*
-      userComments: [{ auditActId: '28',
-      telephoneNo: '01619526181',
-      creationDate: '21-NOV-20 02.33.46.878459 PM',
-      createdBy: 'SYSTEM',
-      resolutionType: 'Auto Closed',
-      comments: 'Auto closed occurs when a new audit run is generated.', }], */
+      UserComments: [{ AuditActId: '28',
+      TelephoneNo: '01619526181',
+      CreationDate: '21-NOV-20 02.33.46.878459 PM',
+      CreatedBy: 'SYSTEM',
+      ResolutionType: 'Auto Closed',
+      Comments: 'Auto closed occurs when a new audit run is generated.', }], */
       }
     ]  
   } 
@@ -240,8 +241,8 @@ export class TelephoneAuditTrailComponent implements OnInit {
   }
 
   columnsToDisplay = ["Action", "Count", "Transaction", "Status", "Created", "Source", "CustomerName"];
-  auditTrailInternalDisplay:string[]=['auditActId','telephoneNo','resolutionType','cliStatus','userComments'];
-  fullAuditTrailDisplay: string[]=['auditActId','telephoneNo','resolutionType','externalCliStatus', 'fullAuditCliStatus', 'userComments'];
+  auditTrailInternalDisplay:string[]=['AuditActId','TelephoneNo','ResolutionType','CliStatus','UserComments'];
+  fullAuditTrailDisplay: string[]=['AuditActId','TelephoneNo','ResolutionType','ExternalCliStatus', 'FullAuditCliStatus', 'UserComments'];
 
   ngOnInit(): void {
     this.liverecord =  ele.liveRecord;
