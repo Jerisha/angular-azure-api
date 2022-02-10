@@ -53,6 +53,88 @@ export class HttpWrapperService {
 
 
     private resolveRespone(val: any, requestType: WebMethods): any {
+        val ={
+            "QueryObjectResponse" : {
+              "QueryObjectResponseType" : {
+                "ListofQueryObjectCategory" : {
+                  "QueryObjectCategory" : [ {
+                    "ItemName" : "ProvideReports",
+                    "ListofIdentifiers" : {
+                      "Identifier" : [ {
+                        "Name" : "ReportIdentifier",
+                        "Value" : [ "TelephoneNumberDetails" ]
+                      } ]
+                    },
+                    "ListofAttributes" : {
+                      "Attribute" : [ {
+                        "Name" : "TotalCount",
+                        "Value" : [ "2" ]
+                      }, {
+                        "Name" : "NumberOfPages",
+                        "Value" : [ "1" ]
+                      }, {
+                        "Name" : "PageNumber",
+                        "Value" : [ "1" ]
+                      } ]
+                    },
+                    "ListofQueryObjectCharacteristics" : {
+                      "QueryObjectCharacteristics" : [ {
+                        "ItemName" : "TelephoneNumbers",
+                        "ListofIdentifiers" : {
+                          "Identifier" : [ {
+                            "Name" : "TelephoneNumber",
+                            "Value" : [ "01234567890" ]
+                          } ]
+                        },
+                        "ListofAttributes" : {
+                          "Attribute" : [ {
+                            "Name" : "Command",
+                            "Value" : [ "A" ]
+                          }, {
+                            "Name" : "Source",
+                            "Value" : [ "SASCOMS" ]
+                          } ]
+                        },
+                        "ListofCharacteristics" : {
+                        }
+                      }, {
+                        "ItemName" : "TelephoneNumbers",
+                        "ListofIdentifiers" : {
+                          "Identifier" : [ {
+                            "Name" : "TelephoneNumber",
+                            "Value" : [ "01234567891" ]
+                          } ]
+                        },
+                        "ListofAttributes" : {
+                          "Attribute" : [ {
+                            "Name" : "Command",
+                            "Value" : [ "C" ]
+                          }, {
+                            "Name" : "Source",
+                            "Value" : [ "SASCOMS" ]
+                          } ]
+                        }
+                      } ]
+                    }
+                  }, {
+                    "ItemName" : "Update",
+                    "ListofAttributes" : {
+                      "Attribute" : [ {
+                        "Name" : "StatusCode",
+                        "Value" : [ "EUI000" ]
+                      }, {
+                        "Name" : "StatusMessage",
+                        "Value" : [ "Success" ]
+                      }, {
+                        "Name" : "MessageType",
+                        "Value" : [ "Informational" ]
+                      } ]
+                    }
+                  } ]
+                }
+              }
+            }
+            }
         debugger;
         let categories = [];
         let jsonResult = '';
