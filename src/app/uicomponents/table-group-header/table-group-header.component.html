@@ -23,7 +23,7 @@
           {{disCol.Headers}}</th>
         <td mat-cell class="truncate-cell" *matCellDef="let element"> {{element[disCol.DataHeaders]}} </td>
         <ng-container *ngIf="isRowTot">
-          <td class="totalRow" [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell
+          <td class="total-row" [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell
             *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders,'')}}
           </td>
         </ng-container>

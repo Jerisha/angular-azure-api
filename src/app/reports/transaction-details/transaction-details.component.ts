@@ -10,6 +10,7 @@ import { TransactionDetailsService} from 'src/app/reports/services/transaction-d
 import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
 import { select } from 'src/app/_helper/Constants/exp-const';
+import { Tab } from 'src/app/_models/uicomponents/tab';
 
 
 const HEADER_DATA: ITransactionDetails[] = [
@@ -229,11 +230,12 @@ export class TransactionDetailsComponent implements OnInit {
   ];
   
   selectedTab!: number;
-  public tabs = [{
-    tabType: 0,
-    name: 'Transaction Summary'
-  }
-  ];
+  // public tabs = [{
+  //   tabType: 0,
+  //   name: 'Transaction Summary'
+  // }
+  // ];
+  public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
 
@@ -294,15 +296,15 @@ export class TransactionDetailsComponent implements OnInit {
   ngOnInit(): void {
    this.createForm();
    this.setOptions(); 
-   this.myTable = {
-    data: this.service.getTransactionDetailsSourceData(),
-    // data:this.getTransactionDetailsSourceData(),
-    Columns: this.columns,
-    filter: true,
-    selectCheckbox: true,
-    selectionColumn: 'TranId',
-    imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', tabIndex: 1 },
-                { headerValue: 'Links', icon: 'description', route: '', tabIndex: 2 }]  }    
+  //  this.myTable = {
+  //   data: this.service.getTransactionDetailsSourceData(),
+  //   // data:this.getTransactionDetailsSourceData(),
+  //   Columns: this.columns,
+  //   filter: true,
+  //   selectCheckbox: true,
+  //   selectionColumn: 'TranId',
+  //   imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', tabIndex: 1 },
+  //               { headerValue: 'Links', icon: 'description', route: '', tabIndex: 2 }]  }    
   }
 
   ngAfterViewInit() {
@@ -771,24 +773,24 @@ export class TransactionDetailsComponent implements OnInit {
                                   }
     ];
   }
-  onFormSubmit(): void {
-    // this.myTable = {
-    //   // data: this.service.getTransactionDetailsSourceData(),
-    //   data:this.getTransactionDetailsSourceData(),
-    //   Columns: this.columns,
-    //   filter: true,
-    //   selectCheckbox: true,
-    //   selectionColumn: 'TranId',
-    //   imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', tabIndex: 1 },
-    //               { headerValue: 'Links', icon: 'description', route: '', tabIndex: 2 }]  } 
-      
-    //               if (!this.tabs.find(x => x.tabType == 0)) {
-    //                 this.tabs.push({
-    //                   tabType: 0,
-    //                   name: 'Transaction Summary'
-    //                 });
-    //               }
-    //               this.selectedTab = this.tabs.length;
+  onFormSubmit(): void {    
+    this.myTable = {
+      data: this.service.getTransactionDetailsSourceData(),
+      // data:this.getTransactionDetailsSourceData(),
+      Columns: this.columns,
+      filter: true,
+      selectCheckbox: true,
+      selectionColumn: 'TranId',
+      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
+                  { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]  }
+    
+                  if (!this.tabs.find(x => x.tabType == 0)) {
+                    this.tabs.push({
+                      tabType: 0,
+                      name: 'Transaction Summary'
+                    });
+                  }
+                  this.selectedTab = this.tabs.length;
 
    }
   resetForm(): void {
