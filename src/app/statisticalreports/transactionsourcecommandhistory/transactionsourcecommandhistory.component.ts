@@ -10,68 +10,68 @@ import { Tab } from 'src/app/_models/uicomponents/tab';
 import{statisticalreport}from '../services/statisticalreports.service';
 
 
-const ELEMENT_DATA_CHILD:   Link[]=[{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' },
-{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' },
-{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }]
+const ELEMENT_DATA_CHILD:   Link[]=[{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' },
+{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' },
+{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }]
 
 const ELEMENT_DATA: Transactionsourcecommandhistory[] =
   [
     {
-      Link: [{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '01/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
   
     {
-      Link: [{ View: 'image', StatisticDate: '11/02/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/02/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/02/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/02/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '02/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/03/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/03/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/03/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/03/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '03/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/04/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/04/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/04/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/04/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '04/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/05/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/05/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/05/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/05/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '05/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/06/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/06/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/06/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/06/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '06/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/07/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/07/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/07/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/07/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '07/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/08/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/08/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/08/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/08/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '08/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
   
   ]
@@ -116,14 +116,14 @@ columns: ColumnDetails[] =
 [
 // { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
 { header: 'Link', headerValue: 'Link', showDefault: true, isImage: false },
-{ header: 'StatisticMonthDate', headerValue: 'StatisticMonthDate', showDefault: false, isImage: false },
+{ header: 'StatisticMonth', headerValue: 'StatisticMonth', showDefault: false, isImage: false },
 { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-{ header: 'AddCommands', headerValue: 'AddCommands', showDefault: false, isImage: false },
-{ header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-{ header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: false, isImage: false },
-{ header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-{ header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-{ header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+{ header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: false, isImage: false },
+{ header: 'CeaseTransactions', headerValue: 'CeaseTransactions', showDefault: false, isImage: false },
+{ header: 'ModifiyTransactions', headerValue: 'ModifiyTransactions', showDefault: false, isImage: false },
+{ header: 'ExportTransactions', headerValue: 'ExportTransactions', showDefault: false, isImage: false },
+{ header: 'ImportTransactions', headerValue: 'ImportTransactions', showDefault: false, isImage: false },
+{ header: 'TotalTransactions', headerValue: 'TotalTransactions', showDefault: false, isImage: false }
 ];
 
 columnsChild: ColumnDetails[] =
@@ -131,12 +131,12 @@ columnsChild: ColumnDetails[] =
   { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
 { header: 'StatisticDate', headerValue: 'StatisticDate', showDefault: false, isImage: false },
 { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-{ header: 'AddCommands', headerValue: 'AddCommands', showDefault: false, isImage: false },
-{ header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-{ header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: false, isImage: false },
-{ header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-{ header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-{ header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+{ header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: false, isImage: false },
+{ header: 'CeaseTransactions', headerValue: 'CeaseTransactions', showDefault: false, isImage: false },
+{ header: 'ModifiyTransactions', headerValue: 'ModifiyTransactions', showDefault: false, isImage: false },
+{ header: 'ExportTransactions', headerValue: 'ExportTransactions', showDefault: false, isImage: false },
+{ header: 'ImportTransactions', headerValue: 'ImportTransactions', showDefault: false, isImage: false },
+{ header: 'TotalTransactions', headerValue: 'TotalTransactions', showDefault: false, isImage: false }
 ];
 
 
@@ -232,22 +232,22 @@ columnsChild: ColumnDetails[] =
                      },
                      "ListofAttributes" : {
                        "Attribute" : [ {
-                         "Name" : "AddCommands",
+                         "Name" : "ActivateTransactions",
                          "Value" : [ "2" ]
                        }, {
-                         "Name" : "CeaseCommands",
+                         "Name" : "CeaseTransactions",
                          "Value" : [ "2" ]
                        }, {
-                         "Name" : "ModifyCommands",
+                         "Name" : "ModifyTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "ExportCommands",
+                         "Name" : "ExportTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "ImportCommands",
+                         "Name" : "ImportTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "TotalCommands",
+                         "Name" : "TotalTransactions",
                          "Value" : [ "4" ]
                        } ]
                      },
@@ -262,22 +262,22 @@ columnsChild: ColumnDetails[] =
                          },
                          "ListofAttributes" : {
                            "Attribute" : [ {
-                             "Name" : "AddCommands",
+                             "Name" : "ActivateTransactions",
                              "Value" : [ "1" ]
                            }, {
-                             "Name" : "CeaseCommands",
+                             "Name" : "CeaseTransactions",
                              "Value" : [ "1" ]
                            }, {
-                             "Name" : "ModifyCommands",
+                             "Name" : "ModifyTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ExportCommands",
+                             "Name" : "ExportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ImportCommands",
+                             "Name" : "ImportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "TotalCommands",
+                             "Name" : "TotalTransactions",
                              "Value" : [ "2" ]
                            } ]
                          }
@@ -291,22 +291,22 @@ columnsChild: ColumnDetails[] =
                          },
                          "ListofAttributes" : {
                            "Attribute" : [ {
-                             "Name" : "AddCommands",
+                             "Name" : "ActivateTransactions",
                              "Value" : [ "1" ]
                            }, {
-                             "Name" : "CeaseCommands",
+                             "Name" : "CeaseTransactions",
                              "Value" : [ "1" ]
                            }, {
-                             "Name" : "ModifyCommands",
+                             "Name" : "ModifyTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ExportCommands",
+                             "Name" : "ExportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ImportCommands",
+                             "Name" : "ImportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "TotalCommands",
+                             "Name" : "TotalTransactions",
                              "Value" : [ "2" ]
                            } ]
                          }
@@ -322,22 +322,22 @@ columnsChild: ColumnDetails[] =
                      },
                      "ListofAttributes" : {
                        "Attribute" : [ {
-                         "Name" : "AddCommands",
+                         "Name" : "ActivateTransactions",
                          "Value" : [ "2" ]
                        }, {
-                         "Name" : "CeaseCommands",
+                         "Name" : "CeaseTransactions",
                          "Value" : [ "2" ]
                        }, {
-                         "Name" : "ModifyCommands",
+                         "Name" : "ModifyTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "ExportCommands",
+                         "Name" : "ExportTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "ImportCommands",
+                         "Name" : "ImportTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "TotalCommands",
+                         "Name" : "TotalTransactions",
                          "Value" : [ "4" ]
                        } ]
                      },
@@ -352,22 +352,22 @@ columnsChild: ColumnDetails[] =
                          },
                          "ListofAttributes" : {
                            "Attribute" : [ {
-                             "Name" : "AddCommands",
+                             "Name" : "ActivateTransactions",
                              "Value" : [ "1" ]
                            }, {
-                             "Name" : "CeaseCommands",
+                             "Name" : "CeaseTransactions",
                              "Value" : [ "1" ]
                            }, {
-                             "Name" : "ModifyCommands",
+                             "Name" : "ModifyTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ExportCommands",
+                             "Name" : "ExportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ImportCommands",
+                             "Name" : "ImportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "TotalCommands",
+                             "Name" : "TotalTransactions",
                              "Value" : [ "2" ]
                            } ]
                          }
@@ -381,22 +381,22 @@ columnsChild: ColumnDetails[] =
                          },
                          "ListofAttributes" : {
                            "Attribute" : [ {
-                             "Name" : "AddCommands",
+                             "Name" : "ActivateTransactions",
                              "Value" : [ "1" ]
                            }, {
-                             "Name" : "CeaseCommands",
+                             "Name" : "CeaseTransactions",
                              "Value" : [ "1" ]
                            }, {
-                             "Name" : "ModifyCommands",
+                             "Name" : "ModifyTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ExportCommands",
+                             "Name" : "ExportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ImportCommands",
+                             "Name" : "ImportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "TotalCommands",
+                             "Name" : "TotalTransactions",
                              "Value" : [ "2" ]
                            } ]
                          }
@@ -423,22 +423,22 @@ columnsChild: ColumnDetails[] =
                      },
                      "ListofAttributes" : {
                        "Attribute" : [ {
-                         "Name" : "AddCommands",
+                         "Name" : "ActivateTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "CeaseCommands",
+                         "Name" : "CeaseTransactions",
                          "Value" : [ "1" ]
                        }, {
-                         "Name" : "ModifyCommands",
+                         "Name" : "ModifyTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "ExportCommands",
+                         "Name" : "ExportTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "ImportCommands",
+                         "Name" : "ImportTransactions",
                          "Value" : [ "0" ]
                        }, {
-                         "Name" : "TotalCommands",
+                         "Name" : "TotalTransactions",
                          "Value" : [ "1" ]
                        } ]
                      },
@@ -453,22 +453,22 @@ columnsChild: ColumnDetails[] =
                          },
                          "ListofAttributes" : {
                            "Attribute" : [ {
-                             "Name" : "AddCommands",
+                             "Name" : "ActivateTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "CeaseCommands",
+                             "Name" : "CeaseTransactions",
                              "Value" : [ "1" ]
                            }, {
-                             "Name" : "ModifyCommands",
+                             "Name" : "ModifyTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ExportCommands",
+                             "Name" : "ExportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "ImportCommands",
+                             "Name" : "ImportTransactions",
                              "Value" : [ "0" ]
                            }, {
-                             "Name" : "TotalCommands",
+                             "Name" : "TotalTransactions",
                              "Value" : [ "1" ]
                            } ]
                          }

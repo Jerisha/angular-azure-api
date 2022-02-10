@@ -1,12 +1,12 @@
 export interface TelephoneDetails {  
     ViewDetails: string;
-    TelephoneNos: string;
-    AddCommands: string;
-    CeaseCommands: string;
-    ModifiyCommands: string;
-    ExportCommands: string;
-    ImportCommands: string;
-    TotalCommands: string;
+    TelephoneNo: string;
+    ActivateTransactions: string;
+    CeaseTransactions: string;
+    ModifiyTransactions: string;
+    ExportTransactions: string;
+    ImportTransactions: string;
+    TotalTransactions: string;
 
 
 }
