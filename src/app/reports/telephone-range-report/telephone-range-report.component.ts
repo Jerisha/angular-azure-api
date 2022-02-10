@@ -3,7 +3,7 @@ import { TableSelectionComponent } from 'src/app/uicomponents';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report-model';
+import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report';
 import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from 'src/app/_models/uicomponents/select';
@@ -184,7 +184,7 @@ export class TelephoneRangeReportComponent implements OnInit {
   createForm() {
     this.thisForm = this.formBuilder.group({
       TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
-      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
+      TelNoEnd: new FormControl({ value: '', disabled: true }),
 
     })
   }
