@@ -17,18 +17,17 @@
     </div>
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
       <div class="">
-        <mat-form-field hintLabel="Max 10 characters"  
+        <mat-form-field  
         [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
-          <mat-label>Tel.No Start</mat-label>
-          <input matInput formControlName="TelNoStart" maxlength="10" placeholder="Tel.No Start">
-          <mat-hint align="end">{{thisForm.controls.TelNoStart.value?.length || 0}}/10</mat-hint>
+          <mat-label>Start Telephone No.</mat-label>
+          <input matInput formControlName="TelNoStart" maxlength="10" placeholder="Start Telephone No.">
+          <!-- <mat-hint align="end">{{thisForm.controls.TelNoStart.value?.length || 0}}/10</mat-hint> -->
         </mat-form-field>
 
-        <mat-form-field hintLabel="Max 10 characters"  
+        <mat-form-field 
         [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
-          <mat-label>Tel.No End</mat-label>
-          <input matInput formControlName="TelNoEnd" maxlength="10" placeholder="Tel.No End">
-          <mat-hint align="end">{{thisForm.controls.TelNoEnd.value?.length || 0}}/10</mat-hint>
+          <mat-label>End Telephone No.</mat-label>
+          <input matInput formControlName="TelNoEnd" maxlength="10" placeholder="End Telephone No.">
         </mat-form-field>
 
         <button type="submit" mat-raised-button color="primary" matTooltip="Search">
@@ -38,7 +37,7 @@
           <mat-icon>refresh</mat-icon>Reset
         </button>
 
-        <!-- <button type="button" mat-raised-button color="primary" matTooltip="Alert" (click)="openDialog()">
+        <!-- <button type="button" mat-raised-button color="primary" matTooltip="Alert" (click)="hello()">
           <mat-icon></mat-icon>Alert
         </button> -->
 
