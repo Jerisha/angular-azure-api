@@ -46,13 +46,13 @@ export interface LiveRecord {
 
 export interface TransactionDetails
 {
-    action : string;
-    cnt : string;
-    transaction : string;
-    status : string;
-    created: string; 
-    source : string;
-    custName: string;
+    Action : string;
+    Count : string;
+    Transaction : string;
+    Status : string;
+    Created: string; 
+    Source : string;
+    CustomerName: string;
     details:FullTransactionDetails;
     notificationData: NotificationData;
     errorDescription: ErrorDescription[] | undefined;

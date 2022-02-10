@@ -49,9 +49,9 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-diagram, .liverecord-sec {
   min-width: 80px;
-  border: 2px solid black;
+  border: 2px solid grey;
   padding: 8px;
-  font-weight: lighter;
+  /* font-weight: lighter; */
   margin: 8px 0;
   height: 100%;
 }
@@ -85,7 +85,13 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .liveRecord-error {
   text-align: center;
+  /* color: red; */
 }
+
+.error {
+  color: red;
+}
+
 h4 {
   font-weight: bold;
   font-size: small;
@@ -94,43 +100,67 @@ h4 {
 .container-fluid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start ;
+  justify-content: flex-start;
+  column-gap: 50px;
 }
 
 .fluid-item {
-  margin: 5px;
   flex: 0 1 1;
+  min-width: 500px;
 }
 
-.details-sec span, .liverecord-sec span, .notification-sec span {
-  display: block;
-}
-
-.notification-sec .container-fluid{
+/* .notification-sec .container-fluid{
   justify-content: flex-start;
-  column-gap: 20px;
-}
+  column-gap: 300px;
+} */
+
 .mat-expansion-panel-header.mat-expansion-toggle-indicator-before {
   /* flex-direction: row-reverse; */
   height: 32px;
   font-size: small;
 }
 
-@media screen and (max-width: 1254px) {
+/* @media screen and (min-width: 1028px) {
   .fluid-item{
     flex: 47% 1 1;
   }
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1027px) {
   .fluid-item{
     flex: 95% 1 1;
   }
-}
+} */
+
 .table-icon{
   cursor: pointer;
   font-size: 18px;
   height: 0px;
   /* width:auto; */
   color: #e60000;
+  }
+
+  mat-panel-title {
+    font-size: small;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 1);
+  }
+
+  .label {
+    display: inline-block;
+    /* font-size: small; */
+    font: 500 14px/20px Roboto, "Helvetica Neue";
+    color: rgba(0, 0, 0, 1);
+    /* font-weight: 500; */
+    min-width: 150px;
+  }
+  
+  .text-display {
+    font: 400 14px/20px Roboto, "Helvetica Neue";
+    color: rgba(0, 0, 0, 1);
+    /* font-weight: 400; */
+  }
+
+  .notification-sec .label {
+    min-width: 120px;
   }
