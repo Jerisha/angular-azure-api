@@ -25,7 +25,7 @@ table td, table th {
 }
 
 .mat-header-row{
-  height: 30px;
+  height: 10px;
 }
 
 
@@ -41,8 +41,8 @@ table td, table th {
 
 
 .table-container {
-  min-height: 100px;
-  max-height: 350px;
+  /* min-height: 100px; */
+  height: 350px;
   overflow: auto;
   /* max-width: 100%; */  
   /* font-size:large; */
@@ -101,8 +101,6 @@ table td, table th {
     border: 0.5px solid gray;
   } */
 
-
-
 /* mat-cell, mat-header-cell, mat-footer-cell {
   flex: 1;
   display: inline-block;
@@ -117,11 +115,3 @@ table td, table th {
 /* .mat-header-row {
   display: table-row;
 } */
-
-
-
-
-
-
-
-

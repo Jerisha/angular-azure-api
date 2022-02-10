@@ -98,6 +98,10 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+.vf-add-btn{
+  background-color: green;
+  color:white;
+}
    
   
 /* .mat-radio-button ~ .mat-radio-button {

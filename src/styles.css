@@ -111,7 +111,10 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   {   
     background-color:#EFEFEF;
     color: #54575a;
-    margin: 2px;
+    margin-top: -3px;
+    margin-bottom: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
     font-size:small;
     display: flex;
   }
@@ -377,3 +380,18 @@ margin-top: 90px;*/
 /* Side-panel Ends */
 
 
+/* tool tip styles start */
+.mat-tooltip {
+  /* your own custom styles here */ 
+  background-color:#EFEFEF;
+  color:black !important;
+  font-size: 12px;
+}
+/* tool tip styles end */
+/* report container start */
+.side-container-report {  
+width: auto; 
+height: 520px !important;
+box-sizing: border-box;
+}
+/* report container end */

@@ -241,7 +241,102 @@ const queryInput: any = {
   }
 }
 
+const AuditInput: any= {
+  "GetObjectRequest": {
+      "GetObjectRequestType": {
+          "RequestIdentifiers": {
+              "Identifier": [
+                  {
+                      "Name": "UserId",
+                      "Value": [
+                          "abc"
+                      ]
+                  },
+                  {
+                      "Name": "Destination",
+                      "Value": [
+                          "OSN2"
+                      ]
+                  }
+              ]
+          },
+          "ListofGetObjectCategory": {
+              "GetObjectCategory": [
+                  {
+                      "ItemName": "TelephoneNumberTransactionError",
+                      "ListofIdentifiers": {
+                          "Identifier": [
+                              {
+                                  "Name": "ReportIdentifier",
+                                  "Value": [
+                                      "Solicited Errors"
+                                  ]
+                              }
+                          ]
+                      },
+                      "ListofGetObjectCharacteristics": {
+                          "GetObjectCharacteristics": [
+                              {
+                                  "ItemName": "GetParameters",
+                                  "ListofIdentifiers": {
+                                      "Identifier": [
+                                          {
+                                              "Name": "TelephoneNumber",
+                                              "Value": [
+                                                  "02071117400"
+                                              ]
+                                          }
+                                      ]
+                                  }
+                              }
+                          ]
+                      }
+                  }
+              ]
+          }
+      }
+  }
+}
 
+const transInput: any ={
+  "QueryObjectRequest" : {
+  "QueryObjectRequestType" : {
+    "RequestIdentifiers" : {
+      "Identifier" : [ {
+        "Name" : "UserId",
+        "Value" : [ "Sample" ]
+      }, {
+        "Name" : "Destination",
+        "Value" : [ "OSN2" ]
+      } ]
+    },
+    "ListofQueryObjectCategory" : {
+      "QueryObjectCategory" : [ {
+        "ItemName" : "ProvideReports",
+        "ListofIdentifiers" : {
+          "Identifier" : [ {
+            "Name" : "ReportIdentifier",
+            "Value" : [ "TelephoneNumberDetails" ]
+          } ]
+        },
+        "ListofAttributes" : {
+        },
+        "ListofQueryObjectCharacteristics" : {
+          "QueryObjectCharacteristics" : [ {
+            "ItemName" : "QueryParameters",
+            "ListofIdentifiers" : {
+              "Identifier" : [ {
+                "Name" : "PageNumber",
+                "Value" : [ "1" ]
+              } ]
+            }
+          } ]
+        }
+      } ]
+    }
+  }
+}
+}
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
@@ -321,7 +416,7 @@ export class SolicitederrorsComponent implements OnInit {
     //debugger;     
     //this.service.apiTest(queryInput); 
     //let transformInput = JSON.parse(queryInput);    
-    //this.service.configDetails(queryInput);
+    this.service.configDetails(queryInput);
   }
 
   private _filter(name: string): any[] {
@@ -346,17 +441,18 @@ export class SolicitederrorsComponent implements OnInit {
         tabType: 0,
         name: 'Summary'
       });
+     
     }
-    this.selectedTab = this.tabs.length;
+    
 
   }
+  
   resetForm(): void {
     this._snackBar.open('Reset Form Completed!', 'Close', {
       duration: 5000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
-
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -406,6 +502,7 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
+          this.selectedTab = 1;
         }
 
         break;
@@ -416,12 +513,13 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 2,
             name: 'Transaction Errors'
           })
+          this.selectedTab = 2;
         }
         break;
       default:
         //statements; 
         break;
-        this.selectedTab = this.tabs.length;
+        
     }
   }
 

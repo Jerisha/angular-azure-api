@@ -5,6 +5,8 @@ import { CupId } from 'src/app/_data/listValues/CupId';
 import { TableItem } from 'src/app/_models/uicomponents/table-item';
 import { take } from 'rxjs/operators';
 import { ThrowStmt } from '@angular/compiler';
+import { ICustomerAddress } from "../models/ICustomerAddress";
+import { TransactionItem } from '../models/ITransactionItem';
 
 @Component({
   selector: 'app-transactions-views',
@@ -27,6 +29,7 @@ export class TransactionsViewsComponent implements OnInit {
   isEndTelNo:Boolean =false;
   cupIds:any =new CupId().cupIds; 
   searchTelState:boolean=true;
+  addCliState:boolean=true;
   saveState:boolean=true;
   views:any={view1:false,view2:false,view3:false}  
   enableFrancise:boolean=false;
@@ -35,10 +38,12 @@ export class TransactionsViewsComponent implements OnInit {
   multiRangeTelephoneList:string="Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890";
 
   telephoneSet="";
-    model:any ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
-    transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
-    addressDetails:any ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
-    transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};
+    model:any ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
+    // transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
+    // addressDetails:ICustomerAddress ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
+    // transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};    
+    transactionItem =new TransactionItem();
+
     @Output() AddressCheckSelected = new EventEmitter<any[]>();
     @Output() AuditTrailSelected = new EventEmitter<any[]>();
     @Output() ResetTabs = new EventEmitter<any[]>();
@@ -48,6 +53,8 @@ export class TransactionsViewsComponent implements OnInit {
     panelOpenState = false;
     btncolor: string ="secondary"
     savebtnColor:string ="secondary"
+
+    addbtncolor:string ="secondary"
     
 
   constructor(private _ngZone: NgZone)  {}
@@ -101,7 +108,9 @@ onChangeEvent(event:any)
     // console.log(this.searchTelState,this.btncolor)
     // console.log(event.target.value);
     this.searchTelState =false;
+    this.addCliState=false;
     this.btncolor ="vf-primary-btn";
+    this.addbtncolor="vf-add-btn";
     // console.log(event.target.value); 
     // console.log(this.searchTelState,this.btncolor)   
 
@@ -127,11 +136,11 @@ check_text(this:TableItem,val:number,val2:string,val3:string)
 }
 updateDefaultOfficeAddressDetails()
 {  
-  this.addressDetails={customerName:"VODAFONE",address1:"THE CONNECTION",address2:"NEW BERKSHIRE",address3:"",address4:"",postcode:"RG14 2FN"};
+  this.transactionItem.customerAddress={customerName:"VODAFONE",address1:"THE CONNECTION",address2:"NEW BERKSHIRE",address3:"",address4:"",postcode:"RG14 2FN"};
 }
 viewAddressCheck()
 {
-  this.AddressCheckSelected.emit(["true",this.model.telno])
+  this.AddressCheckSelected.emit(["true",this.model.telno]) // need to check
 }
 sysEditText(val:string)
 {
@@ -144,23 +153,28 @@ saveTran(val:number)
 }
 ReviewCli()
 {
+  this.ResetTabs.emit(["true"]);
   this.views.view1=true;
   this.views.view2 =false;
   this.views.view3 =false;
 }
 SearchTel(){ 
-    if(this.model.tel !="" ||this.model.rangeEnd !="" ||this.CliRangeSet.length>0)
+    if(this.model.telno !="" ||this.model.rangeEnd !="" ||this.CliRangeSet.length>0)
       {
         //console.log(this.model.tel,this.model.rangeEnd )   
           //this.view2Toggle ="display: block;visibility:visible;";
           //this.view1Toggle ="display: none;visibility:hidden;";
           // this.view3Toggle ="display: none;visibility:hidden;";
-          this.CliRangeSet.push([this.model.tel,this.model.rangeEnd]);
+          if (this.CliRangeSet.length===0)
+          {this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);}
           this.views.view1=false;
           this.views.view2 =true;
           this.views.view3 =false;
           this.panelOpenState =true;
-      }      
+      }   
+      else{
+        alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
+      }   
   }
   ValidateTelno(telno:string){
     
@@ -178,7 +192,9 @@ SearchTel(){
    }  else
    {  
     this.searchTelState =false;
+    this.addCliState=false;
     this.btncolor ="vf-primary-btn";  
+    this.addbtncolor="vf-add-btn";
    return true;
    }
   }
@@ -188,12 +204,14 @@ SearchTel(){
     // this.view1Toggle ="display: block;visibility:visible;";
     // this.view2Toggle ="display: none;visibility:hidden;";
     // this.view3Toggle ="display: none;visibility:hidden;";
-    this.model={tel:"",rangeEnd:"",CupId:"",Franchise:""};
+    this.model={telno:"",rangeEnd:"",CupId:"",Franchise:""};
     this.views.view3=false;
     this.views.view2=false;
     this.views.view1=true;
     this.searchTelState =true;
+    this.addCliState =true;
     this.btncolor ="secondary";
+    this.addbtncolor="secondary";
     this.saveState =true;
     this.savebtnColor ="secondary";
     this.enableFrancise =false;
@@ -221,11 +239,16 @@ SearchTel(){
   }
   addRangeTel()
   {
+    if(this.model.telno !="" ||this.model.rangeEnd !="")
+      {
     // alert('add telephone range!');
-    console.log(this.model.telno,'-',this.model.rangeEnd);
+    // console.log(this.model.telno,'-',this.model.rangeEnd);
     this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);
-    this.model ={tel:"",rangeEnd:"",CupId:"",Franchise:""};
-    
+    this.model ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
+      }
+      else{
+        alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
+      }
 
   }
   check_franchise()

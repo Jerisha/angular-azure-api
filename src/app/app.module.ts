@@ -19,7 +19,7 @@ import { HttpHeaderInterceptor } from './_services/http/http-header-interceptor'
 import { TransactionsModule } from './transactions/transactions.module';
 import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { HelperModule } from './_helper/helper/helper.module';
+import { HelperModule } from './_helper/helper.module';
 
 
 @NgModule({

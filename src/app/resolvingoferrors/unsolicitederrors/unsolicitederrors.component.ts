@@ -1,14 +1,15 @@
 import { validateHorizontalPosition } from '@angular/cdk/overlay';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { select } from 'src/app/_helper/Constants/exp-const';
 import { Select } from 'src/app/_models/uicomponents/select';
 import { FormControl, Validators } from '@angular/forms';
-import { UnSolicitedErrors } from 'src/app/resolvingoferrors/models/unsolicited-error';
 import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
+import { Tab } from 'src/app/_models/uicomponents/tab';
 
 const Items: Select[] = [
   { view: 'Tran.Id', viewValue: 'Tran.Id', default: true },
@@ -24,98 +25,117 @@ const Items: Select[] = [
 
 ];
 
+const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
+  {
+    Month:'Jan', Resolve:'10', Count:'0'
+  }
+];
+
+const ELEMENT_DATA_InformationTable2: InformationTable2[] = [
+  {
+    Month: 'Jan',
+    New: '0',
+    Investigation: '0',
+    Governance: '0',
+    Port: '0',
+    PComp: '0',
+    Resolve: '0',
+    Other: '0'
+  }
+];
 const ELEMENT_DATA: UnSolicitedErrors[] = [
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS', ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+  },
+
+  {
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS', ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591109', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591107', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591108', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+  },
+  
+  {
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
-  },
-  {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
-  },
-  {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
-  },
-  {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Ovd: '923', Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
   },
 ];
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-unsolicitederrors',
   templateUrl: './unsolicitederrors.component.html',
   styleUrls: ['./unsolicitederrors.component.css']
 })
-export class UnsolicitederrorsComponent implements OnInit {
+export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   listItems!: Select[];
   myTable!: TableItem;
+  informationTable1!: TableItem;
+  informationTable2!: TableItem;
   selectListItems: string[] = [];
   multiplevalues: any;
   filtered: string[] = [];
@@ -127,10 +147,7 @@ export class UnsolicitederrorsComponent implements OnInit {
   ];
   errorCode = new FormControl();
   selectedTab!: number;
-  public tabs = [{
-    tabType: 0,
-    name: 'Summary'
-  },
+   tabs :Tab[]=[] ;
     //  {
     //   tabType: 1,
     //   name: 'Audit Trail Report'
@@ -138,22 +155,43 @@ export class UnsolicitederrorsComponent implements OnInit {
     //   tabType: 2,
     //   name: 'Transaction Details'
     // }
-  ];
+  
   columns: ColumnDetails[] = [
-    { header: 'Tran.Id', headerValue: 'TranId', showDefault: true, isImage: false },
+    { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Tel No', headerValue: 'TelNo', showDefault: true, isImage: false },
-    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created', headerValue: 'Created', showDefault: true, isImage: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Ovd', headerValue: 'Ovd', showDefault: true, isImage: false },
-    { header: 'Res Type', headerValue: 'ResType', showDefault: true, isImage: false },
-    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: 'Error[cnt]', headerValue: 'ErrorCount', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
+    { header: 'Request Start', headerValue: 'RequestStart', showDefault: true, isImage: false },
+    { header: 'Request End', headerValue: 'RequestEnd', showDefault: true, isImage: false },
+    { header: 'Diff', headerValue: 'Diff', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
+    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date: ', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
+
+  columns_informationTable1: ColumnDetails[] = [
+    { header: 'Month', headerValue: 'Month', showDefault: true, isImage: false },
+    { header: 'Resolve', headerValue: 'Resolve', showDefault: true, isImage: false },
+    { header: 'Count', headerValue: 'Count', showDefault: true, isImage: false },
+    
+  ];
+
+  columns_informationTable2: ColumnDetails[] = [
+    { header: 'Month', headerValue: 'Month', showDefault: true, isImage: false },
+    { header: 'New', headerValue: 'New', showDefault: true, isImage: false },
+    { header: 'Investigation', headerValue: 'Investigation', showDefault: true, isImage: false },
+    { header: 'Governance', headerValue: 'Governance', showDefault: true, isImage: false },
+    { header: 'Port', headerValue: 'Port', showDefault: true, isImage: false },
+    { header: 'pComp', headerValue: 'PComp', showDefault: true, isImage: false },
+    { header: 'Resolve', headerValue: 'Resolve', showDefault: true, isImage: false },
+    { header: 'Other', headerValue: 'Other', showDefault: true, isImage: false },
+  ];
+
 selected :string='';
 expDefault =select.default;
-  constructor() { }
+  constructor(private cdr:ChangeDetectorRef) { }
 
   // ngOnInit(): void {
   //   this.listItems = Items;
@@ -161,21 +199,35 @@ expDefault =select.default;
   ngOnInit(): void {
 
     this.setOptions();
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.columns,
-      filter: true,
-      selectCheckbox: true,
-      selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
-      
-
-
-    }    
-  }
+    
+      }
   ngAfterViewInit() {
+       this.cdr.detectChanges();
+  }
 
+  DisplayInformationTab()
+  {
+    debugger;
+    this.informationTable1 = {
+      data: ELEMENT_DATA_InformationTable1,
+      Columns: this.columns_informationTable1,
+      filter:true,
+
+    }
+
+    this.informationTable2 = {
+      data: ELEMENT_DATA_InformationTable2,
+      Columns: this.columns_informationTable2,
+      filter:true,
+      
+    }
+    if (!this.tabs.find(x => x.tabType == 3)) {
+      this.tabs.push({
+        tabType: 3,
+        name: 'Information'
+      });
+      this.selectedTab = 3;
+    }
   }
 
   setOptions() {
@@ -195,7 +247,32 @@ expDefault =select.default;
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  onFormSubmit(): void { }
+  onFormSubmit(): void { 
+
+    this.myTable = {
+      data: ELEMENT_DATA,
+      Columns: this.columns,
+      filter: true,
+      selectCheckbox: true,
+      selectionColumn: 'TranId',
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]    
+
+
+    } 
+
+    if (!this.tabs.find(x => x.tabType == 0)) {
+      this.tabs.push({
+        tabType: 0,
+        name: 'Summary'
+      
+      });
+      this.selectedTab = 0;
+    }   
+
+   
+
+  }
   resetForm(): void { }
 
   rowDetect(item: any) {
@@ -238,7 +315,7 @@ expDefault =select.default;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Details'
+            name: 'Transaction Errors'
           })
           this.selectedTab = 2;
         }
