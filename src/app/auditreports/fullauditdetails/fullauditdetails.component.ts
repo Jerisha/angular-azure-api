@@ -264,6 +264,7 @@ export class FullauditdetailsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
 
+  selectedCorrectionType: string = '';
   myTable!: TableItem;
   rangeRptTable!: TableItem;
   inflightRptTable!: TableItem;
@@ -381,6 +382,25 @@ export class FullauditdetailsComponent implements OnInit {
     { headerValue: 'LinkReasonCode', header: 'Link Reason Code', showDefault: true, isImage: false },
     { headerValue: 'OrderArchiveFlag', header: 'Order Archive Flag', showDefault: true, isImage: false },
     { headerValue: 'DeadEntry', header: 'DeadEntry', showDefault: true, isImage: false }];
+
+  correctionTypes: any[] = [
+    {
+      name: 'Auto Correction',
+      correction: [
+        { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume' }
+      ]
+    },
+    {
+      name: 'Manual Correction',
+      disabled: false,
+      correction: [
+        { value: 'AutoPopulateBT', viewValue: 'Auto Populate BT', disabled: false },
+        { value: 'AutoPopulateOSN2', viewValue: 'Auto Populate OSN2', disabled: true },
+        { value: 'AutoPopulateSource', viewValue: 'Auto Populate Source', disabled: false },
+        { value: 'AutoPopulateBTSource', viewValue: 'Auto Populate BT + Source', disabled: true },
+        { value: 'AutoPopulateSpecialCease', viewValue: 'Auto Populate Special Cease', disabled: true }
+      ]
+    }];
 
   constructor(private ser: FullAuditDetailsService, private dialog: MatDialog,
     private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
@@ -543,7 +563,7 @@ export class FullauditdetailsComponent implements OnInit {
       ),
       AuditActId: new FormControl({ value: '', disabled: true }),
       CUPId: new FormControl({ value: '', disabled: true }),
-      BatchId: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]),
+      BatchId: new FormControl({ value: '', disabled: true }),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
       FullAuditCLIStatus: new FormControl({ value: '', disabled: true }),
       MonthlyRefreshFlag: new FormControl({ value: '', disabled: true }),
