@@ -1,12 +1,3 @@
-<!-- <mat-card *ngFor="let alert of alerts" class="{{cssClass(alert)}} popup">  
-    <mat-card-content>
-        <span class="text" [innerHTML]="alert.message"></span>
-        <button mat-icon-button class="alert-dismissable close" (click)="removeAlert(alert)">
-            <mat-icon>close</mat-icon>
-        </button>
-    </mat-card-content>
-</mat-card> -->
-
 <div *ngFor="let alert of alerts" class="{{cssClass(alert)}} alert-dismissible popup">
     <span class="text" [innerHTML]="alert.message"></span>
     <!-- <button class="close" (click)="removeAlert(alert)">&times;</button> -->
