@@ -1,14 +1,14 @@
 export interface Transactionsourcecommandhistory {
 
   Link: Link[] | null;
-  StatisticMonthDate: string;
+  StatisticMonth: string;
   Source: string;
-  AddCommands: string;
-  CeaseCommands: string;
-  ModifiyCommands: string;
-  ExportCommands: string;
-  ImportCommands: string;
-  TotalCommands: string;
+  ActivateTransactions: string;
+  CeaseTransactions: string;
+  ModifiyTransactions: string;
+  ExportTransactions: string;
+  ImportTransactions: string;
+  TotalTransactions: string;
 }
 
 
@@ -16,12 +16,12 @@ export interface Link {
   View:string;
   StatisticDate: string;
   Source: string;
-  AddCommands: string;
-  CeaseCommands: string;
-  ModifiyCommands: string;
-  ExportCommands: string;
-  ImportCommands: string;
-  TotalCommands: string;
+  ActivateTransactions: string;
+  CeaseTransactions: string;
+  ModifiyTransactions: string;
+  ExportTransactions: string;
+  ImportTransactions: string;
+  TotalTransactions: string;
 
 
 
@@ -103,12 +103,12 @@ export interface Link {
     
 //     ViewDetails: string;
 //      Telephone: string;
-//      AddsCommands: string;
-//      CeasesCommands: string;
-//      ModifiesCommands: string;
-//      ExportsCommands: string;
-//      ImportsCommands: string;
-//      TotalCmdsCommands: string;
+//      AddsTransactions: string;
+//      CeasesTransactions: string;
+//      ModifiesTransactions: string;
+//      ExportsTransactions: string;
+//      ImportsTransactions: string;
+//      TotalCmdsTransactions: string;
  
      
 //  }

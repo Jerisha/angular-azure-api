@@ -8,12 +8,19 @@ margin-top: 90px;*/
 margin: 5px;
 
 }
+
+.example-element-detail{
+  padding-left: 44px;
+  
+}
+
 .plus{
   color:#e60000;
   }
 .hidden{display: none;}
 table
 {    width:100%;
+ 
 }
 th {
   background-color: #e60000;

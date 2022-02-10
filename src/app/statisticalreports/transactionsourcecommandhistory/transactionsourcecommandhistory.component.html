@@ -20,7 +20,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Source</mat-label>
+          <mat-label>Source System</mat-label>
           <mat-select formControlName="Source">
             <mat-option></mat-option>
             <mat-option>A - AUDITr</mat-option>
@@ -37,10 +37,10 @@
         </mat-form-field>
 
 
-        <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+        <button type="submit" mat-raised-button color="primary" >
           <mat-icon>search</mat-icon>Search
         </button>
-        <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
+        <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
           <mat-icon>refresh</mat-icon>Reset
         </button>
       </div>
@@ -59,7 +59,7 @@
     <mat-tab-group [selectedIndex]="selectedTab">
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
-          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+          <div class="col" style="margin-left: 20px;">{{index==0?isChecked?'D-2-D Summary':'M-O-M Summary':tab.name}}</div>
           <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
             <mat-icon style="font-size: large;">close</mat-icon>
           </button>
