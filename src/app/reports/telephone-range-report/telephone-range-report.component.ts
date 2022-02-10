@@ -10,6 +10,8 @@ import { Select } from 'src/app/_models/uicomponents/select';
 import { MatSelect } from '@angular/material/select';
 import { AlertService } from 'src/app/_shared/alert';
 import { Tab } from 'src/app/_models/uicomponents/tab';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from './alert-dialog.component';
 
 const ELEMENT_DATA = [
   {
@@ -94,7 +96,7 @@ const FilterListItems: Select[] = [
 })
 export class TelephoneRangeReportComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar,private alertService:AlertService) { }
+  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar,private alertService:AlertService,private dialog: MatDialog) { }
 
   @ViewChild('table1') table1?:TableSelectionComponent;
   myTable!: TableItem;
@@ -142,7 +144,6 @@ export class TelephoneRangeReportComponent implements OnInit {
   };
   
   
-
   ngOnInit(): void {
     this.createForm();
 
@@ -256,5 +257,15 @@ export class TelephoneRangeReportComponent implements OnInit {
     this.alertService.success('Success!! Alert is Working', this.options);
     this.alertService.warn('Warning!! Alert is Working', this.options);
     this.alertService.error('Error!! Alert is Working', this.options);
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(AlertDialogComponent,{
+      width:'300px',
+      disableClose: true,
+      data:{
+        message: 'This is from Alert Dialog',
+      }
+    });
   }
 }
