@@ -5,7 +5,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
-import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from 'src/app/_models/index';
+import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from '../models/index';
 import { Select } from 'src/app/_models/uicomponents/select';
 import { Tab } from 'src/app/_models/uicomponents/tab';
 import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';

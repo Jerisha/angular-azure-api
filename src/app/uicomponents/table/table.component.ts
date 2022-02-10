@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -40,7 +40,7 @@ export class TableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-
+    console.log(this.tableitem);
     this.dataSource = new MatTableDataSource<any>(this.tableitem);
     this.dataColumns = this.toTableheaders(this.tableitem);
     // this.imageItem = this.tableitem?.imgConfig;
@@ -49,6 +49,7 @@ export class TableComponent implements OnInit {
       
     ];
     //this.columnHeaders = this.tableitem?.coulmnHeaders;
+    
   }
   ngAfterInit(): void {
 
