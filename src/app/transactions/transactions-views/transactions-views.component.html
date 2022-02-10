@@ -285,11 +285,13 @@
                                     cdkAutosizeMinRows="1"
                                     cdkAutosizeMaxRows="2"
                                     onblur="triggerResize()" 
-                                    size="20" maxlength="20"                  
+                                    size="20" maxlength="20" 
+                                    name =customerName
+                                    [(ngModel)]="transactionItem.customerAddress.customerName"
                                     ></textarea>                                  
                                   </mat-form-field> 
                                   <button type="button" mat-mini-fab  style="margin-left: 6px; height:36px;width:36px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
-                                    <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle;">content_copy</mat-icon>
+                                    <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle; display: inline-flex;align-items: center;justify-content: center;">content_copy</mat-icon>
                                   </button>
                                   <!-- <div style ="display: flex;justify-content: center;width: 24px;"> -->
                                     <!-- <button mat-icon-button type="button"  style = "background-color: red;width: fit-content;"aria-label="update Default Office Address Details"  matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->
@@ -309,7 +311,9 @@
                                             cdkAutosizeMinRows="1"
                                             cdkAutosizeMaxRows="2"
                                             onblur="triggerResize()" 
-                                            size="20" maxlength="40"                  
+                                            size="20" maxlength="40" 
+                                            name =address1
+                                            [(ngModel)]="transactionItem.customerAddress.address1"                 
                                           ></textarea>              
                                         </mat-form-field>
                                     </div>
@@ -322,7 +326,9 @@
                                           cdkAutosizeMinRows="1"
                                           cdkAutosizeMaxRows="2"
                                           onblur="triggerResize()" 
-                                          size="20" maxlength="40"                  
+                                          size="20" maxlength="40"   
+                                          name =address2
+                                          [(ngModel)]="transactionItem.customerAddress.address2"                
                                         ></textarea>              
                                       </mat-form-field>
                                   </div>
@@ -335,7 +341,9 @@
                                         cdkAutosizeMinRows="1"
                                         cdkAutosizeMaxRows="2"
                                         onblur="triggerResize()" 
-                                        size="20" maxlength="40"                  
+                                        size="20" maxlength="40"  
+                                        name =address3
+                                        [(ngModel)]="transactionItem.customerAddress.address3"                 
                                       ></textarea>              
                                     </mat-form-field>
                                 </div>
@@ -348,14 +356,22 @@
                                       cdkAutosizeMinRows="1"
                                       cdkAutosizeMaxRows="2"
                                       onblur="triggerResize()" 
-                                      size="20" maxlength="40"                  
+                                      size="20" maxlength="40"
+                                      name =address4
+                                      [(ngModel)]="transactionItem.customerAddress.address4"                   
                                     ></textarea>              
                                   </mat-form-field>
                                 </div>
                                 <div >
                                   <mat-form-field   class="vf-mr-negative" style="width:100%;">
                                       <mat-label class="vf-label">Post code *</mat-label>
-                                      <input type="text" matInput  placeholder="Post code *" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
+                                      <input type="text"
+                                       matInput  placeholder="Post code *" 
+                                       name =postcode
+                                       [(ngModel)]="transactionItem.customerAddress.postcode"
+                                       size="12" 
+                                       maxlength="12" 
+                                       >
                                   </mat-form-field>                                  
                                   </div>                                                  
                                 </div>                               
