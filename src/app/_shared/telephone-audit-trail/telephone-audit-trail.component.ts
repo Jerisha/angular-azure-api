@@ -268,6 +268,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
   setAddressDetails(section: string, element?: any) {
     // console.log(element.details.postcode);
     if(section == 'transactionDetails') {
+      this.addressDetails.isData = true;
     this.addressDetails.postcode = element.details.postcode;
     this.addressDetails.CustomerName = element.details.CustomerName;
     this.addressDetails.internalAddr1 = element.details.internalAddr1;
