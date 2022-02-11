@@ -430,9 +430,6 @@ const Itemstwo:Select[]=[
 {view:'Premises',viewValue:'Premises',default:false},
 {view:'Throughtfare',viewValue:'Throughtfare',default:false},
 {view:'Locality',viewValue:'Locality',default:false},
-
-
-
 {view:'Tran. Ref',viewValue:'TranRef',default:false},
 {view:'Trans.ID',viewValue:'TransID',default:false},
 {view:'Cupid',viewValue:'Cupid',default:false},
@@ -496,7 +493,7 @@ selectedTab!: number;
 public tabs: Tab[] = [];
 columns: ColumnDetails[] = [
 { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
-{ header: 'Tele phone', headerValue: 'Telephone', showDefault: true, isImage: false },
+{ header: 'Telephone No', headerValue: 'Telephone', showDefault: true, isImage: false },
 { header: 'Cust Name', headerValue: 'CustName', showDefault: true, isImage: false },
 { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
 { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
@@ -510,7 +507,7 @@ columns: ColumnDetails[] = [
 { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
 { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
 { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
-{ header: 'Creation Date', headerValue: 'CreationDate', showDefault: true, isImage: false },
+{ header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
 { header: 'Address Line 1', headerValue: 'AddressLine1', showDefault: true, isImage: false },
 { header: 'Address Line 2', headerValue: 'AddressLine2', showDefault: true, isImage: false },
 { header: 'Address Line 3', headerValue: 'AddressLine3', showDefault: true, isImage: false },
@@ -518,7 +515,7 @@ columns: ColumnDetails[] = [
 { header: 'Parent CUPID', headerValue: 'ParentCUPID', showDefault: true, isImage: false },
 { header: 'Child CUPID', headerValue: 'ChildCUPID', showDefault: true, isImage: false },
 { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
-{ header: 'New Tel.No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
+{ header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
 ];
 setControlAttribute(matSelect: MatSelect) {
 matSelect.options.forEach((item) => {
