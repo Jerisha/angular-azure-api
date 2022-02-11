@@ -3,14 +3,7 @@
         <ng-container *ngIf="views.view1" >            
               <mat-card-content >
                   <form  #ff ="ngForm" (ngSubmit)="onSubmit()" >
-                    <div class="vf-flex-container">
-                    <div>
-                    <!-- <div style="margin-left:1rem;margin-top:1rem;">
-                      <mat-radio-group aria-label="Select an Option for Telephone(s) No set">
-                        <mat-radio-button value="0" #visibleSearchOption1  [checked]=true style="padding-right: 16px;">Single CLI</mat-radio-button>
-                        <mat-radio-button value="1" #visibleSearchOption2  >Multiple CLI(s)</mat-radio-button>
-                      </mat-radio-group>                      
-                    </div>   -->
+                    <div class="vf-flex-container-col">                                       
                     <div> 
                         <mat-form-field   style="margin-left:2px; margin-top: 1rem;">
                           <mat-label>Start Telephone No.</mat-label>
@@ -24,32 +17,33 @@
                           <input matInput [(ngModel)]="model.rangeEnd" #endTel pattern ="^[0-9 ]*$" size =11 maxlength="11" placeholder="End Telephone No." name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)">
                         </mat-form-field>             
                         <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="The maximum CLIs in a range is limited to 10000.Only enter an End Tel No. if you intend to specify a range." matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                        
-                      </div>  
-                       
-                      <!-- <div  *ngIf="visibleSearchOption2.checked == true" style ="margin-bottom: 2rem;" #MultiRangeList >  -->
-                        <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
-                        <mat-list style ="height:10vh;overflow-x:hidden; overflow-y:auto;" #cliList>
-                          <mat-list-item style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white">                              
-                            <p matLine >
-                              <span style="padding:2rem;width: 3rem;">Start Telephone No.</span>
-                              <span style="padding:2rem;width: 3rem;">End Telephone No.</span>
-                              <span style="padding:2rem;width: 3rem;">Remove</span>                                                            
-                            </p>                                                      
+                      </div>
+                    <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
+                        <mat-list style ="max-height:300px;overflow-x:hidden; overflow-y:auto;" #cliList>
+                          <mat-list-item style =" display: inline-flex; align-items:center;  height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white">                              
+                            <!-- <p matLine > -->
+                              <div style="display:inline-flex;">
+                              <span style="width:160px;box-sizing: border-box;">Start Telephone No.</span>
+                              <span style="width:160px;box-sizing: border-box;">End Telephone No.</span>
+                              <span style="width:100px;box-sizing: border-box;">Remove</span>    
+                            </div>                                                        
+                            <!-- </p>                                                       -->
                           </mat-list-item>  
                           <mat-list-item  *ngFor="let cli of CliRangeSet" style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
-                            <p matLine >
-                              <span style="padding:2rem;width: 3rem;">{{cli[0]}}</span>
-                              <span style="padding:2rem;width: 3rem;">{{cli[1]}}</span>
-                              <span style="padding:2rem;width: 3rem;">
-                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0);" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
+                            <!-- <p matLine > -->
+                              <div style="display:inline-flex;">
+                              <span style="width:160px;box-sizing: border-box;">{{cli[0]}}</span>
+                              <span style="width:160px;box-sizing: border-box;">{{cli[1]}}</span>
+                              <!-- <span style="min-width:5%;text-align:end;box-sizing: border-box;"> -->
+                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
                                 </button>
-                              </span>                                                            
-                            </p>                                                      
+                              <!-- </span>   -->
+                            </div>                                                          
+                            <!-- </p>                                                       -->
                           </mat-list-item>                                             
                         </mat-list>                        
-                      </div>
-                    </div>
-                      <div style="display: flex;align-items: center;">
+                      </div>                    
+                    <div style="display: flex;align-items: center;justify-content: center;">
                         <span>
                           <!-- <button  *ngIf="visibleSearchOption2.checked == true" type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()"> -->
                             <button  type="submit"  mat-raised-button [ngClass]="addbtncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;" (click)="addRangeTel()" [disabled]="addCliState">
@@ -59,8 +53,8 @@
                           <mat-icon>search</mat-icon>Search
                         </button>
                       </span>
-                      </div> 
-                    </div>    
+                      </div>
+                      </div>
                     </form> 
                 </mat-card-content>
           </ng-container>  
@@ -69,8 +63,8 @@
                       <div class ="flex-container"> 
                           <!-- <div *ngIf="multiRangeChecked == true" > -->
                             <div *ngIf="CliRangeSet.length===1" >
-                              <mat-label style="font-size:large;padding-right:1rem"><strong>Start Telephone No.</strong>{{CliRangeSet[0][0]}}</mat-label>                                                          
-                              <mat-label style="font-size:large;"><strong>End Telephone No.</strong>{{CliRangeSet[0][1]}}</mat-label>                          
+                              <mat-label style="font-size:small;padding-right:2rem;"><strong>Start Telephone No.</strong>{{CliRangeSet[0][0]}}</mat-label>                                                          
+                              <mat-label style="font-size:small;"><strong>End Telephone No.</strong>{{CliRangeSet[0][1]}}</mat-label>                          
                             </div>
                             <!-- <div *ngIf="multiRangeChecked == !true" style ="padding-bottom: 10px;"> -->
                               <div *ngIf="CliRangeSet.length>1" style ="padding-bottom: 10px;">
