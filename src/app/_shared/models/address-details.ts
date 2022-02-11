@@ -8,6 +8,7 @@ export interface IAddressDetails {
 }
 
 export class AddressDetails implements IAddressDetails {
+    isData: boolean = false;
     postcode: string = '';
     internalAddr1: string = '';
     internalAddr2: string = '';

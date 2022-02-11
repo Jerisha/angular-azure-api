@@ -1,4 +1,7 @@
-import { Component, OnInit, AfterViewInit  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild  } from '@angular/core';
+import { AddressDetails } from 'src/app/_shared/models/address-details';
+import { TelephoneAuditTrailComponent } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
+import { CustomerAddress } from '../models/ICustomerAddress';
 
 
 @Component({
@@ -16,10 +19,21 @@ export class TransactionsComponent implements OnInit {
   setSelectedIndex:number=-1;
   auditTeleNoselected: any;
   tabposition!: number | null;
+
+  addressDetails!: AddressDetails;
+
+  @ViewChild(TelephoneAuditTrailComponent) test!: TelephoneAuditTrailComponent;
   
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  copied() {
+     this.addressDetails = this.test.ActiveAddressDetails();
+    console.log(this.addressDetails.isData);
+      console.log(this.addressDetails);
+
   }
 
   onTabChange(tabChange:any)
