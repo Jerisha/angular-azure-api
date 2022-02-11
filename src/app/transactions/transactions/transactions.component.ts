@@ -31,8 +31,8 @@ export class TransactionsComponent implements OnInit {
 
   copied() {
      this.addressDetails = this.test.ActiveAddressDetails();
-    console.log(this.addressDetails.isData);
-      console.log(this.addressDetails);
+    // console.log(this.addressDetails.isData);
+      // console.log(this.addressDetails);
 
   }
 
@@ -91,7 +91,7 @@ export class TransactionsComponent implements OnInit {
   OnTelephoneNoSelected(inittelno:any[])
   {
     this.auditTeleNoselected=inittelno[0];
-    console.log(this.auditTeleNoselected)
+    // console.log(this.auditTeleNoselected)
     
     
   }
