@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
@@ -264,6 +264,7 @@ export class FullauditdetailsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
 
+  selectedCorrectionType: string = '';
   myTable!: TableItem;
   rangeRptTable!: TableItem;
   inflightRptTable!: TableItem;
@@ -277,7 +278,7 @@ export class FullauditdetailsComponent implements OnInit {
   unSelectListItems: string[] = [];
   tabs: Tab[] = [];
 
-  comments: string = 'Not available';
+  comments: string = 'No Records Found';
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -382,8 +383,27 @@ export class FullauditdetailsComponent implements OnInit {
     { headerValue: 'OrderArchiveFlag', header: 'Order Archive Flag', showDefault: true, isImage: false },
     { headerValue: 'DeadEntry', header: 'DeadEntry', showDefault: true, isImage: false }];
 
+  correctionTypes: any[] = [
+    {
+      name: 'Auto Correction',
+      correction: [
+        { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume' }
+      ]
+    },
+    {
+      name: 'Manual Correction',
+      disabled: false,
+      correction: [
+        { value: 'AutoPopulateBT', viewValue: 'Auto Populate BT', disabled: false },
+        { value: 'AutoPopulateOSN2', viewValue: 'Auto Populate OSN2', disabled: true },
+        { value: 'AutoPopulateSource', viewValue: 'Auto Populate Source', disabled: false },
+        { value: 'AutoPopulateBTSource', viewValue: 'Auto Populate BT + Source', disabled: true },
+        { value: 'AutoPopulateSpecialCease', viewValue: 'Auto Populate Special Cease', disabled: true }
+      ]
+    }];
+
   constructor(private ser: FullAuditDetailsService, private dialog: MatDialog,
-    private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
+    private formBuilder: FormBuilder, private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {
   }
 
   resetForm(): void {
@@ -396,7 +416,7 @@ export class FullauditdetailsComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-      width: '300px',
+      width: '500px',
       // height: '400px',
       data: { defaultValue: this.comments }
     }
@@ -408,6 +428,10 @@ export class FullauditdetailsComponent implements OnInit {
     this.listItems = Items;
   }
 
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
   onFormSubmit(): void {
     this.myTable = {
       data: ELEMENT_DATA,
@@ -417,8 +441,8 @@ export class FullauditdetailsComponent implements OnInit {
       showEmail: true,
       showBlankCoulmns: true,
       selectionColumn: 'TelNo',
-      highlightedCells: ['TelNo', 'OSN2Source'],
-      backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
+      // highlightedCells: ['TelNo', 'OSN2Source'],
+      // backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
@@ -449,8 +473,10 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
+          this.selectedTab = 1;
         }
         break;
+
       }
       case 2: {
         this.openDialog();
@@ -543,7 +569,7 @@ export class FullauditdetailsComponent implements OnInit {
       ),
       AuditActId: new FormControl({ value: '', disabled: true }),
       CUPId: new FormControl({ value: '', disabled: true }),
-      BatchId: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]),
+      BatchId: new FormControl({ value: '', disabled: true }),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
       FullAuditCLIStatus: new FormControl({ value: '', disabled: true }),
       MonthlyRefreshFlag: new FormControl({ value: '', disabled: true }),
