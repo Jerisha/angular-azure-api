@@ -18,15 +18,15 @@
       <div class="">
         <mat-form-field hintLabel="Max 10 characters"  
           [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
-          <mat-label>Tel.No Start</mat-label>
-          <input formControlName="TelNoStart" matInput #input maxlength="10" placeholder="Tel.No Start">
+          <mat-label>Start Telephone No</mat-label>
+          <input formControlName="TelNoStart" matInput #input maxlength="10" placeholder="Start Telephone No">
           <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
         </mat-form-field>
 
         <mat-form-field hintLabel="Max 10 characters"  
           [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
-          <mat-label>Tel.No End</mat-label>
-          <input formControlName="TelNoEnd" matInput #input maxlength="10" placeholder="Tel.No End">
+          <mat-label>End Telephone No</mat-label>
+          <input formControlName="TelNoEnd" matInput #input maxlength="10" placeholder="End Telephone No">
           <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
         </mat-form-field>
 
@@ -40,7 +40,7 @@
             <mat-option>Export</mat-option>
             <mat-option>Modify</mat-option>
           </mat-select>
-          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
 
         <mat-form-field   [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
@@ -64,7 +64,7 @@
 
 
         <mat-form-field  >
-          <mat-label>Date range</mat-label>
+          <mat-label>Date Range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
             <input matStartDate placeholder="Start date">
             <input matEndDate placeholder="End date">
@@ -88,8 +88,8 @@
         </mat-form-field>
 
         <mat-form-field   [ngClass]="{'hidden':thisForm.controls.ErrorCodes.disabled}">
-          <mat-label>Error Codes</mat-label>
-          <input formControlName="ErrorCodes" type="text" placeholder="type to find" matInput
+          <mat-label>Error Code</mat-label>
+          <input formControlName="ErrorCodes" type="text" placeholder="Search Error Code" matInput
             [matAutocomplete]="auto" />
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option.viewValue">
@@ -97,17 +97,12 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-
-        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.Reference.disabled}">
+        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.Reference.disabled}">
           <mat-label>999 Reference</mat-label>
-          <mat-select formControlName="Reference">
-            <mat-option></mat-option>
-            <mat-option>ERROR</mat-option>
-            <mat-option>ERROR Final</mat-option>
-
-          </mat-select>
+          <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
           <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
+
 
         <button type="submit" mat-raised-button color="primary">
           <mat-icon>search</mat-icon>Search
@@ -161,7 +156,7 @@
                   </select> -->
                   <div style="display: inline-block;">
                     <mat-form-field  >
-                      <mat-label>Res.Type</mat-label>
+                      <mat-label>Resolution Type</mat-label>
                       <mat-select>
                         <mat-option></mat-option>
                         <mat-option>New</mat-option>
@@ -180,15 +175,14 @@
                     </mat-form-field>
 
                     <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
-                      <mat-label>Resolution</mat-label>
-                      <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
+                      <mat-label>Remarks</mat-label>
+                      <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                     </mat-form-field>
 
                     <button type="submit" mat-raised-button color="primary" >
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
-
 
                     <button type="button" mat-raised-button color="primary" >
                       <mat-icon>help</mat-icon>Help

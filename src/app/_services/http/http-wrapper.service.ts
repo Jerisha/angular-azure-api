@@ -53,88 +53,146 @@ export class HttpWrapperService {
 
 
     private resolveRespone(val: any, requestType: WebMethods): any {
-        val ={
-            "QueryObjectResponse" : {
-              "QueryObjectResponseType" : {
-                "ListofQueryObjectCategory" : {
-                  "QueryObjectCategory" : [ {
-                    "ItemName" : "ProvideReports",
-                    "ListofIdentifiers" : {
-                      "Identifier" : [ {
-                        "Name" : "ReportIdentifier",
-                        "Value" : [ "TelephoneNumberDetails" ]
-                      } ]
-                    },
-                    "ListofAttributes" : {
-                      "Attribute" : [ {
-                        "Name" : "TotalCount",
-                        "Value" : [ "2" ]
-                      }, {
-                        "Name" : "NumberOfPages",
-                        "Value" : [ "1" ]
-                      }, {
-                        "Name" : "PageNumber",
-                        "Value" : [ "1" ]
-                      } ]
-                    },
-                    "ListofQueryObjectCharacteristics" : {
-                      "QueryObjectCharacteristics" : [ {
-                        "ItemName" : "TelephoneNumbers",
-                        "ListofIdentifiers" : {
-                          "Identifier" : [ {
-                            "Name" : "TelephoneNumber",
-                            "Value" : [ "01234567890" ]
-                          } ]
-                        },
-                        "ListofAttributes" : {
-                          "Attribute" : [ {
-                            "Name" : "Command",
-                            "Value" : [ "A" ]
-                          }, {
-                            "Name" : "Source",
-                            "Value" : [ "SASCOMS" ]
-                          } ]
-                        },
-                        "ListofCharacteristics" : {
-                        }
-                      }, {
-                        "ItemName" : "TelephoneNumbers",
-                        "ListofIdentifiers" : {
-                          "Identifier" : [ {
-                            "Name" : "TelephoneNumber",
-                            "Value" : [ "01234567891" ]
-                          } ]
-                        },
-                        "ListofAttributes" : {
-                          "Attribute" : [ {
-                            "Name" : "Command",
-                            "Value" : [ "C" ]
-                          }, {
-                            "Name" : "Source",
-                            "Value" : [ "SASCOMS" ]
-                          } ]
-                        }
-                      } ]
-                    }
-                  }, {
-                    "ItemName" : "Update",
-                    "ListofAttributes" : {
-                      "Attribute" : [ {
-                        "Name" : "StatusCode",
-                        "Value" : [ "EUI000" ]
-                      }, {
-                        "Name" : "StatusMessage",
-                        "Value" : [ "Success" ]
-                      }, {
-                        "Name" : "MessageType",
-                        "Value" : [ "Informational" ]
-                      } ]
-                    }
-                  } ]
-                }
-              }
-            }
-            }
+    //     val = {"QueryObjectResponse": {"QueryObjectResponseType": {"ListofQueryObjectCategory": {"QueryObjectCategory": [
+    //         {
+    //         "ItemName": "TelephoneNumberError",
+    //         "ListofIdentifiers": {"Identifier": [      {
+    //            "Name": "ReportIdentifier",
+    //            "Value": ["Solicited Errors"]
+    //         }]},
+    //         "ListofAttributes": {"Attribute":       [
+    //                     {
+    //               "Name": "TotalCount",
+    //               "Value": ["2"]
+    //            },
+    //                     {
+    //               "Name": "NumberOfPages",
+    //               "Value": ["1"]
+    //            },
+    //                     {
+    //               "Name": "PageNumber",
+    //               "Value": ["1"]
+    //            }
+    //         ]},
+    //         "ListofQueryObjectCharacteristics": {"QueryObjectCharacteristics":       [
+    //                     {
+    //               "ItemName": "SolicitedError",
+    //               "ListofIdentifiers": {"Identifier":             [
+    //                                 {
+    //                     "Name": "TelephoneNumber",
+    //                     "Value": ["02071117400"]
+    //                  },
+    //                                 {
+    //                     "Name": "TransactionId",
+    //                     "Value": ["1010684992"]
+    //                  }
+    //               ]},
+    //               "ListofAttributes": {"Attribute":             [
+    //                                 {
+    //                     "Name": "Command",
+    //                     "Value": ["Activate Customer"]
+    //                  },
+    //                                 {
+    //                     "Name": "Source",
+    //                     "Value": ["SAS/COMS"]
+    //                  },
+    //                                 {
+    //                     "Name": "CreatedOn",
+    //                     "Value": ["12-OCT-2016"]
+    //                  },
+    //                                 {
+    //                     "Name": "Status",
+    //                     "Value": ["EF - 01-JAN-2021"]
+    //                  },
+    //                                 {
+    //                     "Name": "ResolutionType",
+    //                     "Value": ["Under Governance"]
+    //                  },
+    //                                 {
+    //                     "Name": "ErrorList",
+    //                     "Value": ["1018,1057"]
+    //                  },
+    //                                 {
+    //                     "Name": "999Reference",
+    //                     "Value": ["999Ref"]
+    //                  },
+    //                                 {
+    //                     "Name": "LatestUserComments",
+    //                     "Value": ["Awaiting response from user"]
+    //                  },
+    //                                 {
+    //                     "Name": "LatestCommentDate",
+    //                     "Value": ["02-JAN-2022"]
+    //                  },
+    //                                 {
+    //                     "Name": "IsLive",
+    //                     "Value": ["1"]
+    //                  }
+    //               ]}
+    //            },
+    //                     {
+    //               "ItemName": "SolicitedError",
+    //               "ListofIdentifiers": {"Identifier":             [
+    //                                 {
+    //                     "Name": "TelephoneNumber",
+    //                     "Value": ["02071117401"]
+    //                  },
+    //                                 {
+    //                     "Name": "TransactionId",
+    //                     "Value": ["1010684993"]
+    //                  }
+    //               ]},
+    //               "ListofAttributes": {"Attribute":             [
+    //                                 {
+    //                     "Name": "Command",
+    //                     "Value": ["Activate Customer"]
+    //                  },
+    //                                 {
+    //                     "Name": "Source",
+    //                     "Value": ["SAS/COMS"]
+    //                  },
+    //                                 {
+    //                     "Name": "CreatedOn",
+    //                     "Value": ["12-OCT-2016"]
+    //                  },
+    //                                 {
+    //                     "Name": "Status",
+    //                     "Value": ["01-JAN-2021"]
+    //                  },
+    //                                 {
+    //                     "Name": "ResolutionType",
+    //                     "Value": ["Under Investigation"]
+    //                  },
+    //                                 {
+    //                     "Name": "ErrorList",
+    //                     "Value": ["1018,1057"]
+    //                  },
+    //                                 {
+    //                     "Name": "IsLive",
+    //                     "Value": ["0"]
+    //                  }
+    //               ]}
+    //            }
+    //         ]}
+    //      },
+    //         {
+    //         "ItemName": "Update",
+    //         "ListofAttributes": {"Attribute":       [
+    //                     {
+    //               "Name": "StatusCode",
+    //               "Value": ["EUI000"]
+    //            },
+    //                     {
+    //               "Name": "StatusMessage",
+    //               "Value": ["Success"]
+    //            },
+    //                     {
+    //               "Name": "MessageType",
+    //               "Value": ["Informational"]
+    //            }
+    //         ]}
+    //      }
+    //   ]}}}}
         debugger;
         let categories = [];
         let jsonResult = '';
@@ -211,30 +269,34 @@ export class HttpWrapperService {
                         jsonCreation = this.resolveCharacteristic(category, jsonCreation);
                         //jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
                     }
-                    let thisItem = ``;
+                    let thisItem = "";
                     if (category?.hasOwnProperty("ListofQueryObjectCharacteristics")) {
                         //Iterate characteristics object
                         let characteristics = category.ListofQueryObjectCharacteristics.QueryObjectCharacteristics
                         characteristics?.forEach((characteristic: any) => {
                             //jsonCreation = this.resolveCharacteristic(characteristic, jsonCreation);
                             //Bind ItemName
-                            if (thisItem != characteristic.hasOwnProperty("ItemName") ? characteristic["ItemName"] : '') {
+                            if (characteristic.hasOwnProperty("ItemName") && thisItem === characteristic["ItemName"]) {
+                                jsonCreation += `{`;
+                            } else {
+                                if(thisItem!=''){
+                                jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                                jsonCreation += `],`;
+                            }
                                 thisItem = characteristic.hasOwnProperty("ItemName") ? characteristic["ItemName"] : '';
                                 jsonCreation += `"${thisItem}":[{`;
-                            } else {
-                                jsonCreation += `{`
                             }
 
                             jsonCreation = this.resolveCharacteristic(characteristic, jsonCreation);
 
-                            if (thisItem != characteristic.hasOwnProperty("ItemName") ? characteristic["ItemName"] : '') {
-                                jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
-                                jsonCreation += `}],`;
-                            } else {
-                                jsonCreation += `},`;
-                            }
+                            
+                            jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                            jsonCreation += `},`;
+                           
+                           
                         });
                         jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                        jsonCreation += `]`;
                     }
                     jsonCreation += `},`;
                 }
@@ -296,7 +358,7 @@ export class HttpWrapperService {
                     jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`;
             }
         }
-        let thisItem = ``;
+        let thisItem = "";
         //Bind Characteristics
         if (objCharacteristic.hasOwnProperty("ListofCharacteristics")) {
             let char = objCharacteristic.ListofCharacteristics.Characteristic;
@@ -304,21 +366,21 @@ export class HttpWrapperService {
                 if (characteristic.hasOwnProperty("ItemName")) {
 
                     //Bind ItemName
-                    if (thisItem != characteristic.hasOwnProperty("ItemName") ? characteristic["ItemName"] : '') {
+                    if (characteristic.hasOwnProperty("ItemName") && thisItem === characteristic["ItemName"]) {
+                        jsonCreation += `{`;
+                    } else {
                         thisItem = characteristic.hasOwnProperty("ItemName") ? characteristic["ItemName"] : '';
                         jsonCreation += `"${thisItem}":[{`;
-                    } else {
-                        jsonCreation += `{`
                     }
 
                     jsonCreation = this.resolveCharacteristic(characteristic, jsonCreation);
 
-                    if (thisItem != characteristic.hasOwnProperty("ItemName") ? characteristic["ItemName"] : '') {
-                        jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
-                        jsonCreation += `}],`;
-                    } else {
-                        jsonCreation += `},`;
-                    }
+                    // if (characteristic.hasOwnProperty("ItemName") && thisItem === characteristic["ItemName"]) {
+                    //     jsonCreation += `},`;
+                    // } else {
+                    //     jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+                    //     jsonCreation += `}],`;
+                    // }
                 }
             });
         }

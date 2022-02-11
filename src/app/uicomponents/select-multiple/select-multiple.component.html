@@ -20,7 +20,7 @@ width:180px;height: 35px;;
     <div class="select-container">
       <mat-optgroup>
         <mat-form-field appearance="standard" style="width:100%;">
-          <input #search autocomplete="off" placeholder="Search" aria-label="Search" matInput
+          <input #search autocomplete="off" placeholder="Search filters" aria-label="Search" matInput
             [formControl]="searchTextboxControl" (keydown)="$event.stopPropagation()">
           <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear"
             (click)="clearSearch($event)">
@@ -36,7 +36,7 @@ width:180px;height: 35px;;
           Select All</mat-checkbox>
       </div>
       <mat-option (onSelectionChange)="selectionChange($event)" *ngFor="let option of filteredOptions | async"
-        [disabled]="option.default" [value]="option.viewValue">
+        [value]="option.viewValue">
         {{option.view}}
       </mat-option>
     </div>
