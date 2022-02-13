@@ -480,7 +480,11 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
-          this.selectedTab = 1;
+        //   this.selectedTab = 1;
+        // }
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
         }
 
         break;
@@ -491,7 +495,11 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 2,
             name: 'Transaction Errors'
           })
-          this.selectedTab = 2;
+        //   this.selectedTab = 2;
+        // }
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
         break;
       default:

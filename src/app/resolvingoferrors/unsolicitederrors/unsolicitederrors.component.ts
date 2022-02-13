@@ -307,8 +307,12 @@ expDefault =select.default;
             tabType: 1,
             name: 'Audit Trail Report (1977722725)'
           });
-          this.selectedTab = 1;
-        }
+         //   this.selectedTab = 1;
+        // }
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
+      } else {
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
+      }
         break;
       }
       case 2: {
@@ -317,9 +321,13 @@ expDefault =select.default;
             tabType: 2,
             name: 'Transaction Errors'
           })
-          this.selectedTab = 2;
-        }
-        break;
+          //   this.selectedTab = 2;
+        // }
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+      } else {
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+      }
+      break;
       }
       default: {
         //statements; 
