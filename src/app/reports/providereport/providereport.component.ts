@@ -4,15 +4,15 @@ import { DialogComponent } from './dialog/dialog.component';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { MatSelect } from '@angular/material/select';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
-import { Select } from 'src/app/_models/uicomponents/select';
+import { Select } from 'src/app/uicomponents/models/select';
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { ProvideReport } from 'src/app/reports/models/provide-report';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { select, selectcupid, selectlist } from 'src/app/_helper/Constants/exp-const';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
 
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Select } from 'src/app/_models/uicomponents/select';
+import { Select } from 'src/app/uicomponents/models/select';
 
 @Component({
   selector: 'app-select-exp',

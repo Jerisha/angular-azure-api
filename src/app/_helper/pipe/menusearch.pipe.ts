@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { NavItem } from 'src/app/_models/uicomponents/nav-item';
+import { NavItem } from 'src/app/uicomponents/models/nav-item';
 
 @Pipe({
     name: 'filter'
