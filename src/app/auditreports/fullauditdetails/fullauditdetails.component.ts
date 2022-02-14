@@ -457,7 +457,7 @@ export class FullauditdetailsComponent implements OnInit {
         name: 'Summary'
       });
     }
-    this.selectedTab = this.tabs.length;
+     this.selectedTab = this.tabs.length;
   }
 
   removeTab(index: number) {
@@ -473,8 +473,12 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
-          this.selectedTab = 1;
+          // this.selectedTab = 1;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1)+1;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
         }
+        
         break;
 
       }
@@ -489,36 +493,48 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 2,
             name: 'Range Report'
           })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;        
         }
         break;
       }
       case 4: {
-        if (!this.tabs?.find(x => x.tabType == 4)) {
+        if (!this.tabs?.find(x => x.tabType == 3)) {
           this.inflightReportInit();
           this.tabs.push({
-            tabType: 4,
+            tabType: 3,
             name: 'Inflight Report'
           })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) + 1 ;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) ;  
         }
         break;
       }
       case 5: {
-        if (!this.tabs?.find(x => x.tabType == 5)) {
+        if (!this.tabs?.find(x => x.tabType == 4)) {
           this.monthlyRefreshReportInit();
           this.tabs.push({
-            tabType: 5,
+            tabType: 4,
             name: 'Monthly Refresh Report'
           })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 4) + 1 ;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 4) ;  
         }
         break;
       }
       case 6: {
-        if (!this.tabs?.find(x => x.tabType == 6)) {
+        if (!this.tabs?.find(x => x.tabType == 5)) {
           this.moriCircuitStatusReportInit();
           this.tabs.push({
-            tabType: 6,
+            tabType: 5,
             name: 'Mori Circuit Status Report'
           })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 5) + 1 ;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 5) ;  
         }
         break;
       }
