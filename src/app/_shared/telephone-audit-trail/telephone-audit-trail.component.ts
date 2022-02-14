@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_shared/models/telephone-audit-trail';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
-import { TableItem } from 'src/app/_models/uicomponents/table-item';
+import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { Router } from '@angular/router';
 
 const ele: TelephoneAuditTrail =
@@ -268,6 +268,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
   setAddressDetails(section: string, element?: any) {
     // console.log(element.details.postcode);
     if(section == 'transactionDetails') {
+      this.addressDetails.isData = true;
     this.addressDetails.postcode = element.details.postcode;
     this.addressDetails.CustomerName = element.details.CustomerName;
     this.addressDetails.internalAddr1 = element.details.internalAddr1;

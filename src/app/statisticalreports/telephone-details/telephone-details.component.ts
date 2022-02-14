@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelephoneDetails } from '../models/telephone-details';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
@@ -84,9 +84,8 @@ export class TelephoneDetailsComponent implements OnInit {
       selectCheckbox: true,
       // colToSetImage: ['View'],
       imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],
-      shouldTotalRow:true,
-      totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
-
+      // shouldTotalRow: true,
+      // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 
     }
   }

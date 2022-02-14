@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Transactionsourcecommandhistory,Link } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { selectmonth } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSelect } from '@angular/material/select';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
 import{statisticalreport}from '../services/statisticalreports.service';
 
 

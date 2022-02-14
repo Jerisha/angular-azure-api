@@ -4,12 +4,12 @@ import { MatSelect } from '@angular/material/select';
 import { Observable } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { select } from 'src/app/_helper/Constants/exp-const';
-import { Select } from 'src/app/_models/uicomponents/select';
+import { Select } from 'src/app/uicomponents/models/select';
 import { FormControl, Validators } from '@angular/forms';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
 
 const Items: Select[] = [
   { view: 'Tran.Id', viewValue: 'Tran.Id', default: true },
@@ -307,8 +307,12 @@ expDefault =select.default;
             tabType: 1,
             name: 'Audit Trail Report (1977722725)'
           });
-          this.selectedTab = 1;
-        }
+         //   this.selectedTab = 1;
+        // }
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
+      } else {
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
+      }
         break;
       }
       case 2: {
@@ -317,9 +321,13 @@ expDefault =select.default;
             tabType: 2,
             name: 'Transaction Errors'
           })
-          this.selectedTab = 2;
-        }
-        break;
+          //   this.selectedTab = 2;
+        // }
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+      } else {
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+      }
+      break;
       }
       default: {
         //statements; 

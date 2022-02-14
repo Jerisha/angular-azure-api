@@ -4,7 +4,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { Select } from 'src/app/_models/uicomponents/select';
+import { Select } from 'src/app/uicomponents/models/select';
 const listItems: string[] = ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res Type', 'Error/List'];
 
 @Component({

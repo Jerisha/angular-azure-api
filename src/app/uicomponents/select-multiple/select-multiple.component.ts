@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
-import { Select } from 'src/app/_models/uicomponents/select';
+import { Select } from 'src/app/uicomponents/models/select';
 
 @Component({
   selector: 'app-select-multiple',

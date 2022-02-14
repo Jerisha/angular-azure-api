@@ -270,7 +270,8 @@
                           </div> 
                                 </div>      
                               <div class="vf-flex-container-col" style="margin: 2px;float: left;">
-                                <div style="margin-bottom: 6px;">                            
+                                <div style="margin-bottom: 6px;"> 
+                                  <span>                        
                                   <mat-form-field   class="vf-mr-negative" style="width:250px;">
                                     <mat-label class="vf-label">Customer Name *</mat-label>
                                     <textarea matInput placeholder="Customer Name *"
@@ -284,9 +285,10 @@
                                     [(ngModel)]="transactionItem.customerAddress.customerName"
                                     ></textarea>                                  
                                   </mat-form-field> 
-                                  <button type="button" mat-mini-fab  style="margin-left: 6px; height:36px;width:36px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
+                                  <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:rgb(85, 79, 83);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
                                     <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle; display: inline-flex;align-items: center;justify-content: center;">content_copy</mat-icon>
                                   </button>
+                                </span>   
                                   <!-- <div style ="display: flex;justify-content: center;width: 24px;"> -->
                                     <!-- <button mat-icon-button type="button"  style = "background-color: red;width: fit-content;"aria-label="update Default Office Address Details"  matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->
                                       <!-- <mat-icon>content-copy</mat-icon>V -->
