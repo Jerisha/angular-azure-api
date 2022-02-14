@@ -57,21 +57,9 @@ export class TableSelectionComponent {
 
   }
 
-  getTotal(cellname: string) {
-    var cell = cellname ? cellname : '';
-    if (this.ColumnDetails[0].headerValue === cell) {
-      return 'Total';
-    }
-    var totalcell = this.totalRowCols.filter(x => x.includes(cell))
-    if (totalcell.length > 0) {
-      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
-    }
-    else {
-      return '';
-    }
-  }
 
   ngOnInit() {
+    debugger;
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false
@@ -82,7 +70,7 @@ export class TableSelectionComponent {
         this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
       const selectList = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
       this.gridSelectList = selectList ? selectList : [];
-      debugger;
+      
       this.totalRowCols = this.filteredDataColumns.filter(x => this.totalRowCols.includes(x.headerValue)).map(x => x.headerValue)
     }
     else {
@@ -108,7 +96,12 @@ export class TableSelectionComponent {
       //this.columnHeaders = this.tableitem?.coulmnHeaders;
     }
     this.isEmailRequired = this.tableitem?.showEmail ? true : false;
+    this.nonNumericCols = this.dataColumns.filter((x:any) => !this.totalRowCols.includes(x));
+    console.log('non numeric',this.nonNumericCols)
+    console.log('da',this.dataColumns)
   }
+
+  nonNumericCols:string[]=[];
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -118,6 +111,36 @@ export class TableSelectionComponent {
   }
 
   isRowselected:boolean=false;
+
+  
+  getTotal(cellname: string) {
+    debugger;
+    var cell = cellname ? cellname : '';
+    //var headerval = this.nonNumericCols.filter(x=>this.ColumnDetails[0].headerValue);
+    
+    // var totcol = this.totalRowCols.filter(x=>x.includes(cell))
+    if (this.nonNumericCols.filter(x=>this.ColumnDetails[0].headerValue).length>0 ) {
+      this.nonNumericCols = [];
+      return 'Total';
+    }
+    
+    var totalcell = this.totalRowCols.filter(x => x.includes(cell))
+    if (totalcell.length > 0) {
+      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+    }
+  
+    // else{
+    //   return '';
+    // }
+  }
+
+  getColSpan(cellname: string) {
+    debugger;
+    if (this.nonNumericCols.length>0 ) {
+      return 3;
+    }
+    return 1;
+  }
 
   selectRow(event: any, row: any) {
     this.dataSource.data = this.dataSource.data.filter(r => r !== row);

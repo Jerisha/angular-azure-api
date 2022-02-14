@@ -618,6 +618,7 @@ export class FullauditdetailsComponent implements OnInit {
     this.rangeRptTable = {
       data: ELEMENT_DATA1,
       Columns: this.rangeReportTableDetails,
+      selectCheckbox:true,
       filter: true
     }
   }
