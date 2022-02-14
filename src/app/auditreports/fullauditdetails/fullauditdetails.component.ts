@@ -11,6 +11,7 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
 import { UserCommentsDialogComponent } from './user-comments-dialog.component';
+import { ThisReceiver } from '@angular/compiler';
 
 const ELEMENT_DATA: FullAuditDetailsSummary[] = [
   {
@@ -464,6 +465,7 @@ export class FullauditdetailsComponent implements OnInit {
     this.tabs.splice(index, 1);
   }
 
+  
   newTab(tab: any) {
     if (this.tabs === []) return;
     switch (tab.tabType) {

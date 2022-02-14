@@ -56,9 +56,13 @@ font-size: smaller;  ">
             <mat-checkbox style="margin-right:20px;" (click)="$event.stopPropagation()" (change)="selectRow($event,row)"
               (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
             </mat-checkbox>
-          </td>  
-              
+          </td>    
+          <ng-container *ngIf="shouldTotalRow">             
+            <td mat-footer-cell class="totalRow"  [attr.colspan]="nonNumericCols.length+1"  *matFooterCellDef> Total
+            </td>
+          </ng-container>          
         </div>
+
         <!-- Image Columns -->
         <div *ngIf="disCol.isImage">
           <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>{{disCol.header}}</th>
@@ -67,20 +71,19 @@ font-size: smaller;  ">
               <mat-icon matTooltip="{{img.toolTipText}}" class="table-icon" (click)="addTabs($event,img.tabIndex,row)"
                 *ngIf="img.headerValue === disCol.headerValue">
                 {{img.icon}}</mat-icon>
-            </ng-container>   
+            </ng-container> </td> 
             
-            <!-- <ng-container *ngIf="shouldTotalRow">
-              <td mat-footer-cell class="totalRow"  [attr.colspan]="getColSpan('Select')"  *matFooterCellDef="let element"> {{ getTotal(disCol.headerValue)}}
+            <ng-container *ngIf="shouldTotalRow">             
+              <td mat-footer-cell class="totalRow"  [attr.colspan]="nonNumericCols.length+1"  *matFooterCellDef> Total
               </td>
-            </ng-container>    -->
+            </ng-container>   
         </div>
         <!-- Other Columns -->
         <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">
           <th mat-header-cell class="nowrap-cell" *matHeaderCellDef mat-sort-header>{{disCol.header}}</th>
           <td mat-cell class="nowrap-cell" *matCellDef="let element"(click)="$event.stopPropagation()" [ngStyle]="highlightCell(element,disCol)">
             {{element[disCol.headerValue]}} </td>
-            <ng-container *ngIf="shouldTotalRow">
-              <!-- <td class="totalRow"  [attr.colspan]="3" mat-footer-cell> Total </td>  [attr.colspan]="getColSpan(disCol.headerValue)"-->
+            <ng-container *ngIf="shouldTotalRow">             
               <td mat-footer-cell class="totalRow"  [attr.colspan]="getColSpan(disCol.headerValue)"  *matFooterCellDef> {{ getTotal(disCol.headerValue)}}
               </td>
             </ng-container>
@@ -90,7 +93,7 @@ font-size: smaller;  ">
       <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}"*matRowDef="let row; columns: dataColumns;" (change)="selectRow($event,row)"
         (click)="selection.toggle(row)"> </tr>        
         <ng-container *ngIf="shouldTotalRow">
-          <tr mat-footer-row *matFooterRowDef="totalRowCols"></tr>
+          <tr class="totalRow" mat-footer-row *matFooterRowDef="totalRowCols;sticky: true"></tr>
         </ng-container>
     </table>
   </div>

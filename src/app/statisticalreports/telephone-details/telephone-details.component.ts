@@ -65,7 +65,7 @@ export class TelephoneDetailsComponent implements OnInit {
 
 
   columns: ColumnDetails[] = [
-    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
+     { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
     { header: 'TelephoneNo', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
     { header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: true, isImage: false },
     { header: 'CeaseTransactions', headerValue: 'CeaseTransactions', showDefault: true, isImage: false },
