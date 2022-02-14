@@ -96,7 +96,7 @@ columns: ColumnDetails[] = [
 
 { header: 'TelephoneNo', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
 { header: 'TransType', headerValue: 'TransType', showDefault: true, isImage: false },
-{ header: 'SourceSys.', headerValue: 'SourceSys', showDefault: true, isImage: false }
+{ header: 'SourceSys', headerValue: 'SourceSys', showDefault: true, isImage: false }
 
 
 

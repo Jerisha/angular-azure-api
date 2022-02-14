@@ -244,7 +244,7 @@
                     element ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon> -->
 
                 <mat-icon class ="table-icon" style="cursor: pointer;"
-                    (click)="(expandedElement = expandedElement === element ? null : element); setStep(2); (expandedElement === element ? setAddressDetails('transactionDetails', element) : null); ">
+                    (click)="(expandedElement = expandedElement === element ? null : element); setStep(2); (expandedElement === element ? setAddressDetails('transactionDetails', element) : setAddressDetails('removeAddress', element)); ">
                     {{expandedElement === element && step === 2 ? 'remove_box_outline' : 'add_box_outline'}}
                 </mat-icon>
             </td>

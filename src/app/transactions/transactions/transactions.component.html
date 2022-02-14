@@ -13,17 +13,25 @@
     </ng-container>
   </div>
   <div class="right-box" *ngIf="addressCheckSuccess||auditTrailSuccess">
-    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedIndex" (selectedIndexChange)="setSelectedIndex" #tabgrp>     
-      <mat-tab label="Address Check"  *ngIf="addressCheckSuccess" isActive="addCheckState">
-        <ng-container>
+    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab" style="overflow-y: auto;padding-left: 1rem;">     
+      <!-- <mat-tab label="Address Check"  *ngIf="addressCheckSuccess" isActive="addCheckState"> -->
+        <mat-tab *ngFor="let tab of tabs; let index = index" >
+          <ng-template mat-tab-label>
+            <div style="margin-left: 20px;">{{tab.name}}</div>
+            <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
+              <mat-icon style="font-size: large;">close</mat-icon>
+            </button>
+          </ng-template>
+          <div [ngSwitch]="tab.tabType">
+        <ng-container *ngSwitchCase="1">
           <app-address-check></app-address-check>
         </ng-container>
-      </mat-tab>
-      <mat-tab label="Audit Trail"  *ngIf="auditTrailSuccess" isActive="auditTrailState" style ="height:60%;">
-        <ng-container>
+      <!-- </mat-tab> -->
+      <!-- <mat-tab label="Audit Trail"  *ngIf="auditTrailSuccess" isActive="auditTrailState" style ="height:60%;"> -->
+        <ng-container *ngSwitchCase="2">
           <div>
             <app-telephone-no (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
-            <button type="button" mat-mini-fab  style="width:36px;height:36px;margin-left:46%;margin-top:6px;font-size:small;line-height:0px !important;background-color:rgb(230, 60, 160);" matTooltip="Update matched Details"  >
+            <button type="button" (click)="copied();" mat-mini-fab  style="width:36px;height:36px;margin-left:46%;margin-top:6px;font-size:small;line-height:0px !important;background-color:rgb(230, 60, 160);" matTooltip="Update matched Details"  >
               <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align: middle;">content_copy</mat-icon>
             </button>
           </div>
@@ -31,8 +39,11 @@
             <app-telephone-audit-trail></app-telephone-audit-trail>
           </div>
         </ng-container>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+        <div *ngSwitchDefault>
+        </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+    </div>
 </div>
 </div>
