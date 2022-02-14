@@ -5,14 +5,14 @@ import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { SolicitedErrors } from '../models/solicited-errors';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
-import { Select } from 'src/app/_models/uicomponents/select';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { Select } from 'src/app/uicomponents/models/select';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatSelect } from '@angular/material/select';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
 
 const ELEMENT_DATA: any = [
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722724', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image',  Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
@@ -365,7 +365,6 @@ export class SolicitederrorsComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.setOptions();
-
   }
 
   ngAfterViewInit() {
@@ -394,7 +393,8 @@ export class SolicitederrorsComponent implements OnInit {
     //debugger;     
     //this.service.apiTest(queryInput); 
     //let transformInput = JSON.parse(queryInput);    
-    this.service.configDetails(AuditInput);
+     this.service.configDetails(configInput);
+    //this.service.queryDetails(queryInput);
   }
 
   private _filter(name: string): any[] {

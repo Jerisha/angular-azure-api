@@ -4,12 +4,12 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select } from 'src/app/_models/uicomponents/select';
+import { Select } from 'src/app/uicomponents/models/select';
 import { MatSelect } from '@angular/material/select';
 import { AlertService } from 'src/app/_shared/alert';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from './alert-dialog.component';
 

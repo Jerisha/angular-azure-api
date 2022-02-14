@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { NavService } from './_services/nav.services';
+import { NavService } from './uicomponents/top-nav/services/nav.services';
 import { ResolvingoferrorsModule } from './resolvingoferrors/resolvingoferrors.module';
 import { AuditreportsModule } from './auditreports/auditreports.module';
 import { UicomponentsModule } from './uicomponents/uicomponents.module';
@@ -13,9 +13,9 @@ import {  MenuSearchPipe } from './_helper/index';
 
 
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { HttpWrapperService } from './_services/http/http-wrapper.service';
-import { HttpErrorInterceptor } from './_services/http/http-error-interceptor';
-import { HttpHeaderInterceptor } from './_services/http/http-header-interceptor';
+import { HttpWrapperService } from './http/http-wrapper.service';
+import { HttpErrorInterceptor } from './http/http-error-interceptor';
+import { HttpHeaderInterceptor } from './http/http-header-interceptor';
 import { TransactionsModule } from './transactions/transactions.module';
 import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';

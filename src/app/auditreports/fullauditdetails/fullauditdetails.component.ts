@@ -6,9 +6,9 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from '../models/index';
-import { Select } from 'src/app/_models/uicomponents/select';
-import { Tab } from 'src/app/_models/uicomponents/tab';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { Select } from 'src/app/uicomponents/models/select';
+import { Tab } from 'src/app/uicomponents/models/tab';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
 import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 

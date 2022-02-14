@@ -3,14 +3,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Select } from 'src/app/_models/uicomponents/select';
+import { Select } from 'src/app/uicomponents/models/select';
 import { ITransactionDetails } from 'src/app/reports/models/ITransactionDetails';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TransactionDetailsService} from 'src/app/reports/services/transaction-details.service';
 import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
 import { select } from 'src/app/_helper/Constants/exp-const';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
 
 
 const HEADER_DATA: ITransactionDetails[] = [

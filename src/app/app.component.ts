@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { VERSION } from '@angular/material/core';
-import { NavItem } from './_models/uicomponents/nav-item';
-import { NavService } from './_services/nav.services';
+import { NavItem } from './uicomponents/models/nav-item';
+import { NavService } from './uicomponents/top-nav/services/nav.services';
 import * as  menu from '../assets/menu.json';
 import * as  dat from '../assets/full-audit-table-details.json';
 import { Router } from '@angular/router';

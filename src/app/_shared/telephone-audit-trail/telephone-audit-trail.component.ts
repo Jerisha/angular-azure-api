@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_shared/models/telephone-audit-trail';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
-import { TableItem } from 'src/app/_models/uicomponents/table-item';
+import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { Router } from '@angular/router';
 
 const ele: TelephoneAuditTrail =

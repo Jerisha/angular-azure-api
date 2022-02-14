@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild  } from '@angular/core';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from '../../uicomponents/models/tab';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { TelephoneAuditTrailComponent } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
 import { CustomerAddress } from '../models/ICustomerAddress';
