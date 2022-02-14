@@ -258,8 +258,8 @@
         matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
         <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
       </button>
-      <mat-tab-group [(selectedIndex)]="selectedTab">
-        <mat-tab *ngFor="let tab of tabs; let index = index">
+      <mat-tab-group [(selectedIndex)]="selectedTab" style="height: calc(100% - 8px); overflow-y: auto;padding-left: 1rem;">
+        <mat-tab *ngFor="let tab of tabs; let index = index" >
           <ng-template mat-tab-label>
             <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
             <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
@@ -267,15 +267,15 @@
             </button>  
           </ng-template>  
           <span [ngSwitch]="tab.tabType">
-            <div *ngSwitchCase="0" >
+            <div *ngSwitchCase="0" style=" padding-left: 1rem;">
               <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
                 (addNewTab)="newTab($event)">
               </app-table-selection>              
             </div>
-            <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+            <div *ngSwitchCase="1" >
               <app-telephone-audit-trail></app-telephone-audit-trail>
             </div>
-            <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+            <div *ngSwitchCase="2" >
               <app-transaction-errors></app-transaction-errors>
             </div>
             <div *ngSwitchDefault>  

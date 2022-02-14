@@ -13,9 +13,9 @@
     </ng-container>
   </div>
   <div class="right-box" *ngIf="addressCheckSuccess||auditTrailSuccess">
-    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">     
+    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab" style="overflow-y: auto;padding-left: 1rem;">     
       <!-- <mat-tab label="Address Check"  *ngIf="addressCheckSuccess" isActive="addCheckState"> -->
-        <mat-tab *ngFor="let tab of tabs; let index = index">
+        <mat-tab *ngFor="let tab of tabs; let index = index" >
           <ng-template mat-tab-label>
             <div style="margin-left: 20px;">{{tab.name}}</div>
             <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
