@@ -458,6 +458,7 @@ export class FullauditdetailsComponent implements OnInit {
       });
     }
      this.selectedTab = this.tabs.length;
+     console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
   }
 
   removeTab(index: number) {
@@ -473,10 +474,12 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
-          // this.selectedTab = 1;
+          // this.selectedTab = 1;        
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1)+1;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         } else {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         }
         
         break;
@@ -493,9 +496,11 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 2,
             name: 'Range Report'
           })
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2)+1  ;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         } else {
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;        
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;   
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);     
         }
         break;
       }
@@ -506,9 +511,11 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 3,
             name: 'Inflight Report'
           })
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) + 1 ;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3)+1 ;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         } else {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) ;  
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         }
         break;
       }
@@ -519,9 +526,11 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 4,
             name: 'Monthly Refresh Report'
           })
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 4) + 1 ;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 4)+1  ;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         } else {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 4) ;  
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         }
         break;
       }
@@ -532,9 +541,11 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 5,
             name: 'Mori Circuit Status Report'
           })
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 5) + 1 ;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 5)+1  ;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         } else {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 5) ;  
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         }
         break;
       }

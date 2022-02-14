@@ -72,12 +72,12 @@
                               <mat-label style="font-size:large;padding-right:1rem;"><strong>Multiple CLI(s) </strong>{{CliRangeSet.length}}</mat-label>                                                          
                               
                             </span>
-                            <span style ="float: right;">
+                            <span style ="float: right;margin-right: 40px;">
                               <!-- <button type="button" mat-mini-fab  style="margin-left: 6px; width: 24px;height:24px;font-size: small;line-height: 3px !important; padding: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Multi Range Telephone List" matTooltipPosition="above" (click)="ReviewCli()"> -->
                                 <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> i-->
                               <!-- </button> -->
                               <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip= mutliRangeTelephoneList matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon> -->
-                              <button type="submit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="ReviewCli()">
+                              <button type="submit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; padding-left:2px;width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="ReviewCli()">
                                 <i class="material-icons" style ="font-size:larger;width:30px; vertical-align: middle;">edit</i>Review
                               </button>  
                             </span>                         
@@ -96,7 +96,7 @@
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">history</i>Audit Trail 
                       </button></span>
                       <span>
-                      <button type="cancel" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;" matTooltip="All the values are Reset back to start state"  (click)="resetTel(this)">
+                      <button type="cancel" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; padding-left: 20px;padding-right: 20px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;" matTooltip="All the values are Reset back to start state"  (click)="resetTel(this)">
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">refresh</i>Reset
                       </button>  
                     </span>
@@ -256,7 +256,7 @@
                             </mat-form-field> </span>
                             </div>
                             <div >
-                              <mat-form-field  >
+                              <mat-form-field  style="height:83px;margin: 0px;">
                               <mat-label class="vf-label">Comment</mat-label>
                               <textarea matInput placeholder="Comment"
                                 cdkTextareaAutosize
@@ -264,7 +264,7 @@
                                 cdkAutosizeMinRows="3"
                                 cdkAutosizeMaxRows="3"
                                 onblur="triggerResize()" 
-                                size="20" maxlength="40"                  
+                                size="20" maxlength="40"         
                               ></textarea>              
                             </mat-form-field>
                           </div> 
@@ -285,7 +285,7 @@
                                     [(ngModel)]="transactionItem.customerAddress.customerName"
                                     ></textarea>                                  
                                   </mat-form-field> 
-                                  <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:rgb(85, 79, 83);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
+                                  <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:#4a4d4e;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
                                     <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle; display: inline-flex;align-items: center;justify-content: center;">content_copy</mat-icon>
                                   </button>
                                 </span>   

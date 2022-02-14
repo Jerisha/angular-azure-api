@@ -232,7 +232,10 @@ export class TelephoneRangeReportComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report (1977722725)'
           });
-          this.selectedTab = 1;
+          // this.selectedTab = 1;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
         }
         break;
       }
@@ -242,7 +245,10 @@ export class TelephoneRangeReportComponent implements OnInit {
             tabType: 2,
             name: 'Transaction Details'
           })
-          this.selectedTab = 2;
+          // this.selectedTab = 2;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
         break;
       }
