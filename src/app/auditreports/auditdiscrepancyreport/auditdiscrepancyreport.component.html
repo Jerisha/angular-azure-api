@@ -24,11 +24,11 @@
           <mat-error class="error-message" *ngIf="checkError('ACTID', 'required')">Please Select ACTID</mat-error>
         </mat-form-field>
         <button type="submit" mat-raised-button color="primary"
-          [disabled]="auditDiscrepancyForm.invalid" matTooltip="Search">
+          [disabled]="auditDiscrepancyForm.invalid">
           <mat-icon>search</mat-icon>Search
         </button>
         <button type="reset" mat-raised-button color="primary"
-          [disabled]="!auditDiscrepancyForm.touched" matTooltip="Reset">
+          [disabled]="!auditDiscrepancyForm.touched">
           <mat-icon>refresh</mat-icon>Reset
         </button>
       </form>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
@@ -210,7 +210,7 @@ const queryInput: any = {
 })
 export class TransactionDetailsComponent implements OnInit {
   
-  constructor(private formBuilder: FormBuilder, private service: TransactionDetailsService, private _snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder, private service: TransactionDetailsService, private _snackBar: MatSnackBar,private cdr: ChangeDetectorRef) { }
   
   myTable!: TableItem;
   dataSaved = false;
@@ -308,6 +308,10 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   createForm() {

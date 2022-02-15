@@ -601,6 +601,9 @@ this.tabs.push({
 tabType: 1,
 name: 'Audit Trail Report'
 });
+this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
+} else {
+this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
 }
 break;
 }
@@ -610,6 +613,9 @@ this.tabs.push({
 tabType: 2,
 name: 'Transaction Details'
 })
+this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+} else {
+this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
 }
 break;
 }

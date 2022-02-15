@@ -205,6 +205,10 @@ expDefault =select.default;
        //this.cdr.detectChanges();
   }
 
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+
   DisplayInformationTab()
   {
     debugger;
