@@ -15,7 +15,7 @@
       </app-select-multiple>
     </div>
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
-      <div class="">
+      <div class="matsidenav-filter">
         <mat-form-field hintLabel="Max 10 characters"  
           [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
           <mat-label>Start Telephone No</mat-label>
@@ -108,15 +108,17 @@
           <input formControlName="OrderReference"  matInput #input maxlength="10" placeholder="Order Reference">
           <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
-
-        <button type="submit" mat-raised-button color="primary">
-          <mat-icon>search</mat-icon>Search
-        </button>
-        <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
-          <mat-icon>refresh</mat-icon>Reset
-        </button>
+        
       </div>
 
+      <div calss="matsidenav-footer">
+      <button type="submit" mat-raised-button color="primary">
+        <mat-icon>search</mat-icon>Search
+      </button>
+      <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
+        <mat-icon>refresh</mat-icon>Reset
+      </button>
+      </div>
     </form>
   </mat-sidenav>
 
