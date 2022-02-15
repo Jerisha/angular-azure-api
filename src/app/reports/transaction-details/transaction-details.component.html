@@ -258,7 +258,7 @@
         matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
         <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
       </button>
-      <mat-tab-group [(selectedIndex)]="selectedTab" style="height: calc(100% - 8px); overflow-y: auto;padding-left: 1rem;">
+      <mat-tab-group [(selectedIndex)]="selectedTab" style="height: calc(100% - 8px); overflow-y: auto;padding-left:6px;">
         <mat-tab *ngFor="let tab of tabs; let index = index" >
           <ng-template mat-tab-label>
             <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
@@ -267,7 +267,7 @@
             </button>  
           </ng-template>  
           <span [ngSwitch]="tab.tabType">
-            <div *ngSwitchCase="0" style=" padding-left: 1rem;">
+            <div *ngSwitchCase="0" style=" padding-left:6px;">
               <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
                 (addNewTab)="newTab($event)">
               </app-table-selection>              
