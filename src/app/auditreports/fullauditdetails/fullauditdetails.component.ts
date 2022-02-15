@@ -432,13 +432,10 @@ export class FullauditdetailsComponent implements OnInit,AfterViewInit {
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-  ngAfterViewChecked(){
-    //your code to update the model
-    //this.cdr.detectChanges();
- }
-
- 
-
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+  
   onFormSubmit(): void {
     this.myTable = {
       data: ELEMENT_DATA,
@@ -464,7 +461,8 @@ export class FullauditdetailsComponent implements OnInit,AfterViewInit {
         name: 'Summary'
       });
     }
-     //this.selectedTab = this.tabs.length;
+     this.selectedTab = this.tabs.length;
+     console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
   }
 
   removeTab(index: number) {
@@ -482,11 +480,12 @@ export class FullauditdetailsComponent implements OnInit,AfterViewInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
-          //this.selectedTab = 1;
-
+          // this.selectedTab = 1;        
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1)+1;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         }
         console.log('tab',this.selectedTab)
         break;
@@ -501,11 +500,12 @@ export class FullauditdetailsComponent implements OnInit,AfterViewInit {
           this.tabs.push({
             tabType: 3,
             name: 'Range Report'
-          });
-
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) + 1;
+          })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3)+1  ;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) ;   
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);     
         }
         break;
       }
@@ -515,11 +515,12 @@ export class FullauditdetailsComponent implements OnInit,AfterViewInit {
           this.tabs.push({
             tabType: 4,
             name: 'Inflight Report'
-          });
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 4) + 1;
-        }
-        else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 4);
+          })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 4)+1 ;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 4) ;  
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         }
         break;
       }
@@ -529,10 +530,12 @@ export class FullauditdetailsComponent implements OnInit,AfterViewInit {
           this.tabs.push({
             tabType: 5,
             name: 'Monthly Refresh Report'
-          });
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 5) + 1;
+          })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 5)+1  ;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 5);
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 5) ;  
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         }
         break;
       }
@@ -543,10 +546,11 @@ export class FullauditdetailsComponent implements OnInit,AfterViewInit {
             tabType: 6,
             name: 'Mori Circuit Status Report'
           })
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 6) + 1;
-        }
-        else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 6);
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 6)+1  ;
+          console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 6) ;  
+        console.log('selected Tab: '+this.selectedTab,'Tabs Length: '+this.tabs.length);
         }
         break;
       }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
@@ -324,6 +324,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
+    private cdr:ChangeDetectorRef,
     private _snackBar: MatSnackBar) { }
 
   myTable!: TableItem;
@@ -368,6 +369,10 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   createForm() {

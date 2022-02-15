@@ -215,8 +215,8 @@
             (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
             <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
         </button>
-        <mat-tab-group [selectedIndex]="selectedTab">
-            <mat-tab *ngFor="let tab of tabs; let index = index;">
+        <mat-tab-group [(selectedIndex)]="selectedTab">
+            <mat-tab *ngFor="let tab of tabs; let index = index">
                 <ng-template mat-tab-label>
                     <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
                     <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">

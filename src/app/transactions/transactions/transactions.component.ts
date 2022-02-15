@@ -25,7 +25,7 @@ export class TransactionsComponent implements OnInit {
 
   addressDetails!: AddressDetails;
 
-  @ViewChild(TelephoneAuditTrailComponent) test!: TelephoneAuditTrailComponent;
+  @ViewChild(TelephoneAuditTrailComponent) auditTrailView!: TelephoneAuditTrailComponent;
   
   constructor() { }
 
@@ -33,9 +33,9 @@ export class TransactionsComponent implements OnInit {
   }
 
   copied() {
-     this.addressDetails = this.test.ActiveAddressDetails();
+     this.addressDetails = this.auditTrailView.ActiveAddressDetails();
     // console.log(this.addressDetails.isData);
-      // console.log(this.addressDetails);
+       console.log(this.addressDetails);
 
   }
 
