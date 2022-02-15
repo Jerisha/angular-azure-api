@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit,AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -106,7 +106,9 @@ export class TableSelectionComponent {
     this.dataSource.sort = this.sort;
     this.toggleAllSelection();
     this.cdr.detectChanges();
-  }
+  } 
+  
+
 
   isRowselected: boolean = false;
 
