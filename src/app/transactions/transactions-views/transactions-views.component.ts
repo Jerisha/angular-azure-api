@@ -1,11 +1,11 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field/autosize';
-import { Component, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CupId } from 'src/app/_data/listValues/CupId';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { take } from 'rxjs/operators';
 import { ThrowStmt } from '@angular/compiler';
-import { ICustomerAddress } from "../models/ICustomerAddress";
+import { CustomerAddress, ICustomerAddress } from "../models/ICustomerAddress";
 import { TransactionItem } from '../models/ITransactionItem';
 
 @Component({
@@ -47,6 +47,9 @@ export class TransactionsViewsComponent implements OnInit {
     @Output() AddressCheckSelected = new EventEmitter<any[]>();
     @Output() AuditTrailSelected = new EventEmitter<any[]>();
     @Output() ResetTabs = new EventEmitter<any[]>();
+
+    @Input()
+  matchedAuditAddress: ICustomerAddress =new CustomerAddress();
     
     CliRangeSet: [number, number][] = [];
 
@@ -57,9 +60,15 @@ export class TransactionsViewsComponent implements OnInit {
     addbtncolor:string ="secondary"
     
 
-  constructor(private _ngZone: NgZone)  {}
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');    
+  constructor(private _ngZone: NgZone,private cdr: ChangeDetectorRef)  {}
+  
+  ngAfterViewInit() 
+  {
+    this.cdr.detectChanges();  
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   ngOnInit() {  
@@ -137,6 +146,12 @@ check_text(this:TableItem,val:number,val2:string,val3:string)
 updateDefaultOfficeAddressDetails()
 {  
   this.transactionItem.customerAddress={customerName:"VODAFONE",address1:"THE CONNECTION",address2:"NEW BERKSHIRE",address3:"",address4:"",postcode:"RG14 2FN"};
+}
+updateMatchedAddressDetails()
+{  
+  this.transactionItem.customerAddress= this.matchedAuditAddress;
+  console.log(this.transactionItem.customerAddress,"dest");
+  console.log(this.matchedAuditAddress);
 }
 viewAddressCheck()
 {
