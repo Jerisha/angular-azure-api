@@ -328,7 +328,7 @@ export class TransactionDetailsComponent implements OnInit {
       }
 
   setOptions() {         
-    this.service.configDetails(queryInput);
+    //this.service.configDetails(queryInput);
   }
 
   private _filter(name: string): any[] {

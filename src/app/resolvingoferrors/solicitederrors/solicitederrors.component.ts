@@ -161,86 +161,64 @@ const configInput: any = {
 }
 
 const queryInput: any = {
-  "QueryObjectRequest": {
-    "QueryObjectRequestType": {
-      "RequestIdentifiers": {
-        "Identifier": [
-          {
-            "Name": "UserId",
-            "Value": [
-              "abc"
-            ]
-          },
-          {
-            "Name": "Destination",
-            "Value": [
-              "OSN2"
-            ]
-          }
-        ]
+  "QueryObjectRequest" : {
+    "QueryObjectRequestType" : {
+      "RequestIdentifiers" : {
+        "Identifier" : [ {
+          "Name" : "UserId",
+          "Value" : [ "Sample" ]
+        }, {
+          "Name" : "Destination",
+          "Value" : [ "OSN2" ]
+        } ]
       },
-      "ListofQueryObjectCategory": {
-        "QueryObjectCategory": [
-          {
-            "ItemName": "TelephoneNumberError",
-            "ListofIdentifiers": {
-              "Identifier": [
-                {
-                  "Name": "ReportIdentifier",
-                  "Value": [
-                    "Unsolicited Errors"
-                  ]
-                }
-              ]
-            },
-            "ListofQueryObjectCharacteristics": {
-              "QueryObjectCharacteristics": [
-                {
-                  "ItemName": "QueryParameters",
-                  "ListofIdentifiers": {
-                    "Identifier": [
-                      {
-                        "Name": "StartTelephoneNumber"
-                      },
-                      {
-                        "Name": "EndTelephoneNumber"
-                      },
-                      {
-                        "Name": "Command"
-                      },
-                      {
-                        "Name": "Source"
-                      },
-                      {
-                        "Name": "FromDate"
-                      },
-                      {
-                        "Name": "ToDate"
-                      },
-                      {
-                        "Name": "ResolutionType"
-                      },
-                      {
-                        "Name": "PageNumber"
-                      },
-                      {
-                        "Name": "ErrorType"
-                      },
-                      {
-                        "Name": "ErrorCode"
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
+      "ListofQueryObjectCategory" : {
+        "QueryObjectCategory" : [ {
+          "ItemName" : "TelephoneNumberError",
+          "ListofIdentifiers" : {
+            "Identifier" : [ {
+              "Name" : "ReportIdentifier",
+              "Value" : [ "Solicited Errors" ]
+            } ]
+          },
+          "ListofQueryObjectCharacteristics" : {
+            "QueryObjectCharacteristics" : [ {
+              "ItemName" : "QueryParameters",
+              "ListofIdentifiers" : {
+                "Identifier" : [ {
+                  "Name" : "StartTelephoneNumber"
+                }, {
+                  "Name" : "EndTelephoneNumber"
+                }, {
+                  "Name" : "Command"
+                }, {
+                  "Name" : "Source"
+                }, {
+                  "Name" : "FromDate"
+                }, {
+                  "Name" : "ToDate"
+                }, {
+                  "Name" : "ResolutionType"
+                }, {
+                  "Name" : "ErrorType"
+                }, {
+                  "Name" : "ErrorCode"
+                }, {
+                  "Name" : "OrderRefeerence"
+                }, {
+                  "Name" : "999Reference"
+                }, {
+                  "Name" : "PageNumber",
+                  "Value" : [ "1" ]
+                } ]
+              }
+            } ]
           }
-        ]
+        } ]
       }
     }
   }
 }
-
 const AuditInput: any= {"GetObjectRequest" : {
   "GetObjectRequestType" : {
     "RequestIdentifiers" : {
@@ -333,6 +311,7 @@ export class SolicitederrorsComponent implements OnInit {
   massage = null;
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
+  uiConfig :any;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -364,7 +343,7 @@ export class SolicitederrorsComponent implements OnInit {
   ];
   ngOnInit(): void {
     this.createForm();
-    this.setOptions();
+    this.uiConfig = this.setUIConfig();
   }
 
   ngAfterViewInit() {
@@ -389,12 +368,13 @@ export class SolicitederrorsComponent implements OnInit {
       );
   }
 
-  setOptions() {
-    //debugger;     
-    //this.service.apiTest(queryInput); 
-    //let transformInput = JSON.parse(queryInput);    
+  setUIConfig() {
+    debugger;     
+
+    // let transformInput = JSON.parse(configInput);   
+    //  transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command','Source']
      this.service.configDetails(configInput);
-    //this.service.queryDetails(queryInput);
+    // this.service.queryDetails(queryInput);
   }
 
   private _filter(name: string): any[] {

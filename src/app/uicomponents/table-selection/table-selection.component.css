@@ -60,12 +60,18 @@ table td, table th {
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 8%;
-  /* float:right; */
   top: 0px;
   position: sticky;
-  /* z-index: 10; */
   height: 25px;
-  /* margin-top: 3px; */
+  margin-left: 20px;
+}
+
+.freezeselectall
+{
+  background-color:#EFEFEF;
+  top: 0px;
+  position: sticky;
+  z-index: 4;
 }
 
 .nowrap-cell {
