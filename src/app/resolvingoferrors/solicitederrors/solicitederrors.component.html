@@ -103,9 +103,9 @@
           <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
 
-        <mat-form-field >
+        <mat-form-field [ngClass]="{'hidden':thisForm.controls.OrderReference.disabled}">
           <mat-label>Order Reference</mat-label>
-          <input  matInput #input maxlength="10" placeholder="999 Reference">
+          <input formControlName="OrderReference"  matInput #input maxlength="10" placeholder="Order Reference">
           <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
 

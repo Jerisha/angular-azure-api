@@ -121,7 +121,8 @@ const FilterListItems: Select[] = [
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   // { view: 'Date Range', viewValue: 'Date', default: true },
   { view: 'Error Code', viewValue: 'ErrorCodes', default: true },
-  { view: '999 Reference', viewValue: 'Reference', default: true }
+  { view: '999 Reference', viewValue: 'Reference', default: true },
+  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
 ];
 
 const configInput: any = {
@@ -363,7 +364,8 @@ export class SolicitederrorsComponent implements OnInit {
       //Date: new FormControl({ value: '', disabled: true }, []),
       ErrorCodes: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
-      Reference: new FormControl({ value: '', disabled: true }, [])
+      Reference: new FormControl({ value: '', disabled: true }, []),
+      OrderReference: new FormControl({ value: '', disabled: true }, [])
 
     })
     this.errorCodesOptions = this.thisForm.controls.ErrorCodes.valueChanges
