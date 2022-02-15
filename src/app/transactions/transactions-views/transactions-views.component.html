@@ -29,13 +29,13 @@
                             </div>                                                        
                             <!-- </p>                                                       -->
                           </mat-list-item>  
-                          <mat-list-item  *ngFor="let cli of CliRangeSet" style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
+                          <mat-list-item  *ngFor="let cli of CliRangeSet; let index = index " style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
                             <!-- <p matLine > -->
                               <div style="display:inline-flex;">
                               <span style="width:160px;box-sizing: border-box;">{{cli[0]}}</span>
                               <span style="width:160px;box-sizing: border-box;">{{cli[1]}}</span>
                               <!-- <span style="min-width:5%;text-align:end;box-sizing: border-box;"> -->
-                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
+                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli(index)">-                                  
                                 </button>
                               <!-- </span>   -->
                             </div>                                                          

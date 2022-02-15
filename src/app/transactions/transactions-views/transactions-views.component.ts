@@ -105,7 +105,8 @@ export class TransactionsViewsComponent implements OnInit {
 {
   
 }
-removeRangeCli(){
+removeRangeCli(rangeIndex:number){
+  this.CliRangeSet.splice(rangeIndex, 1);
 
 }
 

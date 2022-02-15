@@ -35,7 +35,7 @@ export interface IAddressCheck {
 })
 export class AddressCheckComponent implements OnInit {
     
-  summaryTiles1: Tile[] = [    
+  summaryTiles: Tile[] = [    
     {text: 'Error Code' ,class:"vf-sub-title"},
     {text: 'Checked Address',class:"vf-sub-title"},
     {text: 'PAF Address',class:"vf-sub-title"},
@@ -43,7 +43,7 @@ export class AddressCheckComponent implements OnInit {
     {text: 'Checked Address value',class:"vf-grid-value"},
     {text: 'PAF Address value',class:"vf-grid-value"},
   ];
-  summaryTiles: Tile[] = [    
+  summaryTiles1: Tile[] = [    
     {text: 'Error Code' ,class:"vf-sub-title"},
     {text: 'Checked Address',class:"vf-sub-title"},
     {text: 'PAF Address',class:"vf-sub-title"},
@@ -51,7 +51,7 @@ export class AddressCheckComponent implements OnInit {
     {text: '',class:"vf-grid-value"},//Checked Address value
     {text: '',class:"vf-grid-value"},//PAF Address value
   ];
-  pafTiles: Tile[] = [
+  pafTiles1: Tile[] = [
     {text: 'Input Format'        ,class:"vf-sub-title"},
     {text: 'Input Address'       ,class:"vf-sub-title"},
     {text: 'PAF Address'         ,class:"vf-sub-title"},
@@ -74,7 +74,7 @@ export class AddressCheckComponent implements OnInit {
     {text: ''    ,class:"vf-grid-value"},//Validation value
     {text: '',class:"vf-grid-value"},//PAF Validation value
   ];
-  pafTiles2: Tile[] = [
+  pafTiles: Tile[] = [
     {text: 'Input Format'        ,class:"vf-sub-title"},
     {text: 'Input Address'       ,class:"vf-sub-title"},
     {text: 'PAF Address'         ,class:"vf-sub-title"},
@@ -97,7 +97,7 @@ export class AddressCheckComponent implements OnInit {
     {text: 'Validation value'    ,class:"vf-grid-value"},
     {text: 'PAF Validation value',class:"vf-grid-value"},
   ];
-  btTiles2: Tile[] = [
+  btTiles: Tile[] = [
     {text: 'BT Format'                      ,class:"vf-sub-title"},
     {text: 'BT Checked Address'             ,class:"vf-sub-title"},
     {text: 'BT Checked PAF Address'         ,class:"vf-sub-title"},
@@ -113,11 +113,11 @@ export class AddressCheckComponent implements OnInit {
     {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
     {text: 'BT Address Overflow value'      ,class:"vf-grid-value"}, 
     {text: 'PAF Address Overflow value'  ,class:"vf-grid-value"},
-    {text: 'overflow Error'            ,class:"vf-sub-title"},
+    {text: 'Overflow Error'            ,class:"vf-sub-title"},
     {text: 'BT overflow Error value'      ,class:"vf-grid-value"}, 
     {text: 'PAF overflow Error value'  ,class:"vf-grid-value"},
   ];
-  btTiles: Tile[] = [
+  btTiles1: Tile[] = [
     {text: 'BT Format'                      ,class:"vf-sub-title"},
     {text: 'BT Checked Address'             ,class:"vf-sub-title"},
     {text: 'BT Checked PAF Address'         ,class:"vf-sub-title"},
@@ -133,7 +133,7 @@ export class AddressCheckComponent implements OnInit {
     {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
     {text: ''      ,class:"vf-grid-value"}, 
     {text: ''  ,class:"vf-grid-value"},
-    {text: 'overflow Error'            ,class:"vf-sub-title"},
+    {text: 'Overflow Error'            ,class:"vf-sub-title"},
     {text: ''      ,class:"vf-grid-value"}, 
     {text: ''  ,class:"vf-grid-value"},
   ];
