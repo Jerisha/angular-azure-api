@@ -480,22 +480,22 @@ dataSource:ITransactionDetails []=[];
   }
 
 
-  apiTest(data: any) {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
-      console.log("response : " + JSON.stringify(x));
-      //this.processConfig(x);
-    });
-    //return this.test;
+  // apiTest(data: any) {
+  //   return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
+  //     console.log("response : " + JSON.stringify(x));
+  //     //this.processConfig(x);
+  //   });
+  //   //return this.test;
 
-  }
+  // }
 
-  configDetails(data: any): ConfigDetails | undefined {
-    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
-      console.log("response : " + JSON.stringify(x));
-      //this.processQuery(x, webMethods.query);
-    });
-    return this.test;
-  }
+  // configDetails(data: any): ConfigDetails | undefined {
+  //   this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
+  //     console.log("response : " + JSON.stringify(x));
+  //     //this.processQuery(x, webMethods.query);
+  //   });
+  //   return this.test;
+  // }
 
   processConfig(val: any) {
     debugger;
