@@ -56,7 +56,7 @@
       <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
     </button>
 
-    <mat-tab-group [selectedIndex]="selectedTab">
+    <mat-tab-group [(selectedIndex)]="selectedTab">
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
           <div class="col" style="margin-left: 20px;">{{index==0?isChecked?'D-2-D Summary':'M-O-M Summary':tab.name}}</div>

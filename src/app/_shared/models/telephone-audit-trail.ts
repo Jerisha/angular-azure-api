@@ -30,7 +30,7 @@ export interface LiveRecord {
     addrId: string;
     addrIdSrce: string;
     tranRef: string;
-    created: string;
+    CreatedOn: string;
     createdBy: string;
     source: string;
     franchise: string;
@@ -47,10 +47,9 @@ export interface LiveRecord {
 export interface TransactionDetails
 {
     Action : string;
-    Count : string;
-    Transaction : string;
+     CountTransaction : string;
     Status : string;
-    Created: string; 
+    CreatedOn: string; 
     Source : string;
     CustomerName: string;
     details:FullTransactionDetails;
@@ -93,7 +92,7 @@ export interface NotificationData
     updatedDate: string;
     endTelNo: string;
     orderRef: string;
-    created: string;
+    CreatedOn: string;
     btStatus: string;
     btErrorCode: string;
     btErrorMessage: string;
@@ -118,7 +117,7 @@ export interface ErrorDescription
 export interface ResolutionType{
     Resolution: string;
     CreatedBy: string;
-    CreateDate: string;
+    CreatedOn: string;
     Duration: string;
     Remarks: string;
 }
@@ -145,7 +144,7 @@ export interface InternalAudit extends InternalExternalAudit{
 export interface UserComments {
     AuditActId: string;
     TelephoneNo: string;
-    CreationDate: string;
+    CreatedOn: string;
     CreatedBy: string;
     ResolutionType: string;
     Comments: string;
