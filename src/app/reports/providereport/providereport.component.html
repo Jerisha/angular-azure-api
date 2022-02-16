@@ -58,7 +58,7 @@
   
   
   <span [ngSwitch]="tab.tabType">
-  <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+  <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
   
   <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" [isShown]='false'>
   </app-table-selection>

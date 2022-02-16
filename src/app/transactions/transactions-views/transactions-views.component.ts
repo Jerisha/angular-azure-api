@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators';
 import { ThrowStmt } from '@angular/compiler';
 import { CustomerAddress, ICustomerAddress } from "../models/ICustomerAddress";
 import { TransactionItem } from '../models/ITransactionItem';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-transactions-views',
@@ -298,8 +299,22 @@ SearchTel(){
     else
     this.view3Toggle ="display: none;visibility:hidden;";
   }
+  // setControlAttribute(MatSelect: typeof MatSelect) {
+  //   // throw new Error('Function not implemented.');
+  //   MatSelect.options.forEach((item: { selected: any; value: string | number; }) => {
+  //     if (item.selected) {
+  //       // this.formBuilder.tf.controls[item.value].enable();
+  //     }
+  //     else {
+  //       // this.tf.controls[item.value].disable();
+  //     }
+  //   });
+  // }
 
 }
+
+
+
 
 
 
