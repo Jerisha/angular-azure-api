@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import * as  dat from '../assets/full-audit-table-details.json';
 
-
+const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
   {
     path: '',
@@ -19,7 +20,8 @@ const routes: Routes = [
   },
   {
     path: 'auditreports',
-    loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule),
+    loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule)
+    
 
   },
   {
