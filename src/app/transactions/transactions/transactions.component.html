@@ -8,7 +8,9 @@
       <app-transactions-views 
         (AddressCheckSelected)="OnAddressCheckSelected($event)" 
         (AuditTrailSelected)="OnAuditTrailSelected($event)"
-        (ResetTabs)="OnResetTabs($event)">
+        (ResetTabs)="OnResetTabs($event)"
+        [matchedAuditAddress]=customerAddress
+        >
       </app-transactions-views>
     </ng-container>
   </div>
@@ -31,7 +33,7 @@
         <ng-container *ngSwitchCase="2">
           <div>
             <app-telephone-no (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
-            <button type="button" (click)="copied();" mat-mini-fab  style="width:36px;height:36px;margin-left:46%;margin-top:6px;font-size:small;line-height:0px !important;background-color:rgb(230, 60, 160);" matTooltip="Update matched Details"  >
+            <button type="button" (click)="copied();" mat-mini-fab  style="width:30px;height:30px;margin-left:46%;margin-top:6px;font-size:small;line-height:0px !important;background-color:#4a4d4e;" matTooltip="Update matched Details"  >
               <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align: middle;">content_copy</mat-icon>
             </button>
           </div>

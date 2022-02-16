@@ -29,13 +29,13 @@
                             </div>                                                        
                             <!-- </p>                                                       -->
                           </mat-list-item>  
-                          <mat-list-item  *ngFor="let cli of CliRangeSet" style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
+                          <mat-list-item  *ngFor="let cli of CliRangeSet; let index = index " style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
                             <!-- <p matLine > -->
                               <div style="display:inline-flex;">
                               <span style="width:160px;box-sizing: border-box;">{{cli[0]}}</span>
                               <span style="width:160px;box-sizing: border-box;">{{cli[1]}}</span>
                               <!-- <span style="min-width:5%;text-align:end;box-sizing: border-box;"> -->
-                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
+                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli(index)">-                                  
                                 </button>
                               <!-- </span>   -->
                             </div>                                                          
@@ -72,12 +72,12 @@
                               <mat-label style="font-size:large;padding-right:1rem;"><strong>Multiple CLI(s) </strong>{{CliRangeSet.length}}</mat-label>                                                          
                               
                             </span>
-                            <span style ="float: right;">
+                            <span style ="float: right;margin-right: 40px;">
                               <!-- <button type="button" mat-mini-fab  style="margin-left: 6px; width: 24px;height:24px;font-size: small;line-height: 3px !important; padding: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Multi Range Telephone List" matTooltipPosition="above" (click)="ReviewCli()"> -->
                                 <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> i-->
                               <!-- </button> -->
                               <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip= mutliRangeTelephoneList matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon> -->
-                              <button type="submit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="ReviewCli()">
+                              <button type="submit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; padding-left:2px;width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="ReviewCli()">
                                 <i class="material-icons" style ="font-size:larger;width:30px; vertical-align: middle;">edit</i>Review
                               </button>  
                             </span>                         
@@ -96,7 +96,7 @@
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">history</i>Audit Trail 
                       </button></span>
                       <span>
-                      <button type="cancel" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;" matTooltip="All the values are Reset back to start state"  (click)="resetTel(this)">
+                      <button type="cancel" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; padding-left: 20px;padding-right: 20px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;" matTooltip="All the values are Reset & back to start state"  (click)="resetTel(this)">
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">refresh</i>Reset
                       </button>  
                     </span>
@@ -256,7 +256,7 @@
                             </mat-form-field> </span>
                             </div>
                             <div >
-                              <mat-form-field  >
+                              <mat-form-field  style="height:83px;margin: 0px;">
                               <mat-label class="vf-label">Comment</mat-label>
                               <textarea matInput placeholder="Comment"
                                 cdkTextareaAutosize
@@ -264,13 +264,14 @@
                                 cdkAutosizeMinRows="3"
                                 cdkAutosizeMaxRows="3"
                                 onblur="triggerResize()" 
-                                size="20" maxlength="40"                  
+                                size="20" maxlength="40"         
                               ></textarea>              
                             </mat-form-field>
                           </div> 
                                 </div>      
                               <div class="vf-flex-container-col" style="margin: 2px;float: left;">
-                                <div style="margin-bottom: 6px;">                            
+                                <div style="margin-bottom: 6px;"> 
+                                  <span>                        
                                   <mat-form-field   class="vf-mr-negative" style="width:250px;">
                                     <mat-label class="vf-label">Customer Name *</mat-label>
                                     <textarea matInput placeholder="Customer Name *"
@@ -284,9 +285,10 @@
                                     [(ngModel)]="transactionItem.customerAddress.customerName"
                                     ></textarea>                                  
                                   </mat-form-field> 
-                                  <button type="button" mat-mini-fab  style="margin-left: 6px; height:36px;width:36px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
+                                  <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:#4a4d4e;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
                                     <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle; display: inline-flex;align-items: center;justify-content: center;">content_copy</mat-icon>
                                   </button>
+                                </span>   
                                   <!-- <div style ="display: flex;justify-content: center;width: 24px;"> -->
                                     <!-- <button mat-icon-button type="button"  style = "background-color: red;width: fit-content;"aria-label="update Default Office Address Details"  matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->
                                       <!-- <mat-icon>content-copy</mat-icon>V -->
@@ -371,13 +373,13 @@
                                 </div>                               
                         </div>                        
                         <div class =vf-flex-container style="margin-block: 1px; padding-bottom: 2px;">                           
-                              <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Trnsacion details will be saved" (click)="saveTran(0)" [disabled]="saveState">
+                              <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Transaction details will be saved" (click)="saveTran(0)" [disabled]="saveState">
                               <mat-icon style ="font-size:small;width:30px;height: 16px;">save</mat-icon>Save
                             </button>
                             <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Click this button Check Address will be navigate"  (click)="viewAddressCheck()">
                               <mat-icon style ="font-size:small;width:30px;height: 16px;">search</mat-icon>Check Address
                             </button>
-                            <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Trnsacion details will be forced to saved"  (click)="saveTran(1)" [disabled]="saveState">                             
+                            <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Transaction details will be forced to saved"  (click)="saveTran(1)" [disabled]="saveState">                             
                               <span class="material-icons" style ="font-size:small;width:30px;height: 16px;">
                                 save_alt
                                 </span>Force Validate Save

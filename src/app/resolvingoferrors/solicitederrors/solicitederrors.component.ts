@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
@@ -121,7 +121,8 @@ const FilterListItems: Select[] = [
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   // { view: 'Date Range', viewValue: 'Date', default: true },
   { view: 'Error Code', viewValue: 'ErrorCodes', default: true },
-  { view: '999 Reference', viewValue: 'Reference', default: true }
+  { view: '999 Reference', viewValue: 'Reference', default: true },
+  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
 ];
 
 const configInput: any = {
@@ -161,86 +162,64 @@ const configInput: any = {
 }
 
 const queryInput: any = {
-  "QueryObjectRequest": {
-    "QueryObjectRequestType": {
-      "RequestIdentifiers": {
-        "Identifier": [
-          {
-            "Name": "UserId",
-            "Value": [
-              "abc"
-            ]
-          },
-          {
-            "Name": "Destination",
-            "Value": [
-              "OSN2"
-            ]
-          }
-        ]
+  "QueryObjectRequest" : {
+    "QueryObjectRequestType" : {
+      "RequestIdentifiers" : {
+        "Identifier" : [ {
+          "Name" : "UserId",
+          "Value" : [ "Sample" ]
+        }, {
+          "Name" : "Destination",
+          "Value" : [ "OSN2" ]
+        } ]
       },
-      "ListofQueryObjectCategory": {
-        "QueryObjectCategory": [
-          {
-            "ItemName": "TelephoneNumberError",
-            "ListofIdentifiers": {
-              "Identifier": [
-                {
-                  "Name": "ReportIdentifier",
-                  "Value": [
-                    "Unsolicited Errors"
-                  ]
-                }
-              ]
-            },
-            "ListofQueryObjectCharacteristics": {
-              "QueryObjectCharacteristics": [
-                {
-                  "ItemName": "QueryParameters",
-                  "ListofIdentifiers": {
-                    "Identifier": [
-                      {
-                        "Name": "StartTelephoneNumber"
-                      },
-                      {
-                        "Name": "EndTelephoneNumber"
-                      },
-                      {
-                        "Name": "Command"
-                      },
-                      {
-                        "Name": "Source"
-                      },
-                      {
-                        "Name": "FromDate"
-                      },
-                      {
-                        "Name": "ToDate"
-                      },
-                      {
-                        "Name": "ResolutionType"
-                      },
-                      {
-                        "Name": "PageNumber"
-                      },
-                      {
-                        "Name": "ErrorType"
-                      },
-                      {
-                        "Name": "ErrorCode"
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
+      "ListofQueryObjectCategory" : {
+        "QueryObjectCategory" : [ {
+          "ItemName" : "TelephoneNumberError",
+          "ListofIdentifiers" : {
+            "Identifier" : [ {
+              "Name" : "ReportIdentifier",
+              "Value" : [ "Solicited Errors" ]
+            } ]
+          },
+          "ListofQueryObjectCharacteristics" : {
+            "QueryObjectCharacteristics" : [ {
+              "ItemName" : "QueryParameters",
+              "ListofIdentifiers" : {
+                "Identifier" : [ {
+                  "Name" : "StartTelephoneNumber"
+                }, {
+                  "Name" : "EndTelephoneNumber"
+                }, {
+                  "Name" : "Command"
+                }, {
+                  "Name" : "Source"
+                }, {
+                  "Name" : "FromDate"
+                }, {
+                  "Name" : "ToDate"
+                }, {
+                  "Name" : "ResolutionType"
+                }, {
+                  "Name" : "ErrorType"
+                }, {
+                  "Name" : "ErrorCode"
+                }, {
+                  "Name" : "OrderRefeerence"
+                }, {
+                  "Name" : "999Reference"
+                }, {
+                  "Name" : "PageNumber",
+                  "Value" : [ "1" ]
+                } ]
+              }
+            } ]
           }
-        ]
+        } ]
       }
     }
   }
 }
-
 const AuditInput: any= {"GetObjectRequest" : {
   "GetObjectRequestType" : {
     "RequestIdentifiers" : {
@@ -324,6 +303,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
+    private cdr:ChangeDetectorRef,
     private _snackBar: MatSnackBar) { }
 
   myTable!: TableItem;
@@ -333,6 +313,7 @@ export class SolicitederrorsComponent implements OnInit {
   massage = null;
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
+  uiConfig :any;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -364,10 +345,14 @@ export class SolicitederrorsComponent implements OnInit {
   ];
   ngOnInit(): void {
     this.createForm();
-    this.setOptions();
+    this.uiConfig = this.setUIConfig();
   }
 
   ngAfterViewInit() {
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   createForm() {
@@ -379,7 +364,8 @@ export class SolicitederrorsComponent implements OnInit {
       //Date: new FormControl({ value: '', disabled: true }, []),
       ErrorCodes: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
-      Reference: new FormControl({ value: '', disabled: true }, [])
+      Reference: new FormControl({ value: '', disabled: true }, []),
+      OrderReference: new FormControl({ value: '', disabled: true }, [])
 
     })
     this.errorCodesOptions = this.thisForm.controls.ErrorCodes.valueChanges
@@ -389,12 +375,13 @@ export class SolicitederrorsComponent implements OnInit {
       );
   }
 
-  setOptions() {
-    //debugger;     
-    //this.service.apiTest(queryInput); 
-    //let transformInput = JSON.parse(queryInput);    
+  setUIConfig() {
+    debugger;     
+
+    // let transformInput = JSON.parse(configInput);   
+    //  transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command','Source']
      this.service.configDetails(configInput);
-    //this.service.queryDetails(queryInput);
+    // this.service.queryDetails(queryInput);
   }
 
   private _filter(name: string): any[] {

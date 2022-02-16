@@ -11,7 +11,7 @@
       </div>
     </div>
     <form (ngSubmit)="onFormSubmit()">
-      <div class="">
+      <div class="matsidenav-filter" style="height:380px;">
         <mat-form-field hintLabel="Max 10 characters">
           <mat-label>Start Telephone No</mat-label>
           <input matInput #input maxlength="10" placeholder="Start Telephone No">
@@ -101,17 +101,19 @@
           </mat-select>
           <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
+      </div>
 
+        <div class="matsidenav-footer">
         <button type="submit" mat-raised-button color="primary">
-          Search
+          <mat-icon>search</mat-icon>Search
         </button>
-        <button type="button" mat-raised-button color="primary">
-          Reset
+        <button type="button" mat-raised-button color="primary">          
+          <mat-icon>refresh</mat-icon>Reset
         </button>
         <button type="button" mat-raised-button color="primary" (click)="DisplayInformationTab()">
-          Information
+          <mat-icon>information</mat-icon> Information          
         </button>
-      </div>
+      </div>    
 
     </form>
   </mat-sidenav>
@@ -195,9 +197,11 @@
             <app-telephone-audit-trail [isRequiredUnsol]=true></app-telephone-audit-trail>
           </div>
           <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
-            <app-table class="appTable" [tableitem]="informationTable1"></app-table>
+            <app-table class="appTable" [tableitem]="infotable1"></app-table>
+            <br>
+            <app-table class="appTable" [tableitem]="infotable2"></app-table>
           </div>
-          <!-- <app-table class="appTable" [tableitem]="informationTable2"></app-table> -->
+         
 
           <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
             <app-transaction-errors></app-transaction-errors>

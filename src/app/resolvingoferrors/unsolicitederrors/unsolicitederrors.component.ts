@@ -136,6 +136,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   myTable!: TableItem;
   informationTable1!: TableItem;
   informationTable2!: TableItem;
+  infotable1 : any;
+  infotable2 : any;
   selectListItems: string[] = [];
   multiplevalues: any;
   filtered: string[] = [];
@@ -197,7 +199,7 @@ expDefault =select.default;
   //   this.listItems = Items;
   // }
   ngOnInit(): void {
-
+    
     this.setOptions();
     
       }
@@ -205,22 +207,17 @@ expDefault =select.default;
        //this.cdr.detectChanges();
   }
 
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+
   DisplayInformationTab()
   {
     debugger;
-    this.informationTable1 = {
-      data: ELEMENT_DATA_InformationTable1,
-      Columns: this.columns_informationTable1,
-      filter:true,
+    this.infotable1=ELEMENT_DATA_InformationTable1;
+    this.infotable2=ELEMENT_DATA_InformationTable2;
+   
 
-    }
-
-    this.informationTable2 = {
-      data: ELEMENT_DATA_InformationTable2,
-      Columns: this.columns_informationTable2,
-      filter:true,
-      
-    }
     if (!this.tabs.find(x => x.tabType == 3)) {
       this.tabs.push({
         tabType: 3,

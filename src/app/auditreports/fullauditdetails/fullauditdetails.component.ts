@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
@@ -11,6 +11,7 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
 import { UserCommentsDialogComponent } from './user-comments-dialog.component';
+import { ThisReceiver } from '@angular/compiler';
 
 const ELEMENT_DATA: FullAuditDetailsSummary[] = [
   {
@@ -259,7 +260,7 @@ const Items: Select[] = [
   templateUrl: './fullauditdetails.component.html',
   styleUrls: ['./fullauditdetails.component.css']
 })
-export class FullauditdetailsComponent implements OnInit {
+export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
@@ -406,6 +407,8 @@ export class FullauditdetailsComponent implements OnInit {
     private formBuilder: FormBuilder, private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {
   }
 
+
+
   resetForm(): void {
     this.snackBar.open('Reset Form Completed!', 'Close', {
       duration: 5000,
@@ -429,6 +432,9 @@ export class FullauditdetailsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+  ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
 
@@ -458,13 +464,16 @@ export class FullauditdetailsComponent implements OnInit {
       });
     }
     this.selectedTab = this.tabs.length;
+    console.log('selected Tab: ' + this.selectedTab, 'Tabs Length: ' + this.tabs.length);
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
 
+
   newTab(tab: any) {
+    debugger;
     if (this.tabs === []) return;
     switch (tab.tabType) {
       case 1: {
@@ -473,22 +482,29 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
-          this.selectedTab = 1;
+          // this.selectedTab = 1;        
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
         }
         break;
-
       }
       case 2: {
         this.openDialog();
         break;
       }
       case 3: {
-        if (!this.tabs?.find(x => x.tabType == 2)) {
+        if (!this.tabs?.find(x => x.tabType == 3)) {
           this.rangeReportInit();
           this.tabs.push({
-            tabType: 2,
+            tabType: 3,
             name: 'Range Report'
           })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) + 1;
+
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
+
         }
         break;
       }
@@ -499,6 +515,9 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 4,
             name: 'Inflight Report'
           })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 4) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 4);
         }
         break;
       }
@@ -509,6 +528,9 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 5,
             name: 'Monthly Refresh Report'
           })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 5) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 5);
         }
         break;
       }
@@ -519,6 +541,9 @@ export class FullauditdetailsComponent implements OnInit {
             tabType: 6,
             name: 'Mori Circuit Status Report'
           })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 6) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 6);
         }
         break;
       }
@@ -610,7 +635,8 @@ export class FullauditdetailsComponent implements OnInit {
       = {
       data: ELEMENT_DATA4,
       Columns: this.monthlyRefreshReportTableDetails,
-      filter: true,
+      selectCheckbox:true,
+      filter: true
     }
   }
 
@@ -618,6 +644,7 @@ export class FullauditdetailsComponent implements OnInit {
     this.rangeRptTable = {
       data: ELEMENT_DATA1,
       Columns: this.rangeReportTableDetails,
+      selectCheckbox: true,
       filter: true
     }
   }
@@ -627,6 +654,7 @@ export class FullauditdetailsComponent implements OnInit {
       data: ELEMENT_DATA3,
       Columns: this.moriCicuitTableDetails,
       filter: true,
+      selectCheckbox:true,
       showBlankCoulmns: true
     }
   }
@@ -635,6 +663,7 @@ export class FullauditdetailsComponent implements OnInit {
     this.inflightRptTable = {
       data: ELEMENT_DATA2,
       Columns: this.inflightTableDetails,
+      selectCheckbox:true,
       filter: true
     }
   }

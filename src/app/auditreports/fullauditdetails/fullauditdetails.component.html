@@ -1,13 +1,12 @@
 <mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-        <div class="filter-sticky filterposition">
-            <!-- <div class="colfilter"> -->
+        <div class="filter-sticky">           
             <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
                 (changes)="setControlAttribute($event)">
             </app-select-multiple>
         </div>
         <form [formGroup]="fullAuditForm" (ngSubmit)="onFormSubmit()">
-            <div class="">
+            <div class="matsidenav-filter">
                 <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.TelNoStart.disabled}"
                     hintLabel="Max 10 characters">
                     <mat-label>Tel.No Start</mat-label>
@@ -193,15 +192,17 @@
                     </mat-select>
                 </mat-form-field>
 
-                <button type="submit" mat-raised-button color="primary" matTooltip="Search"
+            </div>            
+            <div class="matsidenav-footer">
+                <button type="submit" mat-raised-button color="primary"
                     [disabled]="fullAuditForm.invalid">
                     <mat-icon>search</mat-icon>Search
                 </button>
-                <button type="reset" mat-raised-button color="primary" matTooltip="Reset"
+                <button type="reset" mat-raised-button color="primary"
                     [disabled]="!fullAuditForm.touched" (click)="resetForm()">
                     <mat-icon>refresh</mat-icon>Reset
                 </button>
-            </div>
+            </div>                         
         </form>
     </mat-sidenav>
 
@@ -211,7 +212,7 @@
             (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
             <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
         </button>
-        <mat-tab-group [selectedIndex]="selectedTab">
+        <mat-tab-group [(selectedIndex)]="selectedTab">
             <mat-tab *ngFor="let tab of tabs; let index = index">
                 <ng-template mat-tab-label>
                     <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
@@ -224,7 +225,7 @@
                         <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
-
+                        <div class="mat-elevation-z8 side-bottom">
                         <div style="display:inline; margin-left: 15px;">
                             <mat-form-field>
                                 <mat-label>Res.Type</mat-label>
@@ -242,10 +243,10 @@
                                 <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
                                 <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                             </mat-form-field>
-                            <button type="submit" mat-raised-button color="primary" matTooltip="Save">
+                            <button type="submit" mat-raised-button color="primary">
                                 <mat-icon>save</mat-icon>Save
                             </button>
-                            <button type="button" mat-raised-button color="primary" matTooltip="Help">
+                            <button type="button" mat-raised-button color="primary">
                                 <mat-icon>help</mat-icon>Help
                             </button> &nbsp;
 
@@ -273,10 +274,11 @@
                                     <mat-option [value]="50">50K</mat-option>
                                 </mat-select>
                             </mat-form-field>&nbsp;
-                            <button *ngIf="selectedCorrectionType" type="button" mat-raised-button color="primary"
-                                matTooltip="Process">
+                            <button *ngIf="selectedCorrectionType" type="button" 
+                            mat-raised-button color="primary">                              
                                 Process
                             </button>
+                        </div>
                         </div>
 
                         <!-- <div class="pageHolder">
@@ -358,7 +360,7 @@
                     <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                         <app-telephone-audit-trail></app-telephone-audit-trail>
                     </div>
-                    <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+                    <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                         <app-table-selection [sidePan]="pagesidenav" [tableitem]="rangeRptTable">
                         </app-table-selection>
                     </div>

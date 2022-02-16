@@ -1,57 +1,26 @@
-.side-bottom .side-textarea{
-  /* background-color: lawngreen!important; */
-  width: 360px;
-  font-size: smaller;  
-/* position:absolute; 
-margin-top: 90px;*/
-/* margin-left: 200px; */
-margin: 5px;
-
-}
 
 .example-element-detail{
   padding-left: 44px;
   
 }
 
-.plus{
-  color:#e60000;
-  }
-.hidden{display: none;}
+
+
 table
 {    width:100%;
  
 }
-th {
-  background-color: #e60000;
-  color:white;
-  text-align: center;
-}
- td {
-  text-align: center;
-  }
-.select-submit{
-  border:none;   
-  background-color: #e60000;
-  color:  #EFEFEF;
-  border-radius: 8%;
-/* float:right; */
-top: 0px;
-position: sticky;
-/* z-index: 10; */
-height: 25px;
-/* margin-top: 3px; */
+.table-container {
+  /* min-height: 100px; */
+  height: 350px;
+  overflow: auto;
+  /* max-width: 100%; */  
+  /* font-size:large; */
 }
 
-.mat-header-cell {
-  color: white;
-  /* width: auto;
-  height: fit-content; */
-  font-size:small; 
-}
 
 .mat-header-row{
-  height: 30px;
+  height: 10px;
 }
 
 
@@ -62,47 +31,63 @@ height: 25px;
 .mat-row {
   height: 10px;
 }
+
 tr.example-detail-row {
   height: 0;
 }
-
-
-
-
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
+th {
+  background-color: #e60000;
+  color:white;
+  /* text-align: center; */
+}
+ /* td {
+  text-align: center;
+  } */
+  
+.mat-header-cell {
+  color: white;
+  /* padding: 2px 10px; */
+  
+  /* width: auto;
+  height: fit-content; */
+  /* font-size:small;  */
 }
 
-.example-element-description {
-  padding: 16px;
+  /* .tb-data, table th {
+    padding: 2px 10px;
+  
+  } */
+
+  .nowrap-cell {
+    /* max-width: 120px;  */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hidden{display: none;}
+  .select-submit{
+    border:none;   
+    background-color: #e60000;
+    color:  #EFEFEF;
+    border-radius: 8%;
+  top: 0px;
+  position: sticky;
+  height: 25px;
+  margin-left: 20px;
 }
 
-.example-element-description-attribution {
-  opacity: 0.5;
+.freezeselectall
+{
+  background-color:#EFEFEF;
+  top: 0px;
+  position: sticky;
+  z-index: 4;
 }
+
+
 
 .highlight {
   background-color: #dee2e6;
-}
-
-
-
-.mat-column-TelNo {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 28% !important;
-  width: 28% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  word-break: break-word;
-
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
 }
 
 .controlsStylediv{

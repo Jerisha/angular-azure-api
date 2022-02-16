@@ -22,18 +22,19 @@
             <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
           </mat-select>
           <mat-error class="error-message" *ngIf="checkError('ACTID', 'required')">Please Select ACTID</mat-error>
-        </mat-form-field>
+        </mat-form-field>       
         <button type="submit" mat-raised-button color="primary"
-          [disabled]="auditDiscrepancyForm.invalid" matTooltip="Search">
+          [disabled]="auditDiscrepancyForm.invalid">
           <mat-icon>search</mat-icon>Search
         </button>
         <button type="reset" mat-raised-button color="primary"
-          [disabled]="!auditDiscrepancyForm.touched" matTooltip="Reset">
+          [disabled]="!auditDiscrepancyForm.touched">
           <mat-icon>refresh</mat-icon>Reset
-        </button>
+        </button>        
       </form>
     </div>
   </mat-sidenav>
+
 
   <mat-sidenav-content class="side-content"> 
     <div [ngSwitch]="auditType">

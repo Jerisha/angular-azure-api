@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { Tab } from '../../uicomponents/models/tab';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { TelephoneAuditTrailComponent } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
-import { CustomerAddress } from '../models/ICustomerAddress';
+import { CustomerAddress, ICustomerAddress } from '../models/ICustomerAddress';
+import { TransactionItem } from '../models/ITransactionItem';
 
 
 @Component({
@@ -24,18 +25,33 @@ export class TransactionsComponent implements OnInit {
    tabs :Tab[]=[] ;
 
   addressDetails!: AddressDetails;
+  customerAddress:ICustomerAddress =new CustomerAddress();
 
-  @ViewChild(TelephoneAuditTrailComponent) test!: TelephoneAuditTrailComponent;
+  @ViewChild(TelephoneAuditTrailComponent) auditTrailView!: TelephoneAuditTrailComponent;
+
+  transactionItem =new TransactionItem(); //need to fix
   
-  constructor() { }
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
   }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
 
   copied() {
-     this.addressDetails = this.test.ActiveAddressDetails();
+     this.addressDetails = this.auditTrailView.ActiveAddressDetails();
     // console.log(this.addressDetails.isData);
-      // console.log(this.addressDetails);
+      //  console.log(this.addressDetails);
+     this.customerAddress.customerName= this.addressDetails.CustomerName;
+     this.customerAddress.address1= this.addressDetails.internalAddr1;
+     this.customerAddress.address2= this.addressDetails.internalAddr2;
+     this.customerAddress.address3= this.addressDetails.internalAddr3;
+     this.customerAddress.address4= this.addressDetails.internalAddr4;
+     this.customerAddress.postcode= this.addressDetails.postcode;   
 
   }
 
