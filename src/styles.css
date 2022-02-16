@@ -395,3 +395,14 @@ height: 520px !important;
 box-sizing: border-box;
 }
 /* report container end */
+
+/* toggle-button starts */
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: #c2c0c0;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: #e60000;
+}
+
+/* toggle-button ends */

@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HttpVerbs } from 'src/app/http/enums/http-verbs.enum';
-import { WebMethods } from 'src/app/http/enums/web-methods.enum';
-import { ConfigDetails } from 'src/app/http/models/config-details';
-import { HttpWrapperService } from 'src/app/http/http-wrapper.service';
+import { HttpVerbs } from 'src/app/_http/enums/http-verbs.enum';
+import { WebMethods } from 'src/app/_http/enums/web-methods.enum';
+import { ConfigDetails } from 'src/app/_http/models/config-details';
+import { HttpWrapperService } from 'src/app/_http/http-wrapper.service';
 import { ITransactionDetails } from '../models/ITransactionDetails';
 
 @Injectable({

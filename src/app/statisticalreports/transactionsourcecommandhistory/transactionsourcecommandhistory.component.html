@@ -70,10 +70,8 @@
 
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-            <div class="basic-container">
-              <!-- <span ><b>No of selected rows : </b></span> -->
-            </div>
-            <!-- <app-table-exp (addNewTab)="OnTelephoneDetailSelected($event)"></app-table-exp> -->
+            
+            
             <mat-slide-toggle [(ngModel)]="isChecked" class="toggleclass">
               {{isChecked?'Switch to M-O-M Summary View':'Switch to D-2-D Summary View'}} </mat-slide-toggle>
 
