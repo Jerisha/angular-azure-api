@@ -5,25 +5,12 @@ import { Observable } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { select } from 'src/app/_helper/Constants/exp-const';
 import { Select } from 'src/app/uicomponents/models/select';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
 
-const Items: Select[] = [
-  { view: 'Tran.Id', viewValue: 'Tran.Id', default: true },
-  { view: 'View', viewValue: 'View', default: true },
-  { view: 'Tel No', viewValue: 'Tel No', default: true },
-  { view: 'Cmd', viewValue: 'Cmd', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
-  { view: 'Created', viewValue: 'Created', default: false },
-  { view: 'Status', viewValue: 'Status', default: false },
-  { view: 'Ovd', viewValue: 'Ovd', default: false },
-  { view: 'Res Type', viewValue: 'Res Type', default: false },
-  { view: 'ErrorList', viewValue: 'ErrorList', default: false },
-
-];
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
   {
@@ -124,6 +111,20 @@ const ELEMENT_DATA: UnSolicitedErrors[] = [
   },
 ];
 
+const FilterListItems: Select[] = [
+  { view: 'Start Telephone No', viewValue: 'TelNoStart', default: true },
+  { view: 'End Telephone No', viewValue: 'TelNoEnd', default: true },
+  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Error Description', viewValue: 'ErrorDescription', default: true },
+  // { view: 'Date Range', viewValue: 'Date', default: true },
+  { view: 'Is Final', viewValue: 'IsFinal', default: true },
+  //{ view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
+  { view: '999 Reference', viewValue: 'Reference', default: true },
+  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
+  
+  
+];
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-unsolicitederrors',
@@ -139,6 +140,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   infotable1 : any;
   infotable2 : any;
   selectListItems: string[] = [];
+  filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
   errorCodesOptions!: Observable<any[]>;
@@ -147,8 +149,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
   ];
-  errorCode = new FormControl();
+  
   selectedTab!: number;
+  thisForm!: FormGroup;
    tabs :Tab[]=[] ;
     //  {
     //   tabType: 1,
@@ -193,11 +196,10 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
 selected :string='';
 expDefault =select.default;
-  constructor(private cdr:ChangeDetectorRef) { }
+  constructor(private formBuilder: FormBuilder, private cdr:ChangeDetectorRef) { }
 
-  // ngOnInit(): void {
-  //   this.listItems = Items;
-  // }
+  
+
   ngOnInit(): void {
     
     this.setOptions();
@@ -210,7 +212,21 @@ expDefault =select.default;
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
+   createForm() {
+    this.thisForm = this.formBuilder.group({
+      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      Source: new FormControl({ value: '', disabled: true }, []),
+      //Date: new FormControl({ value: '', disabled: true }, []),
+      ErrorDescription: new FormControl({ value: '', disabled: true }, []),
+      Reference: new FormControl({ value: '', disabled: true }, []),
+      OrderReference: new FormControl({ value: '', disabled: true }, []),
+      IsFinal: new FormControl({ value: '', disabled: true }, []),
+      
 
+    })
+    
+  }
   DisplayInformationTab()
   {
     debugger;
@@ -227,15 +243,42 @@ expDefault =select.default;
     }
   }
 
+  setControlAttribute(matSelect: MatSelect) {
+    matSelect.options.forEach((item) => {
+      if (item.selected) {
+        this.thisForm.controls[item.value].enable();
+      }
+      else {
+        this.thisForm.controls[item.value].disable();
+      }
+    });
+  }
+
+  onFormSubmit(): void {
+    this.myTable = {
+      data: ELEMENT_DATA,
+      Columns: this.columns,
+      filter: true,
+      selectCheckbox: true,
+      selectionColumn: 'TranId',
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+    }
+    if (!this.tabs.find(x => x.tabType == 0)) {
+      this.tabs.push({
+        tabType: 0,
+        name: 'Summary'
+      });
+    }
+    this.selectedTab = this.tabs.length;
+
+  }
+
   setOptions() {
     // debugger;
     // this.service.configDetails(configInput);
 
-    this.errorCodesOptions = this.errorCode.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
+    
   }
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
@@ -244,32 +287,7 @@ expDefault =select.default;
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  onFormSubmit(): void { 
-
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.columns,
-      filter: true,
-      selectCheckbox: true,
-      selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]    
-
-
-    } 
-
-    if (!this.tabs.find(x => x.tabType == 0)) {
-      this.tabs.push({
-        tabType: 0,
-        name: 'Summary'
-      
-      });
-      this.selectedTab = 0;
-    }   
-
-   
-
-  }
+  
   resetForm(): void { }
 
   rowDetect(item: any) {
