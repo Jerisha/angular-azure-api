@@ -51,7 +51,7 @@ table td, table th {
   bottom: 0px;
   /* position: sticky; */
   z-index: 10;
-  height: 10px;
+  height: 5px;
 }
 
 .select-submit{
