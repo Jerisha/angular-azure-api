@@ -7,6 +7,7 @@ import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/model
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-table-selection',
@@ -26,7 +27,7 @@ export class TableSelectionComponent {
   @Input() isShown: boolean = true;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
-  dataSource!: MatTableDataSource<any>;
+  dataSource!: MatTableDataSource<Observable<any>>;
   selectedrows: any;
   ColumnDetails!: ColumnDetails[];
   dataColumns: any;
@@ -60,6 +61,8 @@ export class TableSelectionComponent {
 
 
   ngOnInit() {
+
+    console.log(this.tableitem)
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false;
@@ -74,7 +77,7 @@ export class TableSelectionComponent {
       this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
 
-    this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
+    this.dataSource = new MatTableDataSource<Observable<any>>(this.tableitem?.data);
     this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
       : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
     //this.imgColumns = this.tableitem?.colToSetImage;
@@ -124,6 +127,7 @@ export class TableSelectionComponent {
     if (totalcell.length > 0) {
       return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
     }
+    return '';
 
   }
 
@@ -166,7 +170,7 @@ export class TableSelectionComponent {
     }
     else {
       this.dataSource.data.forEach(row => this.selection.select(row));
-      this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
+     // this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
     }
 
     this.rowChanges.emit(this.selectedTelnos);

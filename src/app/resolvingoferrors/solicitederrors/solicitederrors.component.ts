@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { SolicitedErrors } from '../models/solicited-errors';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
@@ -345,8 +345,29 @@ export class SolicitederrorsComponent implements OnInit {
   ];
   ngOnInit(): void {
     this.createForm();
-    this.uiConfig = this.setUIConfig();
+     //this.setUIConfig();
+    //   this.service.configDetails(configInput).subscribe((res)=>{
+    //     this.uiConfig= res
+    //  });
+     //this.uiConfig1$ = 
+    // this.service.configDetails(queryInput).subscribe((res)=>{
+    //   this.uiConfig= res;
+    // })
+
+    // this.uiConfig1$ = 
+    // this.service.configDetails(queryInput)
+    
+    
   }
+
+  uiConfig1$!:Observable<any>;
+ 
+  Common:any;
+
+
+  splitDescription(value: string) {
+    return value.split(',');
+  }  
 
   ngAfterViewInit() {
   }
@@ -392,8 +413,18 @@ export class SolicitederrorsComponent implements OnInit {
     return filteredList;
   }
   onFormSubmit(): void {
+
+    this.uiConfig1$ = this.service.configDetails(queryInput).pipe(map((res:any)=>res[0].SolicitedError));
+    
+
+    this.uiConfig1$.subscribe((res:any)=>{
+      console.log('response',res)
+    })
+    
+   
+
     this.myTable = {
-      data: ELEMENT_DATA,
+      data: this.uiConfig1$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,

@@ -418,11 +418,10 @@ box-sizing: border-box;
 
 }
 
-.matsidenav-filter{
-  overflow-x:hidden; 
-  /* height:443px; */
+.matsidenav-filter {
+  overflow-x:hidden;
   height:443px;
   max-height: 480px;
-   position:relative;
+  position:relative;   
 }
 

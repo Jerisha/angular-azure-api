@@ -40,7 +40,7 @@ font-size: smaller;  ">
 
 <div>
   <div class="table-container">
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource | async" matSort class="mat-elevation-z8">
       <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
 
         <!-- Checkbox Column -->
