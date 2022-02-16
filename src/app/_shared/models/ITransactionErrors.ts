@@ -4,8 +4,8 @@ export interface TransactionErrors {
     ResolHistory? : ResolutionHistory[];
 }
 export interface InternalError {
-    TelNo: string;
-    TransId: string;
+    TelephoneNumber: string;
+    TransactionId: string;
     Comment: string;
 }
 

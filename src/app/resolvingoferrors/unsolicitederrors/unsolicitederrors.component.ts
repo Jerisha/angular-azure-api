@@ -167,15 +167,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     { header: 'Error Code', headerValue: 'ErrorCount', showDefault: true, isImage: false },
     { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-
-
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Request Start Date', headerValue: 'RequestStart', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'RequestEnd', showDefault: true, isImage: false },
     { header: 'Difference in Days', headerValue: 'Diff', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date: ', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
 
