@@ -15,18 +15,18 @@
       </app-select-multiple>
     </div>
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
-      <div class="">
+      <div class="matsidenav-filter">
         <mat-form-field hintLabel="Max 10 characters"  
           [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
-          <mat-label>Tel.No Start</mat-label>
-          <input formControlName="TelNoStart" matInput #input maxlength="10" placeholder="Tel.No Start">
+          <mat-label>Start Telephone No</mat-label>
+          <input formControlName="TelNoStart" matInput #input maxlength="10" placeholder="Start Telephone No">
           <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
         </mat-form-field>
 
         <mat-form-field hintLabel="Max 10 characters"  
           [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
-          <mat-label>Tel.No End</mat-label>
-          <input formControlName="TelNoEnd" matInput #input maxlength="10" placeholder="Tel.No End">
+          <mat-label>End Telephone No</mat-label>
+          <input formControlName="TelNoEnd" matInput #input maxlength="10" placeholder="End Telephone No">
           <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
         </mat-form-field>
 
@@ -40,7 +40,7 @@
             <mat-option>Export</mat-option>
             <mat-option>Modify</mat-option>
           </mat-select>
-          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
 
         <mat-form-field   [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
@@ -58,20 +58,20 @@
             <mat-option>Amdocs SOM</mat-option>
             <mat-option>Unknown</mat-option>
           </mat-select>
-          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
 
 
 
         <mat-form-field  >
-          <mat-label>Date range</mat-label>
+          <mat-label>Date Range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
             <input matStartDate placeholder="Start date">
             <input matEndDate placeholder="End date">
           </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
-          <mat-hint align="end">Here's the date picker</mat-hint>
+          <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
         </mat-form-field>
 
         <mat-form-field   [ngClass]="{'hidden':thisForm.controls.ErrorType.disabled}">
@@ -84,12 +84,12 @@
             <mat-option>Under Governance</mat-option>
             <mat-option>Port Req Complete</mat-option>
           </mat-select>
-          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
 
         <mat-form-field   [ngClass]="{'hidden':thisForm.controls.ErrorCodes.disabled}">
-          <mat-label>Error Codes</mat-label>
-          <input formControlName="ErrorCodes" type="text" placeholder="type to find" matInput
+          <mat-label>Error Code</mat-label>
+          <input formControlName="ErrorCodes" type="text" placeholder="Search Error Code" matInput
             [matAutocomplete]="auto" />
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option.viewValue">
@@ -97,26 +97,28 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-
-        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.Reference.disabled}">
+        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.Reference.disabled}">
           <mat-label>999 Reference</mat-label>
-          <mat-select formControlName="Reference">
-            <mat-option></mat-option>
-            <mat-option>ERROR</mat-option>
-            <mat-option>ERROR Final</mat-option>
-
-          </mat-select>
-          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
+          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
 
-        <button type="submit" mat-raised-button color="primary" matTooltip="Search">
-          <mat-icon>search</mat-icon>Search
-        </button>
-        <button type="reset" mat-raised-button color="primary" matTooltip="Reset" (click)="resetForm()">
-          <mat-icon>refresh</mat-icon>Reset
-        </button>
+        <mat-form-field [ngClass]="{'hidden':thisForm.controls.OrderReference.disabled}">
+          <mat-label>Order Reference</mat-label>
+          <input formControlName="OrderReference"  matInput #input maxlength="10" placeholder="Order Reference">
+          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+        </mat-form-field>
+        
       </div>
 
+      <div calss="matsidenav-footer">
+      <button type="submit" mat-raised-button color="primary">
+        <mat-icon>search</mat-icon>Search
+      </button>
+      <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
+        <mat-icon>refresh</mat-icon>Reset
+      </button>
+      </div>
     </form>
   </mat-sidenav>
 
@@ -134,6 +136,7 @@
         </button>
         <div style="margin: 5px; float: left;"> Resolving Of Errors > Solicited Errors</div>
       </div> -->
+      {{uiConfig}}
 <app-start-up *ngIf="tabs.length===0"></app-start-up>
     <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
       matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
@@ -161,7 +164,7 @@
                   </select> -->
                   <div style="display: inline-block;">
                     <mat-form-field  >
-                      <mat-label>Res.Type</mat-label>
+                      <mat-label>Resolution Type</mat-label>
                       <mat-select>
                         <mat-option></mat-option>
                         <mat-option>New</mat-option>
@@ -170,36 +173,30 @@
                         <mat-option>Under Governance</mat-option>
                         <mat-option>Port Req Complete</mat-option>
                       </mat-select>
-                      <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+                      <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
                     </mat-form-field>
 
-                    <mat-form-field  >
+                    <mat-form-field >
                       <mat-label>999 Reference</mat-label>
-                      <mat-select>
-                        <mat-option></mat-option>
-                        <mat-option>New</mat-option>
-                        <mat-option>Under Investigation</mat-option>
-                        <mat-option>Under Governance</mat-option>
-                        <mat-option>Under Governance</mat-option>
-                        <mat-option>Port Req Complete</mat-option>
-                      </mat-select>
-                      <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+                      <input  matInput #input maxlength="10" placeholder="999 Reference">
+                      <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
                     </mat-form-field>
+                   
 
                     <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
-                      <mat-label>Resolution</mat-label>
-                      <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
+                      <mat-label>Remarks</mat-label>
+                      <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                     </mat-form-field>
 
-                    <button type="submit" mat-raised-button color="primary" matTooltip="Save">
+                    <button type="submit" mat-raised-button color="primary" >
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
-
-                    <button type="button" mat-raised-button color="primary" matTooltip="Help">
+                    <button type="button" mat-raised-button color="primary" >
                       <mat-icon>help</mat-icon>Help
                     </button>
+                    
                   </div>
                   <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
                     <mat-label>Resolution</mat-label>

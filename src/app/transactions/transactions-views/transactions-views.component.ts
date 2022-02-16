@@ -1,10 +1,12 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field/autosize';
-import { Component, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CupId } from 'src/app/_data/listValues/CupId';
-import { TableItem } from 'src/app/_models/uicomponents/table-item';
+import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { take } from 'rxjs/operators';
 import { ThrowStmt } from '@angular/compiler';
+import { CustomerAddress, ICustomerAddress } from "../models/ICustomerAddress";
+import { TransactionItem } from '../models/ITransactionItem';
 
 @Component({
   selector: 'app-transactions-views',
@@ -37,12 +39,17 @@ export class TransactionsViewsComponent implements OnInit {
 
   telephoneSet="";
     model:any ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
-    transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
-    addressDetails:any ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
-    transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};
+    // transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
+    // addressDetails:ICustomerAddress ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
+    // transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};    
+    transactionItem =new TransactionItem();
+
     @Output() AddressCheckSelected = new EventEmitter<any[]>();
     @Output() AuditTrailSelected = new EventEmitter<any[]>();
     @Output() ResetTabs = new EventEmitter<any[]>();
+
+    @Input()
+  matchedAuditAddress: ICustomerAddress =new CustomerAddress();
     
     CliRangeSet: [number, number][] = [];
 
@@ -53,9 +60,15 @@ export class TransactionsViewsComponent implements OnInit {
     addbtncolor:string ="secondary"
     
 
-  constructor(private _ngZone: NgZone)  {}
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');    
+  constructor(private _ngZone: NgZone,private cdr: ChangeDetectorRef)  {}
+  
+  ngAfterViewInit() 
+  {
+    this.cdr.detectChanges();  
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   ngOnInit() {  
@@ -92,7 +105,8 @@ export class TransactionsViewsComponent implements OnInit {
 {
   
 }
-removeRangeCli(){
+removeRangeCli(rangeIndex:number){
+  this.CliRangeSet.splice(rangeIndex, 1);
 
 }
 
@@ -132,11 +146,17 @@ check_text(this:TableItem,val:number,val2:string,val3:string)
 }
 updateDefaultOfficeAddressDetails()
 {  
-  this.addressDetails={customerName:"VODAFONE",address1:"THE CONNECTION",address2:"NEW BERKSHIRE",address3:"",address4:"",postcode:"RG14 2FN"};
+  this.transactionItem.customerAddress={customerName:"VODAFONE",address1:"THE CONNECTION",address2:"NEW BERKSHIRE",address3:"",address4:"",postcode:"RG14 2FN"};
+}
+updateMatchedAddressDetails()
+{  
+  this.transactionItem.customerAddress= this.matchedAuditAddress;
+  console.log(this.transactionItem.customerAddress,"dest");
+  console.log(this.matchedAuditAddress);
 }
 viewAddressCheck()
 {
-  this.AddressCheckSelected.emit(["true",this.model.telno])
+  this.AddressCheckSelected.emit(["true",this.model.telno]) // need to check
 }
 sysEditText(val:string)
 {

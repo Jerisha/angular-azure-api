@@ -2,12 +2,12 @@ import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, 
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Transaction } from 'src/app/_models/TableExpansion';
+import { Transaction } from 'src/app/uicomponents/models/TableExpansion';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 

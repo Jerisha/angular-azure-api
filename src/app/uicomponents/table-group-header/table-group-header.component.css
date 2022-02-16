@@ -3,8 +3,9 @@ table
     width:100%;
 }
 th {
-  background-color: lightgray;
-  color:black;
+  background-color: #e60000;
+  position: relative;
+  color:white;
 }
 
 .total-row{
@@ -14,7 +15,7 @@ th {
   /* font-weight: ; */
   min-height: 38px;
   text-align: center;
-  border: 0.5px solid black;
+  border: 0.5px solid grey;
   padding: 0 !important;
 
 
@@ -25,13 +26,17 @@ th.mat-sort-header-sorted {
 }
 
 .mat-header-cell {
-  color: black;
+  color: white;
+  position: relative;
+
   /* width: auto;
   height: fit-content; */
   font-size:small;
 }
 .mat-header-row{
   height: 30px;
+  position: relative;
+  
 }
 .mat-cell {
   font-size: 14px;
@@ -47,6 +52,7 @@ th.mat-sort-header-sorted {
 
 .mat-row {
   height: 10px;
+
 }
 
 .table-icon{
@@ -85,7 +91,7 @@ th.mat-sort-header-sorted {
 
 th.mat-header-cell,td.mat-cell {
   text-align: center;
-  border: 0.5px solid black;
+  border: 0.5px solid grey;
   padding: 0 !important;
 
 }

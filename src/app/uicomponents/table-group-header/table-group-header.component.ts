@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { take } from 'rxjs/operators';
 import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
-import { GroupHeaderTableItem, MergeTableItem } from 'src/app/_models/uicomponents/merge-table-item-model';
+import { GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 
 @Component({
   selector: 'app-table-group-header',
@@ -41,7 +42,7 @@ export class TableGroupHeaderComponent implements OnInit {
     cliStatusFilter: new FormControl('')
   });
 
-  constructor(private service: AuditDiscpancyReportService) {
+  constructor(private service: AuditDiscpancyReportService,private ngZone: NgZone) {
   }
 
   ngOnInit(): void {
@@ -69,6 +70,9 @@ export class TableGroupHeaderComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    
+      // this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => this.table.updateStickyColumnStyles());
+      
   }
 
   getTotal(cellname: string, element: any) {

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ExternalAuditAddressReport,ExternalAuditMonthReport,ExternalAuditProgressReport,ExternalAuditSummary } from 'src/app/_models/index';
+import { ExternalAuditAddressReport,ExternalAuditMonthReport,ExternalAuditProgressReport,ExternalAuditSummary } from 'src/app/auditreports/models/index';
 
-import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/_models/uicomponents/merge-table-item-model';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import { Tab } from 'src/app/uicomponents/models/tab';
 
 const ELEMENT_DATA:ExternalAuditSummary[]=[
   {

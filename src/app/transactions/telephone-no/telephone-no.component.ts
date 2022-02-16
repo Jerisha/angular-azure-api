@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-telephone-no',
@@ -8,9 +8,15 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class TelephoneNoComponent implements OnInit {
   @Output() TelephoneNoSelected = new EventEmitter<any[]>();
 
-  constructor() { }
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+  }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   TelephoneNo_clicked()

@@ -40,7 +40,7 @@ button{
 
   .side-bottom .side-textarea{
     /* background-color: lawngreen!important; */
-    width: 380px;
+    width: 300px;
     font-size: smaller;  
   /* position:absolute; 
   margin-top: 90px;*/
@@ -48,6 +48,9 @@ button{
   margin: 5px;
  
   }
+
+ 
+ 
 
   footer-div{
     border: 0.px;

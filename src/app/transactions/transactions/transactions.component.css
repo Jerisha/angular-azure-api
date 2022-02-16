@@ -123,10 +123,15 @@ justify-content: center;
 
 .audit-trail-view::ng-deep .fluid-item {
   flex: 46% 1 1;
+  min-width: 150px;
 }
 
-@media screen and (max-width: 1314px) {
+/* .audit-trail-view::ng-deep .container-fluid {
+column-gap: 20px;
+} */
+
+/* @media screen and (max-width: 1314px) {
   .audit-trail-view::ng-deep .fluid-item {
     flex: 95% 1 1;
   }
-}
+} */

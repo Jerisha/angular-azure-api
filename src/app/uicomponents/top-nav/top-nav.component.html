@@ -1,4 +1,5 @@
-<mat-toolbar color="primary" class="mat-elevation-z1" style="height: 90%;">
+<!-- <mat-toolbar color="primary" class="mat-elevation-z1" style="height: 90%;"> -->
+  <mat-toolbar class="banner mat-elevation-z1 ">
   <button mat-icon-button id="menu" (click)="navService.openNav()">
     <mat-icon>apps</mat-icon>
   </button> 
@@ -9,11 +10,14 @@
   <span class='appheader'>OSN Provisioning</span>
 
 
-  <span class="menuheaderright">    
-    <button  mat-icon-button value="Logout"  color="primary">
+  <span class="menuheaderright">  
+    <button  mat-icon-button value="home"  [routerLink]="['']" color="primary">
+      <mat-icon  matTooltip="Nagivate to Home Page" [matTooltipPosition]="position.value" >home</mat-icon>
+    </button>   
+    <!-- <button  mat-icon-button value="Logout"  color="primary">
      <mat-icon matTooltip="About"  [matTooltipPosition]="position.value" >info</mat-icon>
-   </button>    
-     <button  mat-icon-button matTooltip="John Doe" [matMenuTriggerFor]="menu" [matTooltipPosition]="position.value"  color="primary">
+   </button>     -->
+     <button  mat-icon-button matTooltip="Welcome John Doe !" [matMenuTriggerFor]="menu" [matTooltipPosition]="position.value"  color="primary">
       <mat-icon>perm_identity</mat-icon>
     </button>
     <mat-menu #menu="matMenu">     

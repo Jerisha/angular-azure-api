@@ -1,39 +1,39 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelephoneDetails } from '../models/telephone-details';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
   {
-    ViewDetails: 'image', TelephoneNos: '90032222', AddCommands: '2,784', CeaseCommands: '36,008', ModifiyCommands: '46,436', ExportCommands: '7,697	', ImportCommands: '3,029', TotalCommands: '95,954'
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
   },
 
 ];
@@ -65,14 +65,14 @@ export class TelephoneDetailsComponent implements OnInit {
 
 
   columns: ColumnDetails[] = [
-    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
-    { header: 'TelephoneNos', headerValue: 'TelephoneNos', showDefault: true, isImage: false },
-    { header: 'AddCommands', headerValue: 'AddCommands', showDefault: true, isImage: false },
-    { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: true, isImage: false },
-    { header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false },
-    { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: true, isImage: false },
-    { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: true, isImage: false },
-    { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, isImage: false },
+     { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
+    { header: 'TelephoneNo', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
+    { header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: true, isImage: false },
+    { header: 'CeaseTransactions', headerValue: 'CeaseTransactions', showDefault: true, isImage: false },
+    { header: 'ModifiyTransactions', headerValue: 'ModifiyTransactions', showDefault: true, isImage: false },
+    { header: 'ExportTransactions', headerValue: 'ExportTransactions', showDefault: true, isImage: false },
+    { header: 'ImportTransactions', headerValue: 'ImportTransactions', showDefault: true, isImage: false },
+    { header: 'TotalTransactions', headerValue: 'TotalTransactions', showDefault: false, isImage: false },
   ];
 
   ngOnInit(): void {
@@ -83,7 +83,9 @@ export class TelephoneDetailsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       // colToSetImage: ['View'],
-      imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },]
+      imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],
+      // shouldTotalRow: true,
+      // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 
     }
   }

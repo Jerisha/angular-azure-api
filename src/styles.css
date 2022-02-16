@@ -111,7 +111,10 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
   {   
     background-color:#EFEFEF;
     color: #54575a;
-    margin: 2px;
+    margin-top: -3px;
+    margin-bottom: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
     font-size:small;
     display: flex;
   }
@@ -292,6 +295,7 @@ div .mat-focus-indicator.mat-tab-label {
   margin-top:1px;   */
   font-size: smaller;  
   width: 170px;
+  
 }
 
 .side-nav button{
@@ -299,7 +303,8 @@ div .mat-focus-indicator.mat-tab-label {
 }
 
 .side-nav {  
-  width: 220px!important;    
+  width: 220px!important; 
+   
   /* margin: 10px;
   border: 1px solid #555; */
 }
@@ -392,3 +397,32 @@ height: 520px !important;
 box-sizing: border-box;
 }
 /* report container end */
+
+/* toggle-button starts */
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: #c2c0c0;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: #e60000;
+}
+
+/* toggle-button ends */
+.matsidenav-footer {
+  /* position:relative !important;                  */
+  bottom:0;                         
+  left:0; 
+  height:auto;  
+  align-items: center;
+ /* background-color: lightslategray; */
+
+}
+
+.matsidenav-filter{
+  overflow-x:hidden; 
+  /* height:443px; */
+  height:443px;
+  max-height: 480px;
+   position:relative;
+}
+

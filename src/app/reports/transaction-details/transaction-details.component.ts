@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Select } from 'src/app/_models/uicomponents/select';
+import { Select } from 'src/app/uicomponents/models/select';
 import { ITransactionDetails } from 'src/app/reports/models/ITransactionDetails';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TransactionDetailsService} from 'src/app/reports/services/transaction-details.service';
 import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
 import { select } from 'src/app/_helper/Constants/exp-const';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
 
 
 const HEADER_DATA: ITransactionDetails[] = [
@@ -210,7 +210,7 @@ const queryInput: any = {
 })
 export class TransactionDetailsComponent implements OnInit {
   
-  constructor(private formBuilder: FormBuilder, private service: TransactionDetailsService, private _snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder, private service: TransactionDetailsService, private _snackBar: MatSnackBar,private cdr: ChangeDetectorRef) { }
   
   myTable!: TableItem;
   dataSaved = false;
@@ -308,6 +308,10 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   createForm() {
@@ -328,7 +332,7 @@ export class TransactionDetailsComponent implements OnInit {
       }
 
   setOptions() {         
-    this.service.configDetails(queryInput);
+    //this.service.configDetails(queryInput);
   }
 
   private _filter(name: string): any[] {
@@ -844,8 +848,12 @@ export class TransactionDetailsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
-          this.selectedTab = 1;
-        }
+         //   this.selectedTab = 1;
+        // }
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
+      } else {
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
+      }
         break;
       }
       case 2: {
@@ -854,7 +862,9 @@ export class TransactionDetailsComponent implements OnInit {
             tabType: 2,
             name: 'Transaction Errors'
           })
-          this.selectedTab = 2;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
         }
         break;
       }

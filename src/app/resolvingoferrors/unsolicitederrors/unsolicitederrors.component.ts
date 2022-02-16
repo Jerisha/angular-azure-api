@@ -4,25 +4,13 @@ import { MatSelect } from '@angular/material/select';
 import { Observable } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { select } from 'src/app/_helper/Constants/exp-const';
-import { Select } from 'src/app/_models/uicomponents/select';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { Select } from 'src/app/uicomponents/models/select';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
+import { Tab } from 'src/app/uicomponents/models/tab';
 
-// const Items: Select[] = [
-//   { view: 'Tran.Id', viewValue: 'Tran.Id', default: true },
-//   { view: 'View', viewValue: 'View', default: true },
-//   { view: 'Tel No', viewValue: 'Tel No', default: true },
-//   { view: 'Cmd', viewValue: 'Cmd', default: true },
-//   { view: 'Source', viewValue: 'Source', default: true },
-//   { view: 'Created', viewValue: 'Created', default: false },
-//   { view: 'Status', viewValue: 'Status', default: false },
-//   { view: 'Ovd', viewValue: 'Ovd', default: false },
-//   { view: 'Res Type', viewValue: 'Res Type', default: false },
-//   { view: 'ErrorList', viewValue: 'ErrorList', default: false },
-
-// ];
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
   {
@@ -124,14 +112,17 @@ const ELEMENT_DATA: UnSolicitedErrors[] = [
 ];
 
 const FilterListItems: Select[] = [
-  { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-  { view: 'TelNo End', viewValue: 'TelNoEnd', default: false },
-  { view: 'Source', viewValue: 'Source', default: false },
-  { view: 'Command', viewValue: 'Command', default: false },
-  { view: 'Error Type', viewValue: 'ErrorType', default: false },
+  { view: 'Start Telephone No', viewValue: 'TelNoStart', default: true },
+  { view: 'End Telephone No', viewValue: 'TelNoEnd', default: true },
+  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Error Description', viewValue: 'ErrorDescription', default: true },
   // { view: 'Date Range', viewValue: 'Date', default: true },
-  { view: 'Error Codes', viewValue: 'ErrorCodes', default: false },
-  { view: '999 Reference', viewValue: 'Reference', default: false }
+  { view: 'Is Final', viewValue: 'IsFinal', default: true },
+  //{ view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
+  { view: '999 Reference', viewValue: 'Reference', default: true },
+  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
+  
+  
 ];
 
 @Component({
@@ -141,12 +132,13 @@ const FilterListItems: Select[] = [
   styleUrls: ['./unsolicitederrors.component.css']
 })
 export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
-  [x: string]: any;
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   listItems!: Select[];
   myTable!: TableItem;
-  informationTable1!: any;
-  informationTable2!: any;
+  informationTable1!: TableItem;
+  informationTable2!: TableItem;
+  infotable1 : any;
+  infotable2 : any;
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
@@ -157,13 +149,10 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
   ];
-  errorCode = new FormControl();
+  
   selectedTab!: number;
   thisForm!: FormGroup;
-  public tabs = [{
-    tabType: 0,
-    name: 'Summary'
-  },
+   tabs :Tab[]=[] ;
     //  {
     //   tabType: 1,
     //   name: 'Audit Trail Report'
@@ -171,7 +160,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     //   tabType: 2,
     //   name: 'Transaction Details'
     // }
-  ];
+  
   columns: ColumnDetails[] = [
     { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
@@ -212,50 +201,39 @@ expDefault =select.default;
   
 
   ngOnInit(): void {
-
-    this.setOptions();
-    this.createForm();
     
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.columns,
-      filter: true,
-      selectCheckbox: true,
-      selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 3 }]
-      
-
-
-    }    
-  }
+    this.setOptions();
+    
+      }
   ngAfterViewInit() {
-       this.cdr.detectChanges();
+       //this.cdr.detectChanges();
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
    createForm() {
     this.thisForm = this.formBuilder.group({
       TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
       TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
-      Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
-      ErrorCodes: new FormControl({ value: '', disabled: true }, []),
-      ErrorType: new FormControl({ value: '', disabled: true }, []),
-      Reference: new FormControl({ value: '', disabled: true }, [])
+      ErrorDescription: new FormControl({ value: '', disabled: true }, []),
+      Reference: new FormControl({ value: '', disabled: true }, []),
+      OrderReference: new FormControl({ value: '', disabled: true }, []),
+      IsFinal: new FormControl({ value: '', disabled: true }, []),
+      
 
     })
-    this.errorCodesOptions = this.thisForm.controls.ErrorCodes.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
+    
   }
   DisplayInformationTab()
   {
     debugger;
-    this.informationTable1 = ELEMENT_DATA_InformationTable1;
-    this.informationTable2 = ELEMENT_DATA_InformationTable2;
+    this.infotable1=ELEMENT_DATA_InformationTable1;
+    this.infotable2=ELEMENT_DATA_InformationTable2;
+   
+
     if (!this.tabs.find(x => x.tabType == 3)) {
       this.tabs.push({
         tabType: 3,
@@ -300,11 +278,7 @@ expDefault =select.default;
     // debugger;
     // this.service.configDetails(configInput);
 
-    this.errorCodesOptions = this.errorCode.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
+    
   }
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
@@ -314,13 +288,7 @@ expDefault =select.default;
     return filteredList;
   }
   
-  resetForm(): void {
-    this._snackBar.open('Reset Form Completed!', 'Close', {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
+  resetForm(): void { }
 
   rowDetect(item: any) {
     //debugger;
@@ -354,19 +322,27 @@ expDefault =select.default;
             tabType: 1,
             name: 'Audit Trail Report (1977722725)'
           });
-          this.selectedTab = 1;
-        }
+         //   this.selectedTab = 1;
+        // }
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
+      } else {
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
+      }
         break;
       }
       case 2: {
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Details'
+            name: 'Transaction Errors'
           })
-          this.selectedTab = 2;
-        }
-        break;
+          //   this.selectedTab = 2;
+        // }
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+      } else {
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+      }
+      break;
       }
       default: {
         //statements; 

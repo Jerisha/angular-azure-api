@@ -25,13 +25,12 @@ table td, table th {
 }
 
 .mat-header-row{
-  height: 30px;
+  height: 10px;
 }
 
 
 .mat-cell{
-  font-size:small;
-  
+  font-size:small;  
 }
 
 .mat-row {
@@ -41,10 +40,9 @@ table td, table th {
 
 
 .table-container {
-  min-height: 100px;
-  max-height: 350px;
-  /* overflow: auto; */
-  overflow-y: hidden;
+  /* min-height: 100px; */
+  height: 350px;
+  overflow: auto;
   /* max-width: 100%; */  
   /* font-size:large; */
 }
@@ -53,7 +51,7 @@ table td, table th {
   bottom: 0px;
   /* position: sticky; */
   z-index: 10;
-  height: 10px;
+  height: 5px;
 }
 
 .select-submit{
@@ -61,12 +59,18 @@ table td, table th {
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 8%;
-  /* float:right; */
   top: 0px;
   position: sticky;
-  /* z-index: 10; */
   height: 25px;
-  /* margin-top: 3px; */
+  margin-left: 20px;
+}
+
+.freezeselectall
+{
+  background-color:#EFEFEF;
+  top: 0px;
+  position: sticky;
+  z-index: 4;
 }
 
 .nowrap-cell {
@@ -80,7 +84,8 @@ table td, table th {
   background-color: #e60000;
   color:white;
   font-size: small;
-  min-height: 38px;
+  /* min-height: 10px; */
+  height: 20px;
   /* text-align: center; */
   padding: 0 !important;
 }

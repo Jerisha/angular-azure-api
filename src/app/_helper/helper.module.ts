@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BorderDirective } from '../directives/border.directive';
+import { BorderDirective } from './directives/border.directive';
 
 
 

@@ -1,73 +1,77 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Transactionsourcecommandhistory } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/_models/uicomponents/table-item';
+import { Transactionsourcecommandhistory,Link } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { selectmonth } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSelect } from '@angular/material/select';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
+import{statisticalreport}from '../services/statisticalreports.service';
 
 
+const ELEMENT_DATA_CHILD:   Link[]=[{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' },
+{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' },
+{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }]
 
 const ELEMENT_DATA: Transactionsourcecommandhistory[] =
   [
     {
-      Link: [{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/01/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '01/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
   
     {
-      Link: [{ View: 'image', StatisticDate: '11/02/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/02/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/02/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/02/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '02/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '02/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/03/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/03/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/03/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/03/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '03/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '03/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/04/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/04/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/04/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/04/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '04/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '04/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/05/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/05/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/05/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/05/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '05/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '05/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/06/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/06/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/06/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/06/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '06/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '06/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/07/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/07/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/07/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/07/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '07/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '07/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
     {
-      Link: [{ View: 'image', StatisticDate: '11/08/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '12/08/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '13/08/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }
-        , { View: 'image', StatisticDate: '15/08/2021', Source: ' C - SAS/COMS ', AddCommands: '2', CeaseCommands: '2', ModifiyCommands: '2', ExportCommands: '2 ', ImportCommands: '2', TotalCommands: '10' }],
-      StatisticMonthDate: '08/2021', Source: ' C - SAS/COMS ', AddCommands: '8', CeaseCommands: '8', ModifiyCommands: '8', ExportCommands: '8', ImportCommands: '8', TotalCommands: '40',
+      Link: [{ View: 'image', StatisticDate: '11/08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '12/08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '13/08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }
+        , { View: 'image', StatisticDate: '15/08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' }],
+      StatisticMonth: '08/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '8', CeaseTransactions: '8', ModifiyTransactions: '8', ExportTransactions: '8', ImportTransactions: '8', TotalTransactions: '40',
     },
   
   ]
@@ -95,7 +99,10 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   selectedRowsCount: number = 0;
   select: string = 'Exp';
   isDisabled = true;
+  toggletext:string='M-O-M '
+  isshow?:boolean=true;
   myTable!: TableItem;
+  myTableChild!: TableItem;
   selectListItems: string[] = [];
   expDefaultmonth = selectmonth.defaultmonth;
   // expDefaultsrc = selectsrc.defaultsrc;
@@ -104,20 +111,34 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   ctrl = new FormControl(true);
-
+  isChecked?:boolean=false;
 columns: ColumnDetails[] =
 [
 // { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
 { header: 'Link', headerValue: 'Link', showDefault: true, isImage: false },
-{ header: 'StatisticMonthDate', headerValue: 'StatisticMonthDate', showDefault: false, isImage: false },
+{ header: 'StatisticMonth', headerValue: 'StatisticMonth', showDefault: false, isImage: false },
 { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-{ header: 'AddCommands', headerValue: 'AddCommands', showDefault: false, isImage: false },
-{ header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-{ header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: false, isImage: false },
-{ header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-{ header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-{ header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+{ header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: false, isImage: false },
+{ header: 'CeaseTransactions', headerValue: 'CeaseTransactions', showDefault: false, isImage: false },
+{ header: 'ModifiyTransactions', headerValue: 'ModifiyTransactions', showDefault: false, isImage: false },
+{ header: 'ExportTransactions', headerValue: 'ExportTransactions', showDefault: false, isImage: false },
+{ header: 'ImportTransactions', headerValue: 'ImportTransactions', showDefault: false, isImage: false },
+{ header: 'TotalTransactions', headerValue: 'TotalTransactions', showDefault: false, isImage: false }
 ];
+
+columnsChild: ColumnDetails[] =
+[
+  { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+{ header: 'StatisticDate', headerValue: 'StatisticDate', showDefault: false, isImage: false },
+{ header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
+{ header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: false, isImage: false },
+{ header: 'CeaseTransactions', headerValue: 'CeaseTransactions', showDefault: false, isImage: false },
+{ header: 'ModifiyTransactions', headerValue: 'ModifiyTransactions', showDefault: false, isImage: false },
+{ header: 'ExportTransactions', headerValue: 'ExportTransactions', showDefault: false, isImage: false },
+{ header: 'ImportTransactions', headerValue: 'ImportTransactions', showDefault: false, isImage: false },
+{ header: 'TotalTransactions', headerValue: 'TotalTransactions', showDefault: false, isImage: false }
+];
+
 
 
     data1:Transactionsourcecommandhistory[] = ELEMENT_DATA;
@@ -129,7 +150,7 @@ columns: ColumnDetails[] =
 
   text: string | undefined;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,private service: statisticalreport) { }
   // constructor(private fb: FormBuilder) {
   //   this.form = this.fb.group({
   //     enable: false,
@@ -146,17 +167,340 @@ columns: ColumnDetails[] =
     this.text = this.form.value.enable ? "Asterisk OK" : "Should not show the asterisk";
   }
   onchange(enable: boolean) {
-    const field = this.form.get('');
-    if (enable) {
-      field.enable();
-    } else {
-      field.disable();
+    
+      this.isshow=!enable;
+      if(this.isshow)
+      {
+        this.tabs[0].name="M-O-M Summery";
+        
+      }
+     else{
+      this.tabs[0].name="D-2-D Summery";
+     }
+     
+      if (!this.tabs.find(x => x.tabType == 0)) {
+        this.tabs.push({
+          tabType: 0,
+          name: 'M-O-M Summary'
+        });
+      }
+      this.selectedTab =0;
     }
-    this.updateText();
-  }
- 
+
+  
+    ELEMENT_DATA_test_response: any={
+      "QueryObjectResponse" : {
+       "QueryObjectResponseType" : {
+         "ListofQueryObjectCategory" : {
+           "QueryObjectCategory" : [ {
+             "ItemName" : "TransactionSummary",
+             "ListofIdentifiers" : {
+               "Identifier" : [ {
+                 "Name" : "ReportIdentifier",
+                 "Value" : [ "MonthOnMonth" ]
+               } ]
+             },
+             "ListofAttributes" : {
+               "Attribute" : [ {
+                 "Name" : "TotalCount",
+                 "Value" : [ "2" ]
+               }, {
+                 "Name" : "NumberOfPages",
+                 "Value" : [ "1" ]
+               }, {
+                 "Name" : "PageNumber",
+                 "Value" : [ "1" ]
+               } ]
+             },
+             "ListofQueryObjectCharacteristics" : {
+               "QueryObjectCharacteristics" : [ {
+                 "ItemName" : "MonthlyData",
+                 "ListofIdentifiers" : {
+                   "Identifier" : [ {
+                     "Name" : "Month",
+                     "Value" : [ "Feb-2022" ]
+                   } ]
+                 },
+                 "ListofCharacteristics" : {
+                   "Characteristic" : [ {
+                     "ItemName" : "Sources",
+                     "ListofIdentifiers" : {
+                       "Identifier" : [ {
+                         "Name" : "Source",
+                         "Value" : [ "SASCOMS" ]
+                       } ]
+                     },
+                     "ListofAttributes" : {
+                       "Attribute" : [ {
+                         "Name" : "ActivateTransactions",
+                         "Value" : [ "2" ]
+                       }, {
+                         "Name" : "CeaseTransactions",
+                         "Value" : [ "2" ]
+                       }, {
+                         "Name" : "ModifyTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "ExportTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "ImportTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "TotalTransactions",
+                         "Value" : [ "4" ]
+                       } ]
+                     },
+                     "ListofQualities" : {
+                       "Quality" : [ {
+                         "ItemName" : "Dates",
+                         "ListofIdentifiers" : {
+                           "Identifier" : [ {
+                             "Name" : "Date",
+                             "Value" : [ "01-Feb-2022" ]
+                           } ]
+                         },
+                         "ListofAttributes" : {
+                           "Attribute" : [ {
+                             "Name" : "ActivateTransactions",
+                             "Value" : [ "1" ]
+                           }, {
+                             "Name" : "CeaseTransactions",
+                             "Value" : [ "1" ]
+                           }, {
+                             "Name" : "ModifyTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ExportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ImportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "TotalTransactions",
+                             "Value" : [ "2" ]
+                           } ]
+                         }
+                       }, {
+                         "ItemName" : "Dates",
+                         "ListofIdentifiers" : {
+                           "Identifier" : [ {
+                             "Name" : "Date",
+                             "Value" : [ "02-Feb-2022" ]
+                           } ]
+                         },
+                         "ListofAttributes" : {
+                           "Attribute" : [ {
+                             "Name" : "ActivateTransactions",
+                             "Value" : [ "1" ]
+                           }, {
+                             "Name" : "CeaseTransactions",
+                             "Value" : [ "1" ]
+                           }, {
+                             "Name" : "ModifyTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ExportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ImportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "TotalTransactions",
+                             "Value" : [ "2" ]
+                           } ]
+                         }
+                       } ]
+                     }
+                   }, {
+                     "ItemName" : "Sources",
+                     "ListofIdentifiers" : {
+                       "Identifier" : [ {
+                         "Name" : "Source",
+                         "Value" : [ "Siebel" ]
+                       } ]
+                     },
+                     "ListofAttributes" : {
+                       "Attribute" : [ {
+                         "Name" : "ActivateTransactions",
+                         "Value" : [ "2" ]
+                       }, {
+                         "Name" : "CeaseTransactions",
+                         "Value" : [ "2" ]
+                       }, {
+                         "Name" : "ModifyTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "ExportTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "ImportTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "TotalTransactions",
+                         "Value" : [ "4" ]
+                       } ]
+                     },
+                     "ListofQualities" : {
+                       "Quality" : [ {
+                         "ItemName" : "Dates",
+                         "ListofIdentifiers" : {
+                           "Identifier" : [ {
+                             "Name" : "Date",
+                             "Value" : [ "01-Feb-2022" ]
+                           } ]
+                         },
+                         "ListofAttributes" : {
+                           "Attribute" : [ {
+                             "Name" : "ActivateTransactions",
+                             "Value" : [ "1" ]
+                           }, {
+                             "Name" : "CeaseTransactions",
+                             "Value" : [ "1" ]
+                           }, {
+                             "Name" : "ModifyTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ExportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ImportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "TotalTransactions",
+                             "Value" : [ "2" ]
+                           } ]
+                         }
+                       }, {
+                         "ItemName" : "Dates",
+                         "ListofIdentifiers" : {
+                           "Identifier" : [ {
+                             "Name" : "Date",
+                             "Value" : [ "02-Feb-2022" ]
+                           } ]
+                         },
+                         "ListofAttributes" : {
+                           "Attribute" : [ {
+                             "Name" : "ActivateTransactions",
+                             "Value" : [ "1" ]
+                           }, {
+                             "Name" : "CeaseTransactions",
+                             "Value" : [ "1" ]
+                           }, {
+                             "Name" : "ModifyTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ExportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ImportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "TotalTransactions",
+                             "Value" : [ "2" ]
+                           } ]
+                         }
+                       } ]
+                     }
+                   } ]
+                 }
+               }, {
+                 "ItemName" : "MonthlyData",
+                 "ListofIdentifiers" : {
+                   "Identifier" : [ {
+                     "Name" : "Month",
+                     "Value" : [ "Jan-2022" ]
+                   } ]
+                 },
+                 "ListofCharacteristics" : {
+                   "Characteristic" : [ {
+                     "ItemName" : "Sources",
+                     "ListofIdentifiers" : {
+                       "Identifier" : [ {
+                         "Name" : "Source",
+                         "Value" : [ "Siebel" ]
+                       } ]
+                     },
+                     "ListofAttributes" : {
+                       "Attribute" : [ {
+                         "Name" : "ActivateTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "CeaseTransactions",
+                         "Value" : [ "1" ]
+                       }, {
+                         "Name" : "ModifyTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "ExportTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "ImportTransactions",
+                         "Value" : [ "0" ]
+                       }, {
+                         "Name" : "TotalTransactions",
+                         "Value" : [ "1" ]
+                       } ]
+                     },
+                     "ListofQualities" : {
+                       "Quality" : [ {
+                         "ItemName" : "Dates",
+                         "ListofIdentifiers" : {
+                           "Identifier" : [ {
+                             "Name" : "Date",
+                             "Value" : [ "01-Feb-2022" ]
+                           } ]
+                         },
+                         "ListofAttributes" : {
+                           "Attribute" : [ {
+                             "Name" : "ActivateTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "CeaseTransactions",
+                             "Value" : [ "1" ]
+                           }, {
+                             "Name" : "ModifyTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ExportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "ImportTransactions",
+                             "Value" : [ "0" ]
+                           }, {
+                             "Name" : "TotalTransactions",
+                             "Value" : [ "1" ]
+                           } ]
+                         }
+                       } ]
+                     }
+                   } ]
+                 }
+               } ]
+             }
+           }, {
+             "ItemName" : "Update",
+             "ListofAttributes" : {
+               "Attribute" : [ {
+                 "Name" : "StatusCode",
+                 "Value" : [ "EUI000" ]
+               }, {
+                 "Name" : "StatusMessage",
+                 "Value" : [ "Success" ]
+               }, {
+                 "Name" : "MessageType",
+                 "Value" : [ "Informational" ]
+               } ]
+             }
+           } ]
+         }
+       }
+     }
+    }
   ngOnInit(): void {
      this.createForm();
+     console.log('worked');
+     this.service.processQuery(this.ELEMENT_DATA_test_response,"post");
 
   }
 
@@ -170,6 +514,19 @@ columns: ColumnDetails[] =
       selectionColumn: 'Links',
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '',tabIndex:1 }],
       }
+         this.myTableChild = {
+      data: ELEMENT_DATA_CHILD,
+      Columns: this.columnsChild,
+      filter: true,
+      //selectCheckbox: true,
+      selectionColumn: 'View',
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 }]
+      }
+
+
+
+
+
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
@@ -245,22 +602,24 @@ columns: ColumnDetails[] =
         if (!this.tabs.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report'
+            name: 'Telephone No Details'
           });
-          this.selectedTab = 1;
+          this.selectedTab = 2;
         }
         break;
       }
-      // case 2: {
-      //   if (!this.tabs.find(x => x.tabType == 2)) {
-      //     this.tabs.push({
-      //       tabType: 2,
-      //       name: 'Transaction Errors'
-      //     })
-      //     this.selectedTab = 2;
-      //   }
-      //   break;
-      // }
+      case 2: {
+        //console.log('New Tab: '+ JSON.stringify(tab.row) )
+        //tab.row contains row data- fetch data from api and bind to respetive component
+        if (!this.tabs.find(x => x.tabType == 2)) {
+          this.tabs.push({
+            tabType: 2,
+            name: 'Audit Trail Report'
+          });
+          this.selectedTab = 2;
+        }
+        break;
+      }
       default: {
         //statements; 
         break;
@@ -270,21 +629,37 @@ columns: ColumnDetails[] =
 
   OnTelephoneDetailSelected(tab: any) {
     console.log('outside event');
+    if (!this.tabs?.find(x => x.tabType == 1)) {
+      this.tabs.push({
+        tabType: 1,
+        name: 'Telephone No Details'
+      });
+    }
+   
+    this.selectedTab = 1;
+   
+  }
+  OndayTodayselected(tab: any) {
+    if (!this.tabs?.find(x => x.tabType == 1)) {
     this.tabs.push({
       tabType: 1,
       name: 'Telephone No. Details'
     });
     this.selectedTab = 1;
+  }
    
   }
 
   Onauditselected(tab: any) {
-    console.log('outside event');
+   
+    if (!this.tabs?.find(x => x.tabType ==2)) {
     this.tabs.push({
       tabType: 2,
       name: 'Audit Trail Reports'
     });
-    this.selectedTab = 2;
+    this.selectedTab = this.tabs.length;
+  }
+    
 
   }
 

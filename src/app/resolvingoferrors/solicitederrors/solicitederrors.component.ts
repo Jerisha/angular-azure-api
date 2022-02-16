@@ -1,127 +1,128 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { SolicitedErrors } from '../models/solicited-errors';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
-import { Select } from 'src/app/_models/uicomponents/select';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { Select } from 'src/app/uicomponents/models/select';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatSelect } from '@angular/material/select';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
 
-const ELEMENT_DATA: SolicitedErrors[] = [
+const ELEMENT_DATA: any = [
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image',  Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591109', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    
   },
   {
-    TranId: '1014591107', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591107', View: 'image', TelNo: '1977722726', Cmd: 'Import',  Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591108', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591108', View: 'image', TelNo: '1977722727', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722728', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722729', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722730', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722731', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722732', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722733', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722734', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722735', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722736', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722737', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722738', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722739', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722740', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722741', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722742', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', TelNo: '1977722743', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
 ];
 
 const FilterListItems: Select[] = [
-  { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-  { view: 'TelNo End', viewValue: 'TelNoEnd', default: false },
-  { view: 'Source', viewValue: 'Source', default: false },
-  { view: 'Command', viewValue: 'Command', default: false },
-  { view: 'Error Type', viewValue: 'ErrorType', default: false },
+  { view: 'Start Telephone No', viewValue: 'TelNoStart', default: true },
+  { view: 'End Telephone No', viewValue: 'TelNoEnd', default: true },
+  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Command', viewValue: 'Command', default: true },
+  { view: 'Error Type', viewValue: 'ErrorType', default: true },
   // { view: 'Date Range', viewValue: 'Date', default: true },
-  { view: 'Error Codes', viewValue: 'ErrorCodes', default: false },
-  { view: '999 Reference', viewValue: 'Reference', default: false }
+  { view: 'Error Code', viewValue: 'ErrorCodes', default: true },
+  { view: '999 Reference', viewValue: 'Reference', default: true },
+  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
 ];
 
 const configInput: any = {
@@ -161,141 +162,137 @@ const configInput: any = {
 }
 
 const queryInput: any = {
-  "QueryObjectRequest": {
-    "QueryObjectRequestType": {
-      "RequestIdentifiers": {
-        "Identifier": [
-          {
-            "Name": "UserId",
-            "Value": [
-              "abc"
-            ]
-          },
-          {
-            "Name": "Destination",
-            "Value": [
-              "OSN2"
-            ]
-          }
-        ]
+  "QueryObjectRequest" : {
+    "QueryObjectRequestType" : {
+      "RequestIdentifiers" : {
+        "Identifier" : [ {
+          "Name" : "UserId",
+          "Value" : [ "Sample" ]
+        }, {
+          "Name" : "Destination",
+          "Value" : [ "OSN2" ]
+        } ]
       },
-      "ListofQueryObjectCategory": {
-        "QueryObjectCategory": [
-          {
-            "ItemName": "TelephoneNumberError",
-            "ListofIdentifiers": {
-              "Identifier": [
-                {
-                  "Name": "ReportIdentifier",
-                  "Value": [
-                    "Unsolicited Errors"
-                  ]
-                }
-              ]
-            },
-            "ListofQueryObjectCharacteristics": {
-              "QueryObjectCharacteristics": [
-                {
-                  "ItemName": "QueryParameters",
-                  "ListofIdentifiers": {
-                    "Identifier": [
-                      {
-                        "Name": "StartTelephoneNumber"
-                      },
-                      {
-                        "Name": "EndTelephoneNumber"
-                      },
-                      {
-                        "Name": "Command"
-                      },
-                      {
-                        "Name": "Source"
-                      },
-                      {
-                        "Name": "FromDate"
-                      },
-                      {
-                        "Name": "ToDate"
-                      },
-                      {
-                        "Name": "ResolutionType"
-                      },
-                      {
-                        "Name": "PageNumber"
-                      },
-                      {
-                        "Name": "ErrorType"
-                      },
-                      {
-                        "Name": "ErrorCode"
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
+      "ListofQueryObjectCategory" : {
+        "QueryObjectCategory" : [ {
+          "ItemName" : "TelephoneNumberError",
+          "ListofIdentifiers" : {
+            "Identifier" : [ {
+              "Name" : "ReportIdentifier",
+              "Value" : [ "Solicited Errors" ]
+            } ]
+          },
+          "ListofQueryObjectCharacteristics" : {
+            "QueryObjectCharacteristics" : [ {
+              "ItemName" : "QueryParameters",
+              "ListofIdentifiers" : {
+                "Identifier" : [ {
+                  "Name" : "StartTelephoneNumber"
+                }, {
+                  "Name" : "EndTelephoneNumber"
+                }, {
+                  "Name" : "Command"
+                }, {
+                  "Name" : "Source"
+                }, {
+                  "Name" : "FromDate"
+                }, {
+                  "Name" : "ToDate"
+                }, {
+                  "Name" : "ResolutionType"
+                }, {
+                  "Name" : "ErrorType"
+                }, {
+                  "Name" : "ErrorCode"
+                }, {
+                  "Name" : "OrderRefeerence"
+                }, {
+                  "Name" : "999Reference"
+                }, {
+                  "Name" : "PageNumber",
+                  "Value" : [ "1" ]
+                } ]
+              }
+            } ]
           }
-        ]
+        } ]
       }
     }
   }
 }
-
-const AuditInput: any= {
-  "GetObjectRequest": {
-      "GetObjectRequestType": {
-          "RequestIdentifiers": {
-              "Identifier": [
-                  {
-                      "Name": "UserId",
-                      "Value": [
-                          "abc"
-                      ]
-                  },
-                  {
-                      "Name": "Destination",
-                      "Value": [
-                          "OSN2"
-                      ]
-                  }
-              ]
-          },
-          "ListofGetObjectCategory": {
-              "GetObjectCategory": [
-                  {
-                      "ItemName": "TelephoneNumberTransactionError",
-                      "ListofIdentifiers": {
-                          "Identifier": [
-                              {
-                                  "Name": "ReportIdentifier",
-                                  "Value": [
-                                      "Solicited Errors"
-                                  ]
-                              }
-                          ]
-                      },
-                      "ListofGetObjectCharacteristics": {
-                          "GetObjectCharacteristics": [
-                              {
-                                  "ItemName": "GetParameters",
-                                  "ListofIdentifiers": {
-                                      "Identifier": [
-                                          {
-                                              "Name": "TelephoneNumber",
-                                              "Value": [
-                                                  "02071117400"
-                                              ]
-                                          }
-                                      ]
-                                  }
-                              }
-                          ]
-                      }
-                  }
-              ]
-          }
-      }
+const AuditInput: any= {"GetObjectRequest" : {
+  "GetObjectRequestType" : {
+    "RequestIdentifiers" : {
+      "Identifier" : [ {
+        "Name" : "UserId",
+        "Value" : [ "abc" ]
+      }, {
+        "Name" : "Destination",
+        "Value" : [ "OSN2" ]
+      } ]
+    },
+    "ListofGetObjectCategory" : {
+      "GetObjectCategory" : [ {
+        "ItemName" : "TelephoneNumberTransactionError",
+        "ListofIdentifiers" : {
+          "Identifier" : [ {
+            "Name" : "ReportIdentifier",
+            "Value" : [ "Solicited Errors" ]
+          } ]
+        },
+        "ListofGetObjectCharacteristics" : {
+          "GetObjectCharacteristics" : [ {
+            "ItemName" : "GetParameters",
+            "ListofIdentifiers" : {
+              "Identifier" : [ {
+                "Name" : "TelephoneNumber",
+                "Value" : [ "02071117400" ]
+              } ]
+            }
+          } ]
+        }
+      } ]
+    }
   }
+}}
+const transInput: any ={
+  "QueryObjectRequest" : {
+  "QueryObjectRequestType" : {
+    "RequestIdentifiers" : {
+      "Identifier" : [ {
+        "Name" : "UserId",
+        "Value" : [ "Sample" ]
+      }, {
+        "Name" : "Destination",
+        "Value" : [ "OSN2" ]
+      } ]
+    },
+    "ListofQueryObjectCategory" : {
+      "QueryObjectCategory" : [ {
+        "ItemName" : "ProvideReports",
+        "ListofIdentifiers" : {
+          "Identifier" : [ {
+            "Name" : "ReportIdentifier",
+            "Value" : [ "TelephoneNumberDetails" ]
+          } ]
+        },
+        "ListofAttributes" : {
+        },
+        "ListofQueryObjectCharacteristics" : {
+          "QueryObjectCharacteristics" : [ {
+            "ItemName" : "QueryParameters",
+            "ListofIdentifiers" : {
+              "Identifier" : [ {
+                "Name" : "PageNumber",
+                "Value" : [ "1" ]
+              } ]
+            }
+          } ]
+        }
+      } ]
+    }
+  }
+}
 }
 @Component({
   selector: 'app-solicitederrors',
@@ -306,6 +303,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
+    private cdr:ChangeDetectorRef,
     private _snackBar: MatSnackBar) { }
 
   myTable!: TableItem;
@@ -315,6 +313,7 @@ export class SolicitederrorsComponent implements OnInit {
   massage = null;
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
+  uiConfig :any;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -333,24 +332,27 @@ export class SolicitederrorsComponent implements OnInit {
 
   columns: ColumnDetails[] = [
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, isImage: false },
-    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, isImage: false },
+    { header: 'Telephone No', headerValue: 'TelNo', showDefault: true, isImage: false },
+    { header: 'Command', headerValue: 'Cmd', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created', headerValue: 'Created', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'Created', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Res Type', headerValue: 'ResType', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999 Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: '999Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserCmt', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, isImage: false }
   ];
   ngOnInit(): void {
     this.createForm();
-    this.setOptions();
-
+    this.uiConfig = this.setUIConfig();
   }
 
   ngAfterViewInit() {
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   createForm() {
@@ -362,7 +364,8 @@ export class SolicitederrorsComponent implements OnInit {
       //Date: new FormControl({ value: '', disabled: true }, []),
       ErrorCodes: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
-      Reference: new FormControl({ value: '', disabled: true }, [])
+      Reference: new FormControl({ value: '', disabled: true }, []),
+      OrderReference: new FormControl({ value: '', disabled: true }, [])
 
     })
     this.errorCodesOptions = this.thisForm.controls.ErrorCodes.valueChanges
@@ -372,11 +375,13 @@ export class SolicitederrorsComponent implements OnInit {
       );
   }
 
-  setOptions() {
-    //debugger;     
-    //this.service.apiTest(queryInput); 
-    //let transformInput = JSON.parse(queryInput);    
-    this.service.configDetails(AuditInput);
+  setUIConfig() {
+    debugger;     
+
+    // let transformInput = JSON.parse(configInput);   
+    //  transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command','Source']
+     this.service.configDetails(configInput);
+    // this.service.queryDetails(queryInput);
   }
 
   private _filter(name: string): any[] {
@@ -401,8 +406,9 @@ export class SolicitederrorsComponent implements OnInit {
         tabType: 0,
         name: 'Summary'
       });
+     
     }
-    this.selectedTab = this.tabs.length;
+    
 
   }
   
@@ -461,6 +467,11 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
+        //   this.selectedTab = 1;
+        // }
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
         }
 
         break;
@@ -471,12 +482,17 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 2,
             name: 'Transaction Errors'
           })
+        //   this.selectedTab = 2;
+        // }
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
         break;
       default:
         //statements; 
         break;
-        this.selectedTab = this.tabs.length;
+        
     }
   }
 

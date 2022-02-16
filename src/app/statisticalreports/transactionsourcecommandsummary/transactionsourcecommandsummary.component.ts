@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Transactionsourcecommandsummary } from '../models/transactionsourcecommandsummary';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import {FormControl} from '@angular/forms';
+import{statisticalreport}from '../services/statisticalreports.service';
 
 const ELEMENT_DATA: Transactionsourcecommandsummary[] = [
   { 
@@ -56,7 +57,7 @@ export class TransactionsourcecommandsummaryComponent implements OnInit {
     name: 'Telephone No.Details'
   }
   ];
-  constructor(private _snackBar: MatSnackBar) {}
+  constructor(private _snackBar: MatSnackBar,private service: statisticalreport) {}
 
     openSnackBar(message: string) {
       this._snackBar.open(message);

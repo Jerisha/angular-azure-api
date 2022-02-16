@@ -3,13 +3,15 @@ import { TableSelectionComponent } from 'src/app/uicomponents';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report-model';
-import { ColumnDetails, TableItem } from 'src/app/_models/uicomponents/table-item';
+import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select } from 'src/app/_models/uicomponents/select';
+import { Select } from 'src/app/uicomponents/models/select';
 import { MatSelect } from '@angular/material/select';
 import { AlertService } from 'src/app/_shared/alert';
-import { Tab } from 'src/app/_models/uicomponents/tab';
+import { Tab } from 'src/app/uicomponents/models/tab';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from './alert-dialog.component';
 
 const ELEMENT_DATA = [
   {
@@ -94,7 +96,7 @@ const FilterListItems: Select[] = [
 })
 export class TelephoneRangeReportComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar,private alertService:AlertService) { }
+  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar,private alertService:AlertService,private dialog: MatDialog) { }
 
   @ViewChild('table1') table1?:TableSelectionComponent;
   myTable!: TableItem;
@@ -122,8 +124,8 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   
   columns: ColumnDetails[] =[
-    { header: 'Start Tel. No.', headerValue: 'startTel', showDefault: true, isImage: false },
-    { header: 'End Tel. No.', headerValue: 'endTel', showDefault: true, isImage: false },
+    { header: 'Start Telephone No.', headerValue: 'startTel', showDefault: true, isImage: false },
+    { header: 'End Telephone No.', headerValue: 'endTel', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'source', showDefault: true, isImage: false },
     { header: 'Line Type', headerValue: 'line', showDefault: true, isImage: false },
     { header: 'Live Records', headerValue: 'live', showDefault: true, isImage: false },
@@ -142,7 +144,6 @@ export class TelephoneRangeReportComponent implements OnInit {
   };
   
   
-
   ngOnInit(): void {
     this.createForm();
 
@@ -169,11 +170,11 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
 
   resetForm():void{
-    this._snackBar.open('Reset Form Completed!', 'Close', {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
+    // this._snackBar.open('Reset Form Completed!', 'Close', {
+    //   duration: 5000,
+    //   horizontalPosition: this.horizontalPosition,
+    //   verticalPosition: this.verticalPosition,
+    // });
     // this.spinner = true;
     // setTimeout(()=>{
     //  this.spinner= false;
@@ -182,8 +183,8 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
-      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]),
+      TelNoStart: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(10)]),
+      TelNoEnd: new FormControl({value: '', disabled: false}),
 
     })
   }
@@ -231,7 +232,10 @@ export class TelephoneRangeReportComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report (1977722725)'
           });
-          this.selectedTab = 1;
+          // this.selectedTab = 1;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
         }
         break;
       }
@@ -241,7 +245,10 @@ export class TelephoneRangeReportComponent implements OnInit {
             tabType: 2,
             name: 'Transaction Details'
           })
-          this.selectedTab = 2;
+          // this.selectedTab = 2;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+        } else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
         break;
       }
@@ -253,6 +260,18 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
 
   hello(){
-    this.alertService.success('Success!! hshs dhdh hdhdhdh hdhdhd hdhdhdhd dhdddbb', this.options)
+    this.alertService.success('Success!! Alert is Working', this.options);
+    this.alertService.warn('Warning!! Alert is Working', this.options);
+    this.alertService.error('Error!! Alert is Working', this.options);
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(AlertDialogComponent,{
+      width:'300px',
+      disableClose: true,
+      data:{
+        message: 'This is from Alert Dialog',
+      }
+    });
   }
 }
