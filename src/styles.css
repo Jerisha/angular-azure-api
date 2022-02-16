@@ -295,6 +295,7 @@ div .mat-focus-indicator.mat-tab-label {
   margin-top:1px;   */
   font-size: smaller;  
   width: 170px;
+  
 }
 
 .side-nav button{
@@ -302,7 +303,8 @@ div .mat-focus-indicator.mat-tab-label {
 }
 
 .side-nav {  
-  width: 220px!important;    
+  width: 220px!important; 
+   
   /* margin: 10px;
   border: 1px solid #555; */
 }
@@ -406,3 +408,21 @@ box-sizing: border-box;
 }
 
 /* toggle-button ends */
+.matsidenav-footer {
+  /* position:relative !important;                  */
+  bottom:0;                         
+  left:0; 
+  height:auto;  
+  align-items: center;
+ /* background-color: lightslategray; */
+
+}
+
+.matsidenav-filter{
+  overflow-x:hidden; 
+  /* height:443px; */
+  height:443px;
+  max-height: 480px;
+   position:relative;
+}
+

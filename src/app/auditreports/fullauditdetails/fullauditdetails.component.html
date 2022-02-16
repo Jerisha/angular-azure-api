@@ -6,7 +6,7 @@
             </app-select-multiple>
         </div>
         <form [formGroup]="fullAuditForm" (ngSubmit)="onFormSubmit()">
-            <div class="">
+            <div class="matsidenav-filter">
                 <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.TelNoStart.disabled}"
                     hintLabel="Max 10 characters">
                     <mat-label>Tel.No Start</mat-label>
@@ -192,21 +192,18 @@
                     </mat-select>
                 </mat-form-field>
 
-                <div class="footer-filter">
-                    <button type="submit" mat-raised-button color="primary"
-                        [disabled]="fullAuditForm.invalid">
-                        <mat-icon>search</mat-icon>Search
-                    </button>
-                    <button type="reset" mat-raised-button color="primary"
-                        [disabled]="!fullAuditForm.touched" (click)="resetForm()">
-                        <mat-icon>refresh</mat-icon>Reset
-                    </button>
-                    </div>
-
-                
-            </div>
+            </div>            
+            <div class="matsidenav-footer">
+                <button type="submit" mat-raised-button color="primary"
+                    [disabled]="fullAuditForm.invalid">
+                    <mat-icon>search</mat-icon>Search
+                </button>
+                <button type="reset" mat-raised-button color="primary"
+                    [disabled]="!fullAuditForm.touched" (click)="resetForm()">
+                    <mat-icon>refresh</mat-icon>Reset
+                </button>
+            </div>                         
         </form>
-       
     </mat-sidenav>
 
     <mat-sidenav-content class="side-content">
@@ -228,7 +225,7 @@
                         <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
-
+                        <div class="mat-elevation-z8 side-bottom">
                         <div style="display:inline; margin-left: 15px;">
                             <mat-form-field>
                                 <mat-label>Res.Type</mat-label>
@@ -281,6 +278,7 @@
                             mat-raised-button color="primary">                              
                                 Process
                             </button>
+                        </div>
                         </div>
 
                         <!-- <div class="pageHolder">

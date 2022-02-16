@@ -25,6 +25,18 @@ table {
     margin:10px 
   }
 
+  .footer{
+    
+      position: fixed;
+      padding: 10px 10px 0px 10px;
+      bottom: 5;
+        width: 15%;
+      /* Height of5sthe footer*/ 
+      height: 40px;
+      background: grey;
+  
+  }
+
   
 .slidderbtn{
   /* float: left; */
