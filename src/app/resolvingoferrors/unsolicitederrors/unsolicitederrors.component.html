@@ -197,9 +197,11 @@
             <app-telephone-audit-trail></app-telephone-audit-trail>
           </div>
           <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
-            <app-table class="appTable" [tableitem]="informationTable1"></app-table>
+            <app-table class="appTable" [tableitem]="infotable1"></app-table>
+            <br>
+            <app-table class="appTable" [tableitem]="infotable2"></app-table>
           </div>
-          <!-- <app-table class="appTable" [tableitem]="informationTable2"></app-table> -->
+         
 
           <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
             <app-transaction-errors></app-transaction-errors>
