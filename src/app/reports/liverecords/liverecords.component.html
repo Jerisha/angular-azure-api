@@ -122,15 +122,15 @@ matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
 <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
 <mat-icon style="font-size: large;">close</mat-icon>
 </button> </ng-template> <span [ngSwitch]="tab.tabType">
-<div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+<div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
 <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
 (addNewTab)="newTab($event)">
 </app-table-selection>
 </div>
-<div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+<div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:6px;">
 <app-telephone-audit-trail></app-telephone-audit-trail>
 </div>
-<div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+<div *ngSwitchCase="2" style="height: 520px; overflow-y:auto;padding-left:6px;">
 </div>
 <div *ngSwitchDefault></div>
 </span> <!-- <button mat-raised-button

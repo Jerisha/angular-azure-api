@@ -1,45 +1,33 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
 
-    <div class="filterdataby">
-      <div style="font-size: small;">
-        <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
-          <mat-icon>filter_alt</mat-icon>
-          Filter Data By
-        </button>
-
-      </div>
+    <div class="filter-sticky">
+      <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+        (changes)="setControlAttribute($event)">
+      </app-select-multiple>
     </div>
-    <form (ngSubmit)="onFormSubmit()">
+    
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
       <div class="matsidenav-filter" style="height:380px;">
-        <mat-form-field hintLabel="Max 10 characters">
+        <mat-form-field hintLabel="Max 10 characters"  
+          [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
           <mat-label>Start Telephone No</mat-label>
-          <input matInput #input maxlength="10" placeholder="Start Telephone No">
+          <input formControlName="TelNoStart" matInput #input maxlength="10" placeholder="Start Telephone No">
           <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
         </mat-form-field>
 
-        <mat-form-field hintLabel="Max 10 characters">
+        <mat-form-field hintLabel="Max 10 characters"  
+          [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
           <mat-label>End Telephone No</mat-label>
-          <input matInput #input maxlength="10" placeholder="End Telephone No">
+          <input formControlName="TelNoEnd" matInput #input maxlength="10" placeholder="End Telephone No">
           <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Command</mat-label>
-          <mat-select>
-            <mat-option></mat-option>
-            <mat-option>Activate Customer</mat-option>
-            <mat-option>Cease Customer</mat-option>
-            <mat-option>Import</mat-option>
-            <mat-option>Export</mat-option>
-            <mat-option>Modify</mat-option>
-          </mat-select>
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-        </mat-form-field>
+        
 
-        <mat-form-field>
+        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
           <mat-label>Source</mat-label>
-          <mat-select>
+          <mat-select formControlName="Source">
             <mat-option></mat-option>
             <mat-option>AUDIT</mat-option>
             <mat-option>SAS/COMS</mat-option>
@@ -56,6 +44,17 @@
         </mat-form-field>
 
 
+       <mat-form-field  [ngClass]="{'hidden':thisForm.controls.ErrorDescription.disabled}">
+          <mat-label>Error Description</mat-label>
+          <input formControlName="ErrorDescription" matInput #input maxlength="10" placeholder="Error Description">
+          
+        </mat-form-field>
+
+        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.IsFinal.disabled}">
+          <mat-label>Is Final</mat-label>
+          <input formControlName="IsFinal" matInput #input maxlength="10" placeholder="Is Final">
+          
+        </mat-form-field>
 
         <mat-form-field>
           <mat-label>Date Range</mat-label>
@@ -68,9 +67,9 @@
           <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Error Type</mat-label>
-          <mat-select>
+        <mat-form-field [ngClass]="{'hidden':thisForm.controls.ResolutionType.disabled}">
+          <mat-label>Resolution Type</mat-label>
+          <mat-select formControlName="ResolutionType">
             <mat-option></mat-option>
             <mat-option>New</mat-option>
             <mat-option>Under Investigation</mat-option>
@@ -80,27 +79,21 @@
           </mat-select>
           <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Error Code</mat-label>
-          <input type="text" placeholder="type to find" matInput [formControl]="errorCode" [matAutocomplete]="auto" />
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option.viewValue">
-              {{option.view}}
-            </mat-option>
-          </mat-autocomplete>
+        
+        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.OrderReference.disabled}">
+          <mat-label>Order Reference</mat-label>
+          <input formControlName="OrderReference" matInput #input maxlength="10" placeholder="Order Reference">
+          
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.Reference.disabled}">
           <mat-label>999 Reference</mat-label>
-          <mat-select>
-            <mat-option></mat-option>
-            <mat-option>ERROR</mat-option>
-            <mat-option>ERROR Final</mat-option>
-
-          </mat-select>
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
+          
         </mat-form-field>
+        
+        
+        
       </div>
 
         <div class="matsidenav-footer">
@@ -171,14 +164,14 @@
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                     </mat-form-field>
 
-                    <button type="submit" mat-raised-button color="primary">
+                    <button type="button" mat-raised-button color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
 
-                    <button type="button" mat-raised-button color="primary">
+                    <!-- <button type="button" mat-raised-button color="primary">
                       <mat-icon>help</mat-icon>Help
-                    </button>
+                    </button> -->
                   </div>
                   <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
                           <mat-label>Resolution</mat-label>
@@ -194,12 +187,14 @@
             </form>
           </div>
           <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-            <app-telephone-audit-trail></app-telephone-audit-trail>
+            <app-telephone-audit-trail [isRequiredUnsol]=true></app-telephone-audit-trail>
           </div>
           <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
-            <app-table class="appTable" [tableitem]="informationTable1"></app-table>
+            <app-table class="appTable" [tableitem]="infotable1"></app-table>
+            <br>
+            <app-table class="appTable" [tableitem]="infotable2"></app-table>
           </div>
-          <!-- <app-table class="appTable" [tableitem]="informationTable2"></app-table> -->
+         
 
           <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
             <app-transaction-errors></app-transaction-errors>
