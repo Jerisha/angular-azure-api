@@ -6,34 +6,34 @@ import { TelephoneDetails } from '../models/telephone-details';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
   {
-    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 1
+    ViewDetails: 'image', TelephoneNo: '987654321', ActivateTransactions: 1, CeaseTransactions: 1, ModifiyTransactions: 1, ExportTransactions: 1, ImportTransactions: 1, TotalTransactions: 5
   },
 
 ];
@@ -53,7 +53,7 @@ export class TelephoneDetailsComponent implements OnInit {
   @Output() addNewTab = new EventEmitter<any>();
   public tabs = [{
     tabType: 0,
-    name: 'Telephone No.Details'
+    name: 'Telephone No Details'
   }
   ];
   constructor(private _snackBar: MatSnackBar) { }
@@ -84,8 +84,8 @@ export class TelephoneDetailsComponent implements OnInit {
       selectCheckbox: true,
       // colToSetImage: ['View'],
       imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],
-      // shouldTotalRow: true,
-      // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
+      shouldTotalRow: true,
+      totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 
     }
   }

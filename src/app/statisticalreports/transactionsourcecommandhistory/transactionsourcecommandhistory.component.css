@@ -45,3 +45,8 @@ margin: 4px;
   .controlsStylediv{
     margin-right:20px 
   }
+  .side-container-report {
+    width: auto;
+    height: 520px !important;
+    box-sizing: border-box;
+    }

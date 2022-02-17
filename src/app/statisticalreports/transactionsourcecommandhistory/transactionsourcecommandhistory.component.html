@@ -10,7 +10,7 @@
     </div>
     
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
-      <div class="">
+      <div class="matsidenav-filter">
         <app-select-exp [listItems]="expDefaultmonth"></app-select-exp>
         <mat-form-field appearance="outline">
           <mat-label>Statistic Month</mat-label>
@@ -35,8 +35,8 @@
             <mat-option>X - Unknown</mat-option>
           </mat-select>
         </mat-form-field>
-
-
+      </div>
+      <div calss="matsidenav-footer" >
         <button type="submit" mat-raised-button color="primary" >
           <mat-icon>search</mat-icon>Search
         </button>
