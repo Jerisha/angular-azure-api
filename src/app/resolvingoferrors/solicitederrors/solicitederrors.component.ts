@@ -333,17 +333,17 @@ export class SolicitederrorsComponent implements OnInit {
 
   columns: ColumnDetails[] = [
    
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Telephone No', headerValue: 'TelNo', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
+    { header: 'Command', headerValue: 'Cmd', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'Created', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
+    { header: '999Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserCmt', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, isImage: false }
   ];
   ngOnInit(): void {
     this.createForm();
@@ -417,7 +417,7 @@ export class SolicitederrorsComponent implements OnInit {
   }
   onFormSubmit(): void {
 
-    this.uiConfig1$ = this.service.configDetails(queryInput).pipe(map((res:any)=>res[0].SolicitedError));
+    // this.uiConfig1$ = this.service.configDetails(queryInput).pipe(map((res:any)=>res[0].SolicitedError));
     
 
     // this.uiConfig1$.subscribe((res:any)=>{
@@ -427,7 +427,7 @@ export class SolicitederrorsComponent implements OnInit {
    
 
     this.myTable = {
-      data: this.uiConfig1$,
+      data: ELEMENT_DATA,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
