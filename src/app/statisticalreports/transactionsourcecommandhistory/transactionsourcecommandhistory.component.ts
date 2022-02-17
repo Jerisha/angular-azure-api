@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Transactionsourcecommandhistory,Link } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
@@ -8,6 +8,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import{statisticalreport}from '../services/statisticalreports.service';
+import { MatTabGroup } from '@angular/material/tabs';
+
 
 
 const ELEMENT_DATA_CHILD:   Link[]=[{ View: 'image', StatisticDate: '11/01/2021', Source: ' C - SAS/COMS ', ActivateTransactions: '2', CeaseTransactions: '2', ModifiyTransactions: '2', ExportTransactions: '2 ', ImportTransactions: '2', TotalTransactions: '10' },
@@ -112,10 +114,13 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   ctrl = new FormControl(true);
   isChecked?:boolean=false;
+
+  @ViewChild(MatTabGroup) tabGroup !:MatTabGroup;
+
 columns: ColumnDetails[] =
 [
 // { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
-{ header: 'Link', headerValue: 'Link', showDefault: true, isImage: false },
+{ header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
 { header: 'StatisticMonth', headerValue: 'StatisticMonth', showDefault: false, isImage: false },
 { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
 { header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: false, isImage: false },
@@ -508,6 +513,7 @@ columnsChild: ColumnDetails[] =
 
     this.myTable = {
       data: ELEMENT_DATA,
+      childData:'Link',
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
@@ -523,7 +529,7 @@ columnsChild: ColumnDetails[] =
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',tabIndex:1 }]
       }
 
-
+      
 
 
 
@@ -533,7 +539,8 @@ columnsChild: ColumnDetails[] =
         name: 'M-O-M Summary'
       });
     }
-    this.selectedTab = this.tabs.length;
+    // this.selectedTab = this.tabs.length;
+    this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 0);
   }
 
   createForm() {
@@ -604,8 +611,9 @@ columnsChild: ColumnDetails[] =
             tabType: 1,
             name: 'Telephone No Details'
           });
-          this.selectedTab = 2;
+          // this.selectedTab = 2;          
         }
+        this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
         break;
       }
       case 2: {
@@ -616,8 +624,9 @@ columnsChild: ColumnDetails[] =
             tabType: 2,
             name: 'Audit Trail Report'
           });
-          this.selectedTab = 2;
+          // this.selectedTab = 2;          
         }
+        this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 2);
         break;
       }
       default: {
@@ -636,7 +645,8 @@ columnsChild: ColumnDetails[] =
       });
     }
    
-    this.selectedTab = 1;
+    // this.selectedTab = 1;
+    this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
    
   }
   OndayTodayselected(tab: any) {
@@ -645,8 +655,10 @@ columnsChild: ColumnDetails[] =
       tabType: 1,
       name: 'Telephone No. Details'
     });
-    this.selectedTab = 1;
+    // this.selectedTab = 1;
+    this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
   }
+  
    
   }
 
@@ -657,9 +669,9 @@ columnsChild: ColumnDetails[] =
       tabType: 2,
       name: 'Audit Trail Reports'
     });
-    this.selectedTab = this.tabs.length;
+    // this.selectedTab = this.tabs.length;
   }
-    
+  this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 2);
 
   }
 

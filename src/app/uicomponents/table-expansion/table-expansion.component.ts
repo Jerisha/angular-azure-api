@@ -65,7 +65,7 @@ export class TableExpansionComponent implements OnInit {
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   shouldTotalRow: boolean = false;
-  
+  childTable : string='';
   
   
   totalRowCols: string[] = []
@@ -115,7 +115,7 @@ export class TableExpansionComponent implements OnInit {
   }
   
   
-  
+  this.childTable = this.tableitem?.childData ? this.tableitem?.childData : '';
   this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
   this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
   : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);

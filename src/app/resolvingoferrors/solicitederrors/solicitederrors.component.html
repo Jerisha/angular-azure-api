@@ -74,15 +74,25 @@
           <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
         </mat-form-field>
 
-        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.ErrorType.disabled}">
-          <mat-label>Error Type</mat-label>
-          <mat-select formControlName="ErrorType">
+        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.ResolutionType.disabled}">
+          <mat-label>Resolution Type</mat-label>
+          <mat-select formControlName="ResolutionType">
             <mat-option></mat-option>
             <mat-option>New</mat-option>
             <mat-option>Under Investigation</mat-option>
             <mat-option>Under Governance</mat-option>
             <mat-option>Under Governance</mat-option>
             <mat-option>Port Req Complete</mat-option>
+          </mat-select>
+          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+        </mat-form-field>
+
+        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.ErrorType.disabled}">
+          <mat-label>Error Type</mat-label>
+          <mat-select formControlName="ErrorType">
+            <mat-option></mat-option>
+            <mat-option>Internal Error</mat-option>
+            <mat-option>External Error</mat-option>           
           </mat-select>
           <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
@@ -164,7 +174,7 @@
                   </select> -->
                   <div style="display: inline-block;">
                     <mat-form-field  >
-                      <mat-label>Resolution Type</mat-label>
+                      <mat-label>Resolution</mat-label>
                       <mat-select>
                         <mat-option></mat-option>
                         <mat-option>New</mat-option>
@@ -193,9 +203,9 @@
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
-                    <button type="button" mat-raised-button color="primary" >
+                    <!-- <button type="button" mat-raised-button color="primary" >
                       <mat-icon>help</mat-icon>Help
-                    </button>
+                    </button> -->
                     
                   </div>
                   <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >

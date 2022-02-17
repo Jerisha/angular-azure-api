@@ -3,31 +3,19 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeD
 import { MatSelect } from '@angular/material/select';
 import { Observable } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
-import { select } from 'src/app/_helper/Constants/exp-const';
 import { Select } from 'src/app/uicomponents/models/select';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
 
-const Items: Select[] = [
-  { view: 'Tran.Id', viewValue: 'Tran.Id', default: true },
-  { view: 'View', viewValue: 'View', default: true },
-  { view: 'Tel No', viewValue: 'Tel No', default: true },
-  { view: 'Cmd', viewValue: 'Cmd', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
-  { view: 'Created', viewValue: 'Created', default: false },
-  { view: 'Status', viewValue: 'Status', default: false },
-  { view: 'Ovd', viewValue: 'Ovd', default: false },
-  { view: 'Res Type', viewValue: 'Res Type', default: false },
-  { view: 'ErrorList', viewValue: 'ErrorList', default: false },
 
-];
+
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
   {
-    Month:'Jan', Resolve:'10', Count:'0'
+    Month: 'Jan', Resolve: '10', Count: '0'
   }
 ];
 
@@ -45,83 +33,97 @@ const ELEMENT_DATA_InformationTable2: InformationTable2[] = [
 ];
 const ELEMENT_DATA: UnSolicitedErrors[] = [
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS', ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
 
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS', ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
-  
+
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
   {
-    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source:'SAS/COMS' ,ErrorCount:'1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
-    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate:'02-Aud-19'
+    Reference: '1014591106', View: 'image', TelNo: '1977722725', Source: 'SAS/COMS', ErrorCount: '1047[8], 1048[1]', ResolutionType: 'Under Governance', RequestStart: '08-Aug-16',
+    RequestEnd: '12-Jul-19', Diff: '1059', Reference1: '999 Reference', LatestUserComments: 'Awaiting Updates From Customer', LatestCommentDate: '02-Aud-19'
   },
+];
+
+const FilterListItems: Select[] = [
+  { view: 'Start Telephone No', viewValue: 'TelNoStart', default: true },
+  { view: 'End Telephone No', viewValue: 'TelNoEnd', default: true },
+  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Error Description', viewValue: 'ErrorDescription', default: true },
+  // { view: 'Date Range', viewValue: 'Date', default: true },
+  { view: 'Is Final', viewValue: 'IsFinal', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
+  { view: '999 Reference', viewValue: 'Reference', default: true },
+  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
+
+
 ];
 
 @Component({
@@ -132,11 +134,13 @@ const ELEMENT_DATA: UnSolicitedErrors[] = [
 })
 export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
-  listItems!: Select[];
   myTable!: TableItem;
   informationTable1!: TableItem;
   informationTable2!: TableItem;
+  infotable1: any;
+  infotable2: any;
   selectListItems: string[] = [];
+  filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
   errorCodesOptions!: Observable<any[]>;
@@ -145,86 +149,76 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
   ];
-  errorCode = new FormControl();
+
   selectedTab!: number;
-   tabs :Tab[]=[] ;
-    //  {
-    //   tabType: 1,
-    //   name: 'Audit Trail Report'
-    // },{
-    //   tabType: 2,
-    //   name: 'Transaction Details'
-    // }
-  
+  thisForm!: FormGroup;
+  tabs: Tab[] = [];
+  //  {
+  //   tabType: 1,
+  //   name: 'Audit Trail Report'
+  // },{
+  //   tabType: 2,
+  //   name: 'Transaction Details'
+  // }
+
   columns: ColumnDetails[] = [
+    { header: 'Telephone Number', headerValue: 'TelNo', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Error Code', headerValue: 'ErrorCount', showDefault: true, isImage: false },
     { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Tel No', headerValue: 'TelNo', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Error[cnt]', headerValue: 'ErrorCount', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Request Start', headerValue: 'RequestStart', showDefault: true, isImage: false },
-    { header: 'Request End', headerValue: 'RequestEnd', showDefault: true, isImage: false },
-    { header: 'Diff', headerValue: 'Diff', showDefault: true, isImage: false },
+    { header: 'Request Start Date', headerValue: 'RequestStart', showDefault: true, isImage: false },
+    { header: 'Request End Date', headerValue: 'RequestEnd', showDefault: true, isImage: false },
+    { header: 'Difference in Days', headerValue: 'Diff', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date: ', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
-  columns_informationTable1: ColumnDetails[] = [
-    { header: 'Month', headerValue: 'Month', showDefault: true, isImage: false },
-    { header: 'Resolve', headerValue: 'Resolve', showDefault: true, isImage: false },
-    { header: 'Count', headerValue: 'Count', showDefault: true, isImage: false },
-    
-  ];
 
-  columns_informationTable2: ColumnDetails[] = [
-    { header: 'Month', headerValue: 'Month', showDefault: true, isImage: false },
-    { header: 'New', headerValue: 'New', showDefault: true, isImage: false },
-    { header: 'Investigation', headerValue: 'Investigation', showDefault: true, isImage: false },
-    { header: 'Governance', headerValue: 'Governance', showDefault: true, isImage: false },
-    { header: 'Port', headerValue: 'Port', showDefault: true, isImage: false },
-    { header: 'pComp', headerValue: 'PComp', showDefault: true, isImage: false },
-    { header: 'Resolve', headerValue: 'Resolve', showDefault: true, isImage: false },
-    { header: 'Other', headerValue: 'Other', showDefault: true, isImage: false },
-  ];
 
-selected :string='';
-expDefault =select.default;
-  constructor(private cdr:ChangeDetectorRef) { }
+  selected: string = '';
 
-  // ngOnInit(): void {
-  //   this.listItems = Items;
-  // }
+  constructor(private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
+
+
+
   ngOnInit(): void {
-
+    this.createForm();
     this.setOptions();
-    
-      }
+
+  }
   ngAfterViewInit() {
-       //this.cdr.detectChanges();
+    //this.cdr.detectChanges();
   }
 
-  ngAfterViewChecked() {
-    this.cdr.detectChanges();
-  }
+  // ngAfterViewChecked() {
+  //   this.cdr.detectChanges();
+  // }
+  createForm() {
 
-  DisplayInformationTab()
-  {
+    this.thisForm = this.formBuilder.group({
+      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      Source: new FormControl({ value: '', disabled: true }, []),
+      ResolutionType: new FormControl({ value: '', disabled: true }, []),
+      //Date: new FormControl({ value: '', disabled: true }, []),
+      ErrorDescription: new FormControl({ value: '', disabled: true }, []),
+      IsFinal: new FormControl({ value: '', disabled: true }, []),
+      Reference: new FormControl({ value: '', disabled: true }, []),
+      OrderReference: new FormControl({ value: '', disabled: true }, []),
+
+
+    })
+
+  }
+  DisplayInformationTab() {
     debugger;
-    this.informationTable1 = {
-      data: ELEMENT_DATA_InformationTable1,
-      Columns: this.columns_informationTable1,
-      filter:true,
+    this.infotable1 = ELEMENT_DATA_InformationTable1;
+    this.infotable2 = ELEMENT_DATA_InformationTable2;
 
-    }
 
-    this.informationTable2 = {
-      data: ELEMENT_DATA_InformationTable2,
-      Columns: this.columns_informationTable2,
-      filter:true,
-      
-    }
     if (!this.tabs.find(x => x.tabType == 3)) {
       this.tabs.push({
         tabType: 3,
@@ -234,15 +228,42 @@ expDefault =select.default;
     }
   }
 
+  setControlAttribute(matSelect: MatSelect) {
+    matSelect.options.forEach((item) => {
+      if (item.selected) {
+        this.thisForm.controls[item.value].enable();
+      }
+      else {
+        this.thisForm.controls[item.value].disable();
+      }
+    });
+  }
+
+  onFormSubmit(): void {
+    this.myTable = {
+      data: ELEMENT_DATA,
+      Columns: this.columns,
+      filter: true,
+      selectCheckbox: true,
+      selectionColumn: 'TranId',
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+    }
+    if (!this.tabs.find(x => x.tabType == 0)) {
+      this.tabs.push({
+        tabType: 0,
+        name: 'Summary'
+      });
+    }
+    this.selectedTab = this.tabs.length;
+
+  }
+
   setOptions() {
     // debugger;
     // this.service.configDetails(configInput);
 
-    this.errorCodesOptions = this.errorCode.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
+
   }
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
@@ -251,32 +272,7 @@ expDefault =select.default;
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  onFormSubmit(): void { 
 
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.columns,
-      filter: true,
-      selectCheckbox: true,
-      selectionColumn: 'TranId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]    
-
-
-    } 
-
-    if (!this.tabs.find(x => x.tabType == 0)) {
-      this.tabs.push({
-        tabType: 0,
-        name: 'Summary'
-      
-      });
-      this.selectedTab = 0;
-    }   
-
-   
-
-  }
   resetForm(): void { }
 
   rowDetect(item: any) {
@@ -311,12 +307,12 @@ expDefault =select.default;
             tabType: 1,
             name: 'Audit Trail Report (1977722725)'
           });
-         //   this.selectedTab = 1;
-        // }
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
-      } else {
-      this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
-      }
+          //   this.selectedTab = 1;
+          // }
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+        }
         break;
       }
       case 2: {
@@ -326,12 +322,12 @@ expDefault =select.default;
             name: 'Transaction Errors'
           })
           //   this.selectedTab = 2;
-        // }
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-      } else {
-      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-      }
-      break;
+          // }
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+        }
+        break;
       }
       default: {
         //statements; 
@@ -344,7 +340,7 @@ expDefault =select.default;
   }
 
 
-  selChangeMultiple(matSelect: MatSelect) {   
+  selChangeMultiple(matSelect: MatSelect) {
 
     matSelect.options.forEach((item) => {
       if (item.selected) {
@@ -362,9 +358,9 @@ expDefault =select.default;
     });
   }
 
-  selChangeSingle(matSelect: MatSelect) { 
+  selChangeSingle(matSelect: MatSelect) {
     console.log(matSelect.value);
     this.selected = matSelect.value;
-    }
+  }
 
 }

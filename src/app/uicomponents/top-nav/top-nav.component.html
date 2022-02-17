@@ -1,37 +1,41 @@
 <!-- <mat-toolbar color="primary" class="mat-elevation-z1" style="height: 90%;"> -->
-  <mat-toolbar class="banner mat-elevation-z1 ">
+<mat-toolbar class="banner mat-elevation-z1 ">
   <button mat-icon-button id="menu" (click)="navService.openNav()">
     <mat-icon>apps</mat-icon>
-  </button> 
-
-  <div class="vflogo"  [routerLink]="['']" >    
-    <img src="assets/images/vodafone.png" alt="image" style="width:32px;height:32px;">
-  </div>
-  <span class='appheader'>OSN Provisioning</span>
+  </button>&nbsp;
 
 
-  <span class="menuheaderright">  
-    <button  mat-icon-button value="home"  [routerLink]="['']" color="primary">
-      <mat-icon  matTooltip="Nagivate to Home Page" [matTooltipPosition]="position.value" >home</mat-icon>
-    </button>   
+  <span style="display: flex;cursor: pointer;" matTooltip="Home" [routerLink]="['']">
+    <img src="assets/images/vodafone.png" alt="image">
+    <span style="margin-left: 5px;"> OSN Provisioning</span>
+  </span> 
+
+
+
+
+  <span class="menuheaderright">
+    <!-- <button mat-icon-button value="home" [routerLink]="['']" color="primary">
+      <mat-icon matTooltip="Nagivate to Home Page" [matTooltipPosition]="position.value">home</mat-icon>
+    </button> -->
     <!-- <button  mat-icon-button value="Logout"  color="primary">
      <mat-icon matTooltip="About"  [matTooltipPosition]="position.value" >info</mat-icon>
    </button>     -->
-     <button  mat-icon-button matTooltip="Welcome John Doe !" [matMenuTriggerFor]="menu" [matTooltipPosition]="position.value"  color="primary">
+    <button mat-icon-button matTooltip="Welcome John Doe !" [matMenuTriggerFor]="menu"
+      [matTooltipPosition]="position.value" color="primary">
       <mat-icon>perm_identity</mat-icon>
     </button>
-    <mat-menu #menu="matMenu">     
-        <button mat-menu-item>
-          <!-- <mat-icon>power_settings_new</mat-icon> -->
-          Settings
-        </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <!-- <mat-icon>power_settings_new</mat-icon> -->
+        Settings
+      </button>
     </mat-menu>
-    <button  mat-icon-button value="Logout"  color="primary">
+    <button mat-icon-button value="Logout" color="primary">
       <mat-icon matTooltip="Logout" [matTooltipPosition]="position.value">logout</mat-icon>
-    </button>  
+    </button>
 
 
 
-    
-  </span>  
+
+  </span>
 </mat-toolbar>
