@@ -3,11 +3,11 @@ import { from, Observable, Observer, of, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
 import { catchError, first, map, retry } from 'rxjs/operators';
-import { HttpWrapperService } from 'src/app/http/http-wrapper.service';
+import { HttpWrapperService } from 'src/app/_http/http-wrapper.service';
 import { FullAuditSummary } from '../models/index';
 
-import { HttpVerbs } from 'src/app/http/enums/http-verbs.enum';
-import { WebMethods } from 'src/app/http/enums/web-methods.enum';
+import { HttpVerbs } from 'src/app/_http/enums/http-verbs.enum';
+import { WebMethods } from 'src/app/_http/enums/web-methods.enum';
 @Injectable()
 export class FullAuditDetailsService {
 

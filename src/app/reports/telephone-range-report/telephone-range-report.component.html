@@ -12,7 +12,7 @@
     </div> -->
     <div class="filterdataby">
       <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
-      <mat-icon>filter_alt</mat-icon>
+      <!-- <mat-icon>filter_alt</mat-icon> -->
           Filter Data By
       </button>
       <!-- <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
@@ -33,14 +33,14 @@
           <mat-label>End Telephone No.</mat-label>
           <input matInput formControlName="TelNoEnd" maxlength="10" placeholder="End Telephone No.">
         </mat-form-field>
-
+        <!-- <div style="position: fixed; bottom: 40px;"> -->
         <button type="submit" mat-raised-button color="primary">
           <mat-icon>search</mat-icon>Search
         </button>
         <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
           <mat-icon>refresh</mat-icon>Reset
         </button>
-
+        <!-- </div> -->
         <!-- <button type="button" mat-raised-button color="primary" matTooltip="Alert" (click)="hello()">
           <mat-icon></mat-icon>Alert
         </button> -->
@@ -69,7 +69,7 @@
         </ng-template>
 
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+          <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
             <div class="table-view">
             <app-table-selection [sidePan]="pagesidenav" #table1 [tableitem] = "myTable"></app-table-selection>
             </div>

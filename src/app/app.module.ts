@@ -13,9 +13,9 @@ import {  MenuSearchPipe } from './_helper/index';
 
 
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { HttpWrapperService } from './http/http-wrapper.service';
-import { HttpErrorInterceptor } from './http/http-error-interceptor';
-import { HttpHeaderInterceptor } from './http/http-header-interceptor';
+import { HttpWrapperService } from './_http/http-wrapper.service';
+import { HttpErrorInterceptor } from './_http/http-error-interceptor';
+import { HttpHeaderInterceptor } from './_http/http-header-interceptor';
 import { TransactionsModule } from './transactions/transactions.module';
 import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';

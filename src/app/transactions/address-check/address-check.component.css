@@ -36,21 +36,29 @@
     color:  rgb(118, 120, 139);
   }
   .vf-sub-title{
+    /* border: 1px solid #4a4d4e;  */
+    /* box-sizing: border-box; */
+    /* color:#000000;      */
     /*background-color:#007c92; */
-    /* background-color: #e60000; */
-    background-color:  rgb(118, 120, 139);
-    
-    color: white;
-    font-size: small;    
+    /* background-color: #756f6f; */
+    /* background-color:  rgb(118, 120, 139); */
+    box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
+    color:#000000; 
+    /* color: white; */
+    font-size: small; 
+    font-weight:500;    
     /* color: #54575a; */
-    /* border-style:double; */
-    padding-left: 3px;
+    /* border-style:double; */    
   }
   .vf-grid-value{
-    /* background-color:#666666; */
+    /* border: 1px solid #4a4d4e;  */
+    /* box-sizing: border-box; */
     color:#000000; 
+    /* background-color:#666666; */
+    /* color:#000000;  */
     font-size: small; 
-    font-weight:600;  
+    font-weight:200;  
+    box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
     /* border-style:solid */
     padding-left: 3px;
   }
@@ -65,5 +73,8 @@
   }
   :host ::ng-deep.mat-grid-tile .mat-figure {
     flex-wrap: wrap !important; 
-    justify-content:flex-start !important;   
+    justify-content:flex-start !important; 
+    padding-left: 16px !important; 
+    /* padding-top: 3px !important; */
+    /* padding-bottom: 3px !important;   */
   }

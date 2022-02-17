@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 export interface Tile {  
   text: string;
   class:string;
@@ -39,9 +39,40 @@ export class AddressCheckComponent implements OnInit {
     {text: 'Error Code' ,class:"vf-sub-title"},
     {text: 'Checked Address',class:"vf-sub-title"},
     {text: 'PAF Address',class:"vf-sub-title"},
-    {text: 'Error Code value',class:"vf-grid-value"},
+    {text: 'Error Code value',class:"vf-grid-value"}, 
     {text: 'Checked Address value',class:"vf-grid-value"},
     {text: 'PAF Address value',class:"vf-grid-value"},
+  ];
+  summaryTiles1: Tile[] = [    
+    {text: 'Error Code' ,class:"vf-sub-title"},
+    {text: 'Checked Address',class:"vf-sub-title"},
+    {text: 'PAF Address',class:"vf-sub-title"},
+    {text: '',class:"vf-grid-value"}, //Error Code value
+    {text: '',class:"vf-grid-value"},//Checked Address value
+    {text: '',class:"vf-grid-value"},//PAF Address value
+  ];
+  pafTiles1: Tile[] = [
+    {text: 'Input Format'        ,class:"vf-sub-title"},
+    {text: 'Input Address'       ,class:"vf-sub-title"},
+    {text: 'PAF Address'         ,class:"vf-sub-title"},
+    {text: 'Address1'            ,class:"vf-sub-title"},
+    {text: ''      ,class:"vf-grid-value"},//Address1 value
+    {text: ''  ,class:"vf-grid-value"},    //PAF Address1 value
+    {text: 'Address2'            ,class:"vf-sub-title"},
+    {text: ''      ,class:"vf-grid-value"}, //Address2 value
+    {text: ''  ,class:"vf-grid-value"}, //PAF Address2 value
+    {text: 'Address3'            ,class:"vf-sub-title"},
+    {text: ''      ,class:"vf-grid-value"},//Address3 value
+    {text: ''  ,class:"vf-grid-value"}, //PAF Address3 value
+    {text: 'Address4'            ,class:"vf-sub-title"}, 
+    {text: ''      ,class:"vf-grid-value"}, //Address4 value
+    {text: ''  ,class:"vf-grid-value"},//PAF Address4 value
+    {text: 'Postcode'            ,class:"vf-sub-title"},
+    {text: ''      ,class:"vf-grid-value"}, //Postcode value
+    {text: ''  ,class:"vf-grid-value"}, //PAF Postcode value
+    {text: 'Validation'          ,class:"vf-sub-title"}, 
+    {text: ''    ,class:"vf-grid-value"},//Validation value
+    {text: '',class:"vf-grid-value"},//PAF Validation value
   ];
   pafTiles: Tile[] = [
     {text: 'Input Format'        ,class:"vf-sub-title"},
@@ -82,16 +113,42 @@ export class AddressCheckComponent implements OnInit {
     {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
     {text: 'BT Address Overflow value'      ,class:"vf-grid-value"}, 
     {text: 'PAF Address Overflow value'  ,class:"vf-grid-value"},
-    {text: 'overflow Error'            ,class:"vf-sub-title"},
+    {text: 'Overflow Error'            ,class:"vf-sub-title"},
     {text: 'BT overflow Error value'      ,class:"vf-grid-value"}, 
     {text: 'PAF overflow Error value'  ,class:"vf-grid-value"},
+  ];
+  btTiles1: Tile[] = [
+    {text: 'BT Format'                      ,class:"vf-sub-title"},
+    {text: 'BT Checked Address'             ,class:"vf-sub-title"},
+    {text: 'BT Checked PAF Address'         ,class:"vf-sub-title"},
+    {text: 'Premises'            ,class:"vf-sub-title"},
+    {text: ''      ,class:"vf-grid-value"},
+    {text: ''  ,class:"vf-grid-value"}, 
+    {text: 'Throughfare'            ,class:"vf-sub-title"},
+    {text: ''      ,class:"vf-grid-value"},
+    {text: ''  ,class:"vf-grid-value"}, 
+    {text: 'Locality'            ,class:"vf-sub-title"},
+    {text: ''      ,class:"vf-grid-value"},
+    {text: ''  ,class:"vf-grid-value"}, 
+    {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
+    {text: ''      ,class:"vf-grid-value"}, 
+    {text: ''  ,class:"vf-grid-value"},
+    {text: 'Overflow Error'            ,class:"vf-sub-title"},
+    {text: ''      ,class:"vf-grid-value"}, 
+    {text: ''  ,class:"vf-grid-value"},
   ];
 
   dataSource!: IAddressCheck;
   
-  constructor() { }
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+  }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   ReturnAddress()

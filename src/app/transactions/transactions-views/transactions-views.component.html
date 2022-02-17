@@ -29,13 +29,13 @@
                             </div>                                                        
                             <!-- </p>                                                       -->
                           </mat-list-item>  
-                          <mat-list-item  *ngFor="let cli of CliRangeSet" style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
+                          <mat-list-item  *ngFor="let cli of CliRangeSet; let index = index " style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
                             <!-- <p matLine > -->
                               <div style="display:inline-flex;">
                               <span style="width:160px;box-sizing: border-box;">{{cli[0]}}</span>
                               <span style="width:160px;box-sizing: border-box;">{{cli[1]}}</span>
                               <!-- <span style="min-width:5%;text-align:end;box-sizing: border-box;"> -->
-                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli()">-                                  
+                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli(index)">-                                  
                                 </button>
                               <!-- </span>   -->
                             </div>                                                          
@@ -96,7 +96,7 @@
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">history</i>Audit Trail 
                       </button></span>
                       <span>
-                      <button type="cancel" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; padding-left: 20px;padding-right: 20px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;" matTooltip="All the values are Reset back to start state"  (click)="resetTel(this)">
+                      <button type="cancel" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; padding-left: 20px;padding-right: 20px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;" matTooltip="All the values are Reset & back to start state"  (click)="resetTel(this)">
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">refresh</i>Reset
                       </button>  
                     </span>
@@ -113,7 +113,7 @@
                             {{cupid.viewValue}}
                           </mat-option>
                         </mat-select>                       
-                      </mat-form-field> 
+                      </mat-form-field>
                     </span>
                     <span>           
                         <mat-form-field *ngIf = "enableFrancise"
@@ -373,13 +373,13 @@
                                 </div>                               
                         </div>                        
                         <div class =vf-flex-container style="margin-block: 1px; padding-bottom: 2px;">                           
-                              <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Trnsacion details will be saved" (click)="saveTran(0)" [disabled]="saveState">
+                              <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Transaction details will be saved" (click)="saveTran(0)" [disabled]="saveState">
                               <mat-icon style ="font-size:small;width:30px;height: 16px;">save</mat-icon>Save
                             </button>
                             <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Click this button Check Address will be navigate"  (click)="viewAddressCheck()">
                               <mat-icon style ="font-size:small;width:30px;height: 16px;">search</mat-icon>Check Address
                             </button>
-                            <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Trnsacion details will be forced to saved"  (click)="saveTran(1)" [disabled]="saveState">                             
+                            <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Transaction details will be forced to saved"  (click)="saveTran(1)" [disabled]="saveState">                             
                               <span class="material-icons" style ="font-size:small;width:30px;height: 16px;">
                                 save_alt
                                 </span>Force Validate Save

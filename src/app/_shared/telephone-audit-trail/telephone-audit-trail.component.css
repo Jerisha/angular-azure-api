@@ -164,3 +164,7 @@ h4 {
   /* .notification-sec .label {
     min-width: 160px;
   } */
+
+  mat-divider {
+    min-height: 20px;
+  }
