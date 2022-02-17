@@ -120,7 +120,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 columns: ColumnDetails[] =
 [
 // { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
-{ header: 'Link', headerValue: 'Link', showDefault: true, isImage: false },
+{ header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
 { header: 'StatisticMonth', headerValue: 'StatisticMonth', showDefault: false, isImage: false },
 { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
 { header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: false, isImage: false },
@@ -513,6 +513,7 @@ columnsChild: ColumnDetails[] =
 
     this.myTable = {
       data: ELEMENT_DATA,
+      childData:'Link',
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
