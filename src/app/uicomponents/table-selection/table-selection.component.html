@@ -8,34 +8,40 @@ font-size: smaller;  ">
 (click)="sidePan.toggle()" matTooltip="{{sidePan.opened ? 'Hide Filters' : 'Show Filters'}}">
   <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
   </button> -->
-
-<mat-form-field appearance="standard" *ngIf="filter" class="colfilter" style="margin-left: 8px;">
-  <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
-    <mat-select-trigger>
-      <mat-icon matPrefix>filter_list</mat-icon>
-      {{select.value ? select.value[0] : ''}}
-      <span *ngIf="select.value?.length > 1" class="additional-selection">
-        (+{{select.value.length - 1}} {{select.value?.length === 2 ? 'other' : 'others'}})       
-      </span>
-    </mat-select-trigger>
-    <mat-optgroup class="freezeselectall" style="min-width:220px">
-      <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
-        Select All</mat-checkbox>
-        <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns()" matTooltip="Submit">
+<div style="display: flex">
+  <mat-form-field appearance="standard" *ngIf="filter" class="colfilter" style="margin-left: 8px;">
+    <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
+      <mat-select-trigger>
+        <span style="display: flex;">
+          <mat-icon matPrefix>filter_list</mat-icon>
+          <span style="padding: 5px;">
+            {{select.value ? select.value[0] : ''}}
+            <ng-container *ngIf="select.value?.length > 1">
+              (+{{select.value.length - 1}} {{select.value?.length === 2 ? 'other' : 'others'}})
+            </ng-container>
+          </span>
+        </span>
+      </mat-select-trigger>
+      <mat-optgroup class="freezeselectall" style="min-width:220px">
+        <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
+          Select All</mat-checkbox>
+        <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns()"
+          matTooltip="Submit">
           <!-- <mat-icon>play_arrow</mat-icon> -->
           Submit
         </button>
-    </mat-optgroup>
-    <mat-option  style="min-width:220px" color="primary" (click)="optionClick()"
-      *ngFor="let cols of (gridSelectList || []); let fltIndex = index" [value]="cols.headerValue">
-      {{ cols.header }}
-    </mat-option>
-    
-  </mat-select>
-</mat-form-field>
-&nbsp;
-<span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span>
+      </mat-optgroup>
+      <mat-option style="min-width:220px" color="primary" (click)="optionClick()"
+        *ngFor="let cols of (gridSelectList || []); let fltIndex = index" [value]="cols.headerValue">
+        {{ cols.header }}
+      </mat-option>
 
+    </mat-select>
+  </mat-form-field>
+
+  <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
+      {{selection.selected.length}}</b></span>
+</div>
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
 
 <div>
@@ -55,11 +61,11 @@ font-size: smaller;  ">
             <mat-checkbox style="margin-right:20px;" (click)="$event.stopPropagation()" (change)="selectRow($event,row)"
               (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
             </mat-checkbox>
-          </td>    
-          <ng-container *ngIf="shouldTotalRow">             
-            <td mat-footer-cell class="totalRow"  [attr.colspan]="nonNumericCols.length+1"  *matFooterCellDef> Total
+          </td>
+          <ng-container *ngIf="shouldTotalRow">
+            <td mat-footer-cell class="totalRow" [attr.colspan]="nonNumericCols.length+1" *matFooterCellDef> Total
             </td>
-          </ng-container>          
+          </ng-container>
         </div>
 
         <!-- Image Columns -->
@@ -70,57 +76,59 @@ font-size: smaller;  ">
               <mat-icon matTooltip="{{img.toolTipText}}" class="table-icon" (click)="addTabs($event,img.tabIndex,row)"
                 *ngIf="img.headerValue === disCol.headerValue">
                 {{img.icon}}</mat-icon>
-            </ng-container> </td> 
-            
-            <ng-container *ngIf="shouldTotalRow">             
-              <td mat-footer-cell class="totalRow"  [attr.colspan]="nonNumericCols.length+1"  *matFooterCellDef> Total
-              </td>
-            </ng-container>   
+            </ng-container>
+          </td>
+
+          <ng-container *ngIf="shouldTotalRow">
+            <td mat-footer-cell class="totalRow" [attr.colspan]="nonNumericCols.length+1" *matFooterCellDef> Total
+            </td>
+          </ng-container>
         </div>
         <!-- Other Columns -->
         <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">
-          <th mat-header-cell class="nowrap-cell" *matHeaderCellDef mat-sort-header>{{disCol.header}}</th>
-          <td mat-cell class="nowrap-cell" *matCellDef="let element"(click)="$event.stopPropagation()" [ngStyle]="highlightCell(element,disCol)">
+          <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>{{disCol.header}}</th>
+          <td mat-cell class="nowrap-cell" *matCellDef="let element" (click)="$event.stopPropagation()"
+            [ngStyle]="highlightCell(element,disCol)">
             {{element[disCol.headerValue]}} </td>
-            <ng-container *ngIf="shouldTotalRow">             
-              <td mat-footer-cell class="totalRow"  [attr.colspan]="getColSpan(disCol.headerValue)"  *matFooterCellDef> {{ getTotal(disCol.headerValue)}}
-              </td>
-            </ng-container>
+          <ng-container *ngIf="shouldTotalRow">
+            <td mat-footer-cell class="totalRow" [attr.colspan]="getColSpan(disCol.headerValue)" *matFooterCellDef> {{
+              getTotal(disCol.headerValue)}}
+            </td>
+          </ng-container>
         </div>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
-      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}"*matRowDef="let row; columns: dataColumns;" (change)="selectRow($event,row)"
-        (click)="selection.toggle(row)"> </tr>        
-        <ng-container *ngIf="shouldTotalRow">
-          <tr class="totalRow" mat-footer-row *matFooterRowDef="totalRowCols;sticky: true"></tr>
-        </ng-container>
+      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" *matRowDef="let row; columns: dataColumns;"
+        (change)="selectRow($event,row)" (click)="selection.toggle(row)"> </tr>
+      <ng-container *ngIf="shouldTotalRow">
+        <tr class="totalRow" mat-footer-row *matFooterRowDef="totalRowCols;sticky: true"></tr>
+      </ng-container>
     </table>
   </div>
 
 
-<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
-</mat-paginator>
+  <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
+  </mat-paginator>
 
-<!-- <div class="test-wrapper"> -->
-<div style="margin-bottom:10px" *ngIf="isShown">
-  <button type="reset" mat-raised-button color="primary">
-    <mat-icon>import_export</mat-icon>Export
-  </button>&nbsp;&nbsp;
-  <button type="reset" mat-raised-button color="primary" 
-  [disabled]="selection.selected.length > 0 ? false : true">
-    <mat-icon>file_copy</mat-icon> Copy To Clipboard
-  </button>
-  <span *ngIf="isEmailRequired">
+  <!-- <div class="test-wrapper"> -->
+  <div style="margin-bottom:10px" *ngIf="isShown">
     <button type="reset" mat-raised-button color="primary">
-      <mat-icon>email</mat-icon> Export to email
+      <mat-icon>import_export</mat-icon>Export
+    </button>&nbsp;&nbsp;
+    <button type="reset" mat-raised-button color="primary" [disabled]="selection.selected.length > 0 ? false : true">
+      <mat-icon>file_copy</mat-icon> Copy To Clipboard
     </button>
-  </span>
-</div>
-<div style="margin: auto;"  *ngIf="!isShown">
-  <button type="reset" mat-raised-button color="primary">
-    <mat-icon>import_export</mat-icon>Refresh
-  </button>&nbsp;&nbsp;
-  
-</div>
+    <span *ngIf="isEmailRequired">
+      <button type="reset" mat-raised-button color="primary">
+        <mat-icon>email</mat-icon> Export to email
+      </button>
+    </span>
+  </div>
+  <div style="margin: auto;" *ngIf="!isShown">
+    <button type="reset" mat-raised-button color="primary">
+      <mat-icon>import_export</mat-icon>Refresh
+    </button>&nbsp;&nbsp;
 
-<mat-divider></mat-divider>
+  </div>
+
+  <mat-divider></mat-divider>

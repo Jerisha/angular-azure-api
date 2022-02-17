@@ -1,5 +1,6 @@
 export interface TableItem {
     data: any;
+    childData?:string;
     Columns?: ColumnDetails[];
     filter?: boolean;
     selectCheckbox?: boolean;
@@ -13,8 +14,7 @@ export interface TableItem {
     highlightedCells?:string[];
     backhighlightedCells?:string[];
     totalRowCols?:string[];
-    shouldTotalRow?:boolean;
-    
+    shouldTotalRow?:boolean; 
     
 }
 
@@ -31,5 +31,6 @@ export interface ColumnDetails {
     headerValue: string;
     showDefault?: boolean;
     isImage?: boolean;
+    addTotal?:boolean;
 }
 

@@ -8,12 +8,12 @@ const ele: TransactionErrors = {
     { Code: '1081', Response: 'Daa/Record', Date: '20-Jan-2014', Final: 'N', FileName: 'BT101311041002.CAR' }
   ],
   ResolHistory: [
-    { Resolution: 'Under Investingation', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
-    { Resolution: 'Under Investingation', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
-    { Resolution: 'Under Investingation', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
-    { Resolution: 'Under Investingation', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
-    { Resolution: 'Under Investingation', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
-    { Resolution: 'Under Investingation', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
+    { Resolution: 'Under Investigtion', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
+    { Resolution: 'Under Investigtion', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
+    { Resolution: 'Under Investigtion', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
+    { Resolution: 'Under Investigtion', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
+    { Resolution: 'Under Investigtion', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
+    { Resolution: 'Under Investigtion', CreatedBy: 'Ashok.kumarr@vodafone.com', CreaedDate: '20-Jan-2019', Duration: '334 Days 1:54', Comment: 'Emailed GPN for Update' },
   ]
 }
 @Component({

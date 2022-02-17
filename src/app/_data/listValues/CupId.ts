@@ -1,6 +1,6 @@
 export class CupId
 {    
-    cupIds: ICupId[] = [        
+   public cupIds: ICupId[] = [        
         {value:7, viewValue:"7 - Onenet"},
         {value:13, viewValue:"13 - Cable & Wireless UK"},
         {value:23, viewValue:"26 - Vodafone Ltd. (Energis)"},
