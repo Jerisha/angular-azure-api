@@ -53,7 +53,7 @@ export class TelephoneDetailsComponent implements OnInit {
   @Output() addNewTab = new EventEmitter<any>();
   public tabs = [{
     tabType: 0,
-    name: 'Telephone No.Details'
+    name: 'Telephone No Details'
   }
   ];
   constructor(private _snackBar: MatSnackBar) { }
