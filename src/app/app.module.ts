@@ -20,6 +20,8 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HelperModule } from './_helper/helper.module';
+import { StatisticalreportsModule } from './statisticalreports/statisticalreports.module';
+import { ReportsModule } from './reports/reports.module';
 
 
 @NgModule({
@@ -38,6 +40,8 @@ import { HelperModule } from './_helper/helper.module';
     ResolvingoferrorsModule,
     AuditreportsModule,
     TransactionsModule,
+    StatisticalreportsModule,
+    ReportsModule,  
     HelperModule   
   ],
   providers: [NavService,HttpWrapperService,

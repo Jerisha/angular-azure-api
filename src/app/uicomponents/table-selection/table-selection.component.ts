@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit,AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/model
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-table-selection',
@@ -57,12 +58,16 @@ export class TableSelectionComponent {
   constructor(private cdr: ChangeDetectorRef) {
 
   }
+  dataObs$!: Observable<any>
+  dataobj!: any;
 
 
-  ngOnInit() {
+  ngOnInit() {    
+
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false;
+    debugger;
     if (this.tableitem?.showBlankCoulmns) {
       this.getEmptyColumns();
       this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
@@ -75,6 +80,7 @@ export class TableSelectionComponent {
     }
 
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
+
     this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
       : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
     //this.imgColumns = this.tableitem?.colToSetImage;
@@ -106,8 +112,7 @@ export class TableSelectionComponent {
     this.dataSource.sort = this.sort;
     this.toggleAllSelection();
     this.cdr.detectChanges();
-  } 
-  
+  }
 
 
   isRowselected: boolean = false;
@@ -124,6 +129,7 @@ export class TableSelectionComponent {
     if (totalcell.length > 0) {
       return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
     }
+    return '';
 
   }
 
@@ -136,6 +142,7 @@ export class TableSelectionComponent {
   }
 
   selectRow(event: any, row: any) {
+    debugger;
     this.dataSource.data = this.dataSource.data.filter(r => r !== row);
     if (event.checked) {
       this.dataSource.data = [row].concat(this.dataSource.data);
@@ -166,7 +173,7 @@ export class TableSelectionComponent {
     }
     else {
       this.dataSource.data.forEach(row => this.selection.select(row));
-      this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
+      // this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
     }
 
     this.rowChanges.emit(this.selectedTelnos);

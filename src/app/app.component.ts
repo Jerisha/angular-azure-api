@@ -33,6 +33,8 @@ export class AppComponent implements AfterViewInit {
 
   ngOnInit() {
 
+    //console.log('data',MENU_SOURCE1)
+
   }
 
   ngAfterViewInit() {

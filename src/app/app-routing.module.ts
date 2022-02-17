@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import * as  dat from '../assets/full-audit-table-details.json';
 
-
+const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    pathMatch: 'full'
+    pathMatch:'full'
+    
   },
   {
     path: 'resolvingoferrors',
-    loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule)
+    loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule),
+    
   },
   {
     path: 'transactions',
@@ -19,12 +22,15 @@ const routes: Routes = [
   },
   {
     path: 'auditreports',
-    loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule),
+    loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule)
+          
 
   },
   {
     path: 'reports',
-    loadChildren: () => import('./reports/reports.module').then(x => x.ReportsModule)
+    loadChildren: () => import('./reports/reports.module').then(x => x.ReportsModule),
+    
+    
   },
   {
   path: 'statisticalreports',
@@ -32,7 +38,8 @@ const routes: Routes = [
   },
   {
     path: 'shared',
-    loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule)
+    loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
+    
     },
     
 

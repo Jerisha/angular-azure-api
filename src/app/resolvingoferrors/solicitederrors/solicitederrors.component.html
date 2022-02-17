@@ -15,7 +15,8 @@
       </app-select-multiple>
     </div>
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
-      <div class="matsidenav-filter">
+      <!-- <div  *ngIf="uiConfig1$ | async  as vm" class="matsidenav-filter"> -->
+        <div class="matsidenav-filter">
         <mat-form-field hintLabel="Max 10 characters"  
           [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
           <mat-label>Start Telephone No</mat-label>
@@ -34,6 +35,7 @@
           <mat-label>Command</mat-label>
           <mat-select formControlName="Command">
             <mat-option></mat-option>
+            <!-- <mat-option *ngFor ="let val of splitDescription(vm[0].Command)" [value]="val">{{val}}</mat-option> -->
             <mat-option>Activate Customer</mat-option>
             <mat-option>Cease Customer</mat-option>
             <mat-option>Import</mat-option>
@@ -145,8 +147,7 @@
           <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
         </button>
         <div style="margin: 5px; float: left;"> Resolving Of Errors > Solicited Errors</div>
-      </div> -->
-      {{uiConfig}}
+      </div> -->        
 <app-start-up *ngIf="tabs.length===0"></app-start-up>
     <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
       matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
@@ -244,3 +245,7 @@ Delete Tab
     </mat-tab-group>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<div *ngIf="uiConfig1$ | async  as vm">
+ print {{vm |json }}  
+</div>

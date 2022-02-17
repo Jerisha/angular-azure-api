@@ -15,12 +15,13 @@ export class ResolvingOfErrorsService {
   constructor(private wrapperService: HttpWrapperService) { }
 
 
-  configDetails(data: any): ConfigDetails | undefined {
-    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, data).subscribe(x => {
-      console.log("configDetails : " + JSON.stringify(x));
-      this.test = x;
-    });
-    return this.test;
+  configDetails(data: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data);
+    // .subscribe(x => {
+    //   console.log("configDetails : " + JSON.stringify(x));
+    //   this.test = x;
+    // });
+    //return this.test;
   }
 
   queryDetails(data: any): any | undefined {

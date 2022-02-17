@@ -7,6 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { InternalAuditSummary } from 'src/app/auditreports/models/index';
 import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import { AuditdiscrepancyHeaderData } from 'src/app/_data/audit-discrepancy-header-data';
+import { CupId } from 'src/app/_data/listValues/CupId';
 import { AuditDiscpancyReportService } from './auditdiscrepancyreport.component.service';
 
 const ELEMENT_DATA: InternalAuditSummary[] = [
@@ -55,13 +57,18 @@ export class AuditdiscrepancyreportComponent implements OnInit {
 
   totalColmns:any;
 
+  datamenu:any;
+
   public sidep = new Subject<MatSidenav>();
 
-
+data = new AuditdiscrepancyHeaderData();
   constructor(private http: HttpClient, private formBuilder: FormBuilder, 
     private route: ActivatedRoute, private service:AuditDiscpancyReportService) {
 
     this.createForm();
+    this.datamenu=this.data.headers;
+
+    //console.log('datamenu comp',this.datamenu)
 
     this.ColumnDetails = [
       { Headers: 'Act ID', DataHeaders: 'ACTID', rowspan: "2", colspan: "1" },
@@ -100,7 +107,11 @@ export class AuditdiscrepancyreportComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.grpTblHdrDtls = this.route.snapshot.data['headers'];
+    this.grpTblHdrDtls = this.datamenu;
+
+   // this.grpTblHdrDtls = this.route.snapshot.data['headers'];
+
+     //this.route.data.subscribe(res=> console.log('data meu',res));
     this.grpTableitem = {
       data: ELEMENT_DATA,
       ColumnDetails: this.ColumnDetails,
