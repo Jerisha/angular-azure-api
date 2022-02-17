@@ -132,10 +132,12 @@ onChangeEvent(event:any)
 OnstateItemChange(event:any)
 {
   if(event.target.value !="")
-  {    
+  { 
+    console.log("before:",event.target.value);   
     this.saveState =false;
     this.savebtnColor ="vf-primary-btn";   
   }
+  console.log("before:",event.target.value);  
 }
 check_list(this:TableItem,val:number)
 {

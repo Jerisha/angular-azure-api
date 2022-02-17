@@ -1,5 +1,5 @@
-<button mat-button-basic [matMenuTriggerFor]="menu">{{selectedValue}}</button>
-<mat-menu #menu="matMenu">
+<button  type ="button" mat-button-basic [matMenuTriggerFor]="menu">{{selectedValue}}</button>
+<mat-menu #menu="matMenu" style="min-width: none !important;" >
   <span mat-menu-item  *ngFor="let item of listItems"
-  (click)="selected(item.viewValue)">{{item.view}}</span> 
+  (click)="selected(item.viewValue)" >{{item.view}}</span> 
 </mat-menu>
