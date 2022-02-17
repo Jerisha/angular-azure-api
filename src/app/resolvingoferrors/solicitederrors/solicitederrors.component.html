@@ -137,21 +137,7 @@
           <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
         </button>
         <div style="margin: 5px; float: left;"> Resolving Of Errors > Solicited Errors</div>
-      </div> -->
-
-      
-      <!-- print {{ uiConfig1$ | async  as vm}}
-
-      {{vm}} -->
-
-      <!-- print {{ uiConfig1$ | async  as vm}} -->
-        
-     
-
-        <!-- print{{vm|json}} -->
-    
-
-      
+      </div> -->        
 <app-start-up *ngIf="tabs.length===0"></app-start-up>
     <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
       matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
@@ -250,11 +236,6 @@ Delete Tab
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-
-print
 <div *ngIf="uiConfig1$ | async  as vm">
-
- print {{vm |json }}
-
-  
+ print {{vm |json }}  
 </div>

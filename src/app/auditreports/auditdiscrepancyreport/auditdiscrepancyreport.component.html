@@ -2,7 +2,7 @@
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
     <div class="">
       <form [formGroup]="auditDiscrepancyForm" (ngSubmit)="submitAuditDiscrepancyForm()">
-        <mat-form-field  >
+        <mat-form-field>
           <mat-label>Audit Type</mat-label>
           <mat-select id="AuditType" formControlName="AuditType" [(ngModel)]="selectedAuditType">
             <mat-option></mat-option>
@@ -13,40 +13,41 @@
           <mat-error class="error-message" *ngIf="checkError('AuditType', 'required')">Please Select Audit Type
           </mat-error>
         </mat-form-field>
-        <mat-form-field  >
+        <mat-form-field>
           <mat-label>ACT ID</mat-label>
           <mat-select id="ACTID" formControlName="ACTID">
-            <mat-option></mat-option>            
+            <mat-option></mat-option>
             <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
             <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
             <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
           </mat-select>
           <mat-error class="error-message" *ngIf="checkError('ACTID', 'required')">Please Select ACTID</mat-error>
-        </mat-form-field>       
-        <button type="submit" mat-raised-button color="primary"
-          [disabled]="auditDiscrepancyForm.invalid">
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary" [disabled]="auditDiscrepancyForm.invalid">
           <mat-icon>search</mat-icon>Search
         </button>
-        <button type="reset" mat-raised-button color="primary"
-          [disabled]="!auditDiscrepancyForm.touched">
+        <button type="reset" mat-raised-button color="primary" [disabled]="!auditDiscrepancyForm.touched">
           <mat-icon>refresh</mat-icon>Reset
-        </button>        
+        </button>
       </form>
     </div>
   </mat-sidenav>
 
 
-  <mat-sidenav-content class="side-content"> 
+  <mat-sidenav-content class="side-content">
     <div [ngSwitch]="auditType">
       <div *ngSwitchCase="'Full Audit'">
-        <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails"></app-full-audit-type>
+        <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails">
+        </app-full-audit-type>
       </div>
       <div *ngSwitchCase="'Seperate Internal Audit'">
-        <app-seperate-internal-audit-type [sidePan]="pagesidenav" [InternalAuditTableDetails]="grpInternalAuditTableDetails">
+        <app-seperate-internal-audit-type [sidePan]="pagesidenav"
+          [InternalAuditTableDetails]="grpInternalAuditTableDetails">
         </app-seperate-internal-audit-type>
       </div>
       <div *ngSwitchCase="'External Audit'">
-        <app-external-audit-type [sidePan]="pagesidenav" [ExternalAuditTableDetails]="grpExternalAuditTableDetails"></app-external-audit-type>
+        <app-external-audit-type [sidePan]="pagesidenav" [ExternalAuditTableDetails]="grpExternalAuditTableDetails">
+        </app-external-audit-type>
       </div>
       <div *ngSwitchDefault>
         <app-start-up></app-start-up>

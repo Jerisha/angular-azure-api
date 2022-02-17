@@ -35,9 +35,9 @@
                     <mat-label>Audit ACT ID</mat-label>
                     <mat-select id="AuditActId" formControlName="AuditActId">
                         <mat-option></mat-option>
-                        <mat-option value="AUDIT">AUDIT</mat-option>
-                        <mat-option value="SAS/COMS">SAS/COMS</mat-option>
-                        <mat-option value="DVA Siebel">DVA Siebel</mat-option>
+                        <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
+                        <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
+                        <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
                     </mat-select>
                     <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select
                         Audit ACTID</mat-error>
@@ -47,8 +47,10 @@
                     <mat-label>CUPID</mat-label>
                     <mat-select id="CUPId" formControlName="CUPId">
                         <mat-option></mat-option>
-                        <mat-option value="Activate Customer">Activate Customer</mat-option>
-                        <mat-option value="Cease Customer">Cease Customer</mat-option>
+                        <mat-option value="13">13</mat-option>
+                        <mat-option value="28">28</mat-option>
+                        <mat-option value="35">35</mat-option>
+                        <mat-option value="718">718</mat-option>
                     </mat-select>
                     <mat-error class="error-message" *ngIf="checkError('CUPId', 'required')">Please Select CUPID
                     </mat-error>
@@ -70,8 +72,10 @@
                     <mat-label>External CLI Status</mat-label>
                     <mat-select id="ExternalCLIStatus" formControlName="ExternalCLIStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="B-BT Only">B-BT Only</mat-option>
+                        <mat-option value="S-Matched">S-Matched</mat-option>
+                        <mat-option value="D-Mismatched">D-Mismatched</mat-option>
+                        <mat-option value="V-OSN2 Only">V-OSN2 Only</mat-option>                        
                     </mat-select>
                 </mat-form-field>
 
@@ -79,8 +83,21 @@
                     <mat-label>Full Audit CLI Status</mat-label>
                     <mat-select id="FullAuditCLIStatus" formControlName="FullAuditCLIStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="BA">BA-BT Only - Source Active</mat-option>
+                        <mat-option value="BC">BC-BT Only - Source Ceased</mat-option>
+                        <mat-option value="BN">BN-BT Only - Source Not Found</mat-option>
+                        <mat-option value="LS">LS-Live in Source</mat-option>
+                        <mat-option value="SAS">SAS-Matched - Source Active Matched</mat-option>
+                        <mat-option value="SAD">SAD-Matched - Source Active MisMatched</mat-option>
+                        <mat-option value="SC">SC-Matched - Source Cease</mat-option>
+                        <mat-option value="SN">SN-Matched - Source Not found</mat-option>
+                        <mat-option value="DAS">DAS-MisMatched - Source Active Matched</mat-option>
+                        <mat-option value="DAD">DAD-MisMatched - Source Active MisMatched</mat-option>
+                        <mat-option value="DC">DC-MisMatched - Source Cease</mat-option>
+                        <mat-option value="DN">DN-MisMatched - Source Not found</mat-option>
+                        <mat-option value="VA">VA-OSN2 Only - Source Active</mat-option>
+                        <mat-option value="VC">VC-OSN2 Only - Source Ceased</mat-option>
+                        <mat-option value="VN">VN-OSN2 Only - Source Not Found</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -88,8 +105,8 @@
                     <mat-label>Monthly Refresh Flag</mat-label>
                     <mat-select id="MonthlyRefreshFlag" formControlName="MonthlyRefreshFlag">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -97,8 +114,13 @@
                     <mat-label>Source</mat-label>
                     <mat-select id="Source" formControlName="Source">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="C">C - SAS/COMS</mat-option>
+                        <mat-option value="D">D - DVA Siebel</mat-option>
+                        <mat-option value="E">E - VA/WAD</mat-option>
+                        <mat-option value="G">G - Content Guru</mat-option>
+                        <mat-option value="R">R - Clarify</mat-option>
+                        <mat-option value="S">S - Amdocs SOM</mat-option>
+                        <mat-option value="X">X - Unknown</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -106,8 +128,13 @@
                     <mat-label>OSN2 Source</mat-label>
                     <mat-select id="OSN2Source" formControlName="OSN2Source">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="C">C - SAS/COMS</mat-option>
+                        <mat-option value="D">D - DVA Siebel</mat-option>
+                        <mat-option value="E">E - VA/WAD</mat-option>
+                        <mat-option value="G">G - Content Guru</mat-option>
+                        <mat-option value="R">R - Clarify</mat-option>
+                        <mat-option value="S">S - Amdocs SOM</mat-option>
+                        <mat-option value="X">X - Unknown</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -115,8 +142,8 @@
                     <mat-label>Porting Status</mat-label>
                     <mat-select id="PortingStatus" formControlName="PortingStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="PI- Port In">PI- Port In</mat-option>
+                        <mat-option value="PI- Port Out">PO- Port Out</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -124,8 +151,8 @@
                     <mat-label>Vodafone Range Holder</mat-label>
                     <mat-select id="VodafoneRangeHolder" formControlName="VodafoneRangeHolder">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -133,8 +160,24 @@
                     <mat-label>Resolution Type</mat-label>
                     <mat-select id="ResType" formControlName="ResType">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="0"> New</mat-option>
+                        <mat-option value="100"> Under Investigation</mat-option>
+                        <mat-option value="105"> Under Governance</mat-option>
+                        <mat-option value="114"> Auto Failed</mat-option>
+                        <mat-option value="106"> Under Porting</mat-option>
+                        <mat-option value="107"> Port Req Complete</mat-option>
+                        <mat-option value="110">(END) Audit Transaction Override</mat-option>
+                        <mat-option value="111">(END) Auto Closed</mat-option>
+                        <mat-option value="113">(END) Auto Active</mat-option>
+                        <mat-option value="115">(END) Auto Modify</mat-option>
+                        <mat-option value="116">(END) Auto Cease</mat-option>
+                        <mat-option value="117">(END) Auto Special Cease</mat-option>
+                        <mat-option value="118">(END) Auto Logic Resolved</mat-option>
+                        <mat-option value="119">(END) Auto Resolved Areacall</mat-option>
+                        <mat-option value="120">(END) Audit Discrepancy Override</mat-option>
+                        <mat-option value="101">(END) Resolved</mat-option>
+                        <mat-option value="102">(END) Unresolved</mat-option>
+                        <mat-option value="109">(END) Auto Resolved</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -142,8 +185,9 @@
                     <mat-label>Switch Status</mat-label>
                     <mat-select id="SwitchStatus" formControlName="SwitchStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="Active">A-Active</mat-option>
+                        <mat-option value="Ceased">C-Ceased</mat-option>
+                        <mat-option value="Not Found">N-Not Found</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -151,8 +195,8 @@
                     <mat-label>Mori Status</mat-label>
                     <mat-select id="MoriStatus" formControlName="MoriStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="Active">Active</mat-option>
+                        <mat-option value="Ceased">Ceased</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -160,8 +204,8 @@
                     <mat-label>Post Code Diff.</mat-label>
                     <mat-select id="PostCodeDiff" formControlName="PostCodeDiff">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -169,8 +213,8 @@
                     <mat-label>Full Address Diff.</mat-label>
                     <mat-select id="FullAddDiff" formControlName="FullAddDiff">
                         <mat-option></mat-option>
-                        <mat-option>Yes</mat-option>
-                        <mat-option>No</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -178,8 +222,8 @@
                     <mat-label>Customer Diff.</mat-label>
                     <mat-select id="CustomerDiff" formControlName="CustomerDiff">
                         <mat-option></mat-option>
-                        <mat-option>Yes</mat-option>
-                        <mat-option>No</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -187,8 +231,8 @@
                     <mat-label>Overlapping Status.</mat-label>
                     <mat-select id="OverlappingStatus" formControlName="OverlappingStatus">
                         <mat-option></mat-option>
-                        <mat-option>Yes</mat-option>
-                        <mat-option>No</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
                 </mat-form-field>
 
