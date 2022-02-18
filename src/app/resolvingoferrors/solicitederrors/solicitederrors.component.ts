@@ -12,17 +12,17 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 
 const ELEMENT_DATA: any = [
   {
-    TranId: '1014591106', View: 'image',  Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image',  TelNo: '1977722724',Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591109', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    
+    LatestCmtDate: '02-May-2019'
   },
   {
-    TranId: '1014591107', View: 'image', TelNo: '1977722726', Cmd: 'Import',  Created: '02May19',
+    TranId: '1014591107', View: 'image', TelNo: '1977722726', Cmd: 'Import',  Source: 'SAS/COMS',Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
@@ -321,9 +321,9 @@ export class SolicitederrorsComponent implements OnInit {
   errorCodesOptions!: Observable<any[]>;
   selectedRowsCount: number = 0;
   errorCodeData: Select[] = [
-    { view: '101', viewValue: '101', default: true },
-    { view: '202', viewValue: '202', default: true },
-    { view: '303', viewValue: '303', default: true },
+    { view: '1018', viewValue: '1018', default: true },
+    { view: '1048', viewValue: '1048', default: true },
+    { view: '1058', viewValue: '1058', default: true },
   ];
   // errorCode = new FormControl();
   selectedTab!: number;
