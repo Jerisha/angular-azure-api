@@ -223,9 +223,11 @@ export class TableSelectionComponent {
 
   // }
 
-  filterGridColumns() {
+  filterGridColumns(event:any) {
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
+    event.close();
+
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
     //   this.tableitem?.coulmnHeaders : undefined;filter

@@ -46,14 +46,27 @@
 
        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.ErrorDescription.disabled}">
           <mat-label>Error Description</mat-label>
-          <input formControlName="ErrorDescription" matInput #input maxlength="10" placeholder="Error Description">
-          
+          <!-- <input formControlName="ErrorDescription" matInput #input maxlength="10" placeholder="Error Description"> -->
+          <mat-select formControlName="ErrorDescription">
+            <mat-option></mat-option>
+            <mat-option>Import Record is Missing.</mat-option>
+            <mat-option>Import is 10 days overdue.</mat-option> 
+            <mat-option>Export Record is Missing.</mat-option>   
+            <mat-option>Export is 10 days overdue</mat-option> 
+            <mat-option>Invalid Request from RingCentral</mat-option> 
+            <mat-option>Invalid Request from RingCentral - Missing Customer Name</mat-option>  
+            <mat-option>Invalid Data Updates recieved from RingCentral</mat-option>     
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field  [ngClass]="{'hidden':thisForm.controls.IsFinal.disabled}">
           <mat-label>Is Final</mat-label>
-          <input formControlName="IsFinal" matInput #input maxlength="10" placeholder="Is Final">
-          
+          <!-- <input formControlName="IsFinal" matInput #input maxlength="10" placeholder="Is Final"> -->
+          <mat-select formControlName="IsFinal">
+            <mat-option></mat-option>
+            <mat-option>No</mat-option>
+            <mat-option>Yes</mat-option>           
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field>
