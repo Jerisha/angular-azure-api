@@ -4,7 +4,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { Select } from 'src/app/_models/select';
+import { Select } from 'src/app/uicomponents/models/select';
 const listItems: string[] = ['Tran.Id', 'View', 'Tel No', 'Cmd', 'Source', 'Created', 'Ovd', 'Status', 'Res Type', 'Error/List'];
 
 @Component({
@@ -16,9 +16,11 @@ export class SelectSingleComponent implements OnInit {
 
   @ViewChild('select') select!: MatSelect;
   @ViewChild('search') searchTextBox!: ElementRef;
+
+  
   @Input() listItems!: Select[];
   @Output() changes = new EventEmitter<MatSelect>();
-
+  myControl = new FormControl();
   selectFormControl = new FormControl();
   searchTextboxControl = new FormControl();
   filteredOptions!: Observable<any[]>;
@@ -31,7 +33,7 @@ export class SelectSingleComponent implements OnInit {
     /**
     * Set filter event based on value changes 
     */
-    this.filteredOptions = this.searchTextboxControl.valueChanges
+    this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith<string>(''),
         map(name => this._filter(name))

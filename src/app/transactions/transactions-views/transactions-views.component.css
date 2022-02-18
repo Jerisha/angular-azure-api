@@ -20,7 +20,7 @@
         }
   .vf-mr-negative{
           margin-block:-.5rem;        
-        } 
+        }         
   .vf-card-title{
           box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
           background-color:#e60000;
@@ -43,7 +43,7 @@
     font-size: 10pt;
   }  
   .vf-outline1 {
-    outline: solid 3px rgb(100, 100, 110);
+    outline: solid 3px #4a4d4e;
     outline-offset: 3px;
     padding-top: .5rem;
     border-radius: 1%;
@@ -66,7 +66,7 @@
     
   :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 0.3em 0 0.3em 0 !important;
-    top: -0.60em !important;
+    top: -0.60em !important;    
   } 
 
   :host ::ng-deep .mat-expansion-panel-body {
@@ -75,8 +75,16 @@
 }
 
 .vf-primary-btn{
-  background-color:#54575a;
+  background-color:#4a4d4e;
   color: white;
+}
+.vf-min-primary-btn{
+  /* background-color:#54575a !important; */
+  /* color: white;   */
+  height:3em;
+  font-size:x-small;
+  /* line-height: 16px !important; */
+
 }
 .vf-sub-title{  
   background-color:#007c92;
@@ -90,6 +98,48 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+.vf-add-btn{
+  background-color: green;
+  color:white;
+}
    
   
-  
+/* .mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+} */
+
+nav ul{height:200px; width:18%;}
+nav ul{overflow:hidden; overflow-y:scroll;}
+:host ::ng-deep .mat-mini-fab .mat-button-wrapper {
+  padding-top:0px !important;
+  padding-bottom:0px !important;
+  line-height: 0px !important;
+
+}
+
+vf-list-header1 {
+  /* border:3px solid grey; */
+  border-left: 3px solid rgb(60, 190, 180);border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;
+}
+vf-list-value1 {
+  /* border:3px solid grey; */
+  border-left: 3px solid rgb(60, 190, 180);border-top: 3px solid rgb(60, 190, 180); background-color:gray; color: white;padding:2rem;
+
+}
+
+ /* :host ::ng-deep .mat-list-base .mat-list-item ::after{ */
+  /* content: ""; */
+  /* clear: bottom;  */
+/* }  */
+.vf-color-band{
+  background-color:#e60000;
+  background-color:#4a4d4e;
+  background-color:#9c2aa0;
+  background-color:#5e2750;
+  background-color:#00b0ca;
+  background-color:#007c92;
+  background-color:#a8b400;
+  background-color:#fecb00;
+  background-color:#eb9800;
+  background-color:#000000;
+}

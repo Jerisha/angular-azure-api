@@ -1,0 +1,148 @@
+
+<mat-sidenav-container class="side-container-report">
+<mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+<div class="filter-sticky filterposition">
+<app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
+(changes)="setControlAttribute($event)">
+</app-select-multiple>
+</div>
+<form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
+<div class="matsidenav-filter">
+<mat-form-field [ngClass]="{'hidden':myForm.controls.TelephoneNo.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Telephone Number</mat-label>
+<input id="TelephoneNo" formControlName="TelephoneNo" matInput #input maxlength="10"
+placeholder="Telephone Number" style="margin-right: 24%;">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Cust Name</mat-label>
+<input id="CustomerName" formControlName="CustomerName" matInput #input maxlength="10"
+placeholder="CustName">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.PostCode.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>PostCode</mat-label>
+<input id="PostCode" formControlName="PostCode" matInput #input maxlength="10"
+placeholder="PostCode">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.CreationDate.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Created On</mat-label>
+<input id="CreationDate" [matDatepicker]="picker" formControlName="CreationDate" matInput #input maxlength="10"
+placeholder="Created On">
+<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+<mat-datepicker #picker></mat-datepicker>
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.BusinessSuffix.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Business Suffix </mat-label>
+<input id="BusinessSuffix" formControlName="BusinessSuffix" matInput #input maxlength="10"
+placeholder="Business Suffix">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.Premises.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Premises</mat-label>
+<input id="Premises" formControlName="Premises" matInput #input maxlength="10"
+placeholder="Premises">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.Throughtfare.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Thoroughfare</mat-label>
+<input id="Throughtfare" formControlName="Throughtfare" matInput #input maxlength="10"
+placeholder="Thoroughfare">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.Locality.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Locality</mat-label>
+<input id="Locality" formControlName="Locality" matInput #input maxlength="10"
+placeholder="Locality">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.TranRef.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Trans. Ref</mat-label>
+<input id="TranRef" formControlName="TranRef" matInput #input maxlength="10"
+placeholder="Trans. Ref">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.TransID.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Trans.ID</mat-label>
+<input id="TransID" formControlName="TransID" matInput #input maxlength="10"
+placeholder="Trans.ID">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.Cupid.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Cupid</mat-label>
+<input id="Cupid" formControlName="Cupid" matInput #input maxlength="10"
+placeholder="Cupid">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<!-- <mat-form-field [ngClass]="{'hidden':myForm.controls.Title.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Title</mat-label>
+<input id="Title" formControlName="Title" matInput #input maxlength="10"
+placeholder="Title">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field> -->
+<mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerForename.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Cust Forename</mat-label>
+<input id="CustomerForename" formControlName="CustomerForename" matInput #input maxlength="10"
+placeholder="Cust Forename">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+</div>
+<div calss="matsidenav-footer" >
+<button type="submit" mat-raised-button color="primary" >
+<mat-icon>search</mat-icon>Search
+</button>
+<button type="reset" mat-raised-button color="primary" (click)="resetForm()">
+<mat-icon>refresh</mat-icon>Reset
+</button>
+</div>
+</form>
+</mat-sidenav>
+<mat-sidenav-content class="side-content">
+<app-start-up *ngIf="tabs.length===0"></app-start-up> <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+<mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+</button>
+<mat-tab-group [(selectedIndex)]="selectedTab">
+<mat-tab *ngFor="let tab of tabs; let index = index">
+<ng-template mat-tab-label>
+<div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+<button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
+<mat-icon style="font-size: large;">close</mat-icon>
+</button> </ng-template> <span [ngSwitch]="tab.tabType">
+<div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
+<app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+(addNewTab)="newTab($event)">
+</app-table-selection>
+</div>
+<div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:6px;">
+<app-telephone-audit-trail></app-telephone-audit-trail>
+</div>
+<div *ngSwitchCase="2" style="height: 520px; overflow-y:auto;padding-left:6px;">
+</div>
+<div *ngSwitchDefault></div>
+</span> <!-- <button mat-raised-button
+class="example-delete-tab-button"
+[disabled]="tabs.length === 1"
+(click)="removeTab(index)">
+Delete Tab
+</button> -->
+</mat-tab>
+</mat-tab-group>
+</mat-sidenav-content>
+</mat-sidenav-container>
+

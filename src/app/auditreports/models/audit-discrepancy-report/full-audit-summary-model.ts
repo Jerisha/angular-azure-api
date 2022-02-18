@@ -1,0 +1,36 @@
+export interface FullAuditSummary{
+    ACTID:string;
+    SourceSystem:string;
+    BABTOnlySourceActive:number;
+    BNBTOnlySourceNotFound:number;
+    BCBTOnlySourceCease:number;
+    BTOnlyTotal:number;
+    DNMisMatchedSourceNotFound:number;
+    DCMisMatchedSourceCease:number
+    DASMisMatchedSourceActiveMatched:number
+    DADMisMatchedSourceActiveMatched:number
+    MismatchedTotal:number;
+    SNMatchedSourceNotFound:number;
+    SCMatchedSourceCease:number;
+    SADMatchedSourceActiveMisMatched:number;
+    SASMatchedSourceActiveMatched:number;
+    MatchedTotal:number;
+    VNOSN2OnlySourceNotFound:number;
+    VNOSN2OnlySourceActive:number;
+    VCOSN2OnlySourceCease:number;
+    OSN2OnlyTotal:number;
+    LSLiveInSource:number;
+    Total:number;
+    PostcodeDiff:number;
+    CustomerDiff:number;
+    FullAddDiff:number;
+    PostcodeDiff1:number;
+    CustomerDiff1:number;
+    FullAddDiff1:number;
+    New:number;
+    AutoResolvedSAS:number;
+    AutoLogicResolvedSAD:number;
+    AutoResolvedAreacall:number;
+    AuditDiscrepancyOverride:number;
+
+}

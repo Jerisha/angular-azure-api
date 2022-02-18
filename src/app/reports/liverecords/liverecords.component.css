@@ -1,0 +1,17 @@
+.side-bottom .side-textarea{
+    /* background-color: lawngreen!important; */
+    width: 360px;
+    font-size: smaller;  
+  /* position:absolute; 
+  margin-top: 90px;*/
+  /* margin-left: 200px; */
+  margin: 5px;
+ 
+  }
+  .hidden{display: none;}
+  
+  .side-container-report {
+    width: auto;
+    height: 520px !important;
+    box-sizing: border-box;
+    }

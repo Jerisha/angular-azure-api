@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, MAT_PAGINATOR_DEFAULT_OPTIONS } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
@@ -40,8 +40,9 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
-const modules = [CommonModule,
+const materialModules = [CommonModule,
   A11yModule,
   CdkStepperModule,
   CdkTableModule,
@@ -87,7 +88,11 @@ const modules = [CommonModule,
 ]
 @NgModule({
   declarations: [],
-  imports: [modules],
-  exports: [modules]
+  imports: [materialModules],
+  exports: [materialModules],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
+    { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: { formFieldAppearance: 'legacy' } }
+  ]
 })
 export class MaterialModule { }

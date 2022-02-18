@@ -1,0 +1,10 @@
+<div *ngFor="let alert of alerts" class="{{cssClass(alert)}} alert-dismissible popup">
+    <span class="text" [innerHTML]="alert.message"></span>
+    <!-- <button class="close" (click)="removeAlert(alert)">&times;</button> -->
+    <mat-icon class="close" (click)="removeAlert(alert)">close</mat-icon>
+</div>
+
+<!-- <div *ngFor="let alert of alerts" class="{{cssClass(alert)}} popup">
+    <span [innerHTML]="alert.message"></span>
+    <button class="close" (click)="removeAlert(alert)">&times;</button>
+</div> -->

@@ -21,6 +21,11 @@
   padding: 4px 0;
   display: flex;
   width: auto;
+  // color:black;  
+  // color: white;
+  color:black;
+  font-weight: 400;
+  
 
   .routeIcon {
     margin-right: 20px;
@@ -29,5 +34,5 @@
 
 .mat-toolbar.mat-primary {
   background: #e60000;
-  color: white;  
+  color: white;
 }

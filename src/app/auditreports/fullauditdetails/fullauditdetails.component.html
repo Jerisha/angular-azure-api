@@ -1,311 +1,429 @@
 <mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-
-        <app-select-multiple class="filter-sticky" border #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
-            (changes)="selChange($event)">
-        </app-select-multiple>
-
-        <form [formGroup]="myForm">
-            <div class="">
-               
-                    
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.TelNoStart.disabled}" hintLabel="Max 10 characters"
-                    appearance="outline">
+        <div class="filter-sticky">           
+            <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
+                (changes)="setControlAttribute($event)">
+            </app-select-multiple>
+        </div>
+        <form [formGroup]="fullAuditForm" (ngSubmit)="onFormSubmit()">
+            <div class="matsidenav-filter">
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.TelNoStart.disabled}"
+                    hintLabel="Max 10 characters">
                     <mat-label>Tel.No Start</mat-label>
-                    <input id="TelNoStart" formControlName="TelNoStart" matInput #input maxlength="10"
+                    <input id="TelNoStart" formControlName="TelNoStart" matInput #TelNoStart maxlength="10"
                         placeholder="Tel.No Start" style="margin-right: 24%;">
-                    <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-                </mat-form-field>
-               
-                
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.TelNoEnd.disabled}" hintLabel="Max 10 characters"
-                    appearance="outline">
-                    <mat-label>Tel.No End</mat-label>
-                    <input id="TelNoEnd" formControlName="TelNoEnd" matInput #input maxlength="10"
-                        placeholder="Tel.No End">
-                    <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                    <mat-error *ngFor="let validation of validation_messages.TelNo">
+                        <mat-error class="error-message" *ngIf="checkError('TelNoStart',validation.type)">
+                            {{validation.message}}</mat-error>
+                    </mat-error>
+                    <mat-hint align="end">{{TelNoStart.value?.length || 0}}/10</mat-hint>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.AuditActId.disabled}" appearance="outline">
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.TelNoEnd.disabled}"
+                    hintLabel="Max 10 characters">
+                    <mat-label>Tel.No End</mat-label>
+                    <input id="TelNoEnd" formControlName="TelNoEnd" matInput #TelNoEnd maxlength="10"
+                        placeholder="Tel.No End">
+                    <mat-error *ngFor="let validation of validation_messages.TelNo">
+                        <mat-error class="error-message" *ngIf="checkError('TelNoEnd',validation.type)">
+                            {{validation.message}}</mat-error>
+                    </mat-error>
+                    <mat-hint align="end">{{TelNoEnd.value?.length || 0}}/10</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.AuditActId.disabled}">
                     <mat-label>Audit ACT ID</mat-label>
                     <mat-select id="AuditActId" formControlName="AuditActId">
-
                         <mat-option></mat-option>
-                        <mat-option>AUDIT</mat-option>
-                        <mat-option>SAS/COMS</mat-option>
-                        <mat-option>DVA Siebel</mat-option>
-                        <mat-option>VA/WAD</mat-option>
-                        <mat-option>Ring Central</mat-option>
-                        <mat-option>Content Guru</mat-option>
-                        <mat-option>ONENET</mat-option>
-                        <mat-option>Clarify</mat-option>
-                        <mat-option>Amdocs SOM</mat-option>
-                        <mat-option>Unknown</mat-option>
+                        <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
+                        <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
+                        <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
                     </mat-select>
-
+                    <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select
+                        Audit ACTID</mat-error>
                 </mat-form-field>
 
-
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.CUPId.disabled}" appearance="outline">
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.CUPId.disabled}">
                     <mat-label>CUPID</mat-label>
                     <mat-select id="CUPId" formControlName="CUPId">
                         <mat-option></mat-option>
-                        <mat-option>Activate Customer</mat-option>
-                        <mat-option>Cease Customer</mat-option>
-                        <mat-option>Import</mat-option>
-                        <mat-option>Export</mat-option>
-                        <mat-option>Modify</mat-option>
+                        <mat-option value="13">13</mat-option>
+                        <mat-option value="28">28</mat-option>
+                        <mat-option value="35">35</mat-option>
+                        <mat-option value="718">718</mat-option>
                     </mat-select>
-
+                    <mat-error class="error-message" *ngIf="checkError('CUPId', 'required')">Please Select CUPID
+                    </mat-error>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.BatchId.disabled}" hintLabel="Max 10 characters"
-                    appearance="outline">
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.BatchId.disabled}"
+                    hintLabel="Max 3 characters">
                     <mat-label>Batch Id</mat-label>
-                    <input id="BatchId" formControlName="BatchId" matInput #input maxlength="10" placeholder="Batch Id">
-                    <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                    <input id="BatchId" formControlName="BatchId" #BatchId matInput #input maxlength="3"
+                        placeholder="Batch Id">
+                    <mat-error *ngFor="let validation of validation_messages.BatchId">
+                        <mat-error class="error-message" *ngIf="checkError('BatchId',validation.type)">
+                            {{validation.message}}</mat-error>
+                    </mat-error>
+                    <mat-hint align="end">{{input.value?.length || 0}}/3</mat-hint>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.ExternalCLIStatus.disabled}" appearance="outline">
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.ExternalCLIStatus.disabled}">
                     <mat-label>External CLI Status</mat-label>
                     <mat-select id="ExternalCLIStatus" formControlName="ExternalCLIStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="B-BT Only">B-BT Only</mat-option>
+                        <mat-option value="S-Matched">S-Matched</mat-option>
+                        <mat-option value="D-Mismatched">D-Mismatched</mat-option>
+                        <mat-option value="V-OSN2 Only">V-OSN2 Only</mat-option>                        
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.FullAuditCLIStatus.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.FullAuditCLIStatus.disabled}">
                     <mat-label>Full Audit CLI Status</mat-label>
                     <mat-select id="FullAuditCLIStatus" formControlName="FullAuditCLIStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="BA">BA-BT Only - Source Active</mat-option>
+                        <mat-option value="BC">BC-BT Only - Source Ceased</mat-option>
+                        <mat-option value="BN">BN-BT Only - Source Not Found</mat-option>
+                        <mat-option value="LS">LS-Live in Source</mat-option>
+                        <mat-option value="SAS">SAS-Matched - Source Active Matched</mat-option>
+                        <mat-option value="SAD">SAD-Matched - Source Active MisMatched</mat-option>
+                        <mat-option value="SC">SC-Matched - Source Cease</mat-option>
+                        <mat-option value="SN">SN-Matched - Source Not found</mat-option>
+                        <mat-option value="DAS">DAS-MisMatched - Source Active Matched</mat-option>
+                        <mat-option value="DAD">DAD-MisMatched - Source Active MisMatched</mat-option>
+                        <mat-option value="DC">DC-MisMatched - Source Cease</mat-option>
+                        <mat-option value="DN">DN-MisMatched - Source Not found</mat-option>
+                        <mat-option value="VA">VA-OSN2 Only - Source Active</mat-option>
+                        <mat-option value="VC">VC-OSN2 Only - Source Ceased</mat-option>
+                        <mat-option value="VN">VN-OSN2 Only - Source Not Found</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.MonthlyRefreshFlag.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.MonthlyRefreshFlag.disabled}">
                     <mat-label>Monthly Refresh Flag</mat-label>
                     <mat-select id="MonthlyRefreshFlag" formControlName="MonthlyRefreshFlag">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.Source.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.Source.disabled}">
                     <mat-label>Source</mat-label>
                     <mat-select id="Source" formControlName="Source">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="C">C - SAS/COMS</mat-option>
+                        <mat-option value="D">D - DVA Siebel</mat-option>
+                        <mat-option value="E">E - VA/WAD</mat-option>
+                        <mat-option value="G">G - Content Guru</mat-option>
+                        <mat-option value="R">R - Clarify</mat-option>
+                        <mat-option value="S">S - Amdocs SOM</mat-option>
+                        <mat-option value="X">X - Unknown</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.OSN2Source.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.OSN2Source.disabled}">
                     <mat-label>OSN2 Source</mat-label>
                     <mat-select id="OSN2Source" formControlName="OSN2Source">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="C">C - SAS/COMS</mat-option>
+                        <mat-option value="D">D - DVA Siebel</mat-option>
+                        <mat-option value="E">E - VA/WAD</mat-option>
+                        <mat-option value="G">G - Content Guru</mat-option>
+                        <mat-option value="R">R - Clarify</mat-option>
+                        <mat-option value="S">S - Amdocs SOM</mat-option>
+                        <mat-option value="X">X - Unknown</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.PortingStatus.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.PortingStatus.disabled}">
                     <mat-label>Porting Status</mat-label>
                     <mat-select id="PortingStatus" formControlName="PortingStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="PI- Port In">PI- Port In</mat-option>
+                        <mat-option value="PI- Port Out">PO- Port Out</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.VodafoneRangeHolder.disabled}"
-                    appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.VodafoneRangeHolder.disabled}">
                     <mat-label>Vodafone Range Holder</mat-label>
                     <mat-select id="VodafoneRangeHolder" formControlName="VodafoneRangeHolder">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.ResType.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.ResType.disabled}">
                     <mat-label>Resolution Type</mat-label>
                     <mat-select id="ResType" formControlName="ResType">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="0"> New</mat-option>
+                        <mat-option value="100"> Under Investigation</mat-option>
+                        <mat-option value="105"> Under Governance</mat-option>
+                        <mat-option value="114"> Auto Failed</mat-option>
+                        <mat-option value="106"> Under Porting</mat-option>
+                        <mat-option value="107"> Port Req Complete</mat-option>
+                        <mat-option value="110">(END) Audit Transaction Override</mat-option>
+                        <mat-option value="111">(END) Auto Closed</mat-option>
+                        <mat-option value="113">(END) Auto Active</mat-option>
+                        <mat-option value="115">(END) Auto Modify</mat-option>
+                        <mat-option value="116">(END) Auto Cease</mat-option>
+                        <mat-option value="117">(END) Auto Special Cease</mat-option>
+                        <mat-option value="118">(END) Auto Logic Resolved</mat-option>
+                        <mat-option value="119">(END) Auto Resolved Areacall</mat-option>
+                        <mat-option value="120">(END) Audit Discrepancy Override</mat-option>
+                        <mat-option value="101">(END) Resolved</mat-option>
+                        <mat-option value="102">(END) Unresolved</mat-option>
+                        <mat-option value="109">(END) Auto Resolved</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.SwitchStatus.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.SwitchStatus.disabled}">
                     <mat-label>Switch Status</mat-label>
                     <mat-select id="SwitchStatus" formControlName="SwitchStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="Active">A-Active</mat-option>
+                        <mat-option value="Ceased">C-Ceased</mat-option>
+                        <mat-option value="Not Found">N-Not Found</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.MoriStatus.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.MoriStatus.disabled}">
                     <mat-label>Mori Status</mat-label>
                     <mat-select id="MoriStatus" formControlName="MoriStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="Active">Active</mat-option>
+                        <mat-option value="Ceased">Ceased</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.PostCodeDiff.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.PostCodeDiff.disabled}">
                     <mat-label>Post Code Diff.</mat-label>
                     <mat-select id="PostCodeDiff" formControlName="PostCodeDiff">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.FullAddDiff.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.FullAddDiff.disabled}">
                     <mat-label>Full Address Diff.</mat-label>
                     <mat-select id="FullAddDiff" formControlName="FullAddDiff">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerDiff.disabled}" appearance="outline">
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.CustomerDiff.disabled}">
                     <mat-label>Customer Diff.</mat-label>
                     <mat-select id="CustomerDiff" formControlName="CustomerDiff">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':myForm.controls.OverlappingStatus.disabled}" appearance="outline">
-                    <mat-label>Overlapping Status</mat-label>
+
+                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.OverlappingStatus.disabled}">
+                    <mat-label>Overlapping Status.</mat-label>
                     <mat-select id="OverlappingStatus" formControlName="OverlappingStatus">
                         <mat-option></mat-option>
-                        <mat-option>1</mat-option>
-                        <mat-option>2</mat-option>
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
                     </mat-select>
-
                 </mat-form-field>
-                <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+
+            </div>            
+            <div class="matsidenav-footer">
+                <button type="submit" mat-raised-button color="primary"
+                    [disabled]="fullAuditForm.invalid">
                     <mat-icon>search</mat-icon>Search
                 </button>
-            </div>
-
+                <button type="reset" mat-raised-button color="primary"
+                    [disabled]="!fullAuditForm.touched" (click)="resetForm()">
+                    <mat-icon>refresh</mat-icon>Reset
+                </button>
+            </div>                         
         </form>
     </mat-sidenav>
 
     <mat-sidenav-content class="side-content">
-        <!-- <mat-toolbar class="page-header"
-        style="margin-top:5px;margin-bottom:5px; height: 32px;;box-shadow: 0 3px 5px -1px rgba(207, 27, 27, 0.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
-        <div align="left" style="text-align: right; font-size:medium;">
-            Full Audit Details
-        </div>
-    </mat-toolbar> -->
-
-        <div class="page-header">
-            <button mat-basic-button color="primary" (click)="pagesidenav.toggle()"
-                matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
-                <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-            </button>
-            <div style="margin: 5px; float: left;"> Audit Reports > Full Audit Details</div>
-        </div>
-        <app-table-selection [tableitem]="myTable"></app-table-selection>
-        <form>
-
-            <div class="mat-elevation-z8">
-                <div class="side-left-div">
-                    <select class="res-select" Name="Name_of_list_box" size="4">
-                        <option> List item 1 </option>
-                        <option> List item 2 </option>
-                        <option> List item 3 </option>
-                        <option> List item N </option>
-                        <option> List item 3 </option>
-                        <option> List item N </option>
-                    </select>
-
-                    <div class="res-save-div">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Res.Type</mat-label>
-                            <mat-select>
-                                <mat-option></mat-option>
-                                <mat-option>New</mat-option>
-                                <mat-option>Under Investigation</mat-option>
-                                <mat-option>Under Governance</mat-option>
-                                <mat-option>Under Governance</mat-option>
-                                <mat-option>Port Req Complete</mat-option>
-                            </mat-select>
-
-                        </mat-form-field>
-
-                        <button type="submit" mat-raised-button color="primary" matTooltip="Save">
-                            <mat-icon>save</mat-icon>Save
-                        </button>&nbsp;&nbsp;
-
-
-                        <button type="button" mat-raised-button color="primary" matTooltip="Help">
-                            <mat-icon>help</mat-icon>Help
-                        </button>
-                    </div>
-                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters" appearance="outline">
-                        <mat-label>Resolution</mat-label>
-                        <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
-                        <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                    </mat-form-field>
-
-                </div>
-                <div class="side-right-div">
-                    <fieldset style="margin: 25px;">
-                        <legend>Auto Correction</legend>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Auto Correction Volume</mat-label>
-                            <mat-select>
-                                <mat-option></mat-option>
-                                <mat-option>10K</mat-option>
-                                <mat-option>30K</mat-option>
-                                <mat-option>50K</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <button class="disabledbutton" type="submit" mat-raised-button color="primary"
-                            matTooltip="Search">Start Auto Correction
-                        </button>
-                    </fieldset>
-
-                    <fieldset style="margin: 25px;" disabled="disabled">
-                        <legend>Manual Correction</legend>
-                        <div class="disabledbutton">
-                            <button type="submit" mat-raised-button color="primary" matTooltip="Search"> Auto
-                                Populate
-                                BT
+        <app-start-up *ngIf="tabs.length===0"></app-start-up>
+        <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary"
+            (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+            <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+        </button>
+        <mat-tab-group [(selectedIndex)]="selectedTab">
+            <mat-tab *ngFor="let tab of tabs; let index = index">
+                <ng-template mat-tab-label>
+                    <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+                    <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
+                        <mat-icon style="font-size: large;">close</mat-icon>
+                    </button>
+                </ng-template>
+                <span [ngSwitch]="tab.tabType">
+                    <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+                        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                            (addNewTab)="newTab($event)">
+                        </app-table-selection>
+                        <div class="mat-elevation-z8 side-bottom">
+                        <div style="display:inline; margin-left: 15px;">
+                            <mat-form-field>
+                                <mat-label>Res.Type</mat-label>
+                                <mat-select>
+                                    <mat-option></mat-option>
+                                    <mat-option>New</mat-option>
+                                    <mat-option>Under Investigation</mat-option>
+                                    <mat-option>Under Governance</mat-option>
+                                    <mat-option>Under Governance</mat-option>
+                                    <mat-option>Port Req Complete</mat-option>
+                                </mat-select>
+                            </mat-form-field> &nbsp;
+                            <mat-form-field class="side-textarea" style="width:300px" hintLabel="Max 500 characters">
+                                <mat-label>Remarks</mat-label>
+                                <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
+                                <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                            </mat-form-field>
+                            <button type="submit" mat-raised-button color="primary">
+                                <mat-icon>save</mat-icon>Save
                             </button>
-                            <button type="submit" mat-raised-button color="primary" matTooltip="Search"> Auto
-                                Populate
-                                OSN2
-                            </button>
-                            <button type="submit" mat-raised-button color="primary" matTooltip="Search"> Auto
-                                Populate
-                                OSN2
-                            </button>
-                            <button type="submit" mat-raised-button color="primary" matTooltip="Search"> Auto
-                                Populate
-                                OSN2
-                            </button>
-                            <button type="submit" mat-raised-button color="primary" matTooltip="Search"> Auto
-                                Populate
-                                OSN2
+                            <button type="button" mat-raised-button color="primary">
+                                <mat-icon>help</mat-icon>Help
+                            </button> &nbsp;
+
+                            <mat-form-field>
+                                <mat-label>Data Corrections</mat-label>
+                                <mat-select [(value)]="selectedCorrectionType" placeholder="Data Corrections">
+                                    <mat-option> </mat-option>
+                                    <mat-optgroup *ngFor="let group of correctionTypes" [label]="group.name"
+                                        [disabled]="group.disabled">
+                                        <mat-option *ngFor="let correction of group.correction"
+                                            [value]="correction.value" [disabled]="correction.disabled">
+                                            {{correction.viewValue}}
+                                        </mat-option>
+                                    </mat-optgroup>
+                                </mat-select>
+                            </mat-form-field> &nbsp;
+
+                            <mat-form-field *ngIf="selectedCorrectionType=='AutoCorrectionVolume'"
+                                style="width: 85px !important;">
+                                <mat-label>Select</mat-label>
+                                <mat-select>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="10">10K</mat-option>
+                                    <mat-option [value]="30">30K</mat-option>
+                                    <mat-option [value]="50">50K</mat-option>
+                                </mat-select>
+                            </mat-form-field>&nbsp;
+                            <button *ngIf="selectedCorrectionType" type="button" 
+                            mat-raised-button color="primary">                              
+                                Process
                             </button>
                         </div>
-                    </fieldset>
-                </div>
-            </div>
+                        </div>
 
+                        <!-- <div class="pageHolder">
+                            <div class="page" style="display:inline; width:400px">
+                                <mat-form-field>
+                                    <mat-label>Res.Type</mat-label>
+                                    <mat-select>
+                                        <mat-option></mat-option>
+                                        <mat-option>New</mat-option>
+                                        <mat-option>Under Investigation</mat-option>
+                                        <mat-option>Under Governance</mat-option>
+                                        <mat-option>Under Governance</mat-option>
+                                        <mat-option>Port Req Complete</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="" hintLabel="Max 500 characters">
+                                    <mat-label>Resolution</mat-label>
+                                    <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
+                                    <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                                </mat-form-field>                               
+                                <button type="submit" mat-raised-button color="primary" matTooltip="Save">
+                                    <mat-icon>save</mat-icon>Save
+                                </button>
+                                <button type="button" mat-raised-button color="primary" matTooltip="Help">
+                                    <mat-icon>help</mat-icon>Help
+                                </button>
+                            </div>                          
+                            <div class="page" style="width: 200px;">
+                                <fieldset>
+                                    <legend>Auto Correction</legend>
+                                    <mat-form-field>
+                                        <mat-label>Auto Correction Volume</mat-label>
+                                        <mat-select>
+                                            <mat-option></mat-option>
+                                            <mat-option>10K</mat-option>
+                                            <mat-option>30K</mat-option>
+                                            <mat-option>50K</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <button class="disabledbutton" type="submit" mat-raised-button color="primary"
+                                        matTooltip="Search">Start Auto
+                                        Correction
+                                    </button>
+                                </fieldset>
+                            </div>                           
 
-        </form>
+                            <div class="disabledbutton page" style="width: 400px;">
+                                <fieldset>
+                                    <legend>Manual Correction</legend>
+                                    <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+                                        Auto
+                                        Populate
+                                        BT
+                                    </button>
+                                    <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+                                        Auto
+                                        Populate
+                                        OSN2
+                                    </button>
+                                    <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+                                        Auto
+                                        Populate
+                                        OSN2
+                                    </button>
+                                    <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+                                        Auto
+                                        Populate
+                                        OSN2
+                                    </button>
+                                    <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+                                        Auto
+                                        Populate
+                                        OSN2
+                                    </button>
+                                </fieldset>
+                            </div>                           
+                        </div> -->
+                    </div>
+                    <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+                        <app-telephone-audit-trail></app-telephone-audit-trail>
+                    </div>
+                    <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
+                        <app-table-selection [sidePan]="pagesidenav" [tableitem]="rangeRptTable">
+                        </app-table-selection>
+                    </div>
+                    <div *ngSwitchCase="4" style="height: calc(100% - 8px);">
+                        <app-table-selection [sidePan]="pagesidenav" [tableitem]="inflightRptTable">
+                        </app-table-selection>
+                    </div>
+                    <div *ngSwitchCase="5" style="height: calc(100% - 8px);">
+                        <app-table-selection [sidePan]="pagesidenav" [tableitem]="monthlyRefreshRptTable">
+                        </app-table-selection>
+                    </div>
+                    <div *ngSwitchCase="6" style="height: calc(100% - 8px);">
+                        <app-table-selection [sidePan]="pagesidenav" [tableitem]="moriCircuitRptTable">
+                        </app-table-selection>
+                    </div>
+                    <div *ngSwitchDefault>
+                    </div>
+                </span>
+            </mat-tab>
+        </mat-tab-group>
     </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,0 +1,43 @@
+.center{
+    padding: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .side-container-report {  
+    width: auto; 
+    height: 520px !important;
+    box-sizing: border-box;
+    }
+
+/* .table-view::ng-deep .mat-cell {
+  padding-right:15px ;
+  white-space: nowrap;
+} */
+/* .table-view::ng-deep.mat-table{
+  overflow-x: scroll;
+} */
+
+/* For making content center in header */
+/* .table-view::ng-deep.mat-sort-header-container{
+  justify-content: center !important;
+} */
+
+
+.spinner{
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 12;
+}
+.spinnerdiv{
+  justify-content: center;
+  z-index: 11;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0%;
+}

@@ -1,0 +1,113 @@
+table
+{
+    width:100%;
+}
+th {
+  background-color: #e60000;
+  position: relative;
+  color:white;
+}
+
+.total-row{
+  background-color: #ff9999 !important;
+  color:black;
+  font-size: small;
+  /* font-weight: ; */
+  min-height: 38px;
+  text-align: center;
+  border: 0.5px solid grey;
+  padding: 0 !important;
+
+
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.mat-header-cell {
+  color: white;
+  position: relative;
+
+  /* width: auto;
+  height: fit-content; */
+  font-size:small;
+}
+.mat-header-row{
+  height: 30px;
+  position: relative;
+  
+}
+.mat-cell {
+  font-size: 14px;
+  min-height: 48px;
+  text-align: center;
+  /* border-right: 1px solid black;
+  border-bottom: 1px solid black; */
+}
+
+.mat-cell{
+  font-size:small;
+}
+
+.mat-row {
+  height: 10px;
+
+}
+
+.table-icon{
+  cursor: pointer; 
+  font-size: 18px;
+  height: 0px;
+  width:auto;
+}
+
+.table-container {
+  height: auto;
+  overflow: auto;
+  /* max-width: 100%; */  
+  /* font-size:large; */
+}
+
+.mat-paginator-sticky {
+  bottom: 0px;
+  /* position: sticky; */
+  z-index: 10;
+  height: 10px;
+}
+
+.select-submit{
+    border:none;   
+    background-color: lightblue;
+    color:  #EFEFEF;
+    border-radius: 8%;
+  float:right;
+  top: 0px;
+  position: sticky;
+  z-index: 10;
+  height: 25px;
+  /* margin-top: 3px; */
+}
+
+th.mat-header-cell,td.mat-cell {
+  text-align: center;
+  border: 0.5px solid grey;
+  padding: 0 !important;
+
+}
+
+.truncate-cell {
+  /* max-width: 120px;  */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+table td, table th {
+  padding: 2px 10px;
+}
+
+mat-form-field {
+  margin-left: 10px;
+  margin-top:10px;
+}

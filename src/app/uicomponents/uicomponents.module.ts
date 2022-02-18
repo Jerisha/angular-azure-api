@@ -11,8 +11,14 @@ import {
   TableComponent,
   SelectMultipleComponent,
   SelectSingleComponent,
-  SelectExpressionComponent
+  SelectExpressionComponent,
+  TableExpansionComponent,
+  TableGroupHeaderComponent
+  
+ 
 } from './index';
+
+import { HelperModule } from '../_helper/helper.module';
 
 
 @NgModule({
@@ -24,23 +30,29 @@ import {
     SelectMultipleComponent,
     SelectSingleComponent,
     SelectExpressionComponent,
-    SelectSingleComponent
+    SelectSingleComponent,
+    TableGroupHeaderComponent,
+    TableExpansionComponent
+
   ],
   imports: [
     CommonModule,
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    HelperModule
   ],
   exports: [
     TableSelectionComponent,
+    TableGroupHeaderComponent,
     TopNavComponent,
     MenuListComponent,
     TableComponent,
     SelectExpressionComponent,
     SelectMultipleComponent,
-    SelectSingleComponent
-  ]
-})
+    SelectSingleComponent,
+    TableExpansionComponent
+  ],
+ })
 export class UicomponentsModule { }

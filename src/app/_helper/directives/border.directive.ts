@@ -10,10 +10,16 @@ export class BorderDirective {
   @Input() bMargin: number = 10;
   @Input() bColor: string = 'lightgrey';
   @Input() bWidth: number = 2;
+  @Input() bHeight: number = 100;
 
   @HostBinding('style.borderStyle')
   get style() {
     return this.bStyle;
+  }
+
+  @HostBinding('style.height')
+  get height() {
+    return `${this.bHeight}px`;
   }
 
   @HostBinding('style.borderRadius')

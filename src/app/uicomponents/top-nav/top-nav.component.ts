@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TooltipPosition } from '@angular/material/tooltip';
-import { NavService } from '../../_services/nav.services';
+import { NavService } from './services/nav.services';
 
 
 @Component({

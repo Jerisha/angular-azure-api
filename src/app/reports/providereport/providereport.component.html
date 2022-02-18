@@ -1,233 +1,86 @@
-<section>
-  <div class="example-container mat-elevation-z8">
-   <mat-card class="mat-elevation-z8">
-       <mat-toolbar color="primary"
-       style="box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
-    <div align="center" style="color:white;text-align: right;">
-    <mat-icon matTooltip="Reporting Help Index" (click)="openDialog()">info</mat-icon> Provide Report Options
-    </div>
-    </mat-toolbar> 
-    <br>
-    <mat-card-content>
-        <form>
-            <div class="example-section mat-elevation-z8 exam"> 
-                <span class="example-button-row">
-            <mat-icon matTooltip="Report Wildcard Selection" (click)="openDialog()">info</mat-icon> 
-            <b><mat-label> Wildcard Selection</mat-label></b>
-            <b> 
-              <button type="reset" mat-raised-button color="primary" matTooltip="Clear" (click)="resetForm()">
-                <mat-icon>refresh</mat-icon>Clear</button></b>
-                </span>
-                <br><b>
-                    
-                    <mat-form-field   appearance="fill"> 
-                        <mat-label>Telephone</mat-label>
-                        <input type="tel"  matInput> 
-                      </mat-form-field>
-                    <button mat-button [matMenuTriggerFor]="menu">{{select}}</button>
-                    <mat-menu #menu="matMenu">
-                      <button  mat-menu-item (click)="selected('~=')" >~=...begins with</button>
-                      <button mat-menu-item (click)="selected('!~')">!~...not begin with</button>
-                      <button mat-menu-item (click)="selected('=%')">=%...contains</button>
-                      <button mat-menu-item (click)="selected('!%')">!%...not contains</button>
-                      <button mat-menu-item (click)="selected('=')">=...exact match</button>
-                      <button mat-menu-item (click)="selected('!=')">!=...not =</button>
-                      <button mat-menu-item (click)="selected('.<.')"> .<...less than</button>
-                      <button mat-menu-item (click)="selected('>')"> .>...greater than</button>
-                      <button mat-menu-item (click)="selected('.<.=')"> .<=...less or =</button>
-                      <button mat-menu-item (click)="selected('=>')"> .>=...greater or =</button>
-                      <button mat-menu-item (click)="selected('--')">--...empty(null)</button>
-                      <button mat-menu-item (click)="selected('++')">++...is not empty</button>
-                      <button mat-menu-item (click)="selected('<>')"><>...Between(Range)</button>
-                      <button mat-menu-item (click)="selected('<!>')"><!>...Not Between(Range)</button>
-                      <button mat-menu-item (click)="selected('(.)')">(.)...In List</button>
-                      <button mat-menu-item (click)="selected('(!)')">(!)...Not in List</button>
-                    </mat-menu>
-                </b>
-                <b>
-                    <mat-form-field  appearance="fill"> 
-                        <mat-label>Cust Name Full</mat-label>
-                        <input type="tel"  matInput> 
-                      </mat-form-field>
-                    <button mat-button [matMenuTriggerFor]="menu">{{select}}</button>
-                    <mat-menu #menu="matMenu">
-                      <button mat-menu-item>== Equal Too</button>
-                      <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </b>
-                <mat-form-field  appearance="fill"> 
-                    <mat-label>Cupid</mat-label>
-                    <input type="tel"  matInput> 
-                  </mat-form-field>
-                <button mat-button [matMenuTriggerFor]="menu">Exp.</button>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item>== Equal Too</button>
-                  <button mat-menu-item>Item 2</button>
-                </mat-menu>
-                    <br>
-                    <mat-form-field  appearance="fill"> 
-                        <mat-label>Address Line 1</mat-label>
-                        <input type="tel"  matInput> 
-                      </mat-form-field>
-                    <button mat-button [matMenuTriggerFor]="menu">Exp.</button>
-                    <mat-menu #menu="matMenu">
-                      <button mat-menu-item>== Equal Too</button>
-                      <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                    <b>
-                        <mat-form-field  appearance="fill"> 
-                            <mat-label>Address Line 2</mat-label>
-                            <input type="tel"  matInput> 
-                          </mat-form-field>
-                        <button mat-button [matMenuTriggerFor]="menu">Exp.</button>
-                        <mat-menu #menu="matMenu">
-                          <button mat-menu-item>== Equal Too</button>
-                          <button mat-menu-item>Item 2</button>
-                        </mat-menu>
-                    </b>  
-                    <b>               
-                        <mat-form-field  appearance="fill"> 
-                            <mat-label>Postcode</mat-label>
-                            <input type="tel"  matInput> 
-                          </mat-form-field>
-                        <button mat-button [matMenuTriggerFor]="menu">Exp.</button>
-                        <mat-menu #menu="matMenu">
-                          <button mat-menu-item>== Equal Too</button>
-                          <button mat-menu-item>Item 2</button>
-                        </mat-menu>
-                    </b>   
-            </div>
-        </form><br>
+<mat-sidenav-container class="side-container-report">
+  <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+  <div class="filter-sticky filterposition">
+  <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
+  (changes)="setControlAttribute($event)">
+  </app-select-multiple>
+  </div>
+  <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
+  <div class="matsidenav-filter">
+  <mat-form-field hintLabel="Max 10 characters"
+  appearance="outline">
+  <mat-label>Telephone</mat-label>
+  <input id="TelephoneNo" formControlName="TelephoneNo" matInput #input maxlength="10"
+  placeholder="Tel.No Start" style="margin-right: 24%;">
+  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>
+  
+  
+  
+  <!-- <button type="submit" mat-raised-button color="primary" matTooltip="Search">
+  <mat-icon>search</mat-icon>Search
+  </button> -->
+  </div>
+  <div calss="matsidenav-footer" >
+  <button type="submit" mat-raised-button color="primary" >
+  <mat-icon>search</mat-icon>Search
+  </button>
+  <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
+  <mat-icon>refresh</mat-icon>Reset
+  </button>
 
-        <form>
-            <div class="mat-elevation-z8" >
-                <mat-icon matTooltip="Report List Selection">info</mat-icon> 
-                <b><mat-label> List Selection</mat-label></b>
-                <b> <button type="reset"  algin="LEFT" mat-raised-button color="primary" matTooltip="Clear" (click)="resetForm()">
-                    <mat-icon>refresh</mat-icon>Clear</button></b>
-                    <br>
-                <mat-form-field appearance="fill">
-                    <mat-label>Trans.Type</mat-label>
-                    <mat-select>
-                        <mat-option value=""></mat-option>
-                        <mat-option >Activate Customer</mat-option>
-                        <mat-option>Cease Customer</mat-option>
-                        <mat-option>Export</mat-option>
-                        <mat-option>Import</mat-option>
-                        <mat-option>Modify</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <button mat-button [matMenuTriggerFor]="menu">Exp.</button>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item>== Equal Too</button>
-                  <button mat-menu-item>Item 2</button>
-                </mat-menu><b>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Source.Sys</mat-label>
-                        <mat-select>
-                            <mat-option></mat-option>
-                            <mat-option>A - AUDITr</mat-option>
-                            <mat-option>C - SAS/COMS</mat-option>
-                            <mat-option>D - DVA Siebel</mat-option>
-                            <mat-option>E - VA/WAD</mat-option>
-                            <mat-option>F - Ring Central</mat-option>
-                            <mat-option>G - Content Guru</mat-option>
-                            <mat-option>>N - ONENET</mat-option>
-                            <mat-option>R - Clarify</mat-option>
-                            <mat-option>S - Amdocs SOM</mat-option>
-                            <mat-option>X - Unknown</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <button mat-button [matMenuTriggerFor]="menu">Exp.</button>
-                        <mat-menu #menu="matMenu">
-                          <button mat-menu-item>== Equal Too</button>
-                          <button mat-menu-item>Item 2</button>
-                        </mat-menu>
-                </b>
-            </div>
-        </form>
-        <br>
-        
-        <form class= "list-form">
-            <div class=" mat-elevation-z8" >
-                <mat-icon matTooltip="Report Fixed/Optional Columns">info</mat-icon> 
-                <b><mat-label>Fixed/Optional Columns</mat-label></b>
-               
-            <b><button type="reset" mat-raised-button color="primary" matTooltip="Reset All " (click)="resetForm()">
-                <mat-icon>refresh</mat-icon>Reset All
-              </button></b> 
-              <b><button type="submit" mat-raised-button color="primary" matTooltip="Select All" (click)="submitForm">Select  All
-              </button></b> 
-              <b><button type="reset" mat-raised-button color="primary" matTooltip="Deselect All" (click)="resetForm()">Deselect All
-              </button></b> 
-              <br>
-              
-            <b>Favourites</b>
-            <mat-form-field  appearance="outline"> 
-                <mat-label>Default</mat-label>
-                <mat-select required>
-                    <mat-option>def</mat-option>
-                </mat-select>
-               
-              </mat-form-field>
-              <b> <button type="submit" mat-raised-button color="primary" matTooltip="Add" ondblclick="button1" (click)="submitForm">Add</button></b>
-              <b><button type="button2" [disabled]="isDisabled" mat-raised-button matTooltip="Promote"  (click)="Delete">Promote</button></b>
-              <b><button type="button1" [disabled]="isDisabled" mat-raised-button matTooltip="Delete"  (click)="Delete">Delete</button>
-              </b>
-              
-<br>
-              <mat-form-field appearance="outline" >
-                <mat-label>Select</mat-label>
-                <mat-select  multiple required >
-                    <mat-option >Select All</mat-option>
-                  <mat-option value="Telephone">Telephone *</mat-option>
-                  <mat-option>Tran.</mat-option>
-                  <mat-option>Provide ID</mat-option>
-                  <mat-option>Parent Cupid</mat-option>
-                  <mat-option>Child Cupid</mat-option>
-                  <mat-option>Source Sys.</mat-option>
-                  <mat-option>Franchise</mat-option>
-                  <mat-option>Cust Title</mat-option>
-                  <mat-option>Forename</mat-option>
-                  <mat-option>Surname</mat-option>
-                  <mat-option>Cust.Name</mat-option>
-                  <mat-option>Address Line 1</mat-option>
-                  <mat-option>Address Line 2</mat-option>
-                  <mat-option>Address Line 3</mat-option>
-                  <mat-option>Address Line 4</mat-option>
-                  <mat-option>Postcode</mat-option>
-                  <mat-option>SAR Ref</mat-option>
-                  <mat-option>Reference</mat-option>
-                  <mat-option>Effective Date</mat-option>
-                  <mat-option>Received Date</mat-option>
-                  <mat-option>Creation Date</mat-option>
-                  <mat-option>created By</mat-option>
-                  <mat-option>New Tel No</mat-option>
-                  <mat-option>Callback</mat-option>
-                  <mat-option>Addr Bussiness suffix </mat-option>
-                  <mat-option>Addr Id</mat-option>
-                  <mat-option>Addr Id Source</mat-option>
-                  <mat-option>Cross Ref No</mat-option>
-                  <mat-option>Retailer</mat-option>
-                  <mat-option>Change Cupid</mat-option>
-                  <mat-option>Source Type</mat-option>
-                  <mat-option>Order Ref</mat-option>
-                  <mat-option>Conn. Type</mat-option>
-                  <mat-option>Access Method</mat-option>
-                  <mat-option>Cust.Name Company</mat-option>
-                  <mat-option>Addr.Status</mat-option>
-                  <mat-option>Cmp Code</mat-option>
-                  <mat-option>Author</mat-option>
-                  <mat-option>Comment</mat-option>
-                  <mat-option>Sar Trans Num</mat-option>
-                 
-                </mat-select>
-            </mat-form-field>
-             </div>
-        </form>
-    </mat-card-content>
-    
-</mat-card>
 </div>
-</section>
-
+  </form>
+  
+  </mat-sidenav>
+  <mat-sidenav-content class="side-content">
+  <app-start-up *ngIf="tabs.length===0"></app-start-up>
+  
+  
+  
+  <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+  matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+  <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+  </button>
+  <mat-tab-group [(selectedIndex)]="selectedTab">
+  <mat-tab *ngFor="let tab of tabs; let index = index">
+  <ng-template mat-tab-label>
+  
+  
+  
+  
+  <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+  <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button>
+  <mat-icon style="font-size: large;">close</mat-icon>
+  </button>
+  
+  
+  
+  </ng-template>
+  
+  
+  
+  <span [ngSwitch]="tab.tabType">
+  <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
+  
+  <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" [isShown]='false'>
+  </app-table-selection>
+  </div>
+  
+  </span>
+  
+  
+  
+  
+  
+  <!-- <button mat-raised-button
+  class="example-delete-tab-button"
+  [disabled]="tabs.length === 1"
+  (click)="removeTab(index)">
+  Delete Tab
+  </button> -->
+  </mat-tab>
+  </mat-tab-group>
+  </mat-sidenav-content>
+  
+  </mat-sidenav-container>

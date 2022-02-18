@@ -1,19 +1,35 @@
-.wrap{display:flex;}
+.container-page{
+  height:520px;
+  width: auto;
+  box-sizing: border-box;
+}
+.wrap{display:flex;
+justify-content: center;
+}
 .left-box{
       /* min-height: 80vh; */
       /* height: 90vh; */
       /* min-width: 80%; */
-      width: 55vw;
+      width: 60vw;
       /* background-color: rgb(230, 129, 176); */
+      /* height: calc(100%-10%); */
+      /* overflow-y:visible; */
       overflow: auto;
       /* padding-left: 5px; */
   }
   .right-box{
     /* min-height: 80vh; */
     height: 80vh; 
-    width: 45%;
+    width: 90vw;
     /* background-color: rgb(230, 129, 176); */
     overflow: auto;
+}
+.tab-box1{
+  /* min-height: 80vh; */
+  height: 80vh; 
+  width: 90vw;
+  /* background-color: rgb(230, 129, 176); */
+  overflow: auto;
 }
 .container-fluid {
     width: 100%;
@@ -51,19 +67,22 @@
     /* box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12); */
     box-shadow: inset 3px 2px 5px 1px rgb(0 0 0 / 20%), 0 1px 3px 0 rgb(0 0 0 / 14%), 0 0.5px 3px 0 rgb(0 0 0 / 12%);
 }
-:host ::ng-deep div.mat-tab-label {
-  /* background-color: #e60000; */
+/* :host ::ng-deep div.mat-tab-label {
+  
   background-color: #009de6;
-  /* background-color: #cfc2c2; */
+  
     color:white;
-    /* box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12); */
+    
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
-    /* box-shadow: inset 3px 2px 5px 1px rgb(0 0 0 / 20%), 0 1px 3px 0 rgb(0 0 0 / 14%), 0 0.5px 3px 0 rgb(0 0 0 / 12%); */
+    
 
+} */
+:host::ng-deep mat-cell {
+  font-size: 12px !important;
 }
 .mat-form-field-appearance-outline .mat-form-field-infix {
-  /* padding: 1em 0 1em 0; */
+  
   padding-top: 2px;
   padding-right: 0px;
   padding-bottom: 0px;
@@ -94,10 +113,25 @@
 /* :host ::ng-deep.mat-ripple mat-tab-list mat-tab-labels mat-tab-label mat-focus-indicator mat-tab-label-active ng-star-inserted{
   height: 30px !important;
 } */
-:host ::ng-deep .mat-tab-list{
+/* :host ::ng-deep .mat-tab-list{
   height: 30px !important;
 }
 :host ::ng-deep .mat-tab-label{
   height: 30px !important;
   color: rgb(11, 11, 158);
+} */
+
+.audit-trail-view::ng-deep .fluid-item {
+  flex: 46% 1 1;
+  min-width: 150px;
 }
+
+/* .audit-trail-view::ng-deep .container-fluid {
+column-gap: 20px;
+} */
+
+/* @media screen and (max-width: 1314px) {
+  .audit-trail-view::ng-deep .fluid-item {
+    flex: 95% 1 1;
+  }
+} */

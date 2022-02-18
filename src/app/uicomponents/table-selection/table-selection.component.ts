@@ -1,11 +1,13 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { TableItem, ViewColumn } from 'src/app/_models/table-item';
+import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-table-selection',
@@ -14,35 +16,94 @@ import { MatSelect } from '@angular/material/select';
 })
 
 export class TableSelectionComponent {
-
   fltvalue: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() tableitem?: TableItem;
   @ViewChild('select') select!: MatSelect;
   allSelected = true;
   selection = new SelectionModel<any>(true, []);
+  @Input() tableitem?: TableItem;
+  @Input() sidePan: any;
+  @Input() isShown: boolean = true;
+  @Output() rowChanges = new EventEmitter<any>();
+  @Output() addNewTab = new EventEmitter<any>();
   dataSource!: MatTableDataSource<any>;
+  selectedrows: any;
+  ColumnDetails!: ColumnDetails[];
   dataColumns: any;
   columnHeaders: any;
   filter?: boolean = false;
   columnFilter?: boolean = false;
   imgList?: ViewColumn[];
   imgColumns?: string[];
-  @Output() openTabSelected = new EventEmitter<any[]>();
+  selectColumn: string = '';
+  selectedTelnos: string[] = [];
+  isEmailRequired: boolean = false;
+  selectList: string[] = [];
 
-  constructor(private cdr: ChangeDetectorRef) { }
-  ngOnInit() {
+  emptyColumns: string[] = [];
+  nonemptyColumns: string[] = [];
+  unSelectListItems: string[] = [];
+  gridSelectList: ColumnDetails[] = [];
+  filteredDataColumns: ColumnDetails[] = [];
+  highlightedCells: string[] = [];
+  backhighlightedCells: string[] = []
+  isTotDisplayed: boolean = false;
+  totShowed: boolean = false;
+  shouldTotalRow: boolean = false;
+
+  totalRowCols: string[] = [];
+  nonNumericCols: string[] = [];
+
+  constructor(private cdr: ChangeDetectorRef) {
+
+  }
+  dataObs$!: Observable<any>
+  dataobj!: any;
+
+
+  ngOnInit() {    
+
+    this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
+    this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
+    this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false;
+    debugger;
+    if (this.tableitem?.showBlankCoulmns) {
+      this.getEmptyColumns();
+      this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
+        this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
+      const selectList = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
+      this.gridSelectList = selectList ? selectList : [];
+    }
+    else {
+      this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+    }
+
     this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-    this.imgColumns = this.tableitem?.colToSetImage;
+
+    this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
+      : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
+    //this.imgColumns = this.tableitem?.colToSetImage;
     this.imgList = this.tableitem?.imgConfig;
     this.filter = this.tableitem?.filter;
     if (this.tableitem?.selectCheckbox) {
-      this.dataColumns = this.tableitem?.dataColumns ? ['Select'].concat(this.tableitem?.dataColumns) : undefined;
-      this.columnHeaders = this.tableitem?.coulmnHeaders ? ['Select'].concat(this.tableitem?.coulmnHeaders) : undefined;
+      const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
+      this.ColumnDetails.unshift(selItem);
+      //this.totalRowCols = ['Select'].concat(this.totalRowCols);
+      //this.dataColumns = this.tableitem?.dataColumns ? ['Select'].concat(this.tableitem?.dataColumns) : undefined;
+      this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
+      this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';
+      //this.columnHeaders = this.tableitem?.coulmnHeaders ? ['Select'].concat(this.tableitem?.coulmnHeaders) : undefined;
     } else {
-      this.dataColumns = this.tableitem?.dataColumns;
-      this.columnHeaders = this.tableitem?.coulmnHeaders;
+      this.dataColumns = this.tableitem?.showBlankCoulmns ?
+        this.filteredDataColumns.map((e) => e.headerValue) : this.tableitem?.Columns?.map((e) => e.headerValue);
+    }
+    this.isEmailRequired = this.tableitem?.showEmail ? true : false;
+    if (this.shouldTotalRow) {
+      var footerRowCols = this.tableitem?.totalRowCols ? this.tableitem?.totalRowCols : [];
+      footerRowCols = [this.dataColumns[0]].concat(footerRowCols);
+      this.totalRowCols = this.dataColumns.filter((x: any) => footerRowCols.includes(x));
+      this.nonNumericCols = this.dataColumns.filter((x: any) => !footerRowCols.includes(x));
     }
   }
 
@@ -53,6 +114,49 @@ export class TableSelectionComponent {
     this.cdr.detectChanges();
   }
 
+
+  isRowselected: boolean = false;
+
+
+  getTotal(cellname: string) {
+    debugger;
+    var cell = cellname ? cellname : '';
+    if (this.dataColumns[0] === cellname) {
+      return 'Total';
+    }
+
+    var totalcell = this.totalRowCols.filter(x => x.includes(cell))
+    if (totalcell.length > 0) {
+      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+    }
+    return '';
+
+  }
+
+  getColSpan(cellname: string) {
+    debugger;
+    if (this.dataColumns[0] === cellname) {
+      return this.nonNumericCols.length;
+    }
+    return 1;
+  }
+
+  selectRow(event: any, row: any) {
+    debugger;
+    this.dataSource.data = this.dataSource.data.filter(r => r !== row);
+    if (event.checked) {
+      this.dataSource.data = [row].concat(this.dataSource.data);
+      debugger;
+      //this.highlightCellb(true)
+    }
+    else {
+      this.dataSource.data = this.dataSource.data.concat(row);
+      // this.highlightCellb(false)
+    }
+    this.rowChanges.emit([row[this.selectColumn]]);
+  }
+
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -62,9 +166,17 @@ export class TableSelectionComponent {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
+    if (this.isAllSelected()) {
+      this.selection.clear()
+      this.selectedTelnos = [];
+
+    }
+    else {
       this.dataSource.data.forEach(row => this.selection.select(row));
+      // this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
+    }
+
+    this.rowChanges.emit(this.selectedTelnos);
   }
 
   applyFilter() {
@@ -87,7 +199,6 @@ export class TableSelectionComponent {
     }
   }
 
-
   toggleAllSelection() {
     if (this.allSelected) {
       this.select.options.forEach((item: MatOption) => item.select());
@@ -106,45 +217,83 @@ export class TableSelectionComponent {
     this.allSelected = newStatus;
   }
 
-  getDisplayName(data: string) {
-    let index = this.tableitem?.dataColumns ? this.tableitem?.dataColumns.indexOf(data) : -1;
-    return this.tableitem?.coulmnHeaders ? this.tableitem?.coulmnHeaders[index] : undefined;
+  // getDisplayName(data: string) {
+  //   let index = this.tableitem?.dataColumns ? this.tableitem?.dataColumns.indexOf(data) : -1;
+  //   return this.tableitem?.coulmnHeaders ? this.tableitem?.coulmnHeaders[index] : undefined;
 
-  }
+  // }
 
-  filterGridColumns() {
+  filterGridColumns(event:any) {
     let selectedColumns: string[] = this.select.value;
-    let coulmnHeader: string[] = [];
-    let staticColumns = this.tableitem?.coulmnHeaders ?
-      this.tableitem?.coulmnHeaders : undefined;
-    selectedColumns.forEach(function (selectedColumn) {
-      let displayedColumn = staticColumns?.
-            find(x => x.replace(/[^a-zA-Z0-9]/g, "") == selectedColumn)
-      coulmnHeader.push(displayedColumn ? displayedColumn : '');
-    });
-    this.columnHeaders = this.tableitem?.selectCheckbox ? ['Select'].concat(coulmnHeader) : coulmnHeader;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
+    event.close();
+
+    // let coulmnHeader: string[] = [];
+    // let staticColumns = this.tableitem?.coulmnHeaders ?
+    //   this.tableitem?.coulmnHeaders : undefined;filter
+
+    // selectedColumns.forEach(function (selectedColumn) {
+    //   let displayedColumn = staticColumns?.
+    //     find(x => x.replace(/[^a-zA-Z0-9]/g, "") == selectedColumn)
+    //   coulmnHeader.push(displayedColumn ? displayedColumn : '');
+    // });
+    // this.columnHeaders = this.tableitem?.selectCheckbox ? ['Select'].concat(coulmnHeader) : coulmnHeader;
+
   }
 
+  addTabs(event: any, tabType: number, row: any) {
+    event.stopPropagation();
+    this.addNewTab.emit({ tabType, row });
+  }
 
-  
+  logSelection(a: any) {
+    console.log(this.selection.selected)
+    this.selectedrows = this.selection.selected ? this.selection.selected : undefined;
+    //this.selectedrowsCount = this.selection.selected ? this.selection.selected.length: 0;
+    return true;
+  }
 
-  clearColmnFilter() {
-    if (this.dataColumns && this.columnHeaders) {
+  getEmptyColumns() {
+    let summaryData = this.tableitem?.data;
+    summaryData.forEach((item: any) => {
+      this.checkIsNullOrEmptyProperties(item)
+    });
 
-      this.dataColumns = this.tableitem?.dataColumns;
-      this.columnHeaders = this.tableitem?.coulmnHeaders;
+    var emptySet = new Set(this.emptyColumns);
+    this.emptyColumns = [...emptySet];
+    var nonEmptySet = new Set(this.nonemptyColumns);
+    this.nonemptyColumns = [...nonEmptySet];
+    this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
+  }
+
+  checkIsNullOrEmptyProperties(obj: any) {
+    for (var key in obj) {
+      if (obj[key] === null || obj[key] === "")
+        this.emptyColumns.push(key);
+      else {
+        this.nonemptyColumns.push(key)
+      }
     }
   }
 
-  logSelection() {
-    this.selection.selected.forEach(s => console.log(s.name));
-  }
+  highlightCell(cell: any, disCol: any) {
 
-  openTab(tabName:string,telephoneNo:string)
-  {
-  //console.log("tabName: "+tabName,"telephoneNo: "+telephoneNo)
-  this.openTabSelected.emit( [tabName,telephoneNo]);
-  }
+    let applyStyles = {};
+    if (this.backhighlightedCells)
+      if (this.backhighlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+        applyStyles = {
+          'background-color': '#ff9999'
+        }
+      }
 
+    if (this.highlightedCells)
+      if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+
+        applyStyles = {
+          'color': 'red',
+          'font-weight': 'bold',
+        }
+      }
+    return applyStyles;
+  }
 }

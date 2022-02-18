@@ -1,101 +1,145 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails } from 'src/app/_models/telephone-audit-trail';
-import { TableItem } from 'src/app/_models/table-item';
+import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_shared/models/telephone-audit-trail';
+import { AddressDetails } from 'src/app/_shared/models/address-details';
+import { TableItem } from 'src/app/uicomponents/models/table-item';
+import { Router } from '@angular/router';
 
 const ele: TelephoneAuditTrail =
 {
-  liveRecord: undefined,
+  liveRecord: 
+      {
+        tranId: '1014284011',
+        parentCupid: '13',
+        childCupid: '13',
+        custTitle: '',
+        custForename: '',
+        // custName: 'SOUTH BIRMINGHAM HEALTH AUTH',
+        custName: 'SOUTH BIRMINGHAM',
+        busnSuffix: '',
+        premises: 'Edgbaston',
+        thoroughfare: 'BIRMINGHAM',
+        locality: '',
+        postcode: 'B15 2TH',
+        retailerId: '', 
+        addrId: '',
+        addrIdSrce: '',
+        tranRef: '013/013/001014284011',
+        CreatedOn: 'THU 14 MAR 2019 15:26:59',
+        createdBy: 'BATCH',
+        source: 'C - SAS/COMS',
+        franchise: 'MCL',
+        sourceType: 'BATCH',
+        internalAddr1: 'WOLFSON BUILDING',
+        internalAddr2: 'QUEEN ELIZABETH HOSP',
+        internalAddr3:	'BIRMINGHAM',
+        internalAddr4: 'WEST MIDLANDS',
+        newTelNo: '',
+        xRef: '',
+        lineType: 'D - DDI',
+      }
+    ,
+  unsolicitedDetails: [
+        { Code: '1046',	ErrorMessage: 'Import is 10 days overdue.',	Date: 'THU 28 JUL 2016 08:25:23',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101328071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'WED 27 JUL 2016 08:26:46',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101327071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'TUE 26 JUL 2016 08:25:20',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101326071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'MON 25 JUL 2016 08:25:19',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101325071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'SUN 24 JUL 2016 08:25:23',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101324071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'SAT 23 JUL 2016 08:25:18',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101323071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'FRI 22 JUL 2016 08:25:34',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101322071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'THU 21 JUL 2016 08:25:30',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101321071601.CAR' },
+        { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'WED 20 JUL 2016 17:55:06',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101320071606.CAR' },
+      ],
   transactionDetails:
     [
       {
-        action: '',
-        Cnt: '1',
-        Transaction: 'A - Activate Customer',
+        Action: '',
+        CountTransaction: '1 A - Activate Customer',
         Status: '110 - ERROR FINAL',
-        Created: '08-JAN-14',
+        CreatedOn: '08-JAN-14',
         Source: 'R - Clarify',
-        CustName: 'ERNST & YOUNG',
-        Details: { Tran_ID: '1015002930', Tran_Cmd: 'A - Activate Customer', BT_Cmd: 'A - Activate Customer', Parent_CUPID: '13', Child_CUPID: '13', Change_CUPID: '13', Cust_Title: ' ', CustForename: ' ', CustName: 'J2 GLOBAL UK LTD', Busn_Suffix: ' ', Premises: 'Telehouse', Thoroughfare: 'Coriander Avenue', Locality: 'LONDON', Postcode: 'E14 2AA', Retailer_ID: ' ', Addr_ID: '', Addr_ID_Srce: ' ', SAR_Ref_Num: ' ', SAR_Trn_Num: ' ', Reference: ' ', Conn_Type: ' ', Access_Method: ' ', Prev_Tran_ID: '1014986699', Tran_Ref_: '013/013/001015002930', Status: '101-DO SEND', BT_Source: 'Edge', Source: 'E - VA/WAD', Franchise: 'VFC', Order_Ref: 'EDGE', Created: 'THU 08 JUL 2021 10:20:02', Created_By: 'RODDA.MANIRATHNAM@VODAFONE.COM', Source_Type: 'GUI', Internal_Addr1: 'TELEHOUSE EAST', Internal_Addr2: 'CORIANDER AVENUE', Internal_Addr3: 'LONDON', Internal_Addr4: ' ', Force_validate: 'N', New_Tel_no: ' ', XRef: ' ', Line_Type: 'D - DDI', Provide: 'THU 08 JUL 2021 10:16:00', Effective: 'THU 08 JUL 2021 10:20:02', End_Status: 'THU 08 JUL 2021 10:35:01', Callback: ' ', Type_of_Line: 'BW - Bothway', Next_Tran_Id: '0' },
-        NotificationData:
+        CustomerName: 'ERNST & YOUNG',
+        // email --RODDA.MANIRATHNAM@VODAFONE.COM  comment
+        details: { tranId: '1015002930', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AA', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', CreatedOn: 'THU 08 JUL 2021 10:20:02', createdBy: ' ', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' , comment: ' DDI RANGE- 01619526000'},
+        notificationData:
         {
-          StartTelNo: '0123467890',
-          Source: 'AUDIT',
-          Notification_Status: 'Active',
-          Notification_Error: 'error',
-          Extracted_Date: 'err002',
-          Updated_Date: '28/12/1992',
-          End_Tel_No: '0123467890',
-          Order_Ref: 'gahh16227',
-          Created: '20/12/1992',
-          BT_Status: 'Activate',
-          BT_Error_Code: 'BT3456',
-          BT_Error_Message: 'errorcode'
+          startTelNo: '0123467890',
+          source: 'AUDIT',
+          notificationStatus: 'Active',
+          notificationError: 'error',
+          extractedDate: 'err002',
+          updatedDate: '28/12/1992',
+          endTelNo: '0123467890',
+          orderRef: 'gahh16227',
+          CreatedOn: '20/12/1992',
+          btStatus: 'Activate',
+          btErrorCode: 'BT3456',
+          btErrorMessage: 'errorcode'
         },
-        CommentText: '',
-        Comment: [{ 'Code': '2100', 'Description/Error': 'Interim transaction not sent' }],
-        Resolution: [{}]
+        errorDescription: [{ ResponseCode: '2100', ResponseMessage: 'Interim transaction not sent' }],
+        commentResponse: [{ResponseCode: '1057', ResponseMessage: 'Data/Record is Invalid.', Date:'FRI 25 OCT 2013 17:26:55', IsFinal: 'Y', FileName: 'BT101303101301.CAR'}, 
+        {ResponseCode: '1018', ResponseMessage: 'OLO does not own Entry.', Date:'FRI 25 OCT 2013 17:26:55', IsFinal: 'N', FileName: 'BT101303101302.CAR'}],
+        resolution: [{Resolution: 'Superseded', CreatedBy: 'SYSTEM', CreatedOn: '08 Jul 2021', Duration: ' ', Remarks: 'Superseded by a later transaction' }]
       },
       {
-        action: '',
-        Cnt: '2',
-        Transaction: 'A - Activate Customer',
+        Action: '',
+        CountTransaction: '2 A - Activate Customer',
         Status: '110 - ERROR FINAL',
-        Created: '08-JAN-14',
+        CreatedOn: '08-JAN-14',
         Source: 'R - Clarify',
-        CustName: 'ERNST & YOUNG',
-        Details: { Tran_ID: '1015002931', Tran_Cmd: 'A - Activate Customer', BT_Cmd: 'A - Activate Customer', Parent_CUPID: '13', Child_CUPID: '13', Change_CUPID: '13', Cust_Title: ' ', CustForename: ' ', CustName: 'J2 GLOBAL UK LTD', Busn_Suffix: ' ', Premises: 'Telehouse', Thoroughfare: 'Coriander Avenue', Locality: 'LONDON', Postcode: 'E14 2AA', Retailer_ID: ' ', Addr_ID: '', Addr_ID_Srce: ' ', SAR_Ref_Num: ' ', SAR_Trn_Num: ' ', Reference: ' ', Conn_Type: ' ', Access_Method: ' ', Prev_Tran_ID: '1014986699', Tran_Ref_: '013/013/001015002931', Status: '101-DO SEND', BT_Source: 'Edge', Source: 'E - VA/WAD', Franchise: 'VFC', Order_Ref: 'EDGE', Created: 'THU 08 JUL 2021 10:22:02', Created_By: 'ASHOK.KUMARR@VODAFONE.COM', Source_Type: 'GUI', Internal_Addr1: 'TELEHOUSE EAST', Internal_Addr2: 'CORIANDER AVENUE', Internal_Addr3: 'LONDON', Internal_Addr4: ' ', Force_validate: 'N', New_Tel_no: ' ', XRef: ' ', Line_Type: 'D - DDI', Provide: 'THU 08 JUL 2021 10:16:00', Effective: 'THU 08 JUL 2021 10:20:02', End_Status: 'THU 08 JUL 2021 10:35:01', Callback: ' ', Type_of_Line: 'BW - Bothway', Next_Tran_Id: '0' },
-        NotificationData:
+        CustomerName: 'ERNST & YOUNG',
+        details: { tranId: '1015002931', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AB', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', CreatedOn: 'THU 08 JUL 2021 10:20:02', createdBy: ' ', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0', comment: ' DDI RANGE- 01619526000' },
+        notificationData:
         {
-          StartTelNo: '0123467891',
-          Source: 'AUDIT',
-          Notification_Status: 'InActive',
-          Notification_Error: 'error',
-          Extracted_Date: 'err002',
-          Updated_Date: '28/12/1993',
-          End_Tel_No: '0123467890',
-          Order_Ref: 'gahh16227',
-          Created: '20/12/1993',
-          BT_Status: 'Activate',
-          BT_Error_Code: 'BT3456',
-          BT_Error_Message: 'errorcode'
+          startTelNo: '0123467890',
+          source: 'AUDIT',
+          notificationStatus: 'Active',
+          notificationError: 'error',
+          extractedDate: 'err002',
+          updatedDate: '28/12/1992',
+          endTelNo: '0123467890',
+          orderRef: 'gahh16227',
+          CreatedOn: '20/12/1992',
+          btStatus: 'Activate',
+          btErrorCode: 'BT3456',
+          btErrorMessage: 'errorcode'
         },
-        CommentText: '',
-        Comment: [],
-        Resolution: []
+        commentResponse: undefined,
+        errorDescription: undefined,
+        resolution: undefined
       }
-    ],
+    ], 
   auditDetails:
   {
-    internalAudit: [
+      internalAudit: [
       {
-        AuditACTID: '0099876543',
+        AuditActId: '0099876543',
         TelephoneNo: '01234567890',
         ResolutionType: 'New',
-        CLIStatus: 'Active',
+        CliStatus: 'Active',
         Comments: 'clarify',
-        UserComments: [
+         UserComments: [
           {
-            AuditACTID: '0099876543',
+            AuditActId: '0099876543',
             TelephoneNo: '01234567890',
-            CreationDate: '25/12/1992',
+            CreatedOn: '25/12/1992',
             CreatedBy: 'xyz',
             ResolutionType: 'New',
             Comments: 'The testing is in process'
           }
-        ]
-      },
+        ] 
+      }, 
       {
-        AuditACTID: '0099876543',
+        AuditActId: '0099876543',
         TelephoneNo: '01234567890',
         ResolutionType: 'New',
-        CLIStatus: 'Active',
+        CliStatus: 'Active',
         Comments: 'clarify',
         UserComments: [
           {
-            AuditACTID: '0099876543',
+            AuditActId: '0099876543',
             TelephoneNo: '01234567890',
-            CreationDate: '25/12/1992',
+            CreatedOn: '25/12/1992',
             CreatedBy: 'xyz',
             ResolutionType: 'New',
             Comments: 'The testing is in process'
@@ -105,16 +149,48 @@ const ele: TelephoneAuditTrail =
     ],
     externalAudit: [
       {
-
-      }
+        AuditActId: '21 - 03 APR 2019',
+        TelephoneNo: '01619526181',
+        ResolutionType: 'Auto Resolved',
+        CliStatus: 'Matched',
+        Comments: 'show',
+        UserComments: null,
+    },
+    {
+        AuditActId: '21 - 03 APR 2019',
+        TelephoneNo: '01619526181',
+        ResolutionType: 'Auto Resolved',
+        CliStatus: 'Matched',
+        Comments: 'show',
+        UserComments: [{
+          AuditActId: '28',
+          TelephoneNo: '01412702810',
+          CreatedOn: '21-NOV-20 02.32.17.040358 PM',
+          CreatedBy: 'SYSTEM',
+          ResolutionType: 'Auto Closed',
+          Comments: 'Auto closed occurs when a new Audit run is generated.'
+        }],
+    }
     ],
     fullAudit: [
       {
-
+        AuditActId: '28 - 29 AUG 2020',
+      TelephoneNo: '01619526181',
+      ResolutionType: 'Auto Closed',
+      ExternalCliStatus: 'S-Matched',
+      FullAuditCliStatus: 'SAD-Matched - Source Active MisMatched',
+      UserComments: null,
+      /*
+      UserComments: [{ AuditActId: '28',
+      TelephoneNo: '01619526181',
+      CreatedOn: '21-NOV-20 02.33.46.878459 PM',
+      CreatedBy: 'SYSTEM',
+      ResolutionType: 'Auto Closed',
+      Comments: 'Auto closed occurs when a new audit run is generated.', }], */
       }
-    ]
-  }
-}
+    ]  
+  } 
+} 
 
 
 
@@ -134,88 +210,91 @@ const ele: TelephoneAuditTrail =
 
 
 export class TelephoneAuditTrailComponent implements OnInit {
-  panelOpenState = false;
+  panelOpenState: boolean = false;
+  panelOpenState1: boolean = false;
+  panelOpenState2: boolean = false;
+  
+  step: number = 2;
 
   Telephone?: TelephoneAuditTrail[];
-  liverecord?: LiveRecord[];
+  addressDetails = new AddressDetails();
+  
+  liverecord?: LiveRecord;
+  unsolicitedDetails?: UnsolicitedDetails[];
   transactionDetails?: TransactionDetails[];
-  auditDetails: AuditDetails | null | undefined;
+  auditDetails?: AuditDetails;
 
-  ELEMENT_DATA: Option[] = [];
-  constructor() {
-    for (let i = 0; i < this.dataSource.length; i++) {
-      for (let item of this.dataSource[i].options) {
+  @Input() isRequiredUnsol: boolean = false;
 
-        this.ELEMENT_DATA.push(item);
-      }
-    }
+
+  // ELEMENT_DATA: Option[] = [];
+  constructor( private _route: Router) {
+    // for (let i = 0; i < this.dataSource.length; i++) {
+    //   for (let item of this.dataSource[i].options) {
+
+    //     this.ELEMENT_DATA.push(item);
+    //   }
+    // }
   }
-  columnsToDisplay = ["action", "Cnt", "Transaction", "Status", "Created", "Source", "CustName"];
-  auditTrailInternalDisplay:string[]=['AuditACTID','TelephoneNo','ResolutionType','CLIStatus','UserComments'];
+
+  columnsToDisplay = ["Action", "CountTransaction", "Status", "CreatedOn", "Source", "CustomerName"];
+  auditTrailInternalDisplay:string[]=['AuditActId','TelephoneNo','ResolutionType','CliStatus','UserComments'];
+  fullAuditTrailDisplay: string[]=['AuditActId','TelephoneNo','ResolutionType','ExternalCliStatus', 'FullAuditCliStatus', 'UserComments'];
 
   ngOnInit(): void {
-    this.liverecord = ele.liveRecord;
+    this.liverecord =  ele.liveRecord;
     this.transactionDetails = ele?.transactionDetails;
     this.auditDetails = ele.auditDetails;
+    this.unsolicitedDetails = ele?.unsolicitedDetails;
   }
 
+  setStep(index: number) {
+    this.step = index;
+  }
 
-  dataSource = [
-    {
-      folderName: "folderA",
-      Cnt: 1,
-      Transaction: 'A - Activate Customer',
-      Status: '110 - ERROR FINAL',
-      Created: '08-JAN-14',
-      Source: 'R - Clarify',
-      CustName: 'ERNST & YOUNG',
-      options: [
-        { optionName: "optionA", optionDescription: "description for optionA" }
-      ]
-    },
-    {
-      folderName: "folderB",
-      Cnt: 2,
-      Transaction: 'A - Activate Customer',
-      Status: '110 - ERROR FINAL',
-      Created: '08-JAN-14',
-      Source: 'R - Clarify',
-      CustName: 'ERNST & YOUNG',
-      options: [
-        { optionName: "optionB", optionDescription: "description for optionB" }
-      ]
-    },
-    {
-      folderName: "folderC",
-      Cnt: 3,
-      Transaction: 'A - Activate Customer',
-      Status: '110 - ERROR FINAL',
-      Created: '08-JAN-14',
-      Source: 'R - Clarify',
-      CustName: 'ERNST & YOUNG',
-      options: [
-        { optionName: "optionC", optionDescription: "description for optionC" }
-      ]
+  ActiveAddressDetails(): AddressDetails {
+    return this.addressDetails;
+  }
+
+  // clicked(errCode: string, errMessage: string) {
+  //   this._route.navigate(['/errors', {outlets: {errorPage: 'error'}}], {state: {errData1: errCode, errData2: errMessage}});
+  //   // this._route.navigate([ {outlets: {errorPage: 'Myerror'}}], {state: {data1: errCode, data2: errMessage}});
+  // }
+
+  
+  setAddressDetails(section: string, element?: any) {
+    // console.log(element.details.postcode);
+    if(section == 'transactionDetails') {
+      this.addressDetails.isData = true;
+    this.addressDetails.postcode = element.details.postcode;
+    this.addressDetails.CustomerName = element.details.CustomerName;
+    this.addressDetails.internalAddr1 = element.details.internalAddr1;
+    this.addressDetails.internalAddr2 = element.details.internalAddr2;
+    this.addressDetails.internalAddr3 = element.details.internalAddr3;
+    this.addressDetails.internalAddr4 = element.details.internalAddr4;
+    } else if( section == 'removeAddress') {
+      this.addressDetails = new AddressDetails();
     }
-  ];
+    // console.log(this.addressDetails);
+  }
 
   expandDisplayedColumns = ["optionName", "optionDescription"];
   expandedElement: PeriodicElement | null | undefined;
 
-  toTableItem(item: any): TableItem {
+  // toTableItem(item: any): TableItem {
     
 
-    let array = [];
-    let thisItem = item[0];
-    for (let key in thisItem) {
-      if (thisItem.hasOwnProperty(key)) {
-        array.push(key);
-      }
-    }
-    return  { data: item, dataColumns: array };
-    //console.log(table);
+  //   let array = [];
+  //   let thisItem = item[0];
+  //   for (let key in thisItem) {
+  //     if (thisItem.hasOwnProperty(key)) {
+  //       array.push(key);
+  //     }
+  //   }
+  //   return  { data: item, dataColumns: array };
+  //   //console.log(table);
      
-  }
+  // }
 
 }
 

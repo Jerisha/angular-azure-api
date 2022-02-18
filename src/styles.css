@@ -1,49 +1,249 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: small;}
 
 .mat-toolbar.mat-primary {
   background: #e60000;
   color: white;
 }
 
+/* mat-select panel position start */
+.matselhorzPanel
+{
+  /*position: relative;  
+  min-width: calc(100% + 902px) !important;
+  max-width: 100% !important;  
+  margin-left: auto;
+  display: flex;
+  flex-direction: inherit;
+  overflow: auto; */
+
+  top: 32px;
+  position:absolute;
+  pointer-events:auto;
+  box-sizing:border-box;
+  /* z-index:1000; */
+  display:flex;
+  flex-flow: wrap;
+  min-width: calc(100% + 946px) !important;  
+ max-height: calc(100% + 250px) !important;
+ height: auto;
+ width: auto;
+ transform: translateX(32px) !important; 
+}
+
+.matselrgtPanel
+{
+  /*position: relative;  
+  min-width: calc(100% + 902px) !important;
+  max-width: 100% !important;  
+  margin-left: auto;
+  display: flex;
+  flex-direction: inherit;
+  overflow: auto; 
+  top: 26px;*/
+  position:absolute;
+  pointer-events:auto;
+  box-sizing:border-box;
+  /* z-index:1000; */
+  /* display:flex;
+  flex-flow: wrap;
+  min-width: calc(100% + 946px) !important;  
+  width: auto; */  
+ /* height: auto; */ 
+ max-height: calc(100% + 480px) !important;
+ transform: translateX(840px) !important;
+}
+/* mat-select panel position ends */
+
+
+/* app-select-multiple - filter Starts */
+
+/* to set background color for matselect */
+app-select-multiple .mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
+  /* background-color: #007C92; */
+  background-color: #EFEFEF;
+  height: 37px;
+}
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+/* to change border color on hover */
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #EFEFEF;
+  border:0
+}
+
+/* to change border color after selection */
+app-select-multiple .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  color: #EFEFEF;
+  border:0
+}
+/* app-select-multiple .mat-focused{
+  color: green;
+} */
+
+/* to adjust padding space between value and v icon */
+app-select-multiple  .mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 1.50em 0 0.75em;
+}
+
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0px;
+}
+
+/* filterbar-static */
+.filterdataby{
+  /* background-color:#007C92; */
+  background-color:#EFEFEF;
+  color: black; 
+  height: 35px;
+  width:180px;
+  margin-left: 15px;
+}
+
+/* app-select-multiple - filter Ends */
+
 /* side-nav-page-header starts */
 .page-header
   {   
     background-color:#EFEFEF;
-    color: #e60000;
-    margin:5px;
-    /* text-align: left; */
-    font-size:15px ;
+    color: #54575a;
+    margin-top: -3px;
+    margin-bottom: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
+    font-size:small;
+    display: flex;
   }
-  .page-header button{
-    float: left;
-    border:none;
-   /* border:1px solid #e60000; */
+  .slidderbtn{
+    /* float: left; */
+     /* border:1px solid #e60000; */
+     /* border-radius: 12%; */
+     /* margin-left: -19px; */
+    cursor: pointer;
+    border:none;  
     background-color: #e60000;
-    color:  #EFEFEF;
-    border-radius: 12%;
+    color:  #EFEFEF;    
+    font-size: small;    
+    height: 35px;
+    position: absolute;
+    z-index: 2;  
   }
  /* side-nav-page-header ends */
 
-/* .container {
-    padding: 8px 24px 108px 24px;
-  } */
-  
 
-.mat-icon-button.mat-primary,.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  
+  /* mat icon,buttons,fab icons desgin strats */
+ 
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
     color: white;
-    background-color: #e60000!important;
+    background-color: #54575a!important;
     margin-left: 8px;    
 }
 
+.mat-icon-button.mat-primary{
+  color: white;
+    margin-left: 8px; 
+}
+
+  /* mat icon,buttons,fab icons desgin ends */
+
+/* .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.3em 0 0.3em 0 !important;
+  top: -0.60em !important;
+}  */
+
+/* tab design start */
+ .mat-tab-list{
+  height: 35px !important;
+  overflow: hidden;
+}
+.mat-tab-label{
+  height: 35px !important;
+  /* color: rgb(11, 11, 158); */
+  color: block;
+}
+
+ div.mat-tab-label {
+  background-color: rgb(84, 87, 90);
+  /* background-color: #007C92; */
+   /* background-color: #EFEFEF; 
+  color:#e60000;     */
+  border-right: solid 3px white;
+  /* padding-left:initial ; */
+     border-top-right-radius: 10px;
+    border-top-left-radius: 10px; 
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  /* background-color: #e60000; */
+  background-color:rgb(255, 6, 6);
+  height: 4px;
+  
+}
+div .mat-focus-indicator.mat-tab-label {
+  color: white !important;
+
+}
+/* tab design end */
+
+
+
+/* element.style {
+  visibility: visible;
+  left: 0px;
+  width: 160px;
+} */
+
+/* material form controls common design starts */
 .example-container .mat-form-field,.example-container .mat-form-field + .mat-form-field {
   margin-left: 8px;  
   margin-bottom: 8px;
   width:10%;
   font-size: smaller;  
 }
+
+/* material form controls default design ends */
+
+/* material table controls common design starts */
+/* To remove border-top for mat-form-field-wrapper  */
+.colfilter .mat-form-field-infix {
+  /* padding: 0 0 !important; */
+  border-top: 0 !important;
+}
+
+/* To remove padding-top for mat-form-field-wrapper  */
+.colfilter .mat-form-field-flex {
+  padding-top: 0em!important;
+}
+
+/* To remove padding-bottom for mat-form-field-wrapper  */
+.colfilter .mat-form-field-wrapper {
+  padding-bottom: 0em!important;
+}
+
+/* To remove underline for mat-form-field  */
+.colfilter .mat-form-field-underline {
+  display: none;
+}
+
+/* All mat-cell */
+.mat-cell{
+  color: black !important;
+  font-weight: 500 !important;
+}
+
+.table-icon{
+  cursor: pointer; 
+  font-size: 18px;
+  height: 0px;
+  width:auto;
+  color: #e60000;
+}
+/* material table controls common design ends */
 
 /* Scrollbar */
 
@@ -90,37 +290,41 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .side-nav form .mat-form-field,.side-nav form .mat-form-field + .mat-form-field {
-  margin-left: 15px;  
+  margin-left: 24px;  
   /* margin-bottom: 1px;  
   margin-top:1px;   */
   font-size: smaller;  
   width: 170px;
+  
 }
-
 
 .side-nav button{
-  /* margin-left: 2px; */
-  margin-top: 5px
+  margin-left: 2px;
 }
+
 .side-nav {  
-  width: 220px!important;    
+  width: 220px!important; 
+   
   /* margin: 10px;
   border: 1px solid #555; */
 }
 
 .filter-sticky
 {
-  position: sticky;
-  top:0;
-  background-color:#EFEFEF;
+  margin-left: 20px;
+  position:sticky;
+  top:0;  
+  z-index: 2;
+  /* background-color:#EFEFEF; */
 }
 .res-save-div
 {
   /* background-color: yellow; */
   /* float: right;   */
-position: relative;
-margin-top: -230px;
-margin-left: 200px;
+/* position: relative; */
+display: inline-block;
+/* margin-top: -230px;
+margin-left: 200px; */
 
 }
 
@@ -134,21 +338,21 @@ margin-left: 200px;
   width:150px;
 }
 
-.side-container .mat-form-field
-{
-  margin-bottom: 1px;  
-  margin-top:1px;  
+.side-container .side-bottom .mat-form-field
+{  /* margin-bottom: 1px;  
+  margin-top:1px;   */
+  margin: 5px;
   font-size: smaller;  
   width: 170px;
 }
 
-.side-left-div .side-textarea{
+.side-bottom .side-left-div .side-textarea{
   /* background-color: lawngreen!important; */
   width: 360px;
   font-size: smaller;  
 /* position:absolute; 
 margin-top: 90px;*/
-margin-left: 200px;
+/* margin-left: 200px; */
   
 }
 .side-left-div textarea{ height: 100px;}
@@ -160,11 +364,13 @@ margin-left: 200px;
  
 .side-content{
     overflow: hidden!important;
+    min-height: 525px;
   }
 
 .side-left-div{   
     max-width: 50%;
     float: left;
+    min-height: 200px;
     /* background-color: lightseagreen; */
   }
 
@@ -174,7 +380,48 @@ margin-left: 200px;
         /* background-color:magenta; */
 }
 /* Side-panel Ends */
- 
-  
 
+
+/* tool tip styles start */
+.mat-tooltip {
+  /* your own custom styles here */ 
+  background-color:#EFEFEF;
+  color:black !important;
+  font-size: 12px;
+}
+/* tool tip styles end */
+/* report container start */
+/* .side-container-report {  
+width: auto; 
+height: 520px !important;
+box-sizing: border-box;
+} */
+/* report container end */
+
+/* toggle-button starts */
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: #c2c0c0;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: #e60000;
+}
+
+/* toggle-button ends */
+.matsidenav-footer {
+  /* position:relative !important;                  */
+  bottom:0;                         
+  left:0; 
+  height:auto;  
+  align-items: center;
+ /* background-color: lightslategray; */
+
+}
+
+.matsidenav-filter {
+  overflow-x:hidden;
+  height:443px;
+  max-height: 480px;
+  position:relative;   
+}
 
