@@ -15,40 +15,44 @@
       </app-select-multiple>
     </div>
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
-      <!-- <div  *ngIf="uiConfig1$ | async  as vm" class="matsidenav-filter"> -->
-        <div class="matsidenav-filter">
-        <mat-form-field hintLabel="Max 10 characters"  
-          [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
-          <mat-label>Start Telephone No</mat-label>
-          <input formControlName="TelNoStart" matInput #input maxlength="10" placeholder="Start Telephone No">
-          <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-        </mat-form-field>
 
-        <mat-form-field hintLabel="Max 10 characters"  
-          [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
-          <mat-label>End Telephone No</mat-label>
-          <input formControlName="TelNoEnd" matInput #input maxlength="10" placeholder="End Telephone No">
-          <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-        </mat-form-field>
 
-        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.Command.disabled}">
-          <mat-label>Command</mat-label>
-          <mat-select formControlName="Command">
-            <mat-option></mat-option>
-            <!-- <mat-option *ngFor ="let val of splitDescription(vm[0].Command)" [value]="val">{{val}}</mat-option> -->
-            <mat-option>Activate Customer</mat-option>
+      <div class="matsidenav-filter">
+        <ng-container *ngIf="configResult$ | async  as result">
+          <mat-form-field hintLabel="Max 10 characters"
+            [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
+            <mat-label>Start Telephone No</mat-label>
+            <input formControlName="StartTelephoneNumber" matInput #input maxlength="10"
+              placeholder="Start Telephone No">
+            <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field hintLabel="Max 10 characters"
+            [ngClass]="{'hidden':thisForm.controls.EndTelephoneNumber.disabled}">
+            <mat-label>End Telephone No</mat-label>
+            <input formControlName="EndTelephoneNumber" matInput #input maxlength="10" placeholder="End Telephone No">
+            <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field [ngClass]="{'hidden':thisForm.controls.Command.disabled}">
+            <mat-label>Command</mat-label>
+            <mat-select formControlName="Command">
+              <mat-option></mat-option>
+              <mat-option *ngFor="let val of splitData(result.Command)" [value]="val">{{val}}</mat-option>
+              <!-- <mat-option>Activate Customer</mat-option>
             <mat-option>Cease Customer</mat-option>
             <mat-option>Import</mat-option>
             <mat-option>Export</mat-option>
-            <mat-option>Modify</mat-option>
-          </mat-select>
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-        </mat-form-field>
+            <mat-option>Modify</mat-option> -->
+            </mat-select>
+            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          </mat-form-field>
 
-        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
-          <mat-label>Source</mat-label>
-          <mat-select formControlName="Source">
-            <mat-option></mat-option>
+          <mat-form-field [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
+            <mat-label>Source</mat-label>
+            <mat-select formControlName="Source">
+              <mat-option *ngFor="let val of splitData(result.Source)" [value]="val">{{val}}</mat-option>
+              <!-- <mat-option></mat-option>
             <mat-option>AUDIT</mat-option>
             <mat-option>SAS/COMS</mat-option>
             <mat-option>DVA Siebel</mat-option>
@@ -58,78 +62,86 @@
             <mat-option>ONENET</mat-option>
             <mat-option>Clarify</mat-option>
             <mat-option>Amdocs SOM</mat-option>
-            <mat-option>Unknown</mat-option>
-          </mat-select>
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-        </mat-form-field>
+            <mat-option>Unknown</mat-option> -->
+            </mat-select>
+            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          </mat-form-field>
 
 
 
-        <mat-form-field  >
-          <mat-label>Date Range</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date">
-            <input matEndDate placeholder="End date">
-          </mat-date-range-input>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-          <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Date Range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Start date">
+              <input matEndDate placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+            <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
+          </mat-form-field>
 
-        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.ResolutionType.disabled}">
-          <mat-label>Resolution Type</mat-label>
-          <mat-select formControlName="ResolutionType">
-            <mat-option></mat-option>
+          <mat-form-field [ngClass]="{'hidden':thisForm.controls.ResolutionType.disabled}">
+            <mat-label>Resolution Type</mat-label>
+            <mat-select formControlName="ResolutionType">
+              <mat-option *ngFor="let val of splitData(result.ResolutionType)" [value]="val">{{val}}</mat-option>
+              <!-- <mat-option></mat-option>
             <mat-option>New</mat-option>
             <mat-option>Under Investigation</mat-option>
             <mat-option>Under Governance</mat-option>
             <mat-option>Under Governance</mat-option>
-            <mat-option>Port Req Complete</mat-option>
-          </mat-select>
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-        </mat-form-field>
+            <mat-option>Port Req Complete</mat-option> -->
+            </mat-select>
+            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          </mat-form-field>
 
-        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.ErrorType.disabled}">
-          <mat-label>Error Type</mat-label>
-          <mat-select formControlName="ErrorType">
-            <mat-option></mat-option>
+          <mat-form-field [ngClass]="{'hidden':thisForm.controls.ErrorType.disabled}">
+            <mat-label>Error Type</mat-label>
+            <mat-select formControlName="ErrorType">
+              <ng-container *ngIf="result.ErrorType">
+                <mat-option *ngFor="let val of splitData(result.ErrorType)" [value]="val">{{val}}</mat-option>
+              </ng-container>
+              <!-- <mat-option></mat-option>
             <mat-option>Internal Error</mat-option>
-            <mat-option>External Error</mat-option>           
-          </mat-select>
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-        </mat-form-field>
+            <mat-option>External Error</mat-option>            -->
+            </mat-select>
+            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          </mat-form-field>
 
-        <mat-form-field   [ngClass]="{'hidden':thisForm.controls.ErrorCodes.disabled}">
-          <mat-label>Error Code</mat-label>
-          <input formControlName="ErrorCodes" type="text" placeholder="Search Error Code" matInput
-            [matAutocomplete]="auto" />
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option.viewValue">
-              {{option.view}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.Reference.disabled}">
-          <mat-label>999 Reference</mat-label>
-          <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-        </mat-form-field>
+          <mat-form-field [ngClass]="{'hidden':thisForm.controls.ErrorCode.disabled}">
+            <mat-label>Error Code</mat-label>
+            <input formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
+              [matAutocomplete]="auto" />
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option.viewValue">
+                {{option.view}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>999 Reference</mat-label>
+            <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
+            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          </mat-form-field>
 
-        <mat-form-field [ngClass]="{'hidden':thisForm.controls.OrderReference.disabled}">
-          <mat-label>Order Reference</mat-label>
-          <input formControlName="OrderReference"  matInput #input maxlength="10" placeholder="Order Reference">
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-        </mat-form-field>
-        
+          <mat-form-field [ngClass]="{'hidden':thisForm.controls.OrderReference.disabled}">
+            <mat-label>Order Reference</mat-label>
+            <input formControlName="OrderReference" matInput #input maxlength="10" placeholder="Order Reference">
+            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          </mat-form-field>
+
+
+        </ng-container>
       </div>
 
+
+
       <div calss="matsidenav-footer">
-      <button type="submit" mat-raised-button color="primary">
-        <mat-icon>search</mat-icon>Search
-      </button>
-      <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
-        <mat-icon>refresh</mat-icon>Reset
-      </button>
+        <button type="submit" mat-raised-button color="primary">
+          <mat-icon>search</mat-icon>Search
+        </button>
+        <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
       </div>
     </form>
   </mat-sidenav>
@@ -147,8 +159,8 @@
           <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
         </button>
         <div style="margin: 5px; float: left;"> Resolving Of Errors > Solicited Errors</div>
-      </div> -->        
-<app-start-up *ngIf="tabs.length===0"></app-start-up>
+      </div> -->
+    <app-start-up *ngIf="tabs.length===0"></app-start-up>
     <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
       matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
       <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
@@ -174,7 +186,7 @@
                     <option *ngFor="let list of selectListItems"> {{list}} </option>
                   </select> -->
                   <div style="display: inline-block;">
-                    <mat-form-field  >
+                    <mat-form-field>
                       <mat-label>Resolution</mat-label>
                       <mat-select>
                         <mat-option></mat-option>
@@ -187,27 +199,27 @@
                       <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
                     </mat-form-field>
 
-                    <mat-form-field >
+                    <mat-form-field>
                       <mat-label>999 Reference</mat-label>
-                      <input  matInput #input maxlength="10" placeholder="999 Reference">
+                      <input matInput #input maxlength="10" placeholder="999 Reference">
                       <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
                     </mat-form-field>
-                   
 
-                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
+
+                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                       <mat-label>Remarks</mat-label>
                       <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                     </mat-form-field>
 
-                    <button type="submit" mat-raised-button color="primary" >
+                    <button type="submit" mat-raised-button color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
                     <!-- <button type="button" mat-raised-button color="primary" >
                       <mat-icon>help</mat-icon>Help
                     </button> -->
-                    
+
                   </div>
                   <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
                     <mat-label>Resolution</mat-label>
@@ -246,6 +258,6 @@ Delete Tab
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<div *ngIf="uiConfig1$ | async  as vm">
- print {{vm |json }}  
-</div>
+<ng-container *ngIf="configResult$ | async  as result">
+  print {{result |json }}
+</ng-container>

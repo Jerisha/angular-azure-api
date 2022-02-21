@@ -16,7 +16,7 @@ export class ResolvingOfErrorsService {
 
 
   configDetails(data: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data);
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, data);
     // .subscribe(x => {
     //   console.log("configDetails : " + JSON.stringify(x));
     //   this.test = x;
@@ -24,26 +24,18 @@ export class ResolvingOfErrorsService {
     //return this.test;
   }
 
-  queryDetails(data: any): any | undefined {
-    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
-      console.log("queryDetails : " + JSON.stringify(x));
-      //create a custom function, Pass the response and refine to required format of UI
-    });
-    return this.test;
+  queryDetails(data: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data);   
+     
   }
 
-  getDetails(data: any): any | undefined {
-    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, data).subscribe(x => {
-      console.log("getDetails : " + JSON.stringify(x));
-    });
-    return this.test;
+  getDetails(data: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, data);
   }
 
-  updateDetails(data: any): any | undefined {
-    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, data).subscribe(x => {
-      console.log("updateDetails : " + JSON.stringify(x));
-    });
-    return this.test;
+  updateDetails(data: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, data);
+    
   }
 
 

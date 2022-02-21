@@ -28,7 +28,7 @@ export class HttpWrapperService {
 
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_url}${endPoint.toString()}`,
+                `${environment.api_live}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,

@@ -9,20 +9,23 @@ import { Select } from 'src/app/uicomponents/models/select';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
+import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
+
+
 
 const ELEMENT_DATA: any = [
   {
-    TranId: '1014591106', View: 'image',  Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
+    TranId: '1014591106', View: 'image', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
   {
     TranId: '1014591109', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    
+
   },
   {
-    TranId: '1014591107', View: 'image', TelNo: '1977722726', Cmd: 'Import',  Created: '02May19',
+    TranId: '1014591107', View: 'image', TelNo: '1977722726', Cmd: 'Import', Created: '02May19',
     Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
     LatestCmtDate: '02-May-2019'
   },
@@ -114,21 +117,22 @@ const ELEMENT_DATA: any = [
 ];
 
 const FilterListItems: Select[] = [
-  { view: 'Start Telephone No', viewValue: 'TelNoStart', default: true },
-  { view: 'End Telephone No', viewValue: 'TelNoEnd', default: true },
+  { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
-  {view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   // { view: 'Date Range', viewValue: 'Date', default: true },
-  { view: 'Error Code', viewValue: 'ErrorCodes', default: true },
+  { view: 'Error Code', viewValue: 'ErrorCode', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true },
   { view: 'Order Reference', viewValue: 'OrderReference', default: true }
 ];
 
-const configInput: any = {
-  "ConfigObjectRequest": {
-    "ConfigObjectRequestType": {
+
+const transInput: any = {
+  "QueryObjectRequest": {
+    "QueryObjectRequestType": {
       "RequestIdentifiers": {
         "Identifier": [{
           "Name": "UserId",
@@ -138,22 +142,27 @@ const configInput: any = {
           "Value": ["OSN2"]
         }]
       },
-      "ListofConfigObjectCategory": {
-        "ConfigObjectCategory": [{
-          "ItemName": "ConfigObject",
+      "ListofQueryObjectCategory": {
+        "QueryObjectCategory": [{
+          "ItemName": "TelephoneNumberTransactionError",
           "ListofIdentifiers": {
             "Identifier": [{
-              "Name": "ObjectName",
-              "Value": ["TelephoneNumber"]
+              "Name": "ReportIdentifier",
+              "Value": ["SolicitedErrors"]
             }]
           },
-          "ListofAttributes": {
-            "Attribute": [{
-              "Name": "Action",
-              "Value": ["Search"]
-            }, {
-              "Name": "Filter",
-              "Value": ["Command", "Source", "ResolutionType", "ErrorType", "ErrorCode"]
+          "ListofQueryObjectCharacteristics": {
+            "QueryObjectCharacteristics": [{
+              "ItemName": "QueryParameters",
+              "ListofIdentifiers": {
+                "Identifier": [{
+                  "Name": "TelephoneNumber",
+                  "Value": ["02071117401"]
+                }, {
+                  "Name": "TransactionId",
+                  "Value": ["1010684993"]
+                }]
+              }
             }]
           }
         }]
@@ -162,139 +171,7 @@ const configInput: any = {
   }
 }
 
-const queryInput: any = {
-  "QueryObjectRequest" : {
-    "QueryObjectRequestType" : {
-      "RequestIdentifiers" : {
-        "Identifier" : [ {
-          "Name" : "UserId",
-          "Value" : [ "Sample" ]
-        }, {
-          "Name" : "Destination",
-          "Value" : [ "OSN2" ]
-        } ]
-      },
-      "ListofQueryObjectCategory" : {
-        "QueryObjectCategory" : [ {
-          "ItemName" : "TelephoneNumberError",
-          "ListofIdentifiers" : {
-            "Identifier" : [ {
-              "Name" : "ReportIdentifier",
-              "Value" : [ "Solicited Errors" ]
-            } ]
-          },
-          "ListofQueryObjectCharacteristics" : {
-            "QueryObjectCharacteristics" : [ {
-              "ItemName" : "QueryParameters",
-              "ListofIdentifiers" : {
-                "Identifier" : [ {
-                  "Name" : "StartTelephoneNumber"
-                }, {
-                  "Name" : "EndTelephoneNumber"
-                }, {
-                  "Name" : "Command"
-                }, {
-                  "Name" : "Source"
-                }, {
-                  "Name" : "FromDate"
-                }, {
-                  "Name" : "ToDate"
-                }, {
-                  "Name" : "ResolutionType"
-                }, {
-                  "Name" : "ErrorType"
-                }, {
-                  "Name" : "ErrorCode"
-                }, {
-                  "Name" : "OrderRefeerence"
-                }, {
-                  "Name" : "999Reference"
-                }, {
-                  "Name" : "PageNumber",
-                  "Value" : [ "1" ]
-                } ]
-              }
-            } ]
-          }
-        } ]
-      }
-    }
-  }
-}
-const AuditInput: any= {"GetObjectRequest" : {
-  "GetObjectRequestType" : {
-    "RequestIdentifiers" : {
-      "Identifier" : [ {
-        "Name" : "UserId",
-        "Value" : [ "abc" ]
-      }, {
-        "Name" : "Destination",
-        "Value" : [ "OSN2" ]
-      } ]
-    },
-    "ListofGetObjectCategory" : {
-      "GetObjectCategory" : [ {
-        "ItemName" : "TelephoneNumberTransactionError",
-        "ListofIdentifiers" : {
-          "Identifier" : [ {
-            "Name" : "ReportIdentifier",
-            "Value" : [ "Solicited Errors" ]
-          } ]
-        },
-        "ListofGetObjectCharacteristics" : {
-          "GetObjectCharacteristics" : [ {
-            "ItemName" : "GetParameters",
-            "ListofIdentifiers" : {
-              "Identifier" : [ {
-                "Name" : "TelephoneNumber",
-                "Value" : [ "02071117400" ]
-              } ]
-            }
-          } ]
-        }
-      } ]
-    }
-  }
-}}
-const transInput: any ={
-  "QueryObjectRequest" : {
-  "QueryObjectRequestType" : {
-    "RequestIdentifiers" : {
-      "Identifier" : [ {
-        "Name" : "UserId",
-        "Value" : [ "Sample" ]
-      }, {
-        "Name" : "Destination",
-        "Value" : [ "OSN2" ]
-      } ]
-    },
-    "ListofQueryObjectCategory" : {
-      "QueryObjectCategory" : [ {
-        "ItemName" : "ProvideReports",
-        "ListofIdentifiers" : {
-          "Identifier" : [ {
-            "Name" : "ReportIdentifier",
-            "Value" : [ "TelephoneNumberDetails" ]
-          } ]
-        },
-        "ListofAttributes" : {
-        },
-        "ListofQueryObjectCharacteristics" : {
-          "QueryObjectCharacteristics" : [ {
-            "ItemName" : "QueryParameters",
-            "ListofIdentifiers" : {
-              "Identifier" : [ {
-                "Name" : "PageNumber",
-                "Value" : [ "1" ]
-              } ]
-            }
-          } ]
-        }
-      } ]
-    }
-  }
-}
-}
+
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
@@ -304,7 +181,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
-    private cdr:ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar) { }
 
   myTable!: TableItem;
@@ -314,7 +191,7 @@ export class SolicitederrorsComponent implements OnInit {
   massage = null;
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
-  uiConfig :any;
+
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -325,14 +202,13 @@ export class SolicitederrorsComponent implements OnInit {
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
   ];
-  // errorCode = new FormControl();
+
   selectedTab!: number;
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
-
   columns: ColumnDetails[] = [
-   
+
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
@@ -345,69 +221,101 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
   ];
+
+  queryResult$!: Observable<any>;
+  configResult$!: Observable<any>;
+  updateResult$!: Observable<any>;
+
   ngOnInit(): void {
     this.createForm();
-     //this.setUIConfig();
-    //   this.service.configDetails(configInput).subscribe((res)=>{
-    //     this.uiConfig= res
-    //  });
-     //this.uiConfig1$ = 
-    // this.service.configDetails(queryInput).subscribe((res)=>{
-    //   this.uiConfig= res;
-    // })
+    // debugger;
+    // let transformInput = JSON.parse(WMRequests.CONFIG);
+    // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command', 'Source']
+    // console.log("Input: ", transformInput);
+    debugger;
+    let request = this.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
 
-    // this.uiConfig1$ = 
-    // this.service.configDetails(queryInput)
-    
-    
+    //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
   }
 
-  uiConfig1$!:Observable<any>;
- 
-  Common:any;
-
-
-  splitDescription(value: string) {
-    return value.split(',');
-  }  
-
-  ngAfterViewInit() {
+  splitData(data: string): string[] {
+    return data.split(',');
   }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
 
+
+  prepareQueryParams(): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: ['1'] },
+      { Name: "FromDate" },
+      {
+        Name: "999Reference"
+      }, {
+        Name: "ToDate"
+      }];
+
+
+    for (const field in this.thisForm?.controls) {
+      const control = this.thisForm.get(field);
+      if (field != 'Reference') {
+        if (control?.value)
+          attributes.push({ Name: field, Value: control?.value });
+        else
+          attributes.push({ Name: field });
+      }
+    }
+    console.log(attributes);
+
+    return attributes;
+
+  }
+
+  prepareQueryRequest(identifier: string, queryParams: any): any {
+    debugger;
+    let transform = JSON.parse(JSON.stringify(WMRequests.QUERY));
+    //identifier
+    transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [identifier];
+    //queryparameters
+    transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofQueryObjectCharacteristics.QueryObjectCharacteristics[0].ListofIdentifiers.Identifier = queryParams;
+    return transform;
+  }
+
+  prepareConfigRequest(configParams: any): any {
+    debugger;
+    let transform = JSON.parse(JSON.stringify(WMRequests.CONFIG));
+    
+    transform.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = configParams;
+    return transform;
+  }
+
+
+
   createForm() {
     this.thisForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
-      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
-      ErrorCodes: new FormControl({ value: '', disabled: true }, []),
+      ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
       OrderReference: new FormControl({ value: '', disabled: true }, [])
 
     })
-    this.errorCodesOptions = this.thisForm.controls.ErrorCodes.valueChanges
+    this.errorCodesOptions = this.thisForm.controls.ErrorCode.valueChanges
       .pipe(
         startWith<string>(''),
         map(name => this._filter(name))
       );
   }
 
-  setUIConfig() {
-    debugger;     
-
-    // let transformInput = JSON.parse(configInput);   
-    //  transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command','Source']
-     this.service.configDetails(configInput);
-    // this.service.queryDetails(queryInput);
-  }
-
+  
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
     // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
@@ -416,18 +324,15 @@ export class SolicitederrorsComponent implements OnInit {
     return filteredList;
   }
   onFormSubmit(): void {
+    debugger;
+    let request = this.prepareQueryRequest('SolicitedErrors', this.prepareQueryParams());
 
-    this.uiConfig1$ = this.service.configDetails(queryInput).pipe(map((res:any)=>res[0].SolicitedError));
-    
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
 
-    // this.uiConfig1$.subscribe((res:any)=>{
-    //   console.log('response',res)
-    // })
-    
-   
+
 
     this.myTable = {
-      data: this.uiConfig1$,
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
@@ -440,12 +345,12 @@ export class SolicitederrorsComponent implements OnInit {
         tabType: 0,
         name: 'Summary'
       });
-     
+
     }
-    
+
 
   }
-  
+
   resetForm(): void {
     this._snackBar.open('Reset Form Completed!', 'Close', {
       duration: 5000,
@@ -501,11 +406,11 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
-        //   this.selectedTab = 1;
-        // }
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
+          //   this.selectedTab = 1;
+          // }
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
         }
 
         break;
@@ -516,17 +421,17 @@ export class SolicitederrorsComponent implements OnInit {
             tabType: 2,
             name: 'Transaction Errors'
           })
-        //   this.selectedTab = 2;
-        // }
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+          //   this.selectedTab = 2;
+          // }
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
         break;
       default:
         //statements; 
         break;
-        
+
     }
   }
 
