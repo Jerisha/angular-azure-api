@@ -433,7 +433,7 @@ const Itemstwo:Select[]=[
 {view:'Tran. Ref',viewValue:'TranRef',default:false},
 {view:'Trans.ID',viewValue:'TransID',default:false},
 {view:'Cupid',viewValue:'Cupid',default:false},
-{view:'Title',viewValue:'Title',default:false},
+// {view:'Title',viewValue:'Title',default:false},
 {view:'Customer Forename',viewValue:'CustomerForename',default:false}
 
 

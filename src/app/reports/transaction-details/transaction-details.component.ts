@@ -9,7 +9,7 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { TransactionDetailsService} from 'src/app/reports/services/transaction-details.service';
 import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
-import { select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { Tab } from 'src/app/uicomponents/models/tab';
 
 
@@ -217,7 +217,8 @@ export class TransactionDetailsComponent implements OnInit {
   massage = null;
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
-  expDefault =select.default;
+  // expDefault =select.default;
+  expressions:any = [expNumeric,expString,expDate];
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -797,13 +798,15 @@ export class TransactionDetailsComponent implements OnInit {
                   this.selectedTab = this.tabs.length;
 
    }
-  resetForm(): void {
-    this._snackBar.open('Reset Form Completed!', 'Close', {
+  resetForm(): void {   
+    // this.thisForm.reset();
+    // this.tabs.splice(0);
+    this._snackBar.open('Report Reset Completed!', 'Close', {
       duration: 5000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
+    
     });
-
   }
 
   setControlAttribute(matSelect: MatSelect) {

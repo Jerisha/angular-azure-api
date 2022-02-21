@@ -10,7 +10,7 @@
     </div>
     
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
-      <div class="">
+      <div class="matsidenav-filter">
         <app-select-exp [listItems]="expDefaultmonth"></app-select-exp>
         <mat-form-field appearance="outline">
           <mat-label>Statistic Month</mat-label>
@@ -23,20 +23,20 @@
           <mat-label>Source System</mat-label>
           <mat-select formControlName="Source">
             <mat-option></mat-option>
-            <mat-option>A - AUDITr</mat-option>
+            <mat-option>A - AUDIT</mat-option>
             <mat-option>C - SAS/COMS</mat-option>
             <mat-option>D - DVA Siebel</mat-option>
             <mat-option>E - VA/WAD</mat-option>
             <mat-option>F - Ring Central</mat-option>
             <mat-option>G - Content Guru</mat-option>
-            <mat-option>>N - ONENET</mat-option>
+            <mat-option>N - ONENET</mat-option>
             <mat-option>R - Clarify</mat-option>
             <mat-option>S - Amdocs SOM</mat-option>
             <mat-option>X - Unknown</mat-option>
           </mat-select>
         </mat-form-field>
-
-
+      </div>
+      <div calss="matsidenav-footer" >
         <button type="submit" mat-raised-button color="primary" >
           <mat-icon>search</mat-icon>Search
         </button>

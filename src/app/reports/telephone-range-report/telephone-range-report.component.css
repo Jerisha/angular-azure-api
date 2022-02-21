@@ -5,6 +5,12 @@
     justify-content: center;
   }
 
+  .side-container-report {  
+    width: auto; 
+    height: 520px !important;
+    box-sizing: border-box;
+    }
+
 /* .table-view::ng-deep .mat-cell {
   padding-right:15px ;
   white-space: nowrap;

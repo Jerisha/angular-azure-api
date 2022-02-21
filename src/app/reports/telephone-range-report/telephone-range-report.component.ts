@@ -259,12 +259,14 @@ export class TelephoneRangeReportComponent implements OnInit {
     }
   }
 
+  //Alerts
   hello(){
     this.alertService.success('Success!! Alert is Working', this.options);
     this.alertService.warn('Warning!! Alert is Working', this.options);
     this.alertService.error('Error!! Alert is Working', this.options);
   }
 
+  //Alerts Dialog
   openDialog(){
     const dialogRef = this.dialog.open(AlertDialogComponent,{
       width:'300px',

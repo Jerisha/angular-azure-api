@@ -9,3 +9,9 @@
  
   }
   .hidden{display: none;}
+  
+  .side-container-report {
+    width: auto;
+    height: 520px !important;
+    box-sizing: border-box;
+    }

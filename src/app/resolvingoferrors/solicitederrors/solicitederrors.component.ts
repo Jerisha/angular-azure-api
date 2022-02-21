@@ -198,9 +198,9 @@ export class SolicitederrorsComponent implements OnInit {
   errorCodesOptions!: Observable<any[]>;
   selectedRowsCount: number = 0;
   errorCodeData: Select[] = [
-    { view: '101', viewValue: '101', default: true },
-    { view: '202', viewValue: '202', default: true },
-    { view: '303', viewValue: '303', default: true },
+    { view: '1018', viewValue: '1018', default: true },
+    { view: '1048', viewValue: '1048', default: true },
+    { view: '1058', viewValue: '1058', default: true },
   ];
 
   selectedTab!: number;
@@ -211,15 +211,15 @@ export class SolicitederrorsComponent implements OnInit {
 
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
+    { header: 'Command', headerValue: 'Cmd', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'Created', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
+    { header: '999Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserCmt', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, isImage: false }
   ];
 
   queryResult$!: Observable<any>;

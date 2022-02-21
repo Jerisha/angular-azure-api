@@ -48,7 +48,9 @@
     font-size: small; 
     font-weight:500;    
     /* color: #54575a; */
-    /* border-style:double; */    
+    /* border-style:double; */ 
+    padding-top: 3px;
+    padding-bottom: 3px;   
   }
   .vf-grid-value{
     /* border: 1px solid #4a4d4e;  */
@@ -57,14 +59,22 @@
     /* background-color:#666666; */
     /* color:#000000;  */
     font-size: small; 
-    font-weight:200;  
+    font-weight:300;  
     box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
     /* border-style:solid */
-    padding-left: 3px;
+    /* padding-left: 3px; */
+    padding-top: 3px;
+    padding-bottom: 3px;
   }
   .vf-grid-header{
     background-color:#e60000;
     color:white;
+    box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
+    font-size: small; 
+    font-weight:500;
+    /* padding-left: 3px; */
+    padding-top: 3px;
+    padding-bottom: 3px;
   }
   .vf-primary-btn{
     background-color:#54575a;
