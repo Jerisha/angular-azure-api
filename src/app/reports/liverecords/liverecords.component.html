@@ -8,8 +8,7 @@
 </div>
 <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
 <div class="matsidenav-filter">
-<mat-form-field [ngClass]="{'hidden':myForm.controls.TelephoneNo.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
+<mat-form-field [ngClass]="{'hidden':myForm.controls.TelephoneNo.disabled}" hintLabel="Max 10 characters" appearance="outline">
 <mat-label>Telephone Number</mat-label>
 <input id="TelephoneNo" formControlName="TelephoneNo" matInput #input maxlength="10"
 placeholder="Telephone Number" style="margin-right: 24%;">
@@ -29,20 +28,13 @@ appearance="outline">
 placeholder="PostCode">
 <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
 </mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.CreationDate.disabled}" hintLabel="Max 10 characters"
+<mat-form-field [ngClass]="{'hidden':myForm.controls.CreatedOn.disabled}" hintLabel="Max 10 characters"
 appearance="outline">
 <mat-label>Created On</mat-label>
-<input id="CreationDate" [matDatepicker]="picker" formControlName="CreationDate" matInput #input maxlength="10"
+<input id="CreatedOn" [matDatepicker]="picker" formControlName="CreatedOn" matInput #input maxlength="10"
 placeholder="Created On">
 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 <mat-datepicker #picker></mat-datepicker>
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.BusinessSuffix.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Business Suffix </mat-label>
-<input id="BusinessSuffix" formControlName="BusinessSuffix" matInput #input maxlength="10"
-placeholder="Business Suffix">
 <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
 </mat-form-field>
 <mat-form-field [ngClass]="{'hidden':myForm.controls.Premises.disabled}" hintLabel="Max 10 characters"
@@ -66,20 +58,6 @@ appearance="outline">
 placeholder="Locality">
 <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
 </mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.TranRef.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Trans. Ref</mat-label>
-<input id="TranRef" formControlName="TranRef" matInput #input maxlength="10"
-placeholder="Trans. Ref">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.TransID.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Trans.ID</mat-label>
-<input id="TransID" formControlName="TransID" matInput #input maxlength="10"
-placeholder="Trans.ID">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
 <mat-form-field [ngClass]="{'hidden':myForm.controls.Cupid.disabled}" hintLabel="Max 10 characters"
 appearance="outline">
 <mat-label>Cupid</mat-label>
@@ -87,20 +65,35 @@ appearance="outline">
 placeholder="Cupid">
 <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
 </mat-form-field>
-<!-- <mat-form-field [ngClass]="{'hidden':myForm.controls.Title.disabled}" hintLabel="Max 10 characters"
+<mat-form-field [ngClass]="{'hidden':myForm.controls.TypeofLine.disabled}" hintLabel="Max 10 characters"
 appearance="outline">
-<mat-label>Title</mat-label>
-<input id="Title" formControlName="Title" matInput #input maxlength="10"
-placeholder="Title">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field> -->
-<mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerForename.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Cust Forename</mat-label>
-<input id="CustomerForename" formControlName="CustomerForename" matInput #input maxlength="10"
-placeholder="Cust Forename">
+<mat-label>Type of Line</mat-label>
+<input id="TypeofLine" formControlName="TypeofLine" matInput #input maxlength="10"
+placeholder="TypeofLine">
 <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
 </mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.Franchise.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Franchise</mat-label>
+<input id="Franchise" formControlName="Franchise" matInput #input maxlength="10"
+placeholder="Franchise">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.TransCmd.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>TransCmd</mat-label>
+<input id="TransCmd" formControlName="TransCmd" matInput #input maxlength="10"
+placeholder="TransCmd">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+<mat-form-field [ngClass]="{'hidden':myForm.controls.Source.disabled}" hintLabel="Max 10 characters"
+appearance="outline">
+<mat-label>Source</mat-label>
+<input id="Source" formControlName="Source" matInput #input maxlength="10"
+placeholder="Source">
+<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+</mat-form-field>
+
 </div>
 <div calss="matsidenav-footer" >
 <button type="submit" mat-raised-button color="primary" >
