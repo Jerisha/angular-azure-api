@@ -107,7 +107,6 @@ export class TableGroupHeaderComponent implements OnInit {
 
   createFilter() {
     this.dataSource.filterPredicate = (data, filter: string): boolean => {
-      debugger;
       let searchString = JSON.parse(filter);
       let isSourceSystemAvailable = false;
       let isCLIStatusAvailbale = false;

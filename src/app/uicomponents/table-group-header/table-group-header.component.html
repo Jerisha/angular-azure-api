@@ -15,9 +15,10 @@
   </form>
 </div>
 
+<div>
 <div class="table-container">
   <table #mytable mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index">
+   <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index">     
       <ng-container matColumnDef="{{disCol.DataHeaders}}">
         <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan">
           {{disCol.Headers}}</th>
@@ -41,11 +42,11 @@
     <tr mat-header-row *matHeaderRowDef="detailedColumnsArray;sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <ng-container *ngIf="isRowTot">
-      <tr mat-footer-row *matFooterRowDef="totalCols"></tr>
+      <tr class="total-row" mat-footer-row *matFooterRowDef="totalCols;sticky: true"></tr>
     </ng-container>
   </table>
 </div>
-<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,50,100]" showFirstLastButtons>
+<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,20,50,100]" showFirstLastButtons>
 </mat-paginator>
 
 <div style="margin-bottom:10px">
