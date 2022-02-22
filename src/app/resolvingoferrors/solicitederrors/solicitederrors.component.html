@@ -18,7 +18,7 @@
 
 
       <div class="matsidenav-filter">
-        <ng-container *ngIf="configResult$ | async  as result">
+        <ng-container *ngIf="configResult$ | async  as config">
           <mat-form-field hintLabel="Max 10 characters"
             [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
@@ -38,7 +38,7 @@
             <mat-label>Command</mat-label>
             <mat-select formControlName="Command">
               <mat-option></mat-option>
-              <mat-option *ngFor="let val of splitData(result.Command)" [value]="val">{{val}}</mat-option>
+              <mat-option *ngFor="let val of splitData(config.Command)" [value]="val">{{val}}</mat-option>
               <!-- <mat-option>Activate Customer</mat-option>
             <mat-option>Cease Customer</mat-option>
             <mat-option>Import</mat-option>
@@ -51,7 +51,7 @@
           <mat-form-field [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
             <mat-label>Source</mat-label>
             <mat-select formControlName="Source">
-              <mat-option *ngFor="let val of splitData(result.Source)" [value]="val">{{val}}</mat-option>
+              <mat-option *ngFor="let val of splitData(config.Source)" [value]="val">{{val}}</mat-option>
               <!-- <mat-option></mat-option>
             <mat-option>AUDIT</mat-option>
             <mat-option>SAS/COMS</mat-option>
@@ -83,7 +83,7 @@
           <mat-form-field [ngClass]="{'hidden':thisForm.controls.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolutionType">
-              <mat-option *ngFor="let val of splitData(result.ResolutionType)" [value]="val">{{val}}</mat-option>
+              <mat-option *ngFor="let val of splitData(config.ResolutionType)" [value]="val">{{val}}</mat-option>
               <!-- <mat-option></mat-option>
             <mat-option>New</mat-option>
             <mat-option>Under Investigation</mat-option>
@@ -97,8 +97,8 @@
           <mat-form-field [ngClass]="{'hidden':thisForm.controls.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <mat-select formControlName="ErrorType">
-              <ng-container *ngIf="result.ErrorType">
-                <mat-option *ngFor="let val of splitData(result.ErrorType)" [value]="val">{{val}}</mat-option>
+              <ng-container *ngIf="config.ErrorType">
+                <mat-option *ngFor="let val of splitData(config.ErrorType)" [value]="val">{{val}}</mat-option>
               </ng-container>
               <!-- <mat-option></mat-option>
             <mat-option>Internal Error</mat-option>
@@ -258,6 +258,6 @@ Delete Tab
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<ng-container *ngIf="configResult$ | async  as result">
-  print {{result |json }}
-</ng-container>
+<!-- <ng-container *ngIf="configResult$ | async  as config">
+   {{config |json }}
+</ng-container> -->
