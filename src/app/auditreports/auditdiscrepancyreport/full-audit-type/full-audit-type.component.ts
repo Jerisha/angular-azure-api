@@ -14,7 +14,7 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "C-SAS/COMS", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
 },
 {
@@ -24,9 +24,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "D-DVA Siebel", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -35,9 +34,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "S-Amdocs SOM", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -46,9 +44,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "D-DVA Siebel", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -57,9 +54,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "S-Amdocs SOM", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -68,9 +64,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "D-DVA Siebel", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -79,9 +74,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "S-Amdocs SOM", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -90,9 +84,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "D-DVA Siebel", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -101,9 +94,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "S-Amdocs SOM", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -112,9 +104,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "C-SAS/COMS", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -123,9 +114,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "D-DVA Siebel", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -134,9 +124,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "C-SAS/COMS", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -145,9 +134,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "D-DVA Siebel", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -156,9 +144,8 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "C-SAS/COMS", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
 },
 {
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -167,98 +154,11 @@ const ELEMENT_DATA: FullAuditSummary[] = [{
   DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
   FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
   MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
+  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "D-DVA Siebel", Total: 0,
   VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
+}
 
-},
-{
-  ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
-  AutoResolvedSAS: 1, BABTOnlySourceActive: 1, BCBTOnlySourceCease: 2,
-  BNBTOnlySourceNotFound: 1, BTOnlyTotal: 1, CustomerDiff: 0, CustomerDiff1: 0, DADMisMatchedSourceActiveMatched: 1,
-  DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
-  FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
-  MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
-  VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
-},
-{
-  ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
-  AutoResolvedSAS: 1, BABTOnlySourceActive: 1, BCBTOnlySourceCease: 2,
-  BNBTOnlySourceNotFound: 1, BTOnlyTotal: 1, CustomerDiff: 0, CustomerDiff1: 0, DADMisMatchedSourceActiveMatched: 1,
-  DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
-  FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
-  MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
-  VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
-},
-{
-  ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
-  AutoResolvedSAS: 1, BABTOnlySourceActive: 1, BCBTOnlySourceCease: 2,
-  BNBTOnlySourceNotFound: 1, BTOnlyTotal: 1, CustomerDiff: 0, CustomerDiff1: 0, DADMisMatchedSourceActiveMatched: 1,
-  DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
-  FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
-  MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
-  VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
-},
-{
-  ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
-  AutoResolvedSAS: 1, BABTOnlySourceActive: 1, BCBTOnlySourceCease: 2,
-  BNBTOnlySourceNotFound: 1, BTOnlyTotal: 1, CustomerDiff: 0, CustomerDiff1: 0, DADMisMatchedSourceActiveMatched: 1,
-  DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
-  FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
-  MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
-  VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
-},
-{
-  ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
-  AutoResolvedSAS: 1, BABTOnlySourceActive: 1, BCBTOnlySourceCease: 2,
-  BNBTOnlySourceNotFound: 1, BTOnlyTotal: 1, CustomerDiff: 0, CustomerDiff1: 0, DADMisMatchedSourceActiveMatched: 1,
-  DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
-  FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
-  MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
-  VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
-},
-{
-  ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
-  AutoResolvedSAS: 1, BABTOnlySourceActive: 1, BCBTOnlySourceCease: 2,
-  BNBTOnlySourceNotFound: 1, BTOnlyTotal: 1, CustomerDiff: 0, CustomerDiff1: 0, DADMisMatchedSourceActiveMatched: 1,
-  DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
-  FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
-  MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
-  VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
-},
-{
-  ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
-  AutoResolvedSAS: 1, BABTOnlySourceActive: 1, BCBTOnlySourceCease: 2,
-  BNBTOnlySourceNotFound: 1, BTOnlyTotal: 1, CustomerDiff: 0, CustomerDiff1: 0, DADMisMatchedSourceActiveMatched: 1,
-  DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
-  FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
-  MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
-  VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
-},
-{
-  ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
-  AutoResolvedSAS: 1, BABTOnlySourceActive: 1, BCBTOnlySourceCease: 2,
-  BNBTOnlySourceNotFound: 1, BTOnlyTotal: 1, CustomerDiff: 0, CustomerDiff1: 0, DADMisMatchedSourceActiveMatched: 1,
-  DASMisMatchedSourceActiveMatched: 1, DCMisMatchedSourceCease: 1, DNMisMatchedSourceNotFound: 1,
-  FullAddDiff: 0, FullAddDiff1: 0, LSLiveInSource: 1, MatchedTotal: 0,
-  MismatchedTotal: 0, New: 1, OSN2OnlyTotal: 0, PostcodeDiff: 0, PostcodeDiff1: 0, SADMatchedSourceActiveMisMatched: 0,
-  SASMatchedSourceActiveMatched: 0, SCMatchedSourceCease: 0, SNMatchedSourceNotFound: 1, SourceSystem: "jk", Total: 0,
-  VCOSN2OnlySourceCease: 1, VNOSN2OnlySourceActive: 1, VNOSN2OnlySourceNotFound: 0
-
-}];
+];
 
 const ELEMENT_DATA1: FullAuditProgressReport[] = [
   {
@@ -272,10 +172,278 @@ const ELEMENT_DATA1: FullAuditProgressReport[] = [
     AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
     AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
     UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
+  },
+  {
+    ACTID: 'Cv', AuditDiscrepancyOverride: 0, AutoResolvedAreacall: 0, New: 0, SourceSystem: 'C-SAS/COMS', Total: 0,
+    AutoCease: 0, AuditTransactionOverride: 0, AutoActive: 0, AutoClosed: 0, AutoSpecialCease: 0, AutoFailed: 0,
+    AutoLogicResolved: 0, AutoModify: 0, AutoResolved: 0, FullAuditCLIStatus: 'BA-BT Only - Source Active', PortReqComplete: 0, UnderInvestigation: 0,
+    UnderPorting: 0, Resolved: 0, SumTotal: 10, UnResolved: 0, UnderGovernance: 0
   }
+
 ];
 
 const ELEMENT_DATA2: FullAuditMonthReport[] = [
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  }, {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  }, {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  }, {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  }
+  , {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
+  {
+    AllMonths: "2020/12", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
+    AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
+    AutoModifyMonth: 0, AutoSpecialCeaseBacklog: 0, AutoSpecialCeaseMonth: 0, InProgressBacklog: 0, InProgressMonth: 0,
+    ResolvedBacklog: 1, ResolvedMonth: 2, TotalBacklog: 3, TotalMonth: 5, UnResolvedBacklog: 3, UnResolvedMonth: 0
+  },
   {
     AllMonths: "2020/11", AuditTransactionOverrideBacklog: 0, AuditTransactionOverrideMonth: 0, AutoActiveBacklog: 0,
     AutoActiveMonth: 0, AutoCeaseBacklog: 0, AutoCeaseMonth: 0, AutoFailedBacklog: 0, AutoFailedMonth: 0, AutoModifyBacklog: 0,
@@ -300,6 +468,125 @@ const ELEMENT_DATA3: FullAuditAddresReport[] = [
     ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
   },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  }, {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  },
+  {
+    ACTID: "29", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+  }
 
 
 ];
@@ -373,9 +660,12 @@ export class FullAuditTypeComponent implements OnInit {
 
       switch (labelName) {
         case 'AuditSummary':
-          headerswithDetails = ['ACTID', 'SourceSystem'].concat(gridDesignDetails[0].GroupHeaders.map(x => x.DataHeaders));
+          // headerswithDetails = ['ACTID', 'SourceSystem'].concat(gridDesignDetails[0].GroupHeaders.map(x => x.DataHeaders));
+          headerswithDetails = ['ACTID', 'SourceSystem','FullAuditCLIStatus','AttributeDiffMatchedActiveMatched','AttributeDiffMatchedActiveMismatched','ResolutionType'];
           displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
+          console.log('dis',displayedColumns)
           detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
+          console.log('det',detailedColumnsArray)
           grpHdrColumnsArray = [headerswithDetails];
           this.auditSummaryTable = {
             data: ELEMENT_DATA,
@@ -391,7 +681,9 @@ export class FullAuditTypeComponent implements OnInit {
         case 'ProgressReport':
           headerswithDetails = ['ACTID', 'SourceSystem', 'FullAuditCLIStatus', 'New', 'AutoFailed'];
           displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
+          console.log('dis1',displayedColumns)
           detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
+          console.log('det1',detailedColumnsArray)
           grpHdrColumnsArray = [['ACTID', 'SourceSystem', 'FullAuditCLIStatus', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
           this.progressReportTable = {
             data: ELEMENT_DATA1,
@@ -423,10 +715,10 @@ export class FullAuditTypeComponent implements OnInit {
           break;
 
         case 'AddressReport':
-          var headerswithDetails = ['ACTID', 'SourceSystem', 'CLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
-          var displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
-          var detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
-          var grpHdrColumnsArray = [headerswithDetails];
+           headerswithDetails = ['ACTID', 'SourceSystem', 'CLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
+           displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
+           detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
+           grpHdrColumnsArray = [headerswithDetails];
           this.addressReportTable = {
             data: ELEMENT_DATA3,
             ColumnDetails: gridDesignDetails[0].ColumnDetails,

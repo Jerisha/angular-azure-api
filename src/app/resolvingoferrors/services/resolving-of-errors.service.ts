@@ -1,22 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { HttpVerbs } from '../../_http/enums/http-verbs.enum';
-import { WebMethods } from '../../_http/enums/web-methods.enum';
-import { ConfigDetails } from '../../_http/models/config-details';
-import { HttpWrapperService } from '../../_http/http-wrapper.service';
+import { HttpWrapperService, HttpVerbs, WebMethods } from 'src/app/_http/index';
 
 @Injectable()
 export class ResolvingOfErrorsService {
-  test?: any;
 
 
   constructor(private wrapperService: HttpWrapperService) { }
 
 
-  configDetails(data: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data);
+  configDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
     // .subscribe(x => {
     //   console.log("configDetails : " + JSON.stringify(x));
     //   this.test = x;
@@ -24,26 +19,17 @@ export class ResolvingOfErrorsService {
     //return this.test;
   }
 
-  queryDetails(data: any): any | undefined {
-    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data).subscribe(x => {
-      console.log("queryDetails : " + JSON.stringify(x));
-      //create a custom function, Pass the response and refine to required format of UI
-    });
-    return this.test;
+  queryDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);   
+     
   }
 
-  getDetails(data: any): any | undefined {
-    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, data).subscribe(x => {
-      console.log("getDetails : " + JSON.stringify(x));
-    });
-    return this.test;
+  getDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, request);
   }
 
-  updateDetails(data: any): any | undefined {
-    this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, data).subscribe(x => {
-      console.log("updateDetails : " + JSON.stringify(x));
-    });
-    return this.test;
+  updateDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);    
   }
 
 

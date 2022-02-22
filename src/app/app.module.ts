@@ -22,6 +22,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HelperModule } from './_helper/helper.module';
 import { StatisticalreportsModule } from './statisticalreports/statisticalreports.module';
 import { ReportsModule } from './reports/reports.module';
+import { SharedModule } from './_shared/shared.module';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ReportsModule } from './reports/reports.module';
     TransactionsModule,
     StatisticalreportsModule,
     ReportsModule,  
-    HelperModule   
+    HelperModule,
+    SharedModule 
   ],
   providers: [NavService,HttpWrapperService,
     {

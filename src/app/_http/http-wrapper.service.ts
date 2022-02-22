@@ -7,12 +7,13 @@ import { HttpVerbs } from 'src/app/_http/enums/http-verbs.enum';
 import { WebMethods } from 'src/app/_http/enums/web-methods.enum';
 import { WMMessageType } from 'src/app/_http/enums/wmmessage-type.enum';
 import { Router } from '@angular/router';
+import { AlertService } from '../_shared/alert/alert.service';
 
 
 @Injectable({ providedIn: 'root' })
 export class HttpWrapperService {
 
-    constructor(private httpClient: HttpClient, private _route: Router) {
+    constructor(private httpClient: HttpClient, private _route: Router,private alertService:AlertService) {
     }
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
@@ -28,7 +29,7 @@ export class HttpWrapperService {
 
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_url}${endPoint.toString()}`,
+                `${environment.api_live}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -275,7 +276,8 @@ export class HttpWrapperService {
                 return status;
                 break;
             case WMMessageType.Error:
-                this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
+                this.alertService.error(wmResponse.StatusCode+":"+wmResponse.StatusMessage,{autoClose:false,keepAfterRouteChange:false});
+                //this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 return status;
                 break;
         }
