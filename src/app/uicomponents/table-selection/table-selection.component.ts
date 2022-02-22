@@ -28,6 +28,7 @@ export class TableSelectionComponent {
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   dataSource!: MatTableDataSource<any>;
+  // dataSource!: MatTableDataSource<Observable<any>>;
   selectedrows: any;
   ColumnDetails!: ColumnDetails[];
   dataColumns: any;
@@ -62,7 +63,15 @@ export class TableSelectionComponent {
   dataobj!: any;
 
 
-  ngOnInit() {    
+  ngOnInit() {
+
+    this.dataObs$ = this.tableitem?.data;
+    //Subscribing passed data from parent
+    this.dataObs$.subscribe((res: any) => {
+      this.dataSource = new MatTableDataSource<any>(res);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
 
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
@@ -78,8 +87,6 @@ export class TableSelectionComponent {
     else {
       this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
-
-    this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
 
     this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
       : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
@@ -108,8 +115,7 @@ export class TableSelectionComponent {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+
     this.toggleAllSelection();
     this.cdr.detectChanges();
   }
@@ -227,7 +233,6 @@ export class TableSelectionComponent {
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     event.close();
-
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
     //   this.tableitem?.coulmnHeaders : undefined;filter

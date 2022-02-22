@@ -88,6 +88,10 @@ tr.example-element-row:not(.example-expanded-row):active {
   /* color: red; */
 }
 
+.liveRecord-error mat-divider {
+  min-height: 0%;
+}
+
 .error {
   color: red;
 }
