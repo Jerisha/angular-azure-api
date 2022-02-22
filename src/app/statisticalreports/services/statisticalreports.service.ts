@@ -323,6 +323,11 @@ export class statisticalreport {
    }
 
 
+   queryDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);   
+     
+  }
+
 
 
 
