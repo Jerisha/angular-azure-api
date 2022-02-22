@@ -61,7 +61,7 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "DAD-MisMatched - Source Active Matched",
+                    Headers: "DAD-MisMatched - Source Active MisMatched",
                     DataHeaders: "DADMisMatchedSourceActiveMatched",
                     rowspan: "1",
                     colspan: "1"

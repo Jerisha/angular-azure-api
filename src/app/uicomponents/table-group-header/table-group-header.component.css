@@ -13,7 +13,7 @@ th {
   color:black;
   font-size: small;
   /* font-weight: ; */
-  min-height: 38px;
+  min-height: 20px;
   text-align: center;
   border: 0.5px solid grey;
   padding: 0 !important;
@@ -29,15 +29,29 @@ th.mat-sort-header-sorted {
   color: white;
   position: relative;
 
-  /* width: auto;
-  height: fit-content; */
-  font-size:small;
+   width: auto; 
+  height: fit-content; 
+  font-size:small;  
+ 
 }
+
 .mat-header-row{
-  height: 30px;
+  height: 42px;
+  /* position: relative; */
   position: relative;
+
   
 }
+
+
+/* .mat-header-row {
+  top: 0;
+  position: sticky;
+  z-index: 1;
+  background-color: yellow;
+}
+   */
+
 .mat-cell {
   font-size: 14px;
   min-height: 48px;
@@ -63,7 +77,7 @@ th.mat-sort-header-sorted {
 }
 
 .table-container {
-  height: auto;
+  height: 360px;
   overflow: auto;
   /* max-width: 100%; */  
   /* font-size:large; */
