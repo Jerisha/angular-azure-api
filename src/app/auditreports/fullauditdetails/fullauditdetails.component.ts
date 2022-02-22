@@ -12,6 +12,7 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { FullAuditDetailsService } from './fullauditdetails.service';
 import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 import { ThisReceiver } from '@angular/compiler';
+import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
 
 const ELEMENT_DATA: FullAuditDetailsSummary[] = [
   {
@@ -239,7 +240,7 @@ const Items: Select[] = [
   { view: 'CUP Id', viewValue: 'CUPId', default: true },
   { view: 'Batch Id', viewValue: 'BatchId', default: true },
   { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: false },
-  { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: false },
+  { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
   { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: false },
   { view: 'Source', viewValue: 'Source', default: false },
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: false },
@@ -247,10 +248,10 @@ const Items: Select[] = [
   { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: false },
   { view: 'Resolution Type', viewValue: 'ResType', default: false },
   { view: 'Switch Status', viewValue: 'SwitchStatus', default: false },
-  { view: 'Mori Status', viewValue: 'MoriStatus', default: false },
-  { view: 'Post Code Diff', viewValue: 'PostCodeDiff', default: false },
-  { view: 'Full Address Diff', viewValue: 'FullAddDiff', default: false },
-  { view: 'Customer Diff', viewValue: 'CustomerDiff', default: false },
+  { view: 'Mori Status', viewValue: 'MoriStatus', default: true },
+  { view: 'Post Code Diff', viewValue: 'PostCodeDiff', default: true },
+  { view: 'Full Address Diff', viewValue: 'FullAddDiff', default: true },
+  { view: 'Customer Diff', viewValue: 'CustomerDiff', default: true },
   { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: false },
 
 ];
@@ -384,30 +385,47 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'OrderArchiveFlag', header: 'Order Archive Flag', showDefault: true, isImage: false },
     { headerValue: 'DeadEntry', header: 'DeadEntry', showDefault: true, isImage: false }];
 
-  correctionTypes: any[] = [
+  correctionTypes: ApplyAttributes[] = [
     {
       name: 'Auto Correction',
-      correction: [
-        { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume' }
+      disabled: false,
+      children: [
+        { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume', disabled: false }
       ]
     },
     {
       name: 'Manual Correction',
       disabled: false,
-      correction: [
-        { value: 'AutoPopulateBT', viewValue: 'Auto Populate BT', disabled: false },
+      children: [
+        { value: 'AutoPopulateBT', viewValue: 'Auto Populate BT', disabled: true },
         { value: 'AutoPopulateOSN2', viewValue: 'Auto Populate OSN2', disabled: true },
-        { value: 'AutoPopulateSource', viewValue: 'Auto Populate Source', disabled: false },
+        { value: 'AutoPopulateSource', viewValue: 'Auto Populate Source', disabled: true },
         { value: 'AutoPopulateBTSource', viewValue: 'Auto Populate BT + Source', disabled: true },
         { value: 'AutoPopulateSpecialCease', viewValue: 'Auto Populate Special Cease', disabled: true }
       ]
     }];
 
+  buttonConfig: ButtonCorretion[] = [
+    { value: 'BA - BT only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource'] },
+    { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT'] },
+    { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT'] },
+    { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource'] },
+    { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
+    { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT'] },
+    { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
+    { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2'] },
+    { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT'] },
+    { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT'] },
+    { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT'] },
+    { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT'] },
+    { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
+    { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease'] },
+    { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease'] },
+  ];
+
   constructor(private ser: FullAuditDetailsService, private dialog: MatDialog,
     private formBuilder: FormBuilder, private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {
   }
-
-
 
   resetForm(): void {
     this.snackBar.open('Reset Form Completed!', 'Close', {
@@ -434,8 +452,34 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
+
   ngAfterViewChecked() {
     this.cdr.detectChanges();
+  }
+
+  get selectedFullAuditCLIStatus() {
+    return this.fullAuditForm.get('FullAuditCLIStatus');
+  }
+
+  setAttributesForManualCorrections() {
+    if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined) {
+      this.correctionTypes.forEach(element => {
+        element.children?.forEach(child => child.disabled = true)
+      });
+    }
+    else {
+      this.buttonConfig.forEach((element: ButtonCorretion) => {
+        if (this.selectedFullAuditCLIStatus?.value === element.value) {
+          this.correctionTypes.filter(x => x.name === 'Manual Correction')
+            .map(parent => parent.children?.forEach(child => {
+              if (element.buttonVal.includes(child.value))
+                child.disabled = false;
+              else
+                child.disabled = true;
+            }));
+        }
+      });
+    }
   }
 
   onFormSubmit(): void {
@@ -447,8 +491,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       showEmail: true,
       showBlankCoulmns: true,
       selectionColumn: 'TelNo',
-      // highlightedCells: ['TelNo', 'OSN2Source'],
-      // backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
+      //highlightedCells: ['TelNo', 'OSN2Source'],
+      backhighlightedCells: this.getHighlightedCols(),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
@@ -456,7 +500,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
       { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
     }
-
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
@@ -464,13 +507,12 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       });
     }
     this.selectedTab = this.tabs.length;
-    console.log('selected Tab: ' + this.selectedTab, 'Tabs Length: ' + this.tabs.length);
+    this.setAttributesForManualCorrections();
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-
 
   newTab(tab: any) {
     debugger;
@@ -578,6 +620,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.destroy$.unsubscribe();
   }
 
+  getHighlightedCols() {
+    var fullauditdetails = this.fullAuditForm.get('FullAuditCLIStatus');
+    if (fullauditdetails?.value === 'LS-Live in Source') {
+      return ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'];
+    }
+    return [];
+
+  }
+
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
       TelNoStart: new FormControl({ value: '', disabled: true },
@@ -635,7 +686,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       = {
       data: ELEMENT_DATA4,
       Columns: this.monthlyRefreshReportTableDetails,
-      selectCheckbox:true,
+      selectCheckbox: true,
       filter: true
     }
   }
@@ -654,7 +705,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       data: ELEMENT_DATA3,
       Columns: this.moriCicuitTableDetails,
       filter: true,
-      selectCheckbox:true,
+      selectCheckbox: true,
       showBlankCoulmns: true
     }
   }
@@ -663,7 +714,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.inflightRptTable = {
       data: ELEMENT_DATA2,
       Columns: this.inflightTableDetails,
-      selectCheckbox:true,
+      selectCheckbox: true,
       filter: true
     }
   }

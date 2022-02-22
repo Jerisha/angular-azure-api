@@ -83,21 +83,21 @@
                     <mat-label>Full Audit CLI Status</mat-label>
                     <mat-select id="FullAuditCLIStatus" formControlName="FullAuditCLIStatus">
                         <mat-option></mat-option>
-                        <mat-option value="BA">BA-BT Only - Source Active</mat-option>
-                        <mat-option value="BC">BC-BT Only - Source Ceased</mat-option>
-                        <mat-option value="BN">BN-BT Only - Source Not Found</mat-option>
-                        <mat-option value="LS">LS-Live in Source</mat-option>
-                        <mat-option value="SAS">SAS-Matched - Source Active Matched</mat-option>
-                        <mat-option value="SAD">SAD-Matched - Source Active MisMatched</mat-option>
-                        <mat-option value="SC">SC-Matched - Source Cease</mat-option>
-                        <mat-option value="SN">SN-Matched - Source Not found</mat-option>
-                        <mat-option value="DAS">DAS-MisMatched - Source Active Matched</mat-option>
-                        <mat-option value="DAD">DAD-MisMatched - Source Active MisMatched</mat-option>
-                        <mat-option value="DC">DC-MisMatched - Source Cease</mat-option>
-                        <mat-option value="DN">DN-MisMatched - Source Not found</mat-option>
-                        <mat-option value="VA">VA-OSN2 Only - Source Active</mat-option>
-                        <mat-option value="VC">VC-OSN2 Only - Source Ceased</mat-option>
-                        <mat-option value="VN">VN-OSN2 Only - Source Not Found</mat-option>
+                        <mat-option value="BA - BT only - Source Active">BA-BT Only - Source Active</mat-option>
+                        <mat-option value="BC-BT Only - Source Ceased">BC-BT Only - Source Ceased</mat-option>
+                        <mat-option value="BN-BT Only - Source Not Found">BN-BT Only - Source Not Found</mat-option>
+                        <mat-option value="LS-Live in Source">LS-Live in Source</mat-option>
+                        <mat-option value="SAS-Matched - Source Active Matched">SAS-Matched - Source Active Matched</mat-option>
+                        <mat-option value="SAD-Matched - Source Active MisMatched">SAD-Matched - Source Active MisMatched</mat-option>
+                        <mat-option value="SC-Matched - Source Cease">SC-Matched - Source Cease</mat-option>
+                        <mat-option value="SN-Matched - Source Not found">SN-Matched - Source Not found</mat-option>
+                        <mat-option value="DAS-MisMatched - Source Active Matched">DAS-MisMatched - Source Active Matched</mat-option>
+                        <mat-option value="DAD-MisMatched - Source Active MisMatched">DAD-MisMatched - Source Active MisMatched</mat-option>
+                        <mat-option value="DC-MisMatched - Source Cease">DC-MisMatched - Source Cease</mat-option>
+                        <mat-option value="DN-MisMatched - Source Not found">DN-MisMatched - Source Not found</mat-option>
+                        <mat-option value="VA-OSN2 Only - Source Active">VA-OSN2 Only - Source Active</mat-option>
+                        <mat-option value="VC-OSN2 Only - Source Ceased">VC-OSN2 Only - Source Ceased</mat-option>
+                        <mat-option value="VN-OSN2 Only - Source Not Found">VN-OSN2 Only - Source Not Found</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -300,7 +300,7 @@
                                     <mat-option> </mat-option>
                                     <mat-optgroup *ngFor="let group of correctionTypes" [label]="group.name"
                                         [disabled]="group.disabled">
-                                        <mat-option *ngFor="let correction of group.correction"
+                                        <mat-option *ngFor="let correction of group.children"
                                             [value]="correction.value" [disabled]="correction.disabled">
                                             {{correction.viewValue}}
                                         </mat-option>
