@@ -10,6 +10,7 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
+import { Utils } from 'src/app/_http/index';
 
 
 
@@ -211,15 +212,15 @@ export class SolicitederrorsComponent implements OnInit {
 
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Command', headerValue: 'Cmd', showDefault: true, isImage: false },
+    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'Created', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Resolution Type', headerValue: 'ResType', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: 'Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserCmt', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCmtDate', showDefault: true, isImage: false }
+    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
   ];
 
   queryResult$!: Observable<any>;
@@ -233,7 +234,7 @@ export class SolicitederrorsComponent implements OnInit {
     // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command', 'Source']
     // console.log("Input: ", transformInput);
     debugger;
-    let request = this.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
 
     //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
@@ -274,23 +275,23 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
 
-  prepareQueryRequest(identifier: string, queryParams: any): any {
-    debugger;
-    let transform = JSON.parse(JSON.stringify(WMRequests.QUERY));
-    //identifier
-    transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [identifier];
-    //queryparameters
-    transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofQueryObjectCharacteristics.QueryObjectCharacteristics[0].ListofIdentifiers.Identifier = queryParams;
-    return transform;
-  }
+  // prepareQueryRequest(identifier: string, queryParams: any): any {
+  //   debugger;
+  //   let transform = JSON.parse(JSON.stringify(WMRequests.QUERY));
+  //   //identifier
+  //   transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [identifier];
+  //   //queryparameters
+  //   transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofQueryObjectCharacteristics.QueryObjectCharacteristics[0].ListofIdentifiers.Identifier = queryParams;
+  //   return transform;
+  // }
 
-  prepareConfigRequest(configParams: any): any {
-    debugger;
-    let transform = JSON.parse(JSON.stringify(WMRequests.CONFIG));
+  // prepareConfigRequest(configParams: any): any {
+  //   debugger;
+  //   let transform = JSON.parse(JSON.stringify(WMRequests.CONFIG));
     
-    transform.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = configParams;
-    return transform;
-  }
+  //   transform.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = configParams;
+  //   return transform;
+  // }
 
 
 
@@ -325,8 +326,7 @@ export class SolicitederrorsComponent implements OnInit {
   }
   onFormSubmit(): void {
     debugger;
-    let request = this.prepareQueryRequest('SolicitedErrors', this.prepareQueryParams());
-
+    let request = Utils.prepareQueryRequest('SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
 
 

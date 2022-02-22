@@ -1,22 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { HttpVerbs } from '../../_http/enums/http-verbs.enum';
-import { WebMethods } from '../../_http/enums/web-methods.enum';
-import { ConfigDetails } from '../../_http/models/config-details';
-import { HttpWrapperService } from '../../_http/http-wrapper.service';
+import { HttpWrapperService, HttpVerbs, WebMethods } from 'src/app/_http/index';
 
 @Injectable()
 export class ResolvingOfErrorsService {
-  test?: any;
 
 
   constructor(private wrapperService: HttpWrapperService) { }
 
 
-  configDetails(data: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, data);
+  configDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
     // .subscribe(x => {
     //   console.log("configDetails : " + JSON.stringify(x));
     //   this.test = x;
@@ -24,18 +19,17 @@ export class ResolvingOfErrorsService {
     //return this.test;
   }
 
-  queryDetails(data: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, data);   
+  queryDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);   
      
   }
 
-  getDetails(data: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, data);
+  getDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, request);
   }
 
-  updateDetails(data: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, data);
-    
+  updateDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);    
   }
 
 
