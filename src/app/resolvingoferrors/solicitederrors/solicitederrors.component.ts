@@ -326,7 +326,7 @@ export class SolicitederrorsComponent implements OnInit {
   }
   onFormSubmit(): void {
     debugger;
-    let request = Utils.prepareQueryRequest('SolicitedErrors', this.prepareQueryParams());
+    let request = Utils.prepareQueryRequest('TelephoneNumberError','SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
 
 
