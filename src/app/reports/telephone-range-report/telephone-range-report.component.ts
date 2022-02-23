@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableSelectionComponent } from 'src/app/uicomponents';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
@@ -136,6 +136,9 @@ export class TelephoneRangeReportComponent implements OnInit {
     { header: 'Order Ref', headerValue: 'orderRef', showDefault: true, isImage: false },
   ];
   data1:TelephoneRangeReport[] = ELEMENT_DATA;
+  queryResult$: Observable<any> = of(ELEMENT_DATA);
+  configResult$!: Observable<any>;
+  updateResult$!: Observable<any>;
 
   spinner:boolean=false;
   options = {
@@ -148,10 +151,38 @@ export class TelephoneRangeReportComponent implements OnInit {
     this.createForm();
 
   }
+  splitData(data: string): string[] {
+    return data.split(',');
+  }
+  prepareQueryParams(): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: ['1'] },
+      { Name: "FromDate" },
+      {
+        Name: "999Reference"
+      }, {
+        Name: "ToDate"
+      }];
+
+
+    for (const field in this.thisForm?.controls) {
+      const control = this.thisForm.get(field);
+      if (field != 'Reference') {
+        if (control?.value)
+          attributes.push({ Name: field, Value: control?.value });
+        else
+          attributes.push({ Name: field });
+      }
+    }
+    console.log(attributes);
+
+    return attributes;
+
+  }
   
   onFormSubmit():void{
     this.myTable = {
-      data: this.data1,
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
