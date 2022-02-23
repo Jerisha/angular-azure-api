@@ -3,11 +3,14 @@
         <ng-container *ngIf="views.view1" >            
               <mat-card-content >
                   <form  #ff ="ngForm" (ngSubmit)="onSubmit()" >
-                    <div class="vf-flex-container-col">                                       
+                    <!-- <form   [formGroup]="formsGroup" (ngSubmit)="onSubmit()" >
+                      <fieldset [formGroupName]="formsGroup.firstview"> -->
+                          <div class="vf-flex-container-col">                                       
                     <div> 
                         <mat-form-field   style="margin-left:2px; margin-top: 1rem; width:180px">
                           <mat-label>Start Telephone No.</mat-label>
-                          <input matInput [(ngModel)]="model.telno"  #startTel pattern ="^[0-9 ]*$" size =11 maxlength="11"  placeholder="Start Telephone No."  name = "telno" size = 11 style="margin-right:auto;"  (change)="onChangeEvent($event)">
+                          <input matInput [(ngModel)]="model.telno"  #startTel pattern ="^[0-9]*$" size =11 maxlength="11"  placeholder="Start Telephone No."  name = "telno" size = 11 style="margin-right:auto;"  (change)="onChangeEvent($event)">
+                          <!-- <input matInput  formControlName = "formsGroup.firstview.StartTelTxt" [(ngModel)]="model.telno" size =11 maxlength="11"  placeholder="Start Telephone No."  name = "telno" size = 11 style="margin-right:auto;"  (change)="onChangeEvent($event)"> -->
                           <!-- <div *ngIf="mobNumber.errors && userForm.submitted && !isValidFormSubmitted" [ngClass] = "'error'">  
                             <div *ngIf="mobNumber.errors.pattern">  
                               Mobile number not valid.   -->
@@ -15,6 +18,7 @@
                         <mat-form-field   style="margin-left:2px; margin-top: 1rem; width:180px">
                           <mat-label>End Telephone No.</mat-label>
                           <input matInput [(ngModel)]="model.rangeEnd" #endTel pattern ="^[0-9 ]*$" size =11 maxlength="11" placeholder="End Telephone No." name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)">
+                          <!-- <input matInput  formControlName = "formsGroup.firstview.StartTelTxt" [(ngModel)]="model.rangeEnd" size =11 maxlength="11" placeholder="End Telephone No." name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)"> -->
                         </mat-form-field>             
                         <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="The maximum CLIs in a range is limited to 10000.Only enter an End Tel No. if you intend to specify a range." matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                        
                       </div>
@@ -46,15 +50,16 @@
                     <div style="display: flex;align-items: center;justify-content: center;">
                         <span>
                           <!-- <button  *ngIf="visibleSearchOption2.checked == true" type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()"> -->
-                            <button  type="submit"  mat-raised-button [ngClass]="addbtncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;" (click)="addRangeTel()" [disabled]="addCliState">
+                            <button  type="button"  mat-raised-button [ngClass]="addbtncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;" (click)="addRangeTel()" [disabled]="addCliState">
                             <mat-icon>add_box</mat-icon>Add Cli(s)
                           </button>
-                        <button type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
+                        <button type="button"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
                           <mat-icon>search</mat-icon>Search
                         </button>
                       </span>
                       </div>
-                      </div>
+                            </div>
+                    <!-- </fieldset> -->
                     </form> 
                 </mat-card-content>
           </ng-container>  
@@ -77,7 +82,7 @@
                                 <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> i-->
                               <!-- </button> -->
                               <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip= mutliRangeTelephoneList matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon> -->
-                              <button type="submit" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; padding-left:2px;width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="ReviewCli()">
+                              <button type="button" mat-raised-button   [ngClass]="btncolor" style="margin-left: 10px; padding-left:2px;width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="ReviewCli()">
                                 <i class="material-icons" style ="font-size:larger;width:30px; vertical-align: middle;">edit</i>Review
                               </button>  
                             </span>                         
