@@ -213,9 +213,6 @@ export class HttpWrapperService {
             jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
             jsonCreation += `],`;
         }
-
-
-
         return jsonCreation;
     }
 
