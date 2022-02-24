@@ -334,8 +334,8 @@ export class SolicitederrorsComponent implements OnInit {
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
 
 
-    this.spinner.show();
-    setTimeout(()=>{/** spinner ends after 5 seconds */this.spinner.hide();},3000);
+    // this.spinner.show();
+    // setTimeout(()=>{/** spinner ends after 5 seconds */this.spinner.hide();},3000);
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
