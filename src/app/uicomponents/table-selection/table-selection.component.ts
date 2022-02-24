@@ -65,7 +65,8 @@ export class TableSelectionComponent {
 
 
   ngOnInit() {
-    this.spinner.show();
+    
+    //this.spinner.show();
     this.dataObs$ = this.tableitem?.data;
     //Subscribing passed data from parent
     this.dataObs$.subscribe(
@@ -73,12 +74,13 @@ export class TableSelectionComponent {
         this.dataSource = new MatTableDataSource<any>(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.spinner.hide()
+        //this.spinner.hide()
       },
-      error => { this.spinner.hide() },
+      error => { //this.spinner.hide(); 
+        console.log(error) },
      // () => { this.spinner.hide() }
     );
-
+   
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false;
