@@ -8,6 +8,7 @@ import { ThrowStmt } from '@angular/compiler';
 import { CustomerAddress, ICustomerAddress } from "../models/ICustomerAddress";
 import { TransactionItem } from '../models/ITransactionItem';
 import { MatSelect } from '@angular/material/select';
+import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions-views',
@@ -60,11 +61,14 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
     savebtnColor:string ="secondary"
 
     addbtncolor:string ="secondary"
-
-
+    
+    formsGroup!: FormGroup;
+    ff:any;
+    sf:any;
+    tf:any;
    
 
-  constructor(private _ngZone: NgZone,private cdr: ChangeDetectorRef)  
+  constructor(private _ngZone: NgZone,private cdr: ChangeDetectorRef,private fb: FormBuilder)  
   {
 
   }
@@ -79,7 +83,9 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit() {  
-    this.views.view1=true;     
+    this.views.view1=true; 
+    this.formsGroup = this.fb.group({}); 
+    this.initForm();     
     }
 
   @ViewChild('autosize')
@@ -90,6 +96,39 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
     this._ngZone.onStable.pipe(take(1)).subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
+  initForm()
+  {
+    this.formsGroup = this.fb.group({
+      firstView:this.fb.group({
+        StartTelTxt:new FormControl({value: '', disabled: false }, [Validators.minLength(11),Validators.maxLength(11),Validators.pattern('^[0][249][0-9]')]),
+        EndTelTxt:new FormControl({value: '', disabled: false }, [Validators.minLength(11),Validators.maxLength(11)]), 
+        CliRangeLst:new FormControl({value: '', disabled: false }, []), 
+        AddCliRangeBtn:new FormControl({value: '', disabled: false }, []), 
+        SearchBtn:new FormControl({value: '', disabled: false }, []), 
+      }),
+      secondView:this.fb.group({
+        ReviewBtn:new FormControl({value: '', disabled: false }, []),
+        AuditTrailBtn:new FormControl({value: '', disabled: false }, []), 
+        ResetBtn:new FormControl({value: '', disabled: false }, []),
+        CupIdCbo:new FormControl({value: '', disabled: false }, []),
+        FransciseCbo:new FormControl({value: '', disabled: false }, []),
+        }),
+      thirdView:this.fb.group({
+          TranTypeCbo:new FormControl({value: '', disabled: false }, []),
+          LineTypeCbo:new FormControl({value: '', disabled: false }, []),
+          TypeOfLineCbo:new FormControl({value: '', disabled: false }, []),
+          OrderRefTxt:new FormControl({value: '', disabled: false }, []),
+          IECupIdTxt:new FormControl({value: '', disabled: false }, []),
+          CommentTxt:new FormControl({value: '', disabled: false }, []),
+          CustomerNameTxt:new FormControl({value: '', disabled: false }, []), 
+          Address1Txt:new FormControl({value: '', disabled: false }, []), 
+          Address2Txt:new FormControl({value: '', disabled: false }, []), 
+          Address3Txt:new FormControl({value: '', disabled: false }, []), 
+          Address4Txt:new FormControl({value: '', disabled: false }, []), 
+          PostCodeTxt:new FormControl({value: '', disabled: false }, []), 
+          }),
+    });   
+  }
 
   onTranTypeChange(event:any)
   {

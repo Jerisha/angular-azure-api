@@ -11,6 +11,7 @@ import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
+import { NgxSpinnerService } from "ngx-spinner";
 
 
 
@@ -183,7 +184,8 @@ export class SolicitederrorsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService) { }
 
   myTable!: TableItem;
   dataSaved = false;
@@ -264,7 +266,7 @@ export class SolicitederrorsComponent implements OnInit {
       const control = this.thisForm.get(field);
       if (field != 'Reference') {
         if (control?.value)
-          attributes.push({ Name: field, Value: control?.value });
+          attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
       }
@@ -331,6 +333,9 @@ export class SolicitederrorsComponent implements OnInit {
     let request = Utils.prepareQueryRequest('TelephoneNumberError','SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
 
+
+    this.spinner.show();
+    setTimeout(()=>{/** spinner ends after 5 seconds */this.spinner.hide();},3000);
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
@@ -340,6 +345,7 @@ export class SolicitederrorsComponent implements OnInit {
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
+    
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
