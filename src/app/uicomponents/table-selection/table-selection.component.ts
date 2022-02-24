@@ -66,18 +66,17 @@ export class TableSelectionComponent {
 
   ngOnInit() {
     
-    //this.spinner.show();
+    this.spinner.show();
     this.dataObs$ = this.tableitem?.data;
     //Subscribing passed data from parent
     this.dataObs$.subscribe(
-      (res: any) => {
+      (res: any) => {        
         this.dataSource = new MatTableDataSource<any>(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        //this.spinner.hide()
+        this.spinner.hide()
       },
-      error => { //this.spinner.hide(); 
-        console.log(error) },
+      error => { this.spinner.hide();          },
      // () => { this.spinner.hide() }
     );
    
