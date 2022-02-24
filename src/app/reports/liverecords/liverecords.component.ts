@@ -10,15 +10,8 @@ import { liverecords } from 'src/app/reports/models/liverecord';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
-
-
-
-
 import { map, startWith } from 'rxjs/operators';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-
-
-
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -425,19 +418,15 @@ const Itemstwo:Select[]=[
 {view:'Telephone No.',viewValue:'TelephoneNo',default:true},
 {view:'Customer Name',viewValue:'CustomerName',default:true},
 {view:'Post Code',viewValue:'PostCode',default:true},
-{view:'Creation Date',viewValue:'CreationDate',default:true},
-{view:'Business Suffix.',viewValue:'BusinessSuffix',default:false},
+{view:'Created On',viewValue:'CreatedOn',default:true},
 {view:'Premises',viewValue:'Premises',default:false},
 {view:'Throughtfare',viewValue:'Throughtfare',default:false},
 {view:'Locality',viewValue:'Locality',default:false},
-{view:'Tran. Ref',viewValue:'TranRef',default:false},
-{view:'Trans.ID',viewValue:'TransID',default:false},
 {view:'Cupid',viewValue:'Cupid',default:false},
-// {view:'Title',viewValue:'Title',default:false},
-{view:'Customer Forename',viewValue:'CustomerForename',default:false}
-
-
-
+{view:'Type of Line',viewValue:'TypeofLine',default:false},
+{view:'Franchise',viewValue:'Franchise',default:false},
+{view:'Trans Cmd',viewValue:'TransCmd',default:false},
+{view:'Source',viewValue:'Source',default:false},
 ]
 
 
@@ -533,13 +522,7 @@ this.listItems = Itemstwo;
 this.setOptions();
 
 }
-
-
-
 ngAfterViewInit() {
-
-
-
 }
 setOptions() {
 this.errorCodesOptions = this.errorCode.valueChanges
@@ -548,8 +531,6 @@ startWith<string>(''),
 map(name => this._filter(name))
 );
 }
-
-
 
 private _filter(name: string): any[] {
 const filterValue = name.toLowerCase();
@@ -578,17 +559,9 @@ this.selectedTab = this.tabs.length;
 //this.selectedTab = this.tabs.length - 1;
 }
 resetForm(): void { }
-
-
-
-
-
 removeTab(index: number) {
 this.tabs.splice(index, 1);
 }
-
-
-
 newTab(tab: any) {
 switch (tab.tabType) {
 case 1: {
@@ -624,11 +597,6 @@ default: {
 break;
 }
 }
-
-
-
-
-
 }
 ngOnDestroy() {
 this.destroy$.next(true);
@@ -638,39 +606,20 @@ this.destroy$.next(true);
 this.destroy$.unsubscribe();
 }
 
-
-
 createForm() {
-
-
-
 this.myForm = new FormGroup({
-TelephoneNo: new FormControl({ value: '', disabled: true },
-[
-Validators.required,
-Validators.minLength(3),
-Validators.maxLength(99)
-]
-),
-CustomerName: new FormControl({ value: '', disabled: true },
-[
-Validators.required,
-Validators.minLength(3),
-Validators.maxLength(99)
-]
-),
+TelephoneNo: new FormControl({ value: '', disabled: true },[Validators.required,Validators.minLength(3),Validators.maxLength(99)]),
+CustomerName: new FormControl({ value: '', disabled: true },[Validators.required,Validators.minLength(3),Validators.maxLength(99)]),
 PostCode: new FormControl({ value: '', disabled: true }, [Validators.required]),
-CreationDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
-
-BusinessSuffix: new FormControl({ value: '', disabled: true }, [Validators.required]),
+CreatedOn: new FormControl({ value: '', disabled: true }, [Validators.required]),
 Premises: new FormControl({ value: '', disabled: true }, [Validators.required]),
 Throughtfare: new FormControl({ value: '', disabled: true }, [Validators.required]),
 Locality: new FormControl({ value: '', disabled: true }, [Validators.required]),
-TranRef: new FormControl({ value: '', disabled: true }, [Validators.required]),
-TransID: new FormControl({ value: '', disabled: true }, [Validators.required]),
 Cupid: new FormControl({ value: '', disabled: true }, [Validators.required]),
-Title: new FormControl({ value: '', disabled: true }, [Validators.required]),
-CustomerForename: new FormControl({ value: '', disabled: true }, [Validators.required])
+TypeofLine: new FormControl({ value: '', disabled: true }, [Validators.required]),
+Franchise: new FormControl({ value: '', disabled: true }, [Validators.required]),
+TransCmd: new FormControl({ value: '', disabled: true }, [Validators.required]),
+Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
 
 })
 }
