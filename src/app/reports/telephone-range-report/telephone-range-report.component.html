@@ -21,16 +21,16 @@
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
       <div class="matsidenav-filter">
         <mat-form-field  
-        [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
+        [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
           <mat-label>Start Telephone No.</mat-label>
-          <input matInput formControlName="TelNoStart" maxlength="10" placeholder="Start Telephone No.">
-          <!-- <mat-hint align="end">{{thisForm.controls.TelNoStart.value?.length || 0}}/10</mat-hint> -->
+          <input matInput formControlName="StartTelephoneNumber" maxlength="11" placeholder="Start Telephone No.">
+          <!-- <mat-hint align="end">{{thisForm.controls.StartTelephoneNumber.value?.length || 0}}/10</mat-hint> -->
         </mat-form-field>
 
         <mat-form-field 
-        [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
+        [ngClass]="{'hidden':thisForm.controls.EndTelephoneNumber.disabled}">
           <mat-label>End Telephone No.</mat-label>
-          <input matInput formControlName="TelNoEnd" maxlength="10" placeholder="End Telephone No.">
+          <input matInput formControlName="EndTelephoneNumber" maxlength="11" placeholder="End Telephone No.">
         </mat-form-field>
       </div>
 

@@ -12,6 +12,8 @@ import { AlertService } from 'src/app/_shared/alert';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from './alert-dialog.component';
+import { HttpWrapperService } from 'src/app/_http/http-wrapper.service';
+import { Utils, WebMethods } from 'src/app/_http';
 
 const ELEMENT_DATA = [
   {
@@ -84,9 +86,136 @@ const ELEMENT_DATA = [
   },
 ];
 
+const QueryResponse = {
+  "QueryObjectResponse" : {
+    "QueryObjectResponseType" : {
+      "ListofQueryObjectCategory" : {
+        "QueryObjectCategory" : [ {
+          "ItemName" : "TelephoneRangeReports",
+          "ListofIdentifiers" : {
+            "Identifier" : [ {
+              "Name" : "ReportIdentifier",
+              "Value" : [ "TelephoneNumberDetails" ]
+            } ]
+          },
+          "ListofAttributes" : {
+            "Attribute" : [ {
+              "Name" : "TotalCount",
+              "Value" : [ "2" ]
+            }, {
+              "Name" : "NumberOfPages",
+              "Value" : [ "1" ]
+            }, {
+              "Name" : "PageNumber",
+              "Value" : [ "1" ]
+            } ]
+          },
+          "ListofQueryObjectCharacteristics" : {
+            "QueryObjectCharacteristics" : [ {
+              "ItemName" : "TelephoneNumbers",
+              "ListofIdentifiers" : {
+                "Identifier" : [ {
+                  "Name" : "StartTelephoneNumber",
+                  "Value" : [ "0208114211" ]
+                }, {
+                  "Name" : "EndTelephoneNumer",
+                  "Value" : [ "0208114211" ]
+                } ]
+              },
+              "ListofAttributes" : {
+                "Attribute" : [ {
+                  "Name" : "Source",
+                  "Value" : [ "Siebel" ]
+                }, {
+                  "Name" : "LineType",
+                  "Value" : [ "V" ]
+                }, {
+                  "Name" : "LiveRecords",
+                  "Value" : [ "1" ]
+                }, {
+                  "Name" : "CustomerName",
+                  "Value" : [ "James Brown" ]
+                }, {
+                  "Name" : "Customer Address",
+                  "Value" : [ "177,NORTH WALSHAM ROAD,NORWICH,NR6 7QN" ]
+                }, {
+                  "Name" : "InactiveRecords",
+                  "Value" : [ "0" ]
+                }, {
+                  "Name" : "NotAvailable",
+                  "Value" : [ "0" ]
+                }, {
+                  "Name" : "OrderReference",
+                  "Value" : [ "12345" ]
+                } ]
+              },
+              "ListofCharacteristics" : {
+              }
+            }, {
+              "ItemName" : "TelephoneNumbers",
+              "ListofIdentifiers" : {
+                "Identifier" : [ {
+                  "Name" : "StartTelephoneNumber",
+                  "Value" : [ "0208114212" ]
+                }, {
+                  "Name" : "EndTelephoneNumber",
+                  "Value" : [ "0208114212" ]
+                } ]
+              },
+              "ListofAttributes" : {
+                "Attribute" : [ {
+                  "Name" : "Source",
+                  "Value" : [ "SASCOMS" ]
+                }, {
+                  "Name" : "LineType",
+                  "Value" : [ "V" ]
+                }, {
+                  "Name" : "LiveRecords",
+                  "Value" : [ "1" ]
+                }, {
+                  "Name" : "CustomerName",
+                  "Value" : [ "MICHAEL WELLS" ]
+                }, {
+                  "Name" : "CustomerAddress",
+                  "Value" : [ "28, THE WICKETS,COLTON,LEEDS,LS15 9HZ" ]
+                }, {
+                  "Name" : "InactiveRecords",
+                  "Value" : [ "0" ]
+                }, {
+                  "Name" : "NotAvailable",
+                  "Value" : [ "0" ]
+                }, {
+                  "Name" : "OrderReference",
+                  "Value" : [ "23456" ]
+                } ]
+              },
+              "ListofCharacteristics" : {
+              }
+            } ]
+          }
+        }, {
+          "ItemName" : "Update",
+          "ListofAttributes" : {
+            "Attribute" : [ {
+              "Name" : "StatusCode",
+              "Value" : [ "EUI000" ]
+            }, {
+              "Name" : "StatusMessage",
+              "Value" : [ "Success" ]
+            }, {
+              "Name" : "MessageType",
+              "Value" : [ "Informational" ]
+            } ]
+          }
+        } ]
+      }
+    }
+  }
+}
+
 const FilterListItems: Select[] = [
-  { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-  { view: 'TelNo End', viewValue: 'TelNoEnd', default: true }
+  { view: 'TelNo Start', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'TelNo End', viewValue: 'EndTelephoneNumber', default: true }
 ];
 
 @Component({
@@ -96,7 +225,11 @@ const FilterListItems: Select[] = [
 })
 export class TelephoneRangeReportComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar,private alertService:AlertService,private dialog: MatDialog) { }
+  constructor(private formBuilder: FormBuilder, 
+    private _snackBar: MatSnackBar,
+    private alertService:AlertService,
+    private dialog: MatDialog,
+    private http: HttpWrapperService) {}
 
   @ViewChild('table1') table1?:TableSelectionComponent;
   myTable!: TableItem;
@@ -108,21 +241,12 @@ export class TelephoneRangeReportComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
   selectedRowsCount: number = 0;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   selectedTab!: number;
   public tabs:Tab[] = [
-    //  {
-    //   tabType: 1,
-    //   name: 'Audit Trail Report'
-    // },{
-    //   tabType: 2,
-    //   name: 'Transaction Details'
-    // }
   ];
 
-  
   columns: ColumnDetails[] =[
     { header: 'Start Telephone No.', headerValue: 'startTel', showDefault: true, isImage: false },
     { header: 'End Telephone No.', headerValue: 'endTel', showDefault: true, isImage: false },
@@ -135,8 +259,8 @@ export class TelephoneRangeReportComponent implements OnInit {
     { header: 'Customer Address', headerValue: 'address', showDefault: true, isImage: false },
     { header: 'Order Ref', headerValue: 'orderRef', showDefault: true, isImage: false },
   ];
-  data1:TelephoneRangeReport[] = ELEMENT_DATA;
-  queryResult$: Observable<any> = of(ELEMENT_DATA);
+  //data1:TelephoneRangeReport[] = ELEMENT_DATA;
+  queryResult$: Observable<TelephoneRangeReport[]> = of(ELEMENT_DATA);
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
 
@@ -157,66 +281,58 @@ export class TelephoneRangeReportComponent implements OnInit {
   prepareQueryParams(): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: ['1'] },
-      { Name: "FromDate" },
-      {
-        Name: "999Reference"
-      }, {
-        Name: "ToDate"
-      }];
-
+      ];
 
     for (const field in this.thisForm?.controls) {
       const control = this.thisForm.get(field);
       if (field != 'Reference') {
         if (control?.value)
-          attributes.push({ Name: field, Value: control?.value });
+          attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
       }
     }
-    console.log(attributes);
-
+    console.log(JSON.stringify(attributes));
     return attributes;
 
   }
   
   onFormSubmit():void{
-    this.myTable = {
-      data: this.queryResult$,
-      Columns: this.columns,
-      filter: true,
-      selectCheckbox: true,
-      selectionColumn: '',
-      // imgConfig:[{ headerValue: 'View', icon: 'tab', route: '' },
-      // { headerValue: 'View', icon: 'description', route: '' }]
-    }
+    if(this.thisForm.valid){
+      this.myTable = {
+        data: this.queryResult$,
+        Columns: this.columns,
+        filter: true,
+        selectCheckbox: true,
+        selectionColumn: '',
+        // imgConfig:[{ headerValue: 'View', icon: 'tab', route: '' },
+        // { headerValue: 'View', icon: 'description', route: '' }]
+      }
 
-    if (!this.tabs.find(x => x.tabType == 0)) {
-      this.tabs.push({
-        tabType: 0,
-        name: 'Summary'
-      });
+      if (!this.tabs.find(x => x.tabType == 0)) {
+        this.tabs.push({
+          tabType: 0,
+          name: 'Summary'
+        });
+      }
+      this.selectedTab = this.tabs.length;
     }
-    this.selectedTab = this.tabs.length;
   }
 
   resetForm():void{
-    // this._snackBar.open('Reset Form Completed!', 'Close', {
-    //   duration: 5000,
-    //   horizontalPosition: this.horizontalPosition,
-    //   verticalPosition: this.verticalPosition,
-    // });
     // this.spinner = true;
     // setTimeout(()=>{
     //  this.spinner= false;
     // },3000);
+    //this.http.resolveRespone(QueryResponse,WebMethods.QUERY);
+    //let request = Utils.prepareQueryRequest('TelephoneNumberError','SolicitedErrors', this.prepareQueryParams());
+    //console.log(JSON.stringify(request));
   }
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      TelNoStart: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(10)]),
-      TelNoEnd: new FormControl({value: '', disabled: false}),
-
+      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(10)]),
+      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(10)]),
     })
   }
 
