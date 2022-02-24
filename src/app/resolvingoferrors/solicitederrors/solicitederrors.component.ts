@@ -297,8 +297,8 @@ export class SolicitederrorsComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
@@ -307,7 +307,6 @@ export class SolicitederrorsComponent implements OnInit {
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
       OrderReference: new FormControl({ value: '', disabled: true }, [])
-
     })
     this.errorCodesOptions = this.thisForm.controls.ErrorCode.valueChanges
       .pipe(
@@ -316,6 +315,9 @@ export class SolicitederrorsComponent implements OnInit {
       );
   }
 
+  get f(){
+    return this.thisForm.controls;
+  }
   
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
@@ -328,8 +330,6 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError','SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
-
-
 
     this.myTable = {
       data: this.queryResult$,
