@@ -41,7 +41,12 @@ const routes: Routes = [
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
     
     },
-    
+    {
+      path: 'report-references',
+      loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
+      
+      
+    },
 
 ];
 
