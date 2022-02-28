@@ -1,7 +1,6 @@
 export interface ConfigDetails {
-Command :any;
-Source: any;
-ErrorCodes: any;
-ErrorType:any;
-Test:any;
+Command? :string;
+Source?: string;
+ErrorType?:string;
+ResolutionType?:string
 }
