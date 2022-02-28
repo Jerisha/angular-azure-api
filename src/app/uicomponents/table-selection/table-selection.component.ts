@@ -65,20 +65,21 @@ export class TableSelectionComponent {
 
 
   ngOnInit() {
-    
+
     this.spinner.show();
     this.dataObs$ = this.tableitem?.data;
     //Subscribing passed data from parent
     this.dataObs$.subscribe(
-      (res: any) => {        
+      (res: any) => {
         this.dataSource = new MatTableDataSource<any>(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.spinner.hide()
       },
-      error => { this.spinner.hide();          },
-     // () => { this.spinner.hide() }
+      error => { this.spinner.hide(); },
+      () => { console.log('table load completed');this.spinner.hide() }
     );
+
    
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
@@ -94,6 +95,7 @@ export class TableSelectionComponent {
     else {
       this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
+    // this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
 
     this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
       : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
@@ -122,7 +124,8 @@ export class TableSelectionComponent {
   }
 
   ngAfterViewInit() {
-
+    // this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
     this.toggleAllSelection();
     this.cdr.detectChanges();
   }
