@@ -13,7 +13,7 @@ import { AlertService } from '../_shared/alert/alert.service';
 @Injectable({ providedIn: 'root' })
 export class HttpWrapperService {
 
-    constructor(private httpClient: HttpClient, private _route: Router,private alertService:AlertService) {
+    constructor(private httpClient: HttpClient, private _route: Router, private alertService: AlertService) {
     }
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
@@ -35,6 +35,7 @@ export class HttpWrapperService {
                 headers,
                 params).subscribe((response: Type) => {
                     observer.next(this.resolveRespone(response, endPoint))
+                    observer.complete()
                     //this.resolveRespone(response, endPoint);
                 })
         });
@@ -53,7 +54,7 @@ export class HttpWrapperService {
     }
 
 
-    private resolveRespone(val: any, requestType: WebMethods): any {
+    private resolveRespone(val: any, requestType: WebMethods) {
         debugger;
         let categories = [];
         let jsonResult = '';
@@ -84,7 +85,7 @@ export class HttpWrapperService {
         }
         // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
         console.log("jsonString :" + jsonResult);
-        return JSON.parse(jsonResult);
+        return jsonResult ? JSON.parse(jsonResult) : null;
     }
 
     private processConfigObject(categories: any) {
@@ -191,7 +192,7 @@ export class HttpWrapperService {
         if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
             objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
                 if (element.hasOwnProperty("Name"))
-                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`,``);
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`, ``);
             });
         }
         //Bind Attributes
@@ -199,7 +200,7 @@ export class HttpWrapperService {
             let attr = objCharacteristic.ListofAttributes.Attribute;
             for (let i = 0; i < attr.length; i++) {
                 if (attr[i].hasOwnProperty("Name"))
-                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`,``);
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`, ``);
             }
         }
 
@@ -213,9 +214,6 @@ export class HttpWrapperService {
             jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
             jsonCreation += `],`;
         }
-
-
-
         return jsonCreation;
     }
 
@@ -276,7 +274,7 @@ export class HttpWrapperService {
                 return status;
                 break;
             case WMMessageType.Error:
-                this.alertService.error(wmResponse.StatusCode+":"+wmResponse.StatusMessage,{autoClose:false,keepAfterRouteChange:false});
+                this.alertService.error(wmResponse.StatusCode + ":" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
                 //this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 return status;
                 break;
