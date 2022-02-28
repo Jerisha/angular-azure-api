@@ -14,204 +14,35 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from './alert-dialog.component';
 import { HttpWrapperService } from 'src/app/_http/http-wrapper.service';
 import { Utils, WebMethods } from 'src/app/_http';
+import { ResolvingOfErrorsService } from 'src/app/resolvingoferrors/services/resolving-of-errors.service';
 
 const ELEMENT_DATA = [
   {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+    StartTelephoneNumber:'02079445797',EndTelephoneNumber:'02079446999',LiveRecords:'1,203',InactiveRecords:'',NotAvailable:'',LineType:'D',CustomerName:'DEPARTMENT OF TRANSPORT',
+    CustomerAddress:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',Source:'C-SAS/COMS',OrderReference:''
   },
   {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+    StartTelephoneNumber:'02079445797',EndTelephoneNumber:'02079446999',LiveRecords:'1,203',InactiveRecords:'',NotAvailable:'',LineType:'D',CustomerName:'DEPARTMENT OF TRANSPORT',
+    CustomerAddress:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',Source:'C-SAS/COMS',OrderReference:''
   },
   {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+    StartTelephoneNumber:'02079445797',EndTelephoneNumber:'02079446999',LiveRecords:'1,203',InactiveRecords:'',NotAvailable:'',LineType:'D',CustomerName:'DEPARTMENT OF TRANSPORT',
+    CustomerAddress:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',Source:'C-SAS/COMS',OrderReference:''
   },
   {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+    StartTelephoneNumber:'02079445797',EndTelephoneNumber:'02079446999',LiveRecords:'1,203',InactiveRecords:'',NotAvailable:'',LineType:'D',CustomerName:'DEPARTMENT OF TRANSPORT',
+    CustomerAddress:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',Source:'C-SAS/COMS',OrderReference:''
   },
   {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+    StartTelephoneNumber:'02079445797',EndTelephoneNumber:'02079446999',LiveRecords:'1,203',InactiveRecords:'',NotAvailable:'',LineType:'D',CustomerName:'DEPARTMENT OF TRANSPORT',
+    CustomerAddress:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',Source:'C-SAS/COMS',OrderReference:''
   },
   {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
+    StartTelephoneNumber:'02079445797',EndTelephoneNumber:'02079446999',LiveRecords:'1,203',InactiveRecords:'',NotAvailable:'',LineType:'D',CustomerName:'DEPARTMENT OF TRANSPORT',
+    CustomerAddress:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',Source:'C-SAS/COMS',OrderReference:''
   },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
-  {
-    startTel:'02079445797',endTel:'02079446999',live:'1,203',trans:'',null:'',line:'D',name:'DEPARTMENT OF TRANSPORT',
-    address:'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR',source:'C-SAS/COMS',orderRef:''
-  },
+  
 ];
-
-const QueryResponse = {
-  "QueryObjectResponse" : {
-    "QueryObjectResponseType" : {
-      "ListofQueryObjectCategory" : {
-        "QueryObjectCategory" : [ {
-          "ItemName" : "TelephoneRangeReports",
-          "ListofIdentifiers" : {
-            "Identifier" : [ {
-              "Name" : "ReportIdentifier",
-              "Value" : [ "TelephoneNumberDetails" ]
-            } ]
-          },
-          "ListofAttributes" : {
-            "Attribute" : [ {
-              "Name" : "TotalCount",
-              "Value" : [ "2" ]
-            }, {
-              "Name" : "NumberOfPages",
-              "Value" : [ "1" ]
-            }, {
-              "Name" : "PageNumber",
-              "Value" : [ "1" ]
-            } ]
-          },
-          "ListofQueryObjectCharacteristics" : {
-            "QueryObjectCharacteristics" : [ {
-              "ItemName" : "TelephoneNumbers",
-              "ListofIdentifiers" : {
-                "Identifier" : [ {
-                  "Name" : "StartTelephoneNumber",
-                  "Value" : [ "0208114211" ]
-                }, {
-                  "Name" : "EndTelephoneNumer",
-                  "Value" : [ "0208114211" ]
-                } ]
-              },
-              "ListofAttributes" : {
-                "Attribute" : [ {
-                  "Name" : "Source",
-                  "Value" : [ "Siebel" ]
-                }, {
-                  "Name" : "LineType",
-                  "Value" : [ "V" ]
-                }, {
-                  "Name" : "LiveRecords",
-                  "Value" : [ "1" ]
-                }, {
-                  "Name" : "CustomerName",
-                  "Value" : [ "James Brown" ]
-                }, {
-                  "Name" : "Customer Address",
-                  "Value" : [ "177,NORTH WALSHAM ROAD,NORWICH,NR6 7QN" ]
-                }, {
-                  "Name" : "InactiveRecords",
-                  "Value" : [ "0" ]
-                }, {
-                  "Name" : "NotAvailable",
-                  "Value" : [ "0" ]
-                }, {
-                  "Name" : "OrderReference",
-                  "Value" : [ "12345" ]
-                } ]
-              },
-              "ListofCharacteristics" : {
-              }
-            }, {
-              "ItemName" : "TelephoneNumbers",
-              "ListofIdentifiers" : {
-                "Identifier" : [ {
-                  "Name" : "StartTelephoneNumber",
-                  "Value" : [ "0208114212" ]
-                }, {
-                  "Name" : "EndTelephoneNumber",
-                  "Value" : [ "0208114212" ]
-                } ]
-              },
-              "ListofAttributes" : {
-                "Attribute" : [ {
-                  "Name" : "Source",
-                  "Value" : [ "SASCOMS" ]
-                }, {
-                  "Name" : "LineType",
-                  "Value" : [ "V" ]
-                }, {
-                  "Name" : "LiveRecords",
-                  "Value" : [ "1" ]
-                }, {
-                  "Name" : "CustomerName",
-                  "Value" : [ "MICHAEL WELLS" ]
-                }, {
-                  "Name" : "CustomerAddress",
-                  "Value" : [ "28, THE WICKETS,COLTON,LEEDS,LS15 9HZ" ]
-                }, {
-                  "Name" : "InactiveRecords",
-                  "Value" : [ "0" ]
-                }, {
-                  "Name" : "NotAvailable",
-                  "Value" : [ "0" ]
-                }, {
-                  "Name" : "OrderReference",
-                  "Value" : [ "23456" ]
-                } ]
-              },
-              "ListofCharacteristics" : {
-              }
-            } ]
-          }
-        }, {
-          "ItemName" : "Update",
-          "ListofAttributes" : {
-            "Attribute" : [ {
-              "Name" : "StatusCode",
-              "Value" : [ "EUI000" ]
-            }, {
-              "Name" : "StatusMessage",
-              "Value" : [ "Success" ]
-            }, {
-              "Name" : "MessageType",
-              "Value" : [ "Informational" ]
-            } ]
-          }
-        } ]
-      }
-    }
-  }
-}
 
 const FilterListItems: Select[] = [
   { view: 'TelNo Start', viewValue: 'StartTelephoneNumber', default: true },
@@ -229,7 +60,8 @@ export class TelephoneRangeReportComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private alertService:AlertService,
     private dialog: MatDialog,
-    private http: HttpWrapperService) {}
+    private http: HttpWrapperService,
+    private service: ResolvingOfErrorsService) {}
 
   @ViewChild('table1') table1?:TableSelectionComponent;
   myTable!: TableItem;
@@ -248,21 +80,22 @@ export class TelephoneRangeReportComponent implements OnInit {
   ];
 
   columns: ColumnDetails[] =[
-    { header: 'Start Telephone No.', headerValue: 'startTel', showDefault: true, isImage: false },
-    { header: 'End Telephone No.', headerValue: 'endTel', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'source', showDefault: true, isImage: false },
-    { header: 'Line Type', headerValue: 'line', showDefault: true, isImage: false },
-    { header: 'Live Records', headerValue: 'live', showDefault: true, isImage: false },
-    { header: 'Inactive Records', headerValue: 'trans', showDefault: true, isImage: false },
-    { header: 'Not Available', headerValue: 'null', showDefault: true, isImage: false },
-    { header: 'Customer Name', headerValue: 'name', showDefault: true, isImage: false },
-    { header: 'Customer Address', headerValue: 'address', showDefault: true, isImage: false },
-    { header: 'Order Ref', headerValue: 'orderRef', showDefault: true, isImage: false },
+    { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'End Telephone No.', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false },
+    { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false },
+    { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false },
+    { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
+    { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
+    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false },
   ];
   //data1:TelephoneRangeReport[] = ELEMENT_DATA;
-  queryResult$: Observable<TelephoneRangeReport[]> = of(ELEMENT_DATA);
+  queryResult$: Observable<any> = of(ELEMENT_DATA);
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
+  queryResult1$!: Observable<any>;
 
   spinner:boolean=false;
   options = {
@@ -281,6 +114,8 @@ export class TelephoneRangeReportComponent implements OnInit {
   prepareQueryParams(): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: ['1'] },
+      // { Name: 'StartTelephoneNumber', Value: ['02071117400'] },
+      // { Name: 'EndTelephoneNumber', Value: ['02071117410'] }
       ];
 
     for (const field in this.thisForm?.controls) {
@@ -298,7 +133,11 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
   
   onFormSubmit():void{
-    if(this.thisForm.valid){
+    
+    let request = Utils.prepareQueryRequest('TelephoneRangeReports', 'TelephoneNumberDetails', this.prepareQueryParams());
+    //console.log(JSON.stringify(request));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TelephoneNumbers));
+    //if(this.thisForm.valid){
       this.myTable = {
         data: this.queryResult$,
         Columns: this.columns,
@@ -316,7 +155,7 @@ export class TelephoneRangeReportComponent implements OnInit {
         });
       }
       this.selectedTab = this.tabs.length;
-    }
+    //}
   }
 
   resetForm():void{
@@ -331,8 +170,8 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(10)]),
-      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(10)]),
+      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
     })
   }
 
