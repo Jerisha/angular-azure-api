@@ -147,7 +147,7 @@ export class SolicitederrorsComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   myTable!: TableItem;
-  selectListItems: string[] = [];
+  selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
 
 
@@ -177,11 +177,10 @@ export class SolicitederrorsComponent implements OnInit {
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
-  updateResult$!: Observable<any>; 
+  updateResult$!: Observable<any>;
   configDetails!: any;
- fromDate:string='';
- toDate:string=';'
-  
+
+
   ngOnInit(): void {
     this.createForm();
 
@@ -223,26 +222,26 @@ export class SolicitederrorsComponent implements OnInit {
       }
     }
     console.log(attributes);
-console.log("fromDate"+this.fromDate+ "toDate"+ this.toDate);
+
     return attributes;
 
   }
 
-  
+
   createForm() {
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      //Date: new FormControl({ value: '', disabled: true }, []),
+      FromDate: new FormControl({ value: '', disabled: true }, []),
+      ToDate: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
-      OrderReference: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: '', disabled: true }, []),
-      ToDate: new FormControl({ value: '', disabled: true }, [])
+      OrderReference: new FormControl({ value: '', disabled: true }, [])
+
     })
     this.errorCodesOptions = this.thisForm.controls.ErrorCode.valueChanges
       .pipe(
@@ -268,7 +267,7 @@ console.log("fromDate"+this.fromDate+ "toDate"+ this.toDate);
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
-   
+
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
@@ -311,21 +310,21 @@ console.log("fromDate"+this.fromDate+ "toDate"+ this.toDate);
   rowDetect(item: any) {
     //debugger;
     this.selectedRowsCount = item.length;
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
-    }
+    if(item && item.length == 0) return
+
+   
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+
+
+
+    console.log("selectedGridRows"+ JSON.stringify(this.selectedGridRows))
+  
+
   }
 
   removeTab(index: number) {
@@ -344,10 +343,13 @@ console.log("fromDate"+this.fromDate+ "toDate"+ this.toDate);
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
-          
+
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
+
         }
 
         break;
@@ -358,8 +360,6 @@ console.log("fromDate"+this.fromDate+ "toDate"+ this.toDate);
             tabType: 2,
             name: 'Transaction Errors'
           })
-          //   this.selectedTab = 2;
-          // }
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
