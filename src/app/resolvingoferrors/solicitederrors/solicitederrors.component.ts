@@ -192,6 +192,7 @@ export class SolicitederrorsComponent implements OnInit {
   massage = null;
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
+  telNo: number = 0;
 
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -404,14 +405,18 @@ export class SolicitederrorsComponent implements OnInit {
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+            name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
           //   this.selectedTab = 1;
           // }
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+          this.tabs[ this.tabs.findIndex(x => x.tabType == 1)].name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')';
         }
+
+        this.telNo = tab.row.TelephoneNumber;
+        // console.log("tab row " + tab.row.TelephoneNumber);
 
         break;
 

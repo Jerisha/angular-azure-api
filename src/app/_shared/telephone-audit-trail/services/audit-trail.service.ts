@@ -13,4 +13,8 @@ export class AuditTrailService {
   getDetails(request: any): Observable<any> {
     return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, request);
   }
+
+  custom(data: any){
+    console.log()
+  }
 }

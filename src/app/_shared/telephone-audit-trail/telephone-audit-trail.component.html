@@ -1,8 +1,10 @@
-<mat-accordion *ngIf="liverecord?.tranId != null; else elseBlock" [togglePosition]="'before'">
+<ng-container *ngIf="auditTrailReport$ | async  as AT">
+
+<mat-accordion *ngIf="AT.LiveDetails[0] as livedata; else elseBlock" [togglePosition]="'before'">
 
     <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0" (opened)="setStep(0); panelOpenState1 = true; "
         (closed)="panelOpenState1 = false">
-        <!-- (opened)="panelOpenState1 = true" (closed)="panelOpenState1 = false"> -->
+
         <mat-expansion-panel-header>
 
             <mat-panel-title>
@@ -12,174 +14,174 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="liverecord-sec">
+        <div class="livedata-sec">
             <div class="container-fluid">
-                <div class="fluid-item liverecord-sec-1">
+                <div class="fluid-item livedata-sec-1">
                     
                     <div>
                          <span class="label"> Transaction ID</span>
-                         <span class="text-display">{{liverecord?.tranId}}</span>
+                         <span class="text-display">{{livedata.TransactionId}}</span>
                     </div>
 
                     <div>
                          <span class="label">Transaction Reference</span>
                          <span class="text-display">
-                        {{liverecord?.tranRef}}</span>
+                        {{livedata.TransactionReference}}</span>
                     </div>
 
                     <div>
                          <span class="label">Parent CUPID</span>
                          <span class="text-display">
-                        {{liverecord?.parentCupid}}</span>
+                        {{livedata.ParentCupid}}</span>
                     </div>
 
                     <div>
                          <span class="label">Created On</span>
                          <span class="text-display">
-                        {{liverecord?.CreatedOn}}</span>
+                        {{livedata.Created}}</span>
                     </div>
 
 
                     <div>
                          <span class="label">Child CUPID</span>
                          <span class="text-display">
-                        {{liverecord?.childCupid}}</span>
+                        {{livedata.ChildCupid}}</span>
                     </div>
 
                     <div>
                          <span class="label">Created By</span>
                          <span class="text-display">
-                        {{liverecord?.createdBy}}</span>
+                        {{livedata.CreatedBy}}</span>
                     </div>
 
                     <div>
                          <span class="label">Customer Title</span>
                          <span class="text-display">
-                        {{liverecord?.custTitle}}</span>
+                        {{livedata.CustomerTitle}}</span>
                     </div>
 
                         <div>
                          <span class="label">Source</span>
                          <span class="text-display">
-                            {{liverecord?.source}}</span>
+                            {{livedata.Source}}</span>
                     </div>
     
                         <div>
                          <span class="label">Customer Forename</span>
                          <span class="text-display">
-                            {{liverecord?.custForename}}</span>
+                            {{livedata.CustomerForename}}</span>
                     </div>
     
                         <div>
                          <span class="label">Franchise</span>
                          <span class="text-display">
-                            {{liverecord?.franchise}}</span>
+                            {{livedata.Franchise}}</span>
                     </div>
     
                         <div>
                          <span class="label">Customer Name</span>
                          <span class="text-display">
-                            {{liverecord?.custName}}</span>
+                            {{livedata.CustomerName}}</span>
                     </div>
     
                         <div>
                          <span class="label">Source Type</span>
                          <span class="text-display">
-                            {{liverecord?.sourceType}}</span>
+                            {{livedata.SourceType}}</span>
                     </div>
     
                         <div>
                          <span class="label">Bussiness Suffix</span>
                          <span class="text-display">
-                            {{liverecord?.busnSuffix}}</span>
+                            {{livedata.BusinessSuffix}}</span>
                     </div>
     
                         <div>
                          <span class="label">Premises</span>
                          <span class="text-display">
-                            {{liverecord?.premises}}</span>
+                            {{livedata.Premises}}</span>
                     </div>
         
                 </div>
 
-                <div class="fluid-item liverecord-sec-2">
+                <div class="fluid-item livedata-sec-2">
 
                     <div>
                          <span class="label">Internal Address1</span>
                          <span class="text-display">
-                        {{liverecord?.internalAddr1}}</span>
+                        {{livedata.InternalAddress1}}</span>
                     </div>
 
                     <div>
                          <span class="label">Internal Address2</span>
                          <span class="text-display">
-                        {{liverecord?.internalAddr2}}</span>
+                        {{livedata.InternalAddress2}}</span>
                     </div>
 
                     <div>
                          <span class="label">Internal Address3</span>
                          <span class="text-display">
-                        {{liverecord?.internalAddr3}}</span>
+                        {{livedata.InternalAddress3}}</span>
                     </div>
 
                     <div>
                          <span class="label">Internal Address4</span>
                          <span class="text-display">
-                        {{liverecord?.internalAddr4}}</span>
+                        {{livedata.InternalAddress4}}</span>
                     </div>
 
                     <div>
                          <span class="label">Thoroughfare</span>
                          <span class="text-display">
-                        {{liverecord?.thoroughfare}}</span>
+                        {{livedata.Thoroughfare}}</span>
                     </div>
 
                     <div>
                          <span class="label">Locality</span>
                          <span class="text-display">
-                        {{liverecord?.locality}}</span>
+                        {{livedata.Locality}}</span>
                     </div>
 
                     <div>
                          <span class="label">Postcode</span>
                          <span class="text-display">
-                        {{liverecord?.postcode}}</span>
+                        {{livedata.Postcode}}</span>
                     </div>
 
                         <div>
                          <span class="label">Retailer ID</span>
                          <span class="text-display">
-                            {{liverecord?.retailerId}}</span>
+                            {{livedata.RetailerId}}</span>
                     </div>
     
                         <div>
                          <span class="label">New Telephone No.</span>
                          <span class="text-display">
-                            {{liverecord?.newTelNo}}</span>
+                            {{livedata.NewTelephoneNumber}}</span>
                     </div>
     
                         <div>
                          <span class="label">Address ID</span>
                          <span class="text-display">
-                            {{liverecord?.addrId}}</span>
+                            {{livedata.AddressId}}</span>
                     </div>
     
                         <div>
                          <span class="label">XReference</span>
                          <span class="text-display">
-                            {{liverecord?.xRef}}</span>
+                            {{livedata.XReference}}</span>
                     </div>
     
                         <div>
                          <span class="label">Address ID Source</span>
                          <span class="text-display">
-                            {{liverecord?.addrIdSrce}}</span>
+                            {{livedata.AddressIdSource}}</span>
                     </div>
     
                         <div>
                          <span class="label">Line Type</span>
                          <span class="text-display">
-                            {{liverecord?.lineType}}</span>
+                            {{livedata.LineType}}</span>
                     </div>    
 
                 </div>
@@ -200,7 +202,7 @@
 </ng-template>
 
 <ng-template #elseBlock1>
-    <div class="liveRecord-error error" *ngIf="isRequiredUnsol">
+    <div class="liveRecord-error error" *ngIf="isUnsol">
         <span>No Unsolicited Details Records Found</span>
     </div>
 </ng-template>
@@ -208,7 +210,7 @@
 
 <!-- <mat-accordion *ngIf="unsolicitedDetails != null;" [togglePosition]="'before'"> -->
     
-    <mat-accordion *ngIf="isRequiredUnsol && unsolicitedDetails != null; else elseBlock1" [togglePosition]="'before'">
+    <mat-accordion *ngIf="isUnsol && unsolicitedDetails != null; else elseBlock1" [togglePosition]="'before'">
 
     <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true"
         (closed)="panelOpenState2 = false">
@@ -800,3 +802,8 @@
 
     </mat-accordion>
 </div> <!-- audit-sec-->
+</ng-container>
+<ng-container *ngIf="auditTrailReport$ | async  as config">
+   {{config |json }}
+</ng-container>
+

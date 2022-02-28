@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_shared/models/telephone-audit-trail';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
@@ -7,42 +7,43 @@ import { Router } from '@angular/router';
 import { AuditTrailService } from './services/audit-trail.service';
 import { Utils } from 'src/app/_http/common/utils';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, subscribeOn } from 'rxjs/operators';
 
 const ele: TelephoneAuditTrail =
 {
-  liveRecord: 
-      {
-        tranId: '1014284011',
-        parentCupid: '13',
-        childCupid: '13',
-        custTitle: '',
-        custForename: '',
-        // custName: 'SOUTH BIRMINGHAM HEALTH AUTH',
-        custName: 'SOUTH BIRMINGHAM',
-        busnSuffix: '',
-        premises: 'Edgbaston',
-        thoroughfare: 'BIRMINGHAM',
-        locality: '',
-        postcode: 'B15 2TH',
-        retailerId: '', 
-        addrId: '',
-        addrIdSrce: '',
-        tranRef: '013/013/001014284011',
-        CreatedOn: 'THU 14 MAR 2019 15:26:59',
-        createdBy: 'BATCH',
-        source: 'C - SAS/COMS',
-        franchise: 'MCL',
-        sourceType: 'BATCH',
-        internalAddr1: 'WOLFSON BUILDING',
-        internalAddr2: 'QUEEN ELIZABETH HOSP',
-        internalAddr3:	'BIRMINGHAM',
-        internalAddr4: 'WEST MIDLANDS',
-        newTelNo: '',
-        xRef: '',
-        lineType: 'D - DDI',
-      }
-    , 
+  liveRecord : undefined,
+  // liveRecord: 
+  //     {
+  //       TransactionId: '1014284011',
+  //       ParentCupid: '13',
+  //       ChildCupid: '13',
+  //       CustomerTitle: '',
+  //       CustomerForename: '',
+  //       // custName: 'SOUTH BIRMINGHAM HEALTH AUTH',
+  //       CustomerName: 'SOUTH BIRMINGHAM',
+  //       BusinessSuffix: '',
+  //       Premises: 'Edgbaston',
+  //       Thoroughfare: 'BIRMINGHAM',
+  //       Locality: '',
+  //       Postcode: 'B15 2TH',
+  //       RetailerId: '', 
+  //       AddressId: '',
+  //       AddressIdSource: '',
+  //       TransactionReference: '013/013/001014284011',
+  //       Created: 'THU 14 MAR 2019 15:26:59',
+  //       CreatedBy: 'BATCH',
+  //       Source: 'C - SAS/COMS',
+  //       Franchise: 'MCL',
+  //       SourceType: 'BATCH',
+  //       InternalAddress1: 'WOLFSON BUILDING',
+  //       InternalAddress2: 'QUEEN ELIZABETH HOSP',
+  //       InternalAddress3:	'BIRMINGHAM',
+  //       InternalAddress4: 'WEST MIDLANDS',
+  //       NewTelephoneNumber: '',
+  //       XReference: '',
+  //       LineType: 'D - DDI',
+  //     }
+  //   , 
   unsolicitedDetails: [
         { Code: '1046',	ErrorMessage: 'Import is 10 days overdue.',	Date: 'THU 28 JUL 2016 08:25:23',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101328071601.CAR' },
         { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'WED 27 JUL 2016 08:26:46',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101327071601.CAR' },
@@ -64,7 +65,7 @@ const ele: TelephoneAuditTrail =
         Source: 'R - Clarify',
         CustomerName: 'ERNST & YOUNG',
         // email --RODDA.MANIRATHNAM@VODAFONE.COM  comment
-        details: { tranId: '1015002930', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AA', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', CreatedOn: 'THU 08 JUL 2021 10:20:02', createdBy: ' ', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' , comment: ' DDI RANGE- 01619526000'},
+        details: { TransactionId: '1015002930', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', customerTitle: ' ', customerForename: ' ', customerName: 'J2 GLOBAL UK LTD', businessSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AA', retailerId: ' ', AddressId: '', AddressIdSource: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', transactionReference: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', CreatedOn: 'THU 08 JUL 2021 10:20:02', createdBy: ' ', sourceType: 'GUI', internalAddress1: 'TELEHOUSE EAST', internalAddress2: 'CORIANDER AVENUE', internalAddress3: 'LONDON', internalAddress4: ' ', forceValidate: 'N', NewTelephoneNumber: ' ', XReference: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' , comment: ' DDI RANGE- 01619526000'},
         notificationData:
         {
           startTelNo: '0123467890',
@@ -92,7 +93,7 @@ const ele: TelephoneAuditTrail =
         CreatedOn: '08-JAN-14',
         Source: 'R - Clarify',
         CustomerName: 'ERNST & YOUNG',
-        details: { tranId: '1015002931', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', custTitle: ' ', custForename: ' ', custName: 'J2 GLOBAL UK LTD', busnSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AB', retailerId: ' ', addrId: '', addrIdSrce: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', tranRef: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', CreatedOn: 'THU 08 JUL 2021 10:20:02', createdBy: ' ', sourceType: 'GUI', internalAddr1: 'TELEHOUSE EAST', internalAddr2: 'CORIANDER AVENUE', internalAddr3: 'LONDON', internalAddr4: ' ', forceValidate: 'N', newTelNo: ' ', xRef: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0', comment: ' DDI RANGE- 01619526000' },
+        details: { TransactionId: '1015002930', tranCmd: 'A - Activate Customer', btCmd: 'A - Activate Customer', parentCupid: '13', childCupid: '13', changeCupid: '13', customerTitle: ' ', customerForename: ' ', customerName: 'J2 GLOBAL UK LTD', businessSuffix: ' ', premises: 'Telehouse', thoroughfare: 'Coriander Avenue', locality: 'LONDON', postcode: 'E14 2AB', retailerId: ' ', AddressId: '', AddressIdSource: ' ', sarRefNum: ' ', sarTrnNum: ' ', reference: ' ', connType: ' ', accessMethod: ' ', prevTranId: '1014986699', transactionReference: '013/013/001015002930', status: '101-DO SEND', btSource: 'Edge', source: 'E - VA/WAD', franchise: 'VFC', orderRef: 'EDGE', CreatedOn: 'THU 08 JUL 2021 10:20:02', createdBy: ' ', sourceType: 'GUI', internalAddress1: 'TELEHOUSE EAST', internalAddress2: 'CORIANDER AVENUE', internalAddress3: 'LONDON', internalAddress4: ' ', forceValidate: 'N', NewTelephoneNumber: ' ', XReference: ' ', lineType: 'D - DDI', provide: 'THU 08 JUL 2021 10:16:00', effective: 'THU 08 JUL 2021 10:20:02', endStatus: 'THU 08 JUL 2021 10:35:01', callback: ' ', typeOfLine: 'BW - Bothway', nextTranId: '0' , comment: ' DDI RANGE- 01619526000'},
         notificationData:
         {
           startTelNo: '0123467890',
@@ -224,12 +225,18 @@ export class TelephoneAuditTrailComponent implements OnInit {
   addressDetails = new AddressDetails();
   
   liverecord?: LiveRecord;
+
+  auditTrailReport$!: Observable<any>;
+  liverecord$!: Observable<any>;
+  detailedReport$!: Observable<any>;
+  detailedReport: any;
   unsolicitedDetails?: UnsolicitedDetails[];
   transactionDetails?: TransactionDetails[];
   auditDetails?: AuditDetails;
   GetResult$!: Observable<any>;
 
-  @Input() isRequiredUnsol: boolean = false;
+  @Input() isUnsol: boolean = false;
+  @Input() telNum!: number ;
 
 
   // ELEMENT_DATA: Option[] = [];
@@ -247,18 +254,71 @@ export class TelephoneAuditTrailComponent implements OnInit {
   fullAuditTrailDisplay: string[]=['AuditActId','TelephoneNo','ResolutionType','ExternalCliStatus', 'FullAuditCliStatus', 'UserComments'];
 
   ngOnInit(): void {
-    this.liverecord =  ele.liveRecord;
+    // console.log("telephone No " + this.telephoneNumber);
+    // this.liverecord =  ele.liveRecord;
     this.transactionDetails = ele?.transactionDetails;
     this.auditDetails = ele.auditDetails;
     this.unsolicitedDetails = ele?.unsolicitedDetails;
-    let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
-    Value : [ "02071117402" ] }]);
-   // this.GetResult$ = this.service.getDetails(request);
-    debugger;
-     this.service.getDetails(request).subscribe((res: any) => 
-     console.log(res)
-     );
+    // let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
+    // Value : [ "02071117402" ] }]);
+    // let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
+    // Value : [ this.telephoneNumber ] }]);
 
+   // this.GetResult$ = this.service.getDetails(request);
+
+    // debugger;
+    //  this.service.getDetails(request).subscribe((res: any) => 
+    //  console.log(res)
+    //  );
+
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // console.log(changes.telephoneNumber.currentValue);
+    // console.log(changes);
+    if(changes.telNum.currentValue != changes.telNum.previousValue)
+    {
+      let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
+    // Value : [ this.telNum ] }]);
+    Value : [ "02075957399" ] }]);
+
+    // this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => res[0]));
+      // this.liverecord = JSON.parse(JSON.stringify(this.auditTrailReport$));
+      // console.log("New live data " + JSON.stringify(this.auditTrailReport$));
+
+      this.service.getDetails(request).subscribe(
+         (res:any) => {
+        this.detailedReport = res[0].LiveDetails[0];
+      },
+      err => { console.error(err);
+      },
+       () => {
+         console.log("hello");
+        }
+          );
+
+      console.log("detailed data" + this.detailedReport);
+    //  this.service.getDetails(request).pipe(map((res: any) =>{
+    //   this.liverecord$ =  res[0].LiveDetails[0];
+    //   console.log("Live details " + JSON.stringify(res[0].LiveDetails[0]));
+      // this.detailedReport$ = res[0].AuditDetailedReport[0].DetailedReport[0];
+      // console.log("Detailed Report " + res[0].AuditDetailedReport[0].DetailedReport[0]);
+      // return res[0];
+    // }));
+    // this.liverecord$ = this.auditTrailReport$.pipe(map((res: any) => res.LiveDetails[0]));
+    // this.detailedReport$ = this.auditTrailReport$.pipe(map((res: any) => res.AuditDetailedReport[0].DetailedReport[0]));
+    // this.detailedReport$ = this.service.getDetails(request).pipe(map((res: any) =>{
+    //   return res[0].AuditDetailedReport[0].DetailedReport[0];
+    // }));
+
+
+
+    //   this.liverecord$ = this.auditTrailReport$.pipe(map((res: any) =>{
+    //      console.log(res.LiveDetails[0]);
+    // //  console.log(res[0].LiveDetails[0]);
+    // }));
+
+    }
   }
 
   setStep(index: number) {
@@ -268,6 +328,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
   ActiveAddressDetails(): AddressDetails {
     return this.addressDetails;
   }
+
 
   // clicked(errCode: string, errMessage: string) {
   //   this._route.navigate(['/errors', {outlets: {errorPage: 'error'}}], {state: {errData1: errCode, errData2: errMessage}});
