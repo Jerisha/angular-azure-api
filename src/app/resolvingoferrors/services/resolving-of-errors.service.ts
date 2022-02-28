@@ -1,27 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ObjectUnsubscribedError, Observable } from 'rxjs';
 import { HttpWrapperService, HttpVerbs, WebMethods } from 'src/app/_http/index';
+import { ConfigDetails } from 'src/app/_http/models/config-details';
 
 @Injectable()
 export class ResolvingOfErrorsService {
-
+  test!: ConfigDetails[];
 
   constructor(private wrapperService: HttpWrapperService) { }
 
-
+  configTest(request: any) {
+    this.wrapperService.processRequest<ConfigDetails[]>(HttpVerbs.POST, WebMethods.CONFIG, request).subscribe((res: ConfigDetails[]) => {
+      console.log("res: " + JSON.stringify(res))
+      this.test = res
+    });
+    console.log("test " + this.test)
+  }
   configDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
-    // .subscribe(x => {
-    //   console.log("configDetails : " + JSON.stringify(x));
-    //   this.test = x;
+    // const observable = new Observable(observer => {
+    //   this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request).subscribe((res: any) =>
+    //     observer.next(this.custom(res)));      
+
     // });
-    //return this.test;
+
+    //return observable
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
+  }
+
+  custom(data: any) {
+    console.log('service.custom' + JSON.stringify(data));
+    return data;
   }
 
   queryDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);   
-     
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+
   }
 
   getDetails(request: any): Observable<any> {
@@ -29,7 +43,7 @@ export class ResolvingOfErrorsService {
   }
 
   updateDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);    
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
 
 

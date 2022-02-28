@@ -35,6 +35,7 @@ export class HttpWrapperService {
                 headers,
                 params).subscribe((response: Type) => {
                     observer.next(this.resolveRespone(response, endPoint))
+                    observer.complete()
                     //this.resolveRespone(response, endPoint);
                 })
         });
@@ -53,7 +54,7 @@ export class HttpWrapperService {
     }
 
 
-    private resolveRespone(val: any, requestType: WebMethods): any {
+    private resolveRespone(val: any, requestType: WebMethods) {
         debugger;
         let categories = [];
         let jsonResult = '';
