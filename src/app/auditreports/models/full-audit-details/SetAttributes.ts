@@ -1,7 +1,7 @@
 export interface ApplyAttributes {
     name: string;
     disabled: boolean;
-    children?: DropDownAttributes[];
+    subOption?: DropDownAttributes[];
 }
 
 export interface DropDownAttributes {
@@ -13,4 +13,5 @@ export interface DropDownAttributes {
 export interface ButtonCorretion{
     value:string;
     buttonVal:string[];
+    switchType?:string[];
 }

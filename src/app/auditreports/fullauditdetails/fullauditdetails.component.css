@@ -50,7 +50,9 @@ button{
   }
 
  
- 
+  /* ::ng-deep .mat-optgroup.hideLabel .mat-optgroup-label .mat-option.hideLabel {
+    display: none;
+  } */
 
   footer-div{
     border: 0.px;

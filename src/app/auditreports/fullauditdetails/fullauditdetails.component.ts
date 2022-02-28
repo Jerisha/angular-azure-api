@@ -247,7 +247,7 @@ const Items: Select[] = [
   { view: 'Porting Status', viewValue: 'PortingStatus', default: false },
   { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: false },
   { view: 'Resolution Type', viewValue: 'ResType', default: false },
-  { view: 'Switch Status', viewValue: 'SwitchStatus', default: false },
+  { view: 'Switch Status', viewValue: 'SwitchStatus', default: true },
   { view: 'Mori Status', viewValue: 'MoriStatus', default: true },
   { view: 'Post Code Diff', viewValue: 'PostCodeDiff', default: true },
   { view: 'Full Address Diff', viewValue: 'FullAddDiff', default: true },
@@ -389,14 +389,14 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     {
       name: 'Auto Correction',
       disabled: false,
-      children: [
-        { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume', disabled: false }
+      subOption: [
+        { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume', disabled: true }
       ]
     },
     {
       name: 'Manual Correction',
       disabled: false,
-      children: [
+      subOption: [
         { value: 'AutoPopulateBT', viewValue: 'Auto Populate BT', disabled: true },
         { value: 'AutoPopulateOSN2', viewValue: 'Auto Populate OSN2', disabled: true },
         { value: 'AutoPopulateSource', viewValue: 'Auto Populate Source', disabled: true },
@@ -405,23 +405,59 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       ]
     }];
 
-  buttonConfig: ButtonCorretion[] = [
-    { value: 'BA - BT only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource'] },
-    { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT'] },
-    { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT'] },
-    { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource'] },
+  dataCorrectionBtnConfig: ButtonCorretion[] = [
+    { value: 'BA - BT only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource','AutoCorrectionVolume'],switchType:['Active'] },
+    { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT','AutoCorrectionVolume'],switchType:['Active','Ceased','Not Found'] },
+    { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT','AutoCorrectionVolume'],switchType:['Ceased','Not Found'] },
+    { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource','AutoCorrectionVolume'],switchType:['Active'] },
     { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
-    { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT'] },
-    { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
-    { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2'] },
-    { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT'] },
-    { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT'] },
-    { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT'] },
-    { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT'] },
-    { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
-    { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease'] },
-    { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease'] },
+    { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT','AutoCorrectionVolume'],switchType:['Active'] },
+    { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2','AutoCorrectionVolume'],switchType:['Active','Ceased','Not Found'] },
+    { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2','AutoCorrectionVolume'],switchType:['Ceased','Not Found'] },
+    { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT','AutoCorrectionVolume'],switchType:['Active'] },
+    { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT','AutoCorrectionVolume'],switchType:['Active'] },
+    { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT','AutoCorrectionVolume'], switchType:['Active','Ceased','Not Found']  },
+    { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT','AutoCorrectionVolume'],switchType:['Ceased','Not Found']  },
+    { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2','AutoCorrectionVolume'], switchType:['Active']},
+    { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease','AutoCorrectionVolume'],switchType:['Active','Ceased','Not Found'] },
+    { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease','AutoCorrectionVolume'],switchType:['Ceased','Not Found'] },
   ];
+
+  get selectedSwitchTypeStatus(){
+    return this.fullAuditForm.get('SwitchStatus');
+  }
+  
+  get selectedFullAuditCLIStatus() {
+    return this.fullAuditForm.get('FullAuditCLIStatus');
+  }
+
+  setAttributesForManualCorrections() {
+    if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined) {
+      this.correctionTypes.forEach(element => {
+        element.subOption?.forEach(child => child.disabled = true)
+      });
+    }
+    else {
+      this.dataCorrectionBtnConfig.forEach((element: ButtonCorretion) => {
+        if (this.selectedFullAuditCLIStatus?.value === element.value) {
+          this.correctionTypes.forEach(option => {
+            option.subOption?.forEach(subOpt => {
+              if (element.buttonVal.includes(subOpt.value)) {
+                if ((option.name === 'Auto Correction' && element.switchType?.includes(this.selectedSwitchTypeStatus?.value)) ||
+                  (option.name === 'Manual Correction')) {
+                    subOpt.disabled = false;
+                }
+                else
+                subOpt.disabled = true;
+              }
+              else
+              subOpt.disabled = true;
+            });
+          });
+        }
+      });
+    }
+  }
 
   constructor(private ser: FullAuditDetailsService, private dialog: MatDialog,
     private formBuilder: FormBuilder, private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {
@@ -455,31 +491,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
-  }
-
-  get selectedFullAuditCLIStatus() {
-    return this.fullAuditForm.get('FullAuditCLIStatus');
-  }
-
-  setAttributesForManualCorrections() {
-    if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined) {
-      this.correctionTypes.forEach(element => {
-        element.children?.forEach(child => child.disabled = true)
-      });
-    }
-    else {
-      this.buttonConfig.forEach((element: ButtonCorretion) => {
-        if (this.selectedFullAuditCLIStatus?.value === element.value) {
-          this.correctionTypes.filter(x => x.name === 'Manual Correction')
-            .map(parent => parent.children?.forEach(child => {
-              if (element.buttonVal.includes(child.value))
-                child.disabled = false;
-              else
-                child.disabled = true;
-            }));
-        }
-      });
-    }
   }
 
   onFormSubmit(): void {

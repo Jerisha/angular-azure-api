@@ -65,18 +65,18 @@ export class TableSelectionComponent {
 
   ngOnInit() {
 
-    this.dataObs$ = this.tableitem?.data;
-    //Subscribing passed data from parent
-    this.dataObs$.subscribe((res: any) => {
-      this.dataSource = new MatTableDataSource<any>(res);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
-
+    // this.dataObs$ = this.tableitem?.data;
+    // //Subscribing passed data from parent
+    // this.dataObs$.subscribe((res: any) => {
+     
+    //   this.dataSource.paginator = this.paginator;
+    //   this.dataSource.sort = this.sort;
+    // });
+    this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false;
-    debugger;
+    
     if (this.tableitem?.showBlankCoulmns) {
       this.getEmptyColumns();
       this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
@@ -125,7 +125,7 @@ export class TableSelectionComponent {
 
 
   getTotal(cellname: string) {
-    debugger;
+   
     var cell = cellname ? cellname : '';
     if (this.dataColumns[0] === cellname) {
       return 'Total';
@@ -139,20 +139,17 @@ export class TableSelectionComponent {
 
   }
 
-  getColSpan(cellname: string) {
-    debugger;
+  getColSpan(cellname: string) {    
     if (this.dataColumns[0] === cellname) {
       return this.nonNumericCols.length;
     }
     return 1;
   }
 
-  selectRow(event: any, row: any) {
-    debugger;
+  selectRow(event: any, row: any) {    
     this.dataSource.data = this.dataSource.data.filter(r => r !== row);
     if (event.checked) {
-      this.dataSource.data = [row].concat(this.dataSource.data);
-      debugger;
+      this.dataSource.data = [row].concat(this.dataSource.data);      
       //this.highlightCellb(true)
     }
     else {

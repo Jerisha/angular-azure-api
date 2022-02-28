@@ -299,9 +299,9 @@
                                 <mat-select [(value)]="selectedCorrectionType" placeholder="Data Corrections">
                                     <mat-option> </mat-option>
                                     <mat-optgroup *ngFor="let group of correctionTypes" [label]="group.name"
-                                        [disabled]="group.disabled">
-                                        <mat-option *ngFor="let correction of group.children"
-                                            [value]="correction.value" [disabled]="correction.disabled">
+                                        [ngStyle]="{ display : group.disabled? 'none' : 'block' }">
+                                        <mat-option *ngFor="let correction of group.subOption"
+                                            [ngStyle]="{ display : correction.disabled? 'none' : 'block' }" [value]="correction.value">
                                             {{correction.viewValue}}
                                         </mat-option>
                                     </mat-optgroup>
