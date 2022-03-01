@@ -10,7 +10,7 @@
       </div> 
     </div> -->
 
-    
+
     <div class="filter-sticky">
       <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
         (changes)="setControlAttribute($event)">
@@ -20,10 +20,11 @@
 
 
       <div class="matsidenav-filter">
-        <ng-container *ngIf="configResult$ | async  as config">
+        <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
-            <input formControlName="StartTelephoneNumber" matInput #input maxlength="11" placeholder="Start Telephone No">
+            <input formControlName="StartTelephoneNumber" matInput #input maxlength="11"
+              placeholder="Start Telephone No">
             <mat-hint align="end">{{input.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
@@ -33,14 +34,13 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field hintLabel="Max 10 characters"
-            [ngClass]="{'hidden':thisForm.controls.EndTelephoneNumber.disabled}">
+          <mat-form-field hintLabel="Max 10 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
             <input formControlName="EndTelephoneNumber" matInput #input placeholder="End Telephone No">
             <mat-hint align="end">{{input.value?.length || 0}}/11</mat-hint>
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':thisForm.controls.Command.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
             <mat-select formControlName="Command">
               <mat-option></mat-option>
@@ -54,7 +54,7 @@
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source</mat-label>
             <mat-select formControlName="Source">
               <mat-option *ngFor="let val of splitData(config.Source)" [value]="val">{{val}}</mat-option>
@@ -78,15 +78,15 @@
           <mat-form-field>
             <mat-label>Date Range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate placeholder="Start date">
-              <input matEndDate placeholder="End date">
+              <input formControlName="FromDate" matStartDate placeholder="Start date">
+              <input formControlName="ToDate"  matEndDate placeholder="End date">
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
             <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':thisForm.controls.ResolutionType.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolutionType">
               <mat-option *ngFor="let val of splitData(config.ResolutionType)" [value]="val">{{val}}</mat-option>
@@ -100,7 +100,7 @@
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':thisForm.controls.ErrorType.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <mat-select formControlName="ErrorType">
               <ng-container *ngIf="config.ErrorType">
@@ -113,13 +113,13 @@
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':thisForm.controls.ErrorCode.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
             <mat-label>Error Code</mat-label>
             <input formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
               [matAutocomplete]="auto" />
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option.viewValue">
-                {{option.view}}
+              <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option">
+                {{option}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -129,13 +129,11 @@
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':thisForm.controls.OrderReference.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.OrderReference.disabled}">
             <mat-label>Order Reference</mat-label>
             <input formControlName="OrderReference" matInput #input maxlength="10" placeholder="Order Reference">
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
-
-
         </ng-container>
       </div>
 
@@ -247,7 +245,6 @@
             <app-transaction-errors></app-transaction-errors>
           </div>
           <div *ngSwitchDefault>
-
           </div>
         </span>
 
@@ -264,6 +261,6 @@ Delete Tab
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<!-- <ng-container *ngIf="configResult$ | async  as config">
-   {{config |json }}
+<!-- <ng-container *ngIf="configDetails as config">
+  {{config |json }}
 </ng-container> -->

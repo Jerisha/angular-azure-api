@@ -12,6 +12,7 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
+import { ConfigDetails } from 'src/app/_http/models/config-details';
 
 
 
@@ -132,48 +133,6 @@ const FilterListItems: Select[] = [
 ];
 
 
-const transInput: any = {
-  "QueryObjectRequest": {
-    "QueryObjectRequestType": {
-      "RequestIdentifiers": {
-        "Identifier": [{
-          "Name": "UserId",
-          "Value": ["abc"]
-        }, {
-          "Name": "Destination",
-          "Value": ["OSN2"]
-        }]
-      },
-      "ListofQueryObjectCategory": {
-        "QueryObjectCategory": [{
-          "ItemName": "TelephoneNumberTransactionError",
-          "ListofIdentifiers": {
-            "Identifier": [{
-              "Name": "ReportIdentifier",
-              "Value": ["SolicitedErrors"]
-            }]
-          },
-          "ListofQueryObjectCharacteristics": {
-            "QueryObjectCharacteristics": [{
-              "ItemName": "QueryParameters",
-              "ListofIdentifiers": {
-                "Identifier": [{
-                  "Name": "TelephoneNumber",
-                  "Value": ["02071117401"]
-                }, {
-                  "Name": "TransactionId",
-                  "Value": ["1010684993"]
-                }]
-              }
-            }]
-          }
-        }]
-      }
-    }
-  }
-}
-
-
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
@@ -188,10 +147,6 @@ export class SolicitederrorsComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   myTable!: TableItem;
-  dataSaved = false;
-  employeeForm: any;
-  employeeIdUpdate = null;
-  massage = null;
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
 
@@ -200,12 +155,7 @@ export class SolicitederrorsComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
   selectedRowsCount: number = 0;
-  errorCodeData: Select[] = [
-    { view: '1018', viewValue: '1018', default: true },
-    { view: '1048', viewValue: '1048', default: true },
-    { view: '1058', viewValue: '1058', default: true },
-  ];
-
+  errorCodeData!: any[];
   selectedTab!: number;
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -227,38 +177,39 @@ export class SolicitederrorsComponent implements OnInit {
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
-  updateResult$!: Observable<any>;
-
+  updateResult$!: Observable<any>; 
+  configDetails!: any;
+ fromDate:string='';
+ toDate:string=';'
+  
   ngOnInit(): void {
     this.createForm();
-    // debugger;
-    // let transformInput = JSON.parse(WMRequests.CONFIG);
-    // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command', 'Source']
-    // console.log("Input: ", transformInput);
+
     debugger;
     let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
-    this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
+    //this.service.configTest(request);
+    this.service.configDetails(request).subscribe((res: any) => {
+      //console.log("res: " + JSON.stringify(res))
+      this.configDetails = res[0];
+      this.errorCodeData = this.splitData(res[0]?.ErrorCode)
+    });
 
-    //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
+    //this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
 
-  splitData(data: string): string[] {
-    return data.split(',');
+  splitData(data: string | undefined): string[] {
+    return data ? data.split(',') : [];
   }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
 
-
   prepareQueryParams(): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: ['1'] },
-      { Name: "FromDate" },
       {
         Name: "999Reference"
-      }, {
-        Name: "ToDate"
       }];
 
 
@@ -272,35 +223,16 @@ export class SolicitederrorsComponent implements OnInit {
       }
     }
     console.log(attributes);
-
+console.log("fromDate"+this.fromDate+ "toDate"+ this.toDate);
     return attributes;
 
   }
 
-  // prepareQueryRequest(identifier: string, queryParams: any): any {
-  //   debugger;
-  //   let transform = JSON.parse(JSON.stringify(WMRequests.QUERY));
-  //   //identifier
-  //   transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [identifier];
-  //   //queryparameters
-  //   transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofQueryObjectCharacteristics.QueryObjectCharacteristics[0].ListofIdentifiers.Identifier = queryParams;
-  //   return transform;
-  // }
-
-  // prepareConfigRequest(configParams: any): any {
-  //   debugger;
-  //   let transform = JSON.parse(JSON.stringify(WMRequests.CONFIG));
-    
-  //   transform.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = configParams;
-  //   return transform;
-  // }
-
-
-
+  
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
@@ -308,7 +240,9 @@ export class SolicitederrorsComponent implements OnInit {
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
-      OrderReference: new FormControl({ value: '', disabled: true }, [])
+      OrderReference: new FormControl({ value: '', disabled: true }, []),
+      FromDate: new FormControl({ value: '', disabled: true }, []),
+      ToDate: new FormControl({ value: '', disabled: true }, [])
     })
     this.errorCodesOptions = this.thisForm.controls.ErrorCode.valueChanges
       .pipe(
@@ -317,25 +251,24 @@ export class SolicitederrorsComponent implements OnInit {
       );
   }
 
-  get f(){
+  get f() {
     return this.thisForm.controls;
   }
-  
+
   private _filter(name: string): any[] {
+
+
     const filterValue = name.toLowerCase();
     // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
     // return filteredList;
-    let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
+    let filteredList = this.errorCodeData.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
   onFormSubmit(): void {
     debugger;
-    let request = Utils.prepareQueryRequest('TelephoneNumberError','SolicitedErrors', this.prepareQueryParams());
+    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
-
-
-    // this.spinner.show();
-    // setTimeout(()=>{/** spinner ends after 5 seconds */this.spinner.hide();},3000);
+   
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
@@ -345,13 +278,12 @@ export class SolicitederrorsComponent implements OnInit {
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
-    
+
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
         name: 'Summary'
       });
-
     }
 
 
@@ -410,10 +342,9 @@ export class SolicitederrorsComponent implements OnInit {
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+            name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
-          //   this.selectedTab = 1;
-          // }
+          
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
