@@ -196,12 +196,12 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     return data ? data.split(',') : [];
   }
   ngAfterViewInit() {
-    //this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
-  // ngAfterViewChecked() {
-  //   this.cdr.detectChanges();
-  // }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
   get f() {
     return this.thisForm.controls;
   }
