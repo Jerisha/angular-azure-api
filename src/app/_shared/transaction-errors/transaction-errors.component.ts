@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { HttpWrapperService, WebMethods } from 'src/app/_http';
 import { Utils } from 'src/app/_http/common/utils';
 import { BTResponses, InternalError, ResolutionHistory, TransactionErrors } from '../models/ITransactionErrors';
@@ -61,7 +61,8 @@ export class TransactionErrorsComponent implements OnInit {
   btResponse?: any[]; //BTResponses[];
   resolHistory?: any[]; //ResolutionHistory[];
   constructor(private service: TransactionErrorsService,
-    private http:HttpWrapperService) { }
+    private http:HttpWrapperService,
+    private cdr: ChangeDetectorRef,) { }
   @Input() telNo:string='';
   @Input() tranId:string='';
   @Input() repIdentifier:string ='';
@@ -80,7 +81,7 @@ export class TransactionErrorsComponent implements OnInit {
   }
   ngOnChanges()
   {
-    let request = Utils.prepareQueryRequest('TelephoneNumberTransactionError', this.repIdentifier, this.prepareQueryParams());
+    let request = Utils.prepareQueryRequest('TelephoneNumberTransactionError', 'SolicitedErrors', this.prepareQueryParams());
     this.service.queryDetails(request).subscribe((res:any)=>{
       console.log("Response = "+JSON.stringify(res));
       this.internalError = res[0].VodafoneError;
@@ -88,17 +89,25 @@ export class TransactionErrorsComponent implements OnInit {
       this.resolHistory = res[0].ResolutionHistory;
     });
   }
-  
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
   prepareQueryParams(): any {
     let attributes: any = [
       {
         "Name" : "TelephoneNumber",
-        //"Value" : [ "02071117488" ]
-        "Value" : [ this.telNo ]
+        "Value" : [ "02071117402" ]
+        // "Value" : [ this.telNo ]
       }, {
-        "Name" : this.repIdentifier==='SolicitedErrors'? "TransactionId": "TransactionReference",
-        //"Value" : [ "1010685080" ]
-        "Value" : [ this.tranId ]
+        // "Name" : this.repIdentifier==='SolicitedErrors'? "TransactionId": "TransactionReference",
+        // "Value" : [ this.tranId ]
+        "Name" : "TransactionId",
+        "Value" : [ "1010684994" ]
+       
       }];
     
     console.log(attributes);

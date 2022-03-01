@@ -149,8 +149,8 @@ export class SolicitederrorsComponent implements OnInit {
   myTable!: TableItem;
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
-  telNo?:any;
-  tranId?:any;
+  telNo?: any;
+  tranId?: any;
   repIdentifier = "SolicitedErrors";
 
 
@@ -202,6 +202,10 @@ export class SolicitederrorsComponent implements OnInit {
     return data ? data.split(',') : [];
   }
 
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
@@ -238,8 +242,8 @@ export class SolicitederrorsComponent implements OnInit {
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: '', disabled: true }, []),
-      ToDate: new FormControl({ value: '', disabled: true }, []),
+      FromDate: new FormControl({ value: ''}, []),
+      ToDate: new FormControl({ value: '' }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
@@ -331,6 +335,9 @@ export class SolicitederrorsComponent implements OnInit {
 
   newTab(tab: any) {
     if (this.tabs === []) return;
+
+    this.telNo = tab.row.TelephoneNumber;
+    this.tranId = tab.row.TransactionId;
     switch (tab.tabType) {
       case 1:
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
@@ -347,7 +354,6 @@ export class SolicitederrorsComponent implements OnInit {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
           let updtab = this.tabs.find(x => x.tabType == 1);
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
-
         }
 
         break;
@@ -362,8 +368,7 @@ export class SolicitederrorsComponent implements OnInit {
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionId;
+
         break;
       default:
         //statements; 

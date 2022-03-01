@@ -124,6 +124,9 @@
             <mat-label>Error Code</mat-label>
             <input formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
               [matAutocomplete]="auto" />
+              <span matSuffix mat-icon-button >
+                <mat-icon>arrow_drop_down</mat-icon>
+              </span>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option">
                 {{option}}

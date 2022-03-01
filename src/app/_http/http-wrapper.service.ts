@@ -6,6 +6,7 @@ import { ResponseType } from 'src/app/_http/enums/response-type.enum';
 import { HttpVerbs } from 'src/app/_http/enums/http-verbs.enum';
 import { WebMethods } from 'src/app/_http/enums/web-methods.enum';
 import { WMMessageType } from 'src/app/_http/enums/wmmessage-type.enum';
+import { WMStatusCode } from 'src/app/_http/enums/wmstatus-code.enum';
 import { Router } from '@angular/router';
 import { AlertService } from '../_shared/alert/alert.service';
 
@@ -29,7 +30,7 @@ export class HttpWrapperService {
 
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_live}${endPoint.toString()}`,
+                `${environment.api_test}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -270,11 +271,14 @@ export class HttpWrapperService {
         let status = false;
         switch (wmResponse.MessageType as WMMessageType) {
             case WMMessageType.Informational:
-                status = true;
+                if (wmResponse.StatusCode != "EUI100")
+                    status = true;
+                else
+                    this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
                 return status;
                 break;
             case WMMessageType.Error:
-                this.alertService.error(wmResponse.StatusCode + ":" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
+                this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
                 //this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 return status;
                 break;
