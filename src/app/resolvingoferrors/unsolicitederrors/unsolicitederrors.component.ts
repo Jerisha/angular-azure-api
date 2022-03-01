@@ -142,23 +142,23 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
-  
 
+  selectedGridRows: any[] = [];
   selectedTab!: number;
   thisForm!: FormGroup;
   tabs: Tab[] = [];
-  
+
 
   columns: ColumnDetails[] = [
-    { header: 'Telephone Number', headerValue: 'TelNo', showDefault: true, isImage: false },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Error Code', headerValue: 'ErrorCount', showDefault: true, isImage: false },
     { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Request Start Date', headerValue: 'RequestStart', showDefault: true, isImage: false },
-    { header: 'Request End Date', headerValue: 'RequestEnd', showDefault: true, isImage: false },
-    { header: 'Difference in Days', headerValue: 'Diff', showDefault: true, isImage: false },
+    { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
+    { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
+    { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
@@ -167,13 +167,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
-  updateResult$!: Observable<any>; 
+  updateResult$!: Observable<any>;
   configDetails!: any;
- fromDate:string='';
- toDate:string=';'
+  fromDate: string = '';
+  toDate: string = ';'
   selected: string = '';
 
-  constructor(private formBuilder: FormBuilder, 
+  constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef) { }
 
@@ -182,14 +182,14 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.createForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Source','ErrorType','Final','ResolutionType']);
+    let request = Utils.prepareConfigRequest(['Source', 'ErrorType', 'Final', 'ResolutionType']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-      
+
     });
 
-    
+
   }
 
   splitData(data: string | undefined): string[] {
@@ -208,10 +208,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   prepareQueryParams(): any {
     let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] },
-      {
-        Name: "999Reference"
-      }];
+      { Name: 'PageNumber', Value: ['1'] }];
+
+    const control = this.thisForm.get('Reference');
+    if (control?.value)
+      attributes.push({ Name: '999Reference', Value: [control?.value] });
+    else
+      attributes.push({ Name: '999Reference' });
 
 
     for (const field in this.thisForm?.controls) {
@@ -224,16 +227,17 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       }
     }
     console.log(attributes);
+
     return attributes;
 
   }
 
-  
+
   createForm() {
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
@@ -274,13 +278,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   onFormSubmit(): void {
 
-    let request = Utils.prepareQueryRequest('TelephoneNumberError','UnsolicitedErrors', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedErrors));
+    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
 
 
     // this.spinner.show();
     // setTimeout(()=>{/** spinner ends after 5 seconds */this.spinner.hide();},3000);
-    
+
 
     this.myTable = {
       data: this.queryResult$,
@@ -307,29 +311,25 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
 
   }
-  
+
 
   resetForm(): void { }
 
   rowDetect(item: any) {
     //debugger;
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
+    //this.selectedRowsCount = item.length;
+    if (item && item.length == 0) return
+    
+    
+    
+    if (!this.selectedGridRows.includes(item))
+    this.selectedGridRows.push(item)
+    else if (this.selectedGridRows.includes(item)) {
+    let index = this.selectedGridRows.indexOf(item);
+    this.selectedGridRows.splice(index, 1)
     }
-  }
-
+    console.log("selectedGridRows"+ JSON.stringify(this.selectedGridRows))
+    }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
@@ -371,9 +371,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  print(s: string) {
-    console.log(s);
-  }
+
 
 
   selChangeMultiple(matSelect: MatSelect) {
