@@ -113,15 +113,14 @@ const ELEMENT_DATA: UnSolicitedErrors[] = [
 ];
 
 const FilterListItems: Select[] = [
-  { view: 'Start Telephone No', viewValue: 'TelNoStart', default: true },
-  { view: 'End Telephone No', viewValue: 'TelNoEnd', default: true },
+  { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
-  { view: 'Error Description', viewValue: 'ErrorDescription', default: true },
+  { view: 'Error Type', viewValue: 'ErrorType', default: true },
   // { view: 'Date Range', viewValue: 'Date', default: true },
-  { view: 'Is Final', viewValue: 'IsFinal', default: true },
+  { view: 'Is Final', viewValue: 'Final', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  { view: '999 Reference', viewValue: 'Reference', default: true },
-  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
+  { view: '999 Reference', viewValue: 'Reference', default: true }
 
 
 ];
@@ -143,23 +142,12 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
-  errorCodesOptions!: Observable<any[]>;
-  errorCodeData: Select[] = [
-    { view: '101', viewValue: '101', default: true },
-    { view: '202', viewValue: '202', default: true },
-    { view: '303', viewValue: '303', default: true },
-  ];
+  
 
   selectedTab!: number;
   thisForm!: FormGroup;
   tabs: Tab[] = [];
-  //  {
-  //   tabType: 1,
-  //   name: 'Audit Trail Report'
-  // },{
-  //   tabType: 2,
-  //   name: 'Transaction Details'
-  // }
+  
 
   columns: ColumnDetails[] = [
     { header: 'Telephone Number', headerValue: 'TelNo', showDefault: true, isImage: false },
@@ -177,8 +165,12 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   ];
 
 
-  configResult$!: Observable<any>;
   queryResult$!: Observable<any>;
+  configResult$!: Observable<any>;
+  updateResult$!: Observable<any>; 
+  configDetails!: any;
+ fromDate:string='';
+ toDate:string=';'
   selected: string = '';
 
   constructor(private formBuilder: FormBuilder, 
@@ -189,14 +181,19 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.createForm();
-    let request = Utils.prepareConfigRequest(['Source', 'ErrorType', 'ResolutionType']);
-    this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
-    this.setOptions();
+    debugger;
+    let request = Utils.prepareConfigRequest(['Source','ErrorType','Final','ResolutionType']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      //console.log("res: " + JSON.stringify(res))
+      this.configDetails = res[0];
+      
+    });
 
+    
   }
 
-  splitData(data: string): string[] {
-    return data.split(',');
+  splitData(data: string | undefined): string[] {
+    return data ? data.split(',') : [];
   }
   ngAfterViewInit() {
     //this.cdr.detectChanges();
@@ -205,13 +202,15 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   // ngAfterViewChecked() {
   //   this.cdr.detectChanges();
   // }
+  get f() {
+    return this.thisForm.controls;
+  }
 
   prepareQueryParams(): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: ['1'] },
-      { Name: "TelephoneNumber" },
       {
-        Name: "TransactionReference"
+        Name: "999Reference"
       }];
 
 
@@ -225,24 +224,24 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       }
     }
     console.log(attributes);
-
     return attributes;
 
   }
 
+  
   createForm() {
 
     this.thisForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
-      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
-      ErrorDescription: new FormControl({ value: '', disabled: true }, []),
-      IsFinal: new FormControl({ value: '', disabled: true }, []),
+      ErrorType: new FormControl({ value: '', disabled: true }, []),
+      Final: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
-      OrderReference: new FormControl({ value: '', disabled: true }, []),
-
+      FromDate: new FormControl({ value: '', disabled: true }, []),
+      ToDate: new FormControl({ value: '', disabled: true }, [])
 
     })
 
@@ -275,7 +274,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   onFormSubmit(): void {
 
-    let request = Utils.prepareQueryRequest('TelephoneNumberTransactionError','UnsolicitedErrors', this.prepareQueryParams());
+    let request = Utils.prepareQueryRequest('TelephoneNumberError','UnsolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedErrors));
 
 
@@ -308,13 +307,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
 
   }
-  private _filter(name: string): any[] {
-    const filterValue = name.toLowerCase();
-    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-    // return filteredList;
-    let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
-    return filteredList;
-  }
+  
 
   resetForm(): void { }
 
