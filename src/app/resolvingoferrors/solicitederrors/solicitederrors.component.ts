@@ -161,7 +161,6 @@ export class SolicitederrorsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   columns: ColumnDetails[] = [
-
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
@@ -206,13 +205,15 @@ export class SolicitederrorsComponent implements OnInit {
 
   prepareQueryParams(): any {
     let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] },
-      {
-        Name: "999Reference"
-      }];
+      { Name: 'PageNumber', Value: ['1'] }];
 
+    const control = this.thisForm.get('Reference');
+    if (control?.value)
+      attributes.push({ Name: '999Reference', Value: [control?.value] });
+    else
+      attributes.push({ Name: '999Reference' });
 
-    for (const field in this.thisForm?.controls) {
+    for (const field in this.f) {
       const control = this.thisForm.get(field);
       if (field != 'Reference') {
         if (control?.value)
@@ -310,14 +311,14 @@ export class SolicitederrorsComponent implements OnInit {
   rowDetect(item: any) {
     //debugger;
     this.selectedRowsCount = item.length;
-    if(item && item.length == 0) return
-   
-      if (!this.selectedGridRows.includes(item))
-        this.selectedGridRows.push(item)
-      else if (this.selectedGridRows.includes(item)) {
-        let index = this.selectedGridRows.indexOf(item);
-        this.selectedGridRows.splice(index, 1)
-      }
+    if (item && item.length == 0) return
+
+    if (!this.selectedGridRows.includes(item))
+      this.selectedGridRows.push(item)
+    else if (this.selectedGridRows.includes(item)) {
+      let index = this.selectedGridRows.indexOf(item);
+      this.selectedGridRows.splice(index, 1)
+    }
     //console.log("selectedGridRows"+ JSON.stringify(this.selectedGridRows))
   }
 
