@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BTResponses, InternalError, ResolutionHistory, TransactionErrors } from '../models/ITransactionErrors';
 
 const ele: TransactionErrors = {
@@ -26,12 +26,16 @@ export class TransactionErrorsComponent implements OnInit {
   btResponse?: BTResponses[];
   resolHistory?: ResolutionHistory[];
   constructor() { }
+  @Input() telNo:string='';
+  @Input() tranId:string='';
+  
 
   ngOnInit(): void {
     this.internalError = ele.InternalError;
     this.btResponse = ele.BTResponse;
     this.resolHistory = ele.ResolHistory
   }
-  
+  ngOnChanges()
+  {}
 
 }

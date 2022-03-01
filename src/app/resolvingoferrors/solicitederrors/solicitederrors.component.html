@@ -23,9 +23,9 @@
         <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
-            <input formControlName="StartTelephoneNumber" matInput #input maxlength="11"
-              placeholder="Start Telephone No">
-            <mat-hint align="end">{{input.value?.length || 0}}/11</mat-hint>
+            <input formControlName="StartTelephoneNumber" matInput #starttelno maxlength="11"
+              placeholder="Start Telephone No" autocomplete="off">
+            <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
                 <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
@@ -34,10 +34,17 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field hintLabel="Max 10 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
+          <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
-            <input formControlName="EndTelephoneNumber" matInput #input placeholder="End Telephone No">
-            <mat-hint align="end">{{input.value?.length || 0}}/11</mat-hint>
+            <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" 
+            placeholder="End Telephone No" autocomplete="off">
+            <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
+            <mat-error>
+              <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
+                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+              </div>
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">

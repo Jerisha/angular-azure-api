@@ -289,11 +289,11 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   resetForm(): void {
-    this._snackBar.open('Reset Form Completed!', 'Close', {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
+    // this._snackBar.open('Reset Form Completed!', 'Close', {
+    //   duration: 5000,
+    //   horizontalPosition: this.horizontalPosition,
+    //   verticalPosition: this.verticalPosition,
+    // });
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -311,7 +311,6 @@ export class SolicitederrorsComponent implements OnInit {
     //debugger;
     this.selectedRowsCount = item.length;
     if(item && item.length == 0) return
-
    
       if (!this.selectedGridRows.includes(item))
         this.selectedGridRows.push(item)
@@ -319,12 +318,7 @@ export class SolicitederrorsComponent implements OnInit {
         let index = this.selectedGridRows.indexOf(item);
         this.selectedGridRows.splice(index, 1)
       }
-
-
-
-    console.log("selectedGridRows"+ JSON.stringify(this.selectedGridRows))
-  
-
+    //console.log("selectedGridRows"+ JSON.stringify(this.selectedGridRows))
   }
 
   removeTab(index: number) {
