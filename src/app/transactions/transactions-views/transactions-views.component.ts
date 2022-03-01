@@ -244,7 +244,7 @@ SearchTel(){
   }
   ValidateTelno(telno:string){
     
-    let regNumberOnly = new RegExp("^[0-9 ]*$"); 
+    let regNumberOnly = new RegExp("^[0-9]*$"); 
 
     if(!(telno.length==0))
    {
