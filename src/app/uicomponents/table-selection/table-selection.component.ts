@@ -57,7 +57,8 @@ export class TableSelectionComponent {
   totalRowCols: string[] = [];
   nonNumericCols: string[] = [];
 
-  constructor(private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService) {
+  constructor(private cdr: ChangeDetectorRef,
+     private spinner: NgxSpinnerService) {
 
   }
   dataObs$!: Observable<any>
@@ -169,7 +170,7 @@ export class TableSelectionComponent {
       this.dataSource.data = this.dataSource.data.concat(row);
       // this.highlightCellb(false)
     }
-    this.rowChanges.emit([row[this.selectColumn]]);
+    this.rowChanges.emit(row);
   }
 
 
