@@ -95,6 +95,11 @@ table td, table th {
 }
 
 
+/* .my-class{
+  width: 100px!important;
+  min-width: 20px!important;
+} */
+
   /* .mat-row:nth-child(odd){
     background-color: #dee2e6;
   } */

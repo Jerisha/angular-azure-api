@@ -28,6 +28,7 @@ import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-di
   imports: [
     CommonModule,
     AuditreportsRoutingModule,
+    
     UicomponentsModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     FormsModule,

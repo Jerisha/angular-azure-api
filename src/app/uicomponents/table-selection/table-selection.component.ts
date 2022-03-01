@@ -72,8 +72,8 @@ export class TableSelectionComponent {
     this.dataObs$.subscribe(
       (res: any) => {
         this.dataSource = new MatTableDataSource<any>(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
         this.spinner.hide()
       },
       error => { this.spinner.hide(); },
@@ -124,8 +124,8 @@ export class TableSelectionComponent {
   }
 
   ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    //     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     this.toggleAllSelection();
     this.cdr.detectChanges();
   }

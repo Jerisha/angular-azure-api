@@ -83,6 +83,19 @@
         "route": "statisticalreports/transactionsourcecommandhistory"
       }   
     ]
+  },
+
+  {
+    "displayName": "Administration",
+    "iconName": "",
+    "route": "",
+    "children": [
+      {
+        "displayName": "Audit Data Files",
+        "iconName": "",
+        "route": "administration/auditdatafiles"
+      }
+    ]
   }
     
 ]

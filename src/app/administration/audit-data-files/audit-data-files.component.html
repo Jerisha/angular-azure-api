@@ -1,0 +1,41 @@
+
+
+<div class="center mat-elevation-z3">
+    <div class="header">
+    <mat-button-toggle-group name="files" aria-label="Files" multiple (change)="getFileDetails($event)">
+        <mat-button-toggle value="BTAuditFileDetails">BT Audit File Details</mat-button-toggle>
+        <mat-button-toggle value="DataLiveinSwitchOnly">Data - Live in Switch Only</mat-button-toggle>
+    </mat-button-toggle-group>
+</div>
+ 
+    <!-- <ng-container *ngIf="showDetails">
+        <app-table-selection [tableitem]="btAuditFileDetailsTable">
+        </app-table-selection>
+    </ng-container> -->
+
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+        <mat-tab *ngFor="let tab of tabs; let index = index">
+            <ng-template mat-tab-label>
+                <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+                <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button>
+                                     <!-- (click)="removeTab(index)"> -->
+                    <mat-icon style="font-size: large;">close</mat-icon>
+                </button>
+            </ng-template>
+            <span [ngSwitch]="tab.tabType">
+                <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+                    <app-table-selection [tableitem]="btAuditFileDetailsTable">
+                    </app-table-selection>                                            
+                    </div>               
+                
+                <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+                    <app-table-selection [tableitem]="btAuditFileDetailsTable">
+                    </app-table-selection>
+                </div>
+                <div *ngSwitchDefault>
+                </div>
+            </span>
+        </mat-tab>
+    </mat-tab-group>
+
+</div>

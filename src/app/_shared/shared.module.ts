@@ -8,6 +8,8 @@ import { AlertComponent } from './alert/alert.component';
 
 import { TransactionErrorsComponent } from './transaction-errors/transaction-errors.component';
 import { StartUpComponent } from './start-up/start-up.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomMatPaginatorIntl } from './custom-matpaginator-Intl';
 
 @NgModule({
   declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent,AlertComponent],
@@ -23,7 +25,8 @@ import { StartUpComponent } from './start-up/start-up.component';
     StartUpComponent,
     MaterialModule,
     AlertComponent
-  ]  
+  ],
+ 
 
 })
 export class SharedModule { }

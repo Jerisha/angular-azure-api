@@ -12,6 +12,11 @@ const routes: Routes = [
     
   },
   {
+    path: 'administration',
+    loadChildren: () => import('./administration/administration.module').then(x => x.AdministrationModule),
+    
+  },
+  {
     path: 'resolvingoferrors',
     loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule),
     
@@ -41,6 +46,7 @@ const routes: Routes = [
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
     
     },
+    
     
 
 ];

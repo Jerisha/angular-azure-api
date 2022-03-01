@@ -1,0 +1,26 @@
+/* :host{
+  padding: 0em;
+}
+
+:host::ng-deep app-table-selection .table-container {  
+  
+  width:auto;
+} */
+
+.center {
+    margin: auto;
+    width: 80%;
+   /* // border: 3px solid green; */
+    padding: 10px;
+    /* height:450px */
+  }
+
+  .header{
+    margin: auto;
+    width: 100%;
+   /* // border: 3px solid green; */
+    padding: 10px;
+    /* height:450px */
+
+
+  }
