@@ -9,8 +9,8 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
-
-
+import { Utils } from 'src/app/_http/index';
+import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -177,17 +177,26 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   ];
 
 
-
+  configResult$!: Observable<any>;
+  queryResult$!: Observable<any>;
   selected: string = '';
 
-  constructor(private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
+  constructor(private formBuilder: FormBuilder, 
+    private service: ResolvingOfErrorsService,
+    private cdr: ChangeDetectorRef) { }
 
 
 
   ngOnInit(): void {
     this.createForm();
+    let request = Utils.prepareConfigRequest(['Source', 'ErrorType', 'ResolutionType']);
+    this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
     this.setOptions();
 
+  }
+
+  splitData(data: string): string[] {
+    return data.split(',');
   }
   ngAfterViewInit() {
     //this.cdr.detectChanges();
@@ -196,6 +205,31 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   // ngAfterViewChecked() {
   //   this.cdr.detectChanges();
   // }
+
+  prepareQueryParams(): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: ['1'] },
+      { Name: "TelephoneNumber" },
+      {
+        Name: "TransactionReference"
+      }];
+
+
+    for (const field in this.thisForm?.controls) {
+      const control = this.thisForm.get(field);
+      if (field != 'Reference') {
+        if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+      }
+    }
+    console.log(attributes);
+
+    return attributes;
+
+  }
+
   createForm() {
 
     this.thisForm = this.formBuilder.group({
@@ -240,8 +274,17 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   }
 
   onFormSubmit(): void {
+
+    let request = Utils.prepareQueryRequest('TelephoneNumberTransactionError','UnsolicitedErrors', this.prepareQueryParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedErrors));
+
+
+    // this.spinner.show();
+    // setTimeout(()=>{/** spinner ends after 5 seconds */this.spinner.hide();},3000);
+    
+
     this.myTable = {
-      data: ELEMENT_DATA,
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,

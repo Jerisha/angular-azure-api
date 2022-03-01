@@ -28,7 +28,8 @@
         <mat-form-field  [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
           <mat-label>Source</mat-label>
           <mat-select formControlName="Source">
-            <mat-option></mat-option>
+            <mat-option *ngFor="let val of splitData(config.Source)" [value]="val">{{val}}</mat-option>
+            <!-- <mat-option></mat-option>
             <mat-option>AUDIT</mat-option>
             <mat-option>SAS/COMS</mat-option>
             <mat-option>DVA Siebel</mat-option>
@@ -38,7 +39,7 @@
             <mat-option>ONENET</mat-option>
             <mat-option>Clarify</mat-option>
             <mat-option>Amdocs SOM</mat-option>
-            <mat-option>Unknown</mat-option>
+            <mat-option>Unknown</mat-option> -->
           </mat-select>
           <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
@@ -48,14 +49,15 @@
           <mat-label>Error Description</mat-label>
           <!-- <input formControlName="ErrorDescription" matInput #input maxlength="10" placeholder="Error Description"> -->
           <mat-select formControlName="ErrorDescription">
-            <mat-option></mat-option>
+            <mat-option *ngFor="let val of splitData(config.Source)" [value]="val">{{val}}</mat-option>
+            <!-- <mat-option></mat-option>
             <mat-option>Import Record is Missing.</mat-option>
             <mat-option>Import is 10 days overdue.</mat-option> 
             <mat-option>Export Record is Missing.</mat-option>   
             <mat-option>Export is 10 days overdue</mat-option> 
             <mat-option>Invalid Request from RingCentral</mat-option> 
             <mat-option>Invalid Request from RingCentral - Missing Customer Name</mat-option>  
-            <mat-option>Invalid Data Updates recieved from RingCentral</mat-option>     
+            <mat-option>Invalid Data Updates recieved from RingCentral</mat-option>      -->
           </mat-select>
         </mat-form-field>
 
@@ -83,13 +85,14 @@
         <mat-form-field [ngClass]="{'hidden':thisForm.controls.ResolutionType.disabled}">
           <mat-label>Resolution Type</mat-label>
           <mat-select formControlName="ResolutionType">
-            <mat-option></mat-option>
+            <mat-option *ngFor="let val of splitData(config.ResolutionType)" [value]="val">{{val}}</mat-option>
+            <!-- <mat-option></mat-option>
             <mat-option>New</mat-option>
             <mat-option>Under Investigation</mat-option>
             <mat-option>Under Governance</mat-option>
             <mat-option>Under Governance</mat-option>
-            <mat-option>Port Req Complete</mat-option>
-          </mat-select>
+            <mat-option>Port Req Complete</mat-option> -->
+            </mat-select>
           <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
         </mat-form-field>
         
