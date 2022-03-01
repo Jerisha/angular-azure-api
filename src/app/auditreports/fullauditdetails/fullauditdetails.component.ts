@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from '../models/index';
 import { Select } from 'src/app/uicomponents/models/select';
@@ -440,7 +440,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   onFormSubmit(): void {
     this.myTable = {
-      data: ELEMENT_DATA,
+      data: of(ELEMENT_DATA),
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
@@ -633,7 +633,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   monthlyRefreshReportInit() {
     this.monthlyRefreshRptTable
       = {
-      data: ELEMENT_DATA4,
+      data: of(ELEMENT_DATA4),
       Columns: this.monthlyRefreshReportTableDetails,
       selectCheckbox:true,
       filter: true
@@ -642,7 +642,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   rangeReportInit() {
     this.rangeRptTable = {
-      data: ELEMENT_DATA1,
+      data: of(ELEMENT_DATA1),
       Columns: this.rangeReportTableDetails,
       selectCheckbox: true,
       filter: true
@@ -651,7 +651,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   moriCircuitStatusReportInit() {
     this.moriCircuitRptTable = {
-      data: ELEMENT_DATA3,
+      data: of(ELEMENT_DATA3),
       Columns: this.moriCicuitTableDetails,
       filter: true,
       selectCheckbox:true,
@@ -661,7 +661,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   inflightReportInit() {
     this.inflightRptTable = {
-      data: ELEMENT_DATA2,
+      data: of(ELEMENT_DATA2),
       Columns: this.inflightTableDetails,
       selectCheckbox:true,
       filter: true
