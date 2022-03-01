@@ -149,6 +149,9 @@ export class SolicitederrorsComponent implements OnInit {
   myTable!: TableItem;
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
+  telNo?:any;
+  tranId?:any;
+  repIdentifier = "SolicitedErrors";
 
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -359,6 +362,8 @@ export class SolicitederrorsComponent implements OnInit {
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         break;
       default:
         //statements; 
