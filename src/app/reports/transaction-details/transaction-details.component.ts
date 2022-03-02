@@ -14,7 +14,6 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http/common/utils';
 import { NgxSpinnerService } from 'ngx-spinner';
 
-
 const HEADER_DATA: ITransactionDetails[] = [
   {
 Links:'Links',
@@ -262,6 +261,10 @@ export class TransactionDetailsComponent implements OnInit {
     this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
     this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
       }
+  
+      get f() {
+        return this.thisForm.controls;
+      }  // check
 
   setOptions() {         
     //this.service.configDetails(queryInput);
@@ -712,7 +715,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   OnOperatorClicked(event:any)
   {
-    if (event.target.value !="")
+    // if (event.target.value !="")
     console.log("operators event",event);
 
   }
@@ -909,8 +912,8 @@ export class TransactionDetailsComponent implements OnInit {
           {
             attributes.push({ Name: field, Value: [control?.value] });
             let operator:string = field+"Operator"
-            //attributes.push({ Name: operator, Value: ['Equal To'] });  
-            attributes.push({ Name: operator, Value: ['Contains'] });   
+            attributes.push({ Name: operator, Value: ['Equal To'] });  
+            //attributes.push({ Name: operator, Value: ['Contains'] });   
           }
     }
       // console.log(attributes);
