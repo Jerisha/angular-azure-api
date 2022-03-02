@@ -3,7 +3,7 @@
     <ng-container [ngTemplateOutlet]="noRecordsMessage"
         [ngTemplateOutletContext]="{ $implicit : tran.VodafoneError != null ? 'Internal Error ' : 'No Records for Internal Error'}">
     </ng-container>
-</div>
+</div> 
 
 <ng-template #noRecordsMessage let-data>
     {{data}}

@@ -37,7 +37,7 @@ export class TableComponent implements OnInit {
     name: 'Summary'
   }
   ];
-  constructor() { }
+  constructor( private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     console.log(this.tableitem);
@@ -51,8 +51,12 @@ export class TableComponent implements OnInit {
     //this.columnHeaders = this.tableitem?.coulmnHeaders;
     
   }
-  ngAfterInit(): void {
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
   
 //   selectRow(event: any, row: any) {

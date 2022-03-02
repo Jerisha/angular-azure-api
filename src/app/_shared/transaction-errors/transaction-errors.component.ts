@@ -231,17 +231,18 @@ export class TransactionErrorsComponent implements OnInit {
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-  
   prepareQueryParams(): any {
     let attributes: any = [
       {
         "Name" : "TelephoneNumber",
-        //"Value" : [ "02071117488" ]
+        //"Value" : [ "01213004534" ]
         "Value" : [ this.telNo ]
       }, {
         "Name" : this.repIdentifier==='SolicitedErrors'? "TransactionId": "TransactionReference",
-        //"Value" : [ "1010685080" ]
         "Value" : [ this.tranId ]
+        // "Name" : "TransactionId",
+        // "Value" : [ "1013164478" ]
+       
       }];
     
     console.log(attributes);
