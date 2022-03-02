@@ -94,6 +94,7 @@ const FilterListItems: Select[] = [
 })
 export class TransactionDetailsComponent implements OnInit {
   
+  
   constructor(
     private formBuilder: FormBuilder, 
     private service: TransactionDetailsService, 
@@ -104,9 +105,26 @@ export class TransactionDetailsComponent implements OnInit {
   myTable!: TableItem;
   dataSaved = false;
   massage = null;
-  selectListItems: string[] = [];
+  // selectListItems: string[] = [];
+  selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;  
   expressions:any = [expNumeric,expString,expDate];
+  expOperators:string [] =[
+    "StartTelephoneNumberOperator",
+    "CustomerNameOperator",
+    "CreationDateOperator",
+    "PostcodeOperator",
+    "PremisesOperator",
+    "ThoroughfareOperator",
+    "LocalityOperator",
+    "SourceOperator",
+    "CupidOperator",
+    "FranchiseOperator",
+    "TransactionCommandOperator",
+    "TypeOfLineOperator",
+  ];
+  expOperatorsKeyPair:[string,string][] =[];
+  
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -139,8 +157,8 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Line Type',headerValue:'LineType', showDefault: true, isImage: false },
     { header: 'Created By',headerValue:'CreatedBy', showDefault: true, isImage: false },
     { header: 'Tran Cmd',headerValue:'TransactionCommand', showDefault: true, isImage: false },
-    { header: 'BT Cmd',headerValue:'BtCommand', showDefault: true, isImage: false },  //value not come
-    { header: 'Cust Title',headerValue:'CustomerTitle', showDefault: true, isImage: false },  //value not come
+    { header: 'BT Cmd',headerValue:'BtCommand', showDefault: true, isImage: false },  
+    { header: 'Cust Title',headerValue:'CustomerTitle', showDefault: true, isImage: false },  
     { header: 'Cust Forename',headerValue:'CustomerForename', showDefault: true, isImage: false },
     { header: 'Cust Name',headerValue:'CustomerName', showDefault: true, isImage: false },
     { header: 'Bussiness Suffix',headerValue:'BusinessSuffix', showDefault: true, isImage: false },
@@ -163,15 +181,15 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Cust Name Full',headerValue:'CustomerNameFull', showDefault: true, isImage: false },
     { header: 'Cust Name Compact',headerValue:'CustomerNameCompact', showDefault: true, isImage: false },
     { header: 'Reference',headerValue:'Reference', showDefault: true, isImage: false },
-    { header: 'Callback',headerValue:'Callback', showDefault: true, isImage: false }, // never populate need to check,api not returns
+   // { header: 'Callback',headerValue:'Callback', showDefault: true, isImage: false }, // never populate need to check,api not returns
     { header: 'Order Ref.',headerValue:'OrderReference', showDefault: true, isImage: false },
-    { header: 'Sar Ref Num',headerValue:'SarReferenceNumber', showDefault: true, isImage: false },
-    { header: 'Sar Trans Num',headerValue:'SarTransactionNumber', showDefault: true, isImage: false },
+    { header: 'Sar Ref Num',headerValue:'SarReferenceNumber', showDefault: true, isImage: false }, //need to check with millan
+    { header: 'Sar Trans Num',headerValue:'SarTransactionNumber', showDefault: true, isImage: false }, //need to check with millan
     { header: 'Comment',headerValue:'Comment', showDefault: true, isImage: false },
-    { header: 'Conn. Type',headerValue:'Conn.Type', showDefault: true, isImage: false }, // never populate need to check; wire frame field na,api not returns
+    //{ header: 'Conn. Type',headerValue:'Conn.Type', showDefault: true, isImage: false }, // never populate need to check; wire frame field na,api not returns
     { header: 'Type of Line',headerValue:'TypeOfLine', showDefault: true, isImage: false }, //wire frame field na
     { header: 'Service Type',headerValue:'ServiceType', showDefault: true, isImage: false }, //wire frame field na
-    { header: 'Access Method',headerValue:'AccessMethod', showDefault: true, isImage: false }, // never populate need to check wire frame field na,api not returns
+    //{ header: 'Access Method',headerValue:'AccessMethod', showDefault: true, isImage: false }, // never populate need to check wire frame field na,api not returns
     { header: 'Internal Errors',headerValue:'InternalErrors', showDefault: true, isImage: false },//wire frame field na
     { header: 'BT Responses',headerValue:'BtResponses', showDefault: true, isImage: false }, //wire frame field na
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
@@ -205,7 +223,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.required ]), //Validators.pattern("^[0-9]{11}$")
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{11}$")]), 
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true },[]),
       Postcode: new FormControl({ value: '', disabled: true }, []),
@@ -231,6 +249,18 @@ export class TransactionDetailsComponent implements OnInit {
       // TransactionCommandOperator: new FormControl({ value: '', disabled: true }, []),    
       // TypeOfLineOperator: new FormControl({ value: '', disabled: true }, []),
     })
+    this.expOperatorsKeyPair.push(["StartTelephoneNumberOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["CustomerNameOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["CreationDateOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["PostcodeOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["PremisesOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["ThoroughfareOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["LocalityOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["CupidOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["FranchiseOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
       }
 
   setOptions() {         
@@ -680,6 +710,13 @@ export class TransactionDetailsComponent implements OnInit {
     ];
   }
 
+  OnOperatorClicked(event:any)
+  {
+    if (event.target.value !="")
+    console.log("operators event",event);
+
+  }
+
   prepareQueryParams(): any {
 
     // let attributes: any =[ {
@@ -873,7 +910,7 @@ export class TransactionDetailsComponent implements OnInit {
             attributes.push({ Name: field, Value: [control?.value] });
             let operator:string = field+"Operator"
             //attributes.push({ Name: operator, Value: ['Equal To'] });  
-            attributes.push({ Name: operator, Value: ['Equal To'] });   
+            attributes.push({ Name: operator, Value: ['Contains'] });   
           }
     }
       // console.log(attributes);
@@ -922,14 +959,14 @@ export class TransactionDetailsComponent implements OnInit {
 
    }
   resetForm(): void {   
-    // this.thisForm.reset();
-    // this.tabs.splice(0);
-    this._snackBar.open('Report Reset Completed!', 'Close', {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
+    this.thisForm.reset();
+    this.tabs.splice(0);
+    // this._snackBar.open('Report Reset Completed!', 'Close', {
+    //   duration: 5000,
+    //   horizontalPosition: this.horizontalPosition,
+    //   verticalPosition: this.verticalPosition,
     
-    });
+    // });
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -943,23 +980,35 @@ export class TransactionDetailsComponent implements OnInit {
     });
   }
 
-  rowDetect(item: any) {    
+  rowDetect(item: any) {   
+    
+    
     this.selectedRowsCount = item.length;
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
-    }
+    if(item && item.length == 0) return
+   
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+      
+    // this.selectedRowsCount = item.length;
+    // if (item.length == 0) {
+    //   this.selectListItems = [];
+    // } else {
+    //   item.forEach((el: string) => {
+    //     if (!this.selectListItems.includes(el)) {
+    //       this.selectListItems.push(el)
+    //     }
+    //     else {
+    //       if (this.selectListItems.includes(el)) {
+    //         let index = this.selectListItems.indexOf(el);
+    //         this.selectListItems.splice(index, 1)
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   removeTab(index: number) {
@@ -978,7 +1027,11 @@ export class TransactionDetailsComponent implements OnInit {
         // }
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
       } else {
-      this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
+
+        let tabIndex:number =this.tabs.findIndex(x => x.tabType == 1);
+        this.tabs[tabIndex].name ='Audit Trail Report(' + tab.row.TelephoneNumber + ')';
+
+      this.selectedTab = tabIndex ;
       }
         break;
       }
@@ -990,7 +1043,8 @@ export class TransactionDetailsComponent implements OnInit {
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
         } else {
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
+          let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
+          //this.tabs[tabIndex].name ='Transaction Errors(' + tab.row.TranId + ')';       
         }
         break;
       }
