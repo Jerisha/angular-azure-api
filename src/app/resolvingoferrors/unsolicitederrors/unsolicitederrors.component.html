@@ -12,7 +12,7 @@
         <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
-            <input formControlName="StartTelephoneNumber" matInput #starttelno maxlength="11"
+            <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)" (blur)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput #starttelno maxlength="11"
               placeholder="Start Telephone No" autocomplete="off">
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
@@ -25,7 +25,8 @@
 
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
-            <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
+            <input formControlName="EndTelephoneNumber"  (keypress)="numberOnly($event)" (blur)="addPrefix('EndTelephoneNumber',endtelno.value)"
+             matInput #endtelno maxlength="11" placeholder="End Telephone No"
               autocomplete="off">
             <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
             <mat-error>

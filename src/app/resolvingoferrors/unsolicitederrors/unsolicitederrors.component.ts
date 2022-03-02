@@ -201,6 +201,21 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  addPrefix(control: string, value: any) {    
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    this.thisForm.controls[control].setValue(value);
+  }
+  
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
