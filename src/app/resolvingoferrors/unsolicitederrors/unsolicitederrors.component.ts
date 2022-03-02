@@ -146,6 +146,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   selectedGridRows: any[] = [];
   selectedTab!: number;
   thisForm!: FormGroup;
+  thisUpdateForm! : FormGroup;
   tabs: Tab[] = [];
 
 
@@ -159,7 +160,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
     { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
-    { header: '999 Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
@@ -183,6 +184,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.UpdateForm();
     debugger;
     let request = Utils.prepareConfigRequest(['Source', 'ErrorType', 'Final', 'ResolutionType']);
     this.service.configDetails(request).subscribe((res: any) => {
@@ -227,26 +229,42 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     let attributes: any = [];
     const startTelephoneNumber = this.thisForm.get('StartTelephoneNumber');
     const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
-    
+    const resolutionType = this.thisUpdateForm.get('ResolutionType');
+    const reference = this.thisUpdateForm.get('Reference');
+    const remarks = this.thisUpdateForm.get('Remarks');
 
     if (startTelephoneNumber?.value)
-      attributes.push({ Name: 'TelephoneNumberStart', Value: this.thisForm.get('StartTelephoneNumber') });
+      attributes.push({ Name: 'TelephoneNumberStart', Value: startTelephoneNumber.value });
     else
       attributes.push({ Name: 'TelephoneNumberStart' });
 
     if (endTelephoneNumber?.value)
-      attributes.push({ Name: 'TelephoneNumberEnd', Value: this.thisForm.get('EndTelephoneNumber') });
+      attributes.push({ Name: 'TelephoneNumberEnd', Value: endTelephoneNumber.value });
     else
-      attributes.push({ Name: 'TelephoneNumberEnd' }); 
-    
-      let transId: string[]=[];
-      this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
-      attributes.push({ Name: 'TransactionReference', Value: transId }); 
-    
+      attributes.push({ Name: 'TelephoneNumberEnd' });
+
+    let transId: string[] = [];
+    this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
+    attributes.push({ Name: 'TransactionReference', Value: transId });
+
+    if (resolutionType?.value)
+      attributes.push({ Name: 'ResolutionType', Value: resolutionType.value });
+    else
+      attributes.push({ Name: 'ResolutionType' });
+    if (remarks?.value)
+      attributes.push({ Name: 'Remarks', Value: remarks.value });
+    else
+      attributes.push({ Name: 'Remarks' });
+    if (reference?.value)
+      attributes.push({ Name: '999Reference', Value: reference.value });
+    else
+      attributes.push({ Name: '999Reference' });
+
     console.log(attributes);
 
     return attributes;
   }
+
   prepareQueryParams(): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: ['1'] }];
@@ -291,8 +309,19 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     })
 
   }
+  
+  UpdateForm() {
 
-  Update()
+    this.thisUpdateForm = this.formBuilder.group({
+      Resolution: new FormControl({ value: ''}),
+      Remarks: new FormControl({ value: ''}),
+      Ref: new FormControl({ value: '' })
+     })
+
+  }
+    
+
+  onSaveSubmit()
   {
     let request = Utils.prepareQueryRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
