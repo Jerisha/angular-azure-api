@@ -164,29 +164,17 @@ export class SolicitederrorsComponent implements OnInit {
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
-  columns: ColumnDetails[] = [
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
-  ];
+  saveForm!: FormGroup;
+
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
 
-  // starttelno:any
   ngOnInit(): void {
     this.createForm();
-
+    //this.createSaveForm();
     debugger;
     let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     //this.service.configTest(request);
@@ -194,7 +182,7 @@ export class SolicitederrorsComponent implements OnInit {
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-     // this.errorCodeData = this.splitData(res[0]?.ErrorCode)      
+
     });
 
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
@@ -237,15 +225,22 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
 
+  createSaveForm() {
+    this.saveForm = this.formBuilder.group({
+      Resolution: new FormControl({ value: '' }, []),
+      Ref: new FormControl({ value: '' }, []),
+      Remark: new FormControl({ value: '' }, [])
+    })
 
+  }
   createForm() {
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: ''}, []),
-      ToDate: new FormControl({ value: '' }, []),
+      FromDate: new FormControl({}, []),
+      ToDate: new FormControl({}, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
@@ -253,32 +248,40 @@ export class SolicitederrorsComponent implements OnInit {
       OrderReference: new FormControl({ value: '', disabled: true }, [])
 
     })
-    
-    // this.errorCodesOptions = this.thisForm.controls.ErrorCode.valueChanges
-    //   .pipe(
-    //     startWith<string>(''),
-    //     map(name => this._filter(name))
-    //   );
+
+
   }
 
   get f() {
     return this.thisForm.controls;
   }
 
-  // private _filter(name: string): any[] {
-
-
-  //   const filterValue = name.toLowerCase();
-  //   // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-  //   // return filteredList;
-  //   let filteredList = this.errorCodeData.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-  //   return filteredList;
+  // get s() {
+  //   return this.saveForm.controls;
   // }
+
+
+
+  columns: ColumnDetails[] = [
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
+    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
+  ];
 
   onFormSubmit(): void {
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
+    // this.createSaveForm();
+
 
     this.myTable = {
       data: this.queryResult$,
@@ -298,6 +301,12 @@ export class SolicitederrorsComponent implements OnInit {
     }
 
 
+  }
+
+  onSaveSubmit(): void {
+    console.log('save button function')
+    // let request =''
+    // this.updateResult$ = this.service.updateDetails(request);
   }
 
   resetForm(): void {
