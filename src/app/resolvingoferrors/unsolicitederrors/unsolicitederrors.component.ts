@@ -172,8 +172,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-  fromDate: string = '';
-  toDate: string = ';'
+
   selected: string = '';
 
   constructor(private formBuilder: FormBuilder,
@@ -274,11 +273,22 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
+    //FromDate
+    const fromDate = this.thisForm.get('FromDate');
+    if (fromDate?.value.value)
+      attributes.push({ Name: 'FromDate', Value: [fromDate?.value.value] });
+    else
+      attributes.push({ Name: 'FromDate' });
+    //ToDate
+    const toDate = this.thisForm.get('ToDate');
+    if (toDate?.value.value)
+      attributes.push({ Name: 'ToDate', Value: [toDate?.value.value] });
+    else
+      attributes.push({ Name: 'ToDate' });
 
-
-    for (const field in this.thisForm?.controls) {
+    for (const field in this.f) {
       const control = this.thisForm.get(field);
-      if (field != 'Reference') {
+      if (field != 'Reference' && field != 'FromDate' && field != 'ToDate') {
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
@@ -303,7 +313,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Final: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: ''}, []),
+      FromDate: new FormControl({ value: '' }, []),
       ToDate: new FormControl({ value: '' }, [])
 
     })
@@ -415,7 +425,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   newTab(tab: any) {
     if (this.tabs === []) return;
     this.telNo = tab.row.TelephoneNumber;
-    this.tranId = tab.row.TransactionId;
+    this.tranId = tab.row.TransactionReference;
     switch (tab.tabType) {
       case 1: {
         //tab.row contains row data- fetch data from api and bind to respetive component
