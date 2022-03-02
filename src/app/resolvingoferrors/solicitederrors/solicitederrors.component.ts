@@ -204,7 +204,7 @@ export class SolicitederrorsComponent implements OnInit {
       { Name: 'PageNumber', Value: ['1'] }];
 
     const control = this.thisForm.get('Reference');
-    if (control?.value && control?.value == '')
+    if (control?.value)
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
@@ -212,7 +212,7 @@ export class SolicitederrorsComponent implements OnInit {
     for (const field in this.f) {
       const control = this.thisForm.get(field);
       if (field != 'Reference') {
-        if (control?.value && control?.value == '')
+        if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
@@ -238,8 +238,8 @@ export class SolicitederrorsComponent implements OnInit {
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: '' }, []),
-      ToDate: new FormControl({ value: '' }, []),
+      FromDate: new FormControl({}, []),
+      ToDate: new FormControl({}, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
@@ -280,8 +280,8 @@ export class SolicitederrorsComponent implements OnInit {
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
     // this.createSaveForm();
-    
-    
+
+
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
