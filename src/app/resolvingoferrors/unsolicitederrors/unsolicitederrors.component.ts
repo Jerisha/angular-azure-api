@@ -11,6 +11,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http/index';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
+import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -183,7 +184,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.createForm();
-    this.UpdateForm();
+    //this.UpdateForm();
     debugger;
     let request = Utils.prepareConfigRequest(['Source', 'ErrorType', 'Final', 'ResolutionType']);
     this.service.configDetails(request).subscribe((res: any) => {
@@ -315,6 +316,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       Reference: new FormControl({ value: '', disabled: true }, []),
       FromDate: new FormControl({ value: '' }, []),
       ToDate: new FormControl({ value: '' }, [])
+
 
     })
 
