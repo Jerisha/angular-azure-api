@@ -187,13 +187,14 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     //this.service.configTest(request);
+    // this.service.configDetails(request);
     this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
+      console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-      this.errorCodeData = this.splitData(res[0]?.ErrorCode)
+      this.errorCodeData = this.splitData(res[0]?.ErrorCode)      
     });
 
-    //this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
+    // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
 
   splitData(data: string | undefined): string[] {
