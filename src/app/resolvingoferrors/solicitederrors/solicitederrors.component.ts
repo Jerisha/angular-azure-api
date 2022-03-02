@@ -163,25 +163,14 @@ export class SolicitederrorsComponent implements OnInit {
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
-  columns: ColumnDetails[] = [
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
-  ];
+  saveForm!: FormGroup;
+  
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-
+ 
 
   ngOnInit(): void {
     this.createForm();
@@ -235,7 +224,14 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
 
+createSaveForm(){
+  this.saveForm = this.formBuilder.group({
+    ResolutionType: new FormControl({ value: '' }, []),
+    Reference: new FormControl({ value: '' }, []),
+    Remarks: new FormControl({ value: '' }, [])
+  })
 
+}
   createForm() {
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
@@ -263,14 +259,27 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   private _filter(name: string): any[] {
-
-
     const filterValue = name.toLowerCase();
     // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
     // return filteredList;
     let filteredList = this.errorCodeData.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
+
+  columns: ColumnDetails[] = [
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
+    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
+  ];
+
   onFormSubmit(): void {
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
@@ -294,6 +303,11 @@ export class SolicitederrorsComponent implements OnInit {
     }
 
 
+  }
+
+  onSaveSubmit():void{
+    // let request =''
+    // this.updateResult$ = this.service.updateDetails(request);
   }
 
   resetForm(): void {
