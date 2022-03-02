@@ -13,6 +13,7 @@ import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
+// import { ConsoleReporter } from 'jasmine';
 
 
 
@@ -360,6 +361,23 @@ export class SolicitederrorsComponent implements OnInit {
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
+  }
+  startTelno:any;
+  endTelno:any;
+
+  addPrefix(control: string, value: any) {    
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    this.thisForm.controls[control].setValue(value);
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 
   newTab(tab: any) {
