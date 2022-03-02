@@ -49,23 +49,37 @@
 
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
-            <mat-select formControlName="Command">
-              <mat-option></mat-option>
-              <mat-option *ngFor="let val of splitData(config.Command)" [value]="val">{{val}}</mat-option>
-              <!-- <mat-option>Activate Customer</mat-option>
+            <input formControlName="Command" type="text" placeholder="Search Command" matInput
+              [matAutocomplete]="autoCommand" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoCommand="matAutocomplete">
+              <mat-option *ngFor="let val of splitData(config.Command) | ddlFilter: f.Command.value" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-autocomplete>
+            <!-- <mat-option>Activate Customer</mat-option>
             <mat-option>Cease Customer</mat-option>
             <mat-option>Import</mat-option>
             <mat-option>Export</mat-option>
             <mat-option>Modify</mat-option> -->
-            </mat-select>
+            <!-- </mat-select> -->
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source</mat-label>
-            <mat-select formControlName="Source">
-              <mat-option *ngFor="let val of splitData(config.Source)" [value]="val">{{val}}</mat-option>
-              <!-- <mat-option></mat-option>
+            <input formControlName="Source" type="text" placeholder="Search Source" matInput
+              [matAutocomplete]="autoSource" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+              <mat-option *ngFor="let val of splitData(config.Source) | ddlFilter: f.Source.value" [value]="val">
+                {{val}}</mat-option>
+            </mat-autocomplete>
+            <!-- <mat-option></mat-option>
             <mat-option>AUDIT</mat-option>
             <mat-option>SAS/COMS</mat-option>
             <mat-option>DVA Siebel</mat-option>
@@ -76,7 +90,7 @@
             <mat-option>Clarify</mat-option>
             <mat-option>Amdocs SOM</mat-option>
             <mat-option>Unknown</mat-option> -->
-            </mat-select>
+            <!-- </mat-select> -->
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
@@ -95,44 +109,63 @@
 
           <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="ResolutionType">
-              <mat-option *ngFor="let val of splitData(config.ResolutionType)" [value]="val">{{val}}</mat-option>
-              <!-- <mat-option></mat-option>
+            <input formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
+              [matAutocomplete]="autoResolutionType" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
+              <!-- <mat-select formControlName="ResolutionType"> -->
+              <mat-option *ngFor="let val of splitData(config.ResolutionType) | ddlFilter: f.ResolutionType.value"
+                [value]="val">{{val}}</mat-option>
+            </mat-autocomplete>
+            <!-- <mat-option></mat-option>
             <mat-option>New</mat-option>
             <mat-option>Under Investigation</mat-option>
             <mat-option>Under Governance</mat-option>
             <mat-option>Under Governance</mat-option>
             <mat-option>Port Req Complete</mat-option> -->
-            </mat-select>
+            <!-- </mat-select> -->
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
-            <mat-select formControlName="ErrorType">
-              <ng-container *ngIf="config.ErrorType">
-                <mat-option *ngFor="let val of splitData(config.ErrorType)" [value]="val">{{val}}</mat-option>
-              </ng-container>
-              <!-- <mat-option></mat-option>
+            <!-- <mat-select formControlName="ErrorType"> -->
+            <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
+              [matAutocomplete]="autoErrorType" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoErrorType="matAutocomplete">
+              <mat-option *ngFor="let val of splitData(config.ErrorType)  | ddlFilter: f.ErrorType.value" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <!-- </ng-container> -->
+          <!-- <mat-option></mat-option>
             <mat-option>Internal Error</mat-option>
             <mat-option>External Error</mat-option>            -->
-            </mat-select>
-            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-          </mat-form-field>
+          <!-- </mat-select> -->
+          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
             <mat-label>Error Code</mat-label>
             <input formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
               [matAutocomplete]="auto" />
-              <span matSuffix mat-icon-button >
-                <mat-icon>arrow_drop_down</mat-icon>
-              </span>
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of errorCodesOptions | async" [value]="option">
+              <mat-option *ngFor="let option of  splitData(config.ErrorCode)  | ddlFilter: f.ErrorCode.value"
+                [value]="option">
                 {{option}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+
           <mat-form-field>
             <mat-label>999 Reference</mat-label>
             <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
@@ -252,7 +285,8 @@
             <app-telephone-audit-trail></app-telephone-audit-trail>
           </div>
           <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
-            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier"></app-transaction-errors>
+            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
+            </app-transaction-errors>
           </div>
           <div *ngSwitchDefault>
           </div>

@@ -178,13 +178,14 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     //this.service.configTest(request);
+    // this.service.configDetails(request);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-      this.errorCodeData = this.splitData(res[0]?.ErrorCode)
+     // this.errorCodeData = this.splitData(res[0]?.ErrorCode)      
     });
 
-    //this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
+    // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
 
   splitData(data: string | undefined): string[] {
@@ -247,24 +248,25 @@ createSaveForm(){
       OrderReference: new FormControl({ value: '', disabled: true }, [])
 
     })
-    this.errorCodesOptions = this.thisForm.controls.ErrorCode.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
+    
+    // this.errorCodesOptions = this.thisForm.controls.ErrorCode.valueChanges
+    //   .pipe(
+    //     startWith<string>(''),
+    //     map(name => this._filter(name))
+    //   );
   }
 
   get f() {
     return this.thisForm.controls;
   }
 
-  private _filter(name: string): any[] {
-    const filterValue = name.toLowerCase();
-    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-    // return filteredList;
-    let filteredList = this.errorCodeData.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-    return filteredList;
-  }
+  // private _filter(name: string): any[] {
+  //   const filterValue = name.toLowerCase();
+  //   // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  //   // return filteredList;
+  //   let filteredList = this.errorCodeData.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  //   return filteredList;
+  // }
 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
