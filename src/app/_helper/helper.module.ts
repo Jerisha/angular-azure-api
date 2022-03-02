@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BorderDirective } from './directives/border.directive';
-import { AutoPopulateFilterPipe } from './pipe/auto-populate-filter';
+import { DropDownListFilterPipe } from './pipe/drop-down-list-filter.pipe';
 
 
 
 @NgModule({
-  declarations: [BorderDirective,AutoPopulateFilterPipe],
+  declarations: [BorderDirective,DropDownListFilterPipe],
   imports: [
     CommonModule
   ],
-  exports:[BorderDirective,AutoPopulateFilterPipe]
+  exports:[BorderDirective,DropDownListFilterPipe]
 })
 export class HelperModule { }

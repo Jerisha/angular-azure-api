@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'autoPopulatefilter'
+    name: 'ddlFilter'
 })
 
-export class AutoPopulateFilterPipe implements PipeTransform {
+export class DropDownListFilterPipe implements PipeTransform {
     transform(items: any, strSearch: string): any {
         if (items !== null && (strSearch !== '' || strSearch != undefined)) {            
             var filterValue = strSearch;
