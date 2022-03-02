@@ -216,7 +216,7 @@ export class SolicitederrorsComponent implements OnInit {
       { Name: 'PageNumber', Value: ['1'] }];
 
     const control = this.thisForm.get('Reference');
-    if (control?.value)
+    if (control?.value && control?.value=='')
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
@@ -224,7 +224,7 @@ export class SolicitederrorsComponent implements OnInit {
     for (const field in this.f) {
       const control = this.thisForm.get(field);
       if (field != 'Reference') {
-        if (control?.value)
+        if (control?.value && control?.value=='')
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });

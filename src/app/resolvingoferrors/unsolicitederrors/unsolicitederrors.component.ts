@@ -213,7 +213,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       { Name: 'PageNumber', Value: ['1'] }];
 
     const control = this.thisForm.get('Reference');
-    if (control?.value)
+    if (control?.value && control?.value=='')
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
@@ -222,7 +222,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     for (const field in this.thisForm?.controls) {
       const control = this.thisForm.get(field);
       if (field != 'Reference') {
-        if (control?.value)
+        if (control?.value && control?.value=='')
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
