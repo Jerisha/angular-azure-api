@@ -167,6 +167,8 @@ removeRangeCli(rangeIndex:number){
 
 }
 
+
+
 onChangeEvent(event:any)
 {  
   if(event.target.value !="")
@@ -180,6 +182,8 @@ onChangeEvent(event:any)
   }
 
 }
+
+
 
 OnstateItemChange(event:any)
 {
@@ -325,6 +329,8 @@ SearchTel(){
     this.view3Toggle ="display: none;visibility:hidden;";
   }
   
+
+   
 
 }
 

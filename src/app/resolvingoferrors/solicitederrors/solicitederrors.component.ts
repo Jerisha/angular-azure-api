@@ -13,6 +13,7 @@ import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
+// import { ConsoleReporter } from 'jasmine';
 
 
 
@@ -149,6 +150,9 @@ export class SolicitederrorsComponent implements OnInit {
   myTable!: TableItem;
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
+  telNo?: any;
+  tranId?: any;
+  repIdentifier = "SolicitedErrors";
 
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -160,44 +164,36 @@ export class SolicitederrorsComponent implements OnInit {
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
-  columns: ColumnDetails[] = [
+  saveForm!: FormGroup;
 
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
-  ];
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
 
-
   ngOnInit(): void {
     this.createForm();
-
+    //this.createSaveForm();
     debugger;
     let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     //this.service.configTest(request);
+    // this.service.configDetails(request);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-      this.errorCodeData = this.splitData(res[0]?.ErrorCode)
+
     });
 
-    //this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
+    // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
 
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
+  }
+
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
   }
 
   ngAfterViewChecked() {
@@ -206,13 +202,15 @@ export class SolicitederrorsComponent implements OnInit {
 
   prepareQueryParams(): any {
     let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] },
-      {
-        Name: "999Reference"
-      }];
+      { Name: 'PageNumber', Value: ['1'] }];
 
+    const control = this.thisForm.get('Reference');
+    if (control?.value)
+      attributes.push({ Name: '999Reference', Value: [control?.value] });
+    else
+      attributes.push({ Name: '999Reference' });
 
-    for (const field in this.thisForm?.controls) {
+    for (const field in this.f) {
       const control = this.thisForm.get(field);
       if (field != 'Reference') {
         if (control?.value)
@@ -227,15 +225,22 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
 
+  createSaveForm() {
+    this.saveForm = this.formBuilder.group({
+      Resolution: new FormControl({ value: '' }, []),
+      Ref: new FormControl({ value: '' }, []),
+      Remark: new FormControl({ value: '' }, [])
+    })
 
+  }
   createForm() {
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: '', disabled: true }, []),
-      ToDate: new FormControl({ value: '', disabled: true }, []),
+      FromDate: new FormControl({}, []),
+      ToDate: new FormControl({}, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
@@ -243,30 +248,40 @@ export class SolicitederrorsComponent implements OnInit {
       OrderReference: new FormControl({ value: '', disabled: true }, [])
 
     })
-    this.errorCodesOptions = this.thisForm.controls.ErrorCode.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
+
+
   }
 
   get f() {
     return this.thisForm.controls;
   }
 
-  private _filter(name: string): any[] {
+  // get s() {
+  //   return this.saveForm.controls;
+  // }
 
 
-    const filterValue = name.toLowerCase();
-    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-    // return filteredList;
-    let filteredList = this.errorCodeData.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-    return filteredList;
-  }
+
+  columns: ColumnDetails[] = [
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
+    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
+  ];
+
   onFormSubmit(): void {
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
+    // this.createSaveForm();
+
 
     this.myTable = {
       data: this.queryResult$,
@@ -286,6 +301,12 @@ export class SolicitederrorsComponent implements OnInit {
     }
 
 
+  }
+
+  onSaveSubmit(): void {
+    console.log('save button function')
+    // let request =''
+    // this.updateResult$ = this.service.updateDetails(request);
   }
 
   resetForm(): void {
@@ -310,23 +331,43 @@ export class SolicitederrorsComponent implements OnInit {
   rowDetect(item: any) {
     //debugger;
     this.selectedRowsCount = item.length;
-    if(item && item.length == 0) return
-   
-      if (!this.selectedGridRows.includes(item))
-        this.selectedGridRows.push(item)
-      else if (this.selectedGridRows.includes(item)) {
-        let index = this.selectedGridRows.indexOf(item);
-        this.selectedGridRows.splice(index, 1)
-      }
+    if (item && item.length == 0) return
+
+    if (!this.selectedGridRows.includes(item))
+      this.selectedGridRows.push(item)
+    else if (this.selectedGridRows.includes(item)) {
+      let index = this.selectedGridRows.indexOf(item);
+      this.selectedGridRows.splice(index, 1)
+    }
     //console.log("selectedGridRows"+ JSON.stringify(this.selectedGridRows))
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
+  startTelno:any;
+  endTelno:any;
+
+  addPrefix(control: string, value: any) {    
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    this.thisForm.controls[control].setValue(value);
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
 
   newTab(tab: any) {
     if (this.tabs === []) return;
+
+    this.telNo = tab.row.TelephoneNumber;
+    this.tranId = tab.row.TransactionId;
     switch (tab.tabType) {
       case 1:
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
@@ -343,7 +384,6 @@ export class SolicitederrorsComponent implements OnInit {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
           let updtab = this.tabs.find(x => x.tabType == 1);
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
-
         }
 
         break;
@@ -358,6 +398,7 @@ export class SolicitederrorsComponent implements OnInit {
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
+
         break;
       default:
         //statements; 

@@ -164,7 +164,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
-
+  telNo?: any;
+  tranId?: any;
+  repIdentifier = "UnsolicitedErrors";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
@@ -197,6 +199,21 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
+  }
+
+  addPrefix(control: string, value: any) {    
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    this.thisForm.controls[control].setValue(value);
+  }
+  
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 
   ngAfterViewChecked() {
@@ -268,8 +285,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Final: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: '', disabled: true }, []),
-      ToDate: new FormControl({ value: '', disabled: true }, [])
+      FromDate: new FormControl({ value: ''}, []),
+      ToDate: new FormControl({ value: '' }, [])
 
     })
 
@@ -351,35 +368,39 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     //debugger;
     //this.selectedRowsCount = item.length;
     if (item && item.length == 0) return
-    
-    
-    
+
+
+
     if (!this.selectedGridRows.includes(item))
-    this.selectedGridRows.push(item)
+      this.selectedGridRows.push(item)
     else if (this.selectedGridRows.includes(item)) {
-    let index = this.selectedGridRows.indexOf(item);
-    this.selectedGridRows.splice(index, 1)
+      let index = this.selectedGridRows.indexOf(item);
+      this.selectedGridRows.splice(index, 1)
     }
-    console.log("selectedGridRows"+ JSON.stringify(this.selectedGridRows))
-    }
+    console.log("selectedGridRows" + JSON.stringify(this.selectedGridRows))
+  }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
 
   newTab(tab: any) {
+    if (this.tabs === []) return;
+    this.telNo = tab.row.TelephoneNumber;
+    this.tranId = tab.row.TransactionId;
     switch (tab.tabType) {
       case 1: {
         //tab.row contains row data- fetch data from api and bind to respetive component
         if (!this.tabs.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report (1977722725)'
+            name: 'Audit Trail Report (' + this.telNo + ')'
           });
-          //   this.selectedTab = 1;
-          // }
+
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
         }
         break;
       }
@@ -389,8 +410,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
             tabType: 2,
             name: 'Transaction Errors'
           })
-          //   this.selectedTab = 2;
-          // }
+
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
