@@ -164,17 +164,16 @@ export class SolicitederrorsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   saveForm!: FormGroup;
-  
+
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
- 
 
   ngOnInit(): void {
     this.createForm();
-
+    //this.createSaveForm();
     debugger;
     let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     //this.service.configTest(request);
@@ -182,7 +181,7 @@ export class SolicitederrorsComponent implements OnInit {
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-     // this.errorCodeData = this.splitData(res[0]?.ErrorCode)      
+
     });
 
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
@@ -205,7 +204,7 @@ export class SolicitederrorsComponent implements OnInit {
       { Name: 'PageNumber', Value: ['1'] }];
 
     const control = this.thisForm.get('Reference');
-    if (control?.value)
+    if (control?.value && control?.value == '')
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
@@ -213,7 +212,7 @@ export class SolicitederrorsComponent implements OnInit {
     for (const field in this.f) {
       const control = this.thisForm.get(field);
       if (field != 'Reference') {
-        if (control?.value)
+        if (control?.value && control?.value == '')
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
@@ -225,21 +224,21 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
 
-createSaveForm(){
-  this.saveForm = this.formBuilder.group({
-    ResolutionType: new FormControl({ value: '' }, []),
-    Reference: new FormControl({ value: '' }, []),
-    Remarks: new FormControl({ value: '' }, [])
-  })
+  createSaveForm() {
+    this.saveForm = this.formBuilder.group({
+      Resolution: new FormControl({ value: '' }, []),
+      Ref: new FormControl({ value: '' }, []),
+      Remark: new FormControl({ value: '' }, [])
+    })
 
-}
+  }
   createForm() {
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: ''}, []),
+      FromDate: new FormControl({ value: '' }, []),
       ToDate: new FormControl({ value: '' }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
@@ -248,25 +247,19 @@ createSaveForm(){
       OrderReference: new FormControl({ value: '', disabled: true }, [])
 
     })
-    
-    // this.errorCodesOptions = this.thisForm.controls.ErrorCode.valueChanges
-    //   .pipe(
-    //     startWith<string>(''),
-    //     map(name => this._filter(name))
-    //   );
+
+
   }
 
   get f() {
     return this.thisForm.controls;
   }
 
-  // private _filter(name: string): any[] {
-  //   const filterValue = name.toLowerCase();
-  //   // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-  //   // return filteredList;
-  //   let filteredList = this.errorCodeData.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-  //   return filteredList;
+  // get s() {
+  //   return this.saveForm.controls;
   // }
+
+
 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
@@ -286,7 +279,9 @@ createSaveForm(){
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
-
+    // this.createSaveForm();
+    
+    
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
@@ -307,7 +302,8 @@ createSaveForm(){
 
   }
 
-  onSaveSubmit():void{
+  onSaveSubmit(): void {
+    console.log('save button function')
     // let request =''
     // this.updateResult$ = this.service.updateDetails(request);
   }

@@ -173,15 +173,18 @@
                   <div style="display: inline-block;">
                     <mat-form-field>
                       <mat-label>Resolution Type</mat-label>
-                      <mat-select>
-                        <mat-option></mat-option>
-                        <mat-option>New</mat-option>
-                        <mat-option>Under Investigation</mat-option>
-                        <mat-option>Under Governance</mat-option>
-                        <mat-option>Under Governance</mat-option>
-                        <mat-option>Port Req Complete</mat-option>
-                      </mat-select>
-                      <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+                      <input #resol type="text" placeholder="Search Resolution Type"
+                        matInput [matAutocomplete]="autoResolutionType1" />
+                      <span matSuffix mat-icon-button>
+                        <mat-icon>arrow_drop_down</mat-icon>
+                      </span>
+                      <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
+                        <ng-container *ngIf="configDetails  as con">
+                        <mat-option *ngFor="let val of splitData(con.ResolutionType) | ddlFilter: resol.value"
+                          [value]="val">{{val}}</mat-option>
+                        </ng-container>
+                      </mat-autocomplete>
+
                     </mat-form-field>
 
                     <mat-form-field>
