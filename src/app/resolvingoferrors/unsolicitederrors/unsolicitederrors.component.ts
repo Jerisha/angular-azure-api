@@ -159,7 +159,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
     { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
-    { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
@@ -196,16 +196,40 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     return data ? data.split(',') : [];
   }
   ngAfterViewInit() {
-    //this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
-  // ngAfterViewChecked() {
-  //   this.cdr.detectChanges();
-  // }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
   get f() {
     return this.thisForm.controls;
   }
+  
+  prepareUpdateParams(): any {
+    let attributes: any = [];
+    const startTelephoneNumber = this.thisForm.get('StartTelephoneNumber');
+    const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
+    
 
+    if (startTelephoneNumber?.value)
+      attributes.push({ Name: 'TelephoneNumberStart', Value: this.thisForm.get('StartTelephoneNumber') });
+    else
+      attributes.push({ Name: 'TelephoneNumberStart' });
+
+    if (endTelephoneNumber?.value)
+      attributes.push({ Name: 'TelephoneNumberEnd', Value: this.thisForm.get('EndTelephoneNumber') });
+    else
+      attributes.push({ Name: 'TelephoneNumberEnd' }); 
+    
+      let transId: string[]=[];
+      this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
+      attributes.push({ Name: 'TransactionReference', Value: transId }); 
+    
+    console.log(attributes);
+
+    return attributes;
+  }
   prepareQueryParams(): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: ['1'] }];
@@ -250,6 +274,14 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     })
 
   }
+
+  Update()
+  {
+    let request = Utils.prepareQueryRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
+
+  }
+  
   DisplayInformationTab() {
     debugger;
     this.infotable1 = ELEMENT_DATA_InformationTable1;
