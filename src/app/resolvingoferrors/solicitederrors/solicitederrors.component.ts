@@ -202,16 +202,28 @@ export class SolicitederrorsComponent implements OnInit {
   prepareQueryParams(): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: ['1'] }];
-
+    //Reference
     const control = this.thisForm.get('Reference');
     if (control?.value)
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
+    //FromDate
+    const fromDate = this.thisForm.get('FromDate');
+    if (fromDate?.value.value)
+      attributes.push({ Name: 'FromDate', Value: [fromDate?.value.value] });
+    else
+      attributes.push({ Name: 'FromDate' });
+    //ToDate
+    const toDate = this.thisForm.get('ToDate');
+    if (toDate?.value.value)
+      attributes.push({ Name: 'ToDate', Value: [toDate?.value.value] });
+    else
+      attributes.push({ Name: 'ToDate' });
 
     for (const field in this.f) {
       const control = this.thisForm.get(field);
-      if (field != 'Reference') {
+      if (field != 'Reference' && field != 'FromDate' && field != 'ToDate') {
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
@@ -238,8 +250,8 @@ export class SolicitederrorsComponent implements OnInit {
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({}, []),
-      ToDate: new FormControl({}, []),
+      FromDate: new FormControl({ value: '' }, []),
+      ToDate: new FormControl({ value: '' }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
@@ -303,6 +315,8 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   onSaveSubmit(): void {
+    let transId: string[] = [];
+    this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
     console.log('save button function')
     // let request =''
     // this.updateResult$ = this.service.updateDetails(request);
@@ -328,7 +342,7 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   rowDetect(item: any) {
-    //debugger;
+    debugger;
     this.selectedRowsCount = item.length;
     if (item && item.length == 0) return
 
@@ -338,7 +352,10 @@ export class SolicitederrorsComponent implements OnInit {
       let index = this.selectedGridRows.indexOf(item);
       this.selectedGridRows.splice(index, 1)
     }
-    //console.log("selectedGridRows"+ JSON.stringify(this.selectedGridRows))
+
+
+
+    console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   removeTab(index: number) {
