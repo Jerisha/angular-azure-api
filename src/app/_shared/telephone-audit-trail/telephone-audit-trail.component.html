@@ -1,22 +1,35 @@
-<ng-container *ngIf="auditTrailReport$ | async  as AT">
+<ng-template #NoData>
+    <div class="error">
+        <span>No Records Found for this Telephone Number</span>
+        <mat-divider></mat-divider>
+        <!-- <span>No Detailed Report Records Found</span>
+        <mat-divider></mat-divider>
+        <span>No Audit Trail Records Found</span>
+        <mat-divider></mat-divider> -->
+    </div>
+    
+</ng-template>
 
+<ng-container *ngIf="auditTrailReport$ | async  as AT; else NoData">
+
+<div *ngIf="AT.LiveDetails; else elseBlock">
 <mat-accordion *ngIf="AT.LiveDetails[0] as livedata; else elseBlock" [togglePosition]="'before'">
 
-    <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0" (opened)="setStep(0); panelOpenState1 = true; "
-        (closed)="panelOpenState1 = false">
+    <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0" (opened)="setStep(0); panelOpenState1 = true;  setAddressDetails('TransactionDetails', livedata)"
+        (closed)="panelOpenState1 = false; setAddressDetails('RemoveAddress')">
 
         <mat-expansion-panel-header>
 
             <mat-panel-title>
-                <mat-icon class ="table-icon">{{panelOpenState1 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
+                <mat-icon class ="table-icon">{{panelOpenState1 && step === 0 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                 &nbsp;&nbsp;
                 Current Live Details
             </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="livedata-sec">
+        <div class="liverecord-sec">
             <div class="container-fluid">
-                <div class="fluid-item livedata-sec-1">
+                <div class="fluid-item liverecord-sec-1">
                     
                     <div>
                          <span class="label"> Transaction ID</span>
@@ -104,7 +117,7 @@
         
                 </div>
 
-                <div class="fluid-item livedata-sec-2">
+                <div class="fluid-item liverecord-sec-2">
 
                     <div>
                          <span class="label">Internal Address1</span>
@@ -192,6 +205,7 @@
     </mat-expansion-panel>
 
 </mat-accordion>
+</div>
 
 <ng-template #elseBlock>
     <div class="liveRecord-error error">
@@ -208,9 +222,8 @@
 </ng-template>
 
 
-<!-- <mat-accordion *ngIf="unsolicitedDetails != null;" [togglePosition]="'before'"> -->
     
-    <mat-accordion *ngIf="isUnsol && unsolicitedDetails != null; else elseBlock1" [togglePosition]="'before'">
+    <mat-accordion *ngIf="isUnsol && AT.UnsolicitedDetails != null; else elseBlock1" [togglePosition]="'before'">
 
     <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true"
         (closed)="panelOpenState2 = false">
@@ -218,7 +231,7 @@
 
             <mat-panel-title>
 
-                <mat-icon class ="table-icon">{{panelOpenState2 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
+                <mat-icon class ="table-icon">{{panelOpenState2 && step === 1 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                 &nbsp;&nbsp;
                 <!-- <button type="button" class="btn btn-default" aria-label="Left Align">
                     <span>
@@ -234,30 +247,31 @@
         </mat-expansion-panel-header>
 
         <div class="unsolicitedDetails-sec">
-            <app-table class="appTable" [tableitem]="unsolicitedDetails"></app-table>
+            <app-table class="appTable" [tableitem]="AT.UnsolicitedDetails"></app-table>
         </div>
 
     </mat-expansion-panel>
 </mat-accordion>
 
-<table mat-table [dataSource]="transactionDetails ? transactionDetails : []" multiTemplateDataRows
-    class="mat-elevation-z8">
-    <ng-container *ngFor="let col of columnsToDisplay ; let colIndex = index" matColumnDef="{{col}}">
-        <ng-container *ngIf="col != 'Action'">
-            <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-            <td mat-cell *matCellDef="let element">{{element[col]}}</td>
-        </ng-container>
-        <ng-container *ngIf="col === 'Action'">
 
-            <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+<table mat-table [dataSource]="AT.AuditDetailedReport ? AT.AuditDetailedReport : []" multiTemplateDataRows
+    class="mat-elevation-z8">
+    <ng-container *ngFor="let col of columnsToDisplay ; let colIndex = index" matColumnDef="{{col.headerValue}}">
+        <ng-container *ngIf="col.headerValue != 'Action'">
+            <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
+            <td mat-cell *matCellDef="let element">{{element.SummaryReport[0][col.headerValue]}}</td>
+        </ng-container>
+        <ng-container *ngIf="col.headerValue === 'Action'">
+
+            <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
             <td mat-cell *matCellDef="let element">
                 <!-- <mat-icon class ="table-icon" style="cursor: pointer;"
                     (click)="(expandedElement = expandedElement === element ? null : element);">{{expandedElement ===
                     element ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon> -->
 
                 <mat-icon class ="table-icon" style="cursor: pointer;"
-                    (click)="(expandedElement = expandedElement === element ? null : element); setStep(2); (expandedElement === element ? setAddressDetails('transactionDetails', element) : setAddressDetails('removeAddress', element)); ">
-                    {{expandedElement === element && step === 2 ? 'remove_box_outline' : 'add_box_outline'}}
+                    (click)="(expandedElement = expandedElement === element.DetailedReport ? null : element.DetailedReport); setStep(2); (expandedElement === element.DetailedReport ? setAddressDetails('TransactionDetails', element.DetailedReport[0]) : setAddressDetails('RemoveAddress')); ">
+                    {{expandedElement === element.DetailedReport && step === 2 ? 'remove_box_outline' : 'add_box_outline'}}
                 </mat-icon>
             </td>
         </ng-container>
@@ -267,140 +281,140 @@
     <ng-container matColumnDef="expandedDetail" *ngIf="step === 2">
         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
             <div class="example-element-detail"
-                [@detailExpand]="(element == expandedElement && step === 2 ? 'expanded' : 'collapsed')">
+                [@detailExpand]="(element.DetailedReport == expandedElement && step === 2 ? 'expanded' : 'collapsed')">
                 <div class="example-element-diagram">
 
                     <div class="maindiv">
-                        <div class="details-sec">
+                        <div class="details-sec" *ngIf="element.DetailedReport">
 
                             <div class="container-fluid">
                                 <div class="fluid-item details-sec-1">
                                     <div>
                          <span class="label"> Transaction ID</span>
                          <span class="text-display">
-                                        {{element.details.tranId}}</span>
+                                        {{element.TransactionId}}</span>
                                     </div>
                                     <div>
                          <span class="label">Thoroughfare</span>
                          <span class="text-display">
-                                        {{element.details.thoroughfare}}</span>
+                                        {{element.DetailedReport[0].Thoroughfare}}</span>
                                     </div>
                                     <div>
                          <span class="label">Transaction Reference</span>
                          <span class="text-display">
-                                        {{element.details.tranRef}}</span>
+                                        {{element.DetailedReport[0].TransactionReference}}</span>
                                     </div>
 
                                     <div>
                          <span class="label">Transaction Command</span>
                          <span class="text-display">
-                                        {{element.details.tranCmd}}</span>
+                                        {{element.DetailedReport[0].TransactionCommand}}</span>
                                     </div>
                                     <div>
                          <span class="label">Locality</span>
                          <span class="text-display">
-                                        {{element.details.locality}}</span>
+                                        {{element.DetailedReport[0].Locality}}</span>
                                     </div>
                                     <div>
                          <span class="label">Status</span>
                          <span class="text-display">
-                                        {{element.details.status}}</span>
+                                        {{element.DetailedReport[0].Status}}</span>
                                     </div>
                                     <div>
                          <span class="label">Bussiness Suffix</span>
                          <span class="text-display">
-                                        {{element.details.busnSuffix}}</span>
+                                        {{element.DetailedReport[0].BusinessSuffix}}</span>
                                     </div>
                                     <div>
                          <span class="label">Connection Type</span>
                          <span class="text-display">
-                                        {{element.details.connType}}</span>
+                                        {{element.DetailedReport[0].ConnectionType}}</span>
                                     </div>
 
                                     <div>
                          <span class="label">BT Command</span>
                          <span class="text-display">
-                                        {{element.details.btCmd}}</span>
+                                        {{element.DetailedReport[0].BtCommand}}</span>
                                     </div>
                                     <div>
                          <span class="label">Postcode</span>
                          <span class="text-display">
-                                        {{element.details.postcode}}</span>
+                                        {{element.DetailedReport[0].Postcode}}</span>
                                     </div>
                                     <div>
                          <span class="label">BT Source</span>
                          <span class="text-display">
-                                        {{element.details.btSource}}</span>
+                                        {{element.DetailedReport[0].BtSource}}</span>
                                     </div>
                                     <div>
                          <span class="label">Force validate</span>
                          <span class="text-display">
-                                        {{element.details.forceValidate}}</span>
+                                        {{element.DetailedReport[0].ForceValidate}}</span>
                                     </div>
 
                                         <div>
                          <span class="label">Customer Title</span>
                          <span class="text-display">
-                                            {{element.details.custTitle}}</span>
+                                            {{element.DetailedReport[0].CustomerTitle}}</span>
                                     </div>
                                         <div>
                          <span class="label">SAR Reference No.</span>
                          <span class="text-display">
-                                            {{element.details.sarRefNum}}</span>
+                                            {{element.DetailedReport[0].SarReferenceNumber}}</span>
                                     </div>
                                         <div>
                          <span class="label">Created On</span>
                          <span class="text-display">
-                                            {{element.details.CreatedOn}}</span>
+                                            {{element.DetailedReport[0].Created}}</span>
                                     </div>
                                         <div>
                          <span class="label">Provide</span>
                          <span class="text-display">
-                                            {{element.details.provide}}</span>
+                                            {{element.DetailedReport[0].Provide}}</span>
                                     </div>
     
     
                                         <div>
                          <span class="label">Customer Forename</span>
                          <span class="text-display">
-                                            {{element.details.custForename}}</span>
+                                            {{element.DetailedReport[0].CustomerForename}}</span>
                                     </div>
                                         <div>
                          <span class="label">SAR Transaction No.</span>
                          <span class="text-display">
-                                            {{element.details.sarTrnNum}}</span>
+                                            {{element.DetailedReport[0].SarTransactionNumber}}</span>
                                     </div>
                                         <div>
                          <span class="label">Created By</span>
                          <span class="text-display">
-                                            {{element.details.createdBy}}</span>
+                                            {{element.DetailedReport[0].CreatedBy}}</span>
                                     </div>
                                         <div>
                          <span class="label">Effective</span>
                          <span class="text-display">
-                                            {{element.details.effective}}</span>
+                                            {{element.DetailedReport[0].Effective}}</span>
                                     </div>
     
     
                                         <div>
                          <span class="label">Customer Name</span>
                          <span class="text-display">
-                                            {{element.details.custName}}</span>
+                                            {{element.DetailedReport[0].CustomerName}}</span>
                                     </div>
                                         <div>
                          <span class="label">Reference</span>
                          <span class="text-display">
-                                            {{element.details.reference}}</span>
+                                            {{element.DetailedReport[0].Reference}}</span>
                                     </div>
                                         <div>
                          <span class="label">Source Type</span>
                          <span class="text-display">
-                                            {{element.details.sourceType}}</span>
+                                            {{element.DetailedReport[0].SourceType}}</span>
                                     </div>
                                         <div>
                          <span class="label">End Status</span>
                          <span class="text-display">
-                                            {{element.details.endStatus}}</span>
+                                            {{element.DetailedReport[0].EndStatus}}</span>
                                     </div>
 
                                 </div>
@@ -410,121 +424,121 @@
                                     <div>
                          <span class="label">Parent CUPID</span>
                          <span class="text-display">
-                                        {{element.details.parentCupId}}</span>
+                                        {{element.DetailedReport[0].ParentCupId}}</span>
                                     </div>
                                     <div>
                          <span class="label">Child CUPID</span>
                          <span class="text-display">
-                                        {{element.details.childCupId}}</span>
+                                        {{element.DetailedReport[0].ChildCupId}}</span>
                                     </div>
                                     <div>
                          <span class="label">Change CUPID</span>
                          <span class="text-display">
-                                        {{element.details.changeCupId}}</span>
+                                        {{element.DetailedReport[0].ChangeCupId}}</span>
                                     </div>
                                     <div>
                          <span class="label">Retailer ID</span>
                          <span class="text-display">
-                                        {{element.details.retailerId}}</span>
+                                        {{element.DetailedReport[0].RetailerId}}</span>
                                     </div>
 
                                     <div>
                          <span class="label">Source</span>
                          <span class="text-display">
-                                        {{element.details.source}}</span>
+                                        {{element.DetailedReport[0].Source}}</span>
                                     </div>
                                     <div>
                          <span class="label">New Telephone No.</span>
                          <span class="text-display">
-                                        {{element.details.newTelNo}}</span>
+                                        {{element.DetailedReport[0].NewTelephoneNumber}}</span>
                                     </div>
                                     <div>
                          <span class="label">Address ID</span>
                          <span class="text-display">
-                                        {{element.details.addrId}}</span>
+                                        {{element.DetailedReport[0].AddressId}}</span>
                                     </div>
                                     <div>
                          <span class="label">Franchise</span>
                          <span class="text-display">
-                                        {{element.details.franchise}}</span>
+                                        {{element.DetailedReport[0].Franchise}}</span>
                                     </div>
 
                                     <div>
                          <span class="label">XReference</span>
                          <span class="text-display">
-                                        {{element.details.xRef}}</span>
+                                        {{element.DetailedReport[0].XReference}}</span>
                                     </div>
                                     <div>
                          <span class="label">Address ID Source</span>
                          <span class="text-display">
-                                        {{element.details.addrIdSrce}}</span>
+                                        {{element.DetailedReport[0].AddressIdSource}}</span>
                                     </div>
                                     <div>
                          <span class="label">Order Reference</span>
                          <span class="text-display">
-                                        {{element.details.orderRef}}</span>
+                                        {{element.DetailedReport[0].OrderReference}}</span>
                                     </div>
                                     <div>
                          <span class="label">Line Type</span>
                          <span class="text-display">
-                                        {{element.details.lineType}}</span>
+                                        {{element.DetailedReport[0].LineType}}</span>
                                     </div>
 
                                         <div>
                          <span class="label">Premises</span>
                          <span class="text-display">
-                                            {{element.details.premises}}</span>
+                                            {{element.DetailedReport[0].Premises}}</span>
                                     </div>
                                         <div>
                          <span class="label">Access Method</span>
                          <span class="text-display">
-                                            {{element.details.accessMethod}}</span>
+                                            {{element.DetailedReport[0].AccessMethod}}</span>
                                     </div>
                                         <div>
                          <span class="label">Callback</span>
                          <span class="text-display">
-                                            {{element.details.callback}}</span>
+                                            {{element.DetailedReport[0].Callback}}</span>
                                     </div>
                                         <div>
                          <span class="label">Internal Address1</span>
                          <span class="text-display">
-                                            {{element.details.internalAddr1}}</span>
+                                            {{element.DetailedReport[0].InternalAddress1}}</span>
                                     </div>
                                         <div>
                          <span class="label">Internal Address2</span>
                          <span class="text-display">
-                                            {{element.details.internalAddr2}}</span>
+                                            {{element.DetailedReport[0].InternalAddress2}}</span>
                                     </div>
                                         <div>
                          <span class="label">Internal Address3</span>
                          <span class="text-display">
-                                            {{element.details.internalAddr3}}</span>
+                                            {{element.DetailedReport[0].InternalAddress3}}</span>
                                     </div>
                                         <div>
                          <span class="label">Internal Address4</span>
                          <span class="text-display">
     
-                                            {{element.details.internalAddr4}}</span>
+                                            {{element.DetailedReport[0].InternalAddress4}}</span>
                                     </div>
                                         <div>
                          <span class="label">Type of Line</span>
                          <span class="text-display">
-                                            {{element.details.typeOfLine}}</span>
+                                            {{element.DetailedReport[0].TypeOfLine}}</span>
                                     </div>
                                         <div>
                          <span class="label">Previous Transaction ID</span>
                          <span class="text-display">
-                                            {{element.details.prevTranId}}</span>
+                                            {{element.DetailedReport[0].PreviousTransactionId}}</span>
                                     </div>
                                         <div>
                          <span class="label">Next Transaction ID</span>
                          <span class="text-display">
-                                            {{element.details.nextTranId}}</span>
+                                            {{element.DetailedReport[0].NextTransactionId}}</span>
                                     </div>
                                         <div>
                          <span class="label">Comment</span>
                          <span class="text-display">
-                                            {{element.details.comment}}</span>
+                                            {{element.Comment}}</span>
                                     </div>
     
                                 </div>
@@ -540,80 +554,82 @@
                                 <span>Notification Data</span>
                             </div>
 
-                            <div class="container-fluid">
+                            <div class="error" *ngIf="!element.NotificationData">No Records Found.</div>
+
+                            <div class="container-fluid" *ngIf="element.Notification">
                                 <div class="fluid-item notification-sec-1">
                                     <div>
                          <span class="label">Start Telephone No.</span>
                          <span class="text-display">
-                                        {{element.notificationData.startTelNo}}</span>
+                                        {{element.NotificationData[0].StartTelephoneNumber}}</span>
                                     </div>
                                     <div>
                          <span class="label">End Telephone No.</span>
                          <span class="text-display">
-                                        {{element.notificationData.endTelNo}}</span>
+                                        {{element.NotificationData[0].EndTelephoneNumber}}</span>
                                     </div>
 
 
                                     <div>
                          <span class="label">Source</span>
                          <span class="text-display">
-                                        {{element.notificationData.source}}</span>
+                                        {{element.NotificationData[0].Source}}</span>
                                     </div>
                                     <div>
                          <span class="label">Order Reference </span>
                          <span class="text-display">
-                                        {{element.notificationData.orderRef}}</span>
+                                        {{element.NotificationData[0].OrderReference}}</span>
                                     </div>
 
 
                                     <div>
                          <span class="label">Notification Status</span>
                          <span class="text-display">
-                                        {{element.notificationData.notificationStatus}}</span>
+                                        {{element.NotificationData[0].NotificationStatus}}</span>
                                     </div>
                                     <div>
                          <span class="label">Created On</span>
                          <span class="text-display">
-                                        {{element.notificationData.CreatedOn}}</span>
+                                        {{element.NotificationData[0].Created}}</span>
                                     </div>
 
-                                                                    </div>
+                    </div>
 
                                 <div class="fluid-item notification-sec-2">
 
                                     <div>
                          <span class="label">Notification Error</span>
                          <span class="text-display">
-                                        {{element.notificationData.notificationError}}</span>
+                                        {{element.NotificationData[0].NotificationError}}</span>
                                     </div>
                                     <div>
                          <span class="label">BT Status</span>
                          <span class="text-display">
-                                        {{element.notificationData.btStatus}}</span>
+                                        {{element.NotificationData[0].BtStatus}}</span>
                                     </div>
 
 
                                     <div>
                          <span class="label">Extracted Date</span>
                          <span class="text-display">
-                                        {{element.notificationData.extractedDate}}</span>
+                                        {{element.NotificationData[0].ExtractedDate}}</span>
                                     </div>
                                     <div>
                          <span class="label">BT Error Code</span>
                          <span class="text-display">
-                                        {{element.notificationData.btErrorCode}}</span>
+                                        {{element.NotificationData[0].BtErrorCode}}</span>
                                     </div>
 
 
                                     <div>
                          <span class="label">Updated Date</span>
                          <span class="text-display">
-                                        {{element.notificationData.updatedDate}}</span>
+                                        {{element.NotificationData[0].UpdatedDate}}</span>
                                     </div>
                                     <div>
                          <span class="label">BT Error Message</span>
                          <span class="text-display">
-                                        {{element.notificationData.btErrorMessage}}</span>
+                                        {{element.NotificationData[0].BtErrorMessage}}</span>
                                     </div>
 
                                 </div>
@@ -628,7 +644,7 @@
                             <div class="page-header">Error Data</div>
                            
                             <div class="error" *ngIf="!element.errorDescription">No Records Found.</div>
-                            <app-table class="appTable" [tableitem]="element.errorDescription"></app-table>
+                            <app-table class="appTable" [tableitem]="element.VodafoneError"></app-table>
                         </div>
                     
                         <mat-divider></mat-divider>
@@ -637,14 +653,14 @@
                             <div class="page-header">Response Data</div>
                             <!-- <h4>Response Data</h4> -->
                             <div class="error" *ngIf="!element.commentResponse">No Records Found.</div>
-                            <app-table class="appTable" [tableitem]="element.commentResponse"></app-table>
+                            <app-table class="appTable" [tableitem]="element.SupplierError"></app-table>
                         </div>
                         <mat-divider></mat-divider>
                         <div class="resolution-sec">
                             <div class="page-header">Resolution Data</div>
                             <!-- <h4>Resolution Data</h4> -->
                             <div class="error" *ngIf="!element.resolution">No Records Found.</div>
-                            <app-table class="appTable" [tableitem]="element.resolution"></app-table>
+                            <app-table class="appTable" [tableitem]="element.ResolutionHistory"></app-table>
                         </div>
                         <mat-divider></mat-divider>
 
@@ -654,8 +670,8 @@
         </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+    <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: dataColumns;" class="example-element-row"
         [class.example-expanded-row]="expandedElement === element"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
@@ -669,13 +685,10 @@
             <mat-expansion-panel-header>
 
                 <mat-panel-title>
-                    <mat-icon class ="table-icon">{{panelOpenState ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
+                    <mat-icon class ="table-icon">{{panelOpenState && step === 3 ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                     &nbsp;&nbsp;
 
-                    Audit Trail Details for : {{auditDetails!.internalAudit != null ?
-                    auditDetails!.internalAudit[0].TelephoneNo :
-                    auditDetails!.externalAudit != null ? auditDetails!.externalAudit[0].TelephoneNo :
-                    auditDetails!.fullAudit != null ? auditDetails!.fullAudit[0].TelephoneNo : null}}
+                    Audit Trail Details for : {{AT.TelephoneNumber}}
 
                 </mat-panel-title>
                 <!-- <mat-panel-description>
@@ -683,9 +696,9 @@
         </mat-panel-description> -->
             </mat-expansion-panel-header>
 
-            <div class="page-header" [ngClass]="{'error' : !(auditDetails?.internalAudit != null) }" >
+            <div class="page-header" [ngClass]="{'error' : !(AT.SeperateInternalAudit != null) }" >
                 <ng-container [ngTemplateOutlet]="noRecordsMessage"
-                    [ngTemplateOutletContext]="{ $implicit : auditDetails?.internalAudit != null ? 'Internal Audit Trail' : 'No Records for Internal Audit Trail'}">
+                    [ngTemplateOutletContext]="{ $implicit : AT.SeperateInternalAudit != null ? 'Internal Audit Trail' : 'No Records for Internal Audit Trail'}">
                 </ng-container>
             </div>
 
@@ -693,17 +706,17 @@
                 {{data}}
             </ng-template>
 
-            <div class="internalAudit-sec" *ngIf="auditDetails!.internalAudit != null">
-                <ng-container *ngIf="auditDetails?.internalAudit != null">
-                    <table mat-table [dataSource]="auditDetails!.internalAudit" multiTemplateDataRows
+            <div class="internalAudit-sec" *ngIf="AT.SeperateInternalAudit != null">
+                <ng-container *ngIf="AT.SeperateInternalAudit != null">
+                    <table mat-table [dataSource]="AT.SeperateInternalAudit " multiTemplateDataRows
                         class="mat-elevation-z8">
                         <ng-container *ngFor="let col of auditTrailInternalDisplay ; let colIndex = index"
                             matColumnDef="{{col}}">
-                            <ng-container *ngIf="col != 'UserComments'">
+                            <ng-container *ngIf="col != 'UserComment'">
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">{{element[col]}}</td>
                             </ng-container>
-                            <ng-container *ngIf="col === 'UserComments'">
+                            <ng-container *ngIf="col === 'UserComment'">
 
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">
@@ -723,8 +736,8 @@
                                 <div class="example-element-detail"
                                     [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-                                    <div class="error" *ngIf="!element.UserComments">No Records Found.</div>
-                                    <app-table class="appTable" [tableitem]="element.UserComments"></app-table>
+                                    <div class="error" *ngIf="element.UserComment.length == 0">No Records Found.</div>
+                                    <app-table class="appTable" [tableitem]="element.UserComment == 0 ? false : element.UserComment"></app-table>
                                     <br>
                                 </div>
                             </td>
@@ -739,23 +752,23 @@
             </div>
             <mat-divider></mat-divider>
 
-            <div class="page-header" [ngClass]="{'error' : !(auditDetails?.fullAudit != null) }">
+            <div class="page-header" [ngClass]="{'error' : !(AT.FullAudit != null) }">
                 <ng-container [ngTemplateOutlet]="noRecordsMessage"
-                    [ngTemplateOutletContext]="{ $implicit : auditDetails?.fullAudit != null ? 'Full Audit Trail' : 'No Records for Full Audit Trail'}">
+                    [ngTemplateOutletContext]="{ $implicit : AT.FullAudit != null ? 'Full Audit Trail' : 'No Records for Full Audit Trail'}">
                 </ng-container>
             </div>
 
-            <div class="fullAudit-sec" *ngIf="auditDetails!.fullAudit != null">
+            <div class="fullAudit-sec" *ngIf="AT.FullAudit != null">
                 <ng-container>
-                    <table mat-table [dataSource]="auditDetails!.fullAudit" multiTemplateDataRows
+                    <table mat-table [dataSource]="AT.FullAudit" multiTemplateDataRows
                         class="mat-elevation-z8">
                         <ng-container *ngFor="let col of fullAuditTrailDisplay ; let colIndex = index"
                             matColumnDef="{{col}}">
-                            <ng-container *ngIf="col != 'UserComments'">
+                            <ng-container *ngIf="col != 'UserComment'">
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">{{element[col]}}</td>
                             </ng-container>
-                            <ng-container *ngIf="col === 'UserComments'">
+                            <ng-container *ngIf="col === 'UserComment'">
 
                                 <th mat-header-cell *matHeaderCellDef>{{col}}</th>
                                 <td mat-cell *matCellDef="let element">
@@ -783,8 +796,8 @@
                                 <div class="example-element-detail"
                                     [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-                                    <div class="error" *ngIf="!element.UserComments">No Records Found.</div>
-                                    <app-table class="appTable" [tableitem]="element.UserComments"></app-table>
+                                    <div class="error" *ngIf="element.UserComment.length == 0">No Records Found.</div>
+                                    <app-table class="appTable" [tableitem]="element.UserComment.length == 0 ? false : element.UserComment"></app-table>
                                     <br>
                                 </div>
                             </td>
@@ -802,8 +815,9 @@
 
     </mat-accordion>
 </div> <!-- audit-sec-->
-</ng-container>
-<ng-container *ngIf="auditTrailReport$ | async  as config">
+ </ng-container>
+
+<!--<ng-container *ngIf="auditTrailReport$ | async  as config">
    {{config |json }}
-</ng-container>
+</ng-container> -->
 
