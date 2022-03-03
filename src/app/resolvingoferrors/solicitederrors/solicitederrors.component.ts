@@ -192,8 +192,6 @@ export class SolicitederrorsComponent implements OnInit {
   massage = null;
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
-
-
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
@@ -328,8 +326,6 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError','SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
-
-
 
     this.myTable = {
       data: this.queryResult$,

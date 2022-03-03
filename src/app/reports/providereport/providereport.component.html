@@ -10,9 +10,9 @@
   <mat-form-field hintLabel="Max 10 characters"
   appearance="outline">
   <mat-label>Telephone</mat-label>
-  <input id="TelephoneNo" formControlName="TelephoneNo" matInput #input maxlength="10"
-  placeholder="Tel.No Start" style="margin-right: 24%;">
-  <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  <input id="TelephoneNumber" formControlName="TelephoneNumber" matInput #input maxlength="11"
+  placeholder="Tel.No" style="margin-right: 24%;">
+  <mat-hint align="end">{{input.value?.length || 0}}/11</mat-hint>
   </mat-form-field>
   
   

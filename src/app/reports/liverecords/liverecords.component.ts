@@ -4,429 +4,433 @@ import { MatOption } from '@angular/material/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
-import { FormControl, FormGroup , Validators} from '@angular/forms';
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { liverecords } from 'src/app/reports/models/liverecord';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { map, startWith } from 'rxjs/operators';
-import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
+import { Utils } from 'src/app/_http/index';
+import { ReportService } from '../services/report.service';
+import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 
 const ELEMENT_DATA: liverecords[] = [
   {
-    Links:'Image',
-    Telephone:'123456789',
-    CustName:'PARIBASNET LTD',
-    BusinessSuffix:'' ,
-    Premises:'MARYLEBONE GATE',
-    Thoroughfare:'10 HAREWOOD AVENUE',
-    Locality:' LONDON',
-    Postcode:' NW1 6AA',
-    TransactionRef:'013/013/001000010069',
-    CustTitle:'',
-    CustForename:'',
-    Franchise:' MCL',
-    SourceSystem:' C - SAS/COMS',
-    SourceType:'BATCH',
-    Createdby:'',
-    CreationDate:' 26 SEP 2013 11:03',
-    AddressLine1:' MARYLEBONE GATE',
-    AddressLine2:'10 HAREWOOD AVENUE',
-    AddressLine3:' LONDON',
-    AddressLine4:'',
-    ParentCUPID:'13',
-    ChildCUPID:'13',
-    RetailerID:'',
-    NewTelNo:'',
-    CrossRefNo:'',
-    LineType:'V - VOIP',
-    AddrId:'',
-    AddrIdSource:'',
-    TypeofLine:''
-    },
-    {
-      Links:'Image',
-      Telephone:'123456789',
-      CustName:'PARIBASNET LTD',
-      BusinessSuffix:'' ,
-      Premises:'MARYLEBONE GATE',
-      Thoroughfare:'10 HAREWOOD AVENUE',
-      Locality:' LONDON',
-      Postcode:' NW1 6AA',
-      TransactionRef:'013/013/001000010069',
-      CustTitle:'',
-      CustForename:'',
-      Franchise:' MCL',
-      SourceSystem:' C - SAS/COMS',
-      SourceType:'BATCH',
-      Createdby:'',
-      CreationDate:' 26 SEP 2013 11:03',
-      AddressLine1:' MARYLEBONE GATE',
-      AddressLine2:'10 HAREWOOD AVENUE',
-      AddressLine3:' LONDON',
-      AddressLine4:'',
-      ParentCUPID:'13',
-      ChildCUPID:'13',
-      RetailerID:'',
-      NewTelNo:'',
-      CrossRefNo:'',
-      LineType:'V - VOIP',
-      AddrId:'',
-      AddrIdSource:'',
-      TypeofLine:''
-      },
-      {
-        Links:'Image',
-        Telephone:'123456789',
-        CustName:'PARIBASNET LTD',
-        BusinessSuffix:'' ,
-        Premises:'MARYLEBONE GATE',
-        Thoroughfare:'10 HAREWOOD AVENUE',
-        Locality:' LONDON',
-        Postcode:' NW1 6AA',
-        TransactionRef:'013/013/001000010069',
-        CustTitle:'',
-        CustForename:'',
-        Franchise:' MCL',
-        SourceSystem:' C - SAS/COMS',
-        SourceType:'BATCH',
-        Createdby:'',
-        CreationDate:' 26 SEP 2013 11:03',
-        AddressLine1:' MARYLEBONE GATE',
-        AddressLine2:'10 HAREWOOD AVENUE',
-        AddressLine3:' LONDON',
-        AddressLine4:'',
-        ParentCUPID:'13',
-        ChildCUPID:'13',
-        RetailerID:'',
-        NewTelNo:'',
-        CrossRefNo:'',
-        LineType:'V - VOIP',
-        AddrId:'',
-        AddrIdSource:'',
-        TypeofLine:''
-        },
-        {
-          Links:'Image',
-          Telephone:'123456789',
-          CustName:'PARIBASNET LTD',
-          BusinessSuffix:'' ,
-          Premises:'MARYLEBONE GATE',
-          Thoroughfare:'10 HAREWOOD AVENUE',
-          Locality:' LONDON',
-          Postcode:' NW1 6AA',
-          TransactionRef:'013/013/001000010069',
-          CustTitle:'',
-          CustForename:'',
-          Franchise:' MCL',
-          SourceSystem:' C - SAS/COMS',
-          SourceType:'BATCH',
-          Createdby:'',
-          CreationDate:' 26 SEP 2013 11:03',
-          AddressLine1:' MARYLEBONE GATE',
-          AddressLine2:'10 HAREWOOD AVENUE',
-          AddressLine3:' LONDON',
-          AddressLine4:'',
-          ParentCUPID:'13',
-          ChildCUPID:'13',
-          RetailerID:'',
-          NewTelNo:'',
-          CrossRefNo:'',
-          LineType:'V - VOIP',
-          AddrId:'',
-          AddrIdSource:'',
-          TypeofLine:''
-          },
-          {
-            Links:'Image',
-            Telephone:'123456789',
-            CustName:'PARIBASNET LTD',
-            BusinessSuffix:'' ,
-            Premises:'MARYLEBONE GATE',
-            Thoroughfare:'10 HAREWOOD AVENUE',
-            Locality:' LONDON',
-            Postcode:' NW1 6AA',
-            TransactionRef:'013/013/001000010069',
-            CustTitle:'',
-            CustForename:'',
-            Franchise:' MCL',
-            SourceSystem:' C - SAS/COMS',
-            SourceType:'BATCH',
-            Createdby:'',
-            CreationDate:' 26 SEP 2013 11:03',
-            AddressLine1:' MARYLEBONE GATE',
-            AddressLine2:'10 HAREWOOD AVENUE',
-            AddressLine3:' LONDON',
-            AddressLine4:'',
-            ParentCUPID:'13',
-            ChildCUPID:'13',
-            RetailerID:'',
-            NewTelNo:'',
-            CrossRefNo:'',
-            LineType:'V - VOIP',
-            AddrId:'',
-            AddrIdSource:'',
-            TypeofLine:''
-            },
-            {
-              Links:'Image',
-              Telephone:'123456789',
-              CustName:'PARIBASNET LTD',
-              BusinessSuffix:'' ,
-              Premises:'MARYLEBONE GATE',
-              Thoroughfare:'10 HAREWOOD AVENUE',
-              Locality:' LONDON',
-              Postcode:' NW1 6AA',
-              TransactionRef:'013/013/001000010069',
-              CustTitle:'',
-              CustForename:'',
-              Franchise:' MCL',
-              SourceSystem:' C - SAS/COMS',
-              SourceType:'BATCH',
-              Createdby:'',
-              CreationDate:' 26 SEP 2013 11:03',
-              AddressLine1:' MARYLEBONE GATE',
-              AddressLine2:'10 HAREWOOD AVENUE',
-              AddressLine3:' LONDON',
-              AddressLine4:'',
-              ParentCUPID:'13',
-              ChildCUPID:'13',
-              RetailerID:'',
-              NewTelNo:'',
-              CrossRefNo:'',
-              LineType:'V - VOIP',
-              AddrId:'',
-              AddrIdSource:'',
-              TypeofLine:''
-              },
-              {
-                Links:'Image',
-                Telephone:'123456789',
-                CustName:'PARIBASNET LTD',
-                BusinessSuffix:'' ,
-                Premises:'MARYLEBONE GATE',
-                Thoroughfare:'10 HAREWOOD AVENUE',
-                Locality:' LONDON',
-                Postcode:' NW1 6AA',
-                TransactionRef:'013/013/001000010069',
-                CustTitle:'',
-                CustForename:'',
-                Franchise:' MCL',
-                SourceSystem:' C - SAS/COMS',
-                SourceType:'BATCH',
-                Createdby:'',
-                CreationDate:' 26 SEP 2013 11:03',
-                AddressLine1:' MARYLEBONE GATE',
-                AddressLine2:'10 HAREWOOD AVENUE',
-                AddressLine3:' LONDON',
-                AddressLine4:'',
-                ParentCUPID:'13',
-                ChildCUPID:'13',
-                RetailerID:'',
-                NewTelNo:'',
-                CrossRefNo:'',
-                LineType:'V - VOIP',
-                AddrId:'',
-                AddrIdSource:'',
-                TypeofLine:''
-                },
-                {
-                  Links:'Image',
-                  Telephone:'123456789',
-                  CustName:'PARIBASNET LTD',
-                  BusinessSuffix:'' ,
-                  Premises:'MARYLEBONE GATE',
-                  Thoroughfare:'10 HAREWOOD AVENUE',
-                  Locality:' LONDON',
-                  Postcode:' NW1 6AA',
-                  TransactionRef:'013/013/001000010069',
-                  CustTitle:'',
-                  CustForename:'',
-                  Franchise:' MCL',
-                  SourceSystem:' C - SAS/COMS',
-                  SourceType:'BATCH',
-                  Createdby:'',
-                  CreationDate:' 26 SEP 2013 11:03',
-                  AddressLine1:' MARYLEBONE GATE',
-                  AddressLine2:'10 HAREWOOD AVENUE',
-                  AddressLine3:' LONDON',
-                  AddressLine4:'',
-                  ParentCUPID:'13',
-                  ChildCUPID:'13',
-                  RetailerID:'',
-                  NewTelNo:'',
-                  CrossRefNo:'',
-                  LineType:'V - VOIP',
-                  AddrId:'',
-                  AddrIdSource:'',
-                  TypeofLine:''
-                  },
-                  {
-                    Links:'Image',
-                    Telephone:'123456789',
-                    CustName:'PARIBASNET LTD',
-                    BusinessSuffix:'' ,
-                    Premises:'MARYLEBONE GATE',
-                    Thoroughfare:'10 HAREWOOD AVENUE',
-                    Locality:' LONDON',
-                    Postcode:' NW1 6AA',
-                    TransactionRef:'013/013/001000010069',
-                    CustTitle:'',
-                    CustForename:'',
-                    Franchise:' MCL',
-                    SourceSystem:' C - SAS/COMS',
-                    SourceType:'BATCH',
-                    Createdby:'',
-                    CreationDate:' 26 SEP 2013 11:03',
-                    AddressLine1:' MARYLEBONE GATE',
-                    AddressLine2:'10 HAREWOOD AVENUE',
-                    AddressLine3:' LONDON',
-                    AddressLine4:'',
-                    ParentCUPID:'13',
-                    ChildCUPID:'13',
-                    RetailerID:'',
-                    NewTelNo:'',
-                    CrossRefNo:'',
-                    LineType:'V - VOIP',
-                    AddrId:'',
-                    AddrIdSource:'',
-                    TypeofLine:''
-                    },
-                    {
-                      Links:'Image',
-                      Telephone:'123456789',
-                      CustName:'PARIBASNET LTD',
-                      BusinessSuffix:'' ,
-                      Premises:'MARYLEBONE GATE',
-                      Thoroughfare:'10 HAREWOOD AVENUE',
-                      Locality:' LONDON',
-                      Postcode:' NW1 6AA',
-                      TransactionRef:'013/013/001000010069',
-                      CustTitle:'',
-                      CustForename:'',
-                      Franchise:' MCL',
-                      SourceSystem:' C - SAS/COMS',
-                      SourceType:'BATCH',
-                      Createdby:'',
-                      CreationDate:' 26 SEP 2013 11:03',
-                      AddressLine1:' MARYLEBONE GATE',
-                      AddressLine2:'10 HAREWOOD AVENUE',
-                      AddressLine3:' LONDON',
-                      AddressLine4:'',
-                      ParentCUPID:'13',
-                      ChildCUPID:'13',
-                      RetailerID:'',
-                      NewTelNo:'',
-                      CrossRefNo:'',
-                      LineType:'V - VOIP',
-                      AddrId:'',
-                      AddrIdSource:'',
-                      TypeofLine:''
-                      },
-                      {
-                        Links:'Image',
-                        Telephone:'123456789',
-                        CustName:'PARIBASNET LTD',
-                        BusinessSuffix:'' ,
-                        Premises:'MARYLEBONE GATE',
-                        Thoroughfare:'10 HAREWOOD AVENUE',
-                        Locality:' LONDON',
-                        Postcode:' NW1 6AA',
-                        TransactionRef:'013/013/001000010069',
-                        CustTitle:'',
-                        CustForename:'',
-                        Franchise:' MCL',
-                        SourceSystem:' C - SAS/COMS',
-                        SourceType:'BATCH',
-                        Createdby:'',
-                        CreationDate:' 26 SEP 2013 11:03',
-                        AddressLine1:' MARYLEBONE GATE',
-                        AddressLine2:'10 HAREWOOD AVENUE',
-                        AddressLine3:' LONDON',
-                        AddressLine4:'',
-                        ParentCUPID:'13',
-                        ChildCUPID:'13',
-                        RetailerID:'',
-                        NewTelNo:'',
-                        CrossRefNo:'',
-                        LineType:'V - VOIP',
-                        AddrId:'',
-                        AddrIdSource:'',
-                        TypeofLine:''
-                        },
-                        {
-Links:'Image',
-Telephone:'123456789',
-CustName:'PARIBASNET LTD',
-BusinessSuffix:'' ,
-Premises:'MARYLEBONE GATE',
-Thoroughfare:'10 HAREWOOD AVENUE',
-Locality:' LONDON',
-Postcode:' NW1 6AA',
-TransactionRef:'013/013/001000010069',
-CustTitle:'',
-CustForename:'',
-Franchise:' MCL',
-SourceSystem:' C - SAS/COMS',
-SourceType:'BATCH',
-Createdby:'',
-CreationDate:' 26 SEP 2013 11:03',
-AddressLine1:' MARYLEBONE GATE',
-AddressLine2:'10 HAREWOOD AVENUE',
-AddressLine3:' LONDON',
-AddressLine4:'',
-ParentCUPID:'13',
-ChildCUPID:'13',
-RetailerID:'',
-NewTelNo:'',
-CrossRefNo:'',
-LineType:'V - VOIP',
-AddrId:'',
-AddrIdSource:'',
-TypeofLine:''
-},
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
+  {
+    Links: 'Image',
+    Telephone: '123456789',
+    CustName: 'PARIBASNET LTD',
+    BusinessSuffix: '',
+    Premises: 'MARYLEBONE GATE',
+    Thoroughfare: '10 HAREWOOD AVENUE',
+    Locality: ' LONDON',
+    Postcode: ' NW1 6AA',
+    TransactionRef: '013/013/001000010069',
+    CustTitle: '',
+    CustForename: '',
+    Franchise: ' MCL',
+    SourceSystem: ' C - SAS/COMS',
+    SourceType: 'BATCH',
+    Createdby: '',
+    CreationDate: ' 26 SEP 2013 11:03',
+    AddressLine1: ' MARYLEBONE GATE',
+    AddressLine2: '10 HAREWOOD AVENUE',
+    AddressLine3: ' LONDON',
+    AddressLine4: '',
+    ParentCUPID: '13',
+    ChildCUPID: '13',
+    RetailerID: '',
+    NewTelNo: '',
+    CrossRefNo: '',
+    LineType: 'V - VOIP',
+    AddrId: '',
+    AddrIdSource: '',
+    TypeofLine: ''
+  },
 
 
 
 ];
 const Items: Select[] = [
-{ view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-{ view: 'TelNo End', viewValue: 'TelNoEnd', default: true },
-{ view: 'Audit ActId', viewValue: 'AuditActId', default: true },
-{ view: 'CUP Id', viewValue: 'CUPId', default: true },
-{ view: 'Batch Id', viewValue: 'BatchId', default: true },
-{ view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: false },
-{ view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: false },
-{ view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: false },
-{ view: 'Source', viewValue: 'Source', default: false },
-{ view: 'OSN2 Source', viewValue: 'OSN2Source', default: false },
-{ view: 'Porting Status', viewValue: 'PortingStatus', default: false },
-{ view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: false },
-{ view: 'Resolution Type', viewValue: 'ResType', default: false },
-{ view: 'Switch Status', viewValue: 'SwitchStatus', default: false },
-{ view: 'Mori Status', viewValue: 'MoriStatus', default: false },
-{ view: 'Post Code Diff', viewValue: 'PostCodeDiff', default: false },
-{ view: 'Full Address Diff', viewValue: 'FullAddDiff', default: false },
-{ view: 'Customer Diff', viewValue: 'CustomerDiff', default: false },
-{ view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: false },
+  { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
+  { view: 'TelNo End', viewValue: 'TelNoEnd', default: true },
+  { view: 'Audit ActId', viewValue: 'AuditActId', default: true },
+  { view: 'CUP Id', viewValue: 'CUPId', default: true },
+  { view: 'Batch Id', viewValue: 'BatchId', default: true },
+  { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: false },
+  { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: false },
+  { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: false },
+  { view: 'Source', viewValue: 'Source', default: false },
+  { view: 'OSN2 Source', viewValue: 'OSN2Source', default: false },
+  { view: 'Porting Status', viewValue: 'PortingStatus', default: false },
+  { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: false },
+  { view: 'Resolution Type', viewValue: 'ResType', default: false },
+  { view: 'Switch Status', viewValue: 'SwitchStatus', default: false },
+  { view: 'Mori Status', viewValue: 'MoriStatus', default: false },
+  { view: 'Post Code Diff', viewValue: 'PostCodeDiff', default: false },
+  { view: 'Full Address Diff', viewValue: 'FullAddDiff', default: false },
+  { view: 'Customer Diff', viewValue: 'CustomerDiff', default: false },
+  { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: false },
 
 
 
 ];
-const Itemstwo:Select[]=[
-{view:'Telephone No.',viewValue:'TelephoneNo',default:true},
-{view:'Customer Name',viewValue:'CustomerName',default:true},
-{view:'Post Code',viewValue:'PostCode',default:true},
-{view:'Created On',viewValue:'CreatedOn',default:true},
-{view:'Premises',viewValue:'Premises',default:false},
-{view:'Throughtfare',viewValue:'Throughtfare',default:false},
-{view:'Locality',viewValue:'Locality',default:false},
-{view:'Cupid',viewValue:'Cupid',default:false},
-{view:'Type of Line',viewValue:'TypeofLine',default:false},
-{view:'Franchise',viewValue:'Franchise',default:false},
-{view:'Trans Cmd',viewValue:'TransCmd',default:false},
-{view:'Source',viewValue:'Source',default:false},
+const Itemstwo: Select[] = [
+  { view: 'Telephone No.', viewValue: 'TelephoneNo', default: true },
+  { view: 'Customer Name', viewValue: 'CustomerName', default: true },
+  { view: 'Post Code', viewValue: 'PostCode', default: true },
+  { view: 'Created On', viewValue: 'CreatedOn', default: true },
+  { view: 'Premises', viewValue: 'Premises', default: false },
+  { view: 'Throughtfare', viewValue: 'Throughtfare', default: false },
+  { view: 'Locality', viewValue: 'Locality', default: false },
+  { view: 'Cupid', viewValue: 'Cupid', default: false },
+  { view: 'Type of Line', viewValue: 'TypeOfLine', default: false },
+  { view: 'Franchise', viewValue: 'Franchise', default: false },
+  { view: 'Trans Cmd', viewValue: 'TransactionCommand', default: false },
+  { view: 'Source', viewValue: 'Source', default: false },
 ]
 
 
@@ -434,214 +438,264 @@ const Itemstwo:Select[]=[
 
 
 @Component({
-selector: 'app-liverecords',
-templateUrl: './liverecords.component.html',
-styleUrls: ['./liverecords.component.css']
+  selector: 'app-liverecords',
+  templateUrl: './liverecords.component.html',
+  styleUrls: ['./liverecords.component.css']
 })
 
 
 
 export class LiverecordsComponent implements OnInit {
-@ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
-formbulider: any;
-constructor() { }
-myTable!: TableItem;
-listItems!: Select[];
+  @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
+  formbulider: any;
+
+  myTable!: TableItem;
+  listItems!: Select[];
+
+  constructor(private formBuilder: FormBuilder,
+    private service: ReportService,
+    private cdr: ChangeDetectorRef,
+    private _snackBar: MatSnackBar) { }
+
+  //
+  dataSaved = false;
+  employeeForm: any;
+  employeeIdUpdate = null;
+  massage = null;
+  selectListItems: string[] = [];
+  myForm!: FormGroup;
+  CountryId = null;
+  StateId = null;
+  CityId = null;
+  SelectedDate = null;
+  isMale = true;
+  isFeMale = false;
+  expressions:any = [expNumeric,expString,expDate];
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  errorCodesOptions!: Observable<any[]>;
+  errorCodeData: Select[] = [
+    { view: '101', viewValue: '101', default: true },
+    { view: '202', viewValue: '202', default: true },
+    { view: '303', viewValue: '303', default: true },
+  ];
+  errorCode = new FormControl();
+  selectedTab!: number;
+
+  queryResult$!: Observable<any>;
+  configResult$!: Observable<any>;
+  // public tabs = [{
+  // tabType: 0,
+  // name: 'Main'
+  // },
+  //];
+  public tabs: Tab[] = [];
+  columns: ColumnDetails[] = [
+    { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Cust Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
+    { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
+    { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
+    { header: 'Thoroughfare', headerValue: 'Thoroughfare', showDefault: true, isImage: false },
+    { header: 'Locality', headerValue: 'Locality', showDefault: true, isImage: false },
+    { header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
+    { header: 'Transaction Ref', headerValue: 'TransactionRef', showDefault: true, isImage: false },
+    { header: 'Cust Title', headerValue: 'CustTitle', showDefault: true, isImage: false },
+    { header: 'Cust Forename', headerValue: 'CustForename', showDefault: true, isImage: false },
+    { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
+    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
+    { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
+    { header: 'Address Line 1', headerValue: 'AddressLine1', showDefault: true, isImage: false },
+    { header: 'Address Line 2', headerValue: 'AddressLine2', showDefault: true, isImage: false },
+    { header: 'Address Line 3', headerValue: 'AddressLine3', showDefault: true, isImage: false },
+    { header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
+    { header: 'Parent CUPID', headerValue: 'ParentCUPID', showDefault: true, isImage: false },
+    { header: 'Child CUPID', headerValue: 'ChildCUPID', showDefault: true, isImage: false },
+    { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
+    { header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
+  ];
+  setControlAttribute(matSelect: MatSelect) {
+    matSelect.options.forEach((item) => {
+      if (item.selected) {
+        this.myForm.controls[item.value].enable();
+      }
+      else {
+        this.myForm.controls[item.value].disable();
+      }
+    });
+  }
+  ngOnInit(): void {
+ 
+    this.listItems = Itemstwo;
+    this.setOptions();
+      this.createForm();
+      // debugger;
+      // let transformInput = JSON.parse(WMRequests.CONFIG);
+      // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command', 'Source']
+      // console.log("Input: ", transformInput);
+      debugger;
+      let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand','ErrorCode']);
+      this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
+  
+      //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
+    
+  }
+  ngAfterViewInit() {
+  }
+  
+  prepareQueryParams(): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: ['1'] }];
+
+
+    for (const field in this.myForm?.controls) {
+      const control = this.myForm.get(field);
+      if (field != 'Source') {
+        if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+      }
+    }
+    console.log(attributes);
+
+    return attributes;
+
+  }
+
+  setOptions() {
+    this.errorCodesOptions = this.errorCode.valueChanges
+      .pipe(
+        startWith<string>(''),
+        map(name => this._filter(name))
+      );
+  }
+  splitData(data: string): string[] {
+    return data.split(',');
+  }
+  private _filter(name: string): any[] {
+    const filterValue = name.toLowerCase();
+    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    // return filteredList;
+    let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
+    return filteredList;
+  }
+  onFormSubmit(): void {
+    debugger;
+    let request = Utils.prepareQueryRequest('LiveDataSummary','LiveRecords', this.prepareQueryParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].LiveTelephoneNumberDetails));
+
+    this.myTable = {
+      data: this.queryResult$,
+      Columns: this.columns,
+      filter: true,
+      selectCheckbox: true,
+      selectionColumn: 'Links',
+      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', tabIndex: 1 }]
+
+    }
+    if (!this.tabs.find(x => x.tabType == 0)) {
+      this.tabs.push({
+        tabType: 0,
+        name: 'Main'
+      });
+    }
+    this.selectedTab = this.tabs.length;
+    //this.selectedTab = this.tabs.length - 1;
+  }
+  resetForm(): void {
+    this._snackBar.open('Reset Form Completed!', 'Close', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+  removeTab(index: number) {
+    this.tabs.splice(index, 1);
+  }
+  newTab(tab: any) {
+    switch (tab.tabType) {
+      case 1: {
 
 
 
-//
-dataSaved = false;
-employeeForm: any;
-employeeIdUpdate = null;
-massage = null;
-selectListItems: string[] = [];
-myForm!: FormGroup;
-CountryId = null;
-StateId = null;
-CityId = null;
-SelectedDate = null;
-isMale = true;
-isFeMale = false;
-destroy$: Subject<boolean> = new Subject<boolean>();
-horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-errorCodesOptions!: Observable<any[]>;
-errorCodeData: Select[] = [
-{ view: '101', viewValue: '101', default: true },
-{ view: '202', viewValue: '202', default: true },
-{ view: '303', viewValue: '303', default: true },
-];
-errorCode = new FormControl();
-selectedTab!: number;
-// public tabs = [{
-// tabType: 0,
-// name: 'Main'
-// },
-//];
-public tabs: Tab[] = [];
-columns: ColumnDetails[] = [
-{ header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
-{ header: 'Telephone No', headerValue: 'Telephone', showDefault: true, isImage: false },
-{ header: 'Cust Name', headerValue: 'CustName', showDefault: true, isImage: false },
-{ header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
-{ header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
-{ header: 'Thoroughfare', headerValue: 'Thoroughfare', showDefault: true, isImage: false },
-{ header: 'Locality', headerValue: 'Locality', showDefault: true, isImage: false },
-{ header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
-{ header: 'Transaction Ref', headerValue: 'TransactionRef', showDefault: true, isImage: false },
-{ header: 'Cust Title', headerValue: 'CustTitle', showDefault: true, isImage: false },
-{ header: 'Cust Forename', headerValue: 'CustForename', showDefault: true, isImage: false },
-{ header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
-{ header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
-{ header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
-{ header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
-{ header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
-{ header: 'Address Line 1', headerValue: 'AddressLine1', showDefault: true, isImage: false },
-{ header: 'Address Line 2', headerValue: 'AddressLine2', showDefault: true, isImage: false },
-{ header: 'Address Line 3', headerValue: 'AddressLine3', showDefault: true, isImage: false },
-{ header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
-{ header: 'Parent CUPID', headerValue: 'ParentCUPID', showDefault: true, isImage: false },
-{ header: 'Child CUPID', headerValue: 'ChildCUPID', showDefault: true, isImage: false },
-{ header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
-{ header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
-];
-setControlAttribute(matSelect: MatSelect) {
-matSelect.options.forEach((item) => {
-if (item.selected) {
-this.myForm.controls[item.value].enable();
-}
-else {
-this.myForm.controls[item.value].disable();
-}
-});
-}
-ngOnInit(): void {
-this.createForm();
-this.listItems = Itemstwo;
-this.setOptions();
+        //tab.row contains row data- fetch data from api and bind to respetive component
+        if (!this.tabs.find(x => x.tabType == 1)) {
+          this.tabs.push({
+            tabType: 1,
+            name: 'Audit Trail Report'
+          });
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+        }
+        break;
+      }
+      case 2: {
+        if (!this.tabs.find(x => x.tabType == 2)) {
+          this.tabs.push({
+            tabType: 2,
+            name: 'Transaction Details'
+          })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+        }
+        break;
+      }
+      default: {
+        //statements;
+        break;
+      }
+    }
+  }
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    //debugger;
+    //console.log('destroying')
+    // Unsubscribe from the subject
+    this.destroy$.unsubscribe();
+  }
 
-}
-ngAfterViewInit() {
-}
-setOptions() {
-this.errorCodesOptions = this.errorCode.valueChanges
-.pipe(
-startWith<string>(''),
-map(name => this._filter(name))
-);
-}
+  createForm() {
+    this.myForm = new FormGroup({
+      TelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(99)]),
+      CustomerName: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(99)]),
+      PostCode: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      CreatedOn: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      Premises: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      Throughtfare: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      Locality: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      Cupid: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      TypeOfLine: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      Franchise: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      TransactionCommand: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
 
-private _filter(name: string): any[] {
-const filterValue = name.toLowerCase();
-// let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-// return filteredList;
-let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
-return filteredList;
-}
-onFormSubmit(): void {
-this.myTable = {
-data: ELEMENT_DATA,
-Columns: this.columns,
-filter: true,
-selectCheckbox: true,
-selectionColumn: 'Links',
-imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '',tabIndex:1 }]
+    })
+  
+  }
 
-}
-if (!this.tabs.find(x => x.tabType == 0)) {
-this.tabs.push({
-tabType: 0,
-name: 'Main'
-});
-}
-this.selectedTab = this.tabs.length;
-//this.selectedTab = this.tabs.length - 1;
-}
-resetForm(): void { }
-removeTab(index: number) {
-this.tabs.splice(index, 1);
-}
-newTab(tab: any) {
-switch (tab.tabType) {
-case 1: {
+  rowDetect(item: any) {
+    //debugger;
+    if (item.length == 0) {
+      this.selectListItems = [];
+    } else {
+      item.forEach((el: string) => {
+        if (!this.selectListItems.includes(el)) {
+          this.selectListItems.push(el)
+        }
+        else {
+          if (this.selectListItems.includes(el)) {
+            let index = this.selectListItems.indexOf(el);
+            this.selectListItems.splice(index, 1)
+          }
+        }
+      });
+    }
+  }
 
-
-
-//tab.row contains row data- fetch data from api and bind to respetive component
-if (!this.tabs.find(x => x.tabType == 1)) {
-this.tabs.push({
-tabType: 1,
-name: 'Audit Trail Report'
-});
-this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
-} else {
-this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
-}
-break;
-}
-case 2: {
-if (!this.tabs.find(x => x.tabType == 2)) {
-this.tabs.push({
-tabType: 2,
-name: 'Transaction Details'
-})
-this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-} else {
-this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-}
-break;
-}
-default: {
-//statements;
-break;
-}
-}
-}
-ngOnDestroy() {
-this.destroy$.next(true);
-//debugger;
-//console.log('destroying')
-// Unsubscribe from the subject
-this.destroy$.unsubscribe();
-}
-
-createForm() {
-this.myForm = new FormGroup({
-TelephoneNo: new FormControl({ value: '', disabled: true },[Validators.required,Validators.minLength(3),Validators.maxLength(99)]),
-CustomerName: new FormControl({ value: '', disabled: true },[Validators.required,Validators.minLength(3),Validators.maxLength(99)]),
-PostCode: new FormControl({ value: '', disabled: true }, [Validators.required]),
-CreatedOn: new FormControl({ value: '', disabled: true }, [Validators.required]),
-Premises: new FormControl({ value: '', disabled: true }, [Validators.required]),
-Throughtfare: new FormControl({ value: '', disabled: true }, [Validators.required]),
-Locality: new FormControl({ value: '', disabled: true }, [Validators.required]),
-Cupid: new FormControl({ value: '', disabled: true }, [Validators.required]),
-TypeofLine: new FormControl({ value: '', disabled: true }, [Validators.required]),
-Franchise: new FormControl({ value: '', disabled: true }, [Validators.required]),
-TransCmd: new FormControl({ value: '', disabled: true }, [Validators.required]),
-Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
-
-})
-}
-
-
-
-rowDetect(item: any) {
-//debugger;
-if (item.length == 0) {
-this.selectListItems = [];
-} else {
-item.forEach((el: string) => {
-if (!this.selectListItems.includes(el)) {
-this.selectListItems.push(el)
-}
-else {
-if (this.selectListItems.includes(el)) {
-let index = this.selectListItems.indexOf(el);
-this.selectListItems.splice(index, 1)
-}
-}
-});
-}
-}
 }

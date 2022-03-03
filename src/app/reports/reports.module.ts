@@ -10,6 +10,7 @@ import { SharedModule } from '../_shared/shared.module';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 import { LiverecordsComponent } from './liverecords/liverecords.component';
 import { AlertDialogComponent } from './telephone-range-report/alert-dialog.component';
+import { ReportService } from './services/report.service';
 
 
 
@@ -29,6 +30,8 @@ import { AlertDialogComponent } from './telephone-range-report/alert-dialog.comp
     ReactiveFormsModule,
     FormsModule,
     SharedModule
-  ]
+  ],
+  providers:[ReportService]
+
 })
 export class ReportsModule { }

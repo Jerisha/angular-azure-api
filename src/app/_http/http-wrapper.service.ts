@@ -18,6 +18,7 @@ export class HttpWrapperService {
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
+            console.log( JSON.stringify(body));
         // this.http(httpVerb.toString(),
         //     `${environment.api_url}${endPoint}`,
         //     JSON.stringify(body),
