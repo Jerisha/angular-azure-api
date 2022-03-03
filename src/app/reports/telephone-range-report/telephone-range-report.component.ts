@@ -11,10 +11,10 @@ import { MatSelect } from '@angular/material/select';
 import { AlertService } from 'src/app/_shared/alert';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertDialogComponent } from './alert-dialog.component';
 import { HttpWrapperService } from 'src/app/_http/http-wrapper.service';
 import { Utils, WebMethods } from 'src/app/_http';
 import { ResolvingOfErrorsService } from 'src/app/resolvingoferrors/services/resolving-of-errors.service';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 
 const ELEMENT_DATA = [
   {
@@ -254,12 +254,16 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   //Alerts Dialog
   openDialog(){
-    const dialogRef = this.dialog.open(AlertDialogComponent,{
-      width:'300px',
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,{
+      width:'400px',
+      // height:'250px',
       disableClose: true,
       data:{
         message: 'This is from Alert Dialog',
       }
     });
+    dialogRef.afterClosed().subscribe(result=>{
+      console.log("Dialog" + result);
+    })
   }
 }
