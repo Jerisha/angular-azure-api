@@ -12,6 +12,7 @@ import { LiverecordsComponent } from './liverecords/liverecords.component';
 import { AlertDialogComponent } from './telephone-range-report/alert-dialog.component';
 import { ReportService } from './services/report.service';
 
+import { HelperModule } from '../_helper/helper.module';
 
 
 @NgModule({
@@ -29,9 +30,15 @@ import { ReportService } from './services/report.service';
     UicomponentsModule,
     ReactiveFormsModule,
     FormsModule,
+<<<<<<< HEAD
     SharedModule
   ],
   providers:[ReportService]
 
+=======
+    SharedModule,
+    HelperModule
+  ]
+>>>>>>> dev
 })
 export class ReportsModule { }

@@ -23,7 +23,7 @@ import { HelperModule } from './_helper/helper.module';
 import { StatisticalreportsModule } from './statisticalreports/statisticalreports.module';
 import { ReportsModule } from './reports/reports.module';
 import { SharedModule } from './_shared/shared.module';
-
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -44,7 +44,8 @@ import { SharedModule } from './_shared/shared.module';
     StatisticalreportsModule,
     ReportsModule,  
     HelperModule,
-    SharedModule 
+    SharedModule,
+    NgxSpinnerModule
   ],
   providers: [NavService,HttpWrapperService,
     {

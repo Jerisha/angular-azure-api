@@ -1,13 +1,14 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field/autosize';
-import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild,AfterViewInit, OnDestroy  } from '@angular/core';
+import { Observable,ReplaySubject, Subject } from 'rxjs';
 import { CupId } from 'src/app/_data/listValues/CupId';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
-import { take } from 'rxjs/operators';
+import { take,takeUntil } from 'rxjs/operators';
 import { ThrowStmt } from '@angular/compiler';
 import { CustomerAddress, ICustomerAddress } from "../models/ICustomerAddress";
 import { TransactionItem } from '../models/ITransactionItem';
 import { MatSelect } from '@angular/material/select';
+import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions-views',
@@ -15,7 +16,7 @@ import { MatSelect } from '@angular/material/select';
   styleUrls: ['./transactions-views.component.css']
 })
 
-export class TransactionsViewsComponent implements OnInit {
+export class TransactionsViewsComponent implements OnInit, AfterViewInit{
   
   view1Toggle: string ="";
   view2Toggle: string ="";
@@ -38,6 +39,7 @@ export class TransactionsViewsComponent implements OnInit {
   visibleSearchOption:any;
   multiRangeTelephoneList:string="Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890";
 
+  isExportImportSelected:Boolean =false;
   telephoneSet="";
     model:any ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
     // transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
@@ -60,8 +62,16 @@ export class TransactionsViewsComponent implements OnInit {
 
     addbtncolor:string ="secondary"
     
+    formsGroup!: FormGroup;
+    ff:any;
+    sf:any;
+    tf:any;
+   
 
-  constructor(private _ngZone: NgZone,private cdr: ChangeDetectorRef)  {}
+  constructor(private _ngZone: NgZone,private cdr: ChangeDetectorRef,private fb: FormBuilder)  
+  {
+
+  }
   
   ngAfterViewInit() 
   {
@@ -73,12 +83,9 @@ export class TransactionsViewsComponent implements OnInit {
   }
 
   ngOnInit() {  
-    this.views.view1=true;  
-    // this.view1Toggle ="display: block;visibility:visible;";
-    // this.view2Toggle ="display: none;visibility:hidden;";
-    // this.view3Toggle ="display: none;visibility:hidden;";  
-    // this.model.tel ="01234567890";
-    // this.model.rangeEnd ="01234567890";
+    this.views.view1=true; 
+    this.formsGroup = this.fb.group({}); 
+    this.initForm();     
     }
 
   @ViewChild('autosize')
@@ -87,6 +94,56 @@ export class TransactionsViewsComponent implements OnInit {
   triggerResize() {
     // Wait for changes to be applied, then trigger textarea resize.
     this._ngZone.onStable.pipe(take(1)).subscribe(() => this.autosize.resizeToFitContent(true));
+  }
+
+  initForm()
+  {
+    this.formsGroup = this.fb.group({
+      firstView:this.fb.group({
+        StartTelTxt:new FormControl({value: '', disabled: false }, [Validators.minLength(11),Validators.maxLength(11),Validators.pattern('^[0][249][0-9]')]),
+        EndTelTxt:new FormControl({value: '', disabled: false }, [Validators.minLength(11),Validators.maxLength(11)]), 
+        CliRangeLst:new FormControl({value: '', disabled: false }, []), 
+        AddCliRangeBtn:new FormControl({value: '', disabled: false }, []), 
+        SearchBtn:new FormControl({value: '', disabled: false }, []), 
+      }),
+      secondView:this.fb.group({
+        ReviewBtn:new FormControl({value: '', disabled: false }, []),
+        AuditTrailBtn:new FormControl({value: '', disabled: false }, []), 
+        ResetBtn:new FormControl({value: '', disabled: false }, []),
+        CupIdCbo:new FormControl({value: '', disabled: false }, []),
+        FransciseCbo:new FormControl({value: '', disabled: false }, []),
+        }),
+      thirdView:this.fb.group({
+          TranTypeCbo:new FormControl({value: '', disabled: false }, []),
+          LineTypeCbo:new FormControl({value: '', disabled: false }, []),
+          TypeOfLineCbo:new FormControl({value: '', disabled: false }, []),
+          OrderRefTxt:new FormControl({value: '', disabled: false }, []),
+          IECupIdTxt:new FormControl({value: '', disabled: false }, []),
+          CommentTxt:new FormControl({value: '', disabled: false }, []),
+          CustomerNameTxt:new FormControl({value: '', disabled: false }, []), 
+          Address1Txt:new FormControl({value: '', disabled: false }, []), 
+          Address2Txt:new FormControl({value: '', disabled: false }, []), 
+          Address3Txt:new FormControl({value: '', disabled: false }, []), 
+          Address4Txt:new FormControl({value: '', disabled: false }, []), 
+          PostCodeTxt:new FormControl({value: '', disabled: false }, []), 
+          }),
+    });   
+  }
+
+  onTranTypeChange(event:any)
+  {
+    if(event.target.value==="Export" ||event.target.value==="Import")
+    {
+      // console.log(event.target.value)
+      this.isExportImportSelected =true;
+
+    }
+    else
+    {
+      // console.log( "else",event.target.value)
+      this.isExportImportSelected =false;
+
+    }
   }
   onFormSubmit()
   {
@@ -99,8 +156,7 @@ export class TransactionsViewsComponent implements OnInit {
   onSfSubmit()
   {
      
-  }
-  
+  } 
 
   onSubmit()
 {
@@ -111,23 +167,23 @@ removeRangeCli(rangeIndex:number){
 
 }
 
+
+
 onChangeEvent(event:any)
-{
-  // this.ValidateTelno(event.target.value);
+{  
   if(event.target.value !="")
   {
-    // console.log(this.searchTelState,this.btncolor)
-    // console.log(event.target.value);
+    
+    this.isExportImportSelected =true;
     this.searchTelState =false;
     this.addCliState=false;
     this.btncolor ="vf-primary-btn";
     this.addbtncolor="vf-add-btn";
-    // console.log(event.target.value); 
-    // console.log(this.searchTelState,this.btncolor)   
-
   }
 
 }
+
+
 
 OnstateItemChange(event:any)
 {
@@ -154,8 +210,7 @@ updateDefaultOfficeAddressDetails()
 updateMatchedAddressDetails()
 {  
   this.transactionItem.customerAddress= this.matchedAuditAddress;
-  console.log(this.transactionItem.customerAddress,"dest");
-  console.log(this.matchedAuditAddress);
+  
 }
 viewAddressCheck()
 {
@@ -179,11 +234,7 @@ ReviewCli()
 }
 SearchTel(){ 
     if(this.model.telno !="" ||this.model.rangeEnd !="" ||this.CliRangeSet.length>0)
-      {
-        //console.log(this.model.tel,this.model.rangeEnd )   
-          //this.view2Toggle ="display: block;visibility:visible;";
-          //this.view1Toggle ="display: none;visibility:hidden;";
-          // this.view3Toggle ="display: none;visibility:hidden;";
+      {        
           if (this.CliRangeSet.length===0)
           {this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);}
           this.views.view1=false;
@@ -197,7 +248,7 @@ SearchTel(){
   }
   ValidateTelno(telno:string){
     
-    let regNumberOnly = new RegExp("^[0-9 ]*$"); 
+    let regNumberOnly = new RegExp("^[0-9]*$"); 
 
     if(!(telno.length==0))
    {
@@ -219,10 +270,6 @@ SearchTel(){
   }
 
   resetTel(sf:any) {
-    
-    // this.view1Toggle ="display: block;visibility:visible;";
-    // this.view2Toggle ="display: none;visibility:hidden;";
-    // this.view3Toggle ="display: none;visibility:hidden;";
     this.model={telno:"",rangeEnd:"",CupId:"",Franchise:""};
     this.views.view3=false;
     this.views.view2=false;
@@ -259,11 +306,9 @@ SearchTel(){
   addRangeTel()
   {
     if(this.model.telno !="" ||this.model.rangeEnd !="")
-      {
-    // alert('add telephone range!');
-    // console.log(this.model.telno,'-',this.model.rangeEnd);
-    this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);
-    this.model ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
+      {    
+        this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);
+        this.model ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
       }
       else{
         alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
@@ -273,25 +318,7 @@ SearchTel(){
   check_franchise()
   {  
     this.views.view3=true; 
-    // this.panelOpenState =false; 
-    // if(tf.franchise.selected )
-    //   this.view3Toggle ="display: block;visibility:visible;";
-    // else
-    // this.view3Toggle ="display: none;visibility:hidden;";
-    // console.log( this.model.Franchise );
-    // if (this.model.Franchise != undefined)
-    //   {
-    //     console.log(this.model.CupId,this.model.Franchise )
-    //     this.views.view2=true;
-    //     this.views.view1=false;
-    //     this.views.view3=false;
-       
-    //   }
-    //   else{
-    //     this.views.view2=true;
-    //     this.views.view1=false;
-    //     this.views.view3=false;
-    //   }
+    
   }
 
   loadview(viewNumber:number)
@@ -301,17 +328,9 @@ SearchTel(){
     else
     this.view3Toggle ="display: none;visibility:hidden;";
   }
-  // setControlAttribute(MatSelect: typeof MatSelect) {
-  //   // throw new Error('Function not implemented.');
-  //   MatSelect.options.forEach((item: { selected: any; value: string | number; }) => {
-  //     if (item.selected) {
-  //       // this.formBuilder.tf.controls[item.value].enable();
-  //     }
-  //     else {
-  //       // this.tf.controls[item.value].disable();
-  //     }
-  //   });
-  // }
+  
+
+   
 
 }
 

@@ -4,6 +4,10 @@ import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, Unso
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { Router } from '@angular/router';
+import { AuditTrailService } from './services/audit-trail.service';
+import { Utils } from 'src/app/_http/common/utils';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const ele: TelephoneAuditTrail =
 {
@@ -38,7 +42,7 @@ const ele: TelephoneAuditTrail =
         xRef: '',
         lineType: 'D - DDI',
       }
-    ,
+    , 
   unsolicitedDetails: [
         { Code: '1046',	ErrorMessage: 'Import is 10 days overdue.',	Date: 'THU 28 JUL 2016 08:25:23',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101328071601.CAR' },
         { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'WED 27 JUL 2016 08:26:46',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101327071601.CAR' },
@@ -49,7 +53,7 @@ const ele: TelephoneAuditTrail =
         { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'FRI 22 JUL 2016 08:25:34',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101322071601.CAR' },
         { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'THU 21 JUL 2016 08:25:30',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101321071601.CAR' },
         { Code: '1045',	ErrorMessage: 'Import Record is Missing.',	Date: 'WED 20 JUL 2016 17:55:06',	Franchise: 'EDB',	Postcode: 'SG1 1AG',	FileName: 'BT101320071606.CAR' },
-      ],
+      ], 
   transactionDetails:
     [
       {
@@ -135,6 +139,8 @@ const ele: TelephoneAuditTrail =
         ResolutionType: 'New',
         CliStatus: 'Active',
         Comments: 'clarify',
+        UserComments: null,
+        /*
         UserComments: [
           {
             AuditActId: '0099876543',
@@ -144,7 +150,7 @@ const ele: TelephoneAuditTrail =
             ResolutionType: 'New',
             Comments: 'The testing is in process'
           }
-        ]
+        ] */
       }
     ],
     externalAudit: [
@@ -179,14 +185,12 @@ const ele: TelephoneAuditTrail =
       ResolutionType: 'Auto Closed',
       ExternalCliStatus: 'S-Matched',
       FullAuditCliStatus: 'SAD-Matched - Source Active MisMatched',
-      UserComments: null,
-      /*
       UserComments: [{ AuditActId: '28',
       TelephoneNo: '01619526181',
       CreatedOn: '21-NOV-20 02.33.46.878459 PM',
       CreatedBy: 'SYSTEM',
       ResolutionType: 'Auto Closed',
-      Comments: 'Auto closed occurs when a new audit run is generated.', }], */
+      Comments: 'Auto closed occurs when a new audit run is generated.', }], 
       }
     ]  
   } 
@@ -223,12 +227,13 @@ export class TelephoneAuditTrailComponent implements OnInit {
   unsolicitedDetails?: UnsolicitedDetails[];
   transactionDetails?: TransactionDetails[];
   auditDetails?: AuditDetails;
+  GetResult$!: Observable<any>;
 
   @Input() isRequiredUnsol: boolean = false;
 
 
   // ELEMENT_DATA: Option[] = [];
-  constructor( private _route: Router) {
+  constructor( private _route: Router, private service: AuditTrailService) {
     // for (let i = 0; i < this.dataSource.length; i++) {
     //   for (let item of this.dataSource[i].options) {
 
@@ -246,6 +251,14 @@ export class TelephoneAuditTrailComponent implements OnInit {
     this.transactionDetails = ele?.transactionDetails;
     this.auditDetails = ele.auditDetails;
     this.unsolicitedDetails = ele?.unsolicitedDetails;
+    let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
+    Value : [ "02071117402" ] }]);
+   // this.GetResult$ = this.service.getDetails(request);
+    debugger;
+     this.service.getDetails(request).subscribe((res: any) => 
+     console.log(res)
+     );
+
   }
 
   setStep(index: number) {

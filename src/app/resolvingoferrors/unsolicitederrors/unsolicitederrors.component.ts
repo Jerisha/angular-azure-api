@@ -9,8 +9,9 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
-
-
+import { Utils } from 'src/app/_http/index';
+import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
+import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -113,15 +114,14 @@ const ELEMENT_DATA: UnSolicitedErrors[] = [
 ];
 
 const FilterListItems: Select[] = [
-  { view: 'Start Telephone No', viewValue: 'TelNoStart', default: true },
-  { view: 'End Telephone No', viewValue: 'TelNoEnd', default: true },
+  { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
-  { view: 'Error Description', viewValue: 'ErrorDescription', default: true },
+  { view: 'Error Type', viewValue: 'ErrorType', default: true },
   // { view: 'Date Range', viewValue: 'Date', default: true },
-  { view: 'Is Final', viewValue: 'IsFinal', default: true },
+  { view: 'Is Final', viewValue: 'Final', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  { view: '999 Reference', viewValue: 'Reference', default: true },
-  { view: 'Order Reference', viewValue: 'OrderReference', default: true }
+  { view: '999 Reference', viewValue: 'Reference', default: true }
 
 
 ];
@@ -143,76 +143,203 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
-  errorCodesOptions!: Observable<any[]>;
-  errorCodeData: Select[] = [
-    { view: '101', viewValue: '101', default: true },
-    { view: '202', viewValue: '202', default: true },
-    { view: '303', viewValue: '303', default: true },
-  ];
 
+  selectedGridRows: any[] = [];
   selectedTab!: number;
   thisForm!: FormGroup;
+  thisUpdateForm! : FormGroup;
   tabs: Tab[] = [];
-  //  {
-  //   tabType: 1,
-  //   name: 'Audit Trail Report'
-  // },{
-  //   tabType: 2,
-  //   name: 'Transaction Details'
-  // }
+
 
   columns: ColumnDetails[] = [
-    { header: 'Telephone Number', headerValue: 'TelNo', showDefault: true, isImage: false },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Error Code', headerValue: 'ErrorCount', showDefault: true, isImage: false },
     { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Request Start Date', headerValue: 'RequestStart', showDefault: true, isImage: false },
-    { header: 'Request End Date', headerValue: 'RequestEnd', showDefault: true, isImage: false },
-    { header: 'Difference in Days', headerValue: 'Diff', showDefault: true, isImage: false },
+    { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
+    { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
+    { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
-
+  telNo?: any;
+  tranId?: any;
+  repIdentifier = "UnsolicitedErrors";
+  queryResult$!: Observable<any>;
+  configResult$!: Observable<any>;
+  updateResult$!: Observable<any>;
+  configDetails!: any;
 
   selected: string = '';
 
-  constructor(private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
+  constructor(private formBuilder: FormBuilder,
+    private service: ResolvingOfErrorsService,
+    private cdr: ChangeDetectorRef) { }
 
 
 
   ngOnInit(): void {
     this.createForm();
-    this.setOptions();
+    //this.UpdateForm();
+    debugger;
+    let request = Utils.prepareConfigRequest(['Source', 'ErrorType', 'Final', 'ResolutionType']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      //console.log("res: " + JSON.stringify(res))
+      this.configDetails = res[0];
 
+    });
+
+
+  }
+
+  splitData(data: string | undefined): string[] {
+    return data ? data.split(',') : [];
   }
   ngAfterViewInit() {
-    //this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
-  // ngAfterViewChecked() {
-  //   this.cdr.detectChanges();
-  // }
+  addPrefix(control: string, value: any) {    
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    this.thisForm.controls[control].setValue(value);
+  }
+  
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+  get f() {
+    return this.thisForm.controls;
+  }
+  
+  prepareUpdateParams(): any {
+    let attributes: any = [];
+    const startTelephoneNumber = this.thisForm.get('StartTelephoneNumber');
+    const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
+    const resolutionType = this.thisUpdateForm.get('ResolutionType');
+    const reference = this.thisUpdateForm.get('Reference');
+    const remarks = this.thisUpdateForm.get('Remarks');
+
+    if (startTelephoneNumber?.value)
+      attributes.push({ Name: 'TelephoneNumberStart', Value: startTelephoneNumber.value });
+    else
+      attributes.push({ Name: 'TelephoneNumberStart' });
+
+    if (endTelephoneNumber?.value)
+      attributes.push({ Name: 'TelephoneNumberEnd', Value: endTelephoneNumber.value });
+    else
+      attributes.push({ Name: 'TelephoneNumberEnd' });
+
+    let transId: string[] = [];
+    this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
+    attributes.push({ Name: 'TransactionReference', Value: transId });
+
+    if (resolutionType?.value)
+      attributes.push({ Name: 'ResolutionType', Value: resolutionType.value });
+    else
+      attributes.push({ Name: 'ResolutionType' });
+    if (remarks?.value)
+      attributes.push({ Name: 'Remarks', Value: remarks.value });
+    else
+      attributes.push({ Name: 'Remarks' });
+    if (reference?.value)
+      attributes.push({ Name: '999Reference', Value: reference.value });
+    else
+      attributes.push({ Name: '999Reference' });
+
+    console.log(attributes);
+
+    return attributes;
+  }
+
+  prepareQueryParams(): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: ['1'] }];
+
+    const control = this.thisForm.get('Reference');
+    if (control?.value)
+      attributes.push({ Name: '999Reference', Value: [control?.value] });
+    else
+      attributes.push({ Name: '999Reference' });
+    //FromDate
+    const fromDate = this.thisForm.get('FromDate');
+    if (fromDate?.value.value)
+      attributes.push({ Name: 'FromDate', Value: [fromDate?.value.value] });
+    else
+      attributes.push({ Name: 'FromDate' });
+    //ToDate
+    const toDate = this.thisForm.get('ToDate');
+    if (toDate?.value.value)
+      attributes.push({ Name: 'ToDate', Value: [toDate?.value.value] });
+    else
+      attributes.push({ Name: 'ToDate' });
+
+    for (const field in this.f) {
+      const control = this.thisForm.get(field);
+      if (field != 'Reference' && field != 'FromDate' && field != 'ToDate') {
+        if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+      }
+    }
+    console.log(attributes);
+
+    return attributes;
+
+  }
+
+
   createForm() {
 
     this.thisForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
-      TelNoEnd: new FormControl({ value: '', disabled: true }, [Validators.minLength(10)]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
-      ErrorDescription: new FormControl({ value: '', disabled: true }, []),
-      IsFinal: new FormControl({ value: '', disabled: true }, []),
+      ErrorType: new FormControl({ value: '', disabled: true }, []),
+      Final: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
-      OrderReference: new FormControl({ value: '', disabled: true }, []),
+      FromDate: new FormControl({ value: '' }, []),
+      ToDate: new FormControl({ value: '' }, [])
 
 
     })
 
   }
+  
+  UpdateForm() {
+
+    this.thisUpdateForm = this.formBuilder.group({
+      Resolution: new FormControl({ value: ''}),
+      Remarks: new FormControl({ value: ''}),
+      Ref: new FormControl({ value: '' })
+     })
+
+  }
+    
+
+  onSaveSubmit()
+  {
+    let request = Utils.prepareQueryRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
+
+  }
+  
   DisplayInformationTab() {
     debugger;
     this.infotable1 = ELEMENT_DATA_InformationTable1;
@@ -240,8 +367,17 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   }
 
   onFormSubmit(): void {
+
+    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
+
+
+    // this.spinner.show();
+    // setTimeout(()=>{/** spinner ends after 5 seconds */this.spinner.hide();},3000);
+
+
     this.myTable = {
-      data: ELEMENT_DATA,
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
@@ -265,53 +401,47 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
 
   }
-  private _filter(name: string): any[] {
-    const filterValue = name.toLowerCase();
-    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-    // return filteredList;
-    let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
-    return filteredList;
-  }
+
 
   resetForm(): void { }
 
   rowDetect(item: any) {
     //debugger;
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
-    }
-  }
+    //this.selectedRowsCount = item.length;
+    if (item && item.length == 0) return
 
+
+
+    if (!this.selectedGridRows.includes(item))
+      this.selectedGridRows.push(item)
+    else if (this.selectedGridRows.includes(item)) {
+      let index = this.selectedGridRows.indexOf(item);
+      this.selectedGridRows.splice(index, 1)
+    }
+    console.log("selectedGridRows" + JSON.stringify(this.selectedGridRows))
+  }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
 
   newTab(tab: any) {
+    if (this.tabs === []) return;
+    this.telNo = tab.row.TelephoneNumber;
+    this.tranId = tab.row.TransactionReference;
     switch (tab.tabType) {
       case 1: {
         //tab.row contains row data- fetch data from api and bind to respetive component
         if (!this.tabs.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report (1977722725)'
+            name: 'Audit Trail Report (' + this.telNo + ')'
           });
-          //   this.selectedTab = 1;
-          // }
+
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
         }
         break;
       }
@@ -321,8 +451,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
             tabType: 2,
             name: 'Transaction Errors'
           })
-          //   this.selectedTab = 2;
-          // }
+
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
@@ -335,9 +464,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  print(s: string) {
-    console.log(s);
-  }
+
 
 
   selChangeMultiple(matSelect: MatSelect) {
