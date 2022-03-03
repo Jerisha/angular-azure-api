@@ -24,8 +24,9 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
             <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
-            <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)" (blur)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput  maxlength="11"
-              placeholder="Start Telephone No" autocomplete="off"  #starttelno >
+            <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
+              (blur)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput maxlength="11"
+              placeholder="Start Telephone No" autocomplete="off" #starttelno>
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
@@ -38,7 +39,8 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
             <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
-              autocomplete="off" (keypress)="numberOnly($event)" (blur)="addPrefix('EndTelephoneNumber',endtelno.value)">
+              autocomplete="off" (keypress)="numberOnly($event)"
+              (blur)="addPrefix('EndTelephoneNumber',endtelno.value)">
             <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
@@ -56,7 +58,7 @@
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoCommand="matAutocomplete">
-              <mat-option *ngFor="let val of splitData(config.Command) | ddlFilter: f.Command.value" [value]="val">
+              <mat-option *ngFor="let val of config.Command | splitBy: ',' | ddlFilter: f.Command.value" [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
@@ -77,7 +79,7 @@
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
-              <mat-option *ngFor="let val of splitData(config.Source) | ddlFilter: f.Source.value" [value]="val">
+              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
                 {{val}}</mat-option>
             </mat-autocomplete>
             <!-- <mat-option></mat-option>
@@ -99,7 +101,9 @@
 
           <mat-form-field>
             <mat-label>Date Range</mat-label>
-            <mat-date-range-input [rangePicker]="picker">
+            <mat-date-range-input 
+            formGroupName="DateRange"
+            [rangePicker]="picker">
               <input formControlName="FromDate" matStartDate placeholder="Start date">
               <input formControlName="ToDate" matEndDate placeholder="End date">
             </mat-date-range-input>
@@ -117,7 +121,7 @@
             </span>
             <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
               <!-- <mat-select formControlName="ResolutionType"> -->
-              <mat-option *ngFor="let val of splitData(config.ResolutionType) | ddlFilter: f.ResolutionType.value"
+              <mat-option *ngFor="let val of config.ResolutionType | splitBy: ',' | ddlFilter: f.ResolutionType.value"
                 [value]="val">{{val}}</mat-option>
             </mat-autocomplete>
             <!-- <mat-option></mat-option>
@@ -139,7 +143,7 @@
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoErrorType="matAutocomplete">
-              <mat-option *ngFor="let val of splitData(config.ErrorType)  | ddlFilter: f.ErrorType.value" [value]="val">
+              <mat-option *ngFor="let val of config.ErrorType | splitBy: ',' | ddlFilter: f.ErrorType.value" [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
@@ -160,7 +164,7 @@
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of  splitData(config.ErrorCode)  | ddlFilter: f.ErrorCode.value"
+              <mat-option *ngFor="let option of  config.ErrorCode | splitBy: ',' | ddlFilter: f.ErrorCode.value"
                 [value]="option">
                 {{option}}
               </mat-option>
@@ -233,49 +237,48 @@
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
                     <option *ngFor="let list of selectListItems"> {{list}} </option>
                   </select> -->
-                                   
-                    <div style="display: inline-block;">
-                      <mat-form-field>
-                        <mat-label>Resolution Type</mat-label>
-                        <input #resol type="text" placeholder="Search Resolution Type"
-                          matInput [matAutocomplete]="autoResolutionType1" />
-                        <span matSuffix mat-icon-button>
-                          <mat-icon>arrow_drop_down</mat-icon>
-                        </span>
-                        <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                          <ng-container *ngIf="configDetails  as con">
-                          <mat-option *ngFor="let val of splitData(con.ResolutionType) | ddlFilter: resol.value"
+
+                  <div style="display: inline-block;">
+                    <mat-form-field>
+                      <mat-label>Resolution Type</mat-label>
+                      <input #resol [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}" type="text" placeholder="Search Resolution Type" matInput
+                        [matAutocomplete]="autoResolutionType1" />
+                      <span matSuffix mat-icon-button>
+                        <mat-icon>arrow_drop_down</mat-icon>
+                      </span>
+                      <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
+                        <ng-container *ngIf="configDetails  as con">
+                          <mat-option *ngFor="let val of con.ResolutionType | splitBy: ',' | ddlFilter: resol.value"
                             [value]="val">{{val}}</mat-option>
-                          </ng-container>
-                        </mat-autocomplete>
+                        </ng-container>
+                      </mat-autocomplete>
 
-                      </mat-form-field>
-
-
-                      <mat-form-field>
-                        <mat-label>999 Reference</mat-label>
-                        <input  matInput  placeholder="999 Reference">
-                        <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-                      </mat-form-field>
+                    </mat-form-field>
 
 
-                      <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
-                        <mat-label>Remarks</mat-label>
-                        <textarea #input matInput maxlength="500"
-                          placeholder="Remarks"></textarea>
-                        <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                      </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>999 Reference</mat-label>
+                      <input [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}" matInput placeholder="999 Reference">
+                      <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+                    </mat-form-field>
 
-                      <button type="submit" mat-raised-button color="primary">
-                        <mat-icon>save</mat-icon>Save
-                      </button>&nbsp;&nbsp;
 
-                      <!-- <button type="button" mat-raised-button color="primary" >
+                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
+                      <mat-label>Remarks</mat-label>
+                      <textarea [(ngModel)]="Remarks" [ngModelOptions]="{standalone: true}" #input matInput maxlength="500" placeholder="Remarks"></textarea>
+                      <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                    </mat-form-field>
+
+                    <button type="submit" mat-raised-button color="primary">
+                      <mat-icon>save</mat-icon>Save
+                    </button>&nbsp;&nbsp;
+
+                    <!-- <button type="button" mat-raised-button color="primary" >
                       <mat-icon>help</mat-icon>Help
                     </button> -->
 
-                    </div>
-                
+                  </div>
+
                   <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
                     <mat-label>Resolution</mat-label>
                     <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>

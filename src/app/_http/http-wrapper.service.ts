@@ -56,9 +56,11 @@ export class HttpWrapperService {
 
 
     private resolveRespone(val: any, requestType: WebMethods) {
-        debugger;
+        //debugger;
         let categories = [];
         let jsonResult = '';
+        try{
+       
         switch (requestType) {
             case WebMethods.CONFIG:
                 categories = val.ConfigObjectResponse.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory;
@@ -76,8 +78,9 @@ export class HttpWrapperService {
                     jsonResult = this.processGetObject(categories);
                 break;
             case WebMethods.UPDATE:
-                categories = val.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
-                this.validateResponseStatus(this.resolveResponseStatus(categories));
+                categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
+                if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
+                    this.alertService.success("Save Sucessfully!!", { autoClose: false, keepAfterRouteChange: false });
                 break;
             case WebMethods.CREATE:
                 categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
@@ -87,6 +90,10 @@ export class HttpWrapperService {
         // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
         console.log("jsonString :" + jsonResult);
         return jsonResult ? JSON.parse(jsonResult) : null;
+    }catch(err)
+    {
+        this.alertService.error("UI Error.", { autoClose: false, keepAfterRouteChange: false });   
+    }
     }
 
     private processConfigObject(categories: any) {
@@ -157,6 +164,7 @@ export class HttpWrapperService {
     }
 
     private processGetObject(categories: any) {
+        
         var jsonCreation = `[`
         if (categories != undefined && categories.length > 0) {
             //Iterate categories object
