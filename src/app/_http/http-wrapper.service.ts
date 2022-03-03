@@ -6,6 +6,7 @@ import { ResponseType } from 'src/app/_http/enums/response-type.enum';
 import { HttpVerbs } from 'src/app/_http/enums/http-verbs.enum';
 import { WebMethods } from 'src/app/_http/enums/web-methods.enum';
 import { WMMessageType } from 'src/app/_http/enums/wmmessage-type.enum';
+import { WMStatusCode } from 'src/app/_http/enums/wmstatus-code.enum';
 import { Router } from '@angular/router';
 import { AlertService } from '../_shared/alert/alert.service';
 
@@ -13,7 +14,7 @@ import { AlertService } from '../_shared/alert/alert.service';
 @Injectable({ providedIn: 'root' })
 export class HttpWrapperService {
 
-    constructor(private httpClient: HttpClient, private _route: Router,private alertService:AlertService) {
+    constructor(private httpClient: HttpClient, private _route: Router, private alertService: AlertService) {
     }
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
@@ -29,12 +30,13 @@ export class HttpWrapperService {
 
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_live}${endPoint.toString()}`,
+                `${environment.api_dev}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
                 params).subscribe((response: Type) => {
                     observer.next(this.resolveRespone(response, endPoint))
+                    observer.complete()
                     //this.resolveRespone(response, endPoint);
                 })
         });
@@ -53,10 +55,12 @@ export class HttpWrapperService {
     }
 
 
-    private resolveRespone(val: any, requestType: WebMethods): any {
-        debugger;
+    private resolveRespone(val: any, requestType: WebMethods) {
+        //debugger;
         let categories = [];
         let jsonResult = '';
+        try{
+       
         switch (requestType) {
             case WebMethods.CONFIG:
                 categories = val.ConfigObjectResponse.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory;
@@ -74,8 +78,9 @@ export class HttpWrapperService {
                     jsonResult = this.processGetObject(categories);
                 break;
             case WebMethods.UPDATE:
-                categories = val.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
-                this.validateResponseStatus(this.resolveResponseStatus(categories));
+                categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
+                if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
+                    this.alertService.success("Save Sucessfully!!", { autoClose: false, keepAfterRouteChange: false });
                 break;
             case WebMethods.CREATE:
                 categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
@@ -84,7 +89,11 @@ export class HttpWrapperService {
         }
         // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
         console.log("jsonString :" + jsonResult);
-        return JSON.parse(jsonResult);
+        return jsonResult ? JSON.parse(jsonResult) : null;
+    }catch(err)
+    {
+        this.alertService.error("UI Error.", { autoClose: false, keepAfterRouteChange: false });   
+    }
     }
 
     private processConfigObject(categories: any) {
@@ -155,6 +164,7 @@ export class HttpWrapperService {
     }
 
     private processGetObject(categories: any) {
+        
         var jsonCreation = `[`
         if (categories != undefined && categories.length > 0) {
             //Iterate categories object
@@ -191,7 +201,7 @@ export class HttpWrapperService {
         if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
             objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
                 if (element.hasOwnProperty("Name"))
-                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`,``);
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`, ``);
             });
         }
         //Bind Attributes
@@ -199,7 +209,7 @@ export class HttpWrapperService {
             let attr = objCharacteristic.ListofAttributes.Attribute;
             for (let i = 0; i < attr.length; i++) {
                 if (attr[i].hasOwnProperty("Name"))
-                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`,``);
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`, ``);
             }
         }
 
@@ -269,11 +279,14 @@ export class HttpWrapperService {
         let status = false;
         switch (wmResponse.MessageType as WMMessageType) {
             case WMMessageType.Informational:
-                status = true;
+                if (wmResponse.StatusCode != "EUI100")
+                    status = true;
+                else
+                    this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
                 return status;
                 break;
             case WMMessageType.Error:
-                this.alertService.error(wmResponse.StatusCode+":"+wmResponse.StatusMessage,{autoClose:false,keepAfterRouteChange:false});
+                this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
                 //this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 return status;
                 break;

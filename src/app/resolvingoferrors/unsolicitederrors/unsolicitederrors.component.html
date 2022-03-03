@@ -6,120 +6,142 @@
         (changes)="setControlAttribute($event)">
       </app-select-multiple>
     </div>
-    
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter" style="height:380px;">
-        <mat-form-field hintLabel="Max 10 characters"  
-          [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
-          <mat-label>Start Telephone No</mat-label>
-          <input formControlName="TelNoStart" matInput #input maxlength="10" placeholder="Start Telephone No">
-          <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-        </mat-form-field>
+        <ng-container *ngIf="configDetails  as config">
+          <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
+            <mat-label>Start Telephone No</mat-label>
+            <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
+              (blur)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput #starttelno maxlength="11"
+              placeholder="Start Telephone No" autocomplete="off">
+            <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
+            <mat-error>
+              <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
+                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+              </div>
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field hintLabel="Max 10 characters"  
-          [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
-          <mat-label>End Telephone No</mat-label>
-          <input formControlName="TelNoEnd" matInput #input maxlength="10" placeholder="End Telephone No">
-          <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-        </mat-form-field>
-
-        
-
-        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
-          <mat-label>Source</mat-label>
-          <mat-select formControlName="Source">
-            <mat-option></mat-option>
-            <mat-option>AUDIT</mat-option>
-            <mat-option>SAS/COMS</mat-option>
-            <mat-option>DVA Siebel</mat-option>
-            <mat-option>VA/WAD</mat-option>
-            <mat-option>Ring Central</mat-option>
-            <mat-option>Content Guru</mat-option>
-            <mat-option>ONENET</mat-option>
-            <mat-option>Clarify</mat-option>
-            <mat-option>Amdocs SOM</mat-option>
-            <mat-option>Unknown</mat-option>
-          </mat-select>
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-        </mat-form-field>
+          <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
+            <mat-label>End Telephone No</mat-label>
+            <input formControlName="EndTelephoneNumber" (keypress)="numberOnly($event)"
+              (blur)="addPrefix('EndTelephoneNumber',endtelno.value)" matInput #endtelno maxlength="11"
+              placeholder="End Telephone No" autocomplete="off">
+            <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
+            <mat-error>
+              <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
+                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+              </div>
+            </mat-error>
+          </mat-form-field>
 
 
-       <mat-form-field  [ngClass]="{'hidden':thisForm.controls.ErrorDescription.disabled}">
-          <mat-label>Error Description</mat-label>
-          <!-- <input formControlName="ErrorDescription" matInput #input maxlength="10" placeholder="Error Description"> -->
-          <mat-select formControlName="ErrorDescription">
-            <mat-option></mat-option>
-            <mat-option>Import Record is Missing.</mat-option>
-            <mat-option>Import is 10 days overdue.</mat-option> 
-            <mat-option>Export Record is Missing.</mat-option>   
-            <mat-option>Export is 10 days overdue</mat-option> 
-            <mat-option>Invalid Request from RingCentral</mat-option> 
-            <mat-option>Invalid Request from RingCentral - Missing Customer Name</mat-option>  
-            <mat-option>Invalid Data Updates recieved from RingCentral</mat-option>     
-          </mat-select>
-        </mat-form-field>
 
-        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.IsFinal.disabled}">
-          <mat-label>Is Final</mat-label>
-          <!-- <input formControlName="IsFinal" matInput #input maxlength="10" placeholder="Is Final"> -->
-          <mat-select formControlName="IsFinal">
-            <mat-option></mat-option>
+          <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+            <mat-label>Source</mat-label>
+            <input formControlName="Source" type="text" placeholder="Search Source" matInput
+              [matAutocomplete]="autoSource" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+                {{val}}</mat-option>
+            </mat-autocomplete>
+            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          </mat-form-field>
+
+
+          <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
+            <mat-label>Error Type</mat-label>
+            <!-- <mat-select formControlName="ErrorType"> -->
+            <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
+              [matAutocomplete]="autoErrorType" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoErrorType="matAutocomplete">
+              <mat-option *ngFor="let val of config.ErrorType | splitBy: ',' | ddlFilter: f.ErrorType.value"
+                [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field [ngClass]="{'hidden':f.Final.disabled}">
+            <mat-label>Is Final</mat-label>
+            <input formControlName="Final" type="text" placeholder="Search Final" matInput
+              [matAutocomplete]="autoFinal" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <!-- <input formControlName="IsFinal" matInput #input maxlength="10" placeholder="Is Final"> -->
+            <!-- <mat-select formControlName="Final"> -->
+            <mat-autocomplete autoActiveFirstOption #autoFinal="matAutocomplete">
+              <mat-option *ngFor="let val of config.Final | splitBy: ',' | ddlFilter: f.Final.value" [value]="val">
+                {{val}}</mat-option>
+            </mat-autocomplete>
+            <!-- <mat-option></mat-option>
             <mat-option>No</mat-option>
-            <mat-option>Yes</mat-option>           
-          </mat-select>
-        </mat-form-field>
+            <mat-option>Yes</mat-option>            -->
+            <!-- </mat-select> -->
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Date Range</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date">
-            <input matEndDate placeholder="End date">
-          </mat-date-range-input>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-          <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Date Range</mat-label>
+            <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
+              <input readonly formControlName="FromDate" matStartDate placeholder="From ">
+              <input readonly formControlName="ToDate" matEndDate placeholder="To date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+            <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
+          </mat-form-field>
 
-        <mat-form-field [ngClass]="{'hidden':thisForm.controls.ResolutionType.disabled}">
-          <mat-label>Resolution Type</mat-label>
-          <mat-select formControlName="ResolutionType">
-            <mat-option></mat-option>
-            <mat-option>New</mat-option>
-            <mat-option>Under Investigation</mat-option>
-            <mat-option>Under Governance</mat-option>
-            <mat-option>Under Governance</mat-option>
-            <mat-option>Port Req Complete</mat-option>
-          </mat-select>
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-        </mat-form-field>
-        
-        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.OrderReference.disabled}">
-          <mat-label>Order Reference</mat-label>
-          <input formControlName="OrderReference" matInput #input maxlength="10" placeholder="Order Reference">
-          
-        </mat-form-field>
+          <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
+            <mat-label>Resolution Type</mat-label>
+            <input formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
+              [matAutocomplete]="autoResolutionType" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
+              <!-- <mat-select formControlName="ResolutionType"> -->
+              <mat-option *ngFor="let val of config.ResolutionType | splitBy: ',' | ddlFilter: f.ResolutionType.value"
+                [value]="val">{{val}}</mat-option>
+            </mat-autocomplete>
+            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          </mat-form-field>
 
-        <mat-form-field  [ngClass]="{'hidden':thisForm.controls.Reference.disabled}">
-          <mat-label>999 Reference</mat-label>
-          <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
-          
-        </mat-form-field>
-        
-        
-        
+
+
+          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
+            <mat-label>999 Reference</mat-label>
+            <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
+
+          </mat-form-field>
+
+
+
+
+
+        </ng-container>
       </div>
 
-        <div class="matsidenav-footer">
+      <div class="matsidenav-footer">
         <button type="submit" mat-raised-button color="primary">
           <mat-icon>search</mat-icon>Search
         </button>
-        <button type="button" mat-raised-button color="primary">          
+        <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
           <mat-icon>refresh</mat-icon>Reset
         </button>
         <button type="button" mat-raised-button color="primary" (click)="DisplayInformationTab()">
-          <mat-icon>information</mat-icon> Information          
+          <mat-icon>information</mat-icon> Information
         </button>
-      </div>    
+      </div>
 
     </form>
   </mat-sidenav>
@@ -145,7 +167,7 @@
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)">
             </app-table-selection>
-            <form>
+            <form (ngSubmit)="onSaveSubmit()">
               <div class="mat-elevation-z8 side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
@@ -154,30 +176,36 @@
                   <div style="display: inline-block;">
                     <mat-form-field>
                       <mat-label>Resolution Type</mat-label>
-                      <mat-select>
-                        <mat-option></mat-option>
-                        <mat-option>New</mat-option>
-                        <mat-option>Under Investigation</mat-option>
-                        <mat-option>Under Governance</mat-option>
-                        <mat-option>Under Governance</mat-option>
-                        <mat-option>Port Req Complete</mat-option>
-                      </mat-select>
-                      <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+                      <input #resol [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}" type="text"
+                        placeholder="Search Resolution Type" matInput [matAutocomplete]="autoResolutionType1" />
+                      <span matSuffix mat-icon-button>
+                        <mat-icon>arrow_drop_down</mat-icon>
+                      </span>
+                      <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
+                        <ng-container *ngIf="configDetails  as con">
+                          <mat-option *ngFor="let val of con.ResolutionType | splitBy: ',' | ddlFilter: resol.value"
+                            [value]="val">{{val}}</mat-option>
+                        </ng-container>
+                      </mat-autocomplete>
+
                     </mat-form-field>
 
                     <mat-form-field>
                       <mat-label>999 Reference</mat-label>
-                      <input matInput #input maxlength="10" placeholder="999 Reference">
+                      <input [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}" matInput
+                        placeholder="999 Reference">
                       <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
                     </mat-form-field>
 
+
                     <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                       <mat-label>Remarks</mat-label>
-                      <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
+                      <textarea [(ngModel)]="Remarks" [ngModelOptions]="{standalone: true}" #input matInput
+                        maxlength="500" placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                     </mat-form-field>
 
-                    <button type="button" mat-raised-button color="primary">
+                    <button type="submit" mat-raised-button color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
@@ -186,11 +214,7 @@
                       <mat-icon>help</mat-icon>Help
                     </button> -->
                   </div>
-                  <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
-                          <mat-label>Resolution</mat-label>
-                          <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
-                          <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                        </mat-form-field> -->
+
 
                 </div>
                 <div class="side-right-div">
@@ -207,10 +231,11 @@
             <br>
             <app-table class="appTable" [tableitem]="infotable2"></app-table>
           </div>
-         
+
 
           <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
-            <app-transaction-errors></app-transaction-errors>
+            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
+            </app-transaction-errors>
           </div>
           <div *ngSwitchDefault>
 
@@ -218,11 +243,5 @@
         </span>
       </mat-tab>
     </mat-tab-group>
-
-
-
-
-
-
   </mat-sidenav-content>
 </mat-sidenav-container>
