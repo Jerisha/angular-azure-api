@@ -134,7 +134,7 @@ export class TelephoneRangeReportComponent implements OnInit {
   
   onFormSubmit():void{
     
-    let request = Utils.prepareQueryRequest('TelephoneRangeReports', 'TelephoneNumberDetails', this.prepareQueryParams());
+    let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams());
     //console.log(JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TelephoneNumbers));
     //if(this.thisForm.valid){
