@@ -34,3 +34,15 @@ box-sizing: border-box;
 /* host ::ng-deep mat-menu-panel {
   min-width: none !important;
 } */
+/* 
+::-webkit-scrollbar {
+  width: 6px;
+  overflow-y: scroll;
+  background: grey;
+  box-shadow: inset 0 0 4px #707070;
+}
+
+::-webkit-scrollbar-thumb {
+  background:#e60000;
+  border-radius: 10px;
+} */
