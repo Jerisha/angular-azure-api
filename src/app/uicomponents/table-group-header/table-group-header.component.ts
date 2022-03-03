@@ -1,6 +1,6 @@
 import { Component, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs/operators';
 import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
@@ -32,10 +32,17 @@ export class TableGroupHeaderComponent implements OnInit {
   cliStatusList: string[] = [];
   nonNumericCols: string[] = [];
 
+  totalRows = 0;
+  pageSize = 5;
+  currentPage = 0;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
   filterValues = {
     SourceSystem: [],
     CLIStatus: []
   }
+
+  // @ViewChild(MatPaginator)  paginator!: MatPaginator;
 
   filterForm = new FormGroup({
     sourceSystemFilter: new FormControl(''),
@@ -43,6 +50,19 @@ export class TableGroupHeaderComponent implements OnInit {
   });
 
   constructor(private service: AuditDiscpancyReportService,private ngZone: NgZone) {
+  }
+
+  getPage(event:any){
+    console.log('pagination',event)
+
+  }
+
+  pageChanged(event: PageEvent) {
+    debugger;
+    console.log({ event });
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    //this.loadData();
   }
 
   ngOnInit(): void {

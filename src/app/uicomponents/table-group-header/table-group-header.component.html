@@ -46,7 +46,10 @@
     </ng-container>
   </table>
 </div>
-<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,20,50,100]" showFirstLastButtons>
+<!-- <mat-paginator class="mat-paginator-sticky"  showFirstLastButtons [pageSizeOptions]="[10,20,50,100]" (page)="getPage($event)" >
+</mat-paginator> -->
+<mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+[pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
 </mat-paginator>
 
 <div style="margin-bottom:10px">
