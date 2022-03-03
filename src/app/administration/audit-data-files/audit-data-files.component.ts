@@ -34,7 +34,7 @@ export class AuditDataFilesComponent implements OnInit {
 
   btAuditFileDetailsTable!: TableItem;
   tabs: Tab[] = [];
-  showDetails:boolean=false;
+  showDetails: boolean = false;
   btAuditFileDetailsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
     { headerValue: 'FileName', header: 'File Name', showDefault: true, isImage: false },
@@ -42,27 +42,25 @@ export class AuditDataFilesComponent implements OnInit {
     { headerValue: 'DownloadFile', header: 'Download File', showDefault: true, isImage: true },
 
   ]
-  selectedTab:number=0;
+  selectedTab: number = 0;
   constructor() { }
 
   ngOnInit(): void {
 
   }
 
-  getFileDetails(event: MatButtonToggleChange) {
-    debugger;
-    if (event.source !=undefined) {
-      var selectedVal= event.value;
-      if (selectedVal.includes('BTAuditFileDetails')) {
+  removeTab(index: number) {
+    this.tabs.splice(index, 1);
+    this.showDetails = this.tabs.length > 0 ? true : false
+  }
 
-        if (!this.tabs.find(x => x.tabType == 0)) {
-          this.tabs.push({
-            tabType: 0,
-            name: 'BT Audit File Details'
-          });
-        }
-        
-        this.showDetails = true;
+  getFileDetails(fileType: string) {
+    if (fileType === 'BTAuditFileDetails') {
+      if (!this.tabs.find(x => x.tabType == 0)) {
+        this.tabs.push({
+          tabType: 0,
+          name: 'BT Audit File Details'
+        });
         this.btAuditFileDetailsTable = {
           data: of(ELEMENT_DATA),
           Columns: this.btAuditFileDetailsTableDetails,
@@ -70,15 +68,13 @@ export class AuditDataFilesComponent implements OnInit {
           imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]
         }
       }
-      else{
-        if (!this.tabs.find(x => x.tabType == 1)) {
-          this.tabs.push({
-            tabType: 1,
-            name: 'Data - Live in Switch Only'
-          });
-        }
-        this.selectedTab= this.tabs.length;
-        this.showDetails = true;
+    }
+    else {
+      if (!this.tabs.find(x => x.tabType == 1)) {
+        this.tabs.push({
+          tabType: 1,
+          name: 'Data - Live in Switch Only'
+        });
         this.btAuditFileDetailsTable = {
           data: of(ELEMENT_DATA),
           Columns: this.btAuditFileDetailsTableDetails,
@@ -86,10 +82,8 @@ export class AuditDataFilesComponent implements OnInit {
           imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]
         }
       }
-      this.selectedTab= this.tabs.length;
     }
-    else{
-      this.showDetails = false;
-    }
+    this.showDetails = true;
+    this.selectedTab = this.tabs.length;
   }
 }
