@@ -418,7 +418,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   }
 
 
-  resetForm(): void { }
+  resetForm(): void {
+    this.tabs.splice(0);
+   }
 
   rowDetect(item: any) {
     //debugger;

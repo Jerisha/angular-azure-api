@@ -64,7 +64,8 @@
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoErrorType="matAutocomplete">
-              <mat-option *ngFor="let val of config.ErrorType | splitBy: ',' | ddlFilter: f.ErrorType.value" [value]="val">
+              <mat-option *ngFor="let val of config.ErrorType | splitBy: ',' | ddlFilter: f.ErrorType.value"
+                [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
@@ -92,8 +93,8 @@
           <mat-form-field>
             <mat-label>Date Range</mat-label>
             <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
-              <input formControlName="FromDate" matStartDate placeholder="Start date">
-              <input formControlName="ToDate" matEndDate placeholder="End date">
+              <input readonly formControlName="FromDate" matStartDate placeholder="From ">
+              <input readonly formControlName="ToDate" matEndDate placeholder="To date">
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
