@@ -147,24 +147,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   selectedGridRows: any[] = [];
   selectedTab!: number;
   thisForm!: FormGroup;
-  thisUpdateForm! : FormGroup;
+  thisUpdateForm!: FormGroup;
   tabs: Tab[] = [];
+  Resolution!: string;
+  Refer!: string;
+  Remarks!: string;
 
 
-  columns: ColumnDetails[] = [
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Error Code', headerValue: 'ErrorCount', showDefault: true, isImage: false },
-    { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
-    { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
-    { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
-    { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
-    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
-  ];
 
   telNo?: any;
   tranId?: any;
@@ -203,13 +192,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  addPrefix(control: string, value: any) {    
+  addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
     }
     this.thisForm.controls[control].setValue(value);
   }
-  
+
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -224,76 +213,85 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   get f() {
     return this.thisForm.controls;
   }
-  
+
   prepareUpdateParams(): any {
-    let attributes: any = [];
+    let UpdateParams: any = [];
+
+    if (this.Resolution)
+      UpdateParams.push({ Name: 'ResolutionType', Value: [this.Resolution] });
+    else
+      UpdateParams.push({ Name: 'ResolutionType' });
+    if (this.Remarks)
+      UpdateParams.push({ Name: 'Remarks', Value: [this.Remarks] });
+    else
+      UpdateParams.push({ Name: 'Remarks' });
+    if (this.Refer)
+      UpdateParams.push({ Name: '999Reference', Value: [this.Refer] });
+    else
+      UpdateParams.push({ Name: '999Reference' });
+
+    console.log(UpdateParams);
+
+    return UpdateParams;
+  }
+
+  prepareUpdateIdentifiers() {
+    let identifiers: any[] = [];
     const startTelephoneNumber = this.thisForm.get('StartTelephoneNumber');
     const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
-    const resolutionType = this.thisUpdateForm.get('ResolutionType');
-    const reference = this.thisUpdateForm.get('Reference');
-    const remarks = this.thisUpdateForm.get('Remarks');
+
+    if (this.selectedGridRows.length > 0) {
+      let transId: string[] = [];
+      this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
+      identifiers.push({ Name: 'TransactionReference', Value: transId });
+    }
+    else
+      identifiers.push({ Name: 'TransactionReference' });
 
     if (startTelephoneNumber?.value)
-      attributes.push({ Name: 'TelephoneNumberStart', Value: startTelephoneNumber.value });
+      identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
     else
-      attributes.push({ Name: 'TelephoneNumberStart' });
+      identifiers.push({ Name: 'TelephoneNumberStart' });
 
     if (endTelephoneNumber?.value)
-      attributes.push({ Name: 'TelephoneNumberEnd', Value: endTelephoneNumber.value });
+      identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
     else
-      attributes.push({ Name: 'TelephoneNumberEnd' });
+      identifiers.push({ Name: 'TelephoneNumberEnd' });
 
-    let transId: string[] = [];
-    this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
-    attributes.push({ Name: 'TransactionReference', Value: transId });
-
-    if (resolutionType?.value)
-      attributes.push({ Name: 'ResolutionType', Value: resolutionType.value });
-    else
-      attributes.push({ Name: 'ResolutionType' });
-    if (remarks?.value)
-      attributes.push({ Name: 'Remarks', Value: remarks.value });
-    else
-      attributes.push({ Name: 'Remarks' });
-    if (reference?.value)
-      attributes.push({ Name: '999Reference', Value: reference.value });
-    else
-      attributes.push({ Name: '999Reference' });
-
-    console.log(attributes);
-
-    return attributes;
+    return identifiers;
   }
 
   prepareQueryParams(): any {
-    let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] }];
+    let attributes: any = [{ Name: 'PageNumber', Value: ['1'] }];
 
     const control = this.thisForm.get('Reference');
     if (control?.value)
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
-    //FromDate
-    const fromDate = this.thisForm.get('FromDate');
-    if (fromDate?.value.value)
-      attributes.push({ Name: 'FromDate', Value: [fromDate?.value.value] });
-    else
-      attributes.push({ Name: 'FromDate' });
-    //ToDate
-    const toDate = this.thisForm.get('ToDate');
-    if (toDate?.value.value)
-      attributes.push({ Name: 'ToDate', Value: [toDate?.value.value] });
-    else
-      attributes.push({ Name: 'ToDate' });
 
     for (const field in this.f) {
-      const control = this.thisForm.get(field);
-      if (field != 'Reference' && field != 'FromDate' && field != 'ToDate') {
+      if (field != 'Reference') {
+        const control = this.thisForm.get(field);
+        if (field == 'DateRange') {
+          const fromDate = this.thisForm.get('DateRange.FromDate');
+          if (fromDate?.value)
+            attributes.push({ Name: 'FromDate', Value: [fromDate?.value] });
+          else
+            attributes.push({ Name: 'FromDate' });
+          const toDate = this.thisForm.get('DateRange.ToDate');
+          if (toDate?.value)
+            attributes.push({ Name: 'ToDate', Value: [toDate?.value] });
+          else
+            attributes.push({ Name: 'ToDate' });
+
+          continue;
+        }
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
+
       }
     }
     console.log(attributes);
@@ -314,32 +312,36 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Final: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: '' }, []),
-      ToDate: new FormControl({ value: '' }, [])
+      DateRange: this.formBuilder.group({
+        FromDate: new FormControl(),
+        ToDate: new FormControl()
+      })
 
 
     })
 
   }
-  
+
   UpdateForm() {
 
     this.thisUpdateForm = this.formBuilder.group({
-      Resolution: new FormControl({ value: ''}),
-      Remarks: new FormControl({ value: ''}),
+      Resolution: new FormControl({ value: '' }),
+      Remarks: new FormControl({ value: '' }),
       Ref: new FormControl({ value: '' })
-     })
+    })
 
   }
-    
 
-  onSaveSubmit()
-  {
-    let request = Utils.prepareQueryRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
+
+  onSaveSubmit() {
+    debugger
+    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber && this.f.EndTelephoneNumber)) {
+      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+      this.updateResult$ = this.service.updateDetails(request);
+    }
 
   }
-  
+
   DisplayInformationTab() {
     debugger;
     this.infotable1 = ELEMENT_DATA_InformationTable1;
@@ -366,6 +368,21 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     });
   }
 
+
+  columns: ColumnDetails[] = [
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Error Code', headerValue: 'ErrorCount', showDefault: true, isImage: false },
+    { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
+    { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
+    { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
+    { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
+    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+  ];
   onFormSubmit(): void {
 
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams());
@@ -403,14 +420,14 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   }
 
 
-  resetForm(): void { }
+  resetForm(): void {
+    this.tabs.splice(0);
+  }
 
   rowDetect(item: any) {
     //debugger;
     //this.selectedRowsCount = item.length;
     if (item && item.length == 0) return
-
-
 
     if (!this.selectedGridRows.includes(item))
       this.selectedGridRows.push(item)
