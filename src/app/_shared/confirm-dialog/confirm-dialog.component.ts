@@ -23,9 +23,10 @@ import {MatDialogModule} from '@angular/material/dialog';
   ]
 })
 export class ConfirmDialogComponent {
+  heading ="Notification"
   message: string = ""
   cancelButtonText = "Cancel"
-  okButtonText = "Okay"
+  okButtonText = "OK"
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<ConfirmDialogComponent>) {
@@ -34,6 +35,8 @@ export class ConfirmDialogComponent {
       if (data.buttonText) {
         this.okButtonText = data.buttonText.ok || this.okButtonText;
       }
+      if(data.heading)
+      this.heading = data.heading || this.heading;
     }
     
   }
