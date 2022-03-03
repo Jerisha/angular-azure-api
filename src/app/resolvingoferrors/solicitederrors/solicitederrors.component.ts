@@ -333,7 +333,7 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber && this.f.EndTelephoneNumber)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.queryResult$ = this.service.updateDetails(request);
+      this.updateResult$ = this.service.updateDetails(request);
     }
 
   }
@@ -347,18 +347,19 @@ export class SolicitederrorsComponent implements OnInit {
       let transId: string[] = [];
       this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
       identifiers.push({ Name: 'TransactionId', Value: transId });
-    }
-    else {
-      if (startTelephoneNumber?.value)
-        identifiers.push({ Name: 'TelephoneNumberStart', Value: startTelephoneNumber.value });
-      else
-        identifiers.push({ Name: 'TelephoneNumberStart' });
+    } else
+      identifiers.push({ Name: 'TransactionId' });
+      
+    if (startTelephoneNumber?.value)
+      identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
+    else
+      identifiers.push({ Name: 'TelephoneNumberStart' });
 
-      if (endTelephoneNumber?.value)
-        identifiers.push({ Name: 'TelephoneNumberEnd', Value: endTelephoneNumber.value });
-      else
-        identifiers.push({ Name: 'TelephoneNumberEnd' });
-    }
+    if (endTelephoneNumber?.value)
+      identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
+    else
+      identifiers.push({ Name: 'TelephoneNumberEnd' });
+
     return identifiers;
   }
 
@@ -366,15 +367,15 @@ export class SolicitederrorsComponent implements OnInit {
     let UpdateParams: any = [];
 
     if (this.Resolution)
-      UpdateParams.push({ Name: 'ResolutionType', Value: this.Resolution });
+      UpdateParams.push({ Name: 'ResolutionType', Value: [this.Resolution] });
     else
       UpdateParams.push({ Name: 'ResolutionType' });
     if (this.Remarks)
-      UpdateParams.push({ Name: 'Remarks', Value: this.Remarks });
+      UpdateParams.push({ Name: 'Remarks', Value: [this.Remarks] });
     else
       UpdateParams.push({ Name: 'Remarks' });
     if (this.Refer)
-      UpdateParams.push({ Name: '999Reference', Value: this.Refer });
+      UpdateParams.push({ Name: '999Reference', Value: [this.Refer] });
     else
       UpdateParams.push({ Name: '999Reference' });
 

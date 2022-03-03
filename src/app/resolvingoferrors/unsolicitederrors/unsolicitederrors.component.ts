@@ -218,15 +218,15 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     let UpdateParams: any = [];
 
     if (this.Resolution)
-      UpdateParams.push({ Name: 'ResolutionType', Value: this.Resolution });
+      UpdateParams.push({ Name: 'ResolutionType', Value: [this.Resolution] });
     else
       UpdateParams.push({ Name: 'ResolutionType' });
     if (this.Remarks)
-      UpdateParams.push({ Name: 'Remarks', Value: this.Remarks });
+      UpdateParams.push({ Name: 'Remarks', Value: [this.Remarks] });
     else
       UpdateParams.push({ Name: 'Remarks' });
     if (this.Refer)
-      UpdateParams.push({ Name: '999Reference', Value: this.Refer });
+      UpdateParams.push({ Name: '999Reference', Value: [this.Refer] });
     else
       UpdateParams.push({ Name: '999Reference' });
 
@@ -245,17 +245,19 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
       identifiers.push({ Name: 'TransactionReference', Value: transId });
     }
-    else {
-      if (startTelephoneNumber?.value)
-        identifiers.push({ Name: 'TelephoneNumberStart', Value: startTelephoneNumber.value });
-      else
-        identifiers.push({ Name: 'TelephoneNumberStart' });
+    else
+      identifiers.push({ Name: 'TransactionReference' });
 
-      if (endTelephoneNumber?.value)
-        identifiers.push({ Name: 'TelephoneNumberEnd', Value: endTelephoneNumber.value });
-      else
-        identifiers.push({ Name: 'TelephoneNumberEnd' });
-    }
+    if (startTelephoneNumber?.value)
+      identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
+    else
+      identifiers.push({ Name: 'TelephoneNumberStart' });
+
+    if (endTelephoneNumber?.value)
+      identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
+    else
+      identifiers.push({ Name: 'TelephoneNumberEnd' });
+
     return identifiers;
   }
 
@@ -335,7 +337,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     debugger
     if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber && this.f.EndTelephoneNumber)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.queryResult$ = this.service.updateDetails(request);
+      this.updateResult$ = this.service.updateDetails(request);
     }
 
   }
@@ -420,7 +422,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   resetForm(): void {
     this.tabs.splice(0);
-   }
+  }
 
   rowDetect(item: any) {
     //debugger;
