@@ -13,6 +13,7 @@ import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
+import { formatDate } from '@angular/common';
 // import { ConsoleReporter } from 'jasmine';
 
 
@@ -218,12 +219,12 @@ export class SolicitederrorsComponent implements OnInit {
         if (field == 'DateRange') {
           const fromDate = this.thisForm.get('DateRange.FromDate');
           if (fromDate?.value)
-            attributes.push({ Name: 'FromDate', Value: [fromDate?.value] });
+            attributes.push({ Name: 'FromDate', Value: [formatDate(fromDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
             attributes.push({ Name: 'FromDate' });
           const toDate = this.thisForm.get('DateRange.ToDate');
           if (toDate?.value)
-            attributes.push({ Name: 'ToDate', Value: [toDate?.value] });
+            attributes.push({ Name: 'ToDate', Value: [formatDate(toDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
             attributes.push({ Name: 'ToDate' });
 
@@ -331,9 +332,9 @@ export class SolicitederrorsComponent implements OnInit {
 
   onSaveSubmit(): void {
     debugger;
-    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber && this.f.EndTelephoneNumber)) {
+    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.updateResult$ = this.service.updateDetails(request);
+      this.service.updateDetails(request).subscribe(x => x);
     }
 
   }
@@ -348,8 +349,8 @@ export class SolicitederrorsComponent implements OnInit {
       this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
       identifiers.push({ Name: 'TransactionId', Value: transId });
     } else
-      identifiers.push({ Name: 'TransactionId' });
-      
+      identifiers.push({ Name: 'TransactionId', Value: [""] });
+
     if (startTelephoneNumber?.value)
       identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
     else

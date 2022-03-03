@@ -30,7 +30,7 @@ export class HttpWrapperService {
 
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_dev}${endPoint.toString()}`,
+                `${environment.api_sit}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -56,7 +56,7 @@ export class HttpWrapperService {
 
 
     private resolveRespone(val: any, requestType: WebMethods) {
-        //debugger;
+        debugger;
         let categories = [];
         let jsonResult = '';
         try{
@@ -78,6 +78,7 @@ export class HttpWrapperService {
                     jsonResult = this.processGetObject(categories);
                 break;
             case WebMethods.UPDATE:
+                debugger
                 categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
                 if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
                     this.alertService.success("Save Sucessfully!!", { autoClose: false, keepAfterRouteChange: false });
@@ -88,7 +89,7 @@ export class HttpWrapperService {
                 break;
         }
         // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
-        console.log("jsonString :" + jsonResult);
+        console.log("jsonString :" + String.raw`${jsonResult}`);
         return jsonResult ? JSON.parse(jsonResult) : null;
     }catch(err)
     {

@@ -12,6 +12,7 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http/index';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
 import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
+import { formatDate } from '@angular/common';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -246,7 +247,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       identifiers.push({ Name: 'TransactionReference', Value: transId });
     }
     else
-      identifiers.push({ Name: 'TransactionReference' });
+      identifiers.push({ Name: 'TransactionReference', Value: [""] });
 
     if (startTelephoneNumber?.value)
       identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
@@ -276,12 +277,12 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
         if (field == 'DateRange') {
           const fromDate = this.thisForm.get('DateRange.FromDate');
           if (fromDate?.value)
-            attributes.push({ Name: 'FromDate', Value: [fromDate?.value] });
+            attributes.push({ Name: 'FromDate', Value: [formatDate(fromDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
             attributes.push({ Name: 'FromDate' });
           const toDate = this.thisForm.get('DateRange.ToDate');
           if (toDate?.value)
-            attributes.push({ Name: 'ToDate', Value: [toDate?.value] });
+            attributes.push({ Name: 'ToDate', Value: [formatDate(toDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
             attributes.push({ Name: 'ToDate' });
 
@@ -335,9 +336,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   onSaveSubmit() {
     debugger
-    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber && this.f.EndTelephoneNumber)) {
+    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.updateResult$ = this.service.updateDetails(request);
+      this.service.updateDetails(request).subscribe(x => x);
     }
 
   }
