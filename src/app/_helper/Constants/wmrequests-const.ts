@@ -129,6 +129,60 @@ export const WMRequests = {
             }
           }
         }
-      }
+      },
+      UPDATE:
+      {
+        "UpdateObjectRequest" : {
+          "UpdateObjectRequestType" : {
+            "RequestIdentifiers" : {
+              "Identifier" : [ {
+                "Name" : "UserId",
+                "Value" : [ "abc" ]
+              }, {
+                "Name" : "Destination",
+                "Value" : [ "OSN2" ]
+              } ]
+            },
+            "ListofUpdateObjectCategory" : {
+              "UpdateObjectCategory" : [ {
+                "ItemName" : "TelephoneNumber",
+                "ListofIdentifiers" : {
+                  "Identifier" : [ {
+                    "Name" : "ReportIdentifier",
+                    "Value" : [ "UnsolicitedErrors" ]
+                  } ]
+                },
+                "ListofUpdateObjectCharacteristics" : {
+                  "UpdateObjectCharacteristics" : [ {
+                    "ItemName" : "UpdateParameters",
+                    "ListofIdentifiers" : {
+                      "Identifier" : [ {
+                        "Name" : "TelephoneNumberStart",
+                        "Value" : [ "01214605801" ]
+                      }, {
+                        "Name" : "TelephoneNumberEnd",
+                        "Value" : [ "01214605802" ]
+                      }, {
+                        "Name" : "TransactionReference",
+                        "Value" : [ "" ]
+                      } ]
+                    },
+                    "ListofAttributes" : {
+                      "Attribute" : [ {
+                        "Name" : "ResolutionType",
+                        "Value" : [ "Resolved" ]
+                      }, {
+                        "Name" : "Remarks",
+                        "Value" : [ "Ok" ]
+                      }, {
+                        "Name" : "999Reference"
+                      } ]
+                    }
+                  } ]
+                }
+              } ]
+            }
+          }
+        }}
 
 }

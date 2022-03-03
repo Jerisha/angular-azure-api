@@ -11,6 +11,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http/index';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
+import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -146,6 +147,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   selectedGridRows: any[] = [];
   selectedTab!: number;
   thisForm!: FormGroup;
+  thisUpdateForm! : FormGroup;
   tabs: Tab[] = [];
 
 
@@ -171,8 +173,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-  fromDate: string = '';
-  toDate: string = ';'
+
   selected: string = '';
 
   constructor(private formBuilder: FormBuilder,
@@ -183,6 +184,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.createForm();
+    //this.UpdateForm();
     debugger;
     let request = Utils.prepareConfigRequest(['Source', 'ErrorType', 'Final', 'ResolutionType']);
     this.service.configDetails(request).subscribe((res: any) => {
@@ -222,6 +224,46 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   get f() {
     return this.thisForm.controls;
   }
+  
+  prepareUpdateParams(): any {
+    let attributes: any = [];
+    const startTelephoneNumber = this.thisForm.get('StartTelephoneNumber');
+    const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
+    const resolutionType = this.thisUpdateForm.get('ResolutionType');
+    const reference = this.thisUpdateForm.get('Reference');
+    const remarks = this.thisUpdateForm.get('Remarks');
+
+    if (startTelephoneNumber?.value)
+      attributes.push({ Name: 'TelephoneNumberStart', Value: startTelephoneNumber.value });
+    else
+      attributes.push({ Name: 'TelephoneNumberStart' });
+
+    if (endTelephoneNumber?.value)
+      attributes.push({ Name: 'TelephoneNumberEnd', Value: endTelephoneNumber.value });
+    else
+      attributes.push({ Name: 'TelephoneNumberEnd' });
+
+    let transId: string[] = [];
+    this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
+    attributes.push({ Name: 'TransactionReference', Value: transId });
+
+    if (resolutionType?.value)
+      attributes.push({ Name: 'ResolutionType', Value: resolutionType.value });
+    else
+      attributes.push({ Name: 'ResolutionType' });
+    if (remarks?.value)
+      attributes.push({ Name: 'Remarks', Value: remarks.value });
+    else
+      attributes.push({ Name: 'Remarks' });
+    if (reference?.value)
+      attributes.push({ Name: '999Reference', Value: reference.value });
+    else
+      attributes.push({ Name: '999Reference' });
+
+    console.log(attributes);
+
+    return attributes;
+  }
 
   prepareQueryParams(): any {
     let attributes: any = [
@@ -232,11 +274,22 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
+    //FromDate
+    const fromDate = this.thisForm.get('FromDate');
+    if (fromDate?.value.value)
+      attributes.push({ Name: 'FromDate', Value: [fromDate?.value.value] });
+    else
+      attributes.push({ Name: 'FromDate' });
+    //ToDate
+    const toDate = this.thisForm.get('ToDate');
+    if (toDate?.value.value)
+      attributes.push({ Name: 'ToDate', Value: [toDate?.value.value] });
+    else
+      attributes.push({ Name: 'ToDate' });
 
-
-    for (const field in this.thisForm?.controls) {
+    for (const field in this.f) {
       const control = this.thisForm.get(field);
-      if (field != 'Reference') {
+      if (field != 'Reference' && field != 'FromDate' && field != 'ToDate') {
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
@@ -261,12 +314,32 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Final: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: ''}, []),
+      FromDate: new FormControl({ value: '' }, []),
       ToDate: new FormControl({ value: '' }, [])
+
 
     })
 
   }
+  
+  UpdateForm() {
+
+    this.thisUpdateForm = this.formBuilder.group({
+      Resolution: new FormControl({ value: ''}),
+      Remarks: new FormControl({ value: ''}),
+      Ref: new FormControl({ value: '' })
+     })
+
+  }
+    
+
+  onSaveSubmit()
+  {
+    let request = Utils.prepareQueryRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
+
+  }
+  
   DisplayInformationTab() {
     debugger;
     this.infotable1 = ELEMENT_DATA_InformationTable1;
@@ -354,7 +427,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   newTab(tab: any) {
     if (this.tabs === []) return;
     this.telNo = tab.row.TelephoneNumber;
-    this.tranId = tab.row.TransactionId;
+    this.tranId = tab.row.TransactionReference;
     switch (tab.tabType) {
       case 1: {
         //tab.row contains row data- fetch data from api and bind to respetive component

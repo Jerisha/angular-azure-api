@@ -10,7 +10,7 @@ import { SharedModule } from '../_shared/shared.module';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 import { LiverecordsComponent } from './liverecords/liverecords.component';
 import { AlertDialogComponent } from './telephone-range-report/alert-dialog.component';
-
+import { HelperModule } from '../_helper/helper.module';
 
 
 @NgModule({
@@ -28,7 +28,8 @@ import { AlertDialogComponent } from './telephone-range-report/alert-dialog.comp
     UicomponentsModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    HelperModule
   ]
 })
 export class ReportsModule { }
