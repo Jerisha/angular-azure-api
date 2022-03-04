@@ -323,6 +323,7 @@ export class SolicitederrorsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
+      highlightedCells:['TelephoneNumber'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -475,6 +476,9 @@ export class SolicitederrorsComponent implements OnInit {
           let updtab = this.tabs.find(x => x.tabType == 1);
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
+
+        this.telNo = tab.row.TelephoneNumber;
+        // console.log("tab row " + tab.row.TelephoneNumber);
 
         break;
 

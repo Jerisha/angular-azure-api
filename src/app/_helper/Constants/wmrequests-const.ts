@@ -130,8 +130,7 @@ export const WMRequests = {
       }
     }
   },
-  UPDATE:
-  {
+  UPDATE: {
     "UpdateObjectRequest": {
       "UpdateObjectRequestType": {
         "RequestIdentifiers": {

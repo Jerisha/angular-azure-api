@@ -305,7 +305,7 @@
             </form>
           </div>
           <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-            <app-telephone-audit-trail></app-telephone-audit-trail>
+            <app-telephone-audit-trail [telNo]="telNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
           </div>
           <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
             <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
