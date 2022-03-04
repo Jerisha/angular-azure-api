@@ -5,6 +5,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs/operators';
 import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import * as data from '../../../assets/data.json'
+const MENU_SOURCE = (data as any).default;
 
 @Component({
   selector: 'app-table-group-header',
@@ -32,10 +34,10 @@ export class TableGroupHeaderComponent implements OnInit {
   cliStatusList: string[] = [];
   nonNumericCols: string[] = [];
 
-  totalRows = 0;
-  pageSize = 5;
+  totalRows = 250;
+  pageSize = 10;
   currentPage = 0;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageSizeOptions: number[] = [50, 100, 250, 1000];
 
   filterValues = {
     SourceSystem: [],
@@ -50,6 +52,7 @@ export class TableGroupHeaderComponent implements OnInit {
   });
 
   constructor(private service: AuditDiscpancyReportService,private ngZone: NgZone) {
+    console.log('data',MENU_SOURCE);
   }
 
   getPage(event:any){
@@ -59,15 +62,83 @@ export class TableGroupHeaderComponent implements OnInit {
 
   pageChanged(event: PageEvent) {
     debugger;
-    console.log({ event });
-    this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
-    //this.loadData();
+    // console.log({ event });
+    // this.pageSize = event.pageIndex;
+    // this.currentPage = event.pageIndex;
+
+    let pageIndex = event.pageIndex;
+    let pageSize = event.pageSize;
+
+    let previousIndex = event.previousPageIndex;
+
+    let previousSize = pageSize * pageIndex;
+    
+    this.getNextData(previousSize, (pageIndex).toString(), pageSize.toString());
+    // this.loadData();
+  }
+
+  getNextData(currentSize:any, offset:any, limit:any){
+
+    var data = MENU_SOURCE;
+    // let params = new HttpParams();
+    // params = params.set('offset', offset);
+    // params = params.set('limit', limit); 
+
+       //this.loading = false;
+
+       data.length = currentSize;
+       data.push(...MENU_SOURCE);
+ 
+       //data.length = 12;
+ 
+       this.dataSource = new MatTableDataSource<any>(MENU_SOURCE);
+       this.dataSource._updateChangeSubscription();
+ 
+       this.dataSource.paginator = this.paginator;
+
+    // this.http.get('http://localhost:3000/users?' + params.toString())
+    // .subscribe((response: any) =>{
+
+   
+  
+    // })
+  }
+
+  loadData() {
+    //this.isLoading = true;
+    let URL = `../../../assets/data.json`;
+   // this.dataSource.data = MENU_SOURCE;
+    this.paginator.pageIndex = this.currentPage;
+    this.paginator.length = MENU_SOURCE.length;
+
+    this.dataSource = new MatTableDataSource<any>(MENU_SOURCE);
+    this.dataSource._updateChangeSubscription();
+
+    
+
+
+    // fetch(URL)
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     this.dataSource.data = data.rows;
+    //     setTimeout(() => {
+    //       this.paginator.pageIndex = this.currentPage;
+    //       this.paginator.length = data.count;
+    //     });
+    //     //this.isLoading = false;
+    //   }, error => {
+    //     console.log(error);
+    //     //this.isLoading = false;
+    //   });
   }
 
   ngOnInit(): void {
     this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
-    this.dataSource = new MatTableDataSource<any>(this.GrpTableitem?.data);
+
+    var dt = this.GrpTableitem.data;
+    //dt.length=39;
+    this.dataSource = new MatTableDataSource<any>(dt);
+  
     this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
     this.groupHeaders = this.GrpTableitem?.GroupHeaders ? this.GrpTableitem?.GroupHeaders : [];
     this.displayedColumns = this.GrpTableitem?.DisplayedColumns ? this.GrpTableitem?.DisplayedColumns : [];
