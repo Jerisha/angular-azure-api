@@ -81,7 +81,7 @@ export class HttpWrapperService {
                 debugger
                 categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
                 if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                    this.alertService.success("Save Sucessfully!!", { autoClose: false, keepAfterRouteChange: false });
+                    this.alertService.success("Save Sucessful!!", { autoClose: false, keepAfterRouteChange: false });
                 break;
             case WebMethods.CREATE:
                 categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
@@ -202,7 +202,7 @@ export class HttpWrapperService {
         if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
             objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
                 if (element.hasOwnProperty("Name"))
-                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`, ``);
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`, ``).replace(`\n\n`, ``);
             });
         }
         //Bind Attributes
@@ -210,7 +210,7 @@ export class HttpWrapperService {
             let attr = objCharacteristic.ListofAttributes.Attribute;
             for (let i = 0; i < attr.length; i++) {
                 if (attr[i].hasOwnProperty("Name"))
-                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`, ``);
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`, ``).replace(`\n\n`, ``);
             }
         }
 

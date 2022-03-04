@@ -25,7 +25,7 @@
             <mat-label>Start Telephone No</mat-label>
             <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
             <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
-              (blur)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput maxlength="11"
+              (keyup)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput maxlength="11"
               placeholder="Start Telephone No" #starttelno>
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
@@ -39,8 +39,7 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
             <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
-               (keypress)="numberOnly($event)"
-              (blur)="addPrefix('EndTelephoneNumber',endtelno.value)">
+              (keypress)="numberOnly($event)" (keyup)="addPrefix('EndTelephoneNumber',endtelno.value)">
             <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
@@ -240,7 +239,7 @@
                   <div style="display: inline-block;">
                     <mat-form-field>
                       <mat-label>Resolution Type</mat-label>
-                      <input #resol [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}" type="text"
+                      <input required #resol [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}" type="text"
                         placeholder="Search Resolution Type" matInput [matAutocomplete]="autoResolutionType1" />
                       <span matSuffix mat-icon-button>
                         <mat-icon>arrow_drop_down</mat-icon>
@@ -251,7 +250,12 @@
                             [value]="val">{{val}}</mat-option>
                         </ng-container>
                       </mat-autocomplete>
-                      
+                      <mat-error>
+                        <div *ngIf="!resol.value" class="alert alert-danger">
+                          <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                          Select resolution type
+                        </div>
+                      </mat-error>
                     </mat-form-field>
 
 
@@ -265,12 +269,19 @@
 
                     <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                       <mat-label>Remarks</mat-label>
-                      <textarea [(ngModel)]="Remarks" [ngModelOptions]="{standalone: true}" #input matInput
+                      <textarea required [(ngModel)]="Remarks" [ngModelOptions]="{standalone: true}" #input matInput
                         maxlength="500" placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                      <mat-error>
+                        <div *ngIf="!Remarks" class="alert alert-danger">
+                          <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                          Add remarks for resolution
+                        </div>
+                      </mat-error>
                     </mat-form-field>
-
-                    <button type="submit" mat-raised-button color="primary">
+                    <!-- (!f.StartTelephoneNumber.value && !f.EndTelephoneNumber.value) -->
+                    <button [disabled]="(selectedGridRows.length> 0? false : true)" type="submit" mat-raised-button
+                      color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
