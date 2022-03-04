@@ -15,32 +15,32 @@ export interface UnsolicitedDetails {
 }
 
 export interface LiveRecord {
-    tranId: string;
+    TransactionId: string;
     parentCupid: string;
     childCupid: string;
-    custTitle: string;
-    custForename: string;
-    custName: string;
-    busnSuffix: string;
+    customerTitle: string;
+    customerForename: string;
+    customerName: string;
+    businessSuffix: string;
     premises: string;
     thoroughfare: string;
     locality: string;
     postcode: string;
     retailerId: string;
-    addrId: string;
-    addrIdSrce: string;
-    tranRef: string;
+    AddressId: string;
+    AddressIdSource: string;
+    transactionReference: string;
     CreatedOn: string;
     createdBy: string;
     source: string;
     franchise: string;
     sourceType: string;
-    internalAddr1: string;
-    internalAddr2: string;
-    internalAddr3:	string;
-    internalAddr4: string;
-    newTelNo: string;
-    xRef: string;
+    internalAddress1: string;
+    internalAddress2: string;
+    internalAddress3:	string;
+    internalAddress4: string;
+    NewTelephoneNumber: string;
+    XReference: string;
     lineType: string;
 }
 

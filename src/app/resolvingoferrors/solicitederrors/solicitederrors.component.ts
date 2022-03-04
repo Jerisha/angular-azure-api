@@ -176,10 +176,8 @@ export class SolicitederrorsComponent implements OnInit {
   configDetails!: any;
 
   ngOnInit(): void {
-debugger
-    // let json =`let work for \n today \r\n and not\n\n tomorrow`
-    // let json1 =json.replace('\n','\\n').replace('\r','\\r')
-    // console.log(JSON.parse(json1))
+    debugger
+
 
     this.createForm();
 
@@ -189,7 +187,7 @@ debugger
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
     });
-        //this.service.configTest(request);
+    //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
@@ -308,7 +306,14 @@ debugger
   onFormSubmit(): void {
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      // let result = { datasource: res[0].SolicitedError,
+      //    totalrecordcount: res[0].TotalCount,
+      //    totalpages: res[0].NumberOfPages
+      //   }
+      //   return result;
+      return res[0].SolicitedError
+    }));
     // this.createSaveForm();
 
 
@@ -318,6 +323,7 @@ debugger
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
+      highlightedCells:['TelephoneNumber'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -470,6 +476,9 @@ debugger
           let updtab = this.tabs.find(x => x.tabType == 1);
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
+
+        this.telNo = tab.row.TelephoneNumber;
+        // console.log("tab row " + tab.row.TelephoneNumber);
 
         break;
 
