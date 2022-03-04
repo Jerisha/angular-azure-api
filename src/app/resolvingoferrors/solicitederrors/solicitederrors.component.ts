@@ -318,6 +318,7 @@ debugger
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
+      highlightedCells:['TelephoneNumber'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
