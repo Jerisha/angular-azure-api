@@ -7,7 +7,7 @@
       </app-select-multiple>
     </div>
 
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter" style="height:380px;">
         <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
@@ -135,7 +135,7 @@
         <button type="submit" mat-raised-button color="primary">
           <mat-icon>search</mat-icon>Search
         </button>
-        <button type="reset" mat-raised-button color="primary">
+        <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
           <mat-icon>refresh</mat-icon>Reset
         </button>
         <button type="button" mat-raised-button color="primary" (click)="DisplayInformationTab()">

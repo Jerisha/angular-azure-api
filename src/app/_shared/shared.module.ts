@@ -8,9 +8,10 @@ import { AlertComponent } from './alert/alert.component';
 
 import { TransactionErrorsComponent } from './transaction-errors/transaction-errors.component';
 import { StartUpComponent } from './start-up/start-up.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
-  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent,AlertComponent],
+  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent,AlertComponent,ConfirmDialogComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
