@@ -176,18 +176,21 @@ export class SolicitederrorsComponent implements OnInit {
   configDetails!: any;
 
   ngOnInit(): void {
+debugger
+    // let json =`let work for \n today \r\n and not\n\n tomorrow`
+    // let json1 =json.replace('\n','\\n').replace('\r','\\r')
+    // console.log(JSON.parse(json1))
+
     this.createForm();
-    //this.createSaveForm();
+
     debugger;
     let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
-    //this.service.configTest(request);
-    // this.service.configDetails(request);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-
     });
-
+        //this.service.configTest(request);
+    // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
 
@@ -227,7 +230,6 @@ export class SolicitederrorsComponent implements OnInit {
             attributes.push({ Name: 'ToDate', Value: [formatDate(toDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
             attributes.push({ Name: 'ToDate' });
-
           continue;
         }
         if (control?.value)
@@ -435,7 +437,7 @@ export class SolicitederrorsComponent implements OnInit {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
     }
-    this.thisForm.controls[control].setValue(value);
+    this.f[control].setValue(value);
   }
 
   numberOnly(event: any): boolean {
