@@ -6,6 +6,7 @@ import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
 import { SharedModule } from '../_shared/shared.module';
 import { ResolvingOfErrorsService } from './services/resolving-of-errors.service';
+import { HelperModule } from '../_helper/helper.module';
 
 
 
@@ -21,6 +22,7 @@ import { ResolvingOfErrorsService } from './services/resolving-of-errors.service
     ResolvingoferrorsRoutingModule,
     UicomponentsModule,
     ReactiveFormsModule,
+    HelperModule,
     FormsModule,
     SharedModule,        
   ],

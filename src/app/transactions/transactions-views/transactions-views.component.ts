@@ -167,6 +167,8 @@ removeRangeCli(rangeIndex:number){
 
 }
 
+
+
 onChangeEvent(event:any)
 {  
   if(event.target.value !="")
@@ -180,6 +182,8 @@ onChangeEvent(event:any)
   }
 
 }
+
+
 
 OnstateItemChange(event:any)
 {
@@ -244,7 +248,7 @@ SearchTel(){
   }
   ValidateTelno(telno:string){
     
-    let regNumberOnly = new RegExp("^[0-9 ]*$"); 
+    let regNumberOnly = new RegExp("^[0-9]*$"); 
 
     if(!(telno.length==0))
    {
@@ -325,6 +329,8 @@ SearchTel(){
     this.view3Toggle ="display: none;visibility:hidden;";
   }
   
+
+   
 
 }
 

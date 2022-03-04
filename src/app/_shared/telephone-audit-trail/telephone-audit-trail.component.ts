@@ -36,8 +36,8 @@ export class TelephoneAuditTrailComponent implements OnInit {
 
   auditTrailReport$!: Observable<any>;
 
-  @Input() isUnsol: boolean = false;
-  @Input() telNum!: number ;
+  @Input() telNo!: string ;
+  @Input() repIdentifier!: string;
 
 
   // ELEMENT_DATA: Option[] = [];
@@ -50,7 +50,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
     // }
   }
 
-  dataColumns = ["Action", "CntTransaction", "Status", "Created", "Source", "CustomerName"];
+  // dataColumns = ["Action", "CntTransaction", "Status", "Created", "Source", "CustomerName"];
   // columnsToDisplay = ["Action", "Count Transaction", "Status", "Created On", "Source", "Customer Name"];
  
   columnsToDisplay = [ {header:'Action', headerValue: 'Action'},
@@ -59,12 +59,140 @@ export class TelephoneAuditTrailComponent implements OnInit {
   {header:'Created On', headerValue: 'Created'},
   {header:'Source', headerValue: 'Source'},
   {header:'Customer Name', headerValue: 'CustomerName'}];
+
+  dataColumns = this.columnsToDisplay?.map((e) => e.headerValue);
  
   auditTrailInternalDisplay:string[]=['AuditActId','TelephoneNumber','ResolutionType','CliStatus','UserComment'];
   fullAuditTrailDisplay: string[]=['AuditActId','TelephoneNumber','ResolutionType','ExternalCliStatus', 'FullAuditCliStatus', 'UserComment'];
 
   ngOnInit(): void {
 
+    const testData = [
+      {
+         "ReportIdentifier":"SolicitedErrors",
+         "TelephoneNumber":"02075957399",
+         "LiveDetails":[
+            {
+               "TransactionId":"1000010076",
+               "ParentCupid":"13",
+               "ChildCupid":"13",
+               "CustomerName":"PARIBASNET LTD",
+               "Premises":"MARYLEBONE GATE",
+               "Thoroughfare":"10 HAREWOOD AVENUE",
+               "Locality":"LONDON",
+               "Postcode":"NW1 6AA",
+               "TransactionReference":"013/013/001000010076",
+               "Created":"26-Sep-2013",
+               "Source":"C",
+               "Franchise":"MCL",
+               "SourceType":"B",
+               "InternalAddress1":"MARYLEBONE GATE",
+               "InternalAddress2":"10 HAREWOOD AVENUE",
+               "InternalAddress3":"LONDON",
+               "LineType":"V"
+            }
+         ],
+         "AuditDetailedReport":[
+            {
+               "TransactionId":"1000010076",
+               "Comment":"DDI RANGE- 02075950000- 02075959999",
+               "SummaryReport":[
+                  {
+                     "CntTransaction":"A",
+                     "Created":"26-Sep-2013",
+                     "Status":"108",
+                     "Source":"C",
+                     "CustomerName":"PARIBASNET LTD"
+                  }
+               ],
+               "DetailedReport":[
+                  {
+                     "Created":"26-Sep-2013",
+                     "EndStatus":"25-Oct-2013",
+                     "Effective":"26-Sep-2013",
+                     "Provide":"25-Sep-2013",
+                     "TransactionCommand":"A",
+                     "BtCommand":"A",
+                     "ParentCupid":"13",
+                     "ChildCupid":"13",
+                     "CustomerName":"PARIBASNET LTD",
+                     "Premises":"MARYLEBONE GATE",
+                     "Thoroughfare":"10 HAREWOOD AVENUE",
+                     "Locality":"LONDON",
+                     "Postcode":"NW1 6AA",
+                     "Reference":"9015418",
+                     "ConnectionType":"D",
+                     "PreviousTransactionId":"0",
+                     "Status":"108",
+                     "BtSource":"COMS",
+                     "Source":"C",
+                     "Franchise":"MCL",
+                     "OrderReference":"965506",
+                     "SourceType":"B",
+                     "InternalAddress1":"MARYLEBONE GATE",
+                     "InternalAddress2":"10 HAREWOOD AVENUE",
+                     "InternalAddress3":"LONDON",
+                     "ForceValidate":"N",
+                     "LineType":"V",
+                     "TypeOfLine":"BB",
+                     "NextTransactionId":"0"
+                  }
+               ]
+            }
+         ],
+         "SeperateInternalAudit":[
+            {
+               "AuditActId":"30 - 17-FEB-2022",
+               "ResolutionType":"New",
+               "CliStatus":"D"
+            }
+         ],
+         "ExternalAudit":[
+            {
+               "AuditActId":"28",
+               "ResolutionType":"Auto Closed",
+               "CliStatus":"S-Matched",
+               "UserComment":[
+                  {
+                     "AuditActId":"28",
+                     "CreationDate":"21-Nov-2020",
+                     "CreatedBy":"SYSTEM",
+                     "ResolutionType":"Auto Closed",
+                     "Comments":"Auto closed occurs when a new Audit\n\n run is generated."
+                  }
+               ]
+            },
+            {
+               "AuditActId":"28",
+               "ResolutionType":"Auto Closed",
+               "CliStatus":"S-Matched",
+               "UserComment":[
+                  {
+                     "AuditActId":"28",
+                     "CreationDate":"21-Nov-2020",
+                     "CreatedBy":"SYSTEM",
+                     "ResolutionType":"Auto Closed",
+                     "Comments":"Auto closed occurs when \n\n a new Audit run is generated."
+                  }
+               ]
+            }
+         ],
+         "FullAudit":[
+            {
+               "AuditActId":"28 - 28-AUG-2020",
+               "ResolutionType":"S-Matched"
+            },
+            {
+               "AuditActId":"29 - 20-NOV-2020",
+               "ResolutionType":"S-Matched"
+            }
+         ]
+      }
+   ];
+   let data = JSON.stringify(testData);
+   console.log("Sample Data "+data);
+
+   console.log("removed new line " + data.replace(/[\n\n]/g, ''));
 
     // let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
     // Value : [ "02071117402" ] }]);
@@ -76,12 +204,12 @@ export class TelephoneAuditTrailComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     // console.log(changes.telephoneNumber.currentValue);
     // console.log(changes);
-    if(changes.telNum.currentValue != changes.telNum.previousValue)
+    if(changes.telNo.currentValue != changes.telNo.previousValue)
     {
       this.setStep(2);
-      let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
-    Value : [ this.telNum ] }]);
-    // Value : [ "02075957399" ] }]);
+      let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", this.repIdentifier, [{  Name : "TelephoneNumber",
+    Value : [ this.telNo ] }]);
+    // Value : [ "01171617562" ] }]);
 
     this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => res[0]));
 
