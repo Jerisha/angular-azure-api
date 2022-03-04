@@ -556,7 +556,7 @@
 
                             <div class="error" *ngIf="!element.NotificationData">No Records Found.</div>
 
-                            <div class="container-fluid" *ngIf="element.Notification">
+                            <div class="container-fluid" *ngIf="element.NotificationData">
                                 <div class="fluid-item notification-sec-1">
                                     <div>
                          <span class="label">Start Telephone No.</span>
@@ -643,7 +643,7 @@
                         <div class="error-response-sec">
                             <div class="page-header">Error Data</div>
                            
-                            <div class="error" *ngIf="!element.errorDescription">No Records Found.</div>
+                            <div class="error" *ngIf="!element.VodafoneError">No Records Found.</div>
                             <app-table class="appTable" [tableitem]="element.VodafoneError"></app-table>
                         </div>
                     
@@ -652,14 +652,14 @@
                         <div class="response-sec">
                             <div class="page-header">Response Data</div>
                             <!-- <h4>Response Data</h4> -->
-                            <div class="error" *ngIf="!element.commentResponse">No Records Found.</div>
+                            <div class="error" *ngIf="!element.SupplierError">No Records Found.</div>
                             <app-table class="appTable" [tableitem]="element.SupplierError"></app-table>
                         </div>
                         <mat-divider></mat-divider>
                         <div class="resolution-sec">
                             <div class="page-header">Resolution Data</div>
                             <!-- <h4>Resolution Data</h4> -->
-                            <div class="error" *ngIf="!element.resolution">No Records Found.</div>
+                            <div class="error" *ngIf="!element.ResolutionHistory">No Records Found.</div>
                             <app-table class="appTable" [tableitem]="element.ResolutionHistory"></app-table>
                         </div>
                         <mat-divider></mat-divider>
