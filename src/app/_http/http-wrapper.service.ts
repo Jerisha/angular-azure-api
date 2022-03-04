@@ -30,7 +30,7 @@ export class HttpWrapperService {
 
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_dev}${endPoint.toString()}`,
+                `${environment.api_sit}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -56,7 +56,7 @@ export class HttpWrapperService {
 
 
     private resolveRespone(val: any, requestType: WebMethods) {
-        //debugger;
+        debugger;
         let categories = [];
         let jsonResult = '';
         try{
@@ -78,9 +78,10 @@ export class HttpWrapperService {
                     jsonResult = this.processGetObject(categories);
                 break;
             case WebMethods.UPDATE:
+                debugger
                 categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
                 if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                    this.alertService.success("Save Sucessfully!!", { autoClose: false, keepAfterRouteChange: false });
+                    this.alertService.success("Save Sucessful!!", { autoClose: false, keepAfterRouteChange: false });
                 break;
             case WebMethods.CREATE:
                 categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
@@ -88,7 +89,7 @@ export class HttpWrapperService {
                 break;
         }
         // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
-        console.log("jsonString :" + jsonResult);
+        console.log("jsonString :" + String.raw`${jsonResult}`);
         return jsonResult ? JSON.parse(jsonResult) : null;
     }catch(err)
     {
@@ -201,7 +202,7 @@ export class HttpWrapperService {
         if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
             objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
                 if (element.hasOwnProperty("Name"))
-                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`, ``);
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`, ``).replace(`\n\n`, ``);
             });
         }
         //Bind Attributes
@@ -209,7 +210,7 @@ export class HttpWrapperService {
             let attr = objCharacteristic.ListofAttributes.Attribute;
             for (let i = 0; i < attr.length; i++) {
                 if (attr[i].hasOwnProperty("Name"))
-                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`, ``);
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`, ``).replace(`\n\n`, ``);
             }
         }
 
