@@ -16,6 +16,8 @@ import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { ReportService } from '../services/report.service';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { NgxSpinnerService } from "ngx-spinner";
+import { ConfigDetails } from 'src/app/_http/models/config-details';
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -455,7 +457,7 @@ export class LiverecordsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private service: ReportService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar,private spinner: NgxSpinnerService) { }
 
   //
   dataSaved = false;
@@ -485,6 +487,7 @@ export class LiverecordsComponent implements OnInit {
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
+  configDetails!: any;
   // public tabs = [{
   // tabType: 0,
   // name: 'Main'
@@ -536,14 +539,29 @@ export class LiverecordsComponent implements OnInit {
       // let transformInput = JSON.parse(WMRequests.CONFIG);
       // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command', 'Source']
       // console.log("Input: ", transformInput);
+      // debugger;
+      // let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand','ErrorCode']);
+      // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
+  
+      // //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
+    
       debugger;
       let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand','ErrorCode']);
-      this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
+      //this.service.configTest(request);
+      // this.service.configDetails(request);
+      this.service.configDetails(request).subscribe((res: any) => {
+        //console.log("res: " + JSON.stringify(res))
+        this.configDetails = res[0];
   
-      //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
-    
+        
+    });
   }
   ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
   
   prepareQueryParams(): any {
@@ -566,6 +584,23 @@ export class LiverecordsComponent implements OnInit {
 
   }
 
+  get f() {
+    return this.myForm.controls;
+  }
+  addPrefix(control: string, value: any) {    
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    this.myForm.controls[control].setValue(value);
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
   setOptions() {
     this.errorCodesOptions = this.errorCode.valueChanges
       .pipe(
@@ -573,8 +608,8 @@ export class LiverecordsComponent implements OnInit {
         map(name => this._filter(name))
       );
   }
-  splitData(data: string): string[] {
-    return data.split(',');
+  splitData(data: string | undefined): string[] {
+    return data ? data.split(',') : [];
   }
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();

@@ -30,15 +30,10 @@ import { HelperModule } from '../_helper/helper.module';
     UicomponentsModule,
     ReactiveFormsModule,
     FormsModule,
-<<<<<<< HEAD
-    SharedModule
+    SharedModule,
+    HelperModule
   ],
   providers:[ReportService]
 
-=======
-    SharedModule,
-    HelperModule
-  ]
->>>>>>> dev
 })
 export class ReportsModule { }

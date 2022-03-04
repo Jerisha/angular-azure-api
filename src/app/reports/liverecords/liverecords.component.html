@@ -7,15 +7,20 @@
         </div>
         <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
             <div class="matsidenav-filter">
-                <ng-container *ngIf="configResult$ | async  as config">
+                <ng-container *ngIf="configDetails  as config">
                     <app-select-exp [listItems]="expressions[0].default"></app-select-exp>
-                    <mat-form-field [ngClass]="{'hidden':myForm.controls.TelephoneNo.disabled}"
-                        hintLabel="Max 10 characters" appearance="outline">
-                        <mat-label>Telephone Number</mat-label>
-                        <input id="TelephoneNo" formControlName="TelephoneNo" matInput #input minlength="11" maxlength="11"
-                            placeholder="Telephone Number" style="margin-right: 24%;">
-                        <mat-hint align="end">{{input.value?.length || 0}}/11</mat-hint>
-                    </mat-form-field>
+  <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNo.disabled}">
+            <mat-label>TelephoneNo</mat-label>
+            <input formControlName="TelephoneNo" (keypress)="numberOnly($event)" (blur)="addPrefix('TelephoneNo',TelephoneNoe.value)" matInput  maxlength="11"
+              placeholder="TelephoneNo" autocomplete="off"  #TelephoneNoe>
+            <mat-hint align="end">{{TelephoneNoe.value?.length || 0}}/11</mat-hint>
+            <mat-error>
+              <div *ngIf="f.TelephoneNo.touched && f.TelephoneNo.invalid" class="alert alert-danger">
+                <div *ngIf="f.TelephoneNo.errors?.pattern">Telephone No is 11 digit</div>
+              </div>
+            </mat-error>
+          </mat-form-field>
+
                     <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}"
                         hintLabel="Max 10 characters" appearance="outline">
@@ -73,40 +78,78 @@
                         </mat-form-field>
                     </div>
 
+                    <div [ngStyle]="{'display':myForm.controls.Source.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Source.disabled}">
+                            <mat-label>Source</mat-label>
+                            <input formControlName="Source" type="text" placeholder="Search Source" matInput
+                                [matAutocomplete]="autoSource" />
+                            <span matSuffix mat-icon-button>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+                                <mat-option *ngFor="let val of splitData(config.Source) | ddlFilter: f.Source.value"
+                                    [value]="val">
+                                    {{val}}</mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
                     <div [ngStyle]="{'display':myForm.controls.TypeOfLine.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
-                        <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.TypeOfLine.disabled}">
-                            <mat-label>TypeOfLine</mat-label>
-                            <input formControlName="TypeOfLine" matInput #TypeOfLine maxlength="10"
-                                placeholder="TypeOfLine">
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TypeOfLine.disabled}">
+                            <mat-label>Type Of Line</mat-label>
+                            <input formControlName="TypeOfLine" type="text" placeholder="Search TypeOfLine" matInput
+                                [matAutocomplete]="autoTypeOfLine" />
+                            <span matSuffix mat-icon-button>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
+                                <mat-option
+                                    *ngFor="let val of splitData(config.TypeOfLine) | ddlFilter: f.TypeOfLine.value"
+                                    [value]="val">
+                                    {{val}}</mat-option>
+                            </mat-autocomplete>
                         </mat-form-field>
                     </div>
 
                     <div [ngStyle]="{'display':myForm.controls.Franchise.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
-                        <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Franchise.disabled}">
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Franchise.disabled}">
                             <mat-label>Franchise</mat-label>
-                            <input formControlName="Franchise" matInput #Franchise maxlength="10"
-                                placeholder="Franchise">
+                            <input formControlName="Franchise" type="text" placeholder="Search Franchise" matInput
+                                [matAutocomplete]="autoFranchise" />
+                            <span matSuffix mat-icon-button>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoFranchise="matAutocomplete">
+                                <mat-option
+                                    *ngFor="let val of splitData(config.Franchise) | ddlFilter: f.Franchise.value"
+                                    [value]="val">
+                                    {{val}}</mat-option>
+                            </mat-autocomplete>
                         </mat-form-field>
                     </div>
 
                     <div [ngStyle]="{'display':myForm.controls.TransactionCommand.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
-                        <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Franchise.disabled}">
-                            <mat-label>TransactionCommand</mat-label>
-                            <input formControlName="TransactionCommand" matInput #TransactionCommand maxlength="10"
-                                placeholder="TransactionCommand">
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TransactionCommand.disabled}">
+                            <mat-label>Transaction Command</mat-label>
+                            <input formControlName="TransactionCommand" type="text"
+                                placeholder="Search TransactionCommand" matInput
+                                [matAutocomplete]="autoTransactionCommand" />
+                            <span matSuffix mat-icon-button>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoTransactionCommand="matAutocomplete">
+                                <mat-option
+                                    *ngFor="let val of splitData(config.TransactionCommand) | ddlFilter: f.TransactionCommand.value"
+                                    [value]="val">
+                                    {{val}}</mat-option>
+                            </mat-autocomplete>
                         </mat-form-field>
                     </div>
 
-                    <div [ngStyle]="{'display':myForm.controls.Source.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
-                        <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Source.disabled}">
-                            <mat-label>Source</mat-label>
-                            <input formControlName="Source" matInput #Source maxlength="10" placeholder="Source">
-                        </mat-form-field>
-                    </div>
 
                 </ng-container>
             </div>

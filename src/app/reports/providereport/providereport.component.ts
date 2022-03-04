@@ -15,7 +15,8 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { ReportService } from '../services/report.service';
 import { Utils } from 'src/app/_http/index';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-
+import { NgxSpinnerService } from "ngx-spinner";
+import { ConfigDetails } from 'src/app/_http/models/config-details';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
@@ -79,7 +80,7 @@ export class ProvidereportComponent implements OnInit {
     public tabs: Tab[] = [];
     errorCode = new FormControl();
     constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef, private service: ReportService) { }
+        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
 
 
     columns: ColumnDetails[] = [
@@ -200,5 +201,20 @@ export class ProvidereportComponent implements OnInit {
             verticalPosition: this.verticalPosition,
         });
     }
+
+    addPrefix(control: string, value: any) {    
+        if (value.charAt(0) != 0) {
+          value = value.length <= 10 ? '0' + value : value;
+        }
+        this.myForm.controls[control].setValue(value);
+      }
+    
+      numberOnly(event: any): boolean {
+        const charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+          return false;
+        }
+        return true;
+      }
 }
 

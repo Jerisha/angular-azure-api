@@ -150,14 +150,11 @@ export class SolicitederrorsComponent implements OnInit {
   myTable!: TableItem;
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
-<<<<<<< HEAD
-=======
   telNo?: any;
   tranId?: any;
   repIdentifier = "SolicitedErrors";
 
 
->>>>>>> dev
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
