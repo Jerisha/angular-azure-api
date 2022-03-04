@@ -9,7 +9,6 @@ import { TelephoneRangeReportComponent } from './telephone-range-report/telephon
 import { SharedModule } from '../_shared/shared.module';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 import { LiverecordsComponent } from './liverecords/liverecords.component';
-import { AlertDialogComponent } from './telephone-range-report/alert-dialog.component';
 import { ReportService } from './services/report.service';
 
 import { HelperModule } from '../_helper/helper.module';
@@ -21,8 +20,7 @@ import { HelperModule } from '../_helper/helper.module';
     DialogComponent,
     TelephoneRangeReportComponent,
     TransactionDetailsComponent,    
-    LiverecordsComponent,
-    AlertDialogComponent
+    LiverecordsComponent
   ],
   imports: [
     CommonModule,

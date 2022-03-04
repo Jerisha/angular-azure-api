@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output, OnDestroy, SimpleChanges } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,8 +7,9 @@ import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/model
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-table-selection',
@@ -16,7 +17,8 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./table-selection.component.css']
 })
 
-export class TableSelectionComponent {
+export class TableSelectionComponent implements OnDestroy {
+  private readonly onDestroy = new Subject<void>();
   fltvalue: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -58,19 +60,21 @@ export class TableSelectionComponent {
   nonNumericCols: string[] = [];
 
   constructor(private cdr: ChangeDetectorRef,
-     private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService) {
 
   }
   dataObs$!: Observable<any>
   dataobj!: any;
 
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges) {
+    // if (changes.tableitem?.currentValue != changes.tableitem?.previousValue)
+    //   return;
 
     this.spinner.show();
     this.dataObs$ = this.tableitem?.data;
     //Subscribing passed data from parent
-    this.dataObs$.subscribe(
+    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
         this.dataSource = new MatTableDataSource<any>(res);
         this.dataSource.paginator = this.paginator;
@@ -78,10 +82,10 @@ export class TableSelectionComponent {
         this.spinner.hide()
       },
       error => { this.spinner.hide(); },
-      () => { console.log('table load completed');this.spinner.hide() }
+      () => { console.log('table load completed'); this.spinner.hide() }
     );
 
-   
+
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false;
@@ -311,5 +315,9 @@ export class TableSelectionComponent {
         }
       }
     return applyStyles;
+  }
+
+  ngOnDestroy() {
+    this.onDestroy.next();
   }
 }

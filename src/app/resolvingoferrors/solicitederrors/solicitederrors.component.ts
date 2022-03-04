@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ContentChild, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
@@ -13,6 +13,7 @@ import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
+import { formatDate } from '@angular/common';
 // import { ConsoleReporter } from 'jasmine';
 
 
@@ -165,7 +166,9 @@ export class SolicitederrorsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   saveForm!: FormGroup;
-
+  Resolution!: string;
+  Refer!: string;
+  Remarks!: string;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
@@ -173,18 +176,21 @@ export class SolicitederrorsComponent implements OnInit {
   configDetails!: any;
 
   ngOnInit(): void {
+debugger
+    // let json =`let work for \n today \r\n and not\n\n tomorrow`
+    // let json1 =json.replace('\n','\\n').replace('\r','\\r')
+    // console.log(JSON.parse(json1))
+
     this.createForm();
-    //this.createSaveForm();
+
     debugger;
     let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
-    //this.service.configTest(request);
-    // this.service.configDetails(request);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-
     });
-
+        //this.service.configTest(request);
+    // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
 
@@ -209,26 +215,28 @@ export class SolicitederrorsComponent implements OnInit {
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
-    //FromDate
-    const fromDate = this.thisForm.get('FromDate');
-    if (fromDate?.value.value)
-      attributes.push({ Name: 'FromDate', Value: [fromDate?.value.value] });
-    else
-      attributes.push({ Name: 'FromDate' });
-    //ToDate
-    const toDate = this.thisForm.get('ToDate');
-    if (toDate?.value.value)
-      attributes.push({ Name: 'ToDate', Value: [toDate?.value.value] });
-    else
-      attributes.push({ Name: 'ToDate' });
 
     for (const field in this.f) {
-      const control = this.thisForm.get(field);
-      if (field != 'Reference' && field != 'FromDate' && field != 'ToDate') {
+      if (field != 'Reference') {
+        const control = this.thisForm.get(field);
+        if (field == 'DateRange') {
+          const fromDate = this.thisForm.get('DateRange.FromDate');
+          if (fromDate?.value)
+            attributes.push({ Name: 'FromDate', Value: [formatDate(fromDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+          else
+            attributes.push({ Name: 'FromDate' });
+          const toDate = this.thisForm.get('DateRange.ToDate');
+          if (toDate?.value)
+            attributes.push({ Name: 'ToDate', Value: [formatDate(toDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+          else
+            attributes.push({ Name: 'ToDate' });
+          continue;
+        }
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
+
       }
     }
     console.log(attributes);
@@ -246,18 +254,27 @@ export class SolicitederrorsComponent implements OnInit {
 
   }
   createForm() {
+
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    const date = today.getDate();
+    //ToDate: new FormControl(new Date(year, month, date))
+
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      FromDate: new FormControl({ value: '' }, []),
-      ToDate: new FormControl({ value: '' }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
-      OrderReference: new FormControl({ value: '', disabled: true }, [])
+      OrderReference: new FormControl({ value: '', disabled: true }, []),
+      DateRange: this.formBuilder.group({
+        FromDate: new FormControl(),
+        ToDate: new FormControl()
+      })
 
     })
 
@@ -316,19 +333,70 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   onSaveSubmit(): void {
-    let transId: string[] = [];
-    this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
-    console.log('save button function')
-    // let request =''
-    // this.updateResult$ = this.service.updateDetails(request);
+    debugger;
+    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) {
+      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+      this.service.updateDetails(request).subscribe(x => x);
+    }
+
   }
 
+  prepareUpdateIdentifiers() {
+    let identifiers: any[] = [];
+    const startTelephoneNumber = this.thisForm.get('StartTelephoneNumber');
+    const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
+
+    if (this.selectedGridRows.length > 0) {
+      let transId: string[] = [];
+      this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
+      identifiers.push({ Name: 'TransactionId', Value: transId });
+    } else
+      identifiers.push({ Name: 'TransactionId', Value: [""] });
+
+    if (startTelephoneNumber?.value)
+      identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
+    else
+      identifiers.push({ Name: 'TelephoneNumberStart' });
+
+    if (endTelephoneNumber?.value)
+      identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
+    else
+      identifiers.push({ Name: 'TelephoneNumberEnd' });
+
+    return identifiers;
+  }
+
+  prepareUpdateParams(): any {
+    let UpdateParams: any = [];
+
+    if (this.Resolution)
+      UpdateParams.push({ Name: 'ResolutionType', Value: [this.Resolution] });
+    else
+      UpdateParams.push({ Name: 'ResolutionType' });
+    if (this.Remarks)
+      UpdateParams.push({ Name: 'Remarks', Value: [this.Remarks] });
+    else
+      UpdateParams.push({ Name: 'Remarks' });
+    if (this.Refer)
+      UpdateParams.push({ Name: '999Reference', Value: [this.Refer] });
+    else
+      UpdateParams.push({ Name: '999Reference' });
+
+    console.log(UpdateParams);
+
+    return UpdateParams;
+  }
+
+
+
   resetForm(): void {
+    this.tabs.splice(0);
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
     //   verticalPosition: this.verticalPosition,
     // });
+
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -362,14 +430,14 @@ export class SolicitederrorsComponent implements OnInit {
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-  startTelno:any;
-  endTelno:any;
+  startTelno: any;
+  endTelno: any;
 
-  addPrefix(control: string, value: any) {    
+  addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
     }
-    this.thisForm.controls[control].setValue(value);
+    this.f[control].setValue(value);
   }
 
   numberOnly(event: any): boolean {
