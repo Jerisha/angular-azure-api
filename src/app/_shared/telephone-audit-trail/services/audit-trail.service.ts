@@ -13,8 +13,9 @@ export class AuditTrailService {
 
   getDetails(request: any): Observable<any> {
     const observable = new Observable(observer => {
-      this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, request).subscribe((res: any) =>
-        observer.next(this.custom(res)));      
+      this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, request).subscribe((res: any) => {
+      if(res) return observer.next(this.custom(res));
+    });      
     });
 
 
@@ -102,7 +103,6 @@ export class AuditTrailService {
           });
           auditdata[0].SeperateInternalAudit = intAttr;
         }
-        
         // console.log("Audit data " + JSON.stringify(auditdata));
         return auditdata;
   }
