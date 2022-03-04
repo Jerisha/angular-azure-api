@@ -642,11 +642,13 @@ export class LiverecordsComponent implements OnInit {
     //this.selectedTab = this.tabs.length - 1;
   }
   resetForm(): void {
-    this._snackBar.open('Reset Form Completed!', 'Close', {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
+    this.tabs.splice(0);
+    // this._snackBar.open('Reset Form Completed!', 'Close', {
+    //   duration: 5000,
+    //   horizontalPosition: this.horizontalPosition,
+    //   verticalPosition: this.verticalPosition,
+    // });
+
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);

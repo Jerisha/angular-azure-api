@@ -194,13 +194,15 @@ export class ProvidereportComponent implements OnInit {
         return filteredList;
     }
 
-    resetForm(): void {
-        this._snackBar.open('Reset Form Completed!', 'Close', {
-            duration: 5000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-        });
-    }
+   resetForm(): void {
+        this.tabs.splice(0);
+        // this._snackBar.open('Reset Form Completed!', 'Close', {
+        //   duration: 5000,
+        //   horizontalPosition: this.horizontalPosition,
+        //   verticalPosition: this.verticalPosition,
+        // });
+    
+      }
 
     addPrefix(control: string, value: any) {    
         if (value.charAt(0) != 0) {
