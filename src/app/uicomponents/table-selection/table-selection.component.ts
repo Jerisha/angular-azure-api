@@ -300,14 +300,14 @@ export class TableSelectionComponent implements OnDestroy {
 
     let applyStyles = {};
     if (this.backhighlightedCells)
-      if (this.backhighlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+      if (this.backhighlightedCells.includes(disCol.headerValue) && (cell['IsLive']==1)) {
         applyStyles = {
           'background-color': '#ff9999'
         }
       }
 
     if (this.highlightedCells)
-      if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+      if (this.highlightedCells.includes(disCol.headerValue) && (cell['IsLive']==1)) {
 
         applyStyles = {
           'color': 'red',
