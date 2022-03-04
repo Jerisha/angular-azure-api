@@ -34,10 +34,12 @@ export class TableGroupHeaderComponent implements OnInit {
   cliStatusList: string[] = [];
   nonNumericCols: string[] = [];
 
-  totalRows = 250;
-  pageSize = 10;
+
+  isLoading = false;
+  totalRows = 0;
+  pageSize = 5;
   currentPage = 0;
-  pageSizeOptions: number[] = [50, 100, 250, 1000];
+  pageSizeOptions: number[] = [100, 5000, 2500, 1000];
 
   filterValues = {
     SourceSystem: [],
@@ -66,14 +68,13 @@ export class TableGroupHeaderComponent implements OnInit {
     // this.pageSize = event.pageIndex;
     // this.currentPage = event.pageIndex;
 
-    let pageIndex = event.pageIndex;
-    let pageSize = event.pageSize;
-
-    let previousIndex = event.previousPageIndex;
-
-    let previousSize = pageSize * pageIndex;
+  
+     // console.log({ event });
+      this.pageSize = event.pageSize;
+      this.currentPage = event.pageIndex;
+      this.loadData();
     
-    this.getNextData(previousSize, (pageIndex).toString(), pageSize.toString());
+    //this.getNextData(previousSize, (pageIndex).toString(), pageSize.toString());
     // this.loadData();
   }
 
@@ -107,15 +108,6 @@ export class TableGroupHeaderComponent implements OnInit {
   loadData() {
     //this.isLoading = true;
     let URL = `../../../assets/data.json`;
-   // this.dataSource.data = MENU_SOURCE;
-    this.paginator.pageIndex = this.currentPage;
-    this.paginator.length = MENU_SOURCE.length;
-
-    this.dataSource = new MatTableDataSource<any>(MENU_SOURCE);
-    this.dataSource._updateChangeSubscription();
-
-    
-
 
     // fetch(URL)
     //   .then(response => response.json())
@@ -125,19 +117,28 @@ export class TableGroupHeaderComponent implements OnInit {
     //       this.paginator.pageIndex = this.currentPage;
     //       this.paginator.length = data.count;
     //     });
-    //     //this.isLoading = false;
+    //     this.isLoading = false;
     //   }, error => {
     //     console.log(error);
-    //     //this.isLoading = false;
+    //     this.isLoading = false;
     //   });
+   this.dataSource.data = MENU_SOURCE;
+    this.paginator.pageIndex = this.currentPage;
+    this.paginator.length = MENU_SOURCE.length;
+
+    this.dataSource = new MatTableDataSource<any>(MENU_SOURCE);
+    this.dataSource._updateChangeSubscription();
+
   }
 
   ngOnInit(): void {
     this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
 
     var dt = this.GrpTableitem.data;
+    debugger;
     //dt.length=39;
     this.dataSource = new MatTableDataSource<any>(dt);
+    
   
     this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
     this.groupHeaders = this.GrpTableitem?.GroupHeaders ? this.GrpTableitem?.GroupHeaders : [];
@@ -161,6 +162,8 @@ export class TableGroupHeaderComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.paginator.pageIndex = this.currentPage;
+    this.paginator.length = 34;
     
       // this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => this.table.updateStickyColumnStyles());
       
