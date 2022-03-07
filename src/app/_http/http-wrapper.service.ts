@@ -93,9 +93,11 @@ export class HttpWrapperService {
         debugger
         // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
         console.log("jsonString :" + jsonResult);
+        //console.log(JSON.parse(jsonResult))
         return jsonResult ? JSON.parse(jsonResult) : null;
     }catch(err)
     {
+        //console.log("error "  + err)
         this.alertService.error("UI Error.", { autoClose: false, keepAfterRouteChange: false });   
     }
     }
@@ -209,7 +211,7 @@ export class HttpWrapperService {
         if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
             objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
                 if (element.hasOwnProperty("Name"))
-                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? Utils.escSequences(element["Value"]) : ''}",`
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g,' ')
             });
         }
         //Bind Attributes
@@ -217,7 +219,7 @@ export class HttpWrapperService {
             let attr = objCharacteristic.ListofAttributes.Attribute;
             for (let i = 0; i < attr.length; i++) {
                 if (attr[i].hasOwnProperty("Name"))
-                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? Utils.escSequences(attr[i]["Value"]) : ''}",`
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g,' ')
             }
         }
 

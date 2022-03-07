@@ -155,7 +155,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   Remarks!: string;
 
 
-
+  auditTelNo?: any;
   telNo?: any;
   tranId?: any;
   repIdentifier = "UnsolicitedErrors";
@@ -345,7 +345,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   }
 
   DisplayInformationTab() {
-debugger
+    debugger
     let request = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
       "Name": "TransactionDays",
       "Value": ["62"]
@@ -453,15 +453,14 @@ debugger
 
   newTab(tab: any) {
     if (this.tabs === []) return;
-    this.telNo = tab.row.TelephoneNumber;
-    this.tranId = tab.row.TransactionReference;
+
     switch (tab.tabType) {
       case 1: {
         //tab.row contains row data- fetch data from api and bind to respetive component
         if (!this.tabs.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report (' + this.telNo + ')'
+            name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
 
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
@@ -470,6 +469,7 @@ debugger
           let updtab = this.tabs.find(x => x.tabType == 1);
           if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
         }
+        this.auditTelNo = tab.row.TelephoneNumber;
         break;
       }
       case 2: {
@@ -483,6 +483,8 @@ debugger
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionReference;
         break;
       }
       default: {

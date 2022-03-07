@@ -151,6 +151,7 @@ export class SolicitederrorsComponent implements OnInit {
   myTable!: TableItem;
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
+  auditTelNo?: any;
   telNo?: any;
   tranId?: any;
   repIdentifier = "SolicitedErrors";
@@ -176,7 +177,6 @@ export class SolicitederrorsComponent implements OnInit {
   configDetails!: any;
 
   ngOnInit(): void {
-
     this.createForm();
 
     debugger;
@@ -459,8 +459,7 @@ export class SolicitederrorsComponent implements OnInit {
   newTab(tab: any) {
     if (this.tabs === []) return;
 
-    this.telNo = tab.row.TelephoneNumber;
-    this.tranId = tab.row.TransactionId;
+
     switch (tab.tabType) {
       case 1:
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
@@ -478,7 +477,7 @@ export class SolicitederrorsComponent implements OnInit {
           let updtab = this.tabs.find(x => x.tabType == 1);
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
-
+        this.auditTelNo = tab.row.TelephoneNumber;
         break;
 
       case 2:
@@ -491,7 +490,8 @@ export class SolicitederrorsComponent implements OnInit {
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
-
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         break;
       default:
         //statements; 
