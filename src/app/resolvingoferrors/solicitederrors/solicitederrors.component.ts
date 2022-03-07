@@ -176,8 +176,6 @@ export class SolicitederrorsComponent implements OnInit {
   configDetails!: any;
 
   ngOnInit(): void {
-    debugger
-
 
     this.createForm();
 
@@ -323,7 +321,6 @@ export class SolicitederrorsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
-      highlightedCells:['TelephoneNumber'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -340,7 +337,8 @@ export class SolicitederrorsComponent implements OnInit {
 
   onSaveSubmit(): void {
     debugger;
-    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) {
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
+      (this.Resolution && this.Remarks)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
       this.service.updateDetails(request).subscribe(x => x);
     }
@@ -388,7 +386,7 @@ export class SolicitederrorsComponent implements OnInit {
     else
       UpdateParams.push({ Name: '999Reference' });
 
-    console.log(UpdateParams);
+    //console.log(UpdateParams);
 
     return UpdateParams;
   }
@@ -397,6 +395,11 @@ export class SolicitederrorsComponent implements OnInit {
 
   resetForm(): void {
     this.tabs.splice(0);
+    // let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    // this.service.configDetails(request).subscribe((res: any) => {
+    //   //console.log("res: " + JSON.stringify(res))
+    //   this.configDetails = res[0];
+    // });
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
@@ -416,21 +419,20 @@ export class SolicitederrorsComponent implements OnInit {
     });
   }
 
-  rowDetect(item: any) {
+  rowDetect(selectedRows: any) {
     debugger;
-    this.selectedRowsCount = item.length;
-    if (item && item.length == 0) return
+    selectedRows.forEach((item: any) => {
+      this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
 
-    if (!this.selectedGridRows.includes(item))
-      this.selectedGridRows.push(item)
-    else if (this.selectedGridRows.includes(item)) {
-      let index = this.selectedGridRows.indexOf(item);
-      this.selectedGridRows.splice(index, 1)
-    }
-
-
-
-    console.log("selectedGridRows" + this.selectedGridRows)
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+    // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   removeTab(index: number) {
@@ -476,9 +478,6 @@ export class SolicitederrorsComponent implements OnInit {
           let updtab = this.tabs.find(x => x.tabType == 1);
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
-
-        this.telNo = tab.row.TelephoneNumber;
-        // console.log("tab row " + tab.row.TelephoneNumber);
 
         break;
 

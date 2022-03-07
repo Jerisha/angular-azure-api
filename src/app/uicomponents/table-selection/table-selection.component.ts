@@ -163,18 +163,18 @@ export class TableSelectionComponent implements OnDestroy {
   }
 
   selectRow(event: any, row: any) {
-    debugger;
+    //debugger;
     this.dataSource.data = this.dataSource.data.filter(r => r !== row);
     if (event.checked) {
       this.dataSource.data = [row].concat(this.dataSource.data);
-      debugger;
+      //debugger;
       //this.highlightCellb(true)
     }
     else {
       this.dataSource.data = this.dataSource.data.concat(row);
       // this.highlightCellb(false)
     }
-    this.rowChanges.emit(row);
+    this.rowChanges.emit([row]);
   }
 
 
@@ -190,14 +190,12 @@ export class TableSelectionComponent implements OnDestroy {
     if (this.isAllSelected()) {
       this.selection.clear()
       this.selectedTelnos = [];
-
     }
     else {
       this.dataSource.data.forEach(row => this.selection.select(row));
       // this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
     }
-
-    this.rowChanges.emit(this.selectedTelnos);
+    this.rowChanges.emit(this.dataSource.data);
   }
 
   applyFilter() {
