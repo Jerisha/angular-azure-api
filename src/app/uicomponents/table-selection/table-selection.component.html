@@ -105,10 +105,13 @@ font-size: smaller;  ">
       </ng-container>
     </table>
   </div>
+  <!-- <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
+  </mat-paginator>  -->
 
-
-  <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
+  <mat-paginator #paginator style="height: 5px;" [length]="totalRows" showFirstLastButtons [pageIndex]="currentPage" [pageSize]="pageSize"
+  hidePageSize [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" >
   </mat-paginator>
+  
 
   <!-- <div class="test-wrapper"> -->
   <div style="margin-bottom:10px" *ngIf="isShown">
@@ -130,5 +133,4 @@ font-size: smaller;  ">
     </button>&nbsp;&nbsp;
 
   </div>
-
   <mat-divider></mat-divider>

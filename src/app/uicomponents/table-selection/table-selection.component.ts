@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output, OnDestroy, SimpleChanges } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output, OnDestroy, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
@@ -12,6 +12,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-table-selection',
   templateUrl: './table-selection.component.html',
   styleUrls: ['./table-selection.component.css']
@@ -20,8 +21,8 @@ import { takeUntil } from 'rxjs/operators';
 export class TableSelectionComponent implements OnDestroy {
   private readonly onDestroy = new Subject<void>();
   fltvalue: string = '';
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild('select') select!: MatSelect;
   allSelected = true;
   selection = new SelectionModel<any>(true, []);
@@ -30,7 +31,9 @@ export class TableSelectionComponent implements OnDestroy {
   @Input() isShown: boolean = true;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
-  dataSource!: MatTableDataSource<any>;
+  @Output() pageIndex = new EventEmitter<any>();
+  // dataSource!: MatTableDataSource<any>;
+  public dataSource = new MatTableDataSource<any>();
   // dataSource!: MatTableDataSource<Observable<any>>;
   selectedrows: any;
   ColumnDetails!: ColumnDetails[];
@@ -55,41 +58,55 @@ export class TableSelectionComponent implements OnDestroy {
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   shouldTotalRow: boolean = false;
+  isRowselected: boolean = false;
 
   totalRowCols: string[] = [];
   nonNumericCols: string[] = [];
 
-  constructor(private cdr: ChangeDetectorRef,
+  isLoading = false;
+  totalRows = 0;
+  pageSize = 500;
+  currentPage = 0;
+  pageSizeOptions: number[] = [500];
+
+  constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService) {
 
   }
   dataObs$!: Observable<any>
   dataobj!: any;
 
+  pageChanged(event: PageEvent) {
+    debugger;
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.pageIndex.emit(this.currentPage + 1);
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    // if (changes.tableitem?.currentValue != changes.tableitem?.previousValue)
+    // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
     //   return;
-
-    this.spinner.show();
     this.dataObs$ = this.tableitem?.data;
-    //Subscribing passed data from parent
-    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
-      (res: any) => {
-        this.dataSource = new MatTableDataSource<any>(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.spinner.hide()
-      },
-      error => { this.spinner.hide(); },
-      () => { console.log('table load completed'); this.spinner.hide() }
-    );
-
-
+    this.spinner.show(); 
+    setTimeout(() => {
+      this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
+        (res: any) => {
+          this.selection.clear();
+          this.dataSource.data = res.datasource;
+          this.totalRows = (res.totalrecordcount) as number;
+          this.paginator.pageIndex = this.currentPage;
+          this.paginator.length = (res.totalrecordcount) as number;
+          this.dataSource.sort = this.sort;
+          this.spinner.hide();
+        },
+        error => { this.spinner.hide(); },
+        () => { this.spinner.hide(); }
+      );
+    });
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false;
-    debugger;
+
     if (this.tableitem?.showBlankCoulmns) {
       this.getEmptyColumns();
       this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
@@ -101,7 +118,6 @@ export class TableSelectionComponent implements OnDestroy {
       this.gridSelectList = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
     // this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-
     this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
       : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
     //this.imgColumns = this.tableitem?.colToSetImage;
@@ -128,15 +144,13 @@ export class TableSelectionComponent implements OnDestroy {
     }
   }
 
+  ngOnInit(): void { }
+  // ngOnChanges ngOnInit
+
   ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    //     this.dataSource.sort = this.sort;
     this.toggleAllSelection();
-    this.cdr.detectChanges();
+    this.changeDetectorRef.detectChanges();
   }
-
-
-  isRowselected: boolean = false;
 
 
   getTotal(cellname: string) {
@@ -164,6 +178,7 @@ export class TableSelectionComponent implements OnDestroy {
 
   selectRow(event: any, row: any) {
     debugger;
+    // 
     this.dataSource.data = this.dataSource.data.filter(r => r !== row);
     if (event.checked) {
       this.dataSource.data = [row].concat(this.dataSource.data);
@@ -187,6 +202,7 @@ export class TableSelectionComponent implements OnDestroy {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
+    this.spinner.show();
     if (this.isAllSelected()) {
       this.selection.clear()
       this.selectedTelnos = [];
@@ -194,15 +210,13 @@ export class TableSelectionComponent implements OnDestroy {
     }
     else {
       this.dataSource.data.forEach(row => this.selection.select(row));
-      // this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
     }
-
     this.rowChanges.emit(this.selectedTelnos);
+    this.spinner.hide();
   }
 
   applyFilter() {
     this.dataSource.filter = this.fltvalue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -300,14 +314,14 @@ export class TableSelectionComponent implements OnDestroy {
 
     let applyStyles = {};
     if (this.backhighlightedCells)
-      if (this.backhighlightedCells.includes(disCol.headerValue) && (cell['IsLive']==1)) {
+      if (this.backhighlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
         applyStyles = {
           'background-color': '#ff9999'
         }
       }
 
     if (this.highlightedCells)
-      if (this.highlightedCells.includes(disCol.headerValue) && (cell['IsLive']==1)) {
+      if (this.highlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
 
         applyStyles = {
           'color': 'red',

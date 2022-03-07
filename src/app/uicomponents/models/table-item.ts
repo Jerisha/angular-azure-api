@@ -15,6 +15,7 @@ export interface TableItem {
     backhighlightedCells?:string[];
     totalRowCols?:string[];
     shouldTotalRow?:boolean; 
+    RowCount?:any;
     
 }
 

@@ -174,6 +174,7 @@ export class SolicitederrorsComponent implements OnInit {
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
+  currentPage: string ='1';
 
   ngOnInit(): void {
 debugger
@@ -206,9 +207,9 @@ debugger
     this.cdr.detectChanges();
   }
 
-  prepareQueryParams(): any {
+  prepareQueryParams(pageNo:string): any {
     let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] }];
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
     //Reference
     const control = this.thisForm.get('Reference');
     if (control?.value)
@@ -305,13 +306,29 @@ debugger
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
   ];
 
+
+  totCount$!:Observable<any>;
+  total:any
+
+
+  getNextSetRecords(pageIndex:any)
+  {
+    debugger;
+    this.currentPage =pageIndex;
+    this.onFormSubmit();
+    //console.log('page number in parent',pageIndex)
+  }
   onFormSubmit(): void {
     debugger;
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
-    // this.createSaveForm();
-
-
+    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>{     
+      let result = { datasource: res[0].SolicitedError,
+        totalrecordcount: res[0].TotalCount,
+        totalpages: res[0].NumberOfPages
+        }
+        return result;
+           
+    }));    
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
@@ -319,6 +336,7 @@ debugger
       selectCheckbox: true,
       selectionColumn: 'TranId',
       highlightedCells:['TelephoneNumber'],
+      RowCount: this.total,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }

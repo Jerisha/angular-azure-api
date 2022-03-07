@@ -165,6 +165,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   configDetails!: any;
 
   selected: string = '';
+  currentPage: string ='1';
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
@@ -184,6 +185,16 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     });
 
 
+
+    
+  }
+
+  getNextSetRecords(pageIndex:any)
+  {
+    debugger;
+    this.currentPage =pageIndex;
+    this.onFormSubmit();
+    //console.log('page number in parent',pageIndex)
   }
 
   splitData(data: string | undefined): string[] {
@@ -262,8 +273,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     return identifiers;
   }
 
-  prepareQueryParams(): any {
-    let attributes: any = [{ Name: 'PageNumber', Value: ['1'] }];
+  prepareQueryParams(pageNo:string): any {
+    let attributes: any = [{ Name: 'PageNumber', Value: [`${pageNo}`] }];
 
     const control = this.thisForm.get('Reference');
     if (control?.value)
@@ -384,10 +395,19 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
+
   onFormSubmit(): void {
 
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
+    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
+    //this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>{     
+      let result = { datasource: res[0].UnsolicitedError,
+        totalrecordcount: res[0].TotalCount,
+        totalpages: res[0].NumberOfPages
+        }
+        return result;
+           
+    }));    
 
 
     // this.spinner.show();

@@ -164,7 +164,7 @@
 
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable"  (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)">
             </app-table-selection>
             <form (ngSubmit)="onSaveSubmit()">
