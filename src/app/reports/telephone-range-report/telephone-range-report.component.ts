@@ -13,8 +13,8 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpWrapperService } from 'src/app/_http/http-wrapper.service';
 import { Utils, WebMethods } from 'src/app/_http';
-import { ResolvingOfErrorsService } from 'src/app/resolvingoferrors/services/resolving-of-errors.service';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { ReportService } from '../services/report.service';
 
 const ELEMENT_DATA = [
   {
@@ -61,7 +61,7 @@ export class TelephoneRangeReportComponent implements OnInit {
     private alertService:AlertService,
     private dialog: MatDialog,
     private http: HttpWrapperService,
-    private service: ResolvingOfErrorsService,
+    private service: ReportService,
     private cdr: ChangeDetectorRef) {}
 
   @ViewChild('table1') table1?:TableSelectionComponent;
@@ -84,14 +84,14 @@ export class TelephoneRangeReportComponent implements OnInit {
   columns: ColumnDetails[] =[
     { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
     { header: 'End Telephone No.', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false },
     { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false },
     { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false },
+    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
-    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false },
+    { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
   ];
   //data1:TelephoneRangeReport[] = ELEMENT_DATA;
   queryResult$!: Observable<any>;
@@ -142,11 +142,11 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
   
   onFormSubmit():void{
+    if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)<=10000){
+      let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams());
+      //console.log(JSON.stringify(request));
+      this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TelephoneNumbers));
     
-    let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams());
-    //console.log(JSON.stringify(request));
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TelephoneNumbers));
-    //if(this.thisForm.valid){
       this.myTable = {
         data: this.queryResult$,
         Columns: this.columns,
@@ -164,7 +164,7 @@ export class TelephoneRangeReportComponent implements OnInit {
         });
       }
       this.selectedTab = this.tabs.length;
-    //}
+    }
   }
 
   resetForm():void{
@@ -178,8 +178,8 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
     })
   }
   get f() {
