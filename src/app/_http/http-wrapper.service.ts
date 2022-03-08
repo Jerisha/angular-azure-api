@@ -9,6 +9,7 @@ import { WMMessageType } from 'src/app/_http/enums/wmmessage-type.enum';
 import { WMStatusCode } from 'src/app/_http/enums/wmstatus-code.enum';
 import { Router } from '@angular/router';
 import { AlertService } from '../_shared/alert/alert.service';
+import { Utils } from './common/utils';
 
 
 @Injectable({ providedIn: 'root' })
@@ -19,6 +20,7 @@ export class HttpWrapperService {
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
+            console.log( JSON.stringify(body));
         // this.http(httpVerb.toString(),
         //     `${environment.api_url}${endPoint}`,
         //     JSON.stringify(body),
@@ -45,7 +47,7 @@ export class HttpWrapperService {
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
-        debugger;
+       // debugger;
         switch (responseType) {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
@@ -56,7 +58,7 @@ export class HttpWrapperService {
 
 
     private resolveRespone(val: any, requestType: WebMethods) {
-        debugger;
+       // debugger;
         let categories = [];
         let jsonResult = '';
         try {
@@ -78,7 +80,7 @@ export class HttpWrapperService {
                         jsonResult = this.processGetObject(categories);
                     break;
                 case WebMethods.UPDATE:
-                    debugger
+                   // debugger
                     categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
                     if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
                         this.alertService.success("Save Sucessful!!", { autoClose: false, keepAfterRouteChange: false });
@@ -94,7 +96,13 @@ export class HttpWrapperService {
         } catch (err) {
             this.alertService.error("UI Error.", { autoClose: false, keepAfterRouteChange: false });
         }
+       // debugger
+        // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
+        console.log("jsonString :" + jsonResult);
+        return jsonResult ? JSON.parse(jsonResult) : null;
     }
+    
+
 
     private processConfigObject(categories: any) {
         var jsonCreation = `[`
@@ -104,6 +112,7 @@ export class HttpWrapperService {
                 //Check ItemName is not Update
                 if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update"
                     && category?.hasOwnProperty("ListofConfigObjectCharacteristics")) {
+                        
                     jsonCreation += `{`
                     //Iterate characteristics object
                     let configCharacteristics = category.ListofConfigObjectCharacteristics.ConfigObjectCharacteristics;
@@ -134,7 +143,7 @@ export class HttpWrapperService {
             categories?.forEach((category: any) => {
                 //Check ListofIdentifiers
                 if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update") {
-                    jsonCreation += `{`
+                    jsonCreation += `{ "ScreenIdentifier" : "${category["ItemName"]}",`
                     if (category?.hasOwnProperty("ListofIdentifiers") || category?.hasOwnProperty("ListofAttributes")) {
                         //Iterate category object
                         jsonCreation = this.resolveCharacteristic(category, jsonCreation);
@@ -154,6 +163,8 @@ export class HttpWrapperService {
                         jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
                         jsonCreation += `]`;
                     }
+                    else
+                    {jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);}
                     jsonCreation += `},`;
                 }
             });
@@ -163,8 +174,7 @@ export class HttpWrapperService {
         return jsonCreation;
     }
 
-    private processGetObject(categories: any) {
-
+    private processGetObject(categories: any) {        
         var jsonCreation = `[`
         if (categories != undefined && categories.length > 0) {
             //Iterate categories object
@@ -187,6 +197,8 @@ export class HttpWrapperService {
                         jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
                         jsonCreation += `]`;
                     }
+                    else
+                    {jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);}
                     jsonCreation += `},`;
                 }
             });
@@ -201,7 +213,7 @@ export class HttpWrapperService {
         if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
             objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
                 if (element.hasOwnProperty("Name"))
-                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`, ``).replace(`\n\n`, ``).replace(`\r`, ``);
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? Utils.escSequences(element["Value"]) : ''}",`
             });
         }
         //Bind Attributes
@@ -209,7 +221,7 @@ export class HttpWrapperService {
             let attr = objCharacteristic.ListofAttributes.Attribute;
             for (let i = 0; i < attr.length; i++) {
                 if (attr[i].hasOwnProperty("Name"))
-                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`, ``).replace(`\n\n`, ``).replace(`\r`, ``);
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? Utils.escSequences(attr[i]["Value"]) : ''}",`
             }
         }
 

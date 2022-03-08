@@ -40,7 +40,7 @@ export class TableComponent implements OnInit {
   constructor( private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log(this.tableitem);
+    //console.log(this.tableitem);
     this.dataSource = new MatTableDataSource<any>(this.tableitem);
     this.dataColumns = this.toTableheaders(this.tableitem);
     // this.imageItem = this.tableitem?.imgConfig;

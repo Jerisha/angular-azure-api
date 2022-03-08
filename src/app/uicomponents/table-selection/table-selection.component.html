@@ -10,7 +10,7 @@ font-size: smaller;  ">
   </button> -->
 <div style="display: flex">
   <mat-form-field appearance="standard" *ngIf="filter" class="colfilter" style="margin-left: 8px;">
-    <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
+    <mat-select  #select multiple disableOptionCentering panelClass="matselhorzPanel">
       <mat-select-trigger>
         <span style="display: flex;">
           <mat-icon matPrefix>filter_list</mat-icon>
@@ -31,14 +31,12 @@ font-size: smaller;  ">
           Submit
         </button>
       </mat-optgroup>
-      <mat-option style="min-width:220px" color="primary" (click)="optionClick()"
-        *ngFor="let cols of (gridSelectList || []); let fltIndex = index" [value]="cols.headerValue">
+      <mat-option style="min-width:220px" color="primary" (click)="optionClick()"        
+      *ngFor="let cols of (gridSelectList || []); let fltIndex = index" [value]="cols.headerValue">       
         {{ cols.header }}
       </mat-option>
-
     </mat-select>
   </mat-form-field>
-
   <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
       {{selection.selected.length}}</b></span>
 </div>

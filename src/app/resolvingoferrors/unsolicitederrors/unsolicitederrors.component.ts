@@ -1,7 +1,7 @@
 import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -163,6 +163,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
+  queryResultInfo$!: Observable<any>;
 
   selected: string = '';
   currentPage: string ='1';
@@ -355,8 +356,16 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   }
 
   DisplayInformationTab() {
+debugger
+    let request = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
+      "Name": "TransactionDays",
+      "Value": ["62"]
+    }])
+
+    this.queryResultInfo$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].InternalErrorInformation));
+    console.log(of(this.queryResultInfo$))
     debugger;
-    this.infotable1 = ELEMENT_DATA_InformationTable1;
+    this.infotable1 = of(this.queryResultInfo$);
     this.infotable2 = ELEMENT_DATA_InformationTable2;
 
 
@@ -419,6 +428,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      showBlankCoulmns:true,
       selectionColumn: 'TranId',
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]

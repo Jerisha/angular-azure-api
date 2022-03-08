@@ -237,7 +237,7 @@
             </form>
           </div>
           <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-            <app-telephone-audit-trail [isRequiredUnsol]=true></app-telephone-audit-trail>
+            <app-telephone-audit-trail [telNo]="telNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
           </div>
           <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
             <app-table class="appTable" [tableitem]="infotable1"></app-table>

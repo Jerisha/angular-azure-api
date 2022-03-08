@@ -177,10 +177,6 @@ export class SolicitederrorsComponent implements OnInit {
   currentPage: string ='1';
 
   ngOnInit(): void {
-debugger
-    // let json =`let work for \n today \r\n and not\n\n tomorrow`
-    // let json1 =json.replace('\n','\\n').replace('\r','\\r')
-    // console.log(JSON.parse(json1))
 
     this.createForm();
 
@@ -190,7 +186,7 @@ debugger
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
     });
-        //this.service.configTest(request);
+    //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
@@ -337,6 +333,7 @@ debugger
       selectionColumn: 'TranId',
       highlightedCells:['TelephoneNumber'],
       RowCount: this.total,
+      showBlankCoulmns:false,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -353,7 +350,8 @@ debugger
 
   onSaveSubmit(): void {
     debugger;
-    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) {
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
+      (this.Resolution && this.Remarks)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
       this.service.updateDetails(request).subscribe(x => x);
     }
@@ -401,7 +399,7 @@ debugger
     else
       UpdateParams.push({ Name: '999Reference' });
 
-    console.log(UpdateParams);
+    //console.log(UpdateParams);
 
     return UpdateParams;
   }
@@ -410,6 +408,11 @@ debugger
 
   resetForm(): void {
     this.tabs.splice(0);
+    // let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    // this.service.configDetails(request).subscribe((res: any) => {
+    //   //console.log("res: " + JSON.stringify(res))
+    //   this.configDetails = res[0];
+    // });
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
@@ -429,21 +432,20 @@ debugger
     });
   }
 
-  rowDetect(item: any) {
+  rowDetect(selectedRows: any) {
     debugger;
-    this.selectedRowsCount = item.length;
-    if (item && item.length == 0) return
+    selectedRows.forEach((item: any) => {
+      this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
 
-    if (!this.selectedGridRows.includes(item))
-      this.selectedGridRows.push(item)
-    else if (this.selectedGridRows.includes(item)) {
-      let index = this.selectedGridRows.indexOf(item);
-      this.selectedGridRows.splice(index, 1)
-    }
-
-
-
-    console.log("selectedGridRows" + this.selectedGridRows)
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+    // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   removeTab(index: number) {
