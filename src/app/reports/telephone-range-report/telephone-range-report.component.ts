@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { TableSelectionComponent } from 'src/app/uicomponents';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, of, Subject } from 'rxjs';
@@ -61,12 +61,14 @@ export class TelephoneRangeReportComponent implements OnInit {
     private alertService:AlertService,
     private dialog: MatDialog,
     private http: HttpWrapperService,
-    private service: ResolvingOfErrorsService) {}
+    private service: ResolvingOfErrorsService,
+    private cdr: ChangeDetectorRef) {}
 
   @ViewChild('table1') table1?:TableSelectionComponent;
   myTable!: TableItem;
   dataSaved = false;
   selectListItems: string[] = [];
+  selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
   
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -92,10 +94,10 @@ export class TelephoneRangeReportComponent implements OnInit {
     { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false },
   ];
   //data1:TelephoneRangeReport[] = ELEMENT_DATA;
-  queryResult$: Observable<any> = of(ELEMENT_DATA);
+  queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
-  queryResult1$!: Observable<any>;
+  queryResult1$: Observable<TelephoneRangeReport[]> = of(ELEMENT_DATA);
 
   spinner:boolean=false;
   options = {
@@ -108,9 +110,18 @@ export class TelephoneRangeReportComponent implements OnInit {
     this.createForm();
 
   }
-  splitData(data: string): string[] {
-    return data.split(',');
+  splitData(data: string | undefined): string[] {
+    return data ? data.split(',') : [];
   }
+
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+
   prepareQueryParams(): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: ['1'] },
@@ -120,12 +131,10 @@ export class TelephoneRangeReportComponent implements OnInit {
 
     for (const field in this.thisForm?.controls) {
       const control = this.thisForm.get(field);
-      if (field != 'Reference') {
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
-      }
     }
     console.log(JSON.stringify(attributes));
     return attributes;
@@ -159,13 +168,12 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
 
   resetForm():void{
+    this.thisForm.reset();
+    this.tabs.splice(0);
     // this.spinner = true;
     // setTimeout(()=>{
     //  this.spinner= false;
     // },3000);
-    //this.http.resolveRespone(QueryResponse,WebMethods.QUERY);
-    //let request = Utils.prepareQueryRequest('TelephoneNumberError','SolicitedErrors', this.prepareQueryParams());
-    //console.log(JSON.stringify(request));
   }
 
   createForm() {
@@ -173,6 +181,9 @@ export class TelephoneRangeReportComponent implements OnInit {
       StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
     })
+  }
+  get f() {
+    return this.thisForm.controls;
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -187,22 +198,18 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
 
   rowDetect(item: any) {
-    //debugger;
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
+    debugger;
+    this.selectedRowsCount = item.length;
+    if (item && item.length == 0) return
+
+    if (!this.selectedGridRows.includes(item))
+      this.selectedGridRows.push(item)
+    else if (this.selectedGridRows.includes(item)) {
+      let index = this.selectedGridRows.indexOf(item);
+      this.selectedGridRows.splice(index, 1)
     }
+
+    console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   removeTab(index: number) {
@@ -245,6 +252,21 @@ export class TelephoneRangeReportComponent implements OnInit {
     }
   }
 
+  addPrefix(control: string, value: any) {
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    this.thisForm.controls[control].setValue(value);
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
   //Alerts
   hello(){
     this.alertService.success('Success!! Alert is Working', this.options);
@@ -264,6 +286,7 @@ export class TelephoneRangeReportComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result=>{
       console.log("Dialog" + result);
+      return result;
     })
   }
 }
