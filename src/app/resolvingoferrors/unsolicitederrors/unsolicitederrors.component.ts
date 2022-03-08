@@ -138,8 +138,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   myTable!: TableItem;
   informationTable1!: TableItem;
   informationTable2!: TableItem;
-  infotable1: any;
-  infotable2: any;
+  infotable1: any[]=[];
+  infotable2: any[]=[];
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
@@ -343,7 +343,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     }
 
   }
-
+  InternalErrorInformation: any;
   DisplayInformationTab() {
     debugger
     let request = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
@@ -351,12 +351,14 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
       "Value": ["62"]
     }])
 
-    this.queryResultInfo$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].InternalErrorInformation));
-    console.log(of(this.queryResultInfo$))
-    debugger;
-    this.infotable1 = of(this.queryResultInfo$);
-    this.infotable2 = ELEMENT_DATA_InformationTable2;
-
+    this.queryResultInfo$ = this.service.infoDetails(request).pipe(map((res: any) => res));
+    // this.service.infoDetails(request).subscribe((res: any) => {
+    //   this.infotable1 = res.dates;
+    //   this.infotable2 = res.months      
+    // });
+   
+    // this.infotable1 = ELEMENT_DATA_InformationTable1
+    // this.infotable2 = ELEMENT_DATA_InformationTable2;
 
     if (!this.tabs.find(x => x.tabType == 3)) {
       this.tabs.push({
@@ -422,12 +424,6 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   }
 
-  setOptions() {
-    // debugger;
-    // this.service.configDetails(configInput);
-
-
-  }
 
 
   resetForm(): void {
