@@ -394,18 +394,14 @@ export class SolicitederrorsComponent implements OnInit {
 
 
   resetForm(): void {
-    this.tabs.splice(0);
-    // let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
-    // this.service.configDetails(request).subscribe((res: any) => {
-    //   //console.log("res: " + JSON.stringify(res))
-    //   this.configDetails = res[0];
-    // });
+    window.location.reload();
+    // this.tabs.splice(0);
+    
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
     //   verticalPosition: this.verticalPosition,
     // });
-
   }
 
   setControlAttribute(matSelect: MatSelect) {
