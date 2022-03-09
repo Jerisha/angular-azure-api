@@ -384,8 +384,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Error Code', headerValue: 'ErrorCount', showDefault: true, isImage: false },
-    { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: 'Error Code', headerValue: 'ErrorCode', showDefault: true, isImage: false },
+    // { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
