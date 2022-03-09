@@ -217,7 +217,7 @@
                       </mat-error>
                     </mat-form-field>
                     <!-- (!f.StartTelephoneNumber.value && !f.EndTelephoneNumber.value) -->
-                    <button [disabled]="(selectedGridRows.length> 0? false : true)" type="submit" mat-raised-button
+                    <button [disabled]="!(selectedGridRows.length > 0)" type="submit" mat-raised-button
                       color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
@@ -240,9 +240,13 @@
             <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
           </div>
           <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
-            <app-table class="appTable" [tableitem]="infotable1"></app-table>
-            <br>
-            <app-table class="appTable" [tableitem]="infotable2"></app-table>
+            <ng-container *ngIf="queryResultInfo$|async as config">
+              <!-- {{config.Months |json }} -->
+
+              <app-table class="appTable" [tableitem]="config.Dates"></app-table>
+              <br>
+              <app-table class="appTable" [tableitem]="config.Months"></app-table>
+            </ng-container>
           </div>
 
 
