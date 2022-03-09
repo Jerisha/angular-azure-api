@@ -20,7 +20,6 @@ export class HttpWrapperService {
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
-            console.log( JSON.stringify(body));
         // this.http(httpVerb.toString(),
         //     `${environment.api_url}${endPoint}`,
         //     JSON.stringify(body),
@@ -32,7 +31,7 @@ export class HttpWrapperService {
 
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_dev}${endPoint.toString()}`,
+                `${environment.api_sit}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -97,7 +96,7 @@ export class HttpWrapperService {
         return jsonResult ? JSON.parse(jsonResult) : null;
     }catch(err)
     {
-        //console.log("error "  + err)
+        console.log("error "  + err)
         this.alertService.error("UI Error.", { autoClose: false, keepAfterRouteChange: false });   
     }
     }
