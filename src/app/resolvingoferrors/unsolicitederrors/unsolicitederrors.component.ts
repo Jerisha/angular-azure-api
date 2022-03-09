@@ -146,6 +146,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   filtered: string[] = [];
 
   selectedGridRows: any[] = [];
+  selectedRowsCount: number = 0;
   selectedTab!: number;
   thisForm!: FormGroup;
   thisUpdateForm!: FormGroup;
@@ -192,6 +193,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
+    
   }
 
   addPrefix(control: string, value: any) {
@@ -203,7 +205,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    if (charCode > 31 && (charCode < 48 && charCode > 57)) {
       return false;
     }
     return true;
@@ -211,6 +213,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
+    this.isEnable();
   }
   get f() {
     return this.thisForm.controls;
@@ -334,10 +337,17 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   }
 
-
+  isEnable() : boolean{
+    if((this.f.startTelephoneNumber?.valid && this.f.endTelephoneNumber?.valid  && !(this.f.Source.value) && !(this.f.ErrorType.value) && !(this.f.Final.value)  !(this.f.DateRange.value)) || this.selectedGridRows.length > 0)
+       return false;
+    else
+       return true;
+    
+    }
   onSaveSubmit() {
     debugger
-    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) {
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
+      (this.Resolution && this.Remarks)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
       this.service.updateDetails(request).subscribe(x => x);
     }
@@ -438,18 +448,34 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     window.location.reload();
   }
 
-  rowDetect(item: any) {
-    //debugger;
-    //this.selectedRowsCount = item.length;
-    if (item && item.length == 0) return
+  // rowDetect(item: any) {
+  //   //debugger;
+  //   //this.selectedRowsCount = item.length;
+  //   if (item && item.length == 0) return
 
-    if (!this.selectedGridRows.includes(item))
-      this.selectedGridRows.push(item)
-    else if (this.selectedGridRows.includes(item)) {
-      let index = this.selectedGridRows.indexOf(item);
-      this.selectedGridRows.splice(index, 1)
-    }
-    console.log("selectedGridRows" + JSON.stringify(this.selectedGridRows))
+  //   if (!this.selectedGridRows.includes(item))
+  //     this.selectedGridRows.push(item)
+  //   else if (this.selectedGridRows.includes(item)) {
+  //     let index = this.selectedGridRows.indexOf(item);
+  //     this.selectedGridRows.splice(index, 1)
+  //   }
+  //   console.log("selectedGridRows" + JSON.stringify(this.selectedGridRows))
+  // }
+
+  rowDetect(selectedRows: any) {
+    debugger;
+    selectedRows.forEach((item: any) => {
+      //this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
+
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+    // console.log("selectedGridRows" + this.selectedGridRows)
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -471,7 +497,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
           let updtab = this.tabs.find(x => x.tabType == 1);
-          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+          if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
         this.auditTelNo = tab.row.TelephoneNumber;
         break;
