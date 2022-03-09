@@ -193,6 +193,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
+    
   }
 
   addPrefix(control: string, value: any) {
@@ -204,7 +205,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    if (charCode > 31 && (charCode < 48 && charCode > 57)) {
       return false;
     }
     return true;
@@ -212,6 +213,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
+    this.isEnable();
   }
   get f() {
     return this.thisForm.controls;
@@ -335,7 +337,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   }
 
-
+  isEnable() : boolean{
+    if((this.f.startTelephoneNumber?.valid && this.f.endTelephoneNumber?.valid  && !(this.f.Source.value) && !(this.f.ErrorType.value) && !(this.f.Final.value)  !(this.f.DateRange.value)) || this.selectedGridRows.length > 0)
+       return false;
+    else
+       return true;
+    
+    }
   onSaveSubmit() {
     debugger
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
@@ -451,7 +459,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   rowDetect(selectedRows: any) {
     debugger;
     selectedRows.forEach((item: any) => {
-      this.selectedRowsCount = item.length;
+      //this.selectedRowsCount = item.length;
       if (item && item.length == 0) return
 
       if (!this.selectedGridRows.includes(item))
