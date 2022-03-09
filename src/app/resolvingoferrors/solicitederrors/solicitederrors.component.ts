@@ -423,8 +423,8 @@ export class SolicitederrorsComponent implements OnInit {
   rowDetect(selectedRows: any) {
     debugger;
     selectedRows.forEach((item: any) => {
-      this.selectedRowsCount = item.length;
-      if (item && item.length == 0) return
+      // this.selectedRowsCount = item.length;
+       if (item && item.length == 0) return
 
       if (!this.selectedGridRows.includes(item))
         this.selectedGridRows.push(item)
