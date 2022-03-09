@@ -485,6 +485,9 @@ export class LiverecordsComponent implements OnInit {
   errorCode = new FormControl();
   selectedTab!: number;
 
+
+  auditTelNo?: any;
+  repIdentifier = "LiveTelephoneNumberDetails";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   configDetails!: any;
@@ -545,15 +548,13 @@ export class LiverecordsComponent implements OnInit {
   
       // //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
     
-      debugger;
-      let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand','ErrorCode']);
-      //this.service.configTest(request);
-      // this.service.configDetails(request);
-      this.service.configDetails(request).subscribe((res: any) => {
-        //console.log("res: " + JSON.stringify(res))
-        this.configDetails = res[0];
-  
-        
+     
+
+    debugger;
+    let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand','ErrorCode']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      //console.log("res: " + JSON.stringify(res))
+      this.configDetails = res[0];
     });
   }
   ngAfterViewInit() {
@@ -619,17 +620,24 @@ export class LiverecordsComponent implements OnInit {
     return filteredList;
   }
   onFormSubmit(): void {
+  
     debugger;
-    let request = Utils.prepareQueryRequest('LiveDataSummary','LiveRecords', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].LiveTelephoneNumberDetails));
-
+    let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      // let result = { datasource: res[0].SolicitedError,
+      //    totalrecordcount: res[0].TotalCount,
+      //    totalpages: res[0].NumberOfPages
+      //   }
+      //   return result;
+      return res[0].LiveTelephoneNumberDetails
+    }));
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'Links',
-      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', tabIndex: 1 }]
+      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '',toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -638,8 +646,15 @@ export class LiverecordsComponent implements OnInit {
         name: 'Main'
       });
     }
-    this.selectedTab = this.tabs.length;
-    //this.selectedTab = this.tabs.length - 1;
+
+    // if (!this.tabs.find(x => x.tabType == 0)) {
+    //   this.tabs.push({
+    //     tabType: 0,
+    //     name: 'Main'
+    //   });
+    // }
+    // this.selectedTab = this.tabs.length;
+    // //this.selectedTab = this.tabs.length - 1;
   }
   resetForm(): void {
     this.tabs.splice(0);
@@ -653,42 +668,89 @@ export class LiverecordsComponent implements OnInit {
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
+
+
+  // newTab(tab: any) {
+  //   switch (tab.tabType) {
+  //     case 1: {
+
+
+
+  //       //tab.row contains row data- fetch data from api and bind to respetive component
+  //       if (!this.tabs.find(x => x.tabType == 1)) {
+  //         this.tabs.push({
+  //           tabType: 1,
+  //           name: 'Audit Trail Report'
+  //         });
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+  //       } else {
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+  //       }
+  //       break;
+  //     }
+  //     case 2: {
+  //       if (!this.tabs.find(x => x.tabType == 2)) {
+  //         this.tabs.push({
+  //           tabType: 2,
+  //           name: 'Transaction Details'
+  //         })
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+  //       } else {
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+  //       }
+  //       break;
+  //     }
+  //     default: {
+  //       //statements;
+  //       break;
+  //     }
+  //   }
+  // }
+
   newTab(tab: any) {
+    if (this.tabs === []) return;
+
+
     switch (tab.tabType) {
-      case 1: {
-
-
-
+      case 1:
+        //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
-        if (!this.tabs.find(x => x.tabType == 1)) {
+
+        if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report'
+            name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
+
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
+        this.auditTelNo = tab.row.TelephoneNumber;
         break;
-      }
-      case 2: {
-        if (!this.tabs.find(x => x.tabType == 2)) {
-          this.tabs.push({
-            tabType: 2,
-            name: 'Transaction Details'
-          })
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-        } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-        }
+
+      // case 2:
+      //   if (!this.tabs.find(x => x.tabType == 2)) {
+      //     this.tabs.push({
+      //       tabType: 2,
+      //       name: 'Transaction Errors'
+      //     })
+      //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+      //   } else {
+      //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+      //   }
+      //   this.telNo = tab.row.TelephoneNumber;
+      //   this.tranId = tab.row.TransactionId;
+      //   break;
+      // default:
+      //   //statements; 
         break;
-      }
-      default: {
-        //statements;
-        break;
-      }
+
     }
   }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     //debugger;
