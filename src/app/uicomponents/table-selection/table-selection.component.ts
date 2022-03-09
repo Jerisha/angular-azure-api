@@ -81,7 +81,7 @@ export class TableSelectionComponent implements OnDestroy {
         this.dataSource.sort = this.sort;
         this.spinner.hide()
       },
-      error => { this.spinner.hide(); },
+      error => {console.log('error logged'); this.spinner.hide(); },
       () => { console.log('table load completed'); this.spinner.hide() }
     );
 

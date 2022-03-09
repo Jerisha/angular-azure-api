@@ -398,7 +398,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   onFormSubmit(): void {
 
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+
+      if(Object.keys(res).length) return res[0].UnsolicitedError
+      else return res
+    }
+    
+    ));
 
 
     // this.spinner.show();

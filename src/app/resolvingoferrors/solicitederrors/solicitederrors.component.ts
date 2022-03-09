@@ -302,6 +302,7 @@ export class SolicitederrorsComponent implements OnInit {
   ];
 
   onFormSubmit(): void {
+    val:Boolean
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -310,7 +311,11 @@ export class SolicitederrorsComponent implements OnInit {
       //    totalpages: res[0].NumberOfPages
       //   }
       //   return result;
-      return res[0].SolicitedError
+      //console.log("onFormSubmit" + JSON.stringify(res) + "length" + res.length);
+      
+    if(Object.keys(res).length) return res[0].SolicitedError
+      else return res
+       //res[0].SolicitedError
     }));
     // this.createSaveForm();
 

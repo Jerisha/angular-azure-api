@@ -31,7 +31,7 @@ export class HttpWrapperService {
 
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_sit}${endPoint.toString()}`,
+                `${environment.api_dev}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -82,7 +82,7 @@ export class HttpWrapperService {
                 debugger
                 categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
                 if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                    this.alertService.success("Save Sucessful!!", { autoClose: false, keepAfterRouteChange: false });
+                    this.alertService.success("Save Sucessful!!", { autoClose: true, keepAfterRouteChange: false });
                 break;
             case WebMethods.CREATE:
                 categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
@@ -93,11 +93,11 @@ export class HttpWrapperService {
         // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
         console.log("jsonString :" + jsonResult);
         //console.log(JSON.parse(jsonResult))
-        return jsonResult ? JSON.parse(jsonResult) : null;
+        return jsonResult ? JSON.parse(jsonResult) : {};
     }catch(err)
     {
         console.log("error "  + err)
-        this.alertService.error("UI Error.", { autoClose: false, keepAfterRouteChange: false });   
+        this.alertService.error("UI Error.", { autoClose: true, keepAfterRouteChange: false });   
     }
     }
 
@@ -291,11 +291,11 @@ export class HttpWrapperService {
                 if (wmResponse.StatusCode != "EUI100")
                     status = true;
                 else
-                    this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
+                    this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
                 return status;
                 break;
             case WMMessageType.Error:
-                this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
+                this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
                 //this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 return status;
                 break;
