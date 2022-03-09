@@ -146,6 +146,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   filtered: string[] = [];
 
   selectedGridRows: any[] = [];
+  selectedRowsCount: number = 0;
   selectedTab!: number;
   thisForm!: FormGroup;
   thisUpdateForm!: FormGroup;
@@ -337,7 +338,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
 
   onSaveSubmit() {
     debugger
-    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) {
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
+      (this.Resolution && this.Remarks)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
       this.service.updateDetails(request).subscribe(x => x);
     }
@@ -436,18 +438,34 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
     window.location.reload();
   }
 
-  rowDetect(item: any) {
-    //debugger;
-    //this.selectedRowsCount = item.length;
-    if (item && item.length == 0) return
+  // rowDetect(item: any) {
+  //   //debugger;
+  //   //this.selectedRowsCount = item.length;
+  //   if (item && item.length == 0) return
 
-    if (!this.selectedGridRows.includes(item))
-      this.selectedGridRows.push(item)
-    else if (this.selectedGridRows.includes(item)) {
-      let index = this.selectedGridRows.indexOf(item);
-      this.selectedGridRows.splice(index, 1)
-    }
-    console.log("selectedGridRows" + JSON.stringify(this.selectedGridRows))
+  //   if (!this.selectedGridRows.includes(item))
+  //     this.selectedGridRows.push(item)
+  //   else if (this.selectedGridRows.includes(item)) {
+  //     let index = this.selectedGridRows.indexOf(item);
+  //     this.selectedGridRows.splice(index, 1)
+  //   }
+  //   console.log("selectedGridRows" + JSON.stringify(this.selectedGridRows))
+  // }
+
+  rowDetect(selectedRows: any) {
+    debugger;
+    selectedRows.forEach((item: any) => {
+      this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
+
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+    // console.log("selectedGridRows" + this.selectedGridRows)
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -469,7 +487,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
           let updtab = this.tabs.find(x => x.tabType == 1);
-          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+          if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
         this.auditTelNo = tab.row.TelephoneNumber;
         break;
