@@ -5,7 +5,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from 'src/app/uicomponents/models/select';
 import { MatSelect } from '@angular/material/select';
 import { AlertService } from 'src/app/_shared/alert';
@@ -168,8 +168,9 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
 
   resetForm():void{
-    this.thisForm.reset();
-    this.tabs.splice(0);
+    window.location.reload();
+    // this.thisForm.reset();
+    // this.tabs.splice(0);
     // this.spinner = true;
     // setTimeout(()=>{
     //  this.spinner= false;
