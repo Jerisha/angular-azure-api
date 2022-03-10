@@ -20,31 +20,31 @@ import { ConfigDetails } from 'src/app/_http/models/config-details';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
     }
 
 ];
@@ -52,7 +52,7 @@ const ELEMENT_DATA: ProvideReport[] = [
 
 
 const Itemstwo: Select[] = [
-    { view: 'Telephone No.', viewValue: 'TelephoneNumber', default: true }
+    { view: 'Telephone No.', viewValue: 'TelephoneNo', default: true }
 ]
 @Component({
     selector: 'app-providereport',
@@ -85,8 +85,8 @@ export class ProvidereportComponent implements OnInit {
 
     columns: ColumnDetails[] = [
 
-        { header: 'TelephoneNumber', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-        { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
+        { header: 'TelephoneNo', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
+        { header: 'TransactionCommand', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
         { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false }
     ];
 
@@ -97,10 +97,10 @@ export class ProvidereportComponent implements OnInit {
         this.createForm();
         // debugger;
         // let transformInput = JSON.parse(WMRequests.CONFIG);
-        // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command', 'Source']
+        // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['TransactionCommand', 'Source']
         // console.log("Input: ", transformInput);
         debugger;
-        // let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+        // let request = Utils.prepareConfigRequest(['TransactionCommand', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
         // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
     
         this.listItems = Itemstwo;
@@ -141,7 +141,7 @@ export class ProvidereportComponent implements OnInit {
             { Name: 'PageNumber', Value: ['1'] }];
         for (const field in this.myForm?.controls) {
             const control = this.myForm.get(field);
-            if (field != 'Command') {
+            if (field != 'TransactionCommand') {
                 if (control?.value)
                     attributes.push({ Name: field, Value: [control?.value] });
                 else
@@ -157,7 +157,7 @@ export class ProvidereportComponent implements OnInit {
     createForm() {
 
         this.myForm = new FormGroup({
-            TelephoneNumber: new FormControl({ value: '', disabled: true },
+            TelephoneNo: new FormControl({ value: '', disabled: true },
                 [Validators.required, Validators.minLength(3), Validators.maxLength(99)])
         })
     

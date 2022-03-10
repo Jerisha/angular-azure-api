@@ -27,9 +27,9 @@
                     <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}"
                         hintLabel="Max 10 characters" appearance="outline">
-                        <mat-label>Cust Name</mat-label>
+                        <mat-label>Customer Name</mat-label>
                         <input id="CustomerName" formControlName="CustomerName" matInput #input maxlength="10"
-                            placeholder="CustName">
+                            placeholder="CustomerName">
                         <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
                     </mat-form-field>
                     <app-select-exp [listItems]="expressions[1].default"></app-select-exp>

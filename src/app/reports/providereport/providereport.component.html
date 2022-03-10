@@ -8,9 +8,9 @@
       <div class="matsidenav-filter">
 
         <mat-form-field hintLabel="Max 11 characters" appearance="outline">
-          <mat-label>Telephone</mat-label>
+          <mat-label>Telephone No.</mat-label>
           <input formControlName="TelephoneNumber" (keypress)="numberOnly($event)" (blur)="addPrefix('TelephoneNumber',input.value)" matInput #input maxlength="11"
-            placeholder="Tel.No"  autocomplete="off" style="margin-right: 24%;">
+            placeholder="Telephone No."  autocomplete="off" style="margin-right: 24%;">
           <mat-hint align="end">{{input.value?.length || 0}}/11</mat-hint>
         </mat-form-field>
 
