@@ -20,31 +20,31 @@ import { ConfigDetails } from 'src/app/_http/models/config-details';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
-        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', TransactionCommand: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     }
 
 ];
@@ -52,7 +52,7 @@ const ELEMENT_DATA: ProvideReport[] = [
 
 
 const Itemstwo: Select[] = [
-    { view: 'Telephone No.', viewValue: 'TelephoneNo', default: true }
+    { view: 'TelephoneNumber.', viewValue: 'TelephoneNumber', default: true }
 ]
 @Component({
     selector: 'app-providereport',
@@ -85,8 +85,8 @@ export class ProvidereportComponent implements OnInit {
 
     columns: ColumnDetails[] = [
 
-        { header: 'TelephoneNo', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
-        { header: 'TransactionCommand', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
+        { header: 'TelephoneNumber', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+        { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
         { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false }
     ];
 
@@ -97,12 +97,12 @@ export class ProvidereportComponent implements OnInit {
         this.createForm();
         // debugger;
         // let transformInput = JSON.parse(WMRequests.CONFIG);
-        // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['TransactionCommand', 'Source']
+        // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command', 'Source']
         // console.log("Input: ", transformInput);
         debugger;
-        // let request = Utils.prepareConfigRequest(['TransactionCommand', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+        // let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
         // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
-    
+
         this.listItems = Itemstwo;
         //this.selectedTab = 0;
 
@@ -136,12 +136,15 @@ export class ProvidereportComponent implements OnInit {
     }
 
 
+  get f() {
+    return this.myForm.controls;
+  }
     prepareQueryParams(): any {
         let attributes: any = [
             { Name: 'PageNumber', Value: ['1'] }];
         for (const field in this.myForm?.controls) {
             const control = this.myForm.get(field);
-            if (field != 'TransactionCommand') {
+            if (field != 'Command') {
                 if (control?.value)
                     attributes.push({ Name: field, Value: [control?.value] });
                 else
@@ -157,10 +160,10 @@ export class ProvidereportComponent implements OnInit {
     createForm() {
 
         this.myForm = new FormGroup({
-            TelephoneNo: new FormControl({ value: '', disabled: true },
+            TelephoneNumber: new FormControl({ value: '', disabled: true },
                 [Validators.required, Validators.minLength(3), Validators.maxLength(99)])
         })
-    
+
     }
 
 
@@ -194,29 +197,41 @@ export class ProvidereportComponent implements OnInit {
         return filteredList;
     }
 
-   resetForm(): void {
-        this.tabs.splice(0);
+    //    resetForm(): void {
+    //         this.tabs.splice(0);
+    //         // this._snackBar.open('Reset Form Completed!', 'Close', {
+    //         //   duration: 5000,
+    //         //   horizontalPosition: this.horizontalPosition,
+    //         //   verticalPosition: this.verticalPosition,
+    //         // });
+
+    //       }
+
+
+    resetForm(): void {
+        window.location.reload();
+        // this.tabs.splice(0);
+
         // this._snackBar.open('Reset Form Completed!', 'Close', {
         //   duration: 5000,
         //   horizontalPosition: this.horizontalPosition,
         //   verticalPosition: this.verticalPosition,
         // });
-    
-      }
+    }
 
-    addPrefix(control: string, value: any) {    
+    addPrefix(control: string, value: any) {
         if (value.charAt(0) != 0) {
-          value = value.length <= 10 ? '0' + value : value;
+            value = value.length <= 10 ? '0' + value : value;
         }
         this.myForm.controls[control].setValue(value);
-      }
-    
-      numberOnly(event: any): boolean {
+    }
+
+    numberOnly(event: any): boolean {
         const charCode = (event.which) ? event.which : event.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-          return false;
+            return false;
         }
         return true;
-      }
+    }
 }
 

@@ -8,28 +8,26 @@
         <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
             <div class="matsidenav-filter">
                 <ng-container *ngIf="configDetails  as config">
-                    <app-select-exp [listItems]="expressions[0].default"></app-select-exp>
-                    <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNo.disabled}">
-                        <mat-label>Telephone No</mat-label>
-                        <!-- <span ngIf="f.TelephoneNo.value?.length==10" matPrefix>0 &nbsp;</span> -->
-                        <input formControlName="TelephoneNo" (keypress)="numberOnly($event)"
-                          (keyup)="addPrefix('TelephoneNo',TelephoneNoe.value)" matInput maxlength="11"
-                          placeholder="Telephone No" #TelephoneNoe>
-                        <mat-hint align="end">{{TelephoneNoe.value?.length || 0}}/11</mat-hint>
-                        <mat-error>
-                          <div *ngIf="f.TelephoneNo.touched && f.TelephoneNo.invalid" class="alert alert-danger">
-                            <!-- <div *ngIf="f.TelephoneNo.errors?.required">Please enter Telephone No</div> -->
-                            <div *ngIf="f.TelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
-                          </div>
-                        </mat-error>
-                      </mat-form-field>
- 
+                    <app-select-exp [listItems]="expressions[0].default"></app-select-exp>   
+        <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNo.disabled}">
+            <mat-label>Telephone No</mat-label>
+            <input formControlName="TelephoneNo" (keypress)="numberOnly($event)"
+              (keyup)="addPrefix('TelephoneNo',telno.value)" matInput maxlength="11"
+              placeholder="Telephone No" #telno>
+            <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
+            <mat-error>
+              <div *ngIf="f.TelephoneNo.touched && f.TelephoneNo.invalid" class="alert alert-danger">
+                <div *ngIf="f.TelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
+              </div>
+            </mat-error>
+          </mat-form-field>
+
                     <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}"
                         hintLabel="Max 10 characters" appearance="outline">
                         <mat-label>Customer Name</mat-label>
                         <input id="CustomerName" formControlName="CustomerName" matInput #input maxlength="10"
-                            placeholder="CustomerName">
+                            placeholder="CustName">
                         <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
                     </mat-form-field>
                     <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
@@ -160,7 +158,8 @@
                 <button type="submit" mat-raised-button color="primary">
                     <mat-icon>search</mat-icon>Search
                 </button>
-                <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
+
+                <button type="button" mat-raised-button color="primary" (click)="resetForm()">
                     <mat-icon>refresh</mat-icon>Reset
                 </button>
             </div>
@@ -187,7 +186,8 @@
                         </app-table-selection>
                     </div>
                     <div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:6px;">
-                        <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+                        <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
+                        </app-telephone-audit-trail>
                     </div>
                     <div *ngSwitchCase="2" style="height: 520px; overflow-y:auto;padding-left:6px;">
                     </div>

@@ -454,10 +454,9 @@ export class LiverecordsComponent implements OnInit {
   myTable!: TableItem;
   listItems!: Select[];
 
-  constructor(private formBuilder: FormBuilder,
-    private service: ReportService,
-    private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,private spinner: NgxSpinnerService) { }
+
+    constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
+      private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
 
   //
   dataSaved = false;
@@ -481,8 +480,8 @@ export class LiverecordsComponent implements OnInit {
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
-  ];
-  errorCode = new FormControl();
+];
+errorCode = new FormControl();
   selectedTab!: number;
 
 
@@ -536,7 +535,7 @@ export class LiverecordsComponent implements OnInit {
   ngOnInit(): void {
  
     this.listItems = Itemstwo;
-    this.setOptions();
+    // this.setOptions();
       this.createForm();
       // debugger;
       // let transformInput = JSON.parse(WMRequests.CONFIG);
@@ -551,7 +550,7 @@ export class LiverecordsComponent implements OnInit {
      
 
     debugger;
-    let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand','ErrorCode']);
+    let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
@@ -604,11 +603,11 @@ export class LiverecordsComponent implements OnInit {
   }
   setOptions() {
     this.errorCodesOptions = this.errorCode.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
-  }
+        .pipe(
+            startWith<string>(''),
+            map(name => this._filter(name))
+        );
+}
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
   }
@@ -656,14 +655,16 @@ export class LiverecordsComponent implements OnInit {
     // this.selectedTab = this.tabs.length;
     // //this.selectedTab = this.tabs.length - 1;
   }
+
   resetForm(): void {
-    this.tabs.splice(0);
+    window.location.reload();
+    // this.tabs.splice(0);
+    
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
     //   verticalPosition: this.verticalPosition,
     // });
-
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);

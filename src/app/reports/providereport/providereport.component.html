@@ -7,13 +7,21 @@
     <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
       <div class="matsidenav-filter">
 
-        <mat-form-field hintLabel="Max 11 characters" appearance="outline">
-          <mat-label>Telephone No.</mat-label>
-          <input formControlName="TelephoneNumber" (keypress)="numberOnly($event)" (blur)="addPrefix('TelephoneNumber',input.value)" matInput #input maxlength="11"
-            placeholder="Telephone No."  autocomplete="off" style="margin-right: 24%;">
-          <mat-hint align="end">{{input.value?.length || 0}}/11</mat-hint>
+       
+        
+        <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNumber.disabled}">
+          <mat-label>Telephone No</mat-label>
+          <input formControlName="TelephoneNumber" (keypress)="numberOnly($event)"
+            (keyup)="addPrefix('TelephoneNumber',telno.value)" matInput maxlength="11"
+            placeholder="Telephone No" #telno>
+          <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
+          <mat-error>
+            <div *ngIf="f.TelephoneNumber.touched && f.TelephoneNumber.invalid" class="alert alert-danger">
+              <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+              <div *ngIf="f.TelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+            </div>
+          </mat-error>
         </mat-form-field>
-
         
 
 
