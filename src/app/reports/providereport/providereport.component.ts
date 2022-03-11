@@ -20,31 +20,31 @@ import { ConfigDetails } from 'src/app/_http/models/config-details';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     },
     {
-        TelephoneNo: '1977722725', Command: 'A', Source: 'N'
+        TelephoneNumber: '1977722725', Command: 'A', Source: 'N'
     }
 
 ];
@@ -52,7 +52,7 @@ const ELEMENT_DATA: ProvideReport[] = [
 
 
 const Itemstwo: Select[] = [
-    { view: 'Telephone No.', viewValue: 'TelephoneNumber', default: true }
+    { view: 'TelephoneNumber.', viewValue: 'TelephoneNumber', default: true }
 ]
 @Component({
     selector: 'app-providereport',
@@ -102,7 +102,7 @@ export class ProvidereportComponent implements OnInit {
         debugger;
         // let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
         // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
-    
+
         this.listItems = Itemstwo;
         //this.selectedTab = 0;
 
@@ -136,6 +136,9 @@ export class ProvidereportComponent implements OnInit {
     }
 
 
+  get f() {
+    return this.myForm.controls;
+  }
     prepareQueryParams(): any {
         let attributes: any = [
             { Name: 'PageNumber', Value: ['1'] }];
@@ -160,7 +163,7 @@ export class ProvidereportComponent implements OnInit {
             TelephoneNumber: new FormControl({ value: '', disabled: true },
                 [Validators.required, Validators.minLength(3), Validators.maxLength(99)])
         })
-    
+
     }
 
 
@@ -194,29 +197,41 @@ export class ProvidereportComponent implements OnInit {
         return filteredList;
     }
 
-   resetForm(): void {
-        this.tabs.splice(0);
+    //    resetForm(): void {
+    //         this.tabs.splice(0);
+    //         // this._snackBar.open('Reset Form Completed!', 'Close', {
+    //         //   duration: 5000,
+    //         //   horizontalPosition: this.horizontalPosition,
+    //         //   verticalPosition: this.verticalPosition,
+    //         // });
+
+    //       }
+
+
+    resetForm(): void {
+        window.location.reload();
+        // this.tabs.splice(0);
+
         // this._snackBar.open('Reset Form Completed!', 'Close', {
         //   duration: 5000,
         //   horizontalPosition: this.horizontalPosition,
         //   verticalPosition: this.verticalPosition,
         // });
-    
-      }
+    }
 
-    addPrefix(control: string, value: any) {    
+    addPrefix(control: string, value: any) {
         if (value.charAt(0) != 0) {
-          value = value.length <= 10 ? '0' + value : value;
+            value = value.length <= 10 ? '0' + value : value;
         }
         this.myForm.controls[control].setValue(value);
-      }
-    
-      numberOnly(event: any): boolean {
+    }
+
+    numberOnly(event: any): boolean {
         const charCode = (event.which) ? event.which : event.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-          return false;
+            return false;
         }
         return true;
-      }
+    }
 }
 
