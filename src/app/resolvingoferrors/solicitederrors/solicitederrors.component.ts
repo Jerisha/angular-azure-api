@@ -128,7 +128,7 @@ const FilterListItems: Select[] = [
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  // { view: 'Date Range', viewValue: 'Date', default: true },
+  { view: 'Date Range', viewValue: 'DateRange', default: true },
   { view: 'Error Code', viewValue: 'ErrorCode', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true },
   { view: 'Order Reference', viewValue: 'OrderReference', default: true }
@@ -269,7 +269,8 @@ export class SolicitederrorsComponent implements OnInit {
       OrderReference: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
         FromDate: new FormControl(),
-        ToDate: new FormControl()
+        ToDate: new FormControl(),
+        disabled: true
       })
 
     })
@@ -302,7 +303,7 @@ export class SolicitederrorsComponent implements OnInit {
   ];
 
   onFormSubmit(): void {
-    val:Boolean
+    val: Boolean
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -312,10 +313,10 @@ export class SolicitederrorsComponent implements OnInit {
       //   }
       //   return result;
       //console.log("onFormSubmit" + JSON.stringify(res) + "length" + res.length);
-      
-    if(Object.keys(res).length) return res[0].SolicitedError
+
+      if (Object.keys(res).length) return res[0].SolicitedError
       else return res
-       //res[0].SolicitedError
+      //res[0].SolicitedError
     }));
     // this.createSaveForm();
 
@@ -356,22 +357,24 @@ export class SolicitederrorsComponent implements OnInit {
     const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
 
     if (this.selectedGridRows.length > 0) {
-      let transId: string[] = [];
-      this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
-      identifiers.push({ Name: 'TransactionId', Value: transId });
-    } else
-      identifiers.push({ Name: 'TransactionId', Value: [""] });
+      if (this.selectedGridRows.length > 0) {
+        let transId: string[] = [];
+        this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
+        identifiers.push({ Name: 'TransactionId', Value: transId });
+      } else
+        identifiers.push({ Name: 'TransactionId', Value: [""] });
+    } else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
 
-    if (startTelephoneNumber?.value)
-      identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
-    else
-      identifiers.push({ Name: 'TelephoneNumberStart' });
+      if (startTelephoneNumber?.value)
+        identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
+      else
+        identifiers.push({ Name: 'TelephoneNumberStart' });
 
-    if (endTelephoneNumber?.value)
-      identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
-    else
-      identifiers.push({ Name: 'TelephoneNumberEnd' });
-
+      if (endTelephoneNumber?.value)
+        identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
+      else
+        identifiers.push({ Name: 'TelephoneNumberEnd' });
+    }
     return identifiers;
   }
 
@@ -401,7 +404,7 @@ export class SolicitederrorsComponent implements OnInit {
   resetForm(): void {
     window.location.reload();
     // this.tabs.splice(0);
-    
+
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
@@ -424,7 +427,7 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     selectedRows.forEach((item: any) => {
       // this.selectedRowsCount = item.length;
-       if (item && item.length == 0) return
+      if (item && item.length == 0) return
 
       if (!this.selectedGridRows.includes(item))
         this.selectedGridRows.push(item)

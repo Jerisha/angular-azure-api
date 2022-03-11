@@ -76,6 +76,7 @@ export class TableSelectionComponent implements OnDestroy {
     //Subscribing passed data from parent
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
+        this.selection.clear();
         this.dataSource = new MatTableDataSource<any>(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
