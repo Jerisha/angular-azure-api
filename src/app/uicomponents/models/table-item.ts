@@ -5,17 +5,14 @@ export interface TableItem {
     filter?: boolean;
     selectCheckbox?: boolean;
     imgConfig?: ViewColumn[];
-    colToHighlight?: string[];
-    colToHighlightInnerText?: string[];
     selectionColumn?:string;
     isEmailRequired?:boolean;
     showEmail?:boolean;
-    showBlankCoulmns?:boolean;
+    removeNoDataColumns?:boolean;
     highlightedCells?:string[];
     backhighlightedCells?:string[];
     totalRowCols?:string[];
-    shouldTotalRow?:boolean; 
-    RowCount?:any;
+    showTotal?:boolean;   
     
 }
 
@@ -33,5 +30,6 @@ export interface ColumnDetails {
     showDefault?: boolean;
     isImage?: boolean;
     addTotal?:boolean;
+    isTotal?:boolean;
 }
 

@@ -194,7 +194,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit {
   {
     debugger;
     this.currentPage =pageIndex;
-    this.onFormSubmit();
+    this.onFormSubmit(true);
     //console.log('page number in parent',pageIndex)
   }
 
@@ -405,14 +405,15 @@ debugger
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
-  onFormSubmit(): void {
-
+  onFormSubmit(isEmitted?:boolean): void {
+    this.currentPage = isEmitted? this.currentPage:'1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     //this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].UnsolicitedError));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>{     
       let result = { datasource: res[0].UnsolicitedError,
         totalrecordcount: res[0].TotalCount,
-        totalpages: res[0].NumberOfPages
+        totalpages: res[0].NumberOfPages,
+        pagenumber:res[0].PageNumber
         }
         return result;
            
@@ -428,7 +429,7 @@ debugger
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      showBlankCoulmns:true,
+      removeNoDataColumns:true,
       selectionColumn: 'TranId',
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]

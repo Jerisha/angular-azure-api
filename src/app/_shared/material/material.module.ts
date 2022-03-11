@@ -42,6 +42,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatPaginatorI18n } from './MatPaginatorI18n';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 const materialModules = [CommonModule,
   A11yModule,
@@ -86,6 +87,7 @@ const materialModules = [CommonModule,
   CdkAccordionModule,
   MatSelectModule,
   MatCheckboxModule,
+  ClipboardModule
 ]
 @NgModule({
   declarations: [],

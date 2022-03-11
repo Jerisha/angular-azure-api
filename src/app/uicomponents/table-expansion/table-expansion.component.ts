@@ -64,7 +64,7 @@ export class TableExpansionComponent implements OnInit {
   backhighlightedCells: string[] = []
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
-  shouldTotalRow: boolean = false;
+  showTotalRow: boolean = false;
   childTable : string='';
   
   
@@ -99,9 +99,9 @@ export class TableExpansionComponent implements OnInit {
   ngOnInit() {
   this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
   this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
-  this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false
+  this.showTotalRow = this.tableitem?.showTotal ? this.tableitem?.showTotal : false
   this.totalRowCols = this.tableitem?.totalRowCols ? this.tableitem?.totalRowCols : [];
-  if (this.tableitem?.showBlankCoulmns) {
+  if (this.tableitem?.removeNoDataColumns) {
   this.getEmptyColumns();
   this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
   this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
@@ -117,7 +117,7 @@ export class TableExpansionComponent implements OnInit {
   
   this.childTable = this.tableitem?.childData ? this.tableitem?.childData : '';
   this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-  this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
+  this.ColumnDetails = this.tableitem?.removeNoDataColumns ? this.filteredDataColumns
   : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
   //this.imgColumns = this.tableitem?.colToSetImage;
   this.imgList = this.tableitem?.imgConfig;
@@ -129,7 +129,7 @@ export class TableExpansionComponent implements OnInit {
   this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
   this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';
   } else {
-  this.dataColumns = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns.map((e) => e.headerValue) : this.tableitem?.Columns?.map((e) => e.headerValue);
+  this.dataColumns = this.tableitem?.removeNoDataColumns ? this.filteredDataColumns.map((e) => e.headerValue) : this.tableitem?.Columns?.map((e) => e.headerValue);
   }
   this.isEmailRequired = this.tableitem?.showEmail ? true : false;
   }

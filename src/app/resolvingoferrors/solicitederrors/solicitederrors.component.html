@@ -51,7 +51,7 @@
 
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
-            <input formControlName="Command" type="text" placeholder="Search Command" matInput
+            <input  formControlName="Command" type="text" placeholder="Search Command" matInput
               [matAutocomplete]="autoCommand" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
@@ -95,8 +95,6 @@
             <!-- </mat-select> -->
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
-
-
 
           <mat-form-field>
             <mat-label>Date Range</mat-label>
@@ -226,8 +224,8 @@
 
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable"(pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"
-              (addNewTab)="newTab($event)">
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
+              (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
             </app-table-selection>
             <form (ngSubmit)="onSaveSubmit()">
               <div class="mat-elevation-z8 side-bottom">
@@ -326,7 +324,3 @@ Delete Tab
     </mat-tab-group>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-<!-- <ng-container *ngIf="configDetails as config">
-  {{config |json }}
-</ng-container> -->

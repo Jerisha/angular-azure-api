@@ -232,7 +232,8 @@ div .mat-focus-indicator.mat-tab-label {
 
 /* All mat-cell */
 .mat-cell{
-  color: black !important;
+  color: black ;
+  /* color: black !important; */
   font-weight: 500 !important;
 }
 

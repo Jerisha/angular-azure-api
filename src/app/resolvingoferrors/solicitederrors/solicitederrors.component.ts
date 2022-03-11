@@ -303,24 +303,24 @@ export class SolicitederrorsComponent implements OnInit {
   ];
 
 
-  totCount$!:Observable<any>;
-  total:any
 
 
-  getNextSetRecords(pageIndex:any)
-  {
+
+  getNextSetRecords(pageIndex: any) {
     debugger;
-    this.currentPage =pageIndex;
-    this.onFormSubmit();
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
     //console.log('page number in parent',pageIndex)
   }
-  onFormSubmit(): void {
+  onFormSubmit(isEmitted?:boolean): void {
     debugger;
+    this.currentPage = isEmitted? this.currentPage:'1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>{     
       let result = { datasource: res[0].SolicitedError,
         totalrecordcount: res[0].TotalCount,
-        totalpages: res[0].NumberOfPages
+        totalpages: res[0].NumberOfPages,
+        pagenumber:res[0].PageNumber
         }
         return result;
            
@@ -330,10 +330,9 @@ export class SolicitederrorsComponent implements OnInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      selectionColumn: 'TranId',
+      selectionColumn: 'TranId',    
       highlightedCells:['TelephoneNumber'],
-      RowCount: this.total,
-      showBlankCoulmns:false,
+      removeNoDataColumns:true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
