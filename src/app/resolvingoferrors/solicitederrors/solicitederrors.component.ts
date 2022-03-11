@@ -13,6 +13,7 @@ import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
+import { formatDate } from '@angular/common';
 // import { ConsoleReporter } from 'jasmine';
 
 
@@ -127,7 +128,7 @@ const FilterListItems: Select[] = [
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  // { view: 'Date Range', viewValue: 'Date', default: true },
+  { view: 'Date Range', viewValue: 'DateRange', default: true },
   { view: 'Error Code', viewValue: 'ErrorCode', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true },
   { view: 'Order Reference', viewValue: 'OrderReference', default: true }
@@ -150,6 +151,7 @@ export class SolicitederrorsComponent implements OnInit {
   myTable!: TableItem;
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
+  auditTelNo?: any;
   telNo?: any;
   tranId?: any;
   repIdentifier = "SolicitedErrors";
@@ -176,17 +178,15 @@ export class SolicitederrorsComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    //this.createSaveForm();
+
     debugger;
     let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
-    //this.service.configTest(request);
-    // this.service.configDetails(request);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-
     });
-
+    //this.service.configTest(request);
+    // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
 
@@ -218,15 +218,14 @@ export class SolicitederrorsComponent implements OnInit {
         if (field == 'DateRange') {
           const fromDate = this.thisForm.get('DateRange.FromDate');
           if (fromDate?.value)
-            attributes.push({ Name: 'FromDate', Value: [fromDate?.value] });
+            attributes.push({ Name: 'FromDate', Value: [formatDate(fromDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
             attributes.push({ Name: 'FromDate' });
           const toDate = this.thisForm.get('DateRange.ToDate');
           if (toDate?.value)
-            attributes.push({ Name: 'ToDate', Value: [toDate?.value] });
+            attributes.push({ Name: 'ToDate', Value: [formatDate(toDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
             attributes.push({ Name: 'ToDate' });
-
           continue;
         }
         if (control?.value)
@@ -270,7 +269,8 @@ export class SolicitederrorsComponent implements OnInit {
       OrderReference: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
         FromDate: new FormControl(),
-        ToDate: new FormControl()
+        ToDate: new FormControl(),
+        disabled: true
       })
 
     })
@@ -303,9 +303,21 @@ export class SolicitederrorsComponent implements OnInit {
   ];
 
   onFormSubmit(): void {
+    val: Boolean
     debugger;
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].SolicitedError));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      // let result = { datasource: res[0].SolicitedError,
+      //    totalrecordcount: res[0].TotalCount,
+      //    totalpages: res[0].NumberOfPages
+      //   }
+      //   return result;
+      //console.log("onFormSubmit" + JSON.stringify(res) + "length" + res.length);
+
+      if (Object.keys(res).length) return res[0].SolicitedError
+      else return res
+      //res[0].SolicitedError
+    }));
     // this.createSaveForm();
 
 
@@ -331,9 +343,10 @@ export class SolicitederrorsComponent implements OnInit {
 
   onSaveSubmit(): void {
     debugger;
-    if (this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber && this.f.EndTelephoneNumber)) {
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
+      (this.Resolution && this.Remarks)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.updateResult$ = this.service.updateDetails(request);
+      this.service.updateDetails(request).subscribe(x => x);
     }
 
   }
@@ -344,22 +357,24 @@ export class SolicitederrorsComponent implements OnInit {
     const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
 
     if (this.selectedGridRows.length > 0) {
-      let transId: string[] = [];
-      this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
-      identifiers.push({ Name: 'TransactionId', Value: transId });
-    } else
-      identifiers.push({ Name: 'TransactionId' });
-      
-    if (startTelephoneNumber?.value)
-      identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
-    else
-      identifiers.push({ Name: 'TelephoneNumberStart' });
+      if (this.selectedGridRows.length > 0) {
+        let transId: string[] = [];
+        this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
+        identifiers.push({ Name: 'TransactionId', Value: transId });
+      } else
+        identifiers.push({ Name: 'TransactionId', Value: [""] });
+    } else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
 
-    if (endTelephoneNumber?.value)
-      identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
-    else
-      identifiers.push({ Name: 'TelephoneNumberEnd' });
+      if (startTelephoneNumber?.value)
+        identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
+      else
+        identifiers.push({ Name: 'TelephoneNumberStart' });
 
+      if (endTelephoneNumber?.value)
+        identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
+      else
+        identifiers.push({ Name: 'TelephoneNumberEnd' });
+    }
     return identifiers;
   }
 
@@ -379,7 +394,7 @@ export class SolicitederrorsComponent implements OnInit {
     else
       UpdateParams.push({ Name: '999Reference' });
 
-    console.log(UpdateParams);
+    //console.log(UpdateParams);
 
     return UpdateParams;
   }
@@ -387,13 +402,14 @@ export class SolicitederrorsComponent implements OnInit {
 
 
   resetForm(): void {
-    this.tabs.splice(0);
+    window.location.reload();
+    // this.tabs.splice(0);
+
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
     //   verticalPosition: this.verticalPosition,
     // });
-
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -407,21 +423,20 @@ export class SolicitederrorsComponent implements OnInit {
     });
   }
 
-  rowDetect(item: any) {
+  rowDetect(selectedRows: any) {
     debugger;
-    this.selectedRowsCount = item.length;
-    if (item && item.length == 0) return
+    selectedRows.forEach((item: any) => {
+      // this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
 
-    if (!this.selectedGridRows.includes(item))
-      this.selectedGridRows.push(item)
-    else if (this.selectedGridRows.includes(item)) {
-      let index = this.selectedGridRows.indexOf(item);
-      this.selectedGridRows.splice(index, 1)
-    }
-
-
-
-    console.log("selectedGridRows" + this.selectedGridRows)
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+    // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   removeTab(index: number) {
@@ -434,7 +449,7 @@ export class SolicitederrorsComponent implements OnInit {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
     }
-    this.thisForm.controls[control].setValue(value);
+    this.f[control].setValue(value);
   }
 
   numberOnly(event: any): boolean {
@@ -448,8 +463,7 @@ export class SolicitederrorsComponent implements OnInit {
   newTab(tab: any) {
     if (this.tabs === []) return;
 
-    this.telNo = tab.row.TelephoneNumber;
-    this.tranId = tab.row.TransactionId;
+
     switch (tab.tabType) {
       case 1:
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
@@ -467,7 +481,7 @@ export class SolicitederrorsComponent implements OnInit {
           let updtab = this.tabs.find(x => x.tabType == 1);
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
-
+        this.auditTelNo = tab.row.TelephoneNumber;
         break;
 
       case 2:
@@ -480,7 +494,8 @@ export class SolicitederrorsComponent implements OnInit {
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
-
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         break;
       default:
         //statements; 

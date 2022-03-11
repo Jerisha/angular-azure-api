@@ -1,4 +1,4 @@
-<ng-container *ngIf="tranErr$ | async as tran ; else NoData">
+<ng-container *ngIf="tranErr$ | async as tran ;">
 <div  class="header">
     <ng-container [ngTemplateOutlet]="noRecordsMessage"
         [ngTemplateOutletContext]="{ $implicit : tran.VodafoneError != null ? 'Internal Error ' : 'No Records for Internal Error'}">
@@ -40,7 +40,7 @@
 </div>
 </ng-container>
 
-<ng-template #NoData>
+<!-- <ng-template #NoData>
     <div  class="header">
         No Records for Internal Error
     </div>
@@ -50,4 +50,4 @@
     <div  class="header">
         No Records for Resolution History
     </div>
-</ng-template>
+</ng-template> -->

@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  UnsolTransactionDays:'1500',
   production: false,
   api_sit:'http://10.196.212.98:6054/restv2/EdgeUIManagementServicesV200/',
   api_dev:'http://10.196.220.58:6054/restv2/EdgeUIManagementServicesV200/',

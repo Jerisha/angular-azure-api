@@ -28,10 +28,7 @@ export class ResolvingOfErrorsService {
     return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }
 
-  custom(data: any) {
-    console.log('service.custom' + JSON.stringify(data));
-    return data;
-  }
+
 
   queryDetails(request: any): Observable<any> {
     return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
@@ -46,7 +43,30 @@ export class ResolvingOfErrorsService {
     return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
 
+  infoDetails(request: any): Observable<any> {
+    const observable = new Observable(observer => {
+      this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request).subscribe((res: any) =>
+        observer.next(this.infoData(res[0])));
 
+    });
 
+    return observable
 
+  }
+
+  private infoData(data: any) {
+        let dates: any[] = [];
+    let months: any[] = [];
+
+    data.MonthwiseInformation.forEach((mon: any) => {
+      mon.DatewiseInformation.forEach((date: any) => {
+        dates.push(date);
+      })
+      delete mon['DatewiseInformation'];
+      months.push(mon)
+
+    })
+    let Information = { "Dates": dates, "Months": months }
+    return Information;
+  }
 }

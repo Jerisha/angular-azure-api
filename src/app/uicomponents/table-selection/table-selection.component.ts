@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output, OnDestroy, SimpleChanges } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,8 +7,9 @@ import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/model
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-table-selection',
@@ -16,7 +17,8 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./table-selection.component.css']
 })
 
-export class TableSelectionComponent {
+export class TableSelectionComponent implements OnDestroy {
+  private readonly onDestroy = new Subject<void>();
   fltvalue: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -58,30 +60,33 @@ export class TableSelectionComponent {
   nonNumericCols: string[] = [];
 
   constructor(private cdr: ChangeDetectorRef,
-     private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService) {
 
   }
   dataObs$!: Observable<any>
   dataobj!: any;
 
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges) {
+    // if (changes.tableitem?.currentValue != changes.tableitem?.previousValue)
+    //   return;
 
     this.spinner.show();
     this.dataObs$ = this.tableitem?.data;
     //Subscribing passed data from parent
-    this.dataObs$.subscribe(
+    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
+        this.selection.clear();
         this.dataSource = new MatTableDataSource<any>(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.spinner.hide()
       },
-      error => { this.spinner.hide(); },
-      () => { console.log('table load completed');this.spinner.hide() }
+      error => {console.log('error logged'); this.spinner.hide(); },
+      () => { console.log('table load completed'); this.spinner.hide() }
     );
 
-   
+
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false;
@@ -159,18 +164,18 @@ export class TableSelectionComponent {
   }
 
   selectRow(event: any, row: any) {
-    debugger;
+    //debugger;
     this.dataSource.data = this.dataSource.data.filter(r => r !== row);
     if (event.checked) {
       this.dataSource.data = [row].concat(this.dataSource.data);
-      debugger;
+      //debugger;
       //this.highlightCellb(true)
     }
     else {
       this.dataSource.data = this.dataSource.data.concat(row);
       // this.highlightCellb(false)
     }
-    this.rowChanges.emit(row);
+    this.rowChanges.emit([row]);
   }
 
 
@@ -186,14 +191,12 @@ export class TableSelectionComponent {
     if (this.isAllSelected()) {
       this.selection.clear()
       this.selectedTelnos = [];
-
     }
     else {
       this.dataSource.data.forEach(row => this.selection.select(row));
       // this.selectedTelnos = this.dataSource.data.map((item) => item.TelNo);
     }
-
-    this.rowChanges.emit(this.selectedTelnos);
+    this.rowChanges.emit(this.dataSource.data);
   }
 
   applyFilter() {
@@ -296,14 +299,14 @@ export class TableSelectionComponent {
 
     let applyStyles = {};
     if (this.backhighlightedCells)
-      if (this.backhighlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+      if (this.backhighlightedCells.includes(disCol.headerValue) && (cell['IsLive']==1)) {
         applyStyles = {
           'background-color': '#ff9999'
         }
       }
 
     if (this.highlightedCells)
-      if (this.highlightedCells.includes(disCol.headerValue) && cell['isLive']) {
+      if (this.highlightedCells.includes(disCol.headerValue) && (cell['IsLive']==1)) {
 
         applyStyles = {
           'color': 'red',
@@ -311,5 +314,9 @@ export class TableSelectionComponent {
         }
       }
     return applyStyles;
+  }
+
+  ngOnDestroy() {
+    this.onDestroy.next();
   }
 }
