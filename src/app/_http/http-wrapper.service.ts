@@ -20,16 +20,6 @@ export class HttpWrapperService {
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
-        console.log(JSON.stringify(body));
-        // this.http(httpVerb.toString(),
-        //     `${environment.api_url}${endPoint}`,
-        //     JSON.stringify(body),
-        //     responseType,
-        //     headers,
-        //     params).subscribe((response: Type) => {
-        //         console.log("Response: " + JSON.stringify(response));
-        //     });
-
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
                 `${environment.api_sit}${endPoint.toString()}`,
@@ -43,7 +33,6 @@ export class HttpWrapperService {
                 })
         });
         return observerRes;
-        // return new Observable<Type>();
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
@@ -79,28 +68,27 @@ export class HttpWrapperService {
                         jsonResult = this.processGetObject(categories);
                     break;
                 case WebMethods.UPDATE:
-                    // debugger
+                    debugger
                     categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
                     if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                        this.alertService.success("Save Sucessful!!", { autoClose: false, keepAfterRouteChange: false });
+                        this.alertService.success("Save Sucessful!!", { autoClose: true, keepAfterRouteChange: false });
                     break;
                 case WebMethods.CREATE:
                     categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
                     this.validateResponseStatus(this.resolveResponseStatus(categories));
                     break;
             }
+            // debugger
             // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
-            console.log("jsonString :" + String.raw`${jsonResult}`);
-            return jsonResult ? JSON.parse(jsonResult) : null;
+            console.log("jsonString :" + jsonResult);
+            //console.log(JSON.parse(jsonResult))
+            return jsonResult ? JSON.parse(jsonResult) : {};
         } catch (err) {
-            this.alertService.error("UI Error.", { autoClose: false, keepAfterRouteChange: false });
+            console.log("error " + err)
+            this.alertService.error("UI Error.", { autoClose: true, keepAfterRouteChange: false });
         }
-        // debugger
-        // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
-        console.log("jsonString :" + jsonResult);
-        return jsonResult ? JSON.parse(jsonResult) : null;
     }
-    
+
     private processConfigObject(categories: any) {
         var jsonCreation = `[`
         if (categories != undefined && categories.length > 0) {
@@ -208,7 +196,7 @@ export class HttpWrapperService {
         if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
             objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
                 if (element.hasOwnProperty("Name"))
-                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? Utils.escSequences(element["Value"]) : ''}",`
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, ' ')
             });
         }
         //Bind Attributes
@@ -216,7 +204,7 @@ export class HttpWrapperService {
             let attr = objCharacteristic.ListofAttributes.Attribute;
             for (let i = 0; i < attr.length; i++) {
                 if (attr[i].hasOwnProperty("Name"))
-                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? Utils.escSequences(attr[i]["Value"]) : ''}",`
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, ' ')
             }
         }
 
@@ -291,11 +279,11 @@ export class HttpWrapperService {
                 if (wmResponse.StatusCode != "EUI100")
                     status = true;
                 else
-                    this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
+                    this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
                 return status;
                 break;
             case WMMessageType.Error:
-                this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: false, keepAfterRouteChange: false });
+                this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
                 //this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 return status;
                 break;

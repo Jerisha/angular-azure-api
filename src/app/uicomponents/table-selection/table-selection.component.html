@@ -61,11 +61,8 @@ font-size: smaller;  ">
             <mat-checkbox style="margin-right:20px;" (click)="$event.stopPropagation()"   (change)="selectRow($event,row)"
               (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
             </mat-checkbox>
-          </td>
-          
+          </td>          
             <td mat-footer-cell class="totalRow" *matFooterCellDef>  {{getTotal(disCol.headerValue)}} </td>
-            
-         
         </div>
 
         <!-- Image Columns -->
@@ -96,6 +93,7 @@ font-size: smaller;  ">
         <tr class="totalRow" mat-footer-row *matFooterRowDef="dataColumns;sticky: true"></tr>
       </ng-container>
     </table>
+    
   </div>
   <!-- <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
   </mat-paginator>  -->
@@ -107,7 +105,7 @@ font-size: smaller;  ">
 
   <!-- <div class="test-wrapper"> -->
   <div style="margin-bottom:10px" *ngIf="isShown">
-    <button type="reset" mat-raised-button color="primary">
+    <button [disabled]="true" type="button" mat-raised-button color="primary">
       <mat-icon>import_export</mat-icon>Export
     </button>&nbsp;&nbsp;
     <button type="reset"  mat-raised-button color="primary" [disabled]="selection.selected.length > 0 ? false : true">

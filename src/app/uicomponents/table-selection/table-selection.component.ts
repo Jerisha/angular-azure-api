@@ -56,7 +56,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   backhighlightedCells: string[] = []
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
-  showTotalRow!: boolean ;
+  showTotalRow!: boolean;
   isRowselected: boolean = false;
   totalRowCols: string[] = [];
   nonNumericCols: string[] = [];
@@ -76,11 +76,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   pageChanged(event: PageEvent) {
-    //console.log({ event })
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     this.pageIndex.emit(this.currentPage + 1);
-    //console.log('in emit',this.currentPage)
   }
 
   copy() {
@@ -98,12 +96,11 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.selection.clear();
         this.allSelected = true;
         this.initializeTableAttributes(res.datasource)
-        this.dataSource.data = res.datasource;
+        this.dataSource.data = res.datasource;  
         this.totalRows = (res.totalrecordcount) as number;
-        // this.paginator.pageIndex = this.currentPage; pagenumber
         this.apiPageNumber = (res.pagenumber) as number;
-        this.currentPage = this.apiPageNumber - 1;
-        this.paginator.pageIndex = this.currentPage;
+        this.currentPage = this.apiPageNumber - 1;       
+        //this.paginator.pageIndex = this.currentPage;
         this.paginator.length = (res.totalrecordcount) as number;
         this.dataSource.sort = this.sort;
         this.spinner.hide();
@@ -117,18 +114,16 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.spinner.hide();
       }
     );
-
-    
   }
 
   initializeTableAttributes(data: any) {
-    this.ColumnDetails =[];
+    this.ColumnDetails = [];
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     // this.showTotalRow = this.tableitem?.showTotal ? this.tableitem?.showTotal : false;
-    this.totalRowCols = this.tableitem?.Columns ? 
-    this.tableitem?.Columns.filter(e => e.isTotal===true).map(e=>e.headerValue) : [];
-    this.showTotalRow= this.totalRowCols.length >0;
+    this.totalRowCols = this.tableitem?.Columns ?
+      this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
+    this.showTotalRow = this.totalRowCols.length > 0;
     this.imgList = this.tableitem?.imgConfig;
     this.filter = this.tableitem?.filter;
     this.isEmailRequired = this.tableitem?.showEmail ? true : false;
@@ -151,29 +146,24 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     //selectCheckbox
     if (this.tableitem?.selectCheckbox) {
       const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
-      this.ColumnDetails.unshift(selItem);    
+      this.ColumnDetails.unshift(selItem);
       // this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-      // this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';
-      
+      // this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';      
     }
     //  else {
     //   this.dataColumns = this.tableitem?.removeNoDataColumns ?
     //     this.filteredDataColumns.map((e) => e.headerValue) : this.tableitem?.Columns?.map((e) => e.headerValue);
-    // }
-
-    console.log('column det',this.ColumnDetails)
-    this.gridFilter = this.ColumnDetails?.filter(x=>x.headerValue!='Select');
+    // }    
+    this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-    
     //if (this.showTotalRow) {
-      // var footerRowCols = this.tableitem?.totalRowCols ? this.tableitem?.totalRowCols : [];
-      // footerRowCols = [this.dataColumns[0]].concat(footerRowCols);
-      //this.totalRowCols = this.dataColumns.filter((x: any) => footerRowCols.includes(x));
-      // this.totalRowCols = this.tableitem?.Columns ? 
-      // this.tableitem?.Columns.filter(e => e.isTotal===true).map(e=>e.headerValue) : [];
-      // this.totalRowCols.unshift(this.dataColumns[0]);
-      
-      //this.nonNumericCols = this.dataColumns.filter((x: any) => !this.totalRowCols.includes(x));
+    // var footerRowCols = this.tableitem?.totalRowCols ? this.tableitem?.totalRowCols : [];
+    // footerRowCols = [this.dataColumns[0]].concat(footerRowCols);
+    //this.totalRowCols = this.dataColumns.filter((x: any) => footerRowCols.includes(x));
+    // this.totalRowCols = this.tableitem?.Columns ? 
+    // this.tableitem?.Columns.filter(e => e.isTotal===true).map(e=>e.headerValue) : [];
+    // this.totalRowCols.unshift(this.dataColumns[0]);      
+    //this.nonNumericCols = this.dataColumns.filter((x: any) => !this.totalRowCols.includes(x));
     //}
   }
 
@@ -204,10 +194,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     // }
     // return '';
 
-    if(this.totalRowCols.includes(cell))
-    return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+    if (this.totalRowCols.includes(cell))
+      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
     else
-    return ''
+      return ''
   }
 
   getColSpan(cellname: string) {
@@ -253,7 +243,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       this.dataSource.paginator.firstPage();
     }
   }
-  
+
 
   toggleAllSelection() {
     if (this.select) {
@@ -304,7 +294,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   logSelection(a: any) {
-    //console.log(this.selection.selected)
+
     this.selectedrows = this.selection.selected ? this.selection.selected : undefined;
     //this.selectedrowsCount = this.selection.selected ? this.selection.selected.length: 0;
     return true;
@@ -316,32 +306,31 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.unSelectListItems = [];
 
     // if (data) {
-      data?.forEach((item: any) => this.checkIsNullOrEmptyProperties(item));
-      // logic
-      debugger
-       this.tableitem?.Columns?.forEach(x=>
-      {
-        console.log('non empty', this.nonemptyColumns)
-        if(this.nonemptyColumns.includes(x.headerValue) || x.isImage)
-        this.ColumnDetails.push(x);        
-      })
-      // var nonEmptySet = new Set(this.nonemptyColumns);
-      // this.nonemptyColumns = [...nonEmptySet];
-      // var colDetails = this.tableitem?.Columns ? this.tableitem?.Columns : [];
-      // var filtered = colDetails?.filter(x => !this.nonemptyColumns.includes(x.headerValue) && x.isImage === false).map(x => x.headerValue);
+    data?.forEach((item: any) => this.checkIsNullOrEmptyProperties(item));
+    // logic
+    debugger
+    this.tableitem?.Columns?.forEach(x => {
+
+      if (this.nonemptyColumns.includes(x.headerValue) || x.isImage)
+        this.ColumnDetails.push(x);
+    })
+    // var nonEmptySet = new Set(this.nonemptyColumns);
+    // this.nonemptyColumns = [...nonEmptySet];
+    // var colDetails = this.tableitem?.Columns ? this.tableitem?.Columns : [];
+    // var filtered = colDetails?.filter(x => !this.nonemptyColumns.includes(x.headerValue) && x.isImage === false).map(x => x.headerValue);
 
 
 
 
-      // if (filtered) {
-      //   filtered.forEach(x => {
-      //     this.emptyColumns.push(x)
-      //   });
-      // }
-      // var emptySet = new Set(this.emptyColumns);
-      // this.emptyColumns = [...emptySet];
-      // this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
-      // console.log('unselectlist', this.unSelectListItems)
+    // if (filtered) {
+    //   filtered.forEach(x => {
+    //     this.emptyColumns.push(x)
+    //   });
+    // }
+    // var emptySet = new Set(this.emptyColumns);
+    // this.emptyColumns = [...emptySet];
+    // this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
+    // console.log('unselectlist', this.unSelectListItems)
     // }
   }
 

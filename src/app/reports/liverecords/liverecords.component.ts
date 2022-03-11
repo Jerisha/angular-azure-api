@@ -23,17 +23,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -54,17 +54,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -85,17 +85,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -116,17 +116,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -147,17 +147,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -178,17 +178,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -209,17 +209,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -240,17 +240,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -271,17 +271,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -302,17 +302,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -333,17 +333,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -364,17 +364,17 @@ const ELEMENT_DATA: liverecords[] = [
   {
     Links: 'Image',
     Telephone: '123456789',
-    CustName: 'PARIBASNET LTD',
+    CustomerName: 'PARIBASNET LTD',
     BusinessSuffix: '',
     Premises: 'MARYLEBONE GATE',
     Thoroughfare: '10 HAREWOOD AVENUE',
     Locality: ' LONDON',
     Postcode: ' NW1 6AA',
-    TransactionRef: '013/013/001000010069',
-    CustTitle: '',
-    CustForename: '',
+    TransactionReference: '013/013/001000010069',
+    CustomerTitle: '',
+    CustomerForename: '',
     Franchise: ' MCL',
-    SourceSystem: ' C - SAS/COMS',
+    Source: ' C - SAS/COMS',
     SourceType: 'BATCH',
     Createdby: '',
     CreationDate: ' 26 SEP 2013 11:03',
@@ -454,10 +454,9 @@ export class LiverecordsComponent implements OnInit {
   myTable!: TableItem;
   listItems!: Select[];
 
-  constructor(private formBuilder: FormBuilder,
-    private service: ReportService,
-    private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,private spinner: NgxSpinnerService) { }
+
+    constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
+      private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
 
   //
   dataSaved = false;
@@ -481,10 +480,13 @@ export class LiverecordsComponent implements OnInit {
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
-  ];
-  errorCode = new FormControl();
+];
+errorCode = new FormControl();
   selectedTab!: number;
 
+
+  auditTelNo?: any;
+  repIdentifier = "LiveTelephoneNumberDetails";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   configDetails!: any;
@@ -497,17 +499,17 @@ export class LiverecordsComponent implements OnInit {
   columns: ColumnDetails[] = [
     { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Cust Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
+    { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
     { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
     { header: 'Thoroughfare', headerValue: 'Thoroughfare', showDefault: true, isImage: false },
     { header: 'Locality', headerValue: 'Locality', showDefault: true, isImage: false },
     { header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
-    { header: 'Transaction Ref', headerValue: 'TransactionRef', showDefault: true, isImage: false },
-    { header: 'Cust Title', headerValue: 'CustTitle', showDefault: true, isImage: false },
-    { header: 'Cust Forename', headerValue: 'CustForename', showDefault: true, isImage: false },
+    { header: 'Transaction Reference', headerValue: 'TransactionReferenceerence', showDefault: true, isImage: false },
+    { header: 'Customer Title', headerValue: 'CustomerTitle', showDefault: true, isImage: false },
+    { header: 'Customer Forename', headerValue: 'CustomerForename', showDefault: true, isImage: false },
     { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
     { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
@@ -533,7 +535,7 @@ export class LiverecordsComponent implements OnInit {
   ngOnInit(): void {
  
     this.listItems = Itemstwo;
-    this.setOptions();
+    // this.setOptions();
       this.createForm();
       // debugger;
       // let transformInput = JSON.parse(WMRequests.CONFIG);
@@ -545,15 +547,13 @@ export class LiverecordsComponent implements OnInit {
   
       // //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
     
-      debugger;
-      let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand','ErrorCode']);
-      //this.service.configTest(request);
-      // this.service.configDetails(request);
-      this.service.configDetails(request).subscribe((res: any) => {
-        //console.log("res: " + JSON.stringify(res))
-        this.configDetails = res[0];
-  
-        
+     
+
+    debugger;
+    let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      //console.log("res: " + JSON.stringify(res))
+      this.configDetails = res[0];
     });
   }
   ngAfterViewInit() {
@@ -603,11 +603,11 @@ export class LiverecordsComponent implements OnInit {
   }
   setOptions() {
     this.errorCodesOptions = this.errorCode.valueChanges
-      .pipe(
-        startWith<string>(''),
-        map(name => this._filter(name))
-      );
-  }
+        .pipe(
+            startWith<string>(''),
+            map(name => this._filter(name))
+        );
+}
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
   }
@@ -619,17 +619,24 @@ export class LiverecordsComponent implements OnInit {
     return filteredList;
   }
   onFormSubmit(): void {
+  
     debugger;
-    let request = Utils.prepareQueryRequest('LiveDataSummary','LiveRecords', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].LiveTelephoneNumberDetails));
-
+    let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      // let result = { datasource: res[0].SolicitedError,
+      //    totalrecordcount: res[0].TotalCount,
+      //    totalpages: res[0].NumberOfPages
+      //   }
+      //   return result;
+      return res[0].LiveTelephoneNumberDetails
+    }));
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'Links',
-      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', tabIndex: 1 }]
+      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '',toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -638,57 +645,113 @@ export class LiverecordsComponent implements OnInit {
         name: 'Main'
       });
     }
-    this.selectedTab = this.tabs.length;
-    //this.selectedTab = this.tabs.length - 1;
+
+    // if (!this.tabs.find(x => x.tabType == 0)) {
+    //   this.tabs.push({
+    //     tabType: 0,
+    //     name: 'Main'
+    //   });
+    // }
+    // this.selectedTab = this.tabs.length;
+    // //this.selectedTab = this.tabs.length - 1;
   }
+
   resetForm(): void {
-    this.tabs.splice(0);
+    window.location.reload();
+    // this.tabs.splice(0);
+    
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
     //   verticalPosition: this.verticalPosition,
     // });
-
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
+
+
+  // newTab(tab: any) {
+  //   switch (tab.tabType) {
+  //     case 1: {
+
+
+
+  //       //tab.row contains row data- fetch data from api and bind to respetive component
+  //       if (!this.tabs.find(x => x.tabType == 1)) {
+  //         this.tabs.push({
+  //           tabType: 1,
+  //           name: 'Audit Trail Report'
+  //         });
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+  //       } else {
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+  //       }
+  //       break;
+  //     }
+  //     case 2: {
+  //       if (!this.tabs.find(x => x.tabType == 2)) {
+  //         this.tabs.push({
+  //           tabType: 2,
+  //           name: 'Transaction Details'
+  //         })
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+  //       } else {
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+  //       }
+  //       break;
+  //     }
+  //     default: {
+  //       //statements;
+  //       break;
+  //     }
+  //   }
+  // }
+
   newTab(tab: any) {
+    if (this.tabs === []) return;
+
+
     switch (tab.tabType) {
-      case 1: {
-
-
-
+      case 1:
+        //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
-        if (!this.tabs.find(x => x.tabType == 1)) {
+
+        if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report'
+            name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
+
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
+        this.auditTelNo = tab.row.TelephoneNumber;
         break;
-      }
-      case 2: {
-        if (!this.tabs.find(x => x.tabType == 2)) {
-          this.tabs.push({
-            tabType: 2,
-            name: 'Transaction Details'
-          })
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-        } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-        }
+
+      // case 2:
+      //   if (!this.tabs.find(x => x.tabType == 2)) {
+      //     this.tabs.push({
+      //       tabType: 2,
+      //       name: 'Transaction Errors'
+      //     })
+      //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+      //   } else {
+      //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+      //   }
+      //   this.telNo = tab.row.TelephoneNumber;
+      //   this.tranId = tab.row.TransactionId;
+      //   break;
+      // default:
+      //   //statements; 
         break;
-      }
-      default: {
-        //statements;
-        break;
-      }
+
     }
   }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     //debugger;
