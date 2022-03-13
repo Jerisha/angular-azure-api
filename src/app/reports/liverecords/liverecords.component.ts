@@ -490,6 +490,7 @@ errorCode = new FormControl();
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   configDetails!: any;
+  
   // public tabs = [{
   // tabType: 0,
   // name: 'Main'
@@ -550,7 +551,7 @@ errorCode = new FormControl();
      
 
     debugger;
-    let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand']);
+    let request = Utils.prepareConfigRequest(['Search'],['Source','Franchise','TypeOfLine','TransactionCommand']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
