@@ -22,7 +22,7 @@
             <mat-form-field appearance="outline" 
             [ngClass]="{'hidden':thisForm.controls.CustomerName.disabled}">
               <mat-label>Customer Name</mat-label>            
-              <input formControlName="CustomerName" matInput #CustomerName maxlength="15" placeholder="Customer Name">              
+              <input formControlName="CustomerName" matInput #CustomerName maxlength="500" placeholder="Customer Name">              
             </mat-form-field> 
             </div>
             <div [ngStyle]="{'display':thisForm.controls.CreationDate.disabled ? 'none' : 'block'}">
@@ -41,7 +41,7 @@
               <mat-form-field appearance="outline"
                 [ngClass]="{'hidden':thisForm.controls.Postcode.disabled}">
                 <mat-label>Postcode</mat-label>            
-                <input formControlName="Postcode" matInput #Postcode maxlength="10" placeholder="Postcode">                
+                <input formControlName="Postcode" matInput #Postcode maxlength="20" placeholder="Postcode">                
               </mat-form-field>  
             </div>           
             <div  [ngStyle]="{'display':thisForm.controls.Premises.disabled ? 'none' : 'block'}">
@@ -49,7 +49,7 @@
               <mat-form-field appearance="outline"
                 [ngClass]="{'hidden':thisForm.controls.Premises.disabled}">                
                 <mat-label>Premises</mat-label>            
-                <input formControlName="Premises" matInput #AddressPremises maxlength="10" placeholder="Premises">
+                <input formControlName="Premises" matInput #AddressPremises maxlength="100" placeholder="Premises">
                 </mat-form-field>  
             </div> 
             <div [ngStyle]="{'display':thisForm.controls.Thoroughfare.disabled ? 'none' : 'block'}">
@@ -57,7 +57,7 @@
               <mat-form-field appearance="outline"
                 [ngClass]="{'hidden':thisForm.controls.Thoroughfare.disabled}">
                 <mat-label>Thoroughfare</mat-label>            
-                <input formControlName="Thoroughfare" matInput #Thoroughfare maxlength="10" placeholder="Thoroughfare">
+                <input formControlName="Thoroughfare" matInput #Thoroughfare maxlength="100" placeholder="Thoroughfare">
               </mat-form-field>  
             </div>  
             <div [ngStyle]="{'display':thisForm.controls.Locality.disabled ? 'none' : 'block'}">
@@ -73,7 +73,7 @@
               <mat-form-field appearance="outline"
               [ngClass]="{'hidden':thisForm.controls.Cupid.disabled}" >
                 <mat-label>Cupid</mat-label>
-                <input formControlName="Cupid" matInput #Cupid maxlength="10" placeholder="Cupid">                
+                <input formControlName="Cupid" matInput #Cupid maxlength="100" placeholder="Cupid">                
               </mat-form-field>
             </div>   
             <div [ngStyle]="{'display':thisForm.controls.Source.disabled? 'none' : 'block'}">

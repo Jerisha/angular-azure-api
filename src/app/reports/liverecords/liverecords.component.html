@@ -8,79 +8,90 @@
         <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
             <div class="matsidenav-filter">
                 <ng-container *ngIf="configDetails  as config">
-                    <app-select-exp [listItems]="expressions[0].default"></app-select-exp>   
-        <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNo.disabled}">
-            <mat-label>Telephone No</mat-label>
-            <input formControlName="TelephoneNo" (keypress)="numberOnly($event)"
-              (keyup)="addPrefix('TelephoneNo',telno.value)" matInput maxlength="11"
-              placeholder="Telephone No" #telno>
-            <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
-            <mat-error>
-              <div *ngIf="f.TelephoneNo.touched && f.TelephoneNo.invalid" class="alert alert-danger">
-                <div *ngIf="f.TelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
-              </div>
-            </mat-error>
-          </mat-form-field>
+                    <!-- <app-select-exp [listItems]="expressions[0].default"></app-select-exp> -->
+                    <app-select-exp [listItems]="expressions[0].default" #StartTelephoneNumberOperator
+                        (click)="OnOperatorClicked($event)"></app-select-exp>
+                    <mat-form-field hintLabel="Max 11 characters"
+                        [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
+                        <mat-label>Telephone No</mat-label>
+                        <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
+                            (keyup)="addPrefix('StartTelephoneNumber',telno.value)" matInput maxlength="11"
+                            placeholder="Telephone No" #telno>
+                        <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
+                        <mat-error>
+                            <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid"
+                                class="alert alert-danger">
+                                <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
 
-                    <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
-                    <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}"
-                        hintLabel="Max 10 characters" appearance="outline">
+                    <app-select-exp [listItems]="expressions[1].default" #CustomerNameOperator
+                        (click)="OnOperatorClicked($event)"></app-select-exp>
+                    <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}" appearance="outline">
                         <mat-label>Customer Name</mat-label>
-                        <input id="CustomerName" formControlName="CustomerName" matInput #input maxlength="10"
-                            placeholder="CustName">
-                        <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                        <input id="CustomerName" formControlName="CustomerName" matInput  maxlength="500" #input placeholder="CustName">
                     </mat-form-field>
-                    <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
-                    <mat-form-field [ngClass]="{'hidden':myForm.controls.PostCode.disabled}"
-                        hintLabel="Max 10 characters" appearance="outline">
+
+                    <app-select-exp [listItems]="expressions[1].default" #PostcodeOperator
+                        (click)="OnOperatorClicked($event)"></app-select-exp>
+                    <mat-form-field [ngClass]="{'hidden':myForm.controls.PostCode.disabled}" appearance="outline">
                         <mat-label>PostCode</mat-label>
-                        <input id="PostCode" formControlName="PostCode" matInput #input maxlength="10"
+                        <input id="PostCode" formControlName="PostCode" matInput #input maxlength="20"
                             placeholder="PostCode">
-                        <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                        
                     </mat-form-field>
-                    <app-select-exp [listItems]="expressions[2].default"></app-select-exp>
-                    <mat-form-field [ngClass]="{'hidden':myForm.controls.CreatedOn.disabled}"
-                        hintLabel="Max 10 characters" appearance="outline">
+
+                    <app-select-exp [listItems]="expressions[2].default" #CreationDateOperator
+                        (click)="OnOperatorClicked($event)"></app-select-exp>
+                    <mat-form-field [ngClass]="{'hidden':myForm.controls.CreatedOn.disabled}" appearance="outline">
                         <mat-label>Created On</mat-label>
                         <input id="CreatedOn" [matDatepicker]="picker" formControlName="CreatedOn" matInput #input
-                            maxlength="10" placeholder="Created On">
+                            maxlength="20" placeholder="Created On">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                        <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
                     </mat-form-field>
+
                     <div [ngStyle]="{'display':myForm.controls.Premises.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <app-select-exp [listItems]="expressions[1].default" #PremisesOperator
+                            (click)="OnOperatorClicked($event)"></app-select-exp>
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Premises.disabled}">
                             <mat-label>Premises</mat-label>
-                            <input formControlName="Premises" matInput #Premises maxlength="10" placeholder="Premises">
+                            <input formControlName="Premises" matInput #Premises maxlength="100" placeholder="Premises">
                         </mat-form-field>
                     </div>
+
                     <div [ngStyle]="{'display':myForm.controls.Throughtfare.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <app-select-exp [listItems]="expressions[1].default" #ThoroughfareOperator
+                            (click)="OnOperatorClicked($event)"></app-select-exp>
                         <mat-form-field appearance="outline"
                             [ngClass]="{'hidden':myForm.controls.Throughtfare.disabled}">
                             <mat-label>Throughfare</mat-label>
-                            <input formControlName="Throughtfare" matInput #Throughtfare maxlength="10"
+                            <input formControlName="Throughtfare" matInput #Throughtfare maxlength="100"
                                 placeholder="Throughtfare">
                         </mat-form-field>
                     </div>
                     <div [ngStyle]="{'display':myForm.controls.Locality.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <app-select-exp [listItems]="expressions[1].default" #LocalityOperator
+                            (click)="OnOperatorClicked($event)"></app-select-exp>
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Locality.disabled}">
                             <mat-label>Locality</mat-label>
-                            <input formControlName="Locality" matInput #Locality maxlength="10" placeholder="Locality">
+                            <input formControlName="Locality" matInput #Locality maxlength="100" placeholder="Locality">
                         </mat-form-field>
                     </div>
                     <div [ngStyle]="{'display':myForm.controls.Cupid.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <app-select-exp [listItems]="expressions[1].default" #CupidOperator
+                            (click)="OnOperatorClicked($event)"></app-select-exp>
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Cupid.disabled}">
                             <mat-label>Cupid</mat-label>
-                            <input formControlName="Cupid" matInput #Cupid maxlength="10" placeholder="Cupid">
+                            <input formControlName="Cupid" matInput #Cupid maxlength="20" placeholder="Cupid">
                         </mat-form-field>
                     </div>
 
                     <div [ngStyle]="{'display':myForm.controls.Source.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+
+                        <app-select-exp [listItems]="expressions[1].default" #SourceOperator
+                            (click)="OnOperatorClicked($event)"></app-select-exp>
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Source.disabled}">
                             <mat-label>Source</mat-label>
                             <input formControlName="Source" type="text" placeholder="Search Source" matInput
@@ -97,7 +108,8 @@
                     </div>
 
                     <div [ngStyle]="{'display':myForm.controls.TypeOfLine.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <app-select-exp [listItems]="expressions[1].default" #TypeOfLineOperator
+                            (click)="OnOperatorClicked($event)"></app-select-exp>
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TypeOfLine.disabled}">
                             <mat-label>Type Of Line</mat-label>
                             <input formControlName="TypeOfLine" type="text" placeholder="Search TypeOfLine" matInput
@@ -115,7 +127,8 @@
                     </div>
 
                     <div [ngStyle]="{'display':myForm.controls.Franchise.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <app-select-exp [listItems]="expressions[1].default" #FranchiseOperator
+                            (click)="OnOperatorClicked($event)"></app-select-exp>
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Franchise.disabled}">
                             <mat-label>Franchise</mat-label>
                             <input formControlName="Franchise" type="text" placeholder="Search Franchise" matInput
@@ -133,7 +146,8 @@
                     </div>
 
                     <div [ngStyle]="{'display':myForm.controls.TransactionCommand.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <app-select-exp [listItems]="expressions[1].default" #TransactionCommandOperator
+                            (click)="OnOperatorClicked($event)"></app-select-exp>
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TransactionCommand.disabled}">
                             <mat-label>Transaction Command</mat-label>
                             <input formControlName="TransactionCommand" type="text"

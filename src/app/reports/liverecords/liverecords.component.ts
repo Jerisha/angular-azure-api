@@ -421,7 +421,7 @@ const Items: Select[] = [
 
 ];
 const Itemstwo: Select[] = [
-  { view: 'Telephone No.', viewValue: 'TelephoneNo', default: true },
+  { view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'Customer Name', viewValue: 'CustomerName', default: true },
   { view: 'Post Code', viewValue: 'PostCode', default: true },
   { view: 'Created On', viewValue: 'CreatedOn', default: true },
@@ -458,7 +458,23 @@ export class LiverecordsComponent implements OnInit {
     constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
       private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
 
-  //
+      expOperators:string [] =[
+        "StartTelephoneNumberOperator",
+        "CustomerNameOperator",
+        "CreationDateOperator",
+        "PostcodeOperator",
+        "PremisesOperator",
+        "ThoroughfareOperator",
+        "LocalityOperator",
+        "SourceOperator",
+        "CupidOperator",
+        "FranchiseOperator",
+        "TransactionCommandOperator",
+        "TypeOfLineOperator",
+      ];
+  expOperatorsKeyPair:[string,string][] =[];
+  
+
   dataSaved = false;
   employeeForm: any;
   employeeIdUpdate = null;
@@ -671,6 +687,12 @@ errorCode = new FormControl();
     this.tabs.splice(index, 1);
   }
 
+  OnOperatorClicked(event:any)
+  {
+    // if (event.target.value !="")
+    console.log("operators event",event);
+
+  }
 
   // newTab(tab: any) {
   //   switch (tab.tabType) {
@@ -763,7 +785,7 @@ errorCode = new FormControl();
 
   createForm() {
     this.myForm = new FormGroup({
-      TelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(99)]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(99)]),
       CustomerName: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(99)]),
       PostCode: new FormControl({ value: '', disabled: true }, [Validators.required]),
       CreatedOn: new FormControl({ value: '', disabled: true }, [Validators.required]),
@@ -777,7 +799,20 @@ errorCode = new FormControl();
       Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
 
     })
-  
+    
+    this.expOperatorsKeyPair.push(["StartTelephoneNumberOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["CustomerNameOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["PostcodeOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["CreationDateOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["PremisesOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["ThoroughfareOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["LocalityOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["CupidOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["FranchiseOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
+    
   }
 
   rowDetect(item: any) {
