@@ -8,6 +8,7 @@ import { Select } from 'src/app/uicomponents/models/select';
 })
 export class SelectExpressionComponent implements OnInit {
   selectedValue: string = '=';
+  selectedViewValue: string = 'Equal To';
   @Input() listItems: Select[] = [];
   @Output() click = new EventEmitter<string>();
 
@@ -16,8 +17,9 @@ export class SelectExpressionComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selected(s: string): void {
+  selected(s: string,val:string): void {
     this.selectedValue = s;
+    this.selectedViewValue=val;
     this.click.emit(s);
   }
 }

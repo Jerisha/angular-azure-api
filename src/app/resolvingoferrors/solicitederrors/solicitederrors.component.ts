@@ -166,21 +166,29 @@ export class SolicitederrorsComponent implements OnInit {
   Resolution!: string;
   Refer!: string;
   Remarks!: string;
+  isSaveDisable:boolean=true;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
   currentPage: string = '1';
+  updateDetails!:any;
 
   ngOnInit(): void {
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.prepareConfigRequest(['Search'],['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
+    });
+
+    let updateRequest = Utils.prepareConfigRequest(['Update'],['ResolutionType']);
+    this.service.configDetails(updateRequest).subscribe((res: any) => {
+      //console.log("res: " + JSON.stringify(res))
+      this.updateDetails = res[0];
     });
     //this.service.configTest(request);
     // this.service.configDetails(request);
@@ -196,6 +204,7 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
+    this.isEnable();
     this.cdr.detectChanges();
   }
 
@@ -439,14 +448,29 @@ export class SolicitederrorsComponent implements OnInit {
         this.selectedGridRows.splice(index, 1)
       }
     })
+    this.isEnable();
     // console.log("selectedGridRows" + this.selectedGridRows)
+  }
+
+  isEnable() {
+
+    debugger
+    if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
+      this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
+      this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
+      && this.f.OrderReference.value === "")
+      || (this.selectedGridRows.length > 0)) {
+      this.isSaveDisable = false;
+    }
+    else
+      this.isSaveDisable = true;
+    //console.log('isSaveDisable',this.isSaveDisable)
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-  startTelno: any;
-  endTelno: any;
+ 
 
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
