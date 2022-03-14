@@ -203,7 +203,7 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
   ];
   ngOnInit(): void {    
-    let request = Utils.prepareConfigRequest(['Command','Source','Franchise','TypeOfLine']);
+    let request = Utils.prepareConfigRequest(['Search'],['Command','Source','Franchise','TypeOfLine']);
     this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));  
     this.createForm();
    // this.setOptions(); 

@@ -8,13 +8,13 @@
     </div>
 
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
-      <div class="matsidenav-filter" style="height:380px;">
+      <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
             <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
               (keyup)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput #starttelno maxlength="11"
-              placeholder="Start Telephone No" autocomplete="off">
+              placeholder="Start Telephone No" >
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
@@ -38,8 +38,6 @@
             </mat-error>
           </mat-form-field>
 
-
-
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source</mat-label>
             <input formControlName="Source" type="text" placeholder="Search Source" matInput
@@ -53,7 +51,6 @@
             </mat-autocomplete>
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
-
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
@@ -90,7 +87,7 @@
             <!-- </mat-select> -->
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
             <mat-label>Date Range</mat-label>
             <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
               <input readonly formControlName="FromDate" matStartDate placeholder="From ">
@@ -116,17 +113,11 @@
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
-
-
           <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
             <mat-label>999 Reference</mat-label>
             <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
 
           </mat-form-field>
-
-
-
-
 
         </ng-container>
       </div>
@@ -137,9 +128,6 @@
         </button>
         <button type="button" mat-raised-button color="primary" (click)="resetForm()">
           <mat-icon>refresh</mat-icon>Reset
-        </button>
-        <button type="button" mat-raised-button color="primary" (click)="DisplayInformationTab()">
-          <mat-icon>information</mat-icon> Information
         </button>
       </div>
 
@@ -164,6 +152,9 @@
 
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+           
+              <mat-icon class="info"  matTooltip="Information" (click)="DisplayInformationTab()">information</mat-icon>
+            
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)">
             </app-table-selection>
@@ -182,7 +173,7 @@
                         <mat-icon>arrow_drop_down</mat-icon>
                       </span>
                       <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                        <ng-container *ngIf="configDetails  as con">
+                        <ng-container *ngIf="updateDetails  as con">
                           <mat-option *ngFor="let val of con.ResolutionType | splitBy: ',' | ddlFilter: resol.value"
                             [value]="val">{{val}}</mat-option>
                         </ng-container>
@@ -216,8 +207,8 @@
                         </div>
                       </mat-error>
                     </mat-form-field>
-                    <!-- (!f.StartTelephoneNumber.value && !f.EndTelephoneNumber.value) -->
-                    <button [disabled]="!(selectedGridRows.length > 0)" type="submit" mat-raised-button
+                  
+                    <button [disabled]="!(selectedGridRows.length>0)" type="submit" mat-raised-button
                       color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
