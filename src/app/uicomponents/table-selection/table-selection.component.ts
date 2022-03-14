@@ -318,4 +318,15 @@ export class TableSelectionComponent implements OnDestroy {
   ngOnDestroy() {
     this.onDestroy.next();
   }
+
+  copyToClipboard() {
+    let data = "";
+    this.selection.selected.forEach((row:any)=>{
+      let result = Object.values(row);
+      data += result.toString().replace(/[,]+/g,'\t') + "\n";
+    });
+    return data;
+
+  }
+
 }
