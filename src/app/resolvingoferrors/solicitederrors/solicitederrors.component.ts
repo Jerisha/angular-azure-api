@@ -15,9 +15,6 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 // import { ConsoleReporter } from 'jasmine';
-
-
-
 const ELEMENT_DATA: any = [
   {
     TranId: '1014591106', View: 'image', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
@@ -134,7 +131,6 @@ const FilterListItems: Select[] = [
   { view: 'Order Reference', viewValue: 'OrderReference', default: true }
 ];
 
-
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
@@ -176,6 +172,7 @@ export class SolicitederrorsComponent implements OnInit {
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
+  currentPage: string = '1';
   updateDetails!:any;
 
   ngOnInit(): void {
@@ -211,9 +208,9 @@ export class SolicitederrorsComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  prepareQueryParams(): any {
+  prepareQueryParams(pageNo: string): any {
     let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] }];
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
     //Reference
     const control = this.thisForm.get('Reference');
     if (control?.value)
@@ -311,24 +308,28 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
   ];
 
-  onFormSubmit(): void {
-    val: Boolean
+
+  getNextSetRecords(pageIndex: any) {
     debugger;
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
+
+  onFormSubmit(isEmitted?: boolean): void {
+    debugger;
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
-      // let result = { datasource: res[0].SolicitedError,
-      //    totalrecordcount: res[0].TotalCount,
-      //    totalpages: res[0].NumberOfPages
-      //   }
-      //   return result;
-      //console.log("onFormSubmit" + JSON.stringify(res) + "length" + res.length);
-
-      if (Object.keys(res).length) return res[0].SolicitedError
-      else return res
-      
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].SolicitedError,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return res;
     }));
-    // this.createSaveForm();
-
 
     this.myTable = {
       data: this.queryResult$,
@@ -336,6 +337,8 @@ export class SolicitederrorsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
+      highlightedCells: ['TelephoneNumber'],
+      removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
