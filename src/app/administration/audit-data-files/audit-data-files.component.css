@@ -10,6 +10,7 @@
 .center {
     margin: auto;
     width: 80%;
+    overflow-y: hidden;
    /* // border: 3px solid green; */
     padding: 10px;
     /* height:450px */

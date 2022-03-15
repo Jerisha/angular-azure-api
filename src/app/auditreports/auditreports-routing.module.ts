@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
 import { AuditdiscrepancyreportComponent, AuditexcelreportsComponent, FullauditdetailsComponent } from './index';
 const routes: Routes = [
   {
@@ -8,6 +9,7 @@ const routes: Routes = [
   },
   { path: 'auditexcelreport', component: AuditexcelreportsComponent },
   { path: 'fullauditdetails', component: FullauditdetailsComponent },
+  { path: 'externalauditdetails', component: ExternalAuditDetailsComponent },
 ];
 
 @NgModule({

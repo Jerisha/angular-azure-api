@@ -28,10 +28,11 @@ import { AuditDataFilesComponent } from './administration/audit-data-files/audit
 import { AddressCheckComponent } from './transactions/address-check/address-check.component';
 import { AdministrationModule } from './administration/administration.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    MenuSearchPipe         
+    MenuSearchPipe             
   ],
   imports: [
     BrowserModule,

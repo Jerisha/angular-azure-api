@@ -42,6 +42,11 @@
         "displayName": "Audit Discrepancy Report",
         "iconName": "",
         "route": "auditreports/auditdiscrepancyreport"
+      },
+      {
+        "displayName": "External Audit Details",
+        "iconName": "",
+        "route": "auditreports/externalauditdetails"
       }
     ]
   },

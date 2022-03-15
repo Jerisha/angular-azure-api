@@ -62,7 +62,10 @@ export class AuditDataFilesComponent implements OnInit {
           name: 'BT Audit File Details'
         });
         this.btAuditFileDetailsTable = {
-          data: of(ELEMENT_DATA),
+          data: of({datasource:ELEMENT_DATA,
+            totalrecordcount: 100,
+            totalpages:1,
+            pagenumber:1}),
           Columns: this.btAuditFileDetailsTableDetails,
           selectCheckbox: true,
           imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]
@@ -76,7 +79,10 @@ export class AuditDataFilesComponent implements OnInit {
           name: 'Data - Live in Switch Only'
         });
         this.btAuditFileDetailsTable = {
-          data: of(ELEMENT_DATA),
+           data: of({datasource:ELEMENT_DATA,
+            totalrecordcount: 100,
+            totalpages:1,
+            pagenumber:1}),
           Columns: this.btAuditFileDetailsTableDetails,
           selectCheckbox: true,
           imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]

@@ -13,6 +13,7 @@ import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscr
 import { SharedModule } from '../_shared/shared.module';
 import { HelperModule } from '../_helper/helper.module';
 import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';
+import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
 
 
 @NgModule({
@@ -23,12 +24,12 @@ import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-di
     FullAuditTypeComponent,
     ExternalAuditTypeComponent,
     SeperateInternalAuditTypeComponent,
-    UserCommentsDialogComponent
+    UserCommentsDialogComponent,
+    ExternalAuditDetailsComponent
   ],
   imports: [
     CommonModule,
-    AuditreportsRoutingModule,
-    
+    AuditreportsRoutingModule,    
     UicomponentsModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     FormsModule,
