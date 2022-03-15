@@ -14,7 +14,37 @@ export interface TableItem {
     totalRowCols?:string[];
     showTotal?:boolean;   
     
+
 }
+
+
+
+export interface TableItemExpansion {
+    data: any;
+    childData?:string;
+    Columns?: ColumnDetails[];
+    filter?: boolean;
+    selectCheckbox?: boolean;
+    imgConfig?: ViewColumn[];
+    colToHighlight?: string[];
+    colToHighlightInnerText?: string[];
+    selectionColumn?:string;
+    isEmailRequired?:boolean;
+    showEmail?:boolean;
+    showBlankCoulmns?:boolean;
+    highlightedCells?:string[];
+    backhighlightedCells?:string[];
+    totalRowCols?:string[];
+    shouldTotalRow?:boolean; 
+    
+}
+
+
+
+
+
+
+
 
 export interface ViewColumn {
     headerValue: string;

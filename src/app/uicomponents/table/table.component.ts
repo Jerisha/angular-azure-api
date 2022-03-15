@@ -78,9 +78,10 @@ export class TableComponent implements OnInit {
     //console.log(table);
 
   }
-  addTabs(event: any, tabType: number) {
+  addTabs(event: any, tabType: number, row: any) {
+    console.log('inside table component',event);
     event.stopPropagation();
-    this.addNewTab.emit({ tabType });
+    this.addNewTab.emit({ tabType,row });
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);

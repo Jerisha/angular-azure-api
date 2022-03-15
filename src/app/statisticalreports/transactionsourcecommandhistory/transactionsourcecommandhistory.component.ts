@@ -1,15 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ContentChild, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Transactionsourcecommandhistory, Link } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { selectmonth } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expNumeric, expString } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { statisticalreport } from '../services/statisticalreports.service';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Utils } from 'src/app/_http';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { NgxSpinnerService } from "ngx-spinner";
+import { ConfigDetails } from 'src/app/_http/models/config-details';
+import { formatDate } from '@angular/common';
+import { Select } from 'src/app/uicomponents/models/select';
 
 
 
@@ -79,6 +85,11 @@ const ELEMENT_DATA: Transactionsourcecommandhistory[] =
     },
 
   ]
+  const Itemstwo: Select[] = [
+    { view: 'StatisticMonth.', viewValue: 'StatisticMonth', default: true },
+    { view: 'Source.', viewValue: 'Source', default: true }
+
+]
 
 @Component({
   selector: 'app-transactionsourcecommandhistory',
@@ -108,14 +119,27 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   myTable!: TableItem;
   myTableChild!: TableItem;
   selectListItems: string[] = [];
-  expDefaultmonth = selectmonth.defaultmonth;
+  // expDefaultmonth = selectmonth.defaultmonth;
   // expDefaultsrc = selectsrc.defaultsrc;
+  expressions:any = [expNumeric,expString,expDate];
+  expOperators:string [] =[
+    "StatisticMonthOperator",
+    "SourceOperator",
+    ];
+    expOperatorsKeyPair:[string,string][] =[];
   filter?: boolean = false;
   thisForm!: FormGroup;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   ctrl = new FormControl(true);
   isChecked?: boolean = false;
+  configDetails!: any;
+  StatisticDate?:any;
+  Source?:any;
+  telNo?: any;
+  tranId?: any;
+  repIdentifier = "TransactionSummary";
+
 
   @ViewChild(MatTabGroup) tabGroup !: MatTabGroup;
 
@@ -123,14 +147,14 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     [
       // { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
       { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
-      { header: 'StatisticMonth', headerValue: 'StatisticMonth', showDefault: false, isImage: false },
+      { header: 'StatisticMonth', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: false, isImage: false },
-      { header: 'CeaseTransactions', headerValue: 'CeaseTransactions', showDefault: false, isImage: false },
-      { header: 'ModifiyTransactions', headerValue: 'ModifiyTransactions', showDefault: false, isImage: false },
-      { header: 'ExportTransactions', headerValue: 'ExportTransactions', showDefault: false, isImage: false },
-      { header: 'ImportTransactions', headerValue: 'ImportTransactions', showDefault: false, isImage: false },
-      { header: 'TotalTransactions', headerValue: 'TotalTransactions', showDefault: false, isImage: false }
+      { header: 'AddCommands', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'ModifyCommands', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
   columnsChild: ColumnDetails[] =
@@ -138,12 +162,12 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
       { header: 'StatisticDate', headerValue: 'StatisticDate', showDefault: false, isImage: false },
       { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: false, isImage: false },
-      { header: 'CeaseTransactions', headerValue: 'CeaseTransactions', showDefault: false, isImage: false },
-      { header: 'ModifiyTransactions', headerValue: 'ModifiyTransactions', showDefault: false, isImage: false },
-      { header: 'ExportTransactions', headerValue: 'ExportTransactions', showDefault: false, isImage: false },
-      { header: 'ImportTransactions', headerValue: 'ImportTransactions', showDefault: false, isImage: false },
-      { header: 'TotalTransactions', headerValue: 'TotalTransactions', showDefault: false, isImage: false }
+      { header: 'ActivateTransactions', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'CeaseTransactions', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'ModifyTransactions', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'ExportTransactions', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'ImportTransactions', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'TotalTransactions', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
 
@@ -157,19 +181,12 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
   text: string | undefined;
 
-  constructor(private formBuilder: FormBuilder, private service: statisticalreport) { }
-  // constructor(private fb: FormBuilder) {
-  //   this.form = this.fb.group({
-  //     enable: false,
-  //     text: [
-  //       {
-  //         value: null,
-  //         disabled: true,
-  //       },
-  //     ],
-  //   });
-  //   this.updateText();
-  // }
+  constructor(private formBuilder: FormBuilder,
+    private service: statisticalreport,
+    private cdr: ChangeDetectorRef,
+    private _snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService) { }
+ 
   private updateText() {
     this.text = this.form.value.enable ? "Asterisk OK" : "Should not show the asterisk";
   }
@@ -193,344 +210,53 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.selectedTab = 0;
   }
 
-
-  ELEMENT_DATA_test_response: any = {
-    "QueryObjectResponse": {
-      "QueryObjectResponseType": {
-        "ListofQueryObjectCategory": {
-          "QueryObjectCategory": [{
-            "ItemName": "TransactionSummary",
-            "ListofIdentifiers": {
-              "Identifier": [{
-                "Name": "ReportIdentifier",
-                "Value": ["MonthOnMonth"]
-              }]
-            },
-            "ListofAttributes": {
-              "Attribute": [{
-                "Name": "TotalCount",
-                "Value": ["2"]
-              }, {
-                "Name": "NumberOfPages",
-                "Value": ["1"]
-              }, {
-                "Name": "PageNumber",
-                "Value": ["1"]
-              }]
-            },
-            "ListofQueryObjectCharacteristics": {
-              "QueryObjectCharacteristics": [{
-                "ItemName": "MonthlyData",
-                "ListofIdentifiers": {
-                  "Identifier": [{
-                    "Name": "Month",
-                    "Value": ["Feb-2022"]
-                  }]
-                },
-                "ListofCharacteristics": {
-                  "Characteristic": [{
-                    "ItemName": "Sources",
-                    "ListofIdentifiers": {
-                      "Identifier": [{
-                        "Name": "Source",
-                        "Value": ["SASCOMS"]
-                      }]
-                    },
-                    "ListofAttributes": {
-                      "Attribute": [{
-                        "Name": "ActivateTransactions",
-                        "Value": ["2"]
-                      }, {
-                        "Name": "CeaseTransactions",
-                        "Value": ["2"]
-                      }, {
-                        "Name": "ModifyTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "ExportTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "ImportTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "TotalTransactions",
-                        "Value": ["4"]
-                      }]
-                    },
-                    "ListofQualities": {
-                      "Quality": [{
-                        "ItemName": "Dates",
-                        "ListofIdentifiers": {
-                          "Identifier": [{
-                            "Name": "Date",
-                            "Value": ["01-Feb-2022"]
-                          }]
-                        },
-                        "ListofAttributes": {
-                          "Attribute": [{
-                            "Name": "ActivateTransactions",
-                            "Value": ["1"]
-                          }, {
-                            "Name": "CeaseTransactions",
-                            "Value": ["1"]
-                          }, {
-                            "Name": "ModifyTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ExportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ImportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "TotalTransactions",
-                            "Value": ["2"]
-                          }]
-                        }
-                      }, {
-                        "ItemName": "Dates",
-                        "ListofIdentifiers": {
-                          "Identifier": [{
-                            "Name": "Date",
-                            "Value": ["02-Feb-2022"]
-                          }]
-                        },
-                        "ListofAttributes": {
-                          "Attribute": [{
-                            "Name": "ActivateTransactions",
-                            "Value": ["1"]
-                          }, {
-                            "Name": "CeaseTransactions",
-                            "Value": ["1"]
-                          }, {
-                            "Name": "ModifyTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ExportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ImportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "TotalTransactions",
-                            "Value": ["2"]
-                          }]
-                        }
-                      }]
-                    }
-                  }, {
-                    "ItemName": "Sources",
-                    "ListofIdentifiers": {
-                      "Identifier": [{
-                        "Name": "Source",
-                        "Value": ["Siebel"]
-                      }]
-                    },
-                    "ListofAttributes": {
-                      "Attribute": [{
-                        "Name": "ActivateTransactions",
-                        "Value": ["2"]
-                      }, {
-                        "Name": "CeaseTransactions",
-                        "Value": ["2"]
-                      }, {
-                        "Name": "ModifyTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "ExportTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "ImportTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "TotalTransactions",
-                        "Value": ["4"]
-                      }]
-                    },
-                    "ListofQualities": {
-                      "Quality": [{
-                        "ItemName": "Dates",
-                        "ListofIdentifiers": {
-                          "Identifier": [{
-                            "Name": "Date",
-                            "Value": ["01-Feb-2022"]
-                          }]
-                        },
-                        "ListofAttributes": {
-                          "Attribute": [{
-                            "Name": "ActivateTransactions",
-                            "Value": ["1"]
-                          }, {
-                            "Name": "CeaseTransactions",
-                            "Value": ["1"]
-                          }, {
-                            "Name": "ModifyTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ExportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ImportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "TotalTransactions",
-                            "Value": ["2"]
-                          }]
-                        }
-                      }, {
-                        "ItemName": "Dates",
-                        "ListofIdentifiers": {
-                          "Identifier": [{
-                            "Name": "Date",
-                            "Value": ["02-Feb-2022"]
-                          }]
-                        },
-                        "ListofAttributes": {
-                          "Attribute": [{
-                            "Name": "ActivateTransactions",
-                            "Value": ["1"]
-                          }, {
-                            "Name": "CeaseTransactions",
-                            "Value": ["1"]
-                          }, {
-                            "Name": "ModifyTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ExportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ImportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "TotalTransactions",
-                            "Value": ["2"]
-                          }]
-                        }
-                      }]
-                    }
-                  }]
-                }
-              }, {
-                "ItemName": "MonthlyData",
-                "ListofIdentifiers": {
-                  "Identifier": [{
-                    "Name": "Month",
-                    "Value": ["Jan-2022"]
-                  }]
-                },
-                "ListofCharacteristics": {
-                  "Characteristic": [{
-                    "ItemName": "Sources",
-                    "ListofIdentifiers": {
-                      "Identifier": [{
-                        "Name": "Source",
-                        "Value": ["Siebel"]
-                      }]
-                    },
-                    "ListofAttributes": {
-                      "Attribute": [{
-                        "Name": "ActivateTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "CeaseTransactions",
-                        "Value": ["1"]
-                      }, {
-                        "Name": "ModifyTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "ExportTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "ImportTransactions",
-                        "Value": ["0"]
-                      }, {
-                        "Name": "TotalTransactions",
-                        "Value": ["1"]
-                      }]
-                    },
-                    "ListofQualities": {
-                      "Quality": [{
-                        "ItemName": "Dates",
-                        "ListofIdentifiers": {
-                          "Identifier": [{
-                            "Name": "Date",
-                            "Value": ["01-Feb-2022"]
-                          }]
-                        },
-                        "ListofAttributes": {
-                          "Attribute": [{
-                            "Name": "ActivateTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "CeaseTransactions",
-                            "Value": ["1"]
-                          }, {
-                            "Name": "ModifyTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ExportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "ImportTransactions",
-                            "Value": ["0"]
-                          }, {
-                            "Name": "TotalTransactions",
-                            "Value": ["1"]
-                          }]
-                        }
-                      }]
-                    }
-                  }]
-                }
-              }]
-            }
-          }, {
-            "ItemName": "Update",
-            "ListofAttributes": {
-              "Attribute": [{
-                "Name": "StatusCode",
-                "Value": ["EUI000"]
-              }, {
-                "Name": "StatusMessage",
-                "Value": ["Success"]
-              }, {
-                "Name": "MessageType",
-                "Value": ["Informational"]
-              }]
-            }
-          }]
-        }
-      }
-    }
-  }
+  queryResult$!: Observable<any>;
+  queryResultMonthly$!: Observable<any>;
+  configResult$!: Observable<any>;
+  updateResult$!: Observable<any>;
   ngOnInit(): void {
     this.createForm();
     console.log('worked');
-    // this.service.processQuery(this.ELEMENT_DATA_test_response,"post");
-
-    let request = Utils.prepareQueryRequest('TransactionSummary', 'MonthOnMonth', [{
-      "Name": "PageNumber",
-      "Value": ["1"]
-    }])
-    this.service.queryDetails(request).subscribe(res =>
-
-      console.log('transition', res));
+    let request = Utils.prepareConfigRequest(['Search'],[ 'Source']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      console.log("config details: " + JSON.stringify(res))
+      this.configDetails = res[0];
+    });
+    
 
   }
 
-  onFormSubmit(): void {
 
+  onFormSubmit(): void {
+    let request = Utils.prepareQueryRequest('DayToDay','TransactionSummary', this.prepareQueryParams());
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].DatewiseData));
+    let testresult:any[]=[];
+ 
+   this.queryResult$.subscribe(res =>(
+     console.log('one one two',res)
+   ));
+
+   let requesttwo = Utils.prepareQueryRequest('MonthOnMonth','TransactionSummary', this.prepareQueryParams());
+   this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) => res[0].MonthlyData));
+  
+
+  this.queryResultMonthly$.subscribe(res =>(
+    console.log('one one two',res)
+  ));
+
+  
     this.myTable = {
-      data: ELEMENT_DATA,
+      data: this.queryResultMonthly$,
       childData: 'Link',
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      selectionColumn: 'Links',
-      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', tabIndex: 1 }],
+      selectionColumn: 'Link',
+      imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1 }],
     }
     this.myTableChild = {
-      data: ELEMENT_DATA_CHILD,
+    data: this.queryResult$,
+     
       Columns: this.columnsChild,
       filter: true,
       //selectCheckbox: true,
@@ -551,14 +277,89 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     // this.selectedTab = this.tabs.length;
     this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 0);
   }
+  
+  get f() {
+    return this.thisForm.controls;
+  }
+  prepareQueryParams(): any {
+    debugger
+   // const Source = this.thisForm.get('Source');
+    let attributes: any = [
+      { Name: 'PageNumber', Value: ['1'] }
+      // {Name: 'Source', Value: [Source]}
+    ];
+    for (const field in this.f) {
+      const control = this.thisForm.get(field);
+      if (control?.value&&field != 'StatisticMonth')
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
 
+
+
+          let operator:string = field+"Operator";
+            
+          console.log("op vals",this.expOperatorsKeyPair);
+          
+          //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
+          //  console.log("op ",operatorVal);
+           if (this.expOperatorsKeyPair.length !=0 )
+           {    
+            let expvals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator));          
+             if(expvals.length !=0)
+                {
+                  attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                }
+                else
+                {
+                  if(field=='Source'||field=='StatisticMonth')
+                  {
+                      attributes.push({ Name: operator, Value: ['Equal To'] }); 
+                  }
+                else
+                  {
+                      attributes.push({ Name: operator, Value: ['Equal To'] });  
+                  }
+                }
+           }  
+           else{
+            if(field=='Source'||field=='StatisticMonth')
+            {
+                 attributes.push({ Name: operator, Value: ['Equal To'] }); 
+            }
+           else
+            {
+                attributes.push({ Name: operator, Value: ['Equal To'] });  
+            }
+           
+           }
+    }
+      
+
+    console.log('attributes',attributes);
+
+    return attributes;
+
+  }
+  getTupleValue(element:[string,string],keyvalue:string)
+{
+  if (element[0]==keyvalue)
+  {  return element[1];}
+  else 
+    return "";
+ 
+}
+  splitData(data: string | undefined): string[] {
+    return data ? data.split(',') : [];
+  }
   createForm() {
     this.thisForm = this.formBuilder.group({
       StatisticMonth: new FormControl({ value: '' }),
-      Source: new FormControl({ value: '' }),
+      Source: new FormControl({ value: '', disabled: false }, []),
 
     })
-
+    this.expOperatorsKeyPair.push(["StatisticMonthOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
   }
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
@@ -570,7 +371,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       }
     });
   }
-
+  
   rowDetect(item: any) {
     //debugger;
     if (item.length == 0) {
@@ -589,7 +390,23 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       });
     }
   }
-
+  OnOperatorClicked(val:[string,string])
+  {
+    // if (event.target.value !="")
+     console.log("operators event","value " ,val );
+    let vals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,val[0]));
+    console.log("operators event1","vals " ,vals );
+    if(vals.length==0)
+    {
+    this.expOperatorsKeyPair.push(val);
+    console.log("if part",this.expOperatorsKeyPair);
+    }
+    else{
+      this.expOperatorsKeyPair=this.expOperatorsKeyPair.filter((i)=>i[0]!=val[0]);
+      this.expOperatorsKeyPair.push(val);
+      console.log("else part",this.expOperatorsKeyPair);
+    }
+  }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
@@ -599,7 +416,9 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   }
   // search(): void { };
   // onFormSubmit(): void { }
-  resetForm(): void { }
+  resetForm(): void { 
+    this.tabs.splice(0);
+  }
 
   // resetForm(): void {
   //   this._snackBar.open('Reset Form Completed!', 'Close', {
@@ -611,8 +430,16 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
 
   newTab(tab: any) {
+    console.log('tab details date wise',tab);
     switch (tab.tabType) {
       case 1: {
+        debugger
+        this.StatisticDate=tab.row.StatisticDate;
+        this.Source=tab.row.Source;
+        console.log('static date',this.StatisticDate);
+        console.log('source',this.Source);
+       /// this.telNo = tab.row.TelephoneNumber;
+    
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
         if (!this.tabs.find(x => x.tabType == 1)) {
@@ -646,7 +473,10 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   }
 
   OnTelephoneDetailSelected(tab: any) {
-    console.log('outside event');
+    console.log('tab details monthly',tab);
+    this.StatisticDate=tab.tab.row.Date;
+        this.Source=tab.tab.row.Source;
+    //console.log(tab.tab.row.Date);
     if (!this.tabs?.find(x => x.tabType == 1)) {
       this.tabs.push({
         tabType: 1,
@@ -658,7 +488,11 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
 
   }
+ 
   OndayTodayselected(tab: any) {
+  console.log('expansion tab',tab);
+    this.StatisticDate=tab.row.StatisticDate;
+        this.Source=tab.row.Source;
     if (!this.tabs?.find(x => x.tabType == 1)) {
       this.tabs.push({
         tabType: 1,
@@ -672,7 +506,10 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   }
 
   Onauditselected(tab: any) {
-
+    console.log('tab details for audit trail',tab);
+     this.telNo = tab.tab.row.TelephoneNo;
+     //this.telNo = "123456789";
+    // this.tranId = tab.row.TransactionId;
     if (!this.tabs?.find(x => x.tabType == 2)) {
       this.tabs.push({
         tabType: 2,

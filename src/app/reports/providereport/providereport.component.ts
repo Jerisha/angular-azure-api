@@ -10,7 +10,6 @@ import { ProvideReport } from 'src/app/reports/models/provide-report';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { select, selectcupid, selectlist } from 'src/app/_helper/Constants/exp-const';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { ReportService } from '../services/report.service';
 import { Utils } from 'src/app/_http/index';

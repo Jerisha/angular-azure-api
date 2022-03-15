@@ -75,7 +75,7 @@
           <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
           <td mat-cell *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)">
             {{element[disCol.headerValue]}} </td>
-          <ng-container *ngIf="showTotalRow">
+          <ng-container *ngIf="shouldTotalRow">
             <td class="totalRow" mat-footer-cell *matFooterCellDef="let element"> {{ getTotal(disCol.headerValue)}}
             </td>
           </ng-container>
@@ -98,7 +98,7 @@
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
       <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" *matRowDef="let row; columns: dataColumns;"
         (change)="selectRow($event,row)"> </tr>
-      <ng-container *ngIf="showTotalRow">
+      <ng-container *ngIf="shouldTotalRow">
         <tr mat-footer-row *matFooterRowDef="dataColumns"></tr>
 
       </ng-container>
