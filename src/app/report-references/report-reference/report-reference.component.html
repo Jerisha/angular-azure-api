@@ -3,13 +3,12 @@
     <div class="left-box" *ngIf=showDataform>
       <ng-container>
           <div class="vf-flex-container">  
-              <mat-card class="mat-elevation-z8" style="min-width:90%;min-height: 490px;"> 
+              <mat-card class="vf-card mat-elevation-z8"> 
                   <ng-container > 
-                    <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()" >
-                      <!-- <mat-card-title class ="dataform-title">{{title}}</mat-card-title>         -->
+                    <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()" >                      
                       <mat-card-content >
-                            <div class="vf-flex-container-col"  style="align-items: center;max-height:450px;flex-wrap: wrap;">
-                                  <div class="vf-flex-container-col" *ngFor="let formData of lstForm" [ngSwitch]="true"  style=" align-items: center;max-height:430px;flex-wrap: wrap;">
+                            <div class="content-main vf-flex-container-col">
+                                  <div class="content-submain vf-flex-container-col" *ngFor="let formData of lstForm" [ngSwitch]="true">
                                     <div *ngSwitchCase="formData.cType === 'text'">     
                                           <mat-form-field>
                                               <mat-label >{{formData.cDisplayName}}</mat-label>
@@ -43,24 +42,19 @@
                                   </div>
                                   <div class ="fixed-button-bar">   
                                       <mat-card-actions>
-                                          <button  *ngIf = "recordId==0" type="submit" mat-raised-button style=" background-color: #4a4d4e;color: white;"  matTooltip="Click this button currently showning  details will be create new Record"  >
+                                          <button  *ngIf = "recordId==0" type="submit" mat-raised-button class ="btn-color" [disabled] ="referenceForm.status!='VAILD'"  matTooltip="Click this button currently showning  details will be create new Record"  >
                                               <mat-icon >add_box</mat-icon>Submit
                                               </button>
-                                              <button  *ngIf = "recordId!=0" type="submit" mat-raised-button style=" background-color: #4a4d4e;color: white;"  matTooltip="Click this button currently showning details will be Update"  >
+                                              <button  *ngIf = "recordId!=0" type="submit" mat-raised-buttonclass ="btn-color" [disabled] ="referenceForm.status!='VAILD'" matTooltip="Click this button currently showning details will be Update"  >
                                                   <mat-icon >edit</mat-icon>Update
                                               </button>
-                                              <button type="button" mat-raised-button  (click)=onCancelDataForm() style=" background-color: #4a4d4e;color: white; " matTooltip="Click this button will clear or cancel the shown details" >
+                                              <button type="button" mat-raised-button  (click)=onCancelDataForm() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
                                               <mat-icon >cancel</mat-icon>Cancel
                                               </button> 
                                       </mat-card-actions>                  
                                   </div>  
                               </div> 
-                      </mat-card-content>
-                      <mat-card-footer>
-                          <!-- <mat-toolbar style="background-color: grey;color:white">Record updated...!</mat-toolbar> -->
-                          <!-- <mat-toolbar style="background-color: #e60000;color:white;height: 20px;font-size: small;">{{recordStatus}}</mat-toolbar> -->
-                          <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
-                        </mat-card-footer>
+                      </mat-card-content>                     
                       </form> 
                   </ng-container>
               </mat-card>
@@ -70,13 +64,13 @@
     <div class="right-box" *ngIf="showDetailsForm" > 
       <ng-container>  
         <div style="height: 455px;" >
-          <table mat-table [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8" >
+          <table mat-table [dataSource]="data" multiTemplateDataRows class="mat-elevation-z8 detail-table" >
             <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol}}">        
-              <div *ngIf ="disCol=='actions'">
+              <div *ngIf ="disCol=='Actions'">
                   <th mat-header-cell *matHeaderCellDef class ="table-header" >Actions</th>
                     <td mat-cell *matCellDef="let element" class ="table-coloumn"> 
                       <ng-container>
-                        <mat-icon  (click)="onEditRecord(element)" >launch</mat-icon>
+                        <mat-icon  (click)="onEditRecord(element,$event)" >launch</mat-icon>
                         <mat-icon  (click)="onDeleteRecord(element)" style="color:#e60000">delete_outline</mat-icon> 
                       </ng-container>
                     </td>
@@ -87,29 +81,20 @@
               </div>
             </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"  class ="table-row"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;" class ="table-row"></tr>
-            
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" class ="table-row"></tr>            
           </table>
-          <div style ="margin-top: 6px;">
+          <div style ="margin-top: 6px;">            
             <span>
-            <span><button  type="button" (click)=onCreateRecord() mat-raised-button style=" background-color: #4a4d4e;color: white; margin-right: 6px;"  matTooltip="Click this button, open create new Record Option"  >
-              <mat-icon >add_box</mat-icon>Create
-              </button>
-              <button  type="button" (click)=onExport() mat-raised-button style=" background-color: #4a4d4e;color: white; margin-right: 6px;"  matTooltip="Click this button currently showning details will be Export"  >
-                  <mat-icon >file_download</mat-icon>Export
-              </button>
-              <button type="button" (click) = onRefreshDetailPane() mat-raised-button style=" background-color: #4a4d4e;color: white; margin-right: 6px;"  matTooltip="Click this button,Refresh the detail Pane"  >
-                <mat-icon >refresh</mat-icon>Refresh
-            </button>
-            </span>
-            <span style="float:right;height: 20px; display:none">
-              <mat-paginator [length]="100"
-                [pageSize]="10"
-                [pageSizeOptions]="[5, 10, 25, 100]"
-                aria-label="Select page" >
-              </mat-paginator>
-            </span>
-            </span>                                  
+                <button  type="button" (click)=onCreateRecord() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button, open create new Record Option"  >
+                <mat-icon >add_box</mat-icon>Create
+                </button>
+                <button  type="button" (click)=onExport() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button currently showning details will be Export"  >
+                    <mat-icon >file_download</mat-icon>Export
+                </button>
+                <button type="button" (click)=onRefreshDetailPane() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button,Refresh the detail Pane"  >
+                  <mat-icon >refresh</mat-icon>Refresh
+                </button>
+            </span>                              
           </div>
         </div>  
       </ng-container>                         

@@ -12,5 +12,6 @@
     cDisplayOnOff:boolean;
     cReadOnly:boolean;
     cMaxLength:number;
+    cMandate:boolean;
     cList:IDropdown[];
   }

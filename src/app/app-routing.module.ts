@@ -40,13 +40,19 @@ const routes: Routes = [
     path: 'shared',
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
 
+  },  
+  {
+      path: 'report-references',
+      loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
+      
+      
   },
   {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
   }
-    
+  
 
 ];
 

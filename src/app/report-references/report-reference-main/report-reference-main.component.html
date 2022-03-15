@@ -5,8 +5,10 @@
           <button *ngIf=1 style="color:black" matSuffix mat-icon-button >
           <mat-icon style="font-size: large;">close</mat-icon>
           </button>
-      </ng-template>  
-  <app-report-reference [reportName]="reportNames[0]"></app-report-reference>
+      </ng-template> 
+      <!-- <ng-template #tpl>  -->
+      <app-report-reference [reportName]="reportName"></app-report-reference>
+<!-- </ng-template> -->
 </mat-tab>
 </mat-tab-group> 
 
