@@ -4,7 +4,7 @@ import { MatSelect } from '@angular/material/select';
 import { Observable, of } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import { ResolvingOfErrorsService } from '../services/resolving-of-errors.servic
 import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import  {CustomValidators}  from 'src/app/_helper/Validators/requireMatch'
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -268,13 +269,21 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
     if (this.selectedGridRows.length > 0) {
       if (this.selectedGridRows.length > 0) {
+        let TelephoneNo :string[]=[];
         let transId: string[] = [];
-        this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
-        identifiers.push({ Name: 'TransactionReference', Value: transId });
+        this.selectedGridRows?.forEach(x => { 
+          transId.push(x.TransactionReference);
+          TelephoneNo.push(x.TelephoneNumber);
+         })
+        identifiers.push({ Name: 'TransactionReference', Value: transId },
+        { Name: 'TelephoneNumberStart', Value: TelephoneNo }
+        );
         //identifiers.push({ Name: 'TelePhoneNumber', Value: transId });
       }
       else
-        identifiers.push({ Name: 'TransactionReference', Value: [""] });
+        identifiers.push({ Name: 'TransactionReference', Value: [""] },
+        { Name: 'TelephoneNumberStart', Value:[""] }
+        );
     }
     //  else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
 
@@ -330,6 +339,16 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   }
 
+  private requireMatch(control: FormControl ): ValidationErrors | null {
+    const selection: any = control.value;
+    this.configDetails
+    // if (options && options.indexOf(selection) < 0) {
+    //   return { requireMatch: true };
+    // }
+    return null;
+  } 
+
+
 
   createForm() {
 
@@ -346,10 +365,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         FromDate: new FormControl(),
         ToDate: new FormControl(), disabled: true
       })
-
-
     })
-
   }
 
 
