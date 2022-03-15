@@ -49,7 +49,7 @@
 
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
-            <input formControlName="Command" type="text" placeholder="Search Command" matInput
+            <input  formControlName="Command" type="text" placeholder="Search Command" matInput
               [matAutocomplete]="autoCommand" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
@@ -213,8 +213,8 @@
 
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
-              (addNewTab)="newTab($event)">
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
+              (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
             </app-table-selection>
             <form (ngSubmit)="onSaveSubmit()">
               <div class="mat-elevation-z8 side-bottom">

@@ -55,7 +55,8 @@ table td, table th {
 }
 
 .select-submit{
-    border:none;   
+    border:none;  
+  
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 8%;

@@ -1,8 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators,ReactiveFormsModule  } from '@angular/forms';
-import { DataValidator } from '../data.validation';
-import { IFormField,IDropdown } from "../Icontrols";
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
+import { MatTableDataSource } from '@angular/material/table';
+import { IColoumnDef,IDropdown } from "src/app/report-references/IControls";
 import { ReportReferenceService } from '../report-reference.service';
+import { FormBuilder, FormControl, FormGroup, Validators,ReactiveFormsModule  } from '@angular/forms';
 
 @Component({
   selector: 'app-report-reference',
@@ -11,145 +14,133 @@ import { ReportReferenceService } from '../report-reference.service';
 })
 export class ReportReferenceComponent implements OnInit {
 
-  title = 'Status-Reference List';
-  recordId:number=0;
+     
+  recordId:number=0; 
+  dataColumns: any;
+  @Output() rowChanges = new EventEmitter<any>();
+  selectColumn: string = '';
+  selection = new SelectionModel<any>(true, []);
+  @Input() reportName:string='';
+
+  dataObs$!: Observable<any>
+  dataobj!: any;
+  
+  tableitem: any;
+  dataSource: any;
+  edit:any;
+  delete:any;
+  recordStatus:string | undefined;
+  showDataform:boolean =false;
+  showDetailsForm:boolean =true;
+  displayedColumns: string[] = [];
+  data:any;
+  
  
   referenceForm!: FormGroup;
-  lstForm: IFormField[] = [];
+  lstForm: IColoumnDef[] = [];
+  title = this.reportName;
+ 
+  constructor(private cdr: ChangeDetectorRef,
+     private spinner: NgxSpinnerService,
+     private formBuilder: FormBuilder,
+     private service: ReportReferenceService,
+   ) { }
 
-
-constructor(
-  private formBuilder: FormBuilder,
-  private reportReferenceService: ReportReferenceService,
-private cdr: ChangeDetectorRef
-) {}
 ngOnInit(): void {
   this.referenceForm = this.formBuilder.group({});
-  this.setForm();
+  this.lstForm  = this.service.setForm(this.reportName);
+  this.formValidation();
+  console.log('check-coldis',this.service.displayedColumns);
+  this.displayedColumns=this.service.displayedColumns[0][this.reportName];
+  console.log('check-data',this.service.data);
+  this.data =this.service.data[0][this.reportName];
+
 }
+
+formValidation() {
+  //throw new Error('Method not implemented.');
+  const group: any = {};
+for (var field of this.lstForm) {
+  if (field.cType == 'text') {
+    group[field.cName] = new FormControl(field.cValue || '', [
+      
+    ]);
+  }  else if (field.cType == 'select') {
+    group[field.cName] = new FormControl(
+      field.cValue || '',
+      Validators.required
+    );
+  } else if (field.cType == 'radio') {
+    group[field.cName] = new FormControl(false, null);
+  } else if (field.cType == 'date') {
+    group[field.cName] = new FormControl(field.cValue || '', [
+      Validators.required,       
+    ]);
+  }
+}
+return  new FormGroup(group);
+}
+
 ngAfterViewInit() 
   {
     this.cdr.detectChanges();  
   }
 
-  ngAfterViewChecked() {
+ngAfterViewChecked() 
+  {
     this.cdr.detectChanges();
   }
-onSubmit(){
-
-}
 
 reset(){
   this.recordId=0;
   this.referenceForm.reset();
 }
-setForm() {  
-  // Text Box
-  // With Require Field Validation
-  let _processOrder = <IFormField>{
-    label: 'Process Order',
-    fieldName: 'processOrder',
-    fieldType: 'text',
-    fieldValue: 'P99',
-  };
-  this.lstForm.push(_processOrder);
 
-  // Text Box
-  // With Require Field Validation
-  let _statusDescription = <IFormField>{
-    label: 'Status Description',
-    fieldName: 'statusDescription',
-    fieldType: 'text',
-    fieldValue: 'Test Status Description',
-  };
-  this.lstForm.push(_statusDescription);
-  
-  let _Comments = <IFormField>{
-    label: 'Comments',
-    fieldName: 'comments',
-    fieldType: 'text',
-    fieldValue: 'Test Data',
-  };
-  this.lstForm.push(_Comments);
-
-  // let _email = <IFormField>{
-  //   label: 'Email',
-  //   fieldName: 'email',
-  //   fieldType: 'email',
-  //   fieldValue: 'test@test.com',
-  // };
-  // this.lstForm.push(_email);
-  
-  // let _cn = <IFormField>{
-  //   label: 'Phone',
-  //   fieldName: 'phone',
-  //   fieldType: 'text',
-  //   fieldValue: '123-456-7890',
-  // };
-  // this.lstForm.push(_cn);
-  
-  // let _dob = <IFormField>{
-  //   label: 'Date Of Birth',
-  //   fieldName: 'dob',
-  //   fieldType: 'date',
-  //   fieldValue: '',
-  // };
-  // this.lstForm.push(_dob);
-  
-  // let _radio = <IFormField>{
-  //   label: 'Are you married?',
-  //   fieldName: 'marital',
-  //   fieldType: 'radio',
-  //   fieldValue: 'Y',
-  // };
-  // this.lstForm.push(_radio);
-
-  // select-dropdown
-  // custome validation - check date greater than or equal to today date
-  // With fill dynamic dropdown values - (It can be comes from DB/json)
-  // Here we are using a static method to get dropdown value (State List)
-  // let stateList = this.reportReferenceService.getState(); 
-  // let _ddlStateList = <IFormField>{
-  //   label: 'State',
-  //   fieldName: 'state',
-  //   fieldType: 'select',
-  //   fieldValue: '0',
-  //   values: stateList,
-  // };
-  // this.lstForm.push(_ddlStateList);
-
-  // after set form comtrols //set form control validation
-   this.formValidation();
-   this.recordId=1;
+onEditRecord(record:any){
+  alert("start editing...");
+  this.showDataform =true;
+  // this.showDetailsForm=false;
 }
 
-formValidation() {
-  const group: any = {};
-  for (var field of this.lstForm) {
-    if (field.fieldType == 'text') {
-      group[field.fieldName] = new FormControl(field.fieldValue || '', [
-        // Validators.required,
-        // DataValidator.checkIsUserExisting,
-      ]);
-    } else if (field.fieldName.toLowerCase().indexOf('email') > -1) {
-      group[field.fieldName] = new FormControl(field.fieldValue || '', [
-        Validators.required,
-        Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$'),
-      ]);
-    } else if (field.fieldType == 'select') {
-      group[field.fieldName] = new FormControl(
-        field.fieldValue || '',
-        Validators.required
-      );
-    } else if (field.fieldType == 'radio') {
-      group[field.fieldName] = new FormControl(false, null);
-    } else if (field.fieldType == 'date') {
-      group[field.fieldName] = new FormControl(field.fieldValue || '', [
-        Validators.required,
-        DataValidator.dateGreatherEqualToToday,
-      ]);
-    }
+onDeleteRecord(record:any){
+  alert("Delete starts...");
+
+}
+onCreateRecord(){
+  alert("new record starts...");
+  this.showDataform =true;
+  // this.showDetailsForm=false;
+
+}
+onRefreshDetailPane(){
+  alert("Refresh Details Pane starts...");
+
+}
+onExport(){
+  alert("Export starts...");
+
+}
+onSubmit(){
+  alert("Create/Edit Completed..");
+  this.showDataform =false;
+  this.showDetailsForm=true;
+}
+onCancelDataForm(){
+  this.referenceForm.reset();
+  this.showDataform =false;
+  this.showDetailsForm=true; 
+}
+
+selectRow(event: any, row: any) {
+  
+  this.dataSource.data = this.dataSource.data.filter((r: any) => r !== row);
+  if (event.checked) {
+    this.dataSource.data = [row].concat(this.dataSource.data);
   }
-  this.referenceForm = new FormGroup(group);
+  else {
+    this.dataSource.data = this.dataSource.data.concat(row);
+  }
+  this.rowChanges.emit([row[this.selectColumn]]);
 }
 }
+

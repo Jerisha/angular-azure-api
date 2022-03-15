@@ -1,59 +1,118 @@
-<div class="container" style="padding-left:3rem;width:500px; float:left;height: 520px;">
-    <div class="panel panel-default" style="width: 50%;">
-      <div class="panel-heading">  <h2>{{title}}</h2>    </div>
-      <div class="panel-body">
-        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
-          <div class="row">
-            <div class="col-md-12" *ngFor="let formData of lstForm" [ngSwitch]="true">
-              <div class="form-group">
-                <label for="{{formData.fieldName}}">{{formData.label}}</label>
-  
-                <input type="{{formData.fieldType}}" name="{{formData.fieldName}}" class="form-control" *ngSwitchDefault
-                 [formControlName]="formData.fieldName" [(ngModel)]="formData.fieldValue"
-                 placeholder="{{formData.placeholder}}">
-  
-  
-                <select [id]="formData.fieldName" [formControlName]="formData.fieldName"
-                  *ngSwitchCase="formData.fieldType === 'select'"
-                  class="form-control" [(ngModel)]="formData.fieldValue">
-                  <option [value]='0'>Select State</option>
-                  <option *ngFor="let opt of formData.values" [value]="opt.internalValue">
-                    {{opt.displayValue}}</option>
-                </select>
-  
-                <div class="custom-control custom-switch" *ngSwitchCase="formData.fieldType === 'radio'">
-                  <input id="customSwitch1" type="checkbox" [checked]="formData.fieldValue == 'Y'? true:false" class="custom-control-input" >
-                  <label class="custom-control-label" for="customSwitch1">Yes</label>
-                </div>
-  
-                <div class="error-txt-msg" *ngIf="referenceForm.controls[formData.fieldName].hasError('dateGreatherEqualToToday')" style="color: red;">
-                  Date is not correct format or greater than equal to today date.
-                </div>
-                <div class="error-txt-msg" *ngIf="referenceForm.controls[formData.fieldName].hasError('checkIsUserExisting')" style="color: red;">
-                  UserName aleready exist.
-                </div>
-                <div *ngSwitchCase="formData.fieldType === 'select'">
-                  <div  class="error-txt-msg mb-2" *ngIf="referenceForm.controls[formData.fieldName].value == '0'" style="color: red;">
-                    Required field.
-                  </div>
-                </div>
-                <div class="error-txt-msg mb-2" *ngIf="referenceForm.controls[formData.fieldName].hasError('required')" style="color: red;">
-                  Required field.
-                </div>
-                <div class="error-txt-msg mb-2" *ngIf="referenceForm.controls[formData.fieldName].hasError('pattern')" style="color: red;">
-                  Incorrect format.
-                </div>
-              </div>
-            </div>
-            <div class="form-group">              
-             <span *ngIf = "recordId==0"><button type="submit" class="btn btn-danger" style="margin-left:3rem">Create</button></span>
-             <span *ngIf = "recordId!=0"><button type="submit" class="btn btn-danger" style="margin-left:3rem">Update</button></span>
-              <button type="button" class="btn btn-secondary" style="margin-left:6px" (click)="reset()">Reset</button>
-              <!-- <button type="cancel" class="btn btn-secondary" style="margin-left:6px">Cancel</button> -->
-            </div>
-  
+<div class="container-page">
+  <div class="wrap">
+    <div class="left-box" *ngIf=showDataform>
+      <ng-container>
+          <div class="vf-flex-container">  
+              <mat-card class="mat-elevation-z8" style="min-width:90%;min-height: 490px;"> 
+                  <ng-container > 
+                    <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()" >
+                      <!-- <mat-card-title class ="dataform-title">{{title}}</mat-card-title>         -->
+                      <mat-card-content >
+                            <div class="vf-flex-container-col"  style="align-items: center;max-height:450px;flex-wrap: wrap;">
+                                  <div class="vf-flex-container-col" *ngFor="let formData of lstForm" [ngSwitch]="true"  style=" align-items: center;max-height:430px;flex-wrap: wrap;">
+                                    <div *ngSwitchCase="formData.cType === 'text'">     
+                                          <mat-form-field>
+                                              <mat-label >{{formData.cDisplayName}}</mat-label>
+                                              <input type="{{formData.cType}}" 
+                                              matInput  name="{{formData.cName}}"  
+                                              [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
+                                              placeholder="{{formData.cDisplayName}}">
+                                          </mat-form-field> 
+                                    </div> 
+                                    <div *ngSwitchCase="formData.cType === 'select'">
+                                          <mat-form-field>  
+                                            <mat-label >{{formData.cDisplayName}}</mat-label>                              
+                                            <mat-select [id]="formData.cName" [formControlName]="formData.cName"                                            
+                                              [(ngModel)]="formData.cValue">
+                                              <mat-option [value]=''></mat-option>
+                                              <mat-option *ngFor="let opt of formData.cList" [value]="opt.displayValue">
+                                                {{opt.displayValue}}</mat-option>
+                                            </mat-select>
+                                          </mat-form-field> 
+                                    </div>
+                                    <div *ngSwitchCase="formData.cType === 'radio'"> 
+                                    <mat-form-field>
+                                            <div id="formData.cName">
+                                              <mat-label  >{{formData.cDisplayName}}</mat-label>
+                                              <mat-checkbox></mat-checkbox>
+                                              <input matinput type="checkbox" [checked]="formData.cValue == 'Y'? true:false" 
+                                              [formControlName]="formData.cName" [(ngModel)]="formData.cValue">                                        
+                                            </div>
+                                          </mat-form-field> 
+                                    </div>                                                   
+                                  </div>
+                                  <div class ="fixed-button-bar">   
+                                      <mat-card-actions>
+                                          <button  *ngIf = "recordId==0" type="submit" mat-raised-button style=" background-color: #4a4d4e;color: white;"  matTooltip="Click this button currently showning  details will be create new Record"  >
+                                              <mat-icon >add_box</mat-icon>Submit
+                                              </button>
+                                              <button  *ngIf = "recordId!=0" type="submit" mat-raised-button style=" background-color: #4a4d4e;color: white;"  matTooltip="Click this button currently showning details will be Update"  >
+                                                  <mat-icon >edit</mat-icon>Update
+                                              </button>
+                                              <button type="button" mat-raised-button  (click)=onCancelDataForm() style=" background-color: #4a4d4e;color: white; " matTooltip="Click this button will clear or cancel the shown details" >
+                                              <mat-icon >cancel</mat-icon>Cancel
+                                              </button> 
+                                      </mat-card-actions>                  
+                                  </div>  
+                              </div> 
+                      </mat-card-content>
+                      <mat-card-footer>
+                          <!-- <mat-toolbar style="background-color: grey;color:white">Record updated...!</mat-toolbar> -->
+                          <!-- <mat-toolbar style="background-color: #e60000;color:white;height: 20px;font-size: small;">{{recordStatus}}</mat-toolbar> -->
+                          <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+                        </mat-card-footer>
+                      </form> 
+                  </ng-container>
+              </mat-card>
           </div>
-        </form>
-      </div>
+      </ng-container>
     </div>
+    <div class="right-box" *ngIf="showDetailsForm" > 
+      <ng-container>  
+        <div style="height: 455px;" >
+          <table mat-table [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8" >
+            <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol}}">        
+              <div *ngIf ="disCol=='actions'">
+                  <th mat-header-cell *matHeaderCellDef class ="table-header" >Actions</th>
+                    <td mat-cell *matCellDef="let element" class ="table-coloumn"> 
+                      <ng-container>
+                        <mat-icon  (click)="onEditRecord(element)" >launch</mat-icon>
+                        <mat-icon  (click)="onDeleteRecord(element)" style="color:#e60000">delete_outline</mat-icon> 
+                      </ng-container>
+                    </td>
+              </div>
+              <div *ngIf ="disCol!='actions'">
+                <th mat-header-cell *matHeaderCellDef class ="table-header" > {{disCol}} </th>
+                <td mat-cell *matCellDef="let element"class ="table-coloumn"  (click)="$event.stopPropagation()"> {{element[disCol]}}  </td>
+              </div>
+            </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"  class ="table-row"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" class ="table-row"></tr>
+            
+          </table>
+          <div style ="margin-top: 6px;">
+            <span>
+            <span><button  type="button" (click)=onCreateRecord() mat-raised-button style=" background-color: #4a4d4e;color: white; margin-right: 6px;"  matTooltip="Click this button, open create new Record Option"  >
+              <mat-icon >add_box</mat-icon>Create
+              </button>
+              <button  type="button" (click)=onExport() mat-raised-button style=" background-color: #4a4d4e;color: white; margin-right: 6px;"  matTooltip="Click this button currently showning details will be Export"  >
+                  <mat-icon >file_download</mat-icon>Export
+              </button>
+              <button type="button" (click) = onRefreshDetailPane() mat-raised-button style=" background-color: #4a4d4e;color: white; margin-right: 6px;"  matTooltip="Click this button,Refresh the detail Pane"  >
+                <mat-icon >refresh</mat-icon>Refresh
+            </button>
+            </span>
+            <span style="float:right;height: 20px; display:none">
+              <mat-paginator [length]="100"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                aria-label="Select page" >
+              </mat-paginator>
+            </span>
+            </span>                                  
+          </div>
+        </div>  
+      </ng-container>                         
+    </div>     
   </div>
+</div>

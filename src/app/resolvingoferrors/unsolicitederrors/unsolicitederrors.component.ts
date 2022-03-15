@@ -155,8 +155,6 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   Resolution!: string;
   Refer!: string;
   Remarks!: string;
-
-
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
@@ -165,36 +163,45 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-  updateDetails!:any;
+  updateDetails!: any;
   queryResultInfo$!: Observable<any>;
 
   selected: string = '';
+  currentPage: string = '1';
+  //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef) { }
 
-
-
   ngOnInit(): void {
 
     this.createForm();
     //this.UpdateForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'],['Source', 'ErrorType', 'Final', 'ResolutionType']);
+    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'ErrorType', 'Final', 'ResolutionType']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'],['ResolutionType']);
+    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res[0];
     });
 
 
+
+
+  }
+
+  getNextSetRecords(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+    //console.log('page number in parent',pageIndex)
   }
 
   splitData(data: string | undefined): string[] {
@@ -284,8 +291,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     return identifiers;
   }
 
-  prepareQueryParams(): any {
-    let attributes: any = [{ Name: 'PageNumber', Value: ['1'] }];
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [{ Name: 'PageNumber', Value: [`${pageNo}`] }];
 
     const control = this.thisForm.get('Reference');
     if (control?.value)
@@ -347,7 +354,6 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
 
 
-
   isEnable() {
     debugger
     if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
@@ -360,8 +366,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     //console.log('isSaveDisable',this.isSaveDisable)
   }
   onSaveSubmit() {
-    debugger
-
+    debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
       (this.Resolution && this.Remarks)) {
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
@@ -418,29 +423,34 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
-  onFormSubmit(): void {
-    debugger
 
 
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams());
+
+  onFormSubmit(isEmitted?: boolean): void {
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
-
-      if (Object.keys(res).length) return res[0].UnsolicitedError
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].UnsolicitedError,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      }
       else return res
-    }
 
-    ));
+    }));
 
-
-    // this.spinner.show();
-    // setTimeout(()=>{/** spinner ends after 5 seconds */this.spinner.hide();},3000);
-
+    this.isEnable();
 
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      removeNoDataColumns: true,
       selectionColumn: 'TranId',
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]

@@ -25,10 +25,12 @@ import { ReportsModule } from './reports/reports.module';
 import { SharedModule } from './_shared/shared.module';
 import { NgxSpinnerModule } from "ngx-spinner";
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    MenuSearchPipe     
+    MenuSearchPipe,
+    
   ],
   imports: [
     BrowserModule,

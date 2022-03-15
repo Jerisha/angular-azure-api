@@ -20,18 +20,9 @@ export class HttpWrapperService {
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
-        // this.http(httpVerb.toString(),
-        //     `${environment.api_url}${endPoint}`,
-        //     JSON.stringify(body),
-        //     responseType,
-        //     headers,
-        //     params).subscribe((response: Type) => {
-        //         console.log("Response: " + JSON.stringify(response));
-        //     });
-
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_dev}${endPoint.toString()}`,
+                `${environment.api_sit}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -42,11 +33,10 @@ export class HttpWrapperService {
                 })
         });
         return observerRes;
-        // return new Observable<Type>();
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
-        debugger;
+        // debugger;
         switch (responseType) {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
@@ -55,50 +45,48 @@ export class HttpWrapperService {
         }
     }
 
-
     private resolveRespone(val: any, requestType: WebMethods) {
-        debugger;
+        // debugger;
         let categories = [];
         let jsonResult = '';
-        try{
-       
-        switch (requestType) {
-            case WebMethods.CONFIG:
-                categories = val.ConfigObjectResponse.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory;
-                this.validateResponseStatus(this.resolveResponseStatus(categories));
-                jsonResult = this.processConfigObject(categories);
-                break;
-            case WebMethods.QUERY:
-                categories = val.QueryObjectResponse.QueryObjectResponseType.ListofQueryObjectCategory.QueryObjectCategory;
-                if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                    jsonResult = this.processQueryObject(categories);
-                break;
-            case WebMethods.GET:
-                categories = val.GetObjectResponse.GetObjectResponseType.ListofGetObjectCategory.GetObjectCategory;
-                if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                    jsonResult = this.processGetObject(categories);
-                break;
-            case WebMethods.UPDATE:
-                debugger
-                categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
-                if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                    this.alertService.success("Save Sucessful!!", { autoClose: true, keepAfterRouteChange: false });
-                break;
-            case WebMethods.CREATE:
-                categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
-                this.validateResponseStatus(this.resolveResponseStatus(categories));
-                break;
+        try {
+
+            switch (requestType) {
+                case WebMethods.CONFIG:
+                    categories = val.ConfigObjectResponse.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory;
+                    this.validateResponseStatus(this.resolveResponseStatus(categories));
+                    jsonResult = this.processConfigObject(categories);
+                    break;
+                case WebMethods.QUERY:
+                    categories = val.QueryObjectResponse.QueryObjectResponseType.ListofQueryObjectCategory.QueryObjectCategory;
+                    if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
+                        jsonResult = this.processQueryObject(categories);
+                    break;
+                case WebMethods.GET:
+                    categories = val.GetObjectResponse.GetObjectResponseType.ListofGetObjectCategory.GetObjectCategory;
+                    if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
+                        jsonResult = this.processGetObject(categories);
+                    break;
+                case WebMethods.UPDATE:
+                    debugger
+                    categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
+                    if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
+                        this.alertService.success("Save Sucessful!!", { autoClose: true, keepAfterRouteChange: false });
+                    break;
+                case WebMethods.CREATE:
+                    categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
+                    this.validateResponseStatus(this.resolveResponseStatus(categories));
+                    break;
+            }
+            // debugger
+            // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
+            console.log("jsonString :" + jsonResult);
+            //console.log(JSON.parse(jsonResult))
+            return jsonResult ? JSON.parse(jsonResult) : {};
+        } catch (err) {
+            console.log("error " + err)
+            this.alertService.error("UI Error.", { autoClose: true, keepAfterRouteChange: false });
         }
-        debugger
-        // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
-        console.log("jsonString :" + jsonResult);
-        //console.log(JSON.parse(jsonResult))
-        return jsonResult ? JSON.parse(jsonResult) : {};
-    }catch(err)
-    {
-        console.log("error "  + err)
-        this.alertService.error("UI Error.", { autoClose: true, keepAfterRouteChange: false });   
-    }
     }
 
     private processConfigObject(categories: any) {
@@ -109,7 +97,7 @@ export class HttpWrapperService {
                 //Check ItemName is not Update
                 if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update"
                     && category?.hasOwnProperty("ListofConfigObjectCharacteristics")) {
-                        
+
                     jsonCreation += `{`
                     //Iterate characteristics object
                     let configCharacteristics = category.ListofConfigObjectCharacteristics.ConfigObjectCharacteristics;
@@ -160,8 +148,7 @@ export class HttpWrapperService {
                         jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
                         jsonCreation += `]`;
                     }
-                    else
-                    {jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);}
+                    else { jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1); }
                     jsonCreation += `},`;
                 }
             });
@@ -171,7 +158,7 @@ export class HttpWrapperService {
         return jsonCreation;
     }
 
-    private processGetObject(categories: any) {        
+    private processGetObject(categories: any) {
         var jsonCreation = `[`
         if (categories != undefined && categories.length > 0) {
             //Iterate categories object
@@ -194,8 +181,7 @@ export class HttpWrapperService {
                         jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
                         jsonCreation += `]`;
                     }
-                    else
-                    {jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);}
+                    else { jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1); }
                     jsonCreation += `},`;
                 }
             });
@@ -210,7 +196,7 @@ export class HttpWrapperService {
         if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
             objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
                 if (element.hasOwnProperty("Name"))
-                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g,' ')
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, ' ')
             });
         }
         //Bind Attributes
@@ -218,9 +204,11 @@ export class HttpWrapperService {
             let attr = objCharacteristic.ListofAttributes.Attribute;
             for (let i = 0; i < attr.length; i++) {
                 if (attr[i].hasOwnProperty("Name"))
-                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g,' ')
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, ' ')
             }
         }
+
+
 
         //Bind Characteristics
         if (objCharacteristic.hasOwnProperty("ListofCharacteristics")) {

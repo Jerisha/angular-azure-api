@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ReportReferenceMainComponent } from './report-reference-main/report-reference-main.component';
 import { ReportReferenceComponent } from './report-reference/report-reference.component';
 
 const routes: Routes = [
-  {path : '', component : ReportReferenceComponent}
+  {path : '', component : ReportReferenceComponent},
+  {path : 'main', component : ReportReferenceMainComponent}
 ];
 
 @NgModule({

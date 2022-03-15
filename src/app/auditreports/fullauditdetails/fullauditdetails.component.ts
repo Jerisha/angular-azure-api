@@ -288,8 +288,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'EndTelNo', header: 'End TelNo', showDefault: true, isImage: false },
     { headerValue: 'SourceSystem', header: 'Source System', showDefault: true, isImage: false },
     { headerValue: 'Lineup', header: 'Lineup', showDefault: true, isImage: false },
-    { headerValue: 'Transaction', header: 'Transaction', showDefault: true, isImage: false },
-    { headerValue: 'InflightTransaction', header: 'Inflight Transaction', showDefault: true, isImage: false },
+    { headerValue: 'Transaction', header: 'Transaction', showDefault: true, isImage: false, isTotal:true},
+    { headerValue: 'InflightTransaction', header: 'Inflight Transaction', showDefault: true, isImage: false, isTotal:true},
     { headerValue: 'CustomerName', header: 'Customer Name', showDefault: true, isImage: false },
     { headerValue: 'CustomerAddress', header: 'Customer Address', showDefault: true, isImage: false },
     { headerValue: 'OrderRef', header: 'Order Ref', showDefault: true, isImage: false },
@@ -440,12 +440,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   onFormSubmit(): void {
     this.myTable = {
-      data: of(ELEMENT_DATA),
+      data: of({datasource:ELEMENT_DATA,
+        totalrecordcount: 500,
+        totalpages: 10,
+        pagenumber:1 }),
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
       showEmail: true,
-      showBlankCoulmns: true,
+      removeNoDataColumns: true,
       selectionColumn: 'TelNo',
       // highlightedCells: ['TelNo', 'OSN2Source'],
       // backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
@@ -642,9 +645,13 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   rangeReportInit() {
     this.rangeRptTable = {
-      data: of(ELEMENT_DATA1),
+      data: of({datasource:ELEMENT_DATA1,
+        totalrecordcount: 500,
+        totalpages:20,
+        pagenumber:1}),
       Columns: this.rangeReportTableDetails,
       selectCheckbox: true,
+      showTotal :true,
       filter: true
     }
   }
@@ -655,7 +662,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       Columns: this.moriCicuitTableDetails,
       filter: true,
       selectCheckbox:true,
-      showBlankCoulmns: true
+      removeNoDataColumns: true
     }
   }
 

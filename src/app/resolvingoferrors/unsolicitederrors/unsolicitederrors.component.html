@@ -156,7 +156,7 @@
               <mat-icon class="info"  matTooltip="Information" (click)="DisplayInformationTab()">information</mat-icon>
             
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
-              (addNewTab)="newTab($event)">
+              (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
             </app-table-selection>
             <form (ngSubmit)="onSaveSubmit()">
               <div class="mat-elevation-z8 side-bottom">
