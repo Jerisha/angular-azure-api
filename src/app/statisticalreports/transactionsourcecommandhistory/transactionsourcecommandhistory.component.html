@@ -89,7 +89,7 @@
 
             <div *ngIf="isChecked">
               <app-table-selection class="childtb" [sidePan]="pagesidenav" (addNewTab)="OndayTodayselected($event)"
-                [tableitem]="myTableChild" (rowChanges)="rowDetect($event)"></app-table-selection>
+                [tableitem]="myTableChild" (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"></app-table-selection>
 
             </div>
           </div>

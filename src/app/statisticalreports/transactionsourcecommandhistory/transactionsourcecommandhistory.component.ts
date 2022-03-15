@@ -139,6 +139,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   telNo?: any;
   tranId?: any;
   repIdentifier = "TransactionSummary";
+  currentPage: string = '1';
 
 
   @ViewChild(MatTabGroup) tabGroup !: MatTabGroup;
@@ -226,9 +227,18 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
   }
 
+ 
   
-  onFormSubmit(): void {
-    let request = Utils.prepareQueryRequest('DayToDay','TransactionSummary', this.prepareQueryParams());
+  getNextSetRecords(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
+
+  
+  onFormSubmit(isEmitted?: boolean): void {
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.prepareQueryRequest('DayToDay','TransactionSummary', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>  {
       if (Object.keys(res).length) {
         let result = {
@@ -291,13 +301,14 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   get f() {
     return this.thisForm.controls;
   }
-  prepareQueryParams(): any {
+  
+  prepareQueryParams(pageNo?:any): any {
     debugger
    // const Source = this.thisForm.get('Source');
-    let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] }
-      // {Name: 'Source', Value: [Source]}
-    ];
+   var pageIndex = pageNo? pageNo:'1'
+   let attributes: any = [
+    { Name: 'PageNumber', Value: [`${pageIndex}`] }];
+    
     for (const field in this.f) {
       const control = this.thisForm.get(field);
       if (control?.value&&field != 'StatisticMonth')
