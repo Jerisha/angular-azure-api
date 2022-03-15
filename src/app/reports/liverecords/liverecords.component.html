@@ -9,8 +9,8 @@
             <div class="matsidenav-filter">
                 <ng-container *ngIf="configDetails  as config">
                     <!-- <app-select-exp [listItems]="expressions[0].default"></app-select-exp> -->
-                    <app-select-exp [listItems]="expressions[0].default" #StartTelephoneNumberOperator
-                        (click)="OnOperatorClicked($event)"></app-select-exp>
+                    <app-select-exp [listItems]="expressions[0].default"  #StartTelephoneNumberOperator 
+                    (click) ="OnOperatorClicked(['StartTelephoneNumberOperator',StartTelephoneNumberOperator.selectedViewValue])"></app-select-exp>         
                     <mat-form-field hintLabel="Max 11 characters"
                         [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
                         <mat-label>Telephone No</mat-label>
@@ -27,14 +27,14 @@
                     </mat-form-field>
 
                     <app-select-exp [listItems]="expressions[1].default" #CustomerNameOperator
-                        (click)="OnOperatorClicked($event)"></app-select-exp>
+                    (click) ="OnOperatorClicked(['CustomerNameOperator',CustomerNameOperator.selectedViewValue])"></app-select-exp> 
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}" appearance="outline">
                         <mat-label>Customer Name</mat-label>
                         <input id="CustomerName" formControlName="CustomerName" matInput  maxlength="500" #input placeholder="CustName">
                     </mat-form-field>
 
                     <app-select-exp [listItems]="expressions[1].default" #PostcodeOperator
-                        (click)="OnOperatorClicked($event)"></app-select-exp>
+                    (click) ="OnOperatorClicked(['PostcodeOperator',PostcodeOperator.selectedViewValue])"></app-select-exp> 
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.PostCode.disabled}" appearance="outline">
                         <mat-label>PostCode</mat-label>
                         <input id="PostCode" formControlName="PostCode" matInput #input maxlength="20"
@@ -43,7 +43,7 @@
                     </mat-form-field>
 
                     <app-select-exp [listItems]="expressions[2].default" #CreationDateOperator
-                        (click)="OnOperatorClicked($event)"></app-select-exp>
+                    (click) ="OnOperatorClicked(['CreationDateOperator',CreationDateOperator.selectedViewValue])"></app-select-exp> 
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.CreatedOn.disabled}" appearance="outline">
                         <mat-label>Created On</mat-label>
                         <input id="CreatedOn" [matDatepicker]="picker" formControlName="CreatedOn" matInput #input
@@ -54,7 +54,7 @@
 
                     <div [ngStyle]="{'display':myForm.controls.Premises.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default" #PremisesOperator
-                            (click)="OnOperatorClicked($event)"></app-select-exp>
+                        (click) ="OnOperatorClicked(['PremisesOperator',PremisesOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Premises.disabled}">
                             <mat-label>Premises</mat-label>
                             <input formControlName="Premises" matInput #Premises maxlength="100" placeholder="Premises">
@@ -63,7 +63,7 @@
 
                     <div [ngStyle]="{'display':myForm.controls.Throughtfare.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default" #ThoroughfareOperator
-                            (click)="OnOperatorClicked($event)"></app-select-exp>
+                        (click) ="OnOperatorClicked(['ThoroughfareOperator',ThoroughfareOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline"
                             [ngClass]="{'hidden':myForm.controls.Throughtfare.disabled}">
                             <mat-label>Throughfare</mat-label>
@@ -73,7 +73,7 @@
                     </div>
                     <div [ngStyle]="{'display':myForm.controls.Locality.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default" #LocalityOperator
-                            (click)="OnOperatorClicked($event)"></app-select-exp>
+                        (click) ="OnOperatorClicked(['LocalityOperator',LocalityOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Locality.disabled}">
                             <mat-label>Locality</mat-label>
                             <input formControlName="Locality" matInput #Locality maxlength="100" placeholder="Locality">
@@ -81,7 +81,7 @@
                     </div>
                     <div [ngStyle]="{'display':myForm.controls.Cupid.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default" #CupidOperator
-                            (click)="OnOperatorClicked($event)"></app-select-exp>
+                        (click) ="OnOperatorClicked(['CupidOperator',CupidOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Cupid.disabled}">
                             <mat-label>Cupid</mat-label>
                             <input formControlName="Cupid" matInput #Cupid maxlength="20" placeholder="Cupid">
@@ -91,7 +91,7 @@
                     <div [ngStyle]="{'display':myForm.controls.Source.disabled ? 'none' : 'block'}">
 
                         <app-select-exp [listItems]="expressions[1].default" #SourceOperator
-                            (click)="OnOperatorClicked($event)"></app-select-exp>
+                        (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Source.disabled}">
                             <mat-label>Source</mat-label>
                             <input formControlName="Source" type="text" placeholder="Search Source" matInput
@@ -109,7 +109,7 @@
 
                     <div [ngStyle]="{'display':myForm.controls.TypeOfLine.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default" #TypeOfLineOperator
-                            (click)="OnOperatorClicked($event)"></app-select-exp>
+                             (click) ="OnOperatorClicked(['TypeOfLineOperator',TypeOfLineOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TypeOfLine.disabled}">
                             <mat-label>Type Of Line</mat-label>
                             <input formControlName="TypeOfLine" type="text" placeholder="Search TypeOfLine" matInput
@@ -128,7 +128,7 @@
 
                     <div [ngStyle]="{'display':myForm.controls.Franchise.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default" #FranchiseOperator
-                            (click)="OnOperatorClicked($event)"></app-select-exp>
+                             (click) ="OnOperatorClicked(['FranchiseOperator',FranchiseOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Franchise.disabled}">
                             <mat-label>Franchise</mat-label>
                             <input formControlName="Franchise" type="text" placeholder="Search Franchise" matInput
@@ -147,7 +147,7 @@
 
                     <div [ngStyle]="{'display':myForm.controls.TransactionCommand.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default" #TransactionCommandOperator
-                            (click)="OnOperatorClicked($event)"></app-select-exp>
+                             (click) ="OnOperatorClicked(['TransactionCommandOperator',TransactionCommandOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TransactionCommand.disabled}">
                             <mat-label>Transaction Command</mat-label>
                             <input formControlName="TransactionCommand" type="text"

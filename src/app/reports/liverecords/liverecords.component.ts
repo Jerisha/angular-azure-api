@@ -18,6 +18,7 @@ import { ReportService } from '../services/report.service';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
+import { formatDate } from '@angular/common';
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -581,25 +582,6 @@ errorCode = new FormControl();
     this.cdr.detectChanges();
   }
   
-  prepareQueryParams(): any {
-    let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] }];
-
-
-    for (const field in this.myForm?.controls) {
-      const control = this.myForm.get(field);
-      if (field != 'Source') {
-        if (control?.value)
-          attributes.push({ Name: field, Value: [control?.value] });
-        else
-          attributes.push({ Name: field });
-      }
-    }
-    console.log(attributes);
-
-    return attributes;
-
-  }
 
   get f() {
     return this.myForm.controls;
@@ -686,11 +668,91 @@ errorCode = new FormControl();
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-
-  OnOperatorClicked(event:any)
+  OnOperatorClicked(val:[string,string])
   {
     // if (event.target.value !="")
-    console.log("operators event",event);
+     console.log("operators event","value " ,val );
+    let vals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,val[0]));
+    console.log("operators event1","vals " ,vals );
+    if(vals.length==0)
+    {
+    this.expOperatorsKeyPair.push(val);
+    console.log("if part",this.expOperatorsKeyPair);
+    }
+    else{
+      this.expOperatorsKeyPair=this.expOperatorsKeyPair.filter((i)=>i[0]!=val[0]);
+      this.expOperatorsKeyPair.push(val);
+      console.log("else part",this.expOperatorsKeyPair);
+    }
+  }
+
+  getTupleValue(element:[string,string],keyvalue:string)
+{
+  if (element[0]==keyvalue)
+  {  return element[1];}
+  else 
+    return "";
+ 
+}
+
+
+prepareQueryParams(): any {
+  let attributes: any = [{ Name: 'PageNumber', Value: ['1'] }, ];
+
+    for (const field in this.myForm?.controls) {
+      const control = this.myForm.get(field); 
+     // console.log(attributes);   
+        if (control?.value != "")
+          {
+            if(field =="CreatedOn")
+            {
+              attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
+            }
+            // console.log("field:",field," val:",control?.value)
+            attributes.push({ Name: field, Value: [control?.value] });
+            let operator:string = field+"Operator";
+            
+            console.log("op vals",this.expOperatorsKeyPair);
+            
+            //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
+            //  console.log("op ",operatorVal);
+             if (this.expOperatorsKeyPair.length !=0 )
+             {    
+              let expvals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator));          
+               if(expvals.length !=0)
+                  {
+                    attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                  }
+                  else
+                  {
+                    if(field=='StartTelephoneNumber'||field=='CreatedOn')
+                    {
+                        attributes.push({ Name: operator, Value: ['Equal To'] }); 
+                    }
+                  else
+                    {
+                        attributes.push({ Name: operator, Value: ['Equal To'] });  
+                    }
+                  }
+             }  
+            //  else{
+            //   if(field=='StartTelephoneNumber'||field=='CreatedOn')
+            //   {
+            //        attributes.push({ Name: operator, Value: ['Equal To'] }); 
+            //   }
+            //  else
+            //   {
+            //       attributes.push({ Name: operator, Value: ['Equal To'] });  
+            //   }
+             
+            //  }
+             
+          }
+    }
+    
+       console.log('attri',attributes);
+
+    return attributes;
 
   }
 
@@ -785,33 +847,33 @@ errorCode = new FormControl();
 
   createForm() {
     this.myForm = new FormGroup({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(99)]),
-      CustomerName: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(99)]),
-      PostCode: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      CreatedOn: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Premises: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Throughtfare: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Locality: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Cupid: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      TypeOfLine: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Franchise: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      TransactionCommand: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true },  [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      CustomerName: new FormControl({ value: '', disabled: true }, []),
+      PostCode: new FormControl({ value: '', disabled: true }, []),
+      CreatedOn: new FormControl({ value: '', disabled: true }, []),
+      Premises: new FormControl({ value: '', disabled: true }, []),
+      Throughtfare: new FormControl({ value: '', disabled: true }, []),
+      Locality: new FormControl({ value: '', disabled: true }, []),
+      Cupid: new FormControl({ value: '', disabled: true }, []),
+      TypeOfLine: new FormControl({ value: '', disabled: true },[]),
+      Franchise: new FormControl({ value: '', disabled: true }, []),
+      TransactionCommand: new FormControl({ value: '', disabled: true }, []),
+      Source: new FormControl({ value: '', disabled: true }, []),
 
     })
     
-    this.expOperatorsKeyPair.push(["StartTelephoneNumberOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["CustomerNameOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["PostcodeOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["CreationDateOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["PremisesOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["ThoroughfareOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["LocalityOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["CupidOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["FranchiseOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["StartTelephoneNumberOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["CustomerNameOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["PostcodeOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["CreationDateOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["PremisesOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["ThoroughfareOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["LocalityOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["CupidOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["FranchiseOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
     
   }
 
