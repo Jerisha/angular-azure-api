@@ -226,23 +226,33 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
   }
 
-
+  
   onFormSubmit(): void {
     let request = Utils.prepareQueryRequest('DayToDay','TransactionSummary', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].DatewiseData));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>  {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].DatewiseData,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return res;
+    }));
     let testresult:any[]=[];
  
-   this.queryResult$.subscribe(res =>(
-     console.log('one one two',res)
-   ));
+  //  this.queryResult$.subscribe(res =>(
+  //    console.log('one one two',res)
+  //  ));
 
    let requesttwo = Utils.prepareQueryRequest('MonthOnMonth','TransactionSummary', this.prepareQueryParams());
    this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) => res[0].MonthlyData));
   
 
-  this.queryResultMonthly$.subscribe(res =>(
-    console.log('one one two',res)
-  ));
+  // this.queryResultMonthly$.subscribe(res =>(
+  //   console.log('one one two',res)
+  // ));
 
   
     this.myTable = {
@@ -362,7 +372,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
   }
   setControlAttribute(matSelect: MatSelect) {
-    matSelect.options.forEach((item) => {
+    matSelect.options.forEach((item:any) => {
       if (item.selected) {
         this.thisForm.controls[item.value].enable();
       }

@@ -94,15 +94,28 @@ export class TelephoneDetailsComponent implements OnInit {
     console.log('talephoen number data',this.StatisticDate);
     this.Datevalue=this.StatisticDate;
     let request = Utils.prepareQueryRequest('TelephoneNumberDetails','TransactionData', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TransactionData));
-    let testresult:any[]=[];
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) =>  {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].TransactionData,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return res;
+    }));
+    
+    
+  
+   // let testresult:any[]=[];
  
-   this.queryResult$.subscribe(res =>(
-     console.log('telephone number details',res)
-   ));
+  //  this.queryResult$.subscribe(res =>(
+  //    console.log('telephone number details',res)
+  //  ));
     this.myTable = {
-      //data: this.queryResult$,
-      data: of(ELEMENT_DATA),
+      data: this.queryResult$,
+      
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
