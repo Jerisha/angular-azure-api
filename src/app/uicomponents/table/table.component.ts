@@ -37,10 +37,10 @@ export class TableComponent implements OnInit {
     name: 'Summary'
   }
   ];
-  constructor() { }
+  constructor( private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log(this.tableitem);
+    //console.log(this.tableitem);
     this.dataSource = new MatTableDataSource<any>(this.tableitem);
     this.dataColumns = this.toTableheaders(this.tableitem);
     // this.imageItem = this.tableitem?.imgConfig;
@@ -51,8 +51,12 @@ export class TableComponent implements OnInit {
     //this.columnHeaders = this.tableitem?.coulmnHeaders;
     
   }
-  ngAfterInit(): void {
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
   
 //   selectRow(event: any, row: any) {

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, PatternValidator, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Observable, Subject } from 'rxjs';
+import { combineLatest,Observable, Subject,of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Select } from 'src/app/uicomponents/models/select';
 import { ITransactionDetails } from 'src/app/reports/models/ITransactionDetails';
@@ -11,6 +11,10 @@ import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { Tab } from 'src/app/uicomponents/models/tab';
+import { Utils } from 'src/app/_http/common/utils';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfigDetails } from 'src/app/_http/models/config-details';
+import { formatDate } from '@angular/common';
 
 
 const HEADER_DATA: ITransactionDetails[] = [
@@ -70,138 +74,20 @@ BTFileName:'BT File Name',
   }
 ];
 
-const FilterListItems: Select[] = [  
-{ view: 'Telephone No.', viewValue: 'TelephoneNumber', default: true },
-{ view: 'Customer Name', viewValue: 'CustName', default: true },
-{ view: 'Created On', viewValue: 'CreatedOn', default: true },
+let FilterListItems: Select[] = [  
+{ view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
+{ view: 'Customer Name', viewValue: 'CustomerName', default: true },
+{ view: 'Creation Date', viewValue: 'CreationDate', default: true },
 { view: 'Postcode', viewValue: 'Postcode', default: true },
-{ view: 'Premises', viewValue: 'AddressPremises', default: false },
-{ view: 'Thoroughfare', viewValue: 'AddressThoroughfare', default: false },
-{ view: 'Locality', viewValue: 'AddressLocality', default: false },
-{ view: 'Source System', viewValue: 'SourceSystem', default: false },
-{ view: 'Cupid', viewValue: 'Cupid', default: false },
-{ view: 'Franchise', viewValue: 'Franchise', default: false },
-{ view: 'Transaction Command', viewValue: 'TranCmd', default: false },
-{ view: 'Type of Line', viewValue: 'TypeOfLine', default: false }
+{ view: 'Premises', viewValue: 'Premises', default: true },
+{ view: 'Thoroughfare', viewValue: 'Thoroughfare', default: true },
+{ view: 'Locality', viewValue: 'Locality', default: true },
+{ view: 'Source System', viewValue: 'Source', default: true },
+{ view: 'Cupid', viewValue: 'Cupid', default: true },
+{ view: 'Franchise', viewValue: 'Franchise', default: true },
+{ view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
+{ view: 'Type of Line', viewValue: 'TypeOfLine', default: true }
 ];
-
-const configInput: any = {
-  "ConfigObjectRequest": {
-    "ConfigObjectRequestType": {
-      "RequestIdentifiers": {
-        "Identifier": [{
-          "Name": "UserId",
-          "Value": ["abc"]
-        }, {
-          "Name": "Destination",
-          "Value": ["OSN2"]
-        }]
-      },
-      "ListofConfigObjectCategory": {
-        "ConfigObjectCategory": [{
-          "ItemName": "ConfigObject",
-          "ListofIdentifiers": {
-            "Identifier": [{
-              "Name": "ObjectName",
-              "Value": ["TelephoneNumber"]
-            }]
-          },
-          "ListofAttributes": {
-            "Attribute": [{
-              "Name": "Action",
-              "Value": ["Search"]
-            }, {
-              "Name": "Filter",
-              "Value": ["Command", "Source", "ResolutionType", "ErrorType", "ErrorCode"]
-            }]
-          }
-        }]
-      }
-    }
-  }
-}
-
-const queryInput: any = {
-  "QueryObjectRequest": {
-    "QueryObjectRequestType": {
-      "RequestIdentifiers": {
-        "Identifier": [
-          {
-            "Name": "UserId",
-            "Value": [
-              "abc"
-            ]
-          },
-          {
-            "Name": "Destination",
-            "Value": [
-              "OSN2"
-            ]
-          }
-        ]
-      },
-      "ListofQueryObjectCategory": {
-        "QueryObjectCategory": [
-          {
-            "ItemName": "TelephoneNumberError",
-            "ListofIdentifiers": {
-              "Identifier": [
-                {
-                  "Name": "ReportIdentifier",
-                  "Value": [
-                    "Unsolicited Errors"
-                  ]
-                }
-              ]
-            },
-            "ListofQueryObjectCharacteristics": {
-              "QueryObjectCharacteristics": [
-                {
-                  "ItemName": "QueryParameters",
-                  "ListofIdentifiers": {
-                    "Identifier": [
-                      {
-                        "Name": "StartTelephoneNumber"
-                      },
-                      {
-                        "Name": "EndTelephoneNumber"
-                      },
-                      {
-                        "Name": "Command"
-                      },
-                      {
-                        "Name": "Source"
-                      },
-                      {
-                        "Name": "FromDate"
-                      },
-                      {
-                        "Name": "ToDate"
-                      },
-                      {
-                        "Name": "ResolutionType"
-                      },
-                      {
-                        "Name": "PageNumber"
-                      },
-                      {
-                        "Name": "ErrorType"
-                      },
-                      {
-                        "Name": "ErrorCode"
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  }
-}
-
 
 @Component({
   selector: 'app-transaction-details',
@@ -210,44 +96,66 @@ const queryInput: any = {
 })
 export class TransactionDetailsComponent implements OnInit {
   
-  constructor(private formBuilder: FormBuilder, private service: TransactionDetailsService, private _snackBar: MatSnackBar,private cdr: ChangeDetectorRef) { }
+  
+  constructor(
+    private formBuilder: FormBuilder, 
+    private service: TransactionDetailsService, 
+    private _snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef,
+    private spinner: NgxSpinnerService) { }
   
   myTable!: TableItem;
   dataSaved = false;
   massage = null;
-  selectListItems: string[] = [];
-  filterItems: Select[] = FilterListItems;
-  // expDefault =select.default;
+  // selectListItems: string[] = [];
+  selectedGridRows: any[] = [];
+  filterItems: Select[] = FilterListItems;  
   expressions:any = [expNumeric,expString,expDate];
+  expOperators:string [] =[
+    "StartTelephoneNumberOperator",
+    "CustomerNameOperator",
+    "CreationDateOperator",
+    "PostcodeOperator",
+    "PremisesOperator",
+    "ThoroughfareOperator",
+    "LocalityOperator",
+    "SourceOperator",
+    "CupidOperator",
+    "FranchiseOperator",
+    "TransactionCommandOperator",
+    "TypeOfLineOperator",
+  ];
+  expOperatorsKeyPair:[string,string][] =[];
+  
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
-  selectedRowsCount: number = 0;
-  errorCodeData: Select[] = [
-    { view: '101', viewValue: '101', default: true },
-    { view: '202', viewValue: '202', default: true },
-    { view: '303', viewValue: '303', default: true },
-  ];
+  selectedRowsCount: number = 0;  
   
   selectedTab!: number;
-  // public tabs = [{
-  //   tabType: 0,
-  //   name: 'Transaction Summary'
-  // }
-  // ];
+
+  auditTelNo?: any;
+  telNo?: any;
+  tranId?: any;
+
+  repIdentifier = "TransactionDetails";
+  
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
+  queryResult$!: Observable<any>;
+  configResult$!: Observable<any>;
+  querytemp:any;
 
   columns: ColumnDetails[] = [    
     { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
     { header: 'Telephone No.',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Tran Id',headerValue:'TranId', showDefault: true, isImage: false },
-    { header: 'Transaction Ref',headerValue:'TransactionRef', showDefault: true, isImage: false },
+    { header: 'Tran Id',headerValue:'TransactionId', showDefault: true, isImage: false },
+    { header: 'Transaction Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
     { header: 'Status',headerValue:'Status', showDefault: true, isImage: false },
     { header: 'Provide Date',headerValue:'ProvideDate', showDefault: true, isImage: false },
-    { header: 'Created On',headerValue:'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Created On',headerValue:'CreationDate', showDefault: true, isImage: false },
     { header: 'Effective Date',headerValue:'EffectiveDate', showDefault: true, isImage: false },
     { header: 'Parent Cupid',headerValue:'ParentCupid', showDefault: true, isImage: false },
     { header: 'Child Cupid',headerValue:'ChildCupid', showDefault: true, isImage: false },
@@ -256,15 +164,15 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Source Type',headerValue:'SourceType', showDefault: true, isImage: false },
     { header: 'Line Type',headerValue:'LineType', showDefault: true, isImage: false },
     { header: 'Created By',headerValue:'CreatedBy', showDefault: true, isImage: false },
-    { header: 'Tran Cmd',headerValue:'TranCmd', showDefault: true, isImage: false },
-    { header: 'BT Cmd',headerValue:'BTCmd', showDefault: true, isImage: false },
-    { header: 'Cust Title',headerValue:'CustTitle', showDefault: true, isImage: false },
-    { header: 'Cust Forename',headerValue:'CustForename', showDefault: true, isImage: false },
-    { header: 'Cust Name',headerValue:'CustName', showDefault: true, isImage: false },
-    { header: 'Bussiness Suffix',headerValue:'AddressBussinessSuffix', showDefault: true, isImage: false },
-    { header: 'Premises',headerValue:'AddressPremises', showDefault: true, isImage: false },
+    { header: 'Tran Cmd',headerValue:'TransactionCommand', showDefault: true, isImage: false },
+    { header: 'BT Cmd',headerValue:'BtCommand', showDefault: true, isImage: false },  
+    { header: 'Cust Title',headerValue:'CustomerTitle', showDefault: true, isImage: false },  
+    { header: 'Cust Forename',headerValue:'CustomerForename', showDefault: true, isImage: false },
+    { header: 'Cust Name',headerValue:'CustomerName', showDefault: true, isImage: false },
+    { header: 'Bussiness Suffix',headerValue:'BusinessSuffix', showDefault: true, isImage: false },
+    { header: 'Premises',headerValue:'Premises', showDefault: true, isImage: false },
     { header: 'Thoroughfare',headerValue:'AddressThoroughfare', showDefault: true, isImage: false },
-    { header: 'Locality',headerValue:'AddressLocality', showDefault: true, isImage: false },
+    { header: 'Locality',headerValue:'Locality', showDefault: true, isImage: false },
     { header: 'Postcode',headerValue:'Postcode', showDefault: true, isImage: false },
     { header: 'Address Line 1',headerValue:'AddressLine1', showDefault: true, isImage: false },
     { header: 'Address Line 2',headerValue:'AddressLine2', showDefault: true, isImage: false },
@@ -274,38 +182,44 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Address Id',headerValue:'AddressId', showDefault: true, isImage: false },
     { header: 'Address Id Source',headerValue:'AddressIdSource', showDefault: true, isImage: false },
     { header: 'New Telephone No.',headerValue:'NewTelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Cross Ref No',headerValue:'CrossRefNo', showDefault: true, isImage: false },
+    { header: 'Cross Ref No',headerValue:'CrossReferenceNumber', showDefault: true, isImage: false },
     { header: 'Change Cupid',headerValue:'ChangeCupid', showDefault: true, isImage: false },
     { header: 'Error List',headerValue:'ErrorList', showDefault: true, isImage: false },
     { header: 'Error Count',headerValue:'ErrorCount', showDefault: true, isImage: false },
-    { header: 'Cust Name Full',headerValue:'CustNameFull', showDefault: true, isImage: false },
-    { header: 'Cust Name Compact',headerValue:'CustNameCompact', showDefault: true, isImage: false },
+    { header: 'Cust Name Full',headerValue:'CustomerNameFull', showDefault: true, isImage: false },
+    { header: 'Cust Name Compact',headerValue:'CustomerNameCompact', showDefault: true, isImage: false },
     { header: 'Reference',headerValue:'Reference', showDefault: true, isImage: false },
-    { header: 'Callback',headerValue:'Callback', showDefault: true, isImage: false }, // never populate need to check
-    { header: 'Order Ref.',headerValue:'OrderRef.', showDefault: true, isImage: false },
-    { header: 'Sar Ref Num',headerValue:'SarRefNum', showDefault: true, isImage: false },
-    { header: 'Sar Trans Num',headerValue:'SarTransNum', showDefault: true, isImage: false },
+   // { header: 'Callback',headerValue:'Callback', showDefault: true, isImage: false }, // never populate need to check,api not returns
+    { header: 'Order Ref.',headerValue:'OrderReference', showDefault: true, isImage: false },
+    { header: 'Sar Ref Num',headerValue:'SarReferenceNumber', showDefault: true, isImage: false }, //need to check with millan
+    { header: 'Sar Trans Num',headerValue:'SarTransactionNumber', showDefault: true, isImage: false }, //need to check with millan
     { header: 'Comment',headerValue:'Comment', showDefault: true, isImage: false },
-    { header: 'Conn. Type',headerValue:'Conn.Type', showDefault: true, isImage: false }, // never populate need to check; wire frame field na
+    //{ header: 'Conn. Type',headerValue:'Conn.Type', showDefault: true, isImage: false }, // never populate need to check; wire frame field na,api not returns
     { header: 'Type of Line',headerValue:'TypeOfLine', showDefault: true, isImage: false }, //wire frame field na
     { header: 'Service Type',headerValue:'ServiceType', showDefault: true, isImage: false }, //wire frame field na
-    { header: 'Access Method',headerValue:'AccessMethod', showDefault: true, isImage: false }, // never populate need to check wire frame field na
+    //{ header: 'Access Method',headerValue:'AccessMethod', showDefault: true, isImage: false }, // never populate need to check wire frame field na,api not returns
     { header: 'Internal Errors',headerValue:'InternalErrors', showDefault: true, isImage: false },//wire frame field na
-    { header: 'BT Responses',headerValue:'BTResponses', showDefault: true, isImage: false }, //wire frame field na
-    { header: 'BT File Name',headerValue:'BTFileName', showDefault: true, isImage: false } //wire frame field na
+    { header: 'BT Responses',headerValue:'BtResponses', showDefault: true, isImage: false }, //wire frame field na
+    { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
   ];
-  ngOnInit(): void {
-   this.createForm();
-   this.setOptions(); 
-  //  this.myTable = {
-  //   data: this.service.getTransactionDetailsSourceData(),
-  //   // data:this.getTransactionDetailsSourceData(),
-  //   Columns: this.columns,
-  //   filter: true,
-  //   selectCheckbox: true,
-  //   selectionColumn: 'TranId',
-  //   imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', tabIndex: 1 },
-  //               { headerValue: 'Links', icon: 'description', route: '', tabIndex: 2 }]  }    
+  ngOnInit(): void {    
+    let request = Utils.prepareConfigRequest(['Search'],['Command','Source','Franchise','TypeOfLine']);
+    this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));  
+    this.createForm();
+   // this.setOptions(); 
+  }
+
+  splitData(data: string): string[] { 
+    
+    if(data===undefined)
+    {
+      return [];
+    }
+    else{
+    
+    return data.split(',');
+    }
+  
   }
 
   ngAfterViewInit() {
@@ -317,30 +231,55 @@ export class TransactionDetailsComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.required , Validators.minLength(10)]),
-      CustName: new FormControl({ value: '', disabled: true }, []),
-      CreatedOn: new FormControl({ value: '', disabled: true },[]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{11}$")]), 
+      CustomerName: new FormControl({ value: '', disabled: true }, []),
+      CreationDate: new FormControl({ value: '', disabled: true },[]),
       Postcode: new FormControl({ value: '', disabled: true }, []),
-      AddressPremises: new FormControl({ value: '', disabled: true }, []),      
-      AddressThoroughfare: new FormControl({ value: '', disabled: true }, []),
-      AddressLocality: new FormControl({ value: '', disabled: true }, []),
-      SourceSystem: new FormControl({ value: '', disabled: true }, []), 
+      Premises: new FormControl({ value: '', disabled: true }, []),      
+      Thoroughfare: new FormControl({ value: '', disabled: true }, []),
+      Locality: new FormControl({ value: '', disabled: true }, []),
+      Source: new FormControl({ value: '', disabled: true }, []), 
       Cupid: new FormControl({ value: '', disabled: true }, []),
       Franchise: new FormControl({ value: '', disabled: true }, []),  
-      TranCmd: new FormControl({ value: '', disabled: true }, []),    
+      TransactionCommand: new FormControl({ value: '', disabled: true }, []),    
       TypeOfLine: new FormControl({ value: '', disabled: true }, []),
+
+       //StartTelephoneNumberOperator: new FormControl({ value: '', disabled: true }, []),
+      // CustomerNameOperator: new FormControl({ value: '', disabled: true }, []),
+      // CreationDateOperator: new FormControl({ value: '', disabled: true },[]),
+      // PostcodeOperator: new FormControl({ value: '', disabled: true }, []),
+      // PremisesOperator: new FormControl({ value: '', disabled: true }, []),      
+      // ThoroughfareOperator: new FormControl({ value: '', disabled: true }, []),
+      // LocalityOperator: new FormControl({ value: '', disabled: true }, []),
+      // SourceOperator: new FormControl({ value: '', disabled: true }, []), 
+      // CupidOperator: new FormControl({ value: '', disabled: true }, []),
+      // FranchiseOperator: new FormControl({ value: '', disabled: true }, []),  
+      // TransactionCommandOperator: new FormControl({ value: '', disabled: true }, []),    
+      // TypeOfLineOperator: new FormControl({ value: '', disabled: true }, []),
     })
+    // this.expOperatorsKeyPair.push(["StartTelephoneNumberOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["CustomerNameOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["CreationDateOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["PostcodeOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["PremisesOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["ThoroughfareOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["LocalityOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["CupidOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["FranchiseOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
+    // this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
       }
+  
+      get f() {
+        return this.thisForm.controls;
+      }  // check
 
   setOptions() {         
-    //this.service.configDetails(queryInput);
+    
   }
 
-  private _filter(name: string): any[] {
-    const filterValue = name.toLowerCase();    
-    let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
-    return filteredList;
-  }
+  
   public   getTransactionDetailsSourceData()
   {
     return [
@@ -778,10 +717,317 @@ export class TransactionDetailsComponent implements OnInit {
                                   }
     ];
   }
-  onFormSubmit(): void {    
+
+  OnOperatorClicked(val:[string,string])
+  {
+    // if (event.target.value !="")
+     console.log("operators event","value " ,val );
+    let vals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,val[0]));
+    console.log("operators event1","vals " ,vals );
+    if(vals.length==0)
+    {
+    this.expOperatorsKeyPair.push(val);
+    console.log("if part",this.expOperatorsKeyPair);
+    }
+    else{
+      this.expOperatorsKeyPair=this.expOperatorsKeyPair.filter((i)=>i[0]!=val[0]);
+      this.expOperatorsKeyPair.push(val);
+      console.log("else part",this.expOperatorsKeyPair);
+    }
+  }
+/* field Validation starts... */
+  addPrefix(control: string, value: any) {
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    this.thisForm.controls[control].setValue(value);
+  }
+
+  numberOnly(event: any): boolean {
+    let charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+
+/* field Validation End */
+
+getTupleValue(element:[string,string],keyvalue:string)
+{
+  if (element[0]==keyvalue)
+  {  return element[1];}
+  else 
+    return "";
+ 
+}
+
+  prepareQueryParams(): any {
+
+    // let attributes: any =[ {
+
+    //   "Name" : "StartTelephoneNumber",
+
+    //   "Value" : [ "01076543233" ]
+
+    // }, {
+
+    //   "Name" : "StartTelephoneNumberOperator",
+
+    //   "Value" : [ "" ]
+
+    // } ,
+    //  {
+
+    //   "Name" : "CustomerName",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "CustomerNameOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "PostCode",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "PostCodeOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "CreationDate",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "CreationDateOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "TypeOfLine",
+
+    //  "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "TypeOfLineOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "Premises",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "PremisesOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "Thoroughfare",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "ThoroughfareOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "Locality",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "LocalityOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "Franchise",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "FranchiseOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "TransactionCommand",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "TransactionCommandOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "Cupid",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "CupidOperator",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "Source",
+
+    //   "Value" : [ "" ]
+
+    // }, {
+
+    //   "Name" : "SourceOperator",
+
+    //   "Value" : [ "" ]
+
+    // },
+    // {
+
+    //   "Name" : "PageNumber",
+
+    //   "Value" : [ "1" ]
+
+    // } ];
+    //let attributes: any = [
+    //   { Name: 'PageNumber', Value: ['1'] },
+    //     { Name: 'StartTelephoneNumber', Value: ['1076543233'] },
+    //     { Name: 'StartTelephoneNumberOperator', Value: ['Contains'] },
+    //     { Name: 'CustomerName', Value: ['J2 GLOBAL UK LTD'] },
+    //     { Name: 'CustomerNameOperator', Value: ['Contains'] },
+    //     { Name: 'PostCode', Value: ['LU1 4BU'] },
+    //     { Name: 'PostCodeOperator', Value: ['Contains'] },
+    //     { Name: 'CreationDate', Value: ['22-Jan-2022'] },
+    //     { Name: 'CreationDateOperator', Value: ['Equal To'] },
+    //     { Name: 'TypeOfLine', Value: ['BW'] },
+    //     { Name: 'TypeOfLineOperator', Value: ['Contains'] },
+    //     { Name: 'Premises', Value: ['TELEHOUSE EAST'] },
+    //     { Name: 'PremisesOperator', Value: ['Contains'] },
+    //     { Name: 'Thoroughfare', Value: ['CORIANDER AVENUE'] },
+    //     { Name: 'ThoroughfareOperator', Value: ['Contains'] },
+    //     { Name: 'Locality', Value: ['LONDON'] },
+    //     { Name: 'LocalityOperator', Value: ['Contains'] },
+    //     { Name: 'Franchise', Value: ['MCL'] },
+    //     { Name: 'FranchiseOperator', Value: ['Contains'] },
+    //     { Name: 'TransactionCommand', Value: ['A'] },
+    //     { Name: 'TransactionCommandOperator', Value: ['Contains'] },
+    //     { Name: 'Cupid', Value: ['12'] },
+    //     { Name: 'CupidOperator', Value: ['Equal To'] },
+    //     { Name: 'Source', Value: ['C-SASCOMS'] },
+    //     { Name: 'SourceOperator', Value: ['Contains'] },
+
+     // ];
+  let attributes: any = [{ Name: 'PageNumber', Value: ['1'] }, ];
+
+    for (const field in this.thisForm?.controls) {
+      const control = this.thisForm.get(field); 
+     // console.log(attributes);   
+        if (control?.value != "")
+          {
+            if(field =="creationDate")
+            {
+              attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
+            }
+            // console.log("field:",field," val:",control?.value)
+            attributes.push({ Name: field, Value: [control?.value] });
+            let operator:string = field+"Operator";
+            
+            console.log("op vals",this.expOperatorsKeyPair);
+            
+            //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
+            //  console.log("op ",operatorVal);
+             if (this.expOperatorsKeyPair.length !=0 )
+             {    
+              let expvals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator));          
+               if(expvals.length !=0)
+                  {
+                    attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                  }
+                  else
+                  {
+                    if(field=='StartTelephoneNumber'||field=='CreationDate')
+                    {
+                        attributes.push({ Name: operator, Value: ['Equal To'] }); 
+                    }
+                  else
+                    {
+                        attributes.push({ Name: operator, Value: ['Equal To'] });  
+                    }
+                  }
+             }  
+             else{
+              if(field=='StartTelephoneNumber'||field=='CreationDate')
+              {
+                   attributes.push({ Name: operator, Value: ['Equal To'] }); 
+              }
+             else
+              {
+                  attributes.push({ Name: operator, Value: ['Equal To'] });  
+              }
+             
+             }
+             
+          }
+    }
+      //  console.log(attributes);
+
+    return attributes;
+
+  }
+
+  TelephoneChange(e:any){
+    //(change)="TelephoneChange($event)"
+    // alert("Telephone changes:" + e.target.value);
+    // var x = e.which || e.keycode;
+    //          if ((x >= 48 && x <= 57))
+    //              return e.target.value;
+    //          else
+    //              return e.target.value="";
+
+  }
+
+  onFormSubmit(): void {  
+   
+    let request = Utils.prepareQueryRequest('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams());
+    // console.log("req : ",request);
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TransactionDetails));
+   // this.querytemp = this.service.queryDetails(request);
+    //console.log("response:",this.querytemp[0].TransactionDetails);
+    // console.log("resp : ",of(this.queryResult$));
     this.myTable = {
-      data: this.service.getTransactionDetailsSourceData(),
-      // data:this.getTransactionDetailsSourceData(),
+      // data: this.service.getTransactionDetailsSourceData(),
+     // data:this.getTransactionDetailsSourceData(),
+      data: this.queryResult$, 
+      //data:of(this.querytemp[0].TransactionDetails),     
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
@@ -799,14 +1045,14 @@ export class TransactionDetailsComponent implements OnInit {
 
    }
   resetForm(): void {   
-    // this.thisForm.reset();
-    // this.tabs.splice(0);
-    this._snackBar.open('Report Reset Completed!', 'Close', {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
+    this.thisForm.reset();
+    this.tabs.splice(0);
+    // this._snackBar.open('Report Reset Completed!', 'Close', {
+    //   duration: 5000,
+    //   horizontalPosition: this.horizontalPosition,
+    //   verticalPosition: this.verticalPosition,
     
-    });
+    // });
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -820,23 +1066,35 @@ export class TransactionDetailsComponent implements OnInit {
     });
   }
 
-  rowDetect(item: any) {    
+  rowDetect(item: any) {   
+    
+    
     this.selectedRowsCount = item.length;
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
-    }
+    if(item && item.length == 0) return
+   
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+      
+    // this.selectedRowsCount = item.length;
+    // if (item.length == 0) {
+    //   this.selectListItems = [];
+    // } else {
+    //   item.forEach((el: string) => {
+    //     if (!this.selectListItems.includes(el)) {
+    //       this.selectListItems.push(el)
+    //     }
+    //     else {
+    //       if (this.selectListItems.includes(el)) {
+    //         let index = this.selectListItems.indexOf(el);
+    //         this.selectListItems.splice(index, 1)
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   removeTab(index: number) {
@@ -845,29 +1103,39 @@ export class TransactionDetailsComponent implements OnInit {
 
   newTab(tab: any) {
     switch (tab.tabType) {
-      case 1: {        
+      case 1: {
+        this.auditTelNo = tab.row.TelephoneNumber;
         if (!this.tabs.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
+            name: 'Audit Trail Report(' + this.auditTelNo + ')'
           });
          //   this.selectedTab = 1;
         // }
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
       } else {
-      this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
+
+        let tabIndex:number =this.tabs.findIndex(x => x.tabType == 1);
+        this.tabs[tabIndex].name ='Audit Trail Report(' + this.auditTelNo + ')';
+
+      this.selectedTab = tabIndex ;
       }
+      
         break;
       }
       case 2: {
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            name: 'Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')' 
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
         } else {
-        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
+          let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
+          
+          this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')';      
         }
         break;
       }

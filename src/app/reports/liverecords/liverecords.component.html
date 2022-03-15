@@ -1,141 +1,199 @@
-
 <mat-sidenav-container class="side-container-report">
-<mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-<div class="filter-sticky filterposition">
-<app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
-(changes)="setControlAttribute($event)">
-</app-select-multiple>
-</div>
-<form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
-<div class="matsidenav-filter">
-<mat-form-field [ngClass]="{'hidden':myForm.controls.TelephoneNo.disabled}" hintLabel="Max 10 characters" appearance="outline">
-<mat-label>Telephone Number</mat-label>
-<input id="TelephoneNo" formControlName="TelephoneNo" matInput #input maxlength="10"
-placeholder="Telephone Number" style="margin-right: 24%;">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Cust Name</mat-label>
-<input id="CustomerName" formControlName="CustomerName" matInput #input maxlength="10"
-placeholder="CustName">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.PostCode.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>PostCode</mat-label>
-<input id="PostCode" formControlName="PostCode" matInput #input maxlength="10"
-placeholder="PostCode">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.CreatedOn.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Created On</mat-label>
-<input id="CreatedOn" [matDatepicker]="picker" formControlName="CreatedOn" matInput #input maxlength="10"
-placeholder="Created On">
-<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-<mat-datepicker #picker></mat-datepicker>
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.Premises.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Premises</mat-label>
-<input id="Premises" formControlName="Premises" matInput #input maxlength="10"
-placeholder="Premises">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.Throughtfare.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Thoroughfare</mat-label>
-<input id="Throughtfare" formControlName="Throughtfare" matInput #input maxlength="10"
-placeholder="Thoroughfare">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.Locality.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Locality</mat-label>
-<input id="Locality" formControlName="Locality" matInput #input maxlength="10"
-placeholder="Locality">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.Cupid.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Cupid</mat-label>
-<input id="Cupid" formControlName="Cupid" matInput #input maxlength="10"
-placeholder="Cupid">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.TypeofLine.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Type of Line</mat-label>
-<input id="TypeofLine" formControlName="TypeofLine" matInput #input maxlength="10"
-placeholder="TypeofLine">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.Franchise.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Franchise</mat-label>
-<input id="Franchise" formControlName="Franchise" matInput #input maxlength="10"
-placeholder="Franchise">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.TransCmd.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>TransCmd</mat-label>
-<input id="TransCmd" formControlName="TransCmd" matInput #input maxlength="10"
-placeholder="TransCmd">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
-<mat-form-field [ngClass]="{'hidden':myForm.controls.Source.disabled}" hintLabel="Max 10 characters"
-appearance="outline">
-<mat-label>Source</mat-label>
-<input id="Source" formControlName="Source" matInput #input maxlength="10"
-placeholder="Source">
-<mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-</mat-form-field>
+    <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+        <div class="filter-sticky filterposition">
+            <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
+                (changes)="setControlAttribute($event)">
+            </app-select-multiple>
+        </div>
+        <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
+            <div class="matsidenav-filter">
+                <ng-container *ngIf="configDetails  as config">
+                    <app-select-exp [listItems]="expressions[0].default"></app-select-exp>   
+        <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNo.disabled}">
+            <mat-label>Telephone No</mat-label>
+            <input formControlName="TelephoneNo" (keypress)="numberOnly($event)"
+              (keyup)="addPrefix('TelephoneNo',telno.value)" matInput maxlength="11"
+              placeholder="Telephone No" #telno>
+            <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
+            <mat-error>
+              <div *ngIf="f.TelephoneNo.touched && f.TelephoneNo.invalid" class="alert alert-danger">
+                <div *ngIf="f.TelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
+              </div>
+            </mat-error>
+          </mat-form-field>
 
-</div>
-<div calss="matsidenav-footer" >
-<button type="submit" mat-raised-button color="primary" >
-<mat-icon>search</mat-icon>Search
-</button>
-<button type="reset" mat-raised-button color="primary" (click)="resetForm()">
-<mat-icon>refresh</mat-icon>Reset
-</button>
-</div>
-</form>
-</mat-sidenav>
-<mat-sidenav-content class="side-content">
-<app-start-up *ngIf="tabs.length===0"></app-start-up> <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
-matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
-<mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-</button>
-<mat-tab-group [(selectedIndex)]="selectedTab">
-<mat-tab *ngFor="let tab of tabs; let index = index">
-<ng-template mat-tab-label>
-<div class="col" style="margin-left: 20px;">{{tab.name}}</div>
-<button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
-<mat-icon style="font-size: large;">close</mat-icon>
-</button> </ng-template> <span [ngSwitch]="tab.tabType">
-<div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
-<app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
-(addNewTab)="newTab($event)">
-</app-table-selection>
-</div>
-<div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:6px;">
-<app-telephone-audit-trail></app-telephone-audit-trail>
-</div>
-<div *ngSwitchCase="2" style="height: 520px; overflow-y:auto;padding-left:6px;">
-</div>
-<div *ngSwitchDefault></div>
-</span> <!-- <button mat-raised-button
-class="example-delete-tab-button"
-[disabled]="tabs.length === 1"
-(click)="removeTab(index)">
-Delete Tab
-</button> -->
-</mat-tab>
-</mat-tab-group>
-</mat-sidenav-content>
+                    <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                    <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}"
+                        hintLabel="Max 10 characters" appearance="outline">
+                        <mat-label>Customer Name</mat-label>
+                        <input id="CustomerName" formControlName="CustomerName" matInput #input maxlength="10"
+                            placeholder="CustName">
+                        <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                    </mat-form-field>
+                    <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                    <mat-form-field [ngClass]="{'hidden':myForm.controls.PostCode.disabled}"
+                        hintLabel="Max 10 characters" appearance="outline">
+                        <mat-label>PostCode</mat-label>
+                        <input id="PostCode" formControlName="PostCode" matInput #input maxlength="10"
+                            placeholder="PostCode">
+                        <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                    </mat-form-field>
+                    <app-select-exp [listItems]="expressions[2].default"></app-select-exp>
+                    <mat-form-field [ngClass]="{'hidden':myForm.controls.CreatedOn.disabled}"
+                        hintLabel="Max 10 characters" appearance="outline">
+                        <mat-label>Created On</mat-label>
+                        <input id="CreatedOn" [matDatepicker]="picker" formControlName="CreatedOn" matInput #input
+                            maxlength="10" placeholder="Created On">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                    </mat-form-field>
+                    <div [ngStyle]="{'display':myForm.controls.Premises.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Premises.disabled}">
+                            <mat-label>Premises</mat-label>
+                            <input formControlName="Premises" matInput #Premises maxlength="10" placeholder="Premises">
+                        </mat-form-field>
+                    </div>
+                    <div [ngStyle]="{'display':myForm.controls.Throughtfare.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <mat-form-field appearance="outline"
+                            [ngClass]="{'hidden':myForm.controls.Throughtfare.disabled}">
+                            <mat-label>Throughfare</mat-label>
+                            <input formControlName="Throughtfare" matInput #Throughtfare maxlength="10"
+                                placeholder="Throughtfare">
+                        </mat-form-field>
+                    </div>
+                    <div [ngStyle]="{'display':myForm.controls.Locality.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Locality.disabled}">
+                            <mat-label>Locality</mat-label>
+                            <input formControlName="Locality" matInput #Locality maxlength="10" placeholder="Locality">
+                        </mat-form-field>
+                    </div>
+                    <div [ngStyle]="{'display':myForm.controls.Cupid.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Cupid.disabled}">
+                            <mat-label>Cupid</mat-label>
+                            <input formControlName="Cupid" matInput #Cupid maxlength="10" placeholder="Cupid">
+                        </mat-form-field>
+                    </div>
+
+                    <div [ngStyle]="{'display':myForm.controls.Source.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Source.disabled}">
+                            <mat-label>Source</mat-label>
+                            <input formControlName="Source" type="text" placeholder="Search Source" matInput
+                                [matAutocomplete]="autoSource" />
+                            <span matSuffix mat-icon-button>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+                                <mat-option *ngFor="let val of splitData(config.Source) | ddlFilter: f.Source.value"
+                                    [value]="val">
+                                    {{val}}</mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                    <div [ngStyle]="{'display':myForm.controls.TypeOfLine.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TypeOfLine.disabled}">
+                            <mat-label>Type Of Line</mat-label>
+                            <input formControlName="TypeOfLine" type="text" placeholder="Search TypeOfLine" matInput
+                                [matAutocomplete]="autoTypeOfLine" />
+                            <span matSuffix mat-icon-button>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
+                                <mat-option
+                                    *ngFor="let val of splitData(config.TypeOfLine) | ddlFilter: f.TypeOfLine.value"
+                                    [value]="val">
+                                    {{val}}</mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                    <div [ngStyle]="{'display':myForm.controls.Franchise.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Franchise.disabled}">
+                            <mat-label>Franchise</mat-label>
+                            <input formControlName="Franchise" type="text" placeholder="Search Franchise" matInput
+                                [matAutocomplete]="autoFranchise" />
+                            <span matSuffix mat-icon-button>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoFranchise="matAutocomplete">
+                                <mat-option
+                                    *ngFor="let val of splitData(config.Franchise) | ddlFilter: f.Franchise.value"
+                                    [value]="val">
+                                    {{val}}</mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                    <div [ngStyle]="{'display':myForm.controls.TransactionCommand.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[1].default"></app-select-exp>
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TransactionCommand.disabled}">
+                            <mat-label>Transaction Command</mat-label>
+                            <input formControlName="TransactionCommand" type="text"
+                                placeholder="Search TransactionCommand" matInput
+                                [matAutocomplete]="autoTransactionCommand" />
+                            <span matSuffix mat-icon-button>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoTransactionCommand="matAutocomplete">
+                                <mat-option
+                                    *ngFor="let val of splitData(config.TransactionCommand) | ddlFilter: f.TransactionCommand.value"
+                                    [value]="val">
+                                    {{val}}</mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+
+                </ng-container>
+            </div>
+            <div calss="matsidenav-footer">
+                <button type="submit" mat-raised-button color="primary">
+                    <mat-icon>search</mat-icon>Search
+                </button>
+
+                <button type="button" mat-raised-button color="primary" (click)="resetForm()">
+                    <mat-icon>refresh</mat-icon>Reset
+                </button>
+            </div>
+        </form>
+    </mat-sidenav>
+    <mat-sidenav-content class="side-content">
+        <app-start-up *ngIf="tabs.length===0"></app-start-up> <button *ngIf="tabs.length!=0" class="slidderbtn"
+            mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+            matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+            <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+        </button>
+        <mat-tab-group [(selectedIndex)]="selectedTab">
+            <mat-tab *ngFor="let tab of tabs; let index = index">
+                <ng-template mat-tab-label>
+                    <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+                    <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button
+                        (click)="removeTab(index)">
+                        <mat-icon style="font-size: large;">close</mat-icon>
+                    </button>
+                </ng-template> <span [ngSwitch]="tab.tabType">
+                    <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
+                        <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable"
+                            (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
+                        </app-table-selection>
+                    </div>
+                    <div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:6px;">
+                        <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
+                        </app-telephone-audit-trail>
+                    </div>
+                    <div *ngSwitchCase="2" style="height: 520px; overflow-y:auto;padding-left:6px;">
+                    </div>
+                    <div *ngSwitchDefault></div>
+                </span>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-sidenav-content>
 </mat-sidenav-container>
-

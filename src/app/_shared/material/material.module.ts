@@ -42,6 +42,8 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CustomMatPaginatorIntl } from '../custom-matpaginator-Intl';
+import { MatPaginatorI18n } from './MatPaginatorI18n';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 const materialModules = [CommonModule,
   A11yModule,
@@ -86,6 +88,7 @@ const materialModules = [CommonModule,
   CdkAccordionModule,
   MatSelectModule,
   MatCheckboxModule,
+  ClipboardModule
 ]
 @NgModule({
   declarations: [],
@@ -94,7 +97,7 @@ const materialModules = [CommonModule,
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
     { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: { formFieldAppearance: 'legacy' } },
-    // { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }
+    { provide: MatPaginatorIntl, useClass: MatPaginatorI18n }
   ]
 })
 export class MaterialModule { }

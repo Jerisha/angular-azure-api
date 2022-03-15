@@ -1,6 +1,34 @@
+<ng-container *ngIf="tranErr$ | async as tran ;">
 <div  class="header">
     <ng-container [ngTemplateOutlet]="noRecordsMessage"
-        [ngTemplateOutletContext]="{ $implicit : internalError != null ? 'Internal Error ' : 'No Records for Internal Error'}">
+        [ngTemplateOutletContext]="{ $implicit : tran.VodafoneError != null ? 'Internal Error ' : 'No Records for Internal Error'}">
+    </ng-container>
+</div> 
+
+<ng-template #noRecordsMessage let-data>
+    {{data}}
+</ng-template>
+<div class="audit-sec">
+    <app-table class="appTable" [tableitem]="tran.VodafoneError"></app-table>
+</div>
+
+<div  class="header">
+    <ng-container [ngTemplateOutlet]="noRecordsMessage"
+        [ngTemplateOutletContext]="{ $implicit : tran.SupplierError != null ? 'BT Response ' : 'No Records for BT Response'}">
+    </ng-container>
+</div>
+
+<ng-template #noRecordsMessage let-data>
+    {{data}}
+</ng-template>
+
+<div class="audit-sec">
+    <app-table class="appTable" [tableitem]="tran.SupplierError"></app-table>
+</div>
+
+<div  class="header">
+    <ng-container [ngTemplateOutlet]="noRecordsMessage"
+        [ngTemplateOutletContext]="{ $implicit : tran.ResolutionHistory != null ? 'Resolution Histroy ' : 'No Records for Resolution History'}">
     </ng-container>
 </div>
 
@@ -8,31 +36,18 @@
     {{data}}
 </ng-template>
 <div class="audit-sec">
-    <app-table class="appTable" [tableitem]="internalError"></app-table>
+    <app-table class="appTable" [tableitem]="tran.ResolutionHistory"></app-table>
 </div>
+</ng-container>
 
-<div  class="header">
-    <ng-container [ngTemplateOutlet]="noRecordsMessage"
-        [ngTemplateOutletContext]="{ $implicit : btResponse != null ? 'BT Response ' : 'No Records for BT Response'}">
-    </ng-container>
-</div>
-
-<ng-template #noRecordsMessage let-data>
-    {{data}}
-</ng-template>
-<div class="audit-sec">
-    <app-table class="appTable" [tableitem]="btResponse"></app-table>
-</div>
-
-<div  class="header">
-    <ng-container [ngTemplateOutlet]="noRecordsMessage"
-        [ngTemplateOutletContext]="{ $implicit : btResponse != null ? 'Resolution Histroy ' : 'No Records for Resolution History'}">
-    </ng-container>
-</div>
-
-<ng-template #noRecordsMessage let-data>
-    {{data}}
-</ng-template>
-<div class="audit-sec">
-    <app-table class="appTable" [tableitem]="resolHistory"></app-table>
-</div>
+<!-- <ng-template #NoData>
+    <div  class="header">
+        No Records for Internal Error
+    </div>
+    <div  class="header">
+        No Records for BT Response
+    </div>
+    <div  class="header">
+        No Records for Resolution History
+    </div>
+</ng-template> -->

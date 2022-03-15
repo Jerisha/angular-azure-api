@@ -106,27 +106,27 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
         AddCliRangeBtn:new FormControl({value: '', disabled: false }, []), 
         SearchBtn:new FormControl({value: '', disabled: false }, []), 
       }),
-      secondView:this.fb.group({
-        ReviewBtn:new FormControl({value: '', disabled: false }, []),
-        AuditTrailBtn:new FormControl({value: '', disabled: false }, []), 
-        ResetBtn:new FormControl({value: '', disabled: false }, []),
-        CupIdCbo:new FormControl({value: '', disabled: false }, []),
-        FransciseCbo:new FormControl({value: '', disabled: false }, []),
-        }),
-      thirdView:this.fb.group({
-          TranTypeCbo:new FormControl({value: '', disabled: false }, []),
-          LineTypeCbo:new FormControl({value: '', disabled: false }, []),
-          TypeOfLineCbo:new FormControl({value: '', disabled: false }, []),
-          OrderRefTxt:new FormControl({value: '', disabled: false }, []),
-          IECupIdTxt:new FormControl({value: '', disabled: false }, []),
-          CommentTxt:new FormControl({value: '', disabled: false }, []),
-          CustomerNameTxt:new FormControl({value: '', disabled: false }, []), 
-          Address1Txt:new FormControl({value: '', disabled: false }, []), 
-          Address2Txt:new FormControl({value: '', disabled: false }, []), 
-          Address3Txt:new FormControl({value: '', disabled: false }, []), 
-          Address4Txt:new FormControl({value: '', disabled: false }, []), 
-          PostCodeTxt:new FormControl({value: '', disabled: false }, []), 
-          }),
+      // secondView:this.fb.group({
+      //   ReviewBtn:new FormControl({value: '', disabled: false }, []),
+      //   AuditTrailBtn:new FormControl({value: '', disabled: false }, []), 
+      //   ResetBtn:new FormControl({value: '', disabled: false }, []),
+      //   CupIdCbo:new FormControl({value: '', disabled: false }, []),
+      //   FransciseCbo:new FormControl({value: '', disabled: false }, []),
+      //   }),
+      // thirdView:this.fb.group({
+      //     TranTypeCbo:new FormControl({value: '', disabled: false }, []),
+      //     LineTypeCbo:new FormControl({value: '', disabled: false }, []),
+      //     TypeOfLineCbo:new FormControl({value: '', disabled: false }, []),
+      //     OrderRefTxt:new FormControl({value: '', disabled: false }, []),
+      //     IECupIdTxt:new FormControl({value: '', disabled: false }, []),
+      //     CommentTxt:new FormControl({value: '', disabled: false }, []),
+      //     CustomerNameTxt:new FormControl({value: '', disabled: false }, []), 
+      //     Address1Txt:new FormControl({value: '', disabled: false }, []), 
+      //     Address2Txt:new FormControl({value: '', disabled: false }, []), 
+      //     Address3Txt:new FormControl({value: '', disabled: false }, []), 
+      //     Address4Txt:new FormControl({value: '', disabled: false }, []), 
+      //     PostCodeTxt:new FormControl({value: '', disabled: false }, []), 
+      //     }),
     });   
   }
 
@@ -167,9 +167,13 @@ removeRangeCli(rangeIndex:number){
 
 }
 
+
+
 onChangeEvent(event:any)
 {  
-  if(event.target.value !="")
+  if(
+  (this.model.telno.length==11 && this.model.rangeEnd.length==0) || 
+  (this.model.telno.length==11  && this.model.rangeEnd.length==11 ))
   {
     
     this.isExportImportSelected =true;
@@ -178,18 +182,27 @@ onChangeEvent(event:any)
     this.btncolor ="vf-primary-btn";
     this.addbtncolor="vf-add-btn";
   }
+  else{
+    this.searchTelState =true;
+    this.addCliState=true;
+    this.btncolor ="secondary";
+    this.addbtncolor="secondary";
+    alert("Enter Valid Telephone NO's, then try again...!:)");
+  }
 
 }
+
+
 
 OnstateItemChange(event:any)
 {
   if(event.target.value !="")
   { 
-    console.log("before:",event.target.value);   
+    //console.log("before:",event.target.value);   
     this.saveState =false;
     this.savebtnColor ="vf-primary-btn";   
   }
-  console.log("before:",event.target.value);  
+  //console.log("before:",event.target.value);  
 }
 check_list(this:TableItem,val:number)
 {
@@ -244,7 +257,7 @@ SearchTel(){
   }
   ValidateTelno(telno:string){
     
-    let regNumberOnly = new RegExp("^[0-9 ]*$"); 
+    let regNumberOnly = new RegExp("^[0-9]*$"); 
 
     if(!(telno.length==0))
    {
@@ -264,6 +277,40 @@ SearchTel(){
    return true;
    }
   }
+
+  /* field Validation starts... */
+  // addPrefix( el: HTMLElement) {
+  //   let val =el.innerText;
+  //   if (el.innerText.charAt(0) != '0') {
+  //     el.innerText = val.length <= 10 ? '0' + val : val;
+  //   }
+    
+  // }
+
+  addPrefix(control: string, value: any) {
+    if (value.charAt(0) != '0') {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    //this.formsGroup.controls[control].setValue(value);
+    if(control=='startTel' && value !='0')
+    {
+      this.model.telno =value;
+    }
+    else if (control=='endTel' && value !='0'){
+      this.model.rangeEnd =value;
+    }
+  }
+
+  numberOnly(event: any): boolean {
+    let charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+
+/* field Validation End */
 
   resetTel(sf:any) {
     this.model={telno:"",rangeEnd:"",CupId:"",Franchise:""};
@@ -325,6 +372,8 @@ SearchTel(){
     this.view3Toggle ="display: none;visibility:hidden;";
   }
   
+
+   
 
 }
 
