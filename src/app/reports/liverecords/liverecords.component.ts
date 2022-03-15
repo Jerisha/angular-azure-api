@@ -451,30 +451,31 @@ const Itemstwo: Select[] = [
 export class LiverecordsComponent implements OnInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   formbulider: any;
+  currentPage: string = '1';
 
   myTable!: TableItem;
   listItems!: Select[];
 
 
-    constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-      private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
+  constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
 
-      expOperators:string [] =[
-        "StartTelephoneNumberOperator",
-        "CustomerNameOperator",
-        "CreationDateOperator",
-        "PostcodeOperator",
-        "PremisesOperator",
-        "ThoroughfareOperator",
-        "LocalityOperator",
-        "SourceOperator",
-        "CupidOperator",
-        "FranchiseOperator",
-        "TransactionCommandOperator",
-        "TypeOfLineOperator",
-      ];
-  expOperatorsKeyPair:[string,string][] =[];
-  
+  expOperators: string[] = [
+    "StartTelephoneNumberOperator",
+    "CustomerNameOperator",
+    "CreationDateOperator",
+    "PostcodeOperator",
+    "PremisesOperator",
+    "ThoroughfareOperator",
+    "LocalityOperator",
+    "SourceOperator",
+    "CupidOperator",
+    "FranchiseOperator",
+    "TransactionCommandOperator",
+    "TypeOfLineOperator",
+  ];
+  expOperatorsKeyPair: [string, string][] = [];
+
 
   dataSaved = false;
   employeeForm: any;
@@ -488,7 +489,7 @@ export class LiverecordsComponent implements OnInit {
   SelectedDate = null;
   isMale = true;
   isFeMale = false;
-  expressions:any = [expNumeric,expString,expDate];
+  expressions: any = [expNumeric, expString, expDate];
   destroy$: Subject<boolean> = new Subject<boolean>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -497,22 +498,14 @@ export class LiverecordsComponent implements OnInit {
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
-];
-errorCode = new FormControl();
+  ];
+  errorCode = new FormControl();
   selectedTab!: number;
-
-
   auditTelNo?: any;
   repIdentifier = "LiveTelephoneNumberDetails";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   configDetails!: any;
-  
-  // public tabs = [{
-  // tabType: 0,
-  // name: 'Main'
-  // },
-  //];
   public tabs: Tab[] = [];
   columns: ColumnDetails[] = [
     { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
@@ -551,28 +544,17 @@ errorCode = new FormControl();
     });
   }
   ngOnInit(): void {
- 
+
     this.listItems = Itemstwo;
     // this.setOptions();
-      this.createForm();
-      // debugger;
-      // let transformInput = JSON.parse(WMRequests.CONFIG);
-      // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command', 'Source']
-      // console.log("Input: ", transformInput);
-      // debugger;
-      // let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand','ErrorCode']);
-      // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
-  
-      // //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
-    
-     
-
+    this.createForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'],['Source','Franchise','TypeOfLine','TransactionCommand']);
+    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'Franchise', 'TypeOfLine', 'TransactionCommand']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
     });
+
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -581,12 +563,12 @@ errorCode = new FormControl();
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
-  
+
 
   get f() {
     return this.myForm.controls;
   }
-  addPrefix(control: string, value: any) {    
+  addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
     }
@@ -602,11 +584,11 @@ errorCode = new FormControl();
   }
   setOptions() {
     this.errorCodesOptions = this.errorCode.valueChanges
-        .pipe(
-            startWith<string>(''),
-            map(name => this._filter(name))
-        );
-}
+      .pipe(
+        startWith<string>(''),
+        map(name => this._filter(name))
+      );
+  }
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
   }
@@ -617,25 +599,35 @@ errorCode = new FormControl();
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  onFormSubmit(): void {
-  
+  getNextSetRecords(pageIndex: any) {
     debugger;
-    let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams());
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
+
+  onFormSubmit(isEmitted?: boolean): void {
+    debugger;
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
-      // let result = { datasource: res[0].SolicitedError,
-      //    totalrecordcount: res[0].TotalCount,
-      //    totalpages: res[0].NumberOfPages
-      //   }
-      //   return result;
-      return res[0].LiveTelephoneNumberDetails
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].LiveTelephoneNumberDetails,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return res;
     }));
+
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'Links',
-      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '',toolTipText: 'Audit Trail Report', tabIndex: 1 }]
+      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -644,21 +636,12 @@ errorCode = new FormControl();
         name: 'Main'
       });
     }
-
-    // if (!this.tabs.find(x => x.tabType == 0)) {
-    //   this.tabs.push({
-    //     tabType: 0,
-    //     name: 'Main'
-    //   });
-    // }
-    // this.selectedTab = this.tabs.length;
-    // //this.selectedTab = this.tabs.length - 1;
   }
 
   resetForm(): void {
     window.location.reload();
     // this.tabs.splice(0);
-    
+
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
@@ -668,89 +651,74 @@ errorCode = new FormControl();
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-  OnOperatorClicked(val:[string,string])
-  {
+  OnOperatorClicked(val: [string, string]) {
     // if (event.target.value !="")
-     console.log("operators event","value " ,val );
-    let vals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,val[0]));
-    console.log("operators event1","vals " ,vals );
-    if(vals.length==0)
-    {
-    this.expOperatorsKeyPair.push(val);
-    console.log("if part",this.expOperatorsKeyPair);
-    }
-    else{
-      this.expOperatorsKeyPair=this.expOperatorsKeyPair.filter((i)=>i[0]!=val[0]);
+    console.log("operators event", "value ", val);
+    let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
+    console.log("operators event1", "vals ", vals);
+    if (vals.length == 0) {
       this.expOperatorsKeyPair.push(val);
-      console.log("else part",this.expOperatorsKeyPair);
+      console.log("if part", this.expOperatorsKeyPair);
+    }
+    else {
+      this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
+      this.expOperatorsKeyPair.push(val);
+      console.log("else part", this.expOperatorsKeyPair);
     }
   }
 
-  getTupleValue(element:[string,string],keyvalue:string)
-{
-  if (element[0]==keyvalue)
-  {  return element[1];}
-  else 
-    return "";
- 
-}
+  getTupleValue(element: [string, string], keyvalue: string) {
+    if (element[0] == keyvalue) { return element[1]; }
+    else
+      return "";
 
+  }
 
-prepareQueryParams(): any {
-  let attributes: any = [{ Name: 'PageNumber', Value: ['1'] }, ];
-
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
     for (const field in this.myForm?.controls) {
-      const control = this.myForm.get(field); 
-     // console.log(attributes);   
-        if (control?.value != "")
-          {
-            if(field =="CreatedOn")
-            {
-              attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
-            }
-            // console.log("field:",field," val:",control?.value)
-            attributes.push({ Name: field, Value: [control?.value] });
-            let operator:string = field+"Operator";
-            
-            console.log("op vals",this.expOperatorsKeyPair);
-            
-            //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
-            //  console.log("op ",operatorVal);
-             if (this.expOperatorsKeyPair.length !=0 )
-             {    
-              let expvals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator));          
-               if(expvals.length !=0)
-                  {
-                    attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                  }
-                  else
-                  {
-                    if(field=='StartTelephoneNumber'||field=='CreatedOn')
-                    {
-                        attributes.push({ Name: operator, Value: ['Equal To'] }); 
-                    }
-                  else
-                    {
-                        attributes.push({ Name: operator, Value: ['Equal To'] });  
-                    }
-                  }
-             }  
-            //  else{
-            //   if(field=='StartTelephoneNumber'||field=='CreatedOn')
-            //   {
-            //        attributes.push({ Name: operator, Value: ['Equal To'] }); 
-            //   }
-            //  else
-            //   {
-            //       attributes.push({ Name: operator, Value: ['Equal To'] });  
-            //   }
-             
-            //  }
-             
+      const control = this.myForm.get(field);
+      // console.log(attributes);   
+      if (control?.value != "") {
+        if (field == "CreatedOn") {
+          attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
+        }
+        // console.log("field:",field," val:",control?.value)
+        attributes.push({ Name: field, Value: [control?.value] });
+        let operator: string = field + "Operator";
+
+        console.log("op vals", this.expOperatorsKeyPair);
+        if (this.expOperatorsKeyPair.length != 0) {
+          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+          if (expvals.length != 0) {
+            attributes.push({ Name: operator, Value: [expvals[0][1]] });
           }
+          else {
+            if (field == 'StartTelephoneNumber' || field == 'CreatedOn') {
+              attributes.push({ Name: operator, Value: ['Equal To'] });
+            }
+            else {
+              attributes.push({ Name: operator, Value: ['Equal To'] });
+            }
+          }
+        }
+         else{
+          if(field=='StartTelephoneNumber'||field=='CreatedOn')
+          {
+               attributes.push({ Name: operator, Value: ['Equal To'] }); 
+          }
+         else
+          {
+              attributes.push({ Name: operator, Value: ['Equal To'] });  
+          }
+
+         }
+
+      }
     }
-    
-       console.log('attri',attributes);
+
+    console.log('attri', attributes);
 
     return attributes;
 
@@ -817,21 +785,21 @@ prepareQueryParams(): any {
         this.auditTelNo = tab.row.TelephoneNumber;
         break;
 
-      // case 2:
-      //   if (!this.tabs.find(x => x.tabType == 2)) {
-      //     this.tabs.push({
-      //       tabType: 2,
-      //       name: 'Transaction Errors'
-      //     })
-      //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-      //   } else {
-      //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-      //   }
-      //   this.telNo = tab.row.TelephoneNumber;
-      //   this.tranId = tab.row.TransactionId;
-      //   break;
-      // default:
-      //   //statements; 
+        // case 2:
+        //   if (!this.tabs.find(x => x.tabType == 2)) {
+        //     this.tabs.push({
+        //       tabType: 2,
+        //       name: 'Transaction Errors'
+        //     })
+        //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+        //   } else {
+        //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+        //   }
+        //   this.telNo = tab.row.TelephoneNumber;
+        //   this.tranId = tab.row.TransactionId;
+        //   break;
+        // default:
+        //   //statements; 
         break;
 
     }
@@ -847,7 +815,7 @@ prepareQueryParams(): any {
 
   createForm() {
     this.myForm = new FormGroup({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true },  [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       PostCode: new FormControl({ value: '', disabled: true }, []),
       CreatedOn: new FormControl({ value: '', disabled: true }, []),
@@ -855,13 +823,13 @@ prepareQueryParams(): any {
       Throughtfare: new FormControl({ value: '', disabled: true }, []),
       Locality: new FormControl({ value: '', disabled: true }, []),
       Cupid: new FormControl({ value: '', disabled: true }, []),
-      TypeOfLine: new FormControl({ value: '', disabled: true },[]),
+      TypeOfLine: new FormControl({ value: '', disabled: true }, []),
       Franchise: new FormControl({ value: '', disabled: true }, []),
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
 
     })
-    
+
     // this.expOperatorsKeyPair.push(["StartTelephoneNumberOperator","Equal To"]);
     // this.expOperatorsKeyPair.push(["CustomerNameOperator","Equal To"]);
     // this.expOperatorsKeyPair.push(["PostcodeOperator","Equal To"]);
@@ -874,7 +842,7 @@ prepareQueryParams(): any {
     // this.expOperatorsKeyPair.push(["FranchiseOperator","Equal To"]);
     // this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
     // this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
-    
+
   }
 
   rowDetect(item: any) {

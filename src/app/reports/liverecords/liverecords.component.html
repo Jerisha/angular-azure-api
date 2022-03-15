@@ -51,6 +51,7 @@
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
+                    
 
                     <div [ngStyle]="{'display':myForm.controls.Premises.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default" #PremisesOperator
@@ -195,9 +196,10 @@
                     </button>
                 </ng-template> <span [ngSwitch]="tab.tabType">
                     <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
-                        <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable"
-                            (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
-                        </app-table-selection>
+                        
+                    <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
+                    (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
+                  </app-table-selection>
                     </div>
                     <div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:6px;">
                         <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
