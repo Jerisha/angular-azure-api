@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from '@angular/material/table';
@@ -34,9 +34,17 @@ export class ReportReferenceComponent implements OnInit,AfterViewInit {
   ) { }
 
 ngOnInit(): void {
- this.referenceForm = this.formBuilder.group({});
+ 
+}
+ngOnChanges(changes: SimpleChanges) {
+  // if(this.referenceForm !=null)
+  // console.log("instances..");
+  //{  
+  this.referenceForm = this.formBuilder.group({});
  this.lstForm  = this.service.setForm(this.reportName);
- this.formValidation();
+ this.referenceForm = this.formValidation();
+// }
+ //need to check
 //  console.log('check-coldis',this.service.displayedColumns);
  this.displayedColumns=this.service.displayedColumns[0][this.reportName];
 //  console.log('check-data',this.service.data);
@@ -45,7 +53,7 @@ ngOnInit(): void {
 
 }
 
-formValidation() {
+formValidation() :FormGroup {
 
  const group: any = {};
 for (var field of this.lstForm) {
@@ -80,14 +88,15 @@ ngAfterViewChecked()
  }
 
 onEditRecord(record:any,event:any){
- alert("start editing...");
+//  alert("start editing...");
  this.showDataform =true;
- event.stopPropagation();
+//  event.stopPropagation();
  // this.showDetailsForm=false;
 }
 
-onDeleteRecord(record:any){
- alert("Delete starts...");
+onDeleteRecord(record:any,event:any){
+ let val = JSON.stringify(record)
+ alert("Delete starts..."+record.OriginatingSystem);
 
 }
 onCreateRecord(){
@@ -116,3 +125,5 @@ onCancelDataForm(){
 }
 
 }
+
+

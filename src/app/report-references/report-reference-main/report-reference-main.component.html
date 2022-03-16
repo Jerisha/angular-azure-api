@@ -1,4 +1,4 @@
-<mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; "> 
+<mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height: 530px;"> 
   <mat-tab>
       <ng-template mat-tab-label>
           <div style="margin-left: 10px;">{{title}}</div>
@@ -7,9 +7,20 @@
           </button>
       </ng-template> 
       <!-- <ng-template #tpl>  -->
-      <app-report-reference [reportName]="reportName"></app-report-reference>
-<!-- </ng-template> -->
-</mat-tab>
+        <app-report-reference [reportName]="reportName"></app-report-reference>      
+      <!-- </ng-template> -->
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <div style="margin-left: 10px;">{{title}}</div>
+            <button *ngIf=1 style="color:black" matSuffix mat-icon-button >
+            <mat-icon style="font-size: large;">close</mat-icon>
+            </button>
+        </ng-template> 
+        <!-- <ng-template #tpl>  -->
+          <app-report-reference [reportName]="reportName"></app-report-reference>      
+        <!-- </ng-template> -->
+      </mat-tab>
 </mat-tab-group> 
 
 
