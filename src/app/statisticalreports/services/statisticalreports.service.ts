@@ -67,6 +67,8 @@ export class statisticalreport {
   customMonthly(data: any) {
     debugger
     //console.log('service.custom' + JSON.stringify(data));
+    try
+    {
     let arrdate: any[] = [];
     let arrmonth: any[] = [];
     let monthlyData: any = data[0].MonthlyData;
@@ -98,6 +100,10 @@ export class statisticalreport {
       console.log(data[0].MonthlyData);
     }
     return data;
+  }catch
+  {
+    return '';
+  }
   }
 
 

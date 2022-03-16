@@ -82,12 +82,12 @@ export class TelephoneDetailsComponent implements OnInit {
   columns: ColumnDetails[] = [
      { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
     { header: 'TelephoneNo', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
-    { header: 'AddCommands', headerValue: 'AddCommands', showDefault: true, isImage: false },
-    { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: true, isImage: false },
-    { header: 'ModifiyCommands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false },
-    { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: true, isImage: false },
-    { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: true, isImage: false },
-    { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, isImage: false },
+    { header: 'Add Commands', headerValue: 'AddCommands', showDefault: true, isImage: false },
+    { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: true, isImage: false },
+    { header: 'Modifiy Commands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false },
+    { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: true, isImage: false },
+    { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: true, isImage: false },
+    { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false },
   ];
   queryResult$!: Observable<any>;
   ngOnInit(): void {

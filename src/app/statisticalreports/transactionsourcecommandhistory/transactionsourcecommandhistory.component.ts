@@ -183,25 +183,25 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
       { header: 'StatisticMonth', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'AddCommands', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'CeaseCommands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'ModifyCommands', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'ExportCommands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'ImportCommands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'TotalCommands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+      { header: 'Add Commands', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'Modify Commands', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
   columnsChild: ColumnDetails[] =
     [
       { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-      { header: 'StatisticDate', headerValue: 'StatisticDate', showDefault: false, isImage: false },
+      { header: 'Statistic Date', headerValue: 'StatisticDate', showDefault: false, isImage: false },
       { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'ActivateTransactions', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'CeaseTransactions', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'ModifyTransactions', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'ExportTransactions', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'ImportTransactions', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'TotalTransactions', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+      { header: 'Add Commands', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'Modify Commands', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
 
