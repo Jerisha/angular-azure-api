@@ -11,7 +11,7 @@ export class OptionsValidatorDirective implements Validator {
     validate(control: AbstractControl): { [key: string]: any } |null{
        
       const selection: any = control.value;
-    if (this.options && this.options.indexOf(selection) < 0) {
+    if (selection && this.options && this.options.indexOf(selection) < 0) {
       return { validOptions: true };
     }
     return null;

@@ -7,7 +7,7 @@ export class SplitByPipe implements PipeTransform {
 
   transform(items: string, seperator: string): string[] {   
     // if(items!=undefined) 
-      return items ? items.split(seperator).concat('') : []; 
+      return items ? items.split(seperator) : []; 
   }
 
 }
