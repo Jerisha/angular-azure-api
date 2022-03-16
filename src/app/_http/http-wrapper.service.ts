@@ -9,6 +9,7 @@ import { WMMessageType } from 'src/app/_http/enums/wmmessage-type.enum';
 import { WMStatusCode } from 'src/app/_http/enums/wmstatus-code.enum';
 import { Router } from '@angular/router';
 import { AlertService } from '../_shared/alert/alert.service';
+import { Utils } from './common/utils';
 
 
 @Injectable({ providedIn: 'root' })
@@ -19,7 +20,6 @@ export class HttpWrapperService {
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
-
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
                 `${environment.api_sit}${endPoint.toString()}`,
@@ -33,11 +33,10 @@ export class HttpWrapperService {
                 })
         });
         return observerRes;
-        // return new Observable<Type>();
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
-        debugger;
+        // debugger;
         switch (responseType) {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
@@ -46,9 +45,8 @@ export class HttpWrapperService {
         }
     }
 
-
     private resolveRespone(val: any, requestType: WebMethods) {
-        debugger;
+        // debugger;
         let categories = [];
         let jsonResult = '';
         try {
@@ -89,8 +87,6 @@ export class HttpWrapperService {
             console.log("Response: " + val + "ResponseError: " + err);
             this.alertService.error("Incorrect Response Format", { autoClose: true, keepAfterRouteChange: false });
         }
-        
-       
     }
 
     private processConfigObject(categories: any) {
@@ -101,6 +97,7 @@ export class HttpWrapperService {
                 //Check ItemName is not Update
                 if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update"
                     && category?.hasOwnProperty("ListofConfigObjectCharacteristics")) {
+
                     jsonCreation += `{`
                     //Iterate characteristics object
                     let configCharacteristics = category.ListofConfigObjectCharacteristics.ConfigObjectCharacteristics;
@@ -131,7 +128,7 @@ export class HttpWrapperService {
             categories?.forEach((category: any) => {
                 //Check ListofIdentifiers
                 if (category?.hasOwnProperty("ItemName") && category["ItemName"] != "Update") {
-                    jsonCreation += `{`
+                    jsonCreation += `{ "ScreenIdentifier" : "${category["ItemName"]}",`
                     if (category?.hasOwnProperty("ListofIdentifiers") || category?.hasOwnProperty("ListofAttributes")) {
                         //Iterate category object
                         jsonCreation = this.resolveCharacteristic(category, jsonCreation);
@@ -151,6 +148,7 @@ export class HttpWrapperService {
                         jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
                         jsonCreation += `]`;
                     }
+                    else { jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1); }
                     jsonCreation += `},`;
                 }
             });
@@ -161,7 +159,6 @@ export class HttpWrapperService {
     }
 
     private processGetObject(categories: any) {
-        
         var jsonCreation = `[`
         if (categories != undefined && categories.length > 0) {
             //Iterate categories object
@@ -184,6 +181,7 @@ export class HttpWrapperService {
                         jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
                         jsonCreation += `]`;
                     }
+                    else { jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1); }
                     jsonCreation += `},`;
                 }
             });
@@ -195,27 +193,22 @@ export class HttpWrapperService {
 
     private resolveCharacteristic(objCharacteristic: any, jsonCreation: string) {
         //Bind Identifiers
-        let jsonqulity:string='';
-        let jsonSource:string='';
         if (objCharacteristic.hasOwnProperty("ListofIdentifiers")) {
             objCharacteristic.ListofIdentifiers.Identifier?.forEach((element: any) => {
                 if (element.hasOwnProperty("Name"))
-                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`, ``).replace(`\n\n`, ``).replace(`\r`, ``);
-                   //QulityIdentifier
-                    jsonSource=`"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(`\r\n\r\n`, ``).replace(`\n\n`, ``).replace(`\r`, ``);
-      
-                });
+                    jsonCreation += `"${element["Name"]}":"${element.hasOwnProperty("Value") ? element["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, ' ')
+            });
         }
         //Bind Attributes
         if (objCharacteristic.hasOwnProperty("ListofAttributes")) {
             let attr = objCharacteristic.ListofAttributes.Attribute;
             for (let i = 0; i < attr.length; i++) {
                 if (attr[i].hasOwnProperty("Name"))
-                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(`\r\n\r\n`, ``).replace(`\n\n`, ``).replace(`\r`, ``);
+                    jsonCreation += `"${attr[i]["Name"]}":"${attr[i].hasOwnProperty("Value") ? attr[i]["Value"] : ''}",`.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, ' ')
             }
         }
 
-        // Bind Qualities
+        //Bind Qualities
         if (objCharacteristic.hasOwnProperty("ListofQualities")) {
             let thisItem = "";
             let char = objCharacteristic.ListofQualities.Quality;
@@ -236,11 +229,8 @@ export class HttpWrapperService {
             jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
             jsonCreation += `],`;
         }
-       // console.log('json craeted',jsonCreation);
         return jsonCreation;
     }
-
-
 
     private bindItem(characteristic: any, thisItem: string, jsonCreation: string) {
         if (characteristic.hasOwnProperty("ItemName")) {

@@ -339,7 +339,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 }]
     }
 
-
+    this.datevalue="";
 
 
 
@@ -379,6 +379,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
         console.log('StatisticMonth',this.datevalue);
         if (StatisticMonth)
           attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
+         
         else
          attributes.push({ Name: 'StatisticMonth' });
       }

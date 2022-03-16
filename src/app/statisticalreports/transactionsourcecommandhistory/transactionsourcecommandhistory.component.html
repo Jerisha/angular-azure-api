@@ -15,15 +15,9 @@
         <!-- <app-select-exp [listItems]="expDefaultmonth"></app-select-exp> -->
                    <app-select-exp [listItems]="expressions[2].default" #StatisticMonthOperator 
                    (click) ="OnOperatorClicked(['StatisticMonthOperator',StatisticMonthOperator.selectedViewValue])"></app-select-exp>
-        <!-- <mat-form-field appearance="outline">
-          <mat-label>Statistic Month</mat-label>
-          <input formControlName="StatisticMonth" matInput [matDatepicker]="picker">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker startView="multi-year"></mat-datepicker>
-        </mat-form-field> -->
-
         <mat-form-field>
-          <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="StatisticMonth">
+          <mat-label>Statistic Month</mat-label>
+          <input matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="StatisticMonth">
           <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
           <mat-datepicker #dp
                           startView="multi-year"
@@ -35,8 +29,7 @@
         <div>
           <app-select-exp [listItems]="expressions[1].default" #SourceOperator 
           (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
-        <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
-         
+        <!-- <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">     
           <mat-label>Source System</mat-label>
           <input formControlName="Source" type="text" placeholder="Search Source" matInput
             [matAutocomplete]="autoSource" />
@@ -47,7 +40,31 @@
             <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
               {{val}}</mat-option>
           </mat-autocomplete>
+        </mat-form-field> -->
+        <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+          <mat-label>Source</mat-label>
+          <input formControlName="Source" type="text" placeholder="Search Source" matInput
+            [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','"/>
+          <span matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </span>
+          <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+            <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+              {{val}}</mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
         </mat-form-field>
+        
+        
+
+
+
+
+
+
+
+
+
       </div>
       </div>
       <div calss="matsidenav-footer" >
