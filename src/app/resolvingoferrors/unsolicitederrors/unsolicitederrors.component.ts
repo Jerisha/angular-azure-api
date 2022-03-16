@@ -14,7 +14,6 @@ import { ResolvingOfErrorsService } from '../services/resolving-of-errors.servic
 import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
-import  {CustomValidators}  from 'src/app/_helper/Validators/requireMatch'
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -181,10 +180,11 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.createForm();
     //this.UpdateForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'ErrorType', 'Final', 'ResolutionType']);
+    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
+      
     });
 
     let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
@@ -193,9 +193,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.updateDetails = res[0];
     });
 
-
-
-
+    
   }
 
   getNextSetRecords(pageIndex: any) {
@@ -231,9 +229,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
 
   ngAfterViewChecked() {
-
     this.cdr.detectChanges();
-
   }
 
 
@@ -339,23 +335,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   }
 
-  private requireMatch(control: FormControl ): ValidationErrors | null {
-    const selection: any = control.value;
-    this.configDetails
-    // if (options && options.indexOf(selection) < 0) {
-    //   return { requireMatch: true };
-    // }
-    return null;
-  } 
-
 
 
   createForm() {
-
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      Source: new FormControl({ value: '', disabled: true }, []),
+      Source: new FormControl({ value: '', disabled: true },  []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
@@ -388,8 +374,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
       this.service.updateDetails(request).subscribe(x => x);
     }
-
   }
+
   InternalErrorInformation: any;
   DisplayInformationTab() {
     debugger
@@ -439,10 +425,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
-
-
-
   onFormSubmit(isEmitted?: boolean): void {
+    debugger;
+    if(!this.thisForm.valid) return;
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {

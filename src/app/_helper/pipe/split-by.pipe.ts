@@ -5,11 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SplitByPipe implements PipeTransform {
 
-  transform(items: string, sperator: string): string[] {
-    
+  transform(items: string, seperator: string): string[] {   
     // if(items!=undefined) 
-      return items ? items.split(sperator) : [];  
- 
+      return items ? items.split(seperator).concat('') : []; 
   }
 
 }
