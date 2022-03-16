@@ -140,7 +140,7 @@ export class TransactionDetailsComponent implements OnInit {
   tranId?: any;
 
   repIdentifier = "TransactionDetails";
-  
+  currentPage: string = '1';
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
@@ -763,190 +763,9 @@ getTupleValue(element:[string,string],keyvalue:string)
  
 }
 
-  prepareQueryParams(): any {
-
-    // let attributes: any =[ {
-
-    //   "Name" : "StartTelephoneNumber",
-
-    //   "Value" : [ "01076543233" ]
-
-    // }, {
-
-    //   "Name" : "StartTelephoneNumberOperator",
-
-    //   "Value" : [ "" ]
-
-    // } ,
-    //  {
-
-    //   "Name" : "CustomerName",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "CustomerNameOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "PostCode",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "PostCodeOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "CreationDate",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "CreationDateOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "TypeOfLine",
-
-    //  "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "TypeOfLineOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Premises",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "PremisesOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Thoroughfare",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "ThoroughfareOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Locality",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "LocalityOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Franchise",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "FranchiseOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "TransactionCommand",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "TransactionCommandOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Cupid",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "CupidOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Source",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "SourceOperator",
-
-    //   "Value" : [ "" ]
-
-    // },
-    // {
-
-    //   "Name" : "PageNumber",
-
-    //   "Value" : [ "1" ]
-
-    // } ];
-    //let attributes: any = [
-    //   { Name: 'PageNumber', Value: ['1'] },
-    //     { Name: 'StartTelephoneNumber', Value: ['1076543233'] },
-    //     { Name: 'StartTelephoneNumberOperator', Value: ['Contains'] },
-    //     { Name: 'CustomerName', Value: ['J2 GLOBAL UK LTD'] },
-    //     { Name: 'CustomerNameOperator', Value: ['Contains'] },
-    //     { Name: 'PostCode', Value: ['LU1 4BU'] },
-    //     { Name: 'PostCodeOperator', Value: ['Contains'] },
-    //     { Name: 'CreationDate', Value: ['22-Jan-2022'] },
-    //     { Name: 'CreationDateOperator', Value: ['Equal To'] },
-    //     { Name: 'TypeOfLine', Value: ['BW'] },
-    //     { Name: 'TypeOfLineOperator', Value: ['Contains'] },
-    //     { Name: 'Premises', Value: ['TELEHOUSE EAST'] },
-    //     { Name: 'PremisesOperator', Value: ['Contains'] },
-    //     { Name: 'Thoroughfare', Value: ['CORIANDER AVENUE'] },
-    //     { Name: 'ThoroughfareOperator', Value: ['Contains'] },
-    //     { Name: 'Locality', Value: ['LONDON'] },
-    //     { Name: 'LocalityOperator', Value: ['Contains'] },
-    //     { Name: 'Franchise', Value: ['MCL'] },
-    //     { Name: 'FranchiseOperator', Value: ['Contains'] },
-    //     { Name: 'TransactionCommand', Value: ['A'] },
-    //     { Name: 'TransactionCommandOperator', Value: ['Contains'] },
-    //     { Name: 'Cupid', Value: ['12'] },
-    //     { Name: 'CupidOperator', Value: ['Equal To'] },
-    //     { Name: 'Source', Value: ['C-SASCOMS'] },
-    //     { Name: 'SourceOperator', Value: ['Contains'] },
-
-     // ];
-  let attributes: any = [{ Name: 'PageNumber', Value: ['1'] }, ];
+prepareQueryParams(pageNo: string): any {
+  let attributes: any = [
+    { Name: 'PageNumber', Value: [`${pageNo}`] }];
 
     for (const field in this.thisForm?.controls) {
       const control = this.thisForm.get(field); 
@@ -1014,15 +833,28 @@ getTupleValue(element:[string,string],keyvalue:string)
     //              return e.target.value="";
 
   }
+  getNextSetRecords(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
 
-  onFormSubmit(): void {  
-   
-    let request = Utils.prepareQueryRequest('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams());
+  onFormSubmit(isEmitted?: boolean): void {
+    debugger;
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.prepareQueryRequest('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
     // console.log("req : ",request);
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TransactionDetails));
-   // this.querytemp = this.service.queryDetails(request);
-    //console.log("response:",this.querytemp[0].TransactionDetails);
-    // console.log("resp : ",of(this.queryResult$));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].TransactionDetails,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return res;
+    }));
     this.myTable = {
       // data: this.service.getTransactionDetailsSourceData(),
      // data:this.getTransactionDetailsSourceData(),

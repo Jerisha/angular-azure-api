@@ -84,8 +84,8 @@ export class HttpWrapperService {
             //console.log(JSON.parse(jsonResult))
             return jsonResult ? JSON.parse(jsonResult) : {};
         } catch (err) {
-            console.log("error " + err)
-            this.alertService.error("UI Error.", { autoClose: true, keepAfterRouteChange: false });
+            console.log("Response: " + val + "ResponseError: " + err);
+            this.alertService.error("Incorrect Response Format", { autoClose: true, keepAfterRouteChange: false });
         }
     }
 
@@ -208,7 +208,16 @@ export class HttpWrapperService {
             }
         }
 
-
+        //Bind Qualities
+        // if (objCharacteristic.hasOwnProperty("ListofQualities")) {
+        //     let thisItem = "";
+        //     let char = objCharacteristic.ListofQualities.Quality;
+        //     char?.forEach((characteristic: any) => {
+        //         ({ thisItem, jsonCreation } = this.bindItem(characteristic, thisItem, jsonCreation));
+        //     });
+        //     jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+        //     jsonCreation += `],`;
+        // }
 
         //Bind Characteristics
         if (objCharacteristic.hasOwnProperty("ListofCharacteristics")) {
@@ -284,7 +293,6 @@ export class HttpWrapperService {
                 break;
             case WMMessageType.Error:
                 this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-                //this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 return status;
                 break;
         }
