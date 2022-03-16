@@ -1,6 +1,6 @@
-.side-nav button{
+/* .side-nav button{
 margin:2px;
-}
+} */
 
 .side-bottom .side-textarea{
     /* background-color: lawngreen!important; */
@@ -12,5 +12,14 @@ margin:2px;
   margin: 5px;
  
   }
+  .info
+  {
+    /* display:flex!important;*/
+    font-size: xx-large;
+    margin: 5px;
+    margin-right: 14px;
+    float: right;   
+    cursor: pointer;
+    }
 
 .hidden{display: none;}

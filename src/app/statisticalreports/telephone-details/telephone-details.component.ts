@@ -84,7 +84,7 @@ export class TelephoneDetailsComponent implements OnInit {
       selectCheckbox: true,
       // colToSetImage: ['View'],
       imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],
-      shouldTotalRow: true,
+      showTotal: true,
       totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 
     }
