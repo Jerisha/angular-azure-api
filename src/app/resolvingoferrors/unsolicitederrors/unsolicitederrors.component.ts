@@ -14,6 +14,7 @@ import { ResolvingOfErrorsService } from '../services/resolving-of-errors.servic
 import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -132,7 +133,8 @@ const FilterListItems: Select[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-unsolicitederrors',
   templateUrl: './unsolicitederrors.component.html',
-  styleUrls: ['./unsolicitederrors.component.css']
+  styleUrls: ['./unsolicitederrors.component.css'],
+  //providers: [TelNoPipe]
 })
 export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
@@ -173,7 +175,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef,private telnoPipe:TelNoPipe) { }
 
   ngOnInit(): void {
 
@@ -210,14 +212,28 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.cdr.detectChanges();
   }
 
+  onChange(value:string,ctrlName:string) {
+    debugger;
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
 
-
-  addPrefix(control: string, value: any) {
-    if (value.charAt(0) != 0) {
-      value = value.length <= 10 ? '0' + value : value;
+    if(isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
-    this.f[control].setValue(value);
   }
+
+
+  // prefix:string[]=['01','02','03','08'];
+
+  // addPrefix(control: string, value: any) {
+  //   if (value.charAt(0) != 0) {
+  //     value = value.length <= 10 ? '0' + value : value;
+  //   }
+  //   value = ((this.prefix.indexOf(value.substring(0, 2)) === -1) && value.length >= 2) ? '' : value;
+  //   this.f[control].setValue(value);
+  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
