@@ -15,11 +15,22 @@
         <!-- <app-select-exp [listItems]="expDefaultmonth"></app-select-exp> -->
                    <app-select-exp [listItems]="expressions[2].default" #StatisticMonthOperator 
                    (click) ="OnOperatorClicked(['StatisticMonthOperator',StatisticMonthOperator.selectedViewValue])"></app-select-exp>
-        <mat-form-field appearance="outline">
+        <!-- <mat-form-field appearance="outline">
           <mat-label>Statistic Month</mat-label>
           <input formControlName="StatisticMonth" matInput [matDatepicker]="picker">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker startView="multi-year"></mat-datepicker>
+        </mat-form-field> -->
+
+        <mat-form-field>
+          <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
+          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker #dp
+                          startView="multi-year"
+                          (yearSelected)="chosenYearHandler($event)"
+                          (monthSelected)="chosenMonthHandler($event, dp)"
+                          panelClass="example-month-picker">
+          </mat-datepicker>
         </mat-form-field>
         <div>
           <app-select-exp [listItems]="expressions[1].default" #SourceOperator 
@@ -76,7 +87,7 @@
           <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
             
             
-            <mat-slide-toggle [(ngModel)]="isChecked" class="toggleclass">
+            <mat-slide-toggle (change)="changeView()"  [(ngModel)]="isChecked" class="toggleclass">
               {{isChecked?'Switch to M-O-M Summary View':'Switch to D-2-D Summary View'}} </mat-slide-toggle>
 
 
