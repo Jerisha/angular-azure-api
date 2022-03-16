@@ -16,7 +16,7 @@ export const expString = {
             { viewValue: '~=', view: 'Starts With', default: false },
             { viewValue: '=~', view: 'Ends With', default: false },
             { viewValue: '=%', view: 'Contains', default: true },
-            { viewValue: '!%', view: 'Does not Contains', default: false },
+            { viewValue: '!%', view: 'Does not Contain', default: false },
             { viewValue: '<>', view: 'Not Equal to', default: false },
             
         ]
