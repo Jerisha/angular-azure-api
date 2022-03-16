@@ -292,6 +292,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
   
   onFormSubmit(isEmitted?: boolean): void {
+    if(!this.thisForm.valid) return;
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('DayToDay','TransactionSummary', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>  {
@@ -339,7 +340,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 }]
     }
 
-    this.datevalue="";
+    //this.datevalue="";
 
 
 
@@ -506,6 +507,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   resetForm(): void { 
     this.tabs.splice(0);
     this.StatisticMonth.setValue('');
+    this.datevalue="";
   }
 
   // resetForm(): void {

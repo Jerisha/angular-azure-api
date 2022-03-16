@@ -80,7 +80,7 @@ export class TelephoneDetailsComponent implements OnInit {
 
 
   columns: ColumnDetails[] = [
-     { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
+    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
     { header: 'Telephone Nos', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
     { header: 'Add Commands', headerValue: 'AddCommands', showDefault: true, isImage: false },
     { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: true, isImage: false },

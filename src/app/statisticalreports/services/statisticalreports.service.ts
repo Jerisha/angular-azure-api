@@ -44,6 +44,8 @@ export class statisticalreport {
 
 
   custom(data: any) {
+    try
+    {
     console.log('service.custom' + JSON.stringify(data));
     let arrdate: any[] = [];
     let testdata: any = data[0].DatewiseData;
@@ -61,6 +63,10 @@ export class statisticalreport {
     delete data[0].DatewiseData;
     data[0].DatewiseData = arrdate;
     return data;
+  }
+  catch{
+    return '';
+  }
   }
 
 
