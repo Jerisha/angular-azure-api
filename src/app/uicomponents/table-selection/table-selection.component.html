@@ -9,7 +9,7 @@ font-size: smaller;  ">
   <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
   </button> -->
 
-
+<div>
 <div style="display: flex">
   <mat-form-field appearance="standard" *ngIf="filter" class="colfilter" style="margin-left: 8px;">
     <mat-select  #select multiple disableOptionCentering panelClass="matselhorzPanel">
@@ -45,7 +45,7 @@ font-size: smaller;  ">
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
 
 
-  <div class="table-container">
+  <div class="table-container" >
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
 
@@ -124,3 +124,5 @@ font-size: smaller;  ">
 
   </div>
   <mat-divider></mat-divider>
+</div>
+

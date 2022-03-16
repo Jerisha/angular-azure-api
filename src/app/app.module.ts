@@ -27,12 +27,14 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { AuditDataFilesComponent } from './administration/audit-data-files/audit-data-files.component';
 import { AddressCheckComponent } from './transactions/address-check/address-check.component';
 import { AdministrationModule } from './administration/administration.module';
+import { RangeSpecialCeaseTransactionComponent } from './governance/range-special-cease-transaction/range-special-cease-transaction.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuSearchPipe             
+    MenuSearchPipe,
+    RangeSpecialCeaseTransactionComponent             
   ],
   imports: [
     BrowserModule,
