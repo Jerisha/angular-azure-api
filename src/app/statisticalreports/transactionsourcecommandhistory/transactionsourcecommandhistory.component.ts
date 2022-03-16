@@ -173,7 +173,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   tranId?: any;
   repIdentifier = "TransactionSummary";
   currentPage: string = '1';
-
+  datevalue?:string;
 
   @ViewChild(MatTabGroup) tabGroup !: MatTabGroup;
 
@@ -260,25 +260,26 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
   }
 
-  date = new FormControl();
+  StatisticMonth = new FormControl();
   chosenYearHandler(normalizedYear: Moment) {
-    this.date = new FormControl(moment());
-    const ctrlValue = this.date.value;
+    this.StatisticMonth = new FormControl(moment());
+    const ctrlValue = this.StatisticMonth.value;
     ctrlValue.year(normalizedYear.year());
-    this.date.setValue(ctrlValue);
+    this.StatisticMonth.setValue(ctrlValue);
   }
 
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
     
-    const ctrlValue = this.date.value;
+    const ctrlValue = this.StatisticMonth.value;
     ctrlValue.month(normalizedMonth.month());
-    this.date.setValue(ctrlValue);
+    this.StatisticMonth.setValue(ctrlValue);
+    this.datevalue=ctrlValue;
     datepicker.close();
   }
 
   
   changeView(){
-    window.alert('com')
+    //window.alert('com')
     this.onFormSubmit(false);
   }
  
@@ -362,15 +363,25 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
    var pageIndex = pageNo? pageNo:'1'
    let attributes: any = [
     { Name: 'PageNumber', Value: [`${pageIndex}`] }];
-    
+    debugger
     for (const field in this.f) {
       const control = this.thisForm.get(field);
-      if (control?.value&&field != 'StatisticMonth')
+      if(field == 'Source')
+      {
+      if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
-
-
+      }
+      if(field == 'StatisticMonth')
+      {
+        const StatisticMonth = this.datevalue;
+        console.log('StatisticMonth',this.datevalue);
+        if (StatisticMonth)
+          attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
+        else
+         attributes.push({ Name: 'StatisticMonth' });
+      }
 
           let operator:string = field+"Operator";
             
@@ -493,7 +504,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   // onFormSubmit(): void { }
   resetForm(): void { 
     this.tabs.splice(0);
-    this.date.setValue('');
+    this.StatisticMonth.setValue('');
   }
 
   // resetForm(): void {
