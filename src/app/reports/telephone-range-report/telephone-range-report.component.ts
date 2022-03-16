@@ -80,6 +80,7 @@ export class TelephoneRangeReportComponent implements OnInit {
   selectedTab!: number;
   public tabs:Tab[] = [
   ];
+  currentPage: string = '1';
 
   columns: ColumnDetails[] =[
     { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
@@ -121,10 +122,20 @@ export class TelephoneRangeReportComponent implements OnInit {
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
+  
+  createForm() {
+    this.thisForm = this.formBuilder.group({
+      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+    })
+  }
+  get f() {
+    return this.thisForm.controls;
+  }
 
-  prepareQueryParams(): any {
+  prepareQueryParams(pageNo: string): any {
     let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] },
+      { Name: 'PageNumber', Value: [`${pageNo}`] },
       // { Name: 'StartTelephoneNumber', Value: ['02071117400'] },
       // { Name: 'EndTelephoneNumber', Value: ['02071117410'] }
       ];
@@ -140,12 +151,28 @@ export class TelephoneRangeReportComponent implements OnInit {
     return attributes;
 
   }
+  getNextSetRecords(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
   
-  onFormSubmit():void{
+  onFormSubmit(isEmitted?: boolean):void{
     if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)<=10000){
-      let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams());
+      this.currentPage = isEmitted ? this.currentPage : '1';
+      let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams(this.currentPage));
       //console.log(JSON.stringify(request));
-      this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TelephoneNumbers));
+      this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+        if (Object.keys(res).length) {
+          let result = {
+            datasource: res[0].TelephoneNumbers,
+            totalrecordcount: res[0].TotalCount,
+            totalpages: res[0].NumberOfPages,
+            pagenumber: res[0].PageNumber
+          }
+          return result;
+        } else return res;
+      }));
     
       this.myTable = {
         data: this.queryResult$,
@@ -153,6 +180,7 @@ export class TelephoneRangeReportComponent implements OnInit {
         filter: true,
         selectCheckbox: true,
         selectionColumn: '',
+        removeNoDataColumns: true,
         // imgConfig:[{ headerValue: 'View', icon: 'tab', route: '' },
         // { headerValue: 'View', icon: 'description', route: '' }]
       }
@@ -177,16 +205,6 @@ export class TelephoneRangeReportComponent implements OnInit {
     // },3000);
   }
 
-  createForm() {
-    this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-    })
-  }
-  get f() {
-    return this.thisForm.controls;
-  }
-
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
       if (item.selected) {
@@ -198,18 +216,19 @@ export class TelephoneRangeReportComponent implements OnInit {
     });
   }
 
-  rowDetect(item: any) {
+  rowDetect(selectedRows: any) {
     debugger;
-    this.selectedRowsCount = item.length;
-    if (item && item.length == 0) return
+    selectedRows.forEach((item: any) => {
+      // this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
 
-    if (!this.selectedGridRows.includes(item))
-      this.selectedGridRows.push(item)
-    else if (this.selectedGridRows.includes(item)) {
-      let index = this.selectedGridRows.indexOf(item);
-      this.selectedGridRows.splice(index, 1)
-    }
-
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
     console.log("selectedGridRows" + this.selectedGridRows)
   }
 

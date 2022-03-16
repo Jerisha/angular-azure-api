@@ -97,7 +97,8 @@
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
             <div class="table-view">
-            <app-table-selection [sidePan]="pagesidenav" #table1 [tableitem] = "myTable"></app-table-selection>
+            <app-table-selection [sidePan]="pagesidenav" #table1 [tableitem] = "myTable" (pageIndex)="getNextSetRecords($event)"
+            (rowChanges)="rowDetect($event)" ></app-table-selection>
             </div>
           </div>
 
