@@ -262,13 +262,14 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
   date = new FormControl();
   chosenYearHandler(normalizedYear: Moment) {
+    this.date = new FormControl(moment());
     const ctrlValue = this.date.value;
     ctrlValue.year(normalizedYear.year());
     this.date.setValue(ctrlValue);
   }
 
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    this.date = new FormControl(moment());
+    
     const ctrlValue = this.date.value;
     ctrlValue.month(normalizedMonth.month());
     this.date.setValue(ctrlValue);
@@ -492,6 +493,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   // onFormSubmit(): void { }
   resetForm(): void { 
     this.tabs.splice(0);
+    this.date.setValue('');
   }
 
   // resetForm(): void {
