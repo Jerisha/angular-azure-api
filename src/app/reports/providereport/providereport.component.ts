@@ -123,6 +123,7 @@ export class ProvidereportComponent implements OnInit {
         }));
         this.myTable = {
             data: this.queryResult$,
+            // removeNoDataColumns : true,
             Columns: this.columns,
             filter: true,
             selectCheckbox: false,
