@@ -193,6 +193,20 @@ export class TelephoneRangeReportComponent implements OnInit {
       }
       this.selectedTab = this.tabs.length;
     }
+    else if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)>10000){
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent,{
+        width:'400px',
+        // height:'250px',
+        disableClose: true,
+        data:{
+          message: 'TelephoneRange must be less than or equal to 10000.',
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result=>{
+        console.log("Dialog" + result);
+        return result;
+      })
+    }
   }
 
   resetForm():void{
@@ -276,7 +290,7 @@ export class TelephoneRangeReportComponent implements OnInit {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
     }
-    this.thisForm.controls[control].setValue(value);
+    this.f[control].setValue(value);
   }
 
   numberOnly(event: any): boolean {
