@@ -203,7 +203,7 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
   ];
   ngOnInit(): void {    
-    let request = Utils.prepareConfigRequest(['Search'],['Command','Source','Franchise','TypeOfLine']);
+    let request = Utils.prepareConfigRequest(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine']);
     this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));  
     this.createForm();
    // this.setOptions(); 
@@ -817,7 +817,7 @@ prepareQueryParams(pageNo: string): any {
              
           }
     }
-      //  console.log(attributes);
+      console.log(attributes);
 
     return attributes;
 
@@ -841,6 +841,7 @@ prepareQueryParams(pageNo: string): any {
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    if(!this.thisForm.valid) return;
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
     // console.log("req : ",request);
@@ -864,6 +865,7 @@ prepareQueryParams(pageNo: string): any {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
+      removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
                   { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]  }
     
