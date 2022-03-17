@@ -153,14 +153,14 @@ h4 {
   .label {
     display: inline-block;
     /* font-size: small; */
-    font: 500 14px/20px Roboto, "Helvetica Neue";
+    font: 500 14px/20px Roboto, "Helvetica Neue" !important;
     color: rgba(0, 0, 0, 1);
     /* font-weight: 500; */
     min-width: 160px;
   }
   
   .text-display {
-    font: 400 14px/20px Roboto, "Helvetica Neue";
+    font: 400 14px/20px Roboto, "Helvetica Neue" !important;
     color: rgba(0, 0, 0, 1);
     /* font-weight: 400; */
   }
@@ -172,3 +172,19 @@ h4 {
   mat-divider {
     min-height: 20px;
   }
+
+  .highlighted {
+    background-color: #FF9999;
+    border: 1px solid white;
+  }
+
+    /* .maindiv {
+      max-height: 300px;
+      overflow-y: auto;
+    } */
+
+    .auditTab {
+      overflow-y: auto;
+      max-height: 530px;
+    }
+   

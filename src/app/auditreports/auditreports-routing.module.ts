@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuditdiscrepancyreportComponent, AuditexcelreportsComponent, FullauditdetailsComponent } from './index';
+import { AuditdiscrepancyreportComponent, AuditexcelreportsComponent, FullauditdetailsComponent, FullAuditHistoryComponent } from './index';
 const routes: Routes = [
   {
     path: 'auditdiscrepancyreport',
@@ -8,6 +8,7 @@ const routes: Routes = [
   },
   { path: 'auditexcelreport', component: AuditexcelreportsComponent },
   { path: 'fullauditdetails', component: FullauditdetailsComponent },
+  { path: 'fullaudithistory', component: FullAuditHistoryComponent },
 ];
 
 @NgModule({
