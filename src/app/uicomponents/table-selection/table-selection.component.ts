@@ -250,7 +250,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       if (this.allSelected) {
         this.select.options.forEach((item: MatOption) => item.select());
       } else {
-        this.select.options.forEach((item: MatOption) => item.deselect());
+        this.select.options.forEach((item: MatOption, index) => {if(index!=0) item.deselect()});
       }
     }
   }

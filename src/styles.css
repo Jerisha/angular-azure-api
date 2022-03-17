@@ -409,6 +409,8 @@ box-sizing: border-box;
 }
 
 /* toggle-button ends */
+
+/* filters  positions -starts */
 .matsidenav-footer {
   /* position:relative !important;                  */
   bottom:0;                         
@@ -425,4 +427,4 @@ box-sizing: border-box;
   max-height: 480px;
   position:relative;   
 }
-
+/* filters  positions -ends */
