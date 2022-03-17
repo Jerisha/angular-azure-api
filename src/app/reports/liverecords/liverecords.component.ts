@@ -426,14 +426,14 @@ const Itemstwo: Select[] = [
   { view: 'Customer Name', viewValue: 'CustomerName', default: true },
   { view: 'Post Code', viewValue: 'PostCode', default: true },
   { view: 'Created On', viewValue: 'CreatedOn', default: true },
-  { view: 'Premises', viewValue: 'Premises', default: false },
-  { view: 'Throughtfare', viewValue: 'Throughtfare', default: false },
-  { view: 'Locality', viewValue: 'Locality', default: false },
-  { view: 'Cupid', viewValue: 'Cupid', default: false },
-  { view: 'Type of Line', viewValue: 'TypeOfLine', default: false },
-  { view: 'Franchise', viewValue: 'Franchise', default: false },
-  { view: 'Trans Cmd', viewValue: 'TransactionCommand', default: false },
-  { view: 'Source', viewValue: 'Source', default: false },
+  { view: 'Premises', viewValue: 'Premises', default: true },
+  { view: 'Throughtfare', viewValue: 'Throughtfare', default: true },
+  { view: 'Locality', viewValue: 'Locality', default: true },
+  { view: 'Cupid', viewValue: 'Cupid', default: true },
+  { view: 'Type of Line', viewValue: 'TypeOfLine', default: true },
+  { view: 'Franchise', viewValue: 'Franchise', default: true },
+  { view: 'Trans Cmd', viewValue: 'TransactionCommand', default: true },
+  { view: 'Source', viewValue: 'Source', default: true },
 ]
 
 
@@ -501,6 +501,7 @@ export class LiverecordsComponent implements OnInit {
   ];
   errorCode = new FormControl();
   selectedTab!: number;
+  selectedGridRows: any[] = [];
   auditTelNo?: any;
   repIdentifier = "LiveTelephoneNumberDetails";
   queryResult$!: Observable<any>;
@@ -515,12 +516,12 @@ export class LiverecordsComponent implements OnInit {
     { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
     { header: 'Thoroughfare', headerValue: 'Thoroughfare', showDefault: true, isImage: false },
     { header: 'Locality', headerValue: 'Locality', showDefault: true, isImage: false },
-    { header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
-    { header: 'Transaction Reference', headerValue: 'TransactionReferenceerence', showDefault: true, isImage: false },
+    { header: 'PostCode', headerValue: 'PostCode', showDefault: true, isImage: false },
+    { header: 'Transaction Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
     { header: 'Customer Title', headerValue: 'CustomerTitle', showDefault: true, isImage: false },
     { header: 'Customer Forename', headerValue: 'CustomerForename', showDefault: true, isImage: false },
     { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
     { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
     { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
@@ -528,8 +529,9 @@ export class LiverecordsComponent implements OnInit {
     { header: 'Address Line 2', headerValue: 'AddressLine2', showDefault: true, isImage: false },
     { header: 'Address Line 3', headerValue: 'AddressLine3', showDefault: true, isImage: false },
     { header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
-    { header: 'Parent CUPID', headerValue: 'ParentCUPID', showDefault: true, isImage: false },
-    { header: 'Child CUPID', headerValue: 'ChildCUPID', showDefault: true, isImage: false },
+    { header: 'Parent CUPID', headerValue: 'ParentCupid', showDefault: true, isImage: false },
+    { header: 'Child CUPID', headerValue: 'ChildCupid', showDefault: true, isImage: false },
+    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
     { header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
   ];
@@ -556,32 +558,12 @@ export class LiverecordsComponent implements OnInit {
     });
 
   }
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
-  }
-
-  ngAfterViewChecked() {
-    this.cdr.detectChanges();
-  }
-
+ 
 
   get f() {
     return this.myForm.controls;
   }
-  addPrefix(control: string, value: any) {
-    if (value.charAt(0) != 0) {
-      value = value.length <= 10 ? '0' + value : value;
-    }
-    this.myForm.controls[control].setValue(value);
-  }
-
-  numberOnly(event: any): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false;
-    }
-    return true;
-  }
+  
   setOptions() {
     this.errorCodesOptions = this.errorCode.valueChanges
       .pipe(
@@ -589,9 +571,7 @@ export class LiverecordsComponent implements OnInit {
         map(name => this._filter(name))
       );
   }
-  splitData(data: string | undefined): string[] {
-    return data ? data.split(',') : [];
-  }
+ 
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
     // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
@@ -607,6 +587,7 @@ export class LiverecordsComponent implements OnInit {
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    if(!this.myForm.valid) return;
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -627,6 +608,7 @@ export class LiverecordsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'Links',
+       removeNoDataColumns : true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 
     }
@@ -724,42 +706,20 @@ export class LiverecordsComponent implements OnInit {
 
   }
 
-  // newTab(tab: any) {
-  //   switch (tab.tabType) {
-  //     case 1: {
+  splitData(data: string | undefined): string[] {
+    return data ? data.split(',') : [];
+  }
 
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 
+  ngAfterViewChecked() {
+    
+    this.cdr.detectChanges();
+  }
 
-  //       //tab.row contains row data- fetch data from api and bind to respetive component
-  //       if (!this.tabs.find(x => x.tabType == 1)) {
-  //         this.tabs.push({
-  //           tabType: 1,
-  //           name: 'Audit Trail Report'
-  //         });
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
-  //       } else {
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
-  //       }
-  //       break;
-  //     }
-  //     case 2: {
-  //       if (!this.tabs.find(x => x.tabType == 2)) {
-  //         this.tabs.push({
-  //           tabType: 2,
-  //           name: 'Transaction Details'
-  //         })
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-  //       } else {
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-  //       }
-  //       break;
-  //     }
-  //     default: {
-  //       //statements;
-  //       break;
-  //     }
-  //   }
-  // }
+  
 
   newTab(tab: any) {
     if (this.tabs === []) return;
@@ -845,23 +805,33 @@ export class LiverecordsComponent implements OnInit {
 
   }
 
-  rowDetect(item: any) {
-    //debugger;
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
+  addPrefix(control: string, value: any) {
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
     }
+    this.f[control].setValue(value);
   }
 
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  rowDetect(selectedRows: any) {
+    debugger;
+    selectedRows.forEach((item: any) => {
+      // this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
+
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+
+}
 }

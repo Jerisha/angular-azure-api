@@ -5,7 +5,7 @@
       
     
 </ng-template> -->
-
+<div class="auditTab">
 <ng-container *ngIf="auditTrailReport$ | async  as AT;">
 
     <div *ngIf="AT.LiveDetails; else elseBlock">
@@ -102,7 +102,7 @@
                             </div>
 
                             <div>
-                                <span class="label">Bussiness Suffix</span>
+                                <span class="label">Business Suffix</span>
                                 <span class="text-display">
                                     {{livedata.BusinessSuffix}}</span>
                             </div>
@@ -259,12 +259,12 @@
         <ng-container *ngFor="let col of columnsToDisplay ; let colIndex = index" matColumnDef="{{col.headerValue}}">
             <ng-container *ngIf="col.headerValue != 'Action'">
                 <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
-                <td mat-cell *matCellDef="let element">{{element.SummaryReport[0][col.headerValue]}}</td>
+                <td mat-cell *matCellDef="let element" [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}">{{element.SummaryReport[0][col.headerValue]}}</td>
             </ng-container>
             <ng-container *ngIf="col.headerValue === 'Action'">
 
                 <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
-                <td mat-cell *matCellDef="let element">
+                <td mat-cell [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}" *matCellDef="let element">
                     <!-- <mat-icon class ="table-icon" style="cursor: pointer;"
                     (click)="(expandedElement = expandedElement === element ? null : element);">{{expandedElement ===
                     element ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon> -->
@@ -290,17 +290,17 @@
 
                                 <div class="container-fluid">
                                     <div class="fluid-item details-sec-1">
-                                        <div>
+                                        <div  >
                                             <span class="label"> Transaction ID</span>
                                             <span class="text-display">
                                                 {{element.TransactionId}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Thoroughfare</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Thoroughfare}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Transaction Reference</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].TransactionReference}}</span>
@@ -311,7 +311,7 @@
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].TransactionCommand}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Locality</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Locality}}</span>
@@ -321,8 +321,8 @@
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Status}}</span>
                                         </div>
-                                        <div>
-                                            <span class="label">Bussiness Suffix</span>
+                                        <div  >
+                                            <span class="label">Business Suffix</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].BusinessSuffix}}</span>
                                         </div>
@@ -337,7 +337,7 @@
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].BtCommand}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Postcode</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Postcode}}</span>
@@ -353,7 +353,7 @@
                                                 {{element.DetailedReport[0].ForceValidate}}</span>
                                         </div>
 
-                                        <div>
+                                        <div  >
                                             <span class="label">Customer Title</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].CustomerTitle}}</span>
@@ -363,7 +363,7 @@
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].SarReferenceNumber}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Created On</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Created}}</span>
@@ -375,7 +375,7 @@
                                         </div>
 
 
-                                        <div>
+                                        <div  >
                                             <span class="label">Customer Forename</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].CustomerForename}}</span>
@@ -385,7 +385,7 @@
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].SarTransactionNumber}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Created By</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].CreatedBy}}</span>
@@ -397,7 +397,7 @@
                                         </div>
 
 
-                                        <div>
+                                        <div  >
                                             <span class="label">Customer Name</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].CustomerName}}</span>
@@ -407,7 +407,7 @@
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Reference}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Source Type</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].SourceType}}</span>
@@ -422,12 +422,12 @@
 
                                     <div class="fluid-item details-sec-2">
 
-                                        <div>
+                                        <div  >
                                             <span class="label">Parent CUPID</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].ParentCupId}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Child CUPID</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].ChildCupId}}</span>
@@ -437,39 +437,39 @@
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].ChangeCupId}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Retailer ID</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].RetailerId}}</span>
                                         </div>
 
-                                        <div>
+                                        <div  >
                                             <span class="label">Source</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Source}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">New Telephone No.</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].NewTelephoneNumber}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Address ID</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].AddressId}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Franchise</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Franchise}}</span>
                                         </div>
 
-                                        <div>
+                                        <div  >
                                             <span class="label">XReference</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].XReference}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Address ID Source</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].AddressIdSource}}</span>
@@ -479,13 +479,13 @@
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].OrderReference}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Line Type</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].LineType}}</span>
                                         </div>
 
-                                        <div>
+                                        <div  >
                                             <span class="label">Premises</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Premises}}</span>
@@ -500,22 +500,22 @@
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Callback}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Internal Address1</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].InternalAddress1}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Internal Address2</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].InternalAddress2}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Internal Address3</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].InternalAddress3}}</span>
                                         </div>
-                                        <div>
+                                        <div  >
                                             <span class="label">Internal Address4</span>
                                             <span class="text-display">
 
@@ -828,6 +828,7 @@
         </mat-accordion>
     </div> <!-- audit-sec-->
 </ng-container>
+</div>
 
 <!--<ng-container *ngIf="auditTrailReport$ | async  as config">
    {{config |json }}
