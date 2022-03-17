@@ -14,7 +14,7 @@
 
 <div  class="header">
     <ng-container [ngTemplateOutlet]="noRecordsMessage"
-        [ngTemplateOutletContext]="{ $implicit : tran.SupplierError != null ? btHeader : 'No Records for btHeader'}">
+        [ngTemplateOutletContext]="{ $implicit : tran.SupplierError != null ? btHeader : 'No Records for '+btHeader}">
     </ng-container>
 </div>
 
