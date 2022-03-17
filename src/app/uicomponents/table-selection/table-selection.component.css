@@ -55,7 +55,8 @@ table td, table th {
 }
 
 .select-submit{
-    border:none;   
+    border:none;  
+  
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 8%;
@@ -73,12 +74,12 @@ table td, table th {
   z-index: 4;
 }
 
-.nowrap-cell {
-  /* max-width: 120px;  */
+/* .nowrap-cell {
+  max-width: 120px; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */
 
 .totalRow{
   background-color: #e60000;

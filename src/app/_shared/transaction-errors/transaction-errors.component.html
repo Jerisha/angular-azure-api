@@ -14,7 +14,7 @@
 
 <div  class="header">
     <ng-container [ngTemplateOutlet]="noRecordsMessage"
-        [ngTemplateOutletContext]="{ $implicit : tran.SupplierError != null ? 'BT Response ' : 'No Records for BT Response'}">
+        [ngTemplateOutletContext]="{ $implicit : tran.SupplierError != null ? btHeader : 'No Records for '+btHeader}">
     </ng-container>
 </div>
 
@@ -28,7 +28,7 @@
 
 <div  class="header">
     <ng-container [ngTemplateOutlet]="noRecordsMessage"
-        [ngTemplateOutletContext]="{ $implicit : tran.ResolutionHistory != null ? 'Resolution Histroy ' : 'No Records for Resolution History'}">
+        [ngTemplateOutletContext]="{ $implicit : tran.ResolutionHistory != null ? 'Resolution Histroy' : 'No Records for Resolution History'}">
     </ng-container>
 </div>
 

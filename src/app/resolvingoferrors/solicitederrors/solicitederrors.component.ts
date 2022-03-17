@@ -14,10 +14,8 @@ import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 // import { ConsoleReporter } from 'jasmine';
-
-
-
 const ELEMENT_DATA: any = [
   {
     TranId: '1014591106', View: 'image', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
@@ -128,17 +126,17 @@ const FilterListItems: Select[] = [
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  // { view: 'Date Range', viewValue: 'Date', default: true },
+  { view: 'Date Range', viewValue: 'DateRange', default: true },
   { view: 'Error Code', viewValue: 'ErrorCode', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true },
   { view: 'Order Reference', viewValue: 'OrderReference', default: true }
 ];
 
-
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
-  styleUrls: ['./solicitederrors.component.css']
+  styleUrls: ['./solicitederrors.component.css'],
+  //providers: [TelNoPipe]
 })
 export class SolicitederrorsComponent implements OnInit {
 
@@ -146,7 +144,7 @@ export class SolicitederrorsComponent implements OnInit {
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
@@ -170,20 +168,29 @@ export class SolicitederrorsComponent implements OnInit {
   Resolution!: string;
   Refer!: string;
   Remarks!: string;
+  isSaveDisable: boolean = true;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
+  currentPage: string = '1';
+  updateDetails!: any;
 
   ngOnInit(): void {
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.prepareConfigRequest(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
+    });
+
+    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
+    this.service.configDetails(updateRequest).subscribe((res: any) => {
+      //console.log("res: " + JSON.stringify(res))
+      this.updateDetails = res[0];
     });
     //this.service.configTest(request);
     // this.service.configDetails(request);
@@ -199,12 +206,13 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
+    this.isEnable();
     this.cdr.detectChanges();
   }
 
-  prepareQueryParams(): any {
+  prepareQueryParams(pageNo: string): any {
     let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] }];
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
     //Reference
     const control = this.thisForm.get('Reference');
     if (control?.value)
@@ -269,7 +277,8 @@ export class SolicitederrorsComponent implements OnInit {
       OrderReference: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
         FromDate: new FormControl(),
-        ToDate: new FormControl()
+        ToDate: new FormControl(),
+        disabled: true
       })
 
     })
@@ -301,19 +310,29 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
   ];
 
-  onFormSubmit(): void {
-    debugger;
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams());
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
-      // let result = { datasource: res[0].SolicitedError,
-      //    totalrecordcount: res[0].TotalCount,
-      //    totalpages: res[0].NumberOfPages
-      //   }
-      //   return result;
-      return res[0].SolicitedError
-    }));
-    // this.createSaveForm();
 
+  getNextSetRecords(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
+
+  onFormSubmit(isEmitted?: boolean): void {
+    debugger;
+    if (!this.thisForm.valid) return;
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].SolicitedError,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return res;
+    }));
 
     this.myTable = {
       data: this.queryResult$,
@@ -321,6 +340,8 @@ export class SolicitederrorsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       selectionColumn: 'TranId',
+      highlightedCells: ['TelephoneNumber'],
+      removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -351,22 +372,24 @@ export class SolicitederrorsComponent implements OnInit {
     const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
 
     if (this.selectedGridRows.length > 0) {
-      let transId: string[] = [];
-      this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
-      identifiers.push({ Name: 'TransactionId', Value: transId });
-    } else
-      identifiers.push({ Name: 'TransactionId', Value: [""] });
+      if (this.selectedGridRows.length > 0) {
+        let transId: string[] = [];
+        this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
+        identifiers.push({ Name: 'TransactionId', Value: transId });
+      } else
+        identifiers.push({ Name: 'TransactionId', Value: [""] });
+    } else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
 
-    if (startTelephoneNumber?.value)
-      identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
-    else
-      identifiers.push({ Name: 'TelephoneNumberStart' });
+      if (startTelephoneNumber?.value)
+        identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
+      else
+        identifiers.push({ Name: 'TelephoneNumberStart' });
 
-    if (endTelephoneNumber?.value)
-      identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
-    else
-      identifiers.push({ Name: 'TelephoneNumberEnd' });
-
+      if (endTelephoneNumber?.value)
+        identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
+      else
+        identifiers.push({ Name: 'TelephoneNumberEnd' });
+    }
     return identifiers;
   }
 
@@ -396,7 +419,7 @@ export class SolicitederrorsComponent implements OnInit {
   resetForm(): void {
     window.location.reload();
     // this.tabs.splice(0);
-    
+
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
@@ -418,7 +441,7 @@ export class SolicitederrorsComponent implements OnInit {
   rowDetect(selectedRows: any) {
     debugger;
     selectedRows.forEach((item: any) => {
-      this.selectedRowsCount = item.length;
+      // this.selectedRowsCount = item.length;
       if (item && item.length == 0) return
 
       if (!this.selectedGridRows.includes(item))
@@ -428,21 +451,52 @@ export class SolicitederrorsComponent implements OnInit {
         this.selectedGridRows.splice(index, 1)
       }
     })
+    this.isEnable();
     // console.log("selectedGridRows" + this.selectedGridRows)
+  }
+
+  isEnable() {
+
+    //debugger
+    if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
+      this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
+      this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
+      && this.f.OrderReference.value === "")
+      || (this.selectedGridRows.length > 0)) {
+      this.isSaveDisable = false;
+    }
+    else
+      this.isSaveDisable = true;
+    //console.log('isSaveDisable',this.isSaveDisable)
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-  startTelno: any;
-  endTelno: any;
 
-  addPrefix(control: string, value: any) {
-    if (value.charAt(0) != 0) {
-      value = value.length <= 10 ? '0' + value : value;
+
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
-    this.f[control].setValue(value);
   }
+
+
+
+  // prefix:string[]=['01','02','03','08'];
+
+
+  // addPrefix(control: string, value: any) {  
+  //   if (value.charAt(0) != 0) {
+  //     value = value.length <= 10 ? '0' + value : value;
+  //   }
+  //   value = ((this.prefix.indexOf(value.substring(0, 2)) === -1) && value.length >= 2) ? '' : value;
+  //   this.f[control].setValue(value);
+  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;

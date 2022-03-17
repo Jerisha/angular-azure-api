@@ -17,15 +17,13 @@
       </app-select-multiple>
     </div>
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
-
-
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
             <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
             <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
-              (keyup)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput maxlength="11"
+                (ngModelChange)="onChange($event,'StartTelephoneNumber')" matInput maxlength="11"
               placeholder="Start Telephone No" #starttelno>
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
@@ -39,7 +37,7 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
             <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
-              (keypress)="numberOnly($event)" (keyup)="addPrefix('EndTelephoneNumber',endtelno.value)">
+              (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'EndTelephoneNumber')">
             <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
@@ -51,8 +49,8 @@
 
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
-            <input formControlName="Command" type="text" placeholder="Search Command" matInput
-              [matAutocomplete]="autoCommand" />
+            <input  formControlName="Command" type="text" placeholder="Search Command" matInput
+              [matAutocomplete]="autoCommand" OptionsValidator [options]="config.Command | splitBy: ','"/>
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -61,19 +59,13 @@
                 {{val}}
               </mat-option>
             </mat-autocomplete>
-            <!-- <mat-option>Activate Customer</mat-option>
-            <mat-option>Cease Customer</mat-option>
-            <mat-option>Import</mat-option>
-            <mat-option>Export</mat-option>
-            <mat-option>Modify</mat-option> -->
-            <!-- </mat-select> -->
-            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <mat-error *ngIf="f.Command.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source</mat-label>
             <input formControlName="Source" type="text" placeholder="Search Source" matInput
-              [matAutocomplete]="autoSource" />
+              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','"/>
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -81,24 +73,10 @@
               <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
                 {{val}}</mat-option>
             </mat-autocomplete>
-            <!-- <mat-option></mat-option>
-            <mat-option>AUDIT</mat-option>
-            <mat-option>SAS/COMS</mat-option>
-            <mat-option>DVA Siebel</mat-option>
-            <mat-option>VA/WAD</mat-option>
-            <mat-option>Ring Central</mat-option>
-            <mat-option>Content Guru</mat-option>
-            <mat-option>ONENET</mat-option>
-            <mat-option>Clarify</mat-option>
-            <mat-option>Amdocs SOM</mat-option>
-            <mat-option>Unknown</mat-option> -->
-            <!-- </mat-select> -->
-            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
-
-
-          <mat-form-field>
+          <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
             <mat-label>Date Range</mat-label>
             <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
               <input readonly formControlName="FromDate" matStartDate placeholder="From ">
@@ -112,7 +90,7 @@
           <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
             <input formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
-              [matAutocomplete]="autoResolutionType" />
+              [matAutocomplete]="autoResolutionType" OptionsValidator [options]="config.ResolutionType | splitBy: ','"/>
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -121,21 +99,14 @@
               <mat-option *ngFor="let val of config.ResolutionType | splitBy: ',' | ddlFilter: f.ResolutionType.value"
                 [value]="val">{{val}}</mat-option>
             </mat-autocomplete>
-            <!-- <mat-option></mat-option>
-            <mat-option>New</mat-option>
-            <mat-option>Under Investigation</mat-option>
-            <mat-option>Under Governance</mat-option>
-            <mat-option>Under Governance</mat-option>
-            <mat-option>Port Req Complete</mat-option> -->
-            <!-- </mat-select> -->
-            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <!-- <mat-select formControlName="ErrorType"> -->
             <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
-              [matAutocomplete]="autoErrorType" />
+              [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorType | splitBy: ','"/>
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -145,33 +116,28 @@
                 {{val}}
               </mat-option>
             </mat-autocomplete>
-          </mat-form-field>
-          <!-- </ng-container> -->
-          <!-- <mat-option></mat-option>
-            <mat-option>Internal Error</mat-option>
-            <mat-option>External Error</mat-option>            -->
-          <!-- </mat-select> -->
-          <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-
+            <mat-error *ngIf="f.ErrorType.errors?.validOptions">Value need to match available options</mat-error>
+          </mat-form-field>       
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
             <mat-label>Error Code</mat-label>
             <input formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
-              [matAutocomplete]="auto" />
+              [matAutocomplete]="auto" OptionsValidator [options]="config.ErrorCode | splitBy: ','" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of  config.ErrorCode | splitBy: ',' | ddlFilter: f.ErrorCode.value"
+              <mat-option *ngFor="let option of config.ErrorCode | splitBy: ',' | ddlFilter: f.ErrorCode.value"
                 [value]="option">
                 {{option}}
               </mat-option>
             </mat-autocomplete>
+            <mat-error *ngIf="f.ErrorCode.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
             <mat-label>999 Reference</mat-label>
-            <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
+            <input formControlName="Reference" matInput #input placeholder="999 Reference">
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
@@ -182,8 +148,6 @@
           </mat-form-field>
         </ng-container>
       </div>
-
-
 
       <div calss="matsidenav-footer">
         <button type="submit" mat-raised-button color="primary">
@@ -226,8 +190,8 @@
 
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
-              (addNewTab)="newTab($event)">
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
+              (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
             </app-table-selection>
             <form (ngSubmit)="onSaveSubmit()">
               <div class="mat-elevation-z8 side-bottom">
@@ -245,7 +209,7 @@
                         <mat-icon>arrow_drop_down</mat-icon>
                       </span>
                       <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                        <ng-container *ngIf="configDetails  as con">
+                        <ng-container *ngIf="updateDetails  as con">
                           <mat-option *ngFor="let val of con.ResolutionType | splitBy: ',' | ddlFilter: resol.value"
                             [value]="val">{{val}}</mat-option>
                         </ng-container>
@@ -280,7 +244,7 @@
                       </mat-error>
                     </mat-form-field>
                     <!-- (!f.StartTelephoneNumber.value && !f.EndTelephoneNumber.value) -->
-                    <button [disabled]="!(selectedGridRows.length > 0)" type="submit" mat-raised-button color="primary">
+                    <button [disabled]="isSaveDisable" type="submit" mat-raised-button color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
@@ -327,6 +291,6 @@ Delete Tab
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<!-- <ng-container *ngIf="configDetails as config">
+<!-- <ng-container *ngIf="updateDetails as config">
   {{config |json }}
 </ng-container> -->

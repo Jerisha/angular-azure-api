@@ -1,7 +1,7 @@
 export interface ProvideReport {
    
   
-    TelephoneNo: string;
+    TelephoneNumber: string;
     Command:string;
     Source:string;
 }

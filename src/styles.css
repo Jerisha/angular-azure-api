@@ -188,6 +188,10 @@ div .mat-focus-indicator.mat-tab-label {
   color: white !important;
 
 }
+.mat-tab-body-content {
+  
+  overflow: hidden!important;
+}
 /* tab design end */
 
 
@@ -232,7 +236,8 @@ div .mat-focus-indicator.mat-tab-label {
 
 /* All mat-cell */
 .mat-cell{
-  color: black !important;
+  color: black ;
+  /* color: black !important; */
   font-weight: 500 !important;
 }
 
@@ -408,6 +413,8 @@ box-sizing: border-box;
 }
 
 /* toggle-button ends */
+
+/* filters  positions -starts */
 .matsidenav-footer {
   /* position:relative !important;                  */
   bottom:0;                         
@@ -424,4 +431,4 @@ box-sizing: border-box;
   max-height: 480px;
   position:relative;   
 }
-
+/* filters  positions -ends */

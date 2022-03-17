@@ -7,6 +7,7 @@ import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
 import { SharedModule } from '../_shared/shared.module';
 import { ResolvingOfErrorsService } from './services/resolving-of-errors.service';
 import { HelperModule } from '../_helper/helper.module';
+import { TelNoPipe } from '../_helper/pipe/telno.pipe';
 
 
 
@@ -26,6 +27,6 @@ import { HelperModule } from '../_helper/helper.module';
     FormsModule,
     SharedModule,        
   ],
-  providers:[ResolvingOfErrorsService]
+  providers:[ResolvingOfErrorsService,TelNoPipe]
 })
 export class ResolvingoferrorsModule { }
