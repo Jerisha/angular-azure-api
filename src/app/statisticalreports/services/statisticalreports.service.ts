@@ -83,6 +83,7 @@ export class statisticalreport {
         let currMonth: any = mon.Month;
         mon.Sources?.forEach((source: any) => {
           source.Month = currMonth;
+          arrdate=[];
           source.Dates?.forEach((e: any) => {
             let date = {
               View: '', Date: e.Date,
@@ -95,6 +96,7 @@ export class statisticalreport {
             }
             arrdate.push(date);
           }
+
           );
           source.Link = arrdate
           delete source.Dates;

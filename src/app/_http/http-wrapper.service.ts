@@ -208,7 +208,7 @@ export class HttpWrapperService {
             }
         }
 
-        //Bind Qualities
+        // Bind Qualities
         if (objCharacteristic.hasOwnProperty("ListofQualities")) {
             let thisItem = "";
             let char = objCharacteristic.ListofQualities.Quality;

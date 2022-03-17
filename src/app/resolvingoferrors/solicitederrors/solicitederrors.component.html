@@ -23,7 +23,7 @@
             <mat-label>Start Telephone No</mat-label>
             <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
             <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
-              (keyup)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput maxlength="11"
+                (ngModelChange)="onChange($event,'StartTelephoneNumber')" matInput maxlength="11"
               placeholder="Start Telephone No" #starttelno>
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
@@ -37,7 +37,7 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
             <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
-              (keypress)="numberOnly($event)" (keyup)="addPrefix('EndTelephoneNumber',endtelno.value)">
+              (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'EndTelephoneNumber')">
             <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">

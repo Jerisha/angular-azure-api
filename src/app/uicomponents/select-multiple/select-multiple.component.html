@@ -8,7 +8,7 @@ width:180px;height: 35px;;
     <mat-icon >{{icon}}</mat-icon>
   </button>
   <mat-select  #select (openedChange)="openedChange($event)"  [formControl]="selectFormControl"
-     multiple>
+     multiple disableOptionCentering panelClass="selpanel">
     <mat-select-trigger>
       Filters
       
