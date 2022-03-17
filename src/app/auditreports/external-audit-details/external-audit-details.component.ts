@@ -8,6 +8,7 @@ import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { UserCommentsDialogComponent } from '../fullauditdetails/user-comments-dialog.component';
 
 const ELEMENT_DATA: any[] = [
   {
@@ -192,6 +193,8 @@ export class ExternalAuditDetailsComponent implements OnInit {
   nonemptyColumns: string[] = [];
   unSelectListItems: string[] = [];
   tabs: Tab[] = [];
+  auditTelNo?: any; 
+  repIdentifier = "ExternalAuditDetails";
 
   comments: string = 'No Records Found';
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -262,12 +265,12 @@ export class ExternalAuditDetailsComponent implements OnInit {
   }
 
   openDialog() {
-    // const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-    //   width: '500px',
-    //   // height: '400px',
-    //   data: { defaultValue: this.comments }
-    // }
-    // );
+    const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
+      width: '500px',
+      // height: '400px',
+      data: { defaultValue: this.comments }
+    }
+    );
   }
 
   ngOnInit(): void {

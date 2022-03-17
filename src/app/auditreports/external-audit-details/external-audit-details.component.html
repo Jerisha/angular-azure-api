@@ -285,7 +285,7 @@
                         </div> -->
                     </div>
                     <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-                        <app-telephone-audit-trail></app-telephone-audit-trail>
+                        <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier" ></app-telephone-audit-trail>
                     </div>                    
                     <div *ngSwitchDefault>
                     </div>
