@@ -129,13 +129,13 @@ export class TelephoneDetailsComponent implements OnInit {
   prepareQueryParams(): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: ['1'] },
-      //{ Name: 'StatisticDate', Value:[this.StatisticDate]},
-     // { Name: 'Source', Value: [this.Source]}
-    { Name: 'StatisticDate', Value:['11-Mar-2022']},
-    { Name: 'Source', Value: ['A -AUDIT']}
+      { Name: 'StatisticDate', Value:[this.StatisticDate]},
+      { Name: 'Source', Value: [this.Source]}
+    //{ Name: 'StatisticDate', Value:['11-Mar-2022']},
+    //{ Name: 'Source', Value: ['A -AUDIT']}
     ];
 
-    console.log(attributes);
+    console.log(' telephone attributes',attributes);
 
     return attributes;
 

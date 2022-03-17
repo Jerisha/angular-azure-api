@@ -87,6 +87,7 @@ export class statisticalreport {
           source.Dates?.forEach((e: any) => {
             let date = {
               View: '', Date: e.Date,
+              Source:source.Source,
               AddCommands: e.AddCommands,
               CeaseCommands: e.CeaseCommands,
               ModifyCommands: e.ModifyCommands,
