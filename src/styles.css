@@ -188,6 +188,10 @@ div .mat-focus-indicator.mat-tab-label {
   color: white !important;
 
 }
+.mat-tab-body-content {
+  
+  overflow: hidden!important;
+}
 /* tab design end */
 
 
