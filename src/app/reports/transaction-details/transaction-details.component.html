@@ -101,11 +101,10 @@
                 <mat-option *ngFor="let option of splitData(config.Source) | ddlFilter: f.Source.value"
                   [value]="option">
                   {{option}}
-                </mat-option>
-                <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
-
+              </mat-option>
               </mat-autocomplete>
-             
+              <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
+
             </mat-form-field>
           </div>
           <div [ngStyle]="{'display':thisForm.controls.Franchise.disabled? 'none' : 'block'}">
@@ -123,9 +122,8 @@
                   [value]="option">
                   {{option}}
                 </mat-option>
-                <mat-error *ngIf="f.Franchise.errors?.validOptions">Value need to match available options</mat-error>
-
               </mat-autocomplete>
+              <mat-error *ngIf="f.Franchise.errors?.validOptions">Value need to match available options</mat-error>
 
             </mat-form-field>
           </div>
@@ -145,9 +143,9 @@
                   [value]="option">
                   {{option}}
                 </mat-option>
-                <mat-error *ngIf="f.TransactionCommand.errors?.validOptions">Value need to match available options</mat-error>
 
               </mat-autocomplete>
+              <mat-error *ngIf="f.TransactionCommand.errors?.validOptions">Value need to match available options</mat-error>
 
             </mat-form-field>
           </div>
@@ -166,9 +164,9 @@
                   [value]="option">
                   {{option}}
                 </mat-option>
-                <mat-error *ngIf="f.TypeOfLine.errors?.validOptions">Value need to match available options</mat-error>
 
               </mat-autocomplete>
+              <mat-error *ngIf="f.TypeOfLine.errors?.validOptions">Value need to match available options</mat-error>
 
             </mat-form-field>
           </div>

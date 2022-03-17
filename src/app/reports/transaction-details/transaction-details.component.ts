@@ -817,7 +817,7 @@ prepareQueryParams(pageNo: string): any {
              
           }
     }
-      console.log(attributes);
+    //  console.log(attributes);
 
     return attributes;
 
