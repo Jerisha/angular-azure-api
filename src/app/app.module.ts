@@ -28,13 +28,14 @@ import { AuditDataFilesComponent } from './administration/audit-data-files/audit
 import { AddressCheckComponent } from './transactions/address-check/address-check.component';
 import { AdministrationModule } from './administration/administration.module';
 import { RangeSpecialCeaseTransactionComponent } from './governance/range-special-cease-transaction/range-special-cease-transaction.component';
+import { GovernanceModule } from './governance/governance.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuSearchPipe,
-    RangeSpecialCeaseTransactionComponent             
+                 
   ],
   imports: [
     BrowserModule,
@@ -47,6 +48,7 @@ import { RangeSpecialCeaseTransactionComponent } from './governance/range-specia
     ResolvingoferrorsModule,
     AuditreportsModule,
      AdministrationModule,
+     GovernanceModule,
     TransactionsModule,
     StatisticalreportsModule,
     ReportsModule,  

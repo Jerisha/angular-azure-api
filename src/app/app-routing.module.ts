@@ -47,6 +47,11 @@ const routes: Routes = [
 
   },
   {
+    path: 'governance',
+    loadChildren: () => import('./governance/governance.module').then(x => x.GovernanceModule),
+
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
