@@ -175,7 +175,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
-    private cdr: ChangeDetectorRef,private telnoPipe:TelNoPipe) { }
+    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe) { }
 
   ngOnInit(): void {
 
@@ -186,7 +186,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-      
+
     });
 
     let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
@@ -195,7 +195,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.updateDetails = res[0];
     });
 
-    
+
   }
 
   getNextSetRecords(pageIndex: any) {
@@ -212,11 +212,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.cdr.detectChanges();
   }
 
-  onChange(value:string,ctrlName:string) {
-    debugger;
+  onChange(value: string, ctrlName: string) {
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
-
-    if(isNaN(<any>value.charAt(0))) {
+    if (isNaN(<any>value.charAt(0))) {
       //const val = coerceNumberProperty(value.slice(1, value.length));
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     } else {
@@ -281,20 +279,20 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
     if (this.selectedGridRows.length > 0) {
       if (this.selectedGridRows.length > 0) {
-        let TelephoneNo :string[]=[];
+        let TelephoneNo: string[] = [];
         let transId: string[] = [];
-        this.selectedGridRows?.forEach(x => { 
+        this.selectedGridRows?.forEach(x => {
           transId.push(x.TransactionReference);
           TelephoneNo.push(x.TelephoneNumber);
-         })
+        })
         identifiers.push({ Name: 'TransactionReference', Value: transId },
-        { Name: 'TelephoneNumberStart', Value: TelephoneNo }
+          { Name: 'TelephoneNumberStart', Value: TelephoneNo }
         );
         //identifiers.push({ Name: 'TelePhoneNumber', Value: transId });
       }
       else
         identifiers.push({ Name: 'TransactionReference', Value: [""] },
-        { Name: 'TelephoneNumberStart', Value:[""] }
+          { Name: 'TelephoneNumberStart', Value: [""] }
         );
     }
     //  else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
@@ -357,7 +355,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      Source: new FormControl({ value: '', disabled: true },  []),
+      Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
@@ -443,7 +441,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
-    if(!this.thisForm.valid) return;
+    if (!this.thisForm.valid) return;
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {

@@ -144,7 +144,7 @@ export class SolicitederrorsComponent implements OnInit {
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService,private telnoPipe:TelNoPipe) { }
+    private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
@@ -168,26 +168,26 @@ export class SolicitederrorsComponent implements OnInit {
   Resolution!: string;
   Refer!: string;
   Remarks!: string;
-  isSaveDisable:boolean=true;
+  isSaveDisable: boolean = true;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
   currentPage: string = '1';
-  updateDetails!:any;
+  updateDetails!: any;
 
   ngOnInit(): void {
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'],['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.prepareConfigRequest(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'],['ResolutionType']);
+    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res[0];
@@ -319,7 +319,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
-    if(!this.thisForm.valid) return;
+    if (!this.thisForm.valid) return;
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -475,22 +475,20 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
 
-    onChange(value:string,ctrlName:string) {
-      debugger;
-      const ctrl = this.thisForm.get(ctrlName) as FormControl;
-  
-      if(isNaN(<any>value.charAt(0))) {
-        //const val = coerceNumberProperty(value.slice(1, value.length));
-        ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-      } else {
-        ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-      }
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
-  
+  }
+
 
 
   // prefix:string[]=['01','02','03','08'];
- 
+
 
   // addPrefix(control: string, value: any) {  
   //   if (value.charAt(0) != 0) {
