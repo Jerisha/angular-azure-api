@@ -208,16 +208,16 @@ export class HttpWrapperService {
             }
         }
 
-        //Bind Qualities
-        // if (objCharacteristic.hasOwnProperty("ListofQualities")) {
-        //     let thisItem = "";
-        //     let char = objCharacteristic.ListofQualities.Quality;
-        //     char?.forEach((characteristic: any) => {
-        //         ({ thisItem, jsonCreation } = this.bindItem(characteristic, thisItem, jsonCreation));
-        //     });
-        //     jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
-        //     jsonCreation += `],`;
-        // }
+        // Bind Qualities
+        if (objCharacteristic.hasOwnProperty("ListofQualities")) {
+            let thisItem = "";
+            let char = objCharacteristic.ListofQualities.Quality;
+            char?.forEach((characteristic: any) => {
+                ({ thisItem, jsonCreation } = this.bindItem(characteristic, thisItem, jsonCreation));
+            });
+            jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+            jsonCreation += `],`;
+        }
 
         //Bind Characteristics
         if (objCharacteristic.hasOwnProperty("ListofCharacteristics")) {

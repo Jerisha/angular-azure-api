@@ -250,7 +250,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       if (this.allSelected) {
         this.select.options.forEach((item: MatOption) => item.select());
       } else {
-        this.select.options.forEach((item: MatOption) => item.deselect());
+        this.select.options.forEach((item: MatOption, index) => {if(index!=0) item.deselect()});
       }
     }
   }
@@ -380,4 +380,16 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.onDestroy.next();
   }
+
+  copyToClipboard() {
+    let data = "";
+    this.selection.selected.forEach((row:any)=>{
+      let result = Object.values(row);
+      data += result.toString().replace(/[,]+/g,'\t') + "\n";
+    });
+    return data;
+
+  }
+
 }
+
