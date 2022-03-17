@@ -545,6 +545,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       case 2: {
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
+        this.telNo = tab.row.TelephoneNo;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
