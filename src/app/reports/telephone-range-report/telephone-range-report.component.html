@@ -18,12 +18,12 @@
         (changes)="setControlAttribute($event)">
       </app-select-multiple> -->
     </div>
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <mat-form-field [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
           <mat-label>Start Telephone No.</mat-label>
           <input matInput formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
-          (keyup)="addPrefix('StartTelephoneNumber',starttelno.value)"
+          (ngModelChange)="onChange($event,'StartTelephoneNumber')"
            maxlength="11" placeholder="Start Telephone No." #starttelno>
           <!-- <mat-hint align="end">{{thisForm.controls.StartTelephoneNumber.value?.length || 0}}/10</mat-hint> -->
           <mat-error>
@@ -40,7 +40,7 @@
         <mat-form-field [ngClass]="{'hidden':thisForm.controls.EndTelephoneNumber.disabled}">
           <mat-label>End Telephone No.</mat-label>
           <input matInput formControlName="EndTelephoneNumber" (keypress)="numberOnly($event)"
-          (keyup)="addPrefix('EndTelephoneNumber',endtelno.value)"
+          (ngModelChange)="onChange($event,'EndTelephoneNumber')"
           maxlength="11" placeholder="End Telephone No." #endtelno>
         <mat-error>
           <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">

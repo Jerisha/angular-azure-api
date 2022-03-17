@@ -15,6 +15,7 @@ import { HttpWrapperService } from 'src/app/_http/http-wrapper.service';
 import { Utils, WebMethods } from 'src/app/_http';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { ReportService } from '../services/report.service';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 const ELEMENT_DATA = [
   {
@@ -62,7 +63,8 @@ export class TelephoneRangeReportComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpWrapperService,
     private service: ReportService,
-    private cdr: ChangeDetectorRef) {}
+    private cdr: ChangeDetectorRef,
+    private telnoPipe: TelNoPipe) {}
 
   @ViewChild('table1') table1?:TableSelectionComponent;
   myTable!: TableItem;
@@ -291,6 +293,16 @@ export class TelephoneRangeReportComponent implements OnInit {
       value = value.length <= 10 ? '0' + value : value;
     }
     this.f[control].setValue(value);
+  }
+
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    }
   }
 
   numberOnly(event: any): boolean {
