@@ -15,6 +15,9 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
   {
@@ -144,7 +147,9 @@ export class SolicitederrorsComponent implements OnInit {
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
+    private spinner: NgxSpinnerService,
+    private telnoPipe: TelNoPipe,
+    private dialog: MatDialog) { }
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
@@ -320,6 +325,7 @@ export class SolicitederrorsComponent implements OnInit {
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.thisForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -354,7 +360,7 @@ export class SolicitederrorsComponent implements OnInit {
         name: 'Summary'
       });
     }
-
+    this.isEnable();
 
   }
 
@@ -362,10 +368,20 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
       (this.Resolution && this.Remarks)) {
-      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.service.updateDetails(request).subscribe(x => x);
-    }
 
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to save the records?'
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        //console.log("result " + result);
+        if (result) {
+          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          this.service.updateDetails(request).subscribe(x => x);
+        }
+      });
+    }
   }
 
   prepareUpdateIdentifiers() {
@@ -551,6 +567,13 @@ export class SolicitederrorsComponent implements OnInit {
         break;
 
     }
+  }
+
+  openPanel(control: any, evt: any, trigger: MatAutocompleteTrigger): void {
+    evt.stopPropagation();
+    control?.reset();
+    trigger.openPanel();
+    control?.nativeElement.focus();
   }
 
 }
