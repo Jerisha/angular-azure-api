@@ -129,7 +129,16 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.isEmailRequired = this.tableitem?.showEmail ? true : false;
     //removeNoDataColumns
     if (this.tableitem?.removeNoDataColumns) {
-      this.verifyEmptyColumns(data);
+      if(data && data.length>0){
+        this.verifyEmptyColumns(data);
+      }
+      else{
+        this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+      }
+      
+        //this.ColumnDetails = this.tableitem?.Columns? this.tableitem?.Columns:[];
+      
+     
       // this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
       //   this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
       // const selectList = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue));
@@ -305,7 +314,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.emptyColumns = [];
     this.unSelectListItems = [];
 
-    // if (data) {
+     if (data && data.length>0) {
     data?.forEach((item: any) => this.checkIsNullOrEmptyProperties(item));
     // logic
     debugger
@@ -314,6 +323,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       if (this.nonemptyColumns.includes(x.headerValue) || x.isImage)
         this.ColumnDetails.push(x);
     })
+  }
+ 
+  //}
     // var nonEmptySet = new Set(this.nonemptyColumns);
     // this.nonemptyColumns = [...nonEmptySet];
     // var colDetails = this.tableitem?.Columns ? this.tableitem?.Columns : [];

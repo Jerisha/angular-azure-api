@@ -331,7 +331,9 @@ export class SolicitederrorsComponent implements OnInit {
           pagenumber: res[0].PageNumber
         }
         return result;
-      } else return res;
+      } else return {
+        datasource: res
+      };
     }));
 
     this.myTable = {
@@ -417,7 +419,8 @@ export class SolicitederrorsComponent implements OnInit {
 
 
   resetForm(): void {
-    window.location.reload();
+    this.thisForm.reset();
+    //window.location.reload();
     // this.tabs.splice(0);
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {
