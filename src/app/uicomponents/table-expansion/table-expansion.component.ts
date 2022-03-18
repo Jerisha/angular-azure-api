@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, Input } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output, OnDestroy, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -7,10 +7,12 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
+import { ColumnDetails, TableItemExpansion, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-
+import { Observable, Subject } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -25,14 +27,15 @@ import { MatSelect } from '@angular/material/select';
     ]),
   ],
 })
-export class TableExpansionComponent implements OnInit {
+export class TableExpansionComponent implements OnDestroy {
+  private readonly onDestroy = new Subject<void>();
   fltvalue: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('select') select!: MatSelect;
   allSelected = true;
   selection = new SelectionModel<any>(true, []);
-  @Input() tableitem?: TableItem;
+  @Input() tableitem?:  TableItemExpansion ;
   @Input() sidePan: any;
   @Input() isShown: boolean = true ;
   @Output() rowChanges = new EventEmitter<any>();
@@ -64,7 +67,7 @@ export class TableExpansionComponent implements OnInit {
   backhighlightedCells: string[] = []
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
-  showTotalRow: boolean = false;
+  shouldTotalRow: boolean = false;
   childTable : string='';
   
   
@@ -72,10 +75,9 @@ export class TableExpansionComponent implements OnInit {
   
   
   
-  constructor(private cdr: ChangeDetectorRef) {
-  
-  
-  
+  constructor(private cdr: ChangeDetectorRef,
+    private spinner: NgxSpinnerService) {
+
   }
   
   
@@ -94,14 +96,32 @@ export class TableExpansionComponent implements OnInit {
   }
   }
   
+  dataObs$!: Observable<any>
+  dataobj!: any;
   
+  ngOnChanges(changes: SimpleChanges) {
+    // if (changes.tableitem?.currentValue != changes.tableitem?.previousValue)
+    //   return;
+
+    this.spinner.show();
+    this.dataObs$ = this.tableitem?.data;
+    //Subscribing passed data from parent
+    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
+      (res: any) => {
+        this.dataSource = new MatTableDataSource<any>(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.spinner.hide()
+      },
+      error => { this.spinner.hide(); },
+      () => { console.log('table load completed'); this.spinner.hide() }
+    );
   
-  ngOnInit() {
   this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
   this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
-  this.showTotalRow = this.tableitem?.showTotal ? this.tableitem?.showTotal : false
+  this.shouldTotalRow = this.tableitem?.shouldTotalRow ? this.tableitem?.shouldTotalRow : false
   this.totalRowCols = this.tableitem?.totalRowCols ? this.tableitem?.totalRowCols : [];
-  if (this.tableitem?.removeNoDataColumns) {
+  if (this.tableitem?.showBlankCoulmns) {
   this.getEmptyColumns();
   this.filteredDataColumns = this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) ?
   this.tableitem?.Columns?.filter(x => !this.unSelectListItems.includes(x.headerValue)) : [];
@@ -117,7 +137,7 @@ export class TableExpansionComponent implements OnInit {
   
   this.childTable = this.tableitem?.childData ? this.tableitem?.childData : '';
   this.dataSource = new MatTableDataSource<any>(this.tableitem?.data);
-  this.ColumnDetails = this.tableitem?.removeNoDataColumns ? this.filteredDataColumns
+  this.ColumnDetails = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns
   : (this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : []);
   //this.imgColumns = this.tableitem?.colToSetImage;
   this.imgList = this.tableitem?.imgConfig;
@@ -129,7 +149,7 @@ export class TableExpansionComponent implements OnInit {
   this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
   this.selectColumn = this.tableitem?.selectionColumn ? this.tableitem?.selectionColumn : '';
   } else {
-  this.dataColumns = this.tableitem?.removeNoDataColumns ? this.filteredDataColumns.map((e) => e.headerValue) : this.tableitem?.Columns?.map((e) => e.headerValue);
+  this.dataColumns = this.tableitem?.showBlankCoulmns ? this.filteredDataColumns.map((e) => e.headerValue) : this.tableitem?.Columns?.map((e) => e.headerValue);
   }
   this.isEmailRequired = this.tableitem?.showEmail ? true : false;
   }
@@ -332,6 +352,9 @@ export class TableExpansionComponent implements OnInit {
   return applyStyles;
   }
   expandedElement: PeriodicElement | null | undefined;
+  ngOnDestroy() {
+    this.onDestroy.next();
+  }
   }
   interface PeriodicElement {
   name: string;
