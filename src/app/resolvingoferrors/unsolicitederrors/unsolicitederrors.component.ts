@@ -15,6 +15,8 @@ import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -175,7 +177,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
-    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe) { }
+    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog:MatDialog) { }
 
   ngOnInit(): void {
 
@@ -383,10 +385,20 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   }
   onSaveSubmit() {
     debugger;
-    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
-      (this.Resolution && this.Remarks)) {
-      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.service.updateDetails(request).subscribe(x => x);
+    if (this.selectedGridRows.length > 0  &&  (this.Resolution && this.Remarks)) {
+
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to save the records?'
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        //console.log("result " + result);
+        if (result) {
+          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          this.service.updateDetails(request).subscribe(x => x);
+        }
+      });
     }
   }
 
@@ -442,6 +454,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.thisForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
