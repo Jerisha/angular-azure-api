@@ -2,12 +2,12 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { of, Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { UserCommentsDialogComponent } from '../fullauditdetails/user-comments-dialog.component';
 
 const ELEMENT_DATA: any[] = [
@@ -179,37 +179,14 @@ export class ExternalAuditDetailsComponent implements OnInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
   externalAuditForm!: FormGroup;
-
-  selectedCorrectionType: string = '';
   myTable!: TableItem;
-  rangeRptTable!: TableItem;
-  inflightRptTable!: TableItem;
-  monthlyRefreshRptTable!: TableItem;
-  moriCircuitRptTable!: TableItem;
   selectedTab!: number;
   selectListItems: string[] = [];
   listItems!: Select[];
-  emptyColumns: string[] = [];
-  nonemptyColumns: string[] = [];
-  unSelectListItems: string[] = [];
   tabs: Tab[] = [];
-  auditTelNo?: any; 
+  auditTelNo?: any;
   repIdentifier = "ExternalAuditDetails";
-
   comments: string = 'No Records Found';
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-
-  validation_messages = {
-    'TelNo': [
-      { type: 'required', message: 'TelNo is required' },
-      { type: 'minlength', message: 'TelNo should be 10 characters long' }
-    ],
-    'BatchId': [
-      { type: 'required', message: 'BatchId is required' },
-      { type: 'minlength', message: 'BatchId should be 3 characters long' }
-    ]
-  };
 
   colHeader: ColumnDetails[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
@@ -226,42 +203,32 @@ export class ExternalAuditDetailsComponent implements OnInit {
     { headerValue: 'OSN2Locality', header: 'OSN2 Locality', showDefault: true, isImage: false },
     { headerValue: 'OSN2Premise', header: 'OSN2 Premise', showDefault: true, isImage: false },
     { headerValue: 'BTCustomer', header: 'BT Customer', showDefault: true, isImage: false },
-    { headerValue: 'BTPostcode', header: 'BTP ostcode', showDefault: true, isImage: false },
+    { headerValue: 'BTPostcode', header: 'BT Postcode', showDefault: true, isImage: false },
     { headerValue: 'BTThouroughfare', header: 'BT Thourough fare', showDefault: true, isImage: false },
     { headerValue: 'BTLocality', header: 'BT Locality', showDefault: true, isImage: false },
     { headerValue: 'BTPremise', header: 'BT Premise', showDefault: true, isImage: false }
 
   ];
 
-  correctionTypes: any[] = [
-    {
-      name: 'Auto Correction',
-      correction: [
-        { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume' }
-      ]
-    },
-    {
-      name: 'Manual Correction',
-      disabled: false,
-      correction: [
-        { value: 'AutoPopulateBT', viewValue: 'Auto Populate BT', disabled: false },
-        { value: 'AutoPopulateOSN2', viewValue: 'Auto Populate OSN2', disabled: true },
-        { value: 'AutoPopulateSource', viewValue: 'Auto Populate Source', disabled: false },
-        { value: 'AutoPopulateBTSource', viewValue: 'Auto Populate BT + Source', disabled: true },
-        { value: 'AutoPopulateSpecialCease', viewValue: 'Auto Populate Special Cease', disabled: true }
-      ]
-    }];
-
   constructor(private dialog: MatDialog,
-    private formBuilder: FormBuilder, private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {
+    private formBuilder: FormBuilder, private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef) {
   }
 
   resetForm(): void {
-    // //this.snackBar.open('Reset Form Completed!', 'Close', {
-    //   duration: 5000,
-    //   horizontalPosition: this.horizontalPosition,
-    //   verticalPosition: this.verticalPosition,
-    // });
+
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+  get form() {
+    return this.externalAuditForm.controls;
+
   }
 
   openDialog() {
@@ -273,6 +240,16 @@ export class ExternalAuditDetailsComponent implements OnInit {
     );
   }
 
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.externalAuditForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    }
+  }
+
   ngOnInit(): void {
     this.createForm();
     this.listItems = Items;
@@ -281,6 +258,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
+
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
@@ -299,13 +277,8 @@ export class ExternalAuditDetailsComponent implements OnInit {
       removeNoDataColumns: true,
       selectionColumn: 'TelNo',
       highlightedCells: ['TelNo'],
-      // backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
-      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
-      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -315,13 +288,12 @@ export class ExternalAuditDetailsComponent implements OnInit {
       });
     }
     this.selectedTab = this.tabs.length;
-    console.log('selected Tab: ' + this.selectedTab, 'Tabs Length: ' + this.tabs.length);
+    //console.log('selected Tab: ' + this.selectedTab, 'Tabs Length: ' + this.tabs.length);
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-
 
   newTab(tab: any) {
     debugger;
@@ -369,9 +341,6 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   ngOnDestroy() {
     this.destroy$.next(true);
-    //debugger;
-    //console.log('destroying')
-    // Unsubscribe from the subject
     this.destroy$.unsubscribe();
   }
 
@@ -379,14 +348,12 @@ export class ExternalAuditDetailsComponent implements OnInit {
     this.externalAuditForm = this.formBuilder.group({
       TelNoStart: new FormControl({ value: '', disabled: true },
         [
-          // Validators.required,
-          Validators.minLength(10)
+          Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
         ]
       ),
       TelNoEnd: new FormControl({ value: '', disabled: true },
         [
-          // Validators.required,
-          Validators.minLength(10)
+          Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
         ]
       ),
       AuditActId: new FormControl({ value: '', disabled: true }),

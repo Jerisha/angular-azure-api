@@ -9,6 +9,13 @@ import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 
+
+const ELEMENT_DATA:any =[
+  { StartTel:'01202237280', EndTel:'01202237290', Live:'',Trans:'',Null:11,Line:'',Name:'',Address:''},
+  { StartTel:'01202237280', EndTel:'01202237290', Live:'',Trans:'',Null:11,Line:'',Name:'',Address:''}
+
+]
+
 @Component({
   selector: 'app-range-special-cease-transaction',
   templateUrl: './range-special-cease-transaction.component.html',
@@ -17,19 +24,18 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 export class RangeSpecialCeaseTransactionComponent implements OnInit {
 
   splCeaseTransForm!: FormGroup;
-  @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
+ // @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  //splCeaseTransForm!: FormGroup;
+ 
 
   selectedCorrectionType: string = '';
   myTable!: TableItem;
   selectedTab!: number;
   selectListItems: string[] = [];
   listItems!: Select[];
-  unSelectListItems: string[] = [];
+  //unSelectListItems: string[] = [];
   tabs: Tab[] = [];
-
-  comments: string = 'No Records Found';
+  //comments: string = 'No Records Found';
   // horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   // verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -45,25 +51,14 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   };
 
   colHeader: ColumnDetails[] = [
-    { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
-    { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
-    { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
-    { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
-    { headerValue: 'CUPID', header: 'CUPID', showDefault: true, isImage: false },
-    { headerValue: 'FullAuditCLIStatus', header: 'CLI Status', showDefault: true, isImage: false },
-    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false },
-    { headerValue: 'AuditDate', header: 'Audit Date', showDefault: true, isImage: false },
-    { headerValue: 'OSN2Customer', header: 'OSN2 Customer', showDefault: true, isImage: false },
-    { headerValue: 'OSN2Postcode', header: 'OSN2 Postcode', showDefault: true, isImage: false },
-    { headerValue: 'OSN2Thouroughfare', header: 'OSN2 Thourough fare', showDefault: true, isImage: false },
-    { headerValue: 'OSN2Locality', header: 'OSN2 Locality', showDefault: true, isImage: false },
-    { headerValue: 'OSN2Premise', header: 'OSN2 Premise', showDefault: true, isImage: false },
-    { headerValue: 'BTCustomer', header: 'BT Customer', showDefault: true, isImage: false },
-    { headerValue: 'BTPostcode', header: 'BTP ostcode', showDefault: true, isImage: false },
-    { headerValue: 'BTThouroughfare', header: 'BT Thourough fare', showDefault: true, isImage: false },
-    { headerValue: 'BTLocality', header: 'BT Locality', showDefault: true, isImage: false },
-    { headerValue: 'BTPremise', header: 'BT Premise', showDefault: true, isImage: false }
-
+    { headerValue: 'StartTel', header: 'Start Tel', showDefault: true, isImage: false }, 
+    { headerValue: 'EndTel', header: 'End Tel', showDefault: true, isImage: false },
+    { headerValue: 'Live', header: 'Live', showDefault: true, isImage: false },
+    { headerValue: 'Trans', header: 'Trans', showDefault: true, isImage: false },
+    { headerValue: 'Null', header: 'Null', showDefault: true, isImage: false ,isTotal:true },
+    { headerValue: 'Line', header: 'Line', showDefault: true, isImage: false ,isTotal:true},
+    { headerValue: 'Name', header: 'Name', showDefault: true, isImage: false },
+    { headerValue: 'Address', header: 'Address', showDefault: true, isImage: false }
   ];
 
 
@@ -103,24 +98,18 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   onFormSubmit(): void {
     this.myTable = {
       data: of({
-        datasource: [''],
-        totalrecordcount: 13,
+        datasource: ELEMENT_DATA,
+        totalrecordcount: 1,
         totalpages: 10,
         pagenumber: 1
       }),
       Columns: this.colHeader,
-      filter: true,
-      selectCheckbox: true,
-      removeNoDataColumns: true,
-      selectionColumn: 'TelNo',
-      highlightedCells: ['TelNo'],
-      // backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
-      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
-      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
+      filter: false,
+      selectCheckbox: false,
+      removeNoDataColumns: false,
+      showTotal:true,    
+     
+      
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {

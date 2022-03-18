@@ -47,7 +47,49 @@
     </mat-sidenav>
 
     <mat-sidenav-content class="side-content">
-       
+        <app-start-up *ngIf="tabs.length===0"></app-start-up>
+        <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary"
+            (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+            <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+        </button>
+        <mat-tab-group [(selectedIndex)]="selectedTab">
+            <mat-tab *ngFor="let tab of tabs; let index = index">
+                <ng-template mat-tab-label>
+                    <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+                    <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
+                        <mat-icon style="font-size: large;">close</mat-icon>
+                    </button>
+                </ng-template>
+                <span [ngSwitch]="tab.tabType">
+                    <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+                        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                            (addNewTab)="newTab($event)">
+                        </app-table-selection>
+                        <div class="mat-elevation-z8 side-bottom">
+                            <div style="display:inline; margin-left: 15px;">
+                                <mat-form-field class="side-textarea" style="width:300px"
+                                hintLabel="Max 500 characters">
+                                <mat-label>Remarks</mat-label>
+                                <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
+                                <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                            </mat-form-field>
+
+                            <button type="submit" mat-raised-button color="primary">
+                                <mat-icon>save</mat-icon>Cease
+                            </button>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <!-- <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+                        <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
+                        </app-telephone-audit-trail>
+                    </div> -->
+                    <div *ngSwitchDefault>
+                    </div>
+                </span>
+            </mat-tab>
+        </mat-tab-group>
                    
     </mat-sidenav-content>
 </mat-sidenav-container>
