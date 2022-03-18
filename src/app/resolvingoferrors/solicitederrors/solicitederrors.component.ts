@@ -14,6 +14,7 @@ import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
   {
@@ -134,7 +135,8 @@ const FilterListItems: Select[] = [
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
-  styleUrls: ['./solicitederrors.component.css']
+  styleUrls: ['./solicitederrors.component.css'],
+  //providers: [TelNoPipe]
 })
 export class SolicitederrorsComponent implements OnInit {
 
@@ -142,7 +144,7 @@ export class SolicitederrorsComponent implements OnInit {
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
@@ -166,26 +168,26 @@ export class SolicitederrorsComponent implements OnInit {
   Resolution!: string;
   Refer!: string;
   Remarks!: string;
-  isSaveDisable:boolean=true;
+  isSaveDisable: boolean = true;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
   currentPage: string = '1';
-  updateDetails!:any;
+  updateDetails!: any;
 
   ngOnInit(): void {
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'],['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.prepareConfigRequest(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'],['ResolutionType']);
+    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res[0];
@@ -317,6 +319,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    if (!this.thisForm.valid) return;
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -454,7 +457,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   isEnable() {
 
-    debugger
+    //debugger
     if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
@@ -470,14 +473,30 @@ export class SolicitederrorsComponent implements OnInit {
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
- 
 
-  addPrefix(control: string, value: any) {
-    if (value.charAt(0) != 0) {
-      value = value.length <= 10 ? '0' + value : value;
+
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
-    this.f[control].setValue(value);
   }
+
+
+
+  // prefix:string[]=['01','02','03','08'];
+
+
+  // addPrefix(control: string, value: any) {  
+  //   if (value.charAt(0) != 0) {
+  //     value = value.length <= 10 ? '0' + value : value;
+  //   }
+  //   value = ((this.prefix.indexOf(value.substring(0, 2)) === -1) && value.length >= 2) ? '' : value;
+  //   this.f[control].setValue(value);
+  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;

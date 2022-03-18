@@ -4,7 +4,7 @@ import { MatSelect } from '@angular/material/select';
 import { Observable, of } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { UnSolicitedErrors, InformationTable1, InformationTable2 } from 'src/app/resolvingoferrors/models/unsolicited-error'
 import { map, startWith } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import { ResolvingOfErrorsService } from '../services/resolving-of-errors.servic
 import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -132,7 +133,8 @@ const FilterListItems: Select[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-unsolicitederrors',
   templateUrl: './unsolicitederrors.component.html',
-  styleUrls: ['./unsolicitederrors.component.css']
+  styleUrls: ['./unsolicitederrors.component.css'],
+  //providers: [TelNoPipe]
 })
 export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
@@ -173,17 +175,18 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe) { }
 
   ngOnInit(): void {
 
     this.createForm();
     //this.UpdateForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'ErrorType', 'Final', 'ResolutionType']);
+    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
+
     });
 
     let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
@@ -191,8 +194,6 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res[0];
     });
-
-
 
 
   }
@@ -211,14 +212,26 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.cdr.detectChanges();
   }
 
-
-
-  addPrefix(control: string, value: any) {
-    if (value.charAt(0) != 0) {
-      value = value.length <= 10 ? '0' + value : value;
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
-    this.f[control].setValue(value);
   }
+
+
+  // prefix:string[]=['01','02','03','08'];
+
+  // addPrefix(control: string, value: any) {
+  //   if (value.charAt(0) != 0) {
+  //     value = value.length <= 10 ? '0' + value : value;
+  //   }
+  //   value = ((this.prefix.indexOf(value.substring(0, 2)) === -1) && value.length >= 2) ? '' : value;
+  //   this.f[control].setValue(value);
+  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -230,9 +243,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
 
   ngAfterViewChecked() {
-
     this.cdr.detectChanges();
-
   }
 
 
@@ -268,13 +279,21 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
     if (this.selectedGridRows.length > 0) {
       if (this.selectedGridRows.length > 0) {
+        let TelephoneNo: string[] = [];
         let transId: string[] = [];
-        this.selectedGridRows?.forEach(x => { transId.push(x.TransactionReference) })
-        identifiers.push({ Name: 'TransactionReference', Value: transId });
+        this.selectedGridRows?.forEach(x => {
+          transId.push(x.TransactionReference);
+          TelephoneNo.push(x.TelephoneNumber);
+        })
+        identifiers.push({ Name: 'TransactionReference', Value: transId },
+          { Name: 'TelephoneNumberStart', Value: TelephoneNo }
+        );
         //identifiers.push({ Name: 'TelePhoneNumber', Value: transId });
       }
       else
-        identifiers.push({ Name: 'TransactionReference', Value: [""] });
+        identifiers.push({ Name: 'TransactionReference', Value: [""] },
+          { Name: 'TelephoneNumberStart', Value: [""] }
+        );
     }
     //  else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
 
@@ -331,8 +350,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   }
 
 
-  createForm() {
 
+  createForm() {
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
@@ -346,10 +365,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         FromDate: new FormControl(),
         ToDate: new FormControl(), disabled: true
       })
-
-
     })
-
   }
 
 
@@ -372,8 +388,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
       this.service.updateDetails(request).subscribe(x => x);
     }
-
   }
+
   InternalErrorInformation: any;
   DisplayInformationTab() {
     debugger
@@ -423,10 +439,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
-
-
-
   onFormSubmit(isEmitted?: boolean): void {
+    debugger;
+    if (!this.thisForm.valid) return;
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
