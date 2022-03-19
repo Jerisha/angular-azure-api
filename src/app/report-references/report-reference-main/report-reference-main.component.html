@@ -1,26 +1,41 @@
-<mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height: 530px;"> 
+<div #main >
+<div style ="padding-left: 3rem;margin-bottom: 6px;">
+  <button mat-stroked-button style="color:#e60000" [matMenuTriggerFor]="menu" >
+    <mat-icon>book</mat-icon> Select References-List
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>settings_applications</mat-icon>
+      <span>{{reportNames[0]}}</span>
+    </button>
+    <button mat-menu-item >
+      <mat-icon>settings_applications</mat-icon>
+      <span>{{reportNames[1]}}</span>
+    </button>    
+  </mat-menu>  
+</div>
+<mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height: 530px;" *ngIf =true> 
   <mat-tab>
       <ng-template mat-tab-label>
-          <div style="margin-left: 10px;">{{title}}</div>
+          <div style="margin-left: 10px;">{{reportNames[0]}}</div>
           <button *ngIf=1 style="color:black" matSuffix mat-icon-button >
           <mat-icon style="font-size: large;">close</mat-icon>
           </button>
       </ng-template> 
       <!-- <ng-template #tpl>  -->
-        <app-report-reference [reportName]="reportName"></app-report-reference>      
+        <app-report-reference [reportName]="reportNames[0]" [reportIndex]="0" ></app-report-reference>      
       <!-- </ng-template> -->
     </mat-tab>
     <mat-tab>
         <ng-template mat-tab-label>
-            <div style="margin-left: 10px;">{{title}}</div>
+            <div style="margin-left: 10px;">{{reportNames[1]}}</div>
             <button *ngIf=1 style="color:black" matSuffix mat-icon-button >
             <mat-icon style="font-size: large;">close</mat-icon>
             </button>
         </ng-template> 
         <!-- <ng-template #tpl>  -->
-          <app-report-reference [reportName]="reportName"></app-report-reference>      
+          <app-report-reference [reportName]="reportNames[1]" [reportIndex]="1" ></app-report-reference>      
         <!-- </ng-template> -->
-      </mat-tab>
+       </mat-tab> 
 </mat-tab-group> 
-
-
+</div>

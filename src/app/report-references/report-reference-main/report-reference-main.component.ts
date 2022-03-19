@@ -14,12 +14,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit{
 
 reportNames:string[] =['SourceSystem','Status'];
 title:string="";
-reportName:string="";
-  // referenceForm!: FormGroup;
-  // @ViewChild("vc", { read: ViewContainerRef })
-  // vc!: ViewContainerRef;
-  // @ViewChild("tpl")
-  // tpl!: TemplateRef<any>;
+reportName:string="";  
 
 constructor(private cdr: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
@@ -27,26 +22,16 @@ constructor(private cdr: ChangeDetectorRef,
     private reportReferenceService: ReportReferenceService,
     
   ) { }
-  ngAfterViewInit(): void {       
-    // let view = this.tpl.createEmbeddedView(null);
-    // this.vc.insert(view);
+  ngAfterViewInit(): void { 
     this.cdr.detectChanges(); 
   }
-  ngOnInit(): void {
-    this.title=this.reportNames[0];
-    this.reportName=this.reportNames[0]; 
-    // this.referenceForm = this.formBuilder.group({});
-    // this.setForm();
+  ngOnInit(): void {    
     
   }  
 
 ngAfterViewChecked() 
   {
     this.cdr.detectChanges();
-  }
-  // setForm() {
-  //   this.reportReferenceService.setForm(this.reportName);
-    
-  // }
+  }  
   
 }

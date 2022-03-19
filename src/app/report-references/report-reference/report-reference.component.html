@@ -34,21 +34,21 @@
                                         [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
                                           >{{formData.cDisplayName}}</mat-checkbox> 
                                     </div>                                                   
-                                  </div>
-                                  <div class ="fixed-button-bar">   
-                                      <mat-card-actions>
-                                          <button  *ngIf = "recordId==0" type="submit" mat-raised-button class ="btn-color" [disabled] ="referenceForm.status!='VAILD'"  matTooltip="Click this button currently showning  details will be create new Record"  >
-                                              <mat-icon >add_box</mat-icon>Submit
-                                              </button>
-                                              <button  *ngIf = "recordId!=0" type="submit" mat-raised-buttonclass ="btn-color" [disabled] ="referenceForm.status!='VAILD'" matTooltip="Click this button currently showning details will be Update"  >
-                                                  <mat-icon >edit</mat-icon>Update
-                                              </button>
-                                              <button type="button" mat-raised-button  (click)=onCancelDataForm() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
-                                              <mat-icon >cancel</mat-icon>Cancel
-                                              </button> 
-                                      </mat-card-actions>                  
-                                  </div>  
+                                  </div>                                   
                               </div> 
+                              <div class ="fixed-button-bar">   
+                                <mat-card-actions>
+                                    <button  *ngIf = "recordId==0" type="submit" mat-raised-button class ="btn-color" [disabled] ="referenceForm.status!='VAILD'"  matTooltip="Click this button currently showning  details will be create new Record"  >
+                                        <mat-icon >add_box</mat-icon>Submit
+                                        </button>
+                                        <button  *ngIf = "recordId!=0" type="submit" mat-raised-buttonclass ="btn-color" [disabled] ="referenceForm.status!='VAILD'" matTooltip="Click this button currently showning details will be Update"  >
+                                            <mat-icon >edit</mat-icon>Update
+                                        </button>
+                                        <button type="button" mat-raised-button  (click)=onCancelDataForm() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
+                                        <mat-icon >cancel</mat-icon>Cancel
+                                        </button> 
+                                </mat-card-actions>                  
+                            </div> 
                       </mat-card-content>                     
                       </form> 
                   </ng-container>
@@ -89,9 +89,9 @@
                 <button  type="button" (click)=onExport() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button currently showning details will be Export"  >
                     <mat-icon >file_download</mat-icon>Export
                 </button>
-                <button type="button" (click)=onRefreshDetailPane() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button,Refresh the detail Pane"  >
+                <!-- <button type="button" (click)=onRefreshDetailPane() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button,Refresh the detail Pane"  >
                   <mat-icon >refresh</mat-icon>Refresh
-                </button>
+                </button> -->
             </span>                              
           </div>
         </div>  

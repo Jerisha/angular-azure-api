@@ -20,10 +20,13 @@ export class ReportReferenceComponent implements OnInit,AfterViewInit {
   data:any;
   
   @Input() reportName:string='';
+  @Input()
+  reportIndex!: number;
   referenceForm!: FormGroup;
   lstForm: IColoumnDef[] = [];
   title:string ="";
   recordId:number=0;
+  record:any;
 
 
 
@@ -37,20 +40,15 @@ ngOnInit(): void {
  
 }
 ngOnChanges(changes: SimpleChanges) {
-  // if(this.referenceForm !=null)
-  // console.log("instances..");
-  //{  
-  this.referenceForm = this.formBuilder.group({});
- this.lstForm  = this.service.setForm(this.reportName);
- this.referenceForm = this.formValidation();
-// }
- //need to check
-//  console.log('check-coldis',this.service.displayedColumns);
- this.displayedColumns=this.service.displayedColumns[0][this.reportName];
-//  console.log('check-data',this.service.data);
- this.data =this.service.data[0][this.reportName];
- this.title = this.reportName;
-
+     
+    this.referenceForm = this.formBuilder.group({});
+    this.lstForm  = this.service.setForm(this.reportName,this.record);
+    this.referenceForm = this.formValidation();   
+    
+    this.displayedColumns=this.service.displayedColumns[this.reportIndex][this.reportName];
+    
+    this.data =this.service.data[this.reportIndex][this.reportName];
+    this.title = this.reportName;
 }
 
 formValidation() :FormGroup {
@@ -88,35 +86,31 @@ ngAfterViewChecked()
  }
 
 onEditRecord(record:any,event:any){
-//  alert("start editing...");
- this.showDataform =true;
-//  event.stopPropagation();
- // this.showDetailsForm=false;
+    //  alert("start editing...");
+    this.record = record;
+    alert("Edit starts..."+JSON.stringify(this.record));
+    this.showDataform =true;    
 }
 
 onDeleteRecord(record:any,event:any){
- let val = JSON.stringify(record)
- alert("Delete starts..."+record.OriginatingSystem);
-
+    let val = JSON.stringify(record)
+    alert("Delete starts..."+record.OriginatingSystem);
 }
 onCreateRecord(){
- alert("new record starts...");
- this.showDataform =true;
- // this.showDetailsForm=false;
-
+    //alert("new record starts...");
+    this.record =null;
+    this.showDataform =true;   
 }
 onRefreshDetailPane(){
- alert("Refresh Details Pane starts...");
-
+    alert("Refresh Details Pane starts...");
 }
 onExport(){
- alert("Export starts...");
-
+    alert("Export starts...");
 }
 onSubmit(){
- alert("Create/Edit Completed..");
- this.showDataform =false;
- this.showDetailsForm=true;
+  alert("Create/Edit Completed..");
+  this.showDataform =false;
+  this.showDetailsForm=true;
 }
 onCancelDataForm(){
  this.referenceForm.reset();
