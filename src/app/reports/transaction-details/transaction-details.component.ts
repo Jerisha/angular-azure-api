@@ -290,7 +290,7 @@ prepareQueryParams(pageNo: string): any {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      selectionColumn: 'TranId',
+      
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
                   { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]  }

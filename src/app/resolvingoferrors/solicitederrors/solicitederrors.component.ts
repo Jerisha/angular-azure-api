@@ -347,7 +347,6 @@ export class SolicitederrorsComponent implements OnInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      selectionColumn: 'TranId',
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
@@ -436,8 +435,10 @@ export class SolicitederrorsComponent implements OnInit {
 
   resetForm(): void {
     this.thisForm.reset();
+    this.tabs.splice(0);
+    this.Resolution ='';this.Refer='';this.Remarks='';
     //window.location.reload();
-    // this.tabs.splice(0);
+   
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
@@ -471,13 +472,13 @@ export class SolicitederrorsComponent implements OnInit {
       }
     })
     this.isEnable();
-    // console.log("selectedGridRows" + this.selectedGridRows)
+    //console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
+    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
@@ -504,18 +505,6 @@ export class SolicitederrorsComponent implements OnInit {
     }
   }
 
-
-
-  // prefix:string[]=['01','02','03','08'];
-
-
-  // addPrefix(control: string, value: any) {  
-  //   if (value.charAt(0) != 0) {
-  //     value = value.length <= 10 ? '0' + value : value;
-  //   }
-  //   value = ((this.prefix.indexOf(value.substring(0, 2)) === -1) && value.length >= 2) ? '' : value;
-  //   this.f[control].setValue(value);
-  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;

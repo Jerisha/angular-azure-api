@@ -49,7 +49,7 @@
 
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
-            <input  formControlName="Command" type="text" placeholder="Search Command" matInput
+            <input #command formControlName="Command" type="text" placeholder="Search Command" matInput
               [matAutocomplete]="autoCommand" 
               OptionsValidator [options]="config.Command | splitBy: ','"
               />
@@ -57,7 +57,7 @@
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoCommand="matAutocomplete">
-              <mat-option *ngFor="let val of config.Command | splitBy: ',' | ddlFilter: f.Command.value" [value]="val">
+              <mat-option *ngFor="let val of config.Command | splitBy: ',' | ddlFilter: command.value" [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
@@ -91,14 +91,14 @@
 
           <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <input formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
+            <input #resolutiontype formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
               [matAutocomplete]="autoResolutionType" OptionsValidator [options]="config.ResolutionType | splitBy: ','"/>
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
               <!-- <mat-select formControlName="ResolutionType"> -->
-              <mat-option *ngFor="let val of config.ResolutionType | splitBy: ',' | ddlFilter: f.ResolutionType.value"
+              <mat-option *ngFor="let val of config.ResolutionType | splitBy: ',' | ddlFilter: resolutiontype.value"
                 [value]="val">{{val}}</mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
@@ -107,13 +107,13 @@
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <!-- <mat-select formControlName="ErrorType"> -->
-            <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
+            <input #errortype formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
               [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorType | splitBy: ','"/>
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoErrorType="matAutocomplete">
-              <mat-option *ngFor="let val of config.ErrorType | splitBy: ',' | ddlFilter: f.ErrorType.value"
+              <mat-option *ngFor="let val of config.ErrorType | splitBy: ',' | ddlFilter: errortype.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -123,13 +123,13 @@
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
             <mat-label>Error Code</mat-label>
-            <input formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
+            <input #errorcode formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
               [matAutocomplete]="auto" OptionsValidator [options]="config.ErrorCode | splitBy: ','" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of config.ErrorCode | splitBy: ',' | ddlFilter: f.ErrorCode.value"
+              <mat-option *ngFor="let option of config.ErrorCode | splitBy: ',' | ddlFilter: errorcode.value"
                 [value]="option">
                 {{option}}
               </mat-option>
