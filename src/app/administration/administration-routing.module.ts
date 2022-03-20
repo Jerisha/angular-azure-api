@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuditDataFilesComponent } from './audit-data-files/audit-data-files.component';
+import {AuditDataFilesComponent, RestoresolicitederrorsComponent } from 'src/app/administration/index'
 
 const routes: Routes = [
   { path: 'auditdatafiles',  component: AuditDataFilesComponent  },
+  { path: 'restoresolicitederrors',  component: RestoresolicitederrorsComponent  }
   
 ];
 @NgModule({
