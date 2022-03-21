@@ -1,0 +1,13 @@
+.selpanel
+{
+    top: 20px;
+    position:absolute;
+    pointer-events:auto;
+    box-sizing:border-box;
+    /* z-index:1000; */
+    display:flex;
+    flex-flow: wrap;
+    min-width: calc(100% + 120px) !important;  
+    max-height: calc(100% + 250px) !important;
+    margin-left: -20px;
+}

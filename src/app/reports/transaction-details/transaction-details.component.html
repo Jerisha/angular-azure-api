@@ -1,365 +1,227 @@
 <mat-sidenav-container class="side-container-report">
-    <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>  
-      <div class="filter-sticky">
-        <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
-          (changes)="setControlAttribute($event)">
-        </app-select-multiple>
-      </div>
-      <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">        
-          <div class="matsidenav-filter">
-            <ng-container *ngIf="configResult$ | async  as config">              
-            <div [ngStyle]="{'display':thisForm.controls.StartTelephoneNumber.disabled ? 'none' : 'block'}">
-            <app-select-exp [listItems]="expressions[0].default"  #StartTelephoneNumberOperator 
-            (click) ="OnOperatorClicked(['StartTelephoneNumberOperator',StartTelephoneNumberOperator.selectedViewValue])"></app-select-exp> 
-            <mat-form-field appearance="outline"
-            [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
-              <mat-label>Telephone No.</mat-label>            
-              <input formControlName="StartTelephoneNumber" matInput #StartTelephoneNumber    
-              minlength="11" maxlength="11" placeholder="Telephone No." 
-              (keypress)="numberOnly($event)"
-              (keyup)="addPrefix('StartTelephoneNumber',StartTelephoneNumber.value)"
-              >  
+  <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+    <div class="filter-sticky">
+      <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+        (changes)="setControlAttribute($event)">
+      </app-select-multiple>
+    </div>
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+      <div class="matsidenav-filter">
+        <ng-container *ngIf="configResult$ | async  as config">
+          <div [ngStyle]="{'display':thisForm.controls.StartTelephoneNumber.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[0].default" #StartTelephoneNumberOperator
+              (click)="OnOperatorClicked(['StartTelephoneNumberOperator',StartTelephoneNumberOperator.selectedViewValue])">
+            </app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
+              <mat-label>Telephone No.</mat-label>
+              <input formControlName="StartTelephoneNumber" matInput #StartTelephoneNumber minlength="11" maxlength="11"
+                placeholder="Telephone No." (keypress)="numberOnly($event)"
+                (keyup)="addPrefix('StartTelephoneNumber',StartTelephoneNumber.value)">
               <mat-error>
-                <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">                  
+                <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid"
+                  class="alert alert-danger">
                   <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
                 </div>
-              </mat-error>          
-            </mat-form-field> 
+              </mat-error>
+            </mat-form-field>
           </div>
+          
           <div [ngStyle]="{'display':thisForm.controls.CustomerName.disabled ? 'none' : 'block'}">
-            <app-select-exp [listItems]="expressions[1].default" #CustomerNameOperator 
-            (click) ="OnOperatorClicked(['CustomerNameOperator',CustomerNameOperator.selectedViewValue])"></app-select-exp> 
-            <mat-form-field appearance="outline" 
-            [ngClass]="{'hidden':thisForm.controls.CustomerName.disabled}">
-              <mat-label>Customer Name</mat-label>            
-              <input formControlName="CustomerName" matInput #CustomerName maxlength="15" placeholder="Customer Name">              
-            </mat-form-field> 
-            </div>
-            <div [ngStyle]="{'display':thisForm.controls.CreationDate.disabled ? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[2].default" #CreationDateOperator
-              (click) ="OnOperatorClicked(['CreationDateOperator',CreationDateOperator.selectedViewValue])"></app-select-exp>
-              <mat-form-field appearance="outline"
-                [ngClass]="{'hidden':thisForm.controls.CreationDate.disabled}">
-                <mat-label>Creation Date</mat-label>
-                <input  readonly formControlName="CreationDate" matInput #CreationDate 
-                placeholder="Creation Date" [matDatepicker]="picker" >
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>               
-              </mat-form-field>
-            </div>
-            <div [ngStyle]="{'display':thisForm.controls.Postcode.disabled ? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[1].default" #PostcodeOperator 
-              (click) ="OnOperatorClicked(['PostcodeOperator',PostcodeOperator.selectedViewValue])"></app-select-exp> 
-              <mat-form-field appearance="outline"
-                [ngClass]="{'hidden':thisForm.controls.Postcode.disabled}">
-                <mat-label>Postcode</mat-label>            
-                <input formControlName="Postcode" matInput #Postcode maxlength="10" placeholder="Postcode">                
-              </mat-form-field>  
-            </div>           
-            <div  [ngStyle]="{'display':thisForm.controls.Premises.disabled ? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[1].default" #PremisesOperator
-              (click) ="OnOperatorClicked(['PremisesOperator',PremisesOperator.selectedViewValue])"></app-select-exp> 
-              <mat-form-field appearance="outline"
-                [ngClass]="{'hidden':thisForm.controls.Premises.disabled}">                
-                <mat-label>Premises</mat-label>            
-                <input formControlName="Premises" matInput #Premises maxlength="10" placeholder="Premises">
-                </mat-form-field>  
-            </div> 
-            <div [ngStyle]="{'display':thisForm.controls.Thoroughfare.disabled ? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[1].default" #ThoroughfareOperator 
-              (click) ="OnOperatorClicked(['ThoroughfareOperator',ThoroughfareOperator.selectedViewValue])"></app-select-exp> 
-              <mat-form-field appearance="outline"
-                [ngClass]="{'hidden':thisForm.controls.Thoroughfare.disabled}">
-                <mat-label>Thoroughfare</mat-label>            
-                <input formControlName="Thoroughfare" matInput #Thoroughfare maxlength="10" placeholder="Thoroughfare">
-              </mat-form-field>  
-            </div>  
-            <div [ngStyle]="{'display':thisForm.controls.Locality.disabled ? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[1].default" #LocalityOperator
-              (click) ="OnOperatorClicked(['LocalityOperator',LocalityOperator.selectedViewValue])"></app-select-exp> 
-              <mat-form-field appearance="outline"
-                [ngClass]="{'hidden':thisForm.controls.Locality.disabled}">
-                <mat-label>Locality</mat-label>            
-                <input formControlName="Locality" matInput #Locality maxlength="10" placeholder="Locality">
-              </mat-form-field>  
-            </div>      
-            <div [ngStyle]="{'display':thisForm.controls.Cupid.disabled ? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[1].default" #CupidOperator 
-              (click) ="OnOperatorClicked(['CupidOperator',CupidOperator.selectedViewValue])"></app-select-exp>
-              <mat-form-field appearance="outline"
-              [ngClass]="{'hidden':thisForm.controls.Cupid.disabled}" >
-                <mat-label>Cupid</mat-label>
-                <input formControlName="Cupid" matInput #Cupid maxlength="10" placeholder="Cupid">                
-              </mat-form-field>
-            </div>   
-            <div [ngStyle]="{'display':thisForm.controls.Source.disabled? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[1].default" #SourceOperator 
-              (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
-              <mat-form-field appearance="outline"
-              [ngClass]="{'hidden':thisForm.controls.Source.disabled}" >
-                <mat-label>Source System</mat-label>  
-                <input formControlName="Source" type="text" placeholder="Search Source" matInput
-                [matAutocomplete]="autoSource" />
-                  <span matSuffix mat-icon-button>
-                    <mat-icon>arrow_drop_down</mat-icon>
-                  </span>
-                  <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
-                    <mat-option *ngFor="let val of splitData(config.Source) | ddlFilter: f.Source.value" [value]="val">
-                      {{val}}
-                    </mat-option>
-                  </mat-autocomplete>          
-                <!-- <mat-select formControlName="Source" type ="text" >
-                  <mat-option value=""></mat-option>                  
-                  <mat-option *ngFor="let val of splitData(config.Source )" [value]="val">{{val}}</mat-option>
-                  </mat-select> -->
-                </mat-form-field> 
-              </div>
-            <div [ngStyle]="{'display':thisForm.controls.Franchise.disabled? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[1].default" #FranchiseOperator 
-              (click) ="OnOperatorClicked(['FranchiseOperator',FranchiseOperator.selectedViewValue])"></app-select-exp>
-              <mat-form-field appearance="outline"
-              [ngClass]="{'hidden':thisForm.controls.Franchise.disabled}" >
-                <mat-label>Franchise</mat-label>
-                <input formControlName="Franchise" type="text" placeholder="Search Franchise" matInput
-                  [matAutocomplete]="autoFranchise" />
-                    <span matSuffix mat-icon-button>
-                      <mat-icon>arrow_drop_down</mat-icon>
-                    </span>
-                    <mat-autocomplete autoActiveFirstOption #autoFranchise="matAutocomplete">
-                      <mat-option *ngFor="let val of splitData(config.Franchise) | ddlFilter: f.Franchise.value" [value]="val">
-                        {{val}}
-                      </mat-option>
-                    </mat-autocomplete>
-                <!-- <mat-select formControlName="Franchise">
-                  <mat-option value=""></mat-option>                  
-                  <mat-option *ngFor="let val of splitData(config.Franchise )" [value]="val">{{val}}</mat-option>
-                  </mat-select> -->
-                <!-- <mat-select formControlName="Franchise">
-                  <mat-option value=""></mat-option>
-                  <mat-option value="ADP">ADP - ADEPT</mat-option>
-                  <mat-option value="AGG">AGG - Aggregated Telecom Limited</mat-option>
-                  <mat-option value="ALL">ALL - CW ALLNET</mat-option>
-                  <mat-option value="ATO">ATO - ATCO</mat-option>
-                  <mat-option value="BBC">BBC - BBC</mat-option>
-                  <mat-option value="BCG">BCG - Business Grade DSL</mat-option>
-                  <mat-option value="BGC">BGC - Busiess Grade DSL</mat-option>
-                  <mat-option value="CCN">CCN - Complete Contact</mat-option>
-                  <mat-option value="CLB">CLB - BULLDOG (UK)</mat-option>
-                  <mat-option value="CLC">CLC - CLUB COMMUNICATIONS LTD</mat-option>
-                  <mat-option value="CLI">CLI - Club Interconnect (CW Access)</mat-option>
-                  <mat-option value="CLT">CLT - CLUB COMMUNICATIONS LTD (TRANSIT)</mat-option>
-                  <mat-option value="CLU">CLU - Club Transit (CW Access)</mat-option>
-                  <mat-option value="CWA">CWA - CW Access</mat-option>
-                  <mat-option value="CWE">CWE - CW Energis</mat-option>
-                  <mat-option value="CWH">CWH - CABLE & WIRELESS VOIP (HSBC)</mat-option>
-                  <mat-option value="CWI">CWI - Cable & Wireless ITV</mat-option>
-                  <mat-option value="CWU">CWU - Cable & Wireless UK (CW Access)</mat-option>
-                  <mat-option value="DAI">DAI - Daisy Comms CW WAD</mat-option>
-                  <mat-option value="EN1">EN1 - C&W (BCM) SOUTH</mat-option>
-                  <mat-option value="ENC">ENC - C&W (BCM) SOUTH</mat-option>
-                  <mat-option value="EXC">EXC - EXCELL</mat-option>
-                  <mat-option value="FLU">FLU - FLUIDATA</mat-option>
-                  <mat-option value="FUS">FUS - FUSION-MEDIA</mat-option>
-                  <mat-option value="GLO">GLO - Global 4 Communications</mat-option>
-                  <mat-option value="GRI">GRI - GRIFFIN INFORMATION SYSTEMS</mat-option>
-                  <mat-option value="HMV">HMV - HMV & Waterstones</mat-option>
-                  <mat-option value="HOP">HOP - HOPE FOR CHILDREN</mat-option>
-                  <mat-option value="IMP">IMP - IMPELLO</mat-option>
-                  <mat-option value="INF">INF - INFONET</mat-option>
-                  <mat-option value="INU">INU - INUK NETWORKS LTD</mat-option>
-                  <mat-option value="MDB">MDB - BULLDOG (MIDLANDS)</mat-option>
-                  <mat-option value="MEH">MEH - Meshhopper (CW Access)</mat-option>
-                  <mat-option value="MES">MES - MESHHOPPER</mat-option>
-                  <mat-option value="MUT">MUT - MURPHX TRANSIT</mat-option>
-                  <mat-option value="NEB">NEB - BULLDOG (NORTH EAST)</mat-option>
-                  <mat-option value="NET">NET - Onenet</mat-option>
-                  <mat-option value="NIM">NIM - NIMANS</mat-option>
-                  <mat-option value="NWB">NWB - BULLDOG (NORTH WEST)</mat-option>
-                  <mat-option value="OLB">OLB - BULLDOG ( OUTER LONDON)</mat-option>
-                  <mat-option value="ONT">ONT - ON TELECOM UK LTD</mat-option>
-                  <mat-option value="PAC">PAC - CWA Packnett</mat-option>
-                  <mat-option value="PRO">PRO - CW LIMITED (INTERNAL)</mat-option>
-                  <mat-option value="RIC">RIC - Ring Central SIP Product</mat-option>
-                  <mat-option value="SCB">SCB - BULLDOG (SCOTLAND)</mat-option>
-                  <mat-option value="SEB">SEB - BULLDOG (SOUTH EAST)</mat-option>
-                  <mat-option value="SWB">SWB - BULLDOG (SOUTH WEST)</mat-option>
-                  <mat-option value="THU">THU - THUS</mat-option>
-                  <mat-option value="TPI">TPI - TISCALI PIPEX</mat-option>
-                  <mat-option value="TSC">TSC - Tesco (WAD)</mat-option>
-                  <mat-option value="TTC">TTC - TESCO (WAD)</mat-option>
-                  <mat-option value="VFC">VFC - Vodafone Consumer Account</mat-option>
-                  <mat-option value="VMW">VMW - VM Wholesale (CW Access)</mat-option>
-                  <mat-option value="XXX">XXX - THUS</mat-option>
-                </mat-select>                 -->
-              </mat-form-field>
-            </div>
-            <div [ngStyle]="{'display':thisForm.controls.TransactionCommand.disabled ? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[1].default" #TransactionCommandOperator 
-              (click) ="OnOperatorClicked(['TransactionCommandOperator',TransactionCommandOperator.selectedViewValue])"></app-select-exp>
-              <mat-form-field appearance="outline"
-              [ngClass]="{'hidden':thisForm.controls.TransactionCommand.disabled}" >
-                <mat-label>Transaction Command</mat-label>
-                <input formControlName="TransactionCommand" type="text" placeholder="Search Command" matInput
-                  [matAutocomplete]="autoCommand" />
-                    <span matSuffix mat-icon-button>
-                      <mat-icon>arrow_drop_down</mat-icon>
-                    </span>
-                    <mat-autocomplete autoActiveFirstOption #autoCommand="matAutocomplete">
-                      <mat-option *ngFor="let val of splitData(config.Command) | ddlFilter: f.TransactionCommand.value" [value]="val">
-                        {{val}}
-                      </mat-option>
-                    </mat-autocomplete>
-                <!-- <mat-select formControlName="TransactionCommand">
-                  <mat-option value=""></mat-option>
-                  <mat-option *ngFor="let val of splitData(config.Command)" [value]="val">{{val}}</mat-option>
-                </mat-select>   -->
-                <!-- <mat-select formControlName="TranCmd">
-                  <mat-option value=""></mat-option>
-                   <mat-option value="A">Activate Customer</mat-option>
-                   <mat-option value="C">Cease Customer</mat-option>
-                   <mat-option value="E">Export</mat-option>
-                   <mat-option value="I">Import</mat-option>
-                   <mat-option value="M">Modify</mat-option>
-                </mat-select>   -->             
-              </mat-form-field> 
-            </div>
-                <div [ngStyle]="{'display':thisForm.controls.TypeOfLine.disabled ? 'none' : 'block'}">
-                  <app-select-exp [listItems]="expressions[1].default" #TypeOfLineOperator 
-                  (click) ="OnOperatorClicked(['TypeOfLineOperator',TypeOfLineOperator.selectedViewValue])"></app-select-exp>
-                  <mat-form-field appearance="outline"
-                  [ngClass]="{'hidden':thisForm.controls.TypeOfLine.disabled}" >
-                    <mat-label>Type Of Line</mat-label>
-                    <input formControlName="TypeOfLine" type="text" placeholder="Search Type of Line" matInput
-                  [matAutocomplete]="autoTypeOfLine" />
-                    <span matSuffix mat-icon-button>
-                      <mat-icon>arrow_drop_down</mat-icon>
-                    </span>
-                    <mat-autocomplete autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
-                      <mat-option *ngFor="let val of splitData(config.TypeOfLine) | ddlFilter: f.TypeOfLine.value" [value]="val">
-                        {{val}}
-                      </mat-option>
-                    </mat-autocomplete>
-                    <!-- <mat-select formControlName="TypeOfLine">
-                      <mat-option value=""></mat-option>
-                      <mat-option *ngFor="let val of splitData(config.TypeOfLine)" [value]="val">{{val}}</mat-option>
-                    </mat-select> -->
-                    <!-- <mat-select formControlName="TypeOfLine">
-                      <mat-option value=""></mat-option>
-                      <mat-option value="AC">AC - Areacall Products/Numbers</mat-option>
-                      <mat-option value="AUD">AUD - Audit</mat-option>
-                      <mat-option value="BB">BB - Multisite and Dual Parenting Bothway</mat-option>
-                      <mat-option value="BI">BI - Multisite and Dual Parenting Incoming</mat-option>
-                      <mat-option value="BO">BO - Multisite and Dual Parenting Outgoing</mat-option>
-                      <mat-option value="BW">BW - Bothway</mat-option>
-                      <mat-option value="C">C - IP Handset</mat-option>
-                      <mat-option value="C1">C1 - SIP Trunking Fixed C20 Numbers</mat-option>
-                      <mat-option value="C3">C3 - SIP Trunking Nom C20 Numbers</mat-option>
-                      <mat-option value="C6">C6 VCC SIP Trunk Nom C20 Numbers</mat-option>
-                      <mat-option value="CC">CC - Complete Contact Number Mgmt</mat-option>
-                      <mat-option value="CE">CE - IP Centrex (CS2K Numbers)</mat-option>
-                      <mat-option value="CX">CX - IP Centrex (IN Numbers)</mat-option>
-                      <mat-option value="DVA">DVA Siebel (Digital Voice Assistant)</mat-option>
-                      <mat-option value="FM">FM - FMC Geographic Numbers</mat-option>
-                      <mat-option value="G1">G1 - Genesys SIP Trunking Fixed</mat-option>
-                      <mat-option value="G2">G2 - Genesys SIP Trunking Plus Fixed</mat-option>
-                      <mat-option value="GC">GC - Genesys SIP Tnk FXD C20 Number</mat-option>
-                      <mat-option value="IC">IC - Incoming</mat-option>
-                      <mat-option value="IT">IT - INTERNATIONAL  IP TRUNKING</mat-option>
-                      <mat-option value="K1">K1 - Sub-Allocated To Skype</mat-option>
-                      <mat-option value="K2">K2 - Skype Number Ported Out</mat-option>
-                      <mat-option value="M">M - Analogue Gateway</mat-option>
-                      <mat-option value="MB">MB - Multisite Bothway</mat-option>
-                      <mat-option value="MI">MI - Multisite Incoming</mat-option>
-                      <mat-option value="MO">MO - Multisite Outgoing</mat-option>
-                      <mat-option value="MS">MS - Multi-Site (Over-ride LT, see LTOV)</mat-option>
-                      <mat-option value="OF">OF - Unknown location for C&amp;W ofcom orders</mat-option>
-                      <mat-option value="OG">OG - Outgoing</mat-option>
-                      <mat-option value="ON">ON - ONENET</mat-option>
-                      <mat-option value="P1">P1 - STORM SIP TRUNKING-NOMADIC</mat-option>
-                      <mat-option value="PB">PB - IP Trunking Plus Bothway</mat-option>
-                      <mat-option value="R">R - Roaming (used by EDIS)</mat-option>
-                      <mat-option value="S">S - Intelligent Working</mat-option>
-                      <mat-option value="S1">S1 - SIP Trunking Fixed (CS2K Numbers)</mat-option>
-                      <mat-option value="S2">S2 - SIP Trunking Plus Fixed  (CS2K Numbers)</mat-option>
-                      <mat-option value="S3">S3 - SIP Trunking Nomadic (CS2K numbers)</mat-option>
-                      <mat-option value="S4">S4 - SIP Trunking Plus Nomadic model (CS2K)</mat-option>
-                      <mat-option value="S5">S5 - Microsoft Lync SIP Trunking CS2K numbers</mat-option>
-                      <mat-option value="SB">SB - TDM SINGLE HUB SITE</mat-option>
-                      <mat-option value="SS">SS - SIP Evolved Voice over public internet</mat-option>
-                      <mat-option value="SX">SX - STORM IP CENTREX-IN Numbers</mat-option>
-                      <mat-option value="TB">TB - IP trunking Bothway</mat-option>
-                      <mat-option value="TD">TD - Combined - B/W, I/C &amp; O/G group for CDMS</mat-option>
-                      <mat-option value="TS">TS - SWI (TDM) Satellite site SysX numbers</mat-option>
-                      <mat-option value="TX">TX - SWI (TDM) Satellite site IN numbers</mat-option>
-                      <mat-option value="V1">V1 - IP Trunking FIXED new ver (CS2K Numbers)</mat-option>
-                      <mat-option value="V2">V2 - IP Trunking+ FIXED new ver (CS2K numbers</mat-option>
-                      <mat-option value="V3">V3 - IP Trunking NOMADIC new ver (CS2K Nos)</mat-option>
-                      <mat-option value="V4">V4 - IP Trunking+ NOMADIC new ver (CS2K Nos)</mat-option>
-                      <mat-option value="S6">VCC Sip Trunking Nomadic (CS2K)</mat-option>
-                      <mat-option value="VM">VM -VOM - VONE-M1 (UK Prov)</mat-option>
-                      <mat-option value="M2">VM2 - VONE-M2 (Group Prov )</mat-option>
-                      <mat-option value="VC">VONE-C (Voda Onenet - Cisco) (VOC)</mat-option>
-                      <mat-option value="WB">WB - PBX Gateway Bothway</mat-option>
-                      <mat-option value="WI">WI - PBX Gateway Incoming</mat-option>
-                      <mat-option value="WO">WO - PBX Gateway Outgoing</mat-option>
-                      <mat-option value="X1">X1 - IP Trunking FIXED new ver (IN numbers)</mat-option>
-                      <mat-option value="X2">X2 - IP Trunking+ FIXED new ver (IN numbers)</mat-option>
-                      <mat-option value="X3">X3 - SIP Trunking FIXED (IN Numbers)</mat-option>
-                      <mat-option value="X4">X4 - SIP Trunking Plus FIXED (IN Numbers)</mat-option>
-                      <mat-option value="X5">X5 - IP Trunking NOMADIC new ver (IN Nos)</mat-option>
-                      <mat-option value="X6">X6 - SIP Trunking Nomadic IN Numbers</mat-option>
-                      <mat-option value="X7">X7 - IP Trunking Plus (IN Numbers)</mat-option>
-                      <mat-option value="X8">X8 - SIP Trunking Plus Nomadic model (IN)</mat-option>
-                      <mat-option value="X9">X9 - VCC Sip Trunking Nomadic (IN)</mat-option>
-                      <mat-option value="Z1">Z1 - Sip Trunk FXD IN Numbers on C20</mat-option>
-                      <mat-option value="Z3">Z3 - SIP Tnk Nom IN Numbers on C20</mat-option>
-                      <mat-option value="Z6">Z6 - VCC SIP Tnk Nom IN No-s on C20</mat-option>
-                    </mat-select>                                  -->
-                  </mat-form-field>
-                </div> 
-            </ng-container>
-            </div>      
-          <div class="matsidenav-footer">          
-            <button type="submit" mat-raised-button color="primary">
-              <mat-icon>search</mat-icon>Search
-            </button>
-            <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
-              <mat-icon>refresh</mat-icon>Reset
-            </button>
-            </div>  
-        <!-- </div>   -->
-      </form>
-    </mat-sidenav>  
-    <mat-sidenav-content class="side-content"> 
-      <app-start-up *ngIf="tabs.length===0"></app-start-up>     
-      <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
-        matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
-        <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-      </button>
-      <mat-tab-group [(selectedIndex)]="selectedTab" style="padding-left:6px;">
-        <mat-tab *ngFor="let tab of tabs; let index = index" >
-          <ng-template mat-tab-label>
-            <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
-            <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
-              <mat-icon style="font-size: large;">close</mat-icon>
-            </button>  
-          </ng-template>  
-          <span [ngSwitch]="tab.tabType">
-            <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto; padding-left:6px;">
-              <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
-                (addNewTab)="newTab($event)">
-              </app-table-selection>              
-            </div>
-            <div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:6px;">
-              <app-telephone-audit-trail  [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
-            </div>
-            <div *ngSwitchCase="2" style="height: 520px; overflow-y:auto;padding-left:6px;">
-              <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier"></app-transaction-errors>
-            </div>
-            <div *ngSwitchDefault>   
-            </div>
-          </span>
-        </mat-tab>
-      </mat-tab-group>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+            <app-select-exp [listItems]="expressions[1].default" #CustomerNameOperator
+              (click)="OnOperatorClicked(['CustomerNameOperator',CustomerNameOperator.selectedViewValue])">
+            </app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.CustomerName.disabled}">
+              <mat-label>Customer Name</mat-label>
+              <input formControlName="CustomerName" matInput #CustomerName maxlength="500" placeholder="Customer Name">
+            </mat-form-field>
+          </div>
+
+          <div [ngStyle]="{'display':thisForm.controls.CreationDate.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[2].default" #CreationDateOperator
+              (click)="OnOperatorClicked(['CreationDateOperator',CreationDateOperator.selectedViewValue])">
+            </app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.CreationDate.disabled}">
+              <mat-label>Creation Date</mat-label>
+              <input readonly formControlName="CreationDate" matInput #CreationDate placeholder="Creation Date"
+                [matDatepicker]="picker">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div [ngStyle]="{'display':thisForm.controls.Postcode.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" #PostcodeOperator
+              (click)="OnOperatorClicked(['PostcodeOperator',PostcodeOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Postcode.disabled}">
+              <mat-label>Postcode</mat-label>
+              <input formControlName="Postcode" matInput #Postcode maxlength="20" placeholder="Postcode">
+            </mat-form-field>
+          </div>
+
+          <div [ngStyle]="{'display':thisForm.controls.Premises.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" #PremisesOperator
+              (click)="OnOperatorClicked(['PremisesOperator',PremisesOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Premises.disabled}">
+              <mat-label>Premises</mat-label>
+              <input formControlName="Premises" matInput #AddressPremises maxlength="100" placeholder="Premises">
+            </mat-form-field>
+          </div>
+
+          <div [ngStyle]="{'display':thisForm.controls.Thoroughfare.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" #ThoroughfareOperator
+              (click)="OnOperatorClicked(['ThoroughfareOperator',ThoroughfareOperator.selectedViewValue])">
+            </app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Thoroughfare.disabled}">
+              <mat-label>Thoroughfare</mat-label>
+              <input formControlName="Thoroughfare" matInput #Thoroughfare maxlength="100" placeholder="Thoroughfare">
+            </mat-form-field>
+          </div>
+
+          <div [ngStyle]="{'display':thisForm.controls.Locality.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" #LocalityOperator
+              (click)="OnOperatorClicked(['LocalityOperator',LocalityOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Locality.disabled}">
+              <mat-label>Locality</mat-label>
+              <input formControlName="Locality" matInput #Locality maxlength="100" placeholder="Locality">
+            </mat-form-field>
+          </div>
+
+          <div [ngStyle]="{'display':thisForm.controls.Cupid.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" #CupidOperator
+              (click)="OnOperatorClicked(['CupidOperator',CupidOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Cupid.disabled}">
+              <mat-label>Cupid</mat-label>
+              <input formControlName="Cupid" matInput #Cupid maxlength="100" placeholder="Cupid">
+            </mat-form-field>
+          </div>
+
+          <div [ngStyle]="{'display':thisForm.controls.Source.disabled? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" #SourceOperator
+              (click)="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
+              <mat-label>Source System</mat-label>
+              <input formControlName="Source" type="text" placeholder="Search Source"  maxlength="100" matInput
+                [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','" />
+              <span matSuffix mat-icon-button>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+                <mat-option *ngFor="let option of splitData(config.Source) | ddlFilter: f.Source.value"
+                  [value]="option">
+                  {{option}}
+              </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
+
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.Franchise.disabled? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" #FranchiseOperator
+              (click)="OnOperatorClicked(['FranchiseOperator',FranchiseOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Franchise.disabled}">
+              <mat-label>Franchise</mat-label>
+              <input formControlName="Franchise" type="text"  maxlength="100" placeholder="Search Franchise" matInput
+                [matAutocomplete]="autoFranchise" OptionsValidator [options]="config.Franchise | splitBy: ','" />
+              <span matSuffix mat-icon-button>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete autoActiveFirstOption #autoFranchise="matAutocomplete">
+                <mat-option *ngFor="let option of splitData(config.Franchise) | ddlFilter: f.Franchise.value"
+                  [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="f.Franchise.errors?.validOptions">Value need to match available options</mat-error>
+
+            </mat-form-field>
+          </div>
+        
+          <div [ngStyle]="{'display':thisForm.controls.TransactionCommand.disabled? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" #TransactionCommandOperator
+              (click)="OnOperatorClicked(['TransactionCommandOperator',TransactionCommandOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.TransactionCommand.disabled}">
+              <mat-label>TransactionCommand</mat-label>
+              <input formControlName="TransactionCommand" type="text" placeholder="Search TransactionCommand" matInput
+                [matAutocomplete]="autoTransactionCommand"  maxlength="100" OptionsValidator [options]="config.TransactionCommand | splitBy: ','" />
+              <span matSuffix mat-icon-button>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete autoActiveFirstOption #autoTransactionCommand="matAutocomplete">
+                <mat-option *ngFor="let option of splitData(config.TransactionCommand) | ddlFilter: f.TransactionCommand.value"
+                  [value]="option">
+                  {{option}}
+                </mat-option>
+
+              </mat-autocomplete>
+              <mat-error *ngIf="f.TransactionCommand.errors?.validOptions">Value need to match available options</mat-error>
+
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.TypeOfLine.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" #TypeOfLineOperator
+              (click)="OnOperatorClicked(['TypeOfLineOperator',TypeOfLineOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.TypeOfLine.disabled}">
+              <mat-label>Type Of Line</mat-label>
+              <input formControlName="TypeOfLine" type="text" placeholder="Search Type of Line" matInput
+                [matAutocomplete]="autoTypeOfLine" maxlength="100" OptionsValidator [options]="config.TypeOfLine | splitBy: ','" />
+              <span matSuffix mat-icon-button>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
+                <mat-option *ngFor="let option of splitData(config.TypeOfLine) | ddlFilter: f.TypeOfLine.value"
+                  [value]="option">
+                  {{option}}
+                </mat-option>
+
+              </mat-autocomplete>
+              <mat-error *ngIf="f.TypeOfLine.errors?.validOptions">Value need to match available options</mat-error>
+
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </div>
+      <div class="matsidenav-footer">
+        <button type="submit" mat-raised-button color="primary">
+          <mat-icon>search</mat-icon>Search
+        </button>
+        <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+      </div>
+      <!-- </div>   -->
+    </form>
+  </mat-sidenav>
+  <mat-sidenav-content class="side-content">
+    <app-start-up *ngIf="tabs.length===0"></app-start-up>
+    <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+      matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+      <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+    </button>
+    <mat-tab-group [(selectedIndex)]="selectedTab" style="padding-left:6px;">
+      <mat-tab *ngFor="let tab of tabs; let index = index">
+        <ng-template mat-tab-label>
+          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+          <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
+            <mat-icon style="font-size: large;">close</mat-icon>
+          </button>
+        </ng-template>
+        <span [ngSwitch]="tab.tabType">
+          <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto; padding-left:6px;">
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+              (addNewTab)="newTab($event)">
+            </app-table-selection>
+          </div>
+          <div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:1px;">
+            <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+          </div>
+          <div *ngSwitchCase="2" style="height: 520px; overflow-y:auto;padding-left:10px;">
+            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
+            </app-transaction-errors>
+          </div>
+          <div *ngSwitchDefault>
+          </div>
+        </span>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-sidenav-content>
+</mat-sidenav-container>

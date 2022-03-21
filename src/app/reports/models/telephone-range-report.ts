@@ -1,12 +1,12 @@
 export interface TelephoneRangeReport{
-    startTel:string;
-    endTel:string;
-    live:string;
-    trans:string;
-    null:string;
-    line:string;
-    name:string;
-    address:string;
-    source:string;
-    orderRef:string;
+    StartTelephoneNumber:string;
+    EndTelephoneNumber:string;
+    Source:string;
+    LineType:string;
+    LiveRecords:string;
+    InactiveRecords:string;
+    NotAvailable:string;
+    CustomerName:string;
+    CustomerAddress :string;
+    OrderReference:string;
 }

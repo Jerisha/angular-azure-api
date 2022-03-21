@@ -5,16 +5,40 @@ export interface TableItem {
     filter?: boolean;
     selectCheckbox?: boolean;
     imgConfig?: ViewColumn[];
-    selectionColumn?:string;
-    isEmailRequired?:boolean;
     showEmail?:boolean;
     removeNoDataColumns?:boolean;
     highlightedCells?:string[];
+    backhighlightedCells?:string[];    
+}
+
+
+
+export interface TableItemExpansion {
+    data: any;
+    childData?:string;
+    Columns?: ColumnDetails[];
+    filter?: boolean;
+    selectCheckbox?: boolean;
+    imgConfig?: ViewColumn[];
+    colToHighlight?: string[];
+    colToHighlightInnerText?: string[];
+    selectionColumn?:string;
+    isEmailRequired?:boolean;
+    showEmail?:boolean;
+    showBlankCoulmns?:boolean;
+    highlightedCells?:string[];
     backhighlightedCells?:string[];
     totalRowCols?:string[];
-    showTotal?:boolean;   
+    shouldTotalRow?:boolean; 
     
 }
+
+
+
+
+
+
+
 
 export interface ViewColumn {
     headerValue: string;
@@ -29,7 +53,6 @@ export interface ColumnDetails {
     headerValue: string;
     showDefault?: boolean;
     isImage?: boolean;
-    addTotal?:boolean;
     isTotal?:boolean;
 }
 

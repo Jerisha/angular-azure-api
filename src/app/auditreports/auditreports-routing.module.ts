@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
-import { AuditdiscrepancyreportComponent, AuditexcelreportsComponent, FullauditdetailsComponent } from './index';
+import { AuditdiscrepancyreportComponent, AuditexcelreportsComponent, FullauditdetailsComponent, FullAuditHistoryComponent } from './index';
 const routes: Routes = [
   {
     path: 'auditdiscrepancyreport',

@@ -13,8 +13,8 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
             <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
-              (keyup)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput #starttelno maxlength="11"
-              placeholder="Start Telephone No" >
+            (ngModelChange)="onChange($event,'StartTelephoneNumber')" matInput #starttelno maxlength="11"
+              placeholder="Start Telephone No">
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
@@ -27,7 +27,7 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
             <input formControlName="EndTelephoneNumber" (keypress)="numberOnly($event)"
-              (keyup)="addPrefix('EndTelephoneNumber',endtelno.value)" matInput #endtelno maxlength="11"
+            (ngModelChange)="onChange($event,'EndTelephoneNumber')" matInput #endtelno maxlength="11"
               placeholder="End Telephone No" autocomplete="off">
             <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
@@ -41,7 +41,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source</mat-label>
             <input formControlName="Source" type="text" placeholder="Search Source" matInput
-              [matAutocomplete]="autoSource" />
+              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -50,28 +50,30 @@
                 {{val}}</mat-option>
             </mat-autocomplete>
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <!-- <mat-select formControlName="ErrorType"> -->
             <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
-              [matAutocomplete]="autoErrorType" />
+              [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorDescription | splitBy: ','" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoErrorType="matAutocomplete">
-              <mat-option *ngFor="let val of config.ErrorType | splitBy: ',' | ddlFilter: f.ErrorType.value"
+              <mat-option *ngFor="let val of config.ErrorDescription | splitBy: ',' | ddlFilter: f.ErrorType.value"
                 [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
+            <mat-error *ngIf="f.ErrorType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Final.disabled}">
             <mat-label>Is Final</mat-label>
             <input formControlName="Final" type="text" placeholder="Search Final" matInput
-              [matAutocomplete]="autoFinal" />
+              [matAutocomplete]="autoFinal" OptionsValidator [options]="config.Final | splitBy: ','"/>
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -81,10 +83,7 @@
               <mat-option *ngFor="let val of config.Final | splitBy: ',' | ddlFilter: f.Final.value" [value]="val">
                 {{val}}</mat-option>
             </mat-autocomplete>
-            <!-- <mat-option></mat-option>
-            <mat-option>No</mat-option>
-            <mat-option>Yes</mat-option>            -->
-            <!-- </mat-select> -->
+            <mat-error *ngIf="f.Final.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
@@ -101,21 +100,22 @@
           <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
             <input formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
-              [matAutocomplete]="autoResolutionType" />
+              [matAutocomplete]="autoResolutionType" OptionsValidator [options]="config.ResolutionType | splitBy: ','"/>
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
-              <!-- <mat-select formControlName="ResolutionType"> -->
+            
               <mat-option *ngFor="let val of config.ResolutionType | splitBy: ',' | ddlFilter: f.ResolutionType.value"
                 [value]="val">{{val}}</mat-option>
             </mat-autocomplete>
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
             <mat-label>999 Reference</mat-label>
-            <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
+            <input formControlName="Reference" matInput #input placeholder="999 Reference">
 
           </mat-form-field>
 
@@ -152,9 +152,9 @@
 
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-           
-              <mat-icon class="info"  matTooltip="Information" (click)="DisplayInformationTab()">information</mat-icon>
-            
+
+            <mat-icon class="info" matTooltip="Information" (click)="DisplayInformationTab()">information</mat-icon>
+
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
             </app-table-selection>
@@ -186,7 +186,6 @@
                       </mat-error>
                     </mat-form-field>
 
-
                     <mat-form-field>
                       <mat-label>999 Reference</mat-label>
                       <input [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}" matInput
@@ -207,9 +206,8 @@
                         </div>
                       </mat-error>
                     </mat-form-field>
-                  
-                    <button [disabled]="!(selectedGridRows.length>0)" type="submit" mat-raised-button
-                      color="primary">
+
+                    <button [disabled]="!(selectedGridRows.length>0)" type="submit" mat-raised-button color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
