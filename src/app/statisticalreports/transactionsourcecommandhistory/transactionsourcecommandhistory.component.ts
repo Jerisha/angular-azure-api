@@ -171,7 +171,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   Source?:any;
   telNo?: any;
   tranId?: any;
-  repIdentifier = "TransactionSummary";
+  repIdentifier = "TransactionCommand";
   currentPage: string = '1';
   datevalue?:string;
 

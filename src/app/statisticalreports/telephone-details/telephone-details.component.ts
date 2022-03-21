@@ -81,7 +81,7 @@ export class TelephoneDetailsComponent implements OnInit {
 
   columns: ColumnDetails[] = [
     { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
-    { header: 'Telephone Nos', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
+    { header: 'Telephone Nos', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Add Commands', headerValue: 'AddCommands', showDefault: true, isImage: false },
     { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: true, isImage: false },
     { header: 'Modifiy Commands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false },
@@ -97,7 +97,7 @@ export class TelephoneDetailsComponent implements OnInit {
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) =>  {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].TransactionData,
+          datasource: res[0].TelephoneNumbers,
           totalrecordcount: res[0].TotalCount,
           totalpages: res[0].NumberOfPages,
           pagenumber: res[0].PageNumber
