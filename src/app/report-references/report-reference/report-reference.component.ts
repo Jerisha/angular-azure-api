@@ -27,6 +27,7 @@ export class ReportReferenceComponent implements OnInit,AfterViewInit {
   title:string ="";
   recordId:number=0;
   record:any;
+  eventName:string ='Create';
 
 
 
@@ -37,18 +38,25 @@ export class ReportReferenceComponent implements OnInit,AfterViewInit {
   ) { }
 
 ngOnInit(): void {
+    this.referenceForm = this.formBuilder.group({});
+    this.lstForm  = this.service.setForm(this.reportName);
+    this.referenceForm = this.formValidation();
+    this.title = this.reportName;
+    
  
 }
 ngOnChanges(changes: SimpleChanges) {
      
-    this.referenceForm = this.formBuilder.group({});
-    this.lstForm  = this.service.setForm(this.reportName,this.record);
-    this.referenceForm = this.formValidation();   
+    // this.referenceForm = this.formBuilder.group({});
+    // this.lstForm  = this.service.setForm(this.reportName);
+    // this.referenceForm = this.formValidation();   
     
     this.displayedColumns=this.service.displayedColumns[this.reportIndex][this.reportName];
     
     this.data =this.service.data[this.reportIndex][this.reportName];
-    this.title = this.reportName;
+    // this.title = this.reportName;
+    // this.recordId =this.service.recordId;
+    console.log("onchanges:",changes);
 }
 
 formValidation() :FormGroup {
@@ -76,7 +84,7 @@ return  new FormGroup(group);
 }
 
 ngAfterViewInit() 
- {
+ {  
    this.cdr.detectChanges();  
  }
 
@@ -85,21 +93,27 @@ ngAfterViewChecked()
    this.cdr.detectChanges();
  }
 
-onEditRecord(record:any,event:any){
-    //  alert("start editing...");
-    this.record = record;
-    alert("Edit starts..."+JSON.stringify(this.record));
-    this.showDataform =true;    
+onEditRecord(record:any,event:Event){    
+    this.record = record; 
+    // alert("Edit starts..."+JSON.stringify(this.record)); 
+    this.eventName ='Update'
+    this.showDataform =true; 
+    this.referenceForm.get('ProcessOrder')?.setValue('test value') ;
+    // return false;
+    // event.stopPropagation();
+    this.referenceForm.markAsTouched();
+    
 }
 
-onDeleteRecord(record:any,event:any){
-    let val = JSON.stringify(record)
-    alert("Delete starts..."+record.OriginatingSystem);
+
+onDeleteRecord(record:any,event:any){    
+    alert("Delete starts..."+JSON.stringify(this.record));
 }
 onCreateRecord(){
     //alert("new record starts...");
     this.record =null;
-    this.showDataform =true;   
+    this.eventName ='Create';
+    this.showDataform =true;     
 }
 onRefreshDetailPane(){
     alert("Refresh Details Pane starts...");

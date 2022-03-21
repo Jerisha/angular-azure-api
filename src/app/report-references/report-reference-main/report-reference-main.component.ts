@@ -12,9 +12,9 @@ import { FormBuilder, FormControl, FormGroup, Validators,ReactiveFormsModule  } 
 })
 export class ReportReferenceMainComponent implements OnInit, AfterViewInit{
 
-reportNames:string[] =['SourceSystem','Status'];
-title:string="";
-reportName:string="";  
+  reportNames!: string[];
+  title:string="";
+  reportName:string="";  
 
 constructor(private cdr: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
@@ -25,7 +25,8 @@ constructor(private cdr: ChangeDetectorRef,
   ngAfterViewInit(): void { 
     this.cdr.detectChanges(); 
   }
-  ngOnInit(): void {    
+  ngOnInit(): void { 
+    this.reportNames =this.reportReferenceService.reportNames;  
     
   }  
 
