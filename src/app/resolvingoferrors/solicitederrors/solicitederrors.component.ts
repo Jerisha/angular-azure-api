@@ -15,6 +15,9 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
   {
@@ -144,7 +147,9 @@ export class SolicitederrorsComponent implements OnInit {
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
+    private spinner: NgxSpinnerService,
+    private telnoPipe: TelNoPipe,
+    private dialog: MatDialog) { }
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
@@ -320,6 +325,7 @@ export class SolicitederrorsComponent implements OnInit {
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.thisForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -331,7 +337,9 @@ export class SolicitederrorsComponent implements OnInit {
           pagenumber: res[0].PageNumber
         }
         return result;
-      } else return res;
+      } else return {
+        datasource: res
+      };
     }));
 
     this.myTable = {
@@ -339,7 +347,6 @@ export class SolicitederrorsComponent implements OnInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      selectionColumn: 'TranId',
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
@@ -352,7 +359,7 @@ export class SolicitederrorsComponent implements OnInit {
         name: 'Summary'
       });
     }
-
+    this.isEnable();
 
   }
 
@@ -360,10 +367,20 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
       (this.Resolution && this.Remarks)) {
-      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.service.updateDetails(request).subscribe(x => x);
-    }
 
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to save the records?'
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        //console.log("result " + result);
+        if (result) {
+          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          this.service.updateDetails(request).subscribe(x => x);
+        }
+      });
+    }
   }
 
   prepareUpdateIdentifiers() {
@@ -417,8 +434,11 @@ export class SolicitederrorsComponent implements OnInit {
 
 
   resetForm(): void {
-    window.location.reload();
-    // this.tabs.splice(0);
+    this.thisForm.reset();
+    this.tabs.splice(0);
+    this.Resolution ='';this.Refer='';this.Remarks='';
+    //window.location.reload();
+   
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
@@ -452,13 +472,13 @@ export class SolicitederrorsComponent implements OnInit {
       }
     })
     this.isEnable();
-    // console.log("selectedGridRows" + this.selectedGridRows)
+    //console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
+    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
@@ -485,18 +505,6 @@ export class SolicitederrorsComponent implements OnInit {
     }
   }
 
-
-
-  // prefix:string[]=['01','02','03','08'];
-
-
-  // addPrefix(control: string, value: any) {  
-  //   if (value.charAt(0) != 0) {
-  //     value = value.length <= 10 ? '0' + value : value;
-  //   }
-  //   value = ((this.prefix.indexOf(value.substring(0, 2)) === -1) && value.length >= 2) ? '' : value;
-  //   this.f[control].setValue(value);
-  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -548,6 +556,13 @@ export class SolicitederrorsComponent implements OnInit {
         break;
 
     }
+  }
+
+  openPanel(control: any, evt: any, trigger: MatAutocompleteTrigger): void {
+    evt.stopPropagation();
+    control?.reset();
+    trigger.openPanel();
+    control?.nativeElement.focus();
   }
 
 }

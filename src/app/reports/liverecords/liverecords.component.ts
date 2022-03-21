@@ -607,7 +607,6 @@ export class LiverecordsComponent implements OnInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      selectionColumn: 'Links',
        removeNoDataColumns : true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 

@@ -10,7 +10,7 @@ font-size: smaller;  ">
   </button> -->
 
 
-<div style="display: flex">
+<div style="display: flex" >
   <mat-form-field appearance="standard" *ngIf="filter" class="colfilter" style="margin-left: 8px;">
     <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
       <mat-select-trigger>
@@ -47,8 +47,24 @@ font-size: smaller;  ">
 </div>
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
 
+<div>
 
-<div class="table-container">
+    <!-- <table>
+      <ng-container *ngIf="!dataSource.data">
+      <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index">
+        <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>{{disCol.header}}</th>
+        </ng-container>
+      </ng-container>
+      <tr *ngIf="!dataSource.data.length">
+        <td style="text-align: center;" [attr.colspan]="displayedColumns.length">
+          No Records Found!
+        </td>
+      </tr>
+    </table> -->
+
+ 
+
+<div class="table-container" >
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
 
@@ -98,6 +114,7 @@ font-size: smaller;  ">
   </table>
 
 </div>
+</div>
 <!-- <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
   </mat-paginator>  -->
 
@@ -111,8 +128,9 @@ font-size: smaller;  ">
   <button [disabled]="true" type="button" mat-raised-button color="primary">
     <mat-icon>import_export</mat-icon>Export
   </button>&nbsp;&nbsp;
-  <!-- [cdkCopyToClipboard]="copyToClipboard()" -->
-  <button type="reset" mat-raised-button color="primary" [disabled]="selection.selected.length > 0 ? false : true">
+  <!-- [cdkCopyToClipboard]="copyToClipboard()" 
+  selection.selected.length > 0 ? false : true-->
+  <button type="reset" mat-raised-button color="primary" [disabled]="true">
     <mat-icon>file_copy</mat-icon> Copy To Clipboard
   </button>
   <span *ngIf="isEmailRequired">
