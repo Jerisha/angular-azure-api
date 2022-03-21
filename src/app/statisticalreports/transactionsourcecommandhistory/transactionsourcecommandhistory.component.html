@@ -54,17 +54,6 @@
           </mat-autocomplete>
           <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
         </mat-form-field>
-        
-        
-
-
-
-
-
-
-
-
-
       </div>
       </div>
       <div calss="matsidenav-footer" >
@@ -107,11 +96,9 @@
             <mat-slide-toggle (change)="changeView()"  [(ngModel)]="isChecked" class="toggleclass">
               {{isChecked?'Switch to M-O-M Summary View':'Switch to D-2-D Summary View'}} </mat-slide-toggle>
 
-
-
             <div *ngIf="!isChecked">
               <app-table-exp class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
-                [tableitem]="myTable" (rowChanges)="rowDetect($event)">
+                [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecordsExps($event)">
               </app-table-exp>
             </div>
 

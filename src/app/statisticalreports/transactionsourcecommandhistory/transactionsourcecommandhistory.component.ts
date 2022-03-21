@@ -27,10 +27,10 @@ const moment = _rollupMoment || _moment;
 
 const MY_FORMATS = {
   parse: {
-    dateInput: 'MM/YYYY',
+    dateInput: 'MMM-YYYY',
   },
   display: {
-    dateInput: 'MM/YYYY',
+    dateInput: 'MMM-YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
@@ -272,6 +272,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     
     const ctrlValue = this.StatisticMonth.value;
     ctrlValue.month(normalizedMonth.month());
+    //let datevaluetest=formatDate(ctrlValue, 'MMM-yyyy', 'en-US')
     this.StatisticMonth.setValue(ctrlValue);
     this.datevalue=ctrlValue;
     datepicker.close();
@@ -289,12 +290,18 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.currentPage = pageIndex;
     this.onFormSubmit(true);
   }
+  getNextSetRecordsExps(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
 
   
   onFormSubmit(isEmitted?: boolean): void {
+    debugger
     if(!this.thisForm.valid) return;
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('DayToDay','TransactionSummary', this.prepareQueryParams(this.currentPage));
+    let request = Utils.prepareQueryRequest('DayToDay','TransactionCommand', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>  {
       if (Object.keys(res).length) {
         let result = {
@@ -304,21 +311,31 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
           pagenumber: res[0].PageNumber
         }
         return result;
-      } else return res;
+      } else return {datasource:res};
     }));
     let testresult:any[]=[];
  
   //  this.queryResult$.subscribe(res =>(
   //    console.log('one one two',res)
   //  ));
-
-   let requesttwo = Utils.prepareQueryRequest('MonthOnMonth','TransactionSummary', this.prepareQueryParams());
-   this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) => res[0].MonthlyData));
+  let requesttwo = Utils.prepareQueryRequest('MonthOnMonth','TransactionCommand', this.prepareQueryParams(this.currentPage));
+  console.log('Monthly Request',requesttwo);
+   this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) =>  {
+    if (Object.keys(res)?.length) {
+      let result = {
+        datasource: res[0].MonthlyData,
+        totalrecordcount: res[0].TotalCount,
+        totalpages: res[0].NumberOfPages,
+        pagenumber: res[0].PageNumber
+      }
+      return result;
+    } else return {datasource:res};
+  }));
   
 
-  // this.queryResultMonthly$.subscribe(res =>(
-  //   console.log('one one two',res)
-  // ));
+  this.queryResultMonthly$.subscribe(result =>(
+    console.log('Monthly Data Result',result)
+  ));
 
   
     this.myTable = {

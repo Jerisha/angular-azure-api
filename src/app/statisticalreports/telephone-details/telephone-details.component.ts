@@ -93,7 +93,7 @@ export class TelephoneDetailsComponent implements OnInit {
   ngOnInit(): void {
     console.log('talephoen number data',this.StatisticDate);
     this.Datevalue=this.StatisticDate;
-    let request = Utils.prepareQueryRequest('TelephoneNumberDetails','TransactionData', this.prepareQueryParams());
+    let request = Utils.prepareQueryRequest('TelephoneNumberDetails','TransactionCommand', this.prepareQueryParams());
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) =>  {
       if (Object.keys(res).length) {
         let result = {
