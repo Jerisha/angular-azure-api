@@ -15,6 +15,8 @@ import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -175,7 +177,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
-    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe) { }
+    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog:MatDialog) { }
 
   ngOnInit(): void {
 
@@ -372,7 +374,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   isEnable() {
     debugger
-    if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
+    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
       this.f.Source.value === "" && this.f.ErrorType.value === "" && this.f.Final.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
@@ -383,10 +385,20 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   }
   onSaveSubmit() {
     debugger;
-    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
-      (this.Resolution && this.Remarks)) {
-      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.service.updateDetails(request).subscribe(x => x);
+    if (this.selectedGridRows.length > 0  &&  (this.Resolution && this.Remarks)) {
+
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to save the records?'
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        //console.log("result " + result);
+        if (result) {
+          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          this.service.updateDetails(request).subscribe(x => x);
+        }
+      });
     }
   }
 
@@ -434,7 +446,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
     { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
-    { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
@@ -442,6 +454,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.thisForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -454,11 +467,10 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         }
         return result;
       }
-      else return res
-
+      else return {datasource:res}
     }));
 
-    this.isEnable();
+    //this.isEnable();
 
     this.myTable = {
       data: this.queryResult$,
@@ -466,7 +478,6 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      selectionColumn: 'TranId',
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }

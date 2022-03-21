@@ -326,17 +326,14 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       childData: 'Link',
       Columns: this.columns,
       filter: true,
-      selectCheckbox: true,
-      selectionColumn: 'Link',
+      selectCheckbox: true,      
       imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1 }],
     }
     this.myTableChild = {
-    data: this.queryResult$,
-     
+    data: this.queryResult$,     
       Columns: this.columnsChild,
       filter: true,
-      //selectCheckbox: true,
-      selectionColumn: 'View',
+      //selectCheckbox: true,      
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 }]
     }
 

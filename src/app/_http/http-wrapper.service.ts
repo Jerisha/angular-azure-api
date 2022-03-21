@@ -82,7 +82,7 @@ export class HttpWrapperService {
             // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
             console.log("jsonString :" + jsonResult);
             //console.log(JSON.parse(jsonResult))
-            return jsonResult ? JSON.parse(jsonResult) : {};
+            return jsonResult ? JSON.parse(jsonResult) : [];
         } catch (err) {
             console.log("Response: " + val + "ResponseError: " + err);
             this.alertService.error("Incorrect Response Format", { autoClose: true, keepAfterRouteChange: false });
