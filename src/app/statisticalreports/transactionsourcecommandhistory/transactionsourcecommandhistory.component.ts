@@ -171,7 +171,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   Source?:any;
   telNo?: any;
   tranId?: any;
-  repIdentifier = "TransactionSummary";
+  repIdentifier = "TransactionCommand";
   currentPage: string = '1';
   datevalue?:string;
 
@@ -183,12 +183,12 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
       { header: 'StatisticMonth', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Add Commands', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'Modify Commands', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+      { header: 'Adds', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'Ceases', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'Exports', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'Imports', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
   columnsChild: ColumnDetails[] =
@@ -196,12 +196,12 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
       { header: 'Statistic Date', headerValue: 'StatisticDate', showDefault: false, isImage: false },
       { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Add Commands', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'Modify Commands', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+      { header: 'Adds', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'Ceases', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'Exports', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'Imports', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
 
@@ -559,11 +559,11 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       case 2: {
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
-        this.telNo = tab.row.TelephoneNo;
+        this.telNo = tab.row.TelephoneNumber;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Audit Trail Report'
+            name: 'Audit Trail Report('+this.telNo+')'
           });
           // this.selectedTab = 2;          
         }
@@ -609,16 +609,25 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
 
   }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 
+  ngAfterViewChecked() {
+   
+    this.cdr.detectChanges();
+  }
+  //Audit Trail Report(' + tab.row.TelephoneNumber + ')
   Onauditselected(tab: any) {
     console.log('tab details for audit trail',tab);
-     this.telNo = tab.tab.row.TelephoneNo;
+    console.log(tab.tab.row.TelephoneNumber);
+     this.telNo = tab.tab.row.TelephoneNumber;
      //this.telNo = "123456789";
     // this.tranId = tab.row.TransactionId;
     if (!this.tabs?.find(x => x.tabType == 2)) {
       this.tabs.push({
         tabType: 2,
-        name: 'Audit Trail Reports'
+        name: 'Audit Trail Report('+this.telNo+')'
       });
       // this.selectedTab = this.tabs.length;
     }
