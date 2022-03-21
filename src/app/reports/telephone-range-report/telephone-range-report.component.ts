@@ -181,7 +181,6 @@ export class TelephoneRangeReportComponent implements OnInit {
         Columns: this.columns,
         filter: true,
         selectCheckbox: true,
-        selectionColumn: '',
         removeNoDataColumns: true,
         // imgConfig:[{ headerValue: 'View', icon: 'tab', route: '' },
         // { headerValue: 'View', icon: 'description', route: '' }]
