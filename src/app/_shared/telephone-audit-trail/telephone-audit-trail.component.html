@@ -1,12 +1,12 @@
-<!-- <ng-template #NoData>
+<ng-template #NoData>
     <div class="error">
         <span>No Records Found for this Telephone Number</span>
         <mat-divider></mat-divider>
-      
-    
-</ng-template> -->
+    </div>
+</ng-template>
+
 <div class="auditTab">
-<ng-container *ngIf="auditTrailReport$ | async  as AT;">
+<ng-container *ngIf="auditTrailReport$ | async  as AT; else NoData">
 
     <div *ngIf="AT.LiveDetails; else elseBlock">
         <mat-accordion *ngIf="AT.LiveDetails[0] as livedata; else elseBlock" [togglePosition]="'before'">
