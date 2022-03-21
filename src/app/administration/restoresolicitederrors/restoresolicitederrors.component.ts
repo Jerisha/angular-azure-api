@@ -340,7 +340,6 @@ this.tabs.splice(0);
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      selectionColumn: 'TranId',
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
