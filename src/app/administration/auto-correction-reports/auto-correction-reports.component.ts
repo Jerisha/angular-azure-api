@@ -3,12 +3,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { of, Subject } from 'rxjs';
+import { UserCommentsDialogComponent } from 'src/app/auditreports/fullauditdetails/user-comments-dialog.component';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
-import { UserCommentsDialogComponent } from '../fullauditdetails/user-comments-dialog.component';
+// import { UserCommentsDialogComponent } from '../fullauditdetails/user-comments-dialog.component';
 
 const ELEMENT_DATA: any[] = [
   {
@@ -171,11 +172,12 @@ const Items: Select[] = [
 ];
 
 @Component({
-  selector: 'app-external-audit-details',
-  templateUrl: './external-audit-details.component.html',
-  styleUrls: ['./external-audit-details.component.css']
+  selector: 'app-auto-correction-reports',
+  templateUrl: './auto-correction-reports.component.html',
+  styleUrls: ['./auto-correction-reports.component.css']
 })
-export class ExternalAuditDetailsComponent implements OnInit {
+export class AutoCorrectionReportsComponent implements OnInit {
+
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
   externalAuditForm!: FormGroup;
@@ -387,4 +389,5 @@ export class ExternalAuditDetailsComponent implements OnInit {
       });
     }
   }
+
 }

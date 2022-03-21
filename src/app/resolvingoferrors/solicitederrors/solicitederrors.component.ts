@@ -436,9 +436,9 @@ export class SolicitederrorsComponent implements OnInit {
   resetForm(): void {
     this.thisForm.reset();
     this.tabs.splice(0);
-    this.Resolution ='';this.Refer='';this.Remarks='';
+    this.Resolution = ''; this.Refer = ''; this.Remarks = '';
     //window.location.reload();
-   
+
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
@@ -497,10 +497,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   onChange(value: string, ctrlName: string) {
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
-    if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
-      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-    } else {
+    if (value != null && value != undefined) {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }

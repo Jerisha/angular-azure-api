@@ -105,9 +105,9 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
       }),
       Columns: this.colHeader,
       filter: false,
-      selectCheckbox: false,
-      removeNoDataColumns: false,
-      showTotal:true,    
+      // selectCheckbox: false,
+      // removeNoDataColumns: false,
+      //:true,    
      
       
     }
