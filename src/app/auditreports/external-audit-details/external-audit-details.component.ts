@@ -188,6 +188,8 @@ export class ExternalAuditDetailsComponent implements OnInit {
   repIdentifier = "ExternalAuditDetails";
   comments: string = 'No Records Found';
 
+  selctedOption=['29-20 Dec 2021'];
+
   colHeader: ColumnDetails[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
     { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
@@ -264,6 +266,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
   }
 
   onFormSubmit(): void {
+    if (!this.externalAuditForm.valid) return;
     this.myTable = {
       data: of({
         datasource: ELEMENT_DATA,
@@ -356,7 +359,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
           Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
         ]
       ),
-      AuditActId: new FormControl({ value: '', disabled: true }),
+      AuditActId: new FormControl({ value: '29-20 Dec 2021', disabled: true },[Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }),
       OSN2Source: new FormControl({ value: '', disabled: true }),
       CLIStatus: new FormControl({ value: '', disabled: true }),
