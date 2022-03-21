@@ -449,7 +449,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       selectCheckbox: true,
       showEmail: true,
       removeNoDataColumns: true,
-      selectionColumn: 'TelNo',
+      // selectionColumn: 'TelNo',
       // highlightedCells: ['TelNo', 'OSN2Source'],
       // backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
@@ -651,7 +651,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         pagenumber:1}),
       Columns: this.rangeReportTableDetails,
       selectCheckbox: true,
-      showTotal :true,
+      
       filter: true
     }
   }

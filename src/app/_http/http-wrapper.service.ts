@@ -82,7 +82,7 @@ export class HttpWrapperService {
             // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
             console.log("jsonString :" + jsonResult);
             //console.log(JSON.parse(jsonResult))
-            return jsonResult ? JSON.parse(jsonResult) : {};
+            return jsonResult ? JSON.parse(jsonResult) : [];
         } catch (err) {
             console.log("Response: " + val + "ResponseError: " + err);
             this.alertService.error("Incorrect Response Format", { autoClose: true, keepAfterRouteChange: false });
@@ -208,16 +208,16 @@ export class HttpWrapperService {
             }
         }
 
-        //Bind Qualities
-        // if (objCharacteristic.hasOwnProperty("ListofQualities")) {
-        //     let thisItem = "";
-        //     let char = objCharacteristic.ListofQualities.Quality;
-        //     char?.forEach((characteristic: any) => {
-        //         ({ thisItem, jsonCreation } = this.bindItem(characteristic, thisItem, jsonCreation));
-        //     });
-        //     jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
-        //     jsonCreation += `],`;
-        // }
+        // Bind Qualities
+        if (objCharacteristic.hasOwnProperty("ListofQualities")) {
+            let thisItem = "";
+            let char = objCharacteristic.ListofQualities.Quality;
+            char?.forEach((characteristic: any) => {
+                ({ thisItem, jsonCreation } = this.bindItem(characteristic, thisItem, jsonCreation));
+            });
+            jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+            jsonCreation += `],`;
+        }
 
         //Bind Characteristics
         if (objCharacteristic.hasOwnProperty("ListofCharacteristics")) {

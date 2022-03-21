@@ -14,6 +14,9 @@ import { ResolvingOfErrorsService } from '../services/resolving-of-errors.servic
 import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -132,7 +135,8 @@ const FilterListItems: Select[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-unsolicitederrors',
   templateUrl: './unsolicitederrors.component.html',
-  styleUrls: ['./unsolicitederrors.component.css']
+  styleUrls: ['./unsolicitederrors.component.css'],
+  //providers: [TelNoPipe]
 })
 export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
@@ -173,7 +177,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog:MatDialog) { }
 
   ngOnInit(): void {
 
@@ -184,7 +188,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
-      
+
     });
 
     let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
@@ -193,7 +197,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.updateDetails = res[0];
     });
 
-    
+
   }
 
   getNextSetRecords(pageIndex: any) {
@@ -210,14 +214,26 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.cdr.detectChanges();
   }
 
-
-
-  addPrefix(control: string, value: any) {
-    if (value.charAt(0) != 0) {
-      value = value.length <= 10 ? '0' + value : value;
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
-    this.f[control].setValue(value);
   }
+
+
+  // prefix:string[]=['01','02','03','08'];
+
+  // addPrefix(control: string, value: any) {
+  //   if (value.charAt(0) != 0) {
+  //     value = value.length <= 10 ? '0' + value : value;
+  //   }
+  //   value = ((this.prefix.indexOf(value.substring(0, 2)) === -1) && value.length >= 2) ? '' : value;
+  //   this.f[control].setValue(value);
+  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -265,20 +281,20 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
     if (this.selectedGridRows.length > 0) {
       if (this.selectedGridRows.length > 0) {
-        let TelephoneNo :string[]=[];
+        let TelephoneNo: string[] = [];
         let transId: string[] = [];
-        this.selectedGridRows?.forEach(x => { 
+        this.selectedGridRows?.forEach(x => {
           transId.push(x.TransactionReference);
           TelephoneNo.push(x.TelephoneNumber);
-         })
+        })
         identifiers.push({ Name: 'TransactionReference', Value: transId },
-        { Name: 'TelephoneNumberStart', Value: TelephoneNo }
+          { Name: 'TelephoneNumberStart', Value: TelephoneNo }
         );
         //identifiers.push({ Name: 'TelePhoneNumber', Value: transId });
       }
       else
         identifiers.push({ Name: 'TransactionReference', Value: [""] },
-        { Name: 'TelephoneNumberStart', Value:[""] }
+          { Name: 'TelephoneNumberStart', Value: [""] }
         );
     }
     //  else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
@@ -341,7 +357,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      Source: new FormControl({ value: '', disabled: true },  []),
+      Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
@@ -358,7 +374,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   isEnable() {
     debugger
-    if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
+    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
       this.f.Source.value === "" && this.f.ErrorType.value === "" && this.f.Final.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
@@ -369,10 +385,20 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   }
   onSaveSubmit() {
     debugger;
-    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
-      (this.Resolution && this.Remarks)) {
-      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.service.updateDetails(request).subscribe(x => x);
+    if (this.selectedGridRows.length > 0  &&  (this.Resolution && this.Remarks)) {
+
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to save the records?'
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        //console.log("result " + result);
+        if (result) {
+          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          this.service.updateDetails(request).subscribe(x => x);
+        }
+      });
     }
   }
 
@@ -420,14 +446,15 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
     { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
-    { header: '999 Reference', headerValue: 'Reference1', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
-    if(!this.thisForm.valid) return;
+    if (!this.thisForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -440,11 +467,10 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         }
         return result;
       }
-      else return res
-
+      else return {datasource:res}
     }));
 
-    this.isEnable();
+    //this.isEnable();
 
     this.myTable = {
       data: this.queryResult$,
@@ -452,7 +478,6 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      selectionColumn: 'TranId',
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
