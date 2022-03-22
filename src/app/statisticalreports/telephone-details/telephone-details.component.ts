@@ -57,6 +57,7 @@ export class TelephoneDetailsComponent implements OnInit {
   selectedRowsCount: number = 0;
   selectListItems: string[] = [];
   selectedTab!: number;
+  currentPage: string = '1';
   @Output() addNewTab = new EventEmitter<any>();
   public tabs = [{
     tabType: 0,
@@ -91,9 +92,14 @@ export class TelephoneDetailsComponent implements OnInit {
   ];
   queryResult$!: Observable<any>;
   ngOnInit(): void {
-    console.log('talephoen number data',this.StatisticDate);
+    this.formsubmit(false);
+  
+  }
+formsubmit(isEmitted?: boolean)
+{
+    this.currentPage = isEmitted ? this.currentPage : '1';
     this.Datevalue=this.StatisticDate;
-    let request = Utils.prepareQueryRequest('TelephoneNumberDetails','TransactionCommand', this.prepareQueryParams());
+    let request = Utils.prepareQueryRequest('TelephoneNumberDetails','TransactionCommand', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) =>  {
       if (Object.keys(res).length) {
         let result = {
@@ -106,13 +112,6 @@ export class TelephoneDetailsComponent implements OnInit {
       } else return res;
     }));
     
-    
-  
-   // let testresult:any[]=[];
- 
-  //  this.queryResult$.subscribe(res =>(
-  //    console.log('telephone number details',res)
-  //  ));
     this.myTable = {
       data: this.queryResult$,
       
@@ -125,10 +124,13 @@ export class TelephoneDetailsComponent implements OnInit {
       // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 
     }
-  }
-  prepareQueryParams(): any {
+}
+
+  prepareQueryParams(pageNo?:any): any {
+    var pageIndex = pageNo? pageNo:'1'
     let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] },
+     // { Name: 'PageNumber', Value: ['1'] },
+     { Name: 'PageNumber', Value: [`${pageIndex}`] },
       { Name: 'StatisticDate', Value:[this.StatisticDate]},
       { Name: 'Source', Value: [this.Source]}
     //{ Name: 'StatisticDate', Value:['11-Mar-2022']},
@@ -140,10 +142,22 @@ export class TelephoneDetailsComponent implements OnInit {
     return attributes;
 
   }
+  getNextSetRecords(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.formsubmit(true);
+  }
   selected(s: string): void {
     this.select = s;
   }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 
+  ngAfterViewChecked() {
+   
+    this.cdr.detectChanges();
+  }
   rowDetect(item: any) {
     //debugger;
     this.selectedRowsCount = item.length;
