@@ -6,35 +6,7 @@
             </app-select-multiple>
         </div>
         <form [formGroup]="externalAuditForm" (ngSubmit)="onFormSubmit()">
-            <div class="matsidenav-filter">
-
-                <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':form.TelNoStart.disabled}">
-                    <mat-label>Start Telephone No</mat-label>
-                    <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
-                    <input formControlName="TelNoStart" (keypress)="numberOnly($event)"
-                        (ngModelChange)="onChange($event,'TelNoStart')" matInput maxlength="11"
-                        placeholder="Start Telephone No" #starttelno>
-                    <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
-                    <mat-error>
-                        <div *ngIf="form.TelNoStart.touched && form.TelNoStart.invalid" class="alert alert-danger">
-                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                            <div *ngIf="form.TelNoStart.errors?.pattern">Telephone No is not 11 digit</div>
-                        </div>
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field hintLabel="Max 11 characters">
-                    <mat-label>End Telephone No</mat-label>
-                    <input formControlName="TelNoEnd" matInput #endtelno maxlength="11" placeholder="End Telephone No"
-                        (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'TelNoEnd')">
-                    <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
-                    <mat-error>
-                        <div *ngIf="form.TelNoEnd.touched && form.TelNoEnd.invalid" class="alert alert-danger">
-                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                            <div *ngIf="form.TelNoEnd.errors?.pattern">Telephone No is not 11 digit</div>
-                        </div>
-                    </mat-error>
-                </mat-form-field>
+            <div class="matsidenav-filter">             
                 <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.AuditActId.disabled}">
                     <mat-label>Audit ACT ID</mat-label>
                     <mat-select id="AuditActId" formControlName="AuditActId">
@@ -46,97 +18,6 @@
                     <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select
                         Audit ACTID</mat-error>
                 </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.CUPId.disabled}">
-                    <mat-label>CUPID</mat-label>
-                    <mat-select id="CUPId" formControlName="CUPId">
-                        <mat-option></mat-option>
-                        <mat-option value="13">13</mat-option>
-                        <mat-option value="28">28</mat-option>
-                        <mat-option value="35">35</mat-option>
-                        <mat-option value="718">718</mat-option>
-                    </mat-select>
-                    <mat-error class="error-message" *ngIf="checkError('CUPId', 'required')">Please Select CUPID
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.OSN2Source.disabled}">
-                    <mat-label>OSN2 Source</mat-label>
-                    <mat-select id="OSN2Source" formControlName="OSN2Source">
-                        <mat-option></mat-option>
-                        <mat-option value="C">C - SAS/COMS</mat-option>
-                        <mat-option value="D">D - DVA Siebel</mat-option>
-                        <mat-option value="E">E - VA/WAD</mat-option>
-                        <mat-option value="G">G - Content Guru</mat-option>
-                        <mat-option value="R">R - Clarify</mat-option>
-                        <mat-option value="S">S - Amdocs SOM</mat-option>
-                        <mat-option value="X">X - Unknown</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.CLIStatus.disabled}">
-                    <mat-label>CLI Status</mat-label>
-                    <mat-select id="CLI Status" formControlName="CLIStatus">
-                        <mat-option></mat-option>
-                        <mat-option value="B">B-BT Only</mat-option>
-                        <mat-option value="S">S-Matched</mat-option>
-                        <mat-option value="D">D-Mismatched</mat-option>
-                        <mat-option value="V">V-OSN2 Only</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.ResType.disabled}">
-                    <mat-label>Resolution Type</mat-label>
-                    <mat-select id="ResType" formControlName="ResType">
-                        <mat-option></mat-option>
-                        <mat-option value="0"> New</mat-option>
-                        <mat-option value="100"> Under Investigation</mat-option>
-                        <mat-option value="105"> Under Governance</mat-option>
-                        <mat-option value="114"> Auto Failed</mat-option>
-                        <mat-option value="106"> Under Porting</mat-option>
-                        <mat-option value="107"> Port Req Complete</mat-option>
-                        <mat-option value="110">(END) Audit Transaction Override</mat-option>
-                        <mat-option value="111">(END) Auto Closed</mat-option>
-                        <mat-option value="113">(END) Auto Active</mat-option>
-                        <mat-option value="115">(END) Auto Modify</mat-option>
-                        <mat-option value="116">(END) Auto Cease</mat-option>
-                        <mat-option value="117">(END) Auto Special Cease</mat-option>
-                        <mat-option value="118">(END) Auto Logic Resolved</mat-option>
-                        <mat-option value="119">(END) Auto Resolved Areacall</mat-option>
-                        <mat-option value="120">(END) Audit Discrepancy Override</mat-option>
-                        <mat-option value="101">(END) Resolved</mat-option>
-                        <mat-option value="102">(END) Unresolved</mat-option>
-                        <mat-option value="109">(END) Auto Resolved</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.PostCodeDiff.disabled}">
-                    <mat-label>Post Code Diff.</mat-label>
-                    <mat-select id="PostCodeDiff" formControlName="PostCodeDiff">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.FullAddDiff.disabled}">
-                    <mat-label>Full Address Diff.</mat-label>
-                    <mat-select id="FullAddDiff" formControlName="FullAddDiff">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.CustomerDiff.disabled}">
-                    <mat-label>Customer Diff.</mat-label>
-                    <mat-select id="CustomerDiff" formControlName="CustomerDiff">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
 
             </div>
             <div class="matsidenav-footer">
@@ -169,7 +50,7 @@
                         <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
-                        <div class="mat-elevation-z8 side-bottom">
+                        <!-- <div class="mat-elevation-z8 side-bottom">
                             <div style="display:inline; margin-left: 15px;">
                                 <mat-form-field>
                                     <mat-label>Resolution Type*</mat-label>
@@ -194,11 +75,15 @@
                                     <mat-icon>save</mat-icon>Save
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-                        <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
-                        </app-telephone-audit-trail>
+                        <!-- <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
+                        </app-telephone-audit-trail> -->
+                        <!-- <app-table [tableitem]="myTable"></app-table> -->
+                        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                            (addNewTab)="newTab($event)">
+                        </app-table-selection>
                     </div>
                     <div *ngSwitchDefault>
                     </div>
