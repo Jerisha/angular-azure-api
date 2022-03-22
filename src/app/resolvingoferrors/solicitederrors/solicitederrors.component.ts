@@ -18,6 +18,7 @@ import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { AlertService } from 'src/app/_shared/alert/alert.service';
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
   {
@@ -146,8 +147,7 @@ export class SolicitederrorsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService,
+    private alertService: AlertService,
     private telnoPipe: TelNoPipe,
     private dialog: MatDialog) { }
 
@@ -377,7 +377,14 @@ export class SolicitederrorsComponent implements OnInit {
         //console.log("result " + result);
         if (result) {
           let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-          this.service.updateDetails(request).subscribe(x => x);
+          //update 
+          this.service.updateDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              //success message and same data reload
+              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.onFormSubmit(true);
+            }
+          });
         }
       });
     }
@@ -436,9 +443,9 @@ export class SolicitederrorsComponent implements OnInit {
   resetForm(): void {
     this.thisForm.reset();
     this.tabs.splice(0);
-    this.Resolution ='';this.Refer='';this.Remarks='';
+    this.Resolution = ''; this.Refer = ''; this.Remarks = '';
     //window.location.reload();
-   
+
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,

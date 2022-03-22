@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { AlertService } from 'src/app/_shared/alert/alert.service';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -177,6 +178,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
+    private alertService: AlertService,
     private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog:MatDialog) { }
 
   ngOnInit(): void {
@@ -225,15 +227,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   }
 
 
-  // prefix:string[]=['01','02','03','08'];
 
-  // addPrefix(control: string, value: any) {
-  //   if (value.charAt(0) != 0) {
-  //     value = value.length <= 10 ? '0' + value : value;
-  //   }
-  //   value = ((this.prefix.indexOf(value.substring(0, 2)) === -1) && value.length >= 2) ? '' : value;
-  //   this.f[control].setValue(value);
-  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -394,10 +388,18 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       });
       rangeConfirm.afterClosed().subscribe(result => {
         //console.log("result " + result);
-        if (result) {
+                if (result) {
           let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-          this.service.updateDetails(request).subscribe(x => x);
+          //update 
+          this.service.updateDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              //success message and same data reload
+              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.onFormSubmit(true);
+            }
+          });
         }
+
       });
     }
   }
