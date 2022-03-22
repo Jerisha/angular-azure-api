@@ -1,4 +1,4 @@
-<mat-sidenav-container class="side-container-report">
+<mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
         <div class="filter-sticky filterposition">
             <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
@@ -201,16 +201,16 @@
                         <mat-icon style="font-size: large;">close</mat-icon>
                     </button>
                 </ng-template> <span [ngSwitch]="tab.tabType">
-                    <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
+                    <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
                         <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable"  (pageIndex)="getNextSetRecords($event)"
                             (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
                     </app-table-selection>
                     </div>
-                    <div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:6px;">
+                    <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                         <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
                         </app-telephone-audit-trail>
                     </div>
-                    <div *ngSwitchCase="2" style="height: 520px; overflow-y:auto;padding-left:6px;">
+                    <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
                     </div>
                     <div *ngSwitchDefault></div>
                 </span>
