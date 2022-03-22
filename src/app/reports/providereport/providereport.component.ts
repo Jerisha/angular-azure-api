@@ -1,7 +1,7 @@
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { Select } from 'src/app/uicomponents/models/select';
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef , Input } from '@angular/core';
 import { ProvideReport } from 'src/app/reports/models/provide-report';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Observable } from 'rxjs';
@@ -11,6 +11,7 @@ import { ReportService } from '../services/report.service';
 import { Utils } from 'src/app/_http/index';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from "ngx-spinner";
+import { formatDate } from '@angular/common';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
@@ -66,6 +67,8 @@ export class ProvidereportComponent implements OnInit {
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
     currentPage: string = '1';
+    Datetime: string= '';
+
     public tabs: Tab[] = [];
     errorCode = new FormControl();
     constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
@@ -90,6 +93,7 @@ export class ProvidereportComponent implements OnInit {
         this.createForm();
         debugger;
         this.listItems = Itemstwo;
+        
     }
     ngAfterViewInit() {
         this.cdr.detectChanges();
@@ -105,10 +109,17 @@ export class ProvidereportComponent implements OnInit {
         this.currentPage = pageIndex;
         this.onFormSubmit(true);
     }
-
+refresh(event: any)
+{
+    this.onFormSubmit(true);
+    console.log('refresh');
+}
     onFormSubmit(isEmitted?: boolean): void {
         debugger;
         this.currentPage = isEmitted ? this.currentPage : '1';
+       
+        this.Datetime =   formatDate( new Date, 'dd-MMM-yyyy HH:mm', 'en-US')
+        this.tabs.splice(0);
         let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage));
         this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
             if (Object.keys(res).length) {
@@ -125,7 +136,7 @@ export class ProvidereportComponent implements OnInit {
             data: this.queryResult$,
             // removeNoDataColumns : true,
             Columns: this.columns,
-            filter: true,
+            filter: false,
             selectCheckbox: false,
             //selectionColumn: 'TranId',
 
@@ -133,7 +144,7 @@ export class ProvidereportComponent implements OnInit {
         if (!this.tabs.find(x => x.tabType == 0)) {
             this.tabs.push({
                 tabType: 0,
-                name: 'Main'
+                name: 'Inflight Report'
             });
         }
         this.selectedTab = this.tabs.length;

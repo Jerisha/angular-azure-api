@@ -85,7 +85,7 @@
                         (click) ="OnOperatorClicked(['CupidOperator',CupidOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Cupid.disabled}">
                             <mat-label>Cupid</mat-label>
-                            <input formControlName="Cupid" matInput #Cupid maxlength="20" placeholder="Cupid">
+                            <input  formControlName="Cupid" matInput #Cupid maxlength="20" placeholder="Cupid">
                         </mat-form-field>
                     </div>
 
@@ -95,18 +95,17 @@
                         (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Source.disabled}">
                             <mat-label>Source</mat-label>
-                            <input formControlName="Source" type="text" placeholder="Search Source" matInput
+                            <input  #source formControlName="Source" type="text" placeholder="Search Source" matInput
                                 [matAutocomplete]="autoSource" OptionsValidator  [options]="config.Source | splitBy: ','"/>
                             <span matSuffix mat-icon-button>
                                 <mat-icon>arrow_drop_down</mat-icon>
                             </span>
                             <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
-                                <mat-option *ngFor="let option of splitData(config.Source) | ddlFilter: f.Source.value"
-                                    [value]="option">
-                                    {{option}}</mat-option>
-                            </mat-autocomplete>
+                                <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: source.value" [value]="val">
+                                    {{val}}</mat-option>
+                                </mat-autocomplete>
                             <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
-
+                          
                         </mat-form-field>
                     </div>
 
@@ -115,17 +114,15 @@
                              (click) ="OnOperatorClicked(['TypeOfLineOperator',TypeOfLineOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TypeOfLine.disabled}">
                             <mat-label>Type Of Line</mat-label>
-                            <input formControlName="TypeOfLine" type="text" placeholder="Search TypeOfLine" matInput
+                            <input #TypeOfLine formControlName="TypeOfLine" type="text" placeholder="Search TypeOfLine" matInput
                                 [matAutocomplete]="autoTypeOfLine" OptionsValidator [options]="config.TypeOfLine | splitBy: ','" />
                             <span matSuffix mat-icon-button>
                                 <mat-icon>arrow_drop_down</mat-icon>
                             </span>
                             <mat-autocomplete autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
-                                <mat-option
-                                    *ngFor="let option of splitData(config.TypeOfLine) | ddlFilter: f.TypeOfLine.value"
-                                    [value]="option">
-                                    {{option}}</mat-option>
-                            </mat-autocomplete>
+                                <mat-option *ngFor="let val of config.TypeOfLine | splitBy: ',' | ddlFilter: TypeOfLine.value" [value]="val">
+                                    {{val}}</mat-option>
+                                </mat-autocomplete>
                             <mat-error *ngIf="f.TypeOfLine.errors?.validOptions">Value need to match available options</mat-error>
                         </mat-form-field>
                     </div>
@@ -135,16 +132,15 @@
                              (click) ="OnOperatorClicked(['FranchiseOperator',FranchiseOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.Franchise.disabled}">
                             <mat-label>Franchise</mat-label>
-                            <input formControlName="Franchise" type="text" placeholder="Search Franchise" matInput
+                            <input #Franchise formControlName="Franchise" type="text" placeholder="Search Franchise" matInput
                                 [matAutocomplete]="autoFranchise" OptionsValidator [options]="config.Franchise | splitBy: ','" />
                             <span matSuffix mat-icon-button>
                                 <mat-icon>arrow_drop_down</mat-icon>
                             </span>
-                            <mat-autocomplete autoActiveFirstOption #autoFranchise="matAutocomplete">
-                                <mat-option
-                                    *ngFor="let option of splitData(config.Franchise) | ddlFilter: f.Franchise.value"
-                                    [value]="option">
-                                    {{option}}</mat-option>
+                        
+                        <mat-autocomplete autoActiveFirstOption #autoFranchise="matAutocomplete">
+                            <mat-option *ngFor="let val of config.Franchise | splitBy: ',' | ddlFilter: Franchise.value" [value]="val">
+                                {{val}}</mat-option>
                             </mat-autocomplete>
                             <mat-error *ngIf="f.Franchise.errors?.validOptions">Value need to match available options</mat-error>
                         </mat-form-field>
@@ -155,18 +151,16 @@
                              (click) ="OnOperatorClicked(['TransactionCommandOperator',TransactionCommandOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TransactionCommand.disabled}">
                             <mat-label>Transaction Command</mat-label>
-                            <input formControlName="TransactionCommand" type="text"
+                            <input #TransactionCommand formControlName="TransactionCommand" type="text"
                                 placeholder="Search TransactionCommand" matInput
                                 [matAutocomplete]="autoTransactionCommand" OptionsValidator [options]="config.TransactionCommand | splitBy: ','" />
                             <span matSuffix mat-icon-button>
                                 <mat-icon>arrow_drop_down</mat-icon>
                             </span>
                             <mat-autocomplete autoActiveFirstOption #autoTransactionCommand="matAutocomplete">
-                                <mat-option
-                                    *ngFor="let option of splitData(config.TransactionCommand) | ddlFilter: f.TransactionCommand.value"
-                                    [value]="option">
-                                    {{option}}</mat-option>
-                            </mat-autocomplete>
+                                <mat-option *ngFor="let val of config.TransactionCommand | splitBy: ',' | ddlFilter: TransactionCommand.value" [value]="val">
+                                    {{val}}</mat-option>
+                                </mat-autocomplete>
                             <mat-error *ngIf="f.TransactionCommand.errors?.validOptions">Value need to match available options</mat-error>
 
                         </mat-form-field>
