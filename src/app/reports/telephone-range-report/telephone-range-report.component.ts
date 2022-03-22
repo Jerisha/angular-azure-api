@@ -161,6 +161,7 @@ export class TelephoneRangeReportComponent implements OnInit {
   
   onFormSubmit(isEmitted?: boolean):void{
     if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)<=10000){
+      this.tabs.splice(0);
       this.currentPage = isEmitted ? this.currentPage : '1';
       let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams(this.currentPage));
       //console.log(JSON.stringify(request));
@@ -173,7 +174,9 @@ export class TelephoneRangeReportComponent implements OnInit {
             pagenumber: res[0].PageNumber
           }
           return result;
-        } else return res;
+        }  else return {
+          datasource: res
+        }
       }));
     
       this.myTable = {
@@ -204,16 +207,16 @@ export class TelephoneRangeReportComponent implements OnInit {
         }
       });
       rangeConfirm.afterClosed().subscribe(result=>{
-        console.log("Dialog" + result);
+        //console.log("Dialog" + result);
         return result;
       })
     }
   }
 
   resetForm():void{
-    window.location.reload();
-    // this.thisForm.reset();
-    // this.tabs.splice(0);
+    this.thisForm.reset();
+    this.tabs.splice(0);
+    // window.location.reload();
     // this.spinner = true;
     // setTimeout(()=>{
     //  this.spinner= false;

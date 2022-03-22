@@ -1,14 +1,10 @@
-.center{
+/* .center{
     padding: auto;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .error-validation{
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
+   */
   .side-container-report {
     width: auto;
     height: 520px !important;
