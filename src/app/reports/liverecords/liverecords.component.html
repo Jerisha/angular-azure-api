@@ -1,4 +1,4 @@
-<mat-sidenav-container class="side-container-report">
+<mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
         <div class="filter-sticky filterposition">
             <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
@@ -44,9 +44,9 @@
 
                     <app-select-exp [listItems]="expressions[2].default" #CreationDateOperator
                     (click) ="OnOperatorClicked(['CreationDateOperator',CreationDateOperator.selectedViewValue])"></app-select-exp> 
-                    <mat-form-field [ngClass]="{'hidden':myForm.controls.CreatedOn.disabled}" appearance="outline">
+                    <mat-form-field [ngClass]="{'hidden':myForm.controls.CreationDate.disabled}" appearance="outline">
                         <mat-label>Created On</mat-label>
-                        <input [readonly]="true" id="CreatedOn" [matDatepicker]="picker" formControlName="CreatedOn" matInput #input
+                        <input [readonly]="true" id="CreationDate" [matDatepicker]="picker" formControlName="CreationDate" matInput #input
                             maxlength="20" placeholder="Created On">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>

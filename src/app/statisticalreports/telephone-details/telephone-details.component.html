@@ -1,4 +1,4 @@
-<span ><b> Data displayed for choosen date:{{StatisticDate}}</b></span>
+<span ><b> Data displayed for choosen date : {{StatisticDate}}</b></span>
 <br>
-<app-table-selection [tableitem]="myTable"  (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
+<app-table-selection [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"  (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
 </app-table-selection>
