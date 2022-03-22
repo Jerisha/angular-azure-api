@@ -94,7 +94,7 @@ font-size: smaller;  ">
               {{img.icon}}</mat-icon>
           </ng-container>
         </td>
-        <td mat-footer-cell class="totalRow" *matFooterCellDef> getTotal(disCol.headerValue)}} </td>
+        <td mat-footer-cell class="totalRow" *matFooterCellDef> {{getTotal(disCol.headerValue)}} </td>
       </div>
       <!-- Other Columns -->
       <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">

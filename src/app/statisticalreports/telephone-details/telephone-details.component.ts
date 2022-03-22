@@ -1,4 +1,4 @@
-import { ChangeDetectorRef,Component, EventEmitter, OnInit,Input, Output ,SimpleChanges} from '@angular/core';
+import { ChangeDetectorRef,Component, EventEmitter, OnInit,Input, Output ,SimpleChanges, OnChanges} from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelephoneDetails } from '../models/telephone-details';
@@ -49,7 +49,7 @@ const ELEMENT_DATA: TelephoneDetails[] = [
   templateUrl: './telephone-details.component.html',
   styleUrls: ['./telephone-details.component.css']
 })
-export class TelephoneDetailsComponent implements OnInit {
+export class TelephoneDetailsComponent implements OnChanges {
 
   select: string = 'Exp';
   isDisabled = true;
@@ -91,7 +91,9 @@ export class TelephoneDetailsComponent implements OnInit {
     { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false,isTotal:true },
   ];
   queryResult$!: Observable<any>;
-  ngOnInit(): void {
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.Source?.currentValue != changes.Source?.previousValue)   
     this.formsubmit(false);
   
   }
@@ -113,8 +115,7 @@ formsubmit(isEmitted?: boolean)
     }));
     
     this.myTable = {
-      data: this.queryResult$,
-      
+      data: this.queryResult$,      
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
@@ -154,8 +155,7 @@ formsubmit(isEmitted?: boolean)
     this.cdr.detectChanges();
   }
 
-  ngAfterViewChecked() {
-   
+  ngAfterViewChecked() {   
     this.cdr.detectChanges();
   }
   rowDetect(item: any) {
