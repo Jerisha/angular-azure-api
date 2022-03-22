@@ -588,6 +588,7 @@ export class LiverecordsComponent implements OnInit {
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if(!this.myForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -614,7 +615,7 @@ export class LiverecordsComponent implements OnInit {
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'Main'
+        name: 'Live Data Summary'
       });
     }
   }

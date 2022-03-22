@@ -32,6 +32,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   @Output() pageIndex = new EventEmitter<any>();
+  @Output() refreshtab = new EventEmitter<any>();
   // dataSource!: MatTableDataSource<any>;
   public dataSource = new MatTableDataSource<any>();
   selectedrows: any;
@@ -84,7 +85,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   copy() {
     // console.log('clipboard', this.selection.selected);
   }
-
+  refresh(event: any) {
+    event.stopPropagation();
+    this.refreshtab.emit({ event });
+    }
 
   ngOnChanges(changes: SimpleChanges) {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)

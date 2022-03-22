@@ -140,7 +140,7 @@ font-size: smaller;  ">
   </span>
 </div>
 <div style="margin: auto;" *ngIf="!isShown">
-  <button type="reset" mat-raised-button color="primary">
+  <button type="reset" mat-raised-button color="primary" (click)="refresh($event)">
     <mat-icon>import_export</mat-icon>Refresh
   </button>&nbsp;&nbsp;
 
