@@ -30,10 +30,15 @@
   flex-direction: column;
   /* justify-content: center;         */
   margin-top: 10px;
+  /* justify-content: space-around; */
 }
 .vf-card{
-  min-width:90%;
+  /* width:auto; */
+  min-width: 90%;
   min-height: 460px;
+  /* display: flex;
+  flex-direction: row;  
+  box-sizing: content-box; */
 }
 .content-main{
   /* align-items: center; */
@@ -61,7 +66,8 @@
   background-color:#e60000;
   color:white;    
   padding: 6px;
-  /* text-align: center; */
+  /* text-align:justify; */
+  text-align: center;
 }
 .table-row{
   min-height:16px; 
@@ -69,11 +75,12 @@
   /* color:white; */
 }
 .table-coloumn{
-  min-width:60px; 
-  width: auto;    
+  min-width:100px; 
+  width: auto; 
+   
   /* color:white;    */
   /* padding: 6px; */
-  /* text-align: center; */
+  text-align:justify;
 }
 .dataform-title{
 font-size: 14px;

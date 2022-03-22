@@ -1,11 +1,8 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output, SimpleChanges } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef,SimpleChanges } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
-import { MatTableDataSource } from '@angular/material/table';
-import { IColoumnDef,IDropdown } from "src/app/report-references/IControls";
+import { IColoumnDef } from "src/app/report-references/IControls";
 import { ReportReferenceService } from '../report-reference.service';
-import { FormBuilder, FormControl, FormGroup, Validators,ReactiveFormsModule  } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-report-reference',
@@ -42,20 +39,11 @@ ngOnInit(): void {
     this.lstForm  = this.service.setForm(this.reportName);
     this.referenceForm = this.formValidation();
     this.title = this.reportName;
-    
- 
 }
 ngOnChanges(changes: SimpleChanges) {
-     
-    // this.referenceForm = this.formBuilder.group({});
-    // this.lstForm  = this.service.setForm(this.reportName);
-    // this.referenceForm = this.formValidation();   
-    
-    this.displayedColumns=this.service.displayedColumns[this.reportIndex][this.reportName];
-    
-    this.data =this.service.data[this.reportIndex][this.reportName];
-    // this.title = this.reportName;
-    // this.recordId =this.service.recordId;
+
+    this.displayedColumns=this.service.displayedColumns[this.reportIndex][this.reportName];    
+    this.data =this.service.data[this.reportIndex][this.reportName];    
     console.log("onchanges:",changes);
 }
 
@@ -94,14 +82,17 @@ ngAfterViewChecked()
  }
 
 onEditRecord(record:any,event:Event){    
-    this.record = record; 
-    // alert("Edit starts..."+JSON.stringify(this.record)); 
+    this.record = record;
     this.eventName ='Update'
     this.showDataform =true; 
-    this.referenceForm.get('ProcessOrder')?.setValue('test value') ;
-    // return false;
-    // event.stopPropagation();
-    this.referenceForm.markAsTouched();
+    this.cdr.detectChanges();
+    for (let field in this.referenceForm.controls) 
+    {      
+        let control = this.referenceForm.get(field);    
+        control?.setValue(record[field]);
+    }
+    
+    this.referenceForm.markAsUntouched();
     
 }
 

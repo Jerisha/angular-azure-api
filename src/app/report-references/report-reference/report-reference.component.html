@@ -9,7 +9,7 @@
                       <mat-card-content >
                             <div class="content-main vf-flex-container-col">
                                   <div class="content-submain vf-flex-container-col" *ngFor="let formData of lstForm" [ngSwitch]="true">
-                                    <div *ngSwitchCase="formData.cType === 'text'">     
+                                    <div *ngSwitchCase="formData.cType === 'text'" style="width:201px;height:52.063px;display:flex;align-items: center;">     
                                           <mat-form-field>
                                               <mat-label >{{formData.cDisplayName}}</mat-label>
                                               <input type="{{formData.cType}}" 
@@ -18,7 +18,7 @@
                                               placeholder="{{formData.cDisplayName}}">
                                           </mat-form-field> 
                                     </div> 
-                                    <div *ngSwitchCase="formData.cType === 'select'">
+                                    <div *ngSwitchCase="formData.cType === 'select'" style="width:201px;height:52.063px;display:flex;align-items: center;"> 
                                           <mat-form-field>  
                                             <mat-label >{{formData.cDisplayName}}</mat-label>                              
                                             <mat-select [id]="formData.cName" [formControlName]="formData.cName"                                            
@@ -29,7 +29,7 @@
                                             </mat-select>
                                           </mat-form-field> 
                                     </div>
-                                    <div *ngSwitchCase="formData.cType === 'radio'">
+                                    <div *ngSwitchCase="formData.cType === 'radio'" style="width:201px;height:52.063px;display:flex;align-items: center;">
                                       <mat-checkbox [checked]="formData.cValue === 'Y'? true:false" 
                                         [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
                                           >{{formData.cDisplayName}}</mat-checkbox> 
@@ -39,9 +39,9 @@
                               <div class ="fixed-button-bar">   
                                 <mat-card-actions>
                                     <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled] ="referenceForm.status!='VAILD'"  matTooltip="Click this button currently showning  details will be create new Record"  >
-                                        <mat-icon >add_box</mat-icon>Submit
+                                        <mat-icon >save</mat-icon>Save
                                         </button>
-                                        <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled] ="referenceForm.status!='VAILD'" matTooltip="Click this button currently showning details will be Update"  >
+                                        <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled] ="referenceForm.status!='INVAILD'" matTooltip="Click this button currently showning details will be Update"  >
                                             <mat-icon >edit</mat-icon>Update
                                         </button>
                                         <button type="button" mat-raised-button  (click)=onCancelDataForm() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
@@ -66,8 +66,8 @@
                     <th mat-header-cell *matHeaderCellDef class ="table-header" >Actions</th>
                       <td mat-cell *matCellDef="let element" class ="table-coloumn"> 
                         <ng-container>
-                          <mat-icon  (click)="onEditRecord(element,$event)" >launch</mat-icon>
-                          <mat-icon  (click)="onDeleteRecord(element,$event)" style="color:#e60000">delete_outline</mat-icon> 
+                          <mat-icon  (click)="onEditRecord(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">mode_edit_outline</mat-icon>
+                          <mat-icon  (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted" style="color:#e60000;margin-left:20px">delete_outline</mat-icon> 
                         </ng-container>
                       </td>
                 </div>
@@ -88,8 +88,8 @@
                 <button  type="button" (click)=onCreateRecord() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button, open create new Record Option"  >
                 <mat-icon >add_box</mat-icon>Create
                 </button>
-                <button  type="button" (click)=onExport() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button currently showning details will be Export"  >
-                    <mat-icon >file_download</mat-icon>Export
+                <button  type="button" (click)=onExport() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button currently showning details will be download as CSV format File"  >
+                    <mat-icon >file_download</mat-icon>Download
                 </button>
                 <!-- <button type="button" (click)=onRefreshDetailPane() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button,Refresh the detail Pane"  >
                   <mat-icon >refresh</mat-icon>Refresh

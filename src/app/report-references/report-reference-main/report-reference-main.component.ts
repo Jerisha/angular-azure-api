@@ -1,23 +1,41 @@
 
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, ViewChildren, ViewContainerRef, TemplateRef } from '@angular/core';
-import { Observable } from 'rxjs';
-import { NgxSpinnerService } from "ngx-spinner";
+import { Component,  OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ReportReferenceService } from '../report-reference.service';
-import { FormBuilder, FormControl, FormGroup, Validators,ReactiveFormsModule  } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-report-reference-main',
   templateUrl: './report-reference-main.component.html',
-  styleUrls: ['./report-reference-main.component.css']
+  styleUrls: ['./report-reference-main.component.css'],
+  animations: [
+    trigger('toggleMenu', [
+    state('collapsed', style({ height: '0px' , width: '0px', padding: '0px', display: 'none', })),
+    state('expanded', style({ minHeight: '50px' })),
+    transition('expanded => collapsed', animate('500ms ease-in')),
+    transition('collapsed => expanded', animate('500ms ease-out')),
+    ]),
+    ],
 })
 export class ReportReferenceMainComponent implements OnInit, AfterViewInit{
 
   reportNames!: string[];
   title:string="";
   reportName:string="";  
+  showRighPane:boolean=false;
 
-constructor(private cdr: ChangeDetectorRef,
-    private spinner: NgxSpinnerService,
+  isShow:boolean =false;
+  showMenu: string = 'expanded';
+
+
+
+  onMenuClicked(){
+    this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
+    this.showRighPane =true;
+  }
+
+
+constructor(private cdr: ChangeDetectorRef,   
     private formBuilder: FormBuilder,
     private reportReferenceService: ReportReferenceService,
     
@@ -26,6 +44,7 @@ constructor(private cdr: ChangeDetectorRef,
     this.cdr.detectChanges(); 
   }
   ngOnInit(): void { 
+    this.isShow=true;
     this.reportNames =this.reportReferenceService.reportNames;  
     
   }  
