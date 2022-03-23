@@ -164,22 +164,15 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   getTotal(cellname: string) {
-    debugger
+    // debugger
     var cell = cellname ? cellname : '';
     if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
       return 'Total';
     }
-
-    // var totalcell = this.totalRowCols.filter(x => x.includes(cell))
-    // if (totalcell.length > 0) {
-    //   return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
-    // }
-    // return '';
-
-    if (this.totalRowCols.includes(cell))
-      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+    if (this.totalRowCols.includes(cell) && this.dataColumns.includes(cell))
+      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
     else
-      return ''
+      return '';
   }
 
   getColSpan(cellname: string) {
