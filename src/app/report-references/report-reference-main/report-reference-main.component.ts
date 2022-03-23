@@ -11,7 +11,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   animations: [
     trigger('toggleMenu', [
     state('collapsed', style({ height: '0px' , width: '0px', padding: '0px', display: 'none', })),
-    state('expanded', style({ minHeight: '50px' })),
+    state('expanded', style({ maxHeight: '100px' })),
     transition('expanded => collapsed', animate('500ms ease-in')),
     transition('collapsed => expanded', animate('500ms ease-out')),
     ]),
@@ -32,6 +32,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit{
   onMenuClicked(){
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     this.showRighPane =true;
+    this.isShow =true;
   }
 
 
@@ -44,7 +45,7 @@ constructor(private cdr: ChangeDetectorRef,
     this.cdr.detectChanges(); 
   }
   ngOnInit(): void { 
-    this.isShow=true;
+    // this.isShow=true;
     this.reportNames =this.reportReferenceService.reportNames;  
     
   }  

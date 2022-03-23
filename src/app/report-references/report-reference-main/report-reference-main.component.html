@@ -24,12 +24,14 @@
     <button *ngIf="isShow" mat-mini-fab style="background-color: #e60000; margin: 5px;width:30px;height: 30px;" (click)="onMenuClicked()" >
     <mat-icon  style ="font-size: small;">class</mat-icon></button>
       <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
-        <div class="menu-button-wrapper" *ngFor let reportName of reportNames>          
+        <div class="menu-button-wrapper" *ngFor ="let reportName of reportNames">          
           <button mat-button >{{reportName}}</button>
+          <!-- <button (click)="onMenuClicked()">test</button> -->
         </div>
+        <button (click)="onMenuClicked()">test</button>
       </div>    
   </div>
-  <mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;" *ngIf =showRighPane> 
+  <mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;" *ngIf ="showRighPane"> 
     <mat-tab>
         <ng-template mat-tab-label>
             <div style="margin-left: 10px;">{{reportNames[0]}}</div>

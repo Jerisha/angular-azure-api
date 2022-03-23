@@ -105,6 +105,7 @@ export class ReportReferenceService {
   {SourceSystem: ['Actions','OriginatingSystem', 'BTCode', 'Title','ValidateAddress','SendBT','Comments','LineTypeMandatory','LTMandatoryOpt','LineTypeBlank','LTBlankOpt','Notification']},
   {Status:['Actions','Id','ProcessOrder','StatusDescription','Comments']},
   {AuditStatus:['Actions','ID', 'StatusSummary','Description']},
+  {UnsolicitedAutoCloseErrorCode:['Actions','ErrorCode', 'Type','ErrorMessage','CloseAfter','ResolveType','ResolvingMessge']},
 
   ];
 
@@ -151,7 +152,19 @@ export class ReportReferenceService {
             <IColoumnDef>{cName:"Description",cDisplayName:"Description",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
             cMandate:true,cMaxLength:200,cList:[]},
             );
-      }    
+      }   
+    //   if(reportName==this.reportNames[2]){
+     
+    //     this.lstForm =[];
+    //     this.lstForm.push(
+    //       <IColoumnDef>{cName:"ErrorCode",cDisplayName:"Error Code",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
+    //       cMandate:true,cMaxLength:20,cList:[]},
+    //       <IColoumnDef>{cName:"Type",cDisplayName:"Type",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
+    //       cMandate:true,cMaxLength:200,cList:[]},
+    //       <IColoumnDef>{cName:"Description",cDisplayName:"Description",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
+    //       cMandate:true,cMaxLength:200,cList:[]},
+    //       );
+    // }  
    return this.lstForm;
   }
 
