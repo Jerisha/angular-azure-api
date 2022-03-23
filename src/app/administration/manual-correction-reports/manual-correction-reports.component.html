@@ -84,16 +84,8 @@
                         <app-table-selection [tableitem]="viewTelno" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
-                    </div>
+                    </div>                 
                     <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
-                        <!-- <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
-                        </app-telephone-audit-trail> -->
-                        <!-- <app-table [tableitem]="myTable"></app-table> -->
-                        <app-table-selection [tableitem]="viewTelno" (rowChanges)="rowDetect($event)"
-                            (addNewTab)="newTab($event)">
-                        </app-table-selection>
-                    </div>
-                    <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                         <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
                         </app-telephone-audit-trail>
                         <!-- <app-table [tableitem]="myTable"></app-table> -->

@@ -141,13 +141,13 @@ const Items: Select[] = [
   { view: 'Customer Diff', viewValue: 'CustomerDiff', default: true },
 
 ];
-
 @Component({
-  selector: 'app-auto-correction-reports',
-  templateUrl: './auto-correction-reports.component.html',
-  styleUrls: ['./auto-correction-reports.component.css']
+  selector: 'app-manual-correction-reports',
+  templateUrl: './manual-correction-reports.component.html',
+  styleUrls: ['./manual-correction-reports.component.css']
 })
-export class AutoCorrectionReportsComponent implements OnInit {
+export class ManualCorrectionReportsComponent implements OnInit {
+
 
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -171,9 +171,9 @@ export class AutoCorrectionReportsComponent implements OnInit {
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
     { headerValue: 'BatchId', header: 'Batch Id', showDefault: true, isImage: false },
     { headerValue: 'FullCLIStatus', header: 'Full CLI Status', showDefault: true, isImage: false },
-    { headerValue: 'SwitchStatus', header: 'Switch Status', showDefault: true, isImage: false },
-    { headerValue: 'Source', header: 'Source', showDefault: true, isImage: false },
-    { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: true, isImage: false },
+    // { headerValue: 'SwitchStatus', header: 'Switch Status', showDefault: true, isImage: false },
+    // { headerValue: 'Source', header: 'Source', showDefault: true, isImage: false },
+    // { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: true, isImage: false },
     { headerValue: 'Status', header: 'Status', showDefault: true, isImage: false },
     { headerValue: 'ResolveType', header: 'Resolve Type', showDefault: true, isImage: false },
     { headerValue: 'StartDate', header: 'Start Date', showDefault: true, isImage: false },
@@ -181,10 +181,10 @@ export class AutoCorrectionReportsComponent implements OnInit {
     { headerValue: 'Scenario', header: 'Scenario', showDefault: true, isImage: false },
     { headerValue: 'SelectedVolume', header: 'Selected Volume', showDefault: true, isImage: false },
     { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false },
-    { headerValue: 'FailedCount', header: 'Failed Count', showDefault: true, isImage: false },
+    // { headerValue: 'FailedCount', header: 'Failed Count', showDefault: true, isImage: false },
     { headerValue: 'UserName', header: 'UserName', showDefault: true, isImage: false },
     { headerValue: 'ViewTelNo', header: 'View TelNo', showDefault: true, isImage: true },
-    { headerValue: 'ViewFailedTelNo', header: 'View Failed TelNo', showDefault: true, isImage: true },
+    //{ headerValue: 'ViewFailedTelNo', header: 'View Failed TelNo', showDefault: true, isImage: true },
 
 
   ];
@@ -262,7 +262,8 @@ export class AutoCorrectionReportsComponent implements OnInit {
       removeNoDataColumns: false,      
       highlightedCells: ['TelNo'],
       imgConfig: [{ headerValue: 'ViewTelNo', icon: 'description', route: '', tabIndex: 1 },
-      { headerValue: 'ViewFailedTelNo', icon: 'description', route: '', tabIndex: 2 }]
+     // { headerValue: 'ViewFailedTelNo', icon: 'description', route: '', tabIndex: 2 }
+    ]
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -287,7 +288,7 @@ export class AutoCorrectionReportsComponent implements OnInit {
       //filter: true,      
       removeNoDataColumns: false,      
       highlightedCells: ['TelNo'],
-      imgConfig: [{ headerValue: 'View', icon: 'description', route: '', tabIndex: 3 },
+      imgConfig: [{ headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       //{ headerValue: 'ViewFailedTelNo', icon: 'description', route: '', tabIndex: 2 }
     ]
     }
@@ -317,35 +318,19 @@ export class AutoCorrectionReportsComponent implements OnInit {
           if (updtab) updtab.name = 'View Tel List for (' + tab.row.BatchId + ')'
         }
         break;
-      }
+      }   
       case 2: {
         if (!this.tabs?.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'View Failed Tel List for (' + tab.row.BatchId + ')'
-          });
-          this.createViewList();
-          // this.selectedTab = 1;        
-                    this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-        } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          let updtab = this.tabs.find(x => x.tabType == 2);
-          if (updtab) updtab.name = 'View Failed Tel List for (' + tab.row.BatchId + ')'
-        }
-        break;
-      }
-      case 3: {
-        if (!this.tabs?.find(x => x.tabType == 3)) {
-          this.tabs.push({
-            tabType: 3,
             name: 'Audit Trail Report(' + tab.row.TelNo + ')'
           });
           //this.createViewList();
           // this.selectedTab = 1;        
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) + 1;
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
-          let updtab = this.tabs.find(x => x.tabType == 3);
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          let updtab = this.tabs.find(x => x.tabType == 2);
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelNo + ')'
         }
         break;

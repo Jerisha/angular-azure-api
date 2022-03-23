@@ -8,11 +8,13 @@ import { HelperModule } from '../_helper/helper.module';
 import { SharedModule } from '../_shared/shared.module';
 import { AdministrationRoutingModule } from './administration-routing.module';
 import { AutoCorrectionReportsComponent } from './auto-correction-reports/auto-correction-reports.component';
+import { ManualCorrectionReportsComponent } from './manual-correction-reports/manual-correction-reports.component';
 
 @NgModule({
   declarations: [
     AuditDataFilesComponent,
-    AutoCorrectionReportsComponent
+    AutoCorrectionReportsComponent,
+    ManualCorrectionReportsComponent
   ],
   imports: [
     CommonModule,
