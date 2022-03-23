@@ -439,7 +439,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     }
       
 
-    //console.log('attributes',attributes);
+    console.log('attributes',attributes);
 
     return attributes;
 
@@ -520,6 +520,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   // search(): void { };
   // onFormSubmit(): void { }
   resetForm(): void { 
+    this.thisForm.reset();
     this.tabs.splice(0);
     this.StatisticMonth.setValue('');
     this.datevalue="";
