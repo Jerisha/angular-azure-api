@@ -151,11 +151,10 @@
         </ng-template>
 
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">          
 
             <mat-icon class="info" matTooltip="Information" (click)="DisplayInformationTab()">information</mat-icon>
-
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                       <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
             </app-table-selection>
             <form (ngSubmit)="onSaveSubmit()">

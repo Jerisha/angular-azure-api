@@ -55,8 +55,8 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     { headerValue: 'EndTel', header: 'End Tel', showDefault: true, isImage: false },
     { headerValue: 'Live', header: 'Live', showDefault: true, isImage: false },
     { headerValue: 'Trans', header: 'Trans', showDefault: true, isImage: false },
-    { headerValue: 'Null', header: 'Null', showDefault: true, isImage: false ,isTotal:true },
-    { headerValue: 'Line', header: 'Line', showDefault: true, isImage: false ,isTotal:true},
+    { headerValue: 'Null', header: 'Null', showDefault: true, isImage: false ,isTotal:false },
+    { headerValue: 'Line', header: 'Line', showDefault: true, isImage: false ,isTotal:false},
     { headerValue: 'Name', header: 'Name', showDefault: true, isImage: false },
     { headerValue: 'Address', header: 'Address', showDefault: true, isImage: false }
   ];
@@ -67,6 +67,8 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   }
 
   resetForm(): void {
+    //this.tabs.splice();
+    this.tabs.splice(0);
     // //this.snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
@@ -95,34 +97,48 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  onFormSubmit(): void {
-    this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 1,
-        totalpages: 10,
-        pagenumber: 1
-      }),
-      Columns: this.colHeader,
-      filter: false,
-      // selectCheckbox: false,
-      // removeNoDataColumns: false,
-      //:true,    
-     
-      
-    }
+   isAuditTrail:boolean= false;
 
-    if (!this.tabs.find(x => x.tabType == 0)) {
-      this.tabs.push({
-        tabType: 0,
-        name: 'Summary'
-      });
+  onFormSubmit(): void {
+    this.isAuditTrail = false;
+    this.tabs.splice(0)
+    if (this.splCeaseTransForm.controls['TelNoStart'].value != '' &&
+      this.splCeaseTransForm.controls['TelNoEnd'].value != '') {
+      this.isAuditTrail = true;
+
+      this.myTable = {
+        data: of({
+          datasource: ELEMENT_DATA,
+          totalrecordcount: 1,
+          totalpages: 10,
+          pagenumber: 1
+        }),
+        Columns: this.colHeader,
+        filter: true,
+        selectCheckbox: true,
+        removeNoDataColumns: false,
+      }
+      if (!this.tabs.find(x => x.tabType == 0)) {
+        this.tabs.push({
+          tabType: 0,
+          name: 'Telephone Range Report'
+        });
+      }
+      this.selectedTab = this.tabs.length;
     }
-    this.selectedTab = this.tabs.length;
+    else {
+      this.openAuditTrail();
+    }
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
+  }
+
+  openAuditTrail() {
+    debugger;
+    let tab = { tabType: 1 }
+    this.newTab(tab);
   }
 
   newTab(tab: any) {
@@ -133,7 +149,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+            name: 'Audit Trail Report'
           });
           // this.selectedTab = 1;        
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
@@ -141,11 +157,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
         }
         break;
-      }
-      case 2: {
-        this.openDialog();
-        break;
-      }
+      }      
       default: {
         //statements; 
         break;
