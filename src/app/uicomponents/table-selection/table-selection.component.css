@@ -74,16 +74,17 @@ table td, table th {
   z-index: 4;
 }
 
-/* .nowrap-cell {
+.nowrap-cell {
   max-width: 120px; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-} */
+}
 
-.totalRow{
+.totalRow {
   background-color: #e60000;
   color:white;
+  /* padding-left: 220px; */
   font-size: small;
   /* min-height: 10px; */
   height: 20px;

@@ -1,6 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit} from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { Component, OnInit } from '@angular/core';
 import { of } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
@@ -26,10 +25,11 @@ const ELEMENT_DATA = [
   { ACTID: "18", FileName: "BT101330091301.DAT", CreatedOn: "18/01/2021" }
 ]
 
+
 @Component({
-  selector: 'app-audit-data-files',
-  templateUrl: './audit-data-files.component.html',
-  styleUrls: ['./audit-data-files.component.css'],
+  selector: 'app-manage-users',
+  templateUrl: './manage-users.component.html',
+  styleUrls: ['./manage-users.component.css'],
   animations: [
     trigger('toggleMenu', [
       state('collapsed', style({ height: '0px' , width: '0px', padding: '0px', display: 'none', })),
@@ -39,7 +39,7 @@ const ELEMENT_DATA = [
     ]),
   ],
 })
-export class AuditDataFilesComponent implements OnInit {
+export class ManageUsersComponent implements OnInit {
   isShow: boolean = false;
   showMenu: string = 'expanded';
   btAuditFileDetailsTable!: TableItem;
@@ -53,12 +53,11 @@ export class AuditDataFilesComponent implements OnInit {
 
   ]
   selectedTab: number = 0;
+
   constructor() { }
 
   ngOnInit(): void {
-
   }
-
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -72,11 +71,11 @@ export class AuditDataFilesComponent implements OnInit {
   getFileDetails(fileType: string) {
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (fileType === 'BTAuditFileDetails') {
+    if (fileType === 'UserAccessDetails') {
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
           tabType: 0,
-          name: 'BT Audit File Details'
+          name: 'User Access Details'
         });
         this.btAuditFileDetailsTable = {
           data: of({datasource:ELEMENT_DATA,
@@ -89,23 +88,34 @@ export class AuditDataFilesComponent implements OnInit {
         }
       }
     }
-    else {
+    else if (fileType === 'UserOfReports'){
       if (!this.tabs.find(x => x.tabType == 1)) {
         this.tabs.push({
           tabType: 1,
-          name: 'Data - Live in Switch Only'
+          name: 'User Of Reports'
         });
-        this.btAuditFileDetailsTable = {
-           data: of({datasource:ELEMENT_DATA,
-            totalrecordcount: 100,
-            totalpages:1,
-            pagenumber:1}),
-          Columns: this.btAuditFileDetailsTableDetails,
-          selectCheckbox: true,
-          imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]
-        }
+        
       }
     }
+    else if (fileType === 'StratUpUserMessages'){
+      if (!this.tabs.find(x => x.tabType == 2)) {
+        this.tabs.push({
+          tabType: 2,
+          name: 'Strat Up User Messages'
+        });
+        
+      }
+    }
+    else if (fileType === 'UserProfiles'){
+      if (!this.tabs.find(x => x.tabType == 3)) {
+        this.tabs.push({
+          tabType: 3,
+          name: 'User Profiles'
+        });
+        
+      }
+    }
+
     this.showDetails = true;
     this.selectedTab = this.tabs.length;
   }

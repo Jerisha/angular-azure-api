@@ -70,8 +70,9 @@
 
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
-
-            <app-table-selection [sidePan]="pagesidenav"   (pageIndex)="getNextSetRecords($event)"[tableitem]="myTable" [isShown]='false'>
+            <span ><b> List of Inflight Telephone Nos. to be processed as of "{{Datetime}} GMT"</b></span>
+            <br>
+            <app-table-selection [sidePan]="pagesidenav" (refreshtab)="refresh($event)"  (pageIndex)="getNextSetRecords($event)"[tableitem]="myTable" [isShown]='false'>
             </app-table-selection>
           </div>
 

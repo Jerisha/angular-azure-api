@@ -1,12 +1,3 @@
-/* :host{
-  padding: 0em;
-}
-
-:host::ng-deep app-table-selection .table-container {  
-  
-  width:auto;
-} */
-
 .center {
     margin: auto;
     width: 80%;
@@ -39,7 +30,28 @@
     padding-top: 20vh;
   }
 
-  .menu-button-wrapper {
-    display: flex;
+  .container-page{
+    min-height:90%;    
+    width: auto;
+    box-sizing: border-box;
+  }
+  .wrap{
+    display:flex;
     justify-content: center;
+    max-height: 460px;
+  }
+  .left-box{        
+        width: 60vw;        
+        overflow: auto;    
+    }
+  .right-box{     
+      /* height: 78vh;  */
+      width: 96vw;         
+      overflow: auto;
+  }
+
+  .top-label{
+    align-items: center;
+    justify-content: center;
+    padding-top: 5px;
   }

@@ -72,3 +72,21 @@ button{
     width: 100%;
     height:200px
   }
+
+  .info
+  {
+    display:flex!important;
+    /* font-size: xx-small; */
+    margin: 5px;
+    margin-right: 14px;
+    float: right;   
+    cursor: pointer;
+    }
+
+    :host{
+  padding: 0em;
+}
+
+:host::ng-deep app-table-selection .table-container {  
+  margin-top: 5px;
+}

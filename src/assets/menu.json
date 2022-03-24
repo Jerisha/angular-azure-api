@@ -57,6 +57,11 @@
         "displayName": "External Audit Details",
         "iconName": "",
         "route": "auditreports/externalauditdetails"
+      },
+      {
+        "displayName": "Full Audit History",
+        "iconName": "",
+        "route": "auditreports/fullaudithistory"
       }
     ]
   },
@@ -115,6 +120,19 @@
         "iconName": "",
         "route": "administration/restoresolicitederrors"
       }
+    ]
+  },
+  {
+    "displayName": "Governance",
+    "iconName": "",
+    "route": "",
+    "children": [
+      {
+        "displayName": "Range Special Cease Transaction",
+        "iconName": "",
+        "route": "governance/rangespecialceasetransaction"
+      }
+	 
     ]
   }
     
