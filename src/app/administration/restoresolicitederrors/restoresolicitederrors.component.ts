@@ -16,104 +16,104 @@ import { formatDate } from '@angular/common';
 
 const ELEMENT_DATA: any = [
   {
-    TranId: '1014591106', View: 'image', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591109', View: 'image', TelNo: '1977722725', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
+    TranId: '1014591109', View: 'image', TelephoneNumber: '1977722725', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
 
   },
   {
-    TranId: '1014591107', View: 'image', TelNo: '1977722726', Cmd: 'Import', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591107', View: 'image', TelephoneNumber: '1977722726', Command: 'Import', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591108', View: 'image', TelNo: '1977722727', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591108', View: 'image', TelephoneNumber: '1977722727', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722728', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722728', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722729', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722729', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722730', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722730', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722731', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722731', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722732', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722732', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722733', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722733', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722734', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722734', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722735', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722735', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722736', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722736', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722737', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722737', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722738', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722738', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722739', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722739', Command: 'Import', Source: 'SAS/COMS', CreatedOnOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722740', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722740', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722741', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722741', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722742', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722742', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
   {
-    TranId: '1014591106', View: 'image', TelNo: '1977722743', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
-    Status: 'EF - 04May19', ResType: 'Under Governance', ErrorList: '2102,2033', Reference: '999Reference', LatestUserCmt: 'Awiating Updates from Customer',
-    LatestCmtDate: '02-May-2019'
+    TranId: '1014591106', View: 'image', TelephoneNumber: '1977722743', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
+    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    LatestCommentDate: '02-May-2019'
   },
 ];
 
@@ -291,8 +291,6 @@ export class RestoresolicitederrorsComponent implements OnInit {
   //   return this.saveForm.controls;
   // }
 
-
-
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
@@ -301,8 +299,8 @@ export class RestoresolicitederrorsComponent implements OnInit {
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: 'Error List', headerValue: 'ErrorType', showDefault: true, isImage: false },
+    { header: '999Reference', headerValue: 'Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
   ];
