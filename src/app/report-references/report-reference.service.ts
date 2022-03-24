@@ -109,63 +109,66 @@ export class ReportReferenceService {
 
   ];
 
-    setForm(reportName:string) {     
+setForm(reportName:string) {  
 
-    if (reportName==this.reportNames[0])
-    {    
-        this.lstForm =[];
-        this.lstForm.push(
-          <IColoumnDef>{cName:"OriginatingSystem",cDisplayName:"Originating System",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:true,cMaxLength:200,cList:[]},
-          <IColoumnDef>{cName:"BTCode"           ,cDisplayName:"BT Code",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:true,cMaxLength:200,cList:[]},
-          <IColoumnDef>{cName:"Title"            ,cDisplayName:"Title",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
-          <IColoumnDef>{cName:"ValidateAddress"  ,cDisplayName:"Validate Address",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
-          <IColoumnDef>{cName:"SendBT"           ,cDisplayName:"Send BT",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
-          <IColoumnDef>{cName:"Comments"         ,cDisplayName:"Comments",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:2000,cList:[]},
-          <IColoumnDef>{cName:"LineTypeMandatory",cDisplayName:"Line Type Mandatory",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},      
-          <IColoumnDef>{cName:"LTMandatoryOpt"   ,cDisplayName:"LTMandatoryOpt",cType:"select",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[{displayValue:"DDI",internalValue:""},{displayValue:"VOIP",internalValue:""}]},
-          <IColoumnDef>{cName:"LineTypeBlank"    ,cDisplayName:"Line Type Blank",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},      
-          <IColoumnDef>{cName:"LTBlankOpt"       ,cDisplayName:"LTBlankOpt",cType:"select",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[{displayValue:"DDI",internalValue:""},{displayValue:"VOIP",internalValue:""}]},
-          <IColoumnDef>{cName:"Notification"     ,cDisplayName:"Notification",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
-         
-        );        
-      
+  this.lstForm =[];
+  if(!this.reportNames.includes(reportName)) 
+      {
+        return [];
+       }
+    else
+      {
+        switch(reportName) {
+          case "SourceSystem": {
+             {
+              this.lstForm.push(
+                <IColoumnDef>{cName:"OriginatingSystem",cDisplayName:"Originating System",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:true,cMaxLength:200,cList:[]},
+                <IColoumnDef>{cName:"BTCode"           ,cDisplayName:"BT Code",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:true,cMaxLength:200,cList:[]},
+                <IColoumnDef>{cName:"Title"            ,cDisplayName:"Title",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
+                <IColoumnDef>{cName:"ValidateAddress"  ,cDisplayName:"Validate Address",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
+                <IColoumnDef>{cName:"SendBT"           ,cDisplayName:"Send BT",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
+                <IColoumnDef>{cName:"Comments"         ,cDisplayName:"Comments",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:2000,cList:[]},
+                <IColoumnDef>{cName:"LineTypeMandatory",cDisplayName:"Line Type Mandatory",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},      
+                <IColoumnDef>{cName:"LTMandatoryOpt"   ,cDisplayName:"LTMandatoryOpt",cType:"select",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[{displayValue:"DDI",internalValue:""},{displayValue:"VOIP",internalValue:""}]},
+                <IColoumnDef>{cName:"LineTypeBlank"    ,cDisplayName:"Line Type Blank",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},      
+                <IColoumnDef>{cName:"LTBlankOpt"       ,cDisplayName:"LTBlankOpt",cType:"select",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[{displayValue:"DDI",internalValue:""},{displayValue:"VOIP",internalValue:""}]},
+                <IColoumnDef>{cName:"Notification"     ,cDisplayName:"Notification",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
+               
+              ); 
+             }
+             break;
+          }
+          case "Status": {
+             {
+              this.lstForm.push(
+                <IColoumnDef>{cName:"Id" ,cDisplayName:"Id",cType:"text",cValue:"",cIsKey:true,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:20,cList:[]},
+              <IColoumnDef>{cName:"ProcessOrder" ,cDisplayName:"Process Order",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:100,cList:[]},
+              <IColoumnDef>{cName:"StatusDescription" ,cDisplayName:"Status Description",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:100,cList:[]},
+              <IColoumnDef>{cName:"Comments" ,cDisplayName:"Comments",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:2000,cList:[]},  
+              );  
+             }
+             break;
+          }
+          case "AuditStatus": {
+            {
+              this.lstForm.push(
+                <IColoumnDef>{cName:"Id",cDisplayName:"Id",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
+                cMandate:true,cMaxLength:20,cList:[]},
+                <IColoumnDef>{cName:"StatusSummary",cDisplayName:"Status Summary",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
+                cMandate:true,cMaxLength:200,cList:[]},
+                <IColoumnDef>{cName:"Description",cDisplayName:"Description",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
+                cMandate:true,cMaxLength:200,cList:[]},
+                );
+            }
+             break;
+          }          
+          default: {
+            this.lstForm =[];
+             break;
+          }
+       }   
+        return this.lstForm;
+      }
     }
-    if (reportName==this.reportNames[1])
-      {       
-            this.lstForm =[]; 
-            this.lstForm.push(
-              <IColoumnDef>{cName:"Id" ,cDisplayName:"Id",cType:"text",cValue:"",cIsKey:true,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:20,cList:[]},
-            <IColoumnDef>{cName:"ProcessOrder" ,cDisplayName:"Process Order",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:100,cList:[]},
-            <IColoumnDef>{cName:"StatusDescription" ,cDisplayName:"Status Description",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:100,cList:[]},
-            <IColoumnDef>{cName:"Comments" ,cDisplayName:"Comments",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:2000,cList:[]},  
-            );        
-                  
-        }   
-    if(reportName==this.reportNames[2]){
-     
-          this.lstForm =[];
-          this.lstForm.push(
-            <IColoumnDef>{cName:"Id",cDisplayName:"Id",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
-            cMandate:true,cMaxLength:20,cList:[]},
-            <IColoumnDef>{cName:"StatusSummary",cDisplayName:"Status Summary",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
-            cMandate:true,cMaxLength:200,cList:[]},
-            <IColoumnDef>{cName:"Description",cDisplayName:"Description",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
-            cMandate:true,cMaxLength:200,cList:[]},
-            );
-      }   
-    //   if(reportName==this.reportNames[2]){
-     
-    //     this.lstForm =[];
-    //     this.lstForm.push(
-    //       <IColoumnDef>{cName:"ErrorCode",cDisplayName:"Error Code",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
-    //       cMandate:true,cMaxLength:20,cList:[]},
-    //       <IColoumnDef>{cName:"Type",cDisplayName:"Type",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
-    //       cMandate:true,cMaxLength:200,cList:[]},
-    //       <IColoumnDef>{cName:"Description",cDisplayName:"Description",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
-    //       cMandate:true,cMaxLength:200,cList:[]},
-    //       );
-    // }  
-   return this.lstForm;
-  }
 
 }

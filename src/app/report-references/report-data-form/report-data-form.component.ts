@@ -5,11 +5,11 @@ import { ReportReferenceService } from '../report-reference.service';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
-  selector: 'app-report-reference',
-  templateUrl: './report-reference.component.html',
-  styleUrls: ['./report-reference.component.css']
+  selector: 'app-report-data-form',
+  templateUrl: './report-data-form.component.html',
+  styleUrls: ['./report-data-form.component.css']
 })
-export class ReportReferenceComponent implements OnInit,AfterViewInit {
+export class ReportDataFormComponent implements OnInit,AfterViewInit {
 
   showDataform:boolean =false;
   showDetailsForm:boolean =true;
@@ -20,7 +20,7 @@ export class ReportReferenceComponent implements OnInit,AfterViewInit {
   @Input()
   reportIndex!: number;
   referenceForm!: FormGroup;
-  lstForm: IColoumnDef[] = [];
+  @Input('lstFields') lstForm: IColoumnDef[] = [];
   title:string ="";
   recordId:number=0;
   record:any;
@@ -42,9 +42,10 @@ ngOnInit(): void {
 }
 ngOnChanges(changes: SimpleChanges) {
 
-    this.displayedColumns=this.service.displayedColumns[this.reportIndex][this.reportName];    
-    this.data =this.service.data[this.reportIndex][this.reportName];    
+    // this.displayedColumns=this.service.displayedColumns[this.reportIndex][this.reportName];    
+    // this.data =this.service.data[this.reportIndex][this.reportName];    
     //console.log("onchanges:",changes);
+    this.lstForm  = this.service.setForm(this.reportName);
 }
 
 formValidation() :FormGroup {
@@ -124,5 +125,6 @@ onCancelDataForm(){
 }
 
 }
+
 
 

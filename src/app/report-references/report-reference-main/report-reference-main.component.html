@@ -1,69 +1,72 @@
-<div #main style ="min-height:520px;">
-  <!-- <div style ="padding-left: 3rem;margin-bottom: 6px;">
-    <button mat-stroked-button style="color:#e60000" [matMenuTriggerFor]="menu" >
-      <mat-icon>book</mat-icon> Select References-List
-    </button>
-    <mat-menu #menu="matMenu" >
-      <div style ="display: flexbox;flex-direction: row;">
-      <button mat-menu-item>
-        <mat-icon>settings_applications</mat-icon>
-        <span>{{reportNames[0]}}</span>
-      </button>
-      <button mat-menu-item >
-        <mat-icon>settings_applications</mat-icon>
-        <span>{{reportNames[1]}}</span>
-      </button>  
-      <button mat-menu-item >
-        <mat-icon>settings_applications</mat-icon>
-        <span>{{reportNames[2]}}</span>
-      </button> 
-    </div>  
-    </mat-menu>  
-  </div> -->
-  <div>
-    <button *ngIf="isShow" mat-mini-fab style="background-color: #e60000; margin: 5px;width:30px;height: 30px;" (click)="onMenuClicked()" >
-    <mat-icon  style ="font-size: small;">class</mat-icon></button>
+<div #main class ="container-page">  
+  <div #menuSection>
+    <button *ngIf="isShow" mat-mini-fab class ="btn-icon" (click)="onMenuClicked()" >
+    <mat-icon style ="font-size: small;">class</mat-icon></button>
       <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
-        <div class="menu-button-wrapper" *ngFor ="let reportName of reportNames">          
-          <button mat-button >{{reportName}}</button>
-          <!-- <button (click)="onMenuClicked()">test</button> -->
+        <div  class ="flex-items" *ngFor ="let reportName of reportNames let reportIndex = index">
+          <button mat-button (click)="onReportSelcted(reportName,reportIndex)" >{{reportName}}</button>
         </div>
-        <button (click)="onMenuClicked()">test</button>
       </div>    
   </div>
-  <mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;" *ngIf ="showRighPane"> 
-    <mat-tab>
-        <ng-template mat-tab-label>
-            <div style="margin-left: 10px;">{{reportNames[0]}}</div>
-            <button *ngIf=1 style="color:black" matSuffix mat-icon-button >
-            <mat-icon style="font-size: large;">close</mat-icon>
-            </button>
-        </ng-template> 
-        <!-- <ng-template #tpl>  -->
-          <app-report-reference [reportName]="reportNames[0]" [reportIndex]="0"  ></app-report-reference> 
-        <!-- </ng-template> -->
-      </mat-tab>
-      <mat-tab>
-          <ng-template mat-tab-label>
-              <div style="margin-left: 10px;">{{reportNames[1]}}</div>
-              <button *ngIf=1 style="color:black" matSuffix mat-icon-button >
-              <mat-icon style="font-size: large;">close</mat-icon>
-              </button>
-          </ng-template> 
-          <!-- <ng-template #tpl>  -->
-            <app-report-reference [reportName]="reportNames[1]" [reportIndex]="1" ></app-report-reference>      
-          <!-- </ng-template> -->
-         </mat-tab> 
-         <mat-tab>
-          <ng-template mat-tab-label>
-              <div style="margin-left: 10px;">{{reportNames[2]}}</div>
-              <button *ngIf=1 style="color:black" matSuffix mat-icon-button >
-              <mat-icon style="font-size: large;">close</mat-icon>
-              </button>
-          </ng-template> 
-          <!-- <ng-template #tpl>  -->
-            <app-report-reference [reportName]="reportNames[2]" [reportIndex]="2" ></app-report-reference>      
-          <!-- </ng-template> -->
-         </mat-tab>
-  </mat-tab-group> 
+  <div #contentSection class="container-section">
+      <div class="wrap">
+        <div class="left-box" *ngIf=showDataForm>
+          <mat-toolbar style ="background-color: grey;color: white; height: 20px;width: 200px;font-size: small;">{{reportName}}</mat-toolbar>
+          <app-report-data-form [reportName]="reportName" [reportIndex]="reportIndex" [lstFields] ="lstFields"></app-report-data-form> 
+        </div>
+        <div class="right-box" *ngIf="showDetailsForm" > 
+          <mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;" *ngIf ="showRightPane"> 
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <div style="margin-left: 10px;">{{reportName}}</div>
+                    <button *ngIf=1 style="color:black" matSuffix mat-icon-button >
+                    <mat-icon style="font-size: large;">close</mat-icon>
+                    </button>
+                </ng-template> 
+                  <ng-container select ="details-form" style ="max-height: 455px;overflow:auto">  
+                    <div style ="max-height: 455px;overflow:auto">   
+                      <div style ="max-height: 400px;overflow:auto">
+                        <table mat-table [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8 " >
+                          <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol}}">        
+                            <div *ngIf ="disCol==='Actions'">
+                                <th mat-header-cell *matHeaderCellDef class ="table-header" >Actions</th>
+                                  <td mat-cell *matCellDef="let element" class ="table-coloumn"> 
+                                    <ng-container>
+                                      <mat-icon  (click)="onEditRecord(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">mode_edit_outline</mat-icon>
+                                      <mat-icon  (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted" style="color:#e60000;margin-left:20px">delete_outline</mat-icon> 
+                                    </ng-container>
+                                  </td>
+                            </div>
+                            <div *ngIf ="disCol!='Actions'">
+                              <th mat-header-cell *matHeaderCellDef class ="table-header" > {{disCol}} </th>
+                              <td mat-cell *matCellDef="let element"class ="table-coloumn"  (click)="$event.stopPropagation()"> {{element[disCol]}}  </td>
+                            </div>
+                          </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"  class ="table-row" ></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class ="table-row"></tr>  
+                            <tr class="mat-row" *matNoDataRow>
+                              <td class="mat-cell" colspan="columns.length">No data found</td>
+                            </tr>          
+                        </table> 
+                      </div>              
+                      <div style ="margin-top: 6px;">            
+                        <span>
+                            <button  type="button" (click)=onCreateRecord() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button, open create new Record Option"  >
+                            <mat-icon >add_box</mat-icon>Create
+                            </button>
+                            <button  type="button" (click)=onExport() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button currently showning details will be download as CSV format File"  >
+                                <mat-icon >file_download</mat-icon>Download
+                            </button>
+                            <!-- <button type="button" (click)=onRefreshDetailPane() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button,Refresh the detail Pane"  >
+                              <mat-icon >refresh</mat-icon>Refresh
+                            </button> -->
+                        </span>                              
+                      </div>
+                    </div>  
+                  </ng-container> 
+            </mat-tab>
+          </mat-tab-group>                        
+        </div>        
+      </div>
+  </div>
 </div>

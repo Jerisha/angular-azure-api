@@ -1,69 +1,23 @@
-.header-menu{
-    position: absolute;
-    width: calc(100% - 6px);
-    padding: auto;
-    color:#e60000;
-    z-index: 2;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color: rgb(236, 236, 236);
-}
-.btn-icon{
-    background-color: #e60000;
-     margin: 5px;
-     width:30px;
-     height: 30px;
-     font-size: small;
-}
-.fullPage{
-    min-height: 65% !important; 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    column-gap: 10px;
-    justify-content: space-between;
-    padding-left: 30px;
-}
-
-.flex-items{
-    flex: 25% 1 1;
-    
-}
 
 .container-page{
-    min-height:525px;    
+    min-height:90%;    
     width: auto;
     box-sizing: border-box;
   }
   .wrap{
     display:flex;
     justify-content: center;
-    max-height: 490px;
-    overflow: auto;
+    max-height: 460px;
   }
   .left-box{        
         width: 60vw;        
-        overflow: auto;   
-        max-height: 490px;  
-        margin-left: 20px; 
+        overflow: auto;      
     }
   .right-box{     
       /* height: 78vh;  */
       width: 96vw;         
       overflow: auto;
-      max-height: 490px;
   }
-
-  
-.container-section{
-    /* min-height:90%;     */
-    width: auto;
-    box-sizing: border-box;
-    height: 490px;
-  }
-
-  
   .vf-flex-container {
     display: flex;
     height: auto;
@@ -106,16 +60,14 @@
       /* overflow: auto; */
   }
   .table-header{
-    min-width:110px; 
+    min-width:100px; 
     width:auto;
     min-height:16px; 
     background-color:#e60000;
     color:white;    
     padding: 6px;
-    text-align:justify;
-    /* text-align: center; */
-    /* column-gap: 30px;
-    max-width: 300px;  */
+    /* text-align:justify; */
+    text-align: center;
   }
   .table-row{
     min-height:16px; 
@@ -123,14 +75,12 @@
     /* color:white; */
   }
   .table-coloumn{
-    min-width:110px;
-    /* max-width: 300px;  */
+    min-width:100px; 
     width: auto; 
-     padding-right: 10px;
+     
     /* color:white;    */
     /* padding: 6px; */
     text-align:justify;
-    /* column-gap: 30px; */
   }
   .dataform-title{
   font-size: 14px;

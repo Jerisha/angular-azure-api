@@ -6,6 +6,7 @@ import { ReportReferenceComponent } from './report-reference/report-reference.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../_shared/shared.module';
 import { ReportReferenceMainComponent } from './report-reference-main/report-reference-main.component';
+import { ReportDataFormComponent } from './report-data-form/report-data-form.component';
 
 
 
@@ -13,6 +14,7 @@ import { ReportReferenceMainComponent } from './report-reference-main/report-ref
   declarations: [
     ReportReferenceComponent,
     ReportReferenceMainComponent,
+    ReportDataFormComponent,
     
   ],
   imports: [

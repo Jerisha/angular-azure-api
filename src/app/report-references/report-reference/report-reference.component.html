@@ -1,7 +1,7 @@
 <div class="container-page">
   <div class="wrap">
     <div class="left-box" *ngIf=showDataform>
-      <ng-container>
+      <ng-container select ="Data-form">
           <div class="vf-flex-container">  
               <mat-card class="vf-card mat-elevation-z8"> 
                   <ng-container > 
@@ -57,7 +57,7 @@
       </ng-container>
     </div>
     <div class="right-box" *ngIf="showDetailsForm" > 
-      <ng-container>  
+      <ng-container select ="Details-form">  
         <div >   
           <div style ="max-height: 400px;overflow:auto">
             <table mat-table [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8 " >
