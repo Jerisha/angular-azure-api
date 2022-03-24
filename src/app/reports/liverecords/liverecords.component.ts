@@ -425,7 +425,7 @@ const Itemstwo: Select[] = [
   { view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'Customer Name', viewValue: 'CustomerName', default: true },
   { view: 'Post Code', viewValue: 'PostCode', default: true },
-  { view: 'Created On', viewValue: 'CreatedOn', default: true },
+  { view: 'Created On', viewValue: 'CreationDate', default: true },
   { view: 'Premises', viewValue: 'Premises', default: true },
   { view: 'Throughtfare', viewValue: 'Throughtfare', default: true },
   { view: 'Locality', viewValue: 'Locality', default: true },
@@ -588,6 +588,7 @@ export class LiverecordsComponent implements OnInit {
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if(!this.myForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -614,20 +615,14 @@ export class LiverecordsComponent implements OnInit {
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'Main'
+        name: 'Live Data Summary'
       });
     }
   }
 
   resetForm(): void {
-    window.location.reload();
-    // this.tabs.splice(0);
-
-    // this._snackBar.open('Reset Form Completed!', 'Close', {
-    //   duration: 5000,
-    //   horizontalPosition: this.horizontalPosition,
-    //   verticalPosition: this.verticalPosition,
-    // });
+    this.myForm.reset();
+    this.tabs.splice(0);
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -656,27 +651,33 @@ export class LiverecordsComponent implements OnInit {
   }
 
   prepareQueryParams(pageNo: string): any {
+  
     let attributes: any = [
       { Name: 'PageNumber', Value: [`${pageNo}`] }];
-    for (const field in this.myForm?.controls) {
-      const control = this.myForm.get(field);
-      // console.log(attributes);   
-      if (control?.value != "") {
-        if (field == "CreatedOn") {
-          attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
-        }
-        // console.log("field:",field," val:",control?.value)
-        attributes.push({ Name: field, Value: [control?.value] });
-        let operator: string = field + "Operator";
 
+    for (const field in this.myForm?.controls) {
+      // console.log('field', field)
+      const control = this.myForm.get(field);
+      // console.log('field', field, 'value',control?.value);   
+      if (control?.value != "") {
+        if (field == "CreationDate") {
+          attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
+        
+        }
+        else{
+        // console.log("field:",field," val:",control?.value)
+        attributes.push({ Name: field, Value: [control?.value] }); }
+        let operator: string = field + "Operator";
+        
         console.log("op vals", this.expOperatorsKeyPair);
         if (this.expOperatorsKeyPair.length != 0) {
           let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
           if (expvals.length != 0) {
             attributes.push({ Name: operator, Value: [expvals[0][1]] });
           }
+         
           else {
-            if (field == 'StartTelephoneNumber' || field == 'CreatedOn') {
+            if (field == 'StartTelephoneNumber' || field == 'CreationDate') {
               attributes.push({ Name: operator, Value: ['Equal To'] });
             }
             else {
@@ -685,7 +686,7 @@ export class LiverecordsComponent implements OnInit {
           }
         }
          else{
-          if(field=='StartTelephoneNumber'||field=='CreatedOn')
+          if(field=='StartTelephoneNumber'|| field=='CreationDate')
           {
                attributes.push({ Name: operator, Value: ['Equal To'] }); 
           }
@@ -694,13 +695,13 @@ export class LiverecordsComponent implements OnInit {
               attributes.push({ Name: operator, Value: ['Equal To'] });  
           }
 
-         }
-
+        
+        }
+      
       }
     }
 
     console.log('attri', attributes);
-
     return attributes;
 
   }
@@ -777,7 +778,7 @@ export class LiverecordsComponent implements OnInit {
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       PostCode: new FormControl({ value: '', disabled: true }, []),
-      CreatedOn: new FormControl({ value: '', disabled: true }, []),
+      CreationDate: new FormControl({ value: '', disabled: true }, []),
       Premises: new FormControl({ value: '', disabled: true }, []),
       Throughtfare: new FormControl({ value: '', disabled: true }, []),
       Locality: new FormControl({ value: '', disabled: true }, []),

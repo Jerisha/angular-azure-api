@@ -70,8 +70,12 @@ export class HttpWrapperService {
                 case WebMethods.UPDATE:
                     debugger
                     categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
-                    if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                        this.alertService.success("Save Sucessful!!", { autoClose: true, keepAfterRouteChange: false });
+                    let responseStatus = this.resolveResponseStatus(categories);
+                    if (this.validateResponseStatus(responseStatus))
+                        jsonResult = JSON.stringify(responseStatus);
+                    else
+                        this.alertService.error("Save failed!!", { autoClose: true, keepAfterRouteChange: false });
+                    //this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
                     break;
                 case WebMethods.CREATE:
                     categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
