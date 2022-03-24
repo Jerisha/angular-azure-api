@@ -27,10 +27,10 @@ const moment = _rollupMoment || _moment;
 
 const MY_FORMATS = {
   parse: {
-    dateInput: 'MM/YYYY',
+    dateInput: 'MMM-YYYY',
   },
   display: {
-    dateInput: 'MM/YYYY',
+    dateInput: 'MMM-YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
@@ -171,7 +171,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   Source?:any;
   telNo?: any;
   tranId?: any;
-  repIdentifier = "TransactionSummary";
+  repIdentifier = "TransactionCommand";
   currentPage: string = '1';
   datevalue?:string;
 
@@ -183,12 +183,12 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
       { header: 'StatisticMonth', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Add Commands', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'Modify Commands', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+      { header: 'Adds', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'Ceases', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'Exports', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'Imports', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
   columnsChild: ColumnDetails[] =
@@ -196,12 +196,12 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
       { header: 'Statistic Date', headerValue: 'StatisticDate', showDefault: false, isImage: false },
       { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Add Commands', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'Modify Commands', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+      { header: 'Adds', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'Ceases', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'Exports', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'Imports', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
 
@@ -250,10 +250,10 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   updateResult$!: Observable<any>;
   ngOnInit(): void {
     this.createForm();
-    console.log('worked');
+    //console.log('worked');
     let request = Utils.prepareConfigRequest(['Search'],[ 'Source']);
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("config details: " + JSON.stringify(res))
+     // console.log("config details: " + JSON.stringify(res))
       this.configDetails = res[0];
     });
     
@@ -272,6 +272,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     
     const ctrlValue = this.StatisticMonth.value;
     ctrlValue.month(normalizedMonth.month());
+    //let datevaluetest=formatDate(ctrlValue, 'MMM-yyyy', 'en-US')
     this.StatisticMonth.setValue(ctrlValue);
     this.datevalue=ctrlValue;
     datepicker.close();
@@ -289,12 +290,19 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.currentPage = pageIndex;
     this.onFormSubmit(true);
   }
+  getNextSetRecordsExps(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
 
   
   onFormSubmit(isEmitted?: boolean): void {
+    debugger
     if(!this.thisForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('DayToDay','TransactionSummary', this.prepareQueryParams(this.currentPage));
+    let request = Utils.prepareQueryRequest('DayToDay','TransactionCommand', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>  {
       if (Object.keys(res).length) {
         let result = {
@@ -304,20 +312,30 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
           pagenumber: res[0].PageNumber
         }
         return result;
-      } else return res;
+      } else return {datasource:res};
     }));
     let testresult:any[]=[];
  
   //  this.queryResult$.subscribe(res =>(
   //    console.log('one one two',res)
   //  ));
-
-   let requesttwo = Utils.prepareQueryRequest('MonthOnMonth','TransactionSummary', this.prepareQueryParams());
-   this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) => res[0].MonthlyData));
+  let requesttwo = Utils.prepareQueryRequest('MonthOnMonth','TransactionCommand', this.prepareQueryParams(this.currentPage));
+  //console.log('Monthly Request',requesttwo);
+   this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) =>  {
+    if (Object.keys(res)?.length) {
+      let result = {
+        datasource: res[0].MonthlyData,
+        totalrecordcount: res[0].TotalCount,
+        totalpages: res[0].NumberOfPages,
+        pagenumber: res[0].PageNumber
+      }
+      return result;
+    } else return {datasource:res};
+  }));
   
 
-  // this.queryResultMonthly$.subscribe(res =>(
-  //   console.log('one one two',res)
+  // this.queryResultMonthly$.subscribe(result =>(
+  //   //console.log('Monthly Data Result',result)
   // ));
 
   
@@ -374,7 +392,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       if(field == 'StatisticMonth')
       {
         const StatisticMonth = this.datevalue;
-        console.log('StatisticMonth',this.datevalue);
+       // console.log('StatisticMonth',this.datevalue);
         if (StatisticMonth)
           attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
          
@@ -384,7 +402,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
           let operator:string = field+"Operator";
             
-          console.log("op vals",this.expOperatorsKeyPair);
+         // console.log("op vals",this.expOperatorsKeyPair);
           
           //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
           //  console.log("op ",operatorVal);
@@ -478,18 +496,18 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   OnOperatorClicked(val:[string,string])
   {
     // if (event.target.value !="")
-     console.log("operators event","value " ,val );
+     //console.log("operators event","value " ,val );
     let vals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,val[0]));
-    console.log("operators event1","vals " ,vals );
+    //console.log("operators event1","vals " ,vals );
     if(vals.length==0)
     {
     this.expOperatorsKeyPair.push(val);
-    console.log("if part",this.expOperatorsKeyPair);
+    //console.log("if part",this.expOperatorsKeyPair);
     }
     else{
       this.expOperatorsKeyPair=this.expOperatorsKeyPair.filter((i)=>i[0]!=val[0]);
       this.expOperatorsKeyPair.push(val);
-      console.log("else part",this.expOperatorsKeyPair);
+      //console.log("else part",this.expOperatorsKeyPair);
     }
   }
   removeTab(index: number) {
@@ -502,6 +520,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   // search(): void { };
   // onFormSubmit(): void { }
   resetForm(): void { 
+    this.thisForm.reset();
     this.tabs.splice(0);
     this.StatisticMonth.setValue('');
     this.datevalue="";
@@ -517,14 +536,14 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
 
   newTab(tab: any) {
-    console.log('tab details date wise',tab);
+    //console.log('tab details date wise',tab);
     switch (tab.tabType) {
       case 1: {
         debugger
         this.StatisticDate=tab.row.StatisticDate;
         this.Source=tab.row.Source;
-        console.log('static date',this.StatisticDate);
-        console.log('source',this.Source);
+       // console.log('static date',this.StatisticDate);
+       // console.log('source',this.Source);
        /// this.telNo = tab.row.TelephoneNumber;
     
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
@@ -542,11 +561,11 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       case 2: {
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
-        this.telNo = tab.row.TelephoneNo;
+        this.telNo = tab.row.TelephoneNumber;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Audit Trail Report'
+            name: 'Audit Trail Report('+this.telNo+')'
           });
           // this.selectedTab = 2;          
         }
@@ -561,7 +580,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   }
 
   OnTelephoneDetailSelected(tab: any) {
-    console.log('tab details monthly',tab);
+    //console.log('tab details monthly',tab);
     this.StatisticDate=tab.tab.row.Date;
         this.Source=tab.tab.row.Source;
     //console.log(tab.tab.row.Date);
@@ -578,7 +597,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   }
  
   OndayTodayselected(tab: any) {
-  console.log('expansion tab',tab);
+ // console.log('expansion tab',tab);
     this.StatisticDate=tab.row.StatisticDate;
         this.Source=tab.row.Source;
     if (!this.tabs?.find(x => x.tabType == 1)) {
@@ -592,16 +611,25 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
 
   }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 
+  ngAfterViewChecked() {
+   
+    this.cdr.detectChanges();
+  }
+  //Audit Trail Report(' + tab.row.TelephoneNumber + ')
   Onauditselected(tab: any) {
-    console.log('tab details for audit trail',tab);
-     this.telNo = tab.tab.row.TelephoneNo;
+   // console.log('tab details for audit trail',tab);
+    //console.log(tab.tab.row.TelephoneNumber);
+     this.telNo = tab.tab.row.TelephoneNumber;
      //this.telNo = "123456789";
     // this.tranId = tab.row.TransactionId;
     if (!this.tabs?.find(x => x.tabType == 2)) {
       this.tabs.push({
         tabType: 2,
-        name: 'Audit Trail Reports'
+        name: 'Audit Trail Report('+this.telNo+')'
       });
       // this.selectedTab = this.tabs.length;
     }

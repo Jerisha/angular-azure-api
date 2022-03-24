@@ -1,3 +1,10 @@
+.apptable-container
+{
+  max-height: 250px;
+  overflow: auto;
+}
+
+
 .tbfitcontent
 {
   width:fit-content;

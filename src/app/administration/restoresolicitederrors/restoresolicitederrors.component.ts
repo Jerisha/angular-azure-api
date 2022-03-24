@@ -3,8 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { SolicitedErrors } from '../models/solicited-errors';
-import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
+import { AdministrationService } from '../services/administration.service';
 import { Select } from 'src/app/uicomponents/models/select';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatSelect } from '@angular/material/select';
@@ -14,12 +13,7 @@ import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
-import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
-import { AlertService } from 'src/app/_shared/alert/alert.service';
-// import { ConsoleReporter } from 'jasmine';
+
 const ELEMENT_DATA: any = [
   {
     TranId: '1014591106', View: 'image', Cmd: 'Import', Source: 'SAS/COMS', Created: '02May19',
@@ -137,19 +131,17 @@ const FilterListItems: Select[] = [
 ];
 
 @Component({
-  selector: 'app-solicitederrors',
-  templateUrl: './solicitederrors.component.html',
-  styleUrls: ['./solicitederrors.component.css'],
-  //providers: [TelNoPipe]
+  selector: 'app-restoresolicitederrors',
+  templateUrl: './restoresolicitederrors.component.html',
+  styleUrls: ['./restoresolicitederrors.component.css']
 })
-export class SolicitederrorsComponent implements OnInit {
+export class RestoresolicitederrorsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
-    private service: ResolvingOfErrorsService,
+    private service: AdministrationService,
     private cdr: ChangeDetectorRef,
-    private alertService: AlertService,
-    private telnoPipe: TelNoPipe,
-    private dialog: MatDialog) { }
+    private _snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService) { }
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
@@ -173,26 +165,26 @@ export class SolicitederrorsComponent implements OnInit {
   Resolution!: string;
   Refer!: string;
   Remarks!: string;
-  isSaveDisable: boolean = true;
+  isSaveDisable:boolean=true;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
   currentPage: string = '1';
-  updateDetails!: any;
+  updateDetails!:any;
 
   ngOnInit(): void {
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.prepareConfigRequest(['Search'],['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
+    let updateRequest = Utils.prepareConfigRequest(['Update'],['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res[0];
@@ -324,26 +316,27 @@ export class SolicitederrorsComponent implements OnInit {
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
-    if (!this.thisForm.valid) return;
-    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
-      if (Object.keys(res).length) {
-        let result = {
-          datasource: res[0].SolicitedError,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
-        }
-        return result;
-      } else return {
-        datasource: res
-      };
-    }));
-
+    // let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+    // this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+    //   if (Object.keys(res).length) {
+    //     let result = {
+    //       datasource: res[0].SolicitedError,
+    //       totalrecordcount: res[0].TotalCount,
+    //       totalpages: res[0].NumberOfPages,
+    //       pagenumber: res[0].PageNumber
+    //     }
+    //     return result;
+    //   } else return res;
+    // }));
+this.tabs.splice(0);
     this.myTable = {
-      data: this.queryResult$,
+      data: of({
+        datasource: ELEMENT_DATA,
+        totalrecordcount: 100,
+        totalpages: 1,
+        pagenumber: 1
+      }),
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
@@ -359,7 +352,7 @@ export class SolicitederrorsComponent implements OnInit {
         name: 'Summary'
       });
     }
-    this.isEnable();
+
 
   }
 
@@ -367,27 +360,10 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
       (this.Resolution && this.Remarks)) {
-
-      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
-        width: '400px', disableClose: true, data: {
-          message: 'Would you like to continue to save the records?'
-        }
-      });
-      rangeConfirm.afterClosed().subscribe(result => {
-        //console.log("result " + result);
-        if (result) {
-          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-          //update 
-          this.service.updateDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success') {
-              //success message and same data reload
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-              this.onFormSubmit(true);
-            }
-          });
-        }
-      });
+      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+      this.service.updateDetails(request).subscribe(x => x);
     }
+
   }
 
   prepareUpdateIdentifiers() {
@@ -441,11 +417,8 @@ export class SolicitederrorsComponent implements OnInit {
 
 
   resetForm(): void {
-    this.thisForm.reset();
-    this.tabs.splice(0);
-    this.Resolution = ''; this.Refer = ''; this.Remarks = '';
-    //window.location.reload();
-
+    window.location.reload();
+    // this.tabs.splice(0);
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
@@ -479,13 +452,13 @@ export class SolicitederrorsComponent implements OnInit {
       }
     })
     this.isEnable();
-    //console.log("selectedGridRows" + this.selectedGridRows)
+    // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   isEnable() {
 
-    //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
+    debugger
+    if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
@@ -500,37 +473,19 @@ export class SolicitederrorsComponent implements OnInit {
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
+ 
 
-
-  onChange(value: string, ctrlName: string) {
-    const ctrl = this.thisForm.get(ctrlName) as FormControl;
-    if (value != null && value != undefined) {
-      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+  addPrefix(control: string, value: any) {
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
     }
+    this.f[control].setValue(value);
   }
-
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
-    }
-    return true;
-  }
-
-  reference(event: any, ctrlName: string): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    const ctrl = this.thisForm.get(ctrlName) as FormControl;
-    const ctrlValue = ctrlName != 'Refer' ? ctrl?.value : this.Refer;
-    if (charCode === 32) {
-      return false;
-    }
-    else if (ctrlValue?.charAt(0) != 9 && ctrlValue?.substring(0, 3) != '999') {
-      let newValue = '999' + ctrlValue;
-      if (ctrlName != 'Refer')
-        ctrl.setValue(newValue);
-      else
-        this.Refer = newValue;
     }
     return true;
   }
@@ -577,13 +532,6 @@ export class SolicitederrorsComponent implements OnInit {
         break;
 
     }
-  }
-
-  openPanel(control: any, evt: any, trigger: MatAutocompleteTrigger): void {
-    evt.stopPropagation();
-    control?.reset();
-    trigger.openPanel();
-    control?.nativeElement.focus();
   }
 
 }

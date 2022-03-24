@@ -278,7 +278,6 @@ export class ExternalAuditDetailsComponent implements OnInit {
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      //selectionColumn: 'TelNo',
       highlightedCells: ['TelNo'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]

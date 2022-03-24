@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit} from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { of } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
@@ -28,10 +29,19 @@ const ELEMENT_DATA = [
 @Component({
   selector: 'app-audit-data-files',
   templateUrl: './audit-data-files.component.html',
-  styleUrls: ['./audit-data-files.component.css']
+  styleUrls: ['./audit-data-files.component.css'],
+  animations: [
+    trigger('toggleMenu', [
+      state('collapsed', style({ height: '0px' , width: '0px', padding: '0px', display: 'none', })),
+      state('expanded', style({ minHeight: '50px' })),
+      transition('expanded => collapsed', animate('500ms ease-in')),
+      transition('collapsed => expanded', animate('500ms ease-out')),
+    ]),
+  ],
 })
 export class AuditDataFilesComponent implements OnInit {
-
+  isShow: boolean = false;
+  showMenu: string = 'expanded';
   btAuditFileDetailsTable!: TableItem;
   tabs: Tab[] = [];
   showDetails: boolean = false;
@@ -49,12 +59,19 @@ export class AuditDataFilesComponent implements OnInit {
 
   }
 
+
   removeTab(index: number) {
     this.tabs.splice(index, 1);
-    this.showDetails = this.tabs.length > 0 ? true : false
+    this.showDetails = this.tabs.length > 0 ? true : false;
+    if(this.tabs.length == 0) {
+    this.isShow = false;
+    this.showMenu = 'expanded';
+    }
   }
 
   getFileDetails(fileType: string) {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
     if (fileType === 'BTAuditFileDetails') {
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
@@ -92,4 +109,10 @@ export class AuditDataFilesComponent implements OnInit {
     this.showDetails = true;
     this.selectedTab = this.tabs.length;
   }
+
+  btnClicked() {
+    this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
+
+  }
+
 }

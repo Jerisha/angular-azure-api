@@ -17,6 +17,7 @@ import { ExternalAuditDetailsComponent } from './external-audit-details/external
 import { TelNoPipe } from '../_helper/pipe/telno.pipe';
 
 
+
 @NgModule({
   declarations: [
     AuditdiscrepancyreportComponent,
@@ -27,7 +28,8 @@ import { TelNoPipe } from '../_helper/pipe/telno.pipe';
     SeperateInternalAuditTypeComponent,
     UserCommentsDialogComponent,
     ExternalAuditDetailsComponent,
-    FullAuditHistoryComponent
+    FullAuditHistoryComponent,
+    // AuditUserActionSummaryComponent
   ],
   imports: [
     CommonModule,

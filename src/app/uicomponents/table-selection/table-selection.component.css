@@ -74,12 +74,12 @@ table td, table th {
   z-index: 4;
 }
 
-/* .nowrap-cell {
+.nowrap-cell {
   max-width: 120px; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-} */
+}
 
 .totalRow {
   background-color: #e60000;

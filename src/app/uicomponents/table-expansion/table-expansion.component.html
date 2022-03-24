@@ -5,25 +5,28 @@
       <span style="display: flex;">
         <mat-icon matPrefix>filter_list</mat-icon>
         <span style="padding: 5px;">
-          {{select.value ? select.value[0] : ''}}
+          <!-- {{select.value ? select.value[0] : ''}}
           <ng-container *ngIf="select.value?.length > 1">
-            (+{{select.value.length - 1}} {{select.value?.length === 2 ? 'other' : 'others'}})
-          </ng-container>
+            (+{{select.value.length - 1}} {{select.value?.length === 2 ? 'other' : 'others'}})  
+          </ng-container> -->
+          Column Headers
         </span>
       </span>
     </mat-select-trigger>
     <mat-optgroup class="freezeselectall">
       <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
         Select All</mat-checkbox>
-      <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns()" matTooltip="Submit">
+      <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns(select)" matTooltip="Submit">
         <!-- <mat-icon>play_arrow</mat-icon> -->
         Submit
       </button>
     </mat-optgroup>
-    <mat-option color="primary" (click)="optionClick()"
-      *ngFor="let cols of (gridSelectList || []); let fltIndex = index" [value]="cols.headerValue">
-      {{ cols.header }}
-    </mat-option>
+    <ng-container *ngFor="let cols of (gridFilter || []); let fltIndex = index">
+      <mat-option [disabled]="fltIndex===0? true:false" style="min-width:220px" color="primary" (click)="optionClick()"
+         [value]="cols.headerValue">
+        {{ cols.header }}
+      </mat-option>
+    </ng-container>
 
   </mat-select>
 </mat-form-field>
@@ -75,23 +78,14 @@
           <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
           <td mat-cell *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)">
             {{element[disCol.headerValue]}} </td>
-          <ng-container *ngIf="shouldTotalRow">
-            <td class="totalRow" mat-footer-cell *matFooterCellDef="let element"> {{ getTotal(disCol.headerValue)}}
-            </td>
-          </ng-container>
         </div>
       </ng-container>
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let element" [attr.colspan]="dataColumns.length">
           <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-
-
             <ng-container *ngIf="childTable">
               <app-table [cssClass]=2 [tableitem]="element[childTable]" (addNewTab)="newTab($event)"></app-table>
             </ng-container>
-
-
-
           </div>
         </td>
       </ng-container>
@@ -100,27 +94,19 @@
         (change)="selectRow($event,row)"> </tr>
       <ng-container *ngIf="shouldTotalRow">
         <tr mat-footer-row *matFooterRowDef="dataColumns"></tr>
-
       </ng-container>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-
     </table>
   </div>
-
-
-
-
-  <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[100, 500, 1000]" showFirstLastButtons>
-  </mat-paginator>
-
-
-
+  <mat-paginator #paginator style="height: 5px;" [length]="totalRows" showFirstLastButtons [pageIndex]="currentPage"
+  [pageSize]="pageSize" hidePageSize [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)">
+</mat-paginator>
   <!-- <div class="test-wrapper"> -->
   <div style="margin-bottom:10px" *ngIf="isShown">
     <button type="reset" [disabled]="true" mat-raised-button color="primary">
       <mat-icon>import_export</mat-icon>Export
     </button>&nbsp;&nbsp;
-    <button type="reset" mat-raised-button color="primary" [disabled]="true">
+    <button type="reset" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()" [disabled]="selection.selected.length > 0 ? false : true">
       <mat-icon>file_copy</mat-icon> Copy To Clipboard
     </button>
     <span *ngIf="isEmailRequired">
