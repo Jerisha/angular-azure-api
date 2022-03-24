@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuditreportsRoutingModule } from './auditreports-routing.module';
-import { AuditexcelreportsComponent, FullauditdetailsComponent, AuditdiscrepancyreportComponent } from './index';
+import { AuditexcelreportsComponent, FullauditdetailsComponent, AuditdiscrepancyreportComponent, FullAuditHistoryComponent, AuditUserActionSummaryComponent } from './index';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { FullAuditDetailsService } from './fullauditdetails/fullauditdetails.service';
 import { FullAuditTypeComponent } from './auditdiscrepancyreport/full-audit-type/full-audit-type.component';
@@ -16,6 +16,7 @@ import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-di
 import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
 
 
+
 @NgModule({
   declarations: [
     AuditdiscrepancyreportComponent,
@@ -25,7 +26,9 @@ import { ExternalAuditDetailsComponent } from './external-audit-details/external
     ExternalAuditTypeComponent,
     SeperateInternalAuditTypeComponent,
     UserCommentsDialogComponent,
-    ExternalAuditDetailsComponent
+    ExternalAuditDetailsComponent,
+    FullAuditHistoryComponent,
+    AuditUserActionSummaryComponent
   ],
   imports: [
     CommonModule,

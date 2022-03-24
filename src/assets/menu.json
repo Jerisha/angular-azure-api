@@ -47,6 +47,11 @@
         "displayName": "External Audit Details",
         "iconName": "",
         "route": "auditreports/externalauditdetails"
+      },
+      {
+        "displayName": "Full Audit History",
+        "iconName": "",
+        "route": "auditreports/fullaudithistory"
       }
     ]
   },
