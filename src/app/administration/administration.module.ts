@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuditDataFilesComponent } from './audit-data-files/audit-data-files.component';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HelperModule } from '../_helper/helper.module';
 import { SharedModule } from '../_shared/shared.module';
 import { AdministrationRoutingModule } from './administration-routing.module';
+import {RestoresolicitederrorsComponent,AuditDataFilesComponent} from './index'
+import { AdministrationService } from './services/administration.service';
 
 @NgModule({
   declarations: [
-    AuditDataFilesComponent
+    AuditDataFilesComponent,
+    RestoresolicitederrorsComponent
   ],
   imports: [
     CommonModule,
@@ -21,6 +23,6 @@ import { AdministrationRoutingModule } from './administration-routing.module';
     HttpClientModule,
     SharedModule,
     HelperModule
-  ]
+  ], providers:[AdministrationService]
 })
 export class AdministrationModule { }

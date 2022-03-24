@@ -45,4 +45,8 @@ export class ConfirmDialogComponent {
     this.dialogRef.close(true);
   }
 
+  onCancel(): void {
+    this.dialogRef.close(false);
+  }
+
 }
