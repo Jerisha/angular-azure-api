@@ -46,6 +46,7 @@ ngOnChanges(changes: SimpleChanges) {
     // this.data =this.service.data[this.reportIndex][this.reportName];    
     //console.log("onchanges:",changes);
     this.lstForm  = this.service.setForm(this.reportName);
+    this.referenceForm = this.formValidation();
 }
 
 formValidation() :FormGroup {

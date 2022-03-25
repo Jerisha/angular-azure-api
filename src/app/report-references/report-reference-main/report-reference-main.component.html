@@ -11,8 +11,8 @@
   <div #contentSection class="container-section">
       <div class="wrap">
         <div class="left-box" *ngIf=showDataForm>
-          <mat-toolbar style ="background-color: grey;color: white; height: 20px;width: 200px;font-size: small;">{{reportName}}</mat-toolbar>
-          <app-report-data-form [reportName]="reportName" [reportIndex]="reportIndex" [lstFields] ="lstFields"></app-report-data-form> 
+          <!-- <mat-toolbar  style ="background-color: #4a4d4e;color: white; height: 20px;width: fit-content;font-size: small;">{{reportName}}</mat-toolbar> -->
+          <app-report-data-form  #dataForm  [reportName]="reportName" [reportIndex]="reportIndex" [lstFields] ="lstFields"></app-report-data-form> 
         </div>
         <div class="right-box" *ngIf="showDetailsForm" > 
           <mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;" *ngIf ="showRightPane"> 

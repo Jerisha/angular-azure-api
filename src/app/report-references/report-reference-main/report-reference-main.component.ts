@@ -53,10 +53,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit{
     this.isShow =true;
     this.displayedColumns=[];
     this.data =[];
-    this.displayedColumns=this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName];    
-    this.data =this.reportReferenceService.data[this.reportIndex][this.reportName];
+    let dispVal = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]; 
+    this.displayedColumns=  dispVal ==undefined?[]:dispVal; 
+    let dat =this.reportReferenceService.data[this.reportIndex][this.reportName];
+    this.data =dat ==undefined?[]:dat;
     // this.lstFields =[];
-    this.lstFields =this.reportReferenceService.setForm(this.reportName);
+   // this.lstFields =this.reportReferenceService.setForm(this.reportName);
     
   }
 
@@ -79,10 +81,10 @@ onExport(){}
 
 ngOnChanges(changes: SimpleChanges) {
 
-  this.displayedColumns=this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName];    
-  this.data =this.reportReferenceService.data[this.reportIndex][this.reportName];   
+ // this.displayedColumns=this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName];    
+  //this.data =this.reportReferenceService.data[this.reportIndex][this.reportName];   
   this.lstFields =this.reportReferenceService.setForm(this.reportName); 
-  console.log("onchanges:",changes);
+  //console.log("onchanges:",changes);
 }
 
 constructor(private cdr: ChangeDetectorRef,   

@@ -1,37 +1,39 @@
 <ng-container>
   <div class="vf-flex-container">  
-    <mat-card class="vf-card mat-elevation-z8"> 
+    <mat-card class="vf-card mat-elevation-z5"> 
       <ng-container > 
-        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()" >                      
+        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()" > 
+          <mat-card-subtitle class ="vf-card-title">{{reportName}}</mat-card-subtitle>                     
           <mat-card-content >
             <div class="content-main vf-flex-container-col">
-                                    <div class="content-submain vf-flex-container-col" *ngFor="let formData of lstForm" [ngSwitch]="true">
-                                      <div *ngSwitchCase="formData.cType === 'text'" style="width:201px;height:52.063px;display:flex;align-items: center;">     
-                                            <mat-form-field>
-                                                <mat-label >{{formData.cDisplayName}}</mat-label>
-                                                <input type="{{formData.cType}}" 
-                                                matInput  name="{{formData.cName}}"  
-                                                [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
-                                                placeholder="{{formData.cDisplayName}}">
-                                            </mat-form-field> 
-                                      </div> 
-                                      <div *ngSwitchCase="formData.cType === 'select'" style="width:201px;height:52.063px;display:flex;align-items: center;"> 
-                                            <mat-form-field>  
-                                              <mat-label >{{formData.cDisplayName}}</mat-label>                              
-                                              <mat-select [id]="formData.cName" [formControlName]="formData.cName"                                            
-                                                [(ngModel)]="formData.cValue">
-                                                <mat-option [value]=''></mat-option>
-                                                <mat-option *ngFor="let opt of formData.cList" [value]="opt.displayValue">
-                                                  {{opt.displayValue}}</mat-option>
-                                              </mat-select>
-                                            </mat-form-field> 
-                                      </div>
-                                      <div *ngSwitchCase="formData.cType === 'radio'" style="width:201px;height:52.063px;display:flex;align-items: center;">
-                                        <mat-checkbox [checked]="formData.cValue === 'Y'? true:false" 
-                                          [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
-                                            >{{formData.cDisplayName}}</mat-checkbox> 
-                                      </div>                                                   
-                                    </div>                                   
+                <div class="content-submain vf-flex-container-col" *ngFor="let formData of lstForm" [ngSwitch]="true">
+                  <div *ngSwitchCase="formData.cType === 'text'" style="width:201px;height:52.063px;display:flex;align-items: center;">     
+                    <mat-form-field>
+                      <mat-label >{{formData.cDisplayName}}</mat-label>
+                      <input type="{{formData.cType}}" 
+                      matInput  name="{{formData.cName}}"  
+                      [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
+                      placeholder="{{formData.cDisplayName}}">
+                    </mat-form-field>                        
+                  </div> 
+                  <div *ngSwitchCase="formData.cType === 'select'" style="width:201px;height:52.063px;display:flex;align-items: center;"> 
+                    <mat-form-field>  
+                      <mat-label >{{formData.cDisplayName}}</mat-label>                              
+                      <mat-select [id]="formData.cName" [formControlName]="formData.cName"                                            
+                        [(ngModel)]="formData.cValue">
+                        <mat-option [value]=''></mat-option>
+                        <mat-option *ngFor="let opt of formData.cList" [value]="opt.displayValue">
+                          {{opt.displayValue}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>                        
+                  </div>
+                  <div *ngSwitchCase="formData.cType === 'radio'" style="width:201px;height:52.063px;display:flex;align-items: center;">
+                    <mat-checkbox [checked]="formData.cValue === 'Y'? true:false" 
+                    [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
+                      >{{formData.cDisplayName}}
+                  </mat-checkbox>                    
+                  </div>                                                   
+                </div>                                   
             </div> 
             <div class ="fixed-button-bar">   
               <mat-card-actions>
