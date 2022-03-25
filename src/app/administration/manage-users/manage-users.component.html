@@ -15,14 +15,45 @@
 </div>
 
 <div class="container-page wrap">
-    <div class="left-box mat-elevation-z3">
-        <div class="top-label">
-            <h3>User Details Access</h3>
-        </div>
-    </div>
+    <mat-card class="left-box mat-elevation-z3">
+        <mat-card-title style="margin:0px; padding:0px; font-size:medium" class="top-label">
+            User Details Access
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <form >                      
+            <mat-card-content>
+                  <div class="content-main vf-flex-container-row">
+                        <div class="content-submain vf-flex-container-col">
+                            <mat-form-field>
+                                <mat-label >Email Address</mat-label>
+                                <input type="text" matInput  
+                                placeholder="Email Address">
+                            </mat-form-field> 
+                        </div>   
+                        <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
+                            <mat-form-field>
+                                <mat-label >Email Address</mat-label>
+                                <input type="text" matInput  
+                                placeholder="Email Address">
+                            </mat-form-field>
+                        </div>                                     
+                    </div> 
+                    <div class ="fixed-button-bar">   
+                      <mat-card-actions>
+                        <button  type="submit" mat-raised-button color="primary"  matTooltip="Click this button currently showning details will be Update"  >
+                        <mat-icon >save</mat-icon>Update
+                        </button>
+                        <button type="button" mat-raised-button color="primary" matTooltip="Click this button will clear or cancel the shown details" >
+                        <mat-icon >cancel</mat-icon>Cancel
+                        </button> 
+                      </mat-card-actions>                  
+                  </div> 
+            </mat-card-content>                     
+        </form> 
+    </mat-card>
 
 
-<div *ngIf="showDetails" class="right-box mat-elevation-z3">
+ <div *ngIf="showDetails" class="right-box mat-elevation-z3">
     <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
         <mat-tab *ngFor="let tab of tabs; let index = index">
             <ng-template mat-tab-label>
