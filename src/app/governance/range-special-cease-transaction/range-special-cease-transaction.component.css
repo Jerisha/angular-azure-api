@@ -73,23 +73,46 @@ button{
     height:200px
   }
 
+ 
+   .mat-tab-list{
+    /* height: 40px ; */
+    margin-bottom:300px;
+    overflow: hidden;
+  } 
+  /* .mat-tab-label{
+    height: 40px ;
+   
+    color: block;
+  }   */
+
   .info
   {
-    display:flex!important;
+    /* display:flex!important; */
     /* font-size: xx-small; */
-    margin: 5px;
-    margin-right: 14px;
-    float: right;   
+    /* margin: 5px;
+    
+    /* float: right;    */
     cursor: pointer;
+    /* margin-right: 250px; */
     }
 
     :host{
   padding: 0em;
 }
 
-:host::ng-deep app-table-selection .table-container {  
-  margin-top: 5px;
+.right-pull{
+  margin-left: 80%;
+  margin-top: 17px;
+  /* background-color:  red; */
+  height: 19px
+
 }
+
+
+
+/* :host::ng-deep app-table-selection .table-container {  
+  margin-top: 5px;
+} */
 
 #vftrans1 {
   /* zoom:73%; */

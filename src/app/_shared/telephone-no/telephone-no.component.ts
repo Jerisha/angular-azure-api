@@ -7,6 +7,9 @@ import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@ang
 })
 export class TelephoneNoComponent implements OnInit {
   @Output() TelephoneNoSelected = new EventEmitter<any[]>();
+  selectedTelNo:any;
+
+  telNos:string[]=['01234567891','01234567892','01234567893','01234567894','01234567895','01234567896'];
 
   constructor(private cdr: ChangeDetectorRef) { }
 
@@ -21,7 +24,7 @@ export class TelephoneNoComponent implements OnInit {
 
   TelephoneNo_clicked()
   {
-    this.TelephoneNoSelected.emit(["true","0123456789"])
+    this.TelephoneNoSelected.emit(["true",this.selectedTelNo])
   }
   updateMatchedDetails()
   {

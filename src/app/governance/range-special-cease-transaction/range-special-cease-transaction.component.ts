@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
@@ -10,11 +10,64 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 
 
-const ELEMENT_DATA:any =[
-  { StartTel:'01202237280', EndTel:'01202237290', Live:'',Trans:'',Null:11,Line:'',Name:'',Address:''},
-  { StartTel:'01202237280', EndTel:'01202237290', Live:'',Trans:'',Null:11,Line:'',Name:'',Address:''}
+// const ELEMENT_DATA:any =[
+//   { StartTel:'01202237280', EndTel:'01202237290', Live:'',Trans:'',Null:11,Line:'',Name:'',Address:''},
+//   { StartTel:'01202237280', EndTel:'01202237290', Live:'',Trans:'',Null:11,Line:'',Name:'',Address:''}
 
-]
+// ]
+
+const ELEMENT_DATA = [
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+  {
+    StartTelephoneNumber: '02079445797', EndTelephoneNumber: '02079446999', LiveRecords: '1,203', InactiveRecords: '', NotAvailable: '', LineType: 'D', CustomerName: 'DEPARTMENT OF TRANSPORT',
+    CustomerAddress: 'HOUSE, 33 33 HORSEFERRY RD/ 7, LONDON,MIDDLESEX, SW1P 4DR', Source: 'C-SAS/COMS', OrderReference: ''
+  },
+
+];
+
 
 @Component({
   selector: 'app-range-special-cease-transaction',
@@ -24,9 +77,9 @@ const ELEMENT_DATA:any =[
 export class RangeSpecialCeaseTransactionComponent implements OnInit {
 
   splCeaseTransForm!: FormGroup;
- // @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
+  // @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
- 
+
 
   selectedCorrectionType: string = '';
   myTable!: TableItem;
@@ -50,15 +103,29 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     ]
   };
 
+  // colHeader: ColumnDetails[] = [
+  //   { headerValue: 'StartTel', header: 'Start Tel', showDefault: true, isImage: false }, 
+  //   { headerValue: 'EndTel', header: 'End Tel', showDefault: true, isImage: false },
+  //   { headerValue: 'Live', header: 'Live', showDefault: true, isImage: false },
+  //   { headerValue: 'Trans', header: 'Trans', showDefault: true, isImage: false },
+  //   { headerValue: 'Null', header: 'Null', showDefault: true, isImage: false ,isTotal:false },
+  //   { headerValue: 'Line', header: 'Line', showDefault: true, isImage: false ,isTotal:false},
+  //   { headerValue: 'Name', header: 'Name', showDefault: true, isImage: false },
+  //   { headerValue: 'Address', header: 'Address', showDefault: true, isImage: false }
+  // ];
+
   colHeader: ColumnDetails[] = [
-    { headerValue: 'StartTel', header: 'Start Tel', showDefault: true, isImage: false }, 
-    { headerValue: 'EndTel', header: 'End Tel', showDefault: true, isImage: false },
-    { headerValue: 'Live', header: 'Live', showDefault: true, isImage: false },
-    { headerValue: 'Trans', header: 'Trans', showDefault: true, isImage: false },
-    { headerValue: 'Null', header: 'Null', showDefault: true, isImage: false ,isTotal:false },
-    { headerValue: 'Line', header: 'Line', showDefault: true, isImage: false ,isTotal:false},
-    { headerValue: 'Name', header: 'Name', showDefault: true, isImage: false },
-    { headerValue: 'Address', header: 'Address', showDefault: true, isImage: false }
+    { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'End Telephone No.', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false },
+    { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false },
+    { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false },
+
+    { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
+    { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
+    { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
   ];
 
 
@@ -67,22 +134,18 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   }
 
   resetForm(): void {
-    //this.tabs.splice();
     this.tabs.splice(0);
-    // //this.snackBar.open('Reset Form Completed!', 'Close', {
-    //   duration: 5000,
-    //   horizontalPosition: this.horizontalPosition,
-    //   verticalPosition: this.verticalPosition,
-    // });
+    this.splCeaseTransForm.reset();
+    this.isResult = false;
+    this.isAuditTrail = false;
+    this.showCeasePanel = false;
+    this.showTelnos = false;
   }
 
-  openDialog() {
-    // const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-    //   width: '500px',
-    //   // height: '400px',
-    //   data: { defaultValue: this.comments }
-    // }
-    // );
+
+  OnTelephoneNoSelected(event: any) {
+    console.log('sel', event)
+
   }
 
   ngOnInit(): void {
@@ -97,21 +160,22 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-   isAuditTrail:boolean= false;
-   isResult:boolean= false;
+  isAuditTrail: boolean = false;
+  isResult: boolean = false;
+  showCeasePanel: boolean = false;
 
   onFormSubmit(): void {
+    debugger;
     this.isAuditTrail = false;
-    this.isResult= true
+    this.isResult = true;
     this.tabs.splice(0)
-    if (this.splCeaseTransForm.controls['TelNoStart'].value != '' &&
-      this.splCeaseTransForm.controls['TelNoEnd'].value != '') {
+    if (this.splCeaseTransForm.controls['TelNoStart'].value != '' && this.splCeaseTransForm.controls['TelNoStart'].value != null &&
+      (this.splCeaseTransForm.controls['TelNoEnd'].value != '' && this.splCeaseTransForm.controls['TelNoEnd'].value != null)) {
       this.isAuditTrail = true;
-
       this.myTable = {
         data: of({
           datasource: ELEMENT_DATA,
-          totalrecordcount: 1,
+          totalrecordcount: 12,
           totalpages: 10,
           pagenumber: 1
         }),
@@ -126,19 +190,34 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
           name: 'Telephone Range Report'
         });
       }
+      this.showCeasePanel = true;
       this.selectedTab = this.tabs.length;
     }
     else {
-      this.openAuditTrail();
+      this.openAuditTrail(false);
     }
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
+    if (this.tabs.length === 0) { this.resetForm(); }
+  }
+  showTelnos: boolean = false;
+  getTab(tab: any) {
+    if (tab.index === 0) {
+      this.showCeasePanel = true;
+      this.isAuditTrail = true;
+    }
+    else {
+      this.isAuditTrail = false;
+      this.showCeasePanel = this.tabs.find(x => x.tabType === 0) ? false : true;
+      this.showTelnos = !this.showCeasePanel;
+    }
   }
 
-  openAuditTrail() {
-    debugger;
+  openAuditTrail(isEmitted?: boolean) {
+    this.isAuditTrail = isEmitted ? true : false;
+    this.showTelnos = false;
     let tab = { tabType: 1 }
     this.newTab(tab);
   }
@@ -159,24 +238,13 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
         }
         break;
-      }      
+      }
       default: {
         //statements; 
         break;
       }
     }
   }
-
-  // setControlAttribute(matSelect: MatSelect) {
-  //   matSelect.options.forEach((item) => {
-  //     if (item.selected) {
-  //       this.splCeaseTransForm.controls[item.value].enable();
-  //     }
-  //     else {
-  //       this.splCeaseTransForm.controls[item.value].disable();
-  //     }
-  //   });
-  // }
 
   public checkError = (controlName: string, errorName: string) => {
     return this.splCeaseTransForm.controls[controlName].hasError(errorName) &&
@@ -225,5 +293,4 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
       });
     }
   }
-
 }
