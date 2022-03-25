@@ -98,9 +98,11 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   }
 
    isAuditTrail:boolean= false;
+   isResult:boolean= false;
 
   onFormSubmit(): void {
     this.isAuditTrail = false;
+    this.isResult= true
     this.tabs.splice(0)
     if (this.splCeaseTransForm.controls['TelNoStart'].value != '' &&
       this.splCeaseTransForm.controls['TelNoEnd'].value != '') {
