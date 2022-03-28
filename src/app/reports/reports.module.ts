@@ -12,6 +12,21 @@ import { LiverecordsComponent } from './liverecords/liverecords.component';
 import { ReportService } from './services/report.service';
 
 import { HelperModule } from '../_helper/helper.module';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
+
+const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD-MMM-YYYY',
+  },
+  display: {
+    dateInput: 'DD-MMM-YYYY',
+    monthYearLabel: 'DD MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'DD MMMM YYYY',
+  },
+}; 
 
 
 @NgModule({
@@ -31,7 +46,17 @@ import { HelperModule } from '../_helper/helper.module';
     SharedModule,
     HelperModule
   ],
-  providers:[ReportService]
+  providers:[
+    ReportService,
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}]
 
 })
 export class ReportsModule { }
+
+
+

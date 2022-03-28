@@ -137,10 +137,12 @@
             <mat-error *ngIf="f.ErrorCode.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}"
+          hintLabel="Starts with '999' & No spaces allowed">
             <mat-label>999 Reference</mat-label>
-            <input formControlName="Reference" matInput #input placeholder="999 Reference">
-            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <input formControlName="Reference" matInput #input placeholder="999 Reference"
+            (keypress)="reference($event,'Reference')">
+            <!-- <mat-hint align="end"></mat-hint> -->
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.OrderReference.disabled}">
@@ -225,10 +227,10 @@
                     </mat-form-field>
 
 
-                    <mat-form-field>
+                    <mat-form-field  hintLabel="Starts with '999' & No spaces allowed">
                       <mat-label>999 Reference</mat-label>
                       <input [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}" matInput
-                        placeholder="999 Reference">
+                        placeholder="999 Reference" (keypress)="reference($event,'Refer')">
                       <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
                     </mat-form-field>
 

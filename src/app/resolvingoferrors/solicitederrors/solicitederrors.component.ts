@@ -521,6 +521,23 @@ export class SolicitederrorsComponent implements OnInit {
     return true;
   }
 
+  reference(event: any, ctrlName: string): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    const ctrlValue = ctrlName != 'Refer' ? ctrl?.value : this.Refer;
+    if (charCode === 32) {
+      return false;
+    }
+    else if (ctrlValue?.charAt(0) != 9 && ctrlValue?.substring(0, 3) != '999') {
+      let newValue = '999' + ctrlValue;
+      if (ctrlName != 'Refer')
+        ctrl.setValue(newValue);
+      else
+        this.Refer = newValue;
+    }
+    return true;
+  }
+
   newTab(tab: any) {
     if (this.tabs === []) return;
 
