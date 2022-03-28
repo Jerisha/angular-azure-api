@@ -104,24 +104,13 @@
       }   
     ]
   },
-<<<<<<< HEAD
-  {
-    "displayName": "Configurational Reference Data",
-=======
 
   {
     "displayName": "Administration",
->>>>>>> feature-Phase2UI
     "iconName": "",
     "route": "",
     "children": [
       {
-<<<<<<< HEAD
-        "displayName": "Reference List",
-        "iconName": "",
-        "route": "report-references/ReferenceList"
-      }   
-=======
         "displayName": "Audit Data Files",
         "iconName": "",
         "route": "administration/auditdatafiles"
@@ -144,7 +133,19 @@
         "route": "governance/rangespecialceasetransaction"
       }
 	 
->>>>>>> feature-Phase2UI
+    ]
+  },
+  {
+    "displayName": "Configurational Reference Data",
+    "iconName": "",
+    "route": "",
+    "children": [
+      {
+        "displayName": "Reference List",
+        "iconName": "",
+        "route": "report-references/ReferenceList"
+      }
+	 
     ]
   }
     
