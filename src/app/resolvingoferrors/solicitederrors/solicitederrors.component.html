@@ -23,7 +23,7 @@
             <mat-label>Start Telephone No</mat-label>
             <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
             <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
-                (ngModelChange)="onChange($event,'StartTelephoneNumber')" matInput maxlength="11"
+              (ngModelChange)="onChange($event,'StartTelephoneNumber')" matInput maxlength="11"
               placeholder="Start Telephone No" #starttelno>
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
@@ -50,9 +50,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
             <input #command formControlName="Command" type="text" placeholder="Search Command" matInput
-              [matAutocomplete]="autoCommand" 
-              OptionsValidator [options]="config.Command | splitBy: ','"
-              />
+              [matAutocomplete]="autoCommand" OptionsValidator [options]="config.Command | splitBy: ','" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -67,7 +65,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source</mat-label>
             <input #source formControlName="Source" type="text" placeholder="Search Source" matInput
-              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','"/>
+              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -91,8 +89,9 @@
 
           <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <input #resolutiontype formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
-              [matAutocomplete]="autoResolutionType" OptionsValidator [options]="config.ResolutionType | splitBy: ','"/>
+            <input #resolutiontype formControlName="ResolutionType" type="text" placeholder="Search Resolution Type"
+              matInput [matAutocomplete]="autoResolutionType" OptionsValidator
+              [options]="config.ResolutionType | splitBy: ','" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -108,7 +107,7 @@
             <mat-label>Error Type</mat-label>
             <!-- <mat-select formControlName="ErrorType"> -->
             <input #errortype formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
-              [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorType | splitBy: ','"/>
+              [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorType | splitBy: ','" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
@@ -119,7 +118,7 @@
               </mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.ErrorType.errors?.validOptions">Value need to match available options</mat-error>
-          </mat-form-field>       
+          </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
             <mat-label>Error Code</mat-label>
@@ -137,11 +136,10 @@
             <mat-error *ngIf="f.ErrorCode.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}"
-          hintLabel="Starts with '999' & No spaces allowed">
+          <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
             <mat-label>999 Reference</mat-label>
-            <input formControlName="Reference" matInput #input placeholder="999 Reference"
-            (keypress)="reference($event,'Reference')">
+            <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>
+            <mat-error *ngIf="f.Reference.errors?.valid999">Value need to start with '999'</mat-error>
             <!-- <mat-hint align="end"></mat-hint> -->
           </mat-form-field>
 
@@ -205,33 +203,35 @@
                   </select> -->
 
                   <div style="display: inline-block;">
-                    <mat-form-field>
-                      <mat-label>Resolution Type</mat-label>
-                      <input required #resol [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}" type="text"
-                        placeholder="Search Resolution Type" matInput [matAutocomplete]="autoResolutionType1" />
-                      <span matSuffix mat-icon-button>
-                        <mat-icon>arrow_drop_down</mat-icon>
-                      </span>
-                      <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                        <ng-container *ngIf="updateDetails  as con">
+                    <ng-container *ngIf="updateDetails  as con">
+                      <mat-form-field>
+                        <mat-label>Resolution Type</mat-label>
+                        <input required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}" type="text"
+                          name="resol" #resol="ngModel" placeholder="Search Resolution Type" matInput
+                          [matAutocomplete]="autoResolutionType1" OptionsValidator
+                          [options]="con.ResolutionType | splitBy: ','" />
+                        <span matSuffix mat-icon-button>
+                          <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
                           <mat-option *ngFor="let val of con.ResolutionType | splitBy: ',' | ddlFilter: resol.value"
                             [value]="val">{{val}}</mat-option>
-                        </ng-container>
-                      </mat-autocomplete>
-                      <mat-error>
-                        <div *ngIf="!resol.value" class="alert alert-danger">
-                          <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                          Select resolution type
-                        </div>
-                      </mat-error>
-                    </mat-form-field>
-
-
-                    <mat-form-field  hintLabel="Starts with '999' & No spaces allowed">
+                        </mat-autocomplete>
+                        <mat-error class="alert alert-danger">
+                          <div *ngIf="resol.errors?.validOptions">Value need to match available options</div>
+                          <div *ngIf="!resol.errors?.required">
+                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                            Select resolution type
+                          </div>
+                        </mat-error>
+                      </mat-form-field>
+                    </ng-container>
+                    <mat-form-field>
                       <mat-label>999 Reference</mat-label>
-                      <input [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}" matInput
-                        placeholder="999 Reference" (keypress)="reference($event,'Refer')">
+                      <input #refer="ngModel" [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}" matInput
+                        placeholder="999 Reference" referValidator>
                       <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+                      <mat-error *ngIf="refer.errors?.valid999">Value need to start with '999'</mat-error>
                     </mat-form-field>
 
 
@@ -257,13 +257,6 @@
                     </button> -->
 
                   </div>
-
-                  <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
-                    <mat-label>Resolution</mat-label>
-                    <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
-                    <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                  </mat-form-field> -->
-
                 </div>
                 <div class="side-right-div">
                 </div>
