@@ -38,6 +38,7 @@ let FilterListItems: Select[] = [
 export class TransactionDetailsComponent implements OnInit {
   
   
+  
   constructor(
     private formBuilder: FormBuilder, 
     private service: ReportService,
@@ -51,7 +52,7 @@ export class TransactionDetailsComponent implements OnInit {
   filterItems: Select[] = FilterListItems;  
   expressions:any = [expNumeric,expString,expDate];  
   expOperatorsKeyPair:[string,string][] =[]; 
-
+  resetExp: boolean=false;
   
   selectedRowsCount: number = 0;  
   
@@ -69,6 +70,7 @@ export class TransactionDetailsComponent implements OnInit {
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   querytemp:any;
+
 
   columns: ColumnDetails[] = [    
     { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
@@ -309,7 +311,8 @@ prepareQueryParams(pageNo: string): any {
    }
   resetForm(): void {   
     this.thisForm.reset();
-    this.tabs.splice(0);    
+    this.tabs.splice(0); 
+    this.resetExp= true;   
   }
 
   setControlAttribute(matSelect: MatSelect) {
