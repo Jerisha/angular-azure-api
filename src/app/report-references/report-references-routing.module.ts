@@ -5,7 +5,7 @@ import { ReportReferenceComponent } from './report-reference/report-reference.co
 
 const routes: Routes = [
   {path : '', component : ReportReferenceComponent},
-  {path : 'main', component : ReportReferenceMainComponent}
+  {path : 'ReferenceList', component : ReportReferenceMainComponent}
 ];
 
 @NgModule({
