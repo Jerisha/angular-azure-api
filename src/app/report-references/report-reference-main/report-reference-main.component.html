@@ -15,18 +15,19 @@
           <app-report-data-form  #dataForm  [reportName]="reportName" [reportIndex]="reportIndex" [lstFields] ="lstFields"></app-report-data-form> 
         </div>
         <div class="right-box" *ngIf="showDetailsForm" > 
-          <mat-tab-group dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;" *ngIf ="showRightPane"> 
-            <mat-tab>
+          <mat-tab-group  [(selectedIndex)]="selectedTab" (selectedTabChange)="Onselecttabchange($event)" dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;" *ngIf ="showRightPane"> 
+            <mat-tab *ngFor="let tab of tabs; let index = index">
                 <ng-template mat-tab-label>
-                    <div style="margin-left: 10px;">{{reportName}}</div>
-                    <button *ngIf=1 style="color:black" matSuffix mat-icon-button >
+                    <div style="margin-left: 10px;">{{tab.name}}</div>
+                    <button *ngIf=tab.name style="color:black" matSuffix mat-icon-button  (click)="removeTab(index)">
                     <mat-icon style="font-size: large;">close</mat-icon>
                     </button>
                 </ng-template> 
-                  <ng-container select ="details-form" style ="max-height: 455px;overflow:auto">  
+          
+                  <ng-container   select ="details-form" style ="max-height: 455px;overflow:auto" >  
                     <div style ="max-height: 455px;overflow:auto">   
                       <div style ="max-height: 400px;overflow:auto">
-                        <table mat-table [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8 " >
+                        <table mat-table   [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8 " >
                           <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol}}">        
                             <div *ngIf ="disCol==='Actions'">
                                 <th mat-header-cell *matHeaderCellDef class ="table-header" >Actions</th>
@@ -64,6 +65,10 @@
                       </div>
                     </div>  
                   </ng-container> 
+
+                  
+                  
+                
             </mat-tab>
           </mat-tab-group>                        
         </div>        
