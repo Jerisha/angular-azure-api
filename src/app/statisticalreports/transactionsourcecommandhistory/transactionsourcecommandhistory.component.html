@@ -1,4 +1,4 @@
-<mat-sidenav-container class="side-container-report">
+<mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
     <div class="filterdataby">
       <div style="font-size: small;">
@@ -9,7 +9,7 @@
       </div> 
     </div>
     
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <ng-container *ngIf="configDetails  as config">
       <div class="matsidenav-filter">
         <!-- <app-select-exp [listItems]="expDefaultmonth"></app-select-exp> -->
@@ -41,7 +41,9 @@
               {{val}}</mat-option>
           </mat-autocomplete>
         </mat-form-field> -->
-        <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+       
+       
+        <!-- <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
           <mat-label>Source</mat-label>
           <input formControlName="Source" type="text" placeholder="Search Source" matInput
             [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','"/>
@@ -53,7 +55,26 @@
               {{val}}</mat-option>
           </mat-autocomplete>
           <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
+        </mat-form-field> -->
+      
+        <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+          <mat-label>Source</mat-label>
+          <input #source formControlName="Source" type="text" placeholder="Search Source" matInput
+            [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','"/>
+          <span matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </span>
+          <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+            <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: source.value" [value]="val">
+              {{val}}</mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
         </mat-form-field>
+
+        
+
+
+
       </div>
       </div>
       <div calss="matsidenav-footer" >
@@ -90,7 +111,7 @@
         <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
 
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
             
             
             <mat-slide-toggle (change)="changeView()"  [(ngModel)]="isChecked" class="toggleclass">
@@ -108,13 +129,13 @@
 
             </div>
           </div>
-          <div *ngSwitchCase="1" style="height: 520px; overflow-y:auto;padding-left:6px;">
+          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
 
             <app-telephone-details [StatisticDate]="StatisticDate" [Source]="Source" (addNewTab)="Onauditselected($event)"></app-telephone-details>
 
           </div>
          
-          <div *ngSwitchCase="2"style="height: 520px; overflow-y:auto;padding-left:6px;">
+          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
             <app-telephone-audit-trail [telNo]="telNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
 
           </div>

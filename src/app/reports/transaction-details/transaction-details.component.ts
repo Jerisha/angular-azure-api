@@ -38,6 +38,7 @@ let FilterListItems: Select[] = [
 export class TransactionDetailsComponent implements OnInit {
   
   
+  
   constructor(
     private formBuilder: FormBuilder, 
     private service: ReportService,
@@ -51,7 +52,7 @@ export class TransactionDetailsComponent implements OnInit {
   filterItems: Select[] = FilterListItems;  
   expressions:any = [expNumeric,expString,expDate];  
   expOperatorsKeyPair:[string,string][] =[]; 
-
+  resetExp: boolean=false;
   
   selectedRowsCount: number = 0;  
   
@@ -69,6 +70,7 @@ export class TransactionDetailsComponent implements OnInit {
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   querytemp:any;
+
 
   columns: ColumnDetails[] = [    
     { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
@@ -224,8 +226,10 @@ prepareQueryParams(pageNo: string): any {
             if(field =="CreationDate")
             {
               attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
-            }            
+            } 
+            else{          
             attributes.push({ Name: field, Value: [control?.value] });
+            }
             let operator:string = field+"Operator";
 
              if (this.expOperatorsKeyPair.length !=0 )
@@ -272,6 +276,7 @@ prepareQueryParams(pageNo: string): any {
 
   onFormSubmit(isEmitted?: boolean): void {    
     if(!this.thisForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -283,7 +288,7 @@ prepareQueryParams(pageNo: string): any {
           pagenumber: res[0].PageNumber
         }
         return result;
-      } else return res;
+      } else return {datasource:res};;
     }));
     this.myTable = {      
       data: this.queryResult$,
@@ -306,7 +311,8 @@ prepareQueryParams(pageNo: string): any {
    }
   resetForm(): void {   
     this.thisForm.reset();
-    this.tabs.splice(0);    
+    this.tabs.splice(0); 
+    this.resetExp= true;   
   }
 
   setControlAttribute(matSelect: MatSelect) {

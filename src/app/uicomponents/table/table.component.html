@@ -1,3 +1,4 @@
+<div class="apptable-container">
 <table [ngClass]="cssClass == 1 ? 'tbfitcontent' : 'tbwidth100'" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container *ngFor="let disCol of dataColumns; let colIndex = index" matColumnDef="{{disCol}}" >
     
@@ -7,20 +8,19 @@
       <td mat-cell *matCellDef="let element "> {{element[disCol]}} </td>
     </div>  
 
-
-
   <div *ngIf="disCol==='View'">
     <th mat-header-cell *matHeaderCellDef >{{disCol}}</th>
     <td mat-cell *matCellDef="let element "> 
       <!-- <mat-icon class="table-icon" (addNewTab)="newTab($event)" >tab</mat-icon> -->
       <!-- {{imageItem|json}} -->
        <ng-container *ngFor="let img of imageItem; let imgIndex = index;">            
-          <mat-icon class="table-icon"  *ngIf="img.headerValue === disCol" (addNewTab)="newTab($event)"  (click)="addTabs($event,img.tabIndex,element)"  >
+          <mat-icon class="table-icon" *ngIf="img.headerValue === disCol" (addNewTab)="newTab($event)"  (click)="addTabs($event,img.tabIndex,element)"  >
             {{img.icon}}</mat-icon>  
       </ng-container> 
     </td>
   </div> 
 </ng-container> 
-  <tr mat-header-row *matHeaderRowDef="dataColumns;"></tr>
+  <tr mat-header-row *matHeaderRowDef="dataColumns;sticky: true"></tr>
   <tr mat-row *matRowDef="let row; columns: dataColumns;"> </tr>
 </table>
+</div>

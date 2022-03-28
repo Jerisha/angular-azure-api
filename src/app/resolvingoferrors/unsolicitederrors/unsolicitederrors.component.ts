@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { AlertService } from 'src/app/_shared/alert/alert.service';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -177,7 +178,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
-    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog:MatDialog) { }
+    private alertService: AlertService,
+    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -225,15 +227,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   }
 
 
-  // prefix:string[]=['01','02','03','08'];
 
-  // addPrefix(control: string, value: any) {
-  //   if (value.charAt(0) != 0) {
-  //     value = value.length <= 10 ? '0' + value : value;
-  //   }
-  //   value = ((this.prefix.indexOf(value.substring(0, 2)) === -1) && value.length >= 2) ? '' : value;
-  //   this.f[control].setValue(value);
-  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -385,7 +379,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   }
   onSaveSubmit() {
     debugger;
-    if (this.selectedGridRows.length > 0  &&  (this.Resolution && this.Remarks)) {
+    if (this.selectedGridRows.length > 0 && (this.Resolution && this.Remarks)) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px', disableClose: true, data: {
@@ -396,8 +390,16 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         //console.log("result " + result);
         if (result) {
           let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-          this.service.updateDetails(request).subscribe(x => x);
+          //update 
+          this.service.updateDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              //success message and same data reload
+              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.onFormSubmit(true);
+            }
+          });
         }
+
       });
     }
   }
@@ -418,7 +420,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     if (!this.tabs.find(x => x.tabType == 3)) {
       this.tabs.push({
         tabType: 3,
-        name: 'Information'
+        name: 'Unsolicited M-o-M Summary'
       });
       this.selectedTab = 3;
     }
@@ -467,7 +469,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         }
         return result;
       }
-      else return {datasource:res}
+      else return { datasource: res }
     }));
 
     //this.isEnable();
@@ -587,5 +589,23 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     console.log(matSelect.value);
     this.selected = matSelect.value;
   }
+
+  reference(event: any, ctrlName: string):boolean{
+    const charCode = (event.which) ? event.which : event.keyCode;
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    const ctrlValue = ctrlName!='Refer' ?ctrl?.value : this.Refer;
+    if (charCode ===32) {
+      return false;
+    }
+    else if (ctrlValue?.charAt(0) != 9 && ctrlValue?.substring(0, 3) != '999') {
+      let newValue = '999'+ ctrlValue;
+      if(ctrlName!='Refer')
+      ctrl.setValue(newValue);
+      else
+      this.Refer = newValue;
+    }
+    return true;    
+  }
+
 
 }

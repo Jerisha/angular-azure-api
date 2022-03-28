@@ -21,11 +21,11 @@
 :host ::ng-deep .app-table-selection .mat-option{
   min-width:100px !important;
 }
-.side-container-report {  
+/* .side-container-report {  
 width: auto; 
 height: 520px !important;
 box-sizing: border-box;
-}
+} */
 :host ::ng-deep  app-table-selection mat-paginator mat-paginator-sticky{
 
   margin-top: 45px !important;
