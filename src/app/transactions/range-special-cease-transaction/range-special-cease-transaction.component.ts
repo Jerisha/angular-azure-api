@@ -204,6 +204,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   }
   showTelnos: boolean = false;
   getTab(tab: any) {
+    debugger;
     if (tab.index === 0) {
       this.showCeasePanel = true;
       this.isAuditTrail = true;
@@ -237,6 +238,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
         }
+        this.showCeasePanel = this.tabs.find(x => x.tabType === 0) ? false : true;
         break;
       }
       default: {

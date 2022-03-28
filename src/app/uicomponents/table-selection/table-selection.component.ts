@@ -12,13 +12,13 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { delay, takeUntil } from 'rxjs/operators';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-table-selection',
   templateUrl: './table-selection.component.html',
   styleUrls: ['./table-selection.component.css']
 })
 
-export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
+export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnInit {
   private readonly onDestroy = new Subject<void>();
   fltvalue: string = '';
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -90,7 +90,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.refreshtab.emit({ event });
     }
 
-  ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(changes:SimpleChanges) {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
     //   return;
     this.dataObs$ = this.tableitem?.data;
@@ -98,16 +98,16 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
         this.selection.clear();
-        this.allSelected = true;
-        this.initializeTableAttributes(res.datasource)
-        this.dataSource.data = res.datasource;  
+        this.allSelected = true;   
+        this.dataSource.data = res.datasource;
+        this.initializeTableAttributes(res.datasource);
         this.totalRows = (res.totalrecordcount) as number;
         this.apiPageNumber = (res.pagenumber) as number;
         this.currentPage = this.apiPageNumber - 1;       
         //this.paginator.pageIndex = this.currentPage;
         this.paginator.length = (res.totalrecordcount) as number;
         this.dataSource.sort = this.sort;
-        this.spinner.hide();
+        this.spinner.hide();        
         this.isDataloaded = true;
       },
       error => { this.spinner.hide(); },
@@ -119,6 +119,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       }
     );
   }
+
+  ngOnInit(): void {
+  } //ngOnInit
 
   initializeTableAttributes(data: any) {
     this.ColumnDetails = [];
@@ -148,9 +151,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);   
   }
-
-  ngOnInit(): void {
-  }
+  //ngOnChanges
+ 
 
   ngAfterViewInit() {
     this.changeDetectorRef.detectChanges();
@@ -159,30 +161,26 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   ngAfterViewChecked() {
     if (this.isDataloaded) {
       this.toggleAllSelection();
+      let selectedColumns: string[] = this.select.value;
+    this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
       this.isDataloaded = false;
     }
   }
 
   getTotal(cellname: string) {
-    debugger
+     console.log('in get total', cellname)
     var cell = cellname ? cellname : '';
     if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
       return 'Total';
     }
-
-    // var totalcell = this.totalRowCols.filter(x => x.includes(cell))
-    // if (totalcell.length > 0) {
-    //   return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
-    // }
-    // return '';
-
-    if (this.totalRowCols.includes(cell))
-      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+    if (this.totalRowCols.includes(cell) && this.dataColumns.includes(cell))
+      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] === '') ? 0 : parseInt(b[cell])), 0);
     else
-      return ''
+      return '';
   }
 
   getColSpan(cellname: string) {
+    console.log('in colspan', cellname)
     if (this.dataColumns[0] === cellname) {
       return this.nonNumericCols.length;
     }
