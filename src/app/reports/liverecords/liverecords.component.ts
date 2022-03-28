@@ -19,6 +19,7 @@ import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constant
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -427,7 +428,7 @@ const Itemstwo: Select[] = [
   { view: 'Post Code', viewValue: 'PostCode', default: true },
   { view: 'Created On', viewValue: 'CreationDate', default: true },
   { view: 'Premises', viewValue: 'Premises', default: true },
-  { view: 'Throughtfare', viewValue: 'Throughtfare', default: true },
+  { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: true },
   { view: 'Locality', viewValue: 'Locality', default: true },
   { view: 'Cupid', viewValue: 'Cupid', default: true },
   { view: 'Type of Line', viewValue: 'TypeOfLine', default: true },
@@ -458,7 +459,7 @@ export class LiverecordsComponent implements OnInit {
 
 
   constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
+    private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService , private telnoPipe: TelNoPipe) { }
 
   expOperators: string[] = [
     "StartTelephoneNumberOperator",
@@ -781,7 +782,7 @@ resetExp:boolean = false;
       PostCode: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true }, []),
       Premises: new FormControl({ value: '', disabled: true }, []),
-      Throughtfare: new FormControl({ value: '', disabled: true }, []),
+      Thoroughfare: new FormControl({ value: '', disabled: true }, []),
       Locality: new FormControl({ value: '', disabled: true }, []),
       Cupid: new FormControl({ value: '', disabled: true }, []),
       TypeOfLine: new FormControl({ value: '', disabled: true }, []),
@@ -800,7 +801,15 @@ resetExp:boolean = false;
     }
     this.f[control].setValue(value);
   }
-
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.myForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    }
+  }
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
