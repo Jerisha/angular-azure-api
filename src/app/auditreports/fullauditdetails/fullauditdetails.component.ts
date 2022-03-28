@@ -407,8 +407,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder, private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {
   }
 
-
-
   resetForm(): void {
     this.snackBar.open('Reset Form Completed!', 'Close', {
       duration: 5000,

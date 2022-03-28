@@ -1,3 +1,4 @@
+
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_shared/models/telephone-audit-trail';
@@ -8,6 +9,137 @@ import { AuditTrailService } from './services/audit-trail.service';
 import { Utils } from 'src/app/_http/common/utils';
 import { Observable } from 'rxjs';
 import { map, subscribeOn } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+
+const auditres =  {
+  "ReportIdentifier":"SolicitedErrors",
+  "TelephoneNumber":"02075957399",
+  "LiveDetails":[
+     {
+        "TransactionId":"1000010076",
+        "ParentCupid":"13",
+        "ChildCupid":"13",
+        "CustomerName":"PARIBASNET LTD",
+        "Premises":"MARYLEBONE GATE",
+        "Thoroughfare":"10 HAREWOOD AVENUE",
+        "Locality":"LONDON",
+        "Postcode":"NW1 6AA",
+        "TransactionReference":"013/013/001000010076",
+        "Created":"26-Sep-2013",
+        "Source":"C",
+        "Franchise":"MCL",
+        "SourceType":"B",
+        "InternalAddress1":"MARYLEBONE GATE",
+        "InternalAddress2":"10 HAREWOOD AVENUE",
+        "InternalAddress3":"LONDON",
+        "LineType":"V"
+     }
+  ],
+  "AuditDetailedReport":[
+     {
+        "TransactionId":"1000010076",
+        "Comment":"DDI RANGE- 02075950000- 02075959999",
+        "SummaryReport":[
+           {
+              "CntTransaction":"A",
+              "Created":"26-Sep-2013",
+              "Status":"108",
+              "Source":"C",
+              "CustomerName":"PARIBASNET LTD"
+           }
+        ],
+        "DetailedReport":[
+           {
+              "Created":"26-Sep-2013",
+              "EndStatus":"25-Oct-2013",
+              "Effective":"26-Sep-2013",
+              "Provide":"25-Sep-2013",
+              "TransactionCommand":"A",
+              "BtCommand":"A",
+              "ParentCupid":"13",
+              "ChildCupid":"13",
+              "CustomerName":"PARIBASNET LTD",
+              "Premises":"MARYLEBONE GATE",
+              "Thoroughfare":"10 HAREWOOD AVENUE",
+              "Locality":"LONDON",
+              "Postcode":"NW1 6AA",
+              "Reference":"9015418",
+              "ConnectionType":"D",
+              "PreviousTransactionId":"0",
+              "Status":"108",
+              "BtSource":"COMS",
+              "Source":"C",
+              "Franchise":"MCL",
+              "OrderReference":"965506",
+              "SourceType":"B",
+              "InternalAddress1":"MARYLEBONE GATE",
+              "InternalAddress2":"10 HAREWOOD AVENUE",
+              "InternalAddress3":"LONDON",
+              "ForceValidate":"N",
+              "LineType":"V",
+              "TypeOfLine":"BB",
+              "NextTransactionId":"0"
+           }
+        ]
+     }
+  ],
+  "SeperateInternalAudit":[
+     {
+ "TelephoneNumber":"02075957399",
+        "AuditActId":"30 - 17-FEB-2022",
+        "ResolutionType":"New",
+        "CliStatus":"D"
+     }
+  ],
+  "ExternalAudit":[
+     {
+ "TelephoneNumber":"02075957399",
+        "AuditActId":"28",
+        "ResolutionType":"Auto Closed",
+        "CliStatus":"S-Matched",
+        "UserComment":[
+           {
+     "TelephoneNumber":"02075957399",
+              "AuditActId":"28",
+              "CreationDate":"21-Nov-2020",
+              "CreatedBy":"SYSTEM",
+              "ResolutionType":"Auto Closed",
+              "Comments":"Auto closed occurs when a new Audit run is generated."
+           }
+        ]
+     },
+     {
+      "TelephoneNumber":"02075957399",
+        "AuditActId":"28",
+        "ResolutionType":"Auto Closed",
+        "CliStatus":"S-Matched",
+        "UserComment":[
+           {
+     "TelephoneNumber":"02075957399",
+              "AuditActId":"28",
+              "CreationDate":"21-Nov-2020",
+              "CreatedBy":"SYSTEM",
+              "ResolutionType":"Auto Closed",
+              "Comments":"Auto closed occurs when a new Audit run is generated."
+           }
+        ]
+     }
+  ],
+  "FullAudit":[
+     {
+      "TelephoneNumber":"02075957399",
+        "AuditActId":"28 - 28-AUG-2020",
+        "ResolutionType":"S-Matched"
+     },
+     {
+      "TelephoneNumber":"02075957399",
+        "AuditActId":"29 - 20-NOV-2020",
+        "ResolutionType":"S-Matched"
+     }
+  ]
+}
+
 
 
 @Component({
@@ -71,23 +203,23 @@ export class TelephoneAuditTrailComponent implements OnInit {
     // Value : [ "02071117402" ] }]);
     // let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
     // Value : [ this.telephoneNumber ] }]);
-
+    this.auditTrailReport$ = of(auditres);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes.telephoneNumber.currentValue);
-    // console.log(changes);
-    if(changes.telNo.currentValue != changes.telNo.previousValue)
-    {
-      this.setStep(2);
-      let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", this.repIdentifier, [{  Name : "TelephoneNumber",
-    Value : [ this.telNo ] }]);
-    // Value : [ "01171617562" ] }]);
+  // ngOnChanges(changes: SimpleChanges) {
+  //   // console.log(changes.telephoneNumber.currentValue);
+  //   // console.log(changes);
+  //   if(changes.telNo.currentValue != changes.telNo.previousValue)
+  //   {
+  //     this.setStep(2);
+  //     let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", this.repIdentifier, [{  Name : "TelephoneNumber",
+  //   Value : [ this.telNo ] }]);
+  //   // Value : [ "01171617562" ] }]);
 
-    this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => res[0]));
+  //   this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => res[0]));
 
-    }
-  }
+  //   }
+  // }
 
   setStep(index: number) {
     this.step = index;

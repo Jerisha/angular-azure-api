@@ -1,0 +1,89 @@
+<button *ngIf="isShow" mat-mini-fab style="background-color: #e60000; margin: 5px;"><mat-icon (click)="btnClicked()">class</mat-icon></button>
+<div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
+    <div class="menu-button-wrapper">
+    <button mat-button (click)="getFileDetails('UserAccessDetails')">User Access Details</button>
+    <button mat-button (click)="getFileDetails('UserOfReports')">User Of Reports</button>
+    <button mat-button (click)="getFileDetails('StratUpUserMessages')">Strat Up User Messages</button>
+    <button mat-button (click)="getFileDetails('UserProfiles')">User Profiles</button>
+    <!-- <mat-button-toggle-group name="files" aria-label="Files" multiple (change)="getFileDetails($event)">
+        <mat-button-toggle value="BTAuditFileDetails">BT Audit File Details</mat-button-toggle>
+        <mat-button-toggle value="DataLiveinSwitchOnly">Data - Live in Switch Only</mat-button-toggle>
+    </mat-button-toggle-group> -->
+
+    <!-- <p style="color: black;">Please click on the above options to retrieve the respective data file and its details</p> -->
+</div>
+</div>
+
+<div class="container-page wrap">
+    <mat-card class="left-box mat-elevation-z3">
+        <mat-card-title style="margin:0px; padding:0px; font-size:medium" class="top-label">
+            User Details Access
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <form >                      
+            <mat-card-content>
+                  <div class="content-main vf-flex-container-row">
+                        <div class="content-submain vf-flex-container-col">
+                            <mat-form-field>
+                                <mat-label >Email Address</mat-label>
+                                <input type="text" matInput  
+                                placeholder="Email Address">
+                            </mat-form-field> 
+                        </div>   
+                        <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
+                            <mat-form-field>
+                                <mat-label >Email Address</mat-label>
+                                <input type="text" matInput  
+                                placeholder="Email Address">
+                            </mat-form-field>
+                        </div>                                     
+                    </div> 
+                    <div class ="fixed-button-bar">   
+                      <mat-card-actions>
+                        <button  type="submit" mat-raised-button color="primary"  matTooltip="Click this button currently showning details will be Update"  >
+                        <mat-icon >save</mat-icon>Update
+                        </button>
+                        <button type="button" mat-raised-button color="primary" matTooltip="Click this button will clear or cancel the shown details" >
+                        <mat-icon >cancel</mat-icon>Cancel
+                        </button> 
+                      </mat-card-actions>                  
+                  </div> 
+            </mat-card-content>                     
+        </form> 
+    </mat-card>
+
+
+ <div *ngIf="showDetails" class="right-box mat-elevation-z3">
+    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
+        <mat-tab *ngFor="let tab of tabs; let index = index">
+            <ng-template mat-tab-label>
+                <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+                <button style="color:black" mat-icon-button (click)="removeTab(index)">
+                    <mat-icon style="font-size: large;">close</mat-icon>
+                </button>
+            </ng-template>
+            <span [ngSwitch]="tab.tabType">
+                <div *ngSwitchCase="0" style="height: calc(100% - 50px);">
+                    <!-- <app-table-selection [tableitem]="btAuditFileDetailsTable">
+                    </app-table-selection> -->
+                </div>
+                <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+                    <!-- <app-table-selection [tableitem]="btAuditFileDetailsTable">
+                    </app-table-selection> -->
+                </div>
+                <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+                    <!-- <app-table-selection [tableitem]="btAuditFileDetailsTable">
+                    </app-table-selection> -->
+                </div>
+                <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
+                    <!-- <app-table-selection [tableitem]="btAuditFileDetailsTable">
+                    </app-table-selection> -->
+                </div>
+                <div *ngSwitchDefault>
+                </div>
+            </span>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+</div>

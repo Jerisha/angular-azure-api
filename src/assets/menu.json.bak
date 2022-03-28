@@ -57,11 +57,6 @@
         "displayName": "External Audit Details",
         "iconName": "",
         "route": "auditreports/externalauditdetails"
-      },
-      {
-        "displayName": "Full Audit History",
-        "iconName": "",
-        "route": "auditreports/fullaudithistory"
       }
     ]
   },
@@ -104,24 +99,13 @@
       }   
     ]
   },
-<<<<<<< HEAD
-  {
-    "displayName": "Configurational Reference Data",
-=======
 
   {
     "displayName": "Administration",
->>>>>>> feature-Phase2UI
     "iconName": "",
     "route": "",
     "children": [
       {
-<<<<<<< HEAD
-        "displayName": "Reference List",
-        "iconName": "",
-        "route": "report-references/ReferenceList"
-      }   
-=======
         "displayName": "Audit Data Files",
         "iconName": "",
         "route": "administration/auditdatafiles"
@@ -131,20 +115,6 @@
         "iconName": "",
         "route": "administration/restoresolicitederrors"
       }
-    ]
-  },
-  {
-    "displayName": "Governance",
-    "iconName": "",
-    "route": "",
-    "children": [
-      {
-        "displayName": "Range Special Cease Transaction",
-        "iconName": "",
-        "route": "governance/rangespecialceasetransaction"
-      }
-	 
->>>>>>> feature-Phase2UI
     ]
   }
     

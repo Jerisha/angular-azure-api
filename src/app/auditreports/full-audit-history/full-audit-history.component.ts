@@ -52,8 +52,8 @@ export class FullAuditHistoryComponent implements OnInit {
   ColumnDetails: any = [
     { header: 'ACT ID', headerValue: 'ACTID'},
     { header: 'ACT Status Date', headerValue: 'ACTStatusDate'},
-    { header: 'BT Only Count', headerValue: 'BTOnlyCount' },
-    { header: 'Vodafone Only Count', headerValue: 'VodafoneOnlyCount' },
+    { header: 'Active in - BT Only', headerValue: 'BTOnlyCount' },
+    { header: 'Active in - Vodafone Only', headerValue: 'VodafoneOnlyCount' },
     { header: 'Matched Count', headerValue: 'MatchedCount' },
     { header: 'Mismatched Count', headerValue: 'MismatchedCount' },
     { header: 'Live in Source', headerValue: 'LiveinSource' },

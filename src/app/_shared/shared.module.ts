@@ -8,6 +8,8 @@ import { AlertComponent } from './alert/alert.component';
 
 import { TransactionErrorsComponent } from './transaction-errors/transaction-errors.component';
 import { StartUpComponent } from './start-up/start-up.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomMatPaginatorIntl } from './custom-matpaginator-Intl';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { RouterModule } from '@angular/router';
 
@@ -26,7 +28,8 @@ import { RouterModule } from '@angular/router';
     StartUpComponent,
     MaterialModule,
     AlertComponent
-  ]  
+  ],
+ 
 
 })
 export class SharedModule { }

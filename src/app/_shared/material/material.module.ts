@@ -41,6 +41,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { CustomMatPaginatorIntl } from '../custom-matpaginator-Intl';
 import { MatPaginatorI18n } from './MatPaginatorI18n';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, MomentDateModule } from '@angular/material-moment-adapter';
