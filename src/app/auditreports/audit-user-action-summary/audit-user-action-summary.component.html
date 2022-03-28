@@ -1,0 +1,135 @@
+
+<mat-sidenav-container class="side-container">
+
+  <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+
+      <div class="filter-sticky">
+          <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+            (changes)="setControlAttribute($event)">
+          </app-select-multiple>
+        </div>
+
+        <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+          <div class="matsidenav-filter">
+            <!-- <ng-container *ngIf="configDetails  as config"> -->
+
+              <mat-form-field>
+                <mat-label>Audit Month</mat-label>
+                <input matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="AuditMonth">
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp
+                                startView="multi-year"
+                                (yearSelected)="chosenYearHandler($event)"
+                                (monthSelected)="chosenMonthHandler($event, dp)"
+                                panelClass="example-month-picker">
+                </mat-datepicker>
+                
+              </mat-form-field>
+
+              <!-- <mat-form-field [ngClass]="{'hidden':f.AuditMonth.disabled}">
+                <mat-label>Audit Month</mat-label>
+                <mat-select>
+                    <mat-option value="2022/03">2022/03</mat-option>
+                    <mat-option value="2022/02">2022/02</mat-option>
+                    <mat-option value="2021/12">2021/12</mat-option>
+                    <mat-option value="2021/11">2021/11</mat-option>
+                    <mat-option value="2021/06">2021/06</mat-option>
+                    <mat-option value="2020/11">2020/11</mat-option>
+                    <mat-option value="2020/08">2020/08</mat-option>
+                </mat-select>
+              </mat-form-field> -->
+
+                    <mat-form-field [ngClass]="{'hidden':f.AuditType.disabled}">
+                      <mat-label>Audit Type</mat-label>
+                      <mat-select>
+                      <mat-option value="Separate Internal Audit">Separate Internal Audit</mat-option>
+                      <mat-option value="Full Audit">Full Audit</mat-option>
+                      <mat-option value="External Audits">External Audit</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field [ngClass]="{'hidden':f.ResolvedBy.disabled}">
+                      <mat-label>Resolved By</mat-label>
+                      <mat-select>
+                      <mat-option value="DIBYARUP.MUKHERJEE@VODAFONE.COM">Mr</mat-option>
+                      <mat-option value="PRASANTH.KUMAR@VODAFONE.COM">Mr</mat-option>
+                      <mat-option value="SOUTRIK.MUKHERJEE@VODAFONE.COM">Mr</mat-option>
+                      <mat-option value="SYSTEM">System</mat-option>
+                      <mat-option value="SYSTEM@VODAFONE.COM">Master System Administrator</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
+                      <mat-label>Resolution Type</mat-label>
+                     <mat-select>
+                      <mat-option value="101">Resolved</mat-option>
+                      <mat-option value="102">Unresolved</mat-option>
+                      <mat-option value="105">Under Governance</mat-option>
+                      <mat-option value="106">Under Porting</mat-option>
+                      <mat-option value="109">Auto Resolved</mat-option>
+                      <mat-option value="110">Audit Transaction Override</mat-option>
+                      <mat-option value="111">Auto Closed</mat-option>
+                      <mat-option value="113">Auto Active</mat-option>
+                      <mat-option value="114">Auto Failed</mat-option>
+                      <mat-option value="118">Auto Logic Resolved</mat-option>
+                     </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field [ngClass]="{'hidden':f.AuditACTID.disabled}">
+                      <mat-label>Audit ACT ID</mat-label>
+                      <mat-select>
+                        <mat-option VALUE="28">28</mat-option>
+                        <mat-option VALUE="29">29</mat-option>
+                        <mat-option VALUE="30">30</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="matsidenav-footer">
+                  <button type="submit" mat-raised-button color="primary">
+                    <mat-icon>search</mat-icon>Search
+                  </button>
+                  <button type="button" mat-raised-button color="primary" (click)="resetForm()">
+                    <mat-icon>refresh</mat-icon>Reset
+                  </button>
+                </div>
+                </form>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content class="side-content">
+
+    <app-start-up *ngIf="tabs.length===0"></app-start-up>
+
+    <div *ngIf="showDetails" class="center mat-elevation-z3">
+      <mat-tab-group  [(selectedIndex)]="selectedTab">
+          <mat-tab *ngFor="let tab of tabs; let index = index">
+
+              <ng-template mat-tab-label>
+                  <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+                  <button style="color:black" mat-icon-button (click)="removeTab(index)">
+                      <mat-icon style="font-size: large;">close</mat-icon>
+                  </button>
+              </ng-template>
+
+              <span [ngSwitch]="tab.tabType">
+                  <div *ngSwitchCase="0" style="height: calc(100% - 50px);">
+                    <div class="table-view">
+                    <app-table-selection [tableitem]="auditUserActionSummary">
+                    </app-table-selection>
+                  </div>
+                  </div>
+                  <div *ngSwitchDefault>
+                  </div>
+              </span>
+          </mat-tab>
+      </mat-tab-group>
+  
+  </div>
+      <!-- <app-start-up *ngIf="tabs.length===0"></app-start-up> -->
+      <!-- <app-start-up *ngIf="!searched"></app-start-up>
+      <div *ngIf="searched" style="height: calc(100% - 50px);">
+         -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

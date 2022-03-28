@@ -26,6 +26,27 @@ const ELEMENT_DATA = [
   { ACTID: "18", FileName: "BT101330091301.DAT", CreatedOn: "18/01/2021" }
 ]
 
+const ELEMENT_DATA1 = [
+  { ACTID: "19", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "22/01/2021" },
+  { ACTID: "21", FileName: "LiveInSwitch_21012021.DAT", CreatedOn: "21/01/2021" },
+  { ACTID: "20", FileName: "LiveInSwitch_20012021.DAT", CreatedOn: "20/01/2021" },
+  { ACTID: "17", FileName: "LiveInSwitch_20012021.DAT", CreatedOn: "20/01/2021" },
+  { ACTID: "15", FileName: "LiveInSwitch_19012021.DAT", CreatedOn: "19/01/2021" },
+  { ACTID: "18", FileName: "LiveInSwitch_18012021.DAT", CreatedOn: "18/01/2021" },
+  { ACTID: "19", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "22/01/2021" },
+  { ACTID: "21", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "21/01/2021" },
+  { ACTID: "20", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "20/01/2021" },
+  { ACTID: "17", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "20/01/2021" },
+  { ACTID: "15", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "19/01/2021" },
+  { ACTID: "18", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "18/01/2021" },
+  { ACTID: "19", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "22/01/2021" },
+  { ACTID: "21", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "21/01/2021" },
+  { ACTID: "20", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "20/01/2021" },
+  { ACTID: "17", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "20/01/2021" },
+  { ACTID: "15", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "19/01/2021" },
+  { ACTID: "18", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "18/01/2021" }
+]
+
 @Component({
   selector: 'app-audit-data-files',
   templateUrl: './audit-data-files.component.html',
@@ -43,6 +64,7 @@ export class AuditDataFilesComponent implements OnInit {
   isShow: boolean = false;
   showMenu: string = 'expanded';
   btAuditFileDetailsTable!: TableItem;
+  dataLiveInSwitchTable!: TableItem;
   tabs: Tab[] = [];
   showDetails: boolean = false;
   btAuditFileDetailsTableDetails: any = [
@@ -52,6 +74,7 @@ export class AuditDataFilesComponent implements OnInit {
     { headerValue: 'DownloadFile', header: 'Download File', showDefault: true, isImage: true },
 
   ]
+  
   selectedTab: number = 0;
   constructor() { }
 
@@ -95,8 +118,8 @@ export class AuditDataFilesComponent implements OnInit {
           tabType: 1,
           name: 'Data - Live in Switch Only'
         });
-        this.btAuditFileDetailsTable = {
-           data: of({datasource:ELEMENT_DATA,
+        this.dataLiveInSwitchTable = {
+           data: of({datasource:ELEMENT_DATA1,
             totalrecordcount: 100,
             totalpages:1,
             pagenumber:1}),
