@@ -539,6 +539,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.tabs.splice(0);
     this.StatisticMonth.setValue('');
     this.datevalue="";
+    this.expressions = [expNumeric,expString,expDate];
   }
 
   // resetForm(): void {
