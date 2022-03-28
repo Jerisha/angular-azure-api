@@ -504,10 +504,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   onChange(value: string, ctrlName: string) {
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
-    if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
-      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-    } else {
+    if (value != null && value != undefined) {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }

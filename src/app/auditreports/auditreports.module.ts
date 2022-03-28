@@ -14,6 +14,7 @@ import { SharedModule } from '../_shared/shared.module';
 import { HelperModule } from '../_helper/helper.module';
 import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';
 import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
+import { TelNoPipe } from '../_helper/pipe/telno.pipe';
 
 
 
@@ -40,6 +41,6 @@ import { ExternalAuditDetailsComponent } from './external-audit-details/external
     SharedModule,
     HelperModule
   ],
-  providers: [FullAuditDetailsService, AuditDiscpancyReportService]
+  providers: [FullAuditDetailsService, AuditDiscpancyReportService,TelNoPipe],
 })
 export class AuditreportsModule { }

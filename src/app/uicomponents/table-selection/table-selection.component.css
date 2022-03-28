@@ -81,9 +81,10 @@ table td, table th {
   text-overflow: ellipsis;
 }
 
-.totalRow{
+.totalRow {
   background-color: #e60000;
   color:white;
+  /* padding-left: 220px; */
   font-size: small;
   /* min-height: 10px; */
   height: 20px;
