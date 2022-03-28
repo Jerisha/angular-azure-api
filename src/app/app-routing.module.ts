@@ -46,11 +46,11 @@ const routes: Routes = [
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
 
   },
-  {
-    path: 'governance',
-    loadChildren: () => import('./governance/governance.module').then(x => x.GovernanceModule),
+  // {
+  //   path: 'governance',
+  //   loadChildren: () => import('./governance/governance.module').then(x => x.GovernanceModule),
 
-  },
+  // },
   {
     path: '**',
     redirectTo: '',

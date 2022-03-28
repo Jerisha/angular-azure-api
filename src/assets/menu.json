@@ -35,6 +35,11 @@
         "displayName": "Transactions",
         "iconName": "",
         "route": "transactions/transactions"
+      },
+      {
+        "displayName": "Cease Transaction",
+        "iconName": "",
+        "route": "transactions/ceasetransaction"
       }
     ]
   },
@@ -121,19 +126,7 @@
         "route": "administration/restoresolicitederrors"
       }
     ]
-  },
-  {
-    "displayName": "Governance",
-    "iconName": "",
-    "route": "",
-    "children": [
-      {
-        "displayName": "Range Special Cease Transaction",
-        "iconName": "",
-        "route": "governance/rangespecialceasetransaction"
-      }
-	 
-    ]
   }
+
     
 ]

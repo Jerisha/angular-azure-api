@@ -27,8 +27,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { AuditDataFilesComponent } from './administration/audit-data-files/audit-data-files.component';
 import { AddressCheckComponent } from './transactions/address-check/address-check.component';
 import { AdministrationModule } from './administration/administration.module';
-import { RangeSpecialCeaseTransactionComponent } from './governance/range-special-cease-transaction/range-special-cease-transaction.component';
-import { GovernanceModule } from './governance/governance.module';
+import { RangeSpecialCeaseTransactionComponent } from './transactions/range-special-cease-transaction/range-special-cease-transaction.component';
+// import { GovernanceModule } from './governance/governance.module';
 
 
 @NgModule({
@@ -48,7 +48,7 @@ import { GovernanceModule } from './governance/governance.module';
     ResolvingoferrorsModule,
     AuditreportsModule,
      AdministrationModule,
-     GovernanceModule,
+     //GovernanceModule,
     TransactionsModule,
     StatisticalreportsModule,
     ReportsModule,  
