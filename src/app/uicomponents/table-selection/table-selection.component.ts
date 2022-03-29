@@ -10,6 +10,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Observable, of, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { delay, takeUntil } from 'rxjs/operators';
+// import { AnyNsRecord } from 'dns';
 
 @Component({
   //changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,9 +99,12 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
         this.selection.clear();
-        this.allSelected = true;   
+        this.allSelected = true; 
+        console.log('resource', res.datasource)  
         this.dataSource.data = res.datasource;
-        this.initializeTableAttributes(res.datasource);
+
+        console.log('datasource', this.dataSource.data)
+        this.removeCols(this.dataSource.data);
         this.totalRows = (res.totalrecordcount) as number;
         this.apiPageNumber = (res.pagenumber) as number;
         this.currentPage = this.apiPageNumber - 1;       
@@ -118,24 +122,48 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
         this.spinner.hide();
       }
     );
+    this.initializeTableAttributes(this.dataSource.data);
   }
 
   ngOnInit(): void {
   } //ngOnInit
 
   initializeTableAttributes(data: any) {
-    this.ColumnDetails = [];
+   
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
     this.showTotalRow = this.totalRowCols.length > 0;
-    this.imgList = this.tableitem?.imgConfig;
-    this.filter = this.tableitem?.filter;
+    
     this.isEmailRequired = this.tableitem?.showEmail 
     //removeNoDataColumns
+  //   if (this.tableitem?.removeNoDataColumns) {
+  //     if (data && data.length > 0)
+  //       this.verifyEmptyColumns(data);
+  //     else
+  //       this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+  //   }
+  //   else {
+  //     this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];      
+  //   }
+  //  //Select checkbox
+  //   if (this.tableitem?.selectCheckbox) {
+  //     const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
+  //     this.ColumnDetails.unshift(selItem);         
+  //   }
+      
+  //   this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
+  //   this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);   
+  }
+
+  removeCols(data:any){
+    this.ColumnDetails = []; 
+    this.imgList = this.tableitem?.imgConfig;    
+    this.filter = this.tableitem?.filter;
     if (this.tableitem?.removeNoDataColumns) {
-      if (data && data.length > 0)
+      if (data && data.length > 0)     
         this.verifyEmptyColumns(data);
+      
       else
         this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
@@ -149,7 +177,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
     }
       
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
-    this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);   
+    this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);  
   }
   //ngOnChanges
  
