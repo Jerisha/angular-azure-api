@@ -86,7 +86,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
   copy() {
     // console.log('clipboard', this.selection.selected);
   }
-  
+
   refresh(event: any) {
     event.stopPropagation();
     this.refreshtab.emit({ event });
@@ -100,7 +100,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
     this.spinner.show();
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
-
         this.dataSource.data = res.datasource;
         this.removeNoDataColumns(this.dataSource.data);
         this.totalRows = (res.totalrecordcount) as number;
@@ -120,11 +119,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
         this.spinner.hide();
       }
     );
-
   }
 
   ngOnInit(): void {
-  } //ngOnInit
+  }
 
   initializeTableAttributes() {
     this.selection.clear();
@@ -167,14 +165,11 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
   ngAfterViewChecked() {
     if (this.isDataloaded) {
       this.toggleAllSelection();
-      let selectedColumns: string[] = this.select.value;
-      this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
       this.isDataloaded = false;
     }
   }
 
   getTotal(cellname: string) {
-    console.log('in get total', cellname)
     var cell = cellname ? cellname : '';
     if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
       return 'Total';
@@ -186,7 +181,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
   }
 
   getColSpan(cellname: string) {
-    console.log('in colspan', cellname)
     if (this.dataColumns[0] === cellname) {
       return this.nonNumericCols.length;
     }
@@ -292,8 +286,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
     this.unSelectListItems = [];
 
     data?.forEach((item: any) => this.checkIsNullOrEmptyProperties(item));
-    // logic
-    debugger
+    // logic    
     this.tableitem?.Columns?.forEach(x => {
       if (this.nonemptyColumns.includes(x.headerValue) || x.isImage)
         this.ColumnDetails.push(x);
@@ -375,6 +368,5 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
     });
     return data;
   }
-
 }
 
