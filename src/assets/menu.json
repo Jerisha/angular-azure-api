@@ -128,19 +128,6 @@
     ]
   },
   {
-    "displayName": "Governance",
-    "iconName": "",
-    "route": "",
-    "children": [
-      {
-        "displayName": "Range Special Cease Transaction",
-        "iconName": "",
-        "route": "governance/rangespecialceasetransaction"
-      }
-	 
-    ]
-  },
-  {
     "displayName": "Configurational Reference Data",
     "iconName": "",
     "route": "",
