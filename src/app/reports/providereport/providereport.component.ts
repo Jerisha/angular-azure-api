@@ -13,6 +13,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { NgxSpinnerService } from "ngx-spinner";
 import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
@@ -79,7 +80,7 @@ export class ProvidereportComponent implements OnInit {
     public tabs: Tab[] = [];
     errorCode = new FormControl();
     constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
+        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
 
     errorCodeData: Select[] = [
         { view: '101', viewValue: '101', default: true },
@@ -214,7 +215,15 @@ refresh(event: any)
     selected(s: string): void {
         this.select = s;
     }
-
+    onChange(value: string, ctrlName: string) {
+        const ctrl = this.myForm.get(ctrlName) as FormControl;
+        if (isNaN(<any>value.charAt(0))) {
+          //const val = coerceNumberProperty(value.slice(1, value.length));
+          ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+        } else {
+          ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+        }
+      }
 
     resetForm(): void {
         this.myForm.reset();
