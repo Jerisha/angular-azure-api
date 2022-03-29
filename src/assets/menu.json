@@ -35,6 +35,11 @@
         "displayName": "Transactions",
         "iconName": "",
         "route": "transactions/transactions"
+      },
+      {
+        "displayName": "Cease Transaction",
+        "iconName": "",
+        "route": "transactions/ceasetransaction"
       }
     ]
   },
@@ -128,17 +133,18 @@
     ]
   },
   {
-    "displayName": "Governance",
+    "displayName": "Configurational Reference Data",
     "iconName": "",
     "route": "",
     "children": [
       {
-        "displayName": "Range Special Cease Transaction",
+        "displayName": "Reference List",
         "iconName": "",
-        "route": "governance/rangespecialceasetransaction"
+        "route": "report-references/ReferenceList"
       }
 	 
     ]
   }
+
     
 ]
