@@ -13,6 +13,10 @@
                                         <input id="TelNoStart" formControlName="TelNoStart" matInput #TelNoStart
                                             maxlength="10" placeholder="Start Telephone No" style="margin-right: 24%;">
                                         <mat-hint align="end">{{TelNoStart.value?.length || 0}}/10</mat-hint>
+                                        <mat-error class="alert alert-danger">                                            
+                                              <div *ngIf="form.TelNoStart.errors?.required">Please enter Telephone No</div>                                            
+                                            
+                                          </mat-error>
                                     </mat-form-field>
 
                                     <mat-form-field style="margin-left:10px; margin-top: 1rem; width:180px"
@@ -95,8 +99,8 @@
                 <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
                 <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
             </mat-form-field>
-            <button type="submit" mat-raised-button color="primary">
-                <mat-icon>save</mat-icon>Cease
+            <button type="submit" mat-raised-button color="primary">Cease
+                <!-- <mat-icon>save</mat-icon> -->
             </button>
         </div>
     </div>

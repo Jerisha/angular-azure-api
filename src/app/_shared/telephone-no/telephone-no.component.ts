@@ -14,6 +14,7 @@ export class TelephoneNoComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.selectedTelNo = "01234567891";
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();

@@ -142,6 +142,10 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.showTelnos = false;
   }
 
+  get form(){
+    return this.splCeaseTransForm.controls;
+  }
+
 
   OnTelephoneNoSelected(event: any) {
     console.log('sel', event)
@@ -165,7 +169,9 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   showCeasePanel: boolean = false;
 
   onFormSubmit(): void {
-    debugger;
+    if(!this.splCeaseTransForm.valid)
+    return ;  
+
     this.isAuditTrail = false;
     this.isResult = true;
     this.tabs.splice(0)
@@ -265,7 +271,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.splCeaseTransForm = this.formBuilder.group({
       TelNoStart: new FormControl({ value: '', disabled: false },
         [
-          // Validators.required,
+           Validators.required,
           Validators.minLength(10)
         ]
       ),
