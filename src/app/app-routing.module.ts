@@ -45,6 +45,12 @@ const routes: Routes = [
     path: 'shared',
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
 
+  },  
+  {
+      path: 'report-references',
+      loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
+      
+      
   },
   // {
   //   path: 'governance',
@@ -56,6 +62,7 @@ const routes: Routes = [
     redirectTo: '',
     pathMatch: 'full'
   }
+  
     
     
 

@@ -420,7 +420,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     if (!this.tabs.find(x => x.tabType == 3)) {
       this.tabs.push({
         tabType: 3,
-        name: 'Information'
+        name: 'Unsolicited M-o-M Summary'
       });
       this.selectedTab = 3;
     }

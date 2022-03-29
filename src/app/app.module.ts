@@ -31,10 +31,12 @@ import { RangeSpecialCeaseTransactionComponent } from './transactions/range-spec
 // import { GovernanceModule } from './governance/governance.module';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     MenuSearchPipe,
+    
                  
   ],
   imports: [

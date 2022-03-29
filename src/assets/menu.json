@@ -126,6 +126,32 @@
         "route": "administration/restoresolicitederrors"
       }
     ]
+  },
+  {
+    "displayName": "Governance",
+    "iconName": "",
+    "route": "",
+    "children": [
+      {
+        "displayName": "Range Special Cease Transaction",
+        "iconName": "",
+        "route": "governance/rangespecialceasetransaction"
+      }
+	 
+    ]
+  },
+  {
+    "displayName": "Configurational Reference Data",
+    "iconName": "",
+    "route": "",
+    "children": [
+      {
+        "displayName": "Reference List",
+        "iconName": "",
+        "route": "report-references/ReferenceList"
+      }
+	 
+    ]
   }
 
     
