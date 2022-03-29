@@ -43,13 +43,13 @@
   .left-box{        
         width: 60vw;        
         overflow: hidden;
-            
+        margin-right: 10px;       
     }
-  .right-box{     
+  .right-box{
       /* height: 78vh;  */
       width: 96vw;         
       overflow: auto;
-      min-height: 500px; 
+      min-height: 500px;
   }
 
   .top-label{
@@ -98,6 +98,9 @@
     color: white;
     
     }
+    .rm6{
+      margin-right: 6px;
+      }
 
 .fixed-button-bar {
     position: absolute;
@@ -110,3 +113,56 @@
     line-height:calc(90%-20px);
     margin-top: 6px;
     }
+
+  .rightFilters{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap:wrap;
+  }
+  .rightFilters-items{
+    flex-shrink: auto;
+    width: auto;
+  } 
+  .rightFilters-items  mat-form-field{
+    max-width: 12vw;
+  }
+
+
+  /* Table CSS */
+  .detail-table{
+    margin-top: 10px;
+     width: 100%;
+     max-height:400px;
+     overflow: auto; 
+     /* min-height: 400px; 
+      width: 100%;          */
+      /* overflow: auto; */
+  }
+  .table-header{
+    min-width:110px; 
+    width:auto;
+    min-height:16px; 
+    background-color:#e60000;
+    color:white;    
+    padding: 6px;
+    text-align:justify;
+    /* text-align: center; */
+    /* column-gap: 30px;
+    max-width: 300px;  */
+  }
+  .table-row{
+    min-height:16px; 
+    height: auto;    
+    /* color:white; */
+  }
+  .table-coloumn{
+    min-width:110px;
+    /* max-width: 300px;  */
+    width: auto; 
+     padding-right: 10px;
+    /* color:white;    */
+    /* padding: 6px; */
+    text-align:justify;
+    /* column-gap: 30px; */
+  }

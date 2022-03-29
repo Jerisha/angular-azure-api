@@ -24,7 +24,30 @@ const ELEMENT_DATA = [
   { ACTID: "15", FileName: "BT101330091301.DAT", CreatedOn: "19/01/2021" },
   { ACTID: "18", FileName: "BT101330091301.DAT", CreatedOn: "18/01/2021" }
 ]
+const UserOfReports = [{
+  "UserId":"kashnji3","EmailAddress":"kashim.j3@vodafone.com","MenuGroup":"Resolving of Errors","ReportName":"Solicited Errors" },
+  {"UserId":"kashnji4","EmailAddress":"kashim.j4@vodafone.com","MenuGroup":"Resolving of Errors","ReportName":"Unsolicited Errors"},
+  {"UserId":"kashnji5","EmailAddress":"kashim.j5@vodafone.com","MenuGroup":"Reports","ReportName":"Inflight Report"},
+  {"UserId":"kashnji6","EmailAddress":"kashim.j6@vodafone.com","MenuGroup":"Reports","ReportName":"Live Report"},
+]
 
+const StartUpUserMessages = [{
+  "UserId":"kashnji3","EmailAddress":"kashim.j3@vodafone.com","ShowFrom":"14 March 2022","ExpiryDate":"19 March 2022" ,"Message":"test"},
+  {"UserId":"kashnji4","EmailAddress":"kashim.j4@vodafone.com","ShowFrom":"19 March 2022","ExpiryDate":"22 March 2022" ,"Message":"test"},
+  {"UserId":"kashnji5","EmailAddress":"kashim.j5@vodafone.com","ShowFrom":"19 March 2022","ExpiryDate":"22 March 2022" ,"Message":"test"},
+  {"UserId":"kashnji6","EmailAddress":"kashim.j6@vodafone.com","ShowFrom":"19 March 2022","ExpiryDate":"22 March 2022" ,"Message":"test"},
+  {"UserId":"kashnji4","EmailAddress":"kashim.j4@vodafone.com","ShowFrom":"19 March 2022","ExpiryDate":"22 March 2022" ,"Message":"test"},
+]
+  
+const UserAccessDetails = [
+  {"UserId":"kashnji3","UserProfile":"Requester","AccessLevel":"Level 0","EmailAddress":"kashim.j3@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {"UserId":"kashnji4","UserProfile":"Requester","AccessLevel":"Level 1","EmailAddress":"kashim.j4@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786745","Y/W/ID":"Y875766","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {"UserId":"kashnji5","UserProfile":"Requester","AccessLevel":"Level 2","EmailAddress":"kashim.j5@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786767","Y/W/ID":"Y875767","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {"UserId":"kashnji3","UserProfile":"Requester","AccessLevel":"Level 0","EmailAddress":"kashim.j3@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {"UserId":"kashnji4","UserProfile":"Requester","AccessLevel":"Level 1","EmailAddress":"kashim.j4@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786745","Y/W/ID":"Y875766","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {"UserId":"kashnji5","UserProfile":"Requester","AccessLevel":"Level 2","EmailAddress":"kashim.j5@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786767","Y/W/ID":"Y875767","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+]
+  
 
 @Component({
   selector: 'app-manage-users',
@@ -53,6 +76,10 @@ export class ManageUsersComponent implements OnInit {
 
   ]
   selectedTab: number = 0;
+
+  isLeftPanel = true;
+  data0:any = ELEMENT_DATA;
+  displayedColumns0:any =['Edit','Delete','ACTID','FileName','CreatedOn'];
 
   constructor() { }
 
@@ -115,7 +142,6 @@ export class ManageUsersComponent implements OnInit {
         
       }
     }
-
     this.showDetails = true;
     this.selectedTab = this.tabs.length;
   }
@@ -123,6 +149,9 @@ export class ManageUsersComponent implements OnInit {
   btnClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
 
+  }
+  onCancel(){
+    this.isLeftPanel = false;
   }
 
 }
