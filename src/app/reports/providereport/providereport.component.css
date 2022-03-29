@@ -1,15 +1,9 @@
-/* .mat-form-field.mat-label
+.info
 {
-    margin-left: 5px;
-    height: 35px;   
-    width: 40px;
-    padding-top: 5px;
-    width: 40px; 
-    margin-bottom: 20px;
- 
-}
-.side-container-report {
-    width: auto;
-    height: 520px !important;
-    box-sizing: border-box;
-    } */
+  /* display:flex!important;*/
+  /* font-size: xx-large;
+  margin: 5px;
+  margin-right: 14px; */
+  float: right;   
+  /* cursor: pointer; */
+  }

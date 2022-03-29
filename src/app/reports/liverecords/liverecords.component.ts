@@ -475,7 +475,7 @@ export class LiverecordsComponent implements OnInit {
     "TypeOfLineOperator",
   ];
   expOperatorsKeyPair: [string, string][] = [];
-
+resetExp:boolean = false;
 
   dataSaved = false;
   employeeForm: any;
@@ -623,6 +623,7 @@ export class LiverecordsComponent implements OnInit {
   resetForm(): void {
     this.myForm.reset();
     this.tabs.splice(0);
+    this.resetExp= true;
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -790,19 +791,7 @@ export class LiverecordsComponent implements OnInit {
 
     })
 
-    // this.expOperatorsKeyPair.push(["StartTelephoneNumberOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["CustomerNameOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["PostcodeOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["CreationDateOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["PremisesOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["ThoroughfareOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["LocalityOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["CupidOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["FranchiseOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
-
+  
   }
 
   addPrefix(control: string, value: any) {

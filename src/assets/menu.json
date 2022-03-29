@@ -134,6 +134,19 @@
       }
 	 
     ]
+  },
+  {
+    "displayName": "Configurational Reference Data",
+    "iconName": "",
+    "route": "",
+    "children": [
+      {
+        "displayName": "Reference List",
+        "iconName": "",
+        "route": "report-references/ReferenceList"
+      }
+	 
+    ]
   }
     
 ]
