@@ -67,6 +67,11 @@
         "displayName": "Full Audit History",
         "iconName": "",
         "route": "auditreports/fullaudithistory"
+      },
+      {
+        "displayName": "Audit User Action Summary",
+        "iconName": "",
+        "route": "auditreports/audituseractionsummary"
       }
     ]
   },
