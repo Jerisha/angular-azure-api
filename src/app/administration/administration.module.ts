@@ -6,14 +6,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { HelperModule } from '../_helper/helper.module';
 import { SharedModule } from '../_shared/shared.module';
 import { AdministrationRoutingModule } from './administration-routing.module';
+import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolvedtransaction.component';
+import { UnsolicitedactionreportsComponent } from './unsolicitedactionreports/unsolicitedactionreports.component';
+
 import {RestoresolicitederrorsComponent,AuditDataFilesComponent,ManageUsersComponent} from './index'
 import { AdministrationService } from './services/administration.service';
+import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
 
 @NgModule({
   declarations: [
     AuditDataFilesComponent,
+    UnresolvedtransactionComponent,
+    UnsolicitedactionreportsComponent,
     RestoresolicitederrorsComponent,
-    ManageUsersComponent
+    ManageUsersComponent,
+    UnresolvederrorsComponent
   ],
   imports: [
     CommonModule,
