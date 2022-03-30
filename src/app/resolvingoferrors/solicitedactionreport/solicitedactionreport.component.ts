@@ -12,50 +12,51 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 const ELEMENT_DATA: solicitedactionreport[] = [
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: ' C - SAS/COMS',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: ' C - SAS/COMS',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'C - SAS/COMS',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'C - SAS/COMS',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01214305583', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'E - VA/WAD',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01214305583', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'E - VA/WAD',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01214154510', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'E - VA/WAD',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01214154510', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'E - VA/WAD',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '1003689694', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'E - VA/WAD',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '1003689694', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'E - VA/WAD',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '1003693021', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'E - VA/WAD',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '1003693021', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'E - VA/WAD',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'C - SAS/COMS',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'C - SAS/COMS',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'C - SAS/COMS',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'C - SAS/COMS',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'C - SAS/COMS',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'C - SAS/COMS',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'C - SAS/COMS',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'C - SAS/COMS',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
   {
-    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '', Source: 'C - SAS/COMS',
+    Link: 'Image', ResolutionType: 'Superseded', TelephoneNo: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'C - SAS/COMS',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
  
@@ -86,6 +87,7 @@ export class SolicitedactionreportComponent implements OnInit {
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
+    private telnoPipe: TelNoPipe,
     private spinner: NgxSpinnerService) { }
 
   myForm!: FormGroup;
@@ -216,6 +218,16 @@ export class SolicitedactionreportComponent implements OnInit {
     // return filteredList;
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
+  }
+  
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.myForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    }
   }
   rowDetect(selectedRows: any) {
     debugger;
