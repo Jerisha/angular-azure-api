@@ -248,6 +248,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   queryResultMonthly$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
+  resetExp:boolean = false;
   ngOnInit(): void {
     this.createForm();
     //console.log('worked');
@@ -540,6 +541,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.StatisticMonth.setValue('');
     this.datevalue="";
     this.expressions = [expNumeric,expString,expDate];
+    this.resetExp=!this.resetExp;
   }
 
   // resetForm(): void {

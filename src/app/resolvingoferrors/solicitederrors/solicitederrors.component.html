@@ -22,13 +22,12 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
             <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
-            <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
-              (ngModelChange)="onChange($event,'StartTelephoneNumber')" matInput maxlength="11"
-              placeholder="Start Telephone No" #starttelno>
+            <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)" matInput maxlength="11"
+              placeholder="Start Telephone No" #starttelno telNoPrefixValidator>
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
-                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
                 <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
               </div>
             </mat-error>
@@ -37,11 +36,11 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
             <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
-              (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'EndTelephoneNumber')">
+              (keypress)="numberOnly($event)" telNoPrefixValidator>
             <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
-                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                <div *ngIf="f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
                 <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
               </div>
             </mat-error>
@@ -139,7 +138,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
             <mat-label>999 Reference</mat-label>
             <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>
-            <mat-error *ngIf="f.Reference.errors?.valid999">Value need to start with '999'</mat-error>
+            <mat-error *ngIf="f.Reference.errors?.valid999">Please provide a valid 999 Reference</mat-error>
             <!-- <mat-hint align="end"></mat-hint> -->
           </mat-form-field>
 
@@ -195,7 +194,8 @@
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
               (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
             </app-table-selection>
-            <form (ngSubmit)="onSaveSubmit()">
+            <form (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm"
+            autocomplete="off">
               <div class="mat-elevation-z8 side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
@@ -203,23 +203,23 @@
                   </select> -->
 
                   <div style="display: inline-block;">
-                    <ng-container *ngIf="updateDetails  as con">
+                    <ng-container *ngIf="updateDetails as con">
                       <mat-form-field>
                         <mat-label>Resolution Type</mat-label>
-                        <input required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}" type="text"
-                          name="resol" #resol="ngModel" placeholder="Search Resolution Type" matInput
+                        <input name="resolution" required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}"type="text"
+                          #resolution="ngModel" placeholder="Search Resolution Type" matInput
                           [matAutocomplete]="autoResolutionType1" OptionsValidator
                           [options]="con.ResolutionType | splitBy: ','" />
                         <span matSuffix mat-icon-button>
                           <mat-icon>arrow_drop_down</mat-icon>
                         </span>
                         <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                          <mat-option *ngFor="let val of con.ResolutionType | splitBy: ',' | ddlFilter: resol.value"
+                          <mat-option *ngFor="let val of con.ResolutionType | splitBy: ',' | ddlFilter: resolution.value"
                             [value]="val">{{val}}</mat-option>
                         </mat-autocomplete>
                         <mat-error class="alert alert-danger">
-                          <div *ngIf="resol.errors?.validOptions">Value need to match available options</div>
-                          <div *ngIf="!resol.errors?.required">
+                          <div *ngIf="resolution.errors?.validOptions">Value need to match available options</div>
+                          <div *ngIf="!resolution.errors?.required">
                             <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                             Select resolution type
                           </div>
@@ -228,27 +228,30 @@
                     </ng-container>
                     <mat-form-field>
                       <mat-label>999 Reference</mat-label>
-                      <input #refer="ngModel" [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}" matInput
-                        placeholder="999 Reference" referValidator>
+                      <input name="refer" #refer="ngModel" [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}" matInput
+                         placeholder="999 Reference" referValidator>
                       <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-                      <mat-error *ngIf="refer.errors?.valid999">Value need to start with '999'</mat-error>
+                      <mat-error class="alert alert-danger">
+                      <div *ngIf="refer.errors?.valid999">Please provide a valid 999 Reference</div>
+                    </mat-error>
                     </mat-form-field>
 
 
                     <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                       <mat-label>Remarks</mat-label>
-                      <textarea required [(ngModel)]="Remarks" [ngModelOptions]="{standalone: true}" #input matInput
-                        maxlength="500" placeholder="Remarks"></textarea>
+                      <textarea required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks" [ngModelOptions]="{standalone: true}" #input matInput
+                         maxlength="500" placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                      <mat-error>
-                        <div *ngIf="!Remarks" class="alert alert-danger">
+                      <mat-error class="alert alert-danger">
+                        <div *ngIf="!remarks.errors?.required" >
                           <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                           Add remarks for resolution
                         </div>
                       </mat-error>
                     </mat-form-field>
+                    
                     <!-- (!f.StartTelephoneNumber.value && !f.EndTelephoneNumber.value) -->
-                    <button [disabled]="isSaveDisable" type="submit" mat-raised-button color="primary">
+                    <button [disabled]="isSaveDisable"  mat-raised-button color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 

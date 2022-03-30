@@ -624,24 +624,24 @@ resetExp:boolean = false;
   resetForm(): void {
     this.myForm.reset();
     this.tabs.splice(0);
-    this.resetExp= true;
+    this.resetExp=!this.resetExp;
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
   OnOperatorClicked(val: [string, string]) {
     // if (event.target.value !="")
-    console.log("operators event", "value ", val);
+    // console.log("operators event", "value ", val);
     let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
-    console.log("operators event1", "vals ", vals);
+    // console.log("operators event1", "vals ", vals);
     if (vals.length == 0) {
       this.expOperatorsKeyPair.push(val);
-      console.log("if part", this.expOperatorsKeyPair);
+      // console.log("if part", this.expOperatorsKeyPair);
     }
     else {
       this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
       this.expOperatorsKeyPair.push(val);
-      console.log("else part", this.expOperatorsKeyPair);
+      // console.log("else part", this.expOperatorsKeyPair);
     }
   }
 
@@ -653,25 +653,17 @@ resetExp:boolean = false;
   }
 
   prepareQueryParams(pageNo: string): any {
-  
     let attributes: any = [
       { Name: 'PageNumber', Value: [`${pageNo}`] }];
-
     for (const field in this.myForm?.controls) {
-      // console.log('field', field)
-      const control = this.myForm.get(field);
-      // console.log('field', field, 'value',control?.value);   
-      if (control?.value != "") {
+      const control = this.myForm.get(field);  
+      if (control?.value) {
         if (field == "CreationDate") {
           attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
-        
         }
         else{
-        // console.log("field:",field," val:",control?.value)
         attributes.push({ Name: field, Value: [control?.value] }); }
         let operator: string = field + "Operator";
-        
-        console.log("op vals", this.expOperatorsKeyPair);
         if (this.expOperatorsKeyPair.length != 0) {
           let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
           if (expvals.length != 0) {
@@ -803,6 +795,7 @@ resetExp:boolean = false;
   }
   onChange(value: string, ctrlName: string) {
     const ctrl = this.myForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value))
     if (isNaN(<any>value.charAt(0))) {
       //const val = coerceNumberProperty(value.slice(1, value.length));
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
