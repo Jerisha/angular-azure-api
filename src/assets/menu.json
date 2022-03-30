@@ -129,6 +129,26 @@
         "displayName": "Restore Solicited Errors",
         "iconName": "",
         "route": "administration/restoresolicitederrors"
+      },
+      {
+        "displayName": "Unresolved Transaction",
+        "iconName": "",
+        "route": "administration/unresolvedtransaction"
+      },
+      {
+        "displayName": "Unresolved Errors",
+        "iconName": "",
+        "route": "administration/unresolvederrors"
+      },
+      {
+        "displayName": "Unsolicited Action Reports",
+        "iconName": "",
+        "route": "administration/unsolicitedactionreports"
+      },
+      {
+        "displayName": "Manage Users",
+        "iconName": "",
+        "route": "administration/manageusers"
       }
     ]
   },
