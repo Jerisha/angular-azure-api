@@ -31,7 +31,7 @@
   }
 
   .container-page{
-    min-height:90%;    
+    min-height:100%;    
     width: auto;
     box-sizing: border-box;
   }
@@ -61,7 +61,7 @@
   td{
     text-align: center!important;
   }
-  td{
+  th{
     text-align: center!important;
   }
   .vf-flex-container {

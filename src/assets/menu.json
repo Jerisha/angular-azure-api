@@ -144,6 +144,11 @@
         "displayName": "Unsolicited Action Reports",
         "iconName": "",
         "route": "administration/unsolicitedactionreports"
+      },
+      {
+        "displayName": "Manage Users",
+        "iconName": "",
+        "route": "administration/manageusers"
       }
     ]
   },

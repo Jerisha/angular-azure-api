@@ -186,7 +186,8 @@ export class ManageUsersComponent implements OnInit {
     this.isLeftPanel =true;
     this.UserProfileForm = this.formBuilder.group({
       ProfileName: new FormControl({ }),
-      Description: new FormControl({})
+      Description: new FormControl({}),
+      UserProfile: new FormControl({})
 
     });
     this.record = record;
