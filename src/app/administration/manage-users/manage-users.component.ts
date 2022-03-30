@@ -148,11 +148,11 @@ export class ManageUsersComponent implements OnInit {
         
       }
     }
-    else if (fileType === 'StratUpUserMessages'){
+    else if (fileType === 'StartUpUserMessages'){
       if (!this.tabs.find(x => x.tabType == 2)) {
         this.tabs.push({
           tabType: 2,
-          name: 'Strat Up User Messages'
+          name: 'Start Up User Messages'
         });
         
       }

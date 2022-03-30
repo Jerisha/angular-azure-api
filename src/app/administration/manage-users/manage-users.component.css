@@ -103,10 +103,17 @@
     color: white;
     
     }
+
     .rm6{
       margin-right: 6px;
       }
-
+.btn-icon{
+        background-color: #e60000;
+         margin: 5px;
+         width:30px;
+         height: 30px;
+         font-size: small;
+}
 .fixed-button-bar {
     position: absolute;
     left: 0;
