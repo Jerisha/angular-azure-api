@@ -1,8 +1,15 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ChangeDetectorRef,Component, EventEmitter, OnInit,Input, Output ,SimpleChanges, OnChanges} from '@angular/core';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelephoneDetails } from '../models/telephone-details';
+import { Utils } from 'src/app/_http';
+import { Observable, of } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { NgxSpinnerService } from "ngx-spinner";
+import { ConfigDetails } from 'src/app/_http/models/config-details';
+import { formatDate } from '@angular/common';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { statisticalreport } from '../services/statisticalreports.service';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
   {
@@ -42,7 +49,7 @@ const ELEMENT_DATA: TelephoneDetails[] = [
   templateUrl: './telephone-details.component.html',
   styleUrls: ['./telephone-details.component.css']
 })
-export class TelephoneDetailsComponent implements OnInit {
+export class TelephoneDetailsComponent implements OnChanges {
 
   select: string = 'Exp';
   isDisabled = true;
@@ -50,13 +57,22 @@ export class TelephoneDetailsComponent implements OnInit {
   selectedRowsCount: number = 0;
   selectListItems: string[] = [];
   selectedTab!: number;
+  currentPage: string = '1';
   @Output() addNewTab = new EventEmitter<any>();
   public tabs = [{
     tabType: 0,
     name: 'Telephone No Details'
   }
   ];
-  constructor(private _snackBar: MatSnackBar) { }
+  Datevalue?:string='';
+  @Input() StatisticDate!: string ;
+  @Input() Source!: string;
+
+  constructor(private formBuilder: FormBuilder,
+    private service: statisticalreport,
+    private cdr: ChangeDetectorRef,
+    private _snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService) { }
 
   openSnackBar(message: string) {
     this._snackBar.open(message);
@@ -65,35 +81,83 @@ export class TelephoneDetailsComponent implements OnInit {
 
 
   columns: ColumnDetails[] = [
-     { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
-    { header: 'TelephoneNo', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
-    { header: 'ActivateTransactions', headerValue: 'ActivateTransactions', showDefault: true, isImage: false },
-    { header: 'CeaseTransactions', headerValue: 'CeaseTransactions', showDefault: true, isImage: false },
-    { header: 'ModifiyTransactions', headerValue: 'ModifiyTransactions', showDefault: true, isImage: false },
-    { header: 'ExportTransactions', headerValue: 'ExportTransactions', showDefault: true, isImage: false },
-    { header: 'ImportTransactions', headerValue: 'ImportTransactions', showDefault: true, isImage: false },
-    { header: 'TotalTransactions', headerValue: 'TotalTransactions', showDefault: false, isImage: false },
+    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
+    { header: 'Telephone Nos', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Add Commands', headerValue: 'AddCommands', showDefault: true, isImage: false,isTotal:true },
+    { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: true, isImage: false,isTotal:true },
+    { header: 'Modifiy Commands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false,isTotal:true },
+    { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: true, isImage: false,isTotal:true },
+    { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: true, isImage: false,isTotal:true },
+    { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false,isTotal:true },
   ];
+  queryResult$!: Observable<any>;
 
-  ngOnInit(): void {
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.Source?.currentValue != changes.Source?.previousValue)   
+    this.formsubmit(false);
+  
+  }
+formsubmit(isEmitted?: boolean)
+{
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    this.Datevalue=this.StatisticDate;
+    let request = Utils.prepareQueryRequest('TelephoneNumberDetails','TransactionCommand', this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) =>  {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].TelephoneNumbers,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return {datasource:res};
+    }));
+    
     this.myTable = {
-      data: ELEMENT_DATA,
+      data: this.queryResult$,      
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
       // colToSetImage: ['View'],
       imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],
-      showTotal: true,
-      totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
+      // showTotal: true,
+      // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 
     }
-  }
+}
 
+  prepareQueryParams(pageNo?:any): any {
+    var pageIndex = pageNo? pageNo:'1'
+    let attributes: any = [
+     // { Name: 'PageNumber', Value: ['1'] },
+     { Name: 'PageNumber', Value: [`${pageIndex}`] },
+      { Name: 'StatisticDate', Value:[this.StatisticDate]},
+      { Name: 'Source', Value: [this.Source]}
+    //{ Name: 'StatisticDate', Value:['11-Mar-2022']},
+    //{ Name: 'Source', Value: ['A -AUDIT']}
+    ];
+
+   // console.log(' telephone attributes',attributes);
+
+    return attributes;
+
+  }
+  getNextSetRecords(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.formsubmit(true);
+  }
   selected(s: string): void {
     this.select = s;
   }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 
+  ngAfterViewChecked() {   
+    this.cdr.detectChanges();
+  }
   rowDetect(item: any) {
     //debugger;
     this.selectedRowsCount = item.length;

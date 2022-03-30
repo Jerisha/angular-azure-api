@@ -11,10 +11,11 @@ import { Utils } from 'src/app/_http/index';
 
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
-import { UnsolicitedActionReports } from 'src/app/governance/special-cease-transaction/models/unresolved-error';
+import { UnsolicitedActionReport } from '../models/administraion-ui.module';
 
 
-const ELEMENT_DATA: UnsolicitedActionReports[] = [
+
+const ELEMENT_DATA: UnsolicitedActionReport[] = [
   {
     View: 'image', ResolutionType: 'New', TelephoneNo: '1977722725', TransactionRef:'1977722', ResolveRemarks: 'Remarks',  CreationBy: 'Abc',
     CreatedOn: '18-Mar-2022', Duration: '00:13', Source: 'EDGE', Status: 'Error Final', TransactionCommand: 'B-BATCH'
@@ -74,6 +75,17 @@ const ELEMENT_DATA: UnsolicitedActionReports[] = [
   },
 ];
 
+const FilterListItems: Select[] = [
+  { view: 'Telephone No', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'Transaction Reference', viewValue: 'TransactionReference', default: true },
+  { view: 'Created On', viewValue: 'DateRange', default: true },
+  { view: 'ResolutionType', viewValue: 'ResolutionType', default: true },
+  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Status', viewValue: 'Status', default: true },
+  { view: 'Status', viewValue: 'TransCommand', default: true }
+
+];
+
 @Component({
   selector: 'app-unsolicitedactionreports',
   templateUrl: './unsolicitedactionreports.component.html',
@@ -87,7 +99,7 @@ export class UnsolicitedactionreportsComponent implements OnInit, AfterViewInit,
   infotable1: any[] = [];
   infotable2: any[] = [];
   selectListItems: string[] = [];
-  //filterItems: Select[] = FilterListItems;
+  filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
 
@@ -235,9 +247,8 @@ export class UnsolicitedactionreportsComponent implements OnInit, AfterViewInit,
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      selectionColumn: 'TransId',
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+      
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({

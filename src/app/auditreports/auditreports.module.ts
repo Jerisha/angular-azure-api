@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuditreportsRoutingModule } from './auditreports-routing.module';
-import { AuditexcelreportsComponent, FullauditdetailsComponent, AuditdiscrepancyreportComponent } from './index';
+import { AuditexcelreportsComponent, FullauditdetailsComponent, AuditdiscrepancyreportComponent, FullAuditHistoryComponent } from './index';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { FullAuditDetailsService } from './fullauditdetails/fullauditdetails.service';
 import { FullAuditTypeComponent } from './auditdiscrepancyreport/full-audit-type/full-audit-type.component';
@@ -14,6 +14,8 @@ import { SharedModule } from '../_shared/shared.module';
 import { HelperModule } from '../_helper/helper.module';
 import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';
 import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
+import { TelNoPipe } from '../_helper/pipe/telno.pipe';
+
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { ExternalAuditDetailsComponent } from './external-audit-details/external
     ExternalAuditTypeComponent,
     SeperateInternalAuditTypeComponent,
     UserCommentsDialogComponent,
-    ExternalAuditDetailsComponent
+    ExternalAuditDetailsComponent,
+    FullAuditHistoryComponent,
+    // AuditUserActionSummaryComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +41,6 @@ import { ExternalAuditDetailsComponent } from './external-audit-details/external
     SharedModule,
     HelperModule
   ],
-  providers: [FullAuditDetailsService, AuditDiscpancyReportService]
+  providers: [FullAuditDetailsService, AuditDiscpancyReportService,TelNoPipe],
 })
 export class AuditreportsModule { }

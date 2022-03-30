@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuditDataFilesComponent } from './audit-data-files/audit-data-files.component';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,13 +9,18 @@ import { AdministrationRoutingModule } from './administration-routing.module';
 import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolvedtransaction.component';
 import { UnsolicitedactionreportsComponent } from './unsolicitedactionreports/unsolicitedactionreports.component';
 
+import {RestoresolicitederrorsComponent,AuditDataFilesComponent,ManageUsersComponent} from './index'
+import { AdministrationService } from './services/administration.service';
+import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
 
 @NgModule({
   declarations: [
     AuditDataFilesComponent,
     UnresolvedtransactionComponent,
     UnsolicitedactionreportsComponent,
-    UnsolicitedactionreportsComponent
+    RestoresolicitederrorsComponent,
+    ManageUsersComponent,
+    UnresolvederrorsComponent
   ],
   imports: [
     CommonModule,
@@ -27,6 +31,6 @@ import { UnsolicitedactionreportsComponent } from './unsolicitedactionreports/un
     HttpClientModule,
     SharedModule,
     HelperModule
-  ]
+  ], providers:[AdministrationService]
 })
 export class AdministrationModule { }

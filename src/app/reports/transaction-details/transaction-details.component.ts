@@ -4,9 +4,8 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { combineLatest,Observable, Subject,of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Select } from 'src/app/uicomponents/models/select';
-import { ITransactionDetails } from 'src/app/reports/models/ITransactionDetails';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
-import { TransactionDetailsService} from 'src/app/reports/services/transaction-details.service';
+import { ReportService} from 'src/app/reports/services/report.service';
 import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
@@ -15,64 +14,6 @@ import { Utils } from 'src/app/_http/common/utils';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
-
-
-const HEADER_DATA: ITransactionDetails[] = [
-  {
-Links:'Links',
-TelephoneNumber:'Telephone No.',
-TranId:'Tran Id',
-TransactionRef:'Transaction Ref',
-Status:'Status',
-ProvideDate:'Provide Date',
-CreatedOn:'Created On',
-EffectiveDate:'Effective Date',
-ParentCupid:'Parent Cupid',
-ChildCupid:'Child Cupid',
-Franchise:'Franchise',
-SourceSystem:'Source System',
-SourceType:'Source Type',
-LineType:'Line Type',
-CreatedBy:'Created By',
-TranCmd:'Tran Cmd',
-BTCmd:'BT Cmd',
-CustTitle:'Cust Title',
-CustForename:'Cust Forename',
-CustName:'Cust Name',
-AddressBussinessSuffix:'Address Bussiness Suffix',
-AddressPremises:'Premises',
-AddressThoroughfare:'Address Thoroughfare',
-AddressLocality:'Address Locality',
-Postcode:'Postcode',
-AddressLine1:'Address Line 1',
-AddressLine2:'Address Line 2',
-AddressLine3:'Address Line 3',
-AddressLine4:'Address Line 4',
-RetailerId:'Retailer Id',
-AddressId:'Address Id',
-AddressIdSource:'Address Id Source',
-NewTelephoneNumber:'New Telephone No.',
-CrossRefNo:'Cross Ref No',
-ChangeCupid:'Change Cupid',
-ErrorList:'Error List',
-ErrorCount:'Error Count',
-CustNameFull:'Cust Name Full',
-CustNameCompact:'Cust Name Compact',
-Reference:'Reference',
-Callback:'Callback',
-OrderRef:'Order Ref.',
-SarRefNum:'Sar Ref Num',
-SarTransNum:'Sar Trans Num',
-Comment:'Comment',
-ConnType:'Conn. Type',
-TypeOfLine:'Type of Line',
-ServiceType:'Service Type',
-AccessMethod:'Access Method',
-InternalErrors:'Internal Errors',
-BTResponses:'BT Responses',
-BTFileName:'BT File Name',
-  }
-];
 
 let FilterListItems: Select[] = [  
 { view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
@@ -97,40 +38,22 @@ let FilterListItems: Select[] = [
 export class TransactionDetailsComponent implements OnInit {
   
   
+  
   constructor(
     private formBuilder: FormBuilder, 
-    private service: TransactionDetailsService, 
-    private _snackBar: MatSnackBar,
+    private service: ReportService,
     private cdr: ChangeDetectorRef,
     private spinner: NgxSpinnerService) { }
   
   myTable!: TableItem;
   dataSaved = false;
-  massage = null;
-  // selectListItems: string[] = [];
+  massage = null;  
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;  
-  expressions:any = [expNumeric,expString,expDate];
-  expOperators:string [] =[
-    "StartTelephoneNumberOperator",
-    "CustomerNameOperator",
-    "CreationDateOperator",
-    "PostcodeOperator",
-    "PremisesOperator",
-    "ThoroughfareOperator",
-    "LocalityOperator",
-    "SourceOperator",
-    "CupidOperator",
-    "FranchiseOperator",
-    "TransactionCommandOperator",
-    "TypeOfLineOperator",
-  ];
-  expOperatorsKeyPair:[string,string][] =[];
+  expressions:any = [expNumeric,expString,expDate];  
+  expOperatorsKeyPair:[string,string][] =[]; 
+  resetExp: boolean=false;
   
-
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-  errorCodesOptions!: Observable<any[]>;
   selectedRowsCount: number = 0;  
   
   selectedTab!: number;
@@ -140,13 +63,14 @@ export class TransactionDetailsComponent implements OnInit {
   tranId?: any;
 
   repIdentifier = "TransactionDetails";
-  
+  currentPage: string = '1';
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   querytemp:any;
+
 
   columns: ColumnDetails[] = [    
     { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
@@ -189,28 +113,24 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Cust Name Full',headerValue:'CustomerNameFull', showDefault: true, isImage: false },
     { header: 'Cust Name Compact',headerValue:'CustomerNameCompact', showDefault: true, isImage: false },
     { header: 'Reference',headerValue:'Reference', showDefault: true, isImage: false },
-   // { header: 'Callback',headerValue:'Callback', showDefault: true, isImage: false }, // never populate need to check,api not returns
     { header: 'Order Ref.',headerValue:'OrderReference', showDefault: true, isImage: false },
     { header: 'Sar Ref Num',headerValue:'SarReferenceNumber', showDefault: true, isImage: false }, //need to check with millan
     { header: 'Sar Trans Num',headerValue:'SarTransactionNumber', showDefault: true, isImage: false }, //need to check with millan
     { header: 'Comment',headerValue:'Comment', showDefault: true, isImage: false },
-    //{ header: 'Conn. Type',headerValue:'Conn.Type', showDefault: true, isImage: false }, // never populate need to check; wire frame field na,api not returns
     { header: 'Type of Line',headerValue:'TypeOfLine', showDefault: true, isImage: false }, //wire frame field na
     { header: 'Service Type',headerValue:'ServiceType', showDefault: true, isImage: false }, //wire frame field na
-    //{ header: 'Access Method',headerValue:'AccessMethod', showDefault: true, isImage: false }, // never populate need to check wire frame field na,api not returns
     { header: 'Internal Errors',headerValue:'InternalErrors', showDefault: true, isImage: false },//wire frame field na
     { header: 'BT Responses',headerValue:'BtResponses', showDefault: true, isImage: false }, //wire frame field na
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
   ];
   ngOnInit(): void {    
-    let request = Utils.prepareConfigRequest(['Search'],['Command','Source','Franchise','TypeOfLine']);
+    let request = Utils.prepareConfigRequest(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine']);
     this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));  
-    this.createForm();
-   // this.setOptions(); 
+    this.createForm();   
   }
 
   splitData(data: string): string[] { 
-    
+
     if(data===undefined)
     {
       return [];
@@ -243,32 +163,9 @@ export class TransactionDetailsComponent implements OnInit {
       Franchise: new FormControl({ value: '', disabled: true }, []),  
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),    
       TypeOfLine: new FormControl({ value: '', disabled: true }, []),
-
-       //StartTelephoneNumberOperator: new FormControl({ value: '', disabled: true }, []),
-      // CustomerNameOperator: new FormControl({ value: '', disabled: true }, []),
-      // CreationDateOperator: new FormControl({ value: '', disabled: true },[]),
-      // PostcodeOperator: new FormControl({ value: '', disabled: true }, []),
-      // PremisesOperator: new FormControl({ value: '', disabled: true }, []),      
-      // ThoroughfareOperator: new FormControl({ value: '', disabled: true }, []),
-      // LocalityOperator: new FormControl({ value: '', disabled: true }, []),
-      // SourceOperator: new FormControl({ value: '', disabled: true }, []), 
-      // CupidOperator: new FormControl({ value: '', disabled: true }, []),
-      // FranchiseOperator: new FormControl({ value: '', disabled: true }, []),  
-      // TransactionCommandOperator: new FormControl({ value: '', disabled: true }, []),    
-      // TypeOfLineOperator: new FormControl({ value: '', disabled: true }, []),
+     
     })
-    // this.expOperatorsKeyPair.push(["StartTelephoneNumberOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["CustomerNameOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["CreationDateOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["PostcodeOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["PremisesOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["ThoroughfareOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["LocalityOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["CupidOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["FranchiseOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
+   
       }
   
       get f() {
@@ -279,463 +176,21 @@ export class TransactionDetailsComponent implements OnInit {
     
   }
 
-  
-  public   getTransactionDetailsSourceData()
-  {
-    return [
-      {
-    Links:'image',
-    TelephoneNumber:'Sample Data',
-    TranId:'Sample Data',
-    TransactionRef:'Sample Data',
-    Status:'Sample Data',
-    ProvideDate:'Sample Data',
-    CreatedOn:'Sample Data',
-    EffectiveDate:'Sample Data',
-    ParentCupid:'Sample Data',
-    ChildCupid:'Sample Data',
-    Franchise:'Sample Data',
-    SourceSystem:'Sample Data',
-    SourceType:'Sample Data',
-    LineType:'Sample Data',
-    CreatedBy:'Sample Data',
-    TranCmd:'Sample Data',
-    BTCmd:'Sample Data',
-    CustTitle:'Sample Data',
-    CustForename:'Sample Data',
-    CustName:'Sample Data',
-    AddressBussinessSuffix:'Sample Data',
-    AddressPremises:'Sample Data',
-    AddressThoroughfare:'Sample Data',
-    AddressLocality:'Sample Data',
-    Postcode:'Sample Data',
-    AddressLine1:'Sample Data',
-    AddressLine2:'Sample Data',
-    AddressLine3:'Sample Data',
-    AddressLine4:'Sample Data',
-    RetailerId:'Sample Data',
-    AddressId:'Sample Data',
-    AddressIdSource:'Sample Data',
-    NewTelephoneNumber:'Sample Data',
-    CrossRefNo:'Sample Data',
-    ChangeCupid:'Sample Data',
-    ErrorList:'Sample Data',
-    ErrorCount:'Sample Data',
-    CustNameFull:'Sample Data',
-    CustNameCompact:'Sample Data',
-    Reference:'Sample Data',
-    Callback:'Sample Data',
-    OrderRef:'Sample Data',
-    SarRefNum:'Sample Data',
-    SarTransNum:'Sample Data',
-    Comment:'Sample Data',
-    ConnType:'Sample Data',
-    TypeOfLine:'Sample Data',
-    ServiceType:'Sample Data',
-    AccessMethod:'Sample Data',
-    InternalErrors:'Sample Data',
-    BTResponses:'Sample Data',
-    BTFileName:'Sample Data',
-      },
-      {
-        Links:'image',
-        TelephoneNumber:'Sample Data',
-        TranId:'Sample Data',
-        TransactionRef:'Sample Data',
-        Status:'Sample Data',
-        ProvideDate:'Sample Data',
-        CreatedOn:'Sample Data',
-        EffectiveDate:'Sample Data',
-        ParentCupid:'Sample Data',
-        ChildCupid:'Sample Data',
-        Franchise:'Sample Data',
-        SourceSystem:'Sample Data',
-        SourceType:'Sample Data',
-        LineType:'Sample Data',
-        CreatedBy:'Sample Data',
-        TranCmd:'Sample Data',
-        BTCmd:'Sample Data',
-        CustTitle:'Sample Data',
-        CustForename:'Sample Data',
-        CustName:'Sample Data',
-        AddressBussinessSuffix:'Sample Data',
-        AddressPremises:'Sample Data',
-        AddressThoroughfare:'Sample Data',
-        AddressLocality:'Sample Data',
-        Postcode:'Sample Data',
-        AddressLine1:'Sample Data',
-        AddressLine2:'Sample Data',
-        AddressLine3:'Sample Data',
-        AddressLine4:'Sample Data',
-        RetailerId:'Sample Data',
-        AddressId:'Sample Data',
-        AddressIdSource:'Sample Data',
-        NewTelephoneNumber:'Sample Data',
-        CrossRefNo:'Sample Data',
-        ChangeCupid:'Sample Data',
-        ErrorList:'Sample Data',
-        ErrorCount:'Sample Data',
-        CustNameFull:'Sample Data',
-        CustNameCompact:'Sample Data',
-        Reference:'Sample Data',
-        Callback:'Sample Data',
-        OrderRef:'Sample Data',
-        SarRefNum:'Sample Data',
-        SarTransNum:'Sample Data',
-        Comment:'Sample Data',
-        ConnType:'Sample Data',
-        TypeOfLine:'Sample Data',
-        ServiceType:'Sample Data',
-        AccessMethod:'Sample Data',
-        InternalErrors:'Sample Data',
-        BTResponses:'Sample Data',
-        BTFileName:'Sample Data',
-          },
-          {
-            Links:'image',
-            TelephoneNumber:'Sample Data',
-            TranId:'Sample Data',
-            TransactionRef:'Sample Data',
-            Status:'Sample Data',
-            ProvideDate:'Sample Data',
-            CreatedOn:'Sample Data',
-            EffectiveDate:'Sample Data',
-            ParentCupid:'Sample Data',
-            ChildCupid:'Sample Data',
-            Franchise:'Sample Data',
-            SourceSystem:'Sample Data',
-            SourceType:'Sample Data',
-            LineType:'Sample Data',
-            CreatedBy:'Sample Data',
-            TranCmd:'Sample Data',
-            BTCmd:'Sample Data',
-            CustTitle:'Sample Data',
-            CustForename:'Sample Data',
-            CustName:'Sample Data',
-            AddressBussinessSuffix:'Sample Data',
-            AddressPremises:'Sample Data',
-            AddressThoroughfare:'Sample Data',
-            AddressLocality:'Sample Data',
-            Postcode:'Sample Data',
-            AddressLine1:'Sample Data',
-            AddressLine2:'Sample Data',
-            AddressLine3:'Sample Data',
-            AddressLine4:'Sample Data',
-            RetailerId:'Sample Data',
-            AddressId:'Sample Data',
-            AddressIdSource:'Sample Data',
-            NewTelephoneNumber:'Sample Data',
-            CrossRefNo:'Sample Data',
-            ChangeCupid:'Sample Data',
-            ErrorList:'Sample Data',
-            ErrorCount:'Sample Data',
-            CustNameFull:'Sample Data',
-            CustNameCompact:'Sample Data',
-            Reference:'Sample Data',
-            Callback:'Sample Data',
-            OrderRef:'Sample Data',
-            SarRefNum:'Sample Data',
-            SarTransNum:'Sample Data',
-            Comment:'Sample Data',
-            ConnType:'Sample Data',
-            TypeOfLine:'Sample Data',
-            ServiceType:'Sample Data',
-            AccessMethod:'Sample Data',
-            InternalErrors:'Sample Data',
-            BTResponses:'Sample Data',
-            BTFileName:'Sample Data',
-              },
-              {
-                Links:'image',
-                TelephoneNumber:'Sample Data',
-                TranId:'Sample Data',
-                TransactionRef:'Sample Data',
-                Status:'Sample Data',
-                ProvideDate:'Sample Data',
-                CreatedOn:'Sample Data',
-                EffectiveDate:'Sample Data',
-                ParentCupid:'Sample Data',
-                ChildCupid:'Sample Data',
-                Franchise:'Sample Data',
-                SourceSystem:'Sample Data',
-                SourceType:'Sample Data',
-                LineType:'Sample Data',
-                CreatedBy:'Sample Data',
-                TranCmd:'Sample Data',
-                BTCmd:'Sample Data',
-                CustTitle:'Sample Data',
-                CustForename:'Sample Data',
-                CustName:'Sample Data',
-                AddressBussinessSuffix:'Sample Data',
-                AddressPremises:'Sample Data',
-                AddressThoroughfare:'Sample Data',
-                AddressLocality:'Sample Data',
-                Postcode:'Sample Data',
-                AddressLine1:'Sample Data',
-                AddressLine2:'Sample Data',
-                AddressLine3:'Sample Data',
-                AddressLine4:'Sample Data',
-                RetailerId:'Sample Data',
-                AddressId:'Sample Data',
-                AddressIdSource:'Sample Data',
-                NewTelephoneNumber:'Sample Data',
-                CrossRefNo:'Sample Data',
-                ChangeCupid:'Sample Data',
-                ErrorList:'Sample Data',
-                ErrorCount:'Sample Data',
-                CustNameFull:'Sample Data',
-                CustNameCompact:'Sample Data',
-                Reference:'Sample Data',
-                Callback:'Sample Data',
-                OrderRef:'Sample Data',
-                SarRefNum:'Sample Data',
-                SarTransNum:'Sample Data',
-                Comment:'Sample Data',
-                ConnType:'Sample Data',
-                TypeOfLine:'Sample Data',
-                ServiceType:'Sample Data',
-                AccessMethod:'Sample Data',
-                InternalErrors:'Sample Data',
-                BTResponses:'Sample Data',
-                BTFileName:'Sample Data',
-                  },
-                  {
-                    Links:'image',
-                    TelephoneNumber:'Sample Data',
-                    TranId:'Sample Data',
-                    TransactionRef:'Sample Data',
-                    Status:'Sample Data',
-                    ProvideDate:'Sample Data',
-                    CreatedOn:'Sample Data',
-                    EffectiveDate:'Sample Data',
-                    ParentCupid:'Sample Data',
-                    ChildCupid:'Sample Data',
-                    Franchise:'Sample Data',
-                    SourceSystem:'Sample Data',
-                    SourceType:'Sample Data',
-                    LineType:'Sample Data',
-                    CreatedBy:'Sample Data',
-                    TranCmd:'Sample Data',
-                    BTCmd:'Sample Data',
-                    CustTitle:'Sample Data',
-                    CustForename:'Sample Data',
-                    CustName:'Sample Data',
-                    AddressBussinessSuffix:'Sample Data',
-                    AddressPremises:'Sample Data',
-                    AddressThoroughfare:'Sample Data',
-                    AddressLocality:'Sample Data',
-                    Postcode:'Sample Data',
-                    AddressLine1:'Sample Data',
-                    AddressLine2:'Sample Data',
-                    AddressLine3:'Sample Data',
-                    AddressLine4:'Sample Data',
-                    RetailerId:'Sample Data',
-                    AddressId:'Sample Data',
-                    AddressIdSource:'Sample Data',
-                    NewTelephoneNumber:'Sample Data',
-                    CrossRefNo:'Sample Data',
-                    ChangeCupid:'Sample Data',
-                    ErrorList:'Sample Data',
-                    ErrorCount:'Sample Data',
-                    CustNameFull:'Sample Data',
-                    CustNameCompact:'Sample Data',
-                    Reference:'Sample Data',
-                    Callback:'Sample Data',
-                    OrderRef:'Sample Data',
-                    SarRefNum:'Sample Data',
-                    SarTransNum:'Sample Data',
-                    Comment:'Sample Data',
-                    ConnType:'Sample Data',
-                    TypeOfLine:'Sample Data',
-                    ServiceType:'Sample Data',
-                    AccessMethod:'Sample Data',
-                    InternalErrors:'Sample Data',
-                    BTResponses:'Sample Data',
-                    BTFileName:'Sample Data',
-                      },
-                      {
-                        Links:'image',
-                        TelephoneNumber:'Sample Data',
-                        TranId:'Sample Data',
-                        TransactionRef:'Sample Data',
-                        Status:'Sample Data',
-                        ProvideDate:'Sample Data',
-                        CreatedOn:'Sample Data',
-                        EffectiveDate:'Sample Data',
-                        ParentCupid:'Sample Data',
-                        ChildCupid:'Sample Data',
-                        Franchise:'Sample Data',
-                        SourceSystem:'Sample Data',
-                        SourceType:'Sample Data',
-                        LineType:'Sample Data',
-                        CreatedBy:'Sample Data',
-                        TranCmd:'Sample Data',
-                        BTCmd:'Sample Data',
-                        CustTitle:'Sample Data',
-                        CustForename:'Sample Data',
-                        CustName:'Sample Data',
-                        AddressBussinessSuffix:'Sample Data',
-                        AddressPremises:'Sample Data',
-                        AddressThoroughfare:'Sample Data',
-                        AddressLocality:'Sample Data',
-                        Postcode:'Sample Data',
-                        AddressLine1:'Sample Data',
-                        AddressLine2:'Sample Data',
-                        AddressLine3:'Sample Data',
-                        AddressLine4:'Sample Data',
-                        RetailerId:'Sample Data',
-                        AddressId:'Sample Data',
-                        AddressIdSource:'Sample Data',
-                        NewTelephoneNumber:'Sample Data',
-                        CrossRefNo:'Sample Data',
-                        ChangeCupid:'Sample Data',
-                        ErrorList:'Sample Data',
-                        ErrorCount:'Sample Data',
-                        CustNameFull:'Sample Data',
-                        CustNameCompact:'Sample Data',
-                        Reference:'Sample Data',
-                        Callback:'Sample Data',
-                        OrderRef:'Sample Data',
-                        SarRefNum:'Sample Data',
-                        SarTransNum:'Sample Data',
-                        Comment:'Sample Data',
-                        ConnType:'Sample Data',
-                        TypeOfLine:'Sample Data',
-                        ServiceType:'Sample Data',
-                        AccessMethod:'Sample Data',
-                        InternalErrors:'Sample Data',
-                        BTResponses:'Sample Data',
-                        BTFileName:'Sample Data',
-                          },
-                          {
-                            Links:'image',
-                            TelephoneNumber:'Sample Data',
-                            TranId:'Sample Data',
-                            TransactionRef:'Sample Data',
-                            Status:'Sample Data',
-                            ProvideDate:'Sample Data',
-                            CreatedOn:'Sample Data',
-                            EffectiveDate:'Sample Data',
-                            ParentCupid:'Sample Data',
-                            ChildCupid:'Sample Data',
-                            Franchise:'Sample Data',
-                            SourceSystem:'Sample Data',
-                            SourceType:'Sample Data',
-                            LineType:'Sample Data',
-                            CreatedBy:'Sample Data',
-                            TranCmd:'Sample Data',
-                            BTCmd:'Sample Data',
-                            CustTitle:'Sample Data',
-                            CustForename:'Sample Data',
-                            CustName:'Sample Data',
-                            AddressBussinessSuffix:'Sample Data',
-                            AddressPremises:'Sample Data',
-                            AddressThoroughfare:'Sample Data',
-                            AddressLocality:'Sample Data',
-                            Postcode:'Sample Data',
-                            AddressLine1:'Sample Data',
-                            AddressLine2:'Sample Data',
-                            AddressLine3:'Sample Data',
-                            AddressLine4:'Sample Data',
-                            RetailerId:'Sample Data',
-                            AddressId:'Sample Data',
-                            AddressIdSource:'Sample Data',
-                            NewTelephoneNumber:'Sample Data',
-                            CrossRefNo:'Sample Data',
-                            ChangeCupid:'Sample Data',
-                            ErrorList:'Sample Data',
-                            ErrorCount:'Sample Data',
-                            CustNameFull:'Sample Data',
-                            CustNameCompact:'Sample Data',
-                            Reference:'Sample Data',
-                            Callback:'Sample Data',
-                            OrderRef:'Sample Data',
-                            SarRefNum:'Sample Data',
-                            SarTransNum:'Sample Data',
-                            Comment:'Sample Data',
-                            ConnType:'Sample Data',
-                            TypeOfLine:'Sample Data',
-                            ServiceType:'Sample Data',
-                            AccessMethod:'Sample Data',
-                            InternalErrors:'Sample Data',
-                            BTResponses:'Sample Data',
-                            BTFileName:'Sample Data',
-                              },
-                              {
-                                Links:'image',
-                                TelephoneNumber:'Sample Data',
-                                TranId:'Sample Data',
-                                TransactionRef:'Sample Data',
-                                Status:'Sample Data',
-                                ProvideDate:'Sample Data',
-                                CreatedOn:'Sample Data',
-                                EffectiveDate:'Sample Data',
-                                ParentCupid:'Sample Data',
-                                ChildCupid:'Sample Data',
-                                Franchise:'Sample Data',
-                                SourceSystem:'Sample Data',
-                                SourceType:'Sample Data',
-                                LineType:'Sample Data',
-                                CreatedBy:'Sample Data',
-                                TranCmd:'Sample Data',
-                                BTCmd:'Sample Data',
-                                CustTitle:'Sample Data',
-                                CustForename:'Sample Data',
-                                CustName:'Sample Data',
-                                AddressBussinessSuffix:'Sample Data',
-                                AddressPremises:'Sample Data',
-                                AddressThoroughfare:'Sample Data',
-                                AddressLocality:'Sample Data',
-                                Postcode:'Sample Data',
-                                AddressLine1:'Sample Data',
-                                AddressLine2:'Sample Data',
-                                AddressLine3:'Sample Data',
-                                AddressLine4:'Sample Data',
-                                RetailerId:'Sample Data',
-                                AddressId:'Sample Data',
-                                AddressIdSource:'Sample Data',
-                                NewTelephoneNumber:'Sample Data',
-                                CrossRefNo:'Sample Data',
-                                ChangeCupid:'Sample Data',
-                                ErrorList:'Sample Data',
-                                ErrorCount:'Sample Data',
-                                CustNameFull:'Sample Data',
-                                CustNameCompact:'Sample Data',
-                                Reference:'Sample Data',
-                                Callback:'Sample Data',
-                                OrderRef:'Sample Data',
-                                SarRefNum:'Sample Data',
-                                SarTransNum:'Sample Data',
-                                Comment:'Sample Data',
-                                ConnType:'Sample Data',
-                                TypeOfLine:'Sample Data',
-                                ServiceType:'Sample Data',
-                                AccessMethod:'Sample Data',
-                                InternalErrors:'Sample Data',
-                                BTResponses:'Sample Data',
-                                BTFileName:'Sample Data',
-                                  }
-    ];
-  }
-
   OnOperatorClicked(val:[string,string])
-  {
-    // if (event.target.value !="")
-     console.log("operators event","value " ,val );
+  {    
     let vals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,val[0]));
-    console.log("operators event1","vals " ,vals );
+    
     if(vals.length==0)
     {
     this.expOperatorsKeyPair.push(val);
-    console.log("if part",this.expOperatorsKeyPair);
+    
     }
     else{
       this.expOperatorsKeyPair=this.expOperatorsKeyPair.filter((i)=>i[0]!=val[0]);
-      this.expOperatorsKeyPair.push(val);
-      console.log("else part",this.expOperatorsKeyPair);
+      this.expOperatorsKeyPair.push(val);      
     }
   }
-/* field Validation starts... */
+
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
@@ -751,9 +206,6 @@ export class TransactionDetailsComponent implements OnInit {
     return true;
   }
 
-
-/* field Validation End */
-
 getTupleValue(element:[string,string],keyvalue:string)
 {
   if (element[0]==keyvalue)
@@ -763,208 +215,23 @@ getTupleValue(element:[string,string],keyvalue:string)
  
 }
 
-  prepareQueryParams(): any {
-
-    // let attributes: any =[ {
-
-    //   "Name" : "StartTelephoneNumber",
-
-    //   "Value" : [ "01076543233" ]
-
-    // }, {
-
-    //   "Name" : "StartTelephoneNumberOperator",
-
-    //   "Value" : [ "" ]
-
-    // } ,
-    //  {
-
-    //   "Name" : "CustomerName",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "CustomerNameOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "PostCode",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "PostCodeOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "CreationDate",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "CreationDateOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "TypeOfLine",
-
-    //  "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "TypeOfLineOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Premises",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "PremisesOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Thoroughfare",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "ThoroughfareOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Locality",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "LocalityOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Franchise",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "FranchiseOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "TransactionCommand",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "TransactionCommandOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Cupid",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "CupidOperator",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "Source",
-
-    //   "Value" : [ "" ]
-
-    // }, {
-
-    //   "Name" : "SourceOperator",
-
-    //   "Value" : [ "" ]
-
-    // },
-    // {
-
-    //   "Name" : "PageNumber",
-
-    //   "Value" : [ "1" ]
-
-    // } ];
-    //let attributes: any = [
-    //   { Name: 'PageNumber', Value: ['1'] },
-    //     { Name: 'StartTelephoneNumber', Value: ['1076543233'] },
-    //     { Name: 'StartTelephoneNumberOperator', Value: ['Contains'] },
-    //     { Name: 'CustomerName', Value: ['J2 GLOBAL UK LTD'] },
-    //     { Name: 'CustomerNameOperator', Value: ['Contains'] },
-    //     { Name: 'PostCode', Value: ['LU1 4BU'] },
-    //     { Name: 'PostCodeOperator', Value: ['Contains'] },
-    //     { Name: 'CreationDate', Value: ['22-Jan-2022'] },
-    //     { Name: 'CreationDateOperator', Value: ['Equal To'] },
-    //     { Name: 'TypeOfLine', Value: ['BW'] },
-    //     { Name: 'TypeOfLineOperator', Value: ['Contains'] },
-    //     { Name: 'Premises', Value: ['TELEHOUSE EAST'] },
-    //     { Name: 'PremisesOperator', Value: ['Contains'] },
-    //     { Name: 'Thoroughfare', Value: ['CORIANDER AVENUE'] },
-    //     { Name: 'ThoroughfareOperator', Value: ['Contains'] },
-    //     { Name: 'Locality', Value: ['LONDON'] },
-    //     { Name: 'LocalityOperator', Value: ['Contains'] },
-    //     { Name: 'Franchise', Value: ['MCL'] },
-    //     { Name: 'FranchiseOperator', Value: ['Contains'] },
-    //     { Name: 'TransactionCommand', Value: ['A'] },
-    //     { Name: 'TransactionCommandOperator', Value: ['Contains'] },
-    //     { Name: 'Cupid', Value: ['12'] },
-    //     { Name: 'CupidOperator', Value: ['Equal To'] },
-    //     { Name: 'Source', Value: ['C-SASCOMS'] },
-    //     { Name: 'SourceOperator', Value: ['Contains'] },
-
-     // ];
-  let attributes: any = [{ Name: 'PageNumber', Value: ['1'] }, ];
+prepareQueryParams(pageNo: string): any {
+  let attributes: any = [
+    { Name: 'PageNumber', Value: [`${pageNo}`] }];
 
     for (const field in this.thisForm?.controls) {
-      const control = this.thisForm.get(field); 
-     // console.log(attributes);   
+      const control = this.thisForm.get(field);       
         if (control?.value != "")
           {
-            if(field =="creationDate")
+            if(field =="CreationDate")
             {
               attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
-            }
-            // console.log("field:",field," val:",control?.value)
+            } 
+            else{          
             attributes.push({ Name: field, Value: [control?.value] });
+            }
             let operator:string = field+"Operator";
-            
-            console.log("op vals",this.expOperatorsKeyPair);
-            
-            //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
-            //  console.log("op ",operatorVal);
+
              if (this.expOperatorsKeyPair.length !=0 )
              {    
               let expvals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator));          
@@ -998,40 +265,38 @@ getTupleValue(element:[string,string],keyvalue:string)
              
           }
     }
-      //  console.log(attributes);
-
     return attributes;
 
   }
-
-  TelephoneChange(e:any){
-    //(change)="TelephoneChange($event)"
-    // alert("Telephone changes:" + e.target.value);
-    // var x = e.which || e.keycode;
-    //          if ((x >= 48 && x <= 57))
-    //              return e.target.value;
-    //          else
-    //              return e.target.value="";
-
+  
+  getNextSetRecords(pageIndex: any) {   
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
   }
 
-  onFormSubmit(): void {  
-   
-    let request = Utils.prepareQueryRequest('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams());
-    // console.log("req : ",request);
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TransactionDetails));
-   // this.querytemp = this.service.queryDetails(request);
-    //console.log("response:",this.querytemp[0].TransactionDetails);
-    // console.log("resp : ",of(this.queryResult$));
-    this.myTable = {
-      // data: this.service.getTransactionDetailsSourceData(),
-     // data:this.getTransactionDetailsSourceData(),
-      data: this.queryResult$, 
-      //data:of(this.querytemp[0].TransactionDetails),     
+  onFormSubmit(isEmitted?: boolean): void {    
+    if(!this.thisForm.valid) return;
+    this.tabs.splice(0);
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.prepareQueryRequest('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].TransactionDetails,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return {datasource:res};;
+    }));
+    this.myTable = {      
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      selectionColumn: 'TranId',
+      
+      removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
                   { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]  }
     
@@ -1041,18 +306,13 @@ getTupleValue(element:[string,string],keyvalue:string)
                       name: 'Transaction Summary'
                     });
                   }
-                  this.selectedTab = this.tabs.length;
+      this.selectedTab = this.tabs.length;
 
    }
   resetForm(): void {   
     this.thisForm.reset();
-    this.tabs.splice(0);
-    // this._snackBar.open('Report Reset Completed!', 'Close', {
-    //   duration: 5000,
-    //   horizontalPosition: this.horizontalPosition,
-    //   verticalPosition: this.verticalPosition,
-    
-    // });
+    this.tabs.splice(0); 
+    this.resetExp= true;   
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -1066,8 +326,7 @@ getTupleValue(element:[string,string],keyvalue:string)
     });
   }
 
-  rowDetect(item: any) {   
-    
+  rowDetect(item: any) {  
     
     this.selectedRowsCount = item.length;
     if(item && item.length == 0) return
@@ -1077,24 +336,8 @@ getTupleValue(element:[string,string],keyvalue:string)
       else if (this.selectedGridRows.includes(item)) {
         let index = this.selectedGridRows.indexOf(item);
         this.selectedGridRows.splice(index, 1)
-      }
-      
-    // this.selectedRowsCount = item.length;
-    // if (item.length == 0) {
-    //   this.selectListItems = [];
-    // } else {
-    //   item.forEach((el: string) => {
-    //     if (!this.selectListItems.includes(el)) {
-    //       this.selectListItems.push(el)
-    //     }
-    //     else {
-    //       if (this.selectListItems.includes(el)) {
-    //         let index = this.selectListItems.indexOf(el);
-    //         this.selectListItems.splice(index, 1)
-    //       }
-    //     }
-    //   });
-    // }
+      }     
+    
   }
 
   removeTab(index: number) {

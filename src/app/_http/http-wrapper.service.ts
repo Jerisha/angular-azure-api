@@ -70,8 +70,12 @@ export class HttpWrapperService {
                 case WebMethods.UPDATE:
                     debugger
                     categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
-                    if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                        this.alertService.success("Save Sucessful!!", { autoClose: true, keepAfterRouteChange: false });
+                    let responseStatus = this.resolveResponseStatus(categories);
+                    if (this.validateResponseStatus(responseStatus))
+                        jsonResult = JSON.stringify(responseStatus);
+                    else
+                        this.alertService.error("Save failed!!", { autoClose: true, keepAfterRouteChange: false });
+                    //this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
                     break;
                 case WebMethods.CREATE:
                     categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
@@ -82,10 +86,10 @@ export class HttpWrapperService {
             // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
             console.log("jsonString :" + jsonResult);
             //console.log(JSON.parse(jsonResult))
-            return jsonResult ? JSON.parse(jsonResult) : {};
+            return jsonResult ? JSON.parse(jsonResult) : [];
         } catch (err) {
-            console.log("error " + err)
-            this.alertService.error("UI Error.", { autoClose: true, keepAfterRouteChange: false });
+            console.log("Response: " + val + "ResponseError: " + err);
+            this.alertService.error("Incorrect Response Format", { autoClose: true, keepAfterRouteChange: false });
         }
     }
 
@@ -208,7 +212,16 @@ export class HttpWrapperService {
             }
         }
 
-
+        // Bind Qualities
+        if (objCharacteristic.hasOwnProperty("ListofQualities")) {
+            let thisItem = "";
+            let char = objCharacteristic.ListofQualities.Quality;
+            char?.forEach((characteristic: any) => {
+                ({ thisItem, jsonCreation } = this.bindItem(characteristic, thisItem, jsonCreation));
+            });
+            jsonCreation = jsonCreation.slice(0, jsonCreation.length - 1);
+            jsonCreation += `],`;
+        }
 
         //Bind Characteristics
         if (objCharacteristic.hasOwnProperty("ListofCharacteristics")) {
@@ -284,7 +297,6 @@ export class HttpWrapperService {
                 break;
             case WMMessageType.Error:
                 this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-                //this._route.navigate(['/shared/', { outlets: { errorPage: 'error' } }], { state: { errCode: wmResponse.StatusCode, errMsg: wmResponse.StatusMessage } });
                 return status;
                 break;
         }

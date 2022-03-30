@@ -18,6 +18,7 @@ import { ReportService } from '../services/report.service';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
+import { formatDate } from '@angular/common';
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -421,18 +422,18 @@ const Items: Select[] = [
 
 ];
 const Itemstwo: Select[] = [
-  { view: 'Telephone No.', viewValue: 'TelephoneNo', default: true },
+  { view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'Customer Name', viewValue: 'CustomerName', default: true },
   { view: 'Post Code', viewValue: 'PostCode', default: true },
-  { view: 'Created On', viewValue: 'CreatedOn', default: true },
-  { view: 'Premises', viewValue: 'Premises', default: false },
-  { view: 'Throughtfare', viewValue: 'Throughtfare', default: false },
-  { view: 'Locality', viewValue: 'Locality', default: false },
-  { view: 'Cupid', viewValue: 'Cupid', default: false },
-  { view: 'Type of Line', viewValue: 'TypeOfLine', default: false },
-  { view: 'Franchise', viewValue: 'Franchise', default: false },
-  { view: 'Trans Cmd', viewValue: 'TransactionCommand', default: false },
-  { view: 'Source', viewValue: 'Source', default: false },
+  { view: 'Created On', viewValue: 'CreationDate', default: true },
+  { view: 'Premises', viewValue: 'Premises', default: true },
+  { view: 'Throughtfare', viewValue: 'Throughtfare', default: true },
+  { view: 'Locality', viewValue: 'Locality', default: true },
+  { view: 'Cupid', viewValue: 'Cupid', default: true },
+  { view: 'Type of Line', viewValue: 'TypeOfLine', default: true },
+  { view: 'Franchise', viewValue: 'Franchise', default: true },
+  { view: 'Trans Cmd', viewValue: 'TransactionCommand', default: true },
+  { view: 'Source', viewValue: 'Source', default: true },
 ]
 
 
@@ -450,15 +451,32 @@ const Itemstwo: Select[] = [
 export class LiverecordsComponent implements OnInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   formbulider: any;
+  currentPage: string = '1';
 
   myTable!: TableItem;
   listItems!: Select[];
 
 
-    constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-      private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
+  constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
 
-  //
+  expOperators: string[] = [
+    "StartTelephoneNumberOperator",
+    "CustomerNameOperator",
+    "CreationDateOperator",
+    "PostcodeOperator",
+    "PremisesOperator",
+    "ThoroughfareOperator",
+    "LocalityOperator",
+    "SourceOperator",
+    "CupidOperator",
+    "FranchiseOperator",
+    "TransactionCommandOperator",
+    "TypeOfLineOperator",
+  ];
+  expOperatorsKeyPair: [string, string][] = [];
+resetExp:boolean = false;
+
   dataSaved = false;
   employeeForm: any;
   employeeIdUpdate = null;
@@ -471,7 +489,7 @@ export class LiverecordsComponent implements OnInit {
   SelectedDate = null;
   isMale = true;
   isFeMale = false;
-  expressions:any = [expNumeric,expString,expDate];
+  expressions: any = [expNumeric, expString, expDate];
   destroy$: Subject<boolean> = new Subject<boolean>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -480,22 +498,15 @@ export class LiverecordsComponent implements OnInit {
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
     { view: '303', viewValue: '303', default: true },
-];
-errorCode = new FormControl();
+  ];
+  errorCode = new FormControl();
   selectedTab!: number;
-
-
+  selectedGridRows: any[] = [];
   auditTelNo?: any;
   repIdentifier = "LiveTelephoneNumberDetails";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   configDetails!: any;
-  
-  // public tabs = [{
-  // tabType: 0,
-  // name: 'Main'
-  // },
-  //];
   public tabs: Tab[] = [];
   columns: ColumnDetails[] = [
     { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
@@ -505,12 +516,12 @@ errorCode = new FormControl();
     { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
     { header: 'Thoroughfare', headerValue: 'Thoroughfare', showDefault: true, isImage: false },
     { header: 'Locality', headerValue: 'Locality', showDefault: true, isImage: false },
-    { header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
-    { header: 'Transaction Reference', headerValue: 'TransactionReferenceerence', showDefault: true, isImage: false },
+    { header: 'PostCode', headerValue: 'PostCode', showDefault: true, isImage: false },
+    { header: 'Transaction Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
     { header: 'Customer Title', headerValue: 'CustomerTitle', showDefault: true, isImage: false },
     { header: 'Customer Forename', headerValue: 'CustomerForename', showDefault: true, isImage: false },
     { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
     { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
     { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
@@ -518,8 +529,9 @@ errorCode = new FormControl();
     { header: 'Address Line 2', headerValue: 'AddressLine2', showDefault: true, isImage: false },
     { header: 'Address Line 3', headerValue: 'AddressLine3', showDefault: true, isImage: false },
     { header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
-    { header: 'Parent CUPID', headerValue: 'ParentCUPID', showDefault: true, isImage: false },
-    { header: 'Child CUPID', headerValue: 'ChildCUPID', showDefault: true, isImage: false },
+    { header: 'Parent CUPID', headerValue: 'ParentCupid', showDefault: true, isImage: false },
+    { header: 'Child CUPID', headerValue: 'ChildCupid', showDefault: true, isImage: false },
+    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
     { header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
   ];
@@ -534,84 +546,32 @@ errorCode = new FormControl();
     });
   }
   ngOnInit(): void {
- 
+
     this.listItems = Itemstwo;
     // this.setOptions();
-      this.createForm();
-      // debugger;
-      // let transformInput = JSON.parse(WMRequests.CONFIG);
-      // transformInput.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = ['Command', 'Source']
-      // console.log("Input: ", transformInput);
-      // debugger;
-      // let request = Utils.prepareConfigRequest([ 'Source','Franchise','TypeOfLine','TransactionCommand','ErrorCode']);
-      // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
-  
-      // //this.prepareQueryRequest('SolicitedError', this.prepareQueryParams());
-    
-     
-
+    this.createForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'],['Source','Franchise','TypeOfLine','TransactionCommand']);
+    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'Franchise', 'TypeOfLine', 'TransactionCommand']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res[0];
     });
-  }
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
-  }
-
-  ngAfterViewChecked() {
-    this.cdr.detectChanges();
-  }
-  
-  prepareQueryParams(): any {
-    let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] }];
-
-
-    for (const field in this.myForm?.controls) {
-      const control = this.myForm.get(field);
-      if (field != 'Source') {
-        if (control?.value)
-          attributes.push({ Name: field, Value: [control?.value] });
-        else
-          attributes.push({ Name: field });
-      }
-    }
-    console.log(attributes);
-
-    return attributes;
 
   }
+ 
 
   get f() {
     return this.myForm.controls;
   }
-  addPrefix(control: string, value: any) {    
-    if (value.charAt(0) != 0) {
-      value = value.length <= 10 ? '0' + value : value;
-    }
-    this.myForm.controls[control].setValue(value);
-  }
-
-  numberOnly(event: any): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false;
-    }
-    return true;
-  }
+  
   setOptions() {
     this.errorCodesOptions = this.errorCode.valueChanges
-        .pipe(
-            startWith<string>(''),
-            map(name => this._filter(name))
-        );
-}
-  splitData(data: string | undefined): string[] {
-    return data ? data.split(',') : [];
+      .pipe(
+        startWith<string>(''),
+        map(name => this._filter(name))
+      );
   }
+ 
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
     // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
@@ -619,95 +579,148 @@ errorCode = new FormControl();
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  onFormSubmit(): void {
-  
+  getNextSetRecords(pageIndex: any) {
     debugger;
-    let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams());
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
+
+  onFormSubmit(isEmitted?: boolean): void {
+    debugger;
+    if(!this.myForm.valid) return;
+    this.tabs.splice(0);
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
-      // let result = { datasource: res[0].SolicitedError,
-      //    totalrecordcount: res[0].TotalCount,
-      //    totalpages: res[0].NumberOfPages
-      //   }
-      //   return result;
-      return res[0].LiveTelephoneNumberDetails
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].LiveTelephoneNumberDetails,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return res;
     }));
+
     this.myTable = {
       data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      selectionColumn: 'Links',
-      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '',toolTipText: 'Audit Trail Report', tabIndex: 1 }]
+       removeNoDataColumns : true,
+      imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'Main'
+        name: 'Live Data Summary'
       });
     }
-
-    // if (!this.tabs.find(x => x.tabType == 0)) {
-    //   this.tabs.push({
-    //     tabType: 0,
-    //     name: 'Main'
-    //   });
-    // }
-    // this.selectedTab = this.tabs.length;
-    // //this.selectedTab = this.tabs.length - 1;
   }
 
   resetForm(): void {
-    window.location.reload();
-    // this.tabs.splice(0);
-    
-    // this._snackBar.open('Reset Form Completed!', 'Close', {
-    //   duration: 5000,
-    //   horizontalPosition: this.horizontalPosition,
-    //   verticalPosition: this.verticalPosition,
-    // });
+    this.myForm.reset();
+    this.tabs.splice(0);
+    this.resetExp= true;
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
+  OnOperatorClicked(val: [string, string]) {
+    // if (event.target.value !="")
+    console.log("operators event", "value ", val);
+    let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
+    console.log("operators event1", "vals ", vals);
+    if (vals.length == 0) {
+      this.expOperatorsKeyPair.push(val);
+      console.log("if part", this.expOperatorsKeyPair);
+    }
+    else {
+      this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
+      this.expOperatorsKeyPair.push(val);
+      console.log("else part", this.expOperatorsKeyPair);
+    }
+  }
 
+  getTupleValue(element: [string, string], keyvalue: string) {
+    if (element[0] == keyvalue) { return element[1]; }
+    else
+      return "";
 
-  // newTab(tab: any) {
-  //   switch (tab.tabType) {
-  //     case 1: {
+  }
 
+  prepareQueryParams(pageNo: string): any {
+  
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
 
+    for (const field in this.myForm?.controls) {
+      // console.log('field', field)
+      const control = this.myForm.get(field);
+      // console.log('field', field, 'value',control?.value);   
+      if (control?.value != "") {
+        if (field == "CreationDate") {
+          attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
+        
+        }
+        else{
+        // console.log("field:",field," val:",control?.value)
+        attributes.push({ Name: field, Value: [control?.value] }); }
+        let operator: string = field + "Operator";
+        
+        console.log("op vals", this.expOperatorsKeyPair);
+        if (this.expOperatorsKeyPair.length != 0) {
+          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+          if (expvals.length != 0) {
+            attributes.push({ Name: operator, Value: [expvals[0][1]] });
+          }
+         
+          else {
+            if (field == 'StartTelephoneNumber' || field == 'CreationDate') {
+              attributes.push({ Name: operator, Value: ['Equal To'] });
+            }
+            else {
+              attributes.push({ Name: operator, Value: ['Equal To'] });
+            }
+          }
+        }
+         else{
+          if(field=='StartTelephoneNumber'|| field=='CreationDate')
+          {
+               attributes.push({ Name: operator, Value: ['Equal To'] }); 
+          }
+         else
+          {
+              attributes.push({ Name: operator, Value: ['Equal To'] });  
+          }
 
-  //       //tab.row contains row data- fetch data from api and bind to respetive component
-  //       if (!this.tabs.find(x => x.tabType == 1)) {
-  //         this.tabs.push({
-  //           tabType: 1,
-  //           name: 'Audit Trail Report'
-  //         });
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
-  //       } else {
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
-  //       }
-  //       break;
-  //     }
-  //     case 2: {
-  //       if (!this.tabs.find(x => x.tabType == 2)) {
-  //         this.tabs.push({
-  //           tabType: 2,
-  //           name: 'Transaction Details'
-  //         })
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-  //       } else {
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-  //       }
-  //       break;
-  //     }
-  //     default: {
-  //       //statements;
-  //       break;
-  //     }
-  //   }
-  // }
+        
+        }
+      
+      }
+    }
+
+    console.log('attri', attributes);
+    return attributes;
+
+  }
+
+  splitData(data: string | undefined): string[] {
+    return data ? data.split(',') : [];
+  }
+
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
+  ngAfterViewChecked() {
+    
+    this.cdr.detectChanges();
+  }
+
+  
 
   newTab(tab: any) {
     if (this.tabs === []) return;
@@ -733,21 +746,21 @@ errorCode = new FormControl();
         this.auditTelNo = tab.row.TelephoneNumber;
         break;
 
-      // case 2:
-      //   if (!this.tabs.find(x => x.tabType == 2)) {
-      //     this.tabs.push({
-      //       tabType: 2,
-      //       name: 'Transaction Errors'
-      //     })
-      //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-      //   } else {
-      //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-      //   }
-      //   this.telNo = tab.row.TelephoneNumber;
-      //   this.tranId = tab.row.TransactionId;
-      //   break;
-      // default:
-      //   //statements; 
+        // case 2:
+        //   if (!this.tabs.find(x => x.tabType == 2)) {
+        //     this.tabs.push({
+        //       tabType: 2,
+        //       name: 'Transaction Errors'
+        //     })
+        //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+        //   } else {
+        //     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+        //   }
+        //   this.telNo = tab.row.TelephoneNumber;
+        //   this.tranId = tab.row.TransactionId;
+        //   break;
+        // default:
+        //   //statements; 
         break;
 
     }
@@ -763,40 +776,51 @@ errorCode = new FormControl();
 
   createForm() {
     this.myForm = new FormGroup({
-      TelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(99)]),
-      CustomerName: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(99)]),
-      PostCode: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      CreatedOn: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Premises: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Throughtfare: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Locality: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Cupid: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      TypeOfLine: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Franchise: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      TransactionCommand: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      Source: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      CustomerName: new FormControl({ value: '', disabled: true }, []),
+      PostCode: new FormControl({ value: '', disabled: true }, []),
+      CreationDate: new FormControl({ value: '', disabled: true }, []),
+      Premises: new FormControl({ value: '', disabled: true }, []),
+      Throughtfare: new FormControl({ value: '', disabled: true }, []),
+      Locality: new FormControl({ value: '', disabled: true }, []),
+      Cupid: new FormControl({ value: '', disabled: true }, []),
+      TypeOfLine: new FormControl({ value: '', disabled: true }, []),
+      Franchise: new FormControl({ value: '', disabled: true }, []),
+      TransactionCommand: new FormControl({ value: '', disabled: true }, []),
+      Source: new FormControl({ value: '', disabled: true }, []),
 
     })
+
   
   }
 
-  rowDetect(item: any) {
-    //debugger;
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
+  addPrefix(control: string, value: any) {
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
     }
+    this.f[control].setValue(value);
   }
 
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  rowDetect(selectedRows: any) {
+    debugger;
+    selectedRows.forEach((item: any) => {
+      // this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
+
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+
+}
 }

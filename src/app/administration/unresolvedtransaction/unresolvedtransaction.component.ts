@@ -5,13 +5,8 @@ import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
-import { map, startWith } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { Utils } from 'src/app/_http/index';
-
-import { formatDate } from '@angular/common';
-import { environment } from 'src/environments/environment';
-import { UnresolvedTransaction } from 'src/app/governance/special-cease-transaction/models/unresolved-error';
+import { UnresolvedTransaction } from '../models/administraion-ui.module';
 
 const ELEMENT_DATA: UnresolvedTransaction[] = [
   {
@@ -72,6 +67,17 @@ const ELEMENT_DATA: UnresolvedTransaction[] = [
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
 ];
+
+const FilterListItems: Select[] = [
+  { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'Customer Name', viewValue: 'CustomerName', default: true },
+  { view: 'Source', viewValue: 'DateRange', default: true },
+  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Status', viewValue: 'Status', default: true },
+  { view: 'Trans Command', viewValue: 'TransCommand', default: true },
+  { view: 'Source Type', viewValue: 'SourceType', default: true },
+];
+
 @Component({
   selector: 'app-unresolvedtransaction',
   templateUrl: './unresolvedtransaction.component.html',
@@ -203,8 +209,9 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   
 
   columns: ColumnDetails[] = [
-    { header: 'Link', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Trans Id', headerValue: 'TransId', showDefault: true, isImage: false },
+    { header: 'Link', headerValue: 'View', showDefault: true, isImage: true },
+    
     { header: 'Telephone', headerValue: 'Telephone', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Ref', headerValue: 'TransactionReference', showDefault: true, isImage: false },
@@ -234,7 +241,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      selectionColumn: 'TransId',
+      
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuditDataFilesComponent } from './audit-data-files/audit-data-files.component';
+import {AuditDataFilesComponent, RestoresolicitederrorsComponent,ManageUsersComponent } from 'src/app/administration/index'
+import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
 import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolvedtransaction.component';
 import { UnsolicitedactionreportsComponent } from './unsolicitedactionreports/unsolicitedactionreports.component';
 
@@ -8,6 +9,10 @@ const routes: Routes = [
   { path: 'auditdatafiles',  component: AuditDataFilesComponent  },
   { path: 'unresolvedtransaction',  component: UnresolvedtransactionComponent  },
   { path: 'unsolicitedactionresports',  component:UnsolicitedactionreportsComponent },
+  { path: 'unresolvederrors',  component:UnresolvederrorsComponent },
+  { path: 'restoresolicitederrors',  component: RestoresolicitederrorsComponent  },
+  { path: 'manageusers',  component: ManageUsersComponent  },
+  
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

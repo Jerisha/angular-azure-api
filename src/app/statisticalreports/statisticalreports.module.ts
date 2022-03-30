@@ -8,7 +8,7 @@ import { TransactionsourcecommandhistoryComponent } from './transactionsourcecom
 import { TelephoneDetailsComponent } from './telephone-details/telephone-details.component';
 import { SharedModule } from '../_shared/shared.module';
 import{statisticalreport}from '../statisticalreports/services/statisticalreports.service';
-
+import { HelperModule } from '../_helper/helper.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,8 @@ import{statisticalreport}from '../statisticalreports/services/statisticalreports
     UicomponentsModule,   
     FormsModule,
     SharedModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HelperModule
   ],
   providers:[statisticalreport]
 })

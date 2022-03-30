@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { TableSelectionComponent } from 'src/app/uicomponents';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { TelephoneRangeReport } from 'src/app/reports/models/telephone-range-report';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from 'src/app/uicomponents/models/select';
 import { MatSelect } from '@angular/material/select';
 import { AlertService } from 'src/app/_shared/alert';
@@ -13,8 +13,9 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpWrapperService } from 'src/app/_http/http-wrapper.service';
 import { Utils, WebMethods } from 'src/app/_http';
-import { ResolvingOfErrorsService } from 'src/app/resolvingoferrors/services/resolving-of-errors.service';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { ReportService } from '../services/report.service';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 const ELEMENT_DATA = [
   {
@@ -61,12 +62,15 @@ export class TelephoneRangeReportComponent implements OnInit {
     private alertService:AlertService,
     private dialog: MatDialog,
     private http: HttpWrapperService,
-    private service: ResolvingOfErrorsService) {}
+    private service: ReportService,
+    private cdr: ChangeDetectorRef,
+    private telnoPipe: TelNoPipe) {}
 
   @ViewChild('table1') table1?:TableSelectionComponent;
   myTable!: TableItem;
   dataSaved = false;
   selectListItems: string[] = [];
+  selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;
   
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -78,24 +82,25 @@ export class TelephoneRangeReportComponent implements OnInit {
   selectedTab!: number;
   public tabs:Tab[] = [
   ];
+  currentPage: string = '1';
 
   columns: ColumnDetails[] =[
     { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
     { header: 'End Telephone No.', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false },
     { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false },
     { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false },
+    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
-    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false },
+    { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
   ];
   //data1:TelephoneRangeReport[] = ELEMENT_DATA;
-  queryResult$: Observable<any> = of(ELEMENT_DATA);
+  queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
-  queryResult1$!: Observable<any>;
+  queryResult1$: Observable<TelephoneRangeReport[]> = of(ELEMENT_DATA);
 
   spinner:boolean=false;
   options = {
@@ -108,42 +113,78 @@ export class TelephoneRangeReportComponent implements OnInit {
     this.createForm();
 
   }
-  splitData(data: string): string[] {
-    return data.split(',');
+  splitData(data: string | undefined): string[] {
+    return data ? data.split(',') : [];
   }
-  prepareQueryParams(): any {
+
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+  
+  createForm() {
+    this.thisForm = this.formBuilder.group({
+      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+    })
+  }
+  get f() {
+    return this.thisForm.controls;
+  }
+
+  prepareQueryParams(pageNo: string): any {
     let attributes: any = [
-      { Name: 'PageNumber', Value: ['1'] },
+      { Name: 'PageNumber', Value: [`${pageNo}`] },
       // { Name: 'StartTelephoneNumber', Value: ['02071117400'] },
       // { Name: 'EndTelephoneNumber', Value: ['02071117410'] }
       ];
 
     for (const field in this.thisForm?.controls) {
       const control = this.thisForm.get(field);
-      if (field != 'Reference') {
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
-      }
     }
     console.log(JSON.stringify(attributes));
     return attributes;
 
   }
+  getNextSetRecords(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
+  }
   
-  onFormSubmit():void{
+  onFormSubmit(isEmitted?: boolean):void{
+    if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)<=10000){
+      this.tabs.splice(0);
+      this.currentPage = isEmitted ? this.currentPage : '1';
+      let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams(this.currentPage));
+      //console.log(JSON.stringify(request));
+      this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+        if (Object.keys(res).length) {
+          let result = {
+            datasource: res[0].TelephoneNumbers,
+            totalrecordcount: res[0].TotalCount,
+            totalpages: res[0].NumberOfPages,
+            pagenumber: res[0].PageNumber
+          }
+          return result;
+        }  else return {
+          datasource: res
+        }
+      }));
     
-    let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams());
-    //console.log(JSON.stringify(request));
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => res[0].TelephoneNumbers));
-    //if(this.thisForm.valid){
       this.myTable = {
         data: this.queryResult$,
         Columns: this.columns,
         filter: true,
         selectCheckbox: true,
-        selectionColumn: '',
+        removeNoDataColumns: true,
         // imgConfig:[{ headerValue: 'View', icon: 'tab', route: '' },
         // { headerValue: 'View', icon: 'description', route: '' }]
       }
@@ -155,24 +196,31 @@ export class TelephoneRangeReportComponent implements OnInit {
         });
       }
       this.selectedTab = this.tabs.length;
-    //}
+    }
+    else if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)>10000){
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent,{
+        width:'400px',
+        // height:'250px',
+        disableClose: true,
+        data:{
+          message: 'TelephoneRange must be less than or equal to 10000.',
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result=>{
+        //console.log("Dialog" + result);
+        return result;
+      })
+    }
   }
 
   resetForm():void{
+    this.thisForm.reset();
+    this.tabs.splice(0);
+    // window.location.reload();
     // this.spinner = true;
     // setTimeout(()=>{
     //  this.spinner= false;
     // },3000);
-    //this.http.resolveRespone(QueryResponse,WebMethods.QUERY);
-    //let request = Utils.prepareQueryRequest('TelephoneNumberError','SolicitedErrors', this.prepareQueryParams());
-    //console.log(JSON.stringify(request));
-  }
-
-  createForm() {
-    this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-    })
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -186,23 +234,20 @@ export class TelephoneRangeReportComponent implements OnInit {
     });
   }
 
-  rowDetect(item: any) {
-    //debugger;
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
-    }
+  rowDetect(selectedRows: any) {
+    debugger;
+    selectedRows.forEach((item: any) => {
+      // this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
+
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+    console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   removeTab(index: number) {
@@ -245,6 +290,31 @@ export class TelephoneRangeReportComponent implements OnInit {
     }
   }
 
+  addPrefix(control: string, value: any) {
+    if (value.charAt(0) != 0) {
+      value = value.length <= 10 ? '0' + value : value;
+    }
+    this.f[control].setValue(value);
+  }
+
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    }
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
   //Alerts
   hello(){
     this.alertService.success('Success!! Alert is Working', this.options);
@@ -264,6 +334,7 @@ export class TelephoneRangeReportComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result=>{
       console.log("Dialog" + result);
+      return result;
     })
   }
 }

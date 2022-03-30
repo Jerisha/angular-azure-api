@@ -1,7 +1,11 @@
 <mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
   
-      
+      <div class="filter-sticky">
+        <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+          (changes)="setControlAttribute($event)">
+        </app-select-multiple>
+      </div>
   
       <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
         <div class="matsidenav-filter">
@@ -22,16 +26,11 @@
   
             <mat-form-field hintLabel="Max 11 characters" >
               <mat-label>Customer Name</mat-label>
-              <input formControlName="EndTelephoneNumber" (keypress)="numberOnly($event)"
-                (keyup)="addPrefix('EndTelephoneNumber',endtelno.value)" matInput #endtelno maxlength="11"
-                placeholder="End Telephone No" autocomplete="off">
+              <input formControlName="CustomerName" 
+                 matInput #endtelno 
+                placeholder="Customer Name" autocomplete="off">
               <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
-              <mat-error>
-                <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
-                  <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                  <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
-                </div>
-              </mat-error>
+              
             </mat-form-field>
             <mat-form-field >
                 <mat-label>Created On</mat-label>
@@ -60,7 +59,7 @@
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Status</mat-label>
-                <input formControlName="Source" type="text" placeholder="Search Staus" matInput
+                <input formControlName="Status" type="text" placeholder="Search Staus" matInput
                   [matAutocomplete]="autoSource" />
                 <span matSuffix mat-icon-button>
                   <mat-icon>arrow_drop_down</mat-icon>
@@ -75,20 +74,15 @@
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Trans Command</mat-label>
-                <input formControlName="EndTelephoneNumber" (keypress)="numberOnly($event)"
-                  (keyup)="addPrefix('EndTelephoneNumber',endtelno.value)" matInput #endtelno maxlength="11"
-                  placeholder="End Telephone No" autocomplete="off">
-                <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
-                <mat-error>
-                  <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
-                    <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                    <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
-                  </div>
-                </mat-error>
+                <input formControlName="TransCommand" (keypress)="numberOnly($event)"
+                   matInput #endtelno maxlength="11"
+                  placeholder="Trans Command" autocomplete="off">
+                
+                
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Source Type</mat-label>
-                <input formControlName="Source" type="text" placeholder="Search Staus" matInput
+                <input formControlName="SourceType" type="text" placeholder="Source Type" matInput
                   [matAutocomplete]="autoSource" />
                 <span matSuffix mat-icon-button>
                   <mat-icon>arrow_drop_down</mat-icon>

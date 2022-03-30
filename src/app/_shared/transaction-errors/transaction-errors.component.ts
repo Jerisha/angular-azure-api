@@ -196,56 +196,55 @@ export class TransactionErrorsComponent implements OnInit {
   internalError?: any[]; //InternalError[];
   btResponse?: any[]; //BTResponses[];
   resolHistory?: any[]; //ResolutionHistory[];
-  tranErr$ !: Observable<any> ;
+  tranErr$ !: Observable<any>;
   constructor(private service: TransactionErrorsService,
-    private http:HttpWrapperService,
+    private http: HttpWrapperService,
     private cdr: ChangeDetectorRef) { }
-  @Input() telNo!:string;
-  @Input() tranId!:string;
-  @Input() repIdentifier:string ='';
-
+  @Input() telNo!: string;
+  @Input() tranId!: string;
+  @Input() repIdentifier: string = '';
+  btHeader: string = '';
   ngOnInit(): void {
     // this.internalError = undefined;
     // this.btResponse = actualres[0].SupplierError;
     // this.resolHistory = actualres[0].ResolutionHistory;
   }
-  ngOnChanges(changes:SimpleChanges)
-  {
-    if(changes.telNo.currentValue != changes.telNo.previousValue || changes.tranId.currentValue != changes.tranId.previousValue ) 
-    {
+  ngOnChanges(changes: SimpleChanges) {
+    this.btHeader = this.repIdentifier === 'SolicitedErrors' || 'TransactionsDetails' ? 'BT Response' : 'BT Request'
+    if (changes.telNo.currentValue != changes.telNo.previousValue || changes.tranId.currentValue != changes.tranId.previousValue) {
       let request = Utils.prepareQueryRequest('TelephoneNumberTransactionError', this.repIdentifier, this.prepareQueryParams());
       this.tranErr$ = this.service.queryDetails(request).pipe(map((res: any) => res[0]));
-    // let request = Utils.prepareQueryRequest('TelephoneNumberTransactionError', this.repIdentifier, this.prepareQueryParams());
-    // this.service.queryDetails(request).subscribe((res:any)=>{
-    //   console.log("Response = "+JSON.stringify(res));
-    //   this.internalError = res[0].VodafoneError;
-    //   this.btResponse = res[0].SupplierError;
-    //   this.resolHistory = res[0].ResolutionHistory;
-    // });
+      // let request = Utils.prepareQueryRequest('TelephoneNumberTransactionError', this.repIdentifier, this.prepareQueryParams());
+      // this.service.queryDetails(request).subscribe((res:any)=>{
+      //   console.log("Response = "+JSON.stringify(res));
+      //   this.internalError = res[0].VodafoneError;
+      //   this.btResponse = res[0].SupplierError;
+      //   this.resolHistory = res[0].ResolutionHistory;
+      // });
     }
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
-  
+
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-  prepareQueryParams(): any {
+  prepareQueryParams(): any {    
     let attributes: any = [
       {
-        "Name" : "TelephoneNumber",
-        //"Value" : [ "01213004534" ]
-        "Value" : [ this.telNo ]
+        "Name": "TelephoneNumber",
+        "Value" : [ "01213004534" ]
+        // "Value": [this.telNo]
       }, {
-        "Name" : this.repIdentifier==='SolicitedErrors'? "TransactionId": "TransactionReference",
-        "Value" : [ this.tranId ]
-        // "Name" : "TransactionId",
-        // "Value" : [ "1013164478" ]
-       
+        // "Name": this.repIdentifier === 'SolicitedErrors' ||this.repIdentifier === 'TransactionDetails' ? "TransactionId" : "TransactionReference",
+        // "Value": [this.tranId]
+        "Name" : "TransactionId",
+        "Value" : [ "1013164478" ]
+
       }];
-    
-    console.log(attributes);
+
+    //console.log(attributes);
     return attributes;
 
   }
