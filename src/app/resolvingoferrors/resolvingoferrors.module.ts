@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ResolvingoferrorsRoutingModule } from './resolvingoferrors-routing.module';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
-import { SolicitederrorsComponent ,UnsolicitederrorsComponent} from './index';
+import { SolicitederrorsComponent ,UnsolicitederrorsComponent, SolicitedactionreportComponent} from './index';
 import { SharedModule } from '../_shared/shared.module';
 import { ResolvingOfErrorsService } from './services/resolving-of-errors.service';
 import { HelperModule } from '../_helper/helper.module';
@@ -11,6 +11,7 @@ import { TelNoPipe } from '../_helper/pipe/telno.pipe';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatDatepicker} from '@angular/material/datepicker';
+
 
 const MY_FORMATS = {
   parse: {
@@ -29,7 +30,8 @@ const MY_FORMATS = {
 @NgModule({
   declarations: [
     SolicitederrorsComponent,
-    UnsolicitederrorsComponent
+    UnsolicitederrorsComponent,
+    SolicitedactionreportComponent
   ],
   imports: [
     CommonModule,
