@@ -39,7 +39,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   ColumnDetails: ColumnDetails[] = [];
   dataColumns!: string[];
   columnHeaders: any;
-  filter?: boolean = false;
+  columnHeaderFilter?: boolean = false;
   columnFilter?: boolean = false;
   imgList?: ViewColumn[];
   imgColumns?: string[];
@@ -54,7 +54,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   gridFilter: ColumnDetails[] = [];
   filteredDataColumns: ColumnDetails[] = [];
   highlightedCells: string[] = [];
-  backhighlightedCells: string[] = []
+  backhighlightedCells: any;
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   showTotalRow!: boolean;
@@ -90,46 +90,49 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.refreshtab.emit({ event });
     }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
-    //   return;
-    this.dataObs$ = this.tableitem?.data;
-    this.spinner.show();
-    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
-      (res: any) => {
-        this.selection.clear();
-        this.allSelected = true;
-        this.initializeTableAttributes(res.datasource)
-        this.dataSource.data = res.datasource;  
-        this.totalRows = (res.totalrecordcount) as number;
-        this.apiPageNumber = (res.pagenumber) as number;
-        this.currentPage = this.apiPageNumber - 1;       
-        //this.paginator.pageIndex = this.currentPage;
-        this.paginator.length = (res.totalrecordcount) as number;
-        this.dataSource.sort = this.sort;
-        this.spinner.hide();
-        this.isDataloaded = true;
-      },
-      error => { this.spinner.hide(); },
-      () => {
-        if (this.currentPage > 0) {
-          this.toggleAllSelection();
+    ngOnChanges(changes: SimpleChanges) {
+      // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
+      //   return;
+      this.initializeTableAttributes();
+      this.dataObs$ = this.tableitem?.data;
+      this.spinner.show();
+      this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
+        (res: any) => {
+          this.dataSource.data = res.datasource;
+          this.removeNoDataColumns(this.dataSource.data);
+          this.totalRows = (res.totalrecordcount) as number;
+          this.apiPageNumber = (res.pagenumber) as number;
+          this.currentPage = this.apiPageNumber - 1;
+          //this.paginator.pageIndex = this.currentPage;
+          this.paginator.length = (res.totalrecordcount) as number;
+          this.dataSource.sort = this.sort;
+          this.spinner.hide();
+          this.isDataloaded = true;
+        },
+        error => { this.spinner.hide(); },
+        () => {
+          if (this.currentPage > 0) {
+            this.toggleAllSelection();
+          }
+          this.spinner.hide();
         }
-        this.spinner.hide();
-      }
-    );
-  }
+      );
+    }
 
-  initializeTableAttributes(data: any) {
+  initializeTableAttributes() {
+    this.selection.clear();
+    this.allSelected = true;
     this.ColumnDetails = [];
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
-    this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
+   // this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
     this.showTotalRow = this.totalRowCols.length > 0;
     this.imgList = this.tableitem?.imgConfig;
-    this.filter = this.tableitem?.filter;
-    this.isEmailRequired = this.tableitem?.showEmail 
-    //removeNoDataColumns
+    this.isEmailRequired = this.tableitem?.showEmail;
+  }
+
+  removeNoDataColumns(data: any) {
+    this.columnHeaderFilter = this.tableitem?.filter;
     if (this.tableitem?.removeNoDataColumns) {
       if (data && data.length > 0)
         this.verifyEmptyColumns(data);
@@ -137,16 +140,16 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
     else {
-      this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];      
+      this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
-   //Select checkbox
+    //Select checkbox
     if (this.tableitem?.selectCheckbox) {
       const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
-      this.ColumnDetails.unshift(selItem);         
+      this.ColumnDetails.unshift(selItem);
     }
-      
+
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
-    this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);   
+    this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
   }
 
   ngOnInit(): void {
@@ -334,13 +337,20 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   highlightCell(cell: any, disCol: any) {
 
     let applyStyles = {};
-    if (this.backhighlightedCells)
-      if (this.backhighlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
-        applyStyles = {
-          'background-color': '#ff9999'
-        }
-      }
+    debugger;
 
+    // if (this.backhighlightedCells)
+    //   if (this.backhighlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
+    //     applyStyles = {
+    //       'background-color': '#ff9999'
+    //     }
+    //   }
+
+
+    if(this.tableitem?.backhighlightedCells ){
+
+
+    }
     if (this.highlightedCells)
       if (this.highlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
         applyStyles = {

@@ -14,7 +14,7 @@ import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 import { ThisReceiver } from '@angular/compiler';
 import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
 
-const ELEMENT_DATA: FullAuditDetailsSummary[] = [
+const ELEMENT_DATA: any[] = [
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
     CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
@@ -24,7 +24,7 @@ const ELEMENT_DATA: FullAuditDetailsSummary[] = [
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', isLive: true
+    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
@@ -405,6 +405,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       ]
     }];
 
+
   dataCorrectionBtnConfig: ButtonCorretion[] = [
     { value: 'BA - BT only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource','AutoCorrectionVolume'],switchType:['Active'] },
     { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT','AutoCorrectionVolume'],switchType:['Active','Ceased','Not Found'] },
@@ -422,6 +423,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease','AutoCorrectionVolume'],switchType:['Active','Ceased','Not Found'] },
     { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease','AutoCorrectionVolume'],switchType:['Ceased','Not Found'] },
   ];
+
+  cellStyles:any=[
+{cell:'OSN2Customer', flag:['CustomerDiffFlag']}
+
+  ]
 
   get selectedSwitchTypeStatus(){
     return this.fullAuditForm.get('SwitchStatus');
@@ -493,6 +499,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+
+  cellinfo:any=[{
+    cell:'BatchId',flag:'IsLive'
+  }]
   onFormSubmit(): void {
     this.myTable = {
       data: of({datasource:ELEMENT_DATA,
@@ -504,9 +514,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       selectCheckbox: true,
       showEmail: true,
       removeNoDataColumns: true,
+     
       // selectionColumn: 'TelNo',
       // highlightedCells: ['TelNo', 'OSN2Source'],
-      // backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
+       backhighlightedCells: this.cellinfo,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },

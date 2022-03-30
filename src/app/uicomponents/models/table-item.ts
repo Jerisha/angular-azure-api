@@ -8,7 +8,7 @@ export interface TableItem {
     showEmail?:boolean;
     removeNoDataColumns?:boolean;
     highlightedCells?:string[];
-    backhighlightedCells?:string[];    
+    backhighlightedCells?:any;    
 }
 export interface ViewColumn {
     headerValue: string;
