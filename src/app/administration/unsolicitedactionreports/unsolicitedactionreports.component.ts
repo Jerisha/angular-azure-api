@@ -184,17 +184,19 @@ export class UnsolicitedactionreportsComponent implements OnInit, AfterViewInit,
 
 
   createForm() {
-
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      Command: new FormControl({ value: '', disabled: true }, []),
+      TransactionReference: new FormControl({ value: '', disabled: true }, []),
+      ResolutionType: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      Status: new FormControl({ value: '', disabled: true }, [])
+      Status: new FormControl({ value: '', disabled: true }, []),
+      TransCommand: new FormControl({ value: '', disabled: true }, []),
+      DateRange: this.formBuilder.group({
+        FromDate: new FormControl(),
+        ToDate: new FormControl(), disabled: true
       })
-}
-
-
+    })
+  }
 
   
   onSaveSubmit() {

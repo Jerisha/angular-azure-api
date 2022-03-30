@@ -8,7 +8,7 @@ import { UnsolicitedactionreportsComponent } from './unsolicitedactionreports/un
 const routes: Routes = [
   { path: 'auditdatafiles',  component: AuditDataFilesComponent  },
   { path: 'unresolvedtransaction',  component: UnresolvedtransactionComponent  },
-  { path: 'unsolicitedactionresports',  component:UnsolicitedactionreportsComponent },
+  { path: 'unsolicitedactionreports',  component:UnsolicitedactionreportsComponent },
   { path: 'unresolvederrors',  component:UnresolvederrorsComponent },
   { path: 'restoresolicitederrors',  component: RestoresolicitederrorsComponent  },
   { path: 'manageusers',  component: ManageUsersComponent  },

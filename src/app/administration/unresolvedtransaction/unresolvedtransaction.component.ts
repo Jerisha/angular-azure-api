@@ -91,7 +91,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   infotable1: any[] = [];
   infotable2: any[] = [];
   selectListItems: string[] = [];
-  //filterItems: Select[] = FilterListItems;
+  filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
 
@@ -176,16 +176,20 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
 
 
   createForm() {
-
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      Command: new FormControl({ value: '', disabled: true }, []),
+      CustomerName: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
       Source: new FormControl({ value: '', disabled: true }, []),
-      Status: new FormControl({ value: '', disabled: true }, [])
+      Status: new FormControl({ value: '', disabled: true }, []),
+      TransCommand: new FormControl({ value: '', disabled: true }, []),
+      SourceType: new FormControl({ value: '', disabled: true }, []),
+      
+      DateRange: this.formBuilder.group({
+        FromDate: new FormControl(),
+        ToDate: new FormControl(), disabled: true
       })
-}
-
+    })
+  }
 
 
   

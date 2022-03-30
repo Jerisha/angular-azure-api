@@ -88,7 +88,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   infotable1: any[] = [];
   infotable2: any[] = [];
   selectListItems: string[] = [];
-  //filterItems: Select[] = FilterListItems;
+  filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
 
