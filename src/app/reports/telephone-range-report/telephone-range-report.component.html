@@ -1,37 +1,56 @@
 <mat-sidenav-container class="side-container-report">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-    
-    <!-- <div class="filterdataby">
-      <div style="font-size: small;">
-        <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
-          <mat-icon>filter_alt</mat-icon>
-          Filter Data By
-        </button>
-      </div>
-    </div> -->
+  
     <div class="filterdataby">
       <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
-      <!-- <mat-icon>filter_alt</mat-icon> -->
+      <mat-icon>filter_alt</mat-icon>
           Filter Data By
       </button>
       <!-- <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
         (changes)="setControlAttribute($event)">
       </app-select-multiple> -->
     </div>
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
-        <mat-form-field  
-        [ngClass]="{'hidden':thisForm.controls.TelNoStart.disabled}">
+        <mat-form-field [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
           <mat-label>Start Telephone No.</mat-label>
-          <input matInput formControlName="TelNoStart" maxlength="10" placeholder="Start Telephone No.">
-          <!-- <mat-hint align="end">{{thisForm.controls.TelNoStart.value?.length || 0}}/10</mat-hint> -->
+          <input matInput formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
+          (ngModelChange)="onChange($event,'StartTelephoneNumber')"
+           maxlength="11" placeholder="Start Telephone No." #starttelno>
+          <!-- <mat-hint align="end">{{thisForm.controls.StartTelephoneNumber.value?.length || 0}}/10</mat-hint> -->
+          <mat-error>
+            <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
+              <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Start Telephone No</div>
+              <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+            </div>
+            <div *ngIf="f.StartTelephoneNumber.untouched" class="alert alert-danger">
+              <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Start Telephone No</div>
+            </div>
+          </mat-error>
         </mat-form-field>
 
-        <mat-form-field 
-        [ngClass]="{'hidden':thisForm.controls.TelNoEnd.disabled}">
+        <mat-form-field [ngClass]="{'hidden':thisForm.controls.EndTelephoneNumber.disabled}">
           <mat-label>End Telephone No.</mat-label>
-          <input matInput formControlName="TelNoEnd" maxlength="10" placeholder="End Telephone No.">
+          <input matInput formControlName="EndTelephoneNumber" (keypress)="numberOnly($event)"
+          (ngModelChange)="onChange($event,'EndTelephoneNumber')"
+          maxlength="11" placeholder="End Telephone No." #endtelno>
+        <mat-error>
+          <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
+            <div *ngIf="f.EndTelephoneNumber.errors?.required">Please enter End Telephone No</div>
+            <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+          </div>
+          <div *ngIf="f.EndTelephoneNumber.untouched" class="alert alert-danger">
+            <div *ngIf="f.EndTelephoneNumber.errors?.required">Please enter End Telephone No</div>
+          </div>
+        </mat-error>
         </mat-form-field>
+
+        <!-- Error For 10K Range -->
+        <!-- <mat-error class="error-validation">
+          <div *ngIf="thisForm.valid" class="alert alert-danger">
+            <div *ngIf="(f.EndTelephoneNumber.value-f.StartTelephoneNumber.value)>10000">Please enter range <= 10000</div>
+          </div>
+        </mat-error> -->
       </div>
 
       <div class="matsidenav-footer">
@@ -70,7 +89,8 @@
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
             <div class="table-view">
-            <app-table-selection [sidePan]="pagesidenav" #table1 [tableitem] = "myTable"></app-table-selection>
+            <app-table-selection [sidePan]="pagesidenav" #table1 [tableitem] = "myTable" (pageIndex)="getNextSetRecords($event)"
+            (rowChanges)="rowDetect($event)" ></app-table-selection>
             </div>
           </div>
 

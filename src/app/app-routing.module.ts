@@ -14,7 +14,7 @@ const routes: Routes = [
   {
     path: 'resolvingoferrors',
     loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule),
-    
+
   },
   {
     path: 'transactions',
@@ -23,24 +23,29 @@ const routes: Routes = [
   {
     path: 'auditreports',
     loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule)
-          
+
 
   },
   {
     path: 'reports',
     loadChildren: () => import('./reports/reports.module').then(x => x.ReportsModule),
-    
-    
+
+
   },
   {
-  path: 'statisticalreports',
-  loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule)
+    path: 'statisticalreports',
+    loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule)
   },
   {
     path: 'shared',
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
-    
-    },
+
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
     
 
 ];

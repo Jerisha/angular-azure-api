@@ -55,7 +55,8 @@ table td, table th {
 }
 
 .select-submit{
-    border:none;   
+    border:none;  
+  
     background-color: #e60000;
     color:  #EFEFEF;
     border-radius: 8%;
@@ -74,7 +75,7 @@ table td, table th {
 }
 
 .nowrap-cell {
-  /* max-width: 120px;  */
+  max-width: 120px; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

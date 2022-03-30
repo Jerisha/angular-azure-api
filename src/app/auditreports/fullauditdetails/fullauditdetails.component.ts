@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from '../models/index';
 import { Select } from 'src/app/uicomponents/models/select';
@@ -289,8 +289,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'EndTelNo', header: 'End TelNo', showDefault: true, isImage: false },
     { headerValue: 'SourceSystem', header: 'Source System', showDefault: true, isImage: false },
     { headerValue: 'Lineup', header: 'Lineup', showDefault: true, isImage: false },
-    { headerValue: 'Transaction', header: 'Transaction', showDefault: true, isImage: false },
-    { headerValue: 'InflightTransaction', header: 'Inflight Transaction', showDefault: true, isImage: false },
+    { headerValue: 'Transaction', header: 'Transaction', showDefault: true, isImage: false, isTotal:true},
+    { headerValue: 'InflightTransaction', header: 'Inflight Transaction', showDefault: true, isImage: false, isTotal:true},
     { headerValue: 'CustomerName', header: 'Customer Name', showDefault: true, isImage: false },
     { headerValue: 'CustomerAddress', header: 'Customer Address', showDefault: true, isImage: false },
     { headerValue: 'OrderRef', header: 'Order Ref', showDefault: true, isImage: false },
@@ -495,15 +495,18 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   onFormSubmit(): void {
     this.myTable = {
-      data: ELEMENT_DATA,
+      data: of({datasource:ELEMENT_DATA,
+        totalrecordcount: 500,
+        totalpages: 10,
+        pagenumber:1 }),
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
       showEmail: true,
-      showBlankCoulmns: true,
-      selectionColumn: 'TelNo',
-      //highlightedCells: ['TelNo', 'OSN2Source'],
-      backhighlightedCells: this.getHighlightedCols(),
+      removeNoDataColumns: true,
+      // selectionColumn: 'TelNo',
+      // highlightedCells: ['TelNo', 'OSN2Source'],
+      // backhighlightedCells: ['BatchId', 'ExternalCLIStatus'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
@@ -695,7 +698,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   monthlyRefreshReportInit() {
     this.monthlyRefreshRptTable
       = {
-      data: ELEMENT_DATA4,
+      data: of(ELEMENT_DATA4),
       Columns: this.monthlyRefreshReportTableDetails,
       selectCheckbox: true,
       filter: true
@@ -704,26 +707,30 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   rangeReportInit() {
     this.rangeRptTable = {
-      data: ELEMENT_DATA1,
+      data: of({datasource:ELEMENT_DATA1,
+        totalrecordcount: 500,
+        totalpages:20,
+        pagenumber:1}),
       Columns: this.rangeReportTableDetails,
       selectCheckbox: true,
+      
       filter: true
     }
   }
 
   moriCircuitStatusReportInit() {
     this.moriCircuitRptTable = {
-      data: ELEMENT_DATA3,
+      data: of(ELEMENT_DATA3),
       Columns: this.moriCicuitTableDetails,
       filter: true,
-      selectCheckbox: true,
-      showBlankCoulmns: true
+      selectCheckbox:true,
+      removeNoDataColumns: true
     }
   }
 
   inflightReportInit() {
     this.inflightRptTable = {
-      data: ELEMENT_DATA2,
+      data: of(ELEMENT_DATA2),
       Columns: this.inflightTableDetails,
       selectCheckbox: true,
       filter: true

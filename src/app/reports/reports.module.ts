@@ -9,8 +9,24 @@ import { TelephoneRangeReportComponent } from './telephone-range-report/telephon
 import { SharedModule } from '../_shared/shared.module';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 import { LiverecordsComponent } from './liverecords/liverecords.component';
-import { AlertDialogComponent } from './telephone-range-report/alert-dialog.component';
+import { ReportService } from './services/report.service';
 
+import { HelperModule } from '../_helper/helper.module';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
+
+const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD-MMM-YYYY',
+  },
+  display: {
+    dateInput: 'DD-MMM-YYYY',
+    monthYearLabel: 'DD MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'DD MMMM YYYY',
+  },
+}; 
 
 
 @NgModule({
@@ -19,8 +35,7 @@ import { AlertDialogComponent } from './telephone-range-report/alert-dialog.comp
     DialogComponent,
     TelephoneRangeReportComponent,
     TransactionDetailsComponent,    
-    LiverecordsComponent,
-    AlertDialogComponent
+    LiverecordsComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +43,20 @@ import { AlertDialogComponent } from './telephone-range-report/alert-dialog.comp
     UicomponentsModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule
-  ]
+    SharedModule,
+    HelperModule
+  ],
+  providers:[
+    ReportService,
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}]
+
 })
 export class ReportsModule { }
+
+
+

@@ -21,11 +21,11 @@
 :host ::ng-deep .app-table-selection .mat-option{
   min-width:100px !important;
 }
-.side-container-report {  
+/* .side-container-report {  
 width: auto; 
 height: 520px !important;
 box-sizing: border-box;
-}
+} */
 :host ::ng-deep  app-table-selection mat-paginator mat-paginator-sticky{
 
   margin-top: 45px !important;
@@ -33,4 +33,16 @@ box-sizing: border-box;
 
 /* host ::ng-deep mat-menu-panel {
   min-width: none !important;
+} */
+/* 
+::-webkit-scrollbar {
+  width: 6px;
+  overflow-y: scroll;
+  background: grey;
+  box-shadow: inset 0 0 4px #707070;
+}
+
+::-webkit-scrollbar-thumb {
+  background:#e60000;
+  border-radius: 10px;
 } */

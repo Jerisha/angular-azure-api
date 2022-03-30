@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../_shared/material/material.module';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 import {
   TableSelectionComponent,
@@ -41,7 +42,8 @@ import { HelperModule } from '../_helper/helper.module';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    HelperModule
+    HelperModule,
+    ClipboardModule
   ],
   exports: [
     TableSelectionComponent,
