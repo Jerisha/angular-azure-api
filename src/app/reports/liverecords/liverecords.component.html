@@ -8,7 +8,7 @@
         <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
             <div class="matsidenav-filter">
                 <ng-container *ngIf="configDetails  as config">
-                    <!-- <app-select-exp [listItems]="expressions[0].default"></app-select-exp> -->
+                    <div [ngStyle]="{'display':myForm.controls.StartTelephoneNumber.disabled ? 'none' : 'block'}">
                     <app-select-exp [listItems]="expressions[0].default"  #StartTelephoneNumberOperator [resetvalue]="resetExp"
                     (click) ="OnOperatorClicked(['StartTelephoneNumberOperator',StartTelephoneNumberOperator.selectedViewValue])"></app-select-exp>         
                     <mat-form-field hintLabel="Max 11 characters"
@@ -25,14 +25,17 @@
                             </div>
                         </mat-error>
                     </mat-form-field>
+                    </div>
 
+                    <div [ngStyle]="{'display':myForm.controls.CustomerName.disabled ? 'none' : 'block'}">
                     <app-select-exp [listItems]="expressions[1].default" #CustomerNameOperator [resetvalue]="resetExp"
                     (click) ="OnOperatorClicked(['CustomerNameOperator',CustomerNameOperator.selectedViewValue])"></app-select-exp> 
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.CustomerName.disabled}" appearance="outline">
                         <mat-label>Customer Name</mat-label>
                         <input id="CustomerName" formControlName="CustomerName" matInput  maxlength="500" #input placeholder="CustName">
                     </mat-form-field>
-
+                </div>
+                    <div [ngStyle]="{'display':myForm.controls.PostCode.disabled ? 'none' : 'block'}">
                     <app-select-exp [listItems]="expressions[1].default" #PostCodeOperator [resetvalue]="resetExp"
                     (click) ="OnOperatorClicked(['PostCodeOperator',PostCodeOperator.selectedViewValue])"></app-select-exp> 
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.PostCode.disabled}" appearance="outline">
@@ -41,7 +44,8 @@
                             placeholder="PostCode">
                         
                     </mat-form-field>
-
+                    </div>
+                    <div [ngStyle]="{'display':myForm.controls.CreationDate.disabled ? 'none' : 'block'}">
                     <app-select-exp [listItems]="expressions[2].default" #CreationDateOperator [resetvalue]="resetExp"
                     (click) ="OnOperatorClicked(['CreationDateOperator',CreationDateOperator.selectedViewValue])"></app-select-exp> 
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.CreationDate.disabled}" appearance="outline">
@@ -51,7 +55,7 @@
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
-                    
+                    </div>
 
                     <div [ngStyle]="{'display':myForm.controls.Premises.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[1].default" #PremisesOperator [resetvalue]="resetExp"
