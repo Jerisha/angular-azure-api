@@ -377,6 +377,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.isSaveDisable = true;
     //console.log('isSaveDisable',this.isSaveDisable)
   }
+  
   check999(){
     if(this.Refer && this.Refer.substring(0,3) != '999')
     return false;

@@ -360,8 +360,8 @@ export class SolicitederrorsComponent implements OnInit {
       });
     }
     this.isEnable();
-
   }
+  
   check999(){
     if(this.Refer && this.Refer.substring(0,3) != '999')
     return false;
