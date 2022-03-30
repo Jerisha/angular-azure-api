@@ -346,12 +346,22 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked, OnI
       }
 
     if (this.highlightedCells)
-      if (this.highlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
+      if (this.highlightedCells.includes(disCol.headerValue) && ((cell['IsLive'] == 1) || (cell['IsSuccess'] == 0))) {
         applyStyles = {
           'color': 'red',
           'font-weight': '500'
         }
       }
+
+      if (this.highlightedCells)
+      {
+        if ( this.highlightedCells.includes(disCol.headerValue) && (cell['IsSuccess'] == 1)) {
+          applyStyles = {
+            'color': 'green',
+            'font-weight': '500'
+          }
+      } 
+    }
     return applyStyles;
   }
 

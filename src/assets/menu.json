@@ -129,6 +129,11 @@
         "displayName": "Restore Solicited Errors",
         "iconName": "",
         "route": "administration/restoresolicitederrors"
+      },
+      {
+        "displayName": "Data Correction Summary",
+        "iconName": "",
+        "route": "administration/datacorrectionsummary"
       }
     ]
   },

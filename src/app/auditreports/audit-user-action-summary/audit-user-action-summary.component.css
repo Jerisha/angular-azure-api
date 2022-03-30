@@ -9,9 +9,3 @@
  
   }
   .hidden{display: none;}
-
-  .table-view::ng-deep .totalRow {
-  background-color: #ff9999;
-  color: black;
-  font-weight: bold;
-}

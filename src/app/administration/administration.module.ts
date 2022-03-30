@@ -6,14 +6,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { HelperModule } from '../_helper/helper.module';
 import { SharedModule } from '../_shared/shared.module';
 import { AdministrationRoutingModule } from './administration-routing.module';
-import {RestoresolicitederrorsComponent,AuditDataFilesComponent,ManageUsersComponent} from './index'
+import {RestoresolicitederrorsComponent,AuditDataFilesComponent,ManageUsersComponent, AutoCorrectionReportsComponent} from './index'
 import { AdministrationService } from './services/administration.service';
 
 @NgModule({
   declarations: [
     AuditDataFilesComponent,
     RestoresolicitederrorsComponent,
-    ManageUsersComponent
+    ManageUsersComponent,
+    AutoCorrectionReportsComponent
   ],
   imports: [
     CommonModule,
