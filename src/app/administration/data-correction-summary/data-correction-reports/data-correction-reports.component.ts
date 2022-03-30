@@ -141,13 +141,13 @@ const Items: Select[] = [
   { view: 'Customer Diff', viewValue: 'CustomerDiff', default: true },
 
 ];
-@Component({
-  selector: 'app-manual-correction-reports',
-  templateUrl: './manual-correction-reports.component.html',
-  styleUrls: ['./manual-correction-reports.component.css']
-})
-export class ManualCorrectionReportsComponent implements OnInit {
 
+@Component({
+  selector: 'app-auto-correction-reports',
+  templateUrl: './data-correction-reports.component.html',
+  styleUrls: ['./data-correction-reports.component.css']
+})
+export class DataCorrectionReportsComponent implements OnInit {
 
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -168,23 +168,24 @@ export class ManualCorrectionReportsComponent implements OnInit {
     // { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
     // { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
     // { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
     { headerValue: 'BatchId', header: 'Batch Id', showDefault: true, isImage: false },
     { headerValue: 'FullCLIStatus', header: 'Full CLI Status', showDefault: true, isImage: false },
-    // { headerValue: 'SwitchStatus', header: 'Switch Status', showDefault: true, isImage: false },
-    // { headerValue: 'Source', header: 'Source', showDefault: true, isImage: false },
-    // { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: true, isImage: false },
+    { headerValue: 'SwitchStatus', header: 'Switch Status', showDefault: true, isImage: false },
+    { headerValue: 'Source', header: 'Source', showDefault: true, isImage: false },
+    { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: true, isImage: false },
     { headerValue: 'Status', header: 'Status', showDefault: true, isImage: false },
     { headerValue: 'ResolveType', header: 'Resolve Type', showDefault: true, isImage: false },
     { headerValue: 'StartDate', header: 'Start Date', showDefault: true, isImage: false },
     { headerValue: 'EndDate', header: 'End Date', showDefault: true, isImage: false },
     { headerValue: 'Scenario', header: 'Scenario', showDefault: true, isImage: false },
     { headerValue: 'SelectedVolume', header: 'Selected Volume', showDefault: true, isImage: false },
-    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false },
-    // { headerValue: 'FailedCount', header: 'Failed Count', showDefault: true, isImage: false },
+    { headerValue: 'Count', header: 'Success Count', showDefault: true, isImage: false },
+    { headerValue: 'FailedCount', header: 'Failed Count', showDefault: true, isImage: false },
     { headerValue: 'UserName', header: 'UserName', showDefault: true, isImage: false },
-    { headerValue: 'ViewTelNo', header: 'View TelNo', showDefault: true, isImage: true },
-    //{ headerValue: 'ViewFailedTelNo', header: 'View Failed TelNo', showDefault: true, isImage: true },
+    // { headerValue: 'ViewTelNo', header: 'View TelNo', showDefault: true, isImage: true },
+    // { headerValue: 'ViewFailedTelNo', header: 'View Failed TelNo', showDefault: true, isImage: true },
 
 
   ];
@@ -200,7 +201,8 @@ export class ManualCorrectionReportsComponent implements OnInit {
   }
 
   resetForm(): void {
-
+    // this.thisForm.reset();
+    this.tabs.splice(0);
   }
 
   numberOnly(event: any): boolean {
@@ -259,21 +261,21 @@ export class ManualCorrectionReportsComponent implements OnInit {
       }),
       Columns: this.colHeader,
       filter: true,      
-      selectCheckbox: true,
-      removeNoDataColumns: false,      
+      removeNoDataColumns: false,   
+      selectCheckbox: true,   
       highlightedCells: ['ACTID', 'BatchId', 'FullCLIStatus', 'SwitchStatus', 'Source', 'OSN2Source', 'Status', 'ResolveType', 'StartDate', 'EndDate', 'Scenario', 'SelectedVolume', 'Count', 'FailedCount', 'UserName', 'ViewTelNo', 'ViewFailedTelNo'],
       imgConfig: [{ headerValue: 'ViewTelNo', icon: 'description', route: '', tabIndex: 1 },
-     // { headerValue: 'ViewFailedTelNo', icon: 'description', route: '', tabIndex: 2 }
-    ]
+      { headerValue: 'ViewFailedTelNo', icon: 'description', route: '', tabIndex: 2 },
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Audit Trail Report', tabIndex: 3 }]
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'Summary'
+        name: 'Auto Correction Summary'
       });
     }
-    this.selectedTab = this.tabs.length;
+    this.selectedTab = this.tabs.length -1;
     //console.log('selected Tab: ' + this.selectedTab, 'Tabs Length: ' + this.tabs.length);
   }
 
@@ -289,7 +291,7 @@ export class ManualCorrectionReportsComponent implements OnInit {
       //filter: true,      
       removeNoDataColumns: false,      
       highlightedCells: ['TelNo'],
-      imgConfig: [{ headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
+      imgConfig: [{ headerValue: 'View', icon: 'description', route: '', tabIndex: 3 },
       //{ headerValue: 'ViewFailedTelNo', icon: 'description', route: '', tabIndex: 2 }
     ]
     }
@@ -319,20 +321,37 @@ export class ManualCorrectionReportsComponent implements OnInit {
           if (updtab) updtab.name = 'View Tel List for (' + tab.row.BatchId + ')'
         }
         break;
-      }   
+      }
       case 2: {
         if (!this.tabs?.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+            name: 'View Failed Tel List for (' + tab.row.BatchId + ')'
           });
-          //this.createViewList();
+          this.createViewList();
           // this.selectedTab = 1;        
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+                    this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
           let updtab = this.tabs.find(x => x.tabType == 2);
-          if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelNo + ')'
+          if (updtab) updtab.name = 'View Failed Tel List for (' + tab.row.BatchId + ')'
+        }
+        break;
+      }
+      case 3: {
+        if (!this.tabs?.find(x => x.tabType == 3)) {
+          this.tabs.push({
+            tabType: 3,
+            // name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+            name: 'Audit Trail Report'
+          });
+          //this.createViewList();
+          // this.selectedTab = 1;        
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
+          // let updtab = this.tabs.find(x => x.tabType == 3);
+          // if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelNo + ')'
         }
         break;
       }
@@ -405,4 +424,26 @@ export class ManualCorrectionReportsComponent implements OnInit {
     }
   }
 
+  switchTab(value: boolean) {
+    // console.log("Toggle value ",value);
+    if(value) {
+      this.tabs.splice(0);
+      if (!this.tabs.find(x => x.tabType == 1)) {
+        this.tabs.push({
+          tabType: 1,
+          name: 'Manual Correction Summary'
+        });
+      }
+      this.selectedTab = this.tabs.length;
+    } else {
+      this.tabs.splice(0);
+      if (!this.tabs.find(x => x.tabType == 0)) {
+        this.tabs.push({
+          tabType: 0,
+          name: 'Auto Correction Summary'
+        });
+      }
+      this.selectedTab = this.tabs.length;
+    }
+  }
 }
