@@ -157,9 +157,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   thisForm!: FormGroup;
   thisUpdateForm!: FormGroup;
   tabs: Tab[] = [];
-  Resolution!: string;
-  Refer!: string;
-  Remarks!: string;
+  Resolution: string ='';
+  Refer: string='';
+  Remarks: string='';
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
@@ -349,8 +349,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
@@ -377,9 +377,16 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.isSaveDisable = true;
     //console.log('isSaveDisable',this.isSaveDisable)
   }
+  check999(){
+    if(this.Refer && this.Refer.substring(0,3) != '999')
+    return false;
+    
+    return true;
+  }
   onSaveSubmit() {
     debugger;
-    if (this.selectedGridRows.length > 0 && (this.Resolution && this.Remarks)) {
+    if (this.selectedGridRows.length > 0 && 
+      (this.Resolution && this.Remarks && this.check999())) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px', disableClose: true, data: {
