@@ -13,7 +13,7 @@ import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
-import { Exp, expDate, expNumeric, expString } from 'src/app/_helper/Constants/exp-const';
+import { Exp } from 'src/app/_helper/Constants/exp-const';
 
 const ELEMENT_DATA: any = [
   {
@@ -183,7 +183,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
-    this.isEnable();
+   // this.isEnable();
     this.cdr.detectChanges();
   }
 
