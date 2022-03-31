@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef,SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef,SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { IColoumnDef } from "src/app/report-references/IControls";
 import { ReportReferenceService } from '../report-reference.service';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+
 
 @Component({
   selector: 'app-report-data-form',
@@ -23,8 +24,11 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   @Input('lstFields') lstForm: IColoumnDef[] = [];
   title:string ="";
   recordId:number=0;
-  record:any;
+  @Input() record:any;
   eventName:string ='Create';
+  @Output() cancelBtnClicked = new EventEmitter<any[]>();
+  @Output() submitBtnClicked =new EventEmitter<any[]>();
+  
 
 
 
@@ -39,6 +43,19 @@ ngOnInit(): void {
     this.lstForm  = this.service.setForm(this.reportName);
     this.referenceForm = this.formValidation();
     this.title = this.reportName;
+    if(this.record != undefined)
+    {
+      this.eventName ='Update'    
+      //this.cdr.detectChanges();
+    for (let field in this.referenceForm.controls) 
+    {      
+        let control = this.referenceForm.get(field);    
+        control?.setValue(this.record[field]);
+    }
+    
+    this.referenceForm.markAsUntouched();
+    }
+
 }
 ngOnChanges(changes: SimpleChanges) {
 
@@ -47,28 +64,59 @@ ngOnChanges(changes: SimpleChanges) {
     //console.log("onchanges:",changes);
     this.lstForm  = this.service.setForm(this.reportName);
     this.referenceForm = this.formValidation();
+    if(this.record != undefined)
+    {
+      this.eventName ='Update'    
+      this.cdr.detectChanges();
+    for (let field in this.referenceForm.controls) 
+    {      
+        let control = this.referenceForm.get(field);    
+        control?.setValue(this.record[field]);
+    }
+    
+    this.referenceForm.markAsUntouched();
+    }
 }
 
 formValidation() :FormGroup {
 
  const group: any = {};
 for (var field of this.lstForm) {
- if (field.cType == 'text') {
+ if (field.cType == 'text' && field.cMandate ==false) {
    group[field.cName] = new FormControl(field.cValue || '', [
      
    ]);
- }  else if (field.cType == 'select') {
+ }  
+ else if (field.cType == 'text' && field.cMandate==true) {
+  group[field.cName] = new FormControl(field.cValue || '', Validators.required);
+} 
+ else if (field.cType == 'select' && field.cMandate==true) {
    group[field.cName] = new FormControl(
      field.cValue || '',
      Validators.required
    );
- } else if (field.cType == 'radio') {
+ }
+   else if (field.cType == 'select' && field.cMandate==false) {
+    group[field.cName] = new FormControl(
+      field.cValue || '',[]
+      
+    );
+ } else if (field.cType == 'radio'  && field.cMandate==false) {
    group[field.cName] = new FormControl(false, null);
- } else if (field.cType == 'date') {
+ } 
+ else if (field.cType == 'radio' && field.cMandate==true) {
+  group[field.cName] = new FormControl(false, Validators.required);
+}
+ else if (field.cType == 'date' && field.cMandate==false) {
    group[field.cName] = new FormControl(field.cValue || '', [
-     Validators.required,       
+           
    ]);
  }
+ else if (field.cType == 'date' && field.cMandate==true) {
+  group[field.cName] = new FormControl(field.cValue || '', [
+    Validators.required,       
+  ]);
+}
 }
 return  new FormGroup(group);
 }
@@ -98,31 +146,18 @@ onEditRecord(record:any,event:Event){
     
 }
 
-
-onDeleteRecord(record:any,event:any){    
-    alert("Delete starts..."+JSON.stringify(this.record));
-}
-onCreateRecord(){
-    //alert("new record starts...");
-    this.record =null;
-    this.eventName ='Create';
-    this.showDataform =true;     
-}
-onRefreshDetailPane(){
-    alert("Refresh Details Pane starts...");
-}
-onExport(){
-    alert("Export starts...");
-}
 onSubmit(){
-  alert("Create/Edit Completed..");
-  this.showDataform =false;
-  this.showDetailsForm=true;
+  // alert(this.eventName+" Completed.."+JSON.stringify(this.referenceForm.value));  
+  this.service.showDataForm =false;
+  this.service.showDetailsForm=true; 
+  this.submitBtnClicked.emit([false,true]);
 }
 onCancelDataForm(){
+  // alert("cancel btn")
  this.referenceForm.reset();
- this.showDataform =false;
- this.showDetailsForm=true; 
+ this.service.showDataForm =false;
+ this.service.showDetailsForm=true; 
+ this.cancelBtnClicked.emit([false,true]);
 }
 
 }
