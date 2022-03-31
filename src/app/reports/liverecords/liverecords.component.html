@@ -86,7 +86,7 @@
                         </mat-form-field>
                     </div>
                     <div [ngStyle]="{'display':myForm.controls.Cupid.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[1].default" #CupidOperator [resetvalue]="resetExp"
+                        <app-select-exp [listItems]="expressions[0].default" #CupidOperator [resetvalue]="resetExp"
                         (click) ="OnOperatorClicked(['CupidOperator',CupidOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Cupid.disabled}">
                             <mat-label>Cupid</mat-label>
