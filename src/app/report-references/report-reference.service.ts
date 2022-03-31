@@ -8,6 +8,9 @@ export class ReportReferenceService {
   recordId!: number;
   lstForm: IColoumnDef[] = [];
   referenceForm: any;
+  showDataForm:boolean =false;
+  showDetailsForm:boolean =false;
+  
   reportNames:string[] =[
    'SourceSystem','Status','AuditStatus','CUPIDCrossReference',
    'LineType', 'ResolverEmail', 'Command','CUPID','ErrorType',
@@ -281,9 +284,6 @@ export class ReportReferenceService {
   ]
 },
 
- 
-
-
 ];
  
   displayedColumns:any=[
@@ -366,11 +366,65 @@ setForm(reportName:string) {
               this.lstForm.push(
                 <IColoumnDef>{
                   cName: "XREF", cDisplayName: "XREF", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: []
+                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"1234",internalValue:""},{displayValue:"9999",internalValue:""}]
                 },
                 <IColoumnDef>{
                   cName: "Franchise", cDisplayName: "Franchise", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: []
+                  cMandate: true, cMaxLength: 200, cList: 
+[{displayValue:"ADP - ADEPT",internalValue:""},
+{displayValue:"AGG - Aggregated Telecom Limited",internalValue:""},
+{displayValue:"ALL - CW ALLNET",internalValue:""},
+{displayValue:"ATO - ATCO",internalValue:""},
+{displayValue:"BBC - BBC",internalValue:""},
+{displayValue:"BCG - Business Grade DSL",internalValue:""},
+{displayValue:"BGC - Busiess Grade DSL",internalValue:""},
+{displayValue:"CCN - Complete Contact",internalValue:""},
+{displayValue:"CLB - BULLDOG (UK)",internalValue:""},
+{displayValue:"CLC - CLUB COMMUNICATIONS LTD",internalValue:""},
+{displayValue:"CLI - Club Interconnect (CW Access)",internalValue:""},
+{displayValue:"CLT - CLUB COMMUNICATIONS LTD (TRANSIT)",internalValue:""},
+{displayValue:"CLU - Club Transit (CW Access)",internalValue:""},
+{displayValue:"CWA - CW Access",internalValue:""},
+{displayValue:"CWE - CW Energis",internalValue:""},
+{displayValue:"CWH - CABLE & WIRELESS VOIP (HSBC)",internalValue:""},
+{displayValue:"CWI - Cable & Wireless ITV",internalValue:""},
+{displayValue:"CWU - Cable & Wireless UK (CW Access)",internalValue:""},
+{displayValue:"DAI - Daisy Comms CW WAD",internalValue:""},
+{displayValue:"EN1 - C&W (BCM) SOUTH",internalValue:""},
+{displayValue:"ENC - C&W (BCM) SOUTH",internalValue:""},
+{displayValue:"EXC - EXCELL",internalValue:""},
+{displayValue:"FLU - FLUIDATA",internalValue:""},
+{displayValue:"FUS - FUSION-MEDIA",internalValue:""},
+{displayValue:"GLO - Global 4 Communications",internalValue:""},
+{displayValue:"GRI - GRIFFIN INFORMATION SYSTEMS",internalValue:""},
+{displayValue:"HMV - HMV & Waterstones",internalValue:""},
+{displayValue:"HOP - HOPE FOR CHILDREN",internalValue:""},
+{displayValue:"IMP - IMPELLO",internalValue:""},
+{displayValue:"INF - INFONET",internalValue:""},
+{displayValue:"INU - INUK NETWORKS LTD",internalValue:""},
+{displayValue:"MDB - BULLDOG (MIDLANDS)",internalValue:""},
+{displayValue:"MEH - Meshhopper (CW Access)",internalValue:""},
+{displayValue:"MES - MESHHOPPER",internalValue:""},
+{displayValue:"MUT - MURPHX TRANSIT",internalValue:""},
+{displayValue:"NEB - BULLDOG (NORTH EAST)",internalValue:""},
+{displayValue:"NET - Onenet",internalValue:""},
+{displayValue:"NIM - NIMANS",internalValue:""},
+{displayValue:"NWB - BULLDOG (NORTH WEST)",internalValue:""},
+{displayValue:"OLB - BULLDOG ( OUTER LONDON)",internalValue:""},
+{displayValue:"ONT - ON TELECOM UK LTD",internalValue:""},
+{displayValue:"PAC - CWA Packnett",internalValue:""},
+{displayValue:"PRO - CW LIMITED (INTERNAL)",internalValue:""},
+{displayValue:"RIC - Ring Central SIP Product",internalValue:""},
+{displayValue:"SCB - BULLDOG (SCOTLAND)",internalValue:""},
+{displayValue:"SEB - BULLDOG (SOUTH EAST)",internalValue:""},
+{displayValue:"SWB - BULLDOG (SOUTH WEST)",internalValue:""},
+{displayValue:"THU - THUS",internalValue:""},
+{displayValue:"TPI - TISCALI PIPEX",internalValue:""},
+{displayValue:"TSC - Tesco (WAD)",internalValue:""},
+{displayValue:"TTC - TESCO (WAD)",internalValue:""},
+{displayValue:"VFC - Vodafone Consumer Account",internalValue:""},
+{displayValue:"VMW - VM Wholesale (CW Access)",internalValue:""},
+{displayValue:"XXX - THUS",internalValue:""},]
                 },
                 <IColoumnDef>{
                   cName: "BTCUPID", cDisplayName: "BTCUPID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
