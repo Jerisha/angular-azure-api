@@ -433,7 +433,7 @@ const Itemstwo: Select[] = [
   { view: 'Cupid', viewValue: 'Cupid', default: true },
   { view: 'Type of Line', viewValue: 'TypeOfLine', default: true },
   { view: 'Franchise', viewValue: 'Franchise', default: true },
-  { view: 'Trans Cmd', viewValue: 'TransactionCommand', default: true },
+  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
 ]
 
