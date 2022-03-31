@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ContentChild, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -170,9 +170,9 @@ export class SolicitederrorsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   saveForm!: FormGroup;
-  Resolution!: string;
-  Refer!: string;
-  Remarks!: string;
+  Resolution: string ='';
+  Refer: string='';
+  Remarks: string ='';
   isSaveDisable: boolean = true;
 
   queryResult$!: Observable<any>;
@@ -360,13 +360,20 @@ export class SolicitederrorsComponent implements OnInit {
       });
     }
     this.isEnable();
-
+  }
+  
+  check999(){
+    if(this.Refer && this.Refer.substring(0,3) != '999')
+    return false;
+    
+    return true;
   }
 
-  onSaveSubmit(): void {
+  onSaveSubmit(form: any): void {
+    //console.log("save", form);
     debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
-      (this.Resolution && this.Remarks)) {
+      (this.Resolution && this.check999()  && this.Remarks)) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px', disableClose: true, data: {

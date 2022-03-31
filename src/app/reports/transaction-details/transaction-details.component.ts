@@ -221,7 +221,7 @@ prepareQueryParams(pageNo: string): any {
 
     for (const field in this.thisForm?.controls) {
       const control = this.thisForm.get(field);       
-        if (control?.value != "")
+        if (control?.value)
           {
             if(field =="CreationDate")
             {
@@ -312,7 +312,7 @@ prepareQueryParams(pageNo: string): any {
   resetForm(): void {   
     this.thisForm.reset();
     this.tabs.splice(0); 
-    this.resetExp= true;   
+    this.resetExp=!this.resetExp; 
   }
 
   setControlAttribute(matSelect: MatSelect) {

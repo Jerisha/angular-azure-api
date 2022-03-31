@@ -6,7 +6,8 @@ import {
   SplitByPipe,
   BorderDirective,
   OptionsValidatorDirective,
-  ReferenceValidatorDirective
+  ReferenceValidatorDirective,
+  TelphoneNoValidatorDirective
 } from './index';
 
 
@@ -17,7 +18,8 @@ import {
     SplitByPipe,
     TelNoPipe,
     OptionsValidatorDirective,
-    ReferenceValidatorDirective],
+    ReferenceValidatorDirective,
+    TelphoneNoValidatorDirective],
   imports: [
     CommonModule
   ],
@@ -26,6 +28,7 @@ import {
     SplitByPipe,
     TelNoPipe,
     OptionsValidatorDirective,
-    ReferenceValidatorDirective]
+    ReferenceValidatorDirective,
+    TelphoneNoValidatorDirective]
 })
 export class HelperModule { }
