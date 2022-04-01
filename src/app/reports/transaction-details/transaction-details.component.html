@@ -16,7 +16,7 @@
               <mat-label>Telephone No.</mat-label>
               <input formControlName="StartTelephoneNumber" matInput #StartTelephoneNumber minlength="11" maxlength="11"
                 placeholder="Telephone No." (keypress)="numberOnly($event)"
-                (keyup)="addPrefix('StartTelephoneNumber',StartTelephoneNumber.value)">
+                (ngModelChange)="onChange($event,'StartTelephoneNumber')">
               <mat-error>
                 <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid"
                   class="alert alert-danger">
@@ -91,7 +91,8 @@
               (click)="OnOperatorClicked(['CupidOperator',CupidOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Cupid.disabled}">
               <mat-label>Cupid</mat-label>
-              <input formControlName="Cupid" matInput #Cupid maxlength="100" placeholder="Cupid">
+              <input formControlName="Cupid" (keypress)="numberOnly($event)"
+              (ngModelChange)="onChange($event,'Cupid')" matInput #Cupid maxlength="100" placeholder="Cupid">
             </mat-form-field>
           </div>
 
