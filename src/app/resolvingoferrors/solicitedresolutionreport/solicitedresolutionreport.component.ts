@@ -164,11 +164,12 @@ export class SolicitedresolutionreportComponent implements OnInit {
       this.configDetails = res[0];
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
-    this.service.configDetails(updateRequest).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
-      this.updateDetails = res[0];
-    });
+    // let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
+    // this.service.configDetails(updateRequest).subscribe((res: any) => {
+    //   //console.log("res: " + JSON.stringify(res))
+    //   this.updateDetails = res[0];
+    // });
+
     //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
@@ -183,7 +184,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
-   // this.isEnable();
+    // this.isEnable();
     this.cdr.detectChanges();
   }
 
@@ -234,7 +235,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     })
 
   }
-  createForm() {      
+  createForm() {
     this.thisForm = this.formBuilder.group({
       TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       TransactionId: new FormControl({ value: '', disabled: true }, []),
@@ -432,7 +433,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
         this.selectedGridRows.splice(index, 1)
       }
     })
-    this.isEnable();
+    //this.isEnable();
     // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
