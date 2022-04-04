@@ -46,7 +46,7 @@ ngOnInit(): void {
     if(this.record != undefined)
     {
       this.eventName ='Update'    
-      //this.cdr.detectChanges();
+      this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
     {      
         let control = this.referenceForm.get(field);    

@@ -1,7 +1,6 @@
 .header-menu{
     position: absolute;
-    width: calc(100% - 39px);
-    padding: auto;
+    width: calc(100% - 39px);    
     color:#e60000;
     z-index: 2;
     display: flex;

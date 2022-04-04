@@ -366,7 +366,9 @@ setForm(reportName:string) {
               this.lstForm.push(
                 <IColoumnDef>{
                   cName: "XREF", cDisplayName: "XREF", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"1234",internalValue:""},{displayValue:"9999",internalValue:""}]
+                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"1025",internalValue:""},{displayValue:"1053",internalValue:""}
+                ,{displayValue:"1060",internalValue:""},{displayValue:"1058",internalValue:""},{displayValue:"1007",internalValue:""},
+                {displayValue:"1005",internalValue:""},{displayValue:"1021",internalValue:""}]
                 },
                 <IColoumnDef>{
                   cName: "Franchise", cDisplayName: "Franchise", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
@@ -428,15 +430,18 @@ setForm(reportName:string) {
                 },
                 <IColoumnDef>{
                   cName: "BTCUPID", cDisplayName: "BTCUPID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: []
+                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"13",internalValue:""},{displayValue:"718",internalValue:""},{displayValue:"9999",internalValue:""},
+                  {displayValue:"",internalValue:""},{displayValue:"",internalValue:""},]
                 },
                 <IColoumnDef>{
                   cName: "InternalCUPID", cDisplayName: "InternalCUPID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: []
+                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"170",internalValue:""},{displayValue:"13",internalValue:""},{displayValue:"35",internalValue:""}
+                  ,{displayValue:"28",internalValue:""},{displayValue:"9999",internalValue:""},]
                 },
                 <IColoumnDef>{
                   cName: "Source", cDisplayName: "Source", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: []
+                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-AUDIT", internalValue: "" },
+                  { displayValue: "C-SAS/COMS", internalValue: "" }, { displayValue: "D-DVA SIBEL", internalValue: "" }, { displayValue: "E-VA/WAD", internalValue: "" }]
                 },
                 <IColoumnDef>{
                   cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,

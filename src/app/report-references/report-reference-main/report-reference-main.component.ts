@@ -179,7 +179,7 @@ onDataFormSubmit(event:any[]){
   {
   const updateConfirm = this.dialog.open(ConfirmDialogComponent, {
     width: '300px', disableClose: true, data: {
-      message: 'Do you confirm remove this record?'
+      message: 'Do you confirm update this record?'
     }
   });
   updateConfirm.afterClosed().subscribe(confirm => {
