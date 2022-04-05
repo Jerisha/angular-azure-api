@@ -2,170 +2,112 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+// import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { of, Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from '../models/index';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
 import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 import { ThisReceiver } from '@angular/compiler';
 import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+// import { truncateSync } from 'fs';
+// import { CellAttributes } from '../models/full-audit-details/cell-attributes';
 
 const ELEMENT_DATA: any[] = [
   {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
+    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source', FullAuditCLIStatus: 'LS-Live in Source', ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
+    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'Y',MonthlyRefreshFlag:'Y',RangeReportFlag:'Y',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'Y',PostCodeDiffFlag:'Y',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
   {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
+    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source', FullAuditCLIStatus: 'LS-Live in Source',  ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
+    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'N',MonthlyRefreshFlag:'Y',RangeReportFlag:'N',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', isLive: true
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'Y',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
   {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
+    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1',  ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
+    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'N',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', isLive: true
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'N',PostCodeDiffFlag:'Y',FullAddFlag:'N', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
   {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
+    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1',  ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
+    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'N',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', isLive: true
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'N',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
   {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
+    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1',  ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
+    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'N',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: 'NA', isLive: false
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'Y',PostCodeDiffFlag:'N',FullAddFlag:'N', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
-
   {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
+    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1', ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
+    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'N',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', isLive: true
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'N',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
-
   {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
+    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1',  ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
+    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'N',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', isLive: true
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'N',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
-
   {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
+    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1',  ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
+    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'N',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', isLive: true
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'N',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
-
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', isLive: true
-  },
-
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', InflightOrder: 'Details-Vie',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'D-Mismatched', FullAuditCLIStatus: 'LS-Live in Source', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', isLive: true
-  },
-
-
-
-  {
-    TelNo: '01131100032 ', View: '', OSN2Source: 'DetailsVie', Source: 'DetailsVie', ACTID: 'DetailsVie', RangeReport: 'DetailsVie', InflightOrder: 'DetailsVie',
-    CUPID: '13', BatchId: 'DetailsVie', ExternalCLIStatus: 'DetailsVie', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'DetailsVie', SwitchStatus: 'DetailsVie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
-    BTPostcode: '', BTLocality: '',
-    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'DetailsVie', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
-    OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
-    ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
-    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: '', isLive: true
-  },
-  {
-    TelNo: '01131100032 ', View: '', OSN2Source: 'DetailsVie', Source: 'DetailsVie', ACTID: 'DetailsVie', RangeReport: 'DetailsVie', InflightOrder: 'DetailsVie',
-    CUPID: '13', BatchId: 'DetailsVie', ExternalCLIStatus: 'DetailsVie', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'DetailsVie', SwitchStatus: 'DetailsVie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
-    BTPostcode: '', BTLocality: '',
-    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'DetailsVie', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
-    OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
-    ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
-    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: '', isLive: false
-  },
-  {
-    TelNo: '01131100032 ', View: '', OSN2Source: 'DetailsVie', Source: 'DetailsVie', ACTID: 'DetailsVie', RangeReport: 'DetailsVie', InflightOrder: 'DetailsVie',
-    CUPID: '13', BatchId: 'DetailsVie', ExternalCLIStatus: 'DetailsVie', FullAuditCLIStatus: 'DetailsVie', MonthlyRefreshFlag: 'DetailsVie', ResolutionType: '',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'DetailsVie', SwitchStatus: 'DetailsVie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'DetailsVie', CDMSNMSRPIPO: '', CDMSNMSRPrefix: '', CDMSNMSRAreacall: '', CDMSNMSRType: '', IsVodafoneRangeHolder: '', BTCustomer: '',
-    BTPostcode: '', BTLocality: '',
-    BTPremise: 'DetailsVie', BTThouroughfare: 'DetailsVie', OSN2Customer: 'DetailsVie', OSN2Postcode: 'DetailsVie', OSN2Locality: 'DetailsVie', OSN2Premise: '',
-    OSN2Thouroughfare: 'DetailsVie', SourceCustomer: 'DetailsVie', SourcePostcode: 'DetailsVie', SourceLocality: 'DetailsVie', SourcePremise: '', SourceThouroughfare: '',
-    ParentCUPID: '', ChildCUPID: '', LineType: '', Franchise: '', OrderType: '', OrderReference: '', OrderServiceType: '', TypeOfLine: '',
-    Comments: '', LinkOrderRef: '', LinkReasonCode: '', OrderArchiveFlag: '', DeadEntry: '', isLive: true
-  },
+  
+ 
 ];
 const ELEMENT_DATA1: RangeReport[] = [
   {
@@ -234,25 +176,25 @@ const ELEMENT_DATA4: MonthlyRefreshReport[] = [
 
 ];
 const Items: Select[] = [
-  { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-  { view: 'TelNo End', viewValue: 'TelNoEnd', default: true },
+  { view: 'Start Telephone No', viewValue: 'StartTelephoneNo', default: true },
+  { view: 'End Telephone No', viewValue: 'EndTelephoneNo', default: true },
   { view: 'Audit ActId', viewValue: 'AuditActId', default: true },
   { view: 'CUP Id', viewValue: 'CUPId', default: true },
   { view: 'Batch Id', viewValue: 'BatchId', default: true },
-  { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: false },
+  { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
-  { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: false },
-  { view: 'Source', viewValue: 'Source', default: false },
-  { view: 'OSN2 Source', viewValue: 'OSN2Source', default: false },
-  { view: 'Porting Status', viewValue: 'PortingStatus', default: false },
-  { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: false },
-  { view: 'Resolution Type', viewValue: 'ResType', default: false },
+  { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: true },
+  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
+  { view: 'Porting Status', viewValue: 'PortingStatus', default: true },
+  { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: true },
+  { view: 'Resolution Type', viewValue: 'ResType', default: true },
   { view: 'Switch Status', viewValue: 'SwitchStatus', default: true },
   { view: 'Mori Status', viewValue: 'MoriStatus', default: true },
   { view: 'Post Code Diff', viewValue: 'PostCodeDiff', default: true },
   { view: 'Full Address Diff', viewValue: 'FullAddDiff', default: true },
   { view: 'Customer Diff', viewValue: 'CustomerDiff', default: true },
-  { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: false },
+  { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: true },
 
 ];
 
@@ -281,8 +223,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   tabs: Tab[] = [];
 
   comments: string = 'No Records Found';
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
+ 
 
   rangeReportTableDetails: any = [
     { headerValue: 'StartTelNo', header: 'Start TelNo', showDefault: true, isImage: false },
@@ -344,7 +285,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'ExternalCLIStatus', header: 'External CLI Status', showDefault: true, isImage: false },
     { headerValue: 'FullAuditCLIStatus', header: 'Full Audit CLI Status', showDefault: true, isImage: false },
     { headerValue: 'MonthlyRefreshFlag', header: 'Monthly Refresh Flag', showDefault: true, isImage: true },
-    { headerValue: 'ResolutionType', header: 'ResolutionType', showDefault: true, isImage: false },
+    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false },
     { headerValue: 'SourceSystemStatus', header: 'Source System Status', showDefault: true, isImage: false },
     { headerValue: 'MoriCircuitStatus', header: 'Mori Circuit Status', showDefault: true, isImage: true },
     { headerValue: 'SwitchStatus', header: 'Switch Status', showDefault: true, isImage: false },
@@ -388,14 +329,14 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   correctionTypes: ApplyAttributes[] = [
     {
       name: 'Auto Correction',
-      disabled: false,
+      disabled: true,
       subOption: [
         { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume', disabled: true }
       ]
     },
     {
       name: 'Manual Correction',
-      disabled: false,
+      disabled: true,
       subOption: [
         { value: 'AutoPopulateBT', viewValue: 'Auto Populate BT', disabled: true },
         { value: 'AutoPopulateOSN2', viewValue: 'Auto Populate OSN2', disabled: true },
@@ -411,7 +352,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT','AutoCorrectionVolume'],switchType:['Active','Ceased','Not Found'] },
     { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT','AutoCorrectionVolume'],switchType:['Ceased','Not Found'] },
     { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource','AutoCorrectionVolume'],switchType:['Active'] },
-    { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
+    { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'], switchType:['none'] },
     { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT','AutoCorrectionVolume'],switchType:['Active'] },
     { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2','AutoCorrectionVolume'],switchType:['Active','Ceased','Not Found'] },
     { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2','AutoCorrectionVolume'],switchType:['Ceased','Not Found'] },
@@ -424,40 +365,53 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease','AutoCorrectionVolume'],switchType:['Ceased','Not Found'] },
   ];
 
-  cellStyles:any=[
-{cell:'OSN2Customer', flag:['CustomerDiffFlag']}
+//   cellStyles:any=[
+// {cell:'OSN2Customer', flag:['CustomerDiffFlag']}
 
-  ]
+//   ]
 
   get selectedSwitchTypeStatus(){
     return this.fullAuditForm.get('SwitchStatus');
   }
   
   get selectedFullAuditCLIStatus() {
-    return this.fullAuditForm.get('FullAuditCLIStatus');
+    return this.form.FullAuditCLIStatus;
   }
 
+
+  showDataCorrection:boolean =false;
+
   setAttributesForManualCorrections() {
-    if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined) {
+    debugger;
+    if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
+    this.selectedFullAuditCLIStatus?.value ===null) {
       this.correctionTypes.forEach(element => {
-        element.subOption?.forEach(child => child.disabled = true)
+        element.subOption?.forEach(child => child.disabled = true);
+        element.disabled = true;
+        this.showDataCorrection = false;
       });
     }
     else {
+      this.showDataCorrection = true;
       this.dataCorrectionBtnConfig.forEach((element: ButtonCorretion) => {
         if (this.selectedFullAuditCLIStatus?.value === element.value) {
           this.correctionTypes.forEach(option => {
+            option.disabled = true;
             option.subOption?.forEach(subOpt => {
               if (element.buttonVal.includes(subOpt.value)) {
                 if ((option.name === 'Auto Correction' && element.switchType?.includes(this.selectedSwitchTypeStatus?.value)) ||
                   (option.name === 'Manual Correction')) {
-                    subOpt.disabled = false;
+                  option.disabled = false;
+                  subOpt.disabled = false;
                 }
-                else
+                else {
+                  option.disabled = true;
+                  subOpt.disabled = true;
+                }
+              }
+              else {                
                 subOpt.disabled = true;
               }
-              else
-              subOpt.disabled = true;
             });
           });
         }
@@ -466,15 +420,19 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private ser: FullAuditDetailsService, private dialog: MatDialog,
-    private formBuilder: FormBuilder, private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {
+    private formBuilder: FormBuilder, private cdr: ChangeDetectorRef,private telnoPipe: TelNoPipe) {
   }
 
   resetForm(): void {
-    this.snackBar.open('Reset Form Completed!', 'Close', {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
+    this.showDataCorrection =false;
+    this.fullAuditForm.reset();
+    this.tabs.splice(0);
+
+    // this.snackBar.open('Reset Form Completed!', 'Close', {
+    //   duration: 5000,
+    //   horizontalPosition: this.horizontalPosition,
+    //   verticalPosition: this.verticalPosition,
+    // });
   }
 
   openDialog() {
@@ -500,10 +458,20 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
 
-  cellinfo:any=[{
-    cell:'BatchId',flag:'IsLive'
-  }]
+  cellinfo: CellAttributes[] = [ 
+    //{ flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', }  ,
+    //{ flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y' }, 
+    { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Y' },
+    { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y' },
+    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Y' },
+    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare'], value: 'Y' },
+    { flag: 'ExternalCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source' },
+    { flag: 'FullAuditCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source' },
+  ];
+
   onFormSubmit(): void {
+
+    if(this.fullAuditForm.invalid){ return ;}
     this.myTable = {
       data: of({datasource:ELEMENT_DATA,
         totalrecordcount: 500,
@@ -523,7 +491,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
       { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
       { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 }]
+      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 },]
+      //{ headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -654,21 +623,36 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   }
 
+  get form(){
+    return this.fullAuditForm.controls;
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.fullAuditForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    }
+  }
+
+
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: true },
-        [
-          // Validators.required,
-          Validators.minLength(10)
-        ]
-      ),
-      TelNoEnd: new FormControl({ value: '', disabled: true },
-        [
-          // Validators.required,
-          Validators.minLength(10)
-        ]
-      ),
-      AuditActId: new FormControl({ value: '', disabled: true }),
+    
+      StartTelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+    
+      AuditActId: new FormControl({ value: '', disabled: true },[Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }),
       BatchId: new FormControl({ value: '', disabled: true }),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),

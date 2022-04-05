@@ -63,7 +63,8 @@ export class TableExpansionComponent implements OnDestroy {
   gridSelectList: ColumnDetails[] = [];
   filteredDataColumns: ColumnDetails[] = [];
   highlightedCells: string[] = [];
-  backhighlightedCells: string[] = []
+  // backhighlightedCells: string[] = [];
+  backhighlightedCells:any;
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   shouldTotalRow: boolean = false;

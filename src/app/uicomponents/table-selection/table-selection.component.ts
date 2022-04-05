@@ -3,13 +3,15 @@ import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Observable, of, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { delay, takeUntil } from 'rxjs/operators';
+import { isNgTemplate } from '@angular/compiler';
+// import { disconnect } from 'process';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,7 +56,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   gridFilter: ColumnDetails[] = [];
   filteredDataColumns: ColumnDetails[] = [];
   highlightedCells: string[] = [];
-  backhighlightedCells: any;
+  backhighlightedCells: CellAttributes[]=[];
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   showTotalRow!: boolean;
@@ -124,7 +126,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.allSelected = true;
     this.ColumnDetails = [];
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
-   // this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
+    this.backhighlightedCells = this.tableitem?.backhighlightedCells?   this.tableitem?.backhighlightedCells : [];
     this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
     this.showTotalRow = this.totalRowCols.length > 0;
     this.imgList = this.tableitem?.imgConfig;
@@ -284,32 +286,19 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.unSelectListItems = [];
 
     data?.forEach((item: any) => this.checkIsNullOrEmptyProperties(item));
-    // logic
-    debugger
+    console.log('non', this.nonemptyColumns)
     this.tableitem?.Columns?.forEach(x => {
-      if (this.nonemptyColumns.includes(x.headerValue) || x.isImage)
+      if (this.nonemptyColumns.find(c => c === x.headerValue)  || x.isImage) {
         this.ColumnDetails.push(x);
+      }
+      // else if (x.isImage && this.nonemptyColumns.find(c => c === x.headerValue)) {
+      //   this.ColumnDetails.push(x);
+      // }
+      // else {
+      //   this.ColumnDetails.push(x);
+      // }
+
     })
- 
-  //}
-    // var nonEmptySet = new Set(this.nonemptyColumns);
-    // this.nonemptyColumns = [...nonEmptySet];
-    // var colDetails = this.tableitem?.Columns ? this.tableitem?.Columns : [];
-    // var filtered = colDetails?.filter(x => !this.nonemptyColumns.includes(x.headerValue) && x.isImage === false).map(x => x.headerValue);
-
-
-
-
-    // if (filtered) {
-    //   filtered.forEach(x => {
-    //     this.emptyColumns.push(x)
-    //   });
-    // }
-    // var emptySet = new Set(this.emptyColumns);
-    // this.emptyColumns = [...emptySet];
-    // this.unSelectListItems = this.emptyColumns.filter(x => !this.nonemptyColumns.includes(x));
-    // console.log('unselectlist', this.unSelectListItems)
-    // }
   }
 
 
@@ -321,44 +310,80 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   }
 
+  checkImgcols(obj: any) {
+    
+    var coun = this.tableitem?.backhighlightedCells?.filter(x=>x.isFlag)
+    coun?.forEach(v => {
+      if (obj[v.flag] === 'Y') {
+        v.cells.forEach(i => {
+          debugger;
+          this.nonemptyColumns.push(i);
+        })
+      }     
+    })
+  }
+
   checkIsNullOrEmptyProperties(obj: any) {
     for (var key in obj) {
       if ((this.tableitem?.Columns?.filter(x => key === (x.headerValue)).length == 0)) {
         this.emptyColumns.push(key);
       }
-      if ((obj[key] === null || obj[key] === ""))
-        this.emptyColumns.push(key);
-      else {
-        this.nonemptyColumns.push(key)
+      if ((obj[key] === null || obj[key] === "" || obj[key] === "N")){
+        this.emptyColumns.push(key);        
       }
+      else {
+        this.nonemptyColumns.push(key)   
+      }
+     // debugger;
+     // this.checkImgcols(obj)     
     }
   }
 
-  highlightCell(cell: any, disCol: any) {
+  setImageCellAttributes(row: any, cell: any) {
+    debugger;
+    let flag = true;
+
+    var cells = this.backhighlightedCells.filter(x => x.cells.includes(cell));
+    if (cells.length > 0) {
+      cells.forEach(x => {
+        if (x.cells.find(x => x === (cell)) && row[x.flag] === x.value) {
+          flag = true;
+        }
+        else {
+          flag = false;
+        }
+      });
+    }
+    return flag;   
+  }
+
+  highlightCell(row: any, disCol: any) {
 
     let applyStyles = {};
-    debugger;
+    //debugger;
 
-    // if (this.backhighlightedCells)
-    //   if (this.backhighlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
-    //     applyStyles = {
-    //       'background-color': '#ff9999'
-    //     }
-    //   }
+    this.backhighlightedCells.forEach(x => {
+      if (x.cells.find(x => x === (disCol.headerValue)) && row[x.flag] === x.value) {
+        applyStyles = {
+          'background-color': '#ff9999'
+        };
+      }
+    })
 
-
-    if(this.tableitem?.backhighlightedCells ){
-
-
-    }
     if (this.highlightedCells)
-      if (this.highlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
+      if (this.highlightedCells.includes(disCol.headerValue) && (row['IsLive'] == 1)) {
         applyStyles = {
           'color': 'red',
           'font-weight': '500'
         }
       }
     return applyStyles;
+    // if (this.backhighlightedCells)
+    //   if (this.backhighlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
+    //     applyStyles = {
+    //       'background-color': '#ff9999'
+    //     }
+    //   }
   }
 
   ngOnDestroy() {

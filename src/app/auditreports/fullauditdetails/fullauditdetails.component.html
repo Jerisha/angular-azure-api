@@ -5,33 +5,39 @@
                 (changes)="setControlAttribute($event)">
             </app-select-multiple>
         </div>
-        <form [formGroup]="fullAuditForm" (ngSubmit)="onFormSubmit()">
+        <form [formGroup]="fullAuditForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
             <div class="matsidenav-filter">
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.TelNoStart.disabled}"
-                    hintLabel="Max 10 characters">
-                    <mat-label>Tel.No Start</mat-label>
-                    <input id="TelNoStart" formControlName="TelNoStart" matInput #TelNoStart maxlength="10"
-                        placeholder="Tel.No Start" style="margin-right: 24%;">
-                    <mat-error *ngFor="let validation of validation_messages.TelNo">
-                        <mat-error class="error-message" *ngIf="checkError('TelNoStart',validation.type)">
-                            {{validation.message}}</mat-error>
-                    </mat-error>
-                    <mat-hint align="end">{{TelNoStart.value?.length || 0}}/10</mat-hint>
+                <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNo.disabled}"
+                    hintLabel="Max 11 characters">
+                    <mat-label>Start Telephone No</mat-label>
+                    <input id="StartTelephoneNo" formControlName="StartTelephoneNo" matInput #StartTelephoneNo maxlength="11"
+                        placeholder="Start Telephone No" (keypress)="numberOnly($event)"
+                        (ngModelChange)="onChange($event,'StartTelephoneNo')" style="margin-right: 24%;">
+                        <mat-error>
+                            <div *ngIf="form.StartTelephoneNo.touched && form.StartTelephoneNo.invalid" class="alert alert-danger">
+                              <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                              <div *ngIf="form.StartTelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
+                            </div>
+                          </mat-error>   
+                          <mat-hint align="end">{{StartTelephoneNo.value?.length || 0}}/11</mat-hint>                 
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.TelNoEnd.disabled}"
+                <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNo.disabled}"
                     hintLabel="Max 10 characters">
-                    <mat-label>Tel.No End</mat-label>
-                    <input id="TelNoEnd" formControlName="TelNoEnd" matInput #TelNoEnd maxlength="10"
-                        placeholder="Tel.No End">
-                    <mat-error *ngFor="let validation of validation_messages.TelNo">
-                        <mat-error class="error-message" *ngIf="checkError('TelNoEnd',validation.type)">
-                            {{validation.message}}</mat-error>
-                    </mat-error>
-                    <mat-hint align="end">{{TelNoEnd.value?.length || 0}}/10</mat-hint>
+                    <mat-label>End Telephone No</mat-label>
+                    <input id="EndTelephoneNo" formControlName="EndTelephoneNo" matInput #EndTelephoneNo maxlength="10"
+                        placeholder="End Telephone No" (keypress)="numberOnly($event)"
+                        (ngModelChange)="onChange($event,'EndTelephoneNo')">
+                        <mat-error>
+                            <div *ngIf="form.EndTelephoneNo.touched && form.EndTelephoneNo.invalid" class="alert alert-danger">
+                              <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                              <div *ngIf="form.EndTelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
+                            </div>
+                          </mat-error>   
+                          <mat-hint align="end">{{EndTelephoneNo.value?.length || 0}}/11</mat-hint> 
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.AuditActId.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.AuditActId.disabled}">
                     <mat-label>Audit ACT ID</mat-label>
                     <mat-select id="AuditActId" formControlName="AuditActId">
                         <mat-option></mat-option>
@@ -43,7 +49,7 @@
                         Audit ACTID</mat-error>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.CUPId.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.CUPId.disabled}">
                     <mat-label>CUPID</mat-label>
                     <mat-select id="CUPId" formControlName="CUPId">
                         <mat-option></mat-option>
@@ -56,7 +62,7 @@
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.BatchId.disabled}"
+                <mat-form-field [ngClass]="{'hidden':form.BatchId.disabled}"
                     hintLabel="Max 3 characters">
                     <mat-label>Batch Id</mat-label>
                     <input id="BatchId" formControlName="BatchId" #BatchId matInput #input maxlength="3"
@@ -68,7 +74,7 @@
                     <mat-hint align="end">{{input.value?.length || 0}}/3</mat-hint>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.ExternalCLIStatus.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
                     <mat-label>External CLI Status</mat-label>
                     <mat-select id="ExternalCLIStatus" formControlName="ExternalCLIStatus">
                         <mat-option></mat-option>
@@ -79,7 +85,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.FullAuditCLIStatus.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.FullAuditCLIStatus.disabled}">
                     <mat-label>Full Audit CLI Status</mat-label>
                     <mat-select id="FullAuditCLIStatus" formControlName="FullAuditCLIStatus">
                         <mat-option></mat-option>
@@ -101,7 +107,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.MonthlyRefreshFlag.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.MonthlyRefreshFlag.disabled}">
                     <mat-label>Monthly Refresh Flag</mat-label>
                     <mat-select id="MonthlyRefreshFlag" formControlName="MonthlyRefreshFlag">
                         <mat-option></mat-option>
@@ -110,7 +116,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.Source.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.Source.disabled}">
                     <mat-label>Source</mat-label>
                     <mat-select id="Source" formControlName="Source">
                         <mat-option></mat-option>
@@ -124,7 +130,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.OSN2Source.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
                     <mat-label>OSN2 Source</mat-label>
                     <mat-select id="OSN2Source" formControlName="OSN2Source">
                         <mat-option></mat-option>
@@ -138,7 +144,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.PortingStatus.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.PortingStatus.disabled}">
                     <mat-label>Porting Status</mat-label>
                     <mat-select id="PortingStatus" formControlName="PortingStatus">
                         <mat-option></mat-option>
@@ -147,7 +153,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.VodafoneRangeHolder.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.VodafoneRangeHolder.disabled}">
                     <mat-label>Vodafone Range Holder</mat-label>
                     <mat-select id="VodafoneRangeHolder" formControlName="VodafoneRangeHolder">
                         <mat-option></mat-option>
@@ -156,7 +162,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.ResType.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.ResType.disabled}">
                     <mat-label>Resolution Type</mat-label>
                     <mat-select id="ResType" formControlName="ResType">
                         <mat-option></mat-option>
@@ -181,7 +187,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.SwitchStatus.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.SwitchStatus.disabled}">
                     <mat-label>Switch Status</mat-label>
                     <mat-select id="SwitchStatus" formControlName="SwitchStatus">
                         <mat-option></mat-option>
@@ -191,7 +197,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.MoriStatus.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.MoriStatus.disabled}">
                     <mat-label>Mori Status</mat-label>
                     <mat-select id="MoriStatus" formControlName="MoriStatus">
                         <mat-option></mat-option>
@@ -200,7 +206,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.PostCodeDiff.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.PostCodeDiff.disabled}">
                     <mat-label>Post Code Diff.</mat-label>
                     <mat-select id="PostCodeDiff" formControlName="PostCodeDiff">
                         <mat-option></mat-option>
@@ -209,7 +215,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.FullAddDiff.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.FullAddDiff.disabled}">
                     <mat-label>Full Address Diff.</mat-label>
                     <mat-select id="FullAddDiff" formControlName="FullAddDiff">
                         <mat-option></mat-option>
@@ -218,7 +224,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.CustomerDiff.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.CustomerDiff.disabled}">
                     <mat-label>Customer Diff.</mat-label>
                     <mat-select id="CustomerDiff" formControlName="CustomerDiff">
                         <mat-option></mat-option>
@@ -227,7 +233,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':fullAuditForm.controls.OverlappingStatus.disabled}">
+                <mat-form-field [ngClass]="{'hidden':form.OverlappingStatus.disabled}">
                     <mat-label>Overlapping Status.</mat-label>
                     <mat-select id="OverlappingStatus" formControlName="OverlappingStatus">
                         <mat-option></mat-option>
@@ -238,12 +244,11 @@
 
             </div>            
             <div class="matsidenav-footer">
-                <button type="submit" mat-raised-button color="primary"
-                    [disabled]="fullAuditForm.invalid">
+                <button type="submit" mat-raised-button color="primary">                   
                     <mat-icon>search</mat-icon>Search
                 </button>
-                <button type="reset" mat-raised-button color="primary"
-                    [disabled]="!fullAuditForm.touched" (click)="resetForm()">
+                <button type ="reset"  mat-raised-button color="primary"
+                     (click)="resetForm()">
                     <mat-icon>refresh</mat-icon>Reset
                 </button>
             </div>                         
@@ -290,19 +295,16 @@
                             <button type="submit" mat-raised-button color="primary">
                                 <mat-icon>save</mat-icon>Save
                             </button>
-                            <button type="button" mat-raised-button color="primary">
-                                <mat-icon>help</mat-icon>Help
-                            </button> &nbsp;
-
-                            <mat-form-field>
+                            
+                            <mat-form-field *ngIf="showDataCorrection">
                                 <mat-label>Data Corrections</mat-label>
                                 <mat-select [(value)]="selectedCorrectionType" placeholder="Data Corrections">
                                     <mat-option> </mat-option>
                                     <mat-optgroup *ngFor="let group of correctionTypes" [label]="group.name"
-                                        [ngStyle]="{ display : group.disabled? 'none' : 'block' }">
+                                        [ngStyle]="{ display : group.disabled? 'none' : 'block' }">                                    
                                         <mat-option *ngFor="let correction of group.subOption"
                                             [ngStyle]="{ display : correction.disabled? 'none' : 'block' }" [value]="correction.value">
-                                            {{correction.viewValue}}
+                                            {{correction.viewValue}}                                        
                                         </mat-option>
                                     </mat-optgroup>
                                 </mat-select>
