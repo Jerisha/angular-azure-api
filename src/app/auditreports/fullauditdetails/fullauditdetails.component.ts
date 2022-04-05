@@ -371,7 +371,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 //   ]
 
   get selectedSwitchTypeStatus(){
-    return this.fullAuditForm.get('SwitchStatus');
+    return this.form.SwitchStatus;
   }
   
   get selectedFullAuditCLIStatus() {
