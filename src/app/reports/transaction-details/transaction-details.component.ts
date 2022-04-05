@@ -99,7 +99,7 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Premises',headerValue:'Premises', showDefault: true, isImage: false },
     { header: 'Thoroughfare',headerValue:'Thoroughfare', showDefault: true, isImage: false },
     { header: 'Locality',headerValue:'Locality', showDefault: true, isImage: false },
-    { header: 'Postcode',headerValue:'Postcode', showDefault: true, isImage: false },
+    { header: 'Postcode',headerValue:'PostCode', showDefault: true, isImage: false },
     { header: 'Address Line 1',headerValue:'AddressLine1', showDefault: true, isImage: false },
     { header: 'Address Line 2',headerValue:'AddressLine2', showDefault: true, isImage: false },
     { header: 'Address Line 3',headerValue:'AddressLine3', showDefault: true, isImage: false },
