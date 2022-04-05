@@ -207,6 +207,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
+  updateForm!:FormGroup;
 
   selectedCorrectionType: string = '';
   myTable!: TableItem;
@@ -424,15 +425,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   resetForm(): void {
-    this.showDataCorrection =false;
-    this.fullAuditForm.reset();
+    this.showDataCorrection =false;  
+    this.fullAuditForm.reset();    
     this.tabs.splice(0);
-
-    // this.snackBar.open('Reset Form Completed!', 'Close', {
-    //   duration: 5000,
-    //   horizontalPosition: this.horizontalPosition,
-    //   verticalPosition: this.verticalPosition,
-    // });
+    //this.setDefaultValues();
   }
 
   openDialog() {
@@ -446,6 +442,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.setDefaultValues();
     this.listItems = Items;
   }
 
@@ -645,13 +642,22 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  setDefaultValues(){
+    this.fullAuditForm.get('AuditActId')?.setValue('29-20 Dec 2021');
+  }
+
+
+  createUpdateForm(){
+    this.updateForm = this.formBuilder.group({
+      ResolutionType: new FormControl({ value: '', disabled: true },[Validators.required]),
+      Remarks: new FormControl({ value: '', disabled: true })
+    })
+  }
 
   createForm() {
-    this.fullAuditForm = this.formBuilder.group({
-    
+    this.fullAuditForm = this.formBuilder.group({    
       StartTelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-    
+      EndTelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),   
       AuditActId: new FormControl({ value: '', disabled: true },[Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }),
       BatchId: new FormControl({ value: '', disabled: true }),
