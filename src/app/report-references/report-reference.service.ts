@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { IColoumnDef } from "src/app/report-references/IControls";
+import { HttpVerbs, HttpWrapperService, WebMethods } from '../_http';
+import { MetaRequests } from './Common/MetaRequests';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,7 @@ export class ReportReferenceService {
    'NextCommandCheck', 'OSNProvideList', 'ErrorCode','PermittedLineStatus','InterimCommands',
    
   ];
-  constructor() { }
+  constructor(private wrapperService :HttpWrapperService) { }
 
   data:any =[
 {
@@ -289,7 +292,7 @@ export class ReportReferenceService {
   displayedColumns:any=[
   { SourceSystem: ['Actions','OriginatingSystem', 'BTCode', 'Title','ValidateAddress','SendBT','Comments','LineTypeMandatory','LTMandatoryOpt','LineTypeBlank','LTBlankOpt','Notification']},
   { Status:['Actions','Id','ProcessOrder','StatusDescription','Comments']},
-  { AuditStatus:['Actions','ID', 'StatusSummary','Description']},
+  { AuditStatus:['Actions','StatusId', 'Summary','Description']},
   { CUPIDCrossReference: ['Actions', 'XREF', 'Franchise', 'BTCUPID', 'InternalCUPID', 'Source', 'Comments'] },
   { LineType: ['Actions', 'Code', 'LineType', 'Comments'] },
   { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
@@ -831,5 +834,25 @@ setForm(reportName:string) {
         return this.lstForm;
       }
     }
+
+
+
+prepareData(pageIdentifier: string, reportIdentifier: string) : Observable<any>{
+  let request = ReportReferenceService.prepareQueryRequest(pageIdentifier,reportIdentifier);
+  console.log(JSON.stringify(request));
+  return this.queryDetails(request);
+}
+queryDetails(request: any): Observable<any> {
+      return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);       
+ }
+
+static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
+      let transform = JSON.parse(JSON.stringify(MetaRequests.QUERY));
+      transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
+  
+      //identifier
+      transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+      return transform;
+ }
 
 }
