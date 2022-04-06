@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { IColoumnDef } from "src/app/report-references/IControls";
+import { HttpVerbs, HttpWrapperService, WebMethods } from '../_http';
+import { MetaRequests } from './Common/MetaRequests';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,7 @@ export class ReportReferenceService {
    'NextCommandCheck', 'OSNProvideList', 'ErrorCode','PermittedLineStatus','InterimCommands',
    
   ];
-  constructor() { }
+  constructor(private wrapperService :HttpWrapperService) { }
 
   data:any =[
 {
@@ -289,7 +292,7 @@ export class ReportReferenceService {
   displayedColumns:any=[
   { SourceSystem: ['Actions','OriginatingSystem', 'BTCode', 'Title','ValidateAddress','SendBT','Comments','LineTypeMandatory','LTMandatoryOpt','LineTypeBlank','LTBlankOpt','Notification']},
   { Status:['Actions','Id','ProcessOrder','StatusDescription','Comments']},
-  { AuditStatus:['Actions','ID', 'StatusSummary','Description']},
+  { AuditStatus:['Actions','StatusId', 'Summary','Description']},
   { CUPIDCrossReference: ['Actions', 'XREF', 'Franchise', 'BTCUPID', 'InternalCUPID', 'Source', 'Comments'] },
   { LineType: ['Actions', 'Code', 'LineType', 'Comments'] },
   { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
@@ -366,7 +369,9 @@ setForm(reportName:string) {
               this.lstForm.push(
                 <IColoumnDef>{
                   cName: "XREF", cDisplayName: "XREF", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"1234",internalValue:""},{displayValue:"9999",internalValue:""}]
+                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"1025",internalValue:""},{displayValue:"1053",internalValue:""}
+                ,{displayValue:"1060",internalValue:""},{displayValue:"1058",internalValue:""},{displayValue:"1007",internalValue:""},
+                {displayValue:"1005",internalValue:""},{displayValue:"1021",internalValue:""}]
                 },
                 <IColoumnDef>{
                   cName: "Franchise", cDisplayName: "Franchise", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
@@ -428,15 +433,18 @@ setForm(reportName:string) {
                 },
                 <IColoumnDef>{
                   cName: "BTCUPID", cDisplayName: "BTCUPID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: []
+                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"13",internalValue:""},{displayValue:"718",internalValue:""},{displayValue:"9999",internalValue:""},
+                  {displayValue:"",internalValue:""},{displayValue:"",internalValue:""},]
                 },
                 <IColoumnDef>{
                   cName: "InternalCUPID", cDisplayName: "InternalCUPID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: []
+                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"170",internalValue:""},{displayValue:"13",internalValue:""},{displayValue:"35",internalValue:""}
+                  ,{displayValue:"28",internalValue:""},{displayValue:"9999",internalValue:""},]
                 },
                 <IColoumnDef>{
                   cName: "Source", cDisplayName: "Source", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: []
+                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-AUDIT", internalValue: "" },
+                  { displayValue: "C-SAS/COMS", internalValue: "" }, { displayValue: "D-DVA SIBEL", internalValue: "" }, { displayValue: "E-VA/WAD", internalValue: "" }]
                 },
                 <IColoumnDef>{
                   cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
@@ -826,5 +834,25 @@ setForm(reportName:string) {
         return this.lstForm;
       }
     }
+
+
+
+prepareData(pageIdentifier: string, reportIdentifier: string) : Observable<any>{
+  let request = ReportReferenceService.prepareQueryRequest(pageIdentifier,reportIdentifier);
+  console.log(JSON.stringify(request));
+  return this.queryDetails(request);
+}
+queryDetails(request: any): Observable<any> {
+      return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);       
+ }
+
+static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
+      let transform = JSON.parse(JSON.stringify(MetaRequests.QUERY));
+      transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
+  
+      //identifier
+      transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+      return transform;
+ }
 
 }

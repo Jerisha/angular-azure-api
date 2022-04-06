@@ -8,6 +8,8 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -30,6 +32,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit{
   showDataForm:boolean =false;
   showDetailsForm:boolean =false;
   data:any =[];
+  dataObs$ !: Observable<any>;;
   
   displayedColumns:any =[];
 
@@ -64,8 +67,26 @@ this.data =[];
 
 let dispVal = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]; 
 this.displayedColumns=dispVal ||[]; 
-let dat=this.reportReferenceService.data[this.reportIndex][this.reportName];
-this.data=dat||[];    
+// let dat=this.reportReferenceService.data[this.reportIndex][this.reportName];
+this.dataObs$ = this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(map((res: any) => {
+  if (Object.keys(res).length) {
+    
+    let result = {
+      datasource: res[0].AuditStatus,
+      totalrecordcount: res[0].TotalCount,
+      totalpages: res[0].NumberOfPages,
+      pagenumber: res[0].PageNumber
+    }
+    return result;
+  }  else return {
+     res
+  }
+}));
+this.dataObs$.subscribe((res: any) =>{
+  this.data = res.datasource;
+  console.log(JSON.stringify(this.data));
+})
+//this.data=dat||[];    
 this.newTab();
 }
 Onselecttabchange($event: any){
@@ -179,7 +200,7 @@ onDataFormSubmit(event:any[]){
   {
   const updateConfirm = this.dialog.open(ConfirmDialogComponent, {
     width: '300px', disableClose: true, data: {
-      message: 'Do you confirm remove this record?'
+      message: 'Do you confirm update this record?'
     }
   });
   updateConfirm.afterClosed().subscribe(confirm => {
