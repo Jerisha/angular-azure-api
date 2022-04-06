@@ -7,14 +7,13 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class HttpErrorInterceptor implements HttpInterceptor {
-
     constructor(private _route: Router,
         private spinner: NgxSpinnerService) {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request)
-            .pipe(
+            .pipe(  
                 //retry(1),
                 catchError((error: HttpErrorResponse) => {
                     let errorMessage = '';
