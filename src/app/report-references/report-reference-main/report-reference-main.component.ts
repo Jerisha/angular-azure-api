@@ -33,9 +33,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit{
   showDetailsForm:boolean =false;
   data:any =[];
   dataObs$ !: Observable<any>;;
-  
+  StatusID: string ='';
+  Summary: string='';
+  Description: string ='';
   displayedColumns:any =[];
-
   lstFields: IColoumnDef[] = [];
 
   isShow:boolean =false;
@@ -67,7 +68,7 @@ this.data =[];
 
 let dispVal = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]; 
 this.displayedColumns=dispVal ||[]; 
-// let dat=this.reportReferenceService.data[this.reportIndex][this.reportName];
+let dat=this.reportReferenceService.data[this.reportIndex][this.reportName];
 this.dataObs$ = this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(map((res: any) => {
   if (Object.keys(res).length) {
     
@@ -86,7 +87,7 @@ this.dataObs$.subscribe((res: any) =>{
   this.data = res.datasource;
   console.log(JSON.stringify(this.data));
 })
-//this.data=dat||[];    
+this.data=dat||[];    
 this.newTab();
 }
 Onselecttabchange($event: any){
@@ -166,6 +167,7 @@ onEditRecord(element:any,event:any){
   this.editModeIndex  = this.reportNames.findIndex(x => x == this.editMode);
   this.reportReferenceService.showDataForm = this.showDataForm=true;
   this.editRecord =element;
+  
   // alert("edit Record values: "+ JSON.stringify(this.editRecord));
   // this.cdr.detectChanges();
   }
@@ -203,9 +205,20 @@ onDataFormSubmit(event:any[]){
       message: 'Do you confirm update this record?'
     }
   });
+
   updateConfirm.afterClosed().subscribe(confirm => {
     if (confirm) {
+      let request = ReportReferenceService.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers()); 
+     console.log(request, 'uprequest')
+      this.reportReferenceService.updateDetails(request).subscribe(x => {
+        if (x.StatusMessage === 'Success') {
+          //success message and same data reload
           this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          // this.onFormSubmit(true);
+        }else{
+          this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+        }
+      });
         }
     else{
       this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -216,8 +229,32 @@ onDataFormSubmit(event:any[]){
   this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
   }
 
-
 }
+prepareUpdateIdentifiers() {
+
+  let identifiers: any[] = [];
+  alert(this.editRecord.length + 'length')
+  // if (this.editRecord.length > 0) {
+      // this.editRecord?.forEach(x => { 
+      // identifiers.push({ Name: 'StatusID', Value: 12 } );
+      identifiers.push({ Name: 'StatusId', Value: ['11'] } );
+      identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1']  } );
+      identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-test1 ']} );
+    //}
+  console.log(identifiers, 'identifiers')
+  return identifiers;
+}
+
+prepareUpdateParams(): any {
+  let UpdateParams: any = [];
+ 
+console.log(UpdateParams);
+
+  return UpdateParams;
+}
+
+ 
+
 onDataFormCancel(event:any[]){
   this.editMode ="";
   this.editModeIndex =-1;

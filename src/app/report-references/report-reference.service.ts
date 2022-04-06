@@ -57,51 +57,51 @@ export class ReportReferenceService {
 ]},
 {
   AuditStatus:[
-{ID: '11', StatusSummary: 'Populated Full Audit count',Description:'Populated Full Audit count'},
-{ID: '12', StatusSummary: 'One year data clean up for full audit',Description:'Test'},
-{ID: '13', StatusSummary: 'Auto close for End state',Description:'Test'},
-{ID: '14', StatusSummary: 'Mori Status Update in full audit',Description:'Mori Status Update in full audit'},
-{ID: '15', StatusSummary: 'BT file Loaded Successfully',Description:'Test'},
-{ID: '101', StatusSummary: 'BT FILE SIZE CHECKING',Description:'BT FILE SIZE CHECKING'},
-{ID: '102', StatusSummary: 'BT File Loaded Successfully',Description:'BT File Loaded Successfully'},
-{ID: '103', StatusSummary: 'BT File Data Loading Failed',Description:'BT File Data Loading Failed'},
-{ID: '171', StatusSummary: 'OSN2 and Source System Addresses checking by PAF',Description:'OSN2 and Source System Addresses checking by PAF'},
-{ID: '201', StatusSummary: 'External Audit Start',Description:'External Audit Start'},
-{ID: '202', StatusSummary: 'External Audit In Progress',Description:'External Audit In Progress'},
-{ID: '203', StatusSummary: 'Reset External Audit Data',Description:'Reset External Audit Data'},
-{ID: '204', StatusSummary: 'External Audit Data Loading',Description:'External Audit Data Loading'},
-{ID: '205', StatusSummary: 'External Audit Data Comparision',Description:'External Audit Data Comparision'},
-{ID: '206', StatusSummary: 'Update External Audit Summary Data',Description:'Update External Audit Summary Data'},
-{ID: '207', StatusSummary: 'Checking External audit Status',Description:'Checking External audit Status'},
-{ID: '208', StatusSummary: 'Update External Audit Status',Description:'Update External Audit Status'},
-{ID: '209', StatusSummary: 'External Audit successfully completed',Description:'External Audit successfully completed'},
-{ID: '210', StatusSummary: 'Source System Data Loading',Description:'Source System Data Loading'},
-{ID: '211', StatusSummary: 'Updating Internal Audit Control Details',Description:''},
-{ID: '212', StatusSummary: 'Internal Audit Start',Description:'Internal Audit Start'},
-{ID: '213', StatusSummary: 'Internal Audit In Progess',Description:'Internal Audit In Progess'},
-{ID: '214', StatusSummary: 'Reset Internal Audit Data',Description:'Reset Internal Audit Data'},
-{ID: '215', StatusSummary: 'Internal Audit Data Loading',Description:'Internal Audit Data Loading'},
-{ID: '216', StatusSummary: 'Internal Audit Data Comparision',Description:'Internal Audit Data Comparision'},
-{ID: '217', StatusSummary: 'Update Internal Audit Summary Data',Description:'Update Internal Audit Summary Data'},
-{ID: '218', StatusSummary: 'Checking Internal Audit Status',Description:'Checking Internal Audit Status'},
-{ID: '219', StatusSummary: 'Update Internal Audit Status',Description:'Update Internal Audit Status'},
-{ID: '220', StatusSummary: 'Internal Audit Successfully Completed',Description:'Internal Audit Successfully Completed'},
-{ID: '221', StatusSummary: 'Start Separate Internal Audit',Description:'Start Separate Internal Audit'},
-{ID: '222', StatusSummary: 'Separate Audit In progress',Description:'Separate Audit In progress'},
-{ID: '223', StatusSummary: 'Load source system data in separate table',Description:'Load source system data in separate table'},
-{ID: '224', StatusSummary: 'Load OSN2 Live Records to master table',Description:'Load OSN2 Live Records to master table'},
-{ID: '225', StatusSummary: 'Separate Internal Audit Data Comparision',Description:'Separate Internal Audit Data Comparision'},
-{ID: '226', StatusSummary: 'Update Separate Internal Audit Summary Data',Description:'Update Separate Internal Audit Summary Data'},
-{ID: '227', StatusSummary: 'Checking Separate Internal Audit Status',Description:'Checking Separate Internal Audit Status'},
-{ID: '228', StatusSummary: 'Update Separate Internal Audit Status',Description:'Update Separate Internal Audit Status'},
-{ID: '229', StatusSummary: 'Separate Internal Audit Successfully Completed',Description:'Separate Internal Audit Successfully Completed'},
-{ID: '272', StatusSummary: 'SAS/COMS Range Correction',Description:'SAS/COMS Range Correction'},
-{ID: '300', StatusSummary: 'External Audit Failed',Description:'External Audit Failed'},
-{ID: '373', StatusSummary: 'OSN2 and Source System PAF Addresses Comparison.',Description:'OSN2 and Source System PAF Addresses Comparison'},
-{ID: '400', StatusSummary: 'Internal Audit Failed',Description:'nternal Audit Failed'},
-{ID: '474', StatusSummary: 'Switch dump and OFCOM recon for PI and PO.',Description:'Switch dump and OFCOM recon for PI and PO'},
-{ID: '500', StatusSummary: 'Full Internal Audit Failed',Description:'Full Internal Audit Failed'},
-{ID: '575', StatusSummary: 'Updating Port In and Port Out',Description:'Updating Port In and Port Out'},
+{StatusId: '11', Summary: 'Populated Full Audit count',Description:'Populated Full Audit count'},
+{StatusId: '12', Summary: 'One year data clean up for full audit',Description:'Test'},
+{StatusId: '13', Summary: 'Auto close for End state',Description:'Test'},
+{StatusId: '14', Summary: 'Mori Status Update in full audit',Description:'Mori Status Update in full audit'},
+{StatusId: '15', Summary: 'BT file Loaded Successfully',Description:'Test'},
+{StatusId: '101', Summary: 'BT FILE SIZE CHECKING',Description:'BT FILE SIZE CHECKING'},
+{StatusId: '102', Summary: 'BT File Loaded Successfully',Description:'BT File Loaded Successfully'},
+{StatusId: '103', Summary: 'BT File Data Loading Failed',Description:'BT File Data Loading Failed'},
+{StatusId: '171', Summary: 'OSN2 and Source System Addresses checking by PAF',Description:'OSN2 and Source System Addresses checking by PAF'},
+{StatusId: '201', Summary: 'External Audit Start',Description:'External Audit Start'},
+{StatusId: '202', Summary: 'External Audit In Progress',Description:'External Audit In Progress'},
+{StatusId: '203', Summary: 'Reset External Audit Data',Description:'Reset External Audit Data'},
+{StatusId: '204', Summary: 'External Audit Data Loading',Description:'External Audit Data Loading'},
+{StatusId: '205', Summary: 'External Audit Data Comparision',Description:'External Audit Data Comparision'},
+{StatusId: '206', Summary: 'Update External Audit Summary Data',Description:'Update External Audit Summary Data'},
+{StatusId: '207', Summary: 'Checking External audit Status',Description:'Checking External audit Status'},
+{StatusId: '208', Summary: 'Update External Audit Status',Description:'Update External Audit Status'},
+{StatusId: '209', Summary: 'External Audit successfully completed',Description:'External Audit successfully completed'},
+{StatusId: '210', Summary: 'Source System Data Loading',Description:'Source System Data Loading'},
+{StatusId: '211', Summary: 'Updating Internal Audit Control Details',Description:''},
+{StatusId: '212', Summary: 'Internal Audit Start',Description:'Internal Audit Start'},
+{StatusId: '213', Summary: 'Internal Audit In Progess',Description:'Internal Audit In Progess'},
+{StatusId: '214', Summary: 'Reset Internal Audit Data',Description:'Reset Internal Audit Data'},
+{StatusId: '215', Summary: 'Internal Audit Data Loading',Description:'Internal Audit Data Loading'},
+{StatusId: '216', Summary: 'Internal Audit Data Comparision',Description:'Internal Audit Data Comparision'},
+{StatusId: '217', Summary: 'Update Internal Audit Summary Data',Description:'Update Internal Audit Summary Data'},
+{StatusId: '218', Summary: 'Checking Internal Audit Status',Description:'Checking Internal Audit Status'},
+{StatusId: '219', Summary: 'Update Internal Audit Status',Description:'Update Internal Audit Status'},
+{StatusId: '220', Summary: 'Internal Audit Successfully Completed',Description:'Internal Audit Successfully Completed'},
+{StatusId: '221', Summary: 'Start Separate Internal Audit',Description:'Start Separate Internal Audit'},
+{StatusId: '222', Summary: 'Separate Audit In progress',Description:'Separate Audit In progress'},
+{StatusId: '223', Summary: 'Load source system data in separate table',Description:'Load source system data in separate table'},
+{StatusId: '224', Summary: 'Load OSN2 Live Records to master table',Description:'Load OSN2 Live Records to master table'},
+{StatusId: '225', Summary: 'Separate Internal Audit Data Comparision',Description:'Separate Internal Audit Data Comparision'},
+{StatusId: '226', Summary: 'Update Separate Internal Audit Summary Data',Description:'Update Separate Internal Audit Summary Data'},
+{StatusId: '227', Summary: 'Checking Separate Internal Audit Status',Description:'Checking Separate Internal Audit Status'},
+{StatusId: '228', Summary: 'Update Separate Internal Audit Status',Description:'Update Separate Internal Audit Status'},
+{StatusId: '229', Summary: 'Separate Internal Audit Successfully Completed',Description:'Separate Internal Audit Successfully Completed'},
+{StatusId: '272', Summary: 'SAS/COMS Range Correction',Description:'SAS/COMS Range Correction'},
+{StatusId: '300', Summary: 'External Audit Failed',Description:'External Audit Failed'},
+{StatusId: '373', Summary: 'OSN2 and Source System PAF Addresses Comparison.',Description:'OSN2 and Source System PAF Addresses Comparison'},
+{StatusId: '400', Summary: 'Internal Audit Failed',Description:'nternal Audit Failed'},
+{StatusId: '474', Summary: 'Switch dump and OFCOM recon for PI and PO.',Description:'Switch dump and OFCOM recon for PI and PO'},
+{StatusId: '500', Summary: 'Full Internal Audit Failed',Description:'Full Internal Audit Failed'},
+{StatusId: '575', Summary: 'Updating Port In and Port Out',Description:'Updating Port In and Port Out'},
 ]},
 {
   CUPIDCrossReference: [
@@ -354,9 +354,9 @@ setForm(reportName:string) {
           case "AuditStatus": {
             {
               this.lstForm.push(
-                <IColoumnDef>{cName:"Id",cDisplayName:"Id",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
+                <IColoumnDef>{cName:"StatusId",cDisplayName:"StatusId",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
                 cMandate:true,cMaxLength:20,cList:[]},
-                <IColoumnDef>{cName:"StatusSummary",cDisplayName:"Status Summary",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
+                <IColoumnDef>{cName:"Summary",cDisplayName:"Status Summary",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
                 cMandate:true,cMaxLength:200,cList:[]},
                 <IColoumnDef>{cName:"Description",cDisplayName:"Description",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
                 cMandate:true,cMaxLength:200,cList:[]},
@@ -854,5 +854,31 @@ static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): an
       transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
       return transform;
  }
+ static prepareUpdateRequest(pageIdetifier: string, reportIdentifier: string, updateIdentifier: any): any {
+  let transform = JSON.parse(JSON.stringify(MetaRequests.UPDATE));
+  console.log(transform,'transform') 
+  transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ItemName = pageIdetifier;
+  //identifier
+  console.log(updateIdentifier,'updateIdentifier') 
+  transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+  //Updateidentifier
+  // let updateIdentifier: any[] = [];
+  // updateIdentifier.push({ Name: 'StatusId', Value: ['11'] } );
+  // updateIdentifier.push({ Name: 'Summary', Value: ['Populated Full Audit count']  } );
+  // updateIdentifier.push({ Name: 'Description', Value: ['Populated Full Audit count-test ']} );
+  transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofIdentifiers.Identifier = updateIdentifier;
+  //UpdateAttribute
+ 
+ console.log('transform', JSON.stringify(transform)) // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = UpdateAttribute;
+  return transform;
+
+  console.log(transform,'transform') 
+
+}
+
+ updateDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
+  }
+
 
 }
