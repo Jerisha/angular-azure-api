@@ -124,7 +124,7 @@ export class TableExpansionComponent implements OnDestroy {
     debugger
     this.ColumnDetails = [];
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
-    this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
+    this.backhighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x=>x.isBackgroundHighlighted) : [];
     this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
     this.showTotalRow = this.totalRowCols.length > 0;
     this.imgList = this.tableitem?.imgConfig;

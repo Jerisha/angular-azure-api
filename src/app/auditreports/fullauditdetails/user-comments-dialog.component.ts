@@ -11,17 +11,6 @@ const ELEMENT_DATA: any[] = [{
 {
   ACTID: '29', TelePhoneNo: '01131100030', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedDate: '21-NOV-20 12.38.07.340907 PM',
   ResolutionType:'Auto Logic Resolved',ResolutionRemarks:'Customer Name/Address information validation pass.'
-},
-{
-  ACTID: '29', TelePhoneNo: '01131100030', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedDate: '21-NOV-20 12.38.07.340907 PM',
-  ResolutionType:'Auto Logic Resolved',ResolutionRemarks:'Customer Name/Address information validation pass.'
-},
-{
-  ACTID: '29', TelePhoneNo: '01131100030', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedDate: '21-NOV-20 12.38.07.340907 PM',
-  ResolutionType:'Auto Logic Resolved',ResolutionRemarks:'Customer Name/Address information validation pass.'
-},{
-  ACTID: '29', TelePhoneNo: '01131100030', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedDate: '21-NOV-20 12.38.07.340907 PM',
-  ResolutionType:'Auto Logic Resolved',ResolutionRemarks:'Customer Name/Address information validation pass.'
 }
 ];
 
@@ -49,6 +38,10 @@ const ELEMENT_DATA: any[] = [{
           :host::ng-deep app-table-selection .table-container {  
             height: 250px !important;
           } 
+          .custom-dialog-container .mat-dialog-content {
+            overflow-y: hidden !important;
+            overflow-x: hidden !important;
+          }
         `
   ]
 })

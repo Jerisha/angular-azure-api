@@ -8,7 +8,7 @@ export interface TableItem {
     showEmail?:boolean;
     removeNoDataColumns?:boolean;
     highlightedCells?:string[];
-    backhighlightedCells?:CellAttributes[];    
+    setCellAttributes?:CellAttributes[];    
 }
 export interface ViewColumn {
     headerValue: string;
@@ -24,15 +24,18 @@ export interface ColumnDetails {
     showDefault?: boolean;
     isImage?: boolean;
     isTotal?:boolean;
-    isFlag?:boolean;
-    description?:boolean;
+    //isFlag?:boolean;
+    imgDesc?:boolean;
 }
 
 export interface CellAttributes{
     flag:string,
     cells:string[];
     value:any;
-    isFlag?:boolean;
+    isImage?:boolean;
+    isFontHighlighted?:boolean;
+    isBackgroundHighlighted?:boolean;
+   // isFlag?:boolean;
 
 }
 

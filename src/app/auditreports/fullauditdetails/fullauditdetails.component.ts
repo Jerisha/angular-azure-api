@@ -20,14 +20,14 @@ import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 const ELEMENT_DATA: any[] = [
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1', ResolutionType: 'New',
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source', FullAuditCLIStatus: 'LS-Live in Source', ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
     BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'Y',MonthlyRefreshFlag:'Y',RangeReportFlag:'Y',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    OverlappingFlag:'Y',CustomerDiffFlag:'N',PostCodeDiffFlag:'Y',FullAddFlag:'N', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: 'D', IsLive: 1
+    OverlappingFlag:'Y',CustomerDiffFlag:'N',PostCodeDiffFlag:'Y',FullAddFlag:'N', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: 'D', IsLive: 0
   },
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
@@ -60,7 +60,7 @@ const ELEMENT_DATA: any[] = [
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'N',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'N',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 0
   },
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
@@ -93,7 +93,7 @@ const ELEMENT_DATA: any[] = [
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'N',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
+    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'N',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 0
   },
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
@@ -345,7 +345,7 @@ OverlappingRangeListTableDetails:any=[
     { headerValue: 'OrderReference', header: 'Order Reference', showDefault: true, isImage: false },
     { headerValue: 'OrderServiceType', header: 'Order Service Type', showDefault: true, isImage: false },
     { headerValue: 'TypeOfLine', header: 'Type Of Line', showDefault: true, isImage: false },
-    { headerValue: 'Comments', header: 'Comments (Range)', showDefault: true, isImage: true, description:true },
+    { headerValue: 'Comments', header: 'Comments (Range)', showDefault: true, isImage: true, imgDesc:true },
     { headerValue: 'LinkOrderRef', header: 'Link OrderRef', showDefault: true, isImage: false },
     { headerValue: 'LinkReasonCode', header: 'Link Reason Code', showDefault: true, isImage: false },
     { headerValue: 'OrderArchiveFlag', header: 'Order Archive Flag', showDefault: true, isImage: false },
@@ -465,6 +465,7 @@ OverlappingRangeListTableDetails:any=[
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
       width: '900px',
        height: 'auto',
+       panelClass: 'custom-dialog-container',
       data: { defaultValue: this.comments }
     }
     );
@@ -485,16 +486,18 @@ OverlappingRangeListTableDetails:any=[
   }
 
   cellinfo: CellAttributes[] = [ 
-    { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', }  ,
-    { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y' },  
-    { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Y' },
-    { flag: 'OSN2Source', cells: ['Comments'], value: 'SAS/COMS' },
-    { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Y' },
-    { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y' },
-    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Y' },
-    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare'], value: 'Y' },
-    { flag: 'ExternalCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source' },
-    { flag: 'FullAuditCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source' },
+    { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', isImage:true}  ,
+    { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y', isImage:true},  
+    { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Y',isImage:true },
+    { flag: 'OSN2Source', cells: ['Comments'], value: 'SAS/COMS',isImage:true },
+    { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Y',isImage:true },
+
+    { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y', isBackgroundHighlighted:true },
+    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Y',isBackgroundHighlighted:true },
+    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare'], value: 'Y',isBackgroundHighlighted:true },
+    { flag: 'ExternalCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source',isBackgroundHighlighted:true },
+    { flag: 'FullAuditCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source',isBackgroundHighlighted:true },
+    { flag: 'IsLive', cells: ['TelNo'], value: 1, isFontHighlighted:true }
   ];
 
   onFormSubmit(): void {
@@ -513,7 +516,7 @@ OverlappingRangeListTableDetails:any=[
      
       // selectionColumn: 'TelNo',
       // highlightedCells: ['TelNo', 'OSN2Source'],
-       backhighlightedCells: this.cellinfo,
+       setCellAttributes: this.cellinfo,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },

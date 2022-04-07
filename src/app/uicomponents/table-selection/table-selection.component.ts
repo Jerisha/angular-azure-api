@@ -11,7 +11,6 @@ import { Observable, of, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { delay, takeUntil } from 'rxjs/operators';
 import { isNgTemplate } from '@angular/compiler';
-// import { disconnect } from 'process';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,8 +54,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   unSelectListItems: string[] = [];
   gridFilter: ColumnDetails[] = [];
   filteredDataColumns: ColumnDetails[] = [];
-  highlightedCells: string[] = [];
-  backhighlightedCells: CellAttributes[]=[];
+  fontHighlightedCells: CellAttributes[] = [];
+  // highlightedCells: string[] = [];
+  backgroundHighlightedCells: CellAttributes[] = [];
+  imageAttrCells: CellAttributes[] = [];
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   showTotalRow!: boolean;
@@ -87,47 +88,49 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   copy() {
     // console.log('clipboard', this.selection.selected);
   }
+
   refresh(event: any) {
     event.stopPropagation();
     this.refreshtab.emit({ event });
-    }
+  }
 
-    ngOnChanges(changes: SimpleChanges) {
-      // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
-      //   return;
-      this.initializeTableAttributes();
-      this.dataObs$ = this.tableitem?.data;
-      this.spinner.show();
-      this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
-        (res: any) => {
-          this.dataSource.data = res.datasource;
-          console.log('data', this.dataSource.data)
-          this.removeNoDataColumns(this.dataSource.data);
-          this.totalRows = (res.totalrecordcount) as number;
-          this.apiPageNumber = (res.pagenumber) as number;
-          this.currentPage = this.apiPageNumber - 1;
-          //this.paginator.pageIndex = this.currentPage;
-          this.paginator.length = (res.totalrecordcount) as number;
-          this.dataSource.sort = this.sort;
-          this.spinner.hide();
-          this.isDataloaded = true;
-        },
-        error => { this.spinner.hide(); },
-        () => {
-          if (this.currentPage > 0) {
-            this.toggleAllSelection();
-          }
-          this.spinner.hide();
+  ngOnChanges(changes: SimpleChanges) {
+    // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
+    //   return;
+    this.initializeTableAttributes();
+    this.dataObs$ = this.tableitem?.data;
+    this.spinner.show();
+    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
+      (res: any) => {
+        this.dataSource.data = res.datasource;        
+        this.removeNoDataColumns(this.dataSource.data);
+        this.totalRows = (res.totalrecordcount) as number;
+        this.apiPageNumber = (res.pagenumber) as number;
+        this.currentPage = this.apiPageNumber - 1;
+        //this.paginator.pageIndex = this.currentPage;
+        this.paginator.length = (res.totalrecordcount) as number;
+        this.dataSource.sort = this.sort;
+        this.spinner.hide();
+        this.isDataloaded = true;
+      },
+      error => { this.spinner.hide(); },
+      () => {
+        if (this.currentPage > 0) {
+          this.toggleAllSelection();
         }
-      );
-    }
+        this.spinner.hide();
+      }
+    );
+  }
+
 
   initializeTableAttributes() {
     this.selection.clear();
     this.allSelected = true;
     this.ColumnDetails = [];
-    this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
-    this.backhighlightedCells = this.tableitem?.backhighlightedCells?   this.tableitem?.backhighlightedCells : [];
+    this.imageAttrCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isImage) : [];
+    this.fontHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isFontHighlighted) : [];
+    this.backgroundHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
     this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
     this.showTotalRow = this.totalRowCols.length > 0;
     this.imgList = this.tableitem?.imgConfig;
@@ -176,7 +179,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       return 'Total';
     }
     if (this.totalRowCols.includes(cell) && this.dataColumns.includes(cell))
-      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
+      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] === '') ? 0 : parseInt(b[cell])), 0);
     else
       return '';
   }
@@ -231,7 +234,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       if (this.allSelected) {
         this.select.options.forEach((item: MatOption) => item.select());
       } else {
-        this.select.options.forEach((item: MatOption, index) => {if(index!=0) item.deselect()});
+        this.select.options.forEach((item: MatOption, index) => { if (index != 0) item.deselect() });
       }
     }
   }
@@ -289,7 +292,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     data?.forEach((item: any) => this.checkIsNullOrEmptyProperties(item));
     console.log('non', this.nonemptyColumns)
     this.tableitem?.Columns?.forEach(x => {
-      if (this.nonemptyColumns.find(c => c === x.headerValue)  || x.isImage) {
+      if (this.nonemptyColumns.find(c => c === x.headerValue) || x.isImage) {
         this.ColumnDetails.push(x);
       }
       // else if (x.isImage && this.nonemptyColumns.find(c => c === x.headerValue)) {
@@ -311,41 +314,41 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   }
 
-  checkImgcols(obj: any) {
-    
-    var coun = this.tableitem?.backhighlightedCells?.filter(x=>x.isFlag)
-    coun?.forEach(v => {
-      if (obj[v.flag] === 'Y') {
-        v.cells.forEach(i => {
-          debugger;
-          this.nonemptyColumns.push(i);
-        })
-      }     
-    })
-  }
+  // checkImgcols(obj: any) {
+
+  //   var coun = this.tableitem?.backhighlightedCells?.filter(x=>x.isFlag)
+  //   coun?.forEach(v => {
+  //     if (obj[v.flag] === 'Y') {
+  //       v.cells.forEach(i => {
+  //         debugger;
+  //         this.nonemptyColumns.push(i);
+  //       })
+  //     }     
+  //   })
+  // }
 
   checkIsNullOrEmptyProperties(obj: any) {
     for (var key in obj) {
       if ((this.tableitem?.Columns?.filter(x => key === (x.headerValue)).length == 0)) {
         this.emptyColumns.push(key);
       }
-      if ((obj[key] === null || obj[key] === "" )){
-        this.emptyColumns.push(key);        
+      if ((obj[key] === null || obj[key] === "")) {
+        this.emptyColumns.push(key);
       }
       else {
-        this.nonemptyColumns.push(key)   
+        this.nonemptyColumns.push(key)
       }
-     // debugger;
-     // this.checkImgcols(obj)     
+      // debugger;
+      // this.checkImgcols(obj)     
     }
   }
 
   setImageCellAttributes(row: any, cell: any) {
-   
+
     let flag = true;
     let loopFlag = true;
 
-    var cells = this.backhighlightedCells.filter(x => x.cells.includes(cell));
+    var cells = this.imageAttrCells.filter(x => x.cells.includes(cell));
     if (cells.length > 0) {
       debugger;
       cells.forEach(x => {
@@ -361,32 +364,29 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   highlightCell(row: any, disCol: any) {
-
     let applyStyles = {};
-    //debugger;
 
-    this.backhighlightedCells.forEach(x => {
-      if (x.cells.find(x => x === (disCol.headerValue)) && row[x.flag] === x.value) {
-        applyStyles = {
-          'background-color': '#ff9999'
-        };
-      }
-    })
-
-    if (this.highlightedCells)
-      if (this.highlightedCells.includes(disCol.headerValue) && (row['IsLive'] == 1)) {
-        applyStyles = {
-          'color': 'red',
-          'font-weight': '500'
+    if (this.backgroundHighlightedCells.find(x => x.cells.includes(disCol.headerValue))) {
+      this.backgroundHighlightedCells.forEach(x => {
+        if (x.cells.find(x => x === (disCol.headerValue)) && row[x.flag] === x.value) {
+          applyStyles = {
+            'background-color': '#ff9999'
+          };
         }
-      }
+      })
+    }
+
+    if (this.fontHighlightedCells.find(x => x.cells.includes(disCol.headerValue))) {
+      this.fontHighlightedCells.forEach(x => {
+        if (x.cells.find(x => x === (disCol.headerValue)) && row[x.flag] === x.value) {
+          applyStyles = {
+            'color': 'red',
+            'font-weight': '500'
+          }
+        }
+      })
+    }
     return applyStyles;
-    // if (this.backhighlightedCells)
-    //   if (this.backhighlightedCells.includes(disCol.headerValue) && (cell['IsLive'] == 1)) {
-    //     applyStyles = {
-    //       'background-color': '#ff9999'
-    //     }
-    //   }
   }
 
   ngOnDestroy() {
@@ -396,12 +396,11 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   copyToClipboard() {
     let data = "";
-    this.selection.selected.forEach((row:any)=>{
+    this.selection.selected.forEach((row: any) => {
       let result = Object.values(row);
-      data += result.toString().replace(/[,]+/g,'\t') + "\n";
+      data += result.toString().replace(/[,]+/g, '\t') + "\n";
     });
     return data;
   }
-
 }
 

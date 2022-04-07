@@ -6,12 +6,10 @@
 </div>
 <mat-dialog-content>
     <div *ngIf="data.defaultValue">
-        <app-table-selection  [tableitem]="userCommentsTable">
+        <app-table-selection [tableitem]="userCommentsTable">
         </app-table-selection>
     </div>
     <div *ngIf="!data.defaultValue">
         No Records found
     </div>
 </mat-dialog-content>
-<!-- <mat-dialog-actions>
-</mat-dialog-actions> -->
