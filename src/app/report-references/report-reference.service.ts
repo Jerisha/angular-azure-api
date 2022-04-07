@@ -837,23 +837,23 @@ setForm(reportName:string) {
 
 
 
-// prepareData(pageIdentifier: string, reportIdentifier: string) : Observable<any>{
-//   let request = ReportReferenceService.prepareQueryRequest(pageIdentifier,reportIdentifier);
-//   console.log(JSON.stringify(request));
-//   return this.queryDetails(request);
-// }
-// queryDetails(request: any): Observable<any> {
-//       return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);       
-//  }
+prepareData(pageIdentifier: string, reportIdentifier: string) : Observable<any>{
+  let request = ReportReferenceService.prepareQueryRequest(pageIdentifier,reportIdentifier);
+  console.log(JSON.stringify(request));
+  return this.queryDetails(request);
+}
+queryDetails(request: any): Observable<any> {
+      return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);       
+ }
 
-// static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
-//       let transform = JSON.parse(JSON.stringify(MetaRequests.QUERY));
-//       transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
+static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
+      let transform = JSON.parse(JSON.stringify(MetaRequests.QUERY));
+      transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
   
-//       //identifier
-//       transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-//       return transform;
-//  }
+      //identifier
+      transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+      return transform;
+ }
  static prepareUpdateRequest(pageIdetifier: string, reportIdentifier: string, updateIdentifier: any): any {
   let transform = JSON.parse(JSON.stringify(MetaRequests.UPDATE));
   console.log(transform,'transform') 

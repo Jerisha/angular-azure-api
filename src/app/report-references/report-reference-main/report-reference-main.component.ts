@@ -70,25 +70,24 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     let dispVal = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName];
     this.displayedColumns = dispVal || [];
     let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
-    // this.dataObs$ = this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(map((res: any) => {
-    // if (Object.keys(res).length) {
-
-    //   let result = {
-    //     datasource: res[0].AuditStatus,
-    //     totalrecordcount: res[0].TotalCount,
-    //     totalpages: res[0].NumberOfPages,
-    //     pagenumber: res[0].PageNumber
-    //   }
-    //   return result;
-    // }  else return {
-    //    res
-    // }
-    //}));
-    //this.dataObs$.subscribe((res: any) =>{
-    //  this.data = res.datasource;
-    //console.log(JSON.stringify(this.data));
-    //})
-    this.data = dat || [];
+    this.dataObs$ = this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        
+        let result = {
+          datasource: res[0][this.reportName],
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      }  else return {
+         res
+      }
+    }));
+    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+      this.data = res.datasource;
+    });
+    // this.data = dat || [];
     this.newTab();
   }
   Onselecttabchange($event: any) {
