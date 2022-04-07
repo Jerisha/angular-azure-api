@@ -187,8 +187,23 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     });
     deleteConfirm.afterClosed().subscribe(confirm => {
       if (confirm) {
+        let  deleteparms =  [];
+         deleteparms.push({ Name: 'StatusId', Value: ['575'] });
+        let request = ReportReferenceService.prepareDeleteRequest('AuditStatus', 'ReferenceList' , deleteparms);
+        console.log(request, 'deleterequest')
+         this.reportReferenceService.deleteDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              //success message and same data reload
+              this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              // this.onFormSubmit(true);
+            } else {
+              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+            }
+          });
         this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+      
       }
+
       else {
         this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
       }
@@ -210,7 +225,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
           let request = ReportReferenceService.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
-          console.log(request, 'uprequest')
+          console.log(request, 'deleterequest')
           this.reportReferenceService.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
@@ -228,11 +243,24 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
 
     else {
-      
-      let request = ReportReferenceService.prepareCreateRequest('AuditStatus', 'ReferenceList', this.prepareCreateIdentifiers());
+      let  createparms =  [];
+      createparms.push({ Name: 'StatusId', Value: ['17'] });
+      createparms.push({ Name: 'Summary', Value: ['POPULATED FULL'] });
+      createparms.push({ Name: 'Description', Value: [''] });
+      let request = ReportReferenceService.prepareCreateRequest('AuditStatus', 'ReferenceList', createparms);
       console.log(request, 'request')
+       this.reportReferenceService.createDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              //success message and same data reload
+              this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              // this.onFormSubmit(true);
+            } else {
+              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+            }
+          });
+        
       this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-    
+        
     }
 
   }
