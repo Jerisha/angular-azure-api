@@ -14,12 +14,13 @@ import { Utils } from 'src/app/_http/common/utils';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 let FilterListItems: Select[] = [  
 { view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
 { view: 'Customer Name', viewValue: 'CustomerName', default: true },
 { view: 'Creation Date', viewValue: 'CreationDate', default: true },
-{ view: 'Postcode', viewValue: 'Postcode', default: true },
+{ view: 'PostCode', viewValue: 'PostCode', default: true },
 { view: 'Premises', viewValue: 'Premises', default: true },
 { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: true },
 { view: 'Locality', viewValue: 'Locality', default: true },
@@ -39,11 +40,12 @@ export class TransactionDetailsComponent implements OnInit {
   
   
   
+  
   constructor(
     private formBuilder: FormBuilder, 
     private service: ReportService,
     private cdr: ChangeDetectorRef,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,private telnoPipe: TelNoPipe) { }
   
   myTable!: TableItem;
   dataSaved = false;
@@ -76,7 +78,7 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
     { header: 'Telephone No.',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Tran Id',headerValue:'TransactionId', showDefault: true, isImage: false },
-    { header: 'Transaction Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
+    { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
     { header: 'Status',headerValue:'Status', showDefault: true, isImage: false },
     { header: 'Provide Date',headerValue:'ProvideDate', showDefault: true, isImage: false },
     { header: 'Created On',headerValue:'CreationDate', showDefault: true, isImage: false },
@@ -95,9 +97,9 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Cust Name',headerValue:'CustomerName', showDefault: true, isImage: false },
     { header: 'Bussiness Suffix',headerValue:'BusinessSuffix', showDefault: true, isImage: false },
     { header: 'Premises',headerValue:'Premises', showDefault: true, isImage: false },
-    { header: 'Thoroughfare',headerValue:'AddressThoroughfare', showDefault: true, isImage: false },
+    { header: 'Thoroughfare',headerValue:'Thoroughfare', showDefault: true, isImage: false },
     { header: 'Locality',headerValue:'Locality', showDefault: true, isImage: false },
-    { header: 'Postcode',headerValue:'Postcode', showDefault: true, isImage: false },
+    { header: 'Postcode',headerValue:'PostCode', showDefault: true, isImage: false },
     { header: 'Address Line 1',headerValue:'AddressLine1', showDefault: true, isImage: false },
     { header: 'Address Line 2',headerValue:'AddressLine2', showDefault: true, isImage: false },
     { header: 'Address Line 3',headerValue:'AddressLine3', showDefault: true, isImage: false },
@@ -154,7 +156,7 @@ export class TransactionDetailsComponent implements OnInit {
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{11}$")]), 
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true },[]),
-      Postcode: new FormControl({ value: '', disabled: true }, []),
+      PostCode: new FormControl({ value: '', disabled: true }, []),
       Premises: new FormControl({ value: '', disabled: true }, []),      
       Thoroughfare: new FormControl({ value: '', disabled: true }, []),
       Locality: new FormControl({ value: '', disabled: true }, []),
@@ -221,7 +223,7 @@ prepareQueryParams(pageNo: string): any {
 
     for (const field in this.thisForm?.controls) {
       const control = this.thisForm.get(field);       
-        if (control?.value != "")
+        if (control?.value)
           {
             if(field =="CreationDate")
             {
@@ -295,7 +297,7 @@ prepareQueryParams(pageNo: string): any {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      
+
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
                   { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]  }
@@ -309,10 +311,21 @@ prepareQueryParams(pageNo: string): any {
       this.selectedTab = this.tabs.length;
 
    }
+
+   onChange(value: string, ctrlName: string) {
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value))
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    }
+  }
   resetForm(): void {   
     this.thisForm.reset();
     this.tabs.splice(0); 
-    this.resetExp= true;   
+    this.resetExp=!this.resetExp; 
   }
 
   setControlAttribute(matSelect: MatSelect) {

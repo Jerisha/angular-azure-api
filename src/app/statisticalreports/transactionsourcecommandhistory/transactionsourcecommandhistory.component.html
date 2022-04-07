@@ -13,7 +13,7 @@
       <ng-container *ngIf="configDetails  as config">
       <div class="matsidenav-filter">
         <!-- <app-select-exp [listItems]="expDefaultmonth"></app-select-exp> -->
-                   <app-select-exp [listItems]="expressions[2].default" #StatisticMonthOperator 
+                   <app-select-exp [listItems]="expressions[2].default" #StatisticMonthOperator  [resetvalue]="resetExp"
                    (click) ="OnOperatorClicked(['StatisticMonthOperator',StatisticMonthOperator.selectedViewValue])"></app-select-exp>
         <mat-form-field>
           <mat-label>Statistic Month</mat-label>
@@ -27,7 +27,7 @@
           </mat-datepicker>
         </mat-form-field>
         <div>
-          <app-select-exp [listItems]="expressions[1].default" #SourceOperator 
+          <app-select-exp [listItems]="expressions[1].default" #SourceOperator  [resetvalue]="resetExp"
           (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
         <!-- <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">     
           <mat-label>Source System</mat-label>
