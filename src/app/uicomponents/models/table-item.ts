@@ -15,7 +15,7 @@ export interface ViewColumn {
     icon: string;
     route: string;
     tabIndex : number;
-    toolTipText? :string
+    toolTipText? :string;    
 }
 
 export interface ColumnDetails {
@@ -25,6 +25,7 @@ export interface ColumnDetails {
     isImage?: boolean;
     isTotal?:boolean;
     isFlag?:boolean;
+    description?:boolean;
 }
 
 export interface CellAttributes{

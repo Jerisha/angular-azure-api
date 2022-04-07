@@ -20,14 +20,14 @@ import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 const ELEMENT_DATA: any[] = [
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source', FullAuditCLIStatus: 'LS-Live in Source', ResolutionType: 'New',
+    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1', ResolutionType: 'New',
     SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Details Vie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
     SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
     BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS',InflightOrderFlag:'Y',MonthlyRefreshFlag:'Y',RangeReportFlag:'Y',
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'Y',PostCodeDiffFlag:'Y',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
+    OverlappingFlag:'Y',CustomerDiffFlag:'N',PostCodeDiffFlag:'Y',FullAddFlag:'N', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: 'D', IsLive: 1
   },
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
@@ -38,7 +38,7 @@ const ELEMENT_DATA: any[] = [
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853',CustomerDiffFlag:'Y',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
+    Comments: '	DDI RANGE- 01132140801- 01132140853',OverlappingFlag:'Y',CustomerDiffFlag:'Y',PostCodeDiffFlag:'N',FullAddFlag:'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source', 
@@ -175,6 +175,18 @@ const ELEMENT_DATA4: MonthlyRefreshReport[] = [
 
 
 ];
+
+const ELEMENT_DATA5: any[] = [{
+  OrderRef: 'C12938', StartTelEndTel: '01132089967', OrderUpdatedDate: '24-AUG-17'
+},
+{
+  OrderRef: 'C13001', StartTelEndTel: '01132089965', OrderUpdatedDate: '24-AUG-17'
+},
+{
+  OrderRef: 'B72955', StartTelEndTel: '01132089960-01132089969', OrderUpdatedDate: '24-AUG-17'
+}
+];
+
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNo', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNo', default: true },
@@ -215,6 +227,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   inflightRptTable!: TableItem;
   monthlyRefreshRptTable!: TableItem;
   moriCircuitRptTable!: TableItem;
+  overlappingRangeListTable!: TableItem;
   selectedTab!: number;
   selectListItems: string[] = [];
   listItems!: Select[];
@@ -222,7 +235,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   nonemptyColumns: string[] = [];
   unSelectListItems: string[] = [];
   tabs: Tab[] = [];
-
+  resolutionType:string ='';
+  remarks:string='';
+  rowRange:string ='';
   comments: string = 'No Records Found';
  
 
@@ -262,6 +277,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'SwitchDumpStatus', header: 'SWITCH_DUMP_STATUS', showDefault: true, isImage: false },
     // { headerValue: 'SwitchPoPS', header: 'Switch PoPS', showDefault: true, isImage: false },
   ];
+OverlappingRangeListTableDetails:any=[
+  { headerValue: 'OrderRef', header: 'Order Ref.', showDefault: true, isImage: false },
+  { headerValue: 'StartTelEndTel', header: 'Start Tel - End Tel', showDefault: true, isImage: false },
+  { headerValue: 'OrderUpdatedDate', header: 'Order Updated Date', showDefault: true, isImage: false },
+  
+
+
+]
+
   validation_messages = {
     'TelNo': [
       { type: 'required', message: 'TelNo is required' },
@@ -321,11 +345,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'OrderReference', header: 'Order Reference', showDefault: true, isImage: false },
     { headerValue: 'OrderServiceType', header: 'Order Service Type', showDefault: true, isImage: false },
     { headerValue: 'TypeOfLine', header: 'Type Of Line', showDefault: true, isImage: false },
-    { headerValue: 'Comments', header: 'Comments (Range)', showDefault: true, isImage: false },
+    { headerValue: 'Comments', header: 'Comments (Range)', showDefault: true, isImage: true, description:true },
     { headerValue: 'LinkOrderRef', header: 'Link OrderRef', showDefault: true, isImage: false },
     { headerValue: 'LinkReasonCode', header: 'Link Reason Code', showDefault: true, isImage: false },
     { headerValue: 'OrderArchiveFlag', header: 'Order Archive Flag', showDefault: true, isImage: false },
-    { headerValue: 'DeadEntry', header: 'DeadEntry', showDefault: true, isImage: false }];
+    { headerValue: 'DeadEntry', header: 'Dead Entry', showDefault: true, isImage: false }];
 
   correctionTypes: ApplyAttributes[] = [
     {
@@ -390,6 +414,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         element.subOption?.forEach(child => child.disabled = true);
         element.disabled = true;
         this.showDataCorrection = false;
+        this.selectedCorrectionType ='';
       });
     }
     else {
@@ -398,6 +423,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         if (this.selectedFullAuditCLIStatus?.value === element.value) {
           this.correctionTypes.forEach(option => {
             option.disabled = true;
+            this.selectedCorrectionType ='';
             option.subOption?.forEach(subOpt => {
               if (element.buttonVal.includes(subOpt.value)) {
                 if ((option.name === 'Auto Correction' && element.switchType?.includes(this.selectedSwitchTypeStatus?.value)) ||
@@ -425,7 +451,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   resetForm(): void {
-    this.showDataCorrection =false;  
+    this.showDataCorrection =false; 
+    this.selectedCorrectionType=''; 
+    this.resolutionType ='';
+    this.remarks='';
+    this.rowRange='';
     this.fullAuditForm.reset();    
     this.tabs.splice(0);
     //this.setDefaultValues();
@@ -433,8 +463,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-      width: '500px',
-      // height: '400px',
+      width: '900px',
+       height: 'auto',
       data: { defaultValue: this.comments }
     }
     );
@@ -454,10 +484,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-
   cellinfo: CellAttributes[] = [ 
-    //{ flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', }  ,
-    //{ flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y' }, 
+    { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', }  ,
+    { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y' },  
+    { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Y' },
+    { flag: 'OSN2Source', cells: ['Comments'], value: 'SAS/COMS' },
     { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Y' },
     { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y' },
     { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Y' },
@@ -488,8 +519,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
       { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
       { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 },]
-      //{ headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7 }]
+      { headerValue: 'MoriCircuitStatus', icon: 'search', route: '', tabIndex: 6 },
+      { headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -580,6 +611,19 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         }
         break;
       }
+      case 7: {
+        if (!this.tabs?.find(x => x.tabType == 7)) {
+          this.overLappingRangeListTableInit();
+          this.tabs.push({
+            tabType: 7,
+            name: 'Overlapping Range List'
+          })
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 7) + 1;
+        } else {
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 7);
+        }
+        break;
+      }
       default: {
         //statements; 
         break;
@@ -646,13 +690,20 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.fullAuditForm.get('AuditActId')?.setValue('29-20 Dec 2021');
   }
 
-
-  createUpdateForm(){
-    this.updateForm = this.formBuilder.group({
-      ResolutionType: new FormControl({ value: '', disabled: true },[Validators.required]),
-      Remarks: new FormControl({ value: '', disabled: true })
-    })
+  get upDateForm(){
+    return this.updateForm.controls;
   }
+
+ 
+
+
+
+  // createUpdateForm(){
+  //   this.updateForm = this.formBuilder.group({
+  //     ResolutionType: new FormControl({ value: '', disabled: true },[Validators.required]),
+  //     Remarks: new FormControl({ value: '', disabled: true },[Validators.required])
+  //   })
+  // }
 
   createForm() {
     this.fullAuditForm = this.formBuilder.group({    
@@ -699,7 +750,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   monthlyRefreshReportInit() {
     this.monthlyRefreshRptTable
       = {
-      data: of(ELEMENT_DATA4),
+        data: of({datasource:ELEMENT_DATA4,
+          totalrecordcount: 500,
+          totalpages:20,
+          pagenumber:1}),
       Columns: this.monthlyRefreshReportTableDetails,
       selectCheckbox: true,
       filter: true
@@ -721,8 +775,24 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   moriCircuitStatusReportInit() {
     this.moriCircuitRptTable = {
-      data: of(ELEMENT_DATA3),
+      data: of({datasource:ELEMENT_DATA3,
+        totalrecordcount: 10,
+        totalpages:20,
+        pagenumber:1}),
       Columns: this.moriCicuitTableDetails,
+      filter: true,
+      selectCheckbox:true,
+      removeNoDataColumns: true
+    }
+  }
+
+  overLappingRangeListTableInit() {
+    this.overlappingRangeListTable = {
+      data: of({datasource:ELEMENT_DATA5,
+        totalrecordcount: 10,
+        totalpages:20,
+        pagenumber:1}),
+      Columns: this.OverlappingRangeListTableDetails,
       filter: true,
       selectCheckbox:true,
       removeNoDataColumns: true
@@ -731,7 +801,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   inflightReportInit() {
     this.inflightRptTable = {
-      data: of(ELEMENT_DATA2),
+       data: of({datasource:ELEMENT_DATA2,
+        totalrecordcount: 100,
+        totalpages:20,
+        pagenumber:1}),
       Columns: this.inflightTableDetails,
       selectCheckbox: true,
       filter: true

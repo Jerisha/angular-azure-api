@@ -101,6 +101,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
         (res: any) => {
           this.dataSource.data = res.datasource;
+          console.log('data', this.dataSource.data)
           this.removeNoDataColumns(this.dataSource.data);
           this.totalRows = (res.totalrecordcount) as number;
           this.apiPageNumber = (res.pagenumber) as number;
@@ -328,7 +329,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       if ((this.tableitem?.Columns?.filter(x => key === (x.headerValue)).length == 0)) {
         this.emptyColumns.push(key);
       }
-      if ((obj[key] === null || obj[key] === "" || obj[key] === "N")){
+      if ((obj[key] === null || obj[key] === "" )){
         this.emptyColumns.push(key);        
       }
       else {
@@ -340,21 +341,23 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   setImageCellAttributes(row: any, cell: any) {
-    debugger;
+   
     let flag = true;
+    let loopFlag = true;
 
     var cells = this.backhighlightedCells.filter(x => x.cells.includes(cell));
     if (cells.length > 0) {
+      debugger;
       cells.forEach(x => {
         if (x.cells.find(x => x === (cell)) && row[x.flag] === x.value) {
-          flag = true;
+          loopFlag = true;
         }
         else {
           flag = false;
         }
       });
     }
-    return flag;   
+    return flag && loopFlag;
   }
 
   highlightCell(row: any, disCol: any) {

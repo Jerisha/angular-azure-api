@@ -2,6 +2,7 @@ import { Component, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
@@ -19,7 +20,7 @@ export class TableGroupHeaderComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
 
-  dataSource!: MatTableDataSource<any>;
+  public dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [];
   ColumnDetails: MergeTableItem[] = [];
   grpColumnsArray!: string[];
@@ -131,13 +132,33 @@ export class TableGroupHeaderComponent implements OnInit {
 
   }
 
+  dataObs$!: Observable<any>;
+
   ngOnInit(): void {
     this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
 
     var dt = this.GrpTableitem.data;
-    debugger;
+    this.dataSource.data =dt;
+    // this.dataObs$ =  this.GrpTableitem.data;
+    // debugger;
+    // var fg ="CLIStatus"
+
+    // this.dataObs$.subscribe(res=>{
+    //   this.dataSource.data = (res);
+      
+    //   if (this.filterColumn) {
+    //     this.filterSelectedItems = this.GrpTableitem?.FilterValues ? this.GrpTableitem?.FilterValues : [];
+    //     var cliList = this.dataSource.data.map(x=>x.CLIStatus);
+    //     var sourceSys = this.dataSource.data.map(x=>x.SourceSystem);
+    //     this.cliStatusList = [...new Set(cliList)];
+    //     this.sourceSystemList = [...new Set(sourceSys)];
+    //     this.formControlsSubscribe();
+    //     this.createFilter();
+    //   }
+    // }
+    //   )
     //dt.length=39;
-    this.dataSource = new MatTableDataSource<any>(dt);
+    
     
   
     this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
@@ -147,7 +168,7 @@ export class TableGroupHeaderComponent implements OnInit {
     this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
     this.isRowTot = this.GrpTableitem?.isRowLvlTot ? true : false;
 
-    var nonTotRowCols = ['SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
+    var nonTotRowCols = ['SourceSystem', 'CLIStatus', 'InternalAuditCLIStatus','FullAuditCLIStatus','ExternalAuditCLIStatus'];
     this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
     this.nonNumericCols = this.displayedColumns.filter(x => !this.totalCols.includes(x));
 
@@ -176,7 +197,8 @@ export class TableGroupHeaderComponent implements OnInit {
     }
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
-      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+      // return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
     }
     return '';
   }

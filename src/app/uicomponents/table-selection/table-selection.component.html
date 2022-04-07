@@ -88,17 +88,19 @@ font-size: smaller;  ">
       <div *ngIf="disCol.isImage">
         <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>{{disCol.header}}</th>
         <!-- <td mat-cell class="nowrap-cell" *matCellDef="let row "> -->
-          <td mat-cell  class="nowrap-cell" *matCellDef="let row ">
+          <td mat-cell [ngClass]="{'nowrap-cell':!disCol.description}" class="nowrap-cell" *matCellDef="let row ">
           <ng-container *ngFor="let img of imgList; let imgIndex = index;">
             <mat-icon matTooltip="{{img.toolTipText}}" class="table-icon" (click)="addTabs($event,img.tabIndex,row)"
               *ngIf="img.headerValue === disCol.headerValue  && setImageCellAttributes(row,disCol.headerValue)">
-              {{img.icon}}</mat-icon>  
-              <!-- {{row[disCol.headerValue]}}            -->
+              {{img.icon}}</mat-icon>
           </ng-container>
-          <!-- {{row[disCol.headerValue]}} -->
+          <ng-container *ngIf="disCol.description">
+             {{row[disCol.headerValue]}}
+          </ng-container>         
         </td>
         <td mat-footer-cell class="totalRow" *matFooterCellDef> {{getTotal(disCol.headerValue)}} </td>
       </div>
+
       <!-- Other Columns -->
       <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">
         <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
