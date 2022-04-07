@@ -289,27 +289,48 @@ export class ReportReferenceService {
 
 ];
  
-  displayedColumns:any=[
-  { SourceSystem: ['Actions','OriginatingSystem', 'BTCode', 'Title','ValidateAddress','SendBT','Comments','LineTypeMandatory','LTMandatoryOpt','LineTypeBlank','LTBlankOpt','Notification']},
-  { Status:['Actions','Id','ProcessOrder','StatusDescription','Comments']},
-  { AuditStatus:['Actions','StatusId', 'Summary','Description']},
-  { CUPIDCrossReference: ['Actions', 'XREF', 'Franchise', 'BTCUPID', 'InternalCUPID', 'Source', 'Comments'] },
-  { LineTypes: ['Actions', 'Code', 'LineType', 'Comments'] },
-  { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
-  { Command: ['Actions', 'Command', 'BTCommand', 'LineStatuses', 'Description', 'Notes', 'Allowed'] },
-  { CUPID: ['Actions', 'CUPID', 'Title', 'Comments'] },
-  { ErrorType: ['Actions', 'ErrorType', 'Description'] },
-  { UnsolicitedAutoCloseErrorCode: ['Actions', 'ErrorCode', 'Type', 'ErrorMessage', 'CloseAfter', 'ResolveType', 'ResolvingMessge'] },
-  { ResolutionType: ['Actions', 'Order', 'ResolveId', 'Title', 'IsBAUorAudit', 'EndState', 'Comments', 'Description'] },
-  { CustomerTitle: ['Actions', 'Code', 'Title'] },
-  { RejectedTelephonePrefix: ['Actions', 'TelephonePrefix', 'Comments'] },
-  { NextCommandCheck: ['Actions', 'Source', 'Next', 'Last', 'Status', 'Change', 'SendtoBT', 'EffectiveForDays', 'Comments'] },
-  { OSNProvideList: ['Actions', 'ListName', 'ListType', 'Code', 'Title'] },
-  { ErrorCode: ['Actions', 'Code', 'Type', 'BTError', 'ErrorMessage', 'ResolvingMessge', 'Comments', 'Action', 'Unused', 'Final', 'Solicited', 'Unsolicited'] },
-  { PermittedLineStatus: ['Actions', 'Code', 'Status', 'Comment'] },
-  { InterimCommands: ['Actions', 'CommandList', 'FinalCommand', 'FinalStatus', 'Comments'] },  
+  // displayedColumns:any=[
+  // { SourceSystem: ['Actions','OriginatingSystem', 'BTCode', 'Title','ValidateAddress','SendBT','Comments','LineTypeMandatory','LTMandatoryOpt','LineTypeBlank','LTBlankOpt','Notification']},
+  // { Status:['Actions','Id','ProcessOrder','StatusDescription','Comments']},
+  // { AuditStatus:['Actions','StatusId', 'Summary','Description']},
+  // { CUPIDCrossReference: ['Actions', 'XREF', 'Franchise', 'BTCUPID', 'InternalCUPID', 'Source', 'Comments'] },
+  // { LineTypes: ['Actions', 'Code', 'LineType', 'Comments'] },
+  // { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
+  // { Command: ['Actions', 'Command', 'BTCommand', 'LineStatuses', 'Description', 'Notes', 'Allowed'] },
+  // { CUPID: ['Actions', 'CUPID', 'Title', 'Comments'] },
+  // { ErrorType: ['Actions', 'ErrorType', 'Description'] },
+  // { UnsolicitedAutoCloseErrorCode: ['Actions', 'ErrorCode', 'Type', 'ErrorMessage', 'CloseAfter', 'ResolveType', 'ResolvingMessge'] },
+  // { ResolutionType: ['Actions', 'Order', 'ResolveId', 'Title', 'IsBAUorAudit', 'EndState', 'Comments', 'Description'] },
+  // { CustomerTitle: ['Actions', 'Code', 'Title'] },
+  // { RejectedTelephonePrefix: ['Actions', 'TelephonePrefix', 'Comments'] },
+  // { NextCommandCheck: ['Actions', 'Source', 'Next', 'Last', 'Status', 'Change', 'SendtoBT', 'EffectiveForDays', 'Comments'] },
+  // { OSNProvideList: ['Actions', 'ListName', 'ListType', 'Code', 'Title'] },
+  // { ErrorCode: ['Actions', 'Code', 'Type', 'BTError', 'ErrorMessage', 'ResolvingMessge', 'Comments', 'Action', 'Unused', 'Final', 'Solicited', 'Unsolicited'] },
+  // { PermittedLineStatus: ['Actions', 'Code', 'Status', 'Comment'] },
+  // { InterimCommands: ['Actions', 'CommandList', 'FinalCommand', 'FinalStatus', 'Comments'] },  
 
-  ];
+  // ];
+  displayedColumns:any=[
+    { SourceSystem: ['Actions','OriginatingSystem', 'BTCode', 'Title','Comments','SendBT','ValidateAddress','MandatoryLineType','MandatoryLineTypeValue','BlankLineType','BlankLineTypeValue','NotificationEnabled']},
+    { Status:['Actions','ID','ProcessOrder','StatusDescription','Comments']},
+    { AuditStatus:['Actions','StatusId', 'Summary','Description']},
+    { CUPIDCrossReference: ['Actions', 'XrefID', 'Franchise', 'BTCupid', 'InternalCupid', 'SourceCode'] },
+    { LineTypes: ['Actions', 'Code', 'Title', 'Comments'] },
+    { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
+    { Command: ['Actions', 'InternalCommand', 'BTCommand', 'Allowed', 'CommandDescription', 'LineStatus', 'Comments'] },
+    { CUPID: ['Actions', 'CUPID', 'Title', 'Comments'] },
+    { ErrorType: ['Actions', 'ErrorType', 'Description'] },
+    { UnsolicitedAutoCloseErrorCode: ['Actions', 'ErrorCode', 'ErrorType', 'ErrorMessage', 'CloseAfter', 'ResolvingMessge', 'ResolveType'] },
+    { ResolutionType: ['Actions', 'ResolveId', 'DisplayOrder', 'IsBAUorAudit', 'EndState', 'Description','Comments'] },
+    { CustomerTitle: ['Actions', 'Code', 'Title'] },
+    { RejectedTelephonePrefix: ['Actions', 'TelephoneNumberPrefix', 'Comments'] },
+    { NextCommandCheck: ['Actions', 'NcID','Source', 'Next', 'Last','Change','Status','SendtoBT', 'EffectiveDays', 'Comments'] },
+    { OSNProvideList: ['Actions','Code', 'ListName', 'Title','ListType'] },
+    { ErrorCode: ['Actions', 'ErrorCode','BTError','ErrorType', 'ErrorMessage','Action', 'ResolvingMessge', 'Comments', 'UnusedFlag', 'FinalFlag', 'SolicitedFlag', 'UnsolicitedFlag'] },
+    { PermittedLineStatus: ['Actions', 'Code', 'Status', 'Comments'] },
+    { InterimCommands: ['Actions', 'CommandList', 'FinalCommand', 'FinalStatus', 'Comments'] },
+    
+    ];
 
 setForm(reportName:string) {  
 
