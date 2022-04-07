@@ -369,7 +369,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   setImageCellAttributes(row: any, cell: any) {
-
     let flag = true;
     let loopFlag = true;
 
