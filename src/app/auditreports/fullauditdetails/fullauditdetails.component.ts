@@ -485,13 +485,12 @@ OverlappingRangeListTableDetails:any=[
     this.cdr.detectChanges();
   }
 
-  cellinfo: CellAttributes[] = [ 
-    { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', isImage:true}  ,
-    { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y', isImage:true},  
+  cellAttrInfo: CellAttributes[] = [ 
+    // { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', isImage:true}  ,
+    // { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y', isImage:true},  
     { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Y',isImage:true },
     { flag: 'OSN2Source', cells: ['Comments'], value: 'SAS/COMS',isImage:true },
     { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Y',isImage:true },
-
     { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y', isBackgroundHighlighted:true },
     { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Y',isBackgroundHighlighted:true },
     { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare'], value: 'Y',isBackgroundHighlighted:true },
@@ -516,7 +515,7 @@ OverlappingRangeListTableDetails:any=[
      
       // selectionColumn: 'TelNo',
       // highlightedCells: ['TelNo', 'OSN2Source'],
-       setCellAttributes: this.cellinfo,
+       setCellAttributes: this.cellAttrInfo,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
