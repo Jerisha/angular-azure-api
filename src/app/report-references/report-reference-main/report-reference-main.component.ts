@@ -8,8 +8,8 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -26,6 +26,7 @@ import { map } from 'rxjs/operators';
 })
 export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
+  private readonly onDestroy = new Subject<void>();
   reportNames!: string[];
   title: string = "";
   reportName: string = "";
@@ -305,5 +306,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();
-  }
+}
+ngOnDestroy() {
+  this.onDestroy.next();
+}
 }
