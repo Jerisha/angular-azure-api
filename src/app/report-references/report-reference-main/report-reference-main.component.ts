@@ -8,8 +8,8 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -26,6 +26,7 @@ import { map } from 'rxjs/operators';
 })
 export class ReportReferenceMainComponent implements OnInit, AfterViewInit{
 
+  private readonly onDestroy = new Subject<void>();
   reportNames!: string[];
   title:string="";
   reportName:string="";  
@@ -73,7 +74,7 @@ this.dataObs$ = this.reportReferenceService.prepareData(this.reportName,'Referen
   if (Object.keys(res).length) {
     
     let result = {
-      datasource: res[0].AuditStatus,
+      datasource: res[0][this.reportName],
       totalrecordcount: res[0].TotalCount,
       totalpages: res[0].NumberOfPages,
       pagenumber: res[0].PageNumber
@@ -83,18 +84,17 @@ this.dataObs$ = this.reportReferenceService.prepareData(this.reportName,'Referen
      res
   }
 }));
-this.dataObs$.subscribe((res: any) =>{
+this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
   this.data = res.datasource;
-  console.log(JSON.stringify(this.data));
-})
-this.data=dat||[];    
+});
+// this.data=dat||[];    
 this.newTab();
 }
 Onselecttabchange($event: any){
     this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name ||'';
     this.reportIndex = this.reportNames.findIndex(x => x == this.reportName);   
     this.displayedColumns = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] ||[];      
-    this.data =this.reportReferenceService.data[this.reportIndex][this.reportName] ||[];    
+    this.data =this.reportReferenceService.data[this.reportIndex][this.reportName] ||[];
 }
 newTab(){
     if(this.tabs.length<5)
@@ -284,5 +284,8 @@ ngOnInit(): void {
 ngAfterViewChecked() 
   {
     this.cdr.detectChanges();
+}
+ngOnDestroy() {
+  this.onDestroy.next();
 }
 }

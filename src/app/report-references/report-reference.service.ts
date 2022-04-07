@@ -16,9 +16,9 @@ export class ReportReferenceService {
   
   reportNames:string[] =[
    'SourceSystem','Status','AuditStatus','CUPIDCrossReference',
-   'LineType', 'ResolverEmail', 'Command','CUPID','ErrorType',
+   'LineTypes', 'ResolverEmail', 'Command','CUPID','ErrorType',
    'UnsolicitedAutoCloseErrorCode', 'ResolutionType', 'CustomerTitle', 'RejectedTelephonePrefix',
-   'NextCommandCheck', 'OSNProvideList', 'ErrorCode','PermittedLineStatus','InterimCommands',
+   'NextCommandCheck', 'OsnProvideList', 'ErrorCode','PermittedLineStatus','InterimCommands',
    
   ];
   constructor(private wrapperService :HttpWrapperService) { }
@@ -116,7 +116,7 @@ export class ReportReferenceService {
   ]
 },
 {
-  LineType: [
+  LineTypes: [
     { Code: 'D', LineType: 'DDI' , Comments: 'TEST' },
     { Code: 'V', LineType: 'VOIP', Comments: 'TEST' }
   ]
@@ -294,7 +294,7 @@ export class ReportReferenceService {
   { Status:['Actions','Id','ProcessOrder','StatusDescription','Comments']},
   { AuditStatus:['Actions','StatusId', 'Summary','Description']},
   { CUPIDCrossReference: ['Actions', 'XREF', 'Franchise', 'BTCUPID', 'InternalCUPID', 'Source', 'Comments'] },
-  { LineType: ['Actions', 'Code', 'LineType', 'Comments'] },
+  { LineTypes: ['Actions', 'Code', 'LineType', 'Comments'] },
   { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
   { Command: ['Actions', 'Command', 'BTCommand', 'LineStatuses', 'Description', 'Notes', 'Allowed'] },
   { CUPID: ['Actions', 'CUPID', 'Title', 'Comments'] },
