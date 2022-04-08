@@ -16,8 +16,8 @@ export class ReportReferenceService {
 
   reportNames: string[] = [
     'SourceSystem', 'Status', 'AuditStatus', 'CUPIDCrossReference',
-    'LineTypes', 'ResolverEmail', 'Command', 'CUPID', 'ErrorType',
-    'UnsolicitedAutoCloseErrorCode', 'ResolutionType', 'CustomerTitle', 'RejectedTelephonePrefix',
+    'LineTypes', 'ResolverEmail', 'Command', 'CUPIDs', 'ErrorType',
+    'UnsolicitedAutoClose', 'ResolutionType', 'CustomerTitles', 'RejectedTelephonePrefix',
     'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',
 
   ];
@@ -317,15 +317,15 @@ export class ReportReferenceService {
     { CUPIDCrossReference: ['Actions', 'XrefID', 'Franchise', 'BTCupid', 'InternalCupid', 'SourceCode'] },
     { LineTypes: ['Actions', 'Code', 'Title', 'Comments'] },
     { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
-    { Command: ['Actions', 'InternalCommand', 'BTCommand', 'Allowed', 'CommandDescription', 'LineStatus', 'Comments'] },
-    { CUPID: ['Actions', 'CUPID', 'Title', 'Comments'] },
+    { Command: ['Actions', 'InternalCommand', 'BtCommand', 'Allowed', 'CommandDescription', 'LineStatus', 'Comments'] },
+    { CUPIDs: ['Actions', 'CUPID', 'Title', 'Comments'] },
     { ErrorType: ['Actions', 'ErrorType', 'Description'] },
-    { UnsolicitedAutoCloseErrorCode: ['Actions', 'ErrorCode', 'ErrorType', 'ErrorMessage', 'CloseAfter', 'ResolvingMessge', 'ResolveType'] },
-    { ResolutionType: ['Actions', 'ResolveId', 'DisplayOrder', 'IsBAUorAudit', 'EndState', 'Description','Comments'] },
-    { CustomerTitle: ['Actions', 'Code', 'Title'] },
+    { UnsolicitedAutoClose: ['Actions', 'ErrorCode', 'ErrorType', 'ErrorMessage', 'CloseAfter', 'ResolvingMessage', 'ResolveType'] },
+    { ResolutionType: ['Actions', 'ResolveId', 'DisplayOrder', 'IsBauOrAudit', 'EndState', 'Description','Comments'] },
+    { CustomerTitles: ['Actions', 'Code', 'Title'] },
     { RejectedTelephonePrefix: ['Actions', 'TelephoneNumberPrefix', 'Comments'] },
-    { NextCommandCheck: ['Actions', 'NcID','Source', 'Next', 'Last','Change','Status','SendtoBT', 'EffectiveDays', 'Comments'] },
-    { OSNProvideList: ['Actions','Code', 'ListName', 'Title','ListType'] },
+    { NextCommandCheck: ['Actions', 'NcID','Source', 'Next', 'Last','Change','Status','SendBT', 'EffectiveDays', 'Comments'] },
+    { OsnProvideList: ['Actions','Code', 'ListName', 'Title','ListType'] },
     { ErrorCode: ['Actions', 'ErrorCode','BTError','ErrorType', 'ErrorMessage','Action', 'ResolvingMessge', 'Comments', 'UnusedFlag', 'FinalFlag', 'SolicitedFlag', 'UnsolicitedFlag'] },
     { PermittedLineStatus: ['Actions', 'Code', 'Status', 'Comments'] },
     { InterimCommands: ['Actions', 'CommandList', 'FinalCommand', 'FinalStatus', 'Comments'] },

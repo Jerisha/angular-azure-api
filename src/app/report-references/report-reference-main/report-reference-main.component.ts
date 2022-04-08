@@ -70,22 +70,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     let dispVal = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName];
     this.displayedColumns = dispVal || [];
     let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
-    this.dataObs$ = this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(map((res: any) => {
-      if (Object.keys(res).length) {
-        
-        let result = {
-          datasource: res[0][this.reportName],
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
-        }
-        return result;
-      }  else return {
-         res
-      }
-    }));
-    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-      this.data = res.datasource;
+    this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+      this.data = res[0][this.reportName];
     });
     // this.data = dat || [];
     this.newTab();
@@ -94,7 +80,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
     this.reportIndex = this.reportNames.findIndex(x => x == this.reportName);
     this.displayedColumns = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] || [];
-    this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || [];
+    // this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || [];
+    this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+      this.data = res[0][this.reportName];
+    });
   }
   newTab() {
     if (this.tabs.length < 5) {
