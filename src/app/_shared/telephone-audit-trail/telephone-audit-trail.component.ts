@@ -203,23 +203,23 @@ export class TelephoneAuditTrailComponent implements OnInit {
     // Value : [ "02071117402" ] }]);
     // let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
     // Value : [ this.telephoneNumber ] }]);
-    this.auditTrailReport$ = of(auditres);
+    // this.auditTrailReport$ = of(auditres);
   }
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   // console.log(changes.telephoneNumber.currentValue);
-  //   // console.log(changes);
-  //   if(changes.telNo.currentValue != changes.telNo.previousValue)
-  //   {
-  //     this.setStep(2);
-  //     let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", this.repIdentifier, [{  Name : "TelephoneNumber",
-  //   Value : [ this.telNo ] }]);
-  //   // Value : [ "01171617562" ] }]);
+  ngOnChanges(changes: SimpleChanges) {
+    // console.log(changes.telephoneNumber.currentValue);
+    // console.log(changes);
+    if(changes.telNo.currentValue != changes.telNo.previousValue)
+    {
+      this.setStep(2);
+      let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", this.repIdentifier, [{  Name : "TelephoneNumber",
+       Value : [ this.telNo ] }]);
+    // Value : [ "01171617562" ] }]);
 
-  //   this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => res[0]));
+    this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => res[0]));
 
-  //   }
-  // }
+    }
+  }
 
   setStep(index: number) {
     this.step = index;
@@ -253,6 +253,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
   }
 
 
+  expandedElement: null | undefined;
 
 
 }
