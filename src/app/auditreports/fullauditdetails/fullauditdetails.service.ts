@@ -15,7 +15,18 @@ export class FullAuditDetailsService {
     private httpclient: HttpClient) {
   }
   audi!: Observable<FullAuditSummary[]>;
-  dc$ = of(1, 2)
+  dc$ = of(1, 2);
+
+  configDetails(request: any): Observable<any> {
+    // const observable = new Observable(observer => {
+    //   this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request).subscribe((res: any) =>
+    //     observer.next(this.custom(res)));      
+
+    // });
+
+    //return observable
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
+  }
 
   // getDetails(): Observable<WeatherForecast[]> {
   //   return this.wrapperService.processRequst<WeatherForecast[]>('GET', 'weatherforecast');

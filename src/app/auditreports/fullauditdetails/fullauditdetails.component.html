@@ -7,245 +7,282 @@
         </div>
         <form [formGroup]="fullAuditForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
             <div class="matsidenav-filter">
-                <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNo.disabled}" hintLabel="Max 11 characters">
-                    <mat-label>Start Telephone No</mat-label>
-                    <input id="StartTelephoneNo" formControlName="StartTelephoneNo" matInput #StartTelephoneNo
-                        maxlength="11" placeholder="Start Telephone No" (keypress)="numberOnly($event)"
-                        (ngModelChange)="onChange($event,'StartTelephoneNo')" style="margin-right: 24%;">
-                    <mat-error>
-                        <div *ngIf="form.StartTelephoneNo.touched && form.StartTelephoneNo.invalid"
-                            class="alert alert-danger">
-                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                            <div *ngIf="form.StartTelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
-                        </div>
-                    </mat-error>
-                    <mat-hint align="end">{{StartTelephoneNo.value?.length || 0}}/11</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNo.disabled}" hintLabel="Max 10 characters">
-                    <mat-label>End Telephone No</mat-label>
-                    <input id="EndTelephoneNo" formControlName="EndTelephoneNo" matInput #EndTelephoneNo maxlength="10"
-                        placeholder="End Telephone No" (keypress)="numberOnly($event)"
-                        (ngModelChange)="onChange($event,'EndTelephoneNo')">
-                    <mat-error>
-                        <div *ngIf="form.EndTelephoneNo.touched && form.EndTelephoneNo.invalid"
-                            class="alert alert-danger">
-                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                            <div *ngIf="form.EndTelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
-                        </div>
-                    </mat-error>
-                    <mat-hint align="end">{{EndTelephoneNo.value?.length || 0}}/11</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.AuditActId.disabled}">
-                    <mat-label>Audit ACT ID</mat-label>
-                    <mat-select id="AuditActId" formControlName="AuditActId">
-                        <mat-option></mat-option>
-                        <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
-                        <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
-                        <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
-                    </mat-select>
-                    <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select
-                        Audit ACTID</mat-error>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.CUPId.disabled}">
-                    <mat-label>CUPID</mat-label>
-                    <mat-select id="CUPId" formControlName="CUPId">
-                        <mat-option></mat-option>
-                        <mat-option value="13">13</mat-option>
-                        <mat-option value="28">28</mat-option>
-                        <mat-option value="35">35</mat-option>
-                        <mat-option value="718">718</mat-option>
-                    </mat-select>
-                    <mat-error class="error-message" *ngIf="checkError('CUPId', 'required')">Please Select CUPID
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.BatchId.disabled}" hintLabel="Max 3 characters">
-                    <mat-label>Batch Id</mat-label>
-                    <input id="BatchId" formControlName="BatchId" #BatchId matInput #input maxlength="3"
-                        placeholder="Batch Id">
-                    <mat-error *ngFor="let validation of validation_messages.BatchId">
-                        <mat-error class="error-message" *ngIf="checkError('BatchId',validation.type)">
-                            {{validation.message}}</mat-error>
-                    </mat-error>
-                    <mat-hint align="end">{{input.value?.length || 0}}/3</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
-                    <mat-label>External CLI Status</mat-label>
-                    <mat-select id="ExternalCLIStatus" formControlName="ExternalCLIStatus">
-                        <mat-option></mat-option>
-                        <mat-option value="B-BT Only">B-BT Only</mat-option>
-                        <mat-option value="S-Matched">S-Matched</mat-option>
-                        <mat-option value="D-Mismatched">D-Mismatched</mat-option>
-                        <mat-option value="V-OSN2 Only">V-OSN2 Only</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.FullAuditCLIStatus.disabled}">
-                    <mat-label>Full Audit CLI Status</mat-label>
-                    <mat-select id="FullAuditCLIStatus" formControlName="FullAuditCLIStatus">
-                        <mat-option></mat-option>
-                        <mat-option value="BA - BT only - Source Active">BA-BT Only - Source Active</mat-option>
-                        <mat-option value="BC-BT Only - Source Ceased">BC-BT Only - Source Ceased</mat-option>
-                        <mat-option value="BN-BT Only - Source Not Found">BN-BT Only - Source Not Found</mat-option>
-                        <mat-option value="LS-Live in Source">LS-Live in Source</mat-option>
-                        <mat-option value="SAS-Matched - Source Active Matched">SAS-Matched - Source Active Matched
+                <ng-container *ngIf="configDetails  as config">
+                    <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNo.disabled}" hintLabel="Max 11 characters">
+                        <mat-label>Start Telephone No</mat-label>
+                        <input id="StartTelephoneNo" formControlName="StartTelephoneNo" matInput #StartTelephoneNo
+                            maxlength="11" placeholder="Start Telephone No" (keypress)="numberOnly($event)"
+                            (ngModelChange)="onChange($event,'StartTelephoneNo')" style="margin-right: 24%;">
+                        <mat-error>
+                            <div *ngIf="form.StartTelephoneNo.touched && form.StartTelephoneNo.invalid"
+                                class="alert alert-danger">
+                                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                                <div *ngIf="form.StartTelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
+                            </div>
+                        </mat-error>
+                        <mat-hint align="end">{{StartTelephoneNo.value?.length || 0}}/11</mat-hint>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNo.disabled}" hintLabel="Max 10 characters">
+                        <mat-label>End Telephone No</mat-label>
+                        <input id="EndTelephoneNo" formControlName="EndTelephoneNo" matInput #EndTelephoneNo maxlength="10"
+                            placeholder="End Telephone No" (keypress)="numberOnly($event)"
+                            (ngModelChange)="onChange($event,'EndTelephoneNo')">
+                        <mat-error>
+                            <div *ngIf="form.EndTelephoneNo.touched && form.EndTelephoneNo.invalid" class="alert alert-danger">
+                                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                                <div *ngIf="form.EndTelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
+                            </div>
+                        </mat-error>
+                        <mat-hint align="end">{{EndTelephoneNo.value?.length || 0}}/11</mat-hint>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.AuditActId.disabled}">
+                        <mat-label>Audit ACT ID</mat-label>
+                        <mat-select id="AuditActId" formControlName="AuditActId">
+                            <mat-option></mat-option>
+                            <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
+                            <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
+                            <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
+                        </mat-select>
+                        <!-- <mat-error class="error-message" *ngIf="checkError('AuditActID', 'required')">Please Select
+                            Audit ACTID</mat-error> -->
+                    </mat-form-field>       
+                  
+               
+                    <mat-form-field [ngClass]="{'hidden':form.CUPId.disabled}">
+                        <mat-label>CUPID</mat-label>
+                        <input #cupId formControlName="CUPId" type="text" placeholder="Search CUPId" matInput
+                          [matAutocomplete]="autoCupId" OptionsValidator [options]="config.CUPID | splitBy: ','" />
+                        <span matSuffix mat-icon-button>
+                          <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autoCupId="matAutocomplete">
+                          <mat-option *ngFor="let val of config.CUPID | splitBy: ',' | ddlFilter: cupId.value" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="form.CUPId.errors?.validOptions">Value need to match available options</mat-error>
+                      </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.BatchId.disabled}" hintLabel="Max 3 characters">
+                        <mat-label>Batch Id</mat-label>
+                        <input id="BatchId" formControlName="BatchId" #BatchId matInput #input maxlength="3"
+                            placeholder="Batch Id">
+                        <mat-error *ngFor="let validation of validation_messages.BatchId">
+                            <mat-error class="error-message" *ngIf="checkError('BatchId',validation.type)">
+                                {{validation.message}}</mat-error>
+                        </mat-error>
+                        <mat-hint align="end">{{input.value?.length || 0}}/3</mat-hint>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
+                        <mat-label>External CLI Status</mat-label>
+                        <input #extCLIStatus formControlName="ExternalCLIStatus" type="text" placeholder="Search External CLI Status" matInput
+                        [matAutocomplete]="autoextCLIStatus" OptionsValidator [options]="config.ExternalCLIStatus | splitBy: ','" />
+                      <span matSuffix mat-icon-button>
+                        <mat-icon>arrow_drop_down</mat-icon>
+                      </span>
+                      <mat-autocomplete autoActiveFirstOption #autoextCLIStatus="matAutocomplete">
+                        <mat-option *ngFor="let val of config.ExternalCLIStatus | splitBy: ',' | ddlFilter: extCLIStatus.value" [value]="val">
+                          {{val}}
                         </mat-option>
-                        <mat-option value="SAD-Matched - Source Active MisMatched">SAD-Matched - Source Active
-                            MisMatched</mat-option>
-                        <mat-option value="SC-Matched - Source Cease">SC-Matched - Source Cease</mat-option>
-                        <mat-option value="SN-Matched - Source Not found">SN-Matched - Source Not found</mat-option>
-                        <mat-option value="DAS-MisMatched - Source Active Matched">DAS-MisMatched - Source Active
-                            Matched</mat-option>
-                        <mat-option value="DAD-MisMatched - Source Active MisMatched">DAD-MisMatched - Source Active
-                            MisMatched</mat-option>
-                        <mat-option value="DC-MisMatched - Source Cease">DC-MisMatched - Source Cease</mat-option>
-                        <mat-option value="DN-MisMatched - Source Not found">DN-MisMatched - Source Not found
+                      </mat-autocomplete>
+                      <mat-error *ngIf="form.ExternalCLIStatus.errors?.validOptions">Value need to match available options</mat-error>
+                        <!-- <mat-select id="ExternalCLIStatus" formControlName="ExternalCLIStatus">
+                            <mat-option></mat-option>
+                            <mat-option value="B-BT Only">B-BT Only</mat-option>
+                            <mat-option value="S-Matched">S-Matched</mat-option>
+                            <mat-option value="D-Mismatched">D-Mismatched</mat-option>
+                            <mat-option value="V-OSN2 Only">V-OSN2 Only</mat-option>
+                        </mat-select> -->
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.FullAuditCLIStatus.disabled}">
+                        <mat-label>Full Audit CLI Status</mat-label>
+                        <input #fullCLIStatus formControlName="FullAuditCLIStatus" type="text" placeholder="Search Full Audit CLI Status" matInput
+                        [matAutocomplete]="autoFullAuditCLIStatus" OptionsValidator [options]="config.FullAuditCLIStatus | splitBy: ','" />
+                      <span matSuffix mat-icon-button>
+                        <mat-icon>arrow_drop_down</mat-icon>
+                      </span>
+                      <mat-autocomplete  autoActiveFirstOption #autoFullAuditCLIStatus="matAutocomplete">
+                        <mat-option *ngFor="let val of config.FullAuditCLIStatus | splitBy: ',' | ddlFilter: fullCLIStatus.value" [value]="val">
+                          {{val}}
                         </mat-option>
-                        <mat-option value="VA-OSN2 Only - Source Active">VA-OSN2 Only - Source Active</mat-option>
-                        <mat-option value="VC-OSN2 Only - Source Ceased">VC-OSN2 Only - Source Ceased</mat-option>
-                        <mat-option value="VN-OSN2 Only - Source Not Found">VN-OSN2 Only - Source Not Found</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                      </mat-autocomplete>
+                      <mat-error *ngIf="form.FullAuditCLIStatus.errors?.validOptions">Value need to match available options</mat-error>
 
-                <mat-form-field [ngClass]="{'hidden':form.MonthlyRefreshFlag.disabled}">
-                    <mat-label>Monthly Refresh Flag</mat-label>
-                    <mat-select id="MonthlyRefreshFlag" formControlName="MonthlyRefreshFlag">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.Source.disabled}">
-                    <mat-label>Source</mat-label>
-                    <mat-select id="Source" formControlName="Source">
-                        <mat-option></mat-option>
-                        <mat-option value="C">C - SAS/COMS</mat-option>
-                        <mat-option value="D">D - DVA Siebel</mat-option>
-                        <mat-option value="E">E - VA/WAD</mat-option>
-                        <mat-option value="G">G - Content Guru</mat-option>
-                        <mat-option value="R">R - Clarify</mat-option>
-                        <mat-option value="S">S - Amdocs SOM</mat-option>
-                        <mat-option value="X">X - Unknown</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
-                    <mat-label>OSN2 Source</mat-label>
-                    <mat-select id="OSN2Source" formControlName="OSN2Source">
-                        <mat-option></mat-option>
-                        <mat-option value="C">C - SAS/COMS</mat-option>
-                        <mat-option value="D">D - DVA Siebel</mat-option>
-                        <mat-option value="E">E - VA/WAD</mat-option>
-                        <mat-option value="G">G - Content Guru</mat-option>
-                        <mat-option value="R">R - Clarify</mat-option>
-                        <mat-option value="S">S - Amdocs SOM</mat-option>
-                        <mat-option value="X">X - Unknown</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.PortingStatus.disabled}">
-                    <mat-label>Porting Status</mat-label>
-                    <mat-select id="PortingStatus" formControlName="PortingStatus">
-                        <mat-option></mat-option>
-                        <mat-option value="PI- Port In">PI- Port In</mat-option>
-                        <mat-option value="PI- Port Out">PO- Port Out</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.VodafoneRangeHolder.disabled}">
-                    <mat-label>Vodafone Range Holder</mat-label>
-                    <mat-select id="VodafoneRangeHolder" formControlName="VodafoneRangeHolder">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.ResType.disabled}">
-                    <mat-label>Resolution Type</mat-label>
-                    <mat-select id="ResType" formControlName="ResType">
-                        <mat-option></mat-option>
-                        <mat-option value="0"> New</mat-option>
-                        <mat-option value="100"> Under Investigation</mat-option>
-                        <mat-option value="105"> Under Governance</mat-option>
-                        <mat-option value="114"> Auto Failed</mat-option>
-                        <mat-option value="106"> Under Porting</mat-option>
-                        <mat-option value="107"> Port Req Complete</mat-option>
-                        <mat-option value="110">(END) Audit Transaction Override</mat-option>
-                        <mat-option value="111">(END) Auto Closed</mat-option>
-                        <mat-option value="113">(END) Auto Active</mat-option>
-                        <mat-option value="115">(END) Auto Modify</mat-option>
-                        <mat-option value="116">(END) Auto Cease</mat-option>
-                        <mat-option value="117">(END) Auto Special Cease</mat-option>
-                        <mat-option value="118">(END) Auto Logic Resolved</mat-option>
-                        <mat-option value="119">(END) Auto Resolved Areacall</mat-option>
-                        <mat-option value="120">(END) Audit Discrepancy Override</mat-option>
-                        <mat-option value="101">(END) Resolved</mat-option>
-                        <mat-option value="102">(END) Unresolved</mat-option>
-                        <mat-option value="109">(END) Auto Resolved</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.SwitchStatus.disabled}">
-                    <mat-label>Switch Status</mat-label>
-                    <mat-select id="SwitchStatus" formControlName="SwitchStatus">
-                        <mat-option></mat-option>
-                        <mat-option value="Active">A-Active</mat-option>
-                        <mat-option value="Ceased">C-Ceased</mat-option>
-                        <mat-option value="Not Found">N-Not Found</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.MoriStatus.disabled}">
-                    <mat-label>Mori Status</mat-label>
-                    <mat-select id="MoriStatus" formControlName="MoriStatus">
-                        <mat-option></mat-option>
-                        <mat-option value="Active">Active</mat-option>
-                        <mat-option value="Ceased">Ceased</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.PostCodeDiff.disabled}">
-                    <mat-label>Post Code Diff.</mat-label>
-                    <mat-select id="PostCodeDiff" formControlName="PostCodeDiff">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.FullAddDiff.disabled}">
-                    <mat-label>Full Address Diff.</mat-label>
-                    <mat-select id="FullAddDiff" formControlName="FullAddDiff">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.CustomerDiff.disabled}">
-                    <mat-label>Customer Diff.</mat-label>
-                    <mat-select id="CustomerDiff" formControlName="CustomerDiff">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':form.OverlappingStatus.disabled}">
-                    <mat-label>Overlapping Status.</mat-label>
-                    <mat-select id="OverlappingStatus" formControlName="OverlappingStatus">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
+                        <!-- <mat-select id="FullAuditCLIStatus" formControlName="FullAuditCLIStatus">
+                            <mat-option></mat-option>
+                            <mat-option value="BA - BT only - Source Active">BA-BT Only - Source Active</mat-option>
+                            <mat-option value="BC-BT Only - Source Ceased">BC-BT Only - Source Ceased</mat-option>
+                            <mat-option value="BN-BT Only - Source Not Found">BN-BT Only - Source Not Found</mat-option>
+                            <mat-option value="LS-Live in Source">LS-Live in Source</mat-option>
+                            <mat-option value="SAS-Matched - Source Active Matched">SAS-Matched - Source Active Matched
+                            </mat-option>
+                            <mat-option value="SAD-Matched - Source Active MisMatched">SAD-Matched - Source Active
+                                MisMatched</mat-option>
+                            <mat-option value="SC-Matched - Source Cease">SC-Matched - Source Cease</mat-option>
+                            <mat-option value="SN-Matched - Source Not found">SN-Matched - Source Not found</mat-option>
+                            <mat-option value="DAS-MisMatched - Source Active Matched">DAS-MisMatched - Source Active
+                                Matched</mat-option>
+                            <mat-option value="DAD-MisMatched - Source Active MisMatched">DAD-MisMatched - Source Active
+                                MisMatched</mat-option>
+                            <mat-option value="DC-MisMatched - Source Cease">DC-MisMatched - Source Cease</mat-option>
+                            <mat-option value="DN-MisMatched - Source Not found">DN-MisMatched - Source Not found
+                            </mat-option>
+                            <mat-option value="VA-OSN2 Only - Source Active">VA-OSN2 Only - Source Active</mat-option>
+                            <mat-option value="VC-OSN2 Only - Source Ceased">VC-OSN2 Only - Source Ceased</mat-option>
+                            <mat-option value="VN-OSN2 Only - Source Not Found">VN-OSN2 Only - Source Not Found</mat-option>
+                        </mat-select> -->
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.MonthlyRefreshFlag.disabled}">
+                        <mat-label>Monthly Refresh Flag</mat-label>
+                        <input #monthlyRefreshFlag formControlName="MonthlyRefreshFlag" type="text" placeholder="Search Monthly Refresh Flag" matInput
+                        [matAutocomplete]="autoMonthlyRefreshFlag" OptionsValidator [options]="config.MonthlyRefreshFlag | splitBy: ','" />
+                      <span matSuffix mat-icon-button>
+                        <mat-icon>arrow_drop_down</mat-icon>
+                      </span>
+                      <mat-autocomplete  autoActiveFirstOption #autoMonthlyRefreshFlag="matAutocomplete">
+                        <mat-option *ngFor="let val of config.MonthlyRefreshFlag | splitBy: ',' | ddlFilter: monthlyRefreshFlag.value" [value]="val">
+                          {{val}}
+                        </mat-option>
+                      </mat-autocomplete>
+                      <mat-error *ngIf="form.MonthlyRefreshFlag.errors?.validOptions">Value need to match available options</mat-error>
+                        <!-- <mat-select id="MonthlyRefreshFlag" formControlName="MonthlyRefreshFlag">
+                            <mat-option></mat-option>
+                            <mat-option value="No">No</mat-option>
+                            <mat-option value="Yes">Yes</mat-option>
+                        </mat-select> -->
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.Source.disabled}">
+                        <mat-label>Source</mat-label>
+                        <mat-select id="Source" formControlName="Source">
+                            <mat-option></mat-option>
+                            <mat-option value="C">C - SAS/COMS</mat-option>
+                            <mat-option value="D">D - DVA Siebel</mat-option>
+                            <mat-option value="E">E - VA/WAD</mat-option>
+                            <mat-option value="G">G - Content Guru</mat-option>
+                            <mat-option value="R">R - Clarify</mat-option>
+                            <mat-option value="S">S - Amdocs SOM</mat-option>
+                            <mat-option value="X">X - Unknown</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
+                        <mat-label>OSN2 Source</mat-label>
+                        <mat-select id="OSN2Source" formControlName="OSN2Source">
+                            <mat-option></mat-option>
+                            <mat-option value="C">C - SAS/COMS</mat-option>
+                            <mat-option value="D">D - DVA Siebel</mat-option>
+                            <mat-option value="E">E - VA/WAD</mat-option>
+                            <mat-option value="G">G - Content Guru</mat-option>
+                            <mat-option value="R">R - Clarify</mat-option>
+                            <mat-option value="S">S - Amdocs SOM</mat-option>
+                            <mat-option value="X">X - Unknown</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.PortingStatus.disabled}">
+                        <mat-label>Porting Status</mat-label>
+                        <mat-select id="PortingStatus" formControlName="PortingStatus">
+                            <mat-option></mat-option>
+                            <mat-option value="PI- Port In">PI- Port In</mat-option>
+                            <mat-option value="PI- Port Out">PO- Port Out</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.VodafoneRangeHolder.disabled}">
+                        <mat-label>Vodafone Range Holder</mat-label>
+                        <mat-select id="VodafoneRangeHolder" formControlName="VodafoneRangeHolder">
+                            <mat-option></mat-option>
+                            <mat-option value="No">No</mat-option>
+                            <mat-option value="Yes">Yes</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.ResType.disabled}">
+                        <mat-label>Resolution Type</mat-label>
+                        <mat-select id="ResType" formControlName="ResType">
+                            <mat-option></mat-option>
+                            <mat-option value="0"> New</mat-option>
+                            <mat-option value="100"> Under Investigation</mat-option>
+                            <mat-option value="105"> Under Governance</mat-option>
+                            <mat-option value="114"> Auto Failed</mat-option>
+                            <mat-option value="106"> Under Porting</mat-option>
+                            <mat-option value="107"> Port Req Complete</mat-option>
+                            <mat-option value="110">(END) Audit Transaction Override</mat-option>
+                            <mat-option value="111">(END) Auto Closed</mat-option>
+                            <mat-option value="113">(END) Auto Active</mat-option>
+                            <mat-option value="115">(END) Auto Modify</mat-option>
+                            <mat-option value="116">(END) Auto Cease</mat-option>
+                            <mat-option value="117">(END) Auto Special Cease</mat-option>
+                            <mat-option value="118">(END) Auto Logic Resolved</mat-option>
+                            <mat-option value="119">(END) Auto Resolved Areacall</mat-option>
+                            <mat-option value="120">(END) Audit Discrepancy Override</mat-option>
+                            <mat-option value="101">(END) Resolved</mat-option>
+                            <mat-option value="102">(END) Unresolved</mat-option>
+                            <mat-option value="109">(END) Auto Resolved</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.SwitchStatus.disabled}">
+                        <mat-label>Switch Status</mat-label>
+                        <mat-select id="SwitchStatus" formControlName="SwitchStatus">
+                            <mat-option></mat-option>
+                            <mat-option value="Active">A-Active</mat-option>
+                            <mat-option value="Ceased">C-Ceased</mat-option>
+                            <mat-option value="Not Found">N-Not Found</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.MoriStatus.disabled}">
+                        <mat-label>Mori Status</mat-label>
+                        <mat-select id="MoriStatus" formControlName="MoriStatus">
+                            <mat-option></mat-option>
+                            <mat-option value="Active">Active</mat-option>
+                            <mat-option value="Ceased">Ceased</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.PostCodeDiff.disabled}">
+                        <mat-label>Post Code Diff.</mat-label>
+                        <mat-select id="PostCodeDiff" formControlName="PostCodeDiff">
+                            <mat-option></mat-option>
+                            <mat-option value="No">No</mat-option>
+                            <mat-option value="Yes">Yes</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.FullAddDiff.disabled}">
+                        <mat-label>Full Address Diff.</mat-label>
+                        <mat-select id="FullAddDiff" formControlName="FullAddDiff">
+                            <mat-option></mat-option>
+                            <mat-option value="No">No</mat-option>
+                            <mat-option value="Yes">Yes</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.CustomerDiff.disabled}">
+                        <mat-label>Customer Diff.</mat-label>
+                        <mat-select id="CustomerDiff" formControlName="CustomerDiff">
+                            <mat-option></mat-option>
+                            <mat-option value="No">No</mat-option>
+                            <mat-option value="Yes">Yes</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+        
+                    <mat-form-field [ngClass]="{'hidden':form.OverlappingStatus.disabled}">
+                        <mat-label>Overlapping Status.</mat-label>
+                        <mat-select id="OverlappingStatus" formControlName="OverlappingStatus">
+                            <mat-option></mat-option>
+                            <mat-option value="No">No</mat-option>
+                            <mat-option value="Yes">Yes</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </ng-container>
             </div>
             <div class="matsidenav-footer">
                 <button type="submit" mat-raised-button color="primary">
