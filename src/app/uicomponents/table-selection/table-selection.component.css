@@ -81,9 +81,10 @@ table td, table th {
   text-overflow: ellipsis;
 }
 
-.totalRow{
+.totalRow {
   background-color: #e60000;
   color:white;
+  /* padding-left: 220px; */
   font-size: small;
   /* min-height: 10px; */
   height: 20px;
@@ -95,6 +96,11 @@ table td, table th {
   background-color: #dee2e6;
 }
 
+
+/* .my-class{
+  width: 100px!important;
+  min-width: 20px!important;
+} */
 
   /* .mat-row:nth-child(odd){
     background-color: #dee2e6;

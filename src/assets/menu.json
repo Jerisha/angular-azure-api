@@ -10,10 +10,20 @@
         "route": "resolvingoferrors/solicitederrors"
       },      
       {
+        "displayName": "Solicited Resolution Report",
+        "iconName": "",
+        "route": "resolvingoferrors/solicitedresolutionreport"
+      }  ,      
+      {
+        "displayName": "Solicited Actions Report",
+        "iconName": "",
+        "route": "resolvingoferrors/solicitedactionreport"
+      },      
+      {
         "displayName": "Unsolicited Errors",
         "iconName": "",
         "route": "resolvingoferrors/unsolicitederrors"
-      }      
+      }
     ]
   },
   {
@@ -25,6 +35,11 @@
         "displayName": "Transactions",
         "iconName": "",
         "route": "transactions/transactions"
+      },
+      {
+        "displayName": "Cease Transaction",
+        "iconName": "",
+        "route": "transactions/ceasetransaction"
       }
     ]
   },
@@ -42,6 +57,21 @@
         "displayName": "Audit Discrepancy Report",
         "iconName": "",
         "route": "auditreports/auditdiscrepancyreport"
+      },
+      {
+        "displayName": "External Audit Details",
+        "iconName": "",
+        "route": "auditreports/externalauditdetails"
+      },
+      {
+        "displayName": "Full Audit History",
+        "iconName": "",
+        "route": "auditreports/fullaudithistory"
+      },
+      {
+        "displayName": "Audit User Action Summary",
+        "iconName": "",
+        "route": "auditreports/audituseractionsummary"
       }
     ]
   },
@@ -83,6 +113,63 @@
         "route": "statisticalreports/transactionsourcecommandhistory"
       }   
     ]
+  },
+
+  {
+    "displayName": "Administration",
+    "iconName": "",
+    "route": "",
+    "children": [
+      {
+        "displayName": "Audit Data Files",
+        "iconName": "",
+        "route": "administration/auditdatafiles"
+      },
+	  {
+        "displayName": "Restore Solicited Errors",
+        "iconName": "",
+        "route": "administration/restoresolicitederrors"
+      },
+      {
+        "displayName": "Data Correction Summary",
+        "iconName": "",
+        "route": "administration/datacorrectionsummary"
+      },
+     {
+        "displayName": "Unresolved Transaction",
+        "iconName": "",
+        "route": "administration/unresolvedtransaction"
+      },
+      {
+        "displayName": "Unresolved Errors",
+        "iconName": "",
+        "route": "administration/unresolvederrors"
+      },
+      {
+        "displayName": "Unsolicited Action Reports",
+        "iconName": "",
+        "route": "administration/unsolicitedactionreports"
+      },
+      {
+        "displayName": "Manage Users",
+        "iconName": "",
+        "route": "administration/manageusers"
+      }
+    ]
+  },
+  {
+    "displayName": "Configurational Reference Data",
+    "iconName": "",
+    "route": "",
+    "children": [
+      {
+        "displayName": "Reference List",
+        "iconName": "",
+        "route": "report-references/ReferenceList"
+      }
+	 
+    ]
   }
+
     
 ]

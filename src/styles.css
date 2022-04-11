@@ -158,7 +158,7 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 
 /* tab design start */
  .mat-tab-list{
-  height: 35px !important;
+  height: 35px ;
   overflow: hidden;
 }
 .mat-tab-label{

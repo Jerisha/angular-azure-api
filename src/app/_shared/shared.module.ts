@@ -8,25 +8,32 @@ import { AlertComponent } from './alert/alert.component';
 
 import { TransactionErrorsComponent } from './transaction-errors/transaction-errors.component';
 import { StartUpComponent } from './start-up/start-up.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomMatPaginatorIntl } from './custom-matpaginator-Intl';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { RouterModule } from '@angular/router';
+import { TelephoneNoComponent } from './telephone-no/telephone-no.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent,AlertComponent,ConfirmDialogComponent],
+  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent, TelephoneNoComponent,AlertComponent,ConfirmDialogComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
     MaterialModule,
     UicomponentsModule,
-    RouterModule
-  ],
+    RouterModule,
+ FormsModule,
+    ReactiveFormsModule,  ],
   exports :[
     TelephoneAuditTrailComponent,
     TransactionErrorsComponent  ,
     StartUpComponent,
     MaterialModule,
+    TelephoneNoComponent,
     AlertComponent
-  ]  
+  ],
+ 
 
 })
 export class SharedModule { }

@@ -35,16 +35,6 @@ export class HttpWrapperService {
         return observerRes;
     }
 
-    private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
-        // debugger;
-        switch (responseType) {
-            case ResponseType.JSON:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
-            case ResponseType.BLOB:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' });
-        }
-    }
-
     private resolveRespone(val: any, requestType: WebMethods) {
         // debugger;
         let categories = [];
@@ -90,6 +80,65 @@ export class HttpWrapperService {
         } catch (err) {
             console.log("Response: " + val + "ResponseError: " + err);
             this.alertService.error("Incorrect Response Format", { autoClose: true, keepAfterRouteChange: false });
+        }
+    }
+
+    processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
+        Observable<Type> {
+        const observerRes = new Observable((observer: Observer<Type>) => {
+            this.http(httpVerb.toString(),
+                `${environment.api_py_dev}${endPoint.toString()}`,
+                JSON.stringify(body),
+                responseType,
+                headers,
+                params).subscribe((response: Type) => {
+                    observer.next(this.resolvePyRespone(response, endPoint))
+                    observer.complete()
+                    //this.resolveRespone(response, endPoint);
+                })
+        });
+        return observerRes;
+    }
+
+    private resolvePyRespone(val: any, requestType: WebMethods) {
+        debugger;
+        let jsonResult = '';
+        console.log(val)
+        let transData: any = [];
+        try {
+            if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
+            switch (requestType) {
+                case WebMethods.CONFIG:                    
+                        transData = val.ReponseParams
+                        transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]                    
+                    break;
+                case WebMethods.QUERY:                    
+                        transData = val.ReponseParams
+                        transData.data = val.Data                    
+                    break;
+                    case WebMethods.GET:                    
+                        transData = val.ReponseParams
+                        transData.data = val.Data                    
+                    break;
+
+            }
+        }
+
+        } catch (err) {
+            console.log("PyResponse: " + val + "ResponseError: " + err);
+            this.alertService.error("Incorrect PyResponse Format", { autoClose: true, keepAfterRouteChange: false });
+        }
+        console.log("PyData :" + JSON.stringify(transData));
+        return transData;
+    }
+
+    private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
+        // debugger;
+        switch (responseType) {
+            case ResponseType.JSON:
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
+            case ResponseType.BLOB:
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' });
         }
     }
 

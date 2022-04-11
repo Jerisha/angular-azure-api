@@ -15,8 +15,6 @@ import {
   SelectExpressionComponent,
   TableExpansionComponent,
   TableGroupHeaderComponent
-  
- 
 } from './index';
 
 import { HelperModule } from '../_helper/helper.module';
