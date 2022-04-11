@@ -77,7 +77,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.newTab();
   }
   Onselecttabchange($event: any) {
-    this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
+    
+    this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
     this.reportIndex = this.reportNames.findIndex(x => x == this.reportName);
     this.displayedColumns = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] || [];
     // this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || [];
@@ -183,10 +184,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
          this.reportReferenceService.deleteDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-              this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+                this.data = res[0][this.currentReportName];
+                console.log(this.currentReportName , 'test')
+              });
+              this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
-              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
         this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
@@ -218,6 +223,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           this.reportReferenceService.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
+              this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+                this.data = res[0][this.currentReportName];
+                console.log(this.currentReportName , 'test')
+              });
               this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
@@ -240,11 +249,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       console.log(request, 'request')
        this.reportReferenceService.createDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
-              //success message and same data reload
-              this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+                this.data = res[0][this.currentReportName];
+                console.log(this.currentReportName , 'test')
+              });
+              this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
-              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.info("Record create Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
         
@@ -276,9 +288,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // if (this.editRecord.length > 0) {
     // this.editRecord?.forEach(x => { 
     // identifiers.push({ Name: 'StatusID', Value: 12 } );
-    identifiers.push({ Name: 'StatusId', Value: ['11'] });
+    identifiers.push({ Name: 'StatusId', Value: ['1'] });
     identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1'] });
-    identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-test1 '] });
+    identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-testing1'] });
     //}
     console.log(identifiers, 'identifiers')
     return identifiers;

@@ -245,7 +245,7 @@ export class ReportReferenceService {
   ]
 },
 {
-  OSNProvideList: [
+  OsnProvideList: [
     { ListName: 'Access Method', ListType: 'L-Bulldog Access', Code: 'L', Title: 'Bulldog Access' },
     { ListName: 'Configuration Key-Values', ListType: 'NotificationsMaReturnRecords', Code: '1000', Title: 'NotificationsMaReturnRecords' },
     { ListName: 'Connection Type', ListType: 'Direct', Code: 'C', Title: 'Centrex' },
@@ -304,7 +304,7 @@ export class ReportReferenceService {
   // { CustomerTitle: ['Actions', 'Code', 'Title'] },
   // { RejectedTelephonePrefix: ['Actions', 'TelephonePrefix', 'Comments'] },
   // { NextCommandCheck: ['Actions', 'Source', 'Next', 'Last', 'Status', 'Change', 'SendtoBT', 'EffectiveForDays', 'Comments'] },
-  // { OSNProvideList: ['Actions', 'ListName', 'ListType', 'Code', 'Title'] },
+  // { OsnProvideList: ['Actions', 'ListName', 'ListType', 'Code', 'Title'] },
   // { ErrorCode: ['Actions', 'Code', 'Type', 'BTError', 'ErrorMessage', 'ResolvingMessge', 'Comments', 'Action', 'Unused', 'Final', 'Solicited', 'Unsolicited'] },
   // { PermittedLineStatus: ['Actions', 'Code', 'Status', 'Comment'] },
   // { InterimCommands: ['Actions', 'CommandList', 'FinalCommand', 'FinalStatus', 'Comments'] },  
@@ -736,7 +736,7 @@ export class ReportReferenceService {
           }
           break;
         }
-        case "OSNProvideList": {
+        case "OsnProvideList": {
           {
             this.lstForm.push(
               <IColoumnDef>{
