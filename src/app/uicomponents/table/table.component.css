@@ -1,7 +1,8 @@
 .apptable-container
 {
-  max-height: 250px;
+  max-height: 150px;
   overflow: auto;
+  display: inline-block;
 }
 
 
