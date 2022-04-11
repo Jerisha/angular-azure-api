@@ -11,15 +11,15 @@ export class ReportReferenceService {
   recordId!: number;
   lstForm: IColoumnDef[] = [];
   referenceForm: any;
-  showDataForm:boolean =false;
-  showDetailsForm:boolean =false;
-  
-  reportNames:string[] =[
-   'SourceSystem','Status','AuditStatus','CUPIDCrossReference',
-   'LineType', 'ResolverEmail', 'Command','CUPID','ErrorType',
-   'UnsolicitedAutoCloseErrorCode', 'ResolutionType', 'CustomerTitle', 'RejectedTelephonePrefix',
-   'NextCommandCheck', 'OSNProvideList', 'ErrorCode','PermittedLineStatus','InterimCommands',
-   
+  showDataForm: boolean = false;
+  showDetailsForm: boolean = false;
+
+  reportNames: string[] = [
+    'SourceSystem', 'Status', 'AuditStatus', 'CUPIDCrossReference',
+    'LineTypes', 'ResolverEmail', 'Command', 'CUPIDs', 'ErrorType',
+    'UnsolicitedAutoClose', 'ResolutionType', 'CustomerTitles', 'RejectedTelephonePrefix',
+    'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',
+
   ];
   constructor(private wrapperService :HttpWrapperService) { }
 
@@ -57,51 +57,51 @@ export class ReportReferenceService {
 ]},
 {
   AuditStatus:[
-{ID: '11', StatusSummary: 'Populated Full Audit count',Description:'Populated Full Audit count'},
-{ID: '12', StatusSummary: 'One year data clean up for full audit',Description:'Test'},
-{ID: '13', StatusSummary: 'Auto close for End state',Description:'Test'},
-{ID: '14', StatusSummary: 'Mori Status Update in full audit',Description:'Mori Status Update in full audit'},
-{ID: '15', StatusSummary: 'BT file Loaded Successfully',Description:'Test'},
-{ID: '101', StatusSummary: 'BT FILE SIZE CHECKING',Description:'BT FILE SIZE CHECKING'},
-{ID: '102', StatusSummary: 'BT File Loaded Successfully',Description:'BT File Loaded Successfully'},
-{ID: '103', StatusSummary: 'BT File Data Loading Failed',Description:'BT File Data Loading Failed'},
-{ID: '171', StatusSummary: 'OSN2 and Source System Addresses checking by PAF',Description:'OSN2 and Source System Addresses checking by PAF'},
-{ID: '201', StatusSummary: 'External Audit Start',Description:'External Audit Start'},
-{ID: '202', StatusSummary: 'External Audit In Progress',Description:'External Audit In Progress'},
-{ID: '203', StatusSummary: 'Reset External Audit Data',Description:'Reset External Audit Data'},
-{ID: '204', StatusSummary: 'External Audit Data Loading',Description:'External Audit Data Loading'},
-{ID: '205', StatusSummary: 'External Audit Data Comparision',Description:'External Audit Data Comparision'},
-{ID: '206', StatusSummary: 'Update External Audit Summary Data',Description:'Update External Audit Summary Data'},
-{ID: '207', StatusSummary: 'Checking External audit Status',Description:'Checking External audit Status'},
-{ID: '208', StatusSummary: 'Update External Audit Status',Description:'Update External Audit Status'},
-{ID: '209', StatusSummary: 'External Audit successfully completed',Description:'External Audit successfully completed'},
-{ID: '210', StatusSummary: 'Source System Data Loading',Description:'Source System Data Loading'},
-{ID: '211', StatusSummary: 'Updating Internal Audit Control Details',Description:''},
-{ID: '212', StatusSummary: 'Internal Audit Start',Description:'Internal Audit Start'},
-{ID: '213', StatusSummary: 'Internal Audit In Progess',Description:'Internal Audit In Progess'},
-{ID: '214', StatusSummary: 'Reset Internal Audit Data',Description:'Reset Internal Audit Data'},
-{ID: '215', StatusSummary: 'Internal Audit Data Loading',Description:'Internal Audit Data Loading'},
-{ID: '216', StatusSummary: 'Internal Audit Data Comparision',Description:'Internal Audit Data Comparision'},
-{ID: '217', StatusSummary: 'Update Internal Audit Summary Data',Description:'Update Internal Audit Summary Data'},
-{ID: '218', StatusSummary: 'Checking Internal Audit Status',Description:'Checking Internal Audit Status'},
-{ID: '219', StatusSummary: 'Update Internal Audit Status',Description:'Update Internal Audit Status'},
-{ID: '220', StatusSummary: 'Internal Audit Successfully Completed',Description:'Internal Audit Successfully Completed'},
-{ID: '221', StatusSummary: 'Start Separate Internal Audit',Description:'Start Separate Internal Audit'},
-{ID: '222', StatusSummary: 'Separate Audit In progress',Description:'Separate Audit In progress'},
-{ID: '223', StatusSummary: 'Load source system data in separate table',Description:'Load source system data in separate table'},
-{ID: '224', StatusSummary: 'Load OSN2 Live Records to master table',Description:'Load OSN2 Live Records to master table'},
-{ID: '225', StatusSummary: 'Separate Internal Audit Data Comparision',Description:'Separate Internal Audit Data Comparision'},
-{ID: '226', StatusSummary: 'Update Separate Internal Audit Summary Data',Description:'Update Separate Internal Audit Summary Data'},
-{ID: '227', StatusSummary: 'Checking Separate Internal Audit Status',Description:'Checking Separate Internal Audit Status'},
-{ID: '228', StatusSummary: 'Update Separate Internal Audit Status',Description:'Update Separate Internal Audit Status'},
-{ID: '229', StatusSummary: 'Separate Internal Audit Successfully Completed',Description:'Separate Internal Audit Successfully Completed'},
-{ID: '272', StatusSummary: 'SAS/COMS Range Correction',Description:'SAS/COMS Range Correction'},
-{ID: '300', StatusSummary: 'External Audit Failed',Description:'External Audit Failed'},
-{ID: '373', StatusSummary: 'OSN2 and Source System PAF Addresses Comparison.',Description:'OSN2 and Source System PAF Addresses Comparison'},
-{ID: '400', StatusSummary: 'Internal Audit Failed',Description:'nternal Audit Failed'},
-{ID: '474', StatusSummary: 'Switch dump and OFCOM recon for PI and PO.',Description:'Switch dump and OFCOM recon for PI and PO'},
-{ID: '500', StatusSummary: 'Full Internal Audit Failed',Description:'Full Internal Audit Failed'},
-{ID: '575', StatusSummary: 'Updating Port In and Port Out',Description:'Updating Port In and Port Out'},
+{StatusId: '11', Summary: 'Populated Full Audit count',Description:'Populated Full Audit count'},
+{StatusId: '12', Summary: 'One year data clean up for full audit',Description:'Test'},
+{StatusId: '13', Summary: 'Auto close for End state',Description:'Test'},
+{StatusId: '14', Summary: 'Mori Status Update in full audit',Description:'Mori Status Update in full audit'},
+{StatusId: '15', Summary: 'BT file Loaded Successfully',Description:'Test'},
+{StatusId: '101', Summary: 'BT FILE SIZE CHECKING',Description:'BT FILE SIZE CHECKING'},
+{StatusId: '102', Summary: 'BT File Loaded Successfully',Description:'BT File Loaded Successfully'},
+{StatusId: '103', Summary: 'BT File Data Loading Failed',Description:'BT File Data Loading Failed'},
+{StatusId: '171', Summary: 'OSN2 and Source System Addresses checking by PAF',Description:'OSN2 and Source System Addresses checking by PAF'},
+{StatusId: '201', Summary: 'External Audit Start',Description:'External Audit Start'},
+{StatusId: '202', Summary: 'External Audit In Progress',Description:'External Audit In Progress'},
+{StatusId: '203', Summary: 'Reset External Audit Data',Description:'Reset External Audit Data'},
+{StatusId: '204', Summary: 'External Audit Data Loading',Description:'External Audit Data Loading'},
+{StatusId: '205', Summary: 'External Audit Data Comparision',Description:'External Audit Data Comparision'},
+{StatusId: '206', Summary: 'Update External Audit Summary Data',Description:'Update External Audit Summary Data'},
+{StatusId: '207', Summary: 'Checking External audit Status',Description:'Checking External audit Status'},
+{StatusId: '208', Summary: 'Update External Audit Status',Description:'Update External Audit Status'},
+{StatusId: '209', Summary: 'External Audit successfully completed',Description:'External Audit successfully completed'},
+{StatusId: '210', Summary: 'Source System Data Loading',Description:'Source System Data Loading'},
+{StatusId: '211', Summary: 'Updating Internal Audit Control Details',Description:''},
+{StatusId: '212', Summary: 'Internal Audit Start',Description:'Internal Audit Start'},
+{StatusId: '213', Summary: 'Internal Audit In Progess',Description:'Internal Audit In Progess'},
+{StatusId: '214', Summary: 'Reset Internal Audit Data',Description:'Reset Internal Audit Data'},
+{StatusId: '215', Summary: 'Internal Audit Data Loading',Description:'Internal Audit Data Loading'},
+{StatusId: '216', Summary: 'Internal Audit Data Comparision',Description:'Internal Audit Data Comparision'},
+{StatusId: '217', Summary: 'Update Internal Audit Summary Data',Description:'Update Internal Audit Summary Data'},
+{StatusId: '218', Summary: 'Checking Internal Audit Status',Description:'Checking Internal Audit Status'},
+{StatusId: '219', Summary: 'Update Internal Audit Status',Description:'Update Internal Audit Status'},
+{StatusId: '220', Summary: 'Internal Audit Successfully Completed',Description:'Internal Audit Successfully Completed'},
+{StatusId: '221', Summary: 'Start Separate Internal Audit',Description:'Start Separate Internal Audit'},
+{StatusId: '222', Summary: 'Separate Audit In progress',Description:'Separate Audit In progress'},
+{StatusId: '223', Summary: 'Load source system data in separate table',Description:'Load source system data in separate table'},
+{StatusId: '224', Summary: 'Load OSN2 Live Records to master table',Description:'Load OSN2 Live Records to master table'},
+{StatusId: '225', Summary: 'Separate Internal Audit Data Comparision',Description:'Separate Internal Audit Data Comparision'},
+{StatusId: '226', Summary: 'Update Separate Internal Audit Summary Data',Description:'Update Separate Internal Audit Summary Data'},
+{StatusId: '227', Summary: 'Checking Separate Internal Audit Status',Description:'Checking Separate Internal Audit Status'},
+{StatusId: '228', Summary: 'Update Separate Internal Audit Status',Description:'Update Separate Internal Audit Status'},
+{StatusId: '229', Summary: 'Separate Internal Audit Successfully Completed',Description:'Separate Internal Audit Successfully Completed'},
+{StatusId: '272', Summary: 'SAS/COMS Range Correction',Description:'SAS/COMS Range Correction'},
+{StatusId: '300', Summary: 'External Audit Failed',Description:'External Audit Failed'},
+{StatusId: '373', Summary: 'OSN2 and Source System PAF Addresses Comparison.',Description:'OSN2 and Source System PAF Addresses Comparison'},
+{StatusId: '400', Summary: 'Internal Audit Failed',Description:'nternal Audit Failed'},
+{StatusId: '474', Summary: 'Switch dump and OFCOM recon for PI and PO.',Description:'Switch dump and OFCOM recon for PI and PO'},
+{StatusId: '500', Summary: 'Full Internal Audit Failed',Description:'Full Internal Audit Failed'},
+{StatusId: '575', Summary: 'Updating Port In and Port Out',Description:'Updating Port In and Port Out'},
 ]},
 {
   CUPIDCrossReference: [
@@ -116,7 +116,7 @@ export class ReportReferenceService {
   ]
 },
 {
-  LineType: [
+  LineTypes: [
     { Code: 'D', LineType: 'DDI' , Comments: 'TEST' },
     { Code: 'V', LineType: 'VOIP', Comments: 'TEST' }
   ]
@@ -245,7 +245,7 @@ export class ReportReferenceService {
   ]
 },
 {
-  OSNProvideList: [
+  OsnProvideList: [
     { ListName: 'Access Method', ListType: 'L-Bulldog Access', Code: 'L', Title: 'Bulldog Access' },
     { ListName: 'Configuration Key-Values', ListType: 'NotificationsMaReturnRecords', Code: '1000', Title: 'NotificationsMaReturnRecords' },
     { ListName: 'Connection Type', ListType: 'Direct', Code: 'C', Title: 'Centrex' },
@@ -289,570 +289,665 @@ export class ReportReferenceService {
 
 ];
  
+  // displayedColumns:any=[
+  // { SourceSystem: ['Actions','OriginatingSystem', 'BTCode', 'Title','ValidateAddress','SendBT','Comments','LineTypeMandatory','LTMandatoryOpt','LineTypeBlank','LTBlankOpt','Notification']},
+  // { Status:['Actions','Id','ProcessOrder','StatusDescription','Comments']},
+  // { AuditStatus:['Actions','StatusId', 'Summary','Description']},
+  // { CUPIDCrossReference: ['Actions', 'XREF', 'Franchise', 'BTCUPID', 'InternalCUPID', 'Source', 'Comments'] },
+  // { LineTypes: ['Actions', 'Code', 'LineType', 'Comments'] },
+  // { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
+  // { Command: ['Actions', 'Command', 'BTCommand', 'LineStatuses', 'Description', 'Notes', 'Allowed'] },
+  // { CUPID: ['Actions', 'CUPID', 'Title', 'Comments'] },
+  // { ErrorType: ['Actions', 'ErrorType', 'Description'] },
+  // { UnsolicitedAutoCloseErrorCode: ['Actions', 'ErrorCode', 'Type', 'ErrorMessage', 'CloseAfter', 'ResolveType', 'ResolvingMessge'] },
+  // { ResolutionType: ['Actions', 'Order', 'ResolveId', 'Title', 'IsBAUorAudit', 'EndState', 'Comments', 'Description'] },
+  // { CustomerTitle: ['Actions', 'Code', 'Title'] },
+  // { RejectedTelephonePrefix: ['Actions', 'TelephonePrefix', 'Comments'] },
+  // { NextCommandCheck: ['Actions', 'Source', 'Next', 'Last', 'Status', 'Change', 'SendtoBT', 'EffectiveForDays', 'Comments'] },
+  // { OsnProvideList: ['Actions', 'ListName', 'ListType', 'Code', 'Title'] },
+  // { ErrorCode: ['Actions', 'Code', 'Type', 'BTError', 'ErrorMessage', 'ResolvingMessge', 'Comments', 'Action', 'Unused', 'Final', 'Solicited', 'Unsolicited'] },
+  // { PermittedLineStatus: ['Actions', 'Code', 'Status', 'Comment'] },
+  // { InterimCommands: ['Actions', 'CommandList', 'FinalCommand', 'FinalStatus', 'Comments'] },  
+
+  // ];
   displayedColumns:any=[
-  { SourceSystem: ['Actions','OriginatingSystem', 'BTCode', 'Title','ValidateAddress','SendBT','Comments','LineTypeMandatory','LTMandatoryOpt','LineTypeBlank','LTBlankOpt','Notification']},
-  { Status:['Actions','Id','ProcessOrder','StatusDescription','Comments']},
-  { AuditStatus:['Actions','StatusId', 'Summary','Description']},
-  { CUPIDCrossReference: ['Actions', 'XREF', 'Franchise', 'BTCUPID', 'InternalCUPID', 'Source', 'Comments'] },
-  { LineType: ['Actions', 'Code', 'LineType', 'Comments'] },
-  { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
-  { Command: ['Actions', 'Command', 'BTCommand', 'LineStatuses', 'Description', 'Notes', 'Allowed'] },
-  { CUPID: ['Actions', 'CUPID', 'Title', 'Comments'] },
-  { ErrorType: ['Actions', 'ErrorType', 'Description'] },
-  { UnsolicitedAutoCloseErrorCode: ['Actions', 'ErrorCode', 'Type', 'ErrorMessage', 'CloseAfter', 'ResolveType', 'ResolvingMessge'] },
-  { ResolutionType: ['Actions', 'Order', 'ResolveId', 'Title', 'IsBAUorAudit', 'EndState', 'Comments', 'Description'] },
-  { CustomerTitle: ['Actions', 'Code', 'Title'] },
-  { RejectedTelephonePrefix: ['Actions', 'TelephonePrefix', 'Comments'] },
-  { NextCommandCheck: ['Actions', 'Source', 'Next', 'Last', 'Status', 'Change', 'SendtoBT', 'EffectiveForDays', 'Comments'] },
-  { OSNProvideList: ['Actions', 'ListName', 'ListType', 'Code', 'Title'] },
-  { ErrorCode: ['Actions', 'Code', 'Type', 'BTError', 'ErrorMessage', 'ResolvingMessge', 'Comments', 'Action', 'Unused', 'Final', 'Solicited', 'Unsolicited'] },
-  { PermittedLineStatus: ['Actions', 'Code', 'Status', 'Comment'] },
-  { InterimCommands: ['Actions', 'CommandList', 'FinalCommand', 'FinalStatus', 'Comments'] },  
+    { SourceSystem: ['Actions','OriginatingSystem', 'BTCode', 'Title','Comments','SendBT','ValidateAddress','MandatoryLineType','MandatoryLineTypeValue','BlankLineType','BlankLineTypeValue','NotificationEnabled']},
+    { Status:['Actions','ID','ProcessOrder','StatusDescription','Comments']},
+    { AuditStatus:['Actions','StatusId', 'Summary','Description']},
+    { CUPIDCrossReference: ['Actions', 'XrefID', 'Franchise', 'BTCupid', 'InternalCupid', 'SourceCode'] },
+    { LineTypes: ['Actions', 'Code', 'Title', 'Comments'] },
+    { ResolverEmail: ['Actions', 'SourceCode', 'Title', 'NonPortingEmail', 'PortingEmail', 'Comments'] },
+    { Command: ['Actions', 'InternalCommand', 'BtCommand', 'Allowed', 'CommandDescription', 'LineStatus', 'Comments'] },
+    { CUPIDs: ['Actions', 'CUPID', 'Title', 'Comments'] },
+    { ErrorType: ['Actions', 'ErrorType', 'Description'] },
+    { UnsolicitedAutoClose: ['Actions', 'ErrorCode', 'ErrorType', 'ErrorMessage', 'CloseAfter', 'ResolvingMessage', 'ResolveType'] },
+    { ResolutionType: ['Actions', 'ResolveId', 'DisplayOrder', 'IsBauOrAudit', 'EndState', 'Description','Comments'] },
+    { CustomerTitles: ['Actions', 'Code', 'Title'] },
+    { RejectedTelephonePrefix: ['Actions', 'TelephoneNumberPrefix', 'Comments'] },
+    { NextCommandCheck: ['Actions', 'NcID','Source', 'Next', 'Last','Change','Status','SendBT', 'EffectiveDays', 'Comments'] },
+    { OsnProvideList: ['Actions','Code', 'ListName', 'Title','ListType'] },
+    { ErrorCode: ['Actions', 'ErrorCode','BTError','ErrorType', 'ErrorMessage','Action', 'ResolvingMessge', 'Comments', 'UnusedFlag', 'FinalFlag', 'SolicitedFlag', 'UnsolicitedFlag'] },
+    { PermittedLineStatus: ['Actions', 'Code', 'Status', 'Comments'] },
+    { InterimCommands: ['Actions', 'CommandList', 'FinalCommand', 'FinalStatus', 'Comments'] },
+    
+    ];
 
-  ];
 
-setForm(reportName:string) {  
+  setForm(reportName: string) {
 
-  this.lstForm =[];
-  if(!this.reportNames.includes(reportName)) 
-      {
-        return [];
-       }
-    else
-      {
-        switch(reportName) {
-          case "SourceSystem": {
-             {
-              this.lstForm.push(
-                <IColoumnDef>{cName:"OriginatingSystem",cDisplayName:"Originating System",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:true,cMaxLength:200,cList:[]},
-                <IColoumnDef>{cName:"BTCode"           ,cDisplayName:"BT Code",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:true,cMaxLength:200,cList:[]},
-                <IColoumnDef>{cName:"Title"            ,cDisplayName:"Title",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
-                <IColoumnDef>{cName:"ValidateAddress"  ,cDisplayName:"Validate Address",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
-                <IColoumnDef>{cName:"SendBT"           ,cDisplayName:"Send BT",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
-                <IColoumnDef>{cName:"Comments"         ,cDisplayName:"Comments",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:2000,cList:[]},
-                <IColoumnDef>{cName:"LineTypeMandatory",cDisplayName:"Line Type Mandatory",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},      
-                <IColoumnDef>{cName:"LTMandatoryOpt"   ,cDisplayName:"LTMandatoryOpt",cType:"select",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[{displayValue:"DDI",internalValue:""},{displayValue:"VOIP",internalValue:""}]},
-                <IColoumnDef>{cName:"LineTypeBlank"    ,cDisplayName:"Line Type Blank",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},      
-                <IColoumnDef>{cName:"LTBlankOpt"       ,cDisplayName:"LTBlankOpt",cType:"select",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[{displayValue:"DDI",internalValue:""},{displayValue:"VOIP",internalValue:""}]},
-                <IColoumnDef>{cName:"Notification"     ,cDisplayName:"Notification",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:200,cList:[]},
-               
-              ); 
-             }
-             break;
+    this.lstForm = [];
+    if (!this.reportNames.includes(reportName)) {
+      return [];
+    }
+    else {
+      switch (reportName) {
+        case "SourceSystem": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{ cName: "OriginatingSystem", cDisplayName: "Originating System", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: true, cMaxLength: 200, cList: [] },
+              <IColoumnDef>{ cName: "BTCode", cDisplayName: "BT Code", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: true, cMaxLength: 200, cList: [] },
+              <IColoumnDef>{ cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 200, cList: [] },
+              <IColoumnDef>{ cName: "ValidateAddress", cDisplayName: "Validate Address", cType: "radio", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 200, cList: [] },
+              <IColoumnDef>{ cName: "SendBT", cDisplayName: "Send BT", cType: "radio", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 200, cList: [] },
+              <IColoumnDef>{ cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 2000, cList: [] },
+              <IColoumnDef>{ cName: "LineTypeMandatory", cDisplayName: "Line Type Mandatory", cType: "radio", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 200, cList: [] },
+              <IColoumnDef>{ cName: "LTMandatoryOpt", cDisplayName: "LTMandatoryOpt", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 200, cList: [{ displayValue: "DDI", internalValue: "" }, { displayValue: "VOIP", internalValue: "" }] },
+              <IColoumnDef>{ cName: "LineTypeBlank", cDisplayName: "Line Type Blank", cType: "radio", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 200, cList: [] },
+              <IColoumnDef>{ cName: "LTBlankOpt", cDisplayName: "LTBlankOpt", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 200, cList: [{ displayValue: "DDI", internalValue: "" }, { displayValue: "VOIP", internalValue: "" }] },
+              <IColoumnDef>{ cName: "Notification", cDisplayName: "Notification", cType: "radio", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 200, cList: [] },
+
+            );
           }
-          case "Status": {
-             {
-              this.lstForm.push(
-                <IColoumnDef>{cName:"Id" ,cDisplayName:"Id",cType:"text",cValue:"",cIsKey:true,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:20,cList:[]},
-              <IColoumnDef>{cName:"ProcessOrder" ,cDisplayName:"Process Order",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:100,cList:[]},
-              <IColoumnDef>{cName:"StatusDescription" ,cDisplayName:"Status Description",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:100,cList:[]},
-              <IColoumnDef>{cName:"Comments" ,cDisplayName:"Comments",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:2000,cList:[]},  
-              );  
-             }
-             break;
+          break;
+        }
+        case "Status": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{ cName: "Id", cDisplayName: "Id", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 20, cList: [] },
+              <IColoumnDef>{ cName: "ProcessOrder", cDisplayName: "Process Order", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 100, cList: [] },
+              <IColoumnDef>{ cName: "StatusDescription", cDisplayName: "Status Description", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 100, cList: [] },
+              <IColoumnDef>{ cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 2000, cList: [] },
+            );
           }
-          case "AuditStatus": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{cName:"Id",cDisplayName:"Id",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
-                cMandate:true,cMaxLength:20,cList:[]},
-                <IColoumnDef>{cName:"StatusSummary",cDisplayName:"Status Summary",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
-                cMandate:true,cMaxLength:200,cList:[]},
-                <IColoumnDef>{cName:"Description",cDisplayName:"Description",cType:"text",cValue:"0",cIsKey:true,cDisplayOnOff:true,cReadOnly:true,
-                cMandate:true,cMaxLength:200,cList:[]},
-                );
-            }
-             break;
-          } 
-          case "CUPIDCrossReference": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "XREF", cDisplayName: "XREF", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"1025",internalValue:""},{displayValue:"1053",internalValue:""}
-                ,{displayValue:"1060",internalValue:""},{displayValue:"1058",internalValue:""},{displayValue:"1007",internalValue:""},
-                {displayValue:"1005",internalValue:""},{displayValue:"1021",internalValue:""}]
-                },
-                <IColoumnDef>{
-                  cName: "Franchise", cDisplayName: "Franchise", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: 
-[{displayValue:"ADP - ADEPT",internalValue:""},
-{displayValue:"AGG - Aggregated Telecom Limited",internalValue:""},
-{displayValue:"ALL - CW ALLNET",internalValue:""},
-{displayValue:"ATO - ATCO",internalValue:""},
-{displayValue:"BBC - BBC",internalValue:""},
-{displayValue:"BCG - Business Grade DSL",internalValue:""},
-{displayValue:"BGC - Busiess Grade DSL",internalValue:""},
-{displayValue:"CCN - Complete Contact",internalValue:""},
-{displayValue:"CLB - BULLDOG (UK)",internalValue:""},
-{displayValue:"CLC - CLUB COMMUNICATIONS LTD",internalValue:""},
-{displayValue:"CLI - Club Interconnect (CW Access)",internalValue:""},
-{displayValue:"CLT - CLUB COMMUNICATIONS LTD (TRANSIT)",internalValue:""},
-{displayValue:"CLU - Club Transit (CW Access)",internalValue:""},
-{displayValue:"CWA - CW Access",internalValue:""},
-{displayValue:"CWE - CW Energis",internalValue:""},
-{displayValue:"CWH - CABLE & WIRELESS VOIP (HSBC)",internalValue:""},
-{displayValue:"CWI - Cable & Wireless ITV",internalValue:""},
-{displayValue:"CWU - Cable & Wireless UK (CW Access)",internalValue:""},
-{displayValue:"DAI - Daisy Comms CW WAD",internalValue:""},
-{displayValue:"EN1 - C&W (BCM) SOUTH",internalValue:""},
-{displayValue:"ENC - C&W (BCM) SOUTH",internalValue:""},
-{displayValue:"EXC - EXCELL",internalValue:""},
-{displayValue:"FLU - FLUIDATA",internalValue:""},
-{displayValue:"FUS - FUSION-MEDIA",internalValue:""},
-{displayValue:"GLO - Global 4 Communications",internalValue:""},
-{displayValue:"GRI - GRIFFIN INFORMATION SYSTEMS",internalValue:""},
-{displayValue:"HMV - HMV & Waterstones",internalValue:""},
-{displayValue:"HOP - HOPE FOR CHILDREN",internalValue:""},
-{displayValue:"IMP - IMPELLO",internalValue:""},
-{displayValue:"INF - INFONET",internalValue:""},
-{displayValue:"INU - INUK NETWORKS LTD",internalValue:""},
-{displayValue:"MDB - BULLDOG (MIDLANDS)",internalValue:""},
-{displayValue:"MEH - Meshhopper (CW Access)",internalValue:""},
-{displayValue:"MES - MESHHOPPER",internalValue:""},
-{displayValue:"MUT - MURPHX TRANSIT",internalValue:""},
-{displayValue:"NEB - BULLDOG (NORTH EAST)",internalValue:""},
-{displayValue:"NET - Onenet",internalValue:""},
-{displayValue:"NIM - NIMANS",internalValue:""},
-{displayValue:"NWB - BULLDOG (NORTH WEST)",internalValue:""},
-{displayValue:"OLB - BULLDOG ( OUTER LONDON)",internalValue:""},
-{displayValue:"ONT - ON TELECOM UK LTD",internalValue:""},
-{displayValue:"PAC - CWA Packnett",internalValue:""},
-{displayValue:"PRO - CW LIMITED (INTERNAL)",internalValue:""},
-{displayValue:"RIC - Ring Central SIP Product",internalValue:""},
-{displayValue:"SCB - BULLDOG (SCOTLAND)",internalValue:""},
-{displayValue:"SEB - BULLDOG (SOUTH EAST)",internalValue:""},
-{displayValue:"SWB - BULLDOG (SOUTH WEST)",internalValue:""},
-{displayValue:"THU - THUS",internalValue:""},
-{displayValue:"TPI - TISCALI PIPEX",internalValue:""},
-{displayValue:"TSC - Tesco (WAD)",internalValue:""},
-{displayValue:"TTC - TESCO (WAD)",internalValue:""},
-{displayValue:"VFC - Vodafone Consumer Account",internalValue:""},
-{displayValue:"VMW - VM Wholesale (CW Access)",internalValue:""},
-{displayValue:"XXX - THUS",internalValue:""},]
-                },
-                <IColoumnDef>{
-                  cName: "BTCUPID", cDisplayName: "BTCUPID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"13",internalValue:""},{displayValue:"718",internalValue:""},{displayValue:"9999",internalValue:""},
-                  {displayValue:"",internalValue:""},{displayValue:"",internalValue:""},]
-                },
-                <IColoumnDef>{
-                  cName: "InternalCUPID", cDisplayName: "InternalCUPID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: [{displayValue:"170",internalValue:""},{displayValue:"13",internalValue:""},{displayValue:"35",internalValue:""}
-                  ,{displayValue:"28",internalValue:""},{displayValue:"9999",internalValue:""},]
-                },
-                <IColoumnDef>{
-                  cName: "Source", cDisplayName: "Source", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-AUDIT", internalValue: "" },
-                  { displayValue: "C-SAS/COMS", internalValue: "" }, { displayValue: "D-DVA SIBEL", internalValue: "" }, { displayValue: "E-VA/WAD", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "LineType": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "LineType", cDisplayName: "LineType", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 2000, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "ResolverEmail": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "SourceCode", cDisplayName: "SourceCode", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "NonPortingEmail", cDisplayName: "NonPortingEmail", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "PortingEmail", cDisplayName: "PortingEmail", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "Command": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "Command", cDisplayName: "Command", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "BTCommand", cDisplayName: "BTCommand", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "LineStatuses", cDisplayName: "LineStatuses", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Description", cDisplayName: "Description", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Notes", cDisplayName: "Notes", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Allowed", cDisplayName: "Allowed", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "CUPID": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "CUPID", cDisplayName: "CUPID", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-        
-              );
-            }
-             break;
-          } 
-          case "ErrorType": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "ErrorType", cDisplayName: "ErrorType", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Description", cDisplayName: "Description", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-        
-              );
-            }
-             break;
-          } 
-          case "UnsolicitedAutoCloseErrorCode": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "ErrorCode", cDisplayName: "ErrorCode", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "1045", internalValue: "" },
-                  { displayValue: "1046", internalValue: "" }, { displayValue: "1047", internalValue: "" }, { displayValue: "1048", internalValue: "" }, { displayValue: "1049", internalValue: "" }, { displayValue: "1050", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "Type", cDisplayName: "Type", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "ErrorMessage", cDisplayName: "ErrorMessage", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "CloseAfter", cDisplayName: "CloseAfter", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "ResolveType", cDisplayName: "ResolveType", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "New", internalValue: "" },
-                  { displayValue: "Under Investigation", internalValue: "" }, { displayValue: "Resolved", internalValue: "" }, { displayValue: "Under Porting", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "ResolvingMessge", cDisplayName: "ResolvingMessge", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "ResolutionType": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "Order", cDisplayName: "Order", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "ResolveId", cDisplayName: "ResolveId", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Title", cDisplayName: "Title", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "IsBAUorAudit", cDisplayName: "IsBAUorAudit", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "EndState", cDisplayName: "EndState", cType: "radio", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Description", cDisplayName: "Description", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "CustomerTitle": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "RejectedTelephonePrefix": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "TelephonePrefix", cDisplayName: "TelephonePrefix", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "NextCommandCheck": {
-            {
-              this.lstForm.push(
-
-                <IColoumnDef>{
-                  cName: "Source", cDisplayName: "Source", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-AUDIT", internalValue: "" },
-                  { displayValue: "C-SAS/COMS", internalValue: "" }, { displayValue: "D-DVA SIBEL", internalValue: "" }, { displayValue: "E-VA/WAD", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "Next", cDisplayName: "Next", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-ActiveCustomers", internalValue: "" },
-                  { displayValue: "C-Cease Customer", internalValue: "" }, { displayValue: "E-EXPORT", internalValue: "" }, { displayValue: "I-Import", internalValue: "" }, { displayValue: "M-Modify", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "Last", cDisplayName: "Last", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-ActiveCustomers", internalValue: "" },
-                  { displayValue: "C-Cease Customer", internalValue: "" }, { displayValue: "E-EXPORT", internalValue: "" }, { displayValue: "I-Import", internalValue: "" }, { displayValue: "M-Modify", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "Status", cDisplayName: "Status", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "104-Extracted", internalValue: "" },
-                  { displayValue: "105-DELIVERED", internalValue: "" }, { displayValue: "109-ERROR", internalValue: "" }, { displayValue: "110-ERROR FINAL", internalValue: "" }, { displayValue: "111-ERROR FINALs", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "Change", cDisplayName: "Change", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-ActiveCustomers", internalValue: "" },
-                  { displayValue: "C-Cease Customer", internalValue: "" }, { displayValue: "E-EXPORT", internalValue: "" }, { displayValue: "I-Import", internalValue: "" }, { displayValue: "M-Modify", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "SendtoBT", cDisplayName: "SendtoBT", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "EffectiveForDays", cDisplayName: "EffectiveForDays", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "OSNProvideList": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "ListName", cDisplayName: "ListName", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "Line Types", internalValue: "" }, { displayValue: "Connection Type", internalValue: "" }, { displayValue: "Access Methods", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "ListType", cDisplayName: "ListType", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "L-Bulldog Access", internalValue: "" }, { displayValue: "Direct", internalValue: "" }, { displayValue: "AUD-Audit", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "ErrorCode": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Type", cDisplayName: "Type", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: [{ displayValue: "Warning Messge", internalValue: "" }, { displayValue: "BT Transaction Message", internalValue: "" }]
-                },
-                <IColoumnDef>{
-                  cName: "BTError", cDisplayName: "BTError", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "ErrorMessage", cDisplayName: "ErrorMessage", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "ResolvingMessge", cDisplayName: "ResolvingMessge", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Action", cDisplayName: "Action", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Unused", cDisplayName: "Unused", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Final", cDisplayName: "Final", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Solicited", cDisplayName: "Solicited", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Unsolicited", cDisplayName: "Unsolicited", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-              );
-            }            
-             break;
-          } 
-          case "PermittedLineStatus": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                  cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Status", cDisplayName: "Status", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                  cName: "Comment", cDisplayName: "Comment", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                  cMandate: true, cMaxLength: 2000, cList: []
-                },
-              );
-            }
-             break;
-          } 
-          case "InterimCommands": {
-            {
-              this.lstForm.push(
-                <IColoumnDef>{
-                cName: "CommandList", cDisplayName: "CommandList", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+          break;
+        }
+        case "AuditStatus": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "StatusId", cDisplayName: "StatusId", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 20, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Summary", cDisplayName: "Status Summary", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
                 cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                cName: "FinalCommand", cDisplayName: "FinalCommand", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+              },
+              <IColoumnDef>{
+                cName: "Description", cDisplayName: "Description", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
                 cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
-                cName: "FinalStatus", cDisplayName: "FinalStatus", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-                cMandate: true, cMaxLength: 200, cList: []
-                },
-                <IColoumnDef>{
+              },
+            );
+          }
+          break;
+        }
+        case "CUPIDCrossReference": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "XREF", cDisplayName: "XREF", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: false,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "1025", internalValue: "" }, { displayValue: "1053", internalValue: "" }
+                  , { displayValue: "1060", internalValue: "" }, { displayValue: "1058", internalValue: "" }, { displayValue: "1007", internalValue: "" },
+                { displayValue: "1005", internalValue: "" }, { displayValue: "1021", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "Franchise", cDisplayName: "Franchise", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
+                cMandate: true, cMaxLength: 200, cList:
+                  [{ displayValue: "ADP - ADEPT", internalValue: "" },
+                  { displayValue: "AGG - Aggregated Telecom Limited", internalValue: "" },
+                  { displayValue: "ALL - CW ALLNET", internalValue: "" },
+                  { displayValue: "ATO - ATCO", internalValue: "" },
+                  { displayValue: "BBC - BBC", internalValue: "" },
+                  { displayValue: "BCG - Business Grade DSL", internalValue: "" },
+                  { displayValue: "BGC - Busiess Grade DSL", internalValue: "" },
+                  { displayValue: "CCN - Complete Contact", internalValue: "" },
+                  { displayValue: "CLB - BULLDOG (UK)", internalValue: "" },
+                  { displayValue: "CLC - CLUB COMMUNICATIONS LTD", internalValue: "" },
+                  { displayValue: "CLI - Club Interconnect (CW Access)", internalValue: "" },
+                  { displayValue: "CLT - CLUB COMMUNICATIONS LTD (TRANSIT)", internalValue: "" },
+                  { displayValue: "CLU - Club Transit (CW Access)", internalValue: "" },
+                  { displayValue: "CWA - CW Access", internalValue: "" },
+                  { displayValue: "CWE - CW Energis", internalValue: "" },
+                  { displayValue: "CWH - CABLE & WIRELESS VOIP (HSBC)", internalValue: "" },
+                  { displayValue: "CWI - Cable & Wireless ITV", internalValue: "" },
+                  { displayValue: "CWU - Cable & Wireless UK (CW Access)", internalValue: "" },
+                  { displayValue: "DAI - Daisy Comms CW WAD", internalValue: "" },
+                  { displayValue: "EN1 - C&W (BCM) SOUTH", internalValue: "" },
+                  { displayValue: "ENC - C&W (BCM) SOUTH", internalValue: "" },
+                  { displayValue: "EXC - EXCELL", internalValue: "" },
+                  { displayValue: "FLU - FLUIDATA", internalValue: "" },
+                  { displayValue: "FUS - FUSION-MEDIA", internalValue: "" },
+                  { displayValue: "GLO - Global 4 Communications", internalValue: "" },
+                  { displayValue: "GRI - GRIFFIN INFORMATION SYSTEMS", internalValue: "" },
+                  { displayValue: "HMV - HMV & Waterstones", internalValue: "" },
+                  { displayValue: "HOP - HOPE FOR CHILDREN", internalValue: "" },
+                  { displayValue: "IMP - IMPELLO", internalValue: "" },
+                  { displayValue: "INF - INFONET", internalValue: "" },
+                  { displayValue: "INU - INUK NETWORKS LTD", internalValue: "" },
+                  { displayValue: "MDB - BULLDOG (MIDLANDS)", internalValue: "" },
+                  { displayValue: "MEH - Meshhopper (CW Access)", internalValue: "" },
+                  { displayValue: "MES - MESHHOPPER", internalValue: "" },
+                  { displayValue: "MUT - MURPHX TRANSIT", internalValue: "" },
+                  { displayValue: "NEB - BULLDOG (NORTH EAST)", internalValue: "" },
+                  { displayValue: "NET - Onenet", internalValue: "" },
+                  { displayValue: "NIM - NIMANS", internalValue: "" },
+                  { displayValue: "NWB - BULLDOG (NORTH WEST)", internalValue: "" },
+                  { displayValue: "OLB - BULLDOG ( OUTER LONDON)", internalValue: "" },
+                  { displayValue: "ONT - ON TELECOM UK LTD", internalValue: "" },
+                  { displayValue: "PAC - CWA Packnett", internalValue: "" },
+                  { displayValue: "PRO - CW LIMITED (INTERNAL)", internalValue: "" },
+                  { displayValue: "RIC - Ring Central SIP Product", internalValue: "" },
+                  { displayValue: "SCB - BULLDOG (SCOTLAND)", internalValue: "" },
+                  { displayValue: "SEB - BULLDOG (SOUTH EAST)", internalValue: "" },
+                  { displayValue: "SWB - BULLDOG (SOUTH WEST)", internalValue: "" },
+                  { displayValue: "THU - THUS", internalValue: "" },
+                  { displayValue: "TPI - TISCALI PIPEX", internalValue: "" },
+                  { displayValue: "TSC - Tesco (WAD)", internalValue: "" },
+                  { displayValue: "TTC - TESCO (WAD)", internalValue: "" },
+                  { displayValue: "VFC - Vodafone Consumer Account", internalValue: "" },
+                  { displayValue: "VMW - VM Wholesale (CW Access)", internalValue: "" },
+                  { displayValue: "XXX - THUS", internalValue: "" },]
+              },
+              <IColoumnDef>{
+                cName: "BTCUPID", cDisplayName: "BTCUPID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "13", internalValue: "" }, { displayValue: "718", internalValue: "" }, { displayValue: "9999", internalValue: "" },
+                { displayValue: "", internalValue: "" }, { displayValue: "", internalValue: "" },]
+              },
+              <IColoumnDef>{
+                cName: "InternalCUPID", cDisplayName: "InternalCUPID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "170", internalValue: "" }, { displayValue: "13", internalValue: "" }, { displayValue: "35", internalValue: "" }
+                  , { displayValue: "28", internalValue: "" }, { displayValue: "9999", internalValue: "" },]
+              },
+              <IColoumnDef>{
+                cName: "Source", cDisplayName: "Source", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-AUDIT", internalValue: "" },
+                { displayValue: "C-SAS/COMS", internalValue: "" }, { displayValue: "D-DVA SIBEL", internalValue: "" }, { displayValue: "E-VA/WAD", internalValue: "" }]
+              },
+              <IColoumnDef>{
                 cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
                 cMandate: true, cMaxLength: 200, cList: []
-                },
-                ); 
-            }
-             break;
-          } 
-          default: {
-            this.lstForm =[];
-             break;
+              },
+            );
           }
-       }   
-        return this.lstForm;
+          break;
+        }
+        case "LineType": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "LineType", cDisplayName: "LineType", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 2000, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "ResolverEmail": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "SourceCode", cDisplayName: "SourceCode", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "NonPortingEmail", cDisplayName: "NonPortingEmail", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "PortingEmail", cDisplayName: "PortingEmail", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "Command": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "Command", cDisplayName: "Command", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "BTCommand", cDisplayName: "BTCommand", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "LineStatuses", cDisplayName: "LineStatuses", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Description", cDisplayName: "Description", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Notes", cDisplayName: "Notes", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Allowed", cDisplayName: "Allowed", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "CUPID": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "CUPID", cDisplayName: "CUPID", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+
+            );
+          }
+          break;
+        }
+        case "ErrorType": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "ErrorType", cDisplayName: "ErrorType", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Description", cDisplayName: "Description", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+
+            );
+          }
+          break;
+        }
+        case "UnsolicitedAutoCloseErrorCode": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "ErrorCode", cDisplayName: "ErrorCode", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "1045", internalValue: "" },
+                { displayValue: "1046", internalValue: "" }, { displayValue: "1047", internalValue: "" }, { displayValue: "1048", internalValue: "" }, { displayValue: "1049", internalValue: "" }, { displayValue: "1050", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "Type", cDisplayName: "Type", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "ErrorMessage", cDisplayName: "ErrorMessage", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "CloseAfter", cDisplayName: "CloseAfter", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "ResolveType", cDisplayName: "ResolveType", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "New", internalValue: "" },
+                { displayValue: "Under Investigation", internalValue: "" }, { displayValue: "Resolved", internalValue: "" }, { displayValue: "Under Porting", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "ResolvingMessge", cDisplayName: "ResolvingMessge", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "ResolutionType": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "Order", cDisplayName: "Order", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "ResolveId", cDisplayName: "ResolveId", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Title", cDisplayName: "Title", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "IsBAUorAudit", cDisplayName: "IsBAUorAudit", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "EndState", cDisplayName: "EndState", cType: "radio", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Description", cDisplayName: "Description", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "CustomerTitle": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "RejectedTelephonePrefix": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "TelephonePrefix", cDisplayName: "TelephonePrefix", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "NextCommandCheck": {
+          {
+            this.lstForm.push(
+
+              <IColoumnDef>{
+                cName: "Source", cDisplayName: "Source", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-AUDIT", internalValue: "" },
+                { displayValue: "C-SAS/COMS", internalValue: "" }, { displayValue: "D-DVA SIBEL", internalValue: "" }, { displayValue: "E-VA/WAD", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "Next", cDisplayName: "Next", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-ActiveCustomers", internalValue: "" },
+                { displayValue: "C-Cease Customer", internalValue: "" }, { displayValue: "E-EXPORT", internalValue: "" }, { displayValue: "I-Import", internalValue: "" }, { displayValue: "M-Modify", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "Last", cDisplayName: "Last", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-ActiveCustomers", internalValue: "" },
+                { displayValue: "C-Cease Customer", internalValue: "" }, { displayValue: "E-EXPORT", internalValue: "" }, { displayValue: "I-Import", internalValue: "" }, { displayValue: "M-Modify", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "Status", cDisplayName: "Status", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "104-Extracted", internalValue: "" },
+                { displayValue: "105-DELIVERED", internalValue: "" }, { displayValue: "109-ERROR", internalValue: "" }, { displayValue: "110-ERROR FINAL", internalValue: "" }, { displayValue: "111-ERROR FINALs", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "Change", cDisplayName: "Change", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "A-ActiveCustomers", internalValue: "" },
+                { displayValue: "C-Cease Customer", internalValue: "" }, { displayValue: "E-EXPORT", internalValue: "" }, { displayValue: "I-Import", internalValue: "" }, { displayValue: "M-Modify", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "SendtoBT", cDisplayName: "SendtoBT", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "EffectiveForDays", cDisplayName: "EffectiveForDays", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "OsnProvideList": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "ListName", cDisplayName: "ListName", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "Line Types", internalValue: "" }, { displayValue: "Connection Type", internalValue: "" }, { displayValue: "Access Methods", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "ListType", cDisplayName: "ListType", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "L-Bulldog Access", internalValue: "" }, { displayValue: "Direct", internalValue: "" }, { displayValue: "AUD-Audit", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "ErrorCode": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Type", cDisplayName: "Type", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: [{ displayValue: "Warning Messge", internalValue: "" }, { displayValue: "BT Transaction Message", internalValue: "" }]
+              },
+              <IColoumnDef>{
+                cName: "BTError", cDisplayName: "BTError", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "ErrorMessage", cDisplayName: "ErrorMessage", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "ResolvingMessge", cDisplayName: "ResolvingMessge", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Action", cDisplayName: "Action", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Unused", cDisplayName: "Unused", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Final", cDisplayName: "Final", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Solicited", cDisplayName: "Solicited", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Unsolicited", cDisplayName: "Unsolicited", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "PermittedLineStatus": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Status", cDisplayName: "Status", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Comment", cDisplayName: "Comment", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 2000, cList: []
+              },
+            );
+          }
+          break;
+        }
+        case "InterimCommands": {
+          {
+            this.lstForm.push(
+              <IColoumnDef>{
+                cName: "CommandList", cDisplayName: "CommandList", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "FinalCommand", cDisplayName: "FinalCommand", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "FinalStatus", cDisplayName: "FinalStatus", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+              <IColoumnDef>{
+                cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+                cMandate: true, cMaxLength: 200, cList: []
+              },
+            );
+          }
+          break;
+        }
+        default: {
+          this.lstForm = [];
+          break;
+        }
       }
+      return this.lstForm;
     }
+  }
 
 
 
-prepareData(pageIdentifier: string, reportIdentifier: string) : Observable<any>{
-  let request = ReportReferenceService.prepareQueryRequest(pageIdentifier,reportIdentifier);
-  console.log(JSON.stringify(request));
-  return this.queryDetails(request);
-}
-queryDetails(request: any): Observable<any> {
-      return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);       
- }
+  prepareData(pageIdentifier: string, reportIdentifier: string): Observable<any> {
+    let request = ReportReferenceService.prepareQueryRequest(pageIdentifier, reportIdentifier);
+    console.log(JSON.stringify(request));
+    return this.queryDetails(request);
+  }
+  queryDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+  }
 
-static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
-      let transform = JSON.parse(JSON.stringify(MetaRequests.QUERY));
-      transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
-  
-      //identifier
-      transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-      return transform;
- }
+  static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
+    let transform = JSON.parse(JSON.stringify(MetaRequests.QUERY));
+    transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
+
+    //identifier
+    transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    return transform;
+  }
+  static prepareUpdateRequest(pageIdetifier: string, reportIdentifier: string, updateIdentifier: any): any {
+    let transform = JSON.parse(JSON.stringify(MetaRequests.UPDATE));
+    console.log(transform, 'transform')
+    transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ItemName = pageIdetifier;
+    //identifier
+    console.log(updateIdentifier, 'updateIdentifier')
+    transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    //Updateidentifier
+    // let updateIdentifier: any[] = [];
+    // updateIdentifier.push({ Name: 'StatusId', Value: ['11'] } );
+    // updateIdentifier.push({ Name: 'Summary', Value: ['Populated Full Audit count']  } );
+    // updateIdentifier.push({ Name: 'Description', Value: ['Populated Full Audit count-test ']} );
+    transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofIdentifiers.Identifier = updateIdentifier;
+    //UpdateAttribute
+
+    console.log('transform', JSON.stringify(transform)) // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = UpdateAttribute;
+    return transform;
+
+    console.log(transform, 'transform')
+
+  }
+  updateDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
+  }
+  static prepareDeleteRequest(pageIdetifier: string, reportIdentifier: string, deleteIdentifier: any): any {
+    let transform = JSON.parse(JSON.stringify(MetaRequests.DELETE));
+    console.log(transform, 'transform')
+    transform.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdetifier;
+    //identifier
+    console.log(deleteIdentifier, 'deleteIdentifier')
+    transform.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    transform.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier = deleteIdentifier;
+
+    console.log('transform', JSON.stringify(transform)) // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = UpdateAttribute;
+    return transform;
+
+    console.log(transform, 'transform')
+
+  }
+  deleteDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.DELETE, request);
+
+  }
+  static prepareCreateRequest(pageIdetifier: string, reportIdentifier: string, createIdentifier: any): any {
+    let transform = JSON.parse(JSON.stringify(MetaRequests.CREATE));
+    console.log(transform, 'transform')
+    transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ItemName = pageIdetifier;
+    //identifier
+    console.log(createIdentifier, 'createIdentifier')
+    transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    //Updateidentifier
+    // let updateIdentifier: any[] = [];
+    // createIdentifier.push({ Name: 'StatusId', Value: ['11'] } );
+    // createIdentifier.push({ Name: 'Summary', Value: ['Populated Full Audit count']  } );
+    // createIdentifier.push({ Name: 'Description', Value: ['Populated Full Audit count-test ']} );
+    transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofIdentifiers.Identifier = createIdentifier;
+    console.log('transform', JSON.stringify(transform)) 
+    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = UpdateAttribute;
+    return transform;
+
+    console.log(transform, 'transform')
+
+  }
+ 
+  createDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CREATE, request);
+  }
+
+
 
 }

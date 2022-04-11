@@ -73,44 +73,46 @@ export const MetaRequests = {
         }
       }
       ,
-    DELETE:{
-        "DeleteObjectRequest" : {
-          "DeleteObjectRequestType" : {
-            "RequestIdentifiers" : {
-              "Identifier" : [ {
-                "Name" : "UserId",
-                "Value" : [ "sample" ]
-              }, {
-                "Name" : "Destination",
-                "Value" : [ "OSN2" ]
-              } ]
-            },
-            "ListofDeleteObjectCategory" : {
-              "DeleteObjectCategory" : [ {
-                "ItemName" : "AuditStatus",
-                "ListofIdentifiers" : {
-                  "Identifier" : [ {
-                    "Name" : "ReportIdentifier",
-                    "Value" : [ "ReferenceList" ]
-                  } ]
-                },
-                "ListofDeleteObjectCharacteristics" : {
-                  "DeleteObjectCharacteristics" : [ {
-                    "ItemName" : "DeleteParameters",
-                    "ListofIdentifiers" : {
-                      "Identifier" : [ {
-                        "Name" : "StatusId",
-                        "Value" : [ "11" ]
-                      } ]
-                    }
-                  } ]
-                }
-              } ]
+      DELETE:{
+          "DeleteObjectRequest" : {
+            "DeleteObjectRequestType" : {
+              "RequestIdentifiers" : {
+                "Identifier" : [ {
+                  "Name" : "UserId",
+                  "Value" : [ "sample" ]
+                }, {
+                  "Name" : "Destination",
+                  "Value" : [ "OSN2" ]
+                } ]
+              },
+              "ListofDeleteObjectCategory" : {
+                "DeleteObjectCategory" : [ {
+                  "ItemName" : "AuditStatus",
+                  "ListofIdentifiers" : {
+                    "Identifier" : [ {
+                      "Name" : "ReportIdentifier",
+                      "Value" : [ "ReferenceList" ]
+                    } ]
+                  },
+                  "ListofDeleteObjectCharacteristics" : {
+                    "DeleteObjectCharacteristics" : [ {
+                      "ItemName" : "DeleteParameters",
+                      "ListofIdentifiers" : {
+                        "Identifier" : [ {
+                          "Name" : "StatusId",
+                          "Value" : [ "11" ]
+                        } ]
+                      }
+                    } ]
+                  }
+                } ]
+              }
             }
           }
         }
-      }
-    ,
+      
+      ,
+  
     CREATE:{
         "CreateObjectRequest" : {
           "CreateObjectRequestType" : {
