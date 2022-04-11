@@ -1,7 +1,7 @@
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { Select } from 'src/app/uicomponents/models/select';
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef , Input } from '@angular/core';
 import { ProvideReport } from 'src/app/reports/models/provide-report';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Observable } from 'rxjs';
@@ -11,6 +11,9 @@ import { ReportService } from '../services/report.service';
 import { Utils } from 'src/app/_http/index';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from "ngx-spinner";
+import { formatDate } from '@angular/common';
+import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
@@ -66,10 +69,18 @@ export class ProvidereportComponent implements OnInit {
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
     currentPage: string = '1';
+    Datetime: string= '';
+    expOperatorsKeyPair: [string, string][] = [];
+    expressions: any = [expNumeric, expString, expDate];
+    expOperators: string[] = [
+        "StartTelephoneNumberOperator",
+     
+      ];
+
     public tabs: Tab[] = [];
     errorCode = new FormControl();
     constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
+        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
 
     errorCodeData: Select[] = [
         { view: '101', viewValue: '101', default: true },
@@ -90,6 +101,7 @@ export class ProvidereportComponent implements OnInit {
         this.createForm();
         debugger;
         this.listItems = Itemstwo;
+        
     }
     ngAfterViewInit() {
         this.cdr.detectChanges();
@@ -105,10 +117,17 @@ export class ProvidereportComponent implements OnInit {
         this.currentPage = pageIndex;
         this.onFormSubmit(true);
     }
-
+refresh(event: any)
+{
+    this.onFormSubmit(true);
+    console.log('refresh');
+}
     onFormSubmit(isEmitted?: boolean): void {
         debugger;
         this.currentPage = isEmitted ? this.currentPage : '1';
+       
+        this.Datetime =   formatDate( new Date, 'dd-MMM-yyyy HH:mm', 'en-US')
+        this.tabs.splice(0);
         let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage));
         this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
             if (Object.keys(res).length) {
@@ -123,9 +142,9 @@ export class ProvidereportComponent implements OnInit {
         }));
         this.myTable = {
             data: this.queryResult$,
-            // removeNoDataColumns : true,
+            removeNoDataColumns : true,
             Columns: this.columns,
-            filter: true,
+            filter: false,
             selectCheckbox: false,
             //selectionColumn: 'TranId',
 
@@ -133,14 +152,35 @@ export class ProvidereportComponent implements OnInit {
         if (!this.tabs.find(x => x.tabType == 0)) {
             this.tabs.push({
                 tabType: 0,
-                name: 'Main'
+                name: 'Inflight Report'
             });
         }
         this.selectedTab = this.tabs.length;
 
     }
 
-
+    OnOperatorClicked(val: [string, string]) {
+        // if (event.target.value !="")
+        console.log("operators event", "value ", val);
+        let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
+        console.log("operators event1", "vals ", vals);
+        if (vals.length == 0) {
+          this.expOperatorsKeyPair.push(val);
+          console.log("if part", this.expOperatorsKeyPair);
+        }
+        else {
+          this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
+          this.expOperatorsKeyPair.push(val);
+          console.log("else part", this.expOperatorsKeyPair);
+        }
+      }
+    
+      getTupleValue(element: [string, string], keyvalue: string) {
+        if (element[0] == keyvalue) { return element[1]; }
+        else
+          return "";
+    
+      }
     get f() {
         return this.myForm.controls;
     }
@@ -166,7 +206,7 @@ export class ProvidereportComponent implements OnInit {
     createForm() {
 
         this.myForm = new FormGroup({
-            TelephoneNumber: new FormControl({ value: '', disabled: true },
+            TelephoneNumber: new FormControl({ value: '', disabled: false },
                 [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
         })
 
@@ -175,43 +215,20 @@ export class ProvidereportComponent implements OnInit {
     selected(s: string): void {
         this.select = s;
     }
-
-    setControlAttribute(matSelect: MatSelect) {
-        matSelect.options.forEach((item) => {
-            if (item.selected) {
-                this.myForm.controls[item.value].enable();
-            }
-            else {
-                this.myForm.controls[item.value].disable();
-            }
-        });
-    }
-    setOptions() {
-        this.errorCodesOptions = this.errorCode.valueChanges
-            .pipe(
-                startWith<string>(''),
-                map(name => this._filter(name))
-            );
-    }
-
-    private _filter(name: string): any[] {
-        const filterValue = name.toLowerCase();
-        // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-        // return filteredList;
-        let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
-        return filteredList;
-    }
+    onChange(value: string, ctrlName: string) {
+        const ctrl = this.myForm.get(ctrlName) as FormControl;
+        if (isNaN(<any>value.charAt(0))) {
+          //const val = coerceNumberProperty(value.slice(1, value.length));
+          ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+        } else {
+          ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+        }
+      }
 
     resetForm(): void {
-        window.location.reload();
-        // this.tabs.splice(0);
-
-        // this._snackBar.open('Reset Form Completed!', 'Close', {
-        //   duration: 5000,
-        //   horizontalPosition: this.horizontalPosition,
-        //   verticalPosition: this.verticalPosition,
-        // });
-    }
+        this.myForm.reset();
+        this.tabs.splice(0);
+      }
 
     addPrefix(control: string, value: any) {
         if (value.charAt(0) != 0) {

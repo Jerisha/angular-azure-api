@@ -1,19 +1,18 @@
-<mat-sidenav-container class="side-container-report">
+<mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-    <div class="filter-sticky filterposition">
-      <app-select-multiple #selMultiple [listItems]="listItems" (changes)="setControlAttribute($event)">
-      </app-select-multiple>
-    </div>
-    <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
-      <div class="matsidenav-filter">
-
-       
-        
+    <div class="filterdataby">
+      <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
+      <mat-icon>filter_alt</mat-icon>
+          Filter Data By
+      </button>
+      </div>
+        <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+          <div class="matsidenav-filter">
         <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNumber.disabled}">
           <mat-label>Telephone No</mat-label>
           <input formControlName="TelephoneNumber" (keypress)="numberOnly($event)"
-            (keyup)="addPrefix('TelephoneNumber',telno.value)" matInput maxlength="11"
-            placeholder="Telephone No" #telno>
+          (ngModelChange)="onChange($event,'TelephoneNumber')" matInput maxlength="11" placeholder="Telephone No"
+            #telno>
           <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
           <mat-error>
             <div *ngIf="f.TelephoneNumber.touched && f.TelephoneNumber.invalid" class="alert alert-danger">
@@ -22,12 +21,7 @@
             </div>
           </mat-error>
         </mat-form-field>
-        
-
-
-        <!-- <button type="submit" mat-raised-button color="primary" matTooltip="Search">
-  <mat-icon>search</mat-icon>Search
-  </button> -->
+      
       </div>
       <div calss="matsidenav-footer">
         <button type="submit" mat-raised-button color="primary">
@@ -36,16 +30,11 @@
         <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
           <mat-icon>refresh</mat-icon>Reset
         </button>
-
       </div>
     </form>
-
   </mat-sidenav>
   <mat-sidenav-content class="side-content">
     <app-start-up *ngIf="tabs.length===0"></app-start-up>
-
-
-
     <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
       matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
       <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
@@ -53,40 +42,26 @@
     <mat-tab-group [(selectedIndex)]="selectedTab">
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
-
-
-
-
           <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
           <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button>
             <mat-icon style="font-size: large;">close</mat-icon>
           </button>
-
-
-
         </ng-template>
-
-
-
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
-
-            <app-table-selection [sidePan]="pagesidenav"   (pageIndex)="getNextSetRecords($event)"[tableitem]="myTable" [isShown]='false'>
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            <div style="margin: 8px;">
+            <span><b> List of Inflight Telephone Nos. to be processed as of "{{Datetime}} GMT"</b></span>
+              <mat-icon style="float: right" matTooltip="Refresh" (click)="refresh($event)">sync</mat-icon>
+              <!-- <button class="re" type="reset" mat-raised-button color="primary" (click)="refresh($event)">
+                <mat-icon>import_export</mat-icon>Refresh
+              </button>&nbsp;&nbsp;
+             -->
+            </div>
+            <app-table-selection [sidePan]="pagesidenav" (pageIndex)="getNextSetRecords($event)" [tableitem]="myTable"
+              [isShown]='false'>
             </app-table-selection>
           </div>
-
         </span>
-
-
-
-
-
-        <!-- <button mat-raised-button
-  class="example-delete-tab-button"
-  [disabled]="tabs.length === 1"
-  (click)="removeTab(index)">
-  Delete Tab
-  </button> -->
       </mat-tab>
     </mat-tab-group>
   </mat-sidenav-content>

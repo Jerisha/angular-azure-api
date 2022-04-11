@@ -317,7 +317,6 @@ export class TableExpansionComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-
     this.onDestroy.next();
   }
 
@@ -329,6 +328,7 @@ export class TableExpansionComponent implements OnDestroy {
     });
     return data;
   }
+  
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;

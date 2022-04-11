@@ -12,6 +12,11 @@ const routes: Routes = [
     
   },
   {
+    path: 'administration',
+    loadChildren: () => import('./administration/administration.module').then(x => x.AdministrationModule),
+    
+  },
+  {
     path: 'resolvingoferrors',
     loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule),
 
@@ -40,12 +45,25 @@ const routes: Routes = [
     path: 'shared',
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
 
+  },  
+  {
+      path: 'report-references',
+      loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
+      
+      
   },
+  // {
+  //   path: 'governance',
+  //   loadChildren: () => import('./governance/governance.module').then(x => x.GovernanceModule),
+
+  // },
   {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
   }
+  
+    
     
 
 ];

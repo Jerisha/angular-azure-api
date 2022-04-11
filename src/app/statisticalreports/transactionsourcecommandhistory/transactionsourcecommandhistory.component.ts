@@ -248,6 +248,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   queryResultMonthly$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
+  resetExp:boolean = false;
   ngOnInit(): void {
     this.createForm();
     //console.log('worked');
@@ -381,6 +382,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     { Name: 'PageNumber', Value: [`${pageIndex}`] }];
     debugger
     for (const field in this.f) {
+      const StatisticMonth = this.datevalue;
       const control = this.thisForm.get(field);
       if(field == 'Source')
       {
@@ -391,7 +393,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       }
       if(field == 'StatisticMonth')
       {
-        const StatisticMonth = this.datevalue;
+       // const StatisticMonth = this.datevalue;
        // console.log('StatisticMonth',this.datevalue);
         if (StatisticMonth)
           attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
@@ -411,7 +413,27 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
             let expvals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator));          
              if(expvals.length !=0)
                 {
-                  attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                  if(field=='StatisticMonth')
+                  {
+                    if (StatisticMonth)
+                    {
+                      attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                    }
+                    else{
+                      attributes.push({ Name: operator, Value: ['Equal To'] }); 
+                    }
+                  }
+                  else{
+                    if(control?.value)
+                    {
+                      attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                    }
+                    else{
+                      attributes.push({ Name: operator, Value: ['Equal To'] }); 
+                    }
+                    
+                  }
+                  
                 }
                 else
                 {
@@ -426,20 +448,14 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
                 }
            }  
            else{
-            if(field=='Source'||field=='StatisticMonth')
-            {
-                 attributes.push({ Name: operator, Value: ['Equal To'] }); 
-            }
-           else
-            {
+           
                 attributes.push({ Name: operator, Value: ['Equal To'] });  
-            }
            
            }
     }
       
 
-    //console.log('attributes',attributes);
+    console.log('attributes',attributes);
 
     return attributes;
 
@@ -520,9 +536,12 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   // search(): void { };
   // onFormSubmit(): void { }
   resetForm(): void { 
+    this.thisForm.reset();
     this.tabs.splice(0);
     this.StatisticMonth.setValue('');
     this.datevalue="";
+    this.expressions = [expNumeric,expString,expDate];
+    this.resetExp=!this.resetExp;
   }
 
   // resetForm(): void {

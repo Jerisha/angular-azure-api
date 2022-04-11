@@ -1,5 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output, OnDestroy, SimpleChanges, ChangeDetectionStrategy, AfterViewChecked, DoCheck } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, 
+  Output, OnDestroy, SimpleChanges, ChangeDetectionStrategy, AfterViewChecked, DoCheck } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -32,13 +33,14 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   @Output() pageIndex = new EventEmitter<any>();
+  @Output() refreshtab = new EventEmitter<any>();
   // dataSource!: MatTableDataSource<any>;
   public dataSource = new MatTableDataSource<any>();
   selectedrows: any;
   ColumnDetails: ColumnDetails[] = [];
   dataColumns!: string[];
   columnHeaders: any;
-  filter?: boolean = false;
+  columnHeaderFilter?: boolean = false;
   columnFilter?: boolean = false;
   imgList?: ViewColumn[];
   imgColumns?: string[];
@@ -84,48 +86,57 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   copy() {
     // console.log('clipboard', this.selection.selected);
   }
+  refresh(event: any) {
+    event.stopPropagation();
+    this.refreshtab.emit({ event });
+    }
 
-
-  ngOnChanges(changes: SimpleChanges) {
-    // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
-    //   return;
-    this.dataObs$ = this.tableitem?.data;
-    this.spinner.show();
-    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
-      (res: any) => {
-        this.selection.clear();
-        this.allSelected = true;
-        this.initializeTableAttributes(res.datasource)
-        this.dataSource.data = res.datasource;  
-        this.totalRows = (res.totalrecordcount) as number;
-        this.apiPageNumber = (res.pagenumber) as number;
-        this.currentPage = this.apiPageNumber - 1;       
-        //this.paginator.pageIndex = this.currentPage;
-        this.paginator.length = (res.totalrecordcount) as number;
-        this.dataSource.sort = this.sort;
-        this.spinner.hide();
-        this.isDataloaded = true;
-      },
-      error => { this.spinner.hide(); },
-      () => {
-        if (this.currentPage > 0) {
-          this.toggleAllSelection();
+    ngOnChanges(changes: SimpleChanges) {
+      // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
+      //   return;
+      
+      this.dataObs$ = this.tableitem?.data;
+      this.spinner.show();
+      this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
+        (res: any) => {
+          
+          this.dataSource.data = res.datasource;
+          this.initializeTableAttributes(this.dataSource.data);
+          this.totalRows = (res.totalrecordcount) as number;
+          this.apiPageNumber = (res.pagenumber) as number;
+          this.currentPage = this.apiPageNumber - 1;
+          //this.paginator.pageIndex = this.currentPage;
+          this.paginator.length = (res.totalrecordcount) as number;
+          this.dataSource.sort = this.sort;
+          this.spinner.hide();
+          this.isDataloaded = true;
+        },
+        error => { this.spinner.hide(); },
+        () => {
+          if (this.currentPage > 0) {
+            this.toggleAllSelection();
+          }
+          this.spinner.hide();
         }
-        this.spinner.hide();
-      }
-    );
-  }
+      );
+      
+    }
 
-  initializeTableAttributes(data: any) {
+
+
+  initializeTableAttributes(data:any) {
+    this.selection.clear();
+    this.allSelected = true;
     this.ColumnDetails = [];
+    //this.dataColumns =[];
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
     this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
-    this.showTotalRow = this.totalRowCols.length > 0;
+    this.showTotalRow = this.totalRowCols?.length > 0;
     this.imgList = this.tableitem?.imgConfig;
-    this.filter = this.tableitem?.filter;
-    this.isEmailRequired = this.tableitem?.showEmail 
-    //removeNoDataColumns
+    this.isEmailRequired = this.tableitem?.showEmail;
+
+    this.columnHeaderFilter = this.tableitem?.filter;
     if (this.tableitem?.removeNoDataColumns) {
       if (data && data.length > 0)
         this.verifyEmptyColumns(data);
@@ -133,17 +144,42 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
     else {
-      this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];      
+      this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
-   //Select checkbox
+    
+    //Select checkbox
     if (this.tableitem?.selectCheckbox) {
       const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
-      this.ColumnDetails.unshift(selItem);         
+      this.ColumnDetails.unshift(selItem);
     }
-      
+
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
-    this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);   
+    this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
   }
+
+    
+  removeNoDataColumns(data: any) {
+    this.columnHeaderFilter = this.tableitem?.filter;
+    if (this.tableitem?.removeNoDataColumns) {
+      if (data && data.length > 0)
+        this.verifyEmptyColumns(data);
+      else
+        this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+    }
+    else {
+      this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
+    }
+
+    //Select checkbox
+    if (this.tableitem?.selectCheckbox) {
+      const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
+      this.ColumnDetails.unshift(selItem);
+    }
+
+    this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
+    this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
+  }
+
 
   ngOnInit(): void {
   }
@@ -160,22 +196,15 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   getTotal(cellname: string) {
-    debugger
+    // debugger
     var cell = cellname ? cellname : '';
     if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
       return 'Total';
     }
-
-    // var totalcell = this.totalRowCols.filter(x => x.includes(cell))
-    // if (totalcell.length > 0) {
-    //   return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
-    // }
-    // return '';
-
-    if (this.totalRowCols.includes(cell))
-      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+    if (this.totalRowCols.includes(cell) && this.dataColumns.includes(cell))
+      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
     else
-      return ''
+      return '';
   }
 
   getColSpan(cellname: string) {
@@ -323,9 +352,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   checkIsNullOrEmptyProperties(obj: any) {
     for (var key in obj) {
-      if ((this.tableitem?.Columns?.filter(x => key === (x.headerValue)).length == 0)) {
-        this.emptyColumns.push(key);
-      }
+      // if ((this.tableitem?.Columns?.filter(x => key === (x.headerValue)).length == 0)) {
+      //   this.emptyColumns.push(key);
+      // }
       if ((obj[key] === null || obj[key] === ""))
         this.emptyColumns.push(key);
       else {

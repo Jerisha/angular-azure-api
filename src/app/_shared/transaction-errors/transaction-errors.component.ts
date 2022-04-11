@@ -234,10 +234,10 @@ export class TransactionErrorsComponent implements OnInit {
     let attributes: any = [
       {
         "Name": "TelephoneNumber",
-        //"Value" : [ "01213004534" ]
+        // "Value" : [ "01213004534" ]
         "Value": [this.telNo]
       }, {
-        "Name": this.repIdentifier === 'SolicitedErrors' ||this.repIdentifier === 'TransactionDetails' ? "TransactionId" : "TransactionReference",
+        "Name": this.repIdentifier === 'SolicitedErrors' || 'TransactionDetails' ? "TransactionId" : "TransactionReference",
         "Value": [this.tranId]
         // "Name" : "TransactionId",
         // "Value" : [ "1013164478" ]

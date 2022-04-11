@@ -19,6 +19,7 @@ import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constant
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -427,12 +428,12 @@ const Itemstwo: Select[] = [
   { view: 'Post Code', viewValue: 'PostCode', default: true },
   { view: 'Created On', viewValue: 'CreationDate', default: true },
   { view: 'Premises', viewValue: 'Premises', default: true },
-  { view: 'Throughtfare', viewValue: 'Throughtfare', default: true },
+  { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: true },
   { view: 'Locality', viewValue: 'Locality', default: true },
   { view: 'Cupid', viewValue: 'Cupid', default: true },
   { view: 'Type of Line', viewValue: 'TypeOfLine', default: true },
   { view: 'Franchise', viewValue: 'Franchise', default: true },
-  { view: 'Trans Cmd', viewValue: 'TransactionCommand', default: true },
+  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
 ]
 
@@ -458,7 +459,7 @@ export class LiverecordsComponent implements OnInit {
 
 
   constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService) { }
+    private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService , private telnoPipe: TelNoPipe) { }
 
   expOperators: string[] = [
     "StartTelephoneNumberOperator",
@@ -475,7 +476,7 @@ export class LiverecordsComponent implements OnInit {
     "TypeOfLineOperator",
   ];
   expOperatorsKeyPair: [string, string][] = [];
-
+resetExp:boolean = false;
 
   dataSaved = false;
   employeeForm: any;
@@ -588,6 +589,7 @@ export class LiverecordsComponent implements OnInit {
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if(!this.myForm.valid) return;
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -614,7 +616,7 @@ export class LiverecordsComponent implements OnInit {
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'Main'
+        name: 'Live Data Summary'
       });
     }
   }
@@ -622,23 +624,24 @@ export class LiverecordsComponent implements OnInit {
   resetForm(): void {
     this.myForm.reset();
     this.tabs.splice(0);
+    this.resetExp=!this.resetExp;
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
   OnOperatorClicked(val: [string, string]) {
     // if (event.target.value !="")
-    console.log("operators event", "value ", val);
+    // console.log("operators event", "value ", val);
     let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
-    console.log("operators event1", "vals ", vals);
+    // console.log("operators event1", "vals ", vals);
     if (vals.length == 0) {
       this.expOperatorsKeyPair.push(val);
-      console.log("if part", this.expOperatorsKeyPair);
+      // console.log("if part", this.expOperatorsKeyPair);
     }
     else {
       this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
       this.expOperatorsKeyPair.push(val);
-      console.log("else part", this.expOperatorsKeyPair);
+      // console.log("else part", this.expOperatorsKeyPair);
     }
   }
 
@@ -650,25 +653,17 @@ export class LiverecordsComponent implements OnInit {
   }
 
   prepareQueryParams(pageNo: string): any {
-  
     let attributes: any = [
       { Name: 'PageNumber', Value: [`${pageNo}`] }];
-
     for (const field in this.myForm?.controls) {
-      // console.log('field', field)
-      const control = this.myForm.get(field);
-      // console.log('field', field, 'value',control?.value);   
-      if (control?.value != "") {
+      const control = this.myForm.get(field);  
+      if (control?.value) {
         if (field == "CreationDate") {
           attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
-        
         }
         else{
-        // console.log("field:",field," val:",control?.value)
         attributes.push({ Name: field, Value: [control?.value] }); }
         let operator: string = field + "Operator";
-        
-        console.log("op vals", this.expOperatorsKeyPair);
         if (this.expOperatorsKeyPair.length != 0) {
           let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
           if (expvals.length != 0) {
@@ -779,7 +774,7 @@ export class LiverecordsComponent implements OnInit {
       PostCode: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true }, []),
       Premises: new FormControl({ value: '', disabled: true }, []),
-      Throughtfare: new FormControl({ value: '', disabled: true }, []),
+      Thoroughfare: new FormControl({ value: '', disabled: true }, []),
       Locality: new FormControl({ value: '', disabled: true }, []),
       Cupid: new FormControl({ value: '', disabled: true }, []),
       TypeOfLine: new FormControl({ value: '', disabled: true }, []),
@@ -789,19 +784,7 @@ export class LiverecordsComponent implements OnInit {
 
     })
 
-    // this.expOperatorsKeyPair.push(["StartTelephoneNumberOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["CustomerNameOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["PostcodeOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["CreationDateOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["PremisesOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["ThoroughfareOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["LocalityOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["CupidOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["FranchiseOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["TransactionCommandOperator","Equal To"]);
-    // this.expOperatorsKeyPair.push(["TypeOfLineOperator","Equal To"]);
-
+  
   }
 
   addPrefix(control: string, value: any) {
@@ -810,7 +793,16 @@ export class LiverecordsComponent implements OnInit {
     }
     this.f[control].setValue(value);
   }
-
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.myForm.get(ctrlName) as FormControl;
+    if (isNaN(<any>value))
+    if (isNaN(<any>value.charAt(0))) {
+      //const val = coerceNumberProperty(value.slice(1, value.length));
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    } else {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+    }
+  }
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
