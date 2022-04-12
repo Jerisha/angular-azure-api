@@ -209,14 +209,22 @@ export class TelephoneAuditTrailComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     // console.log(changes.telephoneNumber.currentValue);
     // console.log(changes);
-    if(changes.telNo.currentValue != changes.telNo.previousValue)
-    {
+    if (changes.telNo.currentValue != changes.telNo.previousValue) {
       this.setStep(2);
-      let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", this.repIdentifier, [{  Name : "TelephoneNumber",
-       Value : [ this.telNo ] }]);
-    // Value : [ "01171617562" ] }]);
+      let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{
+        Name: "TelephoneNumber",
+        Value: [this.telNo]
+      }]);
+      // Value : [ "01171617562" ] }]);
 
-    this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => res[0]));
+      this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => {
+        let transform: any = [];
+        transform = res.data
+        transform.TelephoneNumber = res.TelephoneNumber
+        return transform
+      }
+
+      ));
 
     }
   }
@@ -254,7 +262,6 @@ export class TelephoneAuditTrailComponent implements OnInit {
 
 
   expandedElement: null | undefined;
-
 
 }
 
