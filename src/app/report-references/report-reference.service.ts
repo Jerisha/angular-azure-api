@@ -875,7 +875,8 @@ export class ReportReferenceService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
   updateDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
+    //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
   deleteDetails(request: any): Observable<any> {
     return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.DELETE, request);
@@ -902,9 +903,9 @@ export class ReportReferenceService {
     transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
     transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofIdentifiers.Identifier = updateIdentifier;
     console.log('transform', JSON.stringify(transform))
-    transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0]
-      .ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = [{ }];
-    console.log(transform, 'transform1')
+    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0]
+    //   .ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = [{ }];
+     console.log(transform, 'transform1')
     return transform;
 
   }

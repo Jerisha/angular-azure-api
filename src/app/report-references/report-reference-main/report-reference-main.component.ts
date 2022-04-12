@@ -152,9 +152,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
 
 refreshData(){
-  this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-    this.data = res[0][this.currentReportName];
-    console.log(this.currentReportName , 'test')
+  this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+    //this.data = res[0][this.reportName];
+    this.data = res.data[this.reportName];
+    this.recordIdentifier = res.RecordIdentifier;
   });
 }
 
@@ -224,16 +225,16 @@ refreshData(){
         }
 
       });
-
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
-          //let request = ReportReferenceService.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
-          let request = Utils.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers(),[{}]);
+         // let request = ReportReferenceService.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
+          let request = Utils.preparePyUpdate('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers(),[{}]);
           console.log(JSON.stringify(request), 'updaterequest')
           this.reportReferenceService.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reloa
               this.refreshData();
+              console.log(JSON.stringify(request), 'updaterequest')
               this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
@@ -270,7 +271,18 @@ refreshData(){
 
   }
 
-
+  prepareUpdateIdentifiers() {
+    let identifiers: any[] = [];
+    //alert(this.editRecord.length + 'length')
+    // if (this.editRecord.length > 0) {
+    // this.editRecord?.forEach(x => { 
+    identifiers.push({ Name: 'StatusId', Value: ['11'] });
+    identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit countpython'] });
+    identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count'] });
+    console.log(identifiers, 'identifiers')
+    return identifiers;
+  }
+  
   prepareCreateIdentifiers() {
 
     let identifiers: any[] = [];
@@ -282,17 +294,6 @@ refreshData(){
     identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1'] });
     identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-test1 '] });
     //}
-    console.log(identifiers, 'identifiers')
-    return identifiers;
-  }
-  prepareUpdateIdentifiers() {
-    let identifiers: any[] = [];
-    //alert(this.editRecord.length + 'length')
-    // if (this.editRecord.length > 0) {
-    // this.editRecord?.forEach(x => { 
-    identifiers.push({ Name: 'StatusId', Value: ['11'] });
-    identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1-test123465ytaapi'] });
-    identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-testing1'] });
     console.log(identifiers, 'identifiers')
     return identifiers;
   }
