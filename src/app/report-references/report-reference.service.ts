@@ -332,7 +332,6 @@ export class ReportReferenceService {
     
     ];
 
-
   setForm(reportName: string) {
 
     this.lstForm = [];
@@ -860,8 +859,7 @@ export class ReportReferenceService {
       return this.lstForm;
     }
   }
-
-
+  
 
   prepareData(pageIdentifier: string, reportIdentifier: string): Observable<any> {
     let request = ReportReferenceService.prepareQueryRequest(pageIdentifier, reportIdentifier);

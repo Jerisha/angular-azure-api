@@ -37,6 +37,7 @@
                               <div style="display:inline-flex;">
                               <span style="width:160px;box-sizing: border-box;">Start Telephone No.</span>
                               <span style="width:160px;box-sizing: border-box;">End Telephone No.</span>
+                              <span style="width:160px;box-sizing: border-box;">Range Count</span>
                               <span style="width:100px;box-sizing: border-box;">Remove</span>    
                             </div>                                                        
                             <!-- </p>                                                       -->
@@ -46,6 +47,7 @@
                               <div style="display:inline-flex;">
                               <span style="width:160px;box-sizing: border-box;">{{cli[0]}}</span>
                               <span style="width:160px;box-sizing: border-box;">{{cli[1]}}</span>
+                              <span style="width:160px;box-sizing: border-box;">{{cli[1]-cli[0]}}</span>
                               <!-- <span style="min-width:5%;text-align:end;box-sizing: border-box;"> -->
                                 <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli(index)">-                                  
                                 </button>
