@@ -15,6 +15,7 @@ export class ReportReferenceService {
   referenceForm: any;
   showDataForm: boolean = false;
   showDetailsForm: boolean = false;
+  dropdownValues:any =[];
 
   reportNames: string[] = [
     'SourceSystem', 'Status', 'AuditStatus', 'CUPIDCrossReference',
@@ -338,6 +339,12 @@ export class ReportReferenceService {
 
 
   setForm(reportName: string) {
+    let val = this.getConfig(['Source','BTCupID','CrossRefFranchise','InternalCupID']);
+    
+    val.subscribe((res: any) => {
+    console.log("Config res: " + JSON.stringify(res))
+    this.dropdownValues.displayValue = res.data['Source'];
+    });
 
     this.lstForm = [];
     if (!this.reportNames.includes(reportName)) {
@@ -887,6 +894,12 @@ export class ReportReferenceService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
   }
 
+  getConfig(dropValues:string[]):Observable<any>{
+      let request = Utils.preparePyConfig(['Create'], dropValues);
+      console.log(JSON.stringify(request));
+      return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
+  }
+  
   static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
     let transform = JSON.parse(JSON.stringify(MetaRequests.QUERY));
     transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
