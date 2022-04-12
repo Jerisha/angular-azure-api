@@ -107,22 +107,26 @@ export class HttpWrapperService {
         let transData: any = [];
         try {
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
-            switch (requestType) {
-                case WebMethods.CONFIG:                    
+                switch (requestType) {
+                    case WebMethods.CONFIG:
                         transData = val.ReponseParams
-                        transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]                    
-                    break;
-                case WebMethods.QUERY:                    
+                        transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
+                        break;
+                    case WebMethods.QUERY:
                         transData = val.ReponseParams
-                        transData.data = val.Data                    
-                    break;
-                    case WebMethods.GET:                    
+                        transData.data = val.Data
+                        break;
+                    case WebMethods.GET:
                         transData = val.ReponseParams
-                        transData.data = val.Data                    
-                    break;
-
+                        transData.data = val.Data
+                        break;
+                    case WebMethods.UPDATE:
+                    case WebMethods.CREATE:
+                    case WebMethods.DELETE:
+                        transData = val.Status[0]
+                        break;
+                }
             }
-        }
 
         } catch (err) {
             console.log("PyResponse: " + val + "ResponseError: " + err);

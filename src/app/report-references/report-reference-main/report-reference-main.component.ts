@@ -53,6 +53,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   editMode: string = "";
   editModeIndex!: number;
   currentReportName: string = "";
+  recordIdentifier:any = "";
 
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
@@ -72,7 +73,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.displayedColumns = dispVal || [];
     let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
     this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-      this.data = res[0][this.reportName];
+      //this.data = res[0][this.reportName];
+      this.data = res.data[this.reportName];
+      this.recordIdentifier = res.RecordIdentifier;
     });
     // this.data = dat || [];
     this.newTab();
@@ -84,7 +87,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.displayedColumns = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] || [];
     // this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || [];
     this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-      this.data = res[0][this.reportName];
+      //this.data = res[0][this.reportName];
+      this.data = res.data[this.reportName];
+      this.recordIdentifier = res.RecordIdentifier;
     });
   }
   newTab() {

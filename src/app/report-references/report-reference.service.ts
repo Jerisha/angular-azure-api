@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IColoumnDef } from "src/app/report-references/IControls";
 import { WMRequests } from '../_helper';
-import { HttpVerbs, HttpWrapperService, WebMethods } from '../_http';
+import { HttpVerbs, HttpWrapperService, Utils, WebMethods } from '../_http';
 import { MetaRequests } from './Common/MetaRequests';
 
 @Injectable({
@@ -868,12 +868,11 @@ export class ReportReferenceService {
 
 
   prepareData(pageIdentifier: string, reportIdentifier: string): Observable<any> {
-    let request = ReportReferenceService.prepareQueryRequest(pageIdentifier, reportIdentifier);
+    //let request = ReportReferenceService.prepareQueryRequest(pageIdentifier, reportIdentifier);
+    //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+    let request = Utils.preparePyQuery(pageIdentifier, reportIdentifier,[{}]);
     console.log(JSON.stringify(request));
-    return this.queryDetails(request);
-  }
-  queryDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
   updateDetails(request: any): Observable<any> {
     return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
