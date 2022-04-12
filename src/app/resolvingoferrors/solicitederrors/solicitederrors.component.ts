@@ -383,7 +383,7 @@ export class SolicitederrorsComponent implements OnInit {
       rangeConfirm.afterClosed().subscribe(result => {
         //console.log("result " + result);
         if (result) {
-          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          let request = Utils.preparePyUpdate('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
