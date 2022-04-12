@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 // import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from '../models/index';
 import { Select } from 'src/app/uicomponents/models/select';
@@ -15,6 +15,7 @@ import { ThisReceiver } from '@angular/compiler';
 import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Utils } from 'src/app/_http';
+import { map } from 'rxjs/operators';
 
 
 const ELEMENT_DATA: any[] = [
@@ -188,11 +189,11 @@ const ELEMENT_DATA5: any[] = [{
 ];
 
 const Items: Select[] = [
-  { view: 'Start Telephone No', viewValue: 'StartTelephoneNo', default: true },
-  { view: 'End Telephone No', viewValue: 'EndTelephoneNo', default: true },
-  { view: 'Audit ActId', viewValue: 'AuditActId', default: true },
+  { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
+  { view: 'Audit ActId', viewValue: 'AuditActID', default: true },
   { view: 'CUP Id', viewValue: 'CUPId', default: true },
-  { view: 'Batch Id', viewValue: 'BatchId', default: true },
+  { view: 'Batch Id', viewValue: 'BatchID', default: true },
   { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
   { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: true },
@@ -200,12 +201,12 @@ const Items: Select[] = [
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
   { view: 'Porting Status', viewValue: 'PortingStatus', default: true },
   { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: true },
-  { view: 'Resolution Type', viewValue: 'ResType', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Switch Status', viewValue: 'SwitchStatus', default: true },
   { view: 'Mori Status', viewValue: 'MoriStatus', default: true },
-  { view: 'Post Code Diff', viewValue: 'PostCodeDiff', default: true },
-  { view: 'Full Address Diff', viewValue: 'FullAddDiff', default: true },
-  { view: 'Customer Diff', viewValue: 'CustomerDiff', default: true },
+  { view: 'Post Code Diff', viewValue: 'PostCodeDifference', default: true },
+  { view: 'Full Address Diff', viewValue: 'FullAddDifference', default: true },
+  { view: 'Customer Diff', viewValue: 'CustomerDifference', default: true },
   { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: true },
 
 ];
@@ -279,8 +280,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     // { headerValue: 'SwitchPoPS', header: 'Switch PoPS', showDefault: true, isImage: false },
   ];
   OverlappingRangeListTableDetails: any = [
-    { headerValue: 'OrderRef', header: 'Order Ref.', showDefault: true, isImage: false },
-    { headerValue: 'StartTelEndTel', header: 'Start Tel - End Tel', showDefault: true, isImage: false },
+    { headerValue: 'OrderReference', header: 'Order Ref.', showDefault: true, isImage: false },
+    { headerValue: 'TelephoneRange', header: 'Start Tel - End Tel', showDefault: true, isImage: false },
     { headerValue: 'OrderUpdatedDate', header: 'Order Updated Date', showDefault: true, isImage: false },
   ];
 
@@ -296,7 +297,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   };
 
   colHeader: ColumnDetails[] = [
-    { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
+    { headerValue: 'TelephoneNumber', header: 'Telephone No', showDefault: true, isImage: false },
     { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
     { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
     { headerValue: 'Source', header: 'Source', showDefault: true, isImage: false },
@@ -370,22 +371,40 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }];
 
 
+  // dataCorrectionBtnConfig: ButtonCorretion[] = [
+  //   { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
+  //   { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
+  //   { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
+  //   { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
+  //   { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'], switchType: ['none'] },
+  //   { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
+  //   { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
+  //   { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
+  //   { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
+  //   { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
+  //   { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
+  //   { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
+  //   { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active'] },
+  //   { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
+  //   { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
+  // ];
+
   dataCorrectionBtnConfig: ButtonCorretion[] = [
-    { value: 'BA - BT only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
-    { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-    { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-    { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
+    { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
+    { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active', 'C - Ceased', 'N - Not Found'] },
+    { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['C - Ceased', 'N - Not Found'] },
+    { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
     { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'], switchType: ['none'] },
-    { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
-    { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-    { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-    { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
-    { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
-    { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-    { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-    { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active'] },
-    { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-    { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
+    { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
+    { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['A - Active', 'C - Ceased', 'N - Not Found'] },
+    { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['C - Ceased', 'N - Not Found'] },
+    { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
+    { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
+    { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active', 'C - Ceased', 'N - Not Found'] },
+    { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['C - Ceased', 'N - Not Found'] },
+    { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
+    { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['A - Active', 'C - Ceased', 'N - Not Found'] },
+    { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['C - Ceased', 'N - Not Found'] },
   ];
 
   get selectedSwitchTypeStatus() {
@@ -394,6 +413,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   get selectedFullAuditCLIStatus() {
     return this.form.FullAuditCLIStatus;
+  }
+
+  get auditACTID(){
+    return this.form.AuditActID;
   }
 
   setAttributesForManualCorrections() {
@@ -483,13 +506,34 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   }
 
+  prepareQueryParamsTable(auditACTId: string, telno:any): any {
+    let attributes: any = [];
+    attributes.push({ Name: 'TelephoneNumber', Value: [`${telno}`] });
+    attributes.push({ Name: 'AuditActID', Value: [`${auditACTId}`] })
+    // for (const field in this.form) {
+    //   const control = this.fullAuditForm.get(field);
+
+    //   if (control?.value)
+    //     attributes.push({ Name: field, Value: [control?.value] });
+    //   else
+    //     attributes.push({ Name: field });
+    // }
+    //attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
+    console.log(attributes);
+
+    return attributes;
+
+  }
+
+
   ngOnInit(): void {
     this.createForm();
     this.setDefaultValues();
-    let request = Utils.prepareConfigRequest(['Search'], [ "AuditActId","CUPID","ExternalCLIStatus","FullAuditCLIStatus","MonthlyRefreshFlag","Source","OSN2Source","PortingStatus","VodafoneRangeHolder","ResolutionTypeAudit","SwitchStatus","MoriStatus","PostCodeDiff","FullAddressDiff","CustomerDiff","OverlappingStatus","Resolution","AutoCorrectionVolume" ]);
-    this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+    let request = Utils.prepareConfigRequest(['Search'], [ "AuditActId","CUPID","ExternalCLIStatus","FullAuditCLIStatus","MonthlyRefreshFlag","Source","OSN2Source","PortingStatus","VodafoneRangeHolder","ResolutionTypeAudit","SwitchStatus","MoriStatus","PostCodeDifference","FullAddressDifference","CustomerDifference","OverlappingStatus","Resolution","AutoCorrectionVolume" ]);
+    this.service.configDetails(request).subscribe((res: any) => {      
+      this.configDetails = res[0];     
+      //this.resolutionType = res[0].ResolutionTypeAudit.split(',')[0];
+      this.rowRange = res[0].AutoCorrectionVolume.split(',')[0];
     });
     this.listItems = Items;
   }
@@ -503,49 +547,55 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   cellAttrInfo: CellAttributes[] = [
-    // { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', isImage:true}  ,
-    // { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y', isImage:true},  
-    { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Y', isImage: true },
+    // { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y', isImage:true},
+    { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', isImage:true}  ,      
+    { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Yes', isImage: true },
     { flag: 'OSN2Source', cells: ['Comments'], value: 'SAS/COMS', isImage: true },
-    { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Y', isImage: true },
+    { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Yes', isImage: true },
     { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Yes', isBackgroundHighlighted: true },
-    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Y', isBackgroundHighlighted: true },
-    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare'], value: 'Y', isBackgroundHighlighted: true },
+    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Yes', isBackgroundHighlighted: true },
+    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare'], value: 'Yes', isBackgroundHighlighted: true },
     { flag: 'ExternalCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
     { flag: 'FullAuditCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
     { flag: 'IsLive', cells: ['TelNo'], value: 1, isFontHighlighted: true }
   ];
 
   currentPage:string ='1';
-  //isEmitted:boolean = false;
 
   getNextSetRecords(pageIndex: any) {
     debugger;
     this.currentPage = pageIndex;
     this.onFormSubmit(true);
   }
+  queryResult$!: Observable<any>;
 
-  onFormSubmit(isEmitted?:boolean): void {
-
+  onFormSubmit(isEmitted?: boolean): void {
+    debugger;
+    if (this.fullAuditForm.invalid) { return; }
+    this.setAttributesForManualCorrections();
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.prepareQueryRequest('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage));
-console.log('sampl',JSON.stringify( request))
-    if (this.fullAuditForm.invalid) { return; }
+    console.log('sample', JSON.stringify(request));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].TelephoneNumbers,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: 1
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));   
     this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 500,
-        totalpages: 10,
-        pagenumber: 1
-      }),
+      data: this.queryResult$,
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
       showEmail: true,
       removeNoDataColumns: true,
-
-      // selectionColumn: 'TelNo',
-      // highlightedCells: ['TelNo', 'OSN2Source'],
       setCellAttributes: this.cellAttrInfo,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
@@ -562,30 +612,40 @@ console.log('sampl',JSON.stringify( request))
       });
     }
     this.selectedTab = this.tabs.length;
-    this.setAttributesForManualCorrections();
+
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
+  auditTelNo:any;
+  repIdentifier = "SolicitedErrors";
 
   newTab(tab: any) {
     debugger;
     if (this.tabs === []) return;
+    var auditACTID= this.auditACTID.value;    
     switch (tab.tabType) {
-      case 1: {
+      case 1:{
+        //console.log('New Tab: '+ JSON.stringify(tab.row) )
+        //tab.row contains row data- fetch data from api and bind to respetive component
+
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+            name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
-          // this.selectedTab = 1;        
+
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
+        this.auditTelNo = tab.row.TelephoneNumber;
         break;
       }
+      
       case 2: {
         this.openDialog();
         break;
@@ -633,7 +693,7 @@ console.log('sampl',JSON.stringify( request))
       }
       case 6: {
         if (!this.tabs?.find(x => x.tabType == 6)) {
-          this.moriCircuitStatusReportInit();
+          this.moriCircuitStatusReportInit(auditACTID,tab.row.TelephoneNumber);
           this.tabs.push({
             tabType: 6,
             name: 'Mori Circuit Status Report'
@@ -646,7 +706,8 @@ console.log('sampl',JSON.stringify( request))
       }
       case 7: {
         if (!this.tabs?.find(x => x.tabType == 7)) {
-          this.overLappingRangeListTableInit();
+          debugger;
+          this.overLappingRangeListTableInit(auditACTID, tab.row.TelephoneNumber);
           this.tabs.push({
             tabType: 7,
             name: 'Overlapping Range List'
@@ -720,7 +781,7 @@ console.log('sampl',JSON.stringify( request))
   }
 
   setDefaultValues() {
-    this.fullAuditForm.get('AuditActId')?.setValue('29-20 Dec 2021');
+    this.fullAuditForm.get('AuditActID')?.setValue('29-20 Dec 2021');
   }
 
   get upDateForm() {
@@ -736,11 +797,11 @@ console.log('sampl',JSON.stringify( request))
 
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
-      StartTelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNo: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      AuditActId: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }),
-      BatchId: new FormControl({ value: '', disabled: true }),
+      BatchID: new FormControl({ value: '', disabled: true }),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
       FullAuditCLIStatus: new FormControl({ value: '', disabled: true }),
       MonthlyRefreshFlag: new FormControl({ value: '', disabled: true }),
@@ -748,12 +809,12 @@ console.log('sampl',JSON.stringify( request))
       OSN2Source: new FormControl({ value: '', disabled: true }),
       PortingStatus: new FormControl({ value: '', disabled: true }),
       VodafoneRangeHolder: new FormControl({ value: '', disabled: true }),
-      ResType: new FormControl({ value: '', disabled: true }),
+      ResolutionType: new FormControl({ value: '', disabled: true }),
       SwitchStatus: new FormControl({ value: '', disabled: true }),
       MoriStatus: new FormControl({ value: '', disabled: true }),
-      PostCodeDiff: new FormControl({ value: '', disabled: true }),
-      FullAddDiff: new FormControl({ value: '', disabled: true }),
-      CustomerDiff: new FormControl({ value: '', disabled: true }),
+      PostCodeDifference: new FormControl({ value: '', disabled: true }),
+      FullAddDifference: new FormControl({ value: '', disabled: true }),
+      CustomerDifference: new FormControl({ value: '', disabled: true }),
       OverlappingStatus: new FormControl({ value: '', disabled: true })
     })
   }
@@ -806,14 +867,33 @@ console.log('sampl',JSON.stringify( request))
     }
   }
 
-  moriCircuitStatusReportInit() {
+  moriCircuitStatusQueryResult$!: Observable<any>;
+
+  moriCircuitStatusReportInit(auditACTId:any,telno:any) {
+
+    let request = Utils.prepareQueryRequest('MoriCircuitDetails', 'FullAuditDetails', this.prepareQueryParamsTable(auditACTId,telno));
+    console.log('sample', JSON.stringify(request));
+    this.moriCircuitStatusQueryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].Circuits,
+          totalrecordcount: res[0].Circuits.length,
+          totalpages: 1,
+          pagenumber: 1
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
     this.moriCircuitRptTable = {
-      data: of({
-        datasource: ELEMENT_DATA3,
-        totalrecordcount: 10,
-        totalpages: 20,
-        pagenumber: 1
-      }),
+      // data: of({
+      //   datasource: ELEMENT_DATA3,
+      //   totalrecordcount: 10,
+      //   totalpages: 20,
+      //   pagenumber: 1
+      // }),
+      data:this.moriCircuitStatusQueryResult$,
       Columns: this.moriCicuitTableDetails,
       filter: true,
       selectCheckbox: true,
@@ -821,14 +901,32 @@ console.log('sampl',JSON.stringify( request))
     }
   }
 
-  overLappingRangeListTableInit() {
+  overlappingQueryResult$!:Observable<any>;
+  overLappingRangeListTableInit(auditACTId:string, telno:any) {
+
+    let request = Utils.prepareQueryRequest('OverlappingRange', 'FullAuditDetails', this.prepareQueryParamsTable(auditACTId,telno));
+    console.log('sample', JSON.stringify(request));
+    this.overlappingQueryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].Range,
+          totalrecordcount: res[0].Range.length,
+          totalpages: 1,
+          pagenumber: 1
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }))
     this.overlappingRangeListTable = {
-      data: of({
-        datasource: ELEMENT_DATA5,
-        totalrecordcount: 10,
-        totalpages: 20,
-        pagenumber: 1
-      }),
+      // data: of({
+      //   datasource: ELEMENT_DATA5,
+      //   totalrecordcount: 10,
+      //   totalpages: 20,
+      //   pagenumber: 1
+      // }),
+      data: this.overlappingQueryResult$,
       Columns: this.OverlappingRangeListTableDetails,
       filter: true,
       selectCheckbox: true,

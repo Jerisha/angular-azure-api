@@ -22,7 +22,7 @@ export class HttpWrapperService {
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_sit}${endPoint.toString()}`,
+                `${environment.api_dev}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
