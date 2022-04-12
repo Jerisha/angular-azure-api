@@ -10,6 +10,7 @@ import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { Utils } from 'src/app/_http';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -145,6 +146,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
 
 
+refreshData(){
+  this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+    this.data = res[0][this.currentReportName];
+    console.log(this.currentReportName , 'test')
+  });
+}
 
   onEditRecord(element: any, event: any) {
     // this.showDataForm =true;  
@@ -184,10 +191,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
          this.reportReferenceService.deleteDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-              this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-                this.data = res[0][this.currentReportName];
-                console.log(this.currentReportName , 'test')
-              });
+              this.refreshData();
               this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
@@ -218,15 +222,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
-          let request = ReportReferenceService.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
-          console.log(request, 'deleterequest')
+          //let request = ReportReferenceService.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
+          let request = Utils.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers(),[{}]);
+          console.log(JSON.stringify(request), 'updaterequest')
           this.reportReferenceService.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
-              //success message and same data reload
-              this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-                this.data = res[0][this.currentReportName];
-                console.log(this.currentReportName , 'test')
-              });
+              //success message and same data reloa
+              this.refreshData();
               this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
@@ -249,10 +251,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       console.log(request, 'request')
        this.reportReferenceService.createDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
-              this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-                this.data = res[0][this.currentReportName];
-                console.log(this.currentReportName , 'test')
-              });
+              this.refreshData();
               this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
@@ -282,30 +281,16 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     return identifiers;
   }
   prepareUpdateIdentifiers() {
-
     let identifiers: any[] = [];
-    alert(this.editRecord.length + 'length')
+    //alert(this.editRecord.length + 'length')
     // if (this.editRecord.length > 0) {
     // this.editRecord?.forEach(x => { 
-    // identifiers.push({ Name: 'StatusID', Value: 12 } );
-    identifiers.push({ Name: 'StatusId', Value: ['1'] });
-    identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1'] });
+    identifiers.push({ Name: 'StatusId', Value: ['11'] });
+    identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1-test123465ytaapi'] });
     identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-testing1'] });
-    //}
     console.log(identifiers, 'identifiers')
     return identifiers;
   }
-
-  prepareUpdateParams(): any {
-    let UpdateParams: any = [];
-
-    console.log(UpdateParams);
-
-    return UpdateParams;
-  }
-
-
-
   onDataFormCancel(event: any[]) {
     this.editMode = "";
     this.editModeIndex = -1;
