@@ -243,7 +243,21 @@ ReviewCli()
 }
 SearchTel(){ 
     if(this.model.telno !="" ||this.model.rangeEnd !="" ||this.CliRangeSet.length>0)
-      {        
+      {   
+        let telRange = this.model.rangeEnd == 0  || this.model.rangeEnd == "" || this.model.rangeEnd==this.model.telno ? 1:this.model.rangeEnd-this.model.telno ; 
+        
+        alert("vals: "+telRange+" "+this.model.rangeEnd+" "+this.model.telno)
+        if (telRange> 10000  )
+        {
+          alert("Range should not exit 10000!... Please provide valid CLI Range:)")
+          return ;
+        }
+        if (telRange<0  )
+        {
+          alert("Range should not be negative!... Please provide valid CLI Range:)")
+          return ;
+        }
+        
           if (this.CliRangeSet.length===0)
           {this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);}
           this.views.view1=false;
@@ -349,13 +363,27 @@ SearchTel(){
   addRangeTel()
   {
     if(this.model.telno !="" ||this.model.rangeEnd !="")
-      {    
+      { 
+        let telRange = this.model.rangeEnd == 0  || this.model.rangeEnd == "" || this.model.rangeEnd==this.model.telno ? 1:this.model.rangeEnd-this.model.telno ; 
+        if (telRange> 10000  )
+        {
+          alert("Range should not exit 10000!... Please provide valid CLI Range:)")
+          return ;
+        }
+        if (telRange<0  )
+        {
+          alert("Range should not be negative!... Please provide valid CLI Range:)")
+          return ;
+        }
+        //check whole range set should not exit 10000 and no duplicate 
         this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);
         this.model ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
       }
       else{
         alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
       }
+
+     
 
   }
   check_franchise()
