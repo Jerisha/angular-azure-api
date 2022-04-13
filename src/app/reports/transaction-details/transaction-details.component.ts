@@ -126,8 +126,8 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
   ];
   ngOnInit(): void {    
-    let request = Utils.prepareConfigRequest(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine']);
-    this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));  
+    let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine']);
+    this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res.data));  
     this.createForm();   
   }
 
@@ -280,14 +280,14 @@ prepareQueryParams(pageNo: string): any {
     if(!this.thisForm.valid) return;
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].TransactionDetails,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.TransactionDetails,
+          totalrecordcount: res.data.TotalCount,
+          totalpages: res.data.NumberOfPages,
+          pagenumber: res.data.PageNumber
         }
         return result;
       } else return {datasource:res};;
