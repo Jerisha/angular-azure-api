@@ -142,10 +142,10 @@ export class SolicitedactionreportComponent implements OnInit {
 
     this.createForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'ResolutionType', 'TransactionCommand', 'Status']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'ResolutionType', 'TransactionCommand', 'Status']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      this.configDetails = res.data;
     });
 
 
