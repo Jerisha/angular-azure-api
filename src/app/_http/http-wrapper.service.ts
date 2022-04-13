@@ -113,9 +113,6 @@ export class HttpWrapperService {
                         transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
                         break;
                     case WebMethods.QUERY:
-                        transData = val.ReponseParams
-                        transData.data = val.Data
-                        break;
                     case WebMethods.GET:
                         transData = val.ReponseParams
                         transData.data = val.Data

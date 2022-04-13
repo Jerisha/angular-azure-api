@@ -41,12 +41,12 @@
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source</mat-label>
             <input formControlName="Source" type="text" placeholder="Search Source" matInput
-              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','" />
+              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
-              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+              <mat-option *ngFor="let val of config.Source | ddlFilter: f.Source.value" [value]="val">
                 {{val}}</mat-option>
             </mat-autocomplete>
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
@@ -57,12 +57,12 @@
             <mat-label>Error Type</mat-label>
             <!-- <mat-select formControlName="ErrorType"> -->
             <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
-              [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorDescription | splitBy: ','" />
+              [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorDescription " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoErrorType="matAutocomplete">
-              <mat-option *ngFor="let val of config.ErrorDescription | splitBy: ',' | ddlFilter: f.ErrorType.value"
+              <mat-option *ngFor="let val of config.ErrorDescription | ddlFilter: f.ErrorType.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -73,14 +73,14 @@
           <mat-form-field [ngClass]="{'hidden':f.Final.disabled}">
             <mat-label>Is Final</mat-label>
             <input formControlName="Final" type="text" placeholder="Search Final" matInput [matAutocomplete]="autoFinal"
-              OptionsValidator [options]="config.Final | splitBy: ','" />
+              OptionsValidator [options]="config.Final " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <!-- <input formControlName="IsFinal" matInput #input maxlength="10" placeholder="Is Final"> -->
             <!-- <mat-select formControlName="Final"> -->
             <mat-autocomplete autoActiveFirstOption #autoFinal="matAutocomplete">
-              <mat-option *ngFor="let val of config.Final | splitBy: ',' | ddlFilter: f.Final.value" [value]="val">
+              <mat-option *ngFor="let val of config.Final | ddlFilter: f.Final.value" [value]="val">
                 {{val}}</mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.Final.errors?.validOptions">Value need to match available options</mat-error>
@@ -101,13 +101,13 @@
             <mat-label>Resolution Type</mat-label>
             <input formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
               [matAutocomplete]="autoResolutionType" OptionsValidator
-              [options]="config.ResolutionType | splitBy: ','" />
+              [options]="config.ResolutionType " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
 
-              <mat-option *ngFor="let val of config.ResolutionType | splitBy: ',' | ddlFilter: f.ResolutionType.value"
+              <mat-option *ngFor="let val of config.ResolutionType | ddlFilter: f.ResolutionType.value"
                 [value]="val">{{val}}</mat-option>
             </mat-autocomplete>
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
@@ -171,12 +171,12 @@
                         <input name="resolution" required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}"type="text"
                           #resolution="ngModel" placeholder="Search Resolution Type" matInput
                           [matAutocomplete]="autoResolutionType1" OptionsValidator
-                          [options]="con.ResolutionType | splitBy: ','" />
+                          [options]="con.ResolutionType " />
                         <span matSuffix mat-icon-button>
                           <mat-icon>arrow_drop_down</mat-icon>
                         </span>
                         <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                          <mat-option *ngFor="let val of con.ResolutionType | splitBy: ',' | ddlFilter: resolution.value"
+                          <mat-option *ngFor="let val of con.ResolutionType | ddlFilter: resolution.value"
                             [value]="val">{{val}}</mat-option>
                         </mat-autocomplete>
                         <mat-error class="alert alert-danger">

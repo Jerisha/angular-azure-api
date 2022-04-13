@@ -9,7 +9,7 @@ export class ReportService {
 
   constructor(private wrapperService: HttpWrapperService) { }
   configDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
     // .subscribe(x => {
     //   console.log("configDetails : " + JSON.stringify(x));
     //   this.test = x;
@@ -18,7 +18,7 @@ export class ReportService {
   }
 
   queryDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);   
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);   
      
   }
 }
