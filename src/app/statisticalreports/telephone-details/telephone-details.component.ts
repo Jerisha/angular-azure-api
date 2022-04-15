@@ -1,4 +1,4 @@
-import { ChangeDetectorRef,Component, EventEmitter, OnInit,Input, Output ,SimpleChanges, OnChanges} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Input, Output, SimpleChanges, OnChanges } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelephoneDetails } from '../models/telephone-details';
@@ -64,8 +64,8 @@ export class TelephoneDetailsComponent implements OnChanges {
     name: 'Telephone No Details'
   }
   ];
-  Datevalue?:string='';
-  @Input() StatisticDate!: string ;
+  Datevalue?: string = '';
+  @Input() StatisticDate!: string;
   @Input() Source!: string;
 
   constructor(private formBuilder: FormBuilder,
@@ -83,26 +83,25 @@ export class TelephoneDetailsComponent implements OnChanges {
   columns: ColumnDetails[] = [
     { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
     { header: 'Telephone Nos', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Add Commands', headerValue: 'AddCommands', showDefault: true, isImage: false,isTotal:true },
-    { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: true, isImage: false,isTotal:true },
-    { header: 'Modifiy Commands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false,isTotal:true },
-    { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: true, isImage: false,isTotal:true },
-    { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: true, isImage: false,isTotal:true },
-    { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false,isTotal:true },
+    { header: 'Add Commands', headerValue: 'AddCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Modifiy Commands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true },
   ];
   queryResult$!: Observable<any>;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.Source?.currentValue != changes.Source?.previousValue)   
-    this.formsubmit(false);
-  
+    if (changes.Source?.currentValue != changes.Source?.previousValue)
+      this.formsubmit(false);
+
   }
-formsubmit(isEmitted?: boolean)
-{
+  formsubmit(isEmitted?: boolean) {
     this.currentPage = isEmitted ? this.currentPage : '1';
-    this.Datevalue=this.StatisticDate;
-    let request = Utils.preparePyQuery('TelephoneNumberDetails','TransactionCommand', this.prepareQueryParams(this.currentPage));
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) =>  {
+    this.Datevalue = this.StatisticDate;
+    let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TransactionCommand', this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
@@ -111,11 +110,11 @@ formsubmit(isEmitted?: boolean)
           pagenumber: res.PageNumber
         }
         return result;
-      } else return {datasource:res};
+      } else return { datasource: res };
     }));
-    
+
     this.myTable = {
-      data: this.queryResult$,      
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
@@ -125,20 +124,20 @@ formsubmit(isEmitted?: boolean)
       // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 
     }
-}
+  }
 
-  prepareQueryParams(pageNo?:any): any {
-    var pageIndex = pageNo? pageNo:'1'
+  prepareQueryParams(pageNo?: any): any {
+    var pageIndex = pageNo ? pageNo : '1'
     let attributes: any = [
-     // { Name: 'PageNumber', Value: ['1'] },
-     { Name: 'PageNumber', Value: [`${pageIndex}`] },
-      { Name: 'StatisticDate', Value:[this.StatisticDate]},
-      { Name: 'Source', Value: [this.Source]}
-    //{ Name: 'StatisticDate', Value:['11-Mar-2022']},
-    //{ Name: 'Source', Value: ['A -AUDIT']}
+      // { Name: 'PageNumber', Value: ['1'] },
+      { Name: 'PageNumber', Value: [`${pageIndex}`] },
+      { Name: 'StatisticDate', Value: [this.StatisticDate] },
+      { Name: 'Source', Value: [this.Source] }
+      //{ Name: 'StatisticDate', Value:['11-Mar-2022']},
+      //{ Name: 'Source', Value: ['A -AUDIT']}
     ];
 
-   // console.log(' telephone attributes',attributes);
+    // console.log(' telephone attributes',attributes);
 
     return attributes;
 
@@ -155,7 +154,7 @@ formsubmit(isEmitted?: boolean)
     this.cdr.detectChanges();
   }
 
-  ngAfterViewChecked() {   
+  ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
   rowDetect(item: any) {
@@ -183,9 +182,10 @@ formsubmit(isEmitted?: boolean)
   }
 
   newTab(tab: any) {
-    this.addNewTab.emit({ tab });}
-    
+    this.addNewTab.emit({ tab });
   }
+
+}
 
 
 
