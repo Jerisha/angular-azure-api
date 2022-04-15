@@ -101,14 +101,14 @@ formsubmit(isEmitted?: boolean)
 {
     this.currentPage = isEmitted ? this.currentPage : '1';
     this.Datevalue=this.StatisticDate;
-    let request = Utils.prepareQueryRequest('TelephoneNumberDetails','TransactionCommand', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('TelephoneNumberDetails','TransactionCommand', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) =>  {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].TelephoneNumbers,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.TelephoneNumbers,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       } else return {datasource:res};
