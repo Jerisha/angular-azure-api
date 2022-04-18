@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-// import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, of, Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from '../models/index';
@@ -11,12 +10,12 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { FullAuditDetailsService } from './fullauditdetails.service';
 import { UserCommentsDialogComponent } from './user-comments-dialog.component';
-import { ThisReceiver } from '@angular/compiler';
 import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Utils } from 'src/app/_http';
 import { map } from 'rxjs/operators';
-
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { AlertService } from 'src/app/_shared/alert';
 
 const ELEMENT_DATA: any[] = [
   {
@@ -39,7 +38,7 @@ const ELEMENT_DATA: any[] = [
     BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
     OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
     ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853',  CustomerDiffFlag: 'Y', PostCodeDiffFlag: 'N', FullAddFlag: 'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
+    Comments: '	DDI RANGE- 01132140801- 01132140853', CustomerDiffFlag: 'Y', PostCodeDiffFlag: 'N', FullAddFlag: 'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
   },
   {
     TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
@@ -230,7 +229,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   moriCircuitRptTable!: TableItem;
   overlappingRangeListTable!: TableItem;
   selectedTab!: number;
-  selectListItems: string[] = [];
+  selectListItems: any[] = [];
   listItems!: Select[];
   emptyColumns: string[] = [];
   nonemptyColumns: string[] = [];
@@ -241,18 +240,29 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   rowRange: string = '';
   comments: string = 'No Records Found';
   showDataCorrection: boolean = false;
+  configDetails!: any;
+  currentPage: string = '1';
+  auditTelNo: any;
+  repIdentifier = "SolicitedErrors";
+  defaultACTID: string = '';
+
+  queryResult$!: Observable<any>;
+  monthlyRefreshQueryResult$!: Observable<any>;
+  rangeReportQueryResult$!: Observable<any>;
+  moriCircuitStatusQueryResult$!: Observable<any>;
+  overlappingQueryResult$!: Observable<any>;
 
 
   rangeReportTableDetails: any = [
-    { headerValue: 'StartTelNo', header: 'Start TelNo', showDefault: true, isImage: false },
-    { headerValue: 'EndTelNo', header: 'End TelNo', showDefault: true, isImage: false },
-    { headerValue: 'SourceSystem', header: 'Source System', showDefault: true, isImage: false },
-    { headerValue: 'Lineup', header: 'Lineup', showDefault: true, isImage: false },
-    { headerValue: 'Transaction', header: 'Transaction', showDefault: true, isImage: false, isTotal: true },
-    { headerValue: 'InflightTransaction', header: 'Inflight Transaction', showDefault: true, isImage: false, isTotal: true },
+    { headerValue: 'StartTelephoneNumber', header: 'Start TelNo', showDefault: true, isImage: false },
+    { headerValue: 'EndTelephoneNumber', header: 'End TelNo', showDefault: true, isImage: false },
+    { headerValue: 'Source', header: 'Source System', showDefault: true, isImage: false },
+    { headerValue: 'LineType', header: 'Line Type', showDefault: true, isImage: false },
+    { headerValue: 'Transaction', header: 'Transaction', showDefault: true, isImage: false },
+    { headerValue: 'InflightTransaction', header: 'Inflight Transaction', showDefault: true, isImage: false },
     { headerValue: 'CustomerName', header: 'Customer Name', showDefault: true, isImage: false },
     { headerValue: 'CustomerAddress', header: 'Customer Address', showDefault: true, isImage: false },
-    { headerValue: 'OrderRef', header: 'Order Ref', showDefault: true, isImage: false },
+    { headerValue: 'OrderReference', header: 'Order Ref', showDefault: true, isImage: false },
   ];
   inflightTableDetails: any = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
@@ -268,16 +278,16 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   ];
   monthlyRefreshReportTableDetails: any = [
     { headerValue: 'RefreshType', header: 'REFRESH TYPE', showDefault: true, isImage: false },
-    { headerValue: 'Customers', header: 'SS_CUSTOMER', showDefault: true, isImage: false },
-    { headerValue: 'Postcode', header: 'SS_POSTCODE', showDefault: true, isImage: false },
-    { headerValue: 'Premises', header: 'SS_PREMISES', showDefault: true, isImage: false },
-    { headerValue: 'ThorughFare', header: 'SS_THOROUGHFARE', showDefault: true, isImage: false },
-    { headerValue: 'Locality', header: 'SS_LOCALITY', showDefault: true, isImage: false },
-    { headerValue: 'OrderStatus', header: 'ORDER_STATUS', showDefault: true, isImage: false },
-    { headerValue: 'IsInflightOrder', header: 'SS_IS_INFLIGHT_ORDER', showDefault: true, isImage: false },
+    { headerValue: 'SS_CUSTOMER', header: 'SS_CUSTOMER', showDefault: true, isImage: false },
+    { headerValue: 'SS_POSTCODE', header: 'SS_POSTCODE', showDefault: true, isImage: false },
+    { headerValue: 'SS_PREMISES', header: 'SS_PREMISES', showDefault: true, isImage: false },
+    { headerValue: 'SS_THROUGHFARE', header: 'SS_THROUGHFARE', showDefault: true, isImage: false },
+    { headerValue: 'SS_LOCALITY', header: 'SS_LOCALITY', showDefault: true, isImage: false },
+    { headerValue: 'ORDER_STATUS', header: 'ORDER_STATUS', showDefault: true, isImage: false },
+    { headerValue: 'SS_IS_INFLIGHT_ORDER', header: 'SS_IS_INFLIGHT_ORDER', showDefault: true, isImage: false },
     { headerValue: 'MoriStatus', header: 'MORI_Status', showDefault: true, isImage: false },
-    { headerValue: 'SwitchDumpStatus', header: 'SWITCH_DUMP_STATUS', showDefault: true, isImage: false },
-    // { headerValue: 'SwitchPoPS', header: 'Switch PoPS', showDefault: true, isImage: false },
+    { headerValue: 'SWTCH_DUMP_STATUS', header: 'SWITCH_DUMP_STATUS', showDefault: true, isImage: false },
+    { headerValue: 'SWTCH_PO_PI', header: 'SWTCH_PO_PI', showDefault: true, isImage: false },
   ];
   OverlappingRangeListTableDetails: any = [
     { headerValue: 'OrderReference', header: 'Order Ref.', showDefault: true, isImage: false },
@@ -295,6 +305,20 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       { type: 'minlength', message: 'BatchId should be 3 characters long' }
     ]
   };
+
+  cellAttrInfo: CellAttributes[] = [
+    // { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Yes', isImage:true},
+    { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', isImage: true },
+    { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Yes', isImage: true },
+    { flag: 'OSN2Source', cells: ['Comments'], value: 'SAS/COMS', isImage: true },
+    { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Yes', isImage: true },
+    { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Yes', isBackgroundHighlighted: true },
+    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Yes', isBackgroundHighlighted: true },
+    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare'], value: 'Yes', isBackgroundHighlighted: true },
+    { flag: 'ExternalCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
+    { flag: 'FullAuditCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
+    { flag: 'IsLive', cells: ['TelNo'], value: 1, isFontHighlighted: true }
+  ];
 
   colHeader: ColumnDetails[] = [
     { headerValue: 'TelephoneNumber', header: 'Telephone No', showDefault: true, isImage: false },
@@ -370,25 +394,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       ]
     }];
 
-
-  // dataCorrectionBtnConfig: ButtonCorretion[] = [
-  //   { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
-  //   { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-  //   { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-  //   { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
-  //   { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'], switchType: ['none'] },
-  //   { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
-  //   { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-  //   { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-  //   { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
-  //   { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
-  //   { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-  //   { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-  //   { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active'] },
-  //   { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-  //   { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-  // ];
-
   dataCorrectionBtnConfig: ButtonCorretion[] = [
     { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
     { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active', 'C - Ceased', 'N - Not Found'] },
@@ -415,7 +420,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     return this.form.FullAuditCLIStatus;
   }
 
-  get auditACTID(){
+  get auditACTID() {
     return this.form.AuditActID;
   }
 
@@ -460,7 +465,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private service: FullAuditDetailsService, private dialog: MatDialog,
-    private formBuilder: FormBuilder, private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe) {
+    private formBuilder: FormBuilder, private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe,  private alertService: AlertService,) {
   }
 
   resetForm(): void {
@@ -474,22 +479,26 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     //this.setDefaultValues();
   }
 
-  openDialog() {
+  openDialog(auditACTID: any, telno: any) {
+    let attributes = [
+      { Name: 'TelephoneNumber', Value: [`${telno}`] },
+      { Name: 'AuditActID', Value: [`${auditACTID}`] },
+      { Name: 'AuditType', Value: [`${'FullAudit'}`] }
+    ];
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-      width: '900px',
+       width: '800px',
+      //width: 'auto',
       height: 'auto',
       panelClass: 'custom-dialog-container',
-      data: { defaultValue: this.comments }
+      data: { defaultValue: attributes, telno: telno }
     }
     );
   }
 
-  configDetails!: any;
-
   prepareQueryParams(pageNo: string): any {
     let attributes: any = [];
-      
-      //attributes.push({ Name: '999Reference' });
+
+    //attributes.push({ Name: '999Reference' });
 
     for (const field in this.form) {
       const control = this.fullAuditForm.get(field);
@@ -506,34 +515,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   }
 
-  prepareQueryParamsTable(auditACTId: string, telno:any): any {
-    let attributes: any = [];
-    attributes.push({ Name: 'TelephoneNumber', Value: [`${telno}`] });
-    attributes.push({ Name: 'AuditActID', Value: [`${auditACTId}`] })
-    // for (const field in this.form) {
-    //   const control = this.fullAuditForm.get(field);
-
-    //   if (control?.value)
-    //     attributes.push({ Name: field, Value: [control?.value] });
-    //   else
-    //     attributes.push({ Name: field });
-    // }
-    //attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
-    console.log(attributes);
-
-    return attributes;
-
-  }
-
-
   ngOnInit(): void {
     this.createForm();
     this.setDefaultValues();
-    let request = Utils.prepareConfigRequest(['Search'], [ "AuditActId","CUPID","ExternalCLIStatus","FullAuditCLIStatus","MonthlyRefreshFlag","Source","OSN2Source","PortingStatus","VodafoneRangeHolder","ResolutionTypeAudit","SwitchStatus","MoriStatus","PostCodeDifference","FullAddressDifference","CustomerDifference","OverlappingStatus","Resolution","AutoCorrectionVolume" ]);
-    this.service.configDetails(request).subscribe((res: any) => {      
-      this.configDetails = res[0];     
+    let request = Utils.prepareConfigRequest(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "Resolution", "AutoCorrectionVolume"]);
+    this.service.configDetails(request).subscribe((res: any) => {
+      this.configDetails = res[0];
       //this.resolutionType = res[0].ResolutionTypeAudit.split(',')[0];
       this.rowRange = res[0].AutoCorrectionVolume.split(',')[0];
+      this.defaultACTID = res[0].FullAuditActID.split(',')[0];
     });
     this.listItems = Items;
   }
@@ -546,31 +536,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  cellAttrInfo: CellAttributes[] = [
-    // { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y', isImage:true},
-    { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', isImage:true}  ,      
-    { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Yes', isImage: true },
-    { flag: 'OSN2Source', cells: ['Comments'], value: 'SAS/COMS', isImage: true },
-    { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Yes', isImage: true },
-    { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Yes', isBackgroundHighlighted: true },
-    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Yes', isBackgroundHighlighted: true },
-    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare'], value: 'Yes', isBackgroundHighlighted: true },
-    { flag: 'ExternalCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
-    { flag: 'FullAuditCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
-    { flag: 'IsLive', cells: ['TelNo'], value: 1, isFontHighlighted: true }
-  ];
-
-  currentPage:string ='1';
-
   getNextSetRecords(pageIndex: any) {
     debugger;
     this.currentPage = pageIndex;
     this.onFormSubmit(true);
   }
-  queryResult$!: Observable<any>;
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    this.tabs.splice(0);
     if (this.fullAuditForm.invalid) { return; }
     this.setAttributesForManualCorrections();
     this.currentPage = isEmitted ? this.currentPage : '1';
@@ -582,13 +556,13 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
           datasource: res[0].TelephoneNumbers,
           totalrecordcount: res[0].TotalCount,
           totalpages: res[0].NumberOfPages,
-          pagenumber: 1
+          pagenumber: res[0].PageNumber
         }
         return result;
       } else return {
         datasource: res
       };
-    }));   
+    }));
     this.myTable = {
       data: this.queryResult$,
       Columns: this.colHeader,
@@ -618,103 +592,105 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-  auditTelNo:any;
-  repIdentifier = "SolicitedErrors";
 
   newTab(tab: any) {
     debugger;
     if (this.tabs === []) return;
-    var auditACTID= this.auditACTID.value;    
+    var auditACTID = this.auditACTID.value;
+    var telno = tab.row.TelephoneNumber;
     switch (tab.tabType) {
-      case 1:{
-        //console.log('New Tab: '+ JSON.stringify(tab.row) )
-        //tab.row contains row data- fetch data from api and bind to respetive component
-
+      case 1: {
+        this.auditTelNo = tab.row.TelephoneNumber;
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
+            name: 'Audit Trail Report (' + tab.row.TelephoneNumber + ')'
           });
-
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
           let updtab = this.tabs.find(x => x.tabType == 1);
           if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
         }
-        this.auditTelNo = tab.row.TelephoneNumber;
         break;
       }
-      
       case 2: {
-        this.openDialog();
+        this.openDialog(auditACTID, tab.row.TelephoneNumber);
         break;
       }
       case 3: {
+        this.rangeReportInit(telno);
         if (!this.tabs?.find(x => x.tabType == 3)) {
-          this.rangeReportInit();
           this.tabs.push({
             tabType: 3,
-            name: 'Range Report'
+            name: 'Range Report (' + tab.row.TelephoneNumber + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) + 1;
-
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
+          let updtab = this.tabs.find(x => x.tabType == 3);
+          if (updtab) updtab.name = 'Range Report (' + tab.row.TelephoneNumber + ')';
 
         }
         break;
       }
       case 4: {
-        if (!this.tabs?.find(x => x.tabType == 4)) {
-          this.inflightReportInit();
+        this.inflightReportInit();
+        if (!this.tabs?.find(x => x.tabType == 4)) {         
           this.tabs.push({
             tabType: 4,
-            name: 'Inflight Report'
+            name: 'Inflight Report (' + tab.row.TelephoneNumber + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 4) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 4);
+          let updtab = this.tabs.find(x => x.tabType == 4);
+          if (updtab) updtab.name = 'Inflight Report (' + tab.row.TelephoneNumber + ')';
         }
         break;
       }
       case 5: {
+        this.monthlyRefreshReportInit(auditACTID, telno);
         if (!this.tabs?.find(x => x.tabType == 5)) {
-          this.monthlyRefreshReportInit();
           this.tabs.push({
             tabType: 5,
-            name: 'Monthly Refresh Report'
+            name: 'Monthly Refresh Report (' + tab.row.TelephoneNumber + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 5) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 5);
+          let updtab = this.tabs.find(x => x.tabType == 5);
+          if (updtab) updtab.name = 'Monthly Refresh Report (' + tab.row.TelephoneNumber + ')';
         }
         break;
       }
       case 6: {
+        this.moriCircuitStatusReportInit(telno);
         if (!this.tabs?.find(x => x.tabType == 6)) {
-          this.moriCircuitStatusReportInit(auditACTID,tab.row.TelephoneNumber);
           this.tabs.push({
             tabType: 6,
-            name: 'Mori Circuit Status Report'
+            name: 'Mori Circuit Status Report (' + tab.row.TelephoneNumber + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 6) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 6);
+          let updtab = this.tabs.find(x => x.tabType == 6);
+          if (updtab) updtab.name = 'Mori Circuit Status Report (' + tab.row.TelephoneNumber + ')';
         }
         break;
       }
       case 7: {
+        this.overLappingRangeListTableInit(auditACTID, telno);
         if (!this.tabs?.find(x => x.tabType == 7)) {
-          debugger;
-          this.overLappingRangeListTableInit(auditACTID, tab.row.TelephoneNumber);
           this.tabs.push({
             tabType: 7,
-            name: 'Overlapping Range List'
+            name: 'Overlapping Range List (' + tab.row.TelephoneNumber + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 7) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 7);
+          let updtab = this.tabs.find(x => x.tabType == 7);
+          if (updtab) updtab.name = 'Overlapping Range List (' + tab.row.TelephoneNumber + ')';
         }
         break;
       }
@@ -781,19 +757,12 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   setDefaultValues() {
-    this.fullAuditForm.get('AuditActID')?.setValue('29-20 Dec 2021');
+    this.fullAuditForm.get('AuditActID')?.setValue('');
   }
 
   get upDateForm() {
     return this.updateForm.controls;
   }
-
-  // createUpdateForm(){
-  //   this.updateForm = this.formBuilder.group({
-  //     ResolutionType: new FormControl({ value: '', disabled: true },[Validators.required]),
-  //     Remarks: new FormControl({ value: '', disabled: true },[Validators.required])
-  //   })
-  // }
 
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
@@ -819,61 +788,204 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     })
   }
 
-  rowDetect(item: any) {
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
+  // rowDetect(item: any) {
+  //   if (item.length == 0) {
+  //     this.selectListItems = [];
+  //   } else {
+  //     item.forEach((el: string) => {
+  //       if (!this.selectListItems.includes(el)) {
+  //         this.selectListItems.push(el)
+  //       }
+  //       else {
+  //         if (this.selectListItems.includes(el)) {
+  //           let index = this.selectListItems.indexOf(el);
+  //           this.selectListItems.splice(index, 1)
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
+
+  prepareUpdateIdentifiers() {
+    let identifiers: any[] = [];
+    // const startTelephoneNumber = this.thisForm.get('StartTelephoneNumber');
+    // const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
+
+    if (this.selectListItems.length > 0) {
+      if (this.selectListItems.length > 0) {
+        let telno: string[] = [];
+        this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
+        identifiers.push({ Name: 'TelephoneNumber', Value: telno });
+      } else
+        identifiers.push({ Name: 'TelephoneNumber', Value: [""] });
+    } 
+  
+    return identifiers;
+  }
+
+  onSaveSubmit(form: any): void {
+    //console.log("save", form);
+    debugger;
+    // if ((this.selectListItems.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
+    //   (this.Resolution && this.check999()  && this.Remarks)) {
+
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to save the records?'
         }
       });
-    }
+      rangeConfirm.afterClosed().subscribe(result => {
+        //console.log("result " + result);
+        if (result) {
+          let request = Utils.prepareUpdateRequest('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateParams());
+          //update 
+
+          console.log('sample in ', JSON.stringify(request))
+          this.service.updateDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              //success message and same data reload
+              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.onFormSubmit(true);
+            }
+          });
+        }
+      });
+    //}
   }
 
-  monthlyRefreshReportInit() {
+  prepareUpdateParams(): any {
+    let UpdateParams: any = [];
+   
+      if (this.selectListItems.length > 0) {
+        let telno: string[] = [];
+        this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
+        UpdateParams.push({ Name: 'TelephoneNumber', Value: telno });
+      } else
+      UpdateParams.push({ Name: 'TelephoneNumber', Value: [""] });
+    
+
+    if (this.resolutionType)
+      UpdateParams.push({ Name: 'ResolutionType', Value: [this.resolutionType] });
+    else
+      UpdateParams.push({ Name: 'ResolutionType' });
+    if (this.remarks)
+      UpdateParams.push({ Name: 'Remarks', Value: [this.remarks] });
+    else
+      UpdateParams.push({ Name: 'Remarks' });
+    if (this.auditACTID.value)
+      UpdateParams.push({ Name: 'AuditActID', Value: [this.auditACTID.value] });
+    else
+      UpdateParams.push({ Name: 'AuditActID' });
+
+      UpdateParams.push({ Name: 'AuditType' , Value: [`${'FullAuditDetails'}`] });
+
+    //console.log(UpdateParams);
+
+    return UpdateParams;
+  }
+
+  rowDetect(selectedRows: any) {
+    debugger;
+    selectedRows.forEach((item: any) => {
+      // this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
+
+      if (!this.selectListItems.includes(item))
+        this.selectListItems.push(item)
+      else if (this.selectListItems.includes(item)) {
+        let index = this.selectListItems.indexOf(item);
+        this.selectListItems.splice(index, 1)
+      }
+    })
+    //this.isEnable();
+    console.log("selectedGridRows" + JSON.stringify(this.selectListItems))
+  }
+
+  monthlyRefreshReportInit(auditACTID: any, telno: any) {
+    let attributes = [
+      { Name: 'TelephoneNumber', Value: [`${telno}`] },
+      { Name: 'AuditActID', Value: [`${auditACTID}`] }
+    ];
+
+    let request = Utils.prepareQueryRequest('MonthlyRefreshReport', 'FullAuditDetails', attributes);
+    console.log('sample', JSON.stringify(request));
+    this.monthlyRefreshQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].Reports,
+          totalrecordcount: res[0].Reports.length,
+          totalpages: 1,
+          pagenumber: 1
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }))
     this.monthlyRefreshRptTable
       = {
-      data: of({
-        datasource: ELEMENT_DATA4,
-        totalrecordcount: 500,
-        totalpages: 20,
-        pagenumber: 1
-      }),
+      data: this.monthlyRefreshQueryResult$,
       Columns: this.monthlyRefreshReportTableDetails,
       selectCheckbox: true,
+      removeNoDataColumns: true,
       filter: true
     }
   }
 
-  rangeReportInit() {
-    this.rangeRptTable = {
+  inflightReportInit() {
+    this.inflightRptTable = {
       data: of({
-        datasource: ELEMENT_DATA1,
-        totalrecordcount: 500,
+        datasource: ELEMENT_DATA2,
+        totalrecordcount: 100,
         totalpages: 20,
         pagenumber: 1
       }),
-      Columns: this.rangeReportTableDetails,
+      Columns: this.inflightTableDetails,
       selectCheckbox: true,
-
       filter: true
     }
   }
 
-  moriCircuitStatusQueryResult$!: Observable<any>;
+  rangeReportInit(telno: any) {
 
-  moriCircuitStatusReportInit(auditACTId:any,telno:any) {
+    let attributes = [
+      { Name: 'StartTelephoneNumber', Value: [`${telno}`] },
+      { Name: 'EndTelephoneNumber', Value: [`${telno}`] },
+      { Name: 'PageNumber', Value: [`${1}`] }
+    ];
 
-    let request = Utils.prepareQueryRequest('MoriCircuitDetails', 'FullAuditDetails', this.prepareQueryParamsTable(auditACTId,telno));
+    let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'FullAuditDetails', attributes);
     console.log('sample', JSON.stringify(request));
-    this.moriCircuitStatusQueryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
+    this.rangeReportQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].TelephoneNumbers,
+          totalrecordcount: res[0].TotalCount,
+          totalpages: res[0].NumberOfPages,
+          pagenumber: res[0].PageNumber
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
+    this.rangeRptTable = {
+      data: this.rangeReportQueryResult$,
+      Columns: this.rangeReportTableDetails,
+      removeNoDataColumns: true,
+      selectCheckbox: true,
+      filter: true
+    }
+  }
+
+  moriCircuitStatusReportInit(telno: any) {
+    let attributes = [
+      { Name: 'TelephoneNumber', Value: [`${telno}`] }
+    ];
+
+    let request = Utils.prepareQueryRequest('MoriCircuitDetails', 'FullAuditDetails', attributes);
+    console.log('sample', JSON.stringify(request));
+    this.moriCircuitStatusQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res[0].Circuits,
@@ -893,7 +1005,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       //   totalpages: 20,
       //   pagenumber: 1
       // }),
-      data:this.moriCircuitStatusQueryResult$,
+      data: this.moriCircuitStatusQueryResult$,
       Columns: this.moriCicuitTableDetails,
       filter: true,
       selectCheckbox: true,
@@ -901,12 +1013,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  overlappingQueryResult$!:Observable<any>;
-  overLappingRangeListTableInit(auditACTId:string, telno:any) {
+  overLappingRangeListTableInit(auditACTId: string, telno: any) {
+    let attributes = [
+      { Name: 'TelephoneNumber', Value: [`${telno}`] },
+      { Name: 'AuditActID', Value: [`${auditACTId}`] }
+    ];
 
-    let request = Utils.prepareQueryRequest('OverlappingRange', 'FullAuditDetails', this.prepareQueryParamsTable(auditACTId,telno));
+    let request = Utils.prepareQueryRequest('OverlappingRange', 'FullAuditDetails', attributes);
     console.log('sample', JSON.stringify(request));
-    this.overlappingQueryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
+    this.overlappingQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res[0].Range,
@@ -931,20 +1046,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true
-    }
-  }
-
-  inflightReportInit() {
-    this.inflightRptTable = {
-      data: of({
-        datasource: ELEMENT_DATA2,
-        totalrecordcount: 100,
-        totalpages: 20,
-        pagenumber: 1
-      }),
-      Columns: this.inflightTableDetails,
-      selectCheckbox: true,
-      filter: true
     }
   }
 }

@@ -39,14 +39,24 @@
         
                     <mat-form-field [ngClass]="{'hidden':form.AuditActID.disabled}">
                         <mat-label>Audit ACT ID</mat-label>
-                        <mat-select id="AuditActId" formControlName="AuditActID">
-                            <mat-option></mat-option>
-                            <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
-                            <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
-                            <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
-                        </mat-select>
-                        <!-- <mat-error class="error-message" *ngIf="checkError('AuditActID', 'required')">Please Select
-                            Audit ACTID</mat-error> -->
+                        <input #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID"
+                         type="text" placeholder="Search Audit Act ID" matInput
+                        [matAutocomplete]="autoAuditACTId" OptionsValidator [options]="config.FullAuditActID | splitBy: ','" />
+                      <span matSuffix mat-icon-button>
+                        <mat-icon>arrow_drop_down</mat-icon>
+                      </span>
+                      <mat-autocomplete autoActiveFirstOption #autoAuditACTId="matAutocomplete">
+                        <mat-option *ngFor="let val of config.FullAuditActID | splitBy: ',' | ddlFilter: auditACTId.value" [value]="val">
+                          {{val}}
+                        </mat-option>
+                      </mat-autocomplete>
+                      <mat-error>  
+                        <div *ngIf="form.AuditActID.errors?.validOptions" class="alert alert-danger">Value need to match available options</div>                                                 
+                       <div *ngIf="form.AuditActID.hasError('required')"
+                                class="alert alert-danger">
+                                Select Audit ACT ID 
+                            </div>                            
+                       </mat-error>                        
                     </mat-form-field>       
                   
                
@@ -102,7 +112,7 @@
                       <span matSuffix mat-icon-button>
                         <mat-icon>arrow_drop_down</mat-icon>
                       </span>
-                      <mat-autocomplete  autoActiveFirstOption #autoFullAuditCLIStatus="matAutocomplete">
+                      <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoFullAuditCLIStatus="matAutocomplete">
                         <mat-option *ngFor="let val of config.FullAuditCLIStatus | splitBy: ',' | ddlFilter: fullCLIStatus.value" [value]="val">
                           {{val}}
                         </mat-option>
@@ -182,11 +192,11 @@
                     <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
                         <mat-label>OSN2 Source</mat-label>
                         <input #osnSource formControlName="OSN2Source" type="text" placeholder="Search OSN2 Source" matInput
-                        [matAutocomplete]="autoSource" OptionsValidator [options]="config.OSN2Source | splitBy: ','" />
+                        [matAutocomplete]="autoOSN2Source" OptionsValidator [options]="config.OSN2Source | splitBy: ','" />
                       <span matSuffix mat-icon-button>
                         <mat-icon>arrow_drop_down</mat-icon>
                       </span>
-                      <mat-autocomplete  autoActiveFirstOption #autoSource="matAutocomplete">
+                      <mat-autocomplete  autoActiveFirstOption #autoOSN2Source="matAutocomplete">
                         <mat-option *ngFor="let val of config.OSN2Source | splitBy: ',' | ddlFilter: osnSource.value" [value]="val">
                           {{val}}
                         </mat-option>
@@ -226,7 +236,7 @@
         
                     <mat-form-field [ngClass]="{'hidden':form.VodafoneRangeHolder.disabled}">
                         <mat-label>Vodafone Range Holder</mat-label>
-                        <input #vodafoneRangeHolder formControlName="PortingStatus" type="text" placeholder="Search Vodafone Range Holder" matInput
+                        <input #vodafoneRangeHolder formControlName="VodafoneRangeHolder" type="text" placeholder="Search Vodafone Range Holder" matInput
                         [matAutocomplete]="autovfRangeHolder" OptionsValidator [options]="config.VodafoneRangeHolder | splitBy: ','" />
                       <span matSuffix mat-icon-button>
                         <mat-icon>arrow_drop_down</mat-icon>
@@ -246,12 +256,12 @@
         
                     <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
                         <mat-label>Resolution Type</mat-label>
-                        <input #resolutionType formControlName="PortingStatus" type="text" placeholder="Search Resolution Type" matInput
+                        <input #resolutionType formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
                         [matAutocomplete]="autoResType" OptionsValidator [options]="config.ResolutionTypeAudit | splitBy: ','" />
                       <span matSuffix mat-icon-button>
                         <mat-icon>arrow_drop_down</mat-icon>
                       </span>
-                      <mat-autocomplete autoActiveFirstOption #autoResType="matAutocomplete">
+                      <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResType="matAutocomplete">
                         <mat-option *ngFor="let val of config.ResolutionTypeAudit | splitBy: ',' | ddlFilter: resolutionType.value" [value]="val">
                           {{val}}
                         </mat-option>
@@ -324,12 +334,12 @@
                     <mat-form-field [ngClass]="{'hidden':form.PostCodeDifference.disabled}">
                         <mat-label>Post Code Difference</mat-label>
                         <input #postCodeDifference formControlName="PostCodeDifference" type="text" placeholder="Search Postcode Difference" matInput
-                        [matAutocomplete]="autoMoriStatus" OptionsValidator [options]="config.PostCodeDifference | splitBy: ','" />
+                        [matAutocomplete]="autoPostCodeDifference" OptionsValidator [options]="config.PostcodeDifference | splitBy: ','" />
                       <span matSuffix mat-icon-button>
                         <mat-icon>arrow_drop_down</mat-icon>
                       </span>
-                      <mat-autocomplete autoActiveFirstOption #postCodeDifference="matAutocomplete">
-                        <mat-option *ngFor="let val of config.PostCodeDifference | splitBy: ',' | ddlFilter: postCodeDifference.value" [value]="val">
+                      <mat-autocomplete autoActiveFirstOption #autoPostCodeDifference="matAutocomplete">
+                        <mat-option *ngFor="let val of config.PostcodeDifference | splitBy: ',' | ddlFilter: postCodeDifference.value" [value]="val">
                           {{val}}
                         </mat-option>
                       </mat-autocomplete>
@@ -344,12 +354,12 @@
                     <mat-form-field [ngClass]="{'hidden':form.FullAddDifference.disabled}">
                         <mat-label>Full Address Difference</mat-label>
                         <input #fullAddDifference formControlName="FullAddDifference" type="text" placeholder="Search Full Address Difference" matInput
-                        [matAutocomplete]="autoMoriStatus" OptionsValidator [options]="config.FullAddDifference | splitBy: ','" />
+                        [matAutocomplete]="autofullAddDifference" OptionsValidator [options]="config.FullAddressDifference | splitBy: ','" />
                       <span matSuffix mat-icon-button>
                         <mat-icon>arrow_drop_down</mat-icon>
                       </span>
-                      <mat-autocomplete autoActiveFirstOption #fullAddDifference="matAutocomplete">
-                        <mat-option *ngFor="let val of config.FullAddDifference | splitBy: ',' | ddlFilter: fullAddDifference.value" [value]="val">
+                      <mat-autocomplete autoActiveFirstOption #autofullAddDifference="matAutocomplete">
+                        <mat-option *ngFor="let val of config.FullAddressDifference | splitBy: ',' | ddlFilter: fullAddDifference.value" [value]="val">
                           {{val}}
                         </mat-option>
                       </mat-autocomplete>
@@ -363,11 +373,21 @@
         
                     <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
                         <mat-label>Customer Diff.</mat-label>
-                        <mat-select id="CustomerDiff" formControlName="CustomerDifference">
+                        <input #customerDifference formControlName="CustomerDifference" type="text" placeholder="Search Full Address Difference" matInput
+                        [matAutocomplete]="autoCustomerDifference" OptionsValidator [options]="config.CustomerDifference | splitBy: ','" />
+                      <span matSuffix mat-icon-button>
+                        <mat-icon>arrow_drop_down</mat-icon>
+                      </span>
+                      <mat-autocomplete autoActiveFirstOption #autoCustomerDifference="matAutocomplete">
+                        <mat-option *ngFor="let val of config.CustomerDifference | splitBy: ',' | ddlFilter: customerDifference.value" [value]="val">
+                          {{val}}
+                        </mat-option>
+                      </mat-autocomplete>
+                        <!-- <mat-select id="CustomerDiff" formControlName="CustomerDifference">
                             <mat-option></mat-option>
                             <mat-option value="No">No</mat-option>
                             <mat-option value="Yes">Yes</mat-option>
-                        </mat-select>
+                        </mat-select> -->
                     </mat-form-field>
         
                     <mat-form-field [ngClass]="{'hidden':form.OverlappingStatus.disabled}">
@@ -408,7 +428,7 @@
             (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
             <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
         </button>
-        <mat-tab-group [(selectedIndex)]="selectedTab">
+        <mat-tab-group [disablePagination]="true" [(selectedIndex)]="selectedTab">
             <mat-tab *ngFor="let tab of tabs; let index = index">
                 <ng-template mat-tab-label>
                     <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
@@ -418,24 +438,12 @@
                 </ng-template>
                 <span [ngSwitch]="tab.tabType">
                     <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-                        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                        <app-table-selection [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
                         <div class="mat-elevation-z8 side-bottom">
                             <!-- <div style="display:inline; margin-left: 15px;"> -->                              
-
-                                <form>
-                                    <!-- <mat-form-field >
-                                <mat-label>Resolution Type*</mat-label>
-                                <mat-select>
-                                    <mat-option></mat-option>
-                                    <mat-option>New</mat-option>
-                                    <mat-option>Under Investigation</mat-option>
-                                    <mat-option>Under Governance</mat-option>
-                                    <mat-option>Under Governance</mat-option>
-                                    <mat-option>Port Req Complete</mat-option>
-                                </mat-select>
-                            </mat-form-field>  -->
+                                <form (ngSubmit)="update.form.valid && onSaveSubmit(update)" #update="ngForm" autocomplete="off">                                    
                                     <mat-form-field>
                                         <mat-label>Resolution Type</mat-label>
                                         <input name="resolution" required [(ngModel)]="resolutionType"
@@ -445,7 +453,7 @@
                                         <span matSuffix mat-icon-button>
                                             <mat-icon>arrow_drop_down</mat-icon>
                                         </span>
-                                        <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
+                                        <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResolutionType="matAutocomplete">
                                             <mat-option *ngFor="let val of configDetails.ResolutionTypeAudit | splitBy: ',' | ddlFilter: resolution.value" [value]="val">
                                                 {{val}}
                                               </mat-option>                                       

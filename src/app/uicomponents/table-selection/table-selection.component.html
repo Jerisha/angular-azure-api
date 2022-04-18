@@ -49,18 +49,7 @@ font-size: smaller;  ">
 
 <div>
 
-    <!-- <table>
-      <ng-container *ngIf="!dataSource.data">
-      <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index">
-        <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>{{disCol.header}}</th>
-        </ng-container>
-      </ng-container>
-      <tr *ngIf="!dataSource.data.length">
-        <td style="text-align: center;" [attr.colspan]="displayedColumns.length">
-          No Records Found!
-        </td>
-      </tr>
-    </table> -->
+
 
  
 
@@ -123,6 +112,8 @@ font-size: smaller;  ">
 <!-- <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
   </mat-paginator>  -->
 
+
+  <ng-container >
 <mat-paginator #paginator style="height: 5px;" [length]="totalRows" showFirstLastButtons [pageIndex]="currentPage"
   [pageSize]="pageSize" hidePageSize [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)">
 </mat-paginator>
@@ -144,6 +135,7 @@ font-size: smaller;  ">
     </button>
   </span>
 </div>
+</ng-container>
 <!-- <div style="margin: auto;" *ngIf="!isShown">
   <button  [disabled]="false" type="reset" mat-raised-button color="primary" >
     <mat-icon>import_export</mat-icon>Refresh

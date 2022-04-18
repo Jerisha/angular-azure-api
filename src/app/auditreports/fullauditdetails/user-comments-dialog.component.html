@@ -2,14 +2,16 @@
     <mat-icon class="close-icon" color="warn">close</mat-icon>
 </button>
 <div class="highlight">
-    <h3>User Comments</h3>
+    <h3><strong>User Comments: {{telno}}</strong></h3>
 </div>
 <mat-dialog-content>
-    <div *ngIf="data.defaultValue">
+    <!-- <mat-dialog-content [ngClass]="{'set-width':!data.defaultValue}" > -->
+
+        <div *ngIf="data.defaultValue">
         <app-table-selection [tableitem]="userCommentsTable">
         </app-table-selection>
     </div>
     <div *ngIf="!data.defaultValue">
-        No Records found
+        No data available for the given input
     </div>
 </mat-dialog-content>

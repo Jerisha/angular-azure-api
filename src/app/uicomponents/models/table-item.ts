@@ -5,6 +5,7 @@ export interface TableItem {
     filter?: boolean;
     selectCheckbox?: boolean;
     imgConfig?: ViewColumn[];
+    disablePaginator?:boolean;
     showEmail?:boolean;
     removeNoDataColumns?:boolean;
     highlightedCells?:string[];

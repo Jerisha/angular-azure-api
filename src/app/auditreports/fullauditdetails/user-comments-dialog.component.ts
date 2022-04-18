@@ -1,7 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
+import { Utils } from 'src/app/_http';
+import { FullAuditDetailsService } from './fullauditdetails.service';
 
 
 const ELEMENT_DATA: any[] = [{
@@ -42,6 +45,9 @@ const ELEMENT_DATA: any[] = [{
             overflow-y: hidden !important;
             overflow-x: hidden !important;
           }
+          .set-width{
+            width:350px
+          }
         `
   ]
 })
@@ -59,8 +65,9 @@ export class UserCommentsDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { defaultValue: any },
-    private dialogRef: MatDialogRef<UserCommentsDialogComponent>
+    public data: { defaultValue: any, telno:any },
+    private dialogRef: MatDialogRef<UserCommentsDialogComponent>,
+    private service: FullAuditDetailsService
   ) {
     // console.log('inside',data);
   }
@@ -68,17 +75,38 @@ export class UserCommentsDialogComponent {
   ngOnInit(){
     this.userCommentsTableInit();
   }
+  telno:string ='';
 
+  userCommentsQueryResult$!:Observable<any>;
   userCommentsTableInit() {
+    this.telno = this.data.telno;
+    let request = Utils.prepareQueryRequest('UserComments', 'FullAuditDetails', this.data.defaultValue);
+    console.log('sample user', JSON.stringify(request));
+    const observable = new Observable(observer => {
+    this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res[0].TelephoneNumbers,
+          totalrecordcount: res[0].TelephoneNumbers.length,
+          totalpages: 1,
+          pagenumber: 1
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }))
+    .subscribe(result=>{      
+      this.data.defaultValue = result.datasource.length>0?result:null;
+      observer.next(result)
+    });
+  })
     this.userCommentsTable = {
-      data: of({datasource:ELEMENT_DATA,
-        totalrecordcount: 10,
-        totalpages:20,
-        pagenumber:1}),
-      Columns: this.userCommentsTableDetails,
-      //filter: true,
+      data:observable,
+      Columns: this.userCommentsTableDetails,      
       selectCheckbox:true,
-      removeNoDataColumns: true
+      removeNoDataColumns: true,
+      disablePaginator:true
     }
   }
   // onYesClick(): void {

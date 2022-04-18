@@ -5,51 +5,69 @@
     opacity: 0.4;
 }
 button{
-    margin-bottom:10px;    
+    margin-bottom:10px;
 }
 
 .filterposition{
     margin-left:10px;
     margin-top:15px;
-    margin-bottom:10px;   
+    margin-bottom:10px;
+}
+
+ ::ng-deep .mat-tab-header {
+  overflow-x: auto !important;
+}
+
+::ng-deep .mat-tab-label-container {
+  overflow: visible !important;
+}
+
+/* ::ng-deep .mat-tab-header::-webkit-scrollbar {
+  display: none;
+} */
+
+.mat-tab-label {
+  min-width: 20px !important;
+  flex: 1 !important;
+  padding: 0 !important;
 }
 
 /* :host{
   padding: 0em;
 }
 
-:host::ng-deep app-table-selection .table-container {  
+:host::ng-deep app-table-selection .table-container {
   height: 350px !important;
 } */
 
-.grid-container-element { 
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  grid-gap: 1px; 
+.grid-container-element {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1px;
   /* margin :5px; */
-  width: 100%; 
-} 
-.grid-child-element { 
+  width: 100%;
+}
+.grid-child-element {
   margin-top: 15px;
-  margin-right: 10px; 
-  margin-left: 10px; 
+  margin-right: 10px;
+  margin-left: 10px;
 }
   .controlsStylediv{
-    margin-right:20px 
+    margin-right:20px
   }
 
   .side-bottom .side-textarea{
     /* background-color: lawngreen!important; */
     width: 300px;
-    font-size: smaller;  
-  /* position:absolute; 
+    font-size: smaller;
+  /* position:absolute;
   margin-top: 90px;*/
   /* margin-left: 200px; */
   margin: 5px;
- 
+
   }
 
- 
+
   /* ::ng-deep .mat-optgroup.hideLabel .mat-optgroup-label .mat-option.hideLabel {
     display: none;
   } */
@@ -69,7 +87,7 @@ button{
     margin-top: 5px;
     padding:5px
   }
-  
+
   .pageHolder{
     width: 100%;
     height:200px

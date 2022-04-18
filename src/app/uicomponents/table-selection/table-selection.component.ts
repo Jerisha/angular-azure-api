@@ -97,7 +97,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     ngOnChanges(changes: SimpleChanges) {
       // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
       //   return;
-      
+      this.disablePaginator = this.tableitem?.disablePaginator?true:false;
       this.dataObs$ = this.tableitem?.data;
       this.spinner.show();
       this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
@@ -125,12 +125,12 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       
     }
 
-
+    disablePaginator:boolean= false;
 
   initializeTableAttributes(data:any) {
     this.selection.clear();
     this.allSelected = true;
-    this.ColumnDetails = [];
+    this.ColumnDetails = [];   
     this.imageAttrCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isImage) : [];
     this.fontHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isFontHighlighted) : [];
     this.backgroundHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];

@@ -32,6 +32,9 @@ export class FullAuditDetailsService {
     return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
 
   }
+  updateDetails(request: any): Observable<any> {
+    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
+  }
 
   // getDetails(): Observable<WeatherForecast[]> {
   //   return this.wrapperService.processRequst<WeatherForecast[]>('GET', 'weatherforecast');
