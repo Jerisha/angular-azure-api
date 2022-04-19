@@ -128,14 +128,14 @@ refresh(event: any)
        
         this.Datetime =   formatDate( new Date, 'dd-MMM-yyyy HH:mm', 'en-US')
         this.tabs.splice(0);
-        let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage));
+        let request = Utils.preparePyQuery('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage));
         this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
             if (Object.keys(res).length) {
                 let result = {
-                    datasource: res[0].TelephoneNumbers,
-                    totalrecordcount: res[0].TotalCount,
-                    totalpages: res[0].NumberOfPages,
-                    pagenumber: res[0].PageNumber
+                    datasource: res.data.TelephoneNumbers,
+                    totalrecordcount: res.data.TotalCount,
+                    totalpages: res.data.NumberOfPages,
+                    pagenumber: res.data.PageNumber
                 }
                 return result;
             } else return res;
