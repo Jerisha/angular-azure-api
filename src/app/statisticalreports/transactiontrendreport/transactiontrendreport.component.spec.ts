@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransactionsourcecommandhistoryComponent } from './transactionsourcecommandhistory.component';
+import { TransactionsourcecommandhistoryComponent } from './transactiontrendreport.component';
 
 describe('TransactionsourcecommandhistoryComponent', () => {
   let component: TransactionsourcecommandhistoryComponent;

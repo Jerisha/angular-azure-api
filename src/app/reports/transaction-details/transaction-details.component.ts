@@ -285,9 +285,9 @@ prepareQueryParams(pageNo: string): any {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TransactionDetails,
-          totalrecordcount: res.data.TotalCount,
-          totalpages: res.data.NumberOfPages,
-          pagenumber: res.data.PageNumber
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber          
         }
         return result;
       } else return {datasource:res};;

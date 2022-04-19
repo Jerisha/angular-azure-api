@@ -337,7 +337,6 @@ export class ReportReferenceService {
 
   ];
 
-
   setForm(reportName: string) {
     let val = this.getConfig(['Source','BTCupID','CrossRefFranchise','InternalCupID']);
     
@@ -871,8 +870,7 @@ export class ReportReferenceService {
       return this.lstForm;
     }
   }
-
-
+  
 
   prepareData(pageIdentifier: string, reportIdentifier: string): Observable<any> {
     //let request = ReportReferenceService.prepareQueryRequest(pageIdentifier, reportIdentifier);

@@ -60,12 +60,12 @@
         <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
           <mat-label>Source</mat-label>
           <input #source formControlName="Source" type="text" placeholder="Search Source" matInput
-            [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','"/>
+            [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source "/>
           <span matSuffix mat-icon-button>
             <mat-icon>arrow_drop_down</mat-icon>
           </span>
           <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
-            <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: source.value" [value]="val">
+            <mat-option *ngFor="let val of config.Source  | ddlFilter: source.value" [value]="val">
               {{val}}</mat-option>
           </mat-autocomplete>
           <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>

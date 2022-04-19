@@ -415,12 +415,12 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   InternalErrorInformation: any;
   DisplayInformationTab() {
     debugger
-    let request = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
+    let request = Utils.preparePyQuery('InternalErrorInformation', 'UnsolicitedErrors', [{
       "Name": "TransactionDays",
       "Value": [`${environment.UnsolTransactionDays}`]
     }])
 
-    this.queryResultInfo$ = this.service.infoDetails(request).pipe(map((res: any) => res));
+    this.queryResultInfo$ = this.service.queryDetails(request).pipe(map((res: any) => res.data));
     // this.service.infoDetails(request).subscribe((res: any) => {
     //   this.infotable1 = res.dates;
     //   this.infotable2 = res.months      
