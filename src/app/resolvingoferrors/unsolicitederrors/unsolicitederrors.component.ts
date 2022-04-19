@@ -464,6 +464,21 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.thisForm.valid) return;
+    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) > 10000) {
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: {
+          enableOk: false,
+          message: 'TelephoneRange must be less than or equal to 10000.',
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        return result;
+      })
+      return;
+    }
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
