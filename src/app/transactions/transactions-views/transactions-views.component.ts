@@ -19,6 +19,7 @@ import { HelperModule } from 'src/app/_helper/helper.module';
 import { Utils } from 'src/app/_http/index';
 import{TransactionDataService} from '../services/transaction-data.service';
 import { map, startWith } from 'rxjs/operators';
+import { CdkTreeModule } from '@angular/cdk/tree';
 
 @Component({
   selector: 'app-transactions-views',
@@ -73,6 +74,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
 
     panelOpenState = false;
     btncolor: string ="secondary"
+    defaultbtn:string="vf-primary-btn";
     savebtnColor:string ="secondary"
 
     addbtncolor:string ="secondary"
@@ -172,7 +174,15 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
 }
 removeRangeCli(rangeIndex:number){
   this.CliRangeSet.splice(rangeIndex, 1);
+if(this.CliRangeSet.length>0)
+{
 
+  this.searchTelState=false;
+}
+else{
+  
+this.searchTelState=true;
+}
 }
 
 onTelphonenumChange(event:any)
@@ -183,13 +193,13 @@ onTelphonenumChange(event:any)
     (this.model.telno.length==11  && this.model.rangeEnd.length==11 ))
     {
       this.isExportImportSelected =true;
-      this.searchTelState =false;
+      //this.searchTelState =false;
       this.addCliState=false;
       this.btncolor ="vf-primary-btn";
       this.addbtncolor="vf-add-btn";
     }
     else{
-      this.searchTelState =true;
+     // this.searchTelState =true;
       this.addCliState=true;
       this.btncolor ="secondary";
       this.addbtncolor="secondary";
@@ -217,13 +227,13 @@ onChange(value: string, ctrlName: string) {
       if(ctrl.status=='VALID')
       {
     this.isExportImportSelected =true;
-    this.searchTelState =false;
+    //this.searchTelState =false;
     this.addCliState=false;
     this.btncolor ="vf-primary-btn";
     this.addbtncolor="vf-add-btn";
       }
       else{
-        this.searchTelState =true;
+      //  this.searchTelState =true;
         this.addCliState=true;
         this.btncolor ="secondary";
         this.addbtncolor="secondary";
@@ -231,7 +241,7 @@ onChange(value: string, ctrlName: string) {
      }
    }
    else{
-    this.searchTelState =true;
+    //this.searchTelState =true;
     this.addCliState=true;
     this.btncolor ="secondary";
     this.addbtncolor="secondary";
@@ -254,7 +264,7 @@ onChangeEvent(event:any,control:string)
   const selection: any = this.model.telno;
   let prefix: string[] = ['01', '02', '03', '08'];
   if (selection && (prefix.indexOf(selection.substring(0, 2)) === -1) && selection.length >= 2) {
-    this.searchTelState =true;
+    //this.searchTelState =true;
     this.addCliState=true;
     this.btncolor ="secondary";
     this.addbtncolor="secondary";
@@ -263,7 +273,7 @@ onChangeEvent(event:any,control:string)
     if(this.model.telno.length==11)
     {
     this.isExportImportSelected =true;
-    this.searchTelState =false;
+    //this.searchTelState =false;
     this.addCliState=false;
     this.btncolor ="vf-primary-btn";
     this.addbtncolor="vf-add-btn";
@@ -280,7 +290,7 @@ onChangeEvent(event:any,control:string)
   const selection: any = this.model.rangeEnd;
   let prefix: string[] = ['01', '02', '03', '08'];
   if (selection && (prefix.indexOf(selection.substring(0, 2)) === -1) && selection.length >= 2) {
-    this.searchTelState =true;
+    //this.searchTelState =true;
     this.addCliState=true;
     this.btncolor ="secondary";
     this.addbtncolor="secondary";
@@ -292,7 +302,7 @@ onChangeEvent(event:any,control:string)
     {
       
     this.isExportImportSelected =true;
-    this.searchTelState =false;
+    //this.searchTelState =false;
     this.addCliState=false;
     this.btncolor ="vf-primary-btn";
     this.addbtncolor="vf-add-btn";
@@ -342,8 +352,15 @@ saveTran(val:number)
 {
   let request2 = Utils.preparePyCreate('Transactions', 'Transactions','CreateParameters', this.prepareQueryParamsforCreate(this.currentPage));
    console.log('create request',JSON.stringify(request2));
-  this.service.create(request2).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res))
+  // this.service.create(request2).subscribe((res: any) => {
+  //     console.log("res: " + JSON.stringify(res))
+  // });
+  this.service.create(request2).subscribe(x => {
+    if (x.StatusMessage === 'Success') {
+      //success message and same data reload
+      this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+     this.resetTel("");
+    }
   });
   
 }
@@ -353,9 +370,13 @@ ReviewCli()
   this.views.view1=true;
   this.views.view2 =false;
   this.views.view3 =false;
+  this.searchTelState=false;
+  this.btncolor ="vf-primary-btn";  
 }
 SearchTel(){ 
 
+  this.model.telno="";
+  this.model.endTel="";
  
     let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
    
@@ -432,8 +453,24 @@ SearchTel(){
     let attributes: any = [
       { Name: 'TelephoneNumberRange', Value: ["02071117400|02071117900"] }];
     //Reference
-   
-   
+    let telephonerangevalues:string="";
+    for (let i = 0; i < this.CliRangeSet.length; i++) {
+      
+        if(this.CliRangeSet[i][1].toString()!="")
+        {
+          telephonerangevalues+=this.CliRangeSet[i][1].toString()+'|'+this.CliRangeSet[i][0].toString();
+        }
+        else{
+          telephonerangevalues+=this.CliRangeSet[i][0].toString();
+      
+        }
+        if(i+1<this.CliRangeSet.length)
+        {
+          telephonerangevalues+=",";
+       
+        }
+      }
+   console.log('telephone range attr',telephonerangevalues);
            console.log(attributes);
 
           return attributes;
@@ -484,7 +521,7 @@ SearchTel(){
       return false;
    }  else
    {  
-    this.searchTelState =false;
+    //this.searchTelState =false;
     this.addCliState=false;
     this.btncolor ="vf-primary-btn";  
     this.addbtncolor="vf-add-btn";
@@ -545,7 +582,6 @@ SearchTel(){
   }
   onCupIdChange (event:any)
   {
-   let states= []; 
     if(event.value !="")
     {
       this.franchiseValues = this.cupIds.filter((obj: { Cupid: string; }) => {
@@ -564,6 +600,20 @@ SearchTel(){
       if((startnumber==this.CliRangeSet[i][0].toString()||startnumber==this.CliRangeSet[i][1].toString()&&startnumber!="")||(endnumber==this.CliRangeSet[i][0].toString()||endnumber==this.CliRangeSet[i][1].toString()&&endnumber!=""))
       {
          return false;
+      }
+      if(this.CliRangeSet[i][0].toString()!=''&&this.CliRangeSet[i][1].toString()!='')
+      {
+        if((Number(startnumber)<Number(this.CliRangeSet[i][0].toString())&&Number(startnumber)>Number(this.CliRangeSet[i][1].toString()))||Number(endnumber)<Number(this.CliRangeSet[i][0].toString())&&Number(endnumber)>Number(this.CliRangeSet[i][1].toString()))
+      {
+        return false;
+      }
+     
+      }
+      else{
+        if(Number(this.CliRangeSet[i][0].toString())>Number(endnumber)&&Number(this.CliRangeSet[i][0].toString())<Number(startnumber))
+        {
+          return false;
+        }
       }
     }
     return true;
@@ -597,13 +647,16 @@ SearchTel(){
         
         }
         else{
-          count=this.model.telno-this.model.rangeEnd;
+          //count=this.model.telno-this.model.rangeEnd;
+          count=this.model.rangeEnd-this.model.telno;
         }
         if(count<=10000&&count>0&&this.checktotalrange(count))
         {
           if(this.checkduplicate(this.model.telno,this.model.rangeEnd))
           {
         this.CliRangeSet.push([this.model.telno,this.model.rangeEnd,count]);
+       this.searchTelState=false;
+       this.btncolor ="vf-primary-btn";  
         this.model ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
           }
           else{
@@ -614,12 +667,12 @@ SearchTel(){
         else{
           if(!this.checktotalrange(count))
           {
-            this.alertService.error("Total range exceeeding more than 10000!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.notification("Total range exceeeding more than 10000!", { autoClose: true, keepAfterRouteChange: false });
       
           }
          else if(count>=10000)
          {
-          this.alertService.error("Count shouldn't be more than 10000!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Count shouldn't be more than 10000!", { autoClose: true, keepAfterRouteChange: false });
          }
          else{
           this.alertService.error("Count shouldn't be negative", { autoClose: true, keepAfterRouteChange: false });
