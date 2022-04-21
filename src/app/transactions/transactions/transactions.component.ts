@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output  } from '@angular/core';
 import { Tab } from '../../uicomponents/models/tab';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { TelephoneAuditTrailComponent } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
 import { CustomerAddress, ICustomerAddress } from '../models/ICustomerAddress';
 import { TransactionItem } from '../models/ITransactionItem';
+import{TransactionsViewsComponent}from '../transactions-views/transactions-views.component'
 
 
 @Component({
@@ -22,19 +23,22 @@ export class TransactionsComponent implements OnInit {
   auditTeleNoselected: any;
   tabposition!: number | null;
   selectedTab!: number;
+  repIdentifier:string="Transactions";
   telNo?: any;
    tabs :Tab[]=[] ;
+   addressvalues:any[]=[];
 
   addressDetails!: AddressDetails;
   customerAddress:ICustomerAddress =new CustomerAddress();
 
   @ViewChild(TelephoneAuditTrailComponent) auditTrailView!: TelephoneAuditTrailComponent;
-
+  @ViewChild(TransactionsViewsComponent)childEvent!: TransactionsViewsComponent;
   transactionItem =new TransactionItem(); //need to fix
   
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.telNo='01076543233';
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -63,6 +67,8 @@ export class TransactionsComponent implements OnInit {
 
   OnAuditTrailSelected(initAuditTrail:any[])
   {
+
+    console.log('event is calling audit');
     this.auditTrailSuccess=initAuditTrail[0];
   this.telNo='01076543233'
     if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
@@ -102,17 +108,25 @@ export class TransactionsComponent implements OnInit {
 //  }
     
   }
-
+  OnAddressFill(Addressval:any[])
+  {
+let s:string=this.childEvent.FillPaffAddress(Addressval);
+    console.log("Address values from child",Addressval);
+  }
   OnAddressCheckSelected(initAddressCheck:any[])
   {
     // console.log("before index"+this.selectedIndex);
     this.addressCheckSuccess=initAddressCheck[0];
+    this.addressvalues=initAddressCheck;
+   console.log('this adress selected',initAddressCheck);
 
+   this.tabs.splice(this.tabs.findIndex(x => x.tabType == 1), 1);
     if (!this.tabs?.find(x => x.name == 'Address Check')) 
     {
       this.tabs.push({tabType: 1,name: 'Address Check'});  
       this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
     } else {
+
     this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
     } 
     //   this.selectedTab = this.tabs.findIndex(x => x.name == 'Address Check');

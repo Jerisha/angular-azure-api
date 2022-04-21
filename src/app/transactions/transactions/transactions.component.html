@@ -26,7 +26,7 @@
           </ng-template>
           <div [ngSwitch]="tab.tabType">
         <ng-container *ngSwitchCase="1">
-          <app-address-check></app-address-check>
+          <app-address-check [Addressvalues]="addressvalues" (AddressFill)="OnAddressFill($event)"></app-address-check>
         </ng-container>
       <!-- </mat-tab> -->
       <!-- <mat-tab label="Audit Trail"  *ngIf="auditTrailSuccess" isActive="auditTrailState" style ="height:60%;"> -->
@@ -38,7 +38,8 @@
             </button>
           </div>
             <div class="audit-trail-view">
-            <app-telephone-audit-trail ></app-telephone-audit-trail>
+            <app-telephone-audit-trail [telNo]="telNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+           
           </div>
         </ng-container>
         <div *ngSwitchDefault>

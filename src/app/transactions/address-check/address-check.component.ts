@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export interface Tile {  
   text: string;
   class:string;
@@ -34,7 +34,8 @@ export interface IAddressCheck {
   styleUrls: ['./address-check.component.css']
 })
 export class AddressCheckComponent implements OnInit {
-    
+  @Input() Addressvalues!:any;
+  @Output() AddressFill = new EventEmitter<any[]>();
   summaryTiles: Tile[] = [    
     {text: 'Error Code' ,class:"vf-grid-header"},
     {text: 'Checked Address',class:"vf-grid-header"},
@@ -79,19 +80,19 @@ export class AddressCheckComponent implements OnInit {
     {text: 'Input Address'       ,class:"vf-grid-header"},
     {text: 'PAF Address'         ,class:"vf-grid-header"},
     {text: 'Address1'            ,class:"vf-sub-title"},
-    {text: 'Address1 value'      ,class:"vf-grid-value"},
+    {text: 'Address1value'       ,class:"vf-grid-value"},
     {text: 'PAF Address1 value'  ,class:"vf-grid-value"}, 
     {text: 'Address2'            ,class:"vf-sub-title"},
-    {text: 'Address2 value'      ,class:"vf-grid-value"},
+    {text: 'Address1value'      ,class:"vf-grid-value"},
     {text: 'PAF Address2 value'  ,class:"vf-grid-value"}, 
     {text: 'Address3'            ,class:"vf-sub-title"},
-    {text: 'Address3 value'      ,class:"vf-grid-value"},
+    {text: 'Address1value'        ,class:"vf-grid-value"},
     {text: 'PAF Address3 value'  ,class:"vf-grid-value"}, 
     {text: 'Address4'            ,class:"vf-sub-title"}, 
-    {text: 'Address4 value'      ,class:"vf-grid-value"}, 
+    {text: 'Address1value'        ,class:"vf-grid-value"}, 
     {text: 'PAF Address4 value'  ,class:"vf-grid-value"},
     {text: 'Postcode'            ,class:"vf-sub-title"},
-    {text: 'Postcode value'      ,class:"vf-grid-value"}, 
+    {text: 'Address1value'      ,class:"vf-grid-value"}, 
     {text: 'PAF Postcode value'  ,class:"vf-grid-value"}, 
     {text: 'Validation'          ,class:"vf-sub-title"}, 
     {text: 'Validation value'    ,class:"vf-grid-value"},
@@ -143,9 +144,34 @@ export class AddressCheckComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    console.log('final address values',this.Addressvalues);
+    this.pafTiles=[
+      {text: 'Input Format'        ,class:"vf-grid-header"},
+      {text: 'Input Address'       ,class:"vf-grid-header"},
+      {text: 'PAF Address'         ,class:"vf-grid-header"},
+      {text: 'Address1'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[0]      ,class:"vf-grid-value"},
+      {text: 'PAF Address1 value'  ,class:"vf-grid-value"}, 
+      {text: 'Address2'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[1]     ,class:"vf-grid-value"},
+      {text: 'PAF Address2 value'  ,class:"vf-grid-value"}, 
+      {text: 'Address3'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[2]       ,class:"vf-grid-value"},
+      {text: 'PAF Address3 value'  ,class:"vf-grid-value"}, 
+      {text: 'Address4'            ,class:"vf-sub-title"}, 
+      {text: this.Addressvalues[3]       ,class:"vf-grid-value"}, 
+      {text: 'PAF Address4 value'  ,class:"vf-grid-value"},
+      {text: 'Postcode'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[4]      ,class:"vf-grid-value"}, 
+      {text: 'PAF Postcode value'  ,class:"vf-grid-value"}, 
+      {text: 'Validation'          ,class:"vf-sub-title"}, 
+      {text: 'Validation value'    ,class:"vf-grid-value"},
+      {text: 'PAF Validation value',class:"vf-grid-value"},
+    ];
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
+    console.log('change detected in data address');
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -153,6 +179,9 @@ export class AddressCheckComponent implements OnInit {
 
   ReturnAddress()
   {
+    
+    this.AddressFill.emit(["true","Test","Test2","Test3","Test4"]); // need to check
+
     window.alert("Return Address");
   }  
 

@@ -125,8 +125,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
   initForm()
   {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
     });
     this.formsGroup = this.fb.group({
       firstView:this.fb.group({
@@ -206,7 +206,13 @@ onTelphonenumChange(event:any)
       alert("Enter Valid Telephone NO's, then try again...!:)");
     }
 }
+FillPaffAddress(Addressval:any[]):string
+{
+  this.transactionItem.customerAddress={customerName:"VODAFONE",address1:Addressval[0],address2:Addressval[1],address3:"",address4:"",postcode:"RG14 2FN"};
 
+console.log('paf address',Addressval)
+return "";
+}
 onChange(value: string, ctrlName: string) {
   if(!this.evntflage)
   {
@@ -255,7 +261,7 @@ onChangeEvent(event:any,control:string)
   debugger
   if(control=="StartTelephoneNumber")
   {
-  if(this.model.telno.length==10)
+  if(this.model.telno.length==10||this.model.telno.length==9)
   {
     this.model.telno='0'+this.model.telno;
     this.evntflage=true;
@@ -270,7 +276,7 @@ onChangeEvent(event:any,control:string)
     this.addbtncolor="secondary";
   }
   else{
-    if(this.model.telno.length==11)
+    if(this.model.telno.length==11||this.model.telno.length==10)
     {
     this.isExportImportSelected =true;
     //this.searchTelState =false;
@@ -282,7 +288,7 @@ onChangeEvent(event:any,control:string)
   }
  }
  else{
-  if(this.model.rangeEnd.length==10)
+  if(this.model.rangeEnd.length==10||this.model.rangeEnd.length==9)
   {
     this.model.rangeEnd='0'+this.model.rangeEnd;
     this.evntflage=true;
@@ -298,7 +304,7 @@ onChangeEvent(event:any,control:string)
 
   }
   else{
-    if(this.model.rangeEnd.length==11&&this.model.telno.length==11)
+    if(this.model.rangeEnd.length==10||this.model.rangeEnd.length==11&&this.model.telno.length==10||this.model.telno.length==11)
     {
       
     this.isExportImportSelected =true;
@@ -342,7 +348,7 @@ updateMatchedAddressDetails()
 }
 viewAddressCheck()
 {
-  this.AddressCheckSelected.emit(["true",this.model.telno]) // need to check
+  this.AddressCheckSelected.emit(["true",this.transactionItem.customerAddress.address1,this.transactionItem.customerAddress.address2,this.transactionItem.customerAddress.address3,this.transactionItem.customerAddress.address4,this.transactionItem.customerAddress.postcode]) // need to check
 }
 sysEditText(val:string)
 {
@@ -385,9 +391,9 @@ SearchTel(){
       
        //this.Provide=res.Data.NumberOfTransactions.MasterCount;
       this.queryResultobj = res.data;
-      let type:string[]=[res.data.TransactionType[0].TransactionType];
-      let linetype:string[]=[res.data.LineType[0].LineType];
-      let TypeOfLine:string[]=[res.data.TypeOfLine[0].TypeOfLine];
+      let type:string=res.data.TransactionTypes[0].TransactionType;
+      let linetype:string=res.data.LineTypes[0].LineType;
+      let TypeOfLine:string=res.data.TypeOfLines[0].TypeOfLine;
       this.view3Form = this.formBuilder.group({
         TransactionType: new FormControl({ value: '', disabled: false }, [Validators.required]),
         LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
@@ -460,7 +466,7 @@ SearchTel(){
       else{
         this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
             
-        //alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
+        
       }   
   }
   prepareQueryParams(pageNo: string): any {
@@ -617,14 +623,14 @@ SearchTel(){
       }
       if(this.CliRangeSet[i][0].toString()!=''&&this.CliRangeSet[i][1].toString()!='')
       {
-        if((Number(startnumber)<Number(this.CliRangeSet[i][0].toString())&&Number(startnumber)>Number(this.CliRangeSet[i][1].toString()))||Number(endnumber)<Number(this.CliRangeSet[i][0].toString())&&Number(endnumber)>Number(this.CliRangeSet[i][1].toString()))
+        if((Number(startnumber)>Number(this.CliRangeSet[i][0].toString())&&Number(startnumber)<Number(this.CliRangeSet[i][1].toString()))||Number(endnumber)>Number(this.CliRangeSet[i][0].toString())&&Number(endnumber)<Number(this.CliRangeSet[i][1].toString()))
       {
         return false;
       }
      
       }
       else{
-        if(Number(this.CliRangeSet[i][0].toString())>Number(endnumber)&&Number(this.CliRangeSet[i][0].toString())<Number(startnumber))
+        if(Number(this.CliRangeSet[i][0].toString())<Number(endnumber)&&Number(this.CliRangeSet[i][0].toString())>Number(startnumber))
         {
           return false;
         }
