@@ -1,4 +1,5 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field/autosize';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild,AfterViewInit, OnDestroy  } from '@angular/core';
 import { Observable,ReplaySubject, Subject } from 'rxjs';
 import { CupId } from 'src/app/_data/listValues/CupId';
@@ -8,7 +9,16 @@ import { ThrowStmt } from '@angular/compiler';
 import { CustomerAddress, ICustomerAddress } from "../models/ICustomerAddress";
 import { TransactionItem } from '../models/ITransactionItem';
 import { MatSelect } from '@angular/material/select';
-import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { AlertService } from 'src/app/_shared/alert/alert.service';
+import { HelperModule } from 'src/app/_helper/helper.module';
+import { Utils } from 'src/app/_http/index';
+import{TransactionDataService} from '../services/transaction-data.service';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transactions-views',
@@ -26,6 +36,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
   Provide:string="000000";
   Master:string="000000";
   Live:string="000000";
+  thisForm!: FormGroup;
+  view3Form!:FormGroup;
   selectedCupId:number=0;
   selectedFranchise:number=0;  
   isEndTelNo:Boolean =false;
@@ -36,9 +48,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
   views:any={view1:false,view2:false,view3:false}  
   enableFrancise:boolean=false;
   multiRangeChecked =false;
+  evntflage:boolean=true;
   visibleSearchOption:any;
+  franchaiseIDs:any;
+  cupidValues:any;
   multiRangeTelephoneList:string="Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890";
-
+  franchiseValues:any;
   isExportImportSelected:Boolean =false;
   telephoneSet="";
     model:any ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
@@ -54,7 +69,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
     @Input()
   matchedAuditAddress: ICustomerAddress =new CustomerAddress();
     
-    CliRangeSet: [number, number][] = [];
+    CliRangeSet: [number, number,number][] = [];
 
     panelOpenState = false;
     btncolor: string ="secondary"
@@ -66,9 +81,18 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
     ff:any;
     sf:any;
     tf:any;
-   
-
-  constructor(private _ngZone: NgZone,private cdr: ChangeDetectorRef,private fb: FormBuilder)  
+    queryResult$!: Observable<any>;
+    configResult$!: Observable<any>;
+    updateResult$!: Observable<any>;
+    configDetails!: any;
+    queryResultobj!:any;
+  
+    currentPage: string = '1';
+    updateDetails!: any;
+  constructor( private service: TransactionDataService,private _ngZone: NgZone,
+    private cdr: ChangeDetectorRef,private fb: FormBuilder,private formBuilder: FormBuilder,
+     private alertService: AlertService,private telnoPipe: TelNoPipe,
+     )  
   {
 
   }
@@ -98,35 +122,19 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
 
   initForm()
   {
+    this.thisForm = this.formBuilder.group({
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+    });
     this.formsGroup = this.fb.group({
       firstView:this.fb.group({
+        //StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
         StartTelTxt:new FormControl({value: '', disabled: false }, [Validators.minLength(11),Validators.maxLength(11),Validators.pattern('^[0][249][0-9]')]),
         EndTelTxt:new FormControl({value: '', disabled: false }, [Validators.minLength(11),Validators.maxLength(11)]), 
         CliRangeLst:new FormControl({value: '', disabled: false }, []), 
         AddCliRangeBtn:new FormControl({value: '', disabled: false }, []), 
         SearchBtn:new FormControl({value: '', disabled: false }, []), 
       }),
-      // secondView:this.fb.group({
-      //   ReviewBtn:new FormControl({value: '', disabled: false }, []),
-      //   AuditTrailBtn:new FormControl({value: '', disabled: false }, []), 
-      //   ResetBtn:new FormControl({value: '', disabled: false }, []),
-      //   CupIdCbo:new FormControl({value: '', disabled: false }, []),
-      //   FransciseCbo:new FormControl({value: '', disabled: false }, []),
-      //   }),
-      // thirdView:this.fb.group({
-      //     TranTypeCbo:new FormControl({value: '', disabled: false }, []),
-      //     LineTypeCbo:new FormControl({value: '', disabled: false }, []),
-      //     TypeOfLineCbo:new FormControl({value: '', disabled: false }, []),
-      //     OrderRefTxt:new FormControl({value: '', disabled: false }, []),
-      //     IECupIdTxt:new FormControl({value: '', disabled: false }, []),
-      //     CommentTxt:new FormControl({value: '', disabled: false }, []),
-      //     CustomerNameTxt:new FormControl({value: '', disabled: false }, []), 
-      //     Address1Txt:new FormControl({value: '', disabled: false }, []), 
-      //     Address2Txt:new FormControl({value: '', disabled: false }, []), 
-      //     Address3Txt:new FormControl({value: '', disabled: false }, []), 
-      //     Address4Txt:new FormControl({value: '', disabled: false }, []), 
-      //     PostCodeTxt:new FormControl({value: '', disabled: false }, []), 
-      //     }),
     });   
   }
 
@@ -167,42 +175,143 @@ removeRangeCli(rangeIndex:number){
 
 }
 
-
-
-onChangeEvent(event:any)
-{  
+onTelphonenumChange(event:any)
+{
+  debugger
   if(
-  (this.model.telno.length==11 && this.model.rangeEnd.length==0) || 
-  (this.model.telno.length==11  && this.model.rangeEnd.length==11 ))
+    (this.model.telno.length==11 && this.model.rangeEnd.length==0) || 
+    (this.model.telno.length==11  && this.model.rangeEnd.length==11 ))
+    {
+      this.isExportImportSelected =true;
+      this.searchTelState =false;
+      this.addCliState=false;
+      this.btncolor ="vf-primary-btn";
+      this.addbtncolor="vf-add-btn";
+    }
+    else{
+      this.searchTelState =true;
+      this.addCliState=true;
+      this.btncolor ="secondary";
+      this.addbtncolor="secondary";
+      alert("Enter Valid Telephone NO's, then try again...!:)");
+    }
+}
+
+onChange(value: string, ctrlName: string) {
+  if(!this.evntflage)
   {
-    
+  debugger
+  
+  const ctrl = this.thisForm.get(ctrlName) as FormControl;
+   
+  if (value != null && value != undefined) {
+    //ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+   if(value.length==11)
+   {
+     if(ctrlName=='EndTelephoneNumber'&&this.model.telno.length==0)
+     {
+      this.alertService.error("Start telephone number should not be empty!", { autoClose: true, keepAfterRouteChange: false });
+  
+     }
+     else{
+      if(ctrl.status=='VALID')
+      {
     this.isExportImportSelected =true;
     this.searchTelState =false;
     this.addCliState=false;
     this.btncolor ="vf-primary-btn";
     this.addbtncolor="vf-add-btn";
-  }
-  else{
+      }
+      else{
+        this.searchTelState =true;
+        this.addCliState=true;
+        this.btncolor ="secondary";
+        this.addbtncolor="secondary";
+      }
+     }
+   }
+   else{
     this.searchTelState =true;
     this.addCliState=true;
     this.btncolor ="secondary";
     this.addbtncolor="secondary";
-    alert("Enter Valid Telephone NO's, then try again...!:)");
+   }
+  }
+}
+this.evntflage=false;
+}
+onChangeEvent(event:any,control:string)
+{  
+  debugger
+  if(control=="StartTelephoneNumber")
+  {
+  if(this.model.telno.length==10)
+  {
+    this.model.telno='0'+this.model.telno;
+    this.evntflage=true;
+  }
+  debugger
+  const selection: any = this.model.telno;
+  let prefix: string[] = ['01', '02', '03', '08'];
+  if (selection && (prefix.indexOf(selection.substring(0, 2)) === -1) && selection.length >= 2) {
+    this.searchTelState =true;
+    this.addCliState=true;
+    this.btncolor ="secondary";
+    this.addbtncolor="secondary";
+  }
+  else{
+    if(this.model.telno.length==11)
+    {
+    this.isExportImportSelected =true;
+    this.searchTelState =false;
+    this.addCliState=false;
+    this.btncolor ="vf-primary-btn";
+    this.addbtncolor="vf-add-btn";
+    }
+
+  }
+ }
+ else{
+  if(this.model.rangeEnd.length==10)
+  {
+    this.model.rangeEnd='0'+this.model.rangeEnd;
+    this.evntflage=true;
+  }
+  const selection: any = this.model.rangeEnd;
+  let prefix: string[] = ['01', '02', '03', '08'];
+  if (selection && (prefix.indexOf(selection.substring(0, 2)) === -1) && selection.length >= 2) {
+    this.searchTelState =true;
+    this.addCliState=true;
+    this.btncolor ="secondary";
+    this.addbtncolor="secondary";
+    
+
+  }
+  else{
+    if(this.model.rangeEnd.length==11&&this.model.telno.length==11)
+    {
+      
+    this.isExportImportSelected =true;
+    this.searchTelState =false;
+    this.addCliState=false;
+    this.btncolor ="vf-primary-btn";
+    this.addbtncolor="vf-add-btn";
+    }
+
   }
 
+
+ }
+  
 }
-
-
 
 OnstateItemChange(event:any)
 {
   if(event.target.value !="")
-  { 
-    //console.log("before:",event.target.value);   
+  {   
     this.saveState =false;
     this.savebtnColor ="vf-primary-btn";   
   }
-  //console.log("before:",event.target.value);  
 }
 check_list(this:TableItem,val:number)
 {
@@ -231,7 +340,11 @@ sysEditText(val:string)
 }
 saveTran(val:number)
 {
-          
+  let request2 = Utils.preparePyCreate('Transactions', 'Transactions','CreateParameters', this.prepareQueryParamsforCreate(this.currentPage));
+   console.log('create request',JSON.stringify(request2));
+  this.service.create(request2).subscribe((res: any) => {
+      console.log("res: " + JSON.stringify(res))
+  });
   
 }
 ReviewCli()
@@ -242,19 +355,120 @@ ReviewCli()
   this.views.view3 =false;
 }
 SearchTel(){ 
+
+ 
+    let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
+   
+   this.service.queryDetails(request2).subscribe((res: any) => {
+       console.log("res: " + JSON.stringify(res))
+      
+       //this.Provide=res.Data.NumberOfTransactions.MasterCount;
+      this.queryResultobj = res.data;
+      let type:string[]=[res.data.TransactionType[0].TransactionType];
+      let linetype:string[]=[res.data.LineType[0].LineType];
+      let TypeOfLine:string[]=[res.data.TypeOfLine[0].TypeOfLine];
+      this.view3Form = this.formBuilder.group({
+        TransactionType: new FormControl({ value: '', disabled: false }, [Validators.required]),
+        LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
+        TypeOfLine: new FormControl({ value: '', disabled: false }, [Validators.required]),
+        OrderReference:new FormControl({ value: '', disabled: false }, [Validators.required]),
+        Cupid:new FormControl({ value: '', disabled: false }, [Validators.required]),
+        Comments:new FormControl({ value: '', disabled: false }, [Validators.required]),
+        CustomerName:new FormControl({ value: '', disabled: false }, [Validators.required]),
+        AddressLine1:new FormControl({ value: '', disabled: false }, [Validators.required]),
+        AddressLine2:new FormControl({ value: '', disabled: false }, [Validators.required] ),
+        AddressLine3:new FormControl({ value: '', disabled: false }, ),
+        AddressLine4:new FormControl({ value: '', disabled: false }, ),
+        PostCode:new FormControl({ value: '', disabled: false }, [Validators.required]),
+      })
+      this.configDetails={TransactionType:type,LineType:linetype,TypeOfLine:TypeOfLine};
+      console.log('config dertails test',this.configDetails);
+      this.Live=this.queryResultobj.NumberOfTransactions[0].LiveCount;
+      this.Master=this.queryResultobj.NumberOfTransactions[0].MasterCount;
+      this.Provide=this.queryResultobj.NumberOfTransactions[0].ProvideCount;
+      this.cupIds=this.queryResultobj.CupidFranchiseList[0].CupidFranchise;
+      
+     let test:any= this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
+        .filter((value:any, index:number, self:any) => self.indexOf(value) === index);
+        console.log('uniquer values',test);
+      this.cupidValues=this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
+      .filter((value:any, index:number, self:any) => self.indexOf(value) === index);
+     
+      console.log('after insertion',this.queryResultobj);
+     });
+  debugger
     if(this.model.telno !="" ||this.model.rangeEnd !="" ||this.CliRangeSet.length>0)
       {        
           if (this.CliRangeSet.length===0)
-          {this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);}
+          {
+            let count=1;
+        if(this.model.rangeEnd ==""||this.model.telno==this.model.rangeEnd)
+        {
+          count=1;
+        }
+        else{
+         
+          count=this.model.telno-this.model.rangeEnd;
+        }
+          this.CliRangeSet.push([this.model.telno,this.model.rangeEnd,1]);}
           this.views.view1=false;
           this.views.view2 =true;
           this.views.view3 =false;
           this.panelOpenState =true;
+
+          this.searchTelState =true;
+          this.addCliState=true;
+          this.btncolor ="secondary";
+          this.addbtncolor="secondary";
+        
       }   
       else{
-        alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
+        this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+            
+        //alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
       }   
   }
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [
+      { Name: 'TelephoneNumberRange', Value: ["02071117400|02071117900"] }];
+    //Reference
+   
+   
+           console.log(attributes);
+
+          return attributes;
+    }
+    prepareQueryParamsforCreate(pageNo: string): any {
+  debugger
+        let attributes: any = [ { Name: 'TelephoneNumberRange', Value: ["02071117400|02071117900"] },
+        { Name: 'ForceValidate', Value: ["Y"]},{ Name: 'Franchise', Value: ["AUDIT VOD-VOD-AUD Audit Purpose"]}
+      ];
+        //Reference
+        const control = this.thisForm.get('Reference');
+       
+    
+        for (const field in this.d) {
+          if (field != 'Reference') {
+            const control = this.view3Form.get(field);
+           
+            if (control?.value)
+              attributes.push({ Name: field, Value: [control?.value] });
+            else
+              attributes.push({ Name: field });
+    
+          }
+        }
+        console.log(attributes);
+    
+        return attributes;
+    
+      }
+      
+    public checkError = (controlName: string, errorName: string) => {
+      return this.view3Form.controls[controlName].hasError(errorName) &&
+        (this.view3Form.controls[controlName].dirty || this.view3Form.controls[controlName].touched)
+    }
+   
   ValidateTelno(telno:string){
     
     let regNumberOnly = new RegExp("^[0-9]*$"); 
@@ -277,15 +491,6 @@ SearchTel(){
    return true;
    }
   }
-
-  /* field Validation starts... */
-  // addPrefix( el: HTMLElement) {
-  //   let val =el.innerText;
-  //   if (el.innerText.charAt(0) != '0') {
-  //     el.innerText = val.length <= 10 ? '0' + val : val;
-  //   }
-    
-  // }
 
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != '0') {
@@ -340,18 +545,88 @@ SearchTel(){
   }
   onCupIdChange (event:any)
   {
+   let states= []; 
     if(event.value !="")
     {
+      this.franchiseValues = this.cupIds.filter((obj: { Cupid: string; }) => {
+        return obj.Cupid === event.value;
+      });
+      console.log('Franchaise values',this.franchiseValues);
       this.enableFrancise=true;
       //load francise with this value
     }
   }
+  checkduplicate( startnumber:string,endnumber:string)
+  {
+    debugger
+    
+    for (let i = 0; i < this.CliRangeSet.length; i++) {
+      if((startnumber==this.CliRangeSet[i][0].toString()||startnumber==this.CliRangeSet[i][1].toString()&&startnumber!="")||(endnumber==this.CliRangeSet[i][0].toString()||endnumber==this.CliRangeSet[i][1].toString()&&endnumber!=""))
+      {
+         return false;
+      }
+    }
+    return true;
+  }
+  checktotalrange(value:number)
+  {
+    debugger
+   let  count:number=0
+    for (let i = 0; i < this.CliRangeSet.length; i++) {
+        count=count+this.CliRangeSet[i][2];
+    }
+  count=count+value;
+  if(count>10000)
+  {
+     return false;
+  }
+  else
+  {
+    return true;
+  }
+}
   addRangeTel()
   {
+    debugger
     if(this.model.telno !="" ||this.model.rangeEnd !="")
-      {    
-        this.CliRangeSet.push([this.model.telno,this.model.rangeEnd]);
+      {   
+       // const sum = this.CliRangeSet.filter(item => item. === '25.00') 
+        let count=1;
+        if(this.model.rangeEnd ==""||this.model.telno==this.model.rangeEnd)
+        {count=1;
+        
+        }
+        else{
+          count=this.model.telno-this.model.rangeEnd;
+        }
+        if(count<=10000&&count>0&&this.checktotalrange(count))
+        {
+          if(this.checkduplicate(this.model.telno,this.model.rangeEnd))
+          {
+        this.CliRangeSet.push([this.model.telno,this.model.rangeEnd,count]);
         this.model ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
+          }
+          else{
+            this.alertService.clear();
+            this.alertService.error("Duplicate Numbers Not Allowed!", { autoClose: true, keepAfterRouteChange: false });
+          }
+        }
+        else{
+          if(!this.checktotalrange(count))
+          {
+            this.alertService.error("Total range exceeeding more than 10000!", { autoClose: true, keepAfterRouteChange: false });
+      
+          }
+         else if(count>=10000)
+         {
+          this.alertService.error("Count shouldn't be more than 10000!", { autoClose: true, keepAfterRouteChange: false });
+         }
+         else{
+          this.alertService.error("Count shouldn't be negative", { autoClose: true, keepAfterRouteChange: false });
+      
+         }
+      
+        }
       }
       else{
         alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
@@ -361,6 +636,11 @@ SearchTel(){
   check_franchise()
   {  
     this.views.view3=true; 
+    // this.view3Form = this.formBuilder.group({
+    //   TransactionType: new FormControl({ value: '', disabled: true }, []),
+    //   LineType: new FormControl({ value: '', disabled: true }, []),
+    //   TypeOfLine: new FormControl({ value: '', disabled: true }, []),
+    // })
     
   }
 
@@ -372,8 +652,20 @@ SearchTel(){
     this.view3Toggle ="display: none;visibility:hidden;";
   }
   
-
+  get f() {
+    return this.thisForm.controls;
+  }
    
+  get d()
+  {
+    return this.view3Form.controls;
+  }
+  openPanel(control: any, evt: any, trigger: MatAutocompleteTrigger): void {
+    evt.stopPropagation();
+    control?.reset();
+    trigger.openPanel();
+    control?.nativeElement.focus();
+  }
 
 }
 

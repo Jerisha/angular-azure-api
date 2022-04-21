@@ -22,6 +22,7 @@ export class TransactionsComponent implements OnInit {
   auditTeleNoselected: any;
   tabposition!: number | null;
   selectedTab!: number;
+  telNo?: any;
    tabs :Tab[]=[] ;
 
   addressDetails!: AddressDetails;
@@ -63,7 +64,7 @@ export class TransactionsComponent implements OnInit {
   OnAuditTrailSelected(initAuditTrail:any[])
   {
     this.auditTrailSuccess=initAuditTrail[0];
-
+  this.telNo='01076543233'
     if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
     {
       this.tabs.push({tabType: 2,name: 'Audit Trail Report'});   

@@ -183,19 +183,29 @@ export class SolicitederrorsComponent implements OnInit {
   updateDetails!: any;
 
   ngOnInit(): void {
+  //   let requesttwo = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
+  //     "Name": "TransactionDays",
+  //     "Value": [`62`]
+  //   }])
+  //   console.log('request for info',requesttwo);
+  //  // this.queryResult$ = this.service.infoDetails(requesttwo).pipe(map((res: any) => res));
+  //   this.service.infoDetails(requesttwo).subscribe((res: any) => {
+  //     //this.infotable1 = res.dates;
+  //     //this.infotable2 = res.months      
+  //   });
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      console.log("res: " + JSON.stringify(res))
+      this.configDetails = res.data;
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
+    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.updateDetails = res[0];
+      this.updateDetails = res.data;
     });
     //this.service.configTest(request);
     // this.service.configDetails(request);
@@ -327,14 +337,14 @@ export class SolicitederrorsComponent implements OnInit {
     if (!this.thisForm.valid) return;
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].SolicitedError,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.SolicitedError,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       } else return {
@@ -511,10 +521,7 @@ export class SolicitederrorsComponent implements OnInit {
 
   onChange(value: string, ctrlName: string) {
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
-    if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
-      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-    } else {
+    if (value != null && value != undefined) {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }

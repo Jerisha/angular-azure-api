@@ -2,41 +2,45 @@
     <mat-card class="mat-elevation-z8">        
         <ng-container *ngIf="views.view1" >            
               <mat-card-content >
-                  <form  #ff ="ngForm" (ngSubmit)="onSubmit()" >
-                    <!-- <form   [formGroup]="formsGroup" (ngSubmit)="onSubmit()" >
-                      <fieldset [formGroupName]="formsGroup.firstview"> -->
-                          <div class="vf-flex-container-col">                                       
-                    <div> 
-                        <mat-form-field   style="margin-left:2px; margin-top: 1rem; width:180px">
-                          <mat-label>Start Telephone No.</mat-label>
-                          <input matInput [(ngModel)]="model.telno"                           
-                          (keypress)="numberOnly($event)"
-                          (blur)="addPrefix('startTel',startTel.value)"                         
-                          #startTel pattern ="^[0-9]{11}" minlength ="11" maxlength="11"  placeholder="Start Telephone No."  name = "telno" style="margin-right:auto;"  (change)="onChangeEvent($event)" >
-                          <!-- <input matInput  formControlName = "formsGroup.firstview.StartTelTxt" [(ngModel)]="model.telno" size =11 maxlength="11"  placeholder="Start Telephone No."  name = "telno" size = 11 style="margin-right:auto;"  (change)="onChangeEvent($event)"> -->
-                          <!-- <div *ngIf="mobNumber.errors && userForm.submitted && !isValidFormSubmitted" [ngClass] = "'error'">  
-                            <div *ngIf="mobNumber.errors.pattern">  
-                              Mobile number not valid.   -->
-                               <!--  -->
-                               <!--   -->
-                        </mat-form-field>              
-                        <mat-form-field   style="margin-left:2px; margin-top: 1rem; width:180px">
-                          <mat-label>End Telephone No.</mat-label>
-                          <input matInput [(ngModel)]="model.rangeEnd" 
-                          (keypress)="numberOnly($event)"
-                          (blur)="addPrefix('endTel',endTel.value)"
-                          #endTel pattern ="^[0-9]{11}" minlength ="11" maxlength="11"  placeholder="End Telephone No." name = "rangeEnd"  style="margin-left:auto;" (change)="onChangeEvent($event)">
-                          <!-- <input matInput  formControlName = "formsGroup.firstview.StartTelTxt" [(ngModel)]="model.rangeEnd" size =11 maxlength="11" placeholder="End Telephone No." name = "rangeEnd" size = 11 style="margin-left:auto;" (change)="onChangeEvent($event)"> -->
-                        </mat-form-field>             
-                        <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="Maximum CLIs 10000 Only" matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                        
-                      </div>
-                    <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
+                <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+                  <div class="vf-flex-container-col"> 
+                    
+                      <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
+                        <mat-label>Start Telephone No</mat-label>
+                        <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
+                        <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)" matInput maxlength="11"
+                          placeholder="Start Telephone No" (ngModelChange)="onChange($event,'StartTelephoneNumber')" [(ngModel)]="model.telno" #starttelno telNoPrefixValidator (change)="onChangeEvent($event,'StartTelephoneNumber')">
+                        <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
+                        <mat-error>
+                          <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
+                            <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                            <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+                          </div>
+                        </mat-error>
+                      </mat-form-field>
+            
+                      <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
+                        <mat-label>End Telephone No</mat-label>
+                        <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
+                          (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'EndTelephoneNumber')" [(ngModel)]="model.rangeEnd"  telNoPrefixValidator (change)="onChangeEvent($event,'EndTelephoneNumber')">
+                        <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
+                        <mat-error>
+                          <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
+                            <div *ngIf="f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                            <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+                          </div>
+                        </mat-error>
+                      </mat-form-field>
+                      <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="Maximum CLIs 10000 Only" matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                        
+                   
+                      <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
                         <mat-list style ="max-height:300px;overflow-x:hidden; overflow-y:auto;" #cliList>
                           <mat-list-item style =" display: inline-flex; align-items:center;  height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white">                              
                             <!-- <p matLine > -->
                               <div style="display:inline-flex;">
                               <span style="width:160px;box-sizing: border-box;">Start Telephone No.</span>
                               <span style="width:160px;box-sizing: border-box;">End Telephone No.</span>
+                              <span style="width:160px;box-sizing: border-box;">Range Count</span>
                               <span style="width:100px;box-sizing: border-box;">Remove</span>    
                             </div>                                                        
                             <!-- </p>                                                       -->
@@ -46,6 +50,7 @@
                               <div style="display:inline-flex;">
                               <span style="width:160px;box-sizing: border-box;">{{cli[0]}}</span>
                               <span style="width:160px;box-sizing: border-box;">{{cli[1]}}</span>
+                              <span style="width:160px;box-sizing: border-box;">{{cli[2]}}</span>
                               <!-- <span style="min-width:5%;text-align:end;box-sizing: border-box;"> -->
                                 <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli(index)">-                                  
                                 </button>
@@ -66,13 +71,15 @@
                         </button>
                       </span>
                       </div>
-                            </div>
-                    <!-- </fieldset> -->
-                    </form> 
+                 
+                  </div>
+                </form>
+                 
                 </mat-card-content>
           </ng-container>  
         <ng-container *ngIf="views.view2">              
-                <mat-card-content>                      
+                <mat-card-content>  
+                  <!-- removed content                     -->
                       <div class ="flex-container"> 
                           <!-- <div *ngIf="multiRangeChecked == true" > -->
                             <div *ngIf="CliRangeSet.length===1" >
@@ -122,8 +129,8 @@
                         <mat-select [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
                           <mat-option [value]="">                  
                           </mat-option>
-                          <mat-option *ngFor="let cupid of cupIds" [value]="cupid.value">
-                            {{cupid.viewValue}}
+                          <mat-option *ngFor="let cupid of cupidValues" [value]="cupid">
+                            {{cupid}}
                           </mat-option>
                         </mat-select>                       
                       </mat-form-field>
@@ -134,16 +141,9 @@
                           <mat-label class="vf-label">Franchise</mat-label>             
                           <mat-select  [(ngModel)]="model.Franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
                             <mat-option value= ""></mat-option>
-                            <mat-option value="000,C,13">SAS/COMS VOD-VOD-000 Default franchise for unsolicited</mat-option>
-                            <mat-option value="AUD,A,13">AUDIT VOD-VOD-AUD Audit Purposes Only</mat-option>
-                            <mat-option value="CCN,C,13">SAS/COMS CWN-CWN-CCN Complete Contact</mat-option>
-                            <mat-option value="DVA,D,13">DVA Siebel VOD-VOD-DVA DVA Siebel</mat-option>
-                            <mat-option value="MCL,C,13">SAS/COMS VOD-VOD-MCL Blue Network</mat-option>
-                            <mat-option value="RIC,F,13">Ring Central VOD-VOD-RIC Ring Central SIP Product</mat-option>
-                            <mat-option value="SOM,S,13">Amdocs SOM VOD-VOD-SOM Amdocs SOM</mat-option>
-                            <mat-option value="VFC,E,13">VA/WAD CWA-WAD-VFC Vodafone Consumer Account</mat-option>
-                            <mat-option value="VOD,C,13" selected="">SAS/COMS VOD-VOD-VOD Default Franchise</mat-option>
-                            <mat-option value="VOD,O,13">FMC VOD-VOD-VOD Default Franchise</mat-option>
+                            <mat-option *ngFor="let val of franchiseValues" [value]="val.Franchise">
+                              {{val.Franchise}}
+                            </mat-option>
                             </mat-select>          
                         </mat-form-field>
                       </span> 
@@ -153,11 +153,223 @@
                   </mat-card-content>
           </ng-container>
         <ng-container *ngIf="views.view3">          
-            <mat-card-content >              
+            <mat-card-content >    
+              <form [formGroup]="view3Form"  autocomplete="off" class="vf-box-shadow1">
+                <ng-container *ngIf="configDetails  as config">
+                <div class="vf-flex-container-col">
+                  <div class="vf-flex-container">
+                      <div class="vf-flex-container-col" style="margin: 2px;"> 
+                        <div style="margin-bottom: 6px;">
+                          <mat-form-field [ngClass]="{'hidden':d.TransactionType.disabled}">
+                            <mat-label>Transaction Type</mat-label>
+                            <input #transactiontype formControlName="TransactionType" type="text" placeholder="Transaction Type" matInput
+                              [matAutocomplete]="autoTransactionType" OptionsValidator [options]="config.TransactionType" />
+                            <span matSuffix mat-icon-button>
+                              <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoTransactionType="matAutocomplete">
+                              <mat-option *ngFor="let val of config.TransactionType | ddlFilter: transactiontype.value" [value]="val">
+                                {{val}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="d.TransactionType.errors?.validOptions">Value need to match available options</mat-error>
+                            <mat-error class="error-message" *ngIf="checkError('TransactionType', 'required')">Please Select Transaction Type
+                            </mat-error>
+                          </mat-form-field>
+
+                        
+
+                        </div> 
+                        <div style="margin-bottom: 6px;">
+                          <mat-form-field [ngClass]="{'hidden':d.LineType.disabled}">
+                            <mat-label>Line Type</mat-label>
+                            <input #linetype formControlName="LineType" type="text" placeholder="Line Type" matInput
+                              [matAutocomplete]="autoLineType" OptionsValidator [options]="config.LineType" />
+                            <span matSuffix mat-icon-button>
+                              <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoLineType="matAutocomplete">
+                              <mat-option *ngFor="let val of config.LineType | ddlFilter: linetype.value" [value]="val">
+                                {{val}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="d.LineType.errors?.validOptions">Value need to match available options</mat-error>
+                            <mat-error class="error-message" *ngIf="checkError('LineType', 'required')">Please Select LineType</mat-error>
+                          
+                          </mat-form-field>
+                        </div> 
+                        <div style="margin-bottom: 6px;">
+                          <mat-form-field [ngClass]="{'hidden':d.TypeOfLine.disabled}">
+                            <mat-label>Type of Line</mat-label>
+                            <input #typeofline formControlName="TypeOfLine" type="text" placeholder="TypeOf Line" matInput
+                              [matAutocomplete]="autoTypeOfLine" OptionsValidator [options]="config.TypeOfLine" />
+                            <span matSuffix mat-icon-button>
+                              <mat-icon>arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
+                              <mat-option *ngFor="let val of config.TypeOfLine | ddlFilter: typeofline.value" [value]="val">
+                                {{val}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="d.TypeOfLine.errors?.validOptions">Value need to match available options</mat-error>
+                            <mat-error class="error-message" *ngIf="checkError('TypeOfLine', 'required')">Please Select TypeOfLine</mat-error>
+                          </mat-form-field>
+                        </div> 
+                        <div style="margin-bottom: 6px;">
+                          <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'200px'}">
+                            <mat-label class="vf-label">Order Ref.</mat-label>
+                            <input type="text" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
+                            <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')">Please Enter OrderRef</mat-error>
+                        
+                          </mat-form-field>                             
+                          <span [ngStyle]="{'display': isExportImportSelected ? 'inline-flex' : 'none' }" ><mat-form-field   class="vf-mr-negative" style="width:106px;margin-left: 4px;">
+                            <mat-label class="vf-label">I/E CUPID</mat-label>
+                            <input type="text" matInput formControlName="Cupid" matInput #input   placeholder="I/E CUPID" size="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
+                            <mat-error class="error-message" *ngIf="checkError('Cupid', 'required')">Please Enter CUPID</mat-error>
+                        
+                          </mat-form-field> </span>
+                        </div>
+                        <div >
+                          <mat-form-field  style="height:83px;margin: 0px;">
+                          <mat-label class="vf-label">Comment</mat-label>
+                          <textarea matInput placeholder="Comment"
+                            cdkTextareaAutosize matInput formControlName="Comments"
+                            #autosize="cdkTextareaAutosize"
+                            cdkAutosizeMinRows="3"
+                            cdkAutosizeMaxRows="3"
+                            onblur="triggerResize()" 
+                            size="20" maxlength="40"         
+                          ></textarea>              
+                        </mat-form-field>
+                      </div> 
+                      </div>
+                      <div class="vf-flex-container-col" style="margin: 2px;float: left;">
+                        <div style="margin-bottom: 6px;"> 
+                          <span>                        
+                          <mat-form-field   class="vf-mr-negative" style="width:250px;">
+                            <mat-label class="vf-label">Customer Name *</mat-label>
+                            <textarea matInput placeholder="Customer Name *"
+                            cdkTextareaAutosize matInput formControlName="CustomerName"
+                            #autosize="cdkTextareaAutosize"
+                            cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="2"
+                            onblur="triggerResize()" 
+                            size="20" maxlength="20" 
+                            name =customerName
+                            [(ngModel)]="transactionItem.customerAddress.customerName"
+                            ></textarea>  
+                            <mat-error class="error-message" *ngIf="checkError('CustomerName', 'required')">Please Enter Customer Name</mat-error>
+                                                        
+                          </mat-form-field> 
+                         
+                          <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:#4a4d4e;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
+                            <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle; display: inline-flex;align-items: center;justify-content: center;">content_copy</mat-icon>
+                          </button>
+                        </span>   
+                        
+                      </div>
+                      <div style="margin-bottom: 6px;">
+                        <mat-form-field   class="vf-mr-negative"style="width:300px;" >
+                          <mat-label class="vf-label">Address1 *</mat-label>
+                          <textarea matInput placeholder="Address1 *"
+                            cdkTextareaAutosize  matInput formControlName="AddressLine1"
+                            #autosize="cdkTextareaAutosize"
+                            cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="2"
+                            onblur="triggerResize()" 
+                            size="20" maxlength="40" 
+                            name =address1
+                            [(ngModel)]="transactionItem.customerAddress.address1"                 
+                          ></textarea>       
+                          <mat-error class="error-message" *ngIf="checkError('AddressLine1', 'required')">Please Enter address1</mat-error>
+                               
+                        </mat-form-field>
+                    </div>
+                    <div style="margin-bottom: 6px;">
+                      <mat-form-field   class="vf-mr-negative" style="width:300px;">
+                        <mat-label class="vf-label">Address2 *</mat-label>
+                        <textarea matInput placeholder="Address2 *"
+                          cdkTextareaAutosize matInput formControlName="AddressLine2"
+                          #autosize="cdkTextareaAutosize"
+                          cdkAutosizeMinRows="1"
+                          cdkAutosizeMaxRows="2"
+                          onblur="triggerResize()" 
+                          size="20" maxlength="40"   
+                          name =address2
+                          [(ngModel)]="transactionItem.customerAddress.address2"                
+                        ></textarea>  
+                        <mat-error class="error-message" *ngIf="checkError('AddressLine2', 'required')">Please Enter Address2</mat-error>
+                                   
+                      </mat-form-field>
+                  </div>
+                  <div style="margin-bottom: 6px;">
+                    <mat-form-field   class="vf-mr-negative" style="width:300px;">
+                      <mat-label class="vf-label">Address3</mat-label>
+                      <textarea matInput placeholder="Address3"
+                        cdkTextareaAutosize matInput formControlName="AddressLine3"
+                        #autosize="cdkTextareaAutosize"
+                        cdkAutosizeMinRows="1"
+                        cdkAutosizeMaxRows="2"
+                        onblur="triggerResize()" 
+                        size="20" maxlength="40"  
+                        name =address3
+                        [(ngModel)]="transactionItem.customerAddress.address3"                 
+                      ></textarea>              
+                    </mat-form-field>
+                </div>
+                <div style="margin-bottom: 6px;">
+                  <mat-form-field   class="vf-mr-negative" style="width:300px;">
+                    <mat-label class="vf-label">Address4</mat-label>
+                    <textarea matInput placeholder="Address4"
+                      cdkTextareaAutosize matInput formControlName="AddressLine4"
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="2"
+                      onblur="triggerResize()" 
+                      size="20" maxlength="40"
+                      name =address4
+                      [(ngModel)]="transactionItem.customerAddress.address4"                   
+                    ></textarea>              
+                  </mat-form-field>
+                </div>
+                <div >
+                  <mat-form-field   class="vf-mr-negative" style="width:100%;">
+                      <mat-label class="vf-label">Post Code *</mat-label>
+                      <input type="text" 
+                       matInput  placeholder="Post Code *" 
+                       name =postcode matInput formControlName="PostCode"
+                       [(ngModel)]="transactionItem.customerAddress.postcode"
+                       size="12" 
+                       maxlength="12" 
+                       >
+                       <mat-error class="error-message" *ngIf="checkError('PostCode', 'required')">Please Enter postcode</mat-error>
+                      
+                  </mat-form-field>                                  
+                  </div>  
+
+                      </div>
+                  </div>
+                  <div class =vf-flex-container style="margin-block: 1px; padding-bottom: 2px;">                           
+                    <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Transaction details will be saved" (click)="saveTran(0)" [disabled]="view3Form.invalid">
+                    <mat-icon style ="font-size:small;width:30px;height: 16px;">save</mat-icon>Save
+                  </button>
+                  <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Click this button Check Address will be navigate"  (click)="viewAddressCheck()">
+                    <mat-icon style ="font-size:small;width:30px;height: 16px;">search</mat-icon>Check Address
+                  </button>
+                  <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Transaction details will be forced to saved"  (click)="saveTran(1)" [disabled]="saveState">                             
+                    <span class="material-icons" style ="font-size:small;width:30px;height: 16px;">
+                      save_alt
+                      </span>Force Validate Save
+                  </button>
+                </div>  
+                  </div>
+                
+                </ng-container>
+              </form>          
                 <form #tf ="ngForm" (ngSubmit)="onTfSubmit()" class="vf-box-shadow1" (change)="OnstateItemChange($event)">
                     <div class="vf-flex-container-col">
                         <div class="vf-flex-container">
-                            <div class="vf-flex-container-col" style="margin: 2px;"> 
+                            <!-- <div class="vf-flex-container-col" style="margin: 2px;"> 
                                 <div style="margin-bottom: 6px;">
                                   <mat-form-field   class="vf-mr-negative" >
                                     <mat-label class="vf-label">Tran. Type *</mat-label>
@@ -281,8 +493,8 @@
                               ></textarea>              
                             </mat-form-field>
                           </div> 
-                                </div>      
-                              <div class="vf-flex-container-col" style="margin: 2px;float: left;">
+                                </div>       -->
+                              <!-- <div class="vf-flex-container-col" style="margin: 2px;float: left;">
                                 <div style="margin-bottom: 6px;"> 
                                   <span>                        
                                   <mat-form-field   class="vf-mr-negative" style="width:250px;">
@@ -309,7 +521,7 @@
                                   <!-- </div> -->
                                   <!-- <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->
                                     <!-- <mat-icon style ="font-size:small;width:50px;height: 16px; color: deeppink;">content-copy</mat-icon> -->
-                                  <!-- </button> -->
+                                  <!-- </button>
                               </div>       
                                 <div style="margin-bottom: 6px;">
                                         <mat-form-field   class="vf-mr-negative"style="width:300px;" >
@@ -383,21 +595,9 @@
                                        >
                                   </mat-form-field>                                  
                                   </div>                                                  
-                                </div>                               
+                                </div>                                -->
                         </div>                        
-                        <div class =vf-flex-container style="margin-block: 1px; padding-bottom: 2px;">                           
-                              <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Transaction details will be saved" (click)="saveTran(0)" [disabled]="saveState">
-                              <mat-icon style ="font-size:small;width:30px;height: 16px;">save</mat-icon>Save
-                            </button>
-                            <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Click this button Check Address will be navigate"  (click)="viewAddressCheck()">
-                              <mat-icon style ="font-size:small;width:30px;height: 16px;">search</mat-icon>Check Address
-                            </button>
-                            <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Transaction details will be forced to saved"  (click)="saveTran(1)" [disabled]="saveState">                             
-                              <span class="material-icons" style ="font-size:small;width:30px;height: 16px;">
-                                save_alt
-                                </span>Force Validate Save
-                            </button>
-                          </div>        
+                            
                       </div>  
                   </form> 
               </mat-card-content>

@@ -739,10 +739,14 @@
                                     <div class="example-element-detail"
                                         [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-                                        <div class="error" *ngIf="element.UserComment.length == 0">No Records Found.
+                                        <!-- <div class="error" *ngIf="element.UserComment.length == 0">No Records Found. -->
+                                            <div class="error" *ngIf="!element.UserComment">No Records Found.
                                         </div>
-                                        <app-table class="appTable"
+                                        <!-- <app-table class="appTable"
                                             [tableitem]="element.UserComment == 0 ? false : element.UserComment">
+                                        </app-table> -->
+                                        <app-table class="appTable"
+                                            [tableitem]="element.UserComment">
                                         </app-table>
                                         <br>
                                     </div>
@@ -803,10 +807,13 @@
                                     <div class="example-element-detail"
                                         [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-                                        <div class="error" *ngIf="element.UserComment.length == 0">No Records Found.
-                                        </div>
-                                        <app-table class="appTable"
+                                        <!-- <div class="error" *ngIf="element.UserComment.length == 0">No Records Found.</div> -->
+                                        <div class="error" *ngIf="!element.UserComment">No Records Found.</div>
+                                        <!-- <app-table class="appTable"
                                             [tableitem]="element.UserComment.length == 0 ? false : element.UserComment">
+                                        </app-table> -->
+                                        <app-table class="appTable"
+                                            [tableitem]="element.UserComment">
                                         </app-table>
                                         <br>
                                     </div>

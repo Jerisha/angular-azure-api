@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuditreportsRoutingModule } from './auditreports-routing.module';
-import { AuditexcelreportsComponent, FullauditdetailsComponent, AuditdiscrepancyreportComponent, FullAuditHistoryComponent } from './index';
+import { AuditexcelreportsComponent, FullauditdetailsComponent, AuditdiscrepancyreportComponent, FullAuditHistoryComponent, AuditUserActionSummaryComponent } from './index';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { FullAuditDetailsService } from './fullauditdetails/fullauditdetails.service';
 import { FullAuditTypeComponent } from './auditdiscrepancyreport/full-audit-type/full-audit-type.component';
@@ -13,6 +13,9 @@ import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscr
 import { SharedModule } from '../_shared/shared.module';
 import { HelperModule } from '../_helper/helper.module';
 import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';
+import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
+import { TelNoPipe } from '../_helper/pipe/telno.pipe';
+
 
 
 @NgModule({
@@ -24,11 +27,13 @@ import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-di
     ExternalAuditTypeComponent,
     SeperateInternalAuditTypeComponent,
     UserCommentsDialogComponent,
-    FullAuditHistoryComponent
+    ExternalAuditDetailsComponent,
+    FullAuditHistoryComponent,
+    AuditUserActionSummaryComponent
   ],
   imports: [
     CommonModule,
-    AuditreportsRoutingModule,
+    AuditreportsRoutingModule,    
     UicomponentsModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     FormsModule,
@@ -36,6 +41,6 @@ import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-di
     SharedModule,
     HelperModule
   ],
-  providers: [FullAuditDetailsService, AuditDiscpancyReportService]
+  providers: [FullAuditDetailsService, AuditDiscpancyReportService,TelNoPipe],
 })
 export class AuditreportsModule { }

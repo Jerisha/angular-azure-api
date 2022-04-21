@@ -795,7 +795,7 @@ resetExp:boolean = false;
   }
   onChange(value: string, ctrlName: string) {
     const ctrl = this.myForm.get(ctrlName) as FormControl;
-    if (isNaN(<any>value))
+    //if (isNaN(<any>value))
     if (isNaN(<any>value.charAt(0))) {
       //const val = coerceNumberProperty(value.slice(1, value.length));
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
