@@ -217,6 +217,7 @@ export const PyRequests = {
         },
         "Cache": ["ApplicationKey", "SessionID"]
     },
+<<<<<<< HEAD
     CREATE:{
         "RequestType" : "CREATE",
 "UserParams":["UserID","RoleID"],
@@ -305,3 +306,57 @@ export const PyRequests = {
 }
 
 }
+=======
+    CREATE:
+    {
+        "RequestType": "CREATE",
+        "UserParams": ["UserID", "RoleID"],
+        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        "wmRequest":
+        {
+            "CreateObjectRequest": {
+                "CreateObjectRequestType": {
+                    "RequestIdentifiers": {
+                        "Identifier": [{
+                            "Name": "UserId",
+                            "Value": ["sample"]
+                        }, {
+                            "Name": "Destination",
+                            "Value": ["OSN2"]
+                        }]
+                    },
+                    "ListofCreateObjectCategory": {
+                        "CreateObjectCategory": [{
+                            "ItemName": "AuditStatus",
+                            "ListofIdentifiers": {
+                                "Identifier": [{
+                                    "Name": "ReportIdentifier",
+                                    "Value": ["ReferenceList"]
+                                }]
+                            },
+                            "ListofCreateObjectCharacteristics": {
+                                "CreateObjectCharacteristics": [{
+                                    "ItemName": "CreateParameters",
+                                    "ListofIdentifiers": {
+                                        "Identifier": [{
+                                            "Name": "StatusId",
+                                            "Value": ["20"]
+                                        }, {
+                                            "Name": "Summary",
+                                            "Value": ["POPULATED FULL AUDIT COUNT"]
+                                        }, {
+                                            "Name": "Description",
+                                            "Value": ["Populate Full Audit Count into OSN2_FULL_AUDIT_COUNT table"]
+                                        }]
+                                    }
+                                }]
+                            }
+                        }]
+                    }
+                }
+            }
+        },
+        "Cache": ["ApplicationKey", "SessionID"]
+    }
+}
+>>>>>>> dev

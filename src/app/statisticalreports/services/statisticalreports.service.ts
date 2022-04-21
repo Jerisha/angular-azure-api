@@ -15,31 +15,31 @@ export class statisticalreport {
 
   queryDetails(request: any): Observable<any> {
 
-    let ReportIdentifier: string = request.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName;
-    console.log('ReportIdentifier', ReportIdentifier);
-    if (ReportIdentifier == 'DayToDay') {
-      const observable = new Observable(observer => {
-        this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request).subscribe((res: any) =>
-          observer.next(this.custom(res)));
+    // let ReportIdentifier: string = request.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName;
+    // console.log('ReportIdentifier', ReportIdentifier);
+    // if (ReportIdentifier == 'DayToDay') {
+    //   const observable = new Observable(observer => {
+    //     this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request).subscribe((res: any) =>
+    //       observer.next(this.custom(res)));
 
-      });
-      return observable
-    }
-    else if (ReportIdentifier == 'MonthOnMonth') {
-      const observable = new Observable(observer => {
-        this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request).subscribe((res: any) =>
-          observer.next(this.customMonthly(res)));
+    //   });
+    //   return observable
+    // }
+    // else if (ReportIdentifier == 'MonthOnMonth') {
+    //   const observable = new Observable(observer => {
+    //     this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request).subscribe((res: any) =>
+    //       observer.next(this.customMonthly(res)));
 
-      });
-      return observable
-    }
-    else {
-      return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
-    }
-
+    //   });
+    //   return observable
+    // }
+    // else {
+    //   return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+    // }
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
   configDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }
 
 
@@ -53,7 +53,6 @@ export class statisticalreport {
       testdata?.forEach((category: any) => {
         let testdate: any = category.Date;
         category.Sources?.forEach((char: any) => {
-          debugger;
           char.StatisticDate = testdate;
           arrdate.push(char);
         });

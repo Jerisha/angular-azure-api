@@ -17,9 +17,9 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { HelperModule } from 'src/app/_helper/helper.module';
 import { Utils } from 'src/app/_http/index';
-import{TransactionDataService} from '../services/transaction-data.service';
 import { map, startWith } from 'rxjs/operators';
 import { CdkTreeModule } from '@angular/cdk/tree';
+import { TransactionDataService } from '../services/transaction-data.service';
 
 @Component({
   selector: 'app-transactions-views',
@@ -355,7 +355,7 @@ saveTran(val:number)
   // this.service.create(request2).subscribe((res: any) => {
   //     console.log("res: " + JSON.stringify(res))
   // });
-  this.service.create(request2).subscribe(x => {
+  this.service.create(request2).subscribe((x: { StatusMessage: string; })=> {
     if (x.StatusMessage === 'Success') {
       //success message and same data reload
       this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
@@ -419,7 +419,21 @@ SearchTel(){
      });
   debugger
     if(this.model.telno !="" ||this.model.rangeEnd !="" ||this.CliRangeSet.length>0)
-      {        
+      {   
+        let telRange = this.model.rangeEnd == 0  || this.model.rangeEnd == "" || this.model.rangeEnd==this.model.telno ? 1:this.model.rangeEnd-this.model.telno ; 
+        
+        alert("vals: "+telRange+" "+this.model.rangeEnd+" "+this.model.telno)
+        if (telRange> 10000  )
+        {
+          alert("Range should not exit 10000!... Please provide valid CLI Range:)")
+          return ;
+        }
+        if (telRange<0  )
+        {
+          alert("Range should not be negative!... Please provide valid CLI Range:)")
+          return ;
+        }
+        
           if (this.CliRangeSet.length===0)
           {
             let count=1;
@@ -684,6 +698,8 @@ SearchTel(){
       else{
         alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
       }
+
+     
 
   }
   check_franchise()

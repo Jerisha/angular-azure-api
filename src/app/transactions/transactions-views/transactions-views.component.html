@@ -63,7 +63,7 @@
                     <div style="display: flex;align-items: center;justify-content: center;">
                         <span>
                           <!-- <button  *ngIf="visibleSearchOption2.checked == true" type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()"> -->
-                            <button  type="button"  mat-raised-button [ngClass]="addbtncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;" (click)="addRangeTel()" [disabled]="addCliState">
+                            <button  type="button"  mat-raised-button [ngClass]="addbtncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:0px;" (click)="addRangeTel()" [disabled]="addCliState">
                             <mat-icon>add_box</mat-icon>Add Cli(s)
                           </button>
                         <button type="button"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
@@ -469,8 +469,8 @@
                                 </div>                                                                                                                            
                             <div style="margin-bottom: 6px;">
                               <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'200px'}">
-                                <mat-label class="vf-label">Order Ref.</mat-label>
-                                <input type="text" matInput  placeholder="Order Ref. *"  size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
+                                <mat-label class="vf-label">Order Ref.*</mat-label>
+                                <input type="text" matInput  placeholder="Order Ref.*"  size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                               </mat-form-field>                             
                               <span [ngStyle]="{'display': isExportImportSelected ? 'inline-flex' : 'none' }" ><mat-form-field   class="vf-mr-negative" style="width:106px;margin-left: 4px;">
                                 <mat-label class="vf-label">I/E CUPID</mat-label>

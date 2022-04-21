@@ -86,12 +86,19 @@ export class HttpWrapperService {
     }
 
     processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
+<<<<<<< HEAD
       
     Observable<Type> {
          
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
                 `${environment.api_py_dev}${endPoint.toString()}`,
+=======
+        Observable<Type> {
+        const observerRes = new Observable((observer: Observer<Type>) => {
+            this.http(httpVerb.toString(),
+                `${environment.api_py_sit}${endPoint.toString()}`,
+>>>>>>> dev
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -101,18 +108,25 @@ export class HttpWrapperService {
                     //this.resolveRespone(response, endPoint);
                 })
         });
+<<<<<<< HEAD
        
+=======
+>>>>>>> dev
         return observerRes;
     }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
+<<<<<<< HEAD
         console.log('resolve response method called');
+=======
+>>>>>>> dev
         debugger;
         let jsonResult = '';
         console.log(val)
         let transData: any = [];
         try {
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
+<<<<<<< HEAD
             switch (requestType) {
                 case WebMethods.CONFIG:                    
                         transData = val.ReponseParams
@@ -129,6 +143,25 @@ export class HttpWrapperService {
 
             }
         }
+=======
+                switch (requestType) {
+                    case WebMethods.CONFIG:
+                        transData = val.ReponseParams
+                        transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
+                        break;
+                    case WebMethods.QUERY:
+                    case WebMethods.GET:
+                        transData = val.ReponseParams
+                        transData.data = val.Data
+                        break;
+                    case WebMethods.UPDATE:
+                    case WebMethods.CREATE:
+                    case WebMethods.DELETE:
+                        transData = val.Status[0]
+                        break;
+                }
+            }
+>>>>>>> dev
 
         } catch (err) {
             console.log("PyResponse: " + val + "ResponseError: " + err);
