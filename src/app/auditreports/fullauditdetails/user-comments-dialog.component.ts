@@ -9,11 +9,11 @@ import { FullAuditDetailsService } from './fullauditdetails.service';
 
 const ELEMENT_DATA: any[] = [{
   ACTID: '29', TelePhoneNo: '01131100030', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedDate: '21-NOV-20 12.38.07.340907 PM',
-  ResolutionType:'Auto Logic Resolved',ResolutionRemarks:'Customer Name/Address information validation pass.'
+  ResolutionType: 'Auto Logic Resolved', ResolutionRemarks: 'Customer Name/Address information validation pass.'
 },
 {
   ACTID: '29', TelePhoneNo: '01131100030', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedDate: '21-NOV-20 12.38.07.340907 PM',
-  ResolutionType:'Auto Logic Resolved',ResolutionRemarks:'Customer Name/Address information validation pass.'
+  ResolutionType: 'Auto Logic Resolved', ResolutionRemarks: 'Customer Name/Address information validation pass.'
 }
 ];
 
@@ -54,7 +54,7 @@ const ELEMENT_DATA: any[] = [{
 export class UserCommentsDialogComponent {
   userCommentsTable!: TableItem;
 
-  userCommentsTableDetails:any=[
+  userCommentsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
     { headerValue: 'TelePhoneNo', header: 'TelePhoneNo', showDefault: true, isImage: false },
     { headerValue: 'CreatedBy', header: 'Created By', showDefault: true, isImage: false },
@@ -65,52 +65,45 @@ export class UserCommentsDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { defaultValue: any, telno:any },
+    public data: { defaultValue: any, telno: any },
     private dialogRef: MatDialogRef<UserCommentsDialogComponent>,
     private service: FullAuditDetailsService
   ) {
     // console.log('inside',data);
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.userCommentsTableInit();
   }
-  telno:string ='';
+  telno: string = '';
 
-  userCommentsQueryResult$!:Observable<any>;
   userCommentsTableInit() {
     this.telno = this.data.telno;
     let request = Utils.prepareQueryRequest('UserComments', 'FullAuditDetails', this.data.defaultValue);
-    console.log('sample user', JSON.stringify(request));
-    const observable = new Observable(observer => {
-    this.service.queryDetails(request).pipe(map((res: any) => {
-      if (Object.keys(res).length) {
-        let result = {
-          datasource: res[0].TelephoneNumbers,
-          totalrecordcount: res[0].TelephoneNumbers.length,
-          totalpages: 1,
-          pagenumber: 1
-        }
-        return result;
-      } else return {
-        datasource: res
-      };
-    }))
-    .subscribe(result=>{      
-      this.data.defaultValue = result.datasource.length>0?result:null;
-      observer.next(result)
-    });
-  })
+    const userCommentsQueryResult$ = new Observable(observer => {
+      this.service.queryDetails(request).pipe(map((res: any) => {
+        if (Object.keys(res).length) {
+          let result = {
+            datasource: res[0].TelephoneNumbers,
+            totalrecordcount: res[0].TelephoneNumbers.length,
+            totalpages: 1,
+            pagenumber: 1
+          }
+          return result;
+        } else return {
+          datasource: res
+        };
+      })).subscribe(result => {
+        this.data.defaultValue = result.datasource.length > 0 ? result : null;
+        observer.next(result)
+      });
+    })
     this.userCommentsTable = {
-      data:observable,
-      Columns: this.userCommentsTableDetails,      
-      selectCheckbox:true,
+      data: userCommentsQueryResult$,
+      Columns: this.userCommentsTableDetails,
+      selectCheckbox: true,
       removeNoDataColumns: true,
-      disablePaginator:true
+      disablePaginator: true
     }
   }
-  // onYesClick(): void {
-  //   this.dialogRef.close(true);
-  // }
-
 }
