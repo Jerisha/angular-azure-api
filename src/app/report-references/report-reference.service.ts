@@ -939,7 +939,7 @@ export class ReportReferenceService {
     return transform;
   }
   prepareCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier:any): Observable<any> {
-    let request = Utils.preparePyCreate(pageIdentifier, reportIdentifier,createIdentifier,[{}] );
+    let request = Utils.preparePyCreate(pageIdentifier, reportIdentifier,'CreateParameters',createIdentifier );
     console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
     // let transform = JSON.parse(JSON.stringify(WMRequests.CREATE));

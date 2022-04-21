@@ -237,11 +237,7 @@ export class TransactionErrorsComponent implements OnInit {
         // "Value" : [ "01213004534" ]
         "Value": [this.telNo]
       }, {
-<<<<<<< HEAD
-        "Name": this.repIdentifier === 'SolicitedErrors' || 'TransactionDetails' ? "TransactionId" : "TransactionReference",
-=======
         "Name": this.repIdentifier === ('SolicitedErrors' || 'TransactionDetails') ? "TransactionId" : "TransactionReference",
->>>>>>> dev
         "Value": [this.tranId]
         // "Name" : "TransactionId",
         // "Value" : [ "1013164478" ]

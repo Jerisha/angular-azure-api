@@ -10,10 +10,7 @@ import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-<<<<<<< HEAD
-=======
 import { Utils } from 'src/app/_http';
->>>>>>> dev
 
 @Component({
   selector: 'app-report-reference-main',
@@ -56,10 +53,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   editMode: string = "";
   editModeIndex!: number;
   currentReportName: string = "";
-<<<<<<< HEAD
-=======
   recordIdentifier:any = "";
->>>>>>> dev
 
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
@@ -79,13 +73,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.displayedColumns = dispVal || [];
     let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
     this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-<<<<<<< HEAD
-      this.data = res[0][this.reportName];
-=======
       //this.data = res[0][this.reportName];
       this.data = res.data[this.reportName];
       this.recordIdentifier = res.RecordIdentifier;
->>>>>>> dev
     });
     // this.data = dat || [];
     this.newTab();
@@ -97,13 +87,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.displayedColumns = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] || [];
     // this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || [];
     this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-<<<<<<< HEAD
-      this.data = res[0][this.reportName];
-=======
       //this.data = res[0][this.reportName];
       this.data = res.data[this.reportName];
       this.recordIdentifier = res.RecordIdentifier;
->>>>>>> dev
     });
   }
   newTab() {
@@ -165,8 +151,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
 
 
-<<<<<<< HEAD
-=======
 refreshData(){
   this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
     //this.data = res[0][this.reportName];
@@ -174,7 +158,6 @@ refreshData(){
     this.recordIdentifier = res.RecordIdentifier;
   });
 }
->>>>>>> dev
 
   onEditRecord(element: any, event: any) {
     // this.showDataForm =true;  
@@ -208,26 +191,14 @@ refreshData(){
     deleteConfirm.afterClosed().subscribe(confirm => {
       if (confirm) {
         let  deleteparms =  [];
-<<<<<<< HEAD
-         deleteparms.push({ Name: 'StatusId', Value: ['575'] });
-        let request = ReportReferenceService.prepareDeleteRequest('AuditStatus', 'ReferenceList' , deleteparms);
-=======
         deleteparms.push({ Name: this.recordIdentifier, Value: [''] });
 
         let request = ReportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList' , deleteparms);
->>>>>>> dev
         console.log(request, 'deleterequest')
          this.reportReferenceService.deleteDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-<<<<<<< HEAD
-              this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-                this.data = res[0][this.currentReportName];
-                console.log(this.currentReportName , 'test')
-              });
-=======
               this.refreshData();
->>>>>>> dev
               this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
@@ -255,20 +226,6 @@ refreshData(){
         }
 
       });
-<<<<<<< HEAD
-
-      updateConfirm.afterClosed().subscribe(confirm => {
-        if (confirm) {
-          let request = ReportReferenceService.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
-          console.log(request, 'deleterequest')
-          this.reportReferenceService.updateDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success') {
-              //success message and same data reload
-              this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-                this.data = res[0][this.currentReportName];
-                console.log(this.currentReportName , 'test')
-              });
-=======
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
         // let request = ReportReferenceService.prepareUpdate('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
@@ -279,7 +236,6 @@ refreshData(){
               //success message and same data reloa
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
->>>>>>> dev
               this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
@@ -295,19 +251,6 @@ refreshData(){
 
     else {
       let  createparms =  [];
-<<<<<<< HEAD
-      createparms.push({ Name: 'StatusId', Value: ['17'] });
-      createparms.push({ Name: 'Summary', Value: ['POPULATED FULL'] });
-      createparms.push({ Name: 'Description', Value: [''] });
-      let request = ReportReferenceService.prepareCreateRequest('AuditStatus', 'ReferenceList', createparms);
-      console.log(request, 'request')
-       this.reportReferenceService.createDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success') {
-              this.reportReferenceService.prepareData(this.currentReportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-                this.data = res[0][this.currentReportName];
-                console.log(this.currentReportName , 'test')
-              });
-=======
       createparms.push({ Name: 'StatusId', Value: ['97'] });
       createparms.push({ Name: 'Summary', Value: ['POPULATED FULL'] });
       createparms.push({ Name: 'Description', Value: ['test2'] });
@@ -318,7 +261,6 @@ refreshData(){
        this.reportReferenceService.prepareCreate('AuditStatus','ReferenceList',createparms).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               this.refreshData();
->>>>>>> dev
               this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             } else {
@@ -326,58 +268,12 @@ refreshData(){
             }
           });
         
-<<<<<<< HEAD
-      this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-=======
       // this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
->>>>>>> dev
         
     }
 
   }
 
-<<<<<<< HEAD
-
-  prepareCreateIdentifiers() {
-
-    let identifiers: any[] = [];
-    alert(this.editRecord.length + 'length')
-    // if (this.editRecord.length > 0) {
-    // this.editRecord?.forEach(x => { 
-    // identifiers.push({ Name: 'StatusID', Value: 12 } );
-    identifiers.push({ Name: 'StatusId', Value: ['11'] });
-    identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1'] });
-    identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-test1 '] });
-    //}
-    console.log(identifiers, 'identifiers')
-    return identifiers;
-  }
-  prepareUpdateIdentifiers() {
-
-    let identifiers: any[] = [];
-    alert(this.editRecord.length + 'length')
-    // if (this.editRecord.length > 0) {
-    // this.editRecord?.forEach(x => { 
-    // identifiers.push({ Name: 'StatusID', Value: 12 } );
-    identifiers.push({ Name: 'StatusId', Value: ['1'] });
-    identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1'] });
-    identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-testing1'] });
-    //}
-    console.log(identifiers, 'identifiers')
-    return identifiers;
-  }
-
-  prepareUpdateParams(): any {
-    let UpdateParams: any = [];
-
-    console.log(UpdateParams);
-
-    return UpdateParams;
-  }
-
-
-
-=======
   prepareUpdateIdentifiers() {
     let identifiers: any[] = [];
     //alert(this.editRecord.length + 'length')
@@ -401,7 +297,6 @@ refreshData(){
   //   console.log(identifiers, 'identifiers')
   //   return identifiers;
   // }
->>>>>>> dev
   onDataFormCancel(event: any[]) {
     this.editMode = "";
     this.editModeIndex = -1;

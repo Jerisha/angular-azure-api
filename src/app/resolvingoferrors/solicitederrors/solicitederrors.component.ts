@@ -198,11 +198,7 @@ export class SolicitederrorsComponent implements OnInit {
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
-<<<<<<< HEAD
-      console.log("res: " + JSON.stringify(res))
-=======
       //console.log("res: " + JSON.stringify(res))
->>>>>>> dev
       this.configDetails = res.data;
     });
 

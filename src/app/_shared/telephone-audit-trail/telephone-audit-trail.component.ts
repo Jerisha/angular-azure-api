@@ -211,11 +211,6 @@ export class TelephoneAuditTrailComponent implements OnInit {
     // console.log(changes);
     if (changes.telNo.currentValue != changes.telNo.previousValue) {
       this.setStep(2);
-<<<<<<< HEAD
-      let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", this.repIdentifier, [{  Name : "TelephoneNumber",
-       Value : [ this.telNo ] }]);
-    // Value : [ "01171617562" ] }]);
-=======
       let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{
         Name: "TelephoneNumber",
         Value: [this.telNo]
@@ -228,7 +223,6 @@ export class TelephoneAuditTrailComponent implements OnInit {
         transform.TelephoneNumber = res.TelephoneNumber
         return transform
       }
->>>>>>> dev
 
       ));
 
@@ -269,9 +263,5 @@ export class TelephoneAuditTrailComponent implements OnInit {
 
   expandedElement: null | undefined;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 }
 

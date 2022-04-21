@@ -107,16 +107,11 @@ export class Utils {
     transform.wmRequest.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = updateParams;
     return transform;
   }
-<<<<<<< HEAD
   static preparePyCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier: any, createParams: any): any {
-=======
-  static preparePyCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier: any): any {
->>>>>>> dev
     let transform = JSON.parse(JSON.stringify(PyRequests.CREATE));
     transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ItemName = pageIdentifier;
     //identifier
     transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-<<<<<<< HEAD
     //Updateidentifier
     transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofIdentifiers.Identifier = createIdentifier;
     //UpdateAttribute
@@ -125,13 +120,4 @@ export class Utils {
   }
 
 
-=======
-    //Createidentifier
-    transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofIdentifiers.Identifier = createIdentifier;
-    //CreateAttribute
-   // transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofAttributes.Attribute = createParams;
-    return transform;
-  }
-
->>>>>>> dev
 }

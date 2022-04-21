@@ -217,96 +217,6 @@ export const PyRequests = {
         },
         "Cache": ["ApplicationKey", "SessionID"]
     },
-<<<<<<< HEAD
-    CREATE:{
-        "RequestType" : "CREATE",
-"UserParams":["UserID","RoleID"],
-"RequestParams":["Uniqueappreference","Pagenumber","Records per page","ScreenIdentifer","ReportIdentifer"],
-"wmRequest":{
-"CreateObjectRequest" : {
-"CreateObjectRequestType" : {
-"RequestIdentifiers" : {
-"Identifier" : [ {
-"Name" : "UserId",
-"Value" : [ "MCIVWASP" ]
-}, {
-"Name" : "Destination",
-"Value" : [ "OSN2" ]
-} ]
-},
-"ListofCreateObjectCategory" : {
-"CreateObjectCategory" : [ {
-"ItemName" : "Transactions",
-"ListofIdentifiers" : {
-"Identifier" : [ {
-"Name" : "ReportIdentifier",
-"Value" : [ "Transactions" ]
-} ]
-},
-"ListofCreateObjectCharacteristics" : {
-"CreateObjectCharacteristics" : [ {
-"ItemName" : "CreateParameters",
-"ListofIdentifiers" : {
-"Identifier" : [ {
-"Name" : "TelephoneNumberRange",
-"Value" : [ "01076553233|01076554233" ]
-}, {
-"Name" : "Cupid",
-"Value" : [ "13 - Cable & wireless UK" ]
-}, {
-"Name" : "Franchise",
-"Value" : [ "AUDIT VOD-VOD-AUD Audit Purpose" ]
-}, {
-"Name" : "TransactionType",
-"Value" : [ "Activate Customer" ]
-}, {
-"Name" : "LineType",
-"Value" : [ "DDI" ]
-}, {
-"Name" : "TypeOfLine",
-"Value" : [ "Multisite and Dual Parenting" ]
-}, {
-"Name" : "OrderReference",
-"Value" : [ "B7484" ]
-}, {
-"Name" : "CustomerName",
-"Value" : [ "JP MORGAN" ]
-}, {
-"Name" : "AddressLine1",
-"Value" : [ "ITW BUILDING" ]
-}, {
-"Name" : "AddressLine2",
-"Value" : [ "JAYS CLOSE" ]
-}, {
-"Name" : "AddressLine3",
-"Value" : [ "BASINGSTOKE" ]
-}, {
-"Name" : "AddressLine4",
-"Value" : [ "HAMPSHIRE" ]
-}, {
-"Name" : "PostCode",
-"Value" : [ "LU1 4BU" ]
-}, {
-"Name" : "Comments",
-"Value" : [ "no comments" ]
-}, {
-"Name" : "ForceValidate",
-"Value" : [ "Y" ]
-} ]
-}
-} ]
-}
-} ]
-}
-}
-}
-}
-,
-"Cache":["ApplicationKey","SessionID"]
-}
-
-}
-=======
     CREATE:
     {
         "RequestType": "CREATE",
@@ -359,4 +269,3 @@ export const PyRequests = {
         "Cache": ["ApplicationKey", "SessionID"]
     }
 }
->>>>>>> dev
