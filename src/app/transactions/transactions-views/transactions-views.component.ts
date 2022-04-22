@@ -57,6 +57,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
   franchiseValues:any;
   isExportImportSelected:Boolean =false;
   telephoneSet="";
+  audittelephonenumbers:any;
     model:any ={telno:"",rangeEnd:"",CupId:"",Franchise:""};
     // transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
     // addressDetails:ICustomerAddress ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
@@ -88,7 +89,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
     updateResult$!: Observable<any>;
     configDetails!: any;
     queryResultobj!:any;
-  
+     inputtelRange!:string;
     currentPage: string = '1';
     updateDetails!: any;
   constructor( private service: TransactionDataService,private _ngZone: NgZone,
@@ -112,6 +113,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
     this.views.view1=true; 
     this.formsGroup = this.fb.group({}); 
     this.initForm();     
+
+
     }
 
   @ViewChild('autosize')
@@ -208,7 +211,7 @@ onTelphonenumChange(event:any)
 }
 FillPaffAddress(Addressval:any[]):string
 {
-  this.transactionItem.customerAddress={customerName:"VODAFONE",address1:Addressval[0],address2:Addressval[1],address3:"",address4:"",postcode:"RG14 2FN"};
+  this.transactionItem.customerAddress={customerName:"VODAFONE",address1:Addressval[1],address2:Addressval[2],address3:Addressval[3],address4:Addressval[4],postcode:"RG14 2FN"};
 
 console.log('paf address',Addressval)
 return "";
@@ -226,7 +229,7 @@ onChange(value: string, ctrlName: string) {
    {
      if(ctrlName=='EndTelephoneNumber'&&this.model.telno.length==0)
      {
-      this.alertService.error("Start telephone number should not be empty!", { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.notification("Enter Start Telephone No", { autoClose: true, keepAfterRouteChange: false });
   
      }
      else{
@@ -255,6 +258,22 @@ onChange(value: string, ctrlName: string) {
   }
 }
 this.evntflage=false;
+}
+onSelectionChange(event:any)
+{
+  debugger
+  const ctrlthree = this.view3Form.get('Cupid') as FormControl;
+  if(event.option.value==="Import"||event.option.value==="Export")
+  {
+ctrlthree.setValidators((Validators.required));
+ctrlthree.updateValueAndValidity();
+  }
+  else{
+ctrlthree.clearValidators();
+ctrlthree.updateValueAndValidity();
+  }
+  
+//ctrlthree.clearValidators();
 }
 onChangeEvent(event:any,control:string)
 {  
@@ -348,26 +367,26 @@ updateMatchedAddressDetails()
 }
 viewAddressCheck()
 {
+  console.log('Address called');
   this.AddressCheckSelected.emit(["true",this.transactionItem.customerAddress.address1,this.transactionItem.customerAddress.address2,this.transactionItem.customerAddress.address3,this.transactionItem.customerAddress.address4,this.transactionItem.customerAddress.postcode]) // need to check
 }
 sysEditText(val:string)
 {
 
 }
-saveTran(val:number)
+saveTran(val:String)
 {
   let request2 = Utils.preparePyCreate('Transactions', 'Transactions','CreateParameters', this.prepareQueryParamsforCreate(this.currentPage));
    console.log('create request',JSON.stringify(request2));
-  // this.service.create(request2).subscribe((res: any) => {
-  //     console.log("res: " + JSON.stringify(res))
+   this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+   this.resetTel("");
+  // this.service.create(request2).subscribe((x: { StatusMessage: string; })=> {
+  //   if (x.StatusMessage === 'Success') {
+  //     //success message and same data reload
+  //     this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+  //    this.resetTel("");
+  //   }
   // });
-  this.service.create(request2).subscribe((x: { StatusMessage: string; })=> {
-    if (x.StatusMessage === 'Success') {
-      //success message and same data reload
-      this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-     this.resetTel("");
-    }
-  });
   
 }
 ReviewCli()
@@ -399,7 +418,7 @@ SearchTel(){
         LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
         TypeOfLine: new FormControl({ value: '', disabled: false }, [Validators.required]),
         OrderReference:new FormControl({ value: '', disabled: false }, [Validators.required]),
-        Cupid:new FormControl({ value: '', disabled: false }, [Validators.required]),
+        Cupid:new FormControl({ value: '', disabled: false },[]),
         Comments:new FormControl({ value: '', disabled: false }, [Validators.required]),
         CustomerName:new FormControl({ value: '', disabled: false }, [Validators.required]),
         AddressLine1:new FormControl({ value: '', disabled: false }, [Validators.required]),
@@ -414,7 +433,7 @@ SearchTel(){
       this.Master=this.queryResultobj.NumberOfTransactions[0].MasterCount;
       this.Provide=this.queryResultobj.NumberOfTransactions[0].ProvideCount;
       this.cupIds=this.queryResultobj.CupidFranchiseList[0].CupidFranchise;
-      
+      this.audittelephonenumbers=this.queryResultobj.TelephoneNumbers[0].TelephoneNumber;
      let test:any= this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
         .filter((value:any, index:number, self:any) => self.indexOf(value) === index);
         console.log('uniquer values',test);
@@ -428,7 +447,7 @@ SearchTel(){
       {   
         let telRange = this.model.rangeEnd == 0  || this.model.rangeEnd == "" || this.model.rangeEnd==this.model.telno ? 1:this.model.rangeEnd-this.model.telno ; 
         
-        alert("vals: "+telRange+" "+this.model.rangeEnd+" "+this.model.telno)
+      //  alert("vals: "+telRange+" "+this.model.rangeEnd+" "+this.model.telno)
         if (telRange> 10000  )
         {
           alert("Range should not exit 10000!... Please provide valid CLI Range:)")
@@ -481,7 +500,7 @@ SearchTel(){
           telephonerangevalues+=this.CliRangeSet[i][1].toString()+'|'+this.CliRangeSet[i][0].toString();
         }
         else{
-          telephonerangevalues+=this.CliRangeSet[i][0].toString();
+          telephonerangevalues+=this.CliRangeSet[i][0].toString()+'|'+this.CliRangeSet[i][0].toString();
       
         }
         if(i+1<this.CliRangeSet.length)
@@ -490,30 +509,25 @@ SearchTel(){
        
         }
       }
+      this.inputtelRange=telephonerangevalues;
    console.log('telephone range attr',telephonerangevalues);
            console.log(attributes);
 
           return attributes;
     }
-    prepareQueryParamsforCreate(pageNo: string): any {
+    prepareQueryParamsforCreate(ForceToValidate: string): any {
   debugger
-        let attributes: any = [ { Name: 'TelephoneNumberRange', Value: ["02071117400|02071117900"] },
-        { Name: 'ForceValidate', Value: ["Y"]},{ Name: 'Franchise', Value: ["AUDIT VOD-VOD-AUD Audit Purpose"]}
+        let attributes: any = [
+        { Name: 'ForceValidate', Value: [ForceToValidate]},{ Name: 'Franchise', Value: [this.model.Franchise]}
       ];
-        //Reference
-        const control = this.thisForm.get('Reference');
-       
-    
-        for (const field in this.d) {
-          if (field != 'Reference') {
-            const control = this.view3Form.get(field);
-           
+
+        attributes.push({ Name: 'TelephoneNumberRange', Value: [this.inputtelRange] });
+          for (const field in this.d) {       
+            const control = this.view3Form.get(field);        
             if (control?.value)
               attributes.push({ Name: field, Value: [control?.value] });
             else
-              attributes.push({ Name: field });
-    
-          }
+              attributes.push({ Name: field });     
         }
         console.log(attributes);
     
@@ -522,8 +536,43 @@ SearchTel(){
       }
       
     public checkError = (controlName: string, errorName: string) => {
+      debugger
+      if(controlName=='Cu')
+      {
+        const control = this.view3Form.get('TransactionType');
+        const controltwo = this.view3Form.get('Cupid');
+        const ctrlthree = this.view3Form.get(controlName) as FormControl;
+       
+       
+            if (control?.value)
+            {
+               if(control?.value=='Import'||control?.value=='Export')
+               {
+              //  phoneControl.setValidators([Validators.required]);
+                const ctrlthree = this.view3Form.get(controlName) as FormControl;
+                ctrlthree.setValidators((Validators.required))
+               //console.log('error log',this.view3Form.controls[controlName].hasError(errorName) &&
+               //(this.view3Form.controls[controlName].dirty || this.view3Form.controls[controlName].touched))
+                return true
+               }
+
+
+               const ctrlthree = this.view3Form.get(controlName) as FormControl;
+              // ctrlthree.setValidators('')
+               return false;
+            }
+            
+            else
+            {
+              ctrlthree.clearValidators();
+             return false;
+            }
+             
+      }
+      else{
       return this.view3Form.controls[controlName].hasError(errorName) &&
         (this.view3Form.controls[controlName].dirty || this.view3Form.controls[controlName].touched)
+      }
     }
    
   ValidateTelno(telno:string){
@@ -598,7 +647,8 @@ SearchTel(){
   }  
   AuditTrail()
   {
-    this.AuditTrailSelected.emit(["true",this.model.telno,this.model.rangeEnd])
+    
+    this.AuditTrailSelected.emit(["true",this.audittelephonenumbers])
   }
   onCupIdChange (event:any)
   {
@@ -681,21 +731,21 @@ SearchTel(){
           }
           else{
             this.alertService.clear();
-            this.alertService.error("Duplicate Numbers Not Allowed!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.notification("Duplicate Numbers Not Allowed!", { autoClose: true, keepAfterRouteChange: false });
           }
         }
         else{
           if(!this.checktotalrange(count))
           {
-            this.alertService.notification("Total range exceeeding more than 10000!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs!", { autoClose: true, keepAfterRouteChange: false });
       
           }
          else if(count>=10000)
          {
-          this.alertService.notification("Count shouldn't be more than 10000!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs", { autoClose: true, keepAfterRouteChange: false });
          }
          else{
-          this.alertService.error("Count shouldn't be negative", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Start Telephone No should be less than End Telephone No", { autoClose: true, keepAfterRouteChange: false });
       
          }
       

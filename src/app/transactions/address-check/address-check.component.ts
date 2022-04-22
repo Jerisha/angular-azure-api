@@ -100,23 +100,23 @@ export class AddressCheckComponent implements OnInit {
   ];
   btTiles: Tile[] = [
     {text: 'BT Format'                      ,class:"vf-grid-header"},
-    {text: 'BT Checked Address'             ,class:"vf-grid-header"},
-    {text: 'BT Checked PAF Address'         ,class:"vf-grid-header"},
-    {text: 'Premises'            ,class:"vf-sub-title"},
-    {text: 'BT Premises value'      ,class:"vf-grid-value"},
-    {text: 'PAF Premises value'  ,class:"vf-grid-value"}, 
-    {text: 'Throughfare'            ,class:"vf-sub-title"},
-    {text: 'BT Throughfare value'      ,class:"vf-grid-value"},
-    {text: 'PAF Throughfare value'  ,class:"vf-grid-value"}, 
-    {text: 'Locality'            ,class:"vf-sub-title"},
-    {text: 'BT Locality value'      ,class:"vf-grid-value"},
-    {text: 'PAF Locality value'  ,class:"vf-grid-value"}, 
-    {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
-    {text: 'BT Address Overflow value'      ,class:"vf-grid-value"}, 
-    {text: 'PAF Address Overflow value'  ,class:"vf-grid-value"},
-    {text: 'Overflow Error'            ,class:"vf-sub-title"},
-    {text: 'BT overflow Error value'      ,class:"vf-grid-value"}, 
-    {text: 'PAF overflow Error value'  ,class:"vf-grid-value"},
+    // {text: 'BT Checked Address'             ,class:"vf-grid-header"},
+    // {text: 'BT Checked PAF Address'         ,class:"vf-grid-header"},
+    // {text: 'Premises'            ,class:"vf-sub-title"},
+    // {text: 'BT Premises value'      ,class:"vf-grid-value"},
+    // {text: 'PAF Premises value'  ,class:"vf-grid-value"}, 
+    // {text: 'Throughfare'            ,class:"vf-sub-title"},
+    // {text: 'BT Throughfare value'      ,class:"vf-grid-value"},
+    // {text: 'PAF Throughfare value'  ,class:"vf-grid-value"}, 
+    // {text: 'Locality'            ,class:"vf-sub-title"},
+    // {text: 'BT Locality value'      ,class:"vf-grid-value"},
+    // {text: 'PAF Locality value'  ,class:"vf-grid-value"}, 
+    // {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
+    // {text: 'BT Address Overflow value'      ,class:"vf-grid-value"}, 
+    // {text: 'PAF Address Overflow value'  ,class:"vf-grid-value"},
+    // {text: 'Overflow Error'            ,class:"vf-sub-title"},
+    // {text: 'BT overflow Error value'      ,class:"vf-grid-value"}, 
+    // {text: 'PAF overflow Error value'  ,class:"vf-grid-value"},
   ];
   btTiles1: Tile[] = [
     {text: 'BT Format'                      ,class:"vf-grid-header"},
@@ -150,23 +150,43 @@ export class AddressCheckComponent implements OnInit {
       {text: 'Input Address'       ,class:"vf-grid-header"},
       {text: 'PAF Address'         ,class:"vf-grid-header"},
       {text: 'Address1'            ,class:"vf-sub-title"},
-      {text: this.Addressvalues[0]      ,class:"vf-grid-value"},
+      {text: this.Addressvalues[1]      ,class:"vf-grid-value"},
       {text: 'PAF Address1 value'  ,class:"vf-grid-value"}, 
       {text: 'Address2'            ,class:"vf-sub-title"},
-      {text: this.Addressvalues[1]     ,class:"vf-grid-value"},
+      {text: this.Addressvalues[2]     ,class:"vf-grid-value"},
       {text: 'PAF Address2 value'  ,class:"vf-grid-value"}, 
       {text: 'Address3'            ,class:"vf-sub-title"},
-      {text: this.Addressvalues[2]       ,class:"vf-grid-value"},
+      {text: this.Addressvalues[3]       ,class:"vf-grid-value"},
       {text: 'PAF Address3 value'  ,class:"vf-grid-value"}, 
       {text: 'Address4'            ,class:"vf-sub-title"}, 
-      {text: this.Addressvalues[3]       ,class:"vf-grid-value"}, 
+      {text: this.Addressvalues[4]       ,class:"vf-grid-value"}, 
       {text: 'PAF Address4 value'  ,class:"vf-grid-value"},
       {text: 'Postcode'            ,class:"vf-sub-title"},
-      {text: this.Addressvalues[4]      ,class:"vf-grid-value"}, 
+      {text: this.Addressvalues[5]      ,class:"vf-grid-value"}, 
       {text: 'PAF Postcode value'  ,class:"vf-grid-value"}, 
       {text: 'Validation'          ,class:"vf-sub-title"}, 
       {text: 'Validation value'    ,class:"vf-grid-value"},
       {text: 'PAF Validation value',class:"vf-grid-value"},
+    ];
+   this.btTiles= [
+      {text: 'BT Format'                      ,class:"vf-grid-header"},
+      {text: 'BT Checked Address'             ,class:"vf-grid-header"},
+      {text: 'BT Checked PAF Address'         ,class:"vf-grid-header"},
+      {text: 'Premises'            ,class:"vf-sub-title"},
+      {text:   this.Addressvalues[1]   ,class:"vf-grid-value"},
+      {text: 'PAF Premises value'  ,class:"vf-grid-value"}, 
+      {text: 'Throughfare'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[2]       ,class:"vf-grid-value"},
+      {text: 'PAF Throughfare value'  ,class:"vf-grid-value"}, 
+      {text: 'Locality'            ,class:"vf-sub-title"},
+      {text:  this.Addressvalues[3] + ','+this.Addressvalues[4]  ,class:"vf-grid-value"},
+      {text: 'PAF Locality value'  ,class:"vf-grid-value"}, 
+      {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
+      {text: 'BT Address Overflow value'      ,class:"vf-grid-value"}, 
+      {text: 'PAF Address Overflow value'  ,class:"vf-grid-value"},
+      {text: 'Overflow Error'            ,class:"vf-sub-title"},
+      {text: 'BT overflow Error value'      ,class:"vf-grid-value"}, 
+      {text: 'PAF overflow Error value'  ,class:"vf-grid-value"},
     ];
   }
   ngAfterViewInit() {
@@ -176,13 +196,57 @@ export class AddressCheckComponent implements OnInit {
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
-
+  ngOnChanges() {
+    this.pafTiles=[
+      {text: 'Input Format'        ,class:"vf-grid-header"},
+      {text: 'Input Address'       ,class:"vf-grid-header"},
+      {text: 'PAF Address'         ,class:"vf-grid-header"},
+      {text: 'Address1'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[1]      ,class:"vf-grid-value"},
+      {text: 'PAF Address1 value'  ,class:"vf-grid-value"}, 
+      {text: 'Address2'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[2]     ,class:"vf-grid-value"},
+      {text: 'PAF Address2 value'  ,class:"vf-grid-value"}, 
+      {text: 'Address3'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[3]       ,class:"vf-grid-value"},
+      {text: 'PAF Address3 value'  ,class:"vf-grid-value"}, 
+      {text: 'Address4'            ,class:"vf-sub-title"}, 
+      {text: this.Addressvalues[4]       ,class:"vf-grid-value"}, 
+      {text: 'PAF Address4 value'  ,class:"vf-grid-value"},
+      {text: 'Postcode'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[5]      ,class:"vf-grid-value"}, 
+      {text: 'PAF Postcode value'  ,class:"vf-grid-value"}, 
+      {text: 'Validation'          ,class:"vf-sub-title"}, 
+      {text: 'Validation value'    ,class:"vf-grid-value"},
+      {text: 'PAF Validation value',class:"vf-grid-value"},
+    ];
+   this.btTiles= [
+      {text: 'BT Format'                      ,class:"vf-grid-header"},
+      {text: 'BT Checked Address'             ,class:"vf-grid-header"},
+      {text: 'BT Checked PAF Address'         ,class:"vf-grid-header"},
+      {text: 'Premises'            ,class:"vf-sub-title"},
+      {text:   this.Addressvalues[1]   ,class:"vf-grid-value"},
+      {text: 'PAF Premises value'  ,class:"vf-grid-value"}, 
+      {text: 'Throughfare'            ,class:"vf-sub-title"},
+      {text: this.Addressvalues[2]       ,class:"vf-grid-value"},
+      {text: 'PAF Throughfare value'  ,class:"vf-grid-value"}, 
+      {text: 'Locality'            ,class:"vf-sub-title"},
+      {text:  this.Addressvalues[3] + ','+this.Addressvalues[4]  ,class:"vf-grid-value"},
+      {text: 'PAF Locality value'  ,class:"vf-grid-value"}, 
+      {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
+      {text: 'BT Address Overflow value'      ,class:"vf-grid-value"}, 
+      {text: 'PAF Address Overflow value'  ,class:"vf-grid-value"},
+      {text: 'Overflow Error'            ,class:"vf-sub-title"},
+      {text: 'BT overflow Error value'      ,class:"vf-grid-value"}, 
+      {text: 'PAF overflow Error value'  ,class:"vf-grid-value"},
+    ];
+  }
   ReturnAddress()
   {
     
-    this.AddressFill.emit(["true","Test","Test2","Test3","Test4"]); // need to check
+    this.AddressFill.emit(["true","PAF Address1","PAF Address2","PAF Address3","PAF Address4"]); // need to check
 
-    window.alert("Return Address");
+    //window.alert("Return Address");
   }  
 
 }

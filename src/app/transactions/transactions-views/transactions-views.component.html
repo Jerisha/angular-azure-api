@@ -84,7 +84,7 @@
                           <!-- <div *ngIf="multiRangeChecked == true" > -->
                             <div *ngIf="CliRangeSet.length===1" >
                               <mat-label style="font-size:small;padding-right:2rem;"><strong>Start Telephone No.</strong>{{CliRangeSet[0][0]}}</mat-label>                                                          
-                              <mat-label style="font-size:small;"><strong>End Telephone No.</strong>{{CliRangeSet[0][1]}}</mat-label>                          
+                              <mat-label style="font-size:small;" *ngIf="CliRangeSet[0][1]>0"><strong>End Telephone No.</strong>{{CliRangeSet[0][1]}}</mat-label>                          
                             </div>
                             <!-- <div *ngIf="multiRangeChecked == !true" style ="padding-bottom: 10px;"> -->
                               <div *ngIf="CliRangeSet.length>1" style ="padding-bottom: 10px;">
@@ -167,13 +167,13 @@
                             <span matSuffix mat-icon-button>
                               <mat-icon>arrow_drop_down</mat-icon>
                             </span>
-                            <mat-autocomplete autoActiveFirstOption #autoTransactionType="matAutocomplete">
+                            <mat-autocomplete (optionSelected)="onSelectionChange($event)" autoActiveFirstOption #autoTransactionType="matAutocomplete">
                               <mat-option *ngFor="let val of config.TransactionType | ddlFilter: transactiontype.value" [value]="val">
                                 {{val}}
                               </mat-option>
                             </mat-autocomplete>
                             <mat-error *ngIf="d.TransactionType.errors?.validOptions">Value need to match available options</mat-error>
-                            <mat-error class="error-message" *ngIf="checkError('TransactionType', 'required')">Please Select Transaction Type
+                            <mat-error class="error-message" *ngIf="checkError('TransactionType', 'required')">Select Transaction Type
                             </mat-error>
                           </mat-form-field>
                         </div> 
@@ -191,7 +191,7 @@
                               </mat-option>
                             </mat-autocomplete>
                             <mat-error *ngIf="d.LineType.errors?.validOptions">Value need to match available options</mat-error>
-                            <mat-error class="error-message" *ngIf="checkError('LineType', 'required')">Please Select LineType</mat-error>
+                            <mat-error class="error-message" *ngIf="checkError('LineType', 'required')"> Select LineType</mat-error>
                           
                           </mat-form-field>
                         </div> 
@@ -209,20 +209,20 @@
                               </mat-option>
                             </mat-autocomplete>
                             <mat-error *ngIf="d.TypeOfLine.errors?.validOptions">Value need to match available options</mat-error>
-                            <mat-error class="error-message" *ngIf="checkError('TypeOfLine', 'required')">Please Select TypeOfLine</mat-error>
+                            <mat-error class="error-message" *ngIf="checkError('TypeOfLine', 'required')"> Select TypeOfLine</mat-error>
                           </mat-form-field>
                         </div> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'200px'}">
                             <mat-label class="vf-label">Order Ref.</mat-label>
-                            <input type="text" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
-                            <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')">Please Enter OrderRef</mat-error>
+                            <input type="text" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12" maxlength="12" value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
+                            <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')"> Enter OrderRef</mat-error>
                         
                           </mat-form-field>                             
                           <span [ngStyle]="{'display': isExportImportSelected ? 'inline-flex' : 'none' }" ><mat-form-field   class="vf-mr-negative" style="width:106px;margin-left: 4px;">
                             <mat-label class="vf-label">I/E CUPID</mat-label>
-                            <input type="text" matInput formControlName="Cupid" matInput #input   placeholder="I/E CUPID" size="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
-                            <mat-error class="error-message" *ngIf="checkError('Cupid', 'required')">Please Enter CUPID</mat-error>
+                            <input type="text" matInput formControlName="Cupid" matInput #input   placeholder="I/E CUPID" size="12" value=""  onchange="gnSysChange=true;"   ondblclick="sysEditText('document.sf.txt[10]')">
+                            <mat-error class="error-message" *ngIf="checkError('Cupid', 'required')"> Enter CUPID</mat-error>
                         
                           </mat-form-field> </span>
                         </div>
@@ -255,11 +255,11 @@
                             name =customerName
                             [(ngModel)]="transactionItem.customerAddress.customerName"
                             ></textarea>  
-                            <mat-error class="error-message" *ngIf="checkError('CustomerName', 'required')">Please Enter Customer Name</mat-error>
+                            <mat-error class="error-message" *ngIf="checkError('CustomerName', 'required')"> Enter Customer Name</mat-error>
                                                         
                           </mat-form-field> 
                          
-                          <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:#4a4d4e;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
+                          <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:#d33a93;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
                             <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle; display: inline-flex;align-items: center;justify-content: center;">content_copy</mat-icon>
                           </button>
                         </span>   
@@ -278,7 +278,7 @@
                             name =address1
                             [(ngModel)]="transactionItem.customerAddress.address1"                 
                           ></textarea>       
-                          <mat-error class="error-message" *ngIf="checkError('AddressLine1', 'required')">Please Enter address1</mat-error>
+                          <mat-error class="error-message" *ngIf="checkError('AddressLine1', 'required')"> Enter address1</mat-error>
                                
                         </mat-form-field>
                     </div>
@@ -295,7 +295,7 @@
                           name =address2
                           [(ngModel)]="transactionItem.customerAddress.address2"                
                         ></textarea>  
-                        <mat-error class="error-message" *ngIf="checkError('AddressLine2', 'required')">Please Enter Address2</mat-error>
+                        <mat-error class="error-message" *ngIf="checkError('AddressLine2', 'required')"> Enter Address2</mat-error>
                                    
                       </mat-form-field>
                   </div>
@@ -339,7 +339,7 @@
                        size="12" 
                        maxlength="12" 
                        >
-                       <mat-error class="error-message" *ngIf="checkError('PostCode', 'required')">Please Enter postcode</mat-error>
+                       <mat-error class="error-message" *ngIf="checkError('PostCode', 'required')"> Enter postcode</mat-error>
                       
                   </mat-form-field>                                  
                   </div>  
@@ -347,13 +347,13 @@
                       </div>
                   </div>
                   <div class =vf-flex-container style="margin-block: 1px; padding-bottom: 2px;">                           
-                    <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Transaction details will be saved" (click)="saveTran(0)" [disabled]="view3Form.invalid">
+                    <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Transaction details will be saved" (click)="saveTran('N')" [disabled]="view3Form.invalid">
                     <mat-icon style ="font-size:small;width:30px;height: 16px;">save</mat-icon>Save
                   </button>
                   <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Click this button Check Address will be navigate"  (click)="viewAddressCheck()">
                     <mat-icon style ="font-size:small;width:30px;height: 16px;">search</mat-icon>Check Address
                   </button>
-                  <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Transaction details will be forced to saved"  (click)="saveTran(1)" [disabled]="saveState">                             
+                  <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Transaction details will be forced to saved"  (click)="saveTran('Y')" [disabled]="view3Form.invalid">                             
                     <span class="material-icons" style ="font-size:small;width:30px;height: 16px;">
                       save_alt
                       </span>Force Validate Save
