@@ -325,7 +325,7 @@ export class SolicitederrorsComponent implements OnInit {
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.thisForm.valid) return;
-    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) > 10000) {
+    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
         // height:'250px',
@@ -391,7 +391,7 @@ export class SolicitederrorsComponent implements OnInit {
       (this.Resolution && this.check999() && this.Remarks)) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
-        width: '400px', disableClose: true, data: {         
+        width: '400px', disableClose: true, data: {
           message: 'Would you like to continue to save the records?'
         }
       });

@@ -11,6 +11,9 @@ export class TelphoneNoValidatorDirective implements Validator {
     validate(control: AbstractControl): { [key: string]: any } | null {
 
         const selection: any = control.value;
+        if (selection?.charAt(0) != 0)
+            control.setValue(selection.length <= 10 ? '0' + selection : selection);
+
         if (selection && (this.prefix?.indexOf(selection.substring(0, 2)) === -1) && selection.length >= 2) {
             return { invalidPrefix: true };
         }

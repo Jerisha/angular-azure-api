@@ -18,7 +18,7 @@
             <mat-error>
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
                 <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10/11 digit</div>
+                <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
               </div>
             </mat-error>
           </mat-form-field>
@@ -31,8 +31,9 @@
             <mat-error>
               <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
                 <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div>
+                <div *ngIf="f.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div>
                 <div *ngIf="f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10/11 digit</div>
+                <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
               </div>
             </mat-error>
           </mat-form-field>
