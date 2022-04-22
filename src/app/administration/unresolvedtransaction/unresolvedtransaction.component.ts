@@ -7,6 +7,8 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { UnresolvedTransaction } from '../models/administraion-ui.module';
+import { Utils } from 'src/app/_http/common/utils';
+import { AdministrationService } from '../services/administration.service';
 
 const ELEMENT_DATA: UnresolvedTransaction[] = [
   {
@@ -121,13 +123,20 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   isSaveDisable: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
-   
+   private service : AdministrationService,
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
     this.createForm();
-    
+    debugger;
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'Status', 'SourceType']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      //console.log("res: " + JSON.stringify(res))
+      this.configDetails = res.data;
+
+    });
+
 
 
 
@@ -182,8 +191,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
       TransCommand: new FormControl({ value: '', disabled: true }, []),
-      SourceType: new FormControl({ value: '', disabled: true }, []),
-      
+      SourceType: new FormControl({ value: '', disabled: true }, []),      
       DateRange: this.formBuilder.group({
         FromDate: new FormControl(),
         ToDate: new FormControl(), disabled: true
@@ -197,7 +205,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
     
 
   }
-  InternalErrorInformation: any;
+ 
   
 
   setControlAttribute(matSelect: MatSelect) {
