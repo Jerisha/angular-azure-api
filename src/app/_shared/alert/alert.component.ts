@@ -82,7 +82,8 @@ export class AlertComponent implements OnInit, OnDestroy {
             [AlertType.Success]: 'alert alert-success',
             [AlertType.Error]: 'alert alert-danger',
             [AlertType.Info]: 'alert alert-info',
-            [AlertType.Warning]: 'alert alert-warning'
+            [AlertType.Warning]: 'alert alert-warning',
+            [AlertType.Notification]: 'alert alert-notification',
         }
 
         classes.push(alertTypeClass[alert.type]);
