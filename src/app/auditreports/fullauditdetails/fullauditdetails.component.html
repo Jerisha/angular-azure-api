@@ -526,20 +526,7 @@
                   <mat-icon>save</mat-icon>Save
                 </button>
 
-                <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
-                                      <mat-label>Sample</mat-label>
-                                      <input type="text" id="Sample" required formControlName="Sample"
-                                      #inp matInput maxlength="500"
-                                          placeholder="Sample"/>                                    
-
-                                    
-                                      <mat-error  *ngIf="updateFormControls.Sample.hasError('required')" class="alert alert-danger">                                  
-                                          
-                                            Add remarks for resolution sample
-                                        
-                                      </mat-error> 
-                                  </mat-form-field> -->
-                <mat-form-field *ngIf="showDataCorrection">
+                 <mat-form-field  *ngIf="showDataCorrection">
                   <mat-label>Data Corrections</mat-label>
                   <mat-select name="correctionType" (selectionChange)="getSelectedDataCorrection()"
                     [(value)]="selectedCorrectionType" placeholder="Data Corrections">

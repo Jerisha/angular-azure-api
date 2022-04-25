@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { Utils } from 'src/app/_http';
-import { FullAuditDetailsService } from './fullauditdetails.service';
+import { AuditReportsService } from '../services/audit-reports.service';
 
 
 const ELEMENT_DATA: any[] = [{
@@ -67,7 +67,7 @@ export class UserCommentsDialogComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: { defaultValue: any, telno: any },
     private dialogRef: MatDialogRef<UserCommentsDialogComponent>,
-    private service: FullAuditDetailsService
+    private service: AuditReportsService
   ) {
     // console.log('inside',data);
   }

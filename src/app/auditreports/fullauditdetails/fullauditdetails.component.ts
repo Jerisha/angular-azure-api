@@ -8,7 +8,7 @@ import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
-import { FullAuditDetailsService } from './fullauditdetails.service';
+import { AuditReportsService } from '../services/audit-reports.service';
 import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
@@ -253,7 +253,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   moriCircuitStatusQueryResult$!: Observable<any>;
   overlappingQueryResult$!: Observable<any>;
 
-
   rangeReportTableDetails: any = [
     { headerValue: 'StartTelephoneNumber', header: 'Start TelNo', showDefault: true, isImage: false },
     { headerValue: 'EndTelephoneNumber', header: 'End TelNo', showDefault: true, isImage: false },
@@ -491,7 +490,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(private service: FullAuditDetailsService, private dialog: MatDialog,
+  constructor(private service: AuditReportsService, private dialog: MatDialog,
     private formBuilder: FormBuilder, private cdr: ChangeDetectorRef,private router: Router, private telnoPipe: TelNoPipe,  private alertService: AlertService,) {
   }
 
@@ -575,6 +574,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.tabs.splice(0);
     this.selectListItems=[];
     this.disableProcess=true;
+    this.updateForm.reset();
     this.remarkstxt ='';
     this.rowRange='';
 
@@ -800,15 +800,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.updateForm = this.formBuilder.group({
       Resolution: new FormControl('', [Validators.required]),
       Remarks: new FormControl('', [Validators.required])    
-    })
-
-  //   this.updateForm.valueChanges.subscribe(val => {
-  //     this.updateForm.updateValueAndValidity({onlySelf: false, emitEvent: true})
-  // });
+    });
   }
-
-
-
 
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
@@ -952,17 +945,16 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
       dataCorrectionConfirm.afterClosed().subscribe(result => {
         if (result) {
-          let request = Utils.prepareUpdateRequest(ItemName, 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'),[{}]);
+          let request = Utils.prepareUpdateRequest(ItemName, 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
           console.log('sample in ', JSON.stringify(request))
-          this.service.updateDetails(request).subscribe(x => {
-            console.log('response',x)
-            // if (x.StatusMessage === 'Success') {             
-            //   this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-            //   this.onFormSubmit(true);
-            //   this.router.navigate(['/transactions/transactions'])
-            // }
+          this.service.updateDetails(request).subscribe(x => {           
+            if (x.StatusMessage.toLowerCase() === 'success') {
+              console.log('response', x)
+              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              ItemName === 'AutoSpecialCease' ? this.onFormSubmit(true) : this.router.navigate(['/transactions/transactions']);
+            }
           });
-        }                
+        }
       })
     }
   }
@@ -973,7 +965,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   disableProcess:boolean= true;
 
   prepareUpdateIdentifiers(type: string): any {
-
     let identifiers: any[] = [];
     switch (type) {
       case 'ResolutionRemarks': {
@@ -998,9 +989,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
           identifiers.push({ Name: 'AuditActID' });
 
         identifiers.push({ Name: 'AuditType', Value: [`${'FullAuditDetails'}`] });
-
-
-        break;
+                break;
       }
       case 'DataAutoCorrection': {
         if (this.auditACTID.value)
@@ -1141,18 +1130,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         datasource: res
       };
     }))
-    this.monthlyRefreshRptTable
-      = {
-      data: this.monthlyRefreshQueryResult$,
-      Columns: this.monthlyRefreshReportTableDetails,
-      selectCheckbox: true,
-      removeNoDataColumns: true,
-      filter: true
-    }
-
+  
     this.inflightRptTable = {
       data: of({
-        datasource: ELEMENT_DATA2,
+        datasource: this.inflightReportQueryResult$,
         totalrecordcount: 100,
         totalpages: 20,
         pagenumber: 1
