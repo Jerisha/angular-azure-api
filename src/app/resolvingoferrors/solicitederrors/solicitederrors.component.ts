@@ -170,9 +170,9 @@ export class SolicitederrorsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   saveForm!: FormGroup;
-  Resolution: string ='';
-  Refer: string='';
-  Remarks: string ='';
+  Resolution: string = '';
+  Refer: string = '';
+  Remarks: string = '';
   isSaveDisable: boolean = true;
 
   queryResult$!: Observable<any>;
@@ -186,16 +186,16 @@ export class SolicitederrorsComponent implements OnInit {
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      this.configDetails = res.data;
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
+    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.updateDetails = res[0];
+      this.updateDetails = res.data;
     });
     //this.service.configTest(request);
     // this.service.configDetails(request);
@@ -271,8 +271,8 @@ export class SolicitederrorsComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
@@ -325,16 +325,31 @@ export class SolicitederrorsComponent implements OnInit {
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.thisForm.valid) return;
+    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000) {
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: {
+          enableOk: false,
+          message: 'TelephoneRange must be less than or equal to 10000.',
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        return result;
+      })
+      return;
+    }
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].SolicitedError,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.SolicitedError,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       } else return {
@@ -361,11 +376,11 @@ export class SolicitederrorsComponent implements OnInit {
     }
     this.isEnable();
   }
-  
-  check999(){
-    if(this.Refer && this.Refer.substring(0,3) != '999')
-    return false;
-    
+
+  check999() {
+    if (this.Refer && this.Refer.substring(0, 3) != '999')
+      return false;
+
     return true;
   }
 
@@ -373,7 +388,7 @@ export class SolicitederrorsComponent implements OnInit {
     //console.log("save", form);
     debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
-      (this.Resolution && this.check999()  && this.Remarks)) {
+      (this.Resolution && this.check999() && this.Remarks)) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px', disableClose: true, data: {
@@ -383,7 +398,7 @@ export class SolicitederrorsComponent implements OnInit {
       rangeConfirm.afterClosed().subscribe(result => {
         //console.log("result " + result);
         if (result) {
-          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          let request = Utils.preparePyUpdate('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
@@ -448,10 +463,10 @@ export class SolicitederrorsComponent implements OnInit {
 
 
   resetForm(): void {
-    this.thisForm.reset();
-    this.tabs.splice(0);
-    this.Resolution = ''; this.Refer = ''; this.Remarks = '';
-    //window.location.reload();
+    // this.thisForm.reset();
+    // this.tabs.splice(0);
+    // this.Resolution = ''; this.Refer = ''; this.Remarks = '';
+    window.location.reload();
 
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {

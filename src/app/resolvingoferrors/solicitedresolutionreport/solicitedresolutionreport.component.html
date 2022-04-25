@@ -1,0 +1,209 @@
+<mat-sidenav-container class="side-container">
+  <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+
+    <div class="filter-sticky">
+      <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+        (changes)="setControlAttribute($event)">
+      </app-select-multiple>
+    </div>
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+      <div class="matsidenav-filter">
+        <ng-container *ngIf="configDetails as config">
+
+          <app-select-exp [ngClass]="{'hidden':f.TelephoneNumber.disabled}" [listItems]="expressions.numeric"
+            #TelephoneNoExp></app-select-exp>
+          <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNumber.disabled}">
+            <mat-label>Telephone No</mat-label>
+            <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
+            <input formControlName="TelephoneNumber" (keypress)="numberOnly($event)"
+              (keyup)="addPrefix('TelephoneNumber', telno.value)" matInput maxlength="11" placeholder="Telephone No"
+              #telno>
+            <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
+            <mat-error>
+              <div *ngIf="f.TelephoneNumber.touched && f.TelephoneNumber.invalid" class="alert alert-danger">
+                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                <div *ngIf="f.TelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+              </div>
+            </mat-error>
+          </mat-form-field>
+
+          <app-select-exp [ngClass]="{'hidden':f.TransactionId.disabled}" [listItems]="expressions.numeric"
+            #TransactionIdExp></app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.TransactionId.disabled}">
+            <mat-label>Transaction Id</mat-label>
+            <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
+            <input formControlName="TransactionId" (keypress)="numberOnly($event)"
+              (keyup)="addPrefix('TransactionId', telno.value)" matInput placeholder="Telephone No" #transid>
+            <!-- <mat-hint align="end">{{transid.value?.length || 0}}/11</mat-hint> -->
+            <mat-error>
+              <div *ngIf="f.TransactionId.touched && f.TransactionId.invalid" class="alert alert-danger">
+                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                <div *ngIf="f.TransactionId.errors?.pattern">Telephone No is not 11 digit</div>
+              </div>
+            </mat-error>
+          </mat-form-field>
+
+          <app-select-exp [ngClass]="{'hidden':f.ChangeCupid.disabled}" [listItems]="expressions.numeric"
+            #ChangeCupidExp></app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.ChangeCupid.disabled}">
+            <mat-label>Change Cupid</mat-label>
+            <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
+            <input formControlName="ChangeCupid" (keypress)="numberOnly($event)"
+              (keyup)="addPrefix('ChangeCupid', telno.value)" matInput placeholder="Change Cupid" #transid>
+            <!-- <mat-hint align="end">{{transid.value?.length || 0}}/11</mat-hint> -->
+            <mat-error *ngIf="f.ChangeCupid.touched && f.ChangeCupid.invalid" class="alert alert-danger">
+
+              <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+              <!-- <div *ngIf="f.ChangeCupid.errors?.pattern">Telephone No is not 11 digit</div> -->
+
+            </mat-error>
+          </mat-form-field>
+
+          <app-select-exp [ngClass]="{'hidden':f.TransactionDate.disabled}" [listItems]="expressions.date"
+            #TransactionDateExp></app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.TransactionDate.disabled}" appearance="outline">
+            <mat-label>Transaction Date</mat-label>
+            <input [readonly]="true" [matDatepicker]="picker" formControlName="TransactionDate" matInput #input
+              maxlength="20" placeholder="Transaction Date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <app-select-exp [ngClass]="{'hidden':f.Source.disabled}" [listItems]="expressions.string" #TransactionDateExp>
+          </app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+            <mat-label>Source</mat-label>
+            <input formControlName="Source" type="text" placeholder="Search Source" matInput
+              [matAutocomplete]="autoSource" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+                {{val}}</mat-option>
+            </mat-autocomplete>
+
+          </mat-form-field>
+
+          <app-select-exp [ngClass]="{'hidden':f.Status.disabled}" [listItems]="expressions.string" #StatusExp>
+          </app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.Status.disabled}">
+            <mat-label>Status</mat-label>
+            <input formControlName="Status" type="text" placeholder="Search Status" matInput
+              [matAutocomplete]="autoSource" #Status />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+                {{val}}</mat-option>
+            </mat-autocomplete>
+
+          </mat-form-field>
+
+          <app-select-exp [ngClass]="{'hidden':f.TransactionCommand.disabled}" [listItems]="expressions.string"
+            #TransactionCommandExp></app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.TransactionCommand.disabled}">
+            <mat-label>Transaction Command</mat-label>
+            <input formControlName="TransactionCommand" type="text" placeholder="Search Transaction Command" matInput
+              [matAutocomplete]="autoSource" #TransactionCommand />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+                {{val}}</mat-option>
+            </mat-autocomplete>
+
+          </mat-form-field>
+
+          <app-select-exp [ngClass]="{'hidden':f.LastResolveType.disabled}" [listItems]="expressions.string"
+            #LastResolveTypeExp></app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.LastResolveType.disabled}">
+            <mat-label>Last ResolveType</mat-label>
+            <input formControlName="LastResolveType" type="text" placeholder="Search LastResolveType" matInput
+              [matAutocomplete]="autoSource" #LastResolveType />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+                {{val}}</mat-option>
+            </mat-autocomplete>
+
+          </mat-form-field>
+
+          <app-select-exp [ngClass]="{'hidden':f.InternalCupid.disabled}" [listItems]="expressions.string"
+            #InternalCupidExp></app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.InternalCupid.disabled}">
+            <mat-label>Internal Cupid</mat-label>
+            <input formControlName="InternalCupid" type="text" placeholder="Search InternalCupid" matInput
+              [matAutocomplete]="autoSource" #InternalCupid />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+                {{val}}</mat-option>
+            </mat-autocomplete>
+
+          </mat-form-field>
+
+          <!-- new -->
+
+        </ng-container>
+      </div>
+
+      <div calss="matsidenav-footer">
+        <button type="submit" mat-raised-button color="primary">
+          <mat-icon>search</mat-icon>Search
+        </button>
+        <button type="button" mat-raised-button color="primary" (click)="resetForm()">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+      </div>
+    </form>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="side-content">
+
+    <app-start-up *ngIf="tabs.length===0"></app-start-up>
+    <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+      matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+      <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+    </button>
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+      <mat-tab *ngFor="let tab of tabs; let index = index">
+        <ng-template mat-tab-label>
+          <div style="margin-left: 20px;">{{tab.name}}</div>
+          <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
+            <mat-icon style="font-size: large;">close</mat-icon>
+          </button>
+        </ng-template>
+
+        <span [ngSwitch]="tab.tabType">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
+              (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
+            </app-table-selection>
+            <!-- update panel -->
+          </div>
+          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+            <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
+            </app-telephone-audit-trail>
+          </div>
+          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
+            </app-transaction-errors>
+          </div>
+          <div *ngSwitchDefault>
+          </div>
+        </span>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- <ng-container *ngIf="updateDetails as config">
+  {{config |json }}
+</ng-container> -->

@@ -433,7 +433,7 @@ const Itemstwo: Select[] = [
   { view: 'Cupid', viewValue: 'Cupid', default: true },
   { view: 'Type of Line', viewValue: 'TypeOfLine', default: true },
   { view: 'Franchise', viewValue: 'Franchise', default: true },
-  { view: 'Trans Cmd', viewValue: 'TransactionCommand', default: true },
+  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
 ]
 
@@ -552,10 +552,10 @@ resetExp:boolean = false;
     // this.setOptions();
     this.createForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'Franchise', 'TypeOfLine', 'TransactionCommand']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'Franchise', 'TypeOfLine', 'TransactionCommand']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      this.configDetails = res.data;
     });
 
   }
@@ -591,14 +591,14 @@ resetExp:boolean = false;
     if(!this.myForm.valid) return;
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].LiveTelephoneNumberDetails,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.LiveTelephoneNumberDetails,
+          totalrecordcount: res.data.TotalCount,
+          totalpages: res.data.NumberOfPages,
+          pagenumber: res.data.PageNumber
         }
         return result;
       } else return res;

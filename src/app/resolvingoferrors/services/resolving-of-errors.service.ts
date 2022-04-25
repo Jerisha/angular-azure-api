@@ -25,14 +25,15 @@ export class ResolvingOfErrorsService {
     // });
 
     //return observable
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
+    //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }
 
 
 
   queryDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
-
+    //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
 
   getDetails(request: any): Observable<any> {
@@ -40,7 +41,7 @@ export class ResolvingOfErrorsService {
   }
 
   updateDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
 
   infoDetails(request: any): Observable<any> {

@@ -4,26 +4,27 @@
     <mat-icon style ="font-size: small;">class</mat-icon></button>
       <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
         <div  class ="flex-items" *ngFor ="let reportName of reportNames let reportIndex = index">
-          <button mat-button (click)="onReportSelcted(reportName,reportIndex)" >{{reportName}}</button>
+          <button mat-button (click)="onReportSelcted(reportName,reportIndex)">{{reportName}}</button>
         </div>
       </div>    
   </div>
   <div #contentSection class="container-section">
       <div class="wrap">
-        <div class="left-box" *ngIf=showDataForm>
-          <!-- <mat-toolbar  style ="background-color: #4a4d4e;color: white; height: 20px;width: fit-content;font-size: small;">{{reportName}}</mat-toolbar> -->
-          <app-report-data-form  #dataForm  [reportName]="reportName" [reportIndex]="reportIndex" [lstFields] ="lstFields"></app-report-data-form> 
+        <div class="left-box" *ngIf=showDataForm>         
+          <app-report-data-form  #dataForm  [reportName]="editMode" [reportIndex]="editModeIndex" 
+          [lstFields] ="lstFields" (cancelBtnClicked)="onDataFormCancel($event)" 
+          (submitBtnClicked) = "onDataFormSubmit($event)" [record]="editRecord"
+          ></app-report-data-form>
         </div>
         <div class="right-box" *ngIf="showDetailsForm" > 
-          <mat-tab-group  [(selectedIndex)]="selectedTab" (selectedTabChange)="Onselecttabchange($event)" dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;" *ngIf ="showRightPane"> 
+          <mat-tab-group  [(selectedIndex)]="selectedTab" (selectedTabChange)="Onselecttabchange($event)" dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;"> 
             <mat-tab *ngFor="let tab of tabs; let index = index">
                 <ng-template mat-tab-label>
                     <div style="margin-left: 10px;">{{tab.name}}</div>
                     <button *ngIf=tab.name style="color:black" matSuffix mat-icon-button  (click)="removeTab(index)">
                     <mat-icon style="font-size: large;">close</mat-icon>
                     </button>
-                </ng-template> 
-          
+                </ng-template>           
                   <ng-container   select ="details-form" style ="max-height: 455px;overflow:auto" >  
                     <div style ="max-height: 455px;overflow:auto">   
                       <div style ="max-height: 400px;overflow:auto">
@@ -65,10 +66,6 @@
                       </div>
                     </div>  
                   </ng-container> 
-
-                  
-                  
-                
             </mat-tab>
           </mat-tab-group>                        
         </div>        

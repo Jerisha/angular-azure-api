@@ -186,17 +186,17 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.createForm();
     //this.UpdateForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      this.configDetails = res.data;
 
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
+    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.updateDetails = res[0];
+      this.updateDetails = res.data;
     });
 
 
@@ -349,8 +349,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
@@ -397,7 +397,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       rangeConfirm.afterClosed().subscribe(result => {
         //console.log("result " + result);
         if (result) {
-          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          let request = Utils.preparePyUpdate('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
@@ -415,12 +415,12 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   InternalErrorInformation: any;
   DisplayInformationTab() {
     debugger
-    let request = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
+    let request = Utils.preparePyQuery('InternalErrorInformation', 'UnsolicitedErrors', [{
       "Name": "TransactionDays",
       "Value": [`${environment.UnsolTransactionDays}`]
     }])
 
-    this.queryResultInfo$ = this.service.infoDetails(request).pipe(map((res: any) => res));
+    this.queryResultInfo$ = this.service.queryDetails(request).pipe(map((res: any) => res.data));
     // this.service.infoDetails(request).subscribe((res: any) => {
     //   this.infotable1 = res.dates;
     //   this.infotable2 = res.months      
@@ -464,16 +464,31 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.thisForm.valid) return;
+    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000) {
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: {
+          enableOk: false,
+          message: 'TelephoneRange must be less than or equal to 10000.',
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        return result;
+      })
+      return;
+    }
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].UnsolicitedError,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.UnsolicitedError,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       }
