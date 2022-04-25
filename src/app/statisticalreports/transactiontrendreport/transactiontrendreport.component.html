@@ -1,0 +1,150 @@
+<mat-sidenav-container class="side-container">
+  <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+    <div class="filterdataby">
+      <div style="font-size: small;">
+        <button style="font-size: small;padding-left: 10px;display: flex;" matPrefix mat-icon-button aria-label="Clear">
+          <mat-icon>filter_alt</mat-icon>
+          <span style="padding-left: 10px;">Filter Data By</span>
+        </button>
+      </div> 
+    </div>
+    
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+      <ng-container *ngIf="configDetails  as config">
+      <div class="matsidenav-filter">
+        <!-- <app-select-exp [listItems]="expDefaultmonth"></app-select-exp> -->
+                   <app-select-exp [listItems]="expressions[2].default" #StatisticMonthOperator  [resetvalue]="resetExp"
+                   (click) ="OnOperatorClicked(['StatisticMonthOperator',StatisticMonthOperator.selectedViewValue])"></app-select-exp>
+        <mat-form-field>
+          <mat-label>Statistic Month</mat-label>
+          <input matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="StatisticMonth">
+          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker #dp
+                          startView="multi-year"
+                          (yearSelected)="chosenYearHandler($event)"
+                          (monthSelected)="chosenMonthHandler($event, dp)"
+                          panelClass="example-month-picker">
+          </mat-datepicker>
+        </mat-form-field>
+        <div>
+          <app-select-exp [listItems]="expressions[1].default" #SourceOperator  [resetvalue]="resetExp"
+          (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
+        <!-- <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">     
+          <mat-label>Source System</mat-label>
+          <input formControlName="Source" type="text" placeholder="Search Source" matInput
+            [matAutocomplete]="autoSource" />
+          <span matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </span>
+          <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+            <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+              {{val}}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field> -->
+       
+       
+        <!-- <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+          <mat-label>Source</mat-label>
+          <input formControlName="Source" type="text" placeholder="Search Source" matInput
+            [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','"/>
+          <span matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </span>
+          <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+            <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+              {{val}}</mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
+        </mat-form-field> -->
+      
+        <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+          <mat-label>Source</mat-label>
+          <input #source formControlName="Source" type="text" placeholder="Search Source" matInput
+            [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source "/>
+          <span matSuffix mat-icon-button>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </span>
+          <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+            <mat-option *ngFor="let val of config.Source  | ddlFilter: source.value" [value]="val">
+              {{val}}</mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
+        </mat-form-field>
+
+        
+
+
+
+      </div>
+      </div>
+      <div calss="matsidenav-footer" >
+        <button type="submit" mat-raised-button color="primary" >
+          <mat-icon>search</mat-icon>Search
+        </button>
+        <button type="reset" mat-raised-button color="primary" (click)="resetForm()">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+      </div>
+      </ng-container>
+    </form>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="side-content">
+
+    <app-start-up *ngIf="tabs.length===0"></app-start-up>
+
+    <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+      matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+      <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+    </button>
+
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+      <mat-tab *ngFor="let tab of tabs; let index = index">
+        <ng-template mat-tab-label>
+          <div class="col" style="margin-left: 20px;">{{index==0?isChecked?'D-2-D Summary':'M-O-M Summary':tab.name}}</div>
+          <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
+            <mat-icon style="font-size: large;">close</mat-icon>
+          </button>
+        </ng-template>
+
+
+        <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
+
+        <span [ngSwitch]="tab.tabType">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            
+            
+            <mat-slide-toggle (change)="changeView()"  [(ngModel)]="isChecked" class="toggleclass">
+              {{isChecked?'Switch to M-O-M Summary View':'Switch to D-2-D Summary View'}} </mat-slide-toggle>
+
+            <div *ngIf="!isChecked">
+              <app-table-exp class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
+                [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecordsExps($event)">
+              </app-table-exp>
+            </div>
+
+            <div *ngIf="isChecked">
+              <app-table-selection class="childtb" [sidePan]="pagesidenav" (addNewTab)="OndayTodayselected($event)"
+                [tableitem]="myTableChild" (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"></app-table-selection>
+
+            </div>
+          </div>
+          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+
+            <app-telephone-details [StatisticDate]="StatisticDate" [Source]="Source" (addNewTab)="Onauditselected($event)"></app-telephone-details>
+
+          </div>
+         
+          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+            <app-telephone-audit-trail [telNo]="telNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+
+          </div>
+        </span>
+
+
+      </mat-tab>
+    </mat-tab-group>
+
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
