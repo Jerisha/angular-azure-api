@@ -132,7 +132,7 @@
             <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
              
                 
-              <mat-icon class="info" matTooltip="Full Audit Details" (click)="DisplayFullAuditDetailsTab()">View Full Audit Details</mat-icon>
+              
               <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
             </app-table-selection>
@@ -170,7 +170,11 @@
                         </div>
                       </mat-error>
                     </mat-form-field>
-                  
+                    
+                    <button type="submit" mat-raised-button
+                      color="primary" (click)="DisplayFullAuditDetailsTab()">
+                      FullAudit
+                    </button>
                     <button [disabled]="!(selectedGridRows.length>0)" type="submit" mat-raised-button
                       color="primary">
                       <mat-icon>save</mat-icon>Save
