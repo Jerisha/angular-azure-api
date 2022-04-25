@@ -4,7 +4,7 @@
               <mat-card-content >
                 <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
                   <div class="vf-flex-container-col"> 
-                    <div>
+                    <div style="display: flex; align-items: center; justify-content: center;">
                       <mat-form-field  [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
                         <mat-label>Start Telephone No</mat-label>
                         <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
@@ -14,7 +14,7 @@
                         <mat-error>
                           <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
                             <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                            <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+                            <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
                           </div>
                         </mat-error>
                       </mat-form-field>
@@ -22,12 +22,13 @@
                       <mat-form-field  [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
                         <mat-label>End Telephone No</mat-label>
                         <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
-                          (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'EndTelephoneNumber')" [(ngModel)]="model.rangeEnd"  telNoPrefixValidator (change)="onChangeEvent($event,'EndTelephoneNumber')">
+                          (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'EndTelephoneNumber')" compareStartNo [startNo]="f.StartTelephoneNumber" [(ngModel)]="model.rangeEnd"  telNoPrefixValidator (change)="onChangeEvent($event,'EndTelephoneNumber')">
                         <!-- <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint> -->
                         <mat-error>
                           <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
+                            <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div>
                             <div *ngIf="f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                            <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+                            <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
                           </div>
                         </mat-error>
                       </mat-form-field>
@@ -66,7 +67,7 @@
                             <button  type="button"  mat-raised-button [ngClass]="addbtncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:0px;" (click)="addRangeTel()" [disabled]="addCliState">
                             <mat-icon>add_box</mat-icon>Add Cli(s)
                           </button>
-                        <button type="button"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
+                        <button type="button"  mat-raised-button [ngClass]="defaultbtn" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
                           <mat-icon>search</mat-icon>Search
                         </button>
                       </span>
@@ -104,7 +105,8 @@
                             </div>          
                         </div> 
                     <div class ="vf-flex-container"style= "min-width:100%;text-align:center;">
-                        <form #sf ="ngForm"  (ngSubmit)="onSfSubmit()">
+                     
+                        <form  [formGroup]="viewForm"  autocomplete="off"  (ngSubmit)="onSfSubmit()">
                           <div>
                             <div style="float: left;">
                                 <mat-label style="font-size:x-small;padding-left:6px;"><strong>Provide: </strong>{{Provide}}</mat-label>                             
@@ -124,27 +126,31 @@
                     </div> 
                     <div style="padding-top: 1rem;">
                       <span>
-                      <mat-form-field   style="margin-left:5px;">
+                      <mat-form-field    style="margin-left:5px;" [ngClass]="{'hidden':g.CupID.disabled}">
                         <mat-label class="vf-label" >CUPID</mat-label>  
-                        <mat-select [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
+                        <mat-select formControlName="CupID" [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
                           <mat-option [value]="">                  
                           </mat-option>
                           <mat-option *ngFor="let cupid of cupidValues" [value]="cupid">
                             {{cupid}}
                           </mat-option>
-                        </mat-select>                       
+                        </mat-select>  
+                        <mat-error class="error-message" *ngIf="checkErrorinFrom('CupID', 'required')">Select CupID
+                        </mat-error>               
                       </mat-form-field>
                     </span>
                     <span>           
-                        <mat-form-field *ngIf = "enableFrancise"
-                          style="margin-left:2px;width:300px;">
+                        <mat-form-field *ngIf = "enableFrancise" 
+                          style="margin-left:2px;width:300px;" [ngClass]="{'hidden':g.Franchise.disabled}">
                           <mat-label class="vf-label">Franchise</mat-label>             
-                          <mat-select  [(ngModel)]="model.Franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
+                          <mat-select formControlName="Franchise"  [(ngModel)]="model.Franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
                             <mat-option value= ""></mat-option>
                             <mat-option *ngFor="let val of franchiseValues" [value]="val.Franchise">
                               {{val.Franchise}}
                             </mat-option>
-                            </mat-select>          
+                            </mat-select> 
+                            <mat-error class="error-message" *ngIf="checkErrorinFrom('Franchise', 'required')">Select Franchise
+                            </mat-error> 
                         </mat-form-field>
                       </span> 
                       </div>                                 
@@ -221,7 +227,7 @@
                           </mat-form-field>                             
                           <span [ngStyle]="{'display': isExportImportSelected ? 'inline-flex' : 'none' }" ><mat-form-field   class="vf-mr-negative" style="width:106px;margin-left: 4px;">
                             <mat-label class="vf-label">I/E CUPID</mat-label>
-                            <input type="text" matInput formControlName="Cupid" matInput #input   placeholder="I/E CUPID" size="12" value=""  onchange="gnSysChange=true;"   ondblclick="sysEditText('document.sf.txt[10]')">
+                            <input type="text" matInput formControlName="Cupid" matInput #input   placeholder="I/E CUPID" size="12" value="" (keypress)="numberOnly($event)"  onchange="gnSysChange=true;"   ondblclick="sysEditText('document.sf.txt[10]')">
                             <mat-error class="error-message" *ngIf="checkError('Cupid', 'required')"> Enter CUPID</mat-error>
                         
                           </mat-form-field> </span>
@@ -234,7 +240,7 @@
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="3"
                             cdkAutosizeMaxRows="3"
-                            onblur="triggerResize()" 
+                           
                             size="20" maxlength="40"         
                           ></textarea>              
                         </mat-form-field>
@@ -250,7 +256,7 @@
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1"
                             cdkAutosizeMaxRows="2"
-                            onblur="triggerResize()" 
+                           
                             size="20" maxlength="20" 
                             name =customerName
                             [(ngModel)]="transactionItem.customerAddress.customerName"
@@ -273,7 +279,7 @@
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1"
                             cdkAutosizeMaxRows="2"
-                            onblur="triggerResize()" 
+                          
                             size="20" maxlength="40" 
                             name =address1
                             [(ngModel)]="transactionItem.customerAddress.address1"                 
@@ -290,7 +296,6 @@
                           #autosize="cdkTextareaAutosize"
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="2"
-                          onblur="triggerResize()" 
                           size="20" maxlength="40"   
                           name =address2
                           [(ngModel)]="transactionItem.customerAddress.address2"                
@@ -307,7 +312,7 @@
                         #autosize="cdkTextareaAutosize"
                         cdkAutosizeMinRows="1"
                         cdkAutosizeMaxRows="2"
-                        onblur="triggerResize()" 
+                      
                         size="20" maxlength="40"  
                         name =address3
                         [(ngModel)]="transactionItem.customerAddress.address3"                 
@@ -322,7 +327,7 @@
                       #autosize="cdkTextareaAutosize"
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="2"
-                      onblur="triggerResize()" 
+                   
                       size="20" maxlength="40"
                       name =address4
                       [(ngModel)]="transactionItem.customerAddress.address4"                   
@@ -347,13 +352,13 @@
                       </div>
                   </div>
                   <div class =vf-flex-container style="margin-block: 1px; padding-bottom: 2px;">                           
-                    <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Transaction details will be saved" (click)="saveTran('N')" [disabled]="view3Form.invalid">
+                    <button type="submit" mat-raised-button [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Transaction details will be saved" (click)="saveTran('N')" [disabled]="view3Form.invalid || viewForm.invalid ">
                     <mat-icon style ="font-size:small;width:30px;height: 16px;">save</mat-icon>Save
                   </button>
-                  <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Click this button Check Address will be navigate"  (click)="viewAddressCheck()">
+                  <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Click this button Check Address will be navigate"  (click)="viewAddressCheck($event)">
                     <mat-icon style ="font-size:small;width:30px;height: 16px;">search</mat-icon>Check Address
                   </button>
-                  <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Transaction details will be forced to saved"  (click)="saveTran('Y')" [disabled]="view3Form.invalid">                             
+                  <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="savebtnColor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Transaction details will be forced to saved"  (click)="saveTran('Y')" [disabled]="view3Form.invalid || viewForm.invalid">                             
                     <span class="material-icons" style ="font-size:small;width:30px;height: 16px;">
                       save_alt
                       </span>Force Validate Save

@@ -69,12 +69,12 @@ export class TransactionsComponent implements OnInit {
   OnAuditTrailSelected(initAuditTrail:any[])
   {
 console.log('audit phone numbers',initAuditTrail);
-    console.log('event is calling audit');
+    console.log('event is calling audit',initAuditTrail);
     this.audittrailNos=initAuditTrail;
     this.auditTrailSuccess=initAuditTrail[0];
     this.auditTeleNoselected=this.audittrailNos[1][0];
     this.telNo=this.audittrailNos[1][0];
-  this.telNo='02071117400';
+  //this.telNo='02071117400';
     if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
     {
       this.tabs.push({tabType: 2,name: 'Audit Trail Report'});   
@@ -115,14 +115,14 @@ console.log('audit phone numbers',initAuditTrail);
   OnAddressFill(Addressval:any[])
   {
 let s:string=this.childEvent.FillPaffAddress(Addressval);
-    console.log("Address values from child",Addressval);
+   // console.log("Address values from child",Addressval);
   }
   OnAddressCheckSelected(initAddressCheck:any[])
   {
-     console.log("before index"+this.selectedIndex);
+    // console.log("before index"+this.selectedIndex);
     this.addressCheckSuccess=initAddressCheck[0];
     this.addressvalues=initAddressCheck;
-   console.log('this adress selected',initAddressCheck);
+  // console.log('this adress selected',initAddressCheck);
 
    //this.tabs.splice(this.tabs.findIndex(x => x.tabType == 1), 1);
     if (!this.tabs?.find(x => x.name == 'Address Check')) 
@@ -165,7 +165,7 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
   }
   OnTelephoneNoSelected(inittelno:any[])
   {
-    console.log('selected Number is',inittelno[1]);
+    //console.log('selected Number is',inittelno[1]);
     this.auditTeleNoselected=inittelno[1];
     this.telNo=inittelno[1];
     // this.tabs.splice(this.tabs.findIndex(x => x.tabType == 2), 1);
