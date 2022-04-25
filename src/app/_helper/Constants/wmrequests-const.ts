@@ -183,6 +183,49 @@ export const WMRequests = {
         }
       }
     }
+  },
+ CREATE:
+  {
+    "CreateObjectRequest" : {
+      "CreateObjectRequestType" : {
+        "RequestIdentifiers" : {
+          "Identifier" : [ {
+            "Name" : "UserId",
+            "Value" : [ "sample" ]
+          }, {
+            "Name" : "Destination",
+            "Value" : [ "OSN2" ]
+          } ]
+        },
+        "ListofCreateObjectCategory" : {
+          "CreateObjectCategory" : [ {
+            "ItemName" : "AuditStatus",
+            "ListofIdentifiers" : {
+              "Identifier" : [ {
+                "Name" : "ReportIdentifier",
+                "Value" : [ "ReferenceList" ]
+              } ]
+            },
+            "ListofCreateObjectCharacteristics" : {
+              "CreateObjectCharacteristics" : [ {
+                "ItemName" : "CreateParameters",
+                "ListofIdentifiers" : {
+                  "Identifier" : [ {
+                    "Name" : "StatusId",
+                    "Value" : [ "11" ]
+                  }, {
+                    "Name" : "Summary",
+                    "Value" : [ "POPULATED FULL AUDIT COUNT" ]
+                  }, {
+                    "Name" : "Description",
+                    "Value" : [ "Populate Full Audit Count into OSN2_FULL_AUDIT_COUNT table" ]
+                  } ]
+                }
+              } ]
+            }
+          } ]
+        }
+      }
+    }
   }
-
 }

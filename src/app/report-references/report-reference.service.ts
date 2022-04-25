@@ -337,7 +337,6 @@ export class ReportReferenceService {
 
   ];
 
-
   setForm(reportName: string) {
     let val = this.getConfig(['Source','BTCupID','CrossRefFranchise','InternalCupID']);
     
@@ -871,8 +870,7 @@ export class ReportReferenceService {
       return this.lstForm;
     }
   }
-
-
+  
 
   prepareData(pageIdentifier: string, reportIdentifier: string): Observable<any> {
     //let request = ReportReferenceService.prepareQueryRequest(pageIdentifier, reportIdentifier);
@@ -890,7 +888,8 @@ export class ReportReferenceService {
 
   }
   createDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CREATE, request);
+    // return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CREATE, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
   }
 
   getConfig(dropValues:string[]):Observable<any>{
@@ -907,20 +906,23 @@ export class ReportReferenceService {
     transform.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
     return transform;
   }
-  static prepareUpdateRequest(pageIdetifier: string, reportIdentifier: string, updateIdentifier: any): any {
-    // let transform = JSON.parse(JSON.stringify(MetaRequests.UPDATE));
-    let transform = JSON.parse(JSON.stringify(WMRequests.UPDATE));
-    console.log(transform, 'transform')
-    transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ItemName = pageIdetifier;
-    console.log(updateIdentifier, 'updateIdentifier')
-    transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-    transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofIdentifiers.Identifier = updateIdentifier;
-    console.log('transform', JSON.stringify(transform))
-    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0]
-    //   .ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = [{ }];
-     console.log(transform, 'transform1')
-    return transform;
-
+   prepareUpdate(pageIdentifier: string, reportIdentifier: string, updateIdentifier: any,updateParams: any): Observable<any> {
+ 
+    let request = Utils.preparePyUpdate(pageIdentifier, reportIdentifier,updateIdentifier,updateParams);
+    console.log(JSON.stringify(request));
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
+   // // let transform = JSON.parse(JSON.stringify(MetaRequests.UPDATE));
+    // let transform = JSON.parse(JSON.stringify(WMRequests.UPDATE));
+    // console.log(transform, 'transform')
+    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ItemName = pageIdetifier;
+    // console.log(updateIdentifier, 'updateIdentifier')
+    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofIdentifiers.Identifier = updateIdentifier;
+    // console.log('transform', JSON.stringify(transform))
+    // // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0]
+    // //   .ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = [{ }];
+    //  console.log(transform, 'transform1')
+    // return transform;
   }
   static prepareDeleteRequest(pageIdetifier: string, reportIdentifier: string, deleteIdentifier: any): any {
     let transform = JSON.parse(JSON.stringify(MetaRequests.DELETE));
@@ -936,20 +938,23 @@ export class ReportReferenceService {
     console.log(transform, 'transform')
     return transform;
   }
-  static prepareCreateRequest(pageIdetifier: string, reportIdentifier: string, createIdentifier: any): any {
-    let transform = JSON.parse(JSON.stringify(MetaRequests.CREATE));
+  prepareCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier:any): Observable<any> {
+    let request = Utils.preparePyCreate(pageIdentifier, reportIdentifier,createIdentifier );
+    console.log(JSON.stringify(request));
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
     // let transform = JSON.parse(JSON.stringify(WMRequests.CREATE));
-    console.log(transform, 'transform')
-    transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ItemName = pageIdetifier;
-    //identifier
-    console.log(createIdentifier, 'createIdentifier')
-    transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-    //Updateidentifier
-    transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofIdentifiers.Identifier = createIdentifier;
-    console.log('transform', JSON.stringify(transform))
-    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = UpdateAttribute;
-    console.log(transform, 'CREATETEAN')
-    return transform;
+    // // let transform = JSON.parse(JSON.stringify(WMRequests.CREATE));
+    // console.log(transform, 'transform')
+    // transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ItemName = pageIdetifier;
+    // //identifier
+    // console.log(createIdentifier, 'createIdentifier')
+    // transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    // //Updateidentifier
+    // transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofIdentifiers.Identifier = createIdentifier;
+    // console.log('transform', JSON.stringify(transform))
+    // // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = UpdateAttribute;
+    // console.log(transform, 'CREATETEAN')
+    // return transform;
   }
 
 }
