@@ -72,15 +72,20 @@ font-size: smaller;  ">
       <!-- Image Columns -->
       <div *ngIf="disCol.isImage">
         <th mat-header-cell class="nowrap-cell" *matHeaderCellDef>{{disCol.header}}</th>
-        <td mat-cell class="nowrap-cell" *matCellDef="let row ">
+        <!-- <td mat-cell class="nowrap-cell" *matCellDef="let row "> -->
+          <td mat-cell [ngClass]="{'nowrap-cell':!disCol.imgDesc}" class="nowrap-cell" *matCellDef="let row ">
           <ng-container *ngFor="let img of imgList; let imgIndex = index;">
             <mat-icon matTooltip="{{img.toolTipText}}" class="table-icon" (click)="addTabs($event,img.tabIndex,row)"
-              *ngIf="img.headerValue === disCol.headerValue">
+              *ngIf="img.headerValue === disCol.headerValue  && setImageCellAttributes(row,disCol.headerValue)">
               {{img.icon}}</mat-icon>
           </ng-container>
+          <ng-container *ngIf="disCol.imgDesc">
+             {{row[disCol.headerValue]}}
+          </ng-container>         
         </td>
         <td mat-footer-cell class="totalRow" *matFooterCellDef> {{getTotal(disCol.headerValue)}} </td>
       </div>
+
       <!-- Other Columns -->
       <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">
         <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
@@ -103,6 +108,8 @@ font-size: smaller;  ">
 <!-- <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,100, 500, 1000]" showFirstLastButtons>
   </mat-paginator>  -->
 
+
+  <ng-container >
 <mat-paginator #paginator style="height: 5px;" [length]="totalRows" showFirstLastButtons [pageIndex]="currentPage"
   [pageSize]="pageSize" hidePageSize [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)">
 </mat-paginator>
@@ -119,11 +126,12 @@ font-size: smaller;  ">
     <mat-icon>file_copy</mat-icon> Copy To Clipboard
   </button>
   <span *ngIf="isEmailRequired">
-    <button type="reset" mat-raised-button color="primary">
+    <button [disabled]="true" type="reset" mat-raised-button color="primary">
       <mat-icon>email</mat-icon> Export to email
     </button>
   </span>
 </div>
+</ng-container>
 <!-- <div style="margin: auto;" *ngIf="!isShown">
   <button  [disabled]="false" type="reset" mat-raised-button color="primary" >
     <mat-icon>import_export</mat-icon>Refresh

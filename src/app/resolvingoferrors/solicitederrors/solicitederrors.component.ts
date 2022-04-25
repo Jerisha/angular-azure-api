@@ -342,7 +342,12 @@ export class SolicitederrorsComponent implements OnInit {
     }
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
+<<<<<<< HEAD
     let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+=======
+    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+    console.log('solicited request',JSON.stringify(request));
+>>>>>>> feature-pyauditreports
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -362,7 +367,8 @@ export class SolicitederrorsComponent implements OnInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      highlightedCells: ['TelephoneNumber'],
+      setCellAttributes:[ { flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted:true }],
+     // highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
