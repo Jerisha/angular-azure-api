@@ -342,12 +342,7 @@ export class SolicitederrorsComponent implements OnInit {
     }
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-<<<<<<< HEAD
     let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
-=======
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
-    console.log('solicited request',JSON.stringify(request));
->>>>>>> feature-pyauditreports
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
