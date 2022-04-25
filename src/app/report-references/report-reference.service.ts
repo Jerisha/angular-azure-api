@@ -22,7 +22,7 @@ export class ReportReferenceService {
     'LineTypes', 'ResolverEmail', 'Command', 'CUPIDs', 'ErrorType',
     'UnsolicitedAutoClose', 'ResolutionType', 'CustomerTitles', 'RejectedTelephonePrefix',
     'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',
-
+    'Franchise'
   ];
   constructor(private wrapperService: HttpWrapperService) { }
 
@@ -334,7 +334,7 @@ export class ReportReferenceService {
     { ErrorCode: ['Actions', 'ErrorCode', 'BTError', 'ErrorType', 'ErrorMessage', 'Action', 'ResolvingMessge', 'Comments', 'UnusedFlag', 'FinalFlag', 'SolicitedFlag', 'UnsolicitedFlag'] },
     { PermittedLineStatus: ['Actions', 'Code', 'Status', 'Comments'] },
     { InterimCommands: ['Actions', 'CommandList', 'FinalCommand', 'FinalStatus', 'Comments'] },
-
+    { Franchise:['Actions','OloCompanyFranchise','Olo','Company','Franchise','Title','UsedCount','Comments']},
   ];
 
   setForm(reportName: string) {
