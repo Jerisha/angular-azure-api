@@ -58,7 +58,7 @@ export class UserCommentsDialogComponent {
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
     { headerValue: 'TelePhoneNo', header: 'TelePhoneNo', showDefault: true, isImage: false },
     { headerValue: 'CreatedBy', header: 'Created By', showDefault: true, isImage: false },
-    { headerValue: 'CreatedDate', header: 'Created Date', showDefault: true, isImage: false },
+    { headerValue: 'CreateDate', header: 'Created Date', showDefault: true, isImage: false },
     { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false },
     { headerValue: 'ResolutionRemarks', header: 'Resolution Remarks', showDefault: true, isImage: false },
   ]
@@ -79,13 +79,14 @@ export class UserCommentsDialogComponent {
 
   userCommentsTableInit() {
     this.telno = this.data.telno;
-    let request = Utils.prepareQueryRequest('UserComments', 'FullAuditDetails', this.data.defaultValue);
+    let request = Utils.preparePyQuery('UserComments', 'FullAuditDetails', this.data.defaultValue);
+    console.log('json dsf', JSON.stringify(request))
     const userCommentsQueryResult$ = new Observable(observer => {
       this.service.queryDetails(request).pipe(map((res: any) => {
         if (Object.keys(res).length) {
           let result = {
-            datasource: res[0].TelephoneNumbers,
-            totalrecordcount: res[0].TelephoneNumbers.length,
+            datasource: res.data.Comments,
+            totalrecordcount: res.data.Comments.length,
             totalpages: 1,
             pagenumber: 1
           }
@@ -94,6 +95,7 @@ export class UserCommentsDialogComponent {
           datasource: res
         };
       })).subscribe(result => {
+        console.log('inside usr comments', result)
         this.data.defaultValue = result.datasource.length > 0 ? result : null;
         observer.next(result)
       });

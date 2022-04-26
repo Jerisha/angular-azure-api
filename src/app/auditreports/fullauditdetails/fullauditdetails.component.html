@@ -42,12 +42,12 @@
             <mat-label>Audit ACT ID</mat-label>
             <input #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID" type="text"
               placeholder="Search Audit Act ID" matInput [matAutocomplete]="autoAuditACTId" OptionsValidator
-              [options]="config.FullAuditActID | splitBy: ','" />
+              [options]="config.FullAuditActID" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoAuditACTId="matAutocomplete">
-              <mat-option *ngFor="let val of config.FullAuditActID | splitBy: ',' | ddlFilter: auditACTId.value"
+              <mat-option *ngFor="let val of config.FullAuditActID | ddlFilter: auditACTId.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -65,12 +65,12 @@
           <mat-form-field [ngClass]="{'hidden':form.CUPId.disabled}">
             <mat-label>CUPID</mat-label>
             <input #cupId formControlName="CUPId" type="text" placeholder="Search CUPId" matInput
-              [matAutocomplete]="autoCupId" OptionsValidator [options]="config.CUPID | splitBy: ','" />
+              [matAutocomplete]="autoCupId" OptionsValidator [options]="config.CUPID  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoCupId="matAutocomplete">
-              <mat-option *ngFor="let val of config.CUPID | splitBy: ',' | ddlFilter: cupId.value" [value]="val">
+              <mat-option *ngFor="let val of config.CUPID   | ddlFilter: cupId.value" [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
@@ -87,12 +87,12 @@
             <mat-label>External CLI Status</mat-label>
             <input #extCLIStatus formControlName="ExternalCLIStatus" type="text"
               placeholder="Search External CLI Status" matInput [matAutocomplete]="autoextCLIStatus" OptionsValidator
-              [options]="config.ExternalCLIStatus | splitBy: ','" />
+              [options]="config.ExternalCLIStatus" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoextCLIStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.ExternalCLIStatus | splitBy: ',' | ddlFilter: extCLIStatus.value"
+              <mat-option *ngFor="let val of config.ExternalCLIStatus | ddlFilter: extCLIStatus.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -112,12 +112,12 @@
             <mat-label>Full Audit CLI Status</mat-label>
             <input #fullCLIStatus formControlName="FullAuditCLIStatus" type="text"
               placeholder="Search Full Audit CLI Status" matInput [matAutocomplete]="autoFullAuditCLIStatus"
-              OptionsValidator [options]="config.FullAuditCLIStatus | splitBy: ','" />
+              OptionsValidator [options]="config.FullAuditCLIStatus" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoFullAuditCLIStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.FullAuditCLIStatus | splitBy: ',' | ddlFilter: fullCLIStatus.value"
+              <mat-option *ngFor="let val of config.FullAuditCLIStatus | ddlFilter: fullCLIStatus.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -154,13 +154,13 @@
             <mat-label>Monthly Refresh Flag</mat-label>
             <input #monthlyRefreshFlag formControlName="MonthlyRefreshFlag" type="text"
               placeholder="Search Monthly Refresh Flag" matInput [matAutocomplete]="autoMonthlyRefreshFlag"
-              OptionsValidator [options]="config.MonthlyRefreshFlag | splitBy: ','" />
+              OptionsValidator [options]="config.MonthlyRefreshFlag" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoMonthlyRefreshFlag="matAutocomplete">
               <mat-option
-                *ngFor="let val of config.MonthlyRefreshFlag | splitBy: ',' | ddlFilter: monthlyRefreshFlag.value"
+                *ngFor="let val of config.MonthlyRefreshFlag | ddlFilter: monthlyRefreshFlag.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -177,12 +177,12 @@
           <mat-form-field [ngClass]="{'hidden':form.Source.disabled}">
             <mat-label>Source</mat-label>
             <input #source formControlName="Source" type="text" placeholder="Search Source" matInput
-              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source | splitBy: ','" />
+              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
-              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: source.value" [value]="val">
+              <mat-option *ngFor="let val of config.Source | ddlFilter: source.value" [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
@@ -202,12 +202,12 @@
           <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
             <mat-label>OSN2 Source</mat-label>
             <input #osnSource formControlName="OSN2Source" type="text" placeholder="Search OSN2 Source" matInput
-              [matAutocomplete]="autoOSN2Source" OptionsValidator [options]="config.OSN2Source | splitBy: ','" />
+              [matAutocomplete]="autoOSN2Source" OptionsValidator [options]="config.OSN2Source" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoOSN2Source="matAutocomplete">
-              <mat-option *ngFor="let val of config.OSN2Source | splitBy: ',' | ddlFilter: osnSource.value"
+              <mat-option *ngFor="let val of config.OSN2Source   | ddlFilter: osnSource.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -229,12 +229,12 @@
             <mat-label>Porting Status</mat-label>
             <input #portingStatus formControlName="PortingStatus" type="text" placeholder="Search Porting Status"
               matInput [matAutocomplete]="autoPortingStatus" OptionsValidator
-              [options]="config.PortingStatus | splitBy: ','" />
+              [options]="config.PortingStatus  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoPortingStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.PortingStatus | splitBy: ',' | ddlFilter: portingStatus.value"
+              <mat-option *ngFor="let val of config.PortingStatus   | ddlFilter: portingStatus.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -251,13 +251,13 @@
             <mat-label>Vodafone Range Holder</mat-label>
             <input #vodafoneRangeHolder formControlName="VodafoneRangeHolder" type="text"
               placeholder="Search Vodafone Range Holder" matInput [matAutocomplete]="autovfRangeHolder" OptionsValidator
-              [options]="config.VodafoneRangeHolder | splitBy: ','" />
+              [options]="config.VodafoneRangeHolder  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autovfRangeHolder="matAutocomplete">
               <mat-option
-                *ngFor="let val of config.VodafoneRangeHolder | splitBy: ',' | ddlFilter: vodafoneRangeHolder.value"
+                *ngFor="let val of config.VodafoneRangeHolder   | ddlFilter: vodafoneRangeHolder.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -274,12 +274,12 @@
           <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
             <input #resType formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
-              [matAutocomplete]="autoResType" OptionsValidator [options]="config.ResolutionTypeAudit | splitBy: ','" />
+              [matAutocomplete]="autoResType" OptionsValidator [options]="config.ResolutionTypeAudit  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResType="matAutocomplete">
-              <mat-option *ngFor="let val of config.ResolutionTypeAudit | splitBy: ',' | ddlFilter: resType.value"
+              <mat-option *ngFor="let val of config.ResolutionTypeAudit   | ddlFilter: resType.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -312,12 +312,12 @@
           <mat-form-field [ngClass]="{'hidden':form.SwitchStatus.disabled}">
             <mat-label>Switch Status</mat-label>
             <input #switchStatus formControlName="SwitchStatus" type="text" placeholder="Search Switch Status" matInput
-              [matAutocomplete]="autoSwitchStatus" OptionsValidator [options]="config.SwitchStatus | splitBy: ','" />
+              [matAutocomplete]="autoSwitchStatus" OptionsValidator [options]="config.SwitchStatus  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoSwitchStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.SwitchStatus | splitBy: ',' | ddlFilter: switchStatus.value"
+              <mat-option *ngFor="let val of config.SwitchStatus   | ddlFilter: switchStatus.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -334,12 +334,12 @@
           <mat-form-field [ngClass]="{'hidden':form.MoriStatus.disabled}">
             <mat-label>Mori Status</mat-label>
             <input #moriStatus formControlName="MoriStatus" type="text" placeholder="Search Mori Status" matInput
-              [matAutocomplete]="autoMoriStatus" OptionsValidator [options]="config.MoriStatus | splitBy: ','" />
+              [matAutocomplete]="autoMoriStatus" OptionsValidator [options]="config.MoriStatus  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoMoriStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.MoriStatus | splitBy: ',' | ddlFilter: moriStatus.value"
+              <mat-option *ngFor="let val of config.MoriStatus   | ddlFilter: moriStatus.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -356,13 +356,13 @@
             <mat-label>Post Code Difference</mat-label>
             <input #postCodeDifference formControlName="PostCodeDifference" type="text"
               placeholder="Search Postcode Difference" matInput [matAutocomplete]="autoPostCodeDifference"
-              OptionsValidator [options]="config.PostcodeDifference | splitBy: ','" />
+              OptionsValidator [options]="config.PostcodeDifference  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoPostCodeDifference="matAutocomplete">
               <mat-option
-                *ngFor="let val of config.PostcodeDifference | splitBy: ',' | ddlFilter: postCodeDifference.value"
+                *ngFor="let val of config.PostcodeDifference   | ddlFilter: postCodeDifference.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -380,13 +380,13 @@
             <mat-label>Full Address Difference</mat-label>
             <input #fullAddDifference formControlName="FullAddDifference" type="text"
               placeholder="Search Full Address Difference" matInput [matAutocomplete]="autofullAddDifference"
-              OptionsValidator [options]="config.FullAddressDifference | splitBy: ','" />
+              OptionsValidator [options]="config.FullAddressDifference  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autofullAddDifference="matAutocomplete">
               <mat-option
-                *ngFor="let val of config.FullAddressDifference | splitBy: ',' | ddlFilter: fullAddDifference.value"
+                *ngFor="let val of config.FullAddressDifference   | ddlFilter: fullAddDifference.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -404,13 +404,13 @@
             <mat-label>Customer Diff.</mat-label>
             <input #customerDifference formControlName="CustomerDifference" type="text"
               placeholder="Search Full Address Difference" matInput [matAutocomplete]="autoCustomerDifference"
-              OptionsValidator [options]="config.CustomerDifference | splitBy: ','" />
+              OptionsValidator [options]="config.CustomerDifference  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoCustomerDifference="matAutocomplete">
               <mat-option
-                *ngFor="let val of config.CustomerDifference | splitBy: ',' | ddlFilter: customerDifference.value"
+                *ngFor="let val of config.CustomerDifference   | ddlFilter: customerDifference.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -426,13 +426,13 @@
             <mat-label>Overlapping Status.</mat-label>
             <input #overlappingStatus formControlName="OverlappingStatus" type="text"
               placeholder="Search Overlapping Status" matInput [matAutocomplete]="autoOverlappingStatus"
-              OptionsValidator [options]="config.OverlappingStatus | splitBy: ','" />
+              OptionsValidator [options]="config.OverlappingStatus  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoOverlappingStatus="matAutocomplete">
               <mat-option
-                *ngFor="let val of config.OverlappingStatus | splitBy: ',' | ddlFilter: overlappingStatus.value"
+                *ngFor="let val of config.OverlappingStatus   | ddlFilter: overlappingStatus.value"
                 [value]="val">
                 {{val}}
               </mat-option>
@@ -485,13 +485,13 @@
                   <mat-label>Resolution Type</mat-label>
                   <input #resType [(ngModel)]="resolutionType" formControlName="Resolution" type="text"
                     placeholder="Search Resolution Type" matInput [matAutocomplete]="autoResType" OptionsValidator
-                    [options]="configDetails.ResolutionTypeAudit | splitBy: ','" />
+                    [options]="configDetails.ResolutionTypeAudit  " />
                   <span matSuffix mat-icon-button>
                     <mat-icon>arrow_drop_down</mat-icon>
                   </span>
                   <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResType="matAutocomplete">
                     <mat-option
-                      *ngFor="let val of configDetails.ResolutionTypeAudit | splitBy: ',' | ddlFilter: resType.value"
+                      *ngFor="let val of configDetails.ResolutionTypeAudit   | ddlFilter: resType.value"
                       [value]="val">
                       {{val}}
                     </mat-option>
@@ -545,13 +545,13 @@
                   <input name="range" required ngDefaultControl [(ngModel)]="rowRange"
                     [ngModelOptions]="{standalone: true}" type="text" #range="ngModel" matInput
                     [matAutocomplete]="autoRange" OptionsValidator
-                    [options]="configDetails.AutoCorrectionVolume | splitBy: ','" />
+                    [options]="configDetails.AutoCorrectionVolume  " />
                   <span matSuffix mat-icon-button>
                     <mat-icon>arrow_drop_down</mat-icon>
                   </span>
                   <mat-autocomplete autoActiveFirstOption #autoRange="matAutocomplete">
                     <mat-option
-                      *ngFor="let val of configDetails.AutoCorrectionVolume | splitBy: ',' | ddlFilter: range.value"
+                      *ngFor="let val of configDetails.AutoCorrectionVolume   | ddlFilter: range.value"
                       [value]="val">
                       {{val}}
                     </mat-option>

@@ -499,17 +499,16 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.selectedCorrectionType = '';
     this.resolutionType = '';
     this.remarkstxt = '';
-    this.rowRange = '';
+    //this.rowRange = '';
     this.fullAuditForm.reset();
     this.tabs.splice(0);
-    //this.setDefaultValues();
   }
 
   openDialog(auditACTID: any, telno: any) {
     let attributes = [
       { Name: 'TelephoneNumber', Value: [`${telno}`] },
       { Name: 'AuditActID', Value: [`${auditACTID}`] },
-      { Name: 'AuditType', Value: [`${'FullAudit'}`] }
+      { Name: 'AuditType', Value: [`${'Full Audit'}`] }
     ];
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
        width: '800px',
@@ -546,12 +545,12 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.createUpdateForm();
     //this.listernftoSample();
     this.setDefaultValues();
-    let request = Utils.prepareConfigRequest(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "Resolution", "AutoCorrectionVolume"]);
-    this.service.configDetails(request).subscribe((res: any) => {
-      this.configDetails = res[0];
-      //this.resolutionType = res[0].ResolutionTypeAudit.split(',')[0];
-      this.rowRange = res[0].AutoCorrectionVolume.split(',')[0];
-      this.defaultACTID = res[0].FullAuditActID.split(',')[0];
+    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "Resolution", "AutoCorrectionVolume"]);
+    this.service.configDetails(request).subscribe((res: any) => {      
+      this.configDetails = res.data;
+     // console.log('asd',this.configDetails.AutoCorrectionVolume[0])
+     this.rowRange = this.configDetails.AutoCorrectionVolume[0];
+      this.defaultACTID = this.configDetails.FullAuditActID[0];
     });
     this.listItems = Items;
   }
@@ -576,20 +575,20 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.disableProcess=true;
     this.updateForm.reset();
     this.remarkstxt ='';
-    this.rowRange='';
+    //this.rowRange='';
 
     if (this.fullAuditForm.invalid) { return; }
     this.setAttributesForManualCorrections();
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage));
     console.log('sample', JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].TelephoneNumbers,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.TelephoneNumbers,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       } else return {
@@ -1087,8 +1086,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.monthlyRefreshQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].Reports,
-          totalrecordcount: res[0].Reports.length,
+          datasource: res.data.Reports,
+          totalrecordcount: res.data.Reports.length,
           totalpages: 1,
           pagenumber: 1
         }
@@ -1102,7 +1101,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       data: this.monthlyRefreshQueryResult$,
       Columns: this.monthlyRefreshReportTableDetails,
       selectCheckbox: true,
-      removeNoDataColumns: true,
+      removeNoDataColumns: false,
       filter: true
     }
   }
@@ -1120,8 +1119,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.inflightReportQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].Reports,
-          totalrecordcount: res[0].Reports.length,
+          datasource: res.data.Reports,
+          totalrecordcount: res.data.Reports.length,
           totalpages: 1,
           pagenumber: 1
         }
@@ -1152,15 +1151,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       { Name: 'PageNumber', Value: [`${1}`] }
     ];
 
-    let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'FullAuditDetails', attributes);
+    let request = Utils.preparePyQuery('TelephoneNumberDetails', 'FullAuditDetails', attributes);
     console.log('sample', JSON.stringify(request));
     this.rangeReportQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].TelephoneNumbers,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.TelephoneNumbers,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       } else return {
@@ -1170,7 +1169,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.rangeRptTable = {
       data: this.rangeReportQueryResult$,
       Columns: this.rangeReportTableDetails,
-      removeNoDataColumns: true,
+      removeNoDataColumns: false,
       selectCheckbox: true,
       filter: true
     }
@@ -1181,33 +1180,29 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       { Name: 'TelephoneNumber', Value: [`${telno}`] }
     ];
 
-    let request = Utils.prepareQueryRequest('MoriCircuitDetails', 'FullAuditDetails', attributes);
+    let request = Utils.preparePyQuery('MoriCircuitDetails', 'FullAuditDetails', attributes);
     console.log('sample', JSON.stringify(request));
-    this.moriCircuitStatusQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+    this.moriCircuitStatusQueryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
+        
         let result = {
-          datasource: res[0].Circuits,
-          totalrecordcount: res[0].Circuits.length,
+          datasource: res.data.Circuits,
+          totalrecordcount: res.data.Circuits.length,
           totalpages: 1,
           pagenumber: 1
         }
         return result;
-      } else return {
+      } else {        
+        return {        
         datasource: res
-      };
-    }));
+      }};
+    }))
     this.moriCircuitRptTable = {
-      // data: of({
-      //   datasource: ELEMENT_DATA3,
-      //   totalrecordcount: 10,
-      //   totalpages: 20,
-      //   pagenumber: 1
-      // }),
       data: this.moriCircuitStatusQueryResult$,
       Columns: this.moriCicuitTableDetails,
       filter: true,
       selectCheckbox: true,
-      removeNoDataColumns: true
+      removeNoDataColumns: false
     }
   }
 
@@ -1217,13 +1212,13 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       { Name: 'AuditActID', Value: [`${auditACTId}`] }
     ];
 
-    let request = Utils.prepareQueryRequest('OverlappingRange', 'FullAuditDetails', attributes);
+    let request = Utils.preparePyQuery('OverlappingRange', 'FullAuditDetails', attributes);
     console.log('sample', JSON.stringify(request));
     this.overlappingQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].Range,
-          totalrecordcount: res[0].Range.length,
+          datasource: res.data.Range,
+          totalrecordcount: res.data.Range,
           totalpages: 1,
           pagenumber: 1
         }
@@ -1243,7 +1238,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       Columns: this.OverlappingRangeListTableDetails,
       filter: true,
       selectCheckbox: true,
-      removeNoDataColumns: true
+      removeNoDataColumns: false
     }
   }
 }

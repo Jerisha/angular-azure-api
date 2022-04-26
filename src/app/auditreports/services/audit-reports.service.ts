@@ -13,11 +13,11 @@ export class AuditReportsService {
   }
 
   configDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }
 
   queryDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
   updateDetails(request: any): Observable<any> {
     return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
