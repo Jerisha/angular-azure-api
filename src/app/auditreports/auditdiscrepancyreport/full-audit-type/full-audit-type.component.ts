@@ -1242,9 +1242,9 @@ export class FullAuditTypeComponent implements OnInit {
       }
     ];
 
-    console.log("ngOnInit");
+    //console.log("ngOnInit");
 
-    // this.queryFetch();
+     this.queryFetch();
 
   }
 
@@ -1252,59 +1252,37 @@ export class FullAuditTypeComponent implements OnInit {
 
   ngOnChanges()
   {
-    this.queryFetch();
+    //this.queryFetch();
+  }
+
+  addressReport:any;
+  summaryReport:any;
+
+  ngOnDestroy(): void {
+    // if(this.observerRes){
+    //   this.observerRes.unsubscribe();
+    // }
   }
 
   queryFetch() {
 
     let request = Utils.preparePyQuery('FullAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
     console.log(JSON.stringify(request));
-    // const observerRes = new Observable((observer: Observer<any>) => {
-    // this.service.queryDetails(request).subscribe((res: any) => {
-    //   debugger;
-    // this.data = res;
-    // observer.next(this.data)
-    // });
+    //this.observerRes = new Observable((observer: Observer<any>) => {
+      this.observerRes =this.service.queryDetails(request).pipe(map((res: any) => {
+        return{
+          FullAuditSummary:{
+                      datasource: res.data.FullAuditSummary,
+                    },
+                    FullAuditProgressReport:{
+            datasource: res.data.FullAuditProgressReport,
+          }
+        }
+      }));
+  
 
-    // this.queryResult = this.service.queryDetails(request).pipe(map((res: any) => {
-    //     debugger
-    //     return res.data;
-    //   }));
-    this.observerRes = new Observable((observer: Observer<any>) => {
-    this.service.queryDetails(request).subscribe((res: any) => {
-          debugger
-      //     return res.data;
-      
-                observer.next(this.CustomFunc(res))
-                observer.complete()
-            })
+        // this.observerRes1 = this.observerRes;
 
-            // this.AuditSummaryTab();
-            // this.ProgressReportTab();
-            //    this.MonthReportTab();
-            //    this.AddressReportTab();
-        });
-
-        this.observerRes1 = this.observerRes;
-
-      // if (Object.keys(res).length) {
-      //   let result = {
-      //     datasource: res.data.FullAuditSummary,
-      //   };
-      //   this.QueryAuditSummary = {
-      //     datasource: res.data.FullAuditSummary,
-      //    };
-      
-      //   // console.log("QueryResponse : "+JSON.stringify(result.datasource));
-      //   return result;
-      // } else return {
-      //   datasource: res
-      // }
-    // });
-
-    // this.QueryAuditSummary = {
-    //   datasource: FullAuditData.FullAuditSummary,
-    //  };
 
      this.QueryProgressReport = of({
          datasource: FullAuditData.FullAuditProgressReport,
@@ -1328,12 +1306,19 @@ export class FullAuditTypeComponent implements OnInit {
 
   CustomFunc(res: any)
   {
+    this.summaryReport = res.data.FullAuditSummary;
+
+
     return{
-      FullAuditSummary:res.data.FullAuditSummary,
-      AddressPostCode:res.data.AddressPostCode,
-      FullAuditMonthReport: res.data.FullAuditMonthReport,
-      FullAuditAllMonths: res.data.FullAuditAllMonths,
-      FullAuditProgressReport: res.data.FullAuditProgressReport
+      FullAuditSummary:{
+                  datasource: res.data.FullAuditSummary,
+                },
+                FullAuditProgressReport:{
+        datasource: res.data.FullAuditProgressReport,
+      },
+      // FullAuditMonthReport: res.data.FullAuditMonthReport,
+      // FullAuditAllMonths: res.data.FullAuditAllMonths,
+     // FullAuditProgressReport: res.data.FullAuditProgressReport
       }
   }
 
@@ -1366,19 +1351,19 @@ export class FullAuditTypeComponent implements OnInit {
           // console.log('det',detailedColumnsArray)
           grpHdrColumnsArray = [headerswithDetails];
           this.auditSummaryTable = {
-            // data: this.QueryAuditSummary,
-            // data:observerRes.map(x=>x.data.FullAuditSummary),
-            data: this.observerRes1.pipe(map((x: any) => {
-              if (Object.keys(x).length) {
-                let result = {
-                  datasource: x.FullAuditSummary,
-                };
-                // console.log("QueryResponse Audit Summary : "+JSON.stringify(result.datasource));
-                return result;
-              } else return {
-                datasource: x
-              }  
-            })),
+         
+            // data: this.observerRes1.pipe(map((x: any) => {
+            //   if (Object.keys(x).length) {
+            //     let result = {
+            //       datasource: x.FullAuditSummary,
+            //     };
+              
+            //     return result;
+            //   } else return {
+            //     datasource: x
+            //   }  
+            // })),
+            data: this.observerRes.pipe(map(x=>x.FullAuditSummary)),
             ColumnDetails: gridDesignDetails[0].ColumnDetails,
             GroupHeaders: gridDesignDetails[0].GroupHeaders,
             DisplayedColumns: displayedColumns,
@@ -1407,18 +1392,19 @@ export class FullAuditTypeComponent implements OnInit {
       // console.log('det1',detailedColumnsArray)
       grpHdrColumnsArray = [['ACTID', 'SourceSystem', 'FullAuditCLIStatus', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
       this.progressReportTable = {
-        // data: this.QueryProgressReport,
-        data: this.observerRes1.pipe(map((x: any) => {
-          if (Object.keys(x).length) {
-            let result = {
-              datasource: x.FullAuditProgressReport,
-            };
-            // console.log("QueryResponse : "+JSON.stringify(result.datasource));
-            return result;
-          } else return {
-            datasource: x
-          }  
-        })),
+        
+        // data: this.observerRes1.pipe(map((x: any) => {
+        //   if (Object.keys(x).length) {
+        //     let result = {
+        //       datasource: x.FullAuditProgressReport,
+        //     };
+        //     // console.log("QueryResponse : "+JSON.stringify(result.datasource));
+        //     return result;
+        //   } else return {
+        //     datasource: x
+        //   }  
+        // })),
+        data: this.observerRes.pipe(map(x=>x.FullAuditProgressReport)),
         ColumnDetails: gridDesignDetails[0].ColumnDetails,
         GroupHeaders: gridDesignDetails[0].GroupHeaders,
         DisplayedColumns: displayedColumns,
