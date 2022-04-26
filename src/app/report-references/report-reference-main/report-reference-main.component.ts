@@ -71,8 +71,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     let dispVal = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName];
     this.displayedColumns = dispVal || [];
-    let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
-    this.reportReferenceService.prepareData(this.reportName, 'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) => {
+    //let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
+    this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
       //this.data = res[0][this.reportName];
       this.data = res.data[this.reportName];
       this.recordIdentifier = res.RecordIdentifier;
@@ -105,7 +105,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         this.selectedTab = this.tabs.findIndex(x => x.name == this.reportName) + 1;
       }
       else {
-        this.selectedTab = this.tabs.findIndex(x => x.name == this.reportName) + 1;
+        this.selectedTab = this.tabs.findIndex(x => x.name == this.reportName);
       }
     }
     else {
@@ -124,6 +124,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     // }
     this.tabs.splice(index, 1);
+    this.tabs.forEach((tab:any, i:number) => {
+      if(i >= index)
+      tab.tabType -= 1;
+    });
     this.showDetails = this.tabs.length > 0 ? true : false;
     if (this.tabs.length == 0) {
       this.isShow = false;
@@ -224,7 +228,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     else {
       let createparms = [];
-      createparms.push({ Name: 'StatusId', Value: ['908'] });
+      createparms.push({ Name: 'StatusId', Value: ['909'] });
       createparms.push({ Name: 'Summary', Value: ['POPULATED FULL'] });
       createparms.push({ Name: 'Description', Value: ['test2'] });
       // let request = ReportReferenceService.prepareCreateRequest('AuditStatus', 'ReferenceList', createparms);

@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, EventEmitter, Output  } from '@angular/core';
 import { Tab } from '../../uicomponents/models/tab';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { TelephoneAuditTrailComponent } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
 import { CustomerAddress, ICustomerAddress } from '../models/ICustomerAddress';
 import { TransactionItem } from '../models/ITransactionItem';
+import{TransactionsViewsComponent}from '../transactions-views/transactions-views.component'
 
 
 @Component({
@@ -22,18 +23,23 @@ export class TransactionsComponent implements OnInit {
   auditTeleNoselected: any;
   tabposition!: number | null;
   selectedTab!: number;
+  repIdentifier:string="Transactions";
+  telNo?: any;
    tabs :Tab[]=[] ;
+   addressvalues:any[]=[];
+   audittrailNos:any[]=[];
 
   addressDetails!: AddressDetails;
   customerAddress:ICustomerAddress =new CustomerAddress();
 
   @ViewChild(TelephoneAuditTrailComponent) auditTrailView!: TelephoneAuditTrailComponent;
-
+  @ViewChild(TransactionsViewsComponent)childEvent!: TransactionsViewsComponent;
   transactionItem =new TransactionItem(); //need to fix
   
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.telNo='01076543233';
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -62,8 +68,13 @@ export class TransactionsComponent implements OnInit {
 
   OnAuditTrailSelected(initAuditTrail:any[])
   {
+console.log('audit phone numbers',initAuditTrail);
+    console.log('event is calling audit',initAuditTrail);
+    this.audittrailNos=initAuditTrail;
     this.auditTrailSuccess=initAuditTrail[0];
-
+    this.auditTeleNoselected=this.audittrailNos[1][0];
+    this.telNo=this.audittrailNos[1][0];
+  //this.telNo='02071117400';
     if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
     {
       this.tabs.push({tabType: 2,name: 'Audit Trail Report'});   
@@ -101,17 +112,25 @@ export class TransactionsComponent implements OnInit {
 //  }
     
   }
-
+  OnAddressFill(Addressval:any[])
+  {
+let s:string=this.childEvent.FillPaffAddress(Addressval);
+   // console.log("Address values from child",Addressval);
+  }
   OnAddressCheckSelected(initAddressCheck:any[])
   {
     // console.log("before index"+this.selectedIndex);
     this.addressCheckSuccess=initAddressCheck[0];
+    this.addressvalues=initAddressCheck;
+  // console.log('this adress selected',initAddressCheck);
 
+   //this.tabs.splice(this.tabs.findIndex(x => x.tabType == 1), 1);
     if (!this.tabs?.find(x => x.name == 'Address Check')) 
     {
       this.tabs.push({tabType: 1,name: 'Address Check'});  
       this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1 ;
     } else {
+
     this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) ;
     } 
     //   this.selectedTab = this.tabs.findIndex(x => x.name == 'Address Check');
@@ -146,8 +165,17 @@ export class TransactionsComponent implements OnInit {
   }
   OnTelephoneNoSelected(inittelno:any[])
   {
-    this.auditTeleNoselected=inittelno[0];
-    // console.log(this.auditTeleNoselected)
+    //console.log('selected Number is',inittelno[1]);
+    this.auditTeleNoselected=inittelno[1];
+    this.telNo=inittelno[1];
+    // this.tabs.splice(this.tabs.findIndex(x => x.tabType == 2), 1);
+    // if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
+    // {
+    //   this.tabs.push({tabType: 2,name: 'Audit Trail Report'});   
+    //   this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
+    // } else {
+    // this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
+    // }
     
     
   }

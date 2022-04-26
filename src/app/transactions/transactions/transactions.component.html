@@ -26,19 +26,20 @@
           </ng-template>
           <div [ngSwitch]="tab.tabType">
         <ng-container *ngSwitchCase="1">
-          <app-address-check></app-address-check>
+          <app-address-check [Addressvalues]="addressvalues" (AddressFill)="OnAddressFill($event)"></app-address-check>
         </ng-container>
       <!-- </mat-tab> -->
       <!-- <mat-tab label="Audit Trail"  *ngIf="auditTrailSuccess" isActive="auditTrailState" style ="height:60%;"> -->
         <ng-container *ngSwitchCase="2">
           <div>
-            <app-telephone-no (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
-            <button type="button" (click)="copied();" mat-mini-fab  style="width:30px;height:30px;margin-left:46%;margin-top:6px;font-size:small;line-height:0px !important;background-color:#4a4d4e;" matTooltip="Update matched Details"  >
+            <app-telephone-no [telNoArray]="audittrailNos" (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
+            <button type="button" (click)="copied();" mat-mini-fab  style="width:30px;height:30px;margin-left:44%;margin-top:6px;font-size:small;line-height:0px !important;background-color:#da60b1;" matTooltip="Update matched Details"  >
               <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align: middle;">content_copy</mat-icon>
             </button>
           </div>
             <div class="audit-trail-view">
-            <app-telephone-audit-trail></app-telephone-audit-trail>
+            <app-telephone-audit-trail [telNo]="telNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+           
           </div>
         </ng-container>
         <div *ngSwitchDefault>

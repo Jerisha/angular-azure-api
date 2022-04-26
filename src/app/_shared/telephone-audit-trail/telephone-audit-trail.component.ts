@@ -209,6 +209,8 @@ export class TelephoneAuditTrailComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     // console.log(changes.telephoneNumber.currentValue);
     // console.log(changes);
+    console.log('from audit trail',this.telNo);
+    console.log('report identifier',this.repIdentifier);
     if (changes.telNo.currentValue != changes.telNo.previousValue) {
       this.setStep(2);
       let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{
@@ -216,7 +218,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
         Value: [this.telNo]
       }]);
       // Value : [ "01171617562" ] }]);
-
+ 
       this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => {
         let transform: any = [];
         transform = res.data

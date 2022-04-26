@@ -4,8 +4,8 @@ export interface solicitedactionreport {
 
    
     Link:string;
-    ResolutionType: string;
-    TelephoneNo: string;
+    ResolveType: string;
+    TelephoneNumber: string;
     TransactionID: string;
     ResolveRemarks: string;
     CreatedBy: string;
