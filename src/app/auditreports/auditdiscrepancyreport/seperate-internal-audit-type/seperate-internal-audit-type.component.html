@@ -9,7 +9,7 @@
             <div *ngIf="tab.tabType!=0">{{tab.name}}</div>
         </ng-template>
         <ng-template matTabContent>
-            <app-table-group-header [GrpTableitem]="tab.data"></app-table-group-header>
+            <app-table-group-header [GrpTableitem]="tab.data" (MonthDate)="fetchMonthData($event)"></app-table-group-header>
         </ng-template>
     </mat-tab>
 </mat-tab-group>

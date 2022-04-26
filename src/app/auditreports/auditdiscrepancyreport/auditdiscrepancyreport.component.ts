@@ -1,14 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
+import { findIndex, map } from 'rxjs/operators';
 import { InternalAuditSummary } from 'src/app/auditreports/models/index';
 import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { AuditdiscrepancyHeaderData } from 'src/app/_data/audit-discrepancy-header-data';
 import { CupId } from 'src/app/_data/listValues/CupId';
+import { Utils } from 'src/app/_http/index';
+import { IAuditActId } from '../models/audit-discrepancy-report/IAttributes';
 import { AuditDiscpancyReportService } from './auditdiscrepancyreport.component.service';
 
 const ELEMENT_DATA: InternalAuditSummary[] = [
@@ -36,7 +40,8 @@ export class AuditdiscrepancyreportComponent implements OnInit {
 
   auditDiscrepancyForm!: FormGroup;
   auditType: string = '';
-  selectedAuditType: string = '';
+  selectedAuditType!: string;
+  selectedActId!: string;
 
   grpTableitem!: GroupHeaderTableItem;
   dataSource1!: MatTableDataSource<any>;
@@ -56,12 +61,17 @@ export class AuditdiscrepancyreportComponent implements OnInit {
   grpExternalAuditTableDetails: GroupHeaderTableDetails[] = [];
 
   totalColmns:any;
-
   datamenu:any;
 
   public sidep = new Subject<MatSidenav>();
 
 data = new AuditdiscrepancyHeaderData();
+  configDetails!: any;
+  configValues!: IAuditActId[];
+  auditActIdDropdown: any = [];
+  queryResult!: Observable<any>;
+  QueryParams: any;
+
   constructor(private http: HttpClient, private formBuilder: FormBuilder, 
     private route: ActivatedRoute, private service:AuditDiscpancyReportService) {
 
@@ -106,8 +116,29 @@ data = new AuditdiscrepancyHeaderData();
   }
 
   ngOnInit(): void {
-
+    // this.selectedAuditType = 'Full Audit';
+    // this.selectedActId = '29-20 Nov 2020';
     this.grpTblHdrDtls = this.datamenu;
+
+    let request = Utils.preparePyConfig(['Search'], [ "AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID" ]);
+    this.service.configDetails(request).subscribe((res: any) => {
+      // console.log("res: " + JSON.stringify(res))
+      // this.configDetails = res.data;
+      this.configValues = [
+        { auditType : res.data.AuditType[0], auditActId: res.data.FullAuditActID },
+      { auditType : res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID },
+    { auditType : res.data.AuditType[2], auditActId: res.data.ExternalAuditActID } ];
+
+    this.selectedAuditType = this.configValues[0].auditType;
+    this.selectedActId = this.configValues[0].auditActId[0];
+    this.auditActIdDropdown =  this.configValues[0].auditActId;
+    });
+
+
+
+   
+
+
 
    // this.grpTblHdrDtls = this.route.snapshot.data['headers'];
 
@@ -119,13 +150,25 @@ data = new AuditdiscrepancyHeaderData();
       DetailedColumns: this.detailedColumnsArray,
       GroupHeaderColumnsArray: this.grpHdrColumnsArray,
       GroupHeaders: this.groupHeaders,
-      isRowLvlTot:true
+      isRowLvlTotal:true
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges){
+  //   if(this.configDetails)
+  //   {
+  // this.selectedAuditType = this.configValues[0].auditType;
+  // this.selectedActId = this.configValues[0].auditActId[0];
+  //   } else {
+  //     console.log("no data");
+      
+  //   }
+    console.log("on changes");
   }
 
   createForm() {
     this.auditDiscrepancyForm = this.formBuilder.group({
-      ACTID: new FormControl('', [Validators.required]),
+      AuditActId: new FormControl('', [Validators.required]),
       AuditType: new FormControl('', [Validators.required])
     })
   }
@@ -136,19 +179,58 @@ data = new AuditdiscrepancyHeaderData();
   }
 
   submitAuditDiscrepancyForm() {
+
+    this.QueryParams = this.prepareQueryParams();
+
     var grpTblHdrDtls1: any;
     this.auditType = this.selectedAuditType;
     if (this.auditType == 'Full Audit') {
       grpTblHdrDtls1 = this.grpTblHdrDtls.filter(x => x.AuditType == 'FullAudit');
       this.grpFullAuditTableDetails = grpTblHdrDtls1;
     }
-    else if (this.auditType == 'Seperate Internal Audit') {
-      grpTblHdrDtls1 = this.grpTblHdrDtls.filter(x => x.AuditType == 'SeperateInternalAudit');
+    else if (this.auditType == 'Separate Internal Audit') {
+      grpTblHdrDtls1 = this.grpTblHdrDtls.filter(x => x.AuditType == 'SeparateInternalAudit');
       this.grpInternalAuditTableDetails = grpTblHdrDtls1
     }
     else if (this.auditType == 'External Audit') {
       grpTblHdrDtls1 = this.grpTblHdrDtls.filter(x => x.AuditType == 'ExternalAudit');
       this.grpExternalAuditTableDetails = grpTblHdrDtls1
     }
+  }
+
+prepareQueryParams()
+  {
+    debugger
+    let attributes: any = [];
+    for (const field in this.f) {
+      const control = this.auditDiscrepancyForm.get(field);
+      if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+      }
+    console.log(JSON.stringify(attributes));
+
+    return attributes;
+
+  }
+
+  get f() {
+    return this.auditDiscrepancyForm.controls;
+  }
+
+  changedAuditType(type: MatSelectChange) {
+    // this.selectedActId = this.configValues[index].auditActId[0];
+    // console.log(type.value);
+    let index = this.configValues.findIndex(x => x.auditType == type.value);
+    this.auditActIdDropdown = this.configValues[index].auditActId;
+    this.selectedActId =  this.configValues[index].auditActId[0];
+    
+  }
+
+
+  onReset(){
+  //   this.selectedAuditType = this.configValues[0].auditType;
+  // this.selectedActId = this.configValues[0].auditActId[0];
   }
 }

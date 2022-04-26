@@ -687,7 +687,7 @@ export class AuditdiscrepancyHeaderData {
         },
 
         {
-            AuditType: "SeperateInternalAudit",
+            AuditType: "SeparateInternalAudit",
             TableName: "InternalSummary",
             ColumnDetails: [
                 {
@@ -810,7 +810,7 @@ export class AuditdiscrepancyHeaderData {
         },
 
         {
-            AuditType: "SeperateInternalAudit",
+            AuditType: "SeparateInternalAudit",
             TableName: "ProgressReport",
             ColumnDetails: [
                 {
@@ -926,7 +926,7 @@ export class AuditdiscrepancyHeaderData {
             ]
         },
         {
-            AuditType: "SeperateInternalAudit",
+            AuditType: "SeparateInternalAudit",
             TableName: "MonthReport",
             ColumnDetails: [
                 {
@@ -1037,7 +1037,7 @@ export class AuditdiscrepancyHeaderData {
             ]
         },
         {
-            AuditType: "SeperateInternalAudit",
+            AuditType: "SeparateInternalAudit",
             TableName: "AddressReport",
             ColumnDetails: [
                 {

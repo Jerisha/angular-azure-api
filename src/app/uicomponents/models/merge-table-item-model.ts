@@ -14,7 +14,8 @@ export interface MergeTableItem {
     DisplayedColumns:string[];
     FilterColumn?:boolean;
     FilterValues?:Array<string[]>;
-    isRowLvlTot?:boolean;
+    isRowLvlTotal?:boolean;
+    isMonthFilter?:boolean;
   }
 
   export interface GroupHeaderTableDetails{
