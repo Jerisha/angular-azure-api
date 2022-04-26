@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IColoumnDef } from "src/app/report-references/IControls";
 import { WMRequests } from '../_helper';
+import { PyRequests } from '../_helper/Constants/pyrequests-const';
 import { HttpVerbs, HttpWrapperService, Utils, WebMethods } from '../_http';
 import { MetaRequests } from './Common/MetaRequests';
 
@@ -884,7 +885,9 @@ export class ReportReferenceService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
   deleteDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.DELETE, request);
+    //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.DELETE, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.DELETE, request);
+
 
   }
   createDetails(request: any): Observable<any> {
@@ -911,31 +914,21 @@ export class ReportReferenceService {
     let request = Utils.preparePyUpdate(pageIdentifier, reportIdentifier,updateIdentifier,updateParams);
     console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
-   // // let transform = JSON.parse(JSON.stringify(MetaRequests.UPDATE));
-    // let transform = JSON.parse(JSON.stringify(WMRequests.UPDATE));
-    // console.log(transform, 'transform')
-    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ItemName = pageIdetifier;
-    // console.log(updateIdentifier, 'updateIdentifier')
-    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-    // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofIdentifiers.Identifier = updateIdentifier;
-    // console.log('transform', JSON.stringify(transform))
-    // // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0]
-    // //   .ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = [{ }];
-    //  console.log(transform, 'transform1')
-    // return transform;
+  
   }
   static prepareDeleteRequest(pageIdetifier: string, reportIdentifier: string, deleteIdentifier: any): any {
-    let transform = JSON.parse(JSON.stringify(MetaRequests.DELETE));
+    let transform = JSON.parse(JSON.stringify(PyRequests.DELETE));
     // let transform = JSON.parse(JSON.stringify(WMRequests.DELETE));
-    console.log(transform, 'transform')
-    transform.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdetifier;
+    console.log(JSON.stringify(transform), 'transform0')
+    transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdetifier;
     //identifier
-    console.log(deleteIdentifier, 'deleteIdentifier')
-    transform.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-    transform.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier = deleteIdentifier;
-    console.log('transform', JSON.stringify(transform))
+    console.log(JSON.stringify(transform), 'transform1')
+    transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    console.log(JSON.stringify(transform), 'transform2')
+    transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier =  deleteIdentifier;
+    console.log('transform3', JSON.stringify(transform))
      // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = UpdateAttribute;
-    console.log(transform, 'transform')
+   
     return transform;
   }
   prepareCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier:any): Observable<any> {
