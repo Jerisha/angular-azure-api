@@ -20,6 +20,7 @@ import { Utils } from 'src/app/_http/index';
 import { map, startWith } from 'rxjs/operators';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { TransactionDataService } from '../services/transaction-data.service';
+import { AddressDetails } from 'src/app/_shared/models/address-details';
 
 @Component({
   selector: 'app-transactions-views',
@@ -93,6 +94,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit{
      inputtelRange!:string;
     currentPage: string = '1';
     updateDetails!: any;
+    addressDetails = new AddressDetails();
   constructor( private service: TransactionDataService,private _ngZone: NgZone,
     private cdr: ChangeDetectorRef,private fb: FormBuilder,private formBuilder: FormBuilder,
      private alertService: AlertService,private telnoPipe: TelNoPipe,
@@ -213,6 +215,16 @@ onTelphonenumChange(event:any)
 FillPaffAddress(Addressval:any[]):string
 {
   this.transactionItem.customerAddress={customerName:"VODAFONE",address1:Addressval[1],address2:Addressval[2],address3:Addressval[3],address4:Addressval[4],postcode:"PAF Postcode"};
+
+//console.log('paf address',Addressval)
+return "";
+}
+
+FillAuditAddress(Addressval:any):string
+{
+  
+  this.addressDetails=Addressval;
+  this.transactionItem.customerAddress={customerName:this.addressDetails.CustomerName,address1:this.addressDetails.internalAddr1,address2:this.addressDetails.internalAddr2,address3:this.addressDetails.internalAddr3,address4:this.addressDetails.internalAddr4,postcode:this.addressDetails.postcode};
 
 //console.log('paf address',Addressval)
 return "";
@@ -418,9 +430,9 @@ SearchTel(){
   this.model.endTel="";
  debugger
     let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
-   console.log('request for query',request2);
+   //console.log('request for query',request2);
    this.service.queryDetails(request2).subscribe((res: any) => {
-      console.log("res message to show: " + JSON.stringify(res));
+     // console.log("res message to show: " + JSON.stringify(res));
     if (Object.keys(res).length)  {
       
        //this.Provide=res.Data.NumberOfTransactions.MasterCount;
@@ -430,6 +442,7 @@ SearchTel(){
       let TypeOfLine:string=res.data.TypeOfLines[0].TypeOfLine;
       this.view3Form = this.formBuilder.group({
         TransactionType: new FormControl({ value: '', disabled: false }, [Validators.required]),
+
         LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
         TypeOfLine: new FormControl({ value: '', disabled: false }, [Validators.required]),
         OrderReference:new FormControl({ value: '', disabled: false }, [Validators.required]),
@@ -444,7 +457,7 @@ SearchTel(){
       });
       this.viewForm = this.formBuilder.group({
         CupID: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        Franchise: new FormControl({ value: '', disabled: false }, [Validators.required]),
+        Franchise: new FormControl({ value: '', disabled: false }, [Validators.required])
       });
       this.configDetails={TransactionType:type,LineType:linetype,TypeOfLine:TypeOfLine};
      // console.log('config dertails test',this.configDetails);
