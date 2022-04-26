@@ -118,6 +118,15 @@ export class Utils {
     transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofIdentifiers.Identifier = createParams;
     return transform;
   }
+  static preparePyDelete(pageIdentifier: string, reportIdentifier: string, deleteIdentifier: any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.DELETE));
+    transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdentifier;
+  
+    transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    //Deleteidentifier
+    transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier = deleteIdentifier;
+    return transform;
+  }
 
 
 }

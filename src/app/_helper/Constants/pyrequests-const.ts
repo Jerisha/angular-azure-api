@@ -267,5 +267,50 @@ export const PyRequests = {
             }
         },
         "Cache": ["ApplicationKey", "SessionID"]
+    },
+    DELETE:
+    {
+        "RequestType": "DELETE",
+        "UserParams": ["UserID", "RoleID"],
+        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        "wmRequest": {
+            "DeleteObjectRequest": {
+                "DeleteObjectRequestType": {
+                    "RequestIdentifiers": {
+                        "Identifier": [{
+                            "Name": "UserId",
+                            "Value": ["sample"]
+                        }, {
+                            "Name": "Destination",
+                            "Value": ["OSN2"]
+                        }]
+                    },
+                    "ListofDeleteObjectCategory": {
+                        "DeleteObjectCategory": [{
+                            "ItemName": "AuditStatus",
+                            "ListofIdentifiers": {
+                                "Identifier": [{
+                                    "Name": "ReportIdentifier",
+                                    "Value": ["ReferenceList"]
+                                }]
+                            },
+                            "ListofDeleteObjectCharacteristics": {
+                                "DeleteObjectCharacteristics": [{
+                                    "ItemName": "DeleteParameters",
+                                    "ListofIdentifiers": {
+                                        "Identifier": [{
+                                            "Name": "StatusId",
+                                            "Value": ["11"]
+                                        }]
+                                    }
+                                }]
+                            }
+                        }]
+                    }
+                }
+            }
+        }
+        ,
+        "Cache": ["ApplicationKey", "SessionID"]
     }
 }
