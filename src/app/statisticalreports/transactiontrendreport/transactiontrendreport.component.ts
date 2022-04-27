@@ -3,7 +3,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Transactionsourcecommandhistory, Link } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { expDate, expNumeric, expString } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expDropdown, expNumeric, expString } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
@@ -152,7 +152,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   selectListItems: string[] = [];
   // expDefaultmonth = selectmonth.defaultmonth;
   // expDefaultsrc = selectsrc.defaultsrc;
-  expressions: any = [expNumeric, expString, expDate];
+  expressions: any = [expNumeric, expString, expDate,expDropdown];
   expOperators: string[] = [
     "StatisticMonthOperator",
     "SourceOperator",
