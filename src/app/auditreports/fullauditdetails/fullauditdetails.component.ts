@@ -858,11 +858,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       rangeConfirm.afterClosed().subscribe(result => {
         //console.log("result " + result);
         if (result) {
-          let request = Utils.prepareUpdateRequest('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'),[{}]);
+          let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'),[{}]);
           //update 
           console.log('sample in ', JSON.stringify(request))
           this.service.updateDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success') {
+            if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
               //success message and same data reload
               this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
@@ -907,25 +907,20 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       dataAutoCorrectionConfirm.afterClosed().subscribe(result => {
         if (result) {
           let request = Utils.prepareUpdateRequest('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'),[{}]);
-          //update 
-          console.log('sample in ', JSON.stringify(request));
-          return
+          //update
           this.service.updateDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success') {
+            if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
               //success message and same data reload
               this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-             // this.onFormSubmit(true);
-              this.router.navigate(['/transactions/transactions']);
+              this.onFormSubmit(true);
+             // this.router.navigate(['/transactions/transactions']);
             }
           });
-        }
-         
-        
+        }       
       })
-
     }
     else {
-      var ItemName = this.selectedCorrectionType==='AutoPopulateSpecialCease'?'AutoSpecialCease':'ManualCorrections';
+      //var ItemName = this.selectedCorrectionType==='AutoPopulateSpecialCease'?'AutoSpecialCease':'ManualCorrections';
       var msg = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.Message);
       var processMessage = 'Do you want to proceed with raising transaction using ' + msg + ' Data?';
 
@@ -944,21 +939,23 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
       dataCorrectionConfirm.afterClosed().subscribe(result => {
         if (result) {
-          let request = Utils.prepareUpdateRequest(ItemName, 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
-          console.log('sample in ', JSON.stringify(request))
-          this.service.updateDetails(request).subscribe(x => {           
-            if (x.StatusMessage.toLowerCase() === 'success') {
-              console.log('response', x)
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-              ItemName === 'AutoSpecialCease' ? this.onFormSubmit(true) : this.router.navigate(['/transactions/transactions']);
-            }
-          });
+          if(this.selectedCorrectionType==='AutoPopulateSpecialCease'){
+            let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
+            console.log('sample in ', JSON.stringify(request))
+            this.service.updateDetails(request).subscribe(x => {           
+              if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {             
+                this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+                //ItemName === 'AutoSpecialCease' ? this.onFormSubmit(true) : this.router.navigate(['/transactions/transactions']);
+              }
+            });
+          }
+          else{
+            this.router.navigate(['/transactions/transactions']);
+          }       
         }
       })
     }
   }
-
-
 
   autoCorrectionRange:string='';
   disableProcess:boolean= true;
