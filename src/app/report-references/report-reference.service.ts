@@ -491,7 +491,7 @@ export class ReportReferenceService {
           }
           break;
         }
-        case "LineType": {
+        case "LineTypes": {
           {
             this.lstForm.push(
               <IColoumnDef>{
