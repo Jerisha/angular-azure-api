@@ -11,7 +11,7 @@ import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
-import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { formatDate } from '@angular/common';
 import { map } from 'rxjs/operators';
@@ -107,7 +107,7 @@ export class SolicitedactionreportComponent implements OnInit {
   configDetails!: any;
   currentPage: string = '1';
   resetExp: boolean = false;
-  expressions: any = [expNumeric, expString, expDate];
+  expressions: any = [expNumeric, expString, expDate,expDropdown];
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   errorCodesOptions!: Observable<any[]>;
@@ -125,8 +125,8 @@ export class SolicitedactionreportComponent implements OnInit {
     "TransactionIDrOperator",
     "DateRangeOperator",
     "SourceOperator",
-    "ResolutionTypeAuditOperator",
-    "StatusrOperator",
+    "ResolutionTypeOperator",
+    "StatusOperator",
     "TransactionCommandOperator",
 
   ];
@@ -243,10 +243,8 @@ export class SolicitedactionreportComponent implements OnInit {
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
-      this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
-      this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
-      && this.f.OrderReference.value === "")
+    if ((this.f.TelephoneNumber?.value?.length === 11 && this.f.TransactionID.value === "" && this.f.ResolutionType.value === "" && this.f.Source.value === "" &&
+    this.f.Status.value === "" && this.f.TransactionCommand.value === "" && this.f.Reference.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
     }
@@ -379,9 +377,7 @@ export class SolicitedactionreportComponent implements OnInit {
   resetForm(): void {
     this.myForm.reset();
     this.tabs.splice(0);
-    this.resetExp = !this.resetExp;
-
-
+    this.resetExp=!this.resetExp;
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
