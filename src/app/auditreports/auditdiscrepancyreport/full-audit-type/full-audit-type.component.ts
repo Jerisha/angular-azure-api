@@ -8,6 +8,7 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
 import { Utils } from 'src/app/_http';
 import { map } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const ELEMENT_DATA: FullAuditSummary[] = [{
   ACTID: "12", AuditDiscrepancyOverride: 0, AutoLogicResolvedSAD: 1, AutoResolvedAreacall: 1,
@@ -1217,7 +1218,7 @@ export class FullAuditTypeComponent implements OnInit {
 
 
   constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef,
-    private service:AuditDiscpancyReportService) {
+    private service:AuditDiscpancyReportService,private spinner: NgxSpinnerService) {
     this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];    
     
   }
@@ -1268,21 +1269,9 @@ export class FullAuditTypeComponent implements OnInit {
 
     let request = Utils.preparePyQuery('FullAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
     console.log(JSON.stringify(request));
-    //this.observerRes = new Observable((observer: Observer<any>) => {
+    this.spinner.show();
       this.observerRes =this.service.queryDetails(request).pipe(map((res: any) => {
-        return{
-          FullAuditSummary:{
-                      datasource: res.data.FullAuditSummary,
-                    },
-                    FullAuditProgressReport:{
-            datasource: res.data.FullAuditProgressReport,
-          }
-        }
-      }));
-  
-
-        // this.observerRes1 = this.observerRes;
-
+        return res.data}));
 
      this.QueryProgressReport = of({
          datasource: FullAuditData.FullAuditProgressReport,
@@ -1299,28 +1288,11 @@ export class FullAuditTypeComponent implements OnInit {
 
             this.AuditSummaryTab();
         this.ProgressReportTab();
-        //    this.MonthReportTab();
-        //    this.AddressReportTab();
+            this.MonthReportTab();
+           this.AddressReportTab();
 
   }
 
-  CustomFunc(res: any)
-  {
-    this.summaryReport = res.data.FullAuditSummary;
-
-
-    return{
-      FullAuditSummary:{
-                  datasource: res.data.FullAuditSummary,
-                },
-                FullAuditProgressReport:{
-        datasource: res.data.FullAuditProgressReport,
-      },
-      // FullAuditMonthReport: res.data.FullAuditMonthReport,
-      // FullAuditAllMonths: res.data.FullAuditAllMonths,
-     // FullAuditProgressReport: res.data.FullAuditProgressReport
-      }
-  }
 
   getJsonData(): Observable<FullAuditSummary[]> {
     return this.httpClient.get<FullAuditSummary[]>("../assets/data.json")
@@ -1332,10 +1304,6 @@ export class FullAuditTypeComponent implements OnInit {
   // }
 
   AuditSummaryTab() {
-    // this.observerRes.subscribe((x: any) => {
-    //   console.log("Audit data "+ JSON.stringify(x.FullAuditSummary));
-    // })
-
       var headerswithDetails: string[];
       var displayedColumns: string[];
       var detailedColumnsArray: string[];
@@ -1363,13 +1331,13 @@ export class FullAuditTypeComponent implements OnInit {
             //     datasource: x
             //   }  
             // })),
-            data: this.observerRes.pipe(map(x=>x.FullAuditSummary)),
+            //data: this.observerRes.pipe(map(x=>x.FullAuditSummary)),
             ColumnDetails: gridDesignDetails[0].ColumnDetails,
             GroupHeaders: gridDesignDetails[0].GroupHeaders,
             DisplayedColumns: displayedColumns,
             DetailedColumns: detailedColumnsArray,
             GroupHeaderColumnsArray: grpHdrColumnsArray,
-            isRowLvlTotal:true
+            isRowLvlTotal:false
           }
           // console.log(JSON.stringify(this.auditSummaryTable.data));
           // this.tabs[0].data = this.auditSummaryTable;
@@ -1404,13 +1372,13 @@ export class FullAuditTypeComponent implements OnInit {
         //     datasource: x
         //   }  
         // })),
-        data: this.observerRes.pipe(map(x=>x.FullAuditProgressReport)),
+        //data: this.observerRes.pipe(map(x=>x.FullAuditProgressReport)),
         ColumnDetails: gridDesignDetails[0].ColumnDetails,
         GroupHeaders: gridDesignDetails[0].GroupHeaders,
         DisplayedColumns: displayedColumns,
         DetailedColumns: detailedColumnsArray,
         GroupHeaderColumnsArray: grpHdrColumnsArray,
-        FilterValues: [ELEMENT_DATA1.map(x => x.FullAuditCLIStatus), ELEMENT_DATA1.map(x => x.SourceSystem)],
+        //FilterValues: [ELEMENT_DATA1.map(x => x.FullAuditCLIStatus), ELEMENT_DATA1.map(x => x.SourceSystem)],
         isRowLvlTotal:true,
         FilterColumn: true,
         isMonthFilter: false,
@@ -1433,17 +1401,17 @@ MonthReportTab() {
   grpHdrColumnsArray = [detailedColumnsArray];
   this.monthReportTable = {
     //data: this.QueryMonthReport,
-    data: this.observerRes.pipe(map((x: any) => {
-      if (Object.keys(x).length) {
-        let result = {
-          datasource: x.FullAuditMonthReport,
-        };
-        // console.log("QueryResponse : "+JSON.stringify(result.datasource));
-        return result;
-      } else return {
-        datasource: x
-      }  
-    })),
+    // data: this.observerRes.pipe(map((x: any) => {
+    //   if (Object.keys(x).length) {
+    //     let result = {
+    //       datasource: x.FullAuditMonthReport,
+    //     };
+    //     // console.log("QueryResponse : "+JSON.stringify(result.datasource));
+    //     return result;
+    //   } else return {
+    //     datasource: x
+    //   }  
+    // })),
     ColumnDetails: gridDesignDetails[0].ColumnDetails,
     GroupHeaders: gridDesignDetails[0].GroupHeaders,
     DisplayedColumns: displayedColumns,
@@ -1468,18 +1436,18 @@ AddressReportTab() {
       grpHdrColumnsArray = [headerswithDetails];
      this.addressReportTable = {
       // data: this.QueryAddressReport,
-       data: this.observerRes.pipe(map((x: any) => {
-        if (Object.keys(x).length) {
-          let result = {
-            datasource: x.FullAuditAddressPostCode,
-            AllMonths: FullAuditData.FullAuditAllMonths,
-          };
-          // console.log("QueryResponse : "+JSON.stringify(result.datasource));
-          return result;
-        } else return {
-          datasource: x
-        }  
-      })),
+      //  data: this.observerRes.pipe(map((x: any) => {
+      //   if (Object.keys(x).length) {
+      //     let result = {
+      //       datasource: x.FullAuditAddressPostCode,
+      //       AllMonths: FullAuditData.FullAuditAllMonths,
+      //     };
+      //     // console.log("QueryResponse : "+JSON.stringify(result.datasource));
+      //     return result;
+      //   } else return {
+      //     datasource: x
+      //   }  
+      // })),
        ColumnDetails: gridDesignDetails[0].ColumnDetails,
        GroupHeaders: gridDesignDetails[0].GroupHeaders,
        DisplayedColumns: displayedColumns,

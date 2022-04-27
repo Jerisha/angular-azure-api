@@ -49,6 +49,7 @@ export const MY_FORMATS = {
 export class TableGroupHeaderComponent implements OnDestroy {
   @Input() GrpTableitem!: GroupHeaderTableItem;
   @Input() sidePan: any;
+  @Input() obsData!:any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
   @Output() MonthDate = new EventEmitter<string>();
@@ -95,9 +96,44 @@ export class TableGroupHeaderComponent implements OnDestroy {
     this.onDestroy.next();
   }
 
-  // ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.obsData){
+      this.spinner.show();
+      console.log('inside tab',this.obsData)
+    this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
+    this.dataSource = new MatTableDataSource<any>(this.obsData);
+    this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
+    this.groupHeaders = this.GrpTableitem?.GroupHeaders ? this.GrpTableitem?.GroupHeaders : [];
+    this.displayedColumns = this.GrpTableitem?.DisplayedColumns ? this.GrpTableitem?.DisplayedColumns : [];
+    this.detailedColumnsArray = this.GrpTableitem?.DetailedColumns ? this.GrpTableitem?.DetailedColumns : [];
+    this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
+    this.isRowTotal = this.GrpTableitem?.isRowLvlTotal ? true : false;
+    this.isMonthFilter = this.GrpTableitem?.isMonthFilter? true : false;
+
+    var nonTotRowCols = ['SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
+    this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
+    this.nonNumericCols = this.displayedColumns.filter(x => !this.totalCols.includes(x));
+
+    if (this.filterColumn) {
+      this.filterSelectedItems = this.GrpTableitem?.FilterValues ? this.GrpTableitem?.FilterValues : [];
+      this.cliStatusList = [...new Set(this.filterSelectedItems[0])];
+      this.sourceSystemList = [...new Set(this.filterSelectedItems[1])];
+      this.formControlsSubscribe();
+      this.createFilter();
+    }
+    this.spinner.hide();
+  }
+
+
+  }
+
+  // ngOnChanges(changes: SimpleChanges) {
+  //   this.dataObs$ = this.GrpTableitem?.data;
+  //   this.spinner.show();
+  //   this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
+  //     (res: any) => {
   //   this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
-  //   this.dataSource = new MatTableDataSource<any>(this.GrpTableitem?.data);
+  //   this.dataSource.data = res.datasource;
   //   this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
   //   this.groupHeaders = this.GrpTableitem?.GroupHeaders ? this.GrpTableitem?.GroupHeaders : [];
   //   this.displayedColumns = this.GrpTableitem?.DisplayedColumns ? this.GrpTableitem?.DisplayedColumns : [];
@@ -105,10 +141,29 @@ export class TableGroupHeaderComponent implements OnDestroy {
   //   this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
   //   this.isRowTotal = this.GrpTableitem?.isRowLvlTotal ? true : false;
   //   this.isMonthFilter = this.GrpTableitem?.isMonthFilter? true : false;
+    
+  //   if(res.AllMonths)
+  //   {
+  //     this.allMonths = res.AllMonths[0].Month;
+  //     this.monthValue = res.AllMonths[0].Month[0];
+
+  //   } 
+
+    
+    
 
   //   var nonTotRowCols = ['SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
   //   this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
   //   this.nonNumericCols = this.displayedColumns.filter(x => !this.totalCols.includes(x));
+  //     },
+  //     error => { this.spinner.hide(); },
+  //     () => {
+        
+  //       this.spinner.hide();
+  //     }
+  //   );
+
+    
 
   //   if (this.filterColumn) {
   //     this.filterSelectedItems = this.GrpTableitem?.FilterValues ? this.GrpTableitem?.FilterValues : [];
@@ -117,57 +172,8 @@ export class TableGroupHeaderComponent implements OnDestroy {
   //     this.formControlsSubscribe();
   //     this.createFilter();
   //   }
-
-
+    
   // }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.dataObs$ = this.GrpTableitem?.data;
-    this.spinner.show();
-    this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
-      (res: any) => {
-    this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
-    this.dataSource.data = res.datasource;
-    this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
-    this.groupHeaders = this.GrpTableitem?.GroupHeaders ? this.GrpTableitem?.GroupHeaders : [];
-    this.displayedColumns = this.GrpTableitem?.DisplayedColumns ? this.GrpTableitem?.DisplayedColumns : [];
-    this.detailedColumnsArray = this.GrpTableitem?.DetailedColumns ? this.GrpTableitem?.DetailedColumns : [];
-    this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
-    this.isRowTotal = this.GrpTableitem?.isRowLvlTotal ? true : false;
-    this.isMonthFilter = this.GrpTableitem?.isMonthFilter? true : false;
-    
-    if(res.AllMonths)
-    {
-      this.allMonths = res.AllMonths[0].Month;
-      this.monthValue = res.AllMonths[0].Month[0];
-
-    } 
-
-    
-    
-
-    var nonTotRowCols = ['SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
-    this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
-    this.nonNumericCols = this.displayedColumns.filter(x => !this.totalCols.includes(x));
-      },
-      error => { this.spinner.hide(); },
-      () => {
-        
-        this.spinner.hide();
-      }
-    );
-
-    
-
-    if (this.filterColumn) {
-      this.filterSelectedItems = this.GrpTableitem?.FilterValues ? this.GrpTableitem?.FilterValues : [];
-      this.cliStatusList = [...new Set(this.filterSelectedItems[0])];
-      this.sourceSystemList = [...new Set(this.filterSelectedItems[1])]
-      this.formControlsSubscribe();
-      this.createFilter();
-    }
-    
-  }
 
   // ngAfterViewInit() {
     // this.dataSource.paginator = this.paginator;
@@ -182,7 +188,8 @@ export class TableGroupHeaderComponent implements OnDestroy {
     }
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
-      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
+     // return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
     }
     return '';
   }

@@ -2,6 +2,11 @@
     matTooltip="{{sidePan.opened ? 'Hide Filters' : 'Show Filters'}}">
     <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
 </button>
+
+<ng-container *ngIf="observerRes | async as result">
+    <!-- {{result| json }} -->
+  
+
 <mat-tab-group [(selectedIndex)]="selectedTab" (selectedTabChange)="tabChanged($event)">
     <!-- <mat-tab *ngFor="let tab of tabs;  trackBy: trackTabs"> -->
         <mat-tab *ngFor="let tab of tabs;">
@@ -9,25 +14,23 @@
             <div *ngIf="tab.tabType===0" style="margin-left: 20px;">{{tab.name}}</div>
             <div *ngIf="tab.tabType!=0">{{tab.name}}</div>
         </ng-template>
-        <!-- <ng-template matTabContent>
-            <app-table-group-header [GrpTableitem]="tab.data" (MonthDate)="fetchMonthData($event)"></app-table-group-header>
-        </ng-template> -->
+
         <span [ngSwitch]="tab.tabType">
             <div *ngSwitchCase="0" >
-                <app-table-group-header [GrpTableitem]="auditSummaryTable"></app-table-group-header>
+                <app-table-group-header [GrpTableitem]="auditSummaryTable" [obsData] ="result.FullAuditSummary"></app-table-group-header>
             </div>
 
             <div *ngSwitchCase="1" >
-                <app-table-group-header [GrpTableitem]="progressReportTable"></app-table-group-header>
+                <app-table-group-header [GrpTableitem]="progressReportTable" [obsData] ="result.FullAuditProgressReport"></app-table-group-header>
             </div>
 
-            <!-- <div *ngSwitchCase="2" >
-                <app-table-group-header [GrpTableitem]="tab.data" ></app-table-group-header>
+           <div *ngSwitchCase="2" >
+                <app-table-group-header [GrpTableitem]="monthReportTable"  [obsData] ="result.FullAuditMonthReport"></app-table-group-header>
             </div>
 
-            <div *ngSwitchCase="3" >
-                <app-table-group-header [GrpTableitem]="tab.data" (MonthDate)="fetchMonthData($event)"></app-table-group-header>
-            </div> -->
+             <div *ngSwitchCase="3" >
+                <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.FullAuditAddressPostCode" (MonthDate)="fetchMonthData($event)"></app-table-group-header>
+            </div>
 
             <div *ngSwitchDefault>
             </div>
@@ -36,3 +39,4 @@
 
     </mat-tab>
 </mat-tab-group>
+</ng-container>

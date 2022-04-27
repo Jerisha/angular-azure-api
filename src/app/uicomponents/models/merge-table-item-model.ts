@@ -6,7 +6,7 @@ export interface MergeTableItem {
   }
 
   export interface GroupHeaderTableItem {
-    data: any;
+    data?: any;
     ColumnDetails:MergeTableItem[];
     GroupHeaders: MergeTableItem[];
     GroupHeaderColumnsArray:Array<string[]>;
