@@ -4,6 +4,7 @@ import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { TelephoneAuditTrailComponent } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
 import { CustomerAddress, ICustomerAddress } from '../models/ICustomerAddress';
 import { TransactionItem } from '../models/ITransactionItem';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,10 +31,18 @@ export class TransactionsComponent implements OnInit {
   @ViewChild(TelephoneAuditTrailComponent) auditTrailView!: TelephoneAuditTrailComponent;
 
   transactionItem =new TransactionItem(); //need to fix
-  
-  constructor(private cdr: ChangeDetectorRef) { }
+  passedRouteData!:any;
+
+  constructor(private cdr: ChangeDetectorRef, private router: Router) {
+    this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
+    if (this.passedRouteData) {
+      alert('name' + JSON.stringify(this.passedRouteData))
+    }
+  }
 
   ngOnInit(): void {
+    
+    
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();

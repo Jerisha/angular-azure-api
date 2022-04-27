@@ -218,6 +218,7 @@ const Items: Select[] = [
 })
 export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
+  @ViewChild('inputctrl') icRemarks!: ElementRef;
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
   updateForm!: FormGroup;
@@ -241,15 +242,19 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   rowRange: string = '';
   comments: string = 'No Records Found';
   showDataCorrection: boolean = false;
+  disableProcess: boolean = true;
+  disableSave: boolean = true;
   configDetails!: any;
   currentPage: string = '1';
   auditTelNo: any;
   repIdentifier = "SolicitedErrors";
+  autoCorrectionRange: string = '';
   defaultACTID: string = '';
 
   queryResult$!: Observable<any>;
   monthlyRefreshQueryResult$!: Observable<any>;
   rangeReportQueryResult$!: Observable<any>;
+  inflightReportQueryResult$!: Observable<any>;
   moriCircuitStatusQueryResult$!: Observable<any>;
   overlappingQueryResult$!: Observable<any>;
 
@@ -307,15 +312,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   };
 
   cellAttrInfo: CellAttributes[] = [
-    { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y', isImage:true},
+    { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y', isImage: true },
     { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', isImage: true },
     { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Y', isImage: true },
     { flag: 'OSN2Source', cells: ['Comments'], value: 'SAS/COMS', isImage: true },
     { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Y', isImage: true },
-    { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Yes', isBackgroundHighlighted: true },
-    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode'], value: 'Y', isBackgroundHighlighted: true },
-    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare'], value: 'Y', isBackgroundHighlighted: true },
-    { flag: 'ExternalCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
+    { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer'], value: 'Y', isBackgroundHighlighted: true },
+    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode', 'SourcePostcode'], value: 'Y', isBackgroundHighlighted: true },
+    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y', isBackgroundHighlighted: true },
+    // { flag: 'ExternalCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
     { flag: 'FullAuditCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
     { flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }
   ];
@@ -394,31 +399,31 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       ]
     }];
 
-    manualDataCorrectionConfig:any[]=[
-      { selectedValue:'AutoPopulateBT', Message:'BT' , ManualAuditType:'BT'},
-      { selectedValue:'AutoPopulateOSN2', Message:'OSN2',ManualAuditType:'OSN'},
-      { selectedValue:'AutoPopulateSource', Message:'Source',ManualAuditType:'SRC'},
-      { selectedValue:'AutoPopulateBTSource', Message:'BT & Source',ManualAuditType:'BTSRC'},
-      { selectedValue:'AutoPopulateSpecialCease', Message:'SpecialCease',ManualAuditType:'SPLCS'}
-    ]
+  manualDataCorrectionConfig: any[] = [
+    { selectedValue: 'AutoPopulateBT', Message: 'BT', ManualAuditType: 'BT' },
+    { selectedValue: 'AutoPopulateOSN2', Message: 'OSN2', ManualAuditType: 'OSN' },
+    { selectedValue: 'AutoPopulateSource', Message: 'Source', ManualAuditType: 'SRC' },
+    { selectedValue: 'AutoPopulateBTSource', Message: 'BT & Source', ManualAuditType: 'BTSRC' },
+    { selectedValue: 'AutoPopulateSpecialCease', Message: 'SpecialCease', ManualAuditType: 'SPLCS' }
+  ]
 
-    dataCorrectionBtnConfig: ButtonCorretion[] = [
-      { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
-      { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-      { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-      { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
-      { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'], switchType: ['none'] },
-      { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
-      { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-      { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-      { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
-      { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
-      { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-      { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-      { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active'] },
-      { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
-      { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-    ];
+  dataCorrectionBtnConfig: ButtonCorretion[] = [
+    { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
+    { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
+    { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
+    { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
+    { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'], switchType: ['none'] },
+    { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
+    { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
+    { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
+    { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
+    { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
+    { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
+    { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
+    { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['Active'] },
+    { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
+    { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
+  ];
 
   // dataCorrectionBtnConfig: ButtonCorretion[] = [
   //   { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
@@ -451,7 +456,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   setAttributesForManualCorrections() {
-    debugger;
     if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
       this.selectedFullAuditCLIStatus?.value === null) {
       this.correctionTypes.forEach(element => {
@@ -491,7 +495,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private service: AuditReportsService, private dialog: MatDialog,
-    private formBuilder: FormBuilder, private cdr: ChangeDetectorRef,private router: Router, private telnoPipe: TelNoPipe,  private alertService: AlertService,) {
+    private formBuilder: FormBuilder, private cdr: ChangeDetectorRef, private router: Router, private telnoPipe: TelNoPipe, private alertService: AlertService,) {
   }
 
   resetForm(): void {
@@ -511,7 +515,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       { Name: 'AuditType', Value: [`${'Full Audit'}`] }
     ];
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-       width: '800px',
+      width: '800px',
       //width: 'auto',
       height: 'auto',
       panelClass: 'custom-dialog-container',
@@ -522,9 +526,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   prepareQueryParams(pageNo: string): any {
     let attributes: any = [];
-
-    //attributes.push({ Name: '999Reference' });
-
+    
     for (const field in this.form) {
       const control = this.fullAuditForm.get(field);
 
@@ -546,10 +548,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     //this.listernftoSample();
     this.setDefaultValues();
     let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "Resolution", "AutoCorrectionVolume"]);
-    this.service.configDetails(request).subscribe((res: any) => {      
+    this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
-     // console.log('asd',this.configDetails.AutoCorrectionVolume[0])
-     this.rowRange = this.configDetails.AutoCorrectionVolume[0];
+      // console.log('asd',this.configDetails.AutoCorrectionVolume[0])
+      this.rowRange = this.configDetails.AutoCorrectionVolume[0];
       this.defaultACTID = this.configDetails.FullAuditActID[0];
     });
     this.listItems = Items;
@@ -564,17 +566,16 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   getNextSetRecords(pageIndex: any) {
-    debugger;
     this.currentPage = pageIndex;
     this.onFormSubmit(true);
   }
 
-  onFormSubmit(isEmitted?: boolean): void {   
+  onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);
-    this.selectListItems=[];
-    this.disableProcess=true;
+    this.selectListItems = [];
+    this.disableProcess = true;
     this.updateForm.reset();
-    this.remarkstxt ='';
+    this.remarkstxt = '';
     //this.rowRange='';
 
     if (this.fullAuditForm.invalid) { return; }
@@ -626,7 +627,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   newTab(tab: any) {
-    debugger;
     if (this.tabs === []) return;
     var auditACTID = this.auditACTID.value;
     var telno = tab.row.TelephoneNumber;
@@ -668,7 +668,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       }
       case 4: {
         this.inflightReportInit(auditACTID, tab.row.TelephoneNumber);
-        if (!this.tabs?.find(x => x.tabType == 4)) {         
+        if (!this.tabs?.find(x => x.tabType == 4)) {
           this.tabs.push({
             tabType: 4,
             name: 'Inflight Report (' + tab.row.TelephoneNumber + ')'
@@ -751,9 +751,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   ngOnDestroy() {
     this.destroy$.next(true);
-    //debugger;
-    //console.log('destroying')
-    // Unsubscribe from the subject
     this.destroy$.unsubscribe();
   }
 
@@ -769,7 +766,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   get form() {
     return this.fullAuditForm.controls;
   }
-  get updateFormControls(){
+
+  get updateFormControls() {
     return this.updateForm.controls;
   }
 
@@ -798,7 +796,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   createUpdateForm() {
     this.updateForm = this.formBuilder.group({
       Resolution: new FormControl('', [Validators.required]),
-      Remarks: new FormControl('', [Validators.required])    
+      Remarks: new FormControl('', [Validators.required])
     });
   }
 
@@ -826,60 +824,34 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     })
   }
 
-  // rowDetect(item: any) {
-  //   if (item.length == 0) {
-  //     this.selectListItems = [];
-  //   } else {
-  //     item.forEach((el: string) => {
-  //       if (!this.selectListItems.includes(el)) {
-  //         this.selectListItems.push(el)
-  //       }
-  //       else {
-  //         if (this.selectListItems.includes(el)) {
-  //           let index = this.selectListItems.indexOf(el);
-  //           this.selectListItems.splice(index, 1)
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
-
-
 
   onSaveSubmit(): void {
-    //console.log("save", form.form.invalid);
-    debugger;
-    if(this.updateForm.invalid){ return;}
-      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
-        width: '400px', disableClose: true, data: {
-          message: 'Would you like to continue to save the records?'
-        }
-      });
-      rangeConfirm.afterClosed().subscribe(result => {
-        //console.log("result " + result);
-        if (result) {
-          let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'),[{}]);
-          //update 
-          console.log('sample in ', JSON.stringify(request))
-          this.service.updateDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-              //success message and same data reload
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-              this.onFormSubmit(true);
-            }
-          });
-        }
-      });
+    if (this.updateForm.invalid) { return; }
+    const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px', disableClose: true, data: {
+        message: 'Would you like to continue to save the records?'
+      }
+    });
+    rangeConfirm.afterClosed().subscribe(result => {
+      //console.log("result " + result);
+      if (result) {
+        let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
+        //update 
+        console.log('sample in ', JSON.stringify(request))
+        return;
+        this.service.updateDetails(request).subscribe(x => {
+          if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
+            //success message and same data reload
+            this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+            this.onFormSubmit(true);
+          }
+        });
+      }
+    });
     //}
   }
 
-  //@ViewChild('updateForm') updateForm!: NgForm;
-
-  @ViewChild('inputctrl') icRemarks!: ElementRef;
-
   getSelectedDataCorrection() {
-    debugger;
-
     if (this.selectedCorrectionType != '') {
       if (this.selectedCorrectionType === 'AutoCorrectionVolume') {
         this.disableProcess = false;
@@ -895,32 +867,38 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getPnlControlAttributes() {
+    if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != '')) {
+      this.disableSave = false;
+    }
+    else {
+      this.disableSave = true;
+    }
+  }
+
 
   processDataCorrection() {
     if (this.selectedCorrectionType === 'AutoCorrectionVolume') {
       const dataAutoCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '500px', disableClose: true, data: {
-          message: 'Do you want to proceed with raising transaction using Auto Correction Volume Data?'
+          message: 'Are you sure you want to proceed with the Auto Correction of ' + this.rowRange + '?'
         }
       });
 
       dataAutoCorrectionConfirm.afterClosed().subscribe(result => {
         if (result) {
-          let request = Utils.prepareUpdateRequest('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'),[{}]);
+          let request = Utils.prepareUpdateRequest('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'), [{}]);
           //update
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-              //success message and same data reload
               this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
-             // this.router.navigate(['/transactions/transactions']);
             }
           });
-        }       
+        }
       })
     }
     else {
-      //var ItemName = this.selectedCorrectionType==='AutoPopulateSpecialCease'?'AutoSpecialCease':'ManualCorrections';
       var msg = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.Message);
       var processMessage = 'Do you want to proceed with raising transaction using ' + msg + ' Data?';
 
@@ -929,7 +907,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         this.icRemarks.nativeElement.focus();
         this.icRemarks.nativeElement.blur();
         return;
-      };    
+      };
 
       const dataCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '600px', disableClose: true, data: {
@@ -939,26 +917,38 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
       dataCorrectionConfirm.afterClosed().subscribe(result => {
         if (result) {
-          if(this.selectedCorrectionType==='AutoPopulateSpecialCease'){
+          if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
             let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
             console.log('sample in ', JSON.stringify(request))
-            this.service.updateDetails(request).subscribe(x => {           
-              if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {             
+            this.service.updateDetails(request).subscribe(x => {
+              if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
                 this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-                //ItemName === 'AutoSpecialCease' ? this.onFormSubmit(true) : this.router.navigate(['/transactions/transactions']);
               }
             });
           }
-          else{
-            this.router.navigate(['/transactions/transactions']);
-          }       
+          else {
+            var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
+            if (selectedCLI != '') {
+              let strCmts = selectedCLI.split('-');
+              var telnos = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
+              selectedCLI = telnos[0] + '!' + telnos[1];
+            }
+            else {
+              selectedCLI = this.selectListItems[0].TelephoneNumber;
+            }
+            var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
+            let data = {
+              TelephoneNumberRange: selectedCLI,
+              ActId: this.form.AuditActID.value,
+              ResolutionRemarks: this.remarkstxt,
+              ManualAuditType: auditType
+            }
+            this.router.navigateByUrl('/transactions/transactions', { state: data });
+          }
         }
       })
     }
   }
-
-  autoCorrectionRange:string='';
-  disableProcess:boolean= true;
 
   prepareUpdateIdentifiers(type: string): any {
     let identifiers: any[] = [];
@@ -968,6 +958,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
           let telno: string[] = [];
           this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
           identifiers.push({ Name: 'TelephoneNumber', Value: telno });
+        }
+        else if (this.form.StartTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != '') {
+          identifiers.push({ Name: 'TelephoneNumber', Value: [`${this.form.StartTelephoneNumber.value + '|' + this.form.EndTelephoneNumber.value}`] });
         } else
           identifiers.push({ Name: 'TelephoneNumber', Value: [""] });
 
@@ -985,7 +978,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
           identifiers.push({ Name: 'AuditActID' });
 
         identifiers.push({ Name: 'AuditType', Value: [`${'FullAuditDetails'}`] });
-                break;
+        break;
       }
       case 'DataAutoCorrection': {
         if (this.auditACTID.value)
@@ -1021,7 +1014,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         break;
       }
       case 'DataManualCorrection': {
-        debugger;
         var selectedCLI = this.selectListItems[0].TelephoneNumber;
         if (selectedCLI != '') {
           identifiers.push({ Name: 'TelephoneNumberRange', Value: [selectedCLI] });
@@ -1036,7 +1028,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         }
         else
           identifiers.push({ Name: name });
-        
+
 
         if (this.remarkstxt != '')
           identifiers.push({ Name: 'ResolutionRemarks', Value: [this.remarkstxt] });
@@ -1057,19 +1049,18 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   rowDetect(selectedRows: any) {
-    debugger;
     selectedRows.forEach((item: any) => {
-      // this.selectedRowsCount = item.length;
-      if (item && item.length == 0) return
+      if (item && item.length == 0) return;
 
       if (!this.selectListItems.includes(item))
         this.selectListItems.push(item)
-      else if (this.selectListItems.find(x=>x.TelephoneNumber===item.TelephoneNumber)) {
+      else if (this.selectListItems.find(x => x.TelephoneNumber === item.TelephoneNumber)) {
         let index = this.selectListItems.indexOf(item);
         this.selectListItems.splice(index, 1)
       }
     })
-    this.getSelectedDataCorrection();    
+    this.getSelectedDataCorrection();
+    this.getPnlControlAttributes();
   }
 
   monthlyRefreshReportInit(auditACTID: any, telno: any) {
@@ -1103,8 +1094,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
- inflightReportQueryResult$!:Observable<any>;
-  inflightReportInit(auditACTID:any, telno:any) {
+  inflightReportInit(auditACTID: any, telno: any) {
 
     let attributes = [
       { Name: 'TelephoneNumber', Value: [`${telno}`] },
@@ -1126,7 +1116,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         datasource: res
       };
     }))
-  
+
     this.inflightRptTable = {
       data: of({
         datasource: this.inflightReportQueryResult$,
@@ -1179,9 +1169,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
     let request = Utils.preparePyQuery('MoriCircuitDetails', 'FullAuditDetails', attributes);
     console.log('sample', JSON.stringify(request));
-    this.moriCircuitStatusQueryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
+    this.moriCircuitStatusQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
-        
+
         let result = {
           datasource: res.data.Circuits,
           totalrecordcount: res.data.Circuits.length,
@@ -1189,10 +1179,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
           pagenumber: 1
         }
         return result;
-      } else {        
-        return {        
-        datasource: res
-      }};
+      } else {
+        return {
+          datasource: res
+        }
+      };
     }))
     this.moriCircuitRptTable = {
       data: this.moriCircuitStatusQueryResult$,
@@ -1223,14 +1214,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       } else return {
         datasource: res
       };
-    }))
+    }));
+
     this.overlappingRangeListTable = {
-      // data: of({
-      //   datasource: ELEMENT_DATA5,
-      //   totalrecordcount: 10,
-      //   totalpages: 20,
-      //   pagenumber: 1
-      // }),
       data: this.overlappingQueryResult$,
       Columns: this.OverlappingRangeListTableDetails,
       filter: true,

@@ -11,7 +11,7 @@
           <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>Start Telephone No</mat-label>
             <input id="StartTelephoneNumber" formControlName="StartTelephoneNumber" matInput #StartTelephoneNumber
-              maxlength="11" placeholder="Start Telephone No" (keypress)="numberOnly($event)"
+              maxlength="11" placeholder="Start Telephone No" (blur)="getPnlControlAttributes()" (keypress)="numberOnly($event)"
               (ngModelChange)="onChange($event,'StartTelephoneNumber')" style="margin-right: 24%;">
             <mat-error>
               <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid"
@@ -26,7 +26,7 @@
           <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>End Telephone No</mat-label>
             <input id="EndTelephoneNumber" formControlName="EndTelephoneNumber" matInput #EndTelephoneNumber
-              maxlength="11" placeholder="End Telephone No" (keypress)="numberOnly($event)"
+              maxlength="11" placeholder="End Telephone No" (blur)="getPnlControlAttributes()" (keypress)="numberOnly($event)"
               (ngModelChange)="onChange($event,'EndTelephoneNumber')">
             <mat-error>
               <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid"
@@ -522,7 +522,7 @@
                 </mat-form-field>
 
 
-                <button type="submit" mat-raised-button color="primary">
+                <button [disabled]="disableSave" type="submit" mat-raised-button color="primary">
                   <mat-icon>save</mat-icon>Save
                 </button>
 
