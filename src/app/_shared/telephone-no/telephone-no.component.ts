@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-telephone-no',
@@ -7,14 +7,16 @@ import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@ang
 })
 export class TelephoneNoComponent implements OnInit {
   @Output() TelephoneNoSelected = new EventEmitter<any[]>();
+  @Input() telNoArray!: any[];
   selectedTelNo:any;
 
-  telNos:string[]=['01234567891','01234567892','01234567893','01234567894','01234567895','01234567896'];
+  telNos:string[]=[];
 
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.selectedTelNo = "01234567891";
+    this.telNos=this.telNoArray[1];
+    this.selectedTelNo = this.telNoArray[1][0];
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();

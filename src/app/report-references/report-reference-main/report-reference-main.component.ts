@@ -106,7 +106,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   Onselecttabchange($event: any) { 
     //console.log('tab changed,Index: ',$event.index)   
-    this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
+    //this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
+    this.currentReportName = this.reportName = $event.index!= -1 ? this.tabs[$event.index].name : "" ;
     this.reportIndex = this.reportNames.findIndex(x => x == this.reportName);
     // this.displayedColumns = this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]||[] : [];
     this.displayedColumns =  this.reportReferenceService.getDisplayNames(this.currentReportName);
@@ -150,7 +151,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   }
   removeTab(index: number) {
-    let tabobj = this.tabs.find(x => x.tabType == (index))
+    //let tabobj = this.tabs.find(x => x.tabType == (index))
+    let tabobj = this.tabs[index];
     if (tabobj != undefined && tabobj.name == this.editMode) {
       this.editMode = "";
       this.editModeIndex = -1;
@@ -160,8 +162,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     // }
     this.tabs.splice(index, 1);
-    
-    //console.log("reportname:",this.reportName,"tabindex:",this.selectedTab)
+    // this.tabs.forEach((tab:any, i:number) => {
+    //   if(i >= index)
+    //   tab.tabType -= 1;
+    // });
     this.showDetails = this.tabs.length > 0 ? true : false;
     if (this.tabs.length == 0) {
       this.isShow = false;
@@ -169,12 +173,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   onCreateRecord() {
-    // this.reportReferenceService.showDataForm = this.showDataForm =true;
-    // const createConfirm = this.dialog.open(ConfirmDialogComponent, {
-    //   width: '300px', disableClose: true, data: {
-    //     message: 'Do you want to create this record?'
-    //   }
-    // });
     if (this.editMode == "" || this.editMode == this.currentReportName) {
       this.editMode = this.currentReportName;
       this.lstFields = this.reportReferenceService.setForm(this.editMode);
@@ -184,12 +182,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.reportReferenceService.showDataForm = this.showDataForm = true;
     }
     else {
-       alert("close opened report:"+this.editMode)
+      alert("close opened report:" + this.editMode)
       this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
-     
     }
-
-
   }
   refreshData(){
     //console.log('refresh',this.reportName)
@@ -232,11 +227,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       }
   }
   onEditRecord(element: any, event: any) {
-    // this.showDataForm =true;  
-    // this.editRecord =element; 
-    // alert("Edit starts..."+JSON.stringify(this.editRecord));  
-    //alert("editMode: "+this.editMode+" editModeIndex: "+this.editModeIndex)
-
     if (this.editMode == "" || this.editMode == this.currentReportName) {
       this.editMode = this.currentReportName;
       this.lstFields = this.reportReferenceService.setForm(this.editMode);
@@ -245,9 +235,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
       this.reportReferenceService.showDataForm = this.showDataForm = true;
       this.editRecord = element;
-
-      // alert("edit Record values: "+ JSON.stringify(this.editRecord));
-      // this.cdr.detectChanges();
     }
     else {
       this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
@@ -263,25 +250,24 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     });
     deleteConfirm.afterClosed().subscribe(confirm => {
       if (confirm) {
-        let  deleteparms =  [];
-        deleteparms.push({ Name: this.recordIdentifier, Value: [''] });
-
-        let request = ReportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList' , deleteparms);
+        let deleteparms = [];
+        console.log(record[this.recordIdentifier])
+        console.log(record, 'rec')
+        deleteparms.push({ Name: this.recordIdentifier, Value: [record[this.recordIdentifier]] });
+        let request = ReportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList', deleteparms);
         console.log(request, 'deleterequest')
-         this.reportReferenceService.deleteDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success') {
-              //success message and same data reload
-              this.refreshData();
-              this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-              // this.onFormSubmit(true);
-            } else {
-              this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
-            }
-          });
-        this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-      
-      }
-
+    
+        this.reportReferenceService.deleteDetails(request).subscribe(x => {
+          console.log(x,'test')
+          if (x.StatusMessage === 'Success')
+          {
+            this.refreshData();
+            this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+            // this.onFormSubmit(true);
+          }
+        });
+      //   this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+       }
       else {
         this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
       }
@@ -301,18 +287,16 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       });
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
-        // let request = ReportReferenceService.prepareUpdate('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
-        // let request = Utils.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers(),[{}]);
+          //let request = ReportReferenceService.prepareUpdate('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
+          //let request = Utils.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers(),[{}]);
           // console.log(JSON.stringify(request), 'updaterequest')
-          this.reportReferenceService.prepareUpdate(this.editMode, 'ReferenceList', this.prepareUpdateIdentifiers(),[{}]).subscribe(x => {
+          this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', this.prepareUpdateIdentifiers(), [{}]).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reloa
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
               this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
-            } else {
-              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
         }
@@ -323,46 +307,44 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
 
     else {
-      let  createparms =  [];
-      createparms.push({ Name: 'StatusId', Value: ['97'] });
+      let createparms = [];
+      createparms.push({ Name: 'StatusId', Value: ['909'] });
       createparms.push({ Name: 'Summary', Value: ['POPULATED FULL'] });
       createparms.push({ Name: 'Description', Value: ['test2'] });
-     // let request = ReportReferenceService.prepareCreateRequest('AuditStatus', 'ReferenceList', createparms);
-     // let request = Utils.preparePyCreate('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
+      // let request = ReportReferenceService.prepareCreateRequest('AuditStatus', 'ReferenceList', createparms);
+      // let request = Utils.preparePyCreate('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
       // console.log(request, 'request')
-           
-       this.reportReferenceService.prepareCreate('AuditStatus','ReferenceList',createparms).subscribe(x => {
-            if (x.StatusMessage === 'Success') {
-              this.refreshData();
-              this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-              // this.onFormSubmit(true);
-            } else {
-              this.alertService.info("Record create Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
-            }
-          });
-        
+
+      this.reportReferenceService.prepareCreate(this.currentReportName, 'ReferenceList',createparms).subscribe(x => {
+        if (x.StatusMessage === 'Success') {
+          this.refreshData();
+          this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          // this.onFormSubmit(true);
+        } else {
+          this.alertService.info("Record create Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+        }
+      });
+
       // this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-        
+
     }
 
   }
-
   prepareUpdateIdentifiers() {
     let identifiers: any[] = [];
     //alert(this.editRecord.length + 'length')
     // if (this.editRecord.length > 0) {
     // this.editRecord?.forEach(x => { 
-    identifiers.push({ Name: 'StatusId', Value: ['11'] });
-    identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit countpython'] });
-    identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count'] });
+    identifiers.push({ Name: 'StatusId', Value: ['908'] });
+    identifiers.push({ Name: 'Summary', Value: ['POPULATED FULL'] });
+    identifiers.push({ Name: 'Description', Value: ['test22update'] });
     console.log(identifiers, 'identifiers')
     return identifiers;
   }
-  
   // prepareCreateIdentifiers() {
 
   //   let identifiers: any[] = [];
-  
+
   //   // identifiers.push({ Name: 'StatusId', Value: ['11'] });
   //   // identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1'] });
   //   // identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-test1 '] });
@@ -377,8 +359,34 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.showDetailsForm = event[1];
   }
   onExport() {
-    //alert("Export Completed...");
-    this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
+    // alert("Export Completed...");
+    if (this.data != []) {
+      var c = document.createElement("a");
+      let data = "";
+    this.data.forEach((row:any)=>{
+      let result = Object.values(row);
+      data += result.toString().replace(/[,]+/g,'\t') + "\n";
+    });
+      c.download = "Report.tab";
+      // var t = new Blob([JSON.stringify(this.data)],
+      var t = new Blob([data], {
+        type: "data:text/plain;charset=utf-8"
+
+      });
+      c.href = window.URL.createObjectURL(t);
+      // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      // element.setAttribute('download', filename);
+      c.click();
+
+
+   
+      this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
+
+    }
+    else {
+      this.alertService.info("No Data Found" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
+
+    }
   }
   ngOnChanges(changes: SimpleChanges) {
     // this.lstFields =this.reportReferenceService.setForm(this.reportName); 

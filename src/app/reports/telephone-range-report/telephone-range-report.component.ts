@@ -214,9 +214,9 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
 
   resetForm():void{
-    this.thisForm.reset();
-    this.tabs.splice(0);
-    // window.location.reload();
+    // this.thisForm.reset();
+    // this.tabs.splice(0);
+    window.location.reload();
     // this.spinner = true;
     // setTimeout(()=>{
     //  this.spinner= false;
@@ -299,10 +299,7 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   onChange(value: string, ctrlName: string) {
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
-    if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
-      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-    } else {
+    if (value != null && value != undefined) {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }
