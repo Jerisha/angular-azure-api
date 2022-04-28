@@ -183,6 +183,16 @@ export class SolicitederrorsComponent implements OnInit {
   updateDetails!: any;
 
   ngOnInit(): void {
+  //   let requesttwo = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
+  //     "Name": "TransactionDays",
+  //     "Value": [`62`]
+  //   }])
+  //   console.log('request for info',requesttwo);
+  //  // this.queryResult$ = this.service.infoDetails(requesttwo).pipe(map((res: any) => res));
+  //   this.service.infoDetails(requesttwo).subscribe((res: any) => {
+  //     //this.infotable1 = res.dates;
+  //     //this.infotable2 = res.months      
+  //   });
     this.createForm();
 
     debugger;
@@ -271,8 +281,8 @@ export class SolicitederrorsComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
@@ -463,10 +473,10 @@ export class SolicitederrorsComponent implements OnInit {
 
 
   resetForm(): void {
-    this.thisForm.reset();
-    this.tabs.splice(0);
-    this.Resolution = ''; this.Refer = ''; this.Remarks = '';
-    //window.location.reload();
+    // this.thisForm.reset();
+    // this.tabs.splice(0);
+    // this.Resolution = ''; this.Refer = ''; this.Remarks = '';
+    window.location.reload();
 
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {

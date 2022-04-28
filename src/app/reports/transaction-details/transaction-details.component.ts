@@ -8,7 +8,7 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { ReportService} from 'src/app/reports/services/report.service';
 import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
-import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http/common/utils';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -52,7 +52,8 @@ export class TransactionDetailsComponent implements OnInit {
   massage = null;  
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;  
-  expressions:any = [expNumeric,expString,expDate];  
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
+   
   expOperatorsKeyPair:[string,string][] =[]; 
   resetExp: boolean=false;
   

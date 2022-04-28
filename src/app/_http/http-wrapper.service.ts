@@ -12,6 +12,7 @@ import { AlertService } from '../_shared/alert/alert.service';
 import { Utils } from './common/utils';
 
 
+
 @Injectable({ providedIn: 'root' })
 export class HttpWrapperService {
 
@@ -22,7 +23,8 @@ export class HttpWrapperService {
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_sit}${endPoint.toString()}`,
+                `${environment.api_py_dev}${endPoint.toString()}`,
+                //`${environment.api_py}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,

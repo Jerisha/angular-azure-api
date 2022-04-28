@@ -14,7 +14,7 @@ export class CompareStartEndTelNo implements Validator {
         if (control.value != "" && this.startNo?.value === "")
             return { invalidStartNo: true };
 
-        if ((control.value != "" && this.startNo?.value != "") && (this.startNo?.value > control.value))
+        if (control.value != "" && this.startNo?.value != "" && (this.startNo?.value > control.value))
             return { lesserStartNo: true };
 
         return null;

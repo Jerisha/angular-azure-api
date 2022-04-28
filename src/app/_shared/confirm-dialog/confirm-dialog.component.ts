@@ -39,7 +39,7 @@ export class ConfirmDialogComponent {
       if(data.heading)
       this.heading = data.heading || this.heading;
       if(data.hasOwnProperty("enableOk"))
-      this.enableOkButton = data.enableOk ? data.enableOk :true;
+      this.enableOkButton = data.enableOk 
     }
     
   }

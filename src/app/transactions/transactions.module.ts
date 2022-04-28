@@ -9,7 +9,9 @@ import { AddressCheckComponent} from "./address-check/address-check.component";
 import { SharedModule } from '../_shared/shared.module';
 import { RangeSpecialCeaseTransactionComponent } from './range-special-cease-transaction/range-special-cease-transaction.component';
 // import { TelephoneNoComponent } from '../_shared/telephone-no/telephone-no.component';
-
+import { HelperModule } from '../_helper/helper.module';
+import { TelNoPipe } from '../_helper/pipe/telno.pipe';
+import { TransactionDataService } from '../transactions/services/transaction-data.service';
 @NgModule({
   declarations: [
     TransactionsComponent,
@@ -24,7 +26,13 @@ import { RangeSpecialCeaseTransactionComponent } from './range-special-cease-tra
     FormsModule,
     UicomponentsModule,        
     TransactionsRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+    HelperModule,
+  ],
+  providers: [
+    TransactionDataService,
+    TelNoPipe]
 })
-export class TransactionsModule { }
+export class TransactionsModule { 
+  
+}
