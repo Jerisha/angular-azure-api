@@ -9,63 +9,65 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { UnresolvedTransaction } from '../models/administraion-ui.module';
 import { Utils } from 'src/app/_http/common/utils';
 import { AdministrationService } from '../services/administration.service';
+import { map } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
 
 const ELEMENT_DATA: UnresolvedTransaction[] = [
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
 
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
 ];
@@ -86,7 +88,7 @@ const FilterListItems: Select[] = [
   styleUrls: ['./unresolvedtransaction.component.css']
 })
 export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, AfterViewChecked {
-  
+
   myTable!: TableItem;
   informationTable1!: TableItem;
   informationTable2!: TableItem;
@@ -109,7 +111,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
-  repIdentifier = "UnsolicitedErrors";
+  repIdentifier = "UnresolvedTransactions";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
@@ -123,7 +125,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   isSaveDisable: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
-   private service : AdministrationService,
+    private service: AdministrationService,
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -143,7 +145,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
 
   }
 
-  
+
 
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
@@ -181,7 +183,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
     return this.thisForm.controls;
   }
 
-  
+
 
 
   createForm() {
@@ -191,7 +193,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
       TransCommand: new FormControl({ value: '', disabled: true }, []),
-      SourceType: new FormControl({ value: '', disabled: true }, []),      
+      SourceType: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
         FromDate: new FormControl(),
         ToDate: new FormControl(), disabled: true
@@ -200,13 +202,13 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   }
 
 
-  
+
   onSaveSubmit() {
-    
+
 
   }
- 
-  
+
+
 
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
@@ -218,12 +220,12 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
       }
     });
   }
-  
+
 
   columns: ColumnDetails[] = [
     { header: 'Trans Id', headerValue: 'TransId', showDefault: true, isImage: false },
     { header: 'Link', headerValue: 'View', showDefault: true, isImage: true },
-    
+
     { header: 'Telephone', headerValue: 'Telephone', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Ref', headerValue: 'TransactionReference', showDefault: true, isImage: false },
@@ -236,24 +238,40 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
     { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
   ];
 
-  
+
 
 
   onFormSubmit(isEmitted?: boolean): void {
-    
+
+    debugger;
+    if (!this.thisForm.valid) return;
+
+    this.tabs.splice(0);
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.preparePyQuery('TelephoneNumberTransactionError', this.repIdentifier, this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res.data.SolicitedError,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
+
+
 
     this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 100,
-        totalpages: 1,
-        pagenumber: 1
-        }),
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      
+
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -264,6 +282,42 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
       });
     }
     this.selectedTab = this.tabs.length;
+
+  }
+
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
+    // //Reference
+    // const control = this.thisForm.get('Reference');
+    // if (control?.value)
+    //   attributes.push({ Name: '999Reference', Value: [control?.value] });
+    // else
+    //   attributes.push({ Name: '999Reference' });
+
+    for (const field in this.f) {
+      const control = this.thisForm.get(field);
+      if (field == 'DateRange') {
+        const fromDate = this.thisForm.get('DateRange.FromDate');
+        if (fromDate?.value)
+          attributes.push({ Name: 'FromDate', Value: [formatDate(fromDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+        else
+          attributes.push({ Name: 'FromDate' });
+        const toDate = this.thisForm.get('DateRange.ToDate');
+        if (toDate?.value)
+          attributes.push({ Name: 'ToDate', Value: [formatDate(toDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+        else
+          attributes.push({ Name: 'ToDate' });
+        continue;
+      }
+      if (control?.value)
+        attributes.push({ Name: field, Value: [control?.value] });
+      else
+        attributes.push({ Name: field });
+    }
+
+    console.log(attributes);
+    return attributes;
 
   }
 
