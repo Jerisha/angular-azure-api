@@ -27,7 +27,7 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   @Input() record:any;
   eventName:string ='Create';
   @Output() cancelBtnClicked = new EventEmitter<any[]>();
-  @Output() submitBtnClicked =new EventEmitter<any[]>();
+  @Output() submitBtnClicked = new EventEmitter<any[]>();
   
 
 
@@ -40,11 +40,12 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
 
 ngOnInit(): void {
     this.referenceForm = this.formBuilder.group({});
-    this.lstForm  = this.service.setForm(this.reportName);
+    //this.lstForm  = this.service.setForm(this.reportName);
     this.referenceForm = this.formValidation();
     this.title = this.reportName;
     if(this.record != undefined)
     {
+      console.log('oninit')
       this.eventName ='Update'    
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
@@ -62,10 +63,11 @@ ngOnChanges(changes: SimpleChanges) {
     // this.displayedColumns=this.service.displayedColumns[this.reportIndex][this.reportName];    
     // this.data =this.service.data[this.reportIndex][this.reportName];    
     //console.log("onchanges:",changes);
-    this.lstForm  = this.service.setForm(this.reportName);
+    //this.lstForm  = this.service.setForm(this.reportName);
     this.referenceForm = this.formValidation();
     if(this.record != undefined)
     {
+      console.log('onChanges')
       this.eventName ='Update'    
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
@@ -150,7 +152,15 @@ onSubmit(){
   // alert(this.eventName+" Completed.."+JSON.stringify(this.referenceForm.value));  
   this.service.showDataForm =false;
   this.service.showDetailsForm=true; 
-  this.submitBtnClicked.emit([false,true]);
+  if (this.referenceForm.valid)
+  {
+    let updatedRecord = this.referenceForm.value;
+    this.submitBtnClicked.emit([false,true,updatedRecord]);
+  }
+  else{
+  this.submitBtnClicked.emit([true,true]);
+  }
+  //this.submitBtnClicked.emit([false,true]);
 }
 onCancelDataForm(){
   // alert("cancel btn")

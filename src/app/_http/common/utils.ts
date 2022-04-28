@@ -118,5 +118,11 @@ export class Utils {
    // transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofAttributes.Attribute = createParams;
     return transform;
   }
+  static preparePyMetaData(configParams: any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.METADATA));
+    console.log(transform,"meta data")
+    transform.MetaDataRequest.MetaDataRequestType.ListofMetaDataObjectCategory.MetaDataObjectCategory[0].ListofAttributes.Attribute[0].Value = configParams;
+    return transform;
+  }
 
 }

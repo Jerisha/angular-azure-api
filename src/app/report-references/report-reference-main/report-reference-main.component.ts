@@ -8,7 +8,7 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Utils } from 'src/app/_http';
 
@@ -54,45 +54,81 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   editModeIndex!: number;
   currentReportName: string = "";
   recordIdentifier:any = "";
+  metaDataSupscription: Subscription = new Subscription;
+
+  displayedColumnsValues:any
 
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     this.isShow = true;
   }
   onReportSelcted(reportName: string, reportIndex: number) {
-    this.reportName = reportName;
-    this.currentReportName = reportName;
-    this.reportIndex = reportIndex;
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
-    this.reportReferenceService.showDetailsForm = this.showDetailsForm = true;
-    this.isShow = true;
-    this.displayedColumns = [];
-    this.data = [];
+    if (this.tabs.length < 5)
+    {
+      this.reportName = reportName;
+      this.currentReportName = reportName;
+      this.reportIndex = reportIndex;    
+      this.reportReferenceService.showDetailsForm = this.showDetailsForm = true;
+      this.isShow = true;
+      this.displayedColumns = [];
+      this.data = [];
+      
 
-    let dispVal = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName];
-    this.displayedColumns = dispVal || [];
-    let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
-    this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-      //this.data = res[0][this.reportName];
-      this.data = res.data[this.reportName];
-      this.recordIdentifier = res.RecordIdentifier;
-    });
-    // this.data = dat || [];
-    this.newTab();
+      //let dispVal = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName];
+      //this.displayedColumns = dispVal || [];
+      // this.displayedColumns =  this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] ||[]:[];
+      //console.log('dispcol: ',this.displayedColumns);
+      this.displayedColumns =  this.reportReferenceService.getDisplayNames(this.currentReportName);
+      this.displayedColumnsValues =this.displayedColumns.map((x:any)=>x.cName)
+      //console.log(this.displayedColumns1)
+      //let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
+      // this.data = this.reportIndex != -1 ?this.reportReferenceService.data[this.reportIndex][this.reportName] || []:[];
+      //console.log('data: ',JSON.stringify(this.data));
+      this.refreshData()
+      // if(this.refreshData())
+      // {
+        // this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+        //   //this.data = res[0][this.reportName];
+        //   this.data = res.data[this.reportName];
+        //   this.recordIdentifier = res.RecordIdentifier;
+        // });
+        //this.data = dat || [];
+        this.newTab();
+      // }
+      // else{
+      //   this.alertService.info("Data not found or some technical Issue, please try again :(", { autoClose: true, keepAfterRouteChange: false });
+      // }
+    }
+    else{
+      this.alertService.info("Please close some Tabs, Max allowed  tabs is 5 :(", { autoClose: true, keepAfterRouteChange: false });
+    }
   }
-  Onselecttabchange($event: any) {
-    
+  Onselecttabchange($event: any) { 
+    //console.log('tab changed,Index: ',$event.index)   
     this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
     this.reportIndex = this.reportNames.findIndex(x => x == this.reportName);
-    this.displayedColumns = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] || [];
-    // this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || [];
-    this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-      //this.data = res[0][this.reportName];
-      this.data = res.data[this.reportName];
-      this.recordIdentifier = res.RecordIdentifier;
-    });
+    // this.displayedColumns = this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]||[] : [];
+    this.displayedColumns =  this.reportReferenceService.getDisplayNames(this.currentReportName);
+    this.displayedColumnsValues =this.displayedColumns.map((x:any)=>x.cName)
+    //  this.data = this.reportIndex != -1 ? this.reportReferenceService.data[this.reportIndex][this.reportName] || [] :[];
+    this.refreshData()
+    // if(this.refreshData())
+    // {
+    // this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+    //   //this.data = res[0][this.reportName];
+    //   this.data = res.data[this.reportName];
+    //   this.recordIdentifier = res.RecordIdentifier;
+    // });
+    // }
+    // else{
+    //   this.alertService.info("Data not found or some technical Issue, please try again :(", { autoClose: true, keepAfterRouteChange: false });
+    // }
+
   }
-  newTab() {
+  newTab() {    
+    if(this.data != [] || this.displayedColumns !=[])
+    {
     if (this.tabs.length < 5) {
       if (!this.tabs?.find(x => x.name == this.reportName)) {
         this.tabs.push({
@@ -102,13 +138,16 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         this.selectedTab = this.tabs.findIndex(x => x.name == this.reportName) + 1;
       }
       else {
-        this.selectedTab = this.tabs.findIndex(x => x.name == this.reportName) + 1;
+        this.selectedTab = this.tabs.findIndex(x => x.name == this.reportName);
       }
     }
-    else {
-      //alert('Please close some Tabs, Max allowed  tabs is 5');
+    else {      
       this.alertService.info("Please close some Tabs, Max allowed  tabs is 5 :(", { autoClose: true, keepAfterRouteChange: false });
     }
+  }
+  else{
+    this.alertService.warn("No data found, Please try later some time :(", { autoClose: true, keepAfterRouteChange: false });
+  }
   }
   removeTab(index: number) {
     let tabobj = this.tabs.find(x => x.tabType == (index))
@@ -121,6 +160,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     // }
     this.tabs.splice(index, 1);
+    
+    //console.log("reportname:",this.reportName,"tabindex:",this.selectedTab)
     this.showDetails = this.tabs.length > 0 ? true : false;
     if (this.tabs.length == 0) {
       this.isShow = false;
@@ -136,6 +177,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // });
     if (this.editMode == "" || this.editMode == this.currentReportName) {
       this.editMode = this.currentReportName;
+      this.lstFields = this.reportReferenceService.setForm(this.editMode);
       this.editRecord = null;
       this.eventName = 'Create';
       this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
@@ -149,16 +191,46 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
 
   }
-
-
-refreshData(){
-  this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
-    //this.data = res[0][this.reportName];
-    this.data = res.data[this.reportName];
-    this.recordIdentifier = res.RecordIdentifier;
-  });
-}
-
+  refreshData(){
+    //console.log('refresh',this.reportName)
+    if(this.reportName!='')
+    {
+      // if(this.reportName == 'Source')
+      // this.reportName ='SourceSystem'
+      console.log('response1')
+    //this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || [];
+    this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe(
+      
+      (res: any) =>{
+        //try {
+        //this.data = res[0][this.reportName];
+        console.log('response',res.data)
+        if (this.reportName==='Franchise')
+        {
+          this.data = res.data[this.reportName+'s'];
+          this.recordIdentifier = res.RecordIdentifier;
+        }else
+        {
+          this.data = res.data[this.reportName];
+          this.recordIdentifier = res.RecordIdentifier;
+        }
+        
+      
+    //} catch (error) {
+      //(error:any) =>{
+        //console.log('Error',error)
+    // }
+    //}
+    }   
+    
+    
+    );
+    return true;
+      }
+    else{
+      return false;
+      }
+  }
   onEditRecord(element: any, event: any) {
     // this.showDataForm =true;  
     // this.editRecord =element; 
@@ -167,6 +239,7 @@ refreshData(){
 
     if (this.editMode == "" || this.editMode == this.currentReportName) {
       this.editMode = this.currentReportName;
+      this.lstFields = this.reportReferenceService.setForm(this.editMode);
       this.eventName = 'Update';
       // this.showDataForm =true; 
       this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
@@ -222,7 +295,7 @@ refreshData(){
     if (this.eventName == 'Update') {
       const updateConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '300px', disableClose: true, data: {
-          message: 'Do you confirm update this record?'
+          message: 'Do you confirm update this record?'          
         }
 
       });
@@ -304,7 +377,7 @@ refreshData(){
     this.showDetailsForm = event[1];
   }
   onExport() {
-    alert("Export Completed...");
+    //alert("Export Completed...");
     this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -316,17 +389,24 @@ refreshData(){
     private reportReferenceService: ReportReferenceService,
     private dialog: MatDialog,
     private alertService: AlertService,
-  ) { }
+  ) {    
+    this.metaDataSupscription = this.reportReferenceService.getMetaData(["All"]).subscribe((res:any)=>{
+      //   console.log(JSON.stringify(res))
+        this.reportReferenceService.metaDataCollection =res
+
+       })
+   }
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.reportNames = this.reportReferenceService.reportNames;
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();
 }
-ngOnDestroy() {
+ngOnDestroy() {  
   this.onDestroy.next();
+  this.metaDataSupscription.unsubscribe();
 }
 }

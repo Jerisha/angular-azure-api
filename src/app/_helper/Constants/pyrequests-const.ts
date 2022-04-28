@@ -267,5 +267,57 @@ export const PyRequests = {
             }
         },
         "Cache": ["ApplicationKey", "SessionID"]
+    },
+    METADATA:{
+        "RequestType": "MetaData",
+        "UserParams": ["UserID", "RoleID"],       
+        "MetaDataRequest": {
+                "MetaDataRequestType": {
+                    "RequestIdentifiers": {
+                        "Identifier": [
+                            {
+                                "Name": "UserId",
+                                "Value": [
+                                    "abc"
+                                ]
+                            },
+                            {
+                                "Name": "Destination",
+                                "Value": [
+                                    "OSN2"
+                                ]
+                            }
+                        ]
+                    },
+                    "ListofMetaDataObjectCategory": {
+                        "MetaDataObjectCategory": [
+                            {
+                                "ItemName": "MetaDataObject",
+                                "ListofIdentifiers": {
+                                    "Identifier": [
+                                        {
+                                            "Name": "ObjectName",
+                                            "Value": [
+                                                "TelephoneNumber"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                "ListofAttributes": {
+                                    "Attribute": [                                   
+                                        {
+                                            "Name": "ReportNames",
+                                            "Value": [
+                                                "All"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+        "Cache": ["ApplicationKey", "SessionID"]
     }
 }
