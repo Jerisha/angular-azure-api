@@ -92,7 +92,7 @@
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':myForm.controls.Cupid.disabled}">
                             <mat-label>Cupid</mat-label>
                             <input  formControlName="Cupid" (keypress)="numberOnly($event)"
-                            (ngModelChange)="onChange($event,'Cupid')" matInput #Cupid maxlength="20" placeholder="Cupid">
+                           matInput #Cupid maxlength="100" placeholder="Cupid">
                         </mat-form-field>
                     </div>
 
