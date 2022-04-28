@@ -113,3 +113,8 @@
   p {
       font-weight: 500;
   }
+  .alert-notification {
+    background-color:orange;
+    border-color: #faebcc;
+    color:white;
+  }

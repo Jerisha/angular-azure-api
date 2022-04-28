@@ -30,7 +30,10 @@ export class AlertService {
     warn(message: string, options?: any) {
         this.alert(new Alert({ ...options, type: AlertType.Warning, message }));
     }
-
+    notification(message: string, options?: any) {
+        this.alert(new Alert({ ...options, type: AlertType.Notification, message }));
+    }
+    
     // main alert method    
     alert(alert: Alert) {
         alert.id = alert.id || this.defaultId;

@@ -68,6 +68,7 @@ export class ResolvingOfErrorsService {
 
     })
     let Information = { "Dates": dates, "Months": months }
+    console.log('information page',JSON.stringify(Information));
     return Information;
   }
 }

@@ -183,6 +183,16 @@ export class SolicitederrorsComponent implements OnInit {
   updateDetails!: any;
 
   ngOnInit(): void {
+  //   let requesttwo = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
+  //     "Name": "TransactionDays",
+  //     "Value": [`62`]
+  //   }])
+  //   console.log('request for info',requesttwo);
+  //  // this.queryResult$ = this.service.infoDetails(requesttwo).pipe(map((res: any) => res));
+  //   this.service.infoDetails(requesttwo).subscribe((res: any) => {
+  //     //this.infotable1 = res.dates;
+  //     //this.infotable2 = res.months      
+  //   });
     this.createForm();
 
     debugger;
