@@ -127,8 +127,8 @@ export class TelephoneRangeReportComponent implements OnInit {
   
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern("^[0-9]{10,11}$")]),
     })
   }
   get f() {
@@ -169,9 +169,9 @@ export class TelephoneRangeReportComponent implements OnInit {
         if (Object.keys(res).length) {
           let result = {
             datasource: res.data.TelephoneNumbers,
-            totalrecordcount: res.data.TotalCount,
-            totalpages: res.data.NumberOfPages,
-            pagenumber: res.data.PageNumber
+            totalrecordcount: res.TotalCount,
+            totalpages: res.NumberOfPages,
+            pagenumber: res.PageNumber
           }
           return result;
         }  else return {

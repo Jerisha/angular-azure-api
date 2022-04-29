@@ -178,20 +178,20 @@ export const ReportMetaDataResponse = {
          { cPosition:2, cMinLength:0, cName: "Description", cDisplayName: "Description", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },], 
-           "UnsolicitedAutoCloseErrorCode":[{ cPosition:1, cMinLength:0, cName: "ErrorCode", cDisplayName: "ErrorCode", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           "UnsolicitedAutoClose":[{ cPosition:1, cMinLength:0, cName: "ErrorCode", cDisplayName: "Error Code", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []},
-         { cPosition:2, cMinLength:0, cName: "Type", cDisplayName: "Type", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:2, cMinLength:0, cName: "ErrorType", cDisplayName: "Error Type", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:3, cMinLength:0, cName: "ErrorMessage", cDisplayName: "ErrorMessage", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:3, cMinLength:0, cName: "ErrorMessage", cDisplayName: "Error Message", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:4, cMinLength:0, cName: "CloseAfter", cDisplayName: "CloseAfter", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:4, cMinLength:0, cName: "CloseAfter", cDisplayName: "Close After", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:5, cMinLength:0, cName: "ResolveType", cDisplayName: "ResolveType", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:5, cMinLength:0, cName: "ResolveType", cDisplayName: "Resolve Type", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []},
-         { cPosition:6, cMinLength:0, cName: "ResolvingMessge", cDisplayName: "ResolvingMessge", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:6, cMinLength:0, cName: "ResolvingMessage", cDisplayName: "Resolving Message", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },], 
            "ResolutionType":[{ cPosition:1, cMinLength:0, cName: "Order", cDisplayName: "Order", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
