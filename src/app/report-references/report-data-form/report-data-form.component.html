@@ -28,7 +28,7 @@
                     </mat-form-field>                        
                   </div>
                   <div *ngSwitchCase="formData.cType === 'radio'" style="width:201px;height:52.063px;display:flex;align-items: center;">
-                    <mat-checkbox [checked]="formData.cValue === 'Y'? true:false" 
+                    <mat-checkbox [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false" 
                     [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
                       >{{formData.cDisplayName}}
                   </mat-checkbox>                    
