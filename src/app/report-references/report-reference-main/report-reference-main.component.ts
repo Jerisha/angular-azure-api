@@ -76,7 +76,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       //this.data = res[0][this.reportName];
       this.data = res.data[this.reportName];
       this.recordIdentifier = res.RecordIdentifier;
-      alert('recordIdentifier:' + this.recordIdentifier)
+      //alert('recordIdentifier:' + this.recordIdentifier)
 
     });
     // this.data = dat || [];
@@ -85,7 +85,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   Onselecttabchange($event: any) {
 
-    this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
+    //this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
+    this.currentReportName = this.reportName = $event.index!= -1 ? this.tabs[$event.index].name : "" ;
     this.reportIndex = this.reportNames.findIndex(x => x == this.reportName);
     this.displayedColumns = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] || [];
     // this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || [];
@@ -114,7 +115,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   removeTab(index: number) {
-    let tabobj = this.tabs.find(x => x.tabType == (index))
+    //let tabobj = this.tabs.find(x => x.tabType == (index))
+    let tabobj = this.tabs[index];
     if (tabobj != undefined && tabobj.name == this.editMode) {
       this.editMode = "";
       this.editModeIndex = -1;
@@ -124,10 +126,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     // }
     this.tabs.splice(index, 1);
-    this.tabs.forEach((tab:any, i:number) => {
-      if(i >= index)
-      tab.tabType -= 1;
-    });
+    // this.tabs.forEach((tab:any, i:number) => {
+    //   if(i >= index)
+    //   tab.tabType -= 1;
+    // });
     this.showDetails = this.tabs.length > 0 ? true : false;
     if (this.tabs.length == 0) {
       this.isShow = false;
