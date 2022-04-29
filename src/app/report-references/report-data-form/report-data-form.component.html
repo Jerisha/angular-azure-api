@@ -34,21 +34,23 @@
                   </mat-checkbox>                    
                   </div>                                                   
                 </div>                                   
-            </div> 
-            <div class ="fixed-button-bar">   
-              <mat-card-actions>
-                <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled] = "!referenceForm.status"  matTooltip="Click this button currently showning  details will be create new Record"  >
-                  <mat-icon >save</mat-icon>Save
-                </button>
-                <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled] = "!referenceForm.status" matTooltip="Click this button currently showning details will be Update"  >
-                      <mat-icon >edit</mat-icon>Update
-                </button>
-                <button type="button" mat-raised-button  (click)=onCancelDataForm() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
-                  <mat-icon >cancel</mat-icon>Cancel
-                </button>                       
-              </mat-card-actions>                  
-            </div> 
-          </mat-card-content>                     
+            </div>             
+          </mat-card-content>  
+          <div class ="fixed-button-bar">   
+            <mat-card-actions>
+              <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled] = "!referenceForm.status"  matTooltip="Click this button currently showning  details will be create new Record"  >
+                <mat-icon >save</mat-icon>Save
+              </button>
+              <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled] = "!referenceForm.status" matTooltip="Click this button currently showning details will be Update"  >
+                    <mat-icon >edit</mat-icon>Update
+              </button>
+              <button type="button" mat-raised-button  (click)=onCancelDataForm() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
+                <mat-icon >cancel</mat-icon>Cancel
+              </button>                       
+            </mat-card-actions>
+          <mat-card-subtitle class ="vf-card-footer">
+            <span>{{updatedBy}}</span><span style ="float: right;padding-right: 3px;">{{updatedOn}}</span></mat-card-subtitle>                                     
+          </div>
         </form> 
       </ng-container>
     </mat-card>

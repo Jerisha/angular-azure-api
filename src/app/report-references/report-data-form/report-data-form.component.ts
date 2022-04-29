@@ -28,7 +28,9 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   eventName:string ='Create';
   @Output() cancelBtnClicked = new EventEmitter<any[]>();
   @Output() submitBtnClicked =new EventEmitter<[boolean[], any]>();
-  
+  updatedBy:string ="";
+  updatedOn:string ="";
+
 
 
 
@@ -40,11 +42,12 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
 
 ngOnInit(): void {
     this.referenceForm = this.formBuilder.group({});
-    this.lstForm  = this.service.setForm(this.reportName);
+    //this.lstForm  = this.service.setForm(this.reportName);
     this.referenceForm = this.formValidation();
     this.title = this.reportName;
     if(this.record != undefined)
     {
+      console.log('oninit')
       this.eventName ='Update'    
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
@@ -52,6 +55,10 @@ ngOnInit(): void {
         let control = this.referenceForm.get(field);    
         control?.setValue(this.record[field]);
     }
+    this.updatedBy = this.record['UpdatedBy'] != undefined ?'UpdatedBy:'+ this.record['UpdatedBy']:''
+    this.updatedOn = this.record['UpdatedOn'] != undefined?'UpdatedOn:'+this.record['UpdatedOn']:''
+    //console.log(this.updatedBy,this.updatedOn,this.record['UpdatedBy'],this.record['UpdatedOn'],'log')
+    //console.log(JSON.stringify(this.record))
     
     this.referenceForm.markAsUntouched();
     }
@@ -62,10 +69,11 @@ ngOnChanges(changes: SimpleChanges) {
     // this.displayedColumns=this.service.displayedColumns[this.reportIndex][this.reportName];    
     // this.data =this.service.data[this.reportIndex][this.reportName];    
     //console.log("onchanges:",changes);
-    this.lstForm  = this.service.setForm(this.reportName);
+    //this.lstForm  = this.service.setForm(this.reportName);
     this.referenceForm = this.formValidation();
     if(this.record != undefined)
     {
+      //console.log('onChanges')
       this.eventName ='Update'    
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
@@ -73,7 +81,10 @@ ngOnChanges(changes: SimpleChanges) {
         let control = this.referenceForm.get(field);    
         control?.setValue(this.record[field]);
     }
-    
+    this.updatedBy = this.record['UpdatedBy'] != undefined ?'UpdatedBy:'+ this.record['UpdatedBy']:''
+    this.updatedOn = this.record['UpdatedOn'] != undefined?'UpdatedOn:'+this.record['UpdatedOn']:''
+    //console.log(this.updatedBy,this.updatedOn,this.record['UpdatedBy'],this.record['UpdatedOn'],'log')
+    //console.log(JSON.stringify(this.record))
     this.referenceForm.markAsUntouched();
     }
 }

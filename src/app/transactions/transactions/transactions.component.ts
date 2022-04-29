@@ -39,7 +39,8 @@ export class TransactionsComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.telNo='01076543233';
+    //this.telNo='01076543233';
+    this.addressDetails=new AddressDetails();
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -49,15 +50,17 @@ export class TransactionsComponent implements OnInit {
   }
 
   copied() {
-     this.addressDetails = this.auditTrailView.ActiveAddressDetails();
+   //  this.addressDetails = this.auditTrailView.ActiveAddressDetails();
     // console.log(this.addressDetails.isData);
       //  console.log(this.addressDetails);
-     this.customerAddress.customerName= this.addressDetails.CustomerName;
-     this.customerAddress.address1= this.addressDetails.internalAddr1;
-     this.customerAddress.address2= this.addressDetails.internalAddr2;
-     this.customerAddress.address3= this.addressDetails.internalAddr3;
-     this.customerAddress.address4= this.addressDetails.internalAddr4;
-     this.customerAddress.postcode= this.addressDetails.postcode;   
+    //  this.customerAddress.customerName= this.addressDetails.CustomerName;
+    //  this.customerAddress.address1= this.addressDetails.internalAddr1;
+    //  this.customerAddress.address2= this.addressDetails.internalAddr2;
+    //  this.customerAddress.address3= this.addressDetails.internalAddr3;
+    //  this.customerAddress.address4= this.addressDetails.internalAddr4;
+    //  this.customerAddress.postcode= this.addressDetails.postcode; 
+    //console.log('address details from trn',this.addressDetails); 
+     this.childEvent.FillAuditAddress(this.addressDetails);
 
   }
 
@@ -68,8 +71,8 @@ export class TransactionsComponent implements OnInit {
 
   OnAuditTrailSelected(initAuditTrail:any[])
   {
-console.log('audit phone numbers',initAuditTrail);
-    console.log('event is calling audit',initAuditTrail);
+//console.log('audit phone numbers',initAuditTrail);
+   // console.log('event is calling audit',initAuditTrail);
     this.audittrailNos=initAuditTrail;
     this.auditTrailSuccess=initAuditTrail[0];
     this.auditTeleNoselected=this.audittrailNos[1][0];
@@ -117,6 +120,7 @@ console.log('audit phone numbers',initAuditTrail);
 let s:string=this.childEvent.FillPaffAddress(Addressval);
    // console.log("Address values from child",Addressval);
   }
+
   OnAddressCheckSelected(initAddressCheck:any[])
   {
     // console.log("before index"+this.selectedIndex);
@@ -191,6 +195,12 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
+  }
+  AuditTrailAddress(AuditAddress:any)
+  {
+    this.addressDetails = AuditAddress[0];
+    //this.childEvent.FillAuditAddress(AuditAddress);
+    //console.log('audit we got',test);
   }
 
 }

@@ -127,6 +127,11 @@ export class Utils {
     transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier = deleteIdentifier;
     return transform;
   }
-
+  static preparePyMetaData(configParams: any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.METADATA));
+    //console.log(transform,"meta data")
+    transform.MetaDataRequest.MetaDataRequestType.ListofMetaDataObjectCategory.MetaDataObjectCategory[0].ListofAttributes.Attribute[0].Value = configParams;
+    return transform;
+  }
 
 }
