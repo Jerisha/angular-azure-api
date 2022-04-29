@@ -62,3 +62,11 @@ export interface SeparateInternalAuditDetails {
     TypeOfLine: string;
     Comments: string;
 }
+
+export interface AuditStatusTracker {
+    ActId: string;
+    StatusDate: string;
+    StatusCode: string;
+    StatusDescription: string;
+    ErrorDescription: string;
+}
