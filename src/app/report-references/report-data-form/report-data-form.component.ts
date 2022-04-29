@@ -27,7 +27,7 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   @Input() record:any;
   eventName:string ='Create';
   @Output() cancelBtnClicked = new EventEmitter<any[]>();
-  @Output() submitBtnClicked =new EventEmitter<any[]>();
+  @Output() submitBtnClicked =new EventEmitter<[boolean[], any]>();
   
 
 
@@ -147,10 +147,24 @@ onEditRecord(record:any,event:Event){
 }
 
 onSubmit(){
-  // alert(this.eventName+" Completed.."+JSON.stringify(this.referenceForm.value));  
-  this.service.showDataForm =false;
-  this.service.showDetailsForm=true; 
-  this.submitBtnClicked.emit([false,true]);
+// alert(this.eventName+" Completed.."+JSON.stringify(this.referenceForm.value));
+this.service.showDataForm =false;
+this.service.showDetailsForm=true;
+let updatedRecord
+if (this.referenceForm.valid)
+{
+updatedRecord = this.referenceForm.value;
+console.log(updatedRecord,'df updaterecord')
+console.log([[false,true],updatedRecord], 'de')
+this.submitBtnClicked.emit([[false,true],updatedRecord])
+}
+else{
+  //this.submitBtnClicked.emit([false,true,updatedRecord]);
+  console.log(updatedRecord,'df updaterecord')
+console.log([[false,true],updatedRecord], 'de')
+ this.submitBtnClicked.emit([[true,true], undefined]);
+}
+//this.submitBtnClicked.emit([false,true]);
 }
 onCancelDataForm(){
   // alert("cancel btn")

@@ -72,11 +72,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     let dispVal = this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName];
     this.displayedColumns = dispVal || [];
     //let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
-    this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
+    this.reportReferenceService.prepareData(this.reportName, 'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) => {
       //this.data = res[0][this.reportName];
       this.data = res.data[this.reportName];
       this.recordIdentifier = res.RecordIdentifier;
-      alert('recordIdentifier:' + this.recordIdentifier)
+    alert('recordIdentifier:' + this.recordIdentifier)
 
     });
     // this.data = dat || [];
@@ -124,9 +124,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     // }
     this.tabs.splice(index, 1);
-    this.tabs.forEach((tab:any, i:number) => {
-      if(i >= index)
-      tab.tabType -= 1;
+    this.tabs.forEach((tab: any, i: number) => {
+      if (i >= index)
+        tab.tabType -= 1;
     });
     this.showDetails = this.tabs.length > 0 ? true : false;
     if (this.tabs.length == 0) {
@@ -170,47 +170,58 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     });
     deleteConfirm.afterClosed().subscribe(confirm => {
       if (confirm) {
+        //console.log(record[this.recordIdentifier], 'Internal Issues')
         let deleteparms = [];
-        console.log(record[this.recordIdentifier])
-        console.log(record, 'rec')
-        deleteparms.push({ Name: this.recordIdentifier, Value: [record[this.recordIdentifier]] });
-        let request = ReportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList', deleteparms);
-        console.log(request, 'deleterequest')
-    
-        this.reportReferenceService.deleteDetails(request).subscribe(x => {
-          console.log(x,'test')
-          if (x.StatusMessage === 'Success')
-          {
-            this.refreshData();
-            this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-            // this.onFormSubmit(true);
-          }
-        });
-      //   this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-       }
+        if (record[this.recordIdentifier] != undefined) {
+          // console.log(record[this.recordIdentifier], record, 'InternalIssues2')
+          deleteparms.push({ Name: this.recordIdentifier, Value: [record[this.recordIdentifier]] });
+          let request = ReportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList', deleteparms);
+          this.reportReferenceService.deleteDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              this.refreshData();
+              this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+            }
+            else {
+              this.alertService.notification("Record delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+              //need to check the api error response message
+            }
+          });
+        }
+        else {
+          //console.log(record[this.recordIdentifier], record, 'Internal Issues1')
+          this.alertService.notification("Internal Issues Please try again or Contact Admin:(", { autoClose: true, keepAfterRouteChange: false });
+        }
+      }
       else {
         this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
       }
     });
   }
   onDataFormSubmit(event: any[]) {
+    console.log('event', event)
     this.editMode = "";
     this.editModeIndex = -1;
-    this.showDataForm = event[0];
-    this.showDetailsForm = event[1];
-    if (this.eventName == 'Update') {
+    this.showDataForm = event[0][0];
+    this.showDetailsForm = event[0][1];
+    if (this.eventName === 'Update') {
       const updateConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '300px', disableClose: true, data: {
           message: 'Do you confirm update this record?'
         }
-
       });
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
-          //let request = ReportReferenceService.prepareUpdate('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
-          //let request = Utils.prepareUpdateRequest('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers(),[{}]);
-          // console.log(JSON.stringify(request), 'updaterequest')
-          this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', this.prepareUpdateIdentifiers(), [{}]).subscribe(x => {
+          let entries = Object.entries(event[1])
+          let data = entries.map(([key, val]) => ({ Name: key, Value: [val] }));
+          //console.log( `The ${key} is ${val}`)
+          console.log(JSON.stringify(data))
+          //});
+          console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord')
+          console.log(event, 'eveent2')
+          //console.log(event[0].keys,'eveent6')
+          console.log(event[0].values, 'eveent9')
+          // this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', this.prepareUpdateIdentifiers(), [{}]).subscribe(x => {
+          this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', data, [{}]).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reloa
               this.refreshData();
@@ -218,7 +229,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
               this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             }
+            else {
+              this.alertService.notification("Record Update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+              //need to check the api error response message
+            }
           });
+          
         }
         else {
           this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -227,54 +243,31 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
 
     else {
-      let createparms = [];
-      createparms.push({ Name: 'StatusId', Value: ['909'] });
-      createparms.push({ Name: 'Summary', Value: ['POPULATED FULL'] });
-      createparms.push({ Name: 'Description', Value: ['test2'] });
-      // let request = ReportReferenceService.prepareCreateRequest('AuditStatus', 'ReferenceList', createparms);
-      // let request = Utils.preparePyCreate('AuditStatus', 'ReferenceList', this.prepareUpdateIdentifiers());
-      // console.log(request, 'request')
-
-      this.reportReferenceService.prepareCreate(this.currentReportName, 'ReferenceList',createparms).subscribe(x => {
+      let entries = Object.entries(event[1])
+          let data = entries.map(([key, val]) => ({ Name: key, Value: [val] }));
+          //console.log( `The ${key} is ${val}`)
+          console.log(JSON.stringify(data))
+          //});
+          console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord')
+          console.log(event, 'eveent2')
+          //console.log(event[0].keys,'eveent6')
+          console.log(event[0].values, 'eveent9')
+      this.reportReferenceService.prepareCreate(this.currentReportName, 'ReferenceList', data).subscribe(x => {
         if (x.StatusMessage === 'Success') {
           this.refreshData();
           this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
           // this.onFormSubmit(true);
-        } else {
+        } 
+        else {
           this.alertService.info("Record create Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
         }
       });
-
-      // this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-
-    }
+      // else {
+      //   this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+      // }
+    } 
 
   }
-
-  prepareUpdateIdentifiers() {
-    let identifiers: any[] = [];
-    //alert(this.editRecord.length + 'length')
-    // if (this.editRecord.length > 0) {
-    // this.editRecord?.forEach(x => { 
-    identifiers.push({ Name: 'StatusId', Value: ['908'] });
-    identifiers.push({ Name: 'Summary', Value: ['POPULATED FULL'] });
-    identifiers.push({ Name: 'Description', Value: ['test22update'] });
-    console.log(identifiers, 'identifiers')
-    return identifiers;
-  }
-
-
-  // prepareCreateIdentifiers() {
-
-  //   let identifiers: any[] = [];
-
-  //   // identifiers.push({ Name: 'StatusId', Value: ['11'] });
-  //   // identifiers.push({ Name: 'Summary', Value: ['Populated Full Audit count1'] });
-  //   // identifiers.push({ Name: 'Description', Value: ['Populated Full Audit count-test1 '] });
-  //   // //}
-  //   console.log(identifiers, 'identifiers')
-  //   return identifiers;
-  // }
   onDataFormCancel(event: any[]) {
     this.editMode = "";
     this.editModeIndex = -1;
@@ -286,29 +279,24 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     if (this.data != []) {
       var c = document.createElement("a");
       let data = "";
-    this.data.forEach((row:any)=>{
-      let result = Object.values(row);
-      data += result.toString().replace(/[,]+/g,'\t') + "\n";
-    });
+      this.data.forEach((row: any) => {
+        let result = Object.values(row);
+        data += result.toString().replace(/[,]+/g, '\t') + "\n";
+      });
       c.download = "Report.tab";
       // var t = new Blob([JSON.stringify(this.data)],
       var t = new Blob([data], {
+        
         type: "data:text/plain;charset=utf-8"
-
       });
       c.href = window.URL.createObjectURL(t);
       // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       // element.setAttribute('download', filename);
       c.click();
-
-
-   
       this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
-
     }
     else {
       this.alertService.info("No Data Found" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
-
     }
   }
 
