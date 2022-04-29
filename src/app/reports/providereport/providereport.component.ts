@@ -133,9 +133,9 @@ refresh(event: any)
             if (Object.keys(res).length) {
                 let result = {
                     datasource: res.data.TelephoneNumbers,
-                    totalrecordcount: res.data.TotalCount,
-                    totalpages: res.data.NumberOfPages,
-                    pagenumber: res.data.PageNumber
+                    totalrecordcount: res.TotalCount,
+            totalpages: res.NumberOfPages,
+            pagenumber: res.PageNumber
                 }
                 return result;
             } else return res;
@@ -207,7 +207,7 @@ refresh(event: any)
 
         this.myForm = new FormGroup({
             TelephoneNumber: new FormControl({ value: '', disabled: false },
-                [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+                [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
         })
 
     }
