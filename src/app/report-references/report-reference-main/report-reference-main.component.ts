@@ -34,6 +34,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   showDataForm: boolean = false;
   showDetailsForm: boolean = false;
   data: any = [];
+  dataOlos: any = [];
+  dataCompanys: any = [];
+  oloDropDown: any =[];
+  companyDropDown: any =[];
   dataObs$ !: Observable<any>;;
   StatusID: string = '';
   Summary: string = '';
@@ -66,8 +70,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     if (this.tabs.length < 5)
     {
-      this.reportName = reportName;
-      this.currentReportName = reportName;
+      this.reportName =this.currentReportName = reportName;      
       this.reportIndex = reportIndex;    
       this.reportReferenceService.showDetailsForm = this.showDetailsForm = true;
       this.isShow = true;
@@ -108,7 +111,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     //console.log('tab changed,Index: ',$event.index)   
     //this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
     this.currentReportName = this.reportName = $event.index!= -1 ? this.tabs[$event.index].name : "" ;
-    this.reportIndex = this.reportNames.findIndex(x => x == this.reportName);
+    //this.reportIndex = this.reportNames.findIndex(x => x == this.currentReportName);
     // this.displayedColumns = this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]||[] : [];
     this.displayedColumns =  this.reportReferenceService.getDisplayNames(this.currentReportName);
     this.displayedColumnsValues =this.displayedColumns.map((x:any)=>x.cName)
@@ -130,16 +133,17 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   newTab() {    
     if(this.data != [] || this.displayedColumns !=[])
     {
+      let reportName =this.currentReportName
     if (this.tabs.length < 5) {
-      if (!this.tabs?.find(x => x.name == this.reportName)) {
+      if (!this.tabs?.find(x => x.name == reportName)) {
         this.tabs.push({
           tabType: this.tabs.length,
-          name: this.reportName,
+          name: reportName,
         });
-        this.selectedTab = this.tabs.findIndex(x => x.name == this.reportName) + 1;
+        this.selectedTab = this.tabs.findIndex(x => x.name == reportName) + 1;
       }
       else {
-        this.selectedTab = this.tabs.findIndex(x => x.name == this.reportName);
+        this.selectedTab = this.tabs.findIndex(x => x.name == reportName);
       }
     }
     else {      
@@ -182,43 +186,60 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.reportReferenceService.showDataForm = this.showDataForm = true;
     }
     else {
-      alert("close opened report:" + this.editMode)
+      //alert("close opened report:" + this.editMode)
       this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
     }
   }
   refreshData(){
     //console.log('refresh',this.reportName)
-    if(this.reportName!='')
+    if(this.currentReportName!='')
     {
       // if(this.reportName == 'Source')
       // this.reportName ='SourceSystem'
-      console.log('response1')
+      //console.log('response1')
     //this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || [];
-    this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe(
-      
-      (res: any) =>{
-        //try {
-        //this.data = res[0][this.reportName];
-        console.log('response',res.data)
-        if (this.reportName==='Franchise')
+    let reportName:string;
+    if(this.currentReportName ==='Franchise'||this.currentReportName ==='Olo'||this.currentReportName ==='Company')
+    {
+      reportName = 'Franchise'
+    }else
+    {
+    reportName = this.currentReportName
+    }
+    this.reportReferenceService.prepareData(reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe(      
+      (res: any) =>{        
+        if (this.currentReportName==='Franchise')
         {
-          this.data = res.data[this.reportName+'s'];
+          this.data = res.data[reportName];
           this.recordIdentifier = res.RecordIdentifier;
-        }else
+        }else if ( this.currentReportName ==='Olo')
         {
-          this.data = res.data[this.reportName];
+          this.data = res.data["Olos"];
+          this.recordIdentifier = res.RecordIdentifier;
+        }else if(this.currentReportName ==='Company')
+        {
+          this.data = res.data["Companys"];
           this.recordIdentifier = res.RecordIdentifier;
         }
-        
-      
-    //} catch (error) {
-      //(error:any) =>{
-        //console.log('Error',error)
-    // }
-    //}
-    }   
-    
-    
+          // this.dataOlos =res.data["Olos"];
+          // this.dataCompanys = res.data["Companys"];
+          // this.oloDropDown ="";
+          // this.companyDropDown="";
+          
+        //}
+        else
+        {
+          this.data = res.data[reportName];
+          this.recordIdentifier = res.RecordIdentifier;
+        }
+    },
+    (error) => {
+      console.log(error,'Refresh Function')
+
+    },
+    ()=>{
+      console.log('Refresh Completed','Refresh Function')
+    } 
     );
     return true;
       }
@@ -251,14 +272,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     deleteConfirm.afterClosed().subscribe(confirm => {
       if (confirm) {
         let deleteparms = [];
-        console.log(record[this.recordIdentifier])
-        console.log(record, 'rec')
+        //console.log(record[this.recordIdentifier])
+        //console.log(record, 'rec')
         deleteparms.push({ Name: this.recordIdentifier, Value: [record[this.recordIdentifier]] });
         let request = ReportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList', deleteparms);
-        console.log(request, 'deleterequest')
+        //console.log(request, 'deleterequest')
     
         this.reportReferenceService.deleteDetails(request).subscribe(x => {
-          console.log(x,'test')
+          //console.log(x,'test')
           if (x.StatusMessage === 'Success')
           {
             this.refreshData();
@@ -412,9 +433,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();
-}
-ngOnDestroy() {  
+  }
+  ngOnDestroy() {  
   this.onDestroy.next();
   this.metaDataSupscription.unsubscribe();
-}
+  }
 }

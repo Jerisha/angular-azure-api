@@ -30,8 +30,7 @@ export class ReportReferenceService {
     'Franchise','Olo','Company','SourceSystem', 'Status', 'AuditStatus', 'CUPIDCrossReference',
     'LineTypes', 'ResolverEmail', 'Command', 'CUPIDs', 'ErrorType',
     'UnsolicitedAutoClose', 'ResolutionType', 'CustomerTitles', 'RejectedTelephonePrefix',
-    'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',
-    'Franchise'
+    'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',    
   ];
   constructor(private wrapperService: HttpWrapperService) {    
    }
