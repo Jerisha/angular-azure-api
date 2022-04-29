@@ -71,7 +71,7 @@ export class FullAuditHistoryComponent implements OnInit {
     let request = Utils.preparePyGet('FullAuditHistory','FullAuditHistory',[{}]);
     console.log(request)
     this.service.getDetails(request).pipe(takeUntil(this.onDestroy)).subscribe((res:any)=> {
-      this.fullAuditHistory = res.data[0].AuditHistory; 
+      this.fullAuditHistory = res.data.AuditHistory; 
     })
 }
 
