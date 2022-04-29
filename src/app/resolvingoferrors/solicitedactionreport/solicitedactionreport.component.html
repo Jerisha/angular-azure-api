@@ -65,9 +65,9 @@
                     </div>
                     
                     <div [ngStyle]="{'display':myForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeOperator
+                        <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeAuditOperator
                             [resetvalue]="resetExp"
-                            (click)="OnOperatorClicked(['ResolutionTypeOperator',ResolutionTypeOperator.selectedViewValue])">
+                            (click)="OnOperatorClicked(['ResolutionTypeAuditOperator',ResolutionTypeAuditOperator.selectedViewValue])">
                         </app-select-exp>
                     <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
                         <mat-label>Resolution Type</mat-label>

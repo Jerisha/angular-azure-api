@@ -122,10 +122,9 @@ export class SolicitedactionreportComponent implements OnInit {
   expOperators: string[] = [
 
     "TelephoneNumberOperator",
-    "TransactionIDrOperator",
-    "DateRangeOperator",
+    "TransactionIDOperator",    
     "SourceOperator",
-    "ResolutionTypeOperator",
+    "ResolutionTypeAuditOperator",
     "StatusOperator",
     "TransactionCommandOperator",
 
@@ -138,8 +137,8 @@ export class SolicitedactionreportComponent implements OnInit {
     { header: 'ResolutionType', headerValue: 'ResolveType', showDefault: true, isImage: false },
     { header: 'TransactionID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'ResolveRemarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
-    { header: 'CreatedBy', headerValue: 'CreatedBy', showDefault: true, isImage: false },
-    { header: 'Date Range', headerValue: 'DateRange', showDefault: true, isImage: false },
+    { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
@@ -236,7 +235,7 @@ export class SolicitedactionreportComponent implements OnInit {
         name: 'Summary'
       });
     }
-    this.isEnable();
+    //this.isEnable();
   }
   
 
@@ -287,8 +286,44 @@ export class SolicitedactionreportComponent implements OnInit {
           attributes.push({ Name: field });
 
       }
+      let operator: string = field + "Operator";
+
+      // console.log("op vals",this.expOperatorsKeyPair);
+
+      //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
+      //  console.log("op ",operatorVal);
+      if (this.expOperatorsKeyPair.length != 0) {
+        let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        // console.log(expvals,"operatorVal1")
+        if (expvals.length != 0) {
+        //  console.log(control?.value,"True");
+            // if (control?.value) {
+              attributes.push({ Name: operator, Value: [expvals[0][1]] });
+              console.log(expvals[0][1],"operatorVal");
+            // }
+            // else {
+            //   attributes.push({ Name: operator, Value: ['Equal To'] });
+            // }
+
+          
+
+        }
+        else {
+          if (field == 'TelephoneNumber' || field == 'DateRange') {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+          else {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+        }
+      }
+      else {
+
+        attributes.push({ Name: operator, Value: ['Equal To'] });
+
+      }
     }
-    console.log(attributes);
+    console.log('attri',attributes);
 
     return attributes;
 
@@ -375,9 +410,7 @@ export class SolicitedactionreportComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.myForm.reset();
-    this.tabs.splice(0);
-    this.resetExp=!this.resetExp;
+    window.location.reload();
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -515,7 +548,9 @@ export class SolicitedactionreportComponent implements OnInit {
     }
   }
 
+  
   getTupleValue(element: [string, string], keyvalue: string) {
+    // console.log(element, keyvalue,"gettuple");
     if (element[0] == keyvalue) { return element[1]; }
     else
       return "";
