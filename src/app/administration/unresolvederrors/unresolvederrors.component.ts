@@ -68,11 +68,11 @@ const ELEMENT_DATA: UnresolvedError[] = [
 
 const FilterListItems: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
-  { view: 'End Telephone Number', viewValue: 'EndTelephoneNumber', default: true },
+  { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
-  
+  { view: '999 Reference', viewValue: 'Reference', default: true },
 ];
 
 @Component({
@@ -96,6 +96,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   selectedRowsCount: number = 0;
   selectedTab!: number;
   thisForm!: FormGroup;
+  saveForm!: FormGroup;
   thisUpdateForm!: FormGroup;
   tabs: Tab[] = [];
   Resolution!: string;
@@ -169,7 +170,12 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
     return this.thisForm.controls;
   }
 
-  
+  createSaveForm() {
+    this.saveForm = this.formBuilder.group({
+      Ref: new FormControl({ value: '' }, []),
+      Remark: new FormControl({ value: '' }, [])
+    })
+  }
 
 
   createForm() {
@@ -179,7 +185,8 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      Status: new FormControl({ value: '', disabled: true }, [])
+      Status: new FormControl({ value: '', disabled: true }, []),
+      Reference: new FormControl({ value: '', disabled: true }, []),
       })
 }
 
@@ -190,7 +197,6 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
     
 
   }
-  InternalErrorInformation: any;
   
 
   setControlAttribute(matSelect: MatSelect) {
