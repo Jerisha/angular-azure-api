@@ -18,176 +18,6 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { AlertService } from 'src/app/_shared/alert';
 import { Router } from '@angular/router';
 
-const ELEMENT_DATA: any[] = [
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source', FullAuditCLIStatus: '1LS-Live in Source', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Active', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS', InflightOrderFlag: 'Y', MonthlyRefreshFlag: 'Y', RangeReportFlag: 'Y',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    OverlappingFlag: 'Y', CustomerDiffFlag: 'Yes', PostCodeDiffFlag: 'Y', FullAddFlag: 'N', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: 'D', IsLive: 0
-  },
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', MoriCircuitStatus: 'Ceased', ExternalCLIStatus: 'Live in Source', FullAuditCLIStatus: 'LS-Live in Source', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS', InflightOrderFlag: 'N', MonthlyRefreshFlag: 'Y', RangeReportFlag: 'N',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', CustomerDiffFlag: 'Y', PostCodeDiffFlag: 'N', FullAddFlag: 'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
-  },
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Active', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS', InflightOrderFlag: 'N',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', CustomerDiffFlag: 'N', PostCodeDiffFlag: 'Y', FullAddFlag: 'N', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
-  },
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Active', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS', InflightOrderFlag: 'N',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', CustomerDiffFlag: 'N', PostCodeDiffFlag: 'N', FullAddFlag: 'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 0
-  },
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Active', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS', InflightOrderFlag: 'N',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', CustomerDiffFlag: 'Y', PostCodeDiffFlag: 'N', FullAddFlag: 'N', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
-  },
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Active', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS', InflightOrderFlag: 'N',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', CustomerDiffFlag: 'N', PostCodeDiffFlag: 'N', FullAddFlag: 'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
-  },
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Active', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS', InflightOrderFlag: 'N',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', CustomerDiffFlag: 'N', PostCodeDiffFlag: 'N', FullAddFlag: 'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 0
-  },
-  {
-    TelNo: '01131100030', View: '23', OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', RangeReport: 'LS-Live in Source',
-    CUPID: '13', BatchId: 'Details Vie', ExternalCLIStatus: 'Live in Source1', FullAuditCLIStatus: 'LS-Live in Source1', ResolutionType: 'New',
-    SourceSystemStatus: 'DetailsVie', MoriCircuitStatus: 'Active', SwitchStatus: 'Details Vie', SwitchPortingStatus: '', PortingPrefixOwner: '',
-    SwitchType: 'Not found', CDMSNMSRPIPO: 'CDMS-PI', CDMSNMSRPrefix: 'CDMS-530405', CDMSNMSRAreacall: 'CDMS-N', CDMSNMSRType: 'CDMS-IN SERVICE', IsVodafoneRangeHolder: 'No', BTCustomer: 'NHS BLOOD & TRANSPLANT',
-    BTPostcode: 'LS15 7TW', BTLocality: 'LEEDS', InflightOrderFlag: 'N',
-    BTPremise: 'Leeds Centre', BTThouroughfare: 'Bridle Path', OSN2Customer: 'OSN2 TESTING 2020', OSN2Postcode: 'LS15 7TW', OSN2Locality: 'LEEDS, YORKSHIRE', OSN2Premise: 'LEEDS CENTRE',
-    OSN2Thouroughfare: 'BRIDLE PATH', SourceCustomer: 'NHS BLOOD & TRANSPLANT', SourcePostcode: 'LS15 7TW', SourceLocality: 'LEEDS,YORKSHIRE', SourcePremise: 'LEEDS CENTRE', SourceThouroughfare: 'BRIDLE PATH',
-    ParentCUPID: '13', ChildCUPID: '13', LineType: 'V', Franchise: 'MCL', OrderType: 'C006', OrderReference: 'C60405', OrderServiceType: 'VT2', TypeOfLine: 'VT2',
-    Comments: '	DDI RANGE- 01132140801- 01132140853', CustomerDiffFlag: 'N', PostCodeDiffFlag: 'N', FullAddFlag: 'Y', LinkOrderRef: 'C59415', LinkReasonCode: 'C59415', OrderArchiveFlag: 'N', DeadEntry: '', IsLive: 1
-  },
-
-
-];
-const ELEMENT_DATA1: RangeReport[] = [
-  {
-    SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '', Lineup: 'V', OrderRef: '', Transaction: 1
-  },
-  {
-    SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '', Lineup: 'V', OrderRef: '', Transaction: 1
-  },
-  {
-    SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '', Lineup: 'V', OrderRef: '', Transaction: 1
-  },
-  {
-    SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '1', Lineup: 'V', OrderRef: '', Transaction: 1
-  },
-  {
-    SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '2', Lineup: 'V', OrderRef: '', Transaction: 1
-  },
-  {
-    SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '1', Lineup: 'V', OrderRef: '', Transaction: 1
-  },
-  {
-    SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '3', Lineup: 'V', OrderRef: '', Transaction: 1
-  },
-  {
-    SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '', Lineup: 'V', OrderRef: '', Transaction: 1
-  },
-  {
-    SourceSystem: 'D-DVA Siebel', CustomerAddress: '', CustomerName: 'James Brown', EndTelNo: '02080114211'
-    , StartTelNo: '02080114211', InflightTransaction: '', Lineup: 'V', OrderRef: '', Transaction: 1
-  },
-
-];
-const ELEMENT_DATA2: InflightReport[] = [{
-  OrderRef: 'C95526', OrderType: 'C003', OrderUpdateDate: "20-01-2022", Range: '01132438769-01132438869', TelNo: '01132438769'
-}
-
-];
-const ELEMENT_DATA3: MoriCircuitStatus[] = [{
-  CircuitReference: 'C2911355A', CompletionDate: '20-01-2022', DerivedStatus: 'A'
-}
-
-];
-const ELEMENT_DATA4: MonthlyRefreshReport[] = [
-  {
-    Customers: 'ABC', IsInflightOrder: 'Y', Locality: 'NA', Postcode: '9PMNO', Premises: 'Inward', RefreshType: 'Origin',
-    MoriStatus: 'NA', SwitchDumpStatus: 'NA', OrderStatus: 'NA', ThorughFare: 'NA'
-  },
-  {
-    Customers: 'ABC', IsInflightOrder: 'Y', Locality: 'NA', Postcode: '9PMNO', Premises: 'Inward', RefreshType: 'Origin',
-    MoriStatus: 'NA', SwitchDumpStatus: 'NA', OrderStatus: 'NA', ThorughFare: 'NA'
-  },
-  {
-    Customers: 'ABC', IsInflightOrder: 'Y', Locality: 'NA', Postcode: '9PMNO', Premises: 'Inward', RefreshType: 'Origin',
-    MoriStatus: 'NA', SwitchDumpStatus: 'NA', OrderStatus: 'NA', ThorughFare: 'NA'
-  }
-
-
-
-];
-
-const ELEMENT_DATA5: any[] = [{
-  OrderRef: 'C12938', StartTelEndTel: '01132089967', OrderUpdatedDate: '24-AUG-17'
-},
-{
-  OrderRef: 'C13001', StartTelEndTel: '01132089965', OrderUpdatedDate: '24-AUG-17'
-},
-{
-  OrderRef: 'B72955', StartTelEndTel: '01132089960-01132089969', OrderUpdatedDate: '24-AUG-17'
-}
-];
-
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
@@ -216,6 +46,7 @@ const Items: Select[] = [
   templateUrl: './fullauditdetails.component.html',
   styleUrls: ['./fullauditdetails.component.css']
 })
+
 export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   @ViewChild('inputctrl') icRemarks!: ElementRef;
@@ -247,7 +78,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   configDetails!: any;
   currentPage: string = '1';
   auditTelNo: any;
-  repIdentifier = "SolicitedErrors";
+  repIdentifier = "FullAuditDetails";
   autoCorrectionRange: string = '';
   defaultACTID: string = '';
 
@@ -258,30 +89,31 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   moriCircuitStatusQueryResult$!: Observable<any>;
   overlappingQueryResult$!: Observable<any>;
 
-  rangeReportTableDetails: any = [
+  rangeReportTableDetails: ColumnDetails[] = [
     { headerValue: 'StartTelephoneNumber', header: 'Start TelNo', showDefault: true, isImage: false },
     { headerValue: 'EndTelephoneNumber', header: 'End TelNo', showDefault: true, isImage: false },
     { headerValue: 'Source', header: 'Source System', showDefault: true, isImage: false },
     { headerValue: 'LineType', header: 'Line Type', showDefault: true, isImage: false },
-    { headerValue: 'Transaction', header: 'Transaction', showDefault: true, isImage: false },
-    { headerValue: 'InflightTransaction', header: 'Inflight Transaction', showDefault: true, isImage: false },
+    { headerValue: 'LiveRecords', header: 'Live Records', showDefault: true, isImage: false, isTotal:true },
+    { headerValue: 'InactiveRecords', header: 'Inactive Records', showDefault: true, isImage: false,isTotal:true },
+    { headerValue: 'NotAvailable', header: 'Not Available', showDefault: true, isImage: false },
     { headerValue: 'CustomerName', header: 'Customer Name', showDefault: true, isImage: false },
     { headerValue: 'CustomerAddress', header: 'Customer Address', showDefault: true, isImage: false },
     { headerValue: 'OrderReference', header: 'Order Ref', showDefault: true, isImage: false },
   ];
-  inflightTableDetails: any = [
+  inflightTableDetails: ColumnDetails[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
     { headerValue: 'Range', header: 'Range', showDefault: true, isImage: false },
     { headerValue: 'OrderRef', header: 'Order Ref', showDefault: true, isImage: false },
     { headerValue: 'OrderType', header: 'Order Type', showDefault: true, isImage: false },
     { headerValue: 'OrderUpdateDate', header: 'Order Updated Date', showDefault: true, isImage: false },
   ];
-  moriCicuitTableDetails: any = [
+  moriCicuitTableDetails: ColumnDetails[] = [
     { headerValue: 'CircuitReference', header: 'Circuit Reference', showDefault: true, isImage: false },
     { headerValue: 'CompletionDate', header: 'Completion Date', showDefault: true, isImage: false },
     { headerValue: 'DerivedStatus', header: 'Derived Status', showDefault: true, isImage: false }
   ];
-  monthlyRefreshReportTableDetails: any = [
+  monthlyRefreshReportTableDetails: ColumnDetails[] = [
     { headerValue: 'RefreshType', header: 'REFRESH TYPE', showDefault: true, isImage: false },
     { headerValue: 'SS_CUSTOMER', header: 'SS_CUSTOMER', showDefault: true, isImage: false },
     { headerValue: 'SS_POSTCODE', header: 'SS_POSTCODE', showDefault: true, isImage: false },
@@ -290,11 +122,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'SS_LOCALITY', header: 'SS_LOCALITY', showDefault: true, isImage: false },
     { headerValue: 'ORDER_STATUS', header: 'ORDER_STATUS', showDefault: true, isImage: false },
     { headerValue: 'SS_IS_INFLIGHT_ORDER', header: 'SS_IS_INFLIGHT_ORDER', showDefault: true, isImage: false },
-    { headerValue: 'MoriStatus', header: 'MORI_Status', showDefault: true, isImage: false },
+    { headerValue: 'MORI_Status', header: 'MORI_Status', showDefault: true, isImage: false },
     { headerValue: 'SWTCH_DUMP_STATUS', header: 'SWITCH_DUMP_STATUS', showDefault: true, isImage: false },
     { headerValue: 'SWTCH_PO_PI', header: 'SWTCH_PO_PI', showDefault: true, isImage: false },
   ];
-  OverlappingRangeListTableDetails: any = [
+  OverlappingRangeListTableDetails: ColumnDetails[] = [
     { headerValue: 'OrderReference', header: 'Order Ref.', showDefault: true, isImage: false },
     { headerValue: 'TelephoneRange', header: 'Start Tel - End Tel', showDefault: true, isImage: false },
     { headerValue: 'OrderUpdatedDate', header: 'Order Updated Date', showDefault: true, isImage: false },
@@ -320,7 +152,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode', 'SourcePostcode'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y', isBackgroundHighlighted: true },
-    // { flag: 'ExternalCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
     { flag: 'FullAuditCLIStatus', cells: ['SourceCustomer', 'SourcePostcode', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'LS-Live in Source', isBackgroundHighlighted: true },
     { flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }
   ];
@@ -404,7 +235,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { selectedValue: 'AutoPopulateOSN2', Message: 'OSN2', ManualAuditType: 'OSN' },
     { selectedValue: 'AutoPopulateSource', Message: 'Source', ManualAuditType: 'SRC' },
     { selectedValue: 'AutoPopulateBTSource', Message: 'BT & Source', ManualAuditType: 'BTSRC' },
-    { selectedValue: 'AutoPopulateSpecialCease', Message: 'SpecialCease', ManualAuditType: 'SPLCS' }
+    { selectedValue: 'AutoPopulateSpecialCease', Message: 'Special Cease', ManualAuditType: 'SPLCS' }
   ]
 
   dataCorrectionBtnConfig: ButtonCorretion[] = [
@@ -455,6 +286,12 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     return this.form.AuditActID;
   }
 
+  constructor(private service: AuditReportsService, private dialog: MatDialog,
+    private formBuilder: FormBuilder, private cdr: ChangeDetectorRef,
+    private router: Router, private telnoPipe: TelNoPipe,
+    private alertService: AlertService) {
+  }
+
   setAttributesForManualCorrections() {
     if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
       this.selectedFullAuditCLIStatus?.value === null) {
@@ -494,10 +331,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(private service: AuditReportsService, private dialog: MatDialog,
-    private formBuilder: FormBuilder, private cdr: ChangeDetectorRef, private router: Router, private telnoPipe: TelNoPipe, private alertService: AlertService,) {
-  }
-
   resetForm(): void {
     this.showDataCorrection = false;
     this.selectedCorrectionType = '';
@@ -505,6 +338,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.remarkstxt = '';
     //this.rowRange = '';
     this.fullAuditForm.reset();
+    this.disableSave = true;
+    this.disableProcess = true;
+    this.selectListItems=[];
     this.tabs.splice(0);
   }
 
@@ -526,7 +362,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   prepareQueryParams(pageNo: string): any {
     let attributes: any = [];
-    
+
     for (const field in this.form) {
       const control = this.fullAuditForm.get(field);
 
@@ -574,6 +410,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.tabs.splice(0);
     this.selectListItems = [];
     this.disableProcess = true;
+    this.disableSave = true;
     this.updateForm.reset();
     this.remarkstxt = '';
     //this.rowRange='';
@@ -619,7 +456,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       });
     }
     this.selectedTab = this.tabs.length;
-
   }
 
   removeTab(index: number) {
@@ -651,7 +487,20 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         break;
       }
       case 3: {
-        this.rangeReportInit(telno);
+        var startTelno='';
+        var endTelno='';
+        var selectedCLI = tab.row.Comments ? tab.row.Comments : '';
+        if (selectedCLI != '') {
+          let strCmts = selectedCLI.split('-');
+          var telnos = strCmts.filter((x: any) => !x.includes('DDI RANGE'));          
+          startTelno = telnos[0];
+          endTelno= telnos[1];
+        }
+        else{
+          startTelno = telno;
+          endTelno= telno;
+        }       
+        this.rangeReportInit(startTelno,endTelno);
         if (!this.tabs?.find(x => x.tabType == 3)) {
           this.tabs.push({
             tabType: 3,
@@ -727,7 +576,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         break;
       }
       default: {
-        //statements; 
         break;
       }
     }
@@ -782,7 +630,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   onChange(value: string, ctrlName: string) {
     const ctrl = this.fullAuditForm.get(ctrlName) as FormControl;
     if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     } else {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
@@ -824,7 +671,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     })
   }
 
-
   onSaveSubmit(): void {
     if (this.updateForm.invalid) { return; }
     const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
@@ -833,7 +679,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       }
     });
     rangeConfirm.afterClosed().subscribe(result => {
-      //console.log("result " + result);
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
         //update 
@@ -841,14 +686,12 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         return;
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-            //success message and same data reload
             this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
             this.onFormSubmit(true);
           }
         });
       }
     });
-    //}
   }
 
   getSelectedDataCorrection() {
@@ -857,7 +700,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         this.disableProcess = false;
       }
       else {
-        if (this.selectListItems.length === 1) {
+        if (this.selectListItems.length >= 1 &&
+          this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
+          this.disableProcess = false;
+        }
+        else if (this.selectListItems.length === 1) {
           this.disableProcess = false;
         }
         else {
@@ -875,7 +722,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       this.disableSave = true;
     }
   }
-
 
   processDataCorrection() {
     if (this.selectedCorrectionType === 'AutoCorrectionVolume') {
@@ -931,7 +777,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
             if (selectedCLI != '') {
               let strCmts = selectedCLI.split('-');
               var telnos = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
-              selectedCLI = telnos[0] + '!' + telnos[1];
+              selectedCLI = telnos[0] + '|' + telnos[1];
             }
             else {
               selectedCLI = this.selectListItems[0].TelephoneNumber;
@@ -1069,7 +915,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       { Name: 'AuditActID', Value: [`${auditACTID}`] }
     ];
 
-    let request = Utils.prepareQueryRequest('MonthlyRefreshReport', 'FullAuditDetails', attributes);
+    let request = Utils.preparePyQuery('MonthlyRefreshReport', 'FullAuditDetails', attributes);
     console.log('sample', JSON.stringify(request));
     this.monthlyRefreshQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
@@ -1095,13 +941,12 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   inflightReportInit(auditACTID: any, telno: any) {
-
     let attributes = [
       { Name: 'TelephoneNumber', Value: [`${telno}`] },
       { Name: 'AuditActID', Value: [`${auditACTID}`] }
     ];
 
-    let request = Utils.prepareQueryRequest('InflightReport', 'FullAuditDetails', attributes);
+    let request = Utils.preparePyQuery('InflightReport', 'FullAuditDetails', attributes);
     console.log('sample', JSON.stringify(request));
     this.inflightReportQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
@@ -1118,23 +963,17 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }))
 
     this.inflightRptTable = {
-      data: of({
-        datasource: this.inflightReportQueryResult$,
-        totalrecordcount: 100,
-        totalpages: 20,
-        pagenumber: 1
-      }),
+      data: this.inflightReportQueryResult$,
       Columns: this.inflightTableDetails,
       selectCheckbox: true,
       filter: true
     }
   }
 
-  rangeReportInit(telno: any) {
-
+  rangeReportInit(startTelno: any,endTelno:any) {   
     let attributes = [
-      { Name: 'StartTelephoneNumber', Value: [`${telno}`] },
-      { Name: 'EndTelephoneNumber', Value: [`${telno}`] },
+      { Name: 'StartTelephoneNumber', Value: [`${startTelno}`] },
+      { Name: 'EndTelephoneNumber', Value: [`${endTelno}`] },
       { Name: 'PageNumber', Value: [`${1}`] }
     ];
 
@@ -1171,7 +1010,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     console.log('sample', JSON.stringify(request));
     this.moriCircuitStatusQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
-
         let result = {
           datasource: res.data.Circuits,
           totalrecordcount: res.data.Circuits.length,
@@ -1206,7 +1044,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Range,
-          totalrecordcount: res.data.Range,
+          totalrecordcount: res.data.Range.length,
           totalpages: 1,
           pagenumber: 1
         }

@@ -36,14 +36,14 @@ export class TransactionsComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef, private router: Router) {
     this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
     if (this.passedRouteData) {
-      alert('name' + JSON.stringify(this.passedRouteData))
+      console.log('name' + JSON.stringify(this.passedRouteData))
     }
   }
 
-  ngOnInit(): void {
-    
+  ngOnInit(): void {    
     
   }
+  
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }

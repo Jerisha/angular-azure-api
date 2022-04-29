@@ -6,13 +6,14 @@
       </app-select-multiple>
     </div>
     <form [formGroup]="fullAuditForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
-      <div class="matsidenav-filter">
-        <ng-container *ngIf="configDetails  as config">
+      <ng-container *ngIf="configDetails  as config">
+        <div class="matsidenav-filter">                
+
           <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>Start Telephone No</mat-label>
-            <input id="StartTelephoneNumber" formControlName="StartTelephoneNumber" matInput #StartTelephoneNumber
+            <input id="StartTelephoneNumber" telNoPrefixValidator formControlName="StartTelephoneNumber" matInput #StartTelephoneNumber
               maxlength="11" placeholder="Start Telephone No" (blur)="getPnlControlAttributes()" (keypress)="numberOnly($event)"
-              (ngModelChange)="onChange($event,'StartTelephoneNumber')" style="margin-right: 24%;">
+             style="margin-right: 24%;">
             <mat-error>
               <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid"
                 class="alert alert-danger">
@@ -25,9 +26,9 @@
 
           <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>End Telephone No</mat-label>
-            <input id="EndTelephoneNumber" formControlName="EndTelephoneNumber" matInput #EndTelephoneNumber
+            <input id="EndTelephoneNumber" telNoPrefixValidator formControlName="EndTelephoneNumber" matInput #EndTelephoneNumber
               maxlength="11" placeholder="End Telephone No" (blur)="getPnlControlAttributes()" (keypress)="numberOnly($event)"
-              (ngModelChange)="onChange($event,'EndTelephoneNumber')">
+              >
             <mat-error>
               <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid"
                 class="alert alert-danger">
@@ -60,7 +61,6 @@
               </div>
             </mat-error>
           </mat-form-field>
-
 
           <mat-form-field [ngClass]="{'hidden':form.CUPId.disabled}">
             <mat-label>CUPID</mat-label>
@@ -445,7 +445,7 @@
                             <mat-option value="Yes">Yes</mat-option>
                         </mat-select> -->
           </mat-form-field>
-        </ng-container>
+        
       </div>
       <div class="matsidenav-footer">
         <button type="submit" mat-raised-button color="primary">
@@ -455,6 +455,7 @@
           <mat-icon>refresh</mat-icon>Reset
         </button>
       </div>
+    </ng-container>
     </form>
   </mat-sidenav>
 
@@ -521,14 +522,13 @@
                   </mat-error>
                 </mat-form-field>
 
-
                 <button [disabled]="disableSave" type="submit" mat-raised-button color="primary">
                   <mat-icon>save</mat-icon>Save
                 </button>
 
                  <mat-form-field  *ngIf="showDataCorrection">
                   <mat-label>Data Corrections</mat-label>
-                  <mat-select name="correctionType" (selectionChange)="getSelectedDataCorrection()"
+                  <mat-select  disableOptionCentering panelClass="matselect-centering" name="correctionType" (selectionChange)="getSelectedDataCorrection()"
                     [(value)]="selectedCorrectionType" placeholder="Data Corrections">
                     <mat-optgroup *ngFor="let group of correctionTypes" [label]="group.name"
                       [ngStyle]="{ display : group.disabled? 'none' : 'block' }">
@@ -538,7 +538,8 @@
                       </mat-option>
                     </mat-optgroup>
                   </mat-select>
-                </mat-form-field> &nbsp;
+                </mat-form-field>
+               &nbsp;
 
                 <mat-form-field *ngIf="selectedCorrectionType=='AutoCorrectionVolume'" style="width: 85px !important;">
                   <mat-label>Select</mat-label>
