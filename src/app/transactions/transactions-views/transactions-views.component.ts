@@ -696,6 +696,13 @@ SearchTel(){
       {
         return false;
       }
+      if(Number(this.CliRangeSet[i][0].toString())==Number(this.CliRangeSet[i][1].toString()))
+      {
+        if(Number(this.CliRangeSet[i][0].toString())<Number(endnumber)&&Number(this.CliRangeSet[i][0].toString())>Number(startnumber))
+        {
+          return false;
+        }
+      }
      
       }
       else{
