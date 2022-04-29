@@ -123,10 +123,7 @@ export const ReportMetaDataResponse = {
            ],  
            "LineTypes":[{ cPosition:1, cMinLength:0, cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
-         },
-         { cPosition:2, cMinLength:0, cName:"LineType", cDisplayName: "LineType", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: true,
-           cMandate: true, cMaxLength: 200, cList: []
-         },
+         },         
          { cPosition:3, cMinLength:0, cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 2000, cList: []
          },], 
@@ -215,7 +212,7 @@ export const ReportMetaDataResponse = {
          { cPosition:6, cMinLength:0, cName: "Description", cDisplayName: "Description", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },], 
-           "CustomerTitle":[ { cPosition:1, cMinLength:0, cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           "CustomerTitles":[ { cPosition:1, cMinLength:0, cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
          { cPosition:2, cMinLength:0, cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
