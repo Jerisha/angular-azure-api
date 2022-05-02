@@ -59,6 +59,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   currentReportName: string = "";
   recordIdentifier:any = "";
   metaDataSupscription: Subscription = new Subscription;
+  editActionEnabled =true;
 
   displayedColumnsValues:any
 
@@ -202,6 +203,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     if(this.currentReportName ==='Franchise'||this.currentReportName ==='Olo'||this.currentReportName ==='Company')
     {
       reportName = 'Franchise'
+      this.editActionEnabled =false;
     }else
     {
     reportName = this.currentReportName

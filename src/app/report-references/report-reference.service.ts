@@ -171,8 +171,8 @@ export class ReportReferenceService {
     },
     {
       LineTypes: [
-        { Code: 'D', LineType: 'DDI', Comments: 'TEST' },
-        { Code: 'V', LineType: 'VOIP', Comments: 'TEST' }
+        { Code: 'D', Title: 'DDI', Comments: 'TEST' },
+        { Code: 'V', Title: 'VOIP', Comments: 'TEST' }
       ]
     },
     {
