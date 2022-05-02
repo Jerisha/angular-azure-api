@@ -43,7 +43,7 @@
   <table #mytable mat-table [dataSource]="dataSource" class="mat-elevation-z8">
    <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index">     
       <ng-container matColumnDef="{{disCol.DataHeaders}}">
-        <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan">
+        <th   mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" >
           {{disCol.Headers}}</th>
         <td mat-cell class="truncate-cell" *matCellDef="let element"> {{element[disCol.DataHeaders]}} </td>
         <ng-container *ngIf="isRowTotal">
@@ -53,16 +53,16 @@
         </ng-container>
       </ng-container>
     </ng-container>
-    <ng-container *ngFor="let headersVal of groupHeaders">
-      <ng-container matColumnDef={{headersVal.DataHeaders}}>
+    <ng-container *ngFor="let headersVal of groupHeaders;">
+      <ng-container class="" matColumnDef={{headersVal.DataHeaders}}>
         <th mat-header-cell *matHeaderCellDef [attr.colspan]="headersVal.colspan" [attr.rowspan]="headersVal.rowspan">
           {{headersVal.Headers}} </th>
       </ng-container>
     </ng-container>
-    <ng-container *ngFor="let grpHeaders of grpHdrColumnsArray">
+    <ng-container *ngFor="let grpHeaders of grpHdrColumnsArray;">
       <tr mat-header-row *matHeaderRowDef="grpHeaders;sticky: true"> </tr>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="detailedColumnsArray;sticky: true"></tr>
+    <tr mat-header-row *matHeaderRowDef="detailedColumnsArray;sticky:true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <ng-container *ngIf="isRowTotal">
       <tr class="total-row" mat-footer-row *matFooterRowDef="totalCols;sticky: true"></tr>
