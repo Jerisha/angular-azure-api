@@ -13,9 +13,10 @@ export interface MergeTableItem {
     DetailedColumns?:string[];
     DisplayedColumns:string[];
     FilterColumn?:boolean;
-    FilterValues?:Array<string[]>;
+    FilterValues?:String;
     isRowLvlTotal?:boolean;
     isMonthFilter?:boolean;
+    CurrentMonth?: string;
   }
 
   export interface GroupHeaderTableDetails{

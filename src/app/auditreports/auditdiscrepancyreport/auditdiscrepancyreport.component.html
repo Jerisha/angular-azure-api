@@ -16,7 +16,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>ACT ID</mat-label>
-          <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedActId">
+          <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedActId" (selectionChange)="changedAuditActId($event)">
             <mat-option *ngFor="let actId of auditActIdDropdown" [value]="actId">{{actId}}</mat-option>           
             <!-- <mat-option value="29-20 Dec 2020">29-20 Dec 2020</mat-option>  -->
             <!-- <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option> -->
@@ -41,7 +41,7 @@
   <mat-sidenav-content class="side-content">
     <div [ngSwitch]="auditType">
       <div *ngSwitchCase="'Full Audit'">
-        <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails" [QueryParams]="QueryParams">
+        <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails" [QueryParams]="QueryParams" (getFilter)="sendFilterValue($event)">
         </app-full-audit-type>
 
         <!-- <ng-container *ngIf="queryResult as query">
@@ -51,11 +51,11 @@
       </div>
       <div *ngSwitchCase="'Separate Internal Audit'">
         <app-seperate-internal-audit-type [sidePan]="pagesidenav"
-          [InternalAuditTableDetails]="grpInternalAuditTableDetails">
+          [InternalAuditTableDetails]="grpInternalAuditTableDetails" [QueryParams]="QueryParams">
         </app-seperate-internal-audit-type>
       </div>
       <div *ngSwitchCase="'External Audit'">
-        <app-external-audit-type [sidePan]="pagesidenav" [ExternalAuditTableDetails]="grpExternalAuditTableDetails">
+        <app-external-audit-type [sidePan]="pagesidenav" [ExternalAuditTableDetails]="grpExternalAuditTableDetails" [QueryParams]="QueryParams">
         </app-external-audit-type>
       </div>
       <div *ngSwitchDefault>

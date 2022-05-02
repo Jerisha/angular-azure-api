@@ -1,10 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { InternalAuditAddressReport, InternalAuditMonthReport, InternalAuditProgressReport, InternalAuditSummary } from 'src/app/auditreports/models/index';
 import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
+import { Utils } from 'src/app/_http';
+import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
 
 const ELEMENT_DATA: InternalAuditSummary[] = [
   {
@@ -706,8 +710,13 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
   QueryMonthReport$!: Observable<any>;
   QueryAddressReport$!: Observable<any>;
   currentMonth!: string;
+  @Input() QueryParams: any;
 
-  constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef) {
+  observerResult!: Observable<any>;
+  observerResult1!: Observable<any>;
+  isMonthFilter: boolean = false;
+
+  constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef, private spinner: NgxSpinnerService, private service:AuditDiscpancyReportService) {
     this.tabsName = ['InternalSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];
   }
 
@@ -748,16 +757,58 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
    });
 
     // this.loadGridDetails();
-   this.AuditSummaryTab();
-   this.ProgressReportTab();
-   this.MonthReportTab();
-   this.AddressReportTab();
+  //  this.AuditSummaryTab();
+  //  this.ProgressReportTab();
+  //  this.MonthReportTab();
+  //  this.AddressReportTab();
 
     // let data = this.getJsonData();
     // forkJoin([data]).subscribe(results => {
     //   this.loadGridDetails(results[0]);
     // });
   }
+  ngOnChanges(changes: SimpleChanges)
+  {
+    //this.queryFetch();
+    if(changes.QueryParams)
+    {
+      // console.log("Query parms changed");
+      this.queryFetch(false);
+      
+    }
+  }
+  
+  queryFetch(IsMonthFilter: boolean) {
+
+    if(IsMonthFilter)
+    {
+      const QParams = { Name: "Month", Value: [this.currentMonth]};
+      this.QueryParams.push(QParams);
+      console.log("QParams : " + JSON.stringify(this.QueryParams));
+      let request = Utils.preparePyQuery('SeparateInternalAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
+    // console.log(JSON.stringify(request));
+    this.spinner.show();
+      this.observerResult1 =this.service.queryDetails(request).pipe(map((res: any) => {
+        this.spinner.hide();
+        return res.data;
+      }));
+        this.AddressReportTab();
+        console.log("AddressPostcode Report Only");
+    } else {
+      this.isMonthFilter = false;
+    let request = Utils.preparePyQuery('InternalAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
+    console.log(JSON.stringify(request));
+    this.spinner.show();
+      this.observerResult =this.service.queryDetails(request).pipe(map((res: any) => {
+        return res.data}));
+        console.log("All Report");
+        this.AddressReportTab();
+          this.AuditSummaryTab();
+          this.ProgressReportTab();
+          this.MonthReportTab();
+    }
+  }
+
 
 
   trackTabs(index: number, tab: any) {
@@ -776,12 +827,12 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
 
  
-    headerswithDetails = ['ACTID', 'SourceSystem', 'InternalCLIStatus', 'AttributeDifference', 'ResolutionType'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'AttributeDifference', 'ResolutionType'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     grpHdrColumnsArray = [headerswithDetails];
     this.internalSummaryTable = {
-      data: this.QueryInternalSummary$,
+      // data: this.QueryInternalSummary$,
       ColumnDetails: gridDesignDetails[0].ColumnDetails,
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
       DisplayedColumns: displayedColumns,
@@ -789,7 +840,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       GroupHeaderColumnsArray: grpHdrColumnsArray,
       isRowLvlTotal:true,
     }
-    this.tabs[0].data = this.internalSummaryTable;
+    // this.tabs[0].data = this.internalSummaryTable;
 }
 
 ProgressReportTab() {
@@ -801,23 +852,24 @@ ProgressReportTab() {
     var labelName = 'ProgressReport';
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
     
-    headerswithDetails = ['ACTID', 'SourceSystem', 'CLIStatus', 'New'];
+    headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'New'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
-    grpHdrColumnsArray = [['ACTID', 'SourceSystem', 'CLIStatus', 'ResolutionType'], ['New', 'InProgress', 'EndStatusY']];
+    grpHdrColumnsArray = [['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'ResolutionType'], ['New', 'InProgress', 'EndStatusY']];
     this.progressReportTable = {
-      data: this.QueryProgressReport$,
+      // data: this.QueryProgressReport$,
       ColumnDetails: gridDesignDetails[0].ColumnDetails,
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
       DisplayedColumns: displayedColumns,
       DetailedColumns: detailedColumnsArray,
       GroupHeaderColumnsArray: grpHdrColumnsArray,
-      FilterValues: [ELEMENT_DATA1.map(x => x.CLIStatus), ELEMENT_DATA1.map(x => x.SourceSystem)],
+      // FilterValues: [ELEMENT_DATA1.map(x => x.CLIStatus), ELEMENT_DATA1.map(x => x.SourceSystem)],
+      FilterValues: 'Separate Internal Audit',
       isRowLvlTotal:true,
       FilterColumn: true,
       isMonthFilter: false,
     }
-    this.tabs[1].data = this.progressReportTable;
+    // this.tabs[1].data = this.progressReportTable;
    
 }
 
@@ -834,7 +886,7 @@ var headerswithDetails: string[];
     detailedColumnsArray = gridDesignDetails[0].GroupHeaders.map(x => x.DataHeaders);
     grpHdrColumnsArray = [detailedColumnsArray];
     this.monthReportTable = {
-      data: this.QueryMonthReport$,
+      // data: this.QueryMonthReport$,
       ColumnDetails: gridDesignDetails[0].ColumnDetails,
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
       DisplayedColumns: displayedColumns,
@@ -842,7 +894,7 @@ var headerswithDetails: string[];
       GroupHeaderColumnsArray: grpHdrColumnsArray,
 
     }
-    this.tabs[2].data = this.monthReportTable;
+    // this.tabs[2].data = this.monthReportTable;
 }
 
 AddressReportTab() {
@@ -853,23 +905,24 @@ var headerswithDetails: string[];
     var labelName = 'AddressReport';
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
 
-    var headerswithDetails = ['ACTID', 'SourceSystem', 'CLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
+    var headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
     var displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     var detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
     var grpHdrColumnsArray = [headerswithDetails];
     this.addressReportTable = {
-      data: this.QueryAddressReport$,
+      // data: this.QueryAddressReport$,
       ColumnDetails: gridDesignDetails[0].ColumnDetails,
       GroupHeaders: gridDesignDetails[0].GroupHeaders,
       DisplayedColumns: displayedColumns,
       DetailedColumns: detailedColumnsArray,
       GroupHeaderColumnsArray: grpHdrColumnsArray,
-      FilterValues: [ELEMENT_DATA3.map(x => x.CLIStatus), ELEMENT_DATA3.map(x => x.SourceSystem)],
+      // FilterValues: [ELEMENT_DATA3.map(x => x.CLIStatus), ELEMENT_DATA3.map(x => x.SourceSystem)],
+      FilterValues: 'Separate Internal Audit',
       FilterColumn: true,
       isRowLvlTotal:true,
       isMonthFilter: true,
     }
-    this.tabs[3].data = this.addressReportTable;
+    // this.tabs[3].data = this.addressReportTable;
 
 }
 
@@ -963,6 +1016,12 @@ var headerswithDetails: string[];
   fetchMonthData(monthDate: string) {
     // console.log("Month Date : " + monthDate);
     this.currentMonth = monthDate;
+
+    this.currentMonth = monthDate;
+    this.queryFetch(false);
+    this.isMonthFilter = false;
+
+    /*
     let InternalAuditAddressReport1 = [
       {
         ACTID: "26", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
@@ -1069,12 +1128,12 @@ var headerswithDetails: string[];
 
     var QueryAddressReport1$ = of({
       datasource: InternalAuditAddressReport1,
-      // AllMonths: FullAuditData.FullAuditAllMonths,
+      AllMonths: InternalAuditData.FullAuditAllMonths,
     });
 
     this.QueryAddressReport$ = QueryAddressReport1$;
     this.AddressReportTab();
+    */
+
   }
-
-
 }

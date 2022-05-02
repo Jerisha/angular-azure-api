@@ -43,6 +43,14 @@ th.mat-sort-header-sorted {
   
 }
 
+.header2 {
+  top: 42px !important;
+}
+
+.header3 {
+  top: 84px !important;
+}
+
 
 /* .mat-header-row {
   top: 0;

@@ -54,6 +54,9 @@ export class TableGroupHeaderComponent implements OnDestroy {
   @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
   @Output() MonthDate = new EventEmitter<string>();
   @Input() CurrentMonth!: string;
+  @Input() AllMonths!: any;
+  i: any;
+  
 
 
   public dataSource = new MatTableDataSource<any>();
@@ -79,7 +82,10 @@ export class TableGroupHeaderComponent implements OnDestroy {
 
   filterValues = {
     SourceSystem: [],
-    CLIStatus: []
+    CLIStatus: [],
+    FullAuditCLIStatus: [],
+    ExternalAuditCLIStatus: [],
+    InternalAuditCLIStatus: [],
   }
 
   filterForm = new FormGroup({
@@ -87,6 +93,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
     cliStatusFilter: new FormControl(''),
     Month: new FormControl('')
   });
+  auditType: String | undefined;
  
 
 
@@ -99,7 +106,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if(this.obsData){
       this.spinner.show();
-      console.log('inside tab',this.obsData)
+      // console.log('inside tab',this.obsData)
     this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
     this.dataSource = new MatTableDataSource<any>(this.obsData);
     this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
@@ -109,13 +116,32 @@ export class TableGroupHeaderComponent implements OnDestroy {
     this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
     this.isRowTotal = this.GrpTableitem?.isRowLvlTotal ? true : false;
     this.isMonthFilter = this.GrpTableitem?.isMonthFilter? true : false;
+      this.auditType = this.GrpTableitem?.FilterValues;
+      
+       if(this.AllMonths)
+    {
+      debugger
+      console.log("All Month"+ JSON.stringify(this.AllMonths));
+      this.allMonths = this.AllMonths.Month;
+
+      if(this.GrpTableitem.CurrentMonth)
+      {
+        this.monthValue = this.GrpTableitem?.CurrentMonth ;
+      } else {
+        this.monthValue = this.AllMonths.Month[0];
+      }
+
+    } 
 
     var nonTotRowCols = ['SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
     this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
     this.nonNumericCols = this.displayedColumns.filter(x => !this.totalCols.includes(x));
 
     if (this.filterColumn) {
-      this.filterSelectedItems = this.GrpTableitem?.FilterValues ? this.GrpTableitem?.FilterValues : [];
+
+      this.filterSelectedItems = this.GrpTableitem?.FilterValues === 'Full Audit' ? [this.obsData.map((x: any) => x.FullAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem)] :
+                                  this.GrpTableitem?.FilterValues === 'External Audit' ? [this.obsData.map((x: any) => x.ExternalAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem)] :
+                                  this.GrpTableitem?.FilterValues === 'Separate Internal Audit' ? [this.obsData.map((x: any) => x.InternalAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem)]: [] ;
       this.cliStatusList = [...new Set(this.filterSelectedItems[0])];
       this.sourceSystemList = [...new Set(this.filterSelectedItems[1])];
       this.formControlsSubscribe();
@@ -188,7 +214,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
     }
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
-      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
+      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
      // return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
     }
     return '';
@@ -206,10 +232,31 @@ export class TableGroupHeaderComponent implements OnDestroy {
       this.filterValues.SourceSystem = sourceSystemValues
       this.dataSource.filter = JSON.stringify(this.filterValues);
     });
+
     this.filterForm.controls['cliStatusFilter'].valueChanges.subscribe(cliStatusValue => {
       this.filterValues.CLIStatus = cliStatusValue
       this.dataSource.filter = JSON.stringify(this.filterValues);
     });
+
+  //   switch(this.auditType)
+  //   {
+  //   case 'Full Audit': this.filterForm.controls['cliStatusFilter'].valueChanges.subscribe(cliStatusValue => {
+  //     this.filterValues.FullAuditCLIStatus = cliStatusValue
+  //     this.dataSource.filter = JSON.stringify(this.filterValues);
+  //   });
+  //   break;
+  //   case 'External Audit': this.filterForm.controls['cliStatusFilter'].valueChanges.subscribe(cliStatusValue => {
+  //     this.filterValues.ExternalAuditCLIStatus = cliStatusValue
+  //     this.dataSource.filter = JSON.stringify(this.filterValues);
+  //   });
+  //   break;
+  //   case 'Separate Internal Audit': this.filterForm.controls['cliStatusFilter'].valueChanges.subscribe(cliStatusValue => {
+  //     this.filterValues.InternalAuditCLIStatus = cliStatusValue
+  //     this.dataSource.filter = JSON.stringify(this.filterValues);
+  //   });
+  //   break;
+  // }
+
   }
 
   createFilter() {
@@ -227,7 +274,20 @@ export class TableGroupHeaderComponent implements OnDestroy {
         isSourceSystemAvailable = true;
       }
 
-      if (searchString.CLIStatus.length) {
+    //   if (searchString.CLIStatus.length) {
+    //     for (const d of searchString.CLIStatus) {
+    //       if (data.CLIStatus.trim() === d) {
+    //         isCLIStatusAvailbale = true;
+    //       }
+    //     }
+    //   } else {
+    //     isCLIStatusAvailbale = true;
+    //   }
+    //   const result = isSourceSystemAvailable && isCLIStatusAvailbale;
+    //   return result;
+    // }
+
+        if (searchString.CLIStatus.length) {
         for (const d of searchString.CLIStatus) {
           if (data.CLIStatus.trim() === d) {
             isCLIStatusAvailbale = true;
@@ -239,6 +299,9 @@ export class TableGroupHeaderComponent implements OnDestroy {
       const result = isSourceSystemAvailable && isCLIStatusAvailbale;
       return result;
     }
+
+    
+
     this.dataSource.filter = JSON.stringify(this.filterValues);
   }
 

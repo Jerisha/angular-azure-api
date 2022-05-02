@@ -8,7 +8,7 @@ export class AuditdiscrepancyHeaderData {
             ColumnDetails: [
                 {
                     Headers: "ACT ID",
-                    DataHeaders: "ACTID",
+                    DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -62,7 +62,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "DAD-MisMatched - Source Active MisMatched",
-                    DataHeaders: "DADMisMatchedSourceActiveMatched",
+                    DataHeaders: "DADMisMatchedSourceActiveMisMatched",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -109,8 +109,8 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "VN-OSN2 Only - Source Active",
-                    DataHeaders: "VNOSN2OnlySourceActive",
+                    Headers: "VA-OSN2 Only - Source Active",
+                    DataHeaders: "VAOSN2OnlySourceActive",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -139,38 +139,38 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff",
-                    DataHeaders: "PostcodeDiff",
+                    Headers: "Postcode Difference",
+                    DataHeaders: "AttributeDifferenceMatchedActiveMismatchedPostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff",
-                    DataHeaders: "CustomerDiff",
+                    Headers: "Customer Difference",
+                    DataHeaders: "AttributeDifferenceMatchedActiveMismatchedCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Add Diff",
-                    DataHeaders: "FullAddDiff",
+                    Headers: "Full Address Difference",
+                    DataHeaders: "AttributeDifferenceMatchedActiveMismatchedFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff",
-                    DataHeaders: "PostcodeDiff1",
+                    Headers: "Postcode Difference1",
+                    DataHeaders: "AttributeDifferenceMisMatchedActiveMismatchedPostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff",
-                    DataHeaders: "CustomerDiff1",
+                    Headers: "Customer Difference1",
+                    DataHeaders: "AttributeDifferenceMisMatchedActiveMismatchedCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Add Diff",
-                    DataHeaders: "FullAddDiff1",
+                    Headers: "Full Address Difference1",
+                    DataHeaders: "AttributeDifferenceMisMatchedActiveMismatchedFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -188,13 +188,13 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "Auto Logic Resolved[SAD]",
-                    DataHeaders: "AutoLogicResolvedSAD",
+                    DataHeaders: "AutoLogicResolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Resolved Areacall",
-                    DataHeaders: "AutoResolvedAreacall",
+                    DataHeaders: "AutoResolvedAreaCall",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -213,14 +213,14 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "20"
                 },
                 {
-                    Headers: "Attribute Diff Matched Active Matched",
-                    DataHeaders: "AttributeDiffMatchedActiveMatched",
+                    Headers: "Attribute Difference Matched Active Mismatched",
+                    DataHeaders: "AttributeDifferenceMatchedActiveMismatched",
                     rowspan: "1",
                     colspan: "3"
                 },
                 {
-                    Headers: "Attribute Diff Matched Active Mismatched",
-                    DataHeaders: "AttributeDiffMatchedActiveMismatched",
+                    Headers: "Attribute Difference MisMatched Active Mismatched",
+                    DataHeaders: "AttributeDifferenceMisMatchedActiveMismatched",
                     rowspan: "1",
                     colspan: "3"
                 },
@@ -238,7 +238,7 @@ export class AuditdiscrepancyHeaderData {
             ColumnDetails: [
                 {
                     Headers: "ACT ID",
-                    DataHeaders: "ACTID",
+                    DataHeaders: "ActId",
                     rowspan: "3",
                     colspan: "1"
                 },
@@ -268,109 +268,109 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "Under Investigation",
-                    DataHeaders: "UnderInvestigation",
+                    DataHeaders: "InProgressUnderInvestigation",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Under Governance",
-                    DataHeaders: "UnderGovernance",
+                    DataHeaders: "InProgressUnderGovernance",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Under Porting",
-                    DataHeaders: "UnderPorting",
+                    DataHeaders: "InProgressUnderPorting",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Port Req Complete",
-                    DataHeaders: "PortReqComplete",
+                    Headers: "Port Request Complete",
+                    DataHeaders: "InProgressPortRequestComplete",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Total",
-                    DataHeaders: "Total",
+                    DataHeaders: "InProgressTotal",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Resolved",
-                    DataHeaders: "Resolved",
+                    DataHeaders: "InProgressResolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "UnResolved",
-                    DataHeaders: "UnResolved",
+                    DataHeaders: "InProgressUnresolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Resolved",
-                    DataHeaders: "AutoResolved",
+                    DataHeaders: "InProgressAutoResolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Closed",
-                    DataHeaders: "AutoClosed",
+                    DataHeaders: "InProgressAutoClosed",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Logic Resolved",
-                    DataHeaders: "AutoLogicResolved",
+                    DataHeaders: "InProgressAutoLogicResolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Resolved Areacall",
-                    DataHeaders: "AutoResolvedAreacall",
+                    DataHeaders: "InProgressAutoResolvedAreacall",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Audit Discrepancy Override",
-                    DataHeaders: "AuditDiscrepancyOverride",
+                    DataHeaders: "EndStatusYAuditDiscrepancyOverride",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Audit Transaction Override",
-                    DataHeaders: "AuditTransactionOverride",
+                    DataHeaders: "EndStatusYAuditTransactionOverride",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Active",
-                    DataHeaders: "AutoActive",
+                    DataHeaders: "EndStatusYAutoActive",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Modify",
-                    DataHeaders: "AutoModify",
+                    DataHeaders: "EndStatusYAutoModify",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Cease",
-                    DataHeaders: "AutoCease",
+                    DataHeaders: "EndStatusYAutoCease",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Special Cease",
-                    DataHeaders: "AutoSpecialCease",
+                    DataHeaders: "EndStatusYAutoSpecialCease",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Total",
-                    DataHeaders: "SumTotal",
+                    DataHeaders: "EndStatusYTotal",
                     rowspan: "1",
                     colspan: "1"
                 }
@@ -605,7 +605,7 @@ export class AuditdiscrepancyHeaderData {
             ColumnDetails: [
                 {
                     Headers: "Act ID",
-                    DataHeaders: "ACTID",
+                    DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -617,7 +617,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "CLIStatus",
+                    DataHeaders: "FullAuditCLIStatus",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -628,20 +628,20 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff.",
-                    DataHeaders: "PostcodeDiff",
+                    Headers: "Postcode Difference",
+                    DataHeaders: "OutstandingMonthsDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff.",
-                    DataHeaders: "CustomerDiff",
+                    Headers: "Customer Difference",
+                    DataHeaders: "OutstandingMonthsDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Addr Diff.",
-                    DataHeaders: "FullAddrDiff",
+                    Headers: "Full Address Difference",
+                    DataHeaders: "OutstandingMonthsDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -652,20 +652,20 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff.",
-                    DataHeaders: "PostcodeDiff1",
+                    Headers: "Postcode Difference",
+                    DataHeaders: "SelectedMonthDifferenceENDStatusYPostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff.",
-                    DataHeaders: "CustomerDiff1",
+                    Headers: "Customer Difference",
+                    DataHeaders: "SelectedMonthDifferenceENDStatusYCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Addr Diff.",
-                    DataHeaders: "FullAddrDiff1",
+                    Headers: "Full Address Difference",
+                    DataHeaders: "SelectedMonthDifferenceENDStatusYFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 }
@@ -692,7 +692,7 @@ export class AuditdiscrepancyHeaderData {
             ColumnDetails: [
                 {
                     Headers: "Act ID",
-                    DataHeaders: "ACTID",
+                    DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -704,49 +704,49 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "C-SAS/COMS Only",
-                    DataHeaders: "CSASCOMSOnly",
+                    DataHeaders: "SASCOMSOnly",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "R-Clarify Only",
-                    DataHeaders: "RClarifyOnly",
+                    DataHeaders: "ClarifyOnly",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "E-VA/WAD Only",
-                    DataHeaders: "EVAWADOnly",
+                    DataHeaders: "VAWADOnly",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "DO-DVA Siebel Only",
-                    DataHeaders: "DODVASiebelOnly",
+                    DataHeaders: "DVASiebelOnly",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "SO-Amdocs SOM Only",
-                    DataHeaders: "SOAmdocsSOMOnly",
+                    DataHeaders: "AmdocsSOMOnly",
                     rowspan: "2",
                     colspan: "1"
                 },
                 {
                     Headers: "V-OSN2 Only",
-                    DataHeaders: "VOSN2Only",
+                    DataHeaders: "OSN2Only",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "S-Matched",
-                    DataHeaders: "SMatched",
+                    DataHeaders: "Matched",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "D-Mismatched",
-                    DataHeaders: "DMismatched",
+                    DataHeaders: "Mismatched",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -757,20 +757,20 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff.",
-                    DataHeaders: "PostcodeDiff",
+                    Headers: "Postcode Difference",
+                    DataHeaders: "AttributeDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff.",
-                    DataHeaders: "CustomerDiff",
+                    Headers: "Customer Difference",
+                    DataHeaders: "AttributeDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Add. Diff.",
-                    DataHeaders: "FullAddDiff",
+                    Headers: "Full Address Difference",
+                    DataHeaders: "AttributeDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -790,7 +790,7 @@ export class AuditdiscrepancyHeaderData {
             GroupHeaders: [
                 {
                     Headers: "Internal CLI Status",
-                    DataHeaders: "InternalCLIStatus",
+                    DataHeaders: "InternalAuditCLIStatus",
                     rowspan: "1",
                     colspan: "9"
                 },
@@ -815,7 +815,7 @@ export class AuditdiscrepancyHeaderData {
             ColumnDetails: [
                 {
                     Headers: "ACT ID",
-                    DataHeaders: "ACTID",
+                    DataHeaders: "ActId",
                     rowspan: "3",
                     colspan: "1"
                 },
@@ -827,7 +827,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "CLIStatus",
+                    DataHeaders: "InternalAuditCLIStatus",
                     rowspan: "3",
                     colspan: "1"
                 },
@@ -839,67 +839,67 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "Under Investigation",
-                    DataHeaders: "UnderInvestigation",
+                    DataHeaders: "InProgressUnderInvestigation",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Under Governance",
-                    DataHeaders: "UnderGovernance",
+                    DataHeaders: "InProgressUnderGovernance",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Under Porting",
-                    DataHeaders: "UnderPorting",
+                    DataHeaders: "InProgressUnderPorting",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Port Req Complete",
-                    DataHeaders: "PortReqComplete",
+                    Headers: "Port Request Complete",
+                    DataHeaders: "InProgressPortRequestComplete",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Total",
-                    DataHeaders: "Total",
+                    DataHeaders: "InProgressTotal",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Resolved",
-                    DataHeaders: "Resolved",
+                    DataHeaders: "EndStatusYResolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "UnResolved",
-                    DataHeaders: "UnResolved",
+                    DataHeaders: "EndStatusYUnresolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Resolved",
-                    DataHeaders: "AutoResolved",
+                    DataHeaders: "EndStatusYAutoResolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Closed",
-                    DataHeaders: "AutoClosed",
+                    DataHeaders: "EndStatusYAutoClosed",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Audit Transaction Override",
-                    DataHeaders: "AuditTransactionOverride",
+                    DataHeaders: "EndStatusYAuditTransactionOverride",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Total",
-                    DataHeaders: "SumTotal",
+                    DataHeaders: "EndStatusYTotal",
                     rowspan: "1",
                     colspan: "1"
                 }
@@ -1042,7 +1042,7 @@ export class AuditdiscrepancyHeaderData {
             ColumnDetails: [
                 {
                     Headers: "Act ID",
-                    DataHeaders: "ACTID",
+                    DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -1054,7 +1054,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "CLIStatus",
+                    DataHeaders: "InternalAuditCLIStatus",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -1065,20 +1065,20 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff.",
-                    DataHeaders: "PostcodeDiff",
+                    Headers: "Postcode Difference",
+                    DataHeaders: "OutstandingMonthsDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff.",
-                    DataHeaders: "CustomerDiff",
+                    Headers: "Customer Difference",
+                    DataHeaders: "OutstandingMonthsDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Addr Diff.",
-                    DataHeaders: "FullAddrDiff",
+                    Headers: "Full Address Difference",
+                    DataHeaders: "OutstandingMonthsDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -1089,20 +1089,20 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff.",
-                    DataHeaders: "PostcodeDiff1",
+                    Headers: "Postcode Difference",
+                    DataHeaders: "SelectedMonthDifferenceENDStatusYPostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff.",
-                    DataHeaders: "CustomerDiff1",
+                    Headers: "Customer Difference",
+                    DataHeaders: "SelectedMonthDifferenceENDStatusYCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Addr Diff.",
-                    DataHeaders: "FullAddrDiff1",
+                    Headers: "Full Address Difference",
+                    DataHeaders: "SelectedMonthDifferenceENDStatusYFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 }
@@ -1129,7 +1129,7 @@ export class AuditdiscrepancyHeaderData {
             ColumnDetails: [
                 {
                     Headers: "Act ID",
-                    DataHeaders: "ACTID",
+                    DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -1141,25 +1141,25 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "B-BT Only",
-                    DataHeaders: "BBTOnly",
+                    DataHeaders: "BTOnly",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "V-OSN2 Only",
-                    DataHeaders: "VOSN2Only",
+                    DataHeaders: "OSN2Only",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "S-Matched",
-                    DataHeaders: "SMatched",
+                    DataHeaders: "Matched",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "D-Mismatched",
-                    DataHeaders: "DMisMatched",
+                    DataHeaders: "Mismatched",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -1170,20 +1170,20 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff.",
-                    DataHeaders: "PostcodeDiff",
+                    Headers: "Postcode Difference",
+                    DataHeaders: "AttributeDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff.",
-                    DataHeaders: "CustomerDiff",
+                    Headers: "Customer Difference",
+                    DataHeaders: "AttributeDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Add. Diff.",
-                    DataHeaders: "FullAddDiff",
+                    Headers: "Full Address Difference",
+                    DataHeaders: "AttributeDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -1203,7 +1203,7 @@ export class AuditdiscrepancyHeaderData {
             GroupHeaders: [
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "CLIStatus",
+                    DataHeaders: "ExternalAuditCLIStatus",
                     rowspan: "1",
                     colspan: "5"
                 },
@@ -1227,8 +1227,8 @@ export class AuditdiscrepancyHeaderData {
             TableName: "ProgressReport",
             ColumnDetails: [
                 {
-                    Headers: "ACT ID",
-                    DataHeaders: "ACTID",
+                    Headers: "Act ID",
+                    DataHeaders: "ActId",
                     rowspan: "3",
                     colspan: "1"
                 },
@@ -1240,7 +1240,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "CLIStatus",
+                    DataHeaders: "ExternalAuditCLIStatus",
                     rowspan: "3",
                     colspan: "1"
                 },
@@ -1258,92 +1258,92 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "Under Investigation",
-                    DataHeaders: "UnderInvestigation",
+                    DataHeaders: "InProgressUnderInvestigation",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Under Governance",
-                    DataHeaders: "UnderGovernance",
+                    DataHeaders: "InProgressUnderGovernance",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Under Porting",
-                    DataHeaders: "UnderPorting",
+                    DataHeaders: "InProgressUnderPorting",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Port Req Complete",
-                    DataHeaders: "PortReqComplete",
+                    Headers: "Port Request Complete",
+                    DataHeaders: "InProgressPortRequestComplete",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Total",
-                    DataHeaders: "Total",
+                    DataHeaders: "InProgressTotal",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Resolved",
-                    DataHeaders: "Resolved",
+                    DataHeaders: "EndStatusYResolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "UnResolved",
-                    DataHeaders: "UnResolved",
+                    DataHeaders: "EndStatusYUnresolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Resolved",
-                    DataHeaders: "AutoResolved",
+                    DataHeaders: "EndStatusYAutoResolved",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Closed",
-                    DataHeaders: "AutoClosed",
+                    DataHeaders: "EndStatusYAutoClosed",
                     rowspan: "1",
                     colspan: "1"
                 },
 
                 {
                     Headers: "Audit Transaction Override",
-                    DataHeaders: "AuditTransactionOverride",
+                    DataHeaders: "EndStatusYAuditTransactionOverride",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Active",
-                    DataHeaders: "AutoActive",
+                    DataHeaders: "EndStatusYAutoActive",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Modify",
-                    DataHeaders: "AutoModify",
+                    DataHeaders: "EndStatusYAutoModify",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Cease",
-                    DataHeaders: "AutoCease",
+                    DataHeaders: "EndStatusYAutoCease",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Auto Special Cease",
-                    DataHeaders: "AutoSpecialCease",
+                    DataHeaders: "EndStatusYAutoSpecialCease",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
                     Headers: "Total",
-                    DataHeaders: "SumTotal",
+                    DataHeaders: "EndStatusYTotal",
                     rowspan: "1",
                     colspan: "1"
                 }
@@ -1578,7 +1578,7 @@ export class AuditdiscrepancyHeaderData {
             ColumnDetails: [
                 {
                     Headers: "Act ID",
-                    DataHeaders: "ACTID",
+                    DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -1590,7 +1590,7 @@ export class AuditdiscrepancyHeaderData {
                 },
                 {
                     Headers: "CLI Status",
-                    DataHeaders: "CLIStatus",
+                    DataHeaders: "ExternalAuditCLIStatus",
                     rowspan: "2",
                     colspan: "1"
                 },
@@ -1601,20 +1601,20 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff.",
-                    DataHeaders: "PostcodeDiff",
+                    Headers: "Postcode Difference",
+                    DataHeaders: "OutstandingMonthsDifferencePostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff.",
-                    DataHeaders: "CustomerDiff",
+                    Headers: "Customer Difference",
+                    DataHeaders: "OutstandingMonthsDifferenceCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Addr Diff.",
-                    DataHeaders: "FullAddrDiff",
+                    Headers: "Full Address Difference",
+                    DataHeaders: "OutstandingMonthsDifferenceFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
@@ -1625,20 +1625,20 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Diff.",
-                    DataHeaders: "PostcodeDiff1",
+                    Headers: "Postcode Difference",
+                    DataHeaders: "SelectedMonthDifferenceENDStatusYPostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Diff.",
-                    DataHeaders: "CustomerDiff1",
+                    Headers: "Customer Difference",
+                    DataHeaders: "SelectedMonthDifferenceENDStatusYCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Addr Diff.",
-                    DataHeaders: "FullAddrDiff1",
+                    Headers: "Full Address Difference",
+                    DataHeaders: "SelectedMonthDifferenceENDStatusYFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
                 }

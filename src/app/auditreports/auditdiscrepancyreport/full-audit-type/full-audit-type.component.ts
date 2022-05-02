@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnInit, Type, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, Type, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { forkJoin, Observable, Observer, of } from 'rxjs';
 import { FullAuditAddresReport, FullAuditMonthReport, FullAuditProgressReport, FullAuditSummary } from '../../models/index'
@@ -1211,9 +1211,14 @@ export class FullAuditTypeComponent implements OnInit {
   currentMonth!: string;
   queryResult!: Observable<any>;
   @Input() QueryParams: any;
+  previousQueryParams: any = '';
 
   observerRes!: Observable<any>;
   observerRes1!: Observable<any>;
+  isMonthFilter: boolean = false;
+  @Output() getFilter = new EventEmitter();
+
+
   
 
 
@@ -1245,15 +1250,24 @@ export class FullAuditTypeComponent implements OnInit {
 
     //console.log("ngOnInit");
 
-     this.queryFetch();
+    //  this.queryFetch(false);
 
   }
 
   data:any;
 
-  ngOnChanges()
+  ngOnChanges(changes: SimpleChanges)
   {
     //this.queryFetch();
+    if(changes.QueryParams.previousValue != changes.QueryParams.currentValue)
+    {
+      // this.previousQueryParams = this.QueryParams;
+      console.log("Query parms changed");
+      this.queryFetch(false);
+    } else {
+      console.log("Query Params Unchanged");
+      this.queryFetch(true);
+    }
   }
 
   addressReport:any;
@@ -1265,31 +1279,59 @@ export class FullAuditTypeComponent implements OnInit {
     // }
   }
 
-  queryFetch() {
+  queryFetch(MonthFilter: boolean) {
 
+    if(this.isMonthFilter)
+    {
+      const QParams = { Name: "Month", Value: [this.currentMonth]};
+      this.QueryParams.push(QParams);
+      // console.log("QParams : " + JSON.stringify(this.QueryParams));
+      let request = Utils.preparePyQuery('FullAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
+    // console.log(JSON.stringify(request));
+    this.spinner.show();
+      this.observerRes1 =this.service.queryDetails(request).pipe(map((res: any) => {
+        this.spinner.hide();
+        return res.data;
+      }));
+        this.AddressReportTab();
+        console.log("AddressPostcode Report Only");
+    } else {
+      this.isMonthFilter = false;
     let request = Utils.preparePyQuery('FullAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
-    console.log(JSON.stringify(request));
+    // console.log(JSON.stringify(request));
     this.spinner.show();
       this.observerRes =this.service.queryDetails(request).pipe(map((res: any) => {
         return res.data}));
+        console.log("All Report");
+        this.AddressReportTab();
+          this.AuditSummaryTab();
+          this.ProgressReportTab();
+          this.MonthReportTab();
+    }
 
-     this.QueryProgressReport = of({
-         datasource: FullAuditData.FullAuditProgressReport,
-       });
+    //  this.QueryProgressReport = of({
+    //      datasource: FullAuditData.FullAuditProgressReport,
+    //    });
 
-       this.QueryMonthReport = of({
-           datasource:  FullAuditData.FullAuditMonthReport,
-         });
+    //    this.QueryMonthReport = of({
+    //        datasource:  FullAuditData.FullAuditMonthReport,
+    //      });
 
-         this.QueryAddressReport = of({
-             datasource: FullAuditData.FullAuditAddresReport,
-             AllMonths: FullAuditData.FullAuditAllMonths,
-           });
+    //      this.QueryAddressReport = of({
+    //          datasource: FullAuditData.FullAuditAddresReport,
+    //          AllMonths: FullAuditData.FullAuditAllMonths,
+    //        });
 
-            this.AuditSummaryTab();
-        this.ProgressReportTab();
-            this.MonthReportTab();
-           this.AddressReportTab();
+          //  if(IsMonthFilter)
+          //   {
+          //     this.AddressReportTab();
+          //   } else {
+          //     this.AddressReportTab();
+          //   this.AuditSummaryTab();
+          //   this.ProgressReportTab();
+          //   this.MonthReportTab();
+          //   }
+          
 
   }
 
@@ -1312,7 +1354,7 @@ export class FullAuditTypeComponent implements OnInit {
       var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
 
           // headerswithDetails = ['ACTID', 'SourceSystem'].concat(gridDesignDetails[0].GroupHeaders.map(x => x.DataHeaders));
-          headerswithDetails = ['ACTID', 'SourceSystem','FullAuditCLIStatus','AttributeDiffMatchedActiveMatched','AttributeDiffMatchedActiveMismatched','ResolutionType'];
+          headerswithDetails = ['ActId', 'SourceSystem','FullAuditCLIStatus','AttributeDifferenceMatchedActiveMismatched','AttributeDifferenceMisMatchedActiveMismatched','ResolutionType'];
           displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
           // console.log('dis',displayedColumns)
           detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
@@ -1353,12 +1395,12 @@ export class FullAuditTypeComponent implements OnInit {
       var labelName = 'ProgressReport';
       var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
 
-      headerswithDetails = ['ACTID', 'SourceSystem', 'FullAuditCLIStatus', 'New', 'AutoFailed'];
+      headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'New', 'AutoFailed'];
       displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
       // console.log('dis1',displayedColumns)
       detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
       // console.log('det1',detailedColumnsArray)
-      grpHdrColumnsArray = [['ACTID', 'SourceSystem', 'FullAuditCLIStatus', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
+      grpHdrColumnsArray = [['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'ResolutionType'], ['New', 'AutoFailed', 'InProgress', 'EndStatusY']];
       this.progressReportTable = {
         
         // data: this.observerRes1.pipe(map((x: any) => {
@@ -1379,6 +1421,7 @@ export class FullAuditTypeComponent implements OnInit {
         DetailedColumns: detailedColumnsArray,
         GroupHeaderColumnsArray: grpHdrColumnsArray,
         //FilterValues: [ELEMENT_DATA1.map(x => x.FullAuditCLIStatus), ELEMENT_DATA1.map(x => x.SourceSystem)],
+        FilterValues: 'Full Audit',
         isRowLvlTotal:true,
         FilterColumn: true,
         isMonthFilter: false,
@@ -1430,7 +1473,7 @@ AddressReportTab() {
       var labelName = 'AddressReport';
       var gridDesignDetails = this.FullAuditTableDetails.filter(x => x.TableName == labelName);
 
-      headerswithDetails = ['ACTID', 'SourceSystem', 'CLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
+      headerswithDetails = ['ActId', 'SourceSystem', 'FullAuditCLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
       displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
       detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
       grpHdrColumnsArray = [headerswithDetails];
@@ -1455,8 +1498,10 @@ AddressReportTab() {
        GroupHeaderColumnsArray: grpHdrColumnsArray,
        FilterColumn: true,
        isRowLvlTotal:true,
-       FilterValues: [ELEMENT_DATA3.map(x => x.CLIStatus), ELEMENT_DATA3.map(x => x.SourceSystem)],
+      //  FilterValues: [ELEMENT_DATA3.map(x => x.CLIStatus), ELEMENT_DATA3.map(x => x.SourceSystem)],
+      FilterValues: "Full Audit",
        isMonthFilter: true,
+       CurrentMonth: this.currentMonth,
      }
     //  this.tabs[3].data = this.addressReportTable;
      
@@ -1562,148 +1607,156 @@ AddressReportTab() {
   fetchMonthData(monthDate: string) {
     // console.log("Month Date : " + monthDate);
 
-    this.currentMonth = monthDate;
+    this.getFilter.emit(true);
 
-    let  FullAuditAddresReport1 = [
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      }, {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      },
-      {
-        ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
-        PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
-      }
+    // this.currentMonth = monthDate;
+    // this.queryFetch(false);
+    // this.isMonthFilter = false;
+
+    // this.queryFetch(true);
+    this.isMonthFilter = true;
+
+    // let  FullAuditAddresReport1 = [
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   }, {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Ceased", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   },
+    //   {
+    //     ACTID: "30", CLIStatus: "BA-BT Only - Source Active", CustomerDiff: 0, CustomerDiff1: 0, FullAddrDiff1: 0, FullAddrDiff: 1, OutstandingCLICount: 0,
+    //     PostcodeDiff: 0, PostcodeDiff1: 1, SourceSystem: "C-SAS/COMS", SelectedMonthCLICountsENDStatusY: 1
+    //   }
     
     
-    ];
+    // ];
     
 
-    var QueryAddressReport1 = of({
-      datasource: FullAuditAddresReport1,
+    // var QueryAddressReport1 = of({
+    //   datasource: FullAuditAddresReport1,
       // AllMonths: FullAuditData.FullAuditAllMonths,
-    });
+    // });
 
-    this.QueryAddressReport = QueryAddressReport1;
-    this.AddressReportTab();
+    // this.QueryAddressReport = QueryAddressReport1;
+    // this.AddressReportTab();
+
   }
 
   tabChanged(tab: any) {
