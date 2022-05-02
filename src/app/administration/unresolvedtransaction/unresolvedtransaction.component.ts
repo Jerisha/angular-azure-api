@@ -261,7 +261,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res.data.SolicitedError,
+          datasource: res.data.UnresolvedTransaction,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
           pagenumber: res.PageNumber
