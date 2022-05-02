@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, of } from 'rxjs';
-import { SelectMultipleComponent } from 'src/app/uicomponents';
+import { SelectExpressionComponent, SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
@@ -11,6 +11,7 @@ import { Utils } from 'src/app/_http/common/utils';
 import { AdministrationService } from '../services/administration.service';
 import { map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
+import { Exp } from 'src/app/_helper';
 
 const ELEMENT_DATA: UnresolvedTransaction[] = [
   {
@@ -73,9 +74,9 @@ const ELEMENT_DATA: UnresolvedTransaction[] = [
 ];
 
 const FilterListItems: Select[] = [
-  { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
   { view: 'Customer Name', viewValue: 'CustomerName', default: true },
-  { view: 'Source', viewValue: 'DateRange', default: true },
+  { view: 'Date Range', viewValue: 'DateRange', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'Trans Command', viewValue: 'TransCommand', default: true },
@@ -112,6 +113,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   telNo?: any;
   tranId?: any;
   repIdentifier = "UnresolvedTransactions";
+  expressions: any = Exp;
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
@@ -123,7 +125,14 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
-
+  @ViewChild('TelephoneNoExp') TelephoneNoExp!: SelectExpressionComponent;
+  @ViewChild('CustomerNameExp') CustomerNameExp!: SelectExpressionComponent;
+  @ViewChild('SourceExp') SourceExp!: SelectExpressionComponent;
+  @ViewChild('StatusExp') StatusExp!: SelectExpressionComponent;
+  @ViewChild('TransCommandExp') TransCommandExp!: SelectExpressionComponent;
+  @ViewChild('SourceTypeExp') SourceTypeExp!: SelectExpressionComponent;
+  
+  
   constructor(private formBuilder: FormBuilder,
     private service: AdministrationService,
     private cdr: ChangeDetectorRef) { }
@@ -188,8 +197,8 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      CustomerName: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
+      CustomerName: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
       TransCommand: new FormControl({ value: '', disabled: true }, []),
@@ -286,15 +295,19 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   }
 
   prepareQueryParams(pageNo: string): any {
+
+let val = this.TelephoneNoExp.selectedViewValue;
+// console.log("valexp:" ,val);
     let attributes: any = [
       { Name: 'PageNumber', Value: [`${pageNo}`] }];
-    // //Reference
-    // const control = this.thisForm.get('Reference');
-    // if (control?.value)
-    //   attributes.push({ Name: '999Reference', Value: [control?.value] });
-    // else
-    //   attributes.push({ Name: '999Reference' });
-
+   
+      attributes.push({ Name: 'TelePhoneNumberOperator', Value: [this.TelephoneNoExp.selectedViewValue] });
+      attributes.push({ Name: 'CustomerNameOperator', Value: [this.CustomerNameExp.selectedViewValue] });
+      attributes.push({ Name: 'SourceOperator', Value: [this.SourceExp.selectedViewValue] });
+      attributes.push({ Name: 'StatusOperator', Value: [this.StatusExp.selectedViewValue] });
+      attributes.push({ Name: 'TransactionCommandOperator', Value: [this.TransCommandExp.selectedViewValue] });
+      attributes.push({ Name: 'SourceTypeOperator', Value: [this.SourceTypeExp.selectedViewValue] });
+      
     for (const field in this.f) {
       const control = this.thisForm.get(field);
       if (field == 'DateRange') {
@@ -310,8 +323,12 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
           attributes.push({ Name: 'ToDate' });
         continue;
       }
+
       if (control?.value)
+      {
         attributes.push({ Name: field, Value: [control?.value] });
+        
+      }
       else
         attributes.push({ Name: field });
     }
