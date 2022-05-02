@@ -15,7 +15,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { ReportService } from '../services/report.service';
-import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
@@ -490,7 +490,7 @@ resetExp:boolean = false;
   SelectedDate = null;
   isMale = true;
   isFeMale = false;
-  expressions: any = [expNumeric, expString, expDate];
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
   destroy$: Subject<boolean> = new Subject<boolean>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -559,7 +559,7 @@ resetExp:boolean = false;
     });
 
   }
- 
+
 
   get f() {
     return this.myForm.controls;
@@ -596,9 +596,9 @@ resetExp:boolean = false;
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.LiveTelephoneNumberDetails,
-          totalrecordcount: res.data.TotalCount,
-          totalpages: res.data.NumberOfPages,
-          pagenumber: res.data.PageNumber
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       } else return res;
@@ -768,8 +768,9 @@ resetExp:boolean = false;
   }
 
   createForm() {
+
     this.myForm = new FormGroup({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),  Validators.pattern("^[0-9]{10,11}$")]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       PostCode: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true }, []),
@@ -795,11 +796,7 @@ resetExp:boolean = false;
   }
   onChange(value: string, ctrlName: string) {
     const ctrl = this.myForm.get(ctrlName) as FormControl;
-    if (isNaN(<any>value))
-    if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
-      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-    } else {
+    if (value != null && value != undefined) {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }

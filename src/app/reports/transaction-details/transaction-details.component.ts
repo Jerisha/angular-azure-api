@@ -8,7 +8,7 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { ReportService} from 'src/app/reports/services/report.service';
 import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
-import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http/common/utils';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -52,7 +52,8 @@ export class TransactionDetailsComponent implements OnInit {
   massage = null;  
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;  
-  expressions:any = [expNumeric,expString,expDate];  
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
+   
   expOperatorsKeyPair:[string,string][] =[]; 
   resetExp: boolean=false;
   
@@ -153,7 +154,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{11}$")]), 
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true },  [Validators.pattern("^[0-9]{10,11}$")]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true },[]),
       PostCode: new FormControl({ value: '', disabled: true }, []),
@@ -286,8 +287,8 @@ prepareQueryParams(pageNo: string): any {
         let result = {
           datasource: res.data.TransactionDetails,
           totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber          
+            totalpages: res.NumberOfPages,
+            pagenumber: res.PageNumber         
         }
         return result;
       } else return {datasource:res};;
