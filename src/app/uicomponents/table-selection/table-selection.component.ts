@@ -154,8 +154,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     initializeTableAttributes() {
       this.selection.clear();
-      this.allSelected = true;
-      this.ColumnDetails = [];   
+      this.allSelected = true;        
       this.imageAttrCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isImage) : [];
       this.fontHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isFontHighlighted) : [];
       this.backgroundHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
@@ -218,6 +217,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     
   removeNoDataColumns(data: any) {
+    this.ColumnDetails = [];
     this.columnHeaderFilter = this.tableitem?.filter;
     if (this.tableitem?.removeNoDataColumns) {
       if (data && data.length > 0)

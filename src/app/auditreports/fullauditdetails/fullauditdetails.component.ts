@@ -416,6 +416,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     //this.rowRange='';
 
     if (this.fullAuditForm.invalid) { return; }
+    this.getPnlControlAttributes();
     this.setAttributesForManualCorrections();
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage));
@@ -682,8 +683,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
         //update 
-        console.log('sample in ', JSON.stringify(request))
-        return;
+        console.log('sample in ', JSON.stringify(request))       
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
             this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
