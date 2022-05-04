@@ -29,7 +29,7 @@
 
           <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>End Telephone No</mat-label>
-            <input id="EndTelephoneNumber" telNoPrefixValidator compareStartNo formControlName="EndTelephoneNumber" matInput #EndTelephoneNumber
+            <input id="EndTelephoneNumber" telNoPrefixValidator compareStartNo [startNo]="form.StartTelephoneNumber" formControlName="EndTelephoneNumber" matInput #EndTelephoneNumber
               maxlength="11" placeholder="End Telephone No" (blur)="getPnlControlAttributes()" (keypress)="numberOnly($event)"
               >
             <mat-error>
