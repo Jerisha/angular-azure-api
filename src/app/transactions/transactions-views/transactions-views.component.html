@@ -125,10 +125,13 @@
                     <!-- </div>                        -->
                     </div> 
                     <div style="padding-top: 1rem;">
+                      <div class="vf-flex-container">
+                        <div class="vf-flex-container-col" style="margin: 2px;"> 
+                          <div style="margin-bottom: 6px;">
                       <span>
                       <mat-form-field    style="margin-left:5px;" [ngClass]="{'hidden':g.CupID.disabled}">
                         <mat-label class="vf-label" >CUPID</mat-label>  
-                        <mat-select formControlName="CupID" [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
+                        <mat-select formControlName="CupID" [(value)]="model.CupId" [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
                           <mat-option [value]="">                  
                           </mat-option>
                           <mat-option *ngFor="let cupid of cupidValues" [value]="cupid">
@@ -139,21 +142,44 @@
                         </mat-error>               
                       </mat-form-field>
                     </span>
+                   
+                    <span>
+                      <mat-form-field  *ngIf = "enableSource"   style="margin-left:5px;" [ngClass]="{'hidden':g.CupID.disabled}">
+                        <mat-label class="vf-label" >Source</mat-label> 
+                        <mat-select formControlName="Source" [(value)]="model.source" [(ngModel)]="model.source" name="Source" placeholder="Source *"   style ="font-size:x-small;">
+                          <!-- <mat-option [value]="">                  
+                          </mat-option> -->
+                          <mat-option *ngFor="let val of SourceValues" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>  
+                        <mat-error class="error-message" *ngIf="checkErrorinFrom('Source', 'required')">Select Source
+                        </mat-error>               
+                      </mat-form-field>
+                    </span>
+                          </div>
+                        </div>
+                        <div class="vf-flex-container-col" style="margin: 2px;float: left;display: block;">
+                          <div style="margin-bottom: 6px;"> 
                     <span>           
                         <mat-form-field *ngIf = "enableFrancise" 
                           style="margin-left:2px;width:300px;" [ngClass]="{'hidden':g.Franchise.disabled}">
                           <mat-label class="vf-label">Franchise</mat-label>             
-                          <mat-select formControlName="Franchise"  [(ngModel)]="model.Franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
-                            <mat-option value= ""></mat-option>
-                            <mat-option *ngFor="let val of franchiseValues" [value]="val.Franchise">
-                              {{val.Franchise}}
+                          <mat-select formControlName="Franchise"  [(value)]="model.franchise"  [(ngModel)]="model.franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
+                            <!-- <mat-option value= ""></mat-option> -->
+                            <mat-option *ngFor="let val of franchiseValues" [value]="val">
+                              {{val}}
                             </mat-option>
                             </mat-select> 
                             <mat-error class="error-message" *ngIf="checkErrorinFrom('Franchise', 'required')">Select Franchise
                             </mat-error> 
                         </mat-form-field>
                       </span> 
-                      </div>                                 
+                      </div>   
+                        </div>
+                      </div>
+                    </div>
+                                                  
                           </form> 
                       </div>                      
                   </mat-card-content>
@@ -164,7 +190,7 @@
                 <ng-container *ngIf="configDetails  as config">
                 <div class="vf-flex-container-col">
                   <div class="vf-flex-container">
-                      <div class="vf-flex-container-col" style="margin: 2px;"> 
+                      <div class="vf-flex-container-col" style="margin: 2px;display: block;"> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.TransactionType.disabled}">
                             <mat-label>Transaction Type</mat-label>
@@ -246,8 +272,8 @@
                         </mat-form-field>
                       </div> 
                       </div>
-                      <div class="vf-flex-container-col" style="margin: 2px;float: left;">
-                        <div style="margin-bottom: 6px;"> 
+                      <div class="vf-flex-container-col" style="margin: 2px;float: left;display: block;">
+                        <div style="margin-bottom: 15px;"> 
                           <span>                        
                           <mat-form-field   class="vf-mr-negative" style="width:250px;">
                             <mat-label class="vf-label">Customer Name *</mat-label>
@@ -271,7 +297,7 @@
                         </span>   
                         
                       </div>
-                      <div style="margin-bottom: 6px;">
+                      <div style="margin-bottom: 20px;">
                         <mat-form-field   class="vf-mr-negative"style="width:300px;" >
                           <mat-label class="vf-label">Address1 *</mat-label>
                           <textarea matInput placeholder="Address1 *"
@@ -288,7 +314,7 @@
                                
                         </mat-form-field>
                     </div>
-                    <div style="margin-bottom: 6px;">
+                    <div style="margin-bottom: 20px;">
                       <mat-form-field   class="vf-mr-negative" style="width:300px;">
                         <mat-label class="vf-label">Address2 *</mat-label>
                         <textarea matInput placeholder="Address2 *"
@@ -304,7 +330,7 @@
                                    
                       </mat-form-field>
                   </div>
-                  <div style="margin-bottom: 6px;">
+                  <div style="margin-bottom: 20px;">
                     <mat-form-field   class="vf-mr-negative" style="width:300px;">
                       <mat-label class="vf-label">Address3</mat-label>
                       <textarea matInput placeholder="Address3"
@@ -319,7 +345,7 @@
                       ></textarea>              
                     </mat-form-field>
                 </div>
-                <div style="margin-bottom: 6px;">
+                <div style="margin-bottom: 20px;">
                   <mat-form-field   class="vf-mr-negative" style="width:300px;">
                     <mat-label class="vf-label">Address4</mat-label>
                     <textarea matInput placeholder="Address4"
