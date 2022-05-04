@@ -316,7 +316,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         if (confirm) {
           let entries = Object.entries(event[1])
       
-          let data = entries.map(([key, val]) => ({ Name: key, Value: [val] }));
+          let data = entries.map(([key, val]) => ({ Name: key, Value: ["/val/"] }));
           //console.log( `The ${key} is ${val}`)
           console.log(JSON.stringify(data))
           //});

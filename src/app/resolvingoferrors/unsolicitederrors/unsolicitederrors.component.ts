@@ -157,9 +157,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   thisForm!: FormGroup;
   thisUpdateForm!: FormGroup;
   tabs: Tab[] = [];
-  Resolution: string ='';
-  Refer: string='';
-  Remarks: string='';
+  Resolution: string = '';
+  Refer: string = '';
+  Remarks: string = '';
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
@@ -377,16 +377,16 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.isSaveDisable = true;
     //console.log('isSaveDisable',this.isSaveDisable)
   }
-  
-  check999(){
-    if(this.Refer && this.Refer.substring(0,3) != '999')
-    return false;
-    
+
+  check999() {
+    if (this.Refer && this.Refer.substring(0, 3) != '999')
+      return false;
+
     return true;
   }
   onSaveSubmit() {
     debugger;
-    if (this.selectedGridRows.length > 0 && 
+    if (this.selectedGridRows.length > 0 &&
       (this.Resolution && this.Remarks && this.check999())) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
@@ -463,15 +463,22 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    let errMsg = '';
     if (!this.thisForm.valid) return;
-    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000) {
+    if (this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value == '')
+      errMsg = 'Please enter the Start Telephone No';
+    //Telephonerange
+    if ((this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value != '') && (this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000)
+      errMsg = 'TelephoneRange must be less than or equal to 10000.';
+    if (errMsg) {
+
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
         // height:'250px',
         disableClose: true,
         data: {
           enableOk: false,
-          message: 'TelephoneRange must be less than or equal to 10000.',
+          message: errMsg,
         }
       });
       rangeConfirm.afterClosed().subscribe(result => {
@@ -614,21 +621,21 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.selected = matSelect.value;
   }
 
-  reference(event: any, ctrlName: string):boolean{
+  reference(event: any, ctrlName: string): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
-    const ctrlValue = ctrlName!='Refer' ?ctrl?.value : this.Refer;
-    if (charCode ===32) {
+    const ctrlValue = ctrlName != 'Refer' ? ctrl?.value : this.Refer;
+    if (charCode === 32) {
       return false;
     }
     else if (ctrlValue?.charAt(0) != 9 && ctrlValue?.substring(0, 3) != '999') {
-      let newValue = '999'+ ctrlValue;
-      if(ctrlName!='Refer')
-      ctrl.setValue(newValue);
+      let newValue = '999' + ctrlValue;
+      if (ctrlName != 'Refer')
+        ctrl.setValue(newValue);
       else
-      this.Refer = newValue;
+        this.Refer = newValue;
     }
-    return true;    
+    return true;
   }
 
 

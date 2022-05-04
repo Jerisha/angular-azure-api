@@ -183,16 +183,16 @@ export class SolicitederrorsComponent implements OnInit {
   updateDetails!: any;
 
   ngOnInit(): void {
-  //   let requesttwo = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
-  //     "Name": "TransactionDays",
-  //     "Value": [`62`]
-  //   }])
-  //   console.log('request for info',requesttwo);
-  //  // this.queryResult$ = this.service.infoDetails(requesttwo).pipe(map((res: any) => res));
-  //   this.service.infoDetails(requesttwo).subscribe((res: any) => {
-  //     //this.infotable1 = res.dates;
-  //     //this.infotable2 = res.months      
-  //   });
+    //   let requesttwo = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
+    //     "Name": "TransactionDays",
+    //     "Value": [`62`]
+    //   }])
+    //   console.log('request for info',requesttwo);
+    //  // this.queryResult$ = this.service.infoDetails(requesttwo).pipe(map((res: any) => res));
+    //   this.service.infoDetails(requesttwo).subscribe((res: any) => {
+    //     //this.infotable1 = res.dates;
+    //     //this.infotable2 = res.months      
+    //   });
     this.createForm();
 
     debugger;
@@ -281,7 +281,7 @@ export class SolicitederrorsComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
@@ -336,20 +336,25 @@ export class SolicitederrorsComponent implements OnInit {
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    let errMsg = '';
     if (!this.thisForm.valid) return;
-    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000) {
+    //Enter start telephone no
+    if (this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value == '')
+      errMsg = 'Please enter the Start Telephone No';
+    //Telephonerange
+    if ((this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value != '') && (this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000)
+      errMsg = 'TelephoneRange must be less than or equal to 10000.';
+    if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
         // height:'250px',
         disableClose: true,
         data: {
           enableOk: false,
-          message: 'TelephoneRange must be less than or equal to 10000.',
+          message: errMsg,
         }
       });
-      rangeConfirm.afterClosed().subscribe(result => {
-        return result;
-      })
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
     this.tabs.splice(0);

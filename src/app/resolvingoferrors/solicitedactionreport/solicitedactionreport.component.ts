@@ -124,7 +124,7 @@ export class SolicitedactionreportComponent implements OnInit {
     "TelephoneNumberOperator",
     "TransactionIDOperator",    
     "SourceOperator",
-    "ResolutionTypeAuditOperator",
+    "ResolveTypeOperator",
     "StatusOperator",
     "TransactionCommandOperator",
 
@@ -186,6 +186,7 @@ export class SolicitedactionreportComponent implements OnInit {
       TransactionID: new FormControl({ value: '', disabled: true }, []),
       // CreatedOn: new FormControl({ value: '', disabled: true }, []),
       ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
+      // ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),
@@ -263,9 +264,8 @@ export class SolicitedactionreportComponent implements OnInit {
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
-
     for (const field in this.f) {
-      if (field != 'Reference') {
+      if (field != 'Reference' ) {
         const control = this.myForm.get(field);
         if (field == 'DateRange') {
           const startDate = this.myForm.get('DateRange.StartDate');
@@ -278,9 +278,38 @@ export class SolicitedactionreportComponent implements OnInit {
             attributes.push({ Name: 'EndDate', Value: [formatDate(endDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
             attributes.push({ Name: 'EndDate' });
+           
           continue;
         }
-        if (control?.value)
+        if (field == 'ResolutionTypeAudit')
+        {
+        attributes.push({ Name: 'ResolveType', Value: [control?.value]});
+        let operator: string = 'ResolveType' + "Operator";
+        if (this.expOperatorsKeyPair.length != 0) {
+          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+          // console.log(expvals,"operatorVal1")
+          if (expvals.length != 0) {
+          //  console.log(control?.value,"True");
+              // if (control?.value) {
+                attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                console.log(expvals[0][1],"operatorVal");
+              // }
+              // else {
+              //   attributes.push({ Name: operator, Value: ['Equal To'] });
+              // }
+          }
+         
+        }
+        else {
+  
+          attributes.push({ Name: operator, Value: ['Equal To'] });
+  
+        }
+     
+       
+        } 
+
+        if (control?.value )
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
@@ -304,9 +333,6 @@ export class SolicitedactionreportComponent implements OnInit {
             // else {
             //   attributes.push({ Name: operator, Value: ['Equal To'] });
             // }
-
-          
-
         }
         else {
           if (field == 'TelephoneNumber' || field == 'DateRange') {

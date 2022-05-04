@@ -12,6 +12,8 @@ import { UnsolicitedactionreportsComponent } from './unsolicitedactionreports/un
 
 import { AdministrationService } from './services/administration.service';
 import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
+import { AuditstatustrackerComponent } from '../administration/auditstatustracker/auditstatustracker.component';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.c
     RestoresolicitederrorsComponent,
     ManageUsersComponent,
     DataCorrectionReportsComponent,
-    UnresolvederrorsComponent
+    UnresolvederrorsComponent,
+    AuditstatustrackerComponent
   ],
   imports: [
     CommonModule,
