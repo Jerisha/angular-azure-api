@@ -227,7 +227,10 @@ export const ReportMetaDataResponse = {
          { cPosition:2, cMinLength:0, cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: false, cMaxLength: 200, cList: []
          },], 
-           "NextCommandCheck":[{ cPosition:1, cMinLength:0, cName: "Source", cDisplayName: "Source", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           "NextCommandCheck":[
+            { cPosition:1, cMinLength:0, cName: "NcID", cDisplayName: "NcID", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: false, cReadOnly: true,
+            cMandate: true, cMaxLength: 200, cList: []},
+             { cPosition:1, cMinLength:0, cName: "Source", cDisplayName: "Source", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []},
          { cPosition:2, cMinLength:0, cName: "Next", cDisplayName: "Next", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []},
@@ -237,10 +240,10 @@ export const ReportMetaDataResponse = {
            cMandate: true, cMaxLength: 200, cList: []},
          { cPosition:5, cMinLength:0, cName: "Change", cDisplayName: "Change", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []},
-         { cPosition:6, cMinLength:0, cName: "SendtoBT", cDisplayName: "SendtoBT", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:6, cMinLength:0, cName: "SendBT", cDisplayName: "Send BT", cType: "radio", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:7, cMinLength:0, cName: "EffectiveForDays", cDisplayName: "EffectiveForDays", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:7, cMinLength:0, cName: "EffectiveDays", cDisplayName: "Effective Days", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
          { cPosition:8, cMinLength:0, cName:"Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
@@ -248,14 +251,16 @@ export const ReportMetaDataResponse = {
          },], 
            "OsnProvideList":[{ cPosition:1, cMinLength:0, cName: "ListName", cDisplayName: "ListName", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []},
-         { cPosition:2, cMinLength:0, cName: "ListType", cDisplayName: "ListType", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-           cMandate: true, cMaxLength: 200, cList: []},
-         { cPosition:3, cMinLength:0, cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-           cMandate: true, cMaxLength: 200, cList: []
+           { cPosition:2, cMinLength:0, cName: "ListType", cDisplayName: "List Type", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           cMandate: false, cMaxLength: 200, cList: []
          },
+         { cPosition:3, cMinLength:0, cName: "Code", cDisplayName: "Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           cMandate: true, cMaxLength: 200, cList: []},
          { cPosition:4, cMinLength:0, cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-           cMandate: true, cMaxLength: 200, cList: []
-         },], 
+           cMandate: false, cMaxLength: 200, cList: []
+         },
+        
+      ], 
            "ErrorCode":[{ cPosition:1, cMinLength:0, cName: "ErrorCode", cDisplayName: "ErrorCode", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
