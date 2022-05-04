@@ -100,7 +100,7 @@ export const ReportMetaDataResponse = {
             { cPosition:4, cMinLength:0, cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 2000, cList: [] },
            ],
            "AuditStatus":[
-            { cPosition:1, cMinLength:0, cName: "StatusId", cDisplayName: "StatusId", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+            { cPosition:1, cMinLength:0, cName: "StatusId", cDisplayName: "Status Id", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
             cMandate: true, cMaxLength: 20, cList: []},
             { cPosition:2, cMinLength:0, cName: "Summary", cDisplayName: "Status Summary", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
             cMandate: true, cMaxLength: 200, cList: []},
@@ -130,16 +130,16 @@ export const ReportMetaDataResponse = {
          { cPosition:3, cMinLength:0, cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 2000, cList: []
          },], 
-           "ResolverEmail":[{ cPosition:1, cMinLength:0, cName: "SourceCode", cDisplayName: "SourceCode", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           "ResolverEmail":[{ cPosition:1, cMinLength:0, cName: "SourceCode", cDisplayName: "Source Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
          { cPosition:1, cMinLength:0, cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:2, cMinLength:0, cName: "NonPortingEmail", cDisplayName: "NonPortingEmail", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:2, cMinLength:0, cName: "NonPortingEmail", cDisplayName: "NonPorting Email", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:3, cMinLength:0, cName: "PortingEmail", cDisplayName: "PortingEmail", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:3, cMinLength:0, cName: "PortingEmail", cDisplayName: "Porting Email", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
          { cPosition:4, cMinLength:0, cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
@@ -172,7 +172,7 @@ export const ReportMetaDataResponse = {
          { cPosition:3, cMinLength:0, cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },], 
-           "ErrorType":[ { cPosition:1, cMinLength:0, cName: "ErrorType", cDisplayName: "ErrorType", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           "ErrorType":[ { cPosition:1, cMinLength:0, cName: "ErrorType", cDisplayName: "Error Type", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
          { cPosition:2, cMinLength:0, cName: "Description", cDisplayName: "Description", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
@@ -203,10 +203,10 @@ export const ReportMetaDataResponse = {
          { cPosition:2, cMinLength:0, cName: "Title", cDisplayName: "Title", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:3, cMinLength:0, cName: "IsBAUorAudit", cDisplayName: "IsBAUorAudit", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:3, cMinLength:0, cName: "IsBAUorAudit", cDisplayName: "Is BAU or Audit", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:4, cMinLength:0, cName: "EndState", cDisplayName: "EndState", cType: "radio", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:4, cMinLength:0, cName: "EndState", cDisplayName: "End State", cType: "radio", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
          { cPosition:5, cMinLength:0, cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
@@ -228,7 +228,7 @@ export const ReportMetaDataResponse = {
            cMandate: false, cMaxLength: 200, cList: []
          },], 
            "NextCommandCheck":[
-            { cPosition:1, cMinLength:0, cName: "NcID", cDisplayName: "NcID", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: false, cReadOnly: true,
+            { cPosition:1, cMinLength:0, cName: "NcID", cDisplayName: "Nc ID", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: false, cReadOnly: true,
             cMandate: true, cMaxLength: 200, cList: []},
              { cPosition:1, cMinLength:0, cName: "Source", cDisplayName: "Source", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []},
@@ -249,7 +249,7 @@ export const ReportMetaDataResponse = {
          { cPosition:8, cMinLength:0, cName:"Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },], 
-           "OsnProvideList":[{ cPosition:1, cMinLength:0, cName: "ListName", cDisplayName: "ListName", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           "OsnProvideList":[{ cPosition:1, cMinLength:0, cName: "ListName", cDisplayName: "List Name", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []},
            { cPosition:2, cMinLength:0, cName: "ListType", cDisplayName: "List Type", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: false, cMaxLength: 200, cList: []
@@ -261,7 +261,7 @@ export const ReportMetaDataResponse = {
          },
         
       ], 
-           "ErrorCode":[{ cPosition:1, cMinLength:0, cName: "ErrorCode", cDisplayName: "ErrorCode", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           "ErrorCode":[{ cPosition:1, cMinLength:0, cName: "ErrorCode", cDisplayName: "Error Code", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
          { cPosition:2, cMinLength:0, cName: "BtError", cDisplayName: "BT Error", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
@@ -303,13 +303,13 @@ export const ReportMetaDataResponse = {
          { cPosition:3, cMinLength:0, cName: "Comment", cDisplayName: "Comment", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 2000, cList: []
          },], 
-           "InterimCommands":[{ cPosition:1, cMinLength:0, cName: "CommandList", cDisplayName: "CommandList", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+           "InterimCommands":[{ cPosition:1, cMinLength:0, cName: "CommandList", cDisplayName: "Command List", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:2, cMinLength:0, cName: "FinalCommand", cDisplayName: "FinalCommand", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:2, cMinLength:0, cName: "FinalCommand", cDisplayName: "Final Command", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
-         { cPosition:3, cMinLength:0, cName: "FinalStatus", cDisplayName: "FinalStatus", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
+         { cPosition:3, cMinLength:0, cName: "FinalStatus", cDisplayName: "Final Status", cType: "select", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
            cMandate: true, cMaxLength: 200, cList: []
          },
          { cPosition:4, cMinLength:0, cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
