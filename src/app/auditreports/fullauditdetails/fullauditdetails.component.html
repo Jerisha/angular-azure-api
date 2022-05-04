@@ -15,26 +15,35 @@
               maxlength="11" placeholder="Start Telephone No" (blur)="getPnlControlAttributes()" (keypress)="numberOnly($event)"
              style="margin-right: 24%;">
             <mat-error>
-              <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid"
-                class="alert alert-danger">
-                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+              <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid" class="alert alert-danger">
+                <div *ngIf="form.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
               </div>
+              <!-- <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid"
+                class="alert alert-danger">
+                                <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+              </div> -->
             </mat-error>
             <mat-hint align="end">{{StartTelephoneNumber.value?.length || 0}}/11</mat-hint>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>End Telephone No</mat-label>
-            <input id="EndTelephoneNumber" telNoPrefixValidator formControlName="EndTelephoneNumber" matInput #EndTelephoneNumber
+            <input id="EndTelephoneNumber" telNoPrefixValidator compareStartNo formControlName="EndTelephoneNumber" matInput #EndTelephoneNumber
               maxlength="11" placeholder="End Telephone No" (blur)="getPnlControlAttributes()" (keypress)="numberOnly($event)"
               >
             <mat-error>
-              <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid"
-                class="alert alert-danger">
-                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                <div *ngIf="form.EndTelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
+              <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid" class="alert alert-danger">
+                <div *ngIf="form.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div>
+                <div *ngIf="form.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div>
+                <div *ngIf="form.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                <div *ngIf="form.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
               </div>
+              <!-- <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid"
+                class="alert alert-danger">
+               
+                <div *ngIf="form.EndTelephoneNo.errors?.pattern">Telephone No is not 11 digit</div>
+              </div> -->
             </mat-error>
             <mat-hint align="end">{{EndTelephoneNumber.value?.length || 0}}/11</mat-hint>
           </mat-form-field>

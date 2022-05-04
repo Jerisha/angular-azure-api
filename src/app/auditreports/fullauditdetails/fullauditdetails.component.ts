@@ -96,7 +96,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'LineType', header: 'Line Type', showDefault: true, isImage: false },
     { headerValue: 'LiveRecords', header: 'Live Records', showDefault: true, isImage: false, isTotal:true },
     { headerValue: 'InactiveRecords', header: 'Inactive Records', showDefault: true, isImage: false,isTotal:true },
-    { headerValue: 'NotAvailable', header: 'Not Available', showDefault: true, isImage: false },
+    { headerValue: 'NotAvailable', header: 'Not Available', showDefault: true, isImage: false, isTotal:true },
     { headerValue: 'CustomerName', header: 'Customer Name', showDefault: true, isImage: false },
     { headerValue: 'CustomerAddress', header: 'Customer Address', showDefault: true, isImage: false },
     { headerValue: 'OrderReference', header: 'Order Ref', showDefault: true, isImage: false },
@@ -650,8 +650,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
       AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }),
       BatchID: new FormControl({ value: '', disabled: true }),
@@ -700,11 +700,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         this.disableProcess = false;
       }
       else {
-        if (this.selectListItems.length >= 1 &&
-          this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
-          this.disableProcess = false;
-        }
-        else if (this.selectListItems.length === 1) {
+        // if (this.selectListItems.length >= 1 &&
+        //   this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
+        //   this.disableProcess = false;
+        // }
+        if (this.selectListItems.length === 1) {
           this.disableProcess = false;
         }
         else {
@@ -735,6 +735,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         if (result) {
           let request = Utils.prepareUpdateRequest('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'), [{}]);
           //update
+          console.log('sample in ', JSON.stringify(request))
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
               this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
@@ -767,8 +768,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
             let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
             console.log('sample in ', JSON.stringify(request))
             this.service.updateDetails(request).subscribe(x => {
-              if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-                this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              if (x.StatusCode === 'EUI000') {
+                this.alertService.success(x.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+                this.onFormSubmit(true);
               }
             });
           }
@@ -874,7 +876,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         }
         else
           identifiers.push({ Name: name });
-
+          
 
         if (this.remarkstxt != '')
           identifiers.push({ Name: 'ResolutionRemarks', Value: [this.remarkstxt] });
