@@ -323,21 +323,27 @@ export class RestoresolicitederrorsComponent implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
+   
     debugger;
+    let errMsg = '';
     if (!this.thisForm.valid) return;
-    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000) {
+    //Enter start telephone no
+    if (this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value == '')
+      errMsg = 'Please enter the Start Telephone No';
+    //Telephonerange
+    if ((this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value != '') && (this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000)
+      errMsg = 'TelephoneRange must be less than or equal to 10000.';
+    if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
         // height:'250px',
         disableClose: true,
         data: {
           enableOk: false,
-          message: 'TelephoneRange must be less than or equal to 10000.',
+          message: errMsg,
         }
       });
-      rangeConfirm.afterClosed().subscribe(result => {
-        return result;
-      })
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
     this.tabs.splice(0);
