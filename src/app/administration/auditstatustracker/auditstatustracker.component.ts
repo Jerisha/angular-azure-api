@@ -6,7 +6,7 @@ import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { AuditStatusTracker } from '../models/separateinternalauditdetails';
+import { AuditStatusTracker } from '../../auditreports/models/separateinternalauditdetails';
 
 const AuditStatusTracker_Data: AuditStatusTracker [] = [
   {

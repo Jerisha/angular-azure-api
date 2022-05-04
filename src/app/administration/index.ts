@@ -2,3 +2,4 @@ export * from 'src/app/administration/audit-data-files/audit-data-files.componen
 export * from 'src/app/administration/restoresolicitederrors/restoresolicitederrors.component'
 export * from 'src/app/administration/manage-users/manage-users.component'
 export * from 'src/app/administration/data-correction-summary/data-correction-reports/data-correction-reports.component'
+export * from './auditstatustracker/auditstatustracker.component'
