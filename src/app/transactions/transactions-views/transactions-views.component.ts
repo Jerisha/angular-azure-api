@@ -127,8 +127,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.initForm();
     console.log('constructor values', this.AuditPopulatevalue);
     if (this.AuditPopulatevalue != []) {
-      this.model.telno = this.AuditPopulatevalue[0].StarttelephoneNumber;
-      this.model.rangeEnd = this.AuditPopulatevalue[0].EndTelephoneNumber;
+      this.model.telno = this.AuditPopulatevalue.StartphoneNumber;
+      this.model.rangeEnd = this.AuditPopulatevalue.EndPhoneNumber;
     }
 
 
@@ -455,11 +455,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         if (Object.keys(res).length) {
             debugger
           //this.Provide=res.Data.NumberOfTransactions.MasterCount;
-          this.queryResultobj = res[0];
-          let type: string = res[0].TransactionTypes[0].TransactionType;
-          let linetype: string = res[0].LineTypes[0].LineType;
-          let TypeOfLine: string = res[0].TypeOfLines[0].TypeOfLine;
-          let staticvalues:any=res[0].AutoFillData[0];
+          this.queryResultobj = res[0].data;
+          let type: string = res[0].data.TransactionTypes[0].TransactionType;
+          let linetype: string = res[0].data.LineTypes[0].LineType;
+          let TypeOfLine: string = res[0].data.TypeOfLines[0].TypeOfLine;
+          let staticvalues:any=res[0].data.AutoFillData[0];
           console.log('static values',staticvalues);
           this.view3Form = this.formBuilder.group({
             TransactionType: new FormControl({ value:'', disabled: false }, [Validators.required]),
@@ -483,7 +483,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
             Franchise: new FormControl({ value: '', disabled: false }, [Validators.required]),
             Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
           });
-          this.model.CupId="718 - Content Guru.";
+          this.model.CupId=staticvalues.CupID;
           this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
            console.log('config dertails test',this.configDetails);
           this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
@@ -506,22 +506,20 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           });
           this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
             .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
-          //DefaultSource:
-          console.log('values from source', Source);
-          let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
-            .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
-          this.model.source = "VOD-VOD-AUD Audit Purposes Only";
-          this.transactionItem.source = modelsource[0];
+          //DefaultSource:  n
+        
+        
+          this.model.source = staticvalues.Source;
           console.log('defalut source', this.transactionItem.source);
     
           let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
             return obj.Cupid === this.model.CupId;
           });
+          console.log('franchaise values',frnachaise);
           this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
             .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-          let modelfranchise = Source.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
-            .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
-          this.model.franchise = modelfranchise[0];
+          this.model.franchise = staticvalues.Franchise;
+          console.log('selected franchise',this.model.franchise);
         }
       }
     }
@@ -529,11 +527,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
 
   SearchTel() {
-    let call: string = 'Query1';
+    let call: string = 'Query';
     this.model.telno = "";
     this.model.endTel = "";
     debugger
-    if (call == 'Query') {
+    if (Object.keys(this.AuditPopulatevalue).length === 0) {
       let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
       //console.log('request for query',request2);
       this.service.queryDetails(request2).subscribe((res: any) => {
@@ -669,40 +667,40 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
   }
   prepareUpdateParams() {
-    this.model.telno = this.AuditPopulatevalue[0].StarttelephoneNumber;
-    this.model.rangeEnd = this.AuditPopulatevalue[0].EndTelephoneNumber;
-    let identifiers: any[] = [];
-    //let attributes: any = [];
+    // this.model.telno = this.AuditPopulatevalue[0].StarttelephoneNumber;
+    // this.model.rangeEnd = this.AuditPopulatevalue[0].EndTelephoneNumber;
+    // let identifiers: any[] = [];
+    // //let attributes: any = [];
   
-    if (this.AuditPopulatevalue[0].ResolutionRemarks != "") {
-      identifiers.push({ Name: "ResolutionRemarks", Value: [this.AuditPopulatevalue[0].ResolutionRemarks] });
-    }
+    // if (this.AuditPopulatevalue[0].ResolutionRemarks != "") {
+    //   identifiers.push({ Name: "ResolutionRemarks", Value: [this.AuditPopulatevalue[0].ResolutionRemarks] });
+    // }
 
-    else {
-      identifiers.push({ Name: "ResolutionRemarks" });
-    }
+    // else {
+    //   identifiers.push({ Name: "ResolutionRemarks" });
+    // }
   }
   prepareUpdateIdentifiers() {
     let identifiers: any[] = [];
     //let attributes: any = [];
     identifiers.push({ Name: 'TelephoneNumberRange', Value: ["01131620701|01131620701"] });
    
-    if (this.AuditPopulatevalue[0].ActID != "") {
-      identifiers.push({ Name: "ActID", Value: [this.AuditPopulatevalue[0].ActID] });
+    if (this.AuditPopulatevalue.ActId != "") {
+      identifiers.push({ Name: "ActID", Value: [this.AuditPopulatevalue.ActId] });
     }
 
     else {
       identifiers.push({ Name: "ActID" });
     }
-    if (this.AuditPopulatevalue[0].ManualAuditType != "") {
-      identifiers.push({ Name: "ManualAuditType", Value: [this.AuditPopulatevalue[0].ManualAuditType] });
+    if (this.AuditPopulatevalue.ManualAuditType != "") {
+      identifiers.push({ Name: "ManualAuditType", Value: [this.AuditPopulatevalue.ManualAuditType[0]] });
     }
 
     else {
       identifiers.push({ Name: "ManualAuditType" });
     }
-    if (this.AuditPopulatevalue[0].ResolutionRemarks != "") {
-      identifiers.push({ Name: "ResolutionRemarks", Value: [this.AuditPopulatevalue[0].ResolutionRemarks] });
+    if (this.AuditPopulatevalue.ResolutionRemarks != "") {
+      identifiers.push({ Name: "ResolutionRemarks", Value: [this.AuditPopulatevalue.ResolutionRemarks] });
     }
 
     else {
@@ -885,9 +883,9 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       console.log('values from source', Source);
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
-      this.model.source = "VOD-VOD-AUD Audit Purposes Only";
-      this.transactionItem.source = modelsource[0];
-      console.log('defalut source', this.transactionItem.source);
+      this.model.source = modelsource[0];
+     // this.transactionItem.source = modelsource[0];
+      console.log('defalut source', this.model.source);
 
       let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
         return obj.Cupid === event.value;
@@ -897,25 +895,13 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       let modelfranchise = Source.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       this.model.franchise = modelfranchise[0];
-
-      //DefaultSource:
-
-
-
-      //    console.log('before filter',this.SourceValues);
-      // this.SourceValues = this.SourceValues.map((item: { DefaultSource: any; }) => item.DefaultSource)
-      //  .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
-
-      // console.log('model value', this.SourceValues);
+      console.log('default franchise',this.model.franchise);
       this.enableSource = true;
       this.enableFrancise = true;
-      // this.franchiseValues = this.cupIds.filter((obj: { Cupid: string; }) => {
-      //   return obj.Cupid === event.value;
-      // });
-      // let selectedfranchise = this.franchiseValues.map((item: { Franchise: any; }) => item.Franchise)
-      // .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
-      // this.enableFrancise = true;
-
+      if(this.model.franchise!='')
+      {
+        this.views.view3 = true;
+      }
 
 
     }

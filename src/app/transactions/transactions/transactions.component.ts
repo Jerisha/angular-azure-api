@@ -39,15 +39,15 @@ export class TransactionsComponent implements OnInit {
   passedRouteData: string | { [k: string]: any; } | undefined;
 
   constructor(private cdr: ChangeDetectorRef,public router: Router) {
-    this.AuditPopulatevalue=[{StarttelephoneNumber:"01131130009",EndTelephoneNumber:"01131130009",ResolutionRemarks:"test",ManualAuditType:"SRC",ActID:"29-20 NOV 2020"}];
-    // this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
-    // if (this.passedRouteData) {
-      
-    //   console.log('constructer name' + JSON.stringify(this.passedRouteData))
-    // }
-    // else{
-    //   this.AuditPopulatevalue=[{CupID:"10",TypeofLine:"20"}];
-    // }
+   // this.AuditPopulatevalue=[{StarttelephoneNumber:"01131130009",EndTelephoneNumber:"01131130009",ResolutionRemarks:"test",ManualAuditType:"SRC",ActID:"29-20 NOV 2020"}];
+    this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
+    if (this.passedRouteData) {
+      this.AuditPopulatevalue=this.passedRouteData;
+      console.log('constructer name' + JSON.stringify(this.passedRouteData))
+    }
+    else{
+      //this.AuditPopulatevalue=[{CupID:"10",TypeofLine:"20"}];
+    }
    }
 
   ngOnInit(): void {
