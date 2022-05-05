@@ -596,9 +596,9 @@ resetExp:boolean = false;
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.LiveTelephoneNumberDetails,
-          totalrecordcount: res.data.TotalCount,
-          totalpages: res.data.NumberOfPages,
-          pagenumber: res.data.PageNumber
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       } else return res;
@@ -620,10 +620,9 @@ resetExp:boolean = false;
       });
     }
   }
-
   resetForm(): void {
-    this.myForm.reset();
-    this.tabs.splice(0);
+   
+    window.location.reload();
     this.resetExp=!this.resetExp;
   }
   removeTab(index: number) {
@@ -768,8 +767,9 @@ resetExp:boolean = false;
   }
 
   createForm() {
+
     this.myForm = new FormGroup({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),  Validators.pattern("^[0-9]{10,11}$")]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       PostCode: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true }, []),

@@ -59,6 +59,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   currentReportName: string = "";
   recordIdentifier:any = "";
   metaDataSupscription: Subscription = new Subscription;
+  editActionEnabled =true;
 
   displayedColumnsValues:any
 
@@ -202,6 +203,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     if(this.currentReportName ==='Franchise'||this.currentReportName ==='Olo'||this.currentReportName ==='Company')
     {
       reportName = 'Franchise'
+      this.editActionEnabled =false;
     }else
     {
     reportName = this.currentReportName
@@ -313,7 +315,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
           let entries = Object.entries(event[1])
-          let data = entries.map(([key, val]) => ({ Name: key, Value: [val] }));
+      
+          let data = entries.map(([key, val]) => ({ Name: key, Value: ["/val/"] }));
           //console.log( `The ${key} is ${val}`)
           console.log(JSON.stringify(data))
           //});

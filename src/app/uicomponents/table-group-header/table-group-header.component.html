@@ -46,8 +46,17 @@
     </ng-container>
   </table>
 </div>
-<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,20,50,100]" showFirstLastButtons>
+<!-- <mat-paginator class="mat-paginator-sticky"  showFirstLastButtons [pageSizeOptions]="[10,20,50,100]" (page)="getPage($event)" >
+</mat-paginator> -->
+
+<mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" 
+[pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
 </mat-paginator>
+
+<!-- <mat-paginator    (page)="pageChanged($event)"
+[pageSizeOptions]="[15, 20, 30]"
+showFirstLastButtons>
+</mat-paginator> -->
 
 <div style="margin-bottom:10px">
   <button type="reset" mat-raised-button color="primary">
