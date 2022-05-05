@@ -82,10 +82,10 @@ export const ReportMetaDataResponse = {
           ],
           "SourceSystem":       [
             {cPosition:1,cMinLength:0, cName: "OriginatingSystem", cDisplayName: "Originating System", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: false, cMandate: true, cMaxLength: 200, cList: [] },
-            {cPosition:2,cMinLength:0, cName: "BtCode", cDisplayName: "BT Code", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: true, cMaxLength: 200, cList: [] },
+            {cPosition:2,cMinLength:0, cName: "BTCode", cDisplayName: "BT Code", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: true, cMaxLength: 200, cList: [] },
             {cPosition:3,cMinLength:0, cName: "Title", cDisplayName: "Title", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: true, cMaxLength: 200, cList: [] },
             {cPosition:4,cMinLength:0, cName: "ValidateAddress", cDisplayName: "Validate Address", cType: "radio", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 10, cList: [] },
-            {cPosition:5,cMinLength:0, cName: "SendBt", cDisplayName: "Send BT", cType: "radio", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 10, cList: [] },
+            {cPosition:5,cMinLength:0, cName: "SendBT", cDisplayName: "Send BT", cType: "radio", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 10, cList: [] },
             {cPosition:6,cMinLength:0, cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 2000, cList: [] },
             {cPosition:7,cMinLength:0, cName: "MandatoryLineType", cDisplayName: "Mandatory Line Type", cType: "radio", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 10, cList: [] },
             {cPosition:8,cMinLength:0, cName: "MandatoryLineTypeValue", cDisplayName: "Mandatory Line Type Value", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false, cMandate: false, cMaxLength: 200, cList: [] },

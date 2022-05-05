@@ -13,6 +13,11 @@ import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { AlertService } from 'src/app/_shared/alert';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 const ELEMENT_DATA: any = [
   {
@@ -137,62 +142,63 @@ const FilterListItems: Select[] = [
 })
 export class RestoresolicitederrorsComponent implements OnInit {
 
+
   constructor(private formBuilder: FormBuilder,
     private service: AdministrationService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService) { }
-
-  myTable!: TableItem;
-  selectedGridRows: any[] = [];
-  filterItems: Select[] = FilterListItems;
-  auditTelNo?: any;
-  telNo?: any;
-  tranId?: any;
-  repIdentifier = "SolicitedErrors";
-
-
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-  errorCodesOptions!: Observable<any[]>;
-  selectedRowsCount: number = 0;
-  errorCodeData!: any[];
-  selectedTab!: number;
-  public tabs: Tab[] = [];
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  thisForm!: FormGroup;
-  saveForm!: FormGroup;
-  Resolution!: string;
-  Refer!: string;
-  Remarks!: string;
-  isSaveDisable:boolean=true;
-
-  queryResult$!: Observable<any>;
-  configResult$!: Observable<any>;
-  updateResult$!: Observable<any>;
-  configDetails!: any;
-  currentPage: string = '1';
-  updateDetails!:any;
-
+    private alertService: AlertService,
+    private telnoPipe: TelNoPipe,
+    private dialog: MatDialog) { }
+ 
+    myTable!: TableItem;
+    selectedGridRows: any[] = [];
+    filterItems: Select[] = FilterListItems;
+    auditTelNo?: any;
+    telNo?: any;
+    tranId?: any;
+    repIdentifier = "RestoreSolicitedErrors";
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+    errorCodesOptions!: Observable<any[]>;
+    selectedRowsCount: number = 0;
+    errorCodeData!: any[];
+    selectedTab!: number;
+    public tabs: Tab[] = [];
+    destroy$: Subject<boolean> = new Subject<boolean>();
+    thisForm!: FormGroup;
+    saveForm!: FormGroup;
+    Resolution: string = '';
+    Refer: string = '';
+    Remarks: string = '';
+    isSaveDisable: boolean = true;
+  
+    queryResult$!: Observable<any>;
+    configResult$!: Observable<any>;
+    updateResult$!: Observable<any>;
+    configDetails!: any;
+    currentPage: string = '1';
+    updateDetails!: any;
   ngOnInit(): void {
+ 
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'],['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      console.log("res: " + JSON.stringify(res))
+      this.configDetails = res.data;
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'],['ResolutionType']);
+    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.updateDetails = res[0];
+      this.updateDetails = res.data;
     });
     //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
   }
+
 
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
@@ -263,8 +269,8 @@ export class RestoresolicitederrorsComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
@@ -291,6 +297,8 @@ export class RestoresolicitederrorsComponent implements OnInit {
   //   return this.saveForm.controls;
   // }
 
+
+
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
@@ -299,10 +307,12 @@ export class RestoresolicitederrorsComponent implements OnInit {
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Error List', headerValue: 'ErrorType', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Parent Cupid', headerValue: 'ParentCupId', showDefault: true, isImage: false },
+    { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 
 
@@ -313,28 +323,48 @@ export class RestoresolicitederrorsComponent implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
+   
     debugger;
+    let errMsg = '';
+    if (!this.thisForm.valid) return;
+    //Enter start telephone no
+    if (this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value == '')
+      errMsg = 'Please enter the Start Telephone No';
+    //Telephonerange
+    if ((this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value != '') && (this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000)
+      errMsg = 'TelephoneRange must be less than or equal to 10000.';
+    if (errMsg) {
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: {
+          enableOk: false,
+          message: errMsg,
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
+      return;
+    }
+    this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    // let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
-    // this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
-    //   if (Object.keys(res).length) {
-    //     let result = {
-    //       datasource: res[0].SolicitedError,
-    //       totalrecordcount: res[0].TotalCount,
-    //       totalpages: res[0].NumberOfPages,
-    //       pagenumber: res[0].PageNumber
-    //     }
-    //     return result;
-    //   } else return res;
-    // }));
-this.tabs.splice(0);
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'RestoreSolicitedErrors', this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res.data.SolicitedError,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
+
     this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 100,
-        totalpages: 1,
-        pagenumber: 1
-      }),
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
@@ -350,18 +380,42 @@ this.tabs.splice(0);
         name: 'Summary'
       });
     }
-
-
+    this.isEnable();
   }
 
-  onSaveSubmit(): void {
+  check999() {
+    if (this.Refer && this.Refer.substring(0, 3) != '999')
+      return false;
+
+    return true;
+  }
+
+  onSaveSubmit(form: any): void {
+    //console.log("save", form);
     debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
-      (this.Resolution && this.Remarks)) {
-      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.service.updateDetails(request).subscribe(x => x);
-    }
+      (this.Resolution && this.check999() && this.Remarks)) {
 
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to save the records?'
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        //console.log("result " + result);
+        if (result) {
+          let request = Utils.preparePyUpdate('TelephoneNumber', 'RestoreSolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          //update 
+          this.service.updateDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              //success message and same data reload
+              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.onFormSubmit(true);
+            }
+          });
+        }
+      });
+    }
   }
 
   prepareUpdateIdentifiers() {
@@ -415,8 +469,11 @@ this.tabs.splice(0);
 
 
   resetForm(): void {
+    // this.thisForm.reset();
+    //this.tabs.splice(0);
+    // this.Resolution = ''; this.Refer = ''; this.Remarks = '';
     window.location.reload();
-    // this.tabs.splice(0);
+
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
@@ -450,13 +507,13 @@ this.tabs.splice(0);
       }
     })
     this.isEnable();
-    // console.log("selectedGridRows" + this.selectedGridRows)
+    //console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   isEnable() {
 
-    debugger
-    if ((this.f.StartTelephoneNumber.value.length === 11 && this.f.EndTelephoneNumber.value.length === 11 &&
+    //debugger
+    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
@@ -471,19 +528,37 @@ this.tabs.splice(0);
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
- 
 
-  addPrefix(control: string, value: any) {
-    if (value.charAt(0) != 0) {
-      value = value.length <= 10 ? '0' + value : value;
+
+  onChange(value: string, ctrlName: string) {
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    if (value != null && value != undefined) {
+      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
-    this.f[control].setValue(value);
   }
+
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
+    }
+    return true;
+  }
+
+  reference(event: any, ctrlName: string): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    const ctrl = this.thisForm.get(ctrlName) as FormControl;
+    const ctrlValue = ctrlName != 'Refer' ? ctrl?.value : this.Refer;
+    if (charCode === 32) {
+      return false;
+    }
+    else if (ctrlValue?.charAt(0) != 9 && ctrlValue?.substring(0, 3) != '999') {
+      let newValue = '999' + ctrlValue;
+      if (ctrlName != 'Refer')
+        ctrl.setValue(newValue);
+      else
+        this.Refer = newValue;
     }
     return true;
   }
@@ -530,6 +605,13 @@ this.tabs.splice(0);
         break;
 
     }
+  }
+
+  openPanel(control: any, evt: any, trigger: MatAutocompleteTrigger): void {
+    evt.stopPropagation();
+    control?.reset();
+    trigger.openPanel();
+    control?.nativeElement.focus();
   }
 
 }
