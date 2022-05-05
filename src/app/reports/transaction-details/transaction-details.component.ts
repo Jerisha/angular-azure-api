@@ -323,10 +323,10 @@ prepareQueryParams(pageNo: string): any {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }
-  resetForm(): void {   
-    this.thisForm.reset();
-    this.tabs.splice(0); 
-    this.resetExp=!this.resetExp; 
+  resetForm(): void {
+   
+    window.location.reload();
+    this.resetExp=!this.resetExp;
   }
 
   setControlAttribute(matSelect: MatSelect) {

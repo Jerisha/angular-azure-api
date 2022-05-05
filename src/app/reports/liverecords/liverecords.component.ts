@@ -620,10 +620,9 @@ resetExp:boolean = false;
       });
     }
   }
-
   resetForm(): void {
-    this.myForm.reset();
-    this.tabs.splice(0);
+   
+    window.location.reload();
     this.resetExp=!this.resetExp;
   }
   removeTab(index: number) {
