@@ -491,14 +491,37 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
           this.cupIds = this.queryResultobj.CupidFranchiseList[0].CupidFranchise;
           this.audittelephonenumbers = this.queryResultobj.TelephoneNumbers[0].TelephoneNumber;
-          let test: any = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
-            .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+
           //console.log('uniquer values',test);
           this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
             .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+            this.views.view3 = true;
+            this.enableSource = true;
+            this.enableFrancise = true;
           //update manual correction
         
-          // console.log('after insertion',this.queryResultobj);
+          console.log('after insertion',this.queryResultobj);
+          let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
+            return obj.Cupid === this.model.CupId;
+          });
+          this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
+            .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+          //DefaultSource:
+          console.log('values from source', Source);
+          let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
+            .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+          this.model.source = "VOD-VOD-AUD Audit Purposes Only";
+          this.transactionItem.source = modelsource[0];
+          console.log('defalut source', this.transactionItem.source);
+    
+          let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
+            return obj.Cupid === this.model.CupId;
+          });
+          this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
+            .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+          let modelfranchise = Source.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
+            .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+          this.model.franchise = modelfranchise[0];
         }
       }
     }

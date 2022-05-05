@@ -129,7 +129,7 @@
                         <div class="vf-flex-container-col" style="margin: 2px;"> 
                           <div style="margin-bottom: 6px;">
                       <span>
-                      <mat-form-field    style="margin-left:5px;" [ngClass]="{'hidden':g.CupID.disabled}">
+                      <mat-form-field    style="margin-left:5px;width:260px;" [ngClass]="{'hidden':g.CupID.disabled}">
                         <mat-label class="vf-label" >CUPID</mat-label>  
                         <mat-select formControlName="CupID" [(value)]="model.CupId" [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
                           <mat-option [value]="">                  
@@ -143,38 +143,38 @@
                       </mat-form-field>
                     </span>
                    
-                    <span>
-                      <mat-form-field  *ngIf = "enableSource"   style="margin-left:5px;" [ngClass]="{'hidden':g.CupID.disabled}">
-                        <mat-label class="vf-label" >Source</mat-label> 
-                        <mat-select formControlName="Source" [(value)]="model.source" [(ngModel)]="model.source" name="Source" placeholder="Source *"   style ="font-size:x-small;">
-                          <!-- <mat-option [value]="">                  
-                          </mat-option> -->
-                          <mat-option *ngFor="let val of SourceValues" [value]="val">
+                    <span>           
+                      <mat-form-field *ngIf = "enableFrancise" 
+                        style="margin-left:2px;width:260px;" [ngClass]="{'hidden':g.Franchise.disabled}">
+                        <mat-label class="vf-label">Franchise</mat-label>             
+                        <mat-select formControlName="Franchise"  [(value)]="model.franchise"  [(ngModel)]="model.franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
+                          <!-- <mat-option value= ""></mat-option> -->
+                          <mat-option *ngFor="let val of franchiseValues" [value]="val">
                             {{val}}
                           </mat-option>
-                        </mat-select>  
-                        <mat-error class="error-message" *ngIf="checkErrorinFrom('Source', 'required')">Select Source
-                        </mat-error>               
+                          </mat-select> 
+                          <mat-error class="error-message" *ngIf="checkErrorinFrom('Franchise', 'required')">Select Franchise
+                          </mat-error> 
                       </mat-form-field>
-                    </span>
+                    </span> 
                           </div>
                         </div>
                         <div class="vf-flex-container-col" style="margin: 2px;float: left;display: block;">
                           <div style="margin-bottom: 6px;"> 
-                    <span>           
-                        <mat-form-field *ngIf = "enableFrancise" 
-                          style="margin-left:2px;width:300px;" [ngClass]="{'hidden':g.Franchise.disabled}">
-                          <mat-label class="vf-label">Franchise</mat-label>             
-                          <mat-select formControlName="Franchise"  [(value)]="model.franchise"  [(ngModel)]="model.franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
-                            <!-- <mat-option value= ""></mat-option> -->
-                            <mat-option *ngFor="let val of franchiseValues" [value]="val">
-                              {{val}}
-                            </mat-option>
-                            </mat-select> 
-                            <mat-error class="error-message" *ngIf="checkErrorinFrom('Franchise', 'required')">Select Franchise
-                            </mat-error> 
-                        </mat-form-field>
-                      </span> 
+                            <span>
+                              <mat-form-field  *ngIf = "enableSource"   style="margin-left:5px;width:260px;" [ngClass]="{'hidden':g.CupID.disabled}">
+                                <mat-label class="vf-label" >Source</mat-label> 
+                                <mat-select formControlName="Source" [(value)]="model.source" [(ngModel)]="model.source" name="Source" placeholder="Source *"   style ="font-size:x-small;">
+                                  <!-- <mat-option [value]="">                  
+                                  </mat-option> -->
+                                  <mat-option *ngFor="let val of SourceValues" [value]="val">
+                                    {{val}}
+                                  </mat-option>
+                                </mat-select>  
+                                <mat-error class="error-message" *ngIf="checkErrorinFrom('Source', 'required')">Select Source
+                                </mat-error>               
+                              </mat-form-field>
+                            </span>
                       </div>   
                         </div>
                       </div>
@@ -283,7 +283,7 @@
                             cdkAutosizeMinRows="1"
                             cdkAutosizeMaxRows="2"
                            
-                            size="20" maxlength="20" 
+                            size="20" maxlength="100" 
                             name =customerName
                             [(ngModel)]="transactionItem.customerAddress.customerName"
                             ></textarea>  
@@ -306,7 +306,7 @@
                             cdkAutosizeMinRows="1"
                             cdkAutosizeMaxRows="2"
                           
-                            size="20" maxlength="40" 
+                            size="20" maxlength="100" 
                             name =address1
                             [(ngModel)]="transactionItem.customerAddress.address1"                 
                           ></textarea>       
@@ -322,7 +322,7 @@
                           #autosize="cdkTextareaAutosize"
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="2"
-                          size="20" maxlength="40"   
+                          size="20" maxlength="100"   
                           name =address2
                           [(ngModel)]="transactionItem.customerAddress.address2"                
                         ></textarea>  
@@ -339,7 +339,7 @@
                         cdkAutosizeMinRows="1"
                         cdkAutosizeMaxRows="2"
                       
-                        size="20" maxlength="40"  
+                        size="20" maxlength="100"  
                         name =address3
                         [(ngModel)]="transactionItem.customerAddress.address3"                 
                       ></textarea>              
@@ -354,7 +354,7 @@
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="2"
                    
-                      size="20" maxlength="40"
+                      size="20" maxlength="100"
                       name =address4
                       [(ngModel)]="transactionItem.customerAddress.address4"                   
                     ></textarea>              
@@ -368,7 +368,7 @@
                        name =postcode matInput formControlName="PostCode"
                        [(ngModel)]="transactionItem.customerAddress.postcode"
                        size="12" 
-                       maxlength="12" 
+                       maxlength="20" 
                        >
                        <mat-error class="error-message" *ngIf="checkError('PostCode', 'required')"> Enter postcode</mat-error>
                       
