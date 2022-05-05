@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { FullAuditAddresReport, FullAuditMonthReport, FullAuditProgressReport, FullAuditSummary } from '../../models/index'
 import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
@@ -719,6 +719,7 @@ export class FullAuditTypeComponent implements OnInit {
            displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
            detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
            grpHdrColumnsArray = [headerswithDetails];
+            //obs: of(ELEMENT_DATA3)
           this.addressReportTable = {
             data: ELEMENT_DATA3,
             ColumnDetails: gridDesignDetails[0].ColumnDetails,
