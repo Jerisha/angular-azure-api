@@ -96,8 +96,19 @@ export class UserCommentsDialogComponent {
         };
       })).subscribe(result => {
         console.log('inside usr comments', result)
-        this.data.defaultValue = result.datasource.length > 0 ? result : null;
-        observer.next(result)
+
+        if(result.datasource.length>0){
+          this.data.defaultValue = result;
+          observer.next(result);
+
+        }else{
+          this.dialogRef.close();
+          return;
+
+        }
+
+        //this.data.defaultValue = result.datasource.length > 0 ? result : null;
+       
       });
     })
     this.userCommentsTable = {
