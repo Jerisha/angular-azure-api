@@ -84,12 +84,14 @@ table td, table th {
 .totalRow {
   background-color: #e60000;
   color:white;
-  /* padding-left: 220px; */
+  
   font-size: small;
-  /* min-height: 10px; */
+  font-weight: 500;
+ 
   height: 20px;
-  /* text-align: center; */
-  padding: 0 !important;
+ 
+  /* padding: 0 !important; */
+  padding: 2px 10px;
 }
 
 .highlight {

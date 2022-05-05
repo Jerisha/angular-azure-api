@@ -16,8 +16,9 @@
              style="margin-right: 24%;">
             <mat-error>
               <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid" class="alert alert-danger">
+                <div *ngIf="form.StartTelephoneNumber.errors?.incorrect">Enter Start Telephone No </div>
                 <div *ngIf="form.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>               
               </div>
               <!-- <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid"
                 class="alert alert-danger">

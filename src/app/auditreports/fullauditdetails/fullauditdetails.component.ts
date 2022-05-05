@@ -50,6 +50,7 @@ const Items: Select[] = [
 export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   @ViewChild('inputctrl') icRemarks!: ElementRef;
+  @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
   updateForm!: FormGroup;
@@ -94,9 +95,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'EndTelephoneNumber', header: 'End TelNo', showDefault: true, isImage: false },
     { headerValue: 'Source', header: 'Source System', showDefault: true, isImage: false },
     { headerValue: 'LineType', header: 'Line Type', showDefault: true, isImage: false },
-    { headerValue: 'LiveRecords', header: 'Live Records', showDefault: true, isImage: false, isTotal:true },
-    { headerValue: 'InactiveRecords', header: 'Inactive Records', showDefault: true, isImage: false,isTotal:true },
-    { headerValue: 'NotAvailable', header: 'Not Available', showDefault: true, isImage: false, isTotal:true },
+    { headerValue: 'LiveRecords', header: 'Live Records', showDefault: true, isImage: false, isTotal: true },
+    { headerValue: 'InactiveRecords', header: 'Inactive Records', showDefault: true, isImage: false, isTotal: true },
+    { headerValue: 'NotAvailable', header: 'Not Available', showDefault: true, isImage: false, isTotal: true },
     { headerValue: 'CustomerName', header: 'Customer Name', showDefault: true, isImage: false },
     { headerValue: 'CustomerAddress', header: 'Customer Address', showDefault: true, isImage: false },
     { headerValue: 'OrderReference', header: 'Order Ref', showDefault: true, isImage: false },
@@ -340,7 +341,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.fullAuditForm.reset();
     this.disableSave = true;
     this.disableProcess = true;
-    this.selectListItems=[];
+    this.selectListItems = [];
     this.tabs.splice(0);
   }
 
@@ -416,6 +417,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     //this.rowRange='';
 
     if (this.fullAuditForm.invalid) { return; }
+
+    if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
+      && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
+      this.form.StartTelephoneNumber.setErrors({ incorrect: true });
+      this.icstartNo.nativeElement.focus();
+      this.icstartNo.nativeElement.blur();
+      return;
+    }
+
     this.getPnlControlAttributes();
     this.setAttributesForManualCorrections();
     this.currentPage = isEmitted ? this.currentPage : '1';
@@ -488,20 +498,20 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         break;
       }
       case 3: {
-        var startTelno='';
-        var endTelno='';
+        var startTelno = '';
+        var endTelno = '';
         var selectedCLI = tab.row.Comments ? tab.row.Comments : '';
         if (selectedCLI != '') {
           let strCmts = selectedCLI.split('-');
-          var telnos = strCmts.filter((x: any) => !x.includes('DDI RANGE'));          
+          var telnos = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
           startTelno = telnos[0];
-          endTelno= telnos[1];
+          endTelno = telnos[1];
         }
-        else{
+        else {
           startTelno = telno;
-          endTelno= telno;
-        }       
-        this.rangeReportInit(startTelno,endTelno);
+          endTelno = telno;
+        }
+        this.rangeReportInit(startTelno, endTelno);
         if (!this.tabs?.find(x => x.tabType == 3)) {
           this.tabs.push({
             tabType: 3,
@@ -650,8 +660,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }),
       BatchID: new FormControl({ value: '', disabled: true }),
@@ -683,7 +693,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
         //update 
-        console.log('sample in ', JSON.stringify(request))       
+        console.log('sample in ', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
             this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
@@ -715,7 +725,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   }
 
   getPnlControlAttributes() {
-    if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != '')) {
+    debugger;
+    if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
+      && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
       this.disableSave = false;
     }
     else {
@@ -776,17 +788,21 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
           }
           else {
             var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
+            var startTelno = '';
+            var endTelno = '';
             if (selectedCLI != '') {
               let strCmts = selectedCLI.split('-');
-              var telnos = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
-              selectedCLI = telnos[0] + '|' + telnos[1];
+              var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
+              startTelno = range[0];
+              endTelno = range[1] ? range[1] : ''
             }
             else {
-              selectedCLI = this.selectListItems[0].TelephoneNumber;
+              startTelno = this.selectListItems[0].TelephoneNumber;
             }
             var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
             let data = {
-              TelephoneNumberRange: selectedCLI,
+              StartphoneNumber: startTelno,
+              EndPhoneNumber: endTelno,
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
               ManualAuditType: auditType
@@ -807,7 +823,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
           this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
           identifiers.push({ Name: 'TelephoneNumber', Value: telno });
         }
-        else if (this.form.StartTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != '') {
+        else if ((this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
+          && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
           identifiers.push({ Name: 'TelephoneNumber', Value: [`${this.form.StartTelephoneNumber.value + '|' + this.form.EndTelephoneNumber.value}`] });
         } else
           identifiers.push({ Name: 'TelephoneNumber', Value: [""] });
@@ -876,7 +893,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         }
         else
           identifiers.push({ Name: name });
-          
+
 
         if (this.remarkstxt != '')
           identifiers.push({ Name: 'ResolutionRemarks', Value: [this.remarkstxt] });
@@ -972,7 +989,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  rangeReportInit(startTelno: any,endTelno:any) {   
+  rangeReportInit(startTelno: any, endTelno: any) {
     let attributes = [
       { Name: 'StartTelephoneNumber', Value: [`${startTelno}`] },
       { Name: 'EndTelephoneNumber', Value: [`${endTelno}`] },
