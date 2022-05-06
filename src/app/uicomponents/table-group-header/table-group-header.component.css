@@ -43,11 +43,13 @@ th.mat-sort-header-sorted {
   
 }
 
-.header2 {
+ /* for headerLvl1 top is not required to make table header fixed*/
+
+.headerLvl2 th {
   top: 42px !important;
 }
 
-.header3 {
+.headerLvl3 th {
   top: 84px !important;
 }
 

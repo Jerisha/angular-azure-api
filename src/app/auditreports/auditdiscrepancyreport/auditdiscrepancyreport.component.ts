@@ -1,35 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { delay, findIndex, map } from 'rxjs/operators';
-import { InternalAuditSummary } from 'src/app/auditreports/models/index';
 import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { AuditdiscrepancyHeaderData } from 'src/app/_data/audit-discrepancy-header-data';
-import { CupId } from 'src/app/_data/listValues/CupId';
 import { Utils } from 'src/app/_http/index';
 import { IAuditActId } from '../models/audit-discrepancy-report/IAttributes';
 import { AuditDiscpancyReportService } from './auditdiscrepancyreport.component.service';
-import { FullAuditTypeComponent } from './full-audit-type/full-audit-type.component';
-
-const ELEMENT_DATA: InternalAuditSummary[] = [
-  {
-    ACTID: "df", SourceSystem: "fg", PostcodeDiff: 1, CustomerDiff: 2, AutoResolvedSAS: 1, FullAddDiff: 0, New: 1,
-    CSASCOMSOnly: 1, Total: 12, DMismatched: 1, DODVASiebelOnly: 2, EVAWADOnly: 1, RClarifyOnly: 1, SMatched: 1,
-    SOAmdocsSOMOnly: 1, VOSN2Only: 2
-  },
-  {
-    ACTID: "df", SourceSystem: "fg", PostcodeDiff: 1, CustomerDiff: 2, AutoResolvedSAS: 1, FullAddDiff: 0, New: 1,
-    CSASCOMSOnly: 1, Total: 12, DMismatched: 1, DODVASiebelOnly: 2, EVAWADOnly: 1, RClarifyOnly: 1, SMatched: 1,
-    SOAmdocsSOMOnly: 1, VOSN2Only: 2
-  },
-
-
-];
 
 @Component({
   selector: 'app-auditdiscrepancyreport',
@@ -73,13 +54,10 @@ data = new AuditdiscrepancyHeaderData();
   queryResult!: Observable<any>;
   QueryParams: any;
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, 
-    private route: ActivatedRoute, private service:AuditDiscpancyReportService) {
+  constructor( private formBuilder: FormBuilder, private service:AuditDiscpancyReportService) {
 
     this.createForm();
     this.datamenu=this.data.headers;
-
-    //console.log('datamenu comp',this.datamenu)
 
     this.ColumnDetails = [
       { Headers: 'Act ID', DataHeaders: 'ACTID', rowspan: "2", colspan: "1" },
@@ -117,14 +95,11 @@ data = new AuditdiscrepancyHeaderData();
   }
 
   ngOnInit(): void {
-    // this.selectedAuditType = 'Full Audit';
-    // this.selectedActId = '29-20 Nov 2020';
+
     this.grpTblHdrDtls = this.datamenu;
 
     let request = Utils.preparePyConfig(['Search'], [ "AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID" ]);
     this.service.configDetails(request).subscribe((res: any) => {
-      // console.log("res: " + JSON.stringify(res))
-      // this.configDetails = res.data;
       this.configValues = [
         { auditType : res.data.AuditType[0], auditActId: res.data.FullAuditActID },
       { auditType : res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID },
@@ -132,39 +107,8 @@ data = new AuditdiscrepancyHeaderData();
 
     this.selectedAuditType = this.configValues[0].auditType;
     this.auditActIdDropdown =  this.configValues[0].auditActId;
-    // this.selectedActId = this.configValues[0].auditActId[0];
     this.selectedActId = this.auditActIdDropdown[0];
     });
-
-   // this.grpTblHdrDtls = this.route.snapshot.data['headers'];
-
-     //this.route.data.subscribe(res=> console.log('data meu',res));
-    this.grpTableitem = {
-      data: ELEMENT_DATA,
-      ColumnDetails: this.ColumnDetails,
-      DisplayedColumns: this.displayedColumns,
-      DetailedColumns: this.detailedColumnsArray,
-      GroupHeaderColumnsArray: this.grpHdrColumnsArray,
-      GroupHeaders: this.groupHeaders,
-      isRowLvlTotal:true
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges){
-  //   if(this.configDetails)
-  //   {
-  // this.selectedAuditType = this.configValues[0].auditType;
-  // this.selectedActId = this.configValues[0].auditActId[0];
-  //   } else {
-  //     console.log("no data");
-      
-  //   }
-    // console.log("on changes");
-    // if(changes.AuditType.currentValue != changes.AuditType.previousValue)
-    // {
-    //   this.QueryParams = this.prepareQueryParams();
-    // }
-
 
   }
 
@@ -222,38 +166,14 @@ prepareQueryParams()
   }
 
   changedAuditType(type: MatSelectChange) {
-    // this.selectedActId = this.configValues[index].auditActId[0];
-    // console.log(type.value);
     let index = this.configValues.findIndex(x => x.auditType == type.value);
     this.auditActIdDropdown = this.configValues[index].auditActId;
-    // this.selectedActId =  this.configValues[index].auditActId[0];
     this.selectedActId =  this.auditActIdDropdown[0];
-
-    // console.log("dropdown value" +this.selectedActId);
-    // console.log("from form control"+ this.auditDiscrepancyForm.get("AuditActId")?.value);
-    // this.QueryParams = this.prepareQueryParams();
-    console.log(JSON.stringify(this.prepareQueryParams()));
-  }
-
-
-  changedAuditActId(type: MatSelectChange)
-  {
-    // this.QueryParams = this.prepareQueryParams();
-    console.log(JSON.stringify(this.prepareQueryParams()));
   }
 
 
   onReset(){
-  //   this.selectedAuditType = this.configValues[0].auditType;
-  // this.selectedActId = this.configValues[0].auditActId[0];
-  }
-
-  sendFilterValue(value: boolean)
-  {
-    if(value) {
-     this.QueryParams = this.prepareQueryParams();
-     console.log("send filter value");
-    }
+  this.auditType = '';
   }
 
 }

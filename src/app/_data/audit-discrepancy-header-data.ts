@@ -157,19 +157,19 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Postcode Difference1",
+                    Headers: "Postcode Difference",
                     DataHeaders: "AttributeDifferenceMisMatchedActiveMismatchedPostCodeDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Customer Difference1",
+                    Headers: "Customer Difference",
                     DataHeaders: "AttributeDifferenceMisMatchedActiveMismatchedCustomerDifference",
                     rowspan: "1",
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Address Difference1",
+                    Headers: "Full Address Difference",
                     DataHeaders: "AttributeDifferenceMisMatchedActiveMismatchedFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
@@ -249,7 +249,7 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "Full Audit CLI Status",
+                    Headers: "CLI Status",
                     DataHeaders: "FullAuditCLIStatus",
                     rowspan: "3",
                     colspan: "1"
@@ -526,8 +526,7 @@ export class AuditdiscrepancyHeaderData {
                     DataHeaders: "TotalBacklog",
                     rowspan: "1",
                     colspan: "1"
-                }
-
+                },
             ],
             GroupHeaders: [
                 {
@@ -604,7 +603,7 @@ export class AuditdiscrepancyHeaderData {
             TableName: "AddressReport",
             ColumnDetails: [
                 {
-                    Headers: "Act ID",
+                    Headers: "ACT ID",
                     DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
@@ -668,7 +667,7 @@ export class AuditdiscrepancyHeaderData {
                     DataHeaders: "SelectedMonthDifferenceENDStatusYFullAddressDifference",
                     rowspan: "1",
                     colspan: "1"
-                }
+                },
             ],
             GroupHeaders: [
                 {
@@ -691,7 +690,7 @@ export class AuditdiscrepancyHeaderData {
             TableName: "InternalSummary",
             ColumnDetails: [
                 {
-                    Headers: "Act ID",
+                    Headers: "ACT ID",
                     DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
@@ -789,7 +788,7 @@ export class AuditdiscrepancyHeaderData {
             ],
             GroupHeaders: [
                 {
-                    Headers: "Internal CLI Status",
+                    Headers: "Internal Audit CLI Status",
                     DataHeaders: "InternalAuditCLIStatus",
                     rowspan: "1",
                     colspan: "9"
@@ -1041,7 +1040,7 @@ export class AuditdiscrepancyHeaderData {
             TableName: "AddressReport",
             ColumnDetails: [
                 {
-                    Headers: "Act ID",
+                    Headers: "ACT ID",
                     DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
@@ -1128,7 +1127,7 @@ export class AuditdiscrepancyHeaderData {
             TableName: "AuditSummary",
             ColumnDetails: [
                 {
-                    Headers: "Act ID",
+                    Headers: "ACT ID",
                     DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"
@@ -1202,7 +1201,7 @@ export class AuditdiscrepancyHeaderData {
             ],
             GroupHeaders: [
                 {
-                    Headers: "CLI Status",
+                    Headers: "External Audit CLI Status",
                     DataHeaders: "ExternalAuditCLIStatus",
                     rowspan: "1",
                     colspan: "5"
@@ -1227,7 +1226,7 @@ export class AuditdiscrepancyHeaderData {
             TableName: "ProgressReport",
             ColumnDetails: [
                 {
-                    Headers: "Act ID",
+                    Headers: "ACT ID",
                     DataHeaders: "ActId",
                     rowspan: "3",
                     colspan: "1"
@@ -1577,7 +1576,7 @@ export class AuditdiscrepancyHeaderData {
             TableName: "AddressReport",
             ColumnDetails: [
                 {
-                    Headers: "Act ID",
+                    Headers: "ACT ID",
                     DataHeaders: "ActId",
                     rowspan: "2",
                     colspan: "1"

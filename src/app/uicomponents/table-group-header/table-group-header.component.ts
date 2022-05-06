@@ -1,64 +1,26 @@
-import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, NgZone, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { take, takeUntil } from 'rxjs/operators';
 import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
-
-
-
-import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-
-import  * as _moment from 'moment';
-import {default as _rollupMoment, Moment} from 'moment';
-import { MatDatepicker } from '@angular/material/datepicker';
-import { formatDate } from '@angular/common';
 import { Observable, of, Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
-
-const moment = _rollupMoment || _moment;
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MMM-YYYY',
-  },
-  display: {
-    dateInput: 'MMM-YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   selector: 'app-table-group-header',
   templateUrl: './table-group-header.component.html',
   styleUrls: ['./table-group-header.component.css'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-  ],
 })
 export class TableGroupHeaderComponent implements OnDestroy {
   @Input() GrpTableitem!: GroupHeaderTableItem;
   @Input() sidePan: any;
   @Input() obsData!:any;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
-  @Output() MonthDate = new EventEmitter<string>();
-  @Input() CurrentMonth!: string;
-  @Input() AllMonths!: any;
-  i: any;
+
+  hrdIndex: any;
   
-
-
   public dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [];
   ColumnDetails: MergeTableItem[] = [];
@@ -72,9 +34,9 @@ export class TableGroupHeaderComponent implements OnDestroy {
   isRowTotal: boolean = false;
   sourceSystemList: string[] = [];
   cliStatusList: string[] = [];
+  resolveMonthList: string[] = [];
   nonNumericCols: string[] = [];
   isMonthFilter!: boolean;
-  // monthValue = moment('Jan-2025','MMM-YYYY');
   monthValue = '';
   dataObs$!: Observable<any>;
   private readonly onDestroy = new Subject<void>();
@@ -83,6 +45,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
   filterValues = {
     SourceSystem: [],
     CLIStatus: [],
+    ResolveMonth: [''],
     FullAuditCLIStatus: [],
     ExternalAuditCLIStatus: [],
     InternalAuditCLIStatus: [],
@@ -91,7 +54,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
   filterForm = new FormGroup({
     sourceSystemFilter: new FormControl(''),
     cliStatusFilter: new FormControl(''),
-    Month: new FormControl('')
+    resolveMonthFilter: new FormControl('')
   });
   auditType: String | undefined;
  
@@ -104,6 +67,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
     if(this.obsData){
       this.spinner.show();
       // console.log('inside tab',this.obsData)
@@ -117,95 +81,27 @@ export class TableGroupHeaderComponent implements OnDestroy {
     this.isRowTotal = this.GrpTableitem?.isRowLvlTotal ? true : false;
     this.isMonthFilter = this.GrpTableitem?.isMonthFilter? true : false;
       this.auditType = this.GrpTableitem?.FilterValues;
-      
-       if(this.AllMonths)
-    {
-      debugger
-      console.log("All Month"+ JSON.stringify(this.AllMonths));
-      this.allMonths = this.AllMonths.Month;
 
-      if(this.GrpTableitem.CurrentMonth)
-      {
-        this.monthValue = this.GrpTableitem?.CurrentMonth ;
-      } else {
-        this.monthValue = this.AllMonths.Month[0];
-      }
-
-    } 
-
-    var nonTotRowCols = ['SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
+    var nonTotRowCols = ['SourceSystem', 'ExternalAuditCLIStatus', 'FullAuditCLIStatus', 'InternalAuditCLIStatus'];
     this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
     this.nonNumericCols = this.displayedColumns.filter(x => !this.totalCols.includes(x));
 
     if (this.filterColumn) {
+      this.filterSelectedItems = this.GrpTableitem?.FilterValues === 'Full Audit' ? [this.obsData.map((x: any) => x.FullAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem), this.obsData.map((x: any) => x.ResolveMonth)] :
+                                  this.GrpTableitem?.FilterValues === 'External Audit' ? [this.obsData.map((x: any) => x.ExternalAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem), this.obsData.map((x: any) => x.ResolveMonth)] :
+                                  this.GrpTableitem?.FilterValues === 'Separate Internal Audit' ? [this.obsData.map((x: any) => x.InternalAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem), this.obsData.map((x: any) => x.ResolveMonth)]: [] ;
 
-      this.filterSelectedItems = this.GrpTableitem?.FilterValues === 'Full Audit' ? [this.obsData.map((x: any) => x.FullAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem)] :
-                                  this.GrpTableitem?.FilterValues === 'External Audit' ? [this.obsData.map((x: any) => x.ExternalAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem)] :
-                                  this.GrpTableitem?.FilterValues === 'Separate Internal Audit' ? [this.obsData.map((x: any) => x.InternalAuditCLIStatus), this.obsData.map((x: any) => x.SourceSystem)]: [] ;
       this.cliStatusList = [...new Set(this.filterSelectedItems[0])];
       this.sourceSystemList = [...new Set(this.filterSelectedItems[1])];
+      this.resolveMonthList = [...new Set(this.filterSelectedItems[2])];
+      this.resolveMonthList.sort().reverse();
+      this.monthValue = this.resolveMonthList[0];
       this.formControlsSubscribe();
       this.createFilter();
     }
     this.spinner.hide();
   }
-
-
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   this.dataObs$ = this.GrpTableitem?.data;
-  //   this.spinner.show();
-  //   this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
-  //     (res: any) => {
-  //   this.filterColumn = this.GrpTableitem?.FilterColumn ? true : false;
-  //   this.dataSource.data = res.datasource;
-  //   this.ColumnDetails = this.GrpTableitem?.ColumnDetails;
-  //   this.groupHeaders = this.GrpTableitem?.GroupHeaders ? this.GrpTableitem?.GroupHeaders : [];
-  //   this.displayedColumns = this.GrpTableitem?.DisplayedColumns ? this.GrpTableitem?.DisplayedColumns : [];
-  //   this.detailedColumnsArray = this.GrpTableitem?.DetailedColumns ? this.GrpTableitem?.DetailedColumns : [];
-  //   this.grpHdrColumnsArray = this.GrpTableitem?.GroupHeaderColumnsArray;
-  //   this.isRowTotal = this.GrpTableitem?.isRowLvlTotal ? true : false;
-  //   this.isMonthFilter = this.GrpTableitem?.isMonthFilter? true : false;
-    
-  //   if(res.AllMonths)
-  //   {
-  //     this.allMonths = res.AllMonths[0].Month;
-  //     this.monthValue = res.AllMonths[0].Month[0];
-
-  //   } 
-
-    
-    
-
-  //   var nonTotRowCols = ['SourceSystem', 'CLIStatus', 'FullAuditCLIStatus'];
-  //   this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
-  //   this.nonNumericCols = this.displayedColumns.filter(x => !this.totalCols.includes(x));
-  //     },
-  //     error => { this.spinner.hide(); },
-  //     () => {
-        
-  //       this.spinner.hide();
-  //     }
-  //   );
-
-    
-
-  //   if (this.filterColumn) {
-  //     this.filterSelectedItems = this.GrpTableitem?.FilterValues ? this.GrpTableitem?.FilterValues : [];
-  //     this.cliStatusList = [...new Set(this.filterSelectedItems[0])];
-  //     this.sourceSystemList = [...new Set(this.filterSelectedItems[1])]
-  //     this.formControlsSubscribe();
-  //     this.createFilter();
-  //   }
-    
-  // }
-
-  // ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    
-      // this.ngZone.onMicrotaskEmpty.pipe(take(3)).subscribe(() => this.table.updateStickyColumnStyles());
-  // }
 
   getTotal(cellname: string, element: any) {
     var cell = cellname ? cellname : '';
@@ -215,7 +111,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
       return this.dataSource?.filteredData.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
-     // return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
+
     }
     return '';
   }
@@ -229,33 +125,19 @@ export class TableGroupHeaderComponent implements OnDestroy {
 
   formControlsSubscribe() {
     this.filterForm.controls['sourceSystemFilter'].valueChanges.subscribe(sourceSystemValues => {
-      this.filterValues.SourceSystem = sourceSystemValues
+      this.filterValues.SourceSystem = sourceSystemValues;
       this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
     this.filterForm.controls['cliStatusFilter'].valueChanges.subscribe(cliStatusValue => {
-      this.filterValues.CLIStatus = cliStatusValue
+      this.filterValues.CLIStatus = cliStatusValue;
       this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
-  //   switch(this.auditType)
-  //   {
-  //   case 'Full Audit': this.filterForm.controls['cliStatusFilter'].valueChanges.subscribe(cliStatusValue => {
-  //     this.filterValues.FullAuditCLIStatus = cliStatusValue
-  //     this.dataSource.filter = JSON.stringify(this.filterValues);
-  //   });
-  //   break;
-  //   case 'External Audit': this.filterForm.controls['cliStatusFilter'].valueChanges.subscribe(cliStatusValue => {
-  //     this.filterValues.ExternalAuditCLIStatus = cliStatusValue
-  //     this.dataSource.filter = JSON.stringify(this.filterValues);
-  //   });
-  //   break;
-  //   case 'Separate Internal Audit': this.filterForm.controls['cliStatusFilter'].valueChanges.subscribe(cliStatusValue => {
-  //     this.filterValues.InternalAuditCLIStatus = cliStatusValue
-  //     this.dataSource.filter = JSON.stringify(this.filterValues);
-  //   });
-  //   break;
-  // }
+    this.filterForm.controls['resolveMonthFilter'].valueChanges.subscribe(resolveMonthValues => {
+      this.filterValues.ResolveMonth = [resolveMonthValues];
+      this.dataSource.filter = JSON.stringify(this.filterValues);
+    }); 
 
   }
 
@@ -264,6 +146,8 @@ export class TableGroupHeaderComponent implements OnDestroy {
       let searchString = JSON.parse(filter);
       let isSourceSystemAvailable = false;
       let isCLIStatusAvailbale = false;
+      let isResolveMonthAvailable = false;
+
       if (searchString.SourceSystem.length) {
         for (const d of searchString.SourceSystem) {
           if (data.SourceSystem.trim() === d) {
@@ -274,52 +158,56 @@ export class TableGroupHeaderComponent implements OnDestroy {
         isSourceSystemAvailable = true;
       }
 
-    //   if (searchString.CLIStatus.length) {
-    //     for (const d of searchString.CLIStatus) {
-    //       if (data.CLIStatus.trim() === d) {
-    //         isCLIStatusAvailbale = true;
-    //       }
-    //     }
-    //   } else {
-    //     isCLIStatusAvailbale = true;
-    //   }
-    //   const result = isSourceSystemAvailable && isCLIStatusAvailbale;
-    //   return result;
-    // }
-
-        if (searchString.CLIStatus.length) {
-        for (const d of searchString.CLIStatus) {
-          if (data.CLIStatus.trim() === d) {
-            isCLIStatusAvailbale = true;
+      if (searchString.ResolveMonth[0]) {
+        for (const d of searchString.ResolveMonth) {
+          if (data.ResolveMonth.trim() === d) {
+            isResolveMonthAvailable = true;
           }
         }
       } else {
-        isCLIStatusAvailbale = true;
+        isResolveMonthAvailable = true;
       }
-      const result = isSourceSystemAvailable && isCLIStatusAvailbale;
+
+     switch(this.auditType)
+    {
+    case 'Full Audit': if (searchString.CLIStatus.length) {
+      for (const d of searchString.CLIStatus) {
+        if (data.FullAuditCLIStatus.trim() === d) {
+          isCLIStatusAvailbale = true;
+        }
+      }
+    } else {
+      isCLIStatusAvailbale = true;
+    }
+    break;
+    case 'External Audit': if (searchString.CLIStatus.length) {
+      for (const d of searchString.CLIStatus) {
+        if (data.ExternalAuditCLIStatus.trim() === d) {
+          isCLIStatusAvailbale = true;
+        }
+      }
+    } else {
+      isCLIStatusAvailbale = true;
+    }
+    break;
+    case 'Separate Internal Audit': if (searchString.CLIStatus.length) {
+      for (const d of searchString.CLIStatus) {
+        if (data.InternalAuditCLIStatus.trim() === d) {
+          isCLIStatusAvailbale = true;
+        }
+      }
+    } else {
+      isCLIStatusAvailbale = true;
+    }
+    break;
+  }
+
+      const result = isSourceSystemAvailable && isCLIStatusAvailbale && isResolveMonthAvailable;
       return result;
     }
 
-    
-
     this.dataSource.filter = JSON.stringify(this.filterValues);
+    console.log("Filter end "+ JSON.stringify(this.filterValues) )
   }
 
-  date = new FormControl(moment());
-
-  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.date.value;
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    this.MonthDate.emit(formatDate(ctrlValue, 'MMM-YYYY', 'en-US'));
-    datepicker.close();
-   
-  }
-
-  MonthSelected(monthDate: any){
-    // console.log("Month Date "+ monthDate.value);
-    this.MonthDate.emit((monthDate.value).toString());
-  }
-  
 }

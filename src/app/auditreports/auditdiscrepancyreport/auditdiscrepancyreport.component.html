@@ -7,22 +7,14 @@
           <mat-label>Audit Type</mat-label>
           <mat-select id="AuditType" formControlName="AuditType" [(ngModel)]="selectedAuditType" (selectionChange)="changedAuditType($event)">
             <mat-option *ngFor="let val of config;" [value]="val.auditType" >{{val.auditType}}</mat-option>
-            <!-- <mat-option value="Full Audit">Full Audit</mat-option>
-            <mat-option value="Separate Internal Audit">Separate Internal Audit</mat-option>
-            <mat-option value="External Audit">External Audit</mat-option> -->
           </mat-select>
           <mat-error class="error-message" *ngIf="checkError('AuditType', 'required')">Please Select Audit Type
           </mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>ACT ID</mat-label>
-          <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedActId" (selectionChange)="changedAuditActId($event)">
+          <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedActId">
             <mat-option *ngFor="let actId of auditActIdDropdown" [value]="actId">{{actId}}</mat-option>           
-            <!-- <mat-option value="29-20 Dec 2020">29-20 Dec 2020</mat-option>  -->
-            <!-- <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option> -->
-            <!-- <mat-option value="29-20 Nov 2019">29-20 Nov 2019</mat-option> -->
-            <!-- <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>  -->
-            <!-- <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>            -->
           </mat-select>
           <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select AuditActId</mat-error>
         </mat-form-field>
@@ -41,17 +33,12 @@
   <mat-sidenav-content class="side-content">
     <div [ngSwitch]="auditType">
       <div *ngSwitchCase="'Full Audit'">
-        <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails" [QueryParams]="QueryParams" (getFilter)="sendFilterValue($event)">
-        </app-full-audit-type>
-
-        <!-- <ng-container *ngIf="queryResult as query">
-  {{query |json }}
-</ng-container> -->
+          <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails" [QueryParams]="QueryParams" >
+          </app-full-audit-type>
 
       </div>
       <div *ngSwitchCase="'Separate Internal Audit'">
-        <app-seperate-internal-audit-type [sidePan]="pagesidenav"
-          [InternalAuditTableDetails]="grpInternalAuditTableDetails" [QueryParams]="QueryParams">
+        <app-seperate-internal-audit-type [sidePan]="pagesidenav" [InternalAuditTableDetails]="grpInternalAuditTableDetails" [QueryParams]="QueryParams">
         </app-seperate-internal-audit-type>
       </div>
       <div *ngSwitchCase="'External Audit'">

@@ -1,8 +1,10 @@
+<ng-container *ngIf="observerResult | async as result">
+
 <button class="slidderbtn" mat-basic-button color="primary" (click)="sidePan.toggle()"
     matTooltip="{{sidePan.opened ? 'Hide Filters' : 'Show Filters'}}">
     <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
 </button>
-<ng-container *ngIf="observerResult | async as result">
+
 
     <mat-tab-group [selectedIndex]="selectedTab">
         <mat-tab *ngFor="let tab of tabs;  trackBy: trackTabs">
@@ -30,16 +32,17 @@
     
                  <div *ngSwitchCase="3" >
     
-                     <div *ngIf=" isMonthFilter">
+                     <!-- <div *ngIf=" isMonthFilter">
                          <div *ngIf="observerResult1 | async as result1">
                     <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result1.ExternalAuditAddressPostCode ? result1.ExternalAuditAddressPostCode : []" [AllMonths]="result.AllMonths" (MonthDate)="fetchMonthData($event)"></app-table-group-header>
                     </div>
-                    </div>
+                    </div> -->
     
-                <div *ngIf="!isMonthFilter">
-                    <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.ExternalAuditAddressPostCode ? result.ExternalAuditAddressPostCode : []" [AllMonths]="result.AllMonths" (MonthDate)="fetchMonthData($event)"></app-table-group-header>
-                </div>
-    
+                <!-- <div *ngIf="!isMonthFilter"> -->
+                    <!-- <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.ExternalAuditAddressPostCode ? result.ExternalAuditAddressPostCode : []" [AllMonths]="result.AllMonths" (MonthDate)="fetchMonthData($event)"></app-table-group-header> -->
+                    <!-- <div> -->
+                    <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.ExternalAuditAddressPostCode ? result.ExternalAuditAddressPostCode : []"></app-table-group-header>
+
             </div>
     
                 <div *ngSwitchDefault>
