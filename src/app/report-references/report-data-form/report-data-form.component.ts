@@ -168,6 +168,7 @@ updatedRecord = this.referenceForm.value;
 console.log(updatedRecord,'df updaterecord')
 console.log([[false,true],updatedRecord], 'de')
 this.submitBtnClicked.emit([[false,true],updatedRecord])
+this.onCancelDataForm();
 }
 else{
   //this.submitBtnClicked.emit([false,true,updatedRecord]);
