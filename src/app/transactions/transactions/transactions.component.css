@@ -1,5 +1,6 @@
 .container-page{
-  height:520px;
+  /* height:558px; */
+  min-height:558px;
   width: auto;
   box-sizing: border-box;
 }
@@ -11,16 +12,17 @@ justify-content: center;
       /* height: 90vh; */
       /* min-width: 80%; */
       width: 60vw;
+      /* width: 83vw; */
       /* background-color: rgb(230, 129, 176); */
       /* height: calc(100%-10%); */
       /* overflow-y:visible; */
-      overflow: auto;
+      /* overflow: auto; */
       /* padding-left: 5px; */
   }
   .right-box{
     /* min-height: 80vh; */
     height: 80vh; 
-    width: 90vw;
+    width: 79vw;
     /* background-color: rgb(230, 129, 176); */
     overflow: auto;
 }
@@ -39,7 +41,7 @@ justify-content: center;
     margin-left: auto;
   }
   .vf-flex-container-col {
-    display: flex;
+     display: block!important;
     width: auto;
     flex-direction: row;
     justify-content: center;        

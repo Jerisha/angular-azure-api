@@ -216,7 +216,154 @@ export const PyRequests = {
             }
         },
         "Cache": ["ApplicationKey", "SessionID"]
+    },
+    CREATE:
+    {
+        "RequestType": "CREATE",
+        "UserParams": ["UserID", "RoleID"],
+        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        "wmRequest":
+        {
+            "CreateObjectRequest": {
+                "CreateObjectRequestType": {
+                    "RequestIdentifiers": {
+                        "Identifier": [{
+                            "Name": "UserId",
+                            "Value": ["sample"]
+                        }, {
+                            "Name": "Destination",
+                            "Value": ["OSN2"]
+                        }]
+                    },
+                    "ListofCreateObjectCategory": {
+                        "CreateObjectCategory": [{
+                            "ItemName": "AuditStatus",
+                            "ListofIdentifiers": {
+                                "Identifier": [{
+                                    "Name": "ReportIdentifier",
+                                    "Value": ["ReferenceList"]
+                                }]
+                            },
+                            "ListofCreateObjectCharacteristics": {
+                                "CreateObjectCharacteristics": [{
+                                    "ItemName": "CreateParameters",
+                                    "ListofIdentifiers": {
+                                        "Identifier": [{
+                                            "Name": "StatusId",
+                                            "Value": ["20"]
+                                        }, {
+                                            "Name": "Summary",
+                                            "Value": ["POPULATED FULL AUDIT COUNT"]
+                                        }, {
+                                            "Name": "Description",
+                                            "Value": ["Populate Full Audit Count into OSN2_FULL_AUDIT_COUNT table"]
+                                        }]
+                                    }
+                                }]
+                            }
+                        }]
+                    }
+                }
+            }
+        },
+        "Cache": ["ApplicationKey", "SessionID"]
+    },
+    DELETE:
+    {
+        "RequestType": "DELETE",
+        "UserParams": ["UserID", "RoleID"],
+        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        "wmRequest": {
+            "DeleteObjectRequest": {
+                "DeleteObjectRequestType": {
+                    "RequestIdentifiers": {
+                        "Identifier": [{
+                            "Name": "UserId",
+                            "Value": ["sample"]
+                        }, {
+                            "Name": "Destination",
+                            "Value": ["OSN2"]
+                        }]
+                    },
+                    "ListofDeleteObjectCategory": {
+                        "DeleteObjectCategory": [{
+                            "ItemName": "AuditStatus",
+                            "ListofIdentifiers": {
+                                "Identifier": [{
+                                    "Name": "ReportIdentifier",
+                                    "Value": ["ReferenceList"]
+                                }]
+                            },
+                            "ListofDeleteObjectCharacteristics": {
+                                "DeleteObjectCharacteristics": [{
+                                    "ItemName": "DeleteParameters",
+                                    "ListofIdentifiers": {
+                                        "Identifier": [{
+                                            "Name": "StatusId",
+                                            "Value": ["11"]
+                                        }]
+                                    }
+                                }]
+                            }
+                        }]
+                    }
+                }
+            }
+        }
+        ,
+        "Cache": ["ApplicationKey", "SessionID"]
     }
-
-
+    ,
+    METADATA:{
+    "RequestType": "MetaData",
+    "UserParams": ["UserID", "RoleID"],       
+    "MetaDataRequest": {
+            "MetaDataRequestType": {
+                "RequestIdentifiers": {
+                    "Identifier": [
+                        {
+                            "Name": "UserId",
+                            "Value": [
+                                "abc"
+                            ]
+                        },
+                        {
+                            "Name": "Destination",
+                            "Value": [
+                                "OSN2"
+                            ]
+                        }
+                    ]
+                },
+                "ListofMetaDataObjectCategory": {
+                    "MetaDataObjectCategory": [
+                        {
+                            "ItemName": "MetaDataObject",
+                            "ListofIdentifiers": {
+                                "Identifier": [
+                                    {
+                                        "Name": "ObjectName",
+                                        "Value": [
+                                            "TelephoneNumber"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "ListofAttributes": {
+                                "Attribute": [                                   
+                                    {
+                                        "Name": "ReportNames",
+                                        "Value": [
+                                            "All"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
 }
+

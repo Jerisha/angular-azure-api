@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, Type, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { forkJoin, Observable, Observer, of } from 'rxjs';
-import { FullAuditAddresReport, FullAuditMonthReport, FullAuditProgressReport, FullAuditSummary } from '../../models/index'
+import { Observable } from 'rxjs';
+import { FullAuditSummary } from '../../models/index'
 import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
@@ -145,8 +145,6 @@ export class FullAuditTypeComponent implements OnInit {
   }
 
 MonthReportTab() {
-
-  // var headerswithDetails: string[];
       var displayedColumns: string[];
       var detailedColumnsArray: string[];
       var grpHdrColumnsArray: Array<string[]>;

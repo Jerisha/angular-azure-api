@@ -10,10 +10,17 @@ export class TelphoneNoValidatorDirective implements Validator {
     @Input() prefix?: string[] = ['01', '02', '03', '08'];
     validate(control: AbstractControl): { [key: string]: any } | null {
 
-        const selection: any = control.value;
-        if (selection && (this.prefix?.indexOf(selection.substring(0, 2)) === -1) && selection.length >= 2) {
-            return { invalidPrefix: true };
+
+        const selection: any = control.value ? control.value : null;
+        if (selection != null) {
+            if (selection?.charAt(0) != 0)
+                control.setValue(selection?.length <= 10 ? '0' + selection : selection);
+
+            if (selection && (this.prefix?.indexOf(selection.substring(0, 2)) === -1) && selection.length >= 2) {
+                return { invalidPrefix: true };
+            }
         }
         return null;
+
     }
 }

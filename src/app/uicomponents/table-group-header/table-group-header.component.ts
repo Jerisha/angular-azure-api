@@ -1,6 +1,6 @@
 import { Component, Input, NgZone, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
@@ -42,6 +42,13 @@ export class TableGroupHeaderComponent implements OnDestroy {
   private readonly onDestroy = new Subject<void>();
   allMonths!: any;
 
+
+  isLoading = false;
+  totalRows = 0;
+  pageSize = 5;
+  currentPage = 0;
+  pageSizeOptions: number[] = [100, 5000, 2500, 1000];
+
   filterValues = {
     SourceSystem: [],
     CLIStatus: [],
@@ -50,6 +57,8 @@ export class TableGroupHeaderComponent implements OnDestroy {
     ExternalAuditCLIStatus: [],
     InternalAuditCLIStatus: [],
   }
+
+  // @ViewChild(MatPaginator)  paginator!: MatPaginator;
 
   filterForm = new FormGroup({
     sourceSystemFilter: new FormControl(''),
@@ -110,8 +119,8 @@ export class TableGroupHeaderComponent implements OnDestroy {
     }
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
+      // return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
       return this.dataSource?.filteredData.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
-
     }
     return '';
   }

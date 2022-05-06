@@ -8,7 +8,7 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { ReportService} from 'src/app/reports/services/report.service';
 import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
-import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http/common/utils';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -52,7 +52,8 @@ export class TransactionDetailsComponent implements OnInit {
   massage = null;  
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;  
-  expressions:any = [expNumeric,expString,expDate];  
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
+   
   expOperatorsKeyPair:[string,string][] =[]; 
   resetExp: boolean=false;
   
@@ -126,8 +127,8 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
   ];
   ngOnInit(): void {    
-    let request = Utils.prepareConfigRequest(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine']);
-    this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));  
+    let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine']);
+    this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res.data));  
     this.createForm();   
   }
 
@@ -153,7 +154,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{11}$")]), 
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true },  [Validators.pattern("^[0-9]{10,11}$")]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true },[]),
       PostCode: new FormControl({ value: '', disabled: true }, []),
@@ -280,14 +281,14 @@ prepareQueryParams(pageNo: string): any {
     if(!this.thisForm.valid) return;
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].TransactionDetails,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.TransactionDetails,
+          totalrecordcount: res.TotalCount,
+            totalpages: res.NumberOfPages,
+            pagenumber: res.PageNumber         
         }
         return result;
       } else return {datasource:res};;
@@ -322,10 +323,10 @@ prepareQueryParams(pageNo: string): any {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }
-  resetForm(): void {   
-    this.thisForm.reset();
-    this.tabs.splice(0); 
-    this.resetExp=!this.resetExp; 
+  resetForm(): void {
+   
+    window.location.reload();
+    this.resetExp=!this.resetExp;
   }
 
   setControlAttribute(matSelect: MatSelect) {

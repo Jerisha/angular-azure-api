@@ -1,0 +1,226 @@
+<mat-sidenav-container class="side-container">
+    <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
+  
+      <div class="filter-sticky">
+        <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+          (changes)="setControlAttribute($event)">
+        </app-select-multiple>
+      </div>
+  
+      <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+        <div class="matsidenav-filter">
+          <ng-container>
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
+              <mat-label>Tel No.Start</mat-label>
+              <input formControlName="StartTelephoneNumber" matInput #StartTelephoneNumber (keypress)="numberOnly($event)" placeholder="Start Telephone No">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label [ngClass]="{'hidden':thisForm.controls.EndTelephoneNumber.disabled}">Tel No.End</mat-label>
+              <input formControlName="EndTelephoneNumber" matInput #EndTelephoneNumber (keypress)="numberOnly($event)" placeholder="End Telephone No">
+            </mat-form-field>
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.AuditActId.disabled}">
+              <mat-label>Audit ACT ID</mat-label>
+              <mat-select id="AuditActId" formControlName="AuditActId">
+                <mat-option></mat-option>
+                <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
+                <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
+                <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.OSN2Source.disabled}">
+              <mat-label>OSN2 Source</mat-label>
+              <mat-select id="OSN2Source" formControlName="OSN2Source">
+                <mat-option></mat-option>
+                <mat-option value="C">C - SAS/COMS</mat-option>
+                <mat-option value="D">D - DVA Siebel</mat-option>
+                <mat-option value="E">E - VA/WAD</mat-option>
+                <mat-option value="G">G - Content Guru</mat-option>
+                <mat-option value="R">R - Clarify</mat-option>
+                <mat-option value="S">S - Amdocs SOM</mat-option>
+                <mat-option value="X">X - Unknown</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.CLIStatus.disabled}">
+              <mat-label>CLI Status</mat-label>
+              <mat-select id="CLIStatus" formControlName="CLIStatus">
+                <mat-option></mat-option>
+                <mat-option value="Amdocs SOM">Amdocs SOM Only</mat-option>
+                <mat-option value="S-Matched">S-Matched</mat-option>
+                <mat-option value="D-Mismatched">D-Mismatched</mat-option>
+                <mat-option value="V-OSN2 Only">V-OSN2 Only</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.ResType.disabled}">
+              <mat-label>Resolution Type</mat-label>
+              <mat-select id="ResType" formControlName="ResType">
+                <mat-option></mat-option>
+                <mat-option value="0"> New</mat-option>
+                <mat-option value="100"> Under Investigation</mat-option>
+                <mat-option value="105"> Under Governance</mat-option>
+                <mat-option value="114"> Auto Failed</mat-option>
+                <mat-option value="106"> Under Porting</mat-option>
+                <mat-option value="107"> Port Req Complete</mat-option>
+                <mat-option value="110">(END) Audit Transaction Override</mat-option>
+          
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.SourceStatus.disabled}">
+              <mat-label>Source Status</mat-label>
+              <mat-select id="SourceStatus" formControlName="SourceStatus">
+                <mat-option></mat-option>
+                <mat-option value="Active">A-Active</mat-option>
+                <mat-option value="Ceased">C-Ceased</mat-option>
+                <mat-option value="Not Found">N-Not Found</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.PostCodeDiff.disabled}">
+              <mat-label>Post Code Diff.</mat-label>
+              <mat-select id="PostCodeDiff" formControlName="PostCodeDiff">
+                <mat-option></mat-option>
+                <mat-option value="No">No</mat-option>
+                <mat-option value="Yes">Yes</mat-option>
+              </mat-select>
+            </mat-form-field>
+          
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.FullAddDiff.disabled}">
+              <mat-label>Full Address Diff.</mat-label>
+              <mat-select id="FullAddDiff" formControlName="FullAddDiff">
+                <mat-option></mat-option>
+                <mat-option value="No">No</mat-option>
+                <mat-option value="Yes">Yes</mat-option>
+              </mat-select>
+            </mat-form-field>
+          
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.CustomerDiff.disabled}">
+              <mat-label>Customer Diff.</mat-label>
+              <mat-select id="CustomerDiff" formControlName="CustomerDiff">
+                <mat-option></mat-option>
+                <mat-option value="No">No</mat-option>
+                <mat-option value="Yes">Yes</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+        </div>
+  
+        <div class="matsidenav-footer">
+          <button type="submit" mat-raised-button color="primary">
+            <mat-icon>search</mat-icon>Search
+          </button>
+          <a
+  [routerLink]="['/transactions/transactions']"
+  [queryParams]="{ order: 'popular'}"
+>
+  Products
+</a>
+
+          
+        </div>
+  
+      </form>
+    </mat-sidenav>
+  
+    <mat-sidenav-content class="side-content">
+      <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+        matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+        <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+      </button>
+      <app-start-up *ngIf="tabs.length===0"></app-start-up>
+      <mat-tab-group [(selectedIndex)]="selectedTab">
+        <mat-tab *ngFor="let tab of tabs; let index = index">
+          <ng-template mat-tab-label>
+            <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+            <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
+              <mat-icon style="font-size: large;">close</mat-icon>
+            </button>
+  
+          </ng-template>
+  
+          <span [ngSwitch]="tab.tabType">
+            <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+             
+                
+              
+              <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+              (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
+            </app-table-selection>
+            <form (ngSubmit)="onSaveSubmit()">
+              <div class="mat-elevation-z8 side-bottom">
+                <div>
+                  <!-- <select class="res-select" Name="Name_of_list_box" size="4">
+                          <option *ngFor="let list of selectListItems"> {{list}} </option>
+                        </select> -->
+                  <div style="display: inline-block;">
+                    <mat-form-field>
+                      <mat-label>Resolution Type</mat-label>
+                      <mat-select id="ResType" formControlName="ResType">
+                        <mat-option></mat-option>
+                        <mat-option value="0"> New</mat-option>
+                        <mat-option value="100"> Under Investigation</mat-option>
+                        <mat-option value="105"> Under Governance</mat-option>
+                        <mat-option value="114"> Auto Failed</mat-option>
+                        <mat-option value="106"> Under Porting</mat-option>
+                        <mat-option value="107"> Port Req Complete</mat-option>
+                        <mat-option value="110">(END) Audit Transaction Override</mat-option>
+                  
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
+                      <mat-label>Remarks</mat-label>
+                      <textarea required [(ngModel)]="Remarks" [ngModelOptions]="{standalone: true}" #input matInput
+                        maxlength="500" placeholder="Remarks"></textarea>
+                      <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                      <mat-error>
+                        <div *ngIf="!Remarks" class="alert alert-danger">
+                          <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                          Add remarks for resolution
+                        </div>
+                      </mat-error>
+                    </mat-form-field>
+                    
+                    <button type="submit" mat-raised-button
+                      color="primary" (click)="DisplayFullAuditDetailsTab()">
+                      FullAudit
+                    </button>
+                    <button [disabled]="!(selectedGridRows.length>0)" type="submit" mat-raised-button
+                      color="primary">
+                      <mat-icon>save</mat-icon>Save
+                    </button>&nbsp;&nbsp;
+
+
+                    <!-- <button type="button" mat-raised-button color="primary">
+                      <mat-icon>help</mat-icon>Help
+                    </button> -->
+                  </div>
+
+
+                </div>
+                <div class="side-right-div">
+                </div>
+
+              </div>
+            </form>
+            </div>
+            <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+              <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+            </div>
+           
+  
+  
+            <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+              <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
+              </app-transaction-errors>
+            </div>
+            <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="fullAuditTable" (rowChanges)="rowDetect($event)"
+              (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
+            </app-table-selection>
+          </div>
+            <div *ngSwitchDefault>
+  
+            </div>
+          </span>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

@@ -12,7 +12,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
 <!-- <button mat-raised-button color="primary" mat-dialog-close tabindex="-1">{{cancelButtonText}}</button> -->
-<button mat-raised-button color="primary" (click)="onConfirmClick()">{{okButtonText}}</button>
+<button *ngIf="enableOkButton" mat-raised-button color="primary" (click)="onConfirmClick()">{{okButtonText}}</button>
 <button mat-raised-button color="primary" (click)="onCancel()" mat-dialog-close="false">{{cancelButtonText}}</button>
 
 </mat-dialog-actions>

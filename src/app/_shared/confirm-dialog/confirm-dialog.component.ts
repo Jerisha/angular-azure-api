@@ -26,7 +26,8 @@ export class ConfirmDialogComponent {
   heading ="Notification"
   message: string = ""
   cancelButtonText = "Cancel"
-  okButtonText = "OK"
+  okButtonText = "Ok"
+  enableOkButton =true;
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<ConfirmDialogComponent>) {
@@ -37,6 +38,8 @@ export class ConfirmDialogComponent {
       }
       if(data.heading)
       this.heading = data.heading || this.heading;
+      if(data.hasOwnProperty("enableOk"))
+      this.enableOkButton = data.enableOk 
     }
     
   }

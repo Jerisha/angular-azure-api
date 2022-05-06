@@ -18,6 +18,7 @@ import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
+import { Custom } from 'src/app/_helper/Validators/Custom';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -157,9 +158,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   thisForm!: FormGroup;
   thisUpdateForm!: FormGroup;
   tabs: Tab[] = [];
-  Resolution: string ='';
-  Refer: string='';
-  Remarks: string='';
+  Resolution: string = '';
+  Refer: string = '';
+  Remarks: string = '';
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
@@ -186,17 +187,17 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.createForm();
     //this.UpdateForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      this.configDetails = res.data;
 
     });
 
-    let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
+    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.updateDetails = res[0];
+      this.updateDetails = res.data;
     });
 
 
@@ -349,8 +350,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
@@ -377,16 +378,16 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.isSaveDisable = true;
     //console.log('isSaveDisable',this.isSaveDisable)
   }
-  
-  check999(){
-    if(this.Refer && this.Refer.substring(0,3) != '999')
-    return false;
-    
+
+  check999() {
+    if (this.Refer && this.Refer.substring(0, 3) != '999')
+      return false;
+
     return true;
   }
   onSaveSubmit() {
     debugger;
-    if (this.selectedGridRows.length > 0 && 
+    if (this.selectedGridRows.length > 0 &&
       (this.Resolution && this.Remarks && this.check999())) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
@@ -397,7 +398,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       rangeConfirm.afterClosed().subscribe(result => {
         //console.log("result " + result);
         if (result) {
-          let request = Utils.prepareUpdateRequest('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          let request = Utils.preparePyUpdate('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
@@ -415,12 +416,12 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   InternalErrorInformation: any;
   DisplayInformationTab() {
     debugger
-    let request = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
+    let request = Utils.preparePyQuery('InternalErrorInformation', 'UnsolicitedErrors', [{
       "Name": "TransactionDays",
       "Value": [`${environment.UnsolTransactionDays}`]
     }])
 
-    this.queryResultInfo$ = this.service.infoDetails(request).pipe(map((res: any) => res));
+    this.queryResultInfo$ = this.service.queryDetails(request).pipe(map((res: any) => res.data));
     // this.service.infoDetails(request).subscribe((res: any) => {
     //   this.infotable1 = res.dates;
     //   this.infotable2 = res.months      
@@ -463,17 +464,35 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    let errMsg = '';
     if (!this.thisForm.valid) return;
+    errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+    if (errMsg) {
+
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: {
+          enableOk: false,
+          message: errMsg,
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        return result;
+      })
+      return;
+    }
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].UnsolicitedError,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.UnsolicitedError,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       }
@@ -488,6 +507,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
+      setCellAttributes:[ { flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted:true }],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -598,21 +618,21 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.selected = matSelect.value;
   }
 
-  reference(event: any, ctrlName: string):boolean{
+  reference(event: any, ctrlName: string): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
-    const ctrlValue = ctrlName!='Refer' ?ctrl?.value : this.Refer;
-    if (charCode ===32) {
+    const ctrlValue = ctrlName != 'Refer' ? ctrl?.value : this.Refer;
+    if (charCode === 32) {
       return false;
     }
     else if (ctrlValue?.charAt(0) != 9 && ctrlValue?.substring(0, 3) != '999') {
-      let newValue = '999'+ ctrlValue;
-      if(ctrlName!='Refer')
-      ctrl.setValue(newValue);
+      let newValue = '999' + ctrlValue;
+      if (ctrlName != 'Refer')
+        ctrl.setValue(newValue);
       else
-      this.Refer = newValue;
+        this.Refer = newValue;
     }
-    return true;    
+    return true;
   }
 
 

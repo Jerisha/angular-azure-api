@@ -15,7 +15,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { ReportService } from '../services/report.service';
-import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
@@ -490,7 +490,7 @@ resetExp:boolean = false;
   SelectedDate = null;
   isMale = true;
   isFeMale = false;
-  expressions: any = [expNumeric, expString, expDate];
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
   destroy$: Subject<boolean> = new Subject<boolean>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -552,14 +552,14 @@ resetExp:boolean = false;
     // this.setOptions();
     this.createForm();
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Source', 'Franchise', 'TypeOfLine', 'TransactionCommand']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'Franchise', 'TypeOfLine', 'TransactionCommand']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      this.configDetails = res.data;
     });
 
   }
- 
+
 
   get f() {
     return this.myForm.controls;
@@ -591,14 +591,14 @@ resetExp:boolean = false;
     if(!this.myForm.valid) return;
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].LiveTelephoneNumberDetails,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.LiveTelephoneNumberDetails,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
       } else return res;
@@ -620,10 +620,9 @@ resetExp:boolean = false;
       });
     }
   }
-
   resetForm(): void {
-    this.myForm.reset();
-    this.tabs.splice(0);
+   
+    window.location.reload();
     this.resetExp=!this.resetExp;
   }
   removeTab(index: number) {
@@ -768,8 +767,9 @@ resetExp:boolean = false;
   }
 
   createForm() {
+
     this.myForm = new FormGroup({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),  Validators.pattern("^[0-9]{10,11}$")]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       PostCode: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true }, []),
@@ -795,11 +795,7 @@ resetExp:boolean = false;
   }
   onChange(value: string, ctrlName: string) {
     const ctrl = this.myForm.get(ctrlName) as FormControl;
-    if (isNaN(<any>value))
-    if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
-      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-    } else {
+    if (value != null && value != undefined) {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }

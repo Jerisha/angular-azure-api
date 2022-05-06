@@ -158,10 +158,10 @@ export class SolicitedresolutionreportComponent implements OnInit {
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      this.configDetails = res.data;
     });
 
     // let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);

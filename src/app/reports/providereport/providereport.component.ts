@@ -128,14 +128,14 @@ refresh(event: any)
        
         this.Datetime =   formatDate( new Date, 'dd-MMM-yyyy HH:mm', 'en-US')
         this.tabs.splice(0);
-        let request = Utils.prepareQueryRequest('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage));
+        let request = Utils.preparePyQuery('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage));
         this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
             if (Object.keys(res).length) {
                 let result = {
-                    datasource: res[0].TelephoneNumbers,
-                    totalrecordcount: res[0].TotalCount,
-                    totalpages: res[0].NumberOfPages,
-                    pagenumber: res[0].PageNumber
+                    datasource: res.data.TelephoneNumbers,
+                    totalrecordcount: res.TotalCount,
+            totalpages: res.NumberOfPages,
+            pagenumber: res.PageNumber
                 }
                 return result;
             } else return res;
@@ -207,7 +207,7 @@ refresh(event: any)
 
         this.myForm = new FormGroup({
             TelephoneNumber: new FormControl({ value: '', disabled: false },
-                [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+                [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
         })
 
     }

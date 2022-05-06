@@ -7,22 +7,23 @@
       </button>
       </div>
         <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
-          <div class="matsidenav-filter">
-        <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.TelephoneNumber.disabled}">
-          <mat-label>Telephone No</mat-label>
-          <input formControlName="TelephoneNumber" (keypress)="numberOnly($event)"
-          (ngModelChange)="onChange($event,'TelephoneNumber')" matInput maxlength="11" placeholder="Telephone No"
-            #telno>
-          <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
-          <mat-error>
-            <div *ngIf="f.TelephoneNumber.touched && f.TelephoneNumber.invalid" class="alert alert-danger">
-              <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-              <div *ngIf="f.TelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
-            </div>
-          </mat-error>
+      <div class="matsidenav-filter">
+         <mat-form-field hintLabel="Max 11 characters"
+            [ngClass]="{'hidden':f.TelephoneNumber.disabled}">
+            <mat-label>Telephone No</mat-label>
+            <input formControlName="TelephoneNumber" numbersOnly
+            matInput maxlength="11" placeholder="Telephone No"  #telno  telNoPrefixValidator>
+            <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
+            <mat-error>
+                <div *ngIf="f.TelephoneNumber.touched && f.TelephoneNumber.invalid"
+                    class="alert alert-danger">
+                    
+                     <div *ngIf="f.TelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                    <div *ngIf="f.TelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                </div>
+            </mat-error>
         </mat-form-field>
-      
-      </div>
+        </div>
       <div calss="matsidenav-footer">
         <button type="submit" mat-raised-button color="primary">
           <mat-icon>search</mat-icon>Search

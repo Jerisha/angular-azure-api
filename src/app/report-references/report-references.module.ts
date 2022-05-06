@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReportReferencesRoutingModule } from './report-references-routing.module';
-import { ReportReferenceComponent } from './report-reference/report-reference.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../_shared/shared.module';
 import { ReportReferenceMainComponent } from './report-reference-main/report-reference-main.component';
@@ -12,7 +11,6 @@ import { ReportDataFormComponent } from './report-data-form/report-data-form.com
 
 @NgModule({
   declarations: [
-    ReportReferenceComponent,
     ReportReferenceMainComponent,
     ReportDataFormComponent,
     

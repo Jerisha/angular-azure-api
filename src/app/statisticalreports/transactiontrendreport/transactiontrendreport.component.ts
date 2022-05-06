@@ -3,7 +3,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Transactionsourcecommandhistory, Link } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
 import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { expDate, expNumeric, expString } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expDropdown, expNumeric, expString } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
@@ -16,13 +16,13 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { Select } from 'src/app/uicomponents/models/select';
-import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatDatepicker} from '@angular/material/datepicker';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
 // import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
-import { default as _rollupMoment, Moment} from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
 const moment = _rollupMoment || _moment;
 
 const MY_FORMATS = {
@@ -35,7 +35,7 @@ const MY_FORMATS = {
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
   },
-}; 
+};
 
 
 
@@ -106,16 +106,16 @@ const ELEMENT_DATA: Transactionsourcecommandhistory[] =
     },
 
   ]
-  const Itemstwo: Select[] = [
-    { view: 'StatisticMonth.', viewValue: 'StatisticMonth', default: true },
-    { view: 'Source.', viewValue: 'Source', default: true }
+const Itemstwo: Select[] = [
+  { view: 'StatisticMonth.', viewValue: 'StatisticMonth', default: true },
+  { view: 'Source.', viewValue: 'Source', default: true }
 
 ]
 
 @Component({
-  selector: 'app-transactionsourcecommandhistory',
-  templateUrl: './transactionsourcecommandhistory.component.html',
-  styleUrls: ['./transactionsourcecommandhistory.component.css'],
+  selector: 'app-transactiontrendreport',
+  templateUrl: './transactiontrendreport.component.html',
+  styleUrls: ['./transactiontrendreport.component.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -133,12 +133,10 @@ const ELEMENT_DATA: Transactionsourcecommandhistory[] =
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
 export class TransactionsourcecommandhistoryComponent implements OnInit {
-
-
   panelOpenState: boolean = false;
   panelOpenState1: boolean = false;
   panelOpenState2: boolean = false;
@@ -154,12 +152,12 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   selectListItems: string[] = [];
   // expDefaultmonth = selectmonth.defaultmonth;
   // expDefaultsrc = selectsrc.defaultsrc;
-  expressions:any = [expNumeric,expString,expDate];
-  expOperators:string [] =[
+  expressions: any = [expNumeric, expString, expDate,expDropdown];
+  expOperators: string[] = [
     "StatisticMonthOperator",
     "SourceOperator",
-    ];
-    expOperatorsKeyPair:[string,string][] =[];
+  ];
+  expOperatorsKeyPair: [string, string][] = [];
   filter?: boolean = false;
   thisForm!: FormGroup;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -167,13 +165,13 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   ctrl = new FormControl(true);
   isChecked?: boolean = false;
   configDetails!: any;
-  StatisticDate?:any;
-  Source?:any;
+  StatisticDate?: any;
+  Source?: any;
   telNo?: any;
   tranId?: any;
   repIdentifier = "TransactionCommand";
   currentPage: string = '1';
-  datevalue?:string;
+  datevalue?: string;
 
   @ViewChild(MatTabGroup) tabGroup !: MatTabGroup;
 
@@ -220,7 +218,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
     private spinner: NgxSpinnerService) { }
- 
+
   private updateText() {
     this.text = this.form.value.enable ? "Asterisk OK" : "Should not show the asterisk";
   }
@@ -248,16 +246,16 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   queryResultMonthly$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
-  resetExp:boolean = false;
+  resetExp: boolean = false;
   ngOnInit(): void {
     this.createForm();
     //console.log('worked');
-    let request = Utils.prepareConfigRequest(['Search'],[ 'Source']);
+    let request = Utils.preparePyConfig(['Search'], ['Source']);
     this.service.configDetails(request).subscribe((res: any) => {
-     // console.log("config details: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      // console.log("config details: " + JSON.stringify(res))
+      this.configDetails = res.data;
     });
-    
+
 
   }
 
@@ -270,22 +268,22 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   }
 
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    
+
     const ctrlValue = this.StatisticMonth.value;
     ctrlValue.month(normalizedMonth.month());
     //let datevaluetest=formatDate(ctrlValue, 'MMM-yyyy', 'en-US')
     this.StatisticMonth.setValue(ctrlValue);
-    this.datevalue=ctrlValue;
+    this.datevalue = ctrlValue;
     datepicker.close();
   }
 
-  
-  changeView(){
+
+  changeView() {
     //window.alert('com')
     this.onFormSubmit(false);
   }
- 
-  
+
+
   getNextSetRecords(pageIndex: any) {
     debugger;
     this.currentPage = pageIndex;
@@ -297,59 +295,59 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.onFormSubmit(true);
   }
 
-  
+
   onFormSubmit(isEmitted?: boolean): void {
     debugger
-    if(!this.thisForm.valid) return;
+    if (!this.thisForm.valid) return;
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.prepareQueryRequest('DayToDay','TransactionCommand', this.prepareQueryParams(this.currentPage));
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any)=>  {
+    let request = Utils.preparePyQuery('DayToDay', 'TransactionCommand', this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res[0].DatewiseData,
-          totalrecordcount: res[0].TotalCount,
-          totalpages: res[0].NumberOfPages,
-          pagenumber: res[0].PageNumber
+          datasource: res.data.DatewiseData,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
         }
         return result;
-      } else return {datasource:res};
+      } else return { datasource: res };
     }));
-    let testresult:any[]=[];
- 
-  //  this.queryResult$.subscribe(res =>(
-  //    console.log('one one two',res)
-  //  ));
-  let requesttwo = Utils.prepareQueryRequest('MonthOnMonth','TransactionCommand', this.prepareQueryParams(this.currentPage));
-  //console.log('Monthly Request',requesttwo);
-   this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) =>  {
-    if (Object.keys(res)?.length) {
-      let result = {
-        datasource: res[0].MonthlyData,
-        totalrecordcount: res[0].TotalCount,
-        totalpages: res[0].NumberOfPages,
-        pagenumber: res[0].PageNumber
-      }
-      return result;
-    } else return {datasource:res};
-  }));
-  
+    let testresult: any[] = [];
 
-  // this.queryResultMonthly$.subscribe(result =>(
-  //   //console.log('Monthly Data Result',result)
-  // ));
+    //  this.queryResult$.subscribe(res =>(
+    //    console.log('one one two',res)
+    //  ));
+    let requesttwo = Utils.preparePyQuery('MonthOnMonth', 'TransactionCommand', this.prepareQueryParams(this.currentPage));
+    //console.log('Monthly Request',requesttwo);
+    this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) => {
+      if (Object.keys(res)?.length) {
+        let result = {
+          datasource: res.data.MonthlyData,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
+        }
+        return result;
+      } else return { datasource: res };
+    }));
 
-  
+
+    // this.queryResultMonthly$.subscribe(result =>(
+    //   //console.log('Monthly Data Result',result)
+    // ));
+
+
     this.myTable = {
       data: this.queryResultMonthly$,
       childData: 'Link',
       Columns: this.columns,
       filter: true,
-      selectCheckbox: true,      
+      selectCheckbox: true,
       imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1 }],
     }
     this.myTableChild = {
-    data: this.queryResult$,     
+      data: this.queryResult$,
       Columns: this.columnsChild,
       filter: true,
       //selectCheckbox: true,      
@@ -369,105 +367,93 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     // this.selectedTab = this.tabs.length;
     this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 0);
   }
-  
+
   get f() {
     return this.thisForm.controls;
   }
-  
-  prepareQueryParams(pageNo?:any): any {
+
+  prepareQueryParams(pageNo?: any): any {
     debugger
-   // const Source = this.thisForm.get('Source');
-   var pageIndex = pageNo? pageNo:'1'
-   let attributes: any = [
-    { Name: 'PageNumber', Value: [`${pageIndex}`] }];
+    // const Source = this.thisForm.get('Source');
+    var pageIndex = pageNo ? pageNo : '1'
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageIndex}`] }];
     debugger
     for (const field in this.f) {
       const StatisticMonth = this.datevalue;
       const control = this.thisForm.get(field);
-      if(field == 'Source')
-      {
-      if (control?.value)
+      if (field == 'Source') {
+        if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
       }
-      if(field == 'StatisticMonth')
-      {
-       // const StatisticMonth = this.datevalue;
-       // console.log('StatisticMonth',this.datevalue);
+      if (field == 'StatisticMonth') {
+        // const StatisticMonth = this.datevalue;
+        // console.log('StatisticMonth',this.datevalue);
         if (StatisticMonth)
           attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
-         
+
         else
-         attributes.push({ Name: 'StatisticMonth' });
+          attributes.push({ Name: 'StatisticMonth' });
       }
 
-          let operator:string = field+"Operator";
-            
-         // console.log("op vals",this.expOperatorsKeyPair);
-          
-          //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
-          //  console.log("op ",operatorVal);
-           if (this.expOperatorsKeyPair.length !=0 )
-           {    
-            let expvals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator));          
-             if(expvals.length !=0)
-                {
-                  if(field=='StatisticMonth')
-                  {
-                    if (StatisticMonth)
-                    {
-                      attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                    }
-                    else{
-                      attributes.push({ Name: operator, Value: ['Equal To'] }); 
-                    }
-                  }
-                  else{
-                    if(control?.value)
-                    {
-                      attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                    }
-                    else{
-                      attributes.push({ Name: operator, Value: ['Equal To'] }); 
-                    }
-                    
-                  }
-                  
-                }
-                else
-                {
-                  if(field=='Source'||field=='StatisticMonth')
-                  {
-                      attributes.push({ Name: operator, Value: ['Equal To'] }); 
-                  }
-                else
-                  {
-                      attributes.push({ Name: operator, Value: ['Equal To'] });  
-                  }
-                }
-           }  
-           else{
-           
-                attributes.push({ Name: operator, Value: ['Equal To'] });  
-           
-           }
-    }
-      
+      let operator: string = field + "Operator";
 
-    console.log('attributes',attributes);
+      // console.log("op vals",this.expOperatorsKeyPair);
+
+      //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
+      //  console.log("op ",operatorVal);
+      if (this.expOperatorsKeyPair.length != 0) {
+        let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        if (expvals.length != 0) {
+          if (field == 'StatisticMonth') {
+            if (StatisticMonth) {
+              attributes.push({ Name: operator, Value: [expvals[0][1]] });
+            }
+            else {
+              attributes.push({ Name: operator, Value: ['Equal To'] });
+            }
+          }
+          else {
+            if (control?.value) {
+              attributes.push({ Name: operator, Value: [expvals[0][1]] });
+            }
+            else {
+              attributes.push({ Name: operator, Value: ['Equal To'] });
+            }
+
+          }
+
+        }
+        else {
+          if (field == 'Source' || field == 'StatisticMonth') {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+          else {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+        }
+      }
+      else {
+
+        attributes.push({ Name: operator, Value: ['Equal To'] });
+
+      }
+    }
+
+
+    console.log('attributes', attributes);
 
     return attributes;
 
   }
-  getTupleValue(element:[string,string],keyvalue:string)
-{
-  if (element[0]==keyvalue)
-  {  return element[1];}
-  else 
-    return "";
- 
-}
+  getTupleValue(element: [string, string], keyvalue: string) {
+    if (element[0] == keyvalue) { return element[1]; }
+    else
+      return "";
+
+  }
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
   }
@@ -477,11 +463,11 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       Source: new FormControl({ value: '', disabled: false }, []),
 
     })
-    this.expOperatorsKeyPair.push(["StatisticMonthOperator","Equal To"]);
-    this.expOperatorsKeyPair.push(["SourceOperator","Equal To"]);
+    this.expOperatorsKeyPair.push(["StatisticMonthOperator", "Equal To"]);
+    this.expOperatorsKeyPair.push(["SourceOperator", "Equal To"]);
   }
   setControlAttribute(matSelect: MatSelect) {
-    matSelect.options.forEach((item:any) => {
+    matSelect.options.forEach((item: any) => {
       if (item.selected) {
         this.thisForm.controls[item.value].enable();
       }
@@ -490,7 +476,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       }
     });
   }
-  
+
   rowDetect(item: any) {
     //debugger;
     if (item.length == 0) {
@@ -509,19 +495,17 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       });
     }
   }
-  OnOperatorClicked(val:[string,string])
-  {
+  OnOperatorClicked(val: [string, string]) {
     // if (event.target.value !="")
-     //console.log("operators event","value " ,val );
-    let vals = this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,val[0]));
+    //console.log("operators event","value " ,val );
+    let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
     //console.log("operators event1","vals " ,vals );
-    if(vals.length==0)
-    {
-    this.expOperatorsKeyPair.push(val);
-    //console.log("if part",this.expOperatorsKeyPair);
+    if (vals.length == 0) {
+      this.expOperatorsKeyPair.push(val);
+      //console.log("if part",this.expOperatorsKeyPair);
     }
-    else{
-      this.expOperatorsKeyPair=this.expOperatorsKeyPair.filter((i)=>i[0]!=val[0]);
+    else {
+      this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
       this.expOperatorsKeyPair.push(val);
       //console.log("else part",this.expOperatorsKeyPair);
     }
@@ -535,13 +519,13 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   }
   // search(): void { };
   // onFormSubmit(): void { }
-  resetForm(): void { 
+  resetForm(): void {
     this.thisForm.reset();
     this.tabs.splice(0);
     this.StatisticMonth.setValue('');
-    this.datevalue="";
-    this.expressions = [expNumeric,expString,expDate];
-    this.resetExp=!this.resetExp;
+    this.datevalue = "";
+    this.expressions = [expNumeric, expString, expDate];
+    this.resetExp = !this.resetExp;
   }
 
   // resetForm(): void {
@@ -558,12 +542,12 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     switch (tab.tabType) {
       case 1: {
         debugger
-        this.StatisticDate=tab.row.StatisticDate;
-        this.Source=tab.row.Source;
-       // console.log('static date',this.StatisticDate);
-       // console.log('source',this.Source);
-       /// this.telNo = tab.row.TelephoneNumber;
-    
+        this.StatisticDate = tab.row.StatisticDate;
+        this.Source = tab.row.Source;
+        // console.log('static date',this.StatisticDate);
+        // console.log('source',this.Source);
+        /// this.telNo = tab.row.TelephoneNumber;
+
         //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
         if (!this.tabs.find(x => x.tabType == 1)) {
@@ -583,7 +567,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Audit Trail Report('+this.telNo+')'
+            name: 'Audit Trail Report(' + this.telNo + ')'
           });
           // this.selectedTab = 2;          
         }
@@ -599,8 +583,8 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
 
   OnTelephoneDetailSelected(tab: any) {
     //console.log('tab details monthly',tab);
-    this.StatisticDate=tab.tab.row.Date;
-        this.Source=tab.tab.row.Source;
+    this.StatisticDate = tab.tab.row.Date;
+    this.Source = tab.tab.row.Source;
     //console.log(tab.tab.row.Date);
     if (!this.tabs?.find(x => x.tabType == 1)) {
       this.tabs.push({
@@ -613,11 +597,11 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
 
   }
- 
+
   OndayTodayselected(tab: any) {
- // console.log('expansion tab',tab);
-    this.StatisticDate=tab.row.StatisticDate;
-        this.Source=tab.row.Source;
+    // console.log('expansion tab',tab);
+    this.StatisticDate = tab.row.StatisticDate;
+    this.Source = tab.row.Source;
     if (!this.tabs?.find(x => x.tabType == 1)) {
       this.tabs.push({
         tabType: 1,
@@ -634,20 +618,20 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
-   
+
     this.cdr.detectChanges();
   }
   //Audit Trail Report(' + tab.row.TelephoneNumber + ')
   Onauditselected(tab: any) {
-   // console.log('tab details for audit trail',tab);
+    // console.log('tab details for audit trail',tab);
     //console.log(tab.tab.row.TelephoneNumber);
-     this.telNo = tab.tab.row.TelephoneNumber;
-     //this.telNo = "123456789";
+    this.telNo = tab.tab.row.TelephoneNumber;
+    //this.telNo = "123456789";
     // this.tranId = tab.row.TransactionId;
     if (!this.tabs?.find(x => x.tabType == 2)) {
       this.tabs.push({
         tabType: 2,
-        name: 'Audit Trail Report('+this.telNo+')'
+        name: 'Audit Trail Report(' + this.telNo + ')'
       });
       // this.selectedTab = this.tabs.length;
     }

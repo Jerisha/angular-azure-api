@@ -11,6 +11,6 @@ export class TransactionErrorsService {
 
 
   queryDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
 }

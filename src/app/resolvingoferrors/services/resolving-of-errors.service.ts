@@ -41,7 +41,7 @@ export class ResolvingOfErrorsService {
   }
 
   updateDetails(request: any): Observable<any> {
-    return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
 
   infoDetails(request: any): Observable<any> {
@@ -68,6 +68,7 @@ export class ResolvingOfErrorsService {
 
     })
     let Information = { "Dates": dates, "Months": months }
+    console.log('information page',JSON.stringify(Information));
     return Information;
   }
 }

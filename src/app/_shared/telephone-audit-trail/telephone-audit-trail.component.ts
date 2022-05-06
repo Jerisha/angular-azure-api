@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_shared/models/telephone-audit-trail';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
@@ -170,6 +170,7 @@ export class TelephoneAuditTrailComponent implements OnInit {
 
   @Input() telNo!: string;
   @Input() repIdentifier!: string;
+  @Output() AddressCheckSelected = new EventEmitter<any[]>();
 
 
   // ELEMENT_DATA: Option[] = [];
@@ -209,14 +210,24 @@ export class TelephoneAuditTrailComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     // console.log(changes.telephoneNumber.currentValue);
     // console.log(changes);
-    if(changes.telNo.currentValue != changes.telNo.previousValue)
-    {
+    console.log('from audit trail',this.telNo);
+    console.log('report identifier',this.repIdentifier);
+    if (changes.telNo.currentValue != changes.telNo.previousValue) {
       this.setStep(2);
-      let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", this.repIdentifier, [{  Name : "TelephoneNumber",
-       Value : [ this.telNo ] }]);
-    // Value : [ "01171617562" ] }]);
+      let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{
+        Name: "TelephoneNumber",
+        Value: [this.telNo]
+      }]);
+      // Value : [ "01171617562" ] }]);
+ 
+      this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => {
+        let transform: any = [];
+        transform = res.data
+        transform.TelephoneNumber = res.TelephoneNumber
+        return transform
+      }
 
-    this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => res[0]));
+      ));
 
     }
   }
@@ -246,6 +257,8 @@ export class TelephoneAuditTrailComponent implements OnInit {
       this.addressDetails.internalAddr2 = element.InternalAddress2;
       this.addressDetails.internalAddr3 = element.InternalAddress3;
       this.addressDetails.internalAddr4 = element.InternalAddress4;
+      this.AddressCheckSelected.emit([this.addressDetails]) // need to check
+ 
     } else if (section === 'RemoveAddress') {
       this.addressDetails = new AddressDetails();
     }
@@ -254,7 +267,6 @@ export class TelephoneAuditTrailComponent implements OnInit {
 
 
   expandedElement: null | undefined;
-
 
 }
 

@@ -21,6 +21,13 @@ export const expString = {
             
         ]
 };
+export const expDropdown = {
+    default: [       
+            { viewValue: '=' , view: 'Equal To', default: false },
+            { viewValue: '<>', view: 'Not Equal to', default: false },
+            
+        ]
+};
 export const expDate = {
     default: [
         { viewValue: '=', view: 'Equal To', default: true },
@@ -31,6 +38,7 @@ export const expDate = {
         { viewValue: '<>', view: 'Not Equal to', default: false },
     ]
 };
+
 
 export const select = {
     default: [
