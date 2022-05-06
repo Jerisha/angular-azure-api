@@ -22,6 +22,7 @@ import { CdkTreeModule } from '@angular/cdk/tree';
 import { TransactionDataService } from '../services/transaction-data.service';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-transactions-views',
   templateUrl: './transactions-views.component.html',
@@ -125,7 +126,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.views.view1 = true;
     this.formsGroup = this.fb.group({});
     this.initForm();
-    console.log('constructor values', this.AuditPopulatevalue);
+    //console.log('constructor values', this.AuditPopulatevalue);
     if (this.AuditPopulatevalue != []) {
       this.model.telno = this.AuditPopulatevalue.StartphoneNumber;
       this.model.rangeEnd = this.AuditPopulatevalue.EndPhoneNumber;
@@ -403,7 +404,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
 
   BindData(res: any, Type: string) {
-    console.log('update bind method called',JSON.stringify(res));
+    //console.log('update bind method called',JSON.stringify(res));
     if (Type == 'Query') {
       if(Object.keys(res).length) {
 
@@ -451,16 +452,16 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
     else {
       if (this.AuditPopulatevalue != []) {
-        console.log('calling update api');
+      //  console.log('calling update api');
         if (Object.keys(res).length) {
             debugger
           //this.Provide=res.Data.NumberOfTransactions.MasterCount;
-          this.queryResultobj = res[0].data;
-          let type: string = res[0].data.TransactionTypes[0].TransactionType;
-          let linetype: string = res[0].data.LineTypes[0].LineType;
-          let TypeOfLine: string = res[0].data.TypeOfLines[0].TypeOfLine;
-          let staticvalues:any=res[0].data.AutoFillData[0];
-          console.log('static values',staticvalues);
+          this.queryResultobj = res.data;
+          let type: string = res.data.TransactionTypes[0].TransactionType;
+          let linetype: string = res.data.LineTypes[0].LineType;
+          let TypeOfLine: string = res.data.TypeOfLines[0].TypeOfLine;
+          let staticvalues:any=res.data.AutoFillData[0];
+          //console.log('static values',staticvalues);
           this.view3Form = this.formBuilder.group({
             TransactionType: new FormControl({ value:'', disabled: false }, [Validators.required]),
              
@@ -485,7 +486,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           });
           this.model.CupId=staticvalues.CupID;
           this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
-           console.log('config dertails test',this.configDetails);
+          // console.log('config dertails test',this.configDetails);
           this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
           this.Master = this.queryResultobj.NumberOfTransactions[0].MasterCount;
           this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
@@ -500,7 +501,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
             this.enableFrancise = true;
           //update manual correction
         
-          console.log('after insertion',this.queryResultobj);
+        //  console.log('after insertion',this.queryResultobj);
           let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
             return obj.Cupid === this.model.CupId;
           });
@@ -510,16 +511,16 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         
         
           this.model.source = staticvalues.Source;
-          console.log('defalut source', this.transactionItem.source);
+         // console.log('defalut source', this.transactionItem.source);
     
           let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
             return obj.Cupid === this.model.CupId;
           });
-          console.log('franchaise values',frnachaise);
+        //  console.log('franchaise values',frnachaise);
           this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
             .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
           this.model.franchise = staticvalues.Franchise;
-          console.log('selected franchise',this.model.franchise);
+        //  console.log('selected franchise',this.model.franchise);
         }
       }
     }
@@ -683,7 +684,24 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   prepareUpdateIdentifiers() {
     let identifiers: any[] = [];
     //let attributes: any = [];
-    identifiers.push({ Name: 'TelephoneNumberRange', Value: ["01131620701|01131620701"] });
+    let telephonerangevalues: string = "";
+    for (let i = 0; i < this.CliRangeSet.length; i++) {
+
+      if (this.CliRangeSet[i][1].toString() != "") {
+        telephonerangevalues += this.CliRangeSet[i][0].toString() + '|' + this.CliRangeSet[i][1].toString();
+      }
+      else {
+        telephonerangevalues += this.CliRangeSet[i][0].toString() + '|' + this.CliRangeSet[i][0].toString();
+
+      }
+      if (i + 1 < this.CliRangeSet.length) {
+        telephonerangevalues += ",";
+
+      }
+    }
+    this.inputtelRange = telephonerangevalues;
+
+    identifiers.push({ Name: 'TelephoneNumberRange', Value: [telephonerangevalues] });
    
     if (this.AuditPopulatevalue.ActId != "") {
       identifiers.push({ Name: "ActID", Value: [this.AuditPopulatevalue.ActId] });
@@ -730,7 +748,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     let attributes: any = [
       { Name: 'TelephoneNumberRange', Value: [telephonerangevalues] }];
     this.inputtelRange = telephonerangevalues;
-    console.log(attributes);
+    //console.log(attributes);
 
     return attributes;
   }
@@ -738,8 +756,9 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     debugger
     let attributes: any = [
       { Name: 'ForceValidate', Value: [ForceToValidate] }
-      , { Name: 'Franchise', Value: [this.model.Franchise] }
+      , { Name: 'Franchise', Value: [this.model.franchise] }
       , { Name: 'Cupid', Value: [this.model.CupId] }
+    ,{ Name: 'Source', Value: [this.model.source]  }
     ];
 
     attributes.push({ Name: 'TelephoneNumberRange', Value: [this.inputtelRange] });
@@ -755,6 +774,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     console.log(attributes);
 
     return attributes;
+
 
   }
   public checkErrorinFrom = (controlName: string, errorName: string) => {
@@ -846,7 +866,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     } else {
       this.AuditTrailSelected.emit(["true", [this.audittelephonenumbers]]);
     }
-    console.log('audit telephone numbers length', this.audittelephonenumbers);
+    //console.log('audit telephone numbers length', this.audittelephonenumbers);
 
 
 
@@ -857,11 +877,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       this.franchiseValues = this.cupIds.filter((obj: { DefaultSource: string; }) => {
         return obj.DefaultSource === event.value;
       });
-      console.log('before filter franchise', this.franchiseValues);
+      //console.log('before filter franchise', this.franchiseValues);
       this.franchiseValues = this.franchiseValues.map((item: { Franchise: any; }) => item.Franchise)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       this.enableFrancise = true;
-      console.log('after filter franchise', this.franchiseValues);
+      //console.log('after filter franchise', this.franchiseValues);
     }
 
 
@@ -873,19 +893,20 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     if (event.value != "") {
 
       //this.cupIds.Source="test";
-      console.log('dynamically added cupid', this.cupIds);
+      //console.log('dynamically added cupid', this.cupIds);
       let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
         return obj.Cupid === event.value;
       });
       this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       //DefaultSource:
-      console.log('values from source', Source);
+     // console.log('values from source', Source);
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
-        .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+        //console.log('default source values',modelsource);
       this.model.source = modelsource[0];
      // this.transactionItem.source = modelsource[0];
-      console.log('defalut source', this.model.source);
+     // console.log('defalut source', this.model.source);
 
       let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
         return obj.Cupid === event.value;
@@ -895,7 +916,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       let modelfranchise = Source.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       this.model.franchise = modelfranchise[0];
-      console.log('default franchise',this.model.franchise);
+     // console.log('default franchise',this.model.franchise);
       this.enableSource = true;
       this.enableFrancise = true;
       if(this.model.franchise!='')
@@ -917,6 +938,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         if ((Number(startnumber) > Number(this.CliRangeSet[i][0].toString()) && Number(startnumber) < Number(this.CliRangeSet[i][1].toString())) || Number(endnumber) > Number(this.CliRangeSet[i][0].toString()) && Number(endnumber) < Number(this.CliRangeSet[i][1].toString())) {
           return false;
         }
+        if((Number(startnumber)<Number(this.CliRangeSet[i][0].toString()))&&(Number(endnumber)>Number(this.CliRangeSet[i][0].toString())))
+        {
+          //32<35&&51>35
+          return false;
+        }
         if (Number(this.CliRangeSet[i][0].toString()) == Number(this.CliRangeSet[i][1].toString())) {
           if (Number(this.CliRangeSet[i][0].toString()) < Number(endnumber) && Number(this.CliRangeSet[i][0].toString()) > Number(startnumber)) {
             return false;
@@ -924,6 +950,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         }
 
       }
+      
       else {
         if (Number(this.CliRangeSet[i][0].toString()) < Number(endnumber) && Number(this.CliRangeSet[i][0].toString()) > Number(startnumber)) {
           return false;
@@ -946,13 +973,18 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       return true;
     }
   }
+   
   addRangeTel() {
     debugger
+    if(!isNaN(Number(this.model.telno.toString())))
+    {
     if (this.model.telno != "" || this.model.rangeEnd != "") {
       // const sum = this.CliRangeSet.filter(item => item. === '25.00') 
       let count = 1;
-      if (this.model.rangeEnd == "" || this.model.telno == this.model.rangeEnd) {
+      if (this.model.rangeEnd == "" ||this.model.rangeEnd==undefined || this.model.telno == this.model.rangeEnd) {
         count = 1;
+        if(this.model.rangeEnd==undefined)
+        this.model.rangeEnd="";
 
       }
       else {
@@ -989,6 +1021,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     else {
       alert("Empty CLI Range should not be added!... Please provide valid CLI Range:)")
     }
+  }
+  else{
+    this.alertService.notification("Only Numbers Allowed!", { autoClose: true, keepAfterRouteChange: false });
+     
+  }
 
 
 
