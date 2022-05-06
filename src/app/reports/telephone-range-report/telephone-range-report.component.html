@@ -14,7 +14,7 @@
       <div class="matsidenav-filter">
         <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
           <mat-label>Start Telephone No.</mat-label>
-          <input matInput formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
+          <input matInput formControlName="StartTelephoneNumber" numbersOnly
            maxlength="11" placeholder="Start Telephone No." #starttelno telNoPrefixValidator>
            <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
           <mat-error>
@@ -31,13 +31,13 @@
 
         <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':thisForm.controls.EndTelephoneNumber.disabled}">
           <mat-label>End Telephone No.</mat-label>
-          <input matInput formControlName="EndTelephoneNumber" (keypress)="numberOnly($event)"
-          maxlength="11" placeholder="End Telephone No." #endtelno telNoPrefixValidator compareStartNo [startNo]="f.StartTelephoneNumber">
+          <input matInput formControlName="EndTelephoneNumber" numbersOnly
+          maxlength="11" placeholder="End Telephone No." #endtelno telNoPrefixValidator>
           <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
         <mat-error>
           <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger"> 
             <!-- <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div> -->
-            <div *ngIf="f.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div>
+            <!-- <div *ngIf="f.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div> -->
             <div *ngIf="f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
             <div *ngIf="f.EndTelephoneNumber.errors?.required">Please enter End Telephone No</div>
             <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>

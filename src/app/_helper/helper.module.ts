@@ -8,6 +8,7 @@ import {
   OptionsValidatorDirective,
   ReferenceValidatorDirective,
   TelphoneNoValidatorDirective,
+  OnlynumberDirective,
   CompareStartEndTelNo
 } from './index';
 
@@ -21,6 +22,7 @@ import {
     OptionsValidatorDirective,
     ReferenceValidatorDirective,
     TelphoneNoValidatorDirective,
+    OnlynumberDirective,
     CompareStartEndTelNo
   ],
   imports: [
@@ -33,6 +35,7 @@ import {
     OptionsValidatorDirective,
     ReferenceValidatorDirective,
     TelphoneNoValidatorDirective,
+    OnlynumberDirective,
     CompareStartEndTelNo]
 })
 export class HelperModule { }

@@ -257,7 +257,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       // this.showDataForm =true; 
       this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
       this.reportReferenceService.showDataForm = this.showDataForm = true;
-      this.editRecord = element;
+      this.editRecord =  element;
     }
     else {
       this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
@@ -316,7 +316,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         if (confirm) {
           let entries = Object.entries(event[1])
       
-          let data = entries.map(([key, val]) => ({ Name: key, Value: ["/val/"] }));
+          let data = entries.map(([key, val]) => ({ Name: key, Value: [val]}));
           //console.log( `The ${key} is ${val}`)
           console.log(JSON.stringify(data))
           //});
@@ -363,12 +363,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           // this.onFormSubmit(true);
         } 
         else {
-          this.alertService.info("Record create Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Create Record Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+
         }
       });
-      // else {
-      //   this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
-      // }
+      
     } 
 
   }

@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { Custom } from 'src/app/_helper/Validators/Custom';
 
 const ELEMENT_DATA: any = [
   {
@@ -327,21 +328,13 @@ export class RestoresolicitederrorsComponent implements OnInit {
     debugger;
     let errMsg = '';
     if (!this.thisForm.valid) return;
-    //Enter start telephone no
-    if (this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value == '')
-      errMsg = 'Please enter the Start Telephone No';
-    //Telephonerange
-    if ((this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value != '') && (this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000)
-      errMsg = 'TelephoneRange must be less than or equal to 10000.';
+    errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
     if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
         // height:'250px',
         disableClose: true,
-        data: {
-          enableOk: false,
-          message: errMsg,
-        }
+        data: { enableOk: false, message: errMsg, }
       });
       rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
@@ -528,8 +521,6 @@ export class RestoresolicitederrorsComponent implements OnInit {
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-
-
   onChange(value: string, ctrlName: string) {
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
     if (value != null && value != undefined) {
@@ -537,8 +528,18 @@ export class RestoresolicitederrorsComponent implements OnInit {
     }
   }
 
+  onPaste(event: any): boolean {
+    debugger;
+    let clipboardData = event.clipboardData;
+    let pastedText = clipboardData.getData('text');
+    //console.log("pastedText :"+ pastedText+ isNaN(pastedText));
+    return isNaN(pastedText) ? false : true
+
+  }
+
 
   numberOnly(event: any): boolean {
+
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
