@@ -4,8 +4,9 @@ import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { TelephoneAuditTrailComponent } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
 import { CustomerAddress, ICustomerAddress } from '../models/ICustomerAddress';
 import { TransactionItem } from '../models/ITransactionItem';
-import{TransactionsViewsComponent}from '../transactions-views/transactions-views.component'
 import { Router } from '@angular/router';
+import{TransactionsViewsComponent}from '../transactions-views/transactions-views.component'
+
 
 
 @Component({
@@ -56,6 +57,7 @@ export class TransactionsComponent implements OnInit {
    // this.AuditPopulatevalue=[{CupID:"10",TypeofLine:"20"}];
    console.log("constructor values from main",this.AuditPopulatevalue);
   }
+  
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }

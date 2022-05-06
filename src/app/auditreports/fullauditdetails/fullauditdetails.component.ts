@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { Observable, of, Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
-import { FullAuditDetailsSummary, RangeReport, InflightReport, MoriCircuitStatus, MonthlyRefreshReport } from '../models/index';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
@@ -51,6 +50,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   @ViewChild('inputctrl') icRemarks!: ElementRef;
   @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
+  @ViewChild('panel') public panel!: ElementRef;
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
   updateForm!: FormGroup;
@@ -257,24 +257,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
   ];
 
-  // dataCorrectionBtnConfig: ButtonCorretion[] = [
-  //   { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
-  //   { value: 'BC-BT Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active', 'C - Ceased', 'N - Not Found'] },
-  //   { value: 'BN-BT Only - Source Not Found', buttonVal: ['AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['C - Ceased', 'N - Not Found'] },
-  //   { value: 'LS-Live in Source', buttonVal: ['AutoPopulateSource', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
-  //   { value: 'SAS-Matched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'], switchType: ['none'] },
-  //   { value: 'SAD-Matched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
-  //   { value: 'SC-Matched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['A - Active', 'C - Ceased', 'N - Not Found'] },
-  //   { value: 'SN-Matched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['C - Ceased', 'N - Not Found'] },
-  //   { value: 'DAS-MisMatched - Source Active Matched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
-  //   { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
-  //   { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['A - Active', 'C - Ceased', 'N - Not Found'] },
-  //   { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['C - Ceased', 'N - Not Found'] },
-  //   { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume'], switchType: ['A - Active'] },
-  //   { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['A - Active', 'C - Ceased', 'N - Not Found'] },
-  //   { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['C - Ceased', 'N - Not Found'] },
-  // ];
-
   get selectedSwitchTypeStatus() {
     return this.form.SwitchStatus;
   }
@@ -373,7 +355,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         attributes.push({ Name: field });
     }
     attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
-    console.log(attributes);
 
     return attributes;
 
@@ -382,12 +363,12 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.createForm();
     this.createUpdateForm();
-    //this.listernftoSample();
     this.setDefaultValues();
-    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "Resolution", "AutoCorrectionVolume"]);
+    
+    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume"]);
+    console.log('config',JSON.stringify(request));
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
-      // console.log('asd',this.configDetails.AutoCorrectionVolume[0])
       this.rowRange = this.configDetails.AutoCorrectionVolume[0];
       this.defaultACTID = this.configDetails.FullAuditActID[0];
     });
@@ -407,6 +388,13 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.onFormSubmit(true);
   }
 
+  getTelnoValidation() {
+    if (this.form.StartTelephoneNumber.errors?.incorrect) {
+      this.form.StartTelephoneNumber.setErrors({ incorrect: false });
+      this.form.StartTelephoneNumber.reset();
+    }
+  }
+
   onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);
     this.selectListItems = [];
@@ -416,6 +404,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.remarkstxt = '';
     //this.rowRange='';
 
+    this.getTelnoValidation();
     if (this.fullAuditForm.invalid) { return; }
 
     if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
@@ -430,7 +419,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.setAttributesForManualCorrections();
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage));
-    console.log('sample', JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -473,8 +461,16 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.tabs.splice(index, 1);
   }
 
+
+  moveToSpecificView(): void {
+    setTimeout(() => {
+      this.panel.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
+    });
+  }
+
   newTab(tab: any) {
     if (this.tabs === []) return;
+
     var auditACTID = this.auditACTID.value;
     var telno = tab.row.TelephoneNumber;
     switch (tab.tabType) {
@@ -503,9 +499,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         var selectedCLI = tab.row.Comments ? tab.row.Comments : '';
         if (selectedCLI != '') {
           let strCmts = selectedCLI.split('-');
-          var telnos = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
-          startTelno = telnos[0];
-          endTelno = telnos[1];
+          var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
+          startTelno = range[0];
+          endTelno = range[1];
         }
         else {
           startTelno = telno;
@@ -589,7 +585,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       default: {
         break;
       }
+
     }
+    //this.moveToSpecificView();
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -693,7 +691,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
         //update 
-        console.log('sample in ', JSON.stringify(request))
+        console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
             this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
@@ -724,8 +722,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getPnlControlAttributes() {
-    debugger;
+  getPnlControlAttributes(control?: string) {
     if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
       && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
       this.disableSave = false;
@@ -733,6 +730,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     else {
       this.disableSave = true;
     }
+
+    if (control === 'EndTelNo')
+      this.getTelnoValidation();
+
   }
 
   processDataCorrection() {
@@ -745,9 +746,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
       dataAutoCorrectionConfirm.afterClosed().subscribe(result => {
         if (result) {
-          let request = Utils.prepareUpdateRequest('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'), [{}]);
+          let request = Utils.preparePyUpdate('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'), [{}]);
           //update
-          console.log('sample in ', JSON.stringify(request))
+          console.log('auto correction', JSON.stringify(request));
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
               this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
@@ -778,7 +779,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         if (result) {
           if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
             let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
-            console.log('sample in ', JSON.stringify(request))
+            console.log('manual', JSON.stringify(request));
             this.service.updateDetails(request).subscribe(x => {
               if (x.StatusCode === 'EUI000') {
                 this.alertService.success(x.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
@@ -812,7 +813,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         }
       })
     }
+   // return identifiers;
   }
+
+ 
 
   prepareUpdateIdentifiers(type: string): any {
     let identifiers: any[] = [];
@@ -847,9 +851,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       }
       case 'DataAutoCorrection': {
         if (this.auditACTID.value)
-          identifiers.push({ Name: 'AuditActID', Value: [this.auditACTID.value] });
+          identifiers.push({ Name: 'ActID', Value: [this.auditACTID.value] });
         else
-          identifiers.push({ Name: 'AuditActID' });
+          identifiers.push({ Name: 'ActID' });
 
         if (this.selectedSwitchTypeStatus.value)
           identifiers.push({ Name: 'SwitchStatus', Value: [this.selectedSwitchTypeStatus.value] });
@@ -869,12 +873,12 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         if (this.fullAuditForm.controls['Source'].value != '')
           identifiers.push({ Name: 'Source', Value: [this.fullAuditForm.controls['Source'].value] });
         else
-          identifiers.push({ Name: 'Source' });
+          identifiers.push({ Name: 'Source', Value: [''] });
 
-        if (this.fullAuditForm.controls['OSN2Source'].value != '')
-          identifiers.push({ Name: 'OSN2Source', Value: [this.fullAuditForm.controls['OSN2Source'].value] });
-        else
-          identifiers.push({ Name: 'OSN2Source' });
+        // if (this.fullAuditForm.controls['OSN2Source'].value != '')
+        //   identifiers.push({ Name: 'OSN2Source', Value: [this.fullAuditForm.controls['OSN2Source'].value] });
+        // else
+        //   identifiers.push({ Name: 'OSN2Source', Value: [''] });
 
         break;
       }
@@ -935,7 +939,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     ];
 
     let request = Utils.preparePyQuery('MonthlyRefreshReport', 'FullAuditDetails', attributes);
-    console.log('sample', JSON.stringify(request));
     this.monthlyRefreshQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -966,7 +969,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     ];
 
     let request = Utils.preparePyQuery('InflightReport', 'FullAuditDetails', attributes);
-    console.log('sample', JSON.stringify(request));
     this.inflightReportQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -997,7 +999,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     ];
 
     let request = Utils.preparePyQuery('TelephoneNumberDetails', 'FullAuditDetails', attributes);
-    console.log('sample', JSON.stringify(request));
     this.rangeReportQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -1026,7 +1027,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     ];
 
     let request = Utils.preparePyQuery('MoriCircuitDetails', 'FullAuditDetails', attributes);
-    console.log('sample', JSON.stringify(request));
     this.moriCircuitStatusQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -1058,7 +1058,6 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     ];
 
     let request = Utils.preparePyQuery('OverlappingRange', 'FullAuditDetails', attributes);
-    console.log('sample', JSON.stringify(request));
     this.overlappingQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
