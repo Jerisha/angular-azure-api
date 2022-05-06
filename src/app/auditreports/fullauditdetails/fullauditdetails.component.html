@@ -440,12 +440,12 @@
                   <mat-label>Resolution Type</mat-label>
                   <input #resType [(ngModel)]="resolutionType" formControlName="Resolution" type="text"
                     placeholder="Search Resolution Type" matInput [matAutocomplete]="autoResType" OptionsValidator
-                    [options]="configDetails.ResolutionTypeAudit  " />
+                    [options]="configDetails.ResolutionType" />
                   <span matSuffix mat-icon-button>
                     <mat-icon>arrow_drop_down</mat-icon>
                   </span>
                   <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResType="matAutocomplete">
-                    <mat-option *ngFor="let val of configDetails.ResolutionTypeAudit   | ddlFilter: resType.value"
+                    <mat-option *ngFor="let val of configDetails.ResolutionType | ddlFilter: resType.value"
                       [value]="val">
                       {{val}}
                     </mat-option>
