@@ -813,7 +813,10 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         }
       })
     }
+   // return identifiers;
   }
+
+ 
 
   prepareUpdateIdentifiers(type: string): any {
     let identifiers: any[] = [];

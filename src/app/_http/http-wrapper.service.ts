@@ -123,6 +123,7 @@ export class HttpWrapperService {
                     case WebMethods.CREATE:
                     case WebMethods.DELETE:
                         transData = val.Status[0]
+                        transData.data = val.Data
                         break;
                     case WebMethods.METADATA:
                         transData = val.ReponseParams
