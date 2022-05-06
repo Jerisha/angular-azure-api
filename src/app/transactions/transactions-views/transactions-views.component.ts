@@ -757,19 +757,19 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     let attributes: any = [
       { Name: 'ForceValidate', Value: [ForceToValidate] }
       , { Name: 'Franchise', Value: [this.model.franchise] }
-      , { Name: 'Cupid', Value: [this.model.CupId] }
+     // , { Name: 'Cupid', Value: [this.model.CupId] }
     ,{ Name: 'Source', Value: [this.model.source]  }
     ];
 
     attributes.push({ Name: 'TelephoneNumberRange', Value: [this.inputtelRange] });
     for (const field in this.d) {
-      if (field != 'Cupid') {
+      //if (field != 'Cupid') {
         const control = this.view3Form.get(field);
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
-      }
+      //}
     }
     console.log(attributes);
 
