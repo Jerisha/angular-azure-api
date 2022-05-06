@@ -364,7 +364,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.createForm();
     this.createUpdateForm();
     this.setDefaultValues();
-    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "Resolution", "AutoCorrectionVolume"]);
+    
+    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume"]);
+    console.log('config',JSON.stringify(request));
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
       this.rowRange = this.configDetails.AutoCorrectionVolume[0];
@@ -689,6 +691,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
         //update 
+        console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
             this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
@@ -745,6 +748,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         if (result) {
           let request = Utils.preparePyUpdate('AutoCorrection', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataAutoCorrection'), [{}]);
           //update
+          console.log('auto correction', JSON.stringify(request));
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
               this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
@@ -775,6 +779,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         if (result) {
           if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
             let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
+            console.log('manual', JSON.stringify(request));
             this.service.updateDetails(request).subscribe(x => {
               if (x.StatusCode === 'EUI000') {
                 this.alertService.success(x.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
