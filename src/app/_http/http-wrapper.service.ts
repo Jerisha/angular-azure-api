@@ -89,7 +89,7 @@ export class HttpWrapperService {
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_py_dev}${endPoint.toString()}`,
+                `${environment.api_py_sit}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -127,7 +127,7 @@ export class HttpWrapperService {
                     case WebMethods.METADATA:
                         transData = val.ReponseParams
                         transData.data = val.Data.TelephoneNumber[0].MetaDataParameters[0]
-                        break;    
+                        break;
                 }
             }
 

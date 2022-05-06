@@ -16,6 +16,7 @@ import { Utils, WebMethods } from 'src/app/_http';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { ReportService } from '../services/report.service';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { Custom } from 'src/app/_helper/Validators/Custom';
 
 const ELEMENT_DATA = [
   {
@@ -161,16 +162,11 @@ export class TelephoneRangeReportComponent implements OnInit {
   
   onFormSubmit(isEmitted?: boolean):void{
 
-    if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)<=10000){
+    
       debugger;
       let errMsg = '';
       if (!this.thisForm.valid) return;
-      //Enter start telephone no
-      if (this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value == '')
-        errMsg = 'Please enter the Start Telephone No';
-      //Telephonerange
-      if ((this.f.EndTelephoneNumber.value != '' && this.f.StartTelephoneNumber.value != '') && (this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000)
-        errMsg = 'TelephoneRange must be less than or equal to 10000.';
+      errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
       if (errMsg) {
         const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
           width: '400px',
@@ -219,21 +215,8 @@ export class TelephoneRangeReportComponent implements OnInit {
         });
       }
       this.selectedTab = this.tabs.length;
-    }
-    else if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)>10000){
-      const rangeConfirm = this.dialog.open(ConfirmDialogComponent,{
-        width:'400px',
-        // height:'250px',
-        disableClose: true,
-        data:{
-          message: 'TelephoneRange must be less than or equal to 10000.',
-        }
-      });
-      rangeConfirm.afterClosed().subscribe(result=>{
-        //console.log("Dialog" + result);
-        return result;
-      })
-    }
+    
+    
   }
 
   resetForm():void{
