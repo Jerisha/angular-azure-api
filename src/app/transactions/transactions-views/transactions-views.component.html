@@ -311,8 +311,8 @@
                           </mat-form-field>                             
                           <span [ngStyle]="{'display': isExportImportSelected ? 'inline-flex' : 'none' }" ><mat-form-field   class="vf-mr-negative" style="width:106px;margin-left: 4px;">
                             <mat-label class="vf-label">I/E CUPID</mat-label>
-                            <input type="text" matInput formControlName="Cupid" matInput #input   placeholder="I/E CUPID" size="12" value="" (keypress)="numberOnly($event)"  onchange="gnSysChange=true;"   ondblclick="sysEditText('document.sf.txt[10]')">
-                            <mat-error class="error-message" *ngIf="checkError('Cupid', 'required')"> Enter CUPID</mat-error>
+                            <input type="text" matInput formControlName="ImportExportCupId" matInput #input   placeholder="I/E CUPID" size="12" value="" (keypress)="numberOnly($event)"  onchange="gnSysChange=true;"   ondblclick="sysEditText('document.sf.txt[10]')">
+                            <mat-error class="error-message" *ngIf="checkError('ImportExportCupId', 'required')"> Enter CUPID</mat-error>
                         
                           </mat-form-field> </span>
                         </div>
