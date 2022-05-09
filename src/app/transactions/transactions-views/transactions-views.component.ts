@@ -313,9 +313,14 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
         this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
         console.log('source array',this.SourceFranchisearr);
+        console.log('franchise array',this.franchiseValues);
+    
+
       let modelfranchise = Source.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
-        .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+        console.log('default franchise',modelfranchise);
       this.model.franchise = modelfranchise[0];
+     
      // console.log('default franchise',this.model.franchise);
       this.enableSource = true;
       this.enableFrancise = true;
@@ -331,7 +336,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   onSelectionChange(event: any) {
     debugger
-    const ctrlthree = this.view3Form.get('Cupid') as FormControl;
+    const ctrlthree = this.view3Form.get('ImportExportCupId') as FormControl;
     if (event.option.value === "Import" || event.option.value === "Export") {
       ctrlthree.setValidators((Validators.required));
       ctrlthree.updateValueAndValidity();
@@ -455,11 +460,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         if( this.AuditPopulatevalue != [])
         {
           this.AuditPopulatevalue = [];
-          this.router.navigateByUrl('auditreports/fullauditdetails');
+         // this.router.navigateByUrl('auditreports/fullauditdetails');
         }
       }
     });
-    this.spinner.hide();
+    //this.spinner.hide();
     
   }
   ReviewCli() {
@@ -488,7 +493,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
           TypeOfLine: new FormControl({ value: '', disabled: false }, [Validators.required]),
           OrderReference: new FormControl({ value: '', disabled: false }, [Validators.required]),
-          Cupid: new FormControl({ value: '', disabled: false }, []),
+          ImportExportCupId: new FormControl({ value: '', disabled: false }, []),
           Comments: new FormControl({ value: '', disabled: false }, [Validators.required]),
           CustomerName: new FormControl({ value: '', disabled: false }, [Validators.required]),
           AddressLine1: new FormControl({ value: '', disabled: false }, [Validators.required]),
@@ -540,7 +545,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
             LineType: new FormControl({ value:staticvalues.LineType , disabled: false }, [Validators.required]),
             TypeOfLine: new FormControl({ value:staticvalues.TypeOfLine , disabled: false }, [Validators.required]),
             OrderReference: new FormControl({ value: staticvalues.OrderReference, disabled: false }, [Validators.required]),
-            Cupid: new FormControl({ value: staticvalues.CupID, disabled: false }, []),
+            ImportExportCupId: new FormControl({value: '', disabled: false }, []),
             Comments: new FormControl({ value: staticvalues.Comments, disabled: false }, [Validators.required]),
             CustomerName: new FormControl({ value:'', disabled: false }, [Validators.required]),
             AddressLine1: new FormControl({ value:'', disabled: false }, [Validators.required]),
@@ -632,7 +637,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
      
        console.log('update request',JSON.stringify( request));
       this.service.updateDetails(request).subscribe((res: any) => {
-        // console.log("res message to show: " + JSON.stringify(res));
+        console.log("res message to show: " + JSON.stringify(res));
         if (Object.keys(res).length) {
           this.BindData(res, 'update');
           this.spinner.hide();
@@ -764,6 +769,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     else {
       identifiers.push({ Name: "ResolutionRemarks" });
     }
+    console.log('update identifiers',identifiers);
     return identifiers;
   }
 
@@ -797,7 +803,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     let attributes: any = [
       { Name: 'ForceValidate', Value: [ForceToValidate] }
       , { Name: 'Franchise', Value: [this.model.franchise] }
-     // , { Name: 'Cupid', Value: [this.model.CupId] }
+     , { Name: 'Cupid', Value: [this.model.CupId] }
     ,{ Name: 'Source', Value: [this.model.source]  }
     ];
 
@@ -957,7 +963,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       let modelfranchise = Source.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       this.model.franchise = modelfranchise[0];
-     // console.log('default franchise',this.model.franchise);
+      console.log('franchise array',)
+      console.log('default franchise',this.model.franchise);
       this.enableSource = true;
       this.enableFrancise = true;
       if(this.model.franchise!='')
