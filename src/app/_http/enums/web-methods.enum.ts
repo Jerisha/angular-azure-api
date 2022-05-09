@@ -4,5 +4,6 @@ export enum WebMethods {
     UPDATE='UpdateObject',
     CREATE ='CreateObject',
     QUERY='QueryObject',
-    DELETE='DeleteObject'
+    DELETE='DeleteObject',
+    METADATA='MetaDataObject'
 }

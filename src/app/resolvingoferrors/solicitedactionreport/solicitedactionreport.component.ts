@@ -11,7 +11,7 @@ import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
-import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { formatDate } from '@angular/common';
 import { map } from 'rxjs/operators';
@@ -107,7 +107,7 @@ export class SolicitedactionreportComponent implements OnInit {
   configDetails!: any;
   currentPage: string = '1';
   resetExp: boolean = false;
-  expressions: any = [expNumeric, expString, expDate];
+  expressions: any = [expNumeric, expString, expDate,expDropdown];
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   errorCodesOptions!: Observable<any[]>;
@@ -122,11 +122,10 @@ export class SolicitedactionreportComponent implements OnInit {
   expOperators: string[] = [
 
     "TelephoneNumberOperator",
-    "TransactionIDrOperator",
-    "DateRangeOperator",
+    "TransactionIDOperator",    
     "SourceOperator",
-    "ResolutionTypeAuditOperator",
-    "StatusrOperator",
+    "ResolveTypeOperator",
+    "StatusOperator",
     "TransactionCommandOperator",
 
   ];
@@ -138,8 +137,8 @@ export class SolicitedactionreportComponent implements OnInit {
     { header: 'ResolutionType', headerValue: 'ResolveType', showDefault: true, isImage: false },
     { header: 'TransactionID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'ResolveRemarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
-    { header: 'CreatedBy', headerValue: 'CreatedBy', showDefault: true, isImage: false },
-    { header: 'Date Range', headerValue: 'DateRange', showDefault: true, isImage: false },
+    { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
@@ -187,6 +186,7 @@ export class SolicitedactionreportComponent implements OnInit {
       TransactionID: new FormControl({ value: '', disabled: true }, []),
       // CreatedOn: new FormControl({ value: '', disabled: true }, []),
       ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
+      // ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),
@@ -236,17 +236,15 @@ export class SolicitedactionreportComponent implements OnInit {
         name: 'Summary'
       });
     }
-    this.isEnable();
+    //this.isEnable();
   }
   
 
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
-      this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
-      this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
-      && this.f.OrderReference.value === "")
+    if ((this.f.TelephoneNumber?.value?.length === 11 && this.f.TransactionID.value === "" && this.f.ResolutionType.value === "" && this.f.Source.value === "" &&
+    this.f.Status.value === "" && this.f.TransactionCommand.value === "" && this.f.Reference.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
     }
@@ -266,9 +264,8 @@ export class SolicitedactionreportComponent implements OnInit {
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
-
     for (const field in this.f) {
-      if (field != 'Reference') {
+      if (field != 'Reference' ) {
         const control = this.myForm.get(field);
         if (field == 'DateRange') {
           const startDate = this.myForm.get('DateRange.StartDate');
@@ -281,16 +278,78 @@ export class SolicitedactionreportComponent implements OnInit {
             attributes.push({ Name: 'EndDate', Value: [formatDate(endDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
             attributes.push({ Name: 'EndDate' });
+           
           continue;
         }
-        if (control?.value)
+        if (field == 'ResolutionTypeAudit')
+        {
+        attributes.push({ Name: 'ResolveType', Value: [control?.value]});
+        let operator: string = 'ResolveType' + "Operator";
+        if (this.expOperatorsKeyPair.length != 0) {
+          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+          // console.log(expvals,"operatorVal1")
+          if (expvals.length != 0) {
+          //  console.log(control?.value,"True");
+              // if (control?.value) {
+                attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                console.log(expvals[0][1],"operatorVal");
+              // }
+              // else {
+              //   attributes.push({ Name: operator, Value: ['Equal To'] });
+              // }
+          }
+         
+        }
+        else {
+  
+          attributes.push({ Name: operator, Value: ['Equal To'] });
+  
+        }
+     
+       
+        } 
+
+        if (control?.value )
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
 
       }
+      let operator: string = field + "Operator";
+
+      // console.log("op vals",this.expOperatorsKeyPair);
+
+      //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
+      //  console.log("op ",operatorVal);
+      if (this.expOperatorsKeyPair.length != 0) {
+        let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        // console.log(expvals,"operatorVal1")
+        if (expvals.length != 0) {
+        //  console.log(control?.value,"True");
+            // if (control?.value) {
+              attributes.push({ Name: operator, Value: [expvals[0][1]] });
+              console.log(expvals[0][1],"operatorVal");
+            // }
+            // else {
+            //   attributes.push({ Name: operator, Value: ['Equal To'] });
+            // }
+        }
+        else {
+          if (field == 'TelephoneNumber' || field == 'DateRange') {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+          else {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+        }
+      }
+      else {
+
+        attributes.push({ Name: operator, Value: ['Equal To'] });
+
+      }
     }
-    console.log(attributes);
+    console.log('attri',attributes);
 
     return attributes;
 
@@ -377,11 +436,7 @@ export class SolicitedactionreportComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.myForm.reset();
-    this.tabs.splice(0);
-    this.resetExp = !this.resetExp;
-
-
+    window.location.reload();
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -519,7 +574,9 @@ export class SolicitedactionreportComponent implements OnInit {
     }
   }
 
+  
   getTupleValue(element: [string, string], keyvalue: string) {
+    // console.log(element, keyvalue,"gettuple");
     if (element[0] == keyvalue) { return element[1]; }
     else
       return "";

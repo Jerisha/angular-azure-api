@@ -19,6 +19,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
+import { Custom } from 'src/app/_helper/Validators/Custom';
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
   {
@@ -183,16 +184,16 @@ export class SolicitederrorsComponent implements OnInit {
   updateDetails!: any;
 
   ngOnInit(): void {
-  //   let requesttwo = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
-  //     "Name": "TransactionDays",
-  //     "Value": [`62`]
-  //   }])
-  //   console.log('request for info',requesttwo);
-  //  // this.queryResult$ = this.service.infoDetails(requesttwo).pipe(map((res: any) => res));
-  //   this.service.infoDetails(requesttwo).subscribe((res: any) => {
-  //     //this.infotable1 = res.dates;
-  //     //this.infotable2 = res.months      
-  //   });
+    //   let requesttwo = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
+    //     "Name": "TransactionDays",
+    //     "Value": [`62`]
+    //   }])
+    //   console.log('request for info',requesttwo);
+    //  // this.queryResult$ = this.service.infoDetails(requesttwo).pipe(map((res: any) => res));
+    //   this.service.infoDetails(requesttwo).subscribe((res: any) => {
+    //     //this.infotable1 = res.dates;
+    //     //this.infotable2 = res.months      
+    //   });
     this.createForm();
 
     debugger;
@@ -281,7 +282,7 @@ export class SolicitederrorsComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
@@ -320,9 +321,11 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Parent Cupid', headerValue: 'ParentCupId', showDefault: true, isImage: false },
+    { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 
 
@@ -334,20 +337,17 @@ export class SolicitederrorsComponent implements OnInit {
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    let errMsg = '';
     if (!this.thisForm.valid) return;
-    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000) {
+    errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+    if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
         // height:'250px',
         disableClose: true,
-        data: {
-          enableOk: false,
-          message: 'TelephoneRange must be less than or equal to 10000.',
-        }
+        data: { enableOk: false, message: errMsg, }
       });
-      rangeConfirm.afterClosed().subscribe(result => {
-        return result;
-      })
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
     this.tabs.splice(0);
@@ -372,7 +372,8 @@ export class SolicitederrorsComponent implements OnInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      highlightedCells: ['TelephoneNumber'],
+      setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
+      // highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
@@ -541,8 +542,18 @@ export class SolicitederrorsComponent implements OnInit {
     }
   }
 
+  onPaste(event: any): boolean {
+    debugger;
+    let clipboardData = event.clipboardData;
+    let pastedText = clipboardData.getData('text');
+    //console.log("pastedText :"+ pastedText+ isNaN(pastedText));
+    return isNaN(pastedText) ? false : true
+
+  }
+
 
   numberOnly(event: any): boolean {
+
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;

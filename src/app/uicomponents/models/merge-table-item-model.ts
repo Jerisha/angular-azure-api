@@ -6,15 +6,17 @@ export interface MergeTableItem {
   }
 
   export interface GroupHeaderTableItem {
-    data: any;
+    data?: any;
     ColumnDetails:MergeTableItem[];
     GroupHeaders: MergeTableItem[];
     GroupHeaderColumnsArray:Array<string[]>;
     DetailedColumns?:string[];
     DisplayedColumns:string[];
     FilterColumn?:boolean;
-    FilterValues?:Array<string[]>;
-    isRowLvlTot?:boolean;
+    FilterValues?:String;
+    isRowLvlTotal?:boolean;
+    isMonthFilter?:boolean;
+    CurrentMonth?: string;
   }
 
   export interface GroupHeaderTableDetails{
