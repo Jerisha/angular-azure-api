@@ -139,7 +139,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
      }
      else{
       this.AuditPopulatevalue = [];
-      this.router.navigateByUrl('auditreports/fullauditdetails');
+      //this.router.navigateByUrl('auditreports/fullauditdetails');
       //this.alertService.notification("Telephone number should be numberic", { autoClose: true, keepAfterRouteChange: false });
      }
     }
