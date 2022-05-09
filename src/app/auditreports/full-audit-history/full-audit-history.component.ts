@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ResolvingOfErrorsService } from 'src/app/resolvingoferrors/services/resolving-of-errors.service';
 import { Utils } from 'src/app/_http';
+import { AuditReportsService } from '../services/audit-reports.service';
 
 const myData = [{
   ACTID:	'29',
@@ -49,7 +49,7 @@ LiveinSource: '	185705'
 
 export class FullAuditHistoryComponent implements OnInit {
 
-  constructor(private service:ResolvingOfErrorsService) { }
+  constructor(private service:AuditReportsService) { }
 
   fullAuditHistory: any ;
   private readonly onDestroy = new Subject<void>();
