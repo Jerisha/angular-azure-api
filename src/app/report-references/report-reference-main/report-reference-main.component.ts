@@ -12,6 +12,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Utils } from 'src/app/_http';
 import { element } from 'protractor';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -28,7 +29,10 @@ import { element } from 'protractor';
 })
 export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
-  private readonly onDestroy = new Subject<void>();
+  private readonly onDestroyQuery = new Subject<void>();
+  private readonly onDestroyUpdate = new Subject<void>();
+  private readonly onDestroyCreate = new Subject<void>();
+  private readonly onDestroyDelete = new Subject<void>();
   reportNames!: string[];
   title: string = "";
   reportName: string = "";
@@ -39,7 +43,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   dataCompanys: any = [];
   oloDropDown: any =[];
   companyDropDown: any =[];
-  dataObs$ !: Observable<any>;;
+  dataObs$ !: Observable<any>;
+ 
+
   StatusID: string = '';
   Summary: string = '';
   Description: string = '';
@@ -209,7 +215,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     {
     reportName = this.currentReportName
     }
-    this.reportReferenceService.prepareData(reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe(      
+    this.reportReferenceService.prepareData(reportName,'ReferenceList').pipe(takeUntil(this.onDestroyQuery)).subscribe(      
       (res: any) =>{        
         if (this.currentReportName==='Franchise')
         {
@@ -291,7 +297,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           // console.log(record[this.recordIdentifier], record, 'InternalIssues2')
           deleteparms.push({ Name: this.recordIdentifier, Value: [record[this.recordIdentifier]] });
           let request = ReportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList', deleteparms);
-          this.reportReferenceService.deleteDetails(request).subscribe(x => {
+          this.reportReferenceService.deleteDetails(request).pipe(takeUntil(this.onDestroyDelete)).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               this.refreshData();
               this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
@@ -318,6 +324,44 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.editModeIndex = -1;
     this.showDataForm = event[0][0];
     this.showDetailsForm = event[0][1];
+    let updaterecord1 = Object.assign({}, event[1]);
+    //let entries1 = Object.entries(event[1])
+    // console.log(entries1.map, 'entri')
+    Object.entries(updaterecord1).map(
+      (x: any) => {
+      // updaterecord1[x[0]]
+        console.log(x[1], x[0], 'nullvalues')
+        if (x[1] === true) { updaterecord1[x[0]] = ('Y'.trim ()) }
+        else if (x[1] === false) {
+          console.log(x[0], 'false1')
+          updaterecord1[x[0]] = 'N'.trim()
+        }
+        else if (x[1] === null) { updaterecord1[x[0]] = ''.trim() }
+       // console.log('element val', x)
+       
+else { updaterecord1[x[0]].trim()}
+      }
+    )
+
+    console.log('updaterec1', updaterecord1)
+    let data = Object.assign({}, updaterecord1);
+
+    //console.log( `The ${key} is ${val}`)
+    console.log(JSON.stringify(data),'data1')
+    //let entries1 = Object.entries(event[1])
+    // console.log(entries1.map, 'entri')
+   let data1 = Object.entries(data)
+  let reqdata =data1.map(([key, val]) => ({ Name: key, Value: [val] }));
+    // let data = updaterecord1.entries().map((x:any) => (
+    //   { Name: x[0], Value: [x[1]]}
+    //   ));
+    //console.log( `The ${key} is ${val}`)
+    console.log(JSON.stringify(reqdata),'reqdata')
+    //});
+    console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord1')
+    console.log(event, 'eveent2')
+    //console.log(event[0].keys,'eveent6')
+    console.log(event[0].values, 'eveent9')
     if (this.eventName === 'Update') {
       const updateConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '300px', disableClose: true, data: {
@@ -326,39 +370,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       });
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
-          let updaterecord1 = Object.assign({}, event[1]);
-
-          //let entries1 = Object.entries(event[1])
-          // console.log(entries1.map, 'entri')
-          Object.entries(updaterecord1).map(
-              (x: any) => {
-                updaterecord1[x[0]]
-                if (x[1] == true) { updaterecord1[x[0]] = 'Y' }
-                else if (x[1] ==false) { updaterecord1[x[0]] = 'N' }
-                else if (x[1] ==null) { updaterecord1[x[0]] = '' }
-                console.log('element val', x)
-                
-              }
-            )
-      
-          console.log('updaterec1', updaterecord1)
-          let data = Object.assign({}, updaterecord1);
-
-          //let entries1 = Object.entries(event[1])
-          // console.log(entries1.map, 'entri')
-          Object.entries(data).map(([key, val]) => ({ Name: key, Value: [val] }));
-          // let data = updaterecord1.entries().map((x:any) => (
-          //   { Name: x[0], Value: [x[1]]}
-          //   ));
-          //console.log( `The ${key} is ${val}`)
-          console.log(JSON.stringify(data),'data')
-          //});
-          console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord1')
-          console.log(event, 'eveent2')
-          //console.log(event[0].keys,'eveent6')
-          console.log(event[0].values, 'eveent9')
+         
           // this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', this.prepareUpdateIdentifiers(), [{}]).subscribe(x => {
-          this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', data, [{}]).subscribe(x => {
+          this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', reqdata, [{}]).pipe(takeUntil(this.onDestroyUpdate)).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reloa
               this.refreshData();
@@ -380,8 +394,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
 
     else {
-      let entries = Object.entries(event[1])
-          let data = entries.map(([key, val]) => ({ Name: key, Value: [val] }));
+      //let entries = Object.entries(event[1])
+         // let data = entries.map(([key, val]) => ({ Name: key, Value: [val] }));
           //console.log( `The ${key} is ${val}`)
           console.log(JSON.stringify(data))
           //});
@@ -389,7 +403,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           console.log(event, 'eveent2')
           //console.log(event[0].keys,'eveent6')
           console.log(event[0].values, 'eveent9')
-      this.reportReferenceService.prepareCreate(this.currentReportName, 'ReferenceList', data).subscribe(x => {
+      this.reportReferenceService.prepareCreate(this.currentReportName, 'ReferenceList', reqdata).pipe(takeUntil(this.onDestroyCreate)).subscribe(x => {
         if (x.StatusMessage === 'Success') {
           this.refreshData();
           this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
@@ -461,7 +475,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
   ngOnDestroy() {  
-  this.onDestroy.next();
+  this.onDestroyQuery.next();
+  this.onDestroyUpdate.next();
+  this.onDestroyCreate.next();
+  this.onDestroyDelete.next();
   this.metaDataSupscription.unsubscribe();
   }
 }

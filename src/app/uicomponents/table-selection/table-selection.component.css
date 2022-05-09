@@ -82,8 +82,9 @@ table td, table th {
 }
 
 .totalRow {
-  background-color: #e60000;
-  color:white;
+  /* background-color: #e60000; */
+  background-color: #ff9999 !important;
+  color:black;
   
   font-size: small;
   font-weight: 500;
