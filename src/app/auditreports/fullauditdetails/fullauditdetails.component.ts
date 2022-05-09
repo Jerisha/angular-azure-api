@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
 import { Router } from '@angular/router';
+import { isNumeric } from 'rxjs/internal-compatibility';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -54,7 +55,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
   updateForm!: FormGroup;
-  updateDetails!:any
+  updateDetails!: any
 
   selectedCorrectionType: string = '';
   myTable!: TableItem;
@@ -365,17 +366,17 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.createForm();
     this.createUpdateForm();
     this.setDefaultValues();
-    
+
     let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume"]);
-    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']); 
-   
+    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
+
     forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
       .subscribe(results => {
-      this.configDetails = results[0].data;
-      this.rowRange = this.configDetails.AutoCorrectionVolume[0];
-      this.defaultACTID = this.configDetails.FullAuditActID[0];    
-      this.updateDetails = results[1].data;
-    }); 
+        this.configDetails = results[0].data;
+        this.rowRange = this.configDetails.AutoCorrectionVolume[0];
+        this.defaultACTID = this.configDetails.FullAuditActID[0];
+        this.updateDetails = results[1].data;
+      });
     this.listItems = Items;
   }
 
@@ -799,8 +800,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
             if (selectedCLI != '') {
               let strCmts = selectedCLI.split('-');
               var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
-              startTelno = range[0];
+              startTelno = isNumeric(range[0]) ? range[0].toString() : this.selectListItems[0].TelephoneNumber;
               endTelno = range[1] ? range[1] : ''
+              endTelno = isNumeric(endTelno) ? endTelno.toString() : '';
             }
             else {
               startTelno = this.selectListItems[0].TelephoneNumber;
@@ -818,10 +820,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         }
       })
     }
-   // return identifiers;
+    // return identifiers;
   }
-
- 
 
   prepareUpdateIdentifiers(type: string): any {
     let identifiers: any[] = [];
