@@ -138,7 +138,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       this.model.rangeEnd = this.AuditPopulatevalue.EndPhoneNumber;
      }
      else{
-      this.AuditPopulatevalue = []
+      this.AuditPopulatevalue = [];
+      this.router.navigateByUrl('auditreports/fullauditdetails');
       //this.alertService.notification("Telephone number should be numberic", { autoClose: true, keepAfterRouteChange: false });
      }
     }
@@ -252,7 +253,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         //ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
         if (value.length == 11 || value.length == 10) {
           if (ctrlName == 'EndTelephoneNumber' && this.model.telno.length == 0) {
-            // this.alertService.notification("Enter Start Telephone No", { autoClose: true, keepAfterRouteChange: false });
+             this.alertService.notification("Enter Start Telephone No", { autoClose: true, keepAfterRouteChange: false });
 
           }
           else {
@@ -451,6 +452,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         //success message and same data reload
         this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
+        if( this.AuditPopulatevalue != [])
+        {
+          this.AuditPopulatevalue = [];
+          this.router.navigateByUrl('auditreports/fullauditdetails');
+        }
       }
     });
     this.spinner.hide();
