@@ -46,6 +46,19 @@
 
           <mat-form-field [ngClass]="{'hidden':form.AuditActID.disabled}">
             <mat-label>Audit ACT ID</mat-label>
+            <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
+              <mat-option *ngFor="let val of config.FullAuditActID" [value]="val">
+                {{val}} </mat-option>              
+            </mat-select>         
+            <mat-error>              
+              <div *ngIf="form.AuditActID.hasError('required')" class="alert alert-danger">
+                Select Audit ACT ID
+              </div>
+            </mat-error>
+          </mat-form-field>
+
+          <!-- <mat-form-field [ngClass]="{'hidden':form.AuditActID.disabled}">
+            <mat-label>Audit ACT ID</mat-label>
             <input #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID" type="text"
               placeholder="Search Audit Act ID" matInput [matAutocomplete]="autoAuditACTId" OptionsValidator
               [options]="config.FullAuditActID" />
@@ -64,7 +77,7 @@
                 Select Audit ACT ID
               </div>
             </mat-error>
-          </mat-form-field>
+          </mat-form-field> -->
 
           <mat-form-field [ngClass]="{'hidden':form.CUPId.disabled}">
             <mat-label>CUPID</mat-label>
@@ -440,12 +453,12 @@
                   <mat-label>Resolution Type</mat-label>
                   <input #resType [(ngModel)]="resolutionType" formControlName="Resolution" type="text"
                     placeholder="Search Resolution Type" matInput [matAutocomplete]="autoResType" OptionsValidator
-                    [options]="configDetails.ResolutionType" />
+                    [options]="updateDetails.ResolutionType" />
                   <span matSuffix mat-icon-button>
                     <mat-icon>arrow_drop_down</mat-icon>
                   </span>
                   <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResType="matAutocomplete">
-                    <mat-option *ngFor="let val of configDetails.ResolutionType | ddlFilter: resType.value"
+                    <mat-option *ngFor="let val of updateDetails.ResolutionType | ddlFilter: resType.value"
                       [value]="val">
                       {{val}}
                     </mat-option>
