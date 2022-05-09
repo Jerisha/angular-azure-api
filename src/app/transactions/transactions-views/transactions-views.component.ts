@@ -22,6 +22,7 @@ import { CdkTreeModule } from '@angular/cdk/tree';
 import { TransactionDataService } from '../services/transaction-data.service';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-transactions-views',
@@ -56,7 +57,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   evntflage: boolean = true;
   visibleSearchOption: any;
   franchaiseIDs: any;
-  cupidValues: any;
+  cupidValues!: string[];
   multiRangeTelephoneList: string = "Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890";
   franchiseValues: any;
   SourceValues: any;
@@ -101,10 +102,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   updateDetails!: any;
   addressDetails = new AddressDetails();
   passedRouteData: any;
+  Cuparr:any;
+  SourceFranchisearr:any;
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
-    public router: Router) {
+    public router: Router,private spinner: NgxSpinnerService) {
     // this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
     // if (this.passedRouteData) {
     //   console.log('constructer name' + JSON.stringify(this.passedRouteData))
@@ -123,13 +126,22 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    
     this.views.view1 = true;
     this.formsGroup = this.fb.group({});
     this.initForm();
-    //console.log('constructor values', this.AuditPopulatevalue);
-    if (this.AuditPopulatevalue != []) {
+    console.log('constructor values', this.AuditPopulatevalue);
+    if (this.AuditPopulatevalue != []){ 
+     if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
+     {
       this.model.telno = this.AuditPopulatevalue.StartphoneNumber;
       this.model.rangeEnd = this.AuditPopulatevalue.EndPhoneNumber;
+     }
+     else{
+      this.AuditPopulatevalue = [];
+      //this.router.navigateByUrl('auditreports/fullauditdetails');
+      //this.alertService.notification("Telephone number should be numberic", { autoClose: true, keepAfterRouteChange: false });
+     }
     }
 
 
@@ -241,7 +253,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         //ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
         if (value.length == 11 || value.length == 10) {
           if (ctrlName == 'EndTelephoneNumber' && this.model.telno.length == 0) {
-            // this.alertService.notification("Enter Start Telephone No", { autoClose: true, keepAfterRouteChange: false });
+             this.alertService.notification("Enter Start Telephone No", { autoClose: true, keepAfterRouteChange: false });
 
           }
           else {
@@ -270,6 +282,53 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
     this.evntflage = false;
   }
+  onCupIDChange(event: any) {
+    debugger
+    this.SourceFranchisearr={Source:[],Franchise:[]};
+    this.model.source="";
+    this.model.franchise="";
+
+
+    if (event.option.value !== "") {
+      let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
+        return obj.Cupid === event.option.value;
+      });
+      this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+      //DefaultSource:
+     // console.log('values from source', Source);
+     
+      let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+        //console.log('default source values',modelsource);
+      this.model.source = modelsource[0];
+     // this.transactionItem.source = modelsource[0];
+     // console.log('defalut source', this.model.source);
+
+      let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
+        return obj.Cupid === event.option.value;
+      });
+      this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+
+        this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
+        console.log('source array',this.SourceFranchisearr);
+      let modelfranchise = Source.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+      this.model.franchise = modelfranchise[0];
+     // console.log('default franchise',this.model.franchise);
+      this.enableSource = true;
+      this.enableFrancise = true;
+      if(this.model.franchise!='')
+      {
+        this.views.view3 = true;
+      }
+     
+    }
+
+    //ctrlthree.clearValidators();
+  }
+
   onSelectionChange(event: any) {
     debugger
     const ctrlthree = this.view3Form.get('Cupid') as FormControl;
@@ -381,18 +440,27 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   saveTran(val: string) {
+    console.log('save transaction');
+    this.spinner.show();
     let request2 = Utils.preparePyCreate('Transactions', 'Transactions', 'CreateParameters', this.prepareQueryParamsforCreate(val));
     console.log('create request', JSON.stringify(request2));
     //  this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
     //  this.resetTel("");
     this.service.create(request2).subscribe((x: { StatusMessage: string; }) => {
       if (x.StatusMessage === 'Success') {
+        this.spinner.hide();
         //success message and same data reload
         this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
+        if( this.AuditPopulatevalue != [])
+        {
+          this.AuditPopulatevalue = [];
+          this.router.navigateByUrl('auditreports/fullauditdetails');
+        }
       }
     });
-
+    this.spinner.hide();
+    
   }
   ReviewCli() {
     this.ResetTabs.emit(["true"]);
@@ -404,6 +472,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
 
   BindData(res: any, Type: string) {
+    
     //console.log('update bind method called',JSON.stringify(res));
     if (Type == 'Query') {
       if(Object.keys(res).length) {
@@ -434,7 +503,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
         });
         this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
-        // console.log('config dertails test',this.configDetails);
+        console.log('config dertails test',this.configDetails);
         this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
         this.Master = this.queryResultobj.NumberOfTransactions[0].MasterCount;
         this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
@@ -445,9 +514,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         //console.log('uniquer values',test);
         this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+         
+          this.Cuparr ={CupID:this.cupidValues};  
+        
         //update manual correction
       
-        // console.log('after insertion',this.queryResultobj);
+         //console.log('cupIDS',Cuparr);
       }
     }
     else {
@@ -500,7 +572,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
             this.enableSource = true;
             this.enableFrancise = true;
           //update manual correction
-        
+         this.Cuparr ={CupID:this.cupidValues};  
         //  console.log('after insertion',this.queryResultobj);
           let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
             return obj.Cupid === this.model.CupId;
@@ -519,7 +591,9 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         //  console.log('franchaise values',frnachaise);
           this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
             .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+            this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
           this.model.franchise = staticvalues.Franchise;
+
         //  console.log('selected franchise',this.model.franchise);
         }
       }
@@ -528,75 +602,32 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
 
   SearchTel() {
+    //this.views.view3 = false;
     let call: string = 'Query';
     this.model.telno = "";
     this.model.endTel = "";
     debugger
     if (Object.keys(this.AuditPopulatevalue).length === 0) {
+      this.spinner.show();
       let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
       //console.log('request for query',request2);
       this.service.queryDetails(request2).subscribe((res: any) => {
         // console.log("res message to show: " + JSON.stringify(res));
         if (Object.keys(res).length) {
           this.BindData(res, 'Query');
+          this.spinner.hide();
         }
-
-
-
-        //this.Provide=res.Data.NumberOfTransactions.MasterCount;
-        //   this.queryResultobj = res.data;
-        //   let type: string = res.data.TransactionTypes[0].TransactionType;
-        //   let linetype: string = res.data.LineTypes[0].LineType;
-        //   let TypeOfLine: string = res.data.TypeOfLines[0].TypeOfLine;
-        //   this.view3Form = this.formBuilder.group({
-        //     TransactionType: new FormControl({ value: '', disabled: false }, [Validators.required]),
-
-        //     LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //     TypeOfLine: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //     OrderReference: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //     Cupid: new FormControl({ value: '', disabled: false }, []),
-        //     Comments: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //     CustomerName: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //     AddressLine1: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //     AddressLine2: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //     AddressLine3: new FormControl({ value: '', disabled: false },),
-        //     AddressLine4: new FormControl({ value: '', disabled: false },),
-        //     PostCode: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //   });
-        //   this.viewForm = this.formBuilder.group({
-        //     CupID: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //     Franchise: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //     Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        //   });
-        //   this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
-        //   // console.log('config dertails test',this.configDetails);
-        //   this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
-        //   this.Master = this.queryResultobj.NumberOfTransactions[0].MasterCount;
-        //   this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
-        //   this.cupIds = this.queryResultobj.CupidFranchiseList[0].CupidFranchise;
-        //   this.audittelephonenumbers = this.queryResultobj.TelephoneNumbers[0].TelephoneNumber;
-        //   let test: any = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
-        //     .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-        //   //console.log('uniquer values',test);
-        //   this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
-        //     .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-        //     //update manual correction
-        //     if(this.AuditPopulatevalue!=[])
-        //     {
-        //        console.log('calling update api');
-        //        this.UpdateApi();
-        //     }
-        //   // console.log('after insertion',this.queryResultobj);
-        // }
         else {
+          this.spinner.hide();
           this.resetTel("");
           this.alertService.clear();
           this.alertService.error("No Data found on given input!", { autoClose: true, keepAfterRouteChange: false });
-
+          
         }
       });
     }
     else {
+      this.spinner.show();
       let request = Utils.preparePyUpdate('ManualCorrections', 'FullAuditDetails', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
      
        console.log('update request',JSON.stringify( request));
@@ -604,12 +635,14 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         // console.log("res message to show: " + JSON.stringify(res));
         if (Object.keys(res).length) {
           this.BindData(res, 'update');
+          this.spinner.hide();
         }
         else {
+          this.spinner.hide();
           this.resetTel("");
           this.alertService.clear();
           this.alertService.error("No Data found on given input!", { autoClose: true, keepAfterRouteChange: false });
-
+         
         }
       });
     }
@@ -652,7 +685,14 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onPaste(event: any): boolean {
+    debugger;
+    let clipboardData = event.clipboardData;
+    let pastedText = clipboardData.getData('text');
+    //console.log("pastedText :"+ pastedText+ isNaN(pastedText));
+    return isNaN(pastedText) ? false : true
 
+  }
   UpdateApi() {
     if (true) {
       let request = Utils.preparePyUpdate('ManualCorrections', 'FullAuditDetails', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
@@ -748,7 +788,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     let attributes: any = [
       { Name: 'TelephoneNumberRange', Value: [telephonerangevalues] }];
     this.inputtelRange = telephonerangevalues;
-    //console.log(attributes);
+    console.log('query params',attributes);
 
     return attributes;
   }
@@ -850,6 +890,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.saveState = true;
     this.savebtnColor = "secondary";
     this.enableFrancise = false;
+    this.enableSource=false;
     this.ResetTabs.emit(["true"]);
     this.CliRangeSet = [];
 
