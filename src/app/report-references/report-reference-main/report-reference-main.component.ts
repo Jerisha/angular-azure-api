@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Utils } from 'src/app/_http';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -257,7 +258,18 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       // this.showDataForm =true; 
       this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
       this.reportReferenceService.showDataForm = this.showDataForm = true;
-      this.editRecord =  element;
+      let element1 = Object.assign({}, element);
+
+
+      this.editRecord = element1;
+      Object.entries(element1).map(
+        (x: any) => {
+          if (x[1] === 'Y') { element1[x[0]] = true }
+          else if (x[1] === 'N') { element1[x[0]] = false }
+    
+          console.log('element val', x)
+        }
+      )
     }
     else {
       this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
@@ -314,13 +326,34 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       });
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
-          let entries = Object.entries(event[1])
+          let updaterecord1 = Object.assign({}, event[1]);
+
+          //let entries1 = Object.entries(event[1])
+          // console.log(entries1.map, 'entri')
+          Object.entries(updaterecord1).map(
+              (x: any) => {
+                updaterecord1[x[0]]
+                if (x[1] == true) { updaterecord1[x[0]] = 'Y' }
+                else if (x[1] ==false) { updaterecord1[x[0]] = 'N' }
+                else if (x[1] ==null) { updaterecord1[x[0]] = '' }
+                console.log('element val', x)
+                
+              }
+            )
       
-          let data = entries.map(([key, val]) => ({ Name: key, Value: [val]}));
+          console.log('updaterec1', updaterecord1)
+          let data = Object.assign({}, updaterecord1);
+
+          //let entries1 = Object.entries(event[1])
+          // console.log(entries1.map, 'entri')
+          Object.entries(data).map(([key, val]) => ({ Name: key, Value: [val] }));
+          // let data = updaterecord1.entries().map((x:any) => (
+          //   { Name: x[0], Value: [x[1]]}
+          //   ));
           //console.log( `The ${key} is ${val}`)
-          console.log(JSON.stringify(data))
+          console.log(JSON.stringify(data),'data')
           //});
-          console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord')
+          console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord1')
           console.log(event, 'eveent2')
           //console.log(event[0].keys,'eveent6')
           console.log(event[0].values, 'eveent9')
