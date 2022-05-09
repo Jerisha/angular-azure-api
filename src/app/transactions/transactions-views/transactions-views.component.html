@@ -8,7 +8,7 @@
                       <mat-form-field  [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
                         <mat-label>Start Telephone No</mat-label>
                         <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
-                        <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)" matInput maxlength="11"
+                        <input formControlName="StartTelephoneNumber" (paste)="onPaste($event)" (keypress)="numberOnly($event)" matInput maxlength="11"
                           placeholder="Start Telephone No" (ngModelChange)="onChange($event,'StartTelephoneNumber')" [(ngModel)]="model.telno" #starttelno telNoPrefixValidator (change)="onChangeEvent($event,'StartTelephoneNumber')">
                         <!-- <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint> -->
                         <mat-error>
@@ -21,7 +21,7 @@
             
                       <mat-form-field  [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
                         <mat-label>End Telephone No</mat-label>
-                        <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
+                        <input formControlName="EndTelephoneNumber" (paste)="onPaste($event)" matInput #endtelno maxlength="11" placeholder="End Telephone No"
                           (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'EndTelephoneNumber')" compareStartNo [startNo]="f.StartTelephoneNumber" [(ngModel)]="model.rangeEnd"  telNoPrefixValidator (change)="onChangeEvent($event,'EndTelephoneNumber')">
                         <!-- <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint> -->
                         <mat-error>
@@ -129,7 +129,7 @@
                         <div class="vf-flex-container-col" style="margin: 2px;"> 
                           <div style="margin-bottom: 6px;">
                       <span>
-                      <mat-form-field    style="margin-left:5px;width:260px;" [ngClass]="{'hidden':g.CupID.disabled}">
+                      <!-- <mat-form-field    style="margin-left:5px;width:260px;" [ngClass]="{'hidden':g.CupID.disabled}">
                         <mat-label class="vf-label" >CUPID</mat-label>  
                         <mat-select formControlName="CupID" [(value)]="model.CupId" [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
                           <mat-option [value]="">                  
@@ -140,33 +140,71 @@
                         </mat-select>  
                         <mat-error class="error-message" *ngIf="checkErrorinFrom('CupID', 'required')">Select CupID
                         </mat-error>               
-                      </mat-form-field>
+                      </mat-form-field> -->
+                    </span>
+                    <span>
+                      <ng-container *ngIf="Cuparr  as config">
+                        <mat-form-field [ngClass]="{'hidden':g.CupID.disabled}" style="margin-left:2px;width:260px;">
+                          <mat-label>CupID</mat-label>
+                          <input #cupid formControlName="CupID" type="text" [(ngModel)]="model.CupId" placeholder="CupID" matInput
+                            [matAutocomplete]="autoCupID" OptionsValidator [options]="config.CupID" />
+                          <span matSuffix mat-icon-button>
+                            <mat-icon>arrow_drop_down</mat-icon>
+                          </span>
+                          <mat-autocomplete (optionSelected)="onCupIDChange($event)"  autoActiveFirstOption #autoCupID="matAutocomplete">
+                            <mat-option *ngFor="let val of config.CupID | ddlFilter: cupid.value" [value]="val">
+                              {{val}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="g.CupID.errors?.validOptions">Value need to match available options</mat-error>
+                          <mat-error class="error-message" *ngIf="checkErrorinFrom('CupID', 'required')">Select CupID
+                          </mat-error>  
+                        </mat-form-field>
+                    </ng-container>
+                    
                     </span>
                    
                     <span>           
-                      <mat-form-field *ngIf = "enableFrancise" 
+                      <!-- <mat-form-field *ngIf = "enableFrancise" 
                         style="margin-left:2px;width:260px;" [ngClass]="{'hidden':g.Franchise.disabled}">
                         <mat-label class="vf-label">Franchise</mat-label>             
                         <mat-select formControlName="Franchise"  [(value)]="model.franchise"  [(ngModel)]="model.franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
-                          <!-- <mat-option value= ""></mat-option> -->
+                         
                           <mat-option *ngFor="let val of franchiseValues" [value]="val">
                             {{val}}
                           </mat-option>
                           </mat-select> 
                           <mat-error class="error-message" *ngIf="checkErrorinFrom('Franchise', 'required')">Select Franchise
                           </mat-error> 
-                      </mat-form-field>
+                      </mat-form-field> -->  
+                       <ng-container *ngIf="SourceFranchisearr  as config1">
+                        <mat-form-field *ngIf = "enableFrancise"  [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:260px;">
+                          <mat-label>Franchise</mat-label>
+                          <input #franchise formControlName="Franchise" [(ngModel)]="model.franchise" type="text" placeholder="Franchise" matInput
+                            [matAutocomplete]="autoFranchise" OptionsValidator [options]="config1.Franchise" />
+                          <span matSuffix mat-icon-button>
+                            <mat-icon>arrow_drop_down</mat-icon>
+                          </span>
+                          <mat-autocomplete   autoActiveFirstOption #autoFranchise="matAutocomplete">
+                            <mat-option *ngFor="let val of config1.Franchise | ddlFilter: franchise.value" [value]="val">
+                              {{val}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="g.Franchise.errors?.validOptions">Value need to match available options</mat-error>
+                          <mat-error class="error-message" *ngIf="checkErrorinFrom('Franchise', 'required')">Select Franchise
+                          </mat-error>  
+                        </mat-form-field>
+                    </ng-container>
                     </span> 
                           </div>
                         </div>
                         <div class="vf-flex-container-col" style="margin: 2px;float: left;display: block;">
                           <div style="margin-bottom: 6px;"> 
-                            <span>
+                            <!-- <span>
                               <mat-form-field  *ngIf = "enableSource"   style="margin-left:5px;width:260px;" [ngClass]="{'hidden':g.CupID.disabled}">
                                 <mat-label class="vf-label" >Source</mat-label> 
                                 <mat-select formControlName="Source" [(value)]="model.source" [(ngModel)]="model.source" name="Source" placeholder="Source *"   style ="font-size:x-small;">
-                                  <!-- <mat-option [value]="">                  
-                                  </mat-option> -->
+                                  
                                   <mat-option *ngFor="let val of SourceValues" [value]="val">
                                     {{val}}
                                   </mat-option>
@@ -174,6 +212,26 @@
                                 <mat-error class="error-message" *ngIf="checkErrorinFrom('Source', 'required')">Select Source
                                 </mat-error>               
                               </mat-form-field>
+                            </span> -->
+                            <span>
+                              <ng-container *ngIf="SourceFranchisearr  as config1">
+                                <mat-form-field *ngIf = "enableSource"   [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:260px;">
+                                  <mat-label>Source</mat-label>
+                                  <input #source formControlName="Source" [(ngModel)]="model.source"  type="text" placeholder="Source" matInput
+                                    [matAutocomplete]="autoSource" OptionsValidator [options]="config1.Source" />
+                                  <span matSuffix mat-icon-button>
+                                    <mat-icon>arrow_drop_down</mat-icon>
+                                  </span>
+                                  <mat-autocomplete   autoActiveFirstOption #autoSource="matAutocomplete">
+                                    <mat-option *ngFor="let val of config1.Source | ddlFilter: source.value" [value]="val">
+                                      {{val}}
+                                    </mat-option>
+                                  </mat-autocomplete>
+                                  <mat-error *ngIf="g.Source.errors?.validOptions">Value need to match available options</mat-error>
+                                  <mat-error class="error-message" *ngIf="checkErrorinFrom('Source', 'required')">Select Source
+                                  </mat-error>  
+                                </mat-form-field>
+                            </ng-container>
                             </span>
                       </div>   
                         </div>
