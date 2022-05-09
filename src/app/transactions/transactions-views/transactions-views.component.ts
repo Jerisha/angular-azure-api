@@ -130,10 +130,17 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.views.view1 = true;
     this.formsGroup = this.fb.group({});
     this.initForm();
-    //console.log('constructor values', this.AuditPopulatevalue);
-    if (this.AuditPopulatevalue != []){
+    console.log('constructor values', this.AuditPopulatevalue);
+    if (this.AuditPopulatevalue != []){ 
+     if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
+     {
       this.model.telno = this.AuditPopulatevalue.StartphoneNumber;
       this.model.rangeEnd = this.AuditPopulatevalue.EndPhoneNumber;
+     }
+     else{
+      this.AuditPopulatevalue = []
+      //this.alertService.notification("Telephone number should be numberic", { autoClose: true, keepAfterRouteChange: false });
+     }
     }
 
 
@@ -672,7 +679,14 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onPaste(event: any): boolean {
+    debugger;
+    let clipboardData = event.clipboardData;
+    let pastedText = clipboardData.getData('text');
+    //console.log("pastedText :"+ pastedText+ isNaN(pastedText));
+    return isNaN(pastedText) ? false : true
 
+  }
   UpdateApi() {
     if (true) {
       let request = Utils.preparePyUpdate('ManualCorrections', 'FullAuditDetails', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
@@ -768,7 +782,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     let attributes: any = [
       { Name: 'TelephoneNumberRange', Value: [telephonerangevalues] }];
     this.inputtelRange = telephonerangevalues;
-    //console.log(attributes);
+    console.log('query params',attributes);
 
     return attributes;
   }
@@ -870,6 +884,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.saveState = true;
     this.savebtnColor = "secondary";
     this.enableFrancise = false;
+    this.enableSource=false;
     this.ResetTabs.emit(["true"]);
     this.CliRangeSet = [];
 
