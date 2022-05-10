@@ -1,6 +1,7 @@
 import { CustomerAddress, ICustomerAddress } from "./ICustomerAddress";
 
 export interface ITransactionItem {
+    source:string
     transType: string;
     lineType: string;
     typeOfLine: string;
@@ -11,6 +12,7 @@ export interface ITransactionItem {
 }
 
 export class TransactionItem implements ITransactionItem {
+    source="";
     transType="";
     lineType="";
     typeOfLine="";

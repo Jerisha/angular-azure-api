@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, Element
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { Observable, of, Subject } from 'rxjs';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
 import { Router } from '@angular/router';
+import { isNumeric } from 'rxjs/internal-compatibility';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -54,6 +55,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   fullAuditForm!: FormGroup;
   updateForm!: FormGroup;
+  updateDetails!: any
 
   selectedCorrectionType: string = '';
   myTable!: TableItem;
@@ -364,16 +366,20 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.createForm();
     this.createUpdateForm();
     this.setDefaultValues();
-    
+
     let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume"]);
-    console.log('config',JSON.stringify(request));
-    this.service.configDetails(request).subscribe((res: any) => {
-      this.configDetails = res.data;
-      this.rowRange = this.configDetails.AutoCorrectionVolume[0];
-      this.defaultACTID = this.configDetails.FullAuditActID[0];
-    });
+    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
+
+    forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
+      .subscribe(results => {
+        this.configDetails = results[0].data;
+        this.rowRange = this.configDetails.AutoCorrectionVolume[0];
+        this.defaultACTID = this.configDetails.FullAuditActID[0];
+        this.updateDetails = results[1].data;
+      });
     this.listItems = Items;
   }
+
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -794,8 +800,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
             if (selectedCLI != '') {
               let strCmts = selectedCLI.split('-');
               var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
-              startTelno = range[0];
+              startTelno = isNumeric(range[0]) ? range[0].toString() : this.selectListItems[0].TelephoneNumber;
               endTelno = range[1] ? range[1] : ''
+              endTelno = isNumeric(endTelno) ? endTelno.toString() : '';
             }
             else {
               startTelno = this.selectListItems[0].TelephoneNumber;
@@ -813,6 +820,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         }
       })
     }
+    // return identifiers;
   }
 
   prepareUpdateIdentifiers(type: string): any {
@@ -843,7 +851,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         else
           identifiers.push({ Name: 'AuditActID' });
 
-        identifiers.push({ Name: 'AuditType', Value: [`${'FullAuditDetails'}`] });
+        identifiers.push({ Name: 'AuditType', Value: [`${'Full Audit'}`] });
         break;
       }
       case 'DataAutoCorrection': {
@@ -954,7 +962,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       data: this.monthlyRefreshQueryResult$,
       Columns: this.monthlyRefreshReportTableDetails,
       selectCheckbox: true,
-      removeNoDataColumns: false,
+      removeNoDataColumns: true,
       filter: true
     }
   }
@@ -1012,7 +1020,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.rangeRptTable = {
       data: this.rangeReportQueryResult$,
       Columns: this.rangeReportTableDetails,
-      removeNoDataColumns: false,
+      removeNoDataColumns: true,
       selectCheckbox: true,
       filter: true
     }
@@ -1044,7 +1052,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       Columns: this.moriCicuitTableDetails,
       filter: true,
       selectCheckbox: true,
-      removeNoDataColumns: false
+      removeNoDataColumns: true
     }
   }
 
@@ -1074,7 +1082,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       Columns: this.OverlappingRangeListTableDetails,
       filter: true,
       selectCheckbox: true,
-      removeNoDataColumns: false
+      removeNoDataColumns: true
     }
   }
 }

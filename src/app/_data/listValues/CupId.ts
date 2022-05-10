@@ -13,6 +13,7 @@ export class CupId
 }
 export interface ICupId {
   Cupid: string;
+  Source:string;
   Franchise:string
     //viewValue: string;
   }
