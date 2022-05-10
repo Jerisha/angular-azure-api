@@ -10,7 +10,7 @@ import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 's
 import { AuditdiscrepancyHeaderData } from 'src/app/_data/audit-discrepancy-header-data';
 import { Utils } from 'src/app/_http/index';
 import { IAuditActId } from '../models/audit-discrepancy-report/IAttributes';
-import { AuditDiscpancyReportService } from './auditdiscrepancyreport.component.service';
+import { AuditReportsService } from '../services/audit-reports.service';
 
 @Component({
   selector: 'app-auditdiscrepancyreport',
@@ -54,7 +54,7 @@ data = new AuditdiscrepancyHeaderData();
   queryResult!: Observable<any>;
   QueryParams: any;
 
-  constructor( private formBuilder: FormBuilder, private service:AuditDiscpancyReportService) {
+  constructor( private formBuilder: FormBuilder, private service:AuditReportsService) {
 
     this.createForm();
     this.datamenu=this.data.headers;
@@ -107,7 +107,7 @@ data = new AuditdiscrepancyHeaderData();
 
     this.selectedAuditType = this.configValues[0].auditType;
     this.auditActIdDropdown =  this.configValues[0].auditActId;
-    this.selectedActId = this.auditActIdDropdown[0];
+    this.selectedActId =  this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
     });
 
   }
@@ -168,7 +168,7 @@ prepareQueryParams()
   changedAuditType(type: MatSelectChange) {
     let index = this.configValues.findIndex(x => x.auditType == type.value);
     this.auditActIdDropdown = this.configValues[index].auditActId;
-    this.selectedActId =  this.auditActIdDropdown[0];
+    this.selectedActId =  this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
   }
 
 

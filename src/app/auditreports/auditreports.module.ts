@@ -9,7 +9,6 @@ import { FullAuditTypeComponent } from './auditdiscrepancyreport/full-audit-type
 import { ExternalAuditTypeComponent } from './auditdiscrepancyreport/external-audit-type/external-audit-type.component';
 import { SeperateInternalAuditTypeComponent } from './auditdiscrepancyreport/seperate-internal-audit-type/seperate-internal-audit-type.component';
 import { HttpClientModule} from '@angular/common/http';
-import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { SharedModule } from '../_shared/shared.module';
 import { HelperModule } from '../_helper/helper.module';
 import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';
@@ -44,6 +43,6 @@ import { SeparateinternalauditdetailsComponent } from './separateinternalauditde
     SharedModule,
     HelperModule
   ],
-  providers: [AuditReportsService, AuditDiscpancyReportService]
+  providers: [AuditReportsService ]
 })
 export class AuditreportsModule { }

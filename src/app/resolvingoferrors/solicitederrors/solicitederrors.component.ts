@@ -518,7 +518,8 @@ export class SolicitederrorsComponent implements OnInit {
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
+    if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
+      this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")

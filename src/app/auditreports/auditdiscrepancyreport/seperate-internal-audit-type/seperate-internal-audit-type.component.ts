@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http';
-import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
+import { AuditReportsService } from '../../services/audit-reports.service';
 
 @Component({
   selector: 'app-seperate-internal-audit-type',
@@ -26,7 +26,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
   @Input() QueryParams: any;
 
   observerResult!: Observable<any>;
-  constructor( private spinner: NgxSpinnerService, private service:AuditDiscpancyReportService) {
+  constructor( private spinner: NgxSpinnerService, private service: AuditReportsService) {
     this.tabsName = ['InternalSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];
   }
 
@@ -67,7 +67,6 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       this.observerResult =this.service.queryDetails(request).pipe(map((res: any) => {
         this.spinner.hide();
         return res.data}));
-        console.log("All Report");
         this.AddressReportTab();
           this.AuditSummaryTab();
           this.ProgressReportTab();
