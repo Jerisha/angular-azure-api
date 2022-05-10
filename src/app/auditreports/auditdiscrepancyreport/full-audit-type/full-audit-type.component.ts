@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 import { FullAuditSummary } from '../../models/index'
 import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
 import { Utils } from 'src/app/_http';
 import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuditReportsService } from '../../services/audit-reports.service';
 
 @Component({
   selector: 'app-full-audit-type',
@@ -30,7 +30,7 @@ export class FullAuditTypeComponent implements OnInit {
   observerResult!: Observable<any>;
 
   constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef,
-    private service:AuditDiscpancyReportService,private spinner: NgxSpinnerService) {
+    private service: AuditReportsService,private spinner: NgxSpinnerService) {
     this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];    
     
   }
@@ -73,7 +73,6 @@ export class FullAuditTypeComponent implements OnInit {
       this.observerResult =this.service.queryDetails(request).pipe(map((res: any) => {
         this.spinner.hide();
         return res.data; }));
-        console.log("All Report");
         this.AddressReportTab();
           this.AuditSummaryTab();
           this.ProgressReportTab();

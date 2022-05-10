@@ -10,7 +10,7 @@ import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 's
 import { AuditdiscrepancyHeaderData } from 'src/app/_data/audit-discrepancy-header-data';
 import { Utils } from 'src/app/_http/index';
 import { IAuditActId } from '../models/audit-discrepancy-report/IAttributes';
-import { AuditDiscpancyReportService } from './auditdiscrepancyreport.component.service';
+import { AuditReportsService } from '../services/audit-reports.service';
 
 @Component({
   selector: 'app-auditdiscrepancyreport',
@@ -54,7 +54,7 @@ data = new AuditdiscrepancyHeaderData();
   queryResult!: Observable<any>;
   QueryParams: any;
 
-  constructor( private formBuilder: FormBuilder, private service:AuditDiscpancyReportService) {
+  constructor( private formBuilder: FormBuilder, private service:AuditReportsService) {
 
     this.createForm();
     this.datamenu=this.data.headers;

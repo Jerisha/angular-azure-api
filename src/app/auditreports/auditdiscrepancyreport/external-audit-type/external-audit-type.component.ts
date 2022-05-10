@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http';
-import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
+import { AuditReportsService } from '../../services/audit-reports.service';
 
 @Component({
   selector: 'app-external-audit-type',
@@ -28,7 +28,7 @@ export class ExternalAuditTypeComponent implements OnInit {
   @Input() QueryParams: any;
 
 
-  constructor( private cdref: ChangeDetectorRef, private spinner: NgxSpinnerService, private service:AuditDiscpancyReportService) {
+  constructor( private cdref: ChangeDetectorRef, private spinner: NgxSpinnerService, private service: AuditReportsService) {
     this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];
   }
 
@@ -68,7 +68,6 @@ export class ExternalAuditTypeComponent implements OnInit {
     this.spinner.show();
       this.observerResult =this.service.queryDetails(request).pipe(map((res: any) => {
         return res.data}));
-        console.log("All Report");
         this.AddressReportTab();
           this.AuditSummaryTab();
           this.ProgressReportTab();
