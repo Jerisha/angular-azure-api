@@ -107,7 +107,7 @@ data = new AuditdiscrepancyHeaderData();
 
     this.selectedAuditType = this.configValues[0].auditType;
     this.auditActIdDropdown =  this.configValues[0].auditActId;
-    this.selectedActId = this.auditActIdDropdown[0];
+    this.selectedActId =  this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
     });
 
   }
@@ -168,7 +168,7 @@ prepareQueryParams()
   changedAuditType(type: MatSelectChange) {
     let index = this.configValues.findIndex(x => x.auditType == type.value);
     this.auditActIdDropdown = this.configValues[index].auditActId;
-    this.selectedActId =  this.auditActIdDropdown[0];
+    this.selectedActId =  this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
   }
 
 
