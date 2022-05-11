@@ -7,6 +7,8 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { UnresolvedError } from '../models/administraion-ui.module';
+import { Utils } from 'src/app/_http';
+import { AdministrationService } from '../services/administration.service';
 const ELEMENT_DATA: UnresolvedError[] = [
   {
     TransId: '1014591106', View: 'image', Telno: '1977722725', Cmd: 'Active Customer', Source:'SAS/COMS', Created: '05Nov13',  NextTran: '10097008200',
@@ -83,10 +85,6 @@ const FilterListItems: Select[] = [
 export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   
   myTable!: TableItem;
-  informationTable1!: TableItem;
-  informationTable2!: TableItem;
-  infotable1: any[] = [];
-  infotable2: any[] = [];
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
@@ -119,13 +117,18 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   isSaveDisable: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
-   
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef,
+    private service: AdministrationService) { }
 
   ngOnInit(): void {
 
     this.createForm();
-    
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'Status']);
+    console.log("res: " + JSON.stringify(request))
+    this.service.configDetails(request).subscribe((res: any) => {
+      
+      this.configDetails = res.data;
+    });
 
 
 
@@ -181,8 +184,8 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   createForm() {
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
@@ -193,7 +196,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
 
   
-  onSaveSubmit() {
+  onSaveSubmit(form: any) :void{
     
 
   }
@@ -324,7 +327,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
         this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionReference;
+        this.tranId = tab.row.TransactionId;
         break;
       }
       default: {
