@@ -1,31 +1,30 @@
 <mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
   
-      <div class="filter-sticky">
+      <!-- <div class="filter-sticky">
         <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
           (changes)="setControlAttribute($event)">
         </app-select-multiple>
-      </div>
+      </div> -->
   
       <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
         <div class="matsidenav-filter">
-          <ng-container>
-            <mat-form-field [ngClass]="{'hidden':thisForm.controls.AuditType.disabled}">
-                <mat-label>Audit Type</mat-label>
-                <mat-select id="AuditType" formControlName="AuditType">
-                  <mat-option></mat-option>
-                  <mat-option value="C">Full Audit</mat-option>
-                  <mat-option value="D">Full Audit</mat-option>
-                </mat-select>
-              </mat-form-field>
-            <mat-form-field [ngClass]="{'hidden':thisForm.controls.AuditActId.disabled}">
-              <mat-label>Audit ACT ID</mat-label>
-              <mat-select id="AuditActId" formControlName="AuditActId">
-                <mat-option></mat-option>
-                <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
-                <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
-                <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
+          <ng-container *ngIf="configDetails as config">
+            <mat-form-field>
+              <mat-label>Audit Type</mat-label>
+              <mat-select id="AuditType" formControlName="AuditType" (selectionChange)="changedAuditType($event)">
+                <mat-option *ngFor="let val of config;" [value]="val.auditType" >{{val.auditType}}</mat-option>
               </mat-select>
+              <mat-error class="error-message">Please Select Audit Type
+              </mat-error>
+            </mat-form-field>
+          
+            <mat-form-field>
+              <mat-label>ACT ID</mat-label>
+              <mat-select id="AuditActId" formControlName="AuditActId">
+                <mat-option *ngFor="let actId of auditActIdDropdown" [value]="actId">{{actId}}</mat-option>           
+              </mat-select>
+              <mat-error class="error-message" >Please Select AuditActId</mat-error>
             </mat-form-field>
             
             
@@ -36,7 +35,9 @@
           <button type="submit" mat-raised-button color="primary">
             <mat-icon>search</mat-icon>Search
           </button>
-          
+          <button type="reset" mat-raised-button (click)="onReset()" color="primary">
+            <mat-icon>refresh</mat-icon>Reset
+          </button>
         </div>
   
       </form>
