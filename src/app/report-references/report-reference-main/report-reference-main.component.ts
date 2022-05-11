@@ -331,15 +331,15 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       (x: any) => {
       // updaterecord1[x[0]]
         console.log(x[1], x[0], 'nullvalues')
-        if (x[1] === true) { updaterecord1[x[0]] = ('Y'.trim ()) }
+        if (x[1] === true) { updaterecord1[x[0]] = ('Y') }
         else if (x[1] === false) {
           console.log(x[0], 'false1')
-          updaterecord1[x[0]] = 'N'.trim()
+          updaterecord1[x[0]] = ('N')
         }
-        else if (x[1] === null) { updaterecord1[x[0]] = ''.trim() }
+        else if (x[1] === null) { updaterecord1[x[0]] = ('') }
        // console.log('element val', x)
        
-else { updaterecord1[x[0]].trim()}
+else { updaterecord1[x[0]]}
       }
     )
 
@@ -425,8 +425,10 @@ else { updaterecord1[x[0]].trim()}
     this.showDetailsForm = event[1];
   }
   onExport() {
-    // alert("Export Completed...");
-    if (this.data != []) {
+console.log( this.data, 'download')
+    if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
+     {
+      console.log( this.data, 'download1')
       var c = document.createElement("a");
       let data = "";
       this.data.forEach((row: any) => {

@@ -173,12 +173,10 @@ export const ReportMetaDataResponse = {
        },], 
          "UnsolicitedAutoClose":[{ cPosition:1, cMinLength:0, cName: "ErrorCode", cDisplayName: "Error Code", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
          cMandate: true, cMaxLength: 200, cList: []},
-       { cPosition:2, cMinLength:0, cName: "ErrorType", cDisplayName: "Error Type", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-         cMandate: true, cMaxLength: 200, cList: []
+       { cPosition:2, cMinLength:0, cName: "ErrorType", cDisplayName: "Error Type", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: false, cReadOnly: true,
+         cMandate: false, cMaxLength: 200, cList: []
        },
-       { cPosition:3, cMinLength:0, cName: "ErrorMessage", cDisplayName: "Error Message", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-         cMandate: true, cMaxLength: 200, cList: []
-       },
+     
        { cPosition:4, cMinLength:0, cName: "CloseAfter", cDisplayName: "Close After", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
          cMandate: true, cMaxLength: 200, cList: []
        },

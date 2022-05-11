@@ -225,7 +225,7 @@ export class ReportReferenceService {
     },
 
     {
-      UnsolicitedAutoCloseErrorCode: [
+      UnsolicitedAutoClose: [
         { ErrorCode: '1045', Type: 'WARN', ErrorMessage: 'Import Record is Missing', CloseAfter: '30', ResolveType: 'Resolved[END STATE]', ResolvingMessge: 'Auto Closed Unsolicited no longer valid' },
         { ErrorCode: '1046', Type: 'WARN', ErrorMessage: 'Import is 10 days overdue', CloseAfter: '20', ResolveType: 'Resolved[END STATE]', ResolvingMessge: 'Auto Closed Unsolicited no longer valid' },
         { ErrorCode: '1047', Type: 'WARN', ErrorMessage: 'Export Record is Missing', CloseAfter: '30', ResolveType: 'Resolved[END STATE]', ResolvingMessge: 'Auto Closed Unsolicited no longer valid' },
@@ -454,7 +454,8 @@ export class ReportReferenceService {
            // console.log("dp1",this.dropdownNames) 
           // let configSubcription = 
           this.getConfig(this.dropdownNames).subscribe((result:any) =>{
-         //console.log("Config res: " + JSON.stringify(result.data))
+         //console.log("Config res: " + JSON.stringify(result.data)
+         //this.getConfig(['errorcode','ResolveType']).subscribe((result:any) =>{
          //console.log("result",result.data)
          // let res = result.data
             for (let index = 0; index < this.lstForm.length; index++) {
@@ -1012,7 +1013,7 @@ export class ReportReferenceService {
   }
   getConfig(dropValues:string[]):Observable<any>{
       let request = Utils.preparePyConfig(['Create'], dropValues);
-      // console.log(JSON.stringify(request));
+      console.log(JSON.stringify(request), 'configapire');
       return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }  
   static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
