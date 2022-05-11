@@ -198,12 +198,14 @@ export class SolicitederrorsComponent implements OnInit {
 
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
+      
       this.configDetails = res.data;
     });
 
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
+    console.log("res1: " + JSON.stringify(updateRequest))
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res.data;
@@ -518,7 +520,8 @@ export class SolicitederrorsComponent implements OnInit {
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
+    if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
+      this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")

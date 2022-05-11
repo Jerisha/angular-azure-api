@@ -1,10 +1,8 @@
 import { Component, Input, NgZone, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -69,7 +67,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
  
 
 
-  constructor(private service: AuditDiscpancyReportService,private ngZone: NgZone, private spinner: NgxSpinnerService) {
+  constructor(private ngZone: NgZone, private spinner: NgxSpinnerService) {
   }
   ngOnDestroy(): void {
     this.onDestroy.next();
