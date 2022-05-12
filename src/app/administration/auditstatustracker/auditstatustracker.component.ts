@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
-import { MatSelect } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Observable, of } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
@@ -7,6 +7,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { AuditStatusTracker } from '../../auditreports/models/separateinternalauditdetails';
+import { AdministrationService } from '../services/administration.service';
+import { Utils } from 'src/app/_http';
+import { map, startWith } from 'rxjs/operators';
 
 const AuditStatusTracker_Data: AuditStatusTracker [] = [
   {
@@ -70,6 +73,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
+  auditActIdDropdown: any = [];
   updateDetails!: any;
   queryResultInfo$!: Observable<any>;
 
@@ -77,15 +81,27 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
-
+  reportIdentifier:string ="AuditStatusTracker";
   constructor(private formBuilder: FormBuilder,
-   
+   private service :AdministrationService,
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
     this.createForm();
     
+    let request = Utils.preparePyConfig(['Search'], [ "AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID" ]);
+    this.service.configDetails(request).subscribe((res: any) => {
+      this.configDetails = [
+        { auditType : res.data.AuditType[0], auditActId: res.data.FullAuditActID },
+      { auditType : res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID },
+    { auditType : res.data.AuditType[2], auditActId: res.data.ExternalAuditActID } ];
+
+    // this.selectedAuditType = this.configValues[0].auditType;
+    // this.auditActIdDropdown =  this.configValues[0].auditActId;
+    // this.selectedActId = this.auditActIdDropdown[0];
+    });
+
 
 
 
@@ -135,17 +151,27 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      AuditType: new FormControl({ value: '', disabled: true }),
-      AuditActId: new FormControl({ value: '', disabled: true }),
+      AuditType: new FormControl({ value: '', disabled: false }),
+      AuditActId: new FormControl({ value: '', disabled: false }),
     })
+
+    // this.thisForm.controls.AuditType.valueChanges.pipe(
+    //   startWith<string>(''),
+    //   map(name => this.changedAuditType(name))
+    // );
   }
 
+  changedAuditType(val : MatSelectChange) {
+    debugger;
+    let index = this.configDetails.findIndex((x:any) => x.auditType == val.value);
+    this.auditActIdDropdown = this.configDetails[index].auditActId;
+    // this.selectedActId =  this.auditActIdDropdown[0];
+  }
 
   
-  onSaveSubmit() {
-    
-
+  onSaveSubmit() {   
   }
+
   InternalErrorInformation: any;
   
 
@@ -200,7 +226,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
 
 
 
-  resetForm(): void {
+  onReset(): void {
     //this.thisForm.reset();
     //this.tabs.splice(0);
     window.location.reload();
