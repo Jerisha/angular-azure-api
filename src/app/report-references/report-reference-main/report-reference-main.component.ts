@@ -67,6 +67,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   recordIdentifier:any = "";
   metaDataSupscription: Subscription = new Subscription;
   editActionEnabled =true;
+  
 
   displayedColumnsValues:any
 
@@ -425,32 +426,33 @@ else { updaterecord1[x[0]]}
     this.showDetailsForm = event[1];
   }
   onExport() {
-console.log( this.data, 'download')
-    if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
-     {
-      console.log( this.data, 'download1')
-      var c = document.createElement("a");
-      let data = "";
-      this.data.forEach((row: any) => {
-        let result = Object.values(row);
-        data += result.toString().replace(/[,]+/g, '\t') + "\n";
-      });
-      c.download = "Report.tab";
-      // var t = new Blob([JSON.stringify(this.data)],
-      var t = new Blob([data], {
-        
-        type: "data:text/plain;charset=utf-8"
-      });
-      c.href = window.URL.createObjectURL(t);
-      // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-      // element.setAttribute('download', filename);
-      c.click();
-      this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
-    }
-    else {
-      this.alertService.info("No Data Found" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
-    }
-  }
+    console.log( this.data, 'download')
+        if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
+         {
+          console.log( this.data, 'download1')
+          var c = document.createElement("a");
+          let data = "";
+          this.data.forEach((row: any) => {
+            let result = Object.values(row);
+            data += result.toString().replace(/[,]+/g, '\t') + "\n";
+          });
+          c.download = "Report.tab";
+          // var t = new Blob([JSON.stringify(this.data)],
+          var t = new Blob([data], {
+            
+            type: "data:text/plain;charset=utf-8"
+          });
+          c.href = window.URL.createObjectURL(t);
+          // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+          // element.setAttribute('download', filename);
+          c.click();
+          this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
+        }
+        else {
+          this.alertService.info("No Data Found" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
+        }
+      }
+      
   ngOnChanges(changes: SimpleChanges) {
     // this.lstFields =this.reportReferenceService.setForm(this.reportName); 
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
@@ -464,14 +466,21 @@ console.log( this.data, 'download')
     this.metaDataSupscription = this.reportReferenceService.getMetaData(["All"]).subscribe((res:any)=>{
       //   console.log(JSON.stringify(res))
         this.reportReferenceService.metaDataCollection =res
+       // this.reportReferenceService.reportNames = res[0]
+       //for mock 
 
        })
+       //this.reportNames = this.reportReferenceService.getReportNames();
    }
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
   ngOnInit(): void {    
+
+  
     this.reportNames = this.reportReferenceService.reportNames;
+    console.log('reportnames1', this.reportNames)
+   
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();
