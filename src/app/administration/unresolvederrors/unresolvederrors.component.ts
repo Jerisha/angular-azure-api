@@ -9,6 +9,10 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { UnresolvedError } from '../models/administraion-ui.module';
 import { Utils } from 'src/app/_http';
 import { AdministrationService } from '../services/administration.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Custom } from 'src/app/_helper/Validators/Custom';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { map } from 'rxjs/operators';
 const ELEMENT_DATA: UnresolvedError[] = [
   {
     TransId: '1014591106', View: 'image', Telno: '1977722725', Cmd: 'Active Customer', Source:'SAS/COMS', Created: '05Nov13',  NextTran: '10097008200',
@@ -103,7 +107,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
-  repIdentifier = "UnsolicitedErrors";
+  repIdentifier = "UnResolvedErrors";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
@@ -118,7 +122,8 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
   constructor(private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private service: AdministrationService) { }
+    private service: AdministrationService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -145,7 +150,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   }
 
 
-
+  
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
@@ -163,11 +168,36 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
 
   ngAfterViewChecked() {
-
+    this.isEnable();
     this.cdr.detectChanges();
 
   }
 
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
+    //Reference
+    const control = this.thisForm.get('Reference');
+    if (control?.value)
+      attributes.push({ Name: '999Reference', Value: [control?.value] });
+    else
+      attributes.push({ Name: '999Reference' });
+
+    for (const field in this.f) {
+      if (field != 'Reference') {
+        const control = this.thisForm.get(field);
+        if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+
+      }
+    }
+    console.log(attributes);
+
+    return attributes;
+
+  }
 
   get f() {
     return this.thisForm.controls;
@@ -215,15 +245,18 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   
 
   columns: ColumnDetails[] = [
-    { header: 'Link', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Trans Id', headerValue: 'TransId', showDefault: true, isImage: false },
-    { header: 'Tel no', headerValue: 'Telno', showDefault: true, isImage: false },
-    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Transaction Id', headerValue: 'TransactionId', showDefault: true, isImage: false },
+    { header: 'Telephone Number', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created', headerValue: 'Created', showDefault: true, isImage: false },
-    { header: 'Next Tran', headerValue: 'NextTran', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Next Transaction Id', headerValue: 'NextTransactionId', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Srctype', headerValue: 'Srctype', showDefault: true, isImage: false },
+    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
+    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
   
@@ -231,22 +264,49 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
   onFormSubmit(isEmitted?: boolean): void {
     
+    let errMsg = '';
+    if (!this.thisForm.valid) return;
+    errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+    if (errMsg) {
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: { enableOk: false, message: errMsg, }
+      });
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
+      return;
+    }
+    this.tabs.splice(0);
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.preparePyQuery('UnResolvedErrors', 'UnResolvedErrors', this.prepareQueryParams(this.currentPage));
+    console.log(JSON.stringify(request))
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res.data.UnResolvedError,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
 
     this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 100,
-        totalpages: 1,
-        pagenumber: 1
-        }),
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "Y", isFontHighlighted: true }],
+      // highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
-    
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
+
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
@@ -279,8 +339,24 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
         this.selectedGridRows.splice(index, 1)
       }
     })
-
+    this.isEnable();
     // console.log("selectedGridRows" + this.selectedGridRows)
+  }
+
+  isEnable() {
+
+    //debugger
+    if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
+      this.f.EndTelephoneNumber?.value?.length >= 10 &&
+      this.f.Source.value === ""  && this.f.Command.value === "" &&
+      this.f.Reference.value === ""
+      && this.f.Status.value === "")
+      || (this.selectedGridRows.length > 0)) {
+      this.isSaveDisable = false;
+    }
+    else
+      this.isSaveDisable = true;
+    //console.log('isSaveDisable',this.isSaveDisable)
   }
 
   getNextSetRecords(pageIndex: any) {
