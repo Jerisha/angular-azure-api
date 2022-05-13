@@ -5,7 +5,7 @@ const myData = [
     ReportName : 'Solicited Errors',
     FileName : 'solicitedErrors_testj_05052020_093030',
     CreatedBy : 'test.xxxxx@vodafone.com',
-    Status : 'Processing',
+    Status : 'Available',
     StartTime : '05-May-2022 09:30:30',
     EndTime : '05-May-2022 09:40:30',
     Duration : '10'
@@ -23,7 +23,7 @@ const myData = [
     ReportName : 'Solicited Errors',
     FileName : 'solicitedErrors_testj_05052020_093030',
     CreatedBy : 'test.xxxxx@vodafone.com',
-    Status : 'Processing',
+    Status : 'Available',
     StartTime : '05-May-2022 09:30:30',
     EndTime : '05-May-2022 09:40:30',
     Duration : '10'
@@ -32,7 +32,7 @@ const myData = [
     ReportName : 'Solicited Errors',
     FileName : 'solicitedErrors_testj_05052020_093030',
     CreatedBy : 'test.xxxxx@vodafone.com',
-    Status : 'Processing',
+    Status : 'Available',
     StartTime : '05-May-2022 09:30:30',
     EndTime : '05-May-2022 09:40:30',
     Duration : '10'
@@ -41,7 +41,7 @@ const myData = [
     ReportName : 'Solicited Errors',
     FileName : 'unsolicitedErrors_testj_05052020_093030',
     CreatedBy : 'test.xxxxx@vodafone.com',
-    Status : 'Processing',
+    Status : 'Available',
     StartTime : '05-May-2022 09:30:30',
     EndTime : '05-May-2022 09:40:30',
     Duration : '10'
