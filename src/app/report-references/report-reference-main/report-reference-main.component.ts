@@ -273,10 +273,18 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         (x: any) => {
           if (x[1] === 'Y') { element1[x[0]] = true }
           else if (x[1] === 'N') { element1[x[0]] = false }
-    
-          console.log('element val', x)
+         //console.log('element val', x)
+
+        //   else if (x[1] === null) { element1[x[0]] = ('') 
+        //  console.log(x[1], x[0], 'null')
+        // }
+         else {
+          element1[x[0]]
         }
+        }
+
       )
+      console.log(this.editRecord, 'editrrecord2')
     }
     else {
       this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
@@ -330,19 +338,27 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // console.log(entries1.map, 'entri')
     Object.entries(updaterecord1).map(
       (x: any) => {
-      // updaterecord1[x[0]]
-        console.log(x[1], x[0], 'nullvalues')
-        if (x[1] === true) { updaterecord1[x[0]] = ('Y') }
-        else if (x[1] === false) {
-          console.log(x[0], 'false1')
-          updaterecord1[x[0]] = ('N')
+        // updaterecord1[x[0]]
+        console.log(x[1], x[0], 'nullvalues0')
+        // Transformation for values true-'Y' & false='N' --- impelmentaed in python layer
+        // if (x[1] === true) { updaterecord1[x[0]] = ('Y') }
+        // else if (x[1] === false) {
+        //   console.log(x[0], 'false1')
+        //   updaterecord1[x[0]] = ('N')
+        // }
+        // else if (x[1] === null) { updaterecord1[x[0]] = ('') }
+        // console.log('element val', x)
+        if (x[1] === null || x[1] === undefined) { updaterecord1[x[0]] = ('') 
+        console.log(x[1], x[0], 'nullvalues1')
+      }
+
+
+        else {
+          updaterecord1[x[0]]
         }
-        else if (x[1] === null) { updaterecord1[x[0]] = ('') }
-       // console.log('element val', x)
-       
-else { updaterecord1[x[0]]}
       }
     )
+
 
     console.log('updaterec1', updaterecord1)
     let data = Object.assign({}, updaterecord1);
