@@ -33,6 +33,7 @@ export class ReportReferenceService {
     'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',    
   ];
   constructor(private wrapperService: HttpWrapperService) {    
+
    }
   data: any = [
     {
@@ -418,6 +419,7 @@ export class ReportReferenceService {
   }
   public getDisplayNames(reportName:string):any
   {
+    console.log(this.metaDataCollection , 'datacollection0')
     console.log(this.metaDataCollection[1][reportName] , 'datacollection')
     console.log(JSON.stringify(this.metaDataCollection[1] ), 'datacollection1')
     // let metaData = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters.values().next().value[reportName]; 
@@ -1063,11 +1065,12 @@ export class ReportReferenceService {
   getMetaData(reportNames:string[]):Observable<any>{
  let request = Utils.preparePyMetaData(reportNames); 
      let val = this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
-     console.log(val)
+     console.log(val,'metaData req JSON')
      //api
  //return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
-console.log(ReportMetaDataResponse)
-     return of(ReportMetaDataResponse)
+//console.log(ReportMetaDataResponse,'metaData JSON')
+console.log(of(ReportMetaDataResponse),'metaData res JSON')
+     return of(ReportMetaDataResponse.Data.TelephoneNumber[0].MetaDataParameters)
   }
 
 }

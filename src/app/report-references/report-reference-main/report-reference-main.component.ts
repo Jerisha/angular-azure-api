@@ -332,13 +332,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       (x: any) => {
       // updaterecord1[x[0]]
         console.log(x[1], x[0], 'nullvalues')
-        if (x[1] === true) { updaterecord1[x[0]] = ('Y') }
-        else if (x[1] === false) {
-          console.log(x[0], 'false1')
-          updaterecord1[x[0]] = ('N')
-        }
-        else if (x[1] === null) { updaterecord1[x[0]] = ('') }
+        // if (x[1] === true) { updaterecord1[x[0]] = ('Y') }
+        // else if (x[1] === false) {
+        //   console.log(x[0], 'false1')
+        //   updaterecord1[x[0]] = ('N')
+        // }
+        // else if (x[1] === null) { updaterecord1[x[0]] = ('') }
        // console.log('element val', x)
+       if (x[1] === null || x[1] ===undefined) { updaterecord1[x[0]] = ('') }
        
 else { updaterecord1[x[0]]}
       }
@@ -466,6 +467,7 @@ else { updaterecord1[x[0]]}
     this.metaDataSupscription = this.reportReferenceService.getMetaData(["All"]).subscribe((res:any)=>{
       //   console.log(JSON.stringify(res))
         this.reportReferenceService.metaDataCollection =res
+        console.log("metaData",res)
        // this.reportReferenceService.reportNames = res[0]
        //for mock 
 
@@ -475,11 +477,10 @@ else { updaterecord1[x[0]]}
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-  ngOnInit(): void {    
-
-  
+  ngOnInit(): void { 
     this.reportNames = this.reportReferenceService.reportNames;
     console.log('reportnames1', this.reportNames)
+    console.log(this.reportReferenceService.metaDataCollection,'metacol')
    
   }
   ngAfterViewChecked() {
