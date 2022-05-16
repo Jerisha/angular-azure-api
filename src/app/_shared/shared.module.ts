@@ -17,7 +17,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExporttoexcelComponent } from './exporttoexcel/exporttoexcel.component';
 
 @NgModule({
-  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent, TelephoneNoComponent,AlertComponent,ConfirmDialogComponent, ExporttoexcelComponent],
+  declarations: [TelephoneAuditTrailComponent,
+     TransactionErrorsComponent, 
+     StartUpComponent, 
+     TelephoneNoComponent,
+     AlertComponent,
+     ConfirmDialogComponent,
+      ExporttoexcelComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -25,14 +31,16 @@ import { ExporttoexcelComponent } from './exporttoexcel/exporttoexcel.component'
     UicomponentsModule,
     RouterModule,
  FormsModule,
-    ReactiveFormsModule,  ],
+    ReactiveFormsModule,
+    ],
   exports :[
     TelephoneAuditTrailComponent,
     TransactionErrorsComponent  ,
     StartUpComponent,
     MaterialModule,
     TelephoneNoComponent,
-    AlertComponent
+    AlertComponent,
+    ExporttoexcelComponent
   ],
  
 

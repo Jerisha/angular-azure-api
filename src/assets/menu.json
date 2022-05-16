@@ -172,17 +172,6 @@
         "route": "report-references/ReferenceList"
       }
     ]
-  },
-  {
-    "displayName": "Export",
-    "iconName": "",
-    "route": "",
-    "children": [
-      {
-        "displayName": "Export to Excel",
-        "iconName": "",
-        "route": "shared/exporttoexcel"
-      }
-    ]
   }
+  
 ]
