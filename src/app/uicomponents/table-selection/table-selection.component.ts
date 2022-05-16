@@ -131,6 +131,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   disablePaginator: boolean = false;
 
   loadDataRelatedAttributes(data: any) {
+    this.ColumnDetails = [];
     this.columnHeaderFilter = this.tableitem?.filter;
     if (this.tableitem?.removeNoDataColumns) {
       if (data && data.length > 0)

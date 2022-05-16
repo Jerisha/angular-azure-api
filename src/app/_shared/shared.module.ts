@@ -14,9 +14,10 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { RouterModule } from '@angular/router';
 import { TelephoneNoComponent } from './telephone-no/telephone-no.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserCommentsDialogComponent } from './user-comments/user-comments-dialog.component';
 
 @NgModule({
-  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent, TelephoneNoComponent,AlertComponent,ConfirmDialogComponent],
+  declarations: [TelephoneAuditTrailComponent, UserCommentsDialogComponent,TransactionErrorsComponent, StartUpComponent, TelephoneNoComponent,AlertComponent,ConfirmDialogComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -30,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TransactionErrorsComponent  ,
     StartUpComponent,
     MaterialModule,
+    UserCommentsDialogComponent,
     TelephoneNoComponent,
     AlertComponent
   ],

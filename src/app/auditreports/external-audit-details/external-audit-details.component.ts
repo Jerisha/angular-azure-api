@@ -7,11 +7,15 @@ import { map } from 'rxjs/operators';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { Custom } from 'src/app/_helper/Validators/Custom';
 import { Utils } from 'src/app/_http';
-import { UserCommentsDialogComponent } from '../fullauditdetails/user-comments-dialog.component';
+import { AlertService } from 'src/app/_shared/alert';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+// import { UserCommentsDialogComponent } from '../fullauditdetails/user-comments-dialog.component';
 import { AuditReportsService } from '../services/audit-reports.service';
+import { UserCommentsDialogComponent } from '../../_shared/user-comments/user-comments-dialog.component';
 
 const ELEMENT_DATA: any[] = [
   {
@@ -162,7 +166,7 @@ const ELEMENT_DATA: any[] = [
 const Items: Select[] = [
   { view: 'Start TelephoneNumber', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End TelephoneNumber', viewValue: 'EndTelephoneNumber', default: true },
-  { view: 'Audit ActId', viewValue: 'AuditActId', default: true },
+  { view: 'Audit ActId', viewValue: 'AuditActID', default: true },
   { view: 'CUP Id', viewValue: 'CUPId', default: true },
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
   { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
@@ -195,12 +199,12 @@ export class ExternalAuditDetailsComponent implements OnInit {
   selctedOption=['29-20 Dec 2021'];
 
   colHeader: ColumnDetails[] = [
-    { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
+    { headerValue: 'TelephoneNumber', header: 'Telephone No', showDefault: true, isImage: false },
     { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
     { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
     { headerValue: 'CUPID', header: 'CUPID', showDefault: true, isImage: false },
-    { headerValue: 'FullAuditCLIStatus', header: 'CLI Status', showDefault: true, isImage: false },
+    { headerValue: 'ExternalCLIStatus', header: 'CLI Status', showDefault: true, isImage: false },
     { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false },
     { headerValue: 'AuditDate', header: 'Audit Date', showDefault: true, isImage: false },
     { headerValue: 'OSN2Customer', header: 'OSN2 Customer', showDefault: true, isImage: false },
@@ -216,9 +220,11 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   ];
 
+  
+
   constructor(private dialog: MatDialog,
     private formBuilder: FormBuilder, private service: AuditReportsService,
-    private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef) {
+    private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef,private alertService: AlertService) {
   }
 
   resetForm(): void {
@@ -231,6 +237,12 @@ export class ExternalAuditDetailsComponent implements OnInit {
     this.tabs.splice(0);
 
   }
+
+  cellAttrInfo: CellAttributes[] = [  
+    { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'BTCustomer'], value: 'Y', isBackgroundHighlighted: true },
+    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode', 'BTPostcode'], value: 'Y', isBackgroundHighlighted: true },
+    { flag: 'FullAddressDiffFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare', 'BTLocality', 'BTPremise', 'BTThouroughfare'], value: 'Y', isBackgroundHighlighted: true },
+  ];
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -259,14 +271,14 @@ export class ExternalAuditDetailsComponent implements OnInit {
     let attributes = [
       { Name: 'TelephoneNumber', Value: [`${telno}`] },
       { Name: 'AuditActID', Value: [`${auditACTID}`] },
-      { Name: 'AuditType', Value: [`${'Full Audit'}`] }
+      { Name: 'AuditType', Value: [`${'External Audit'}`] }
     ];
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
       width: '800px',
       //width: 'auto',
       height: 'auto',
       panelClass: 'custom-dialog-container',
-      data: { defaultValue: attributes, telno: telno }
+      data: { listOfIdentifiers: attributes, rptElements: 'ExternalAuditDetails' }
     }
     );
   }
@@ -286,8 +298,68 @@ export class ExternalAuditDetailsComponent implements OnInit {
   get updateFormControls() {
     return this.updateForm.controls;
   }
-  onSaveSubmit(){
 
+  prepareUpdateIdentifiers(): any {
+    let identifiers: any[] = [];
+    //switch (type) {
+      
+        if (this.selectListItems.length > 0) {
+          let telno: string[] = [];
+          this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
+          identifiers.push({ Name: 'TelephoneNumber', Value: telno });
+        }
+        else if ((this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
+          && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
+          identifiers.push({ Name: 'TelephoneNumber', Value: [`${this.form.StartTelephoneNumber.value + '|' + this.form.EndTelephoneNumber.value}`] });
+        } else
+          identifiers.push({ Name: 'TelephoneNumber', Value: [""] });
+
+        if (this.resolutionType != '')
+          identifiers.push({ Name: 'ResolutionType', Value: [this.resolutionType] });
+        else
+          identifiers.push({ Name: 'ResolutionType' });
+        if (this.remarkstxt)
+          identifiers.push({ Name: 'Remarks', Value: [this.remarkstxt] });
+        else
+          identifiers.push({ Name: 'Remarks' });
+        if (this.form.AuditActID.value!='' && this.form.AuditActID.value!=null)
+          identifiers.push({ Name: 'AuditActID', Value: [this.form.AuditActID.value] });
+        else
+          identifiers.push({ Name: 'AuditActID' });
+
+        identifiers.push({ Name: 'AuditType', Value: [`${'External Audit'}`] });
+        
+       
+    //}
+    return identifiers;
+  }
+
+  
+  onSaveSubmit(): void {
+    if (this.updateForm.invalid) { return; }
+    const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px', disableClose: true, data: {
+        message: 'Would you like to continue to save the records?'
+      }
+    });
+    rangeConfirm.afterClosed().subscribe(result => {
+      if (result) {
+        let request = Utils.preparePyUpdate('ResolutionRemarks', 'ExternalAuditDetails', this.prepareUpdateIdentifiers(), [{}]);
+        //update 
+        console.log('remarks', JSON.stringify(request))
+        this.service.updateDetails(request).subscribe(x => {
+          if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
+            this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+            this.onFormSubmit(true);
+          }
+        });
+      }
+    });
+  }
+
+  getNextSetRecords(pageIndex: any) {
+    this.currentPage = pageIndex;
+    this.onFormSubmit(true);
   }
 
 
@@ -345,6 +417,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
   }
 
   @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
+  @ViewChild('EndTelephoneNumber') icendNo!: ElementRef;
   currentPage:string='1';
   queryResult$!:Observable<any>;
   // isEmitted:boolean =false;
@@ -368,6 +441,15 @@ export class ExternalAuditDetailsComponent implements OnInit {
       return;
     }
 
+    var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
+    if (errMsg) {
+      this.form.StartTelephoneNumber.setErrors({ invalidData: true });
+      this.icstartNo.nativeElement.focus();
+      this.icstartNo.nativeElement.blur();
+      return;     
+      
+    }
+
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('ExternalAuditDetails', 'ExternalAuditDetails', this.prepareQueryParams(this.currentPage));
    console.log('request', JSON.stringify(request))
@@ -386,17 +468,19 @@ export class ExternalAuditDetailsComponent implements OnInit {
     }));
 
     this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 13,
-        totalpages: 10,
-        pagenumber: 1
-      }),
+      // data: of({
+      //   datasource: ELEMENT_DATA,
+      //   totalrecordcount: 13,
+      //   totalpages: 10,
+      //   pagenumber: 1
+      // }),
+      data: this.queryResult$,
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      highlightedCells: ['TelNo'],
+      setCellAttributes:this.cellAttrInfo,
+     // highlightedCells: ['TelNo'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
     }
@@ -415,28 +499,59 @@ export class ExternalAuditDetailsComponent implements OnInit {
     this.tabs.splice(index, 1);
   }
 
+  // newTab(tab: any) {
+  //   debugger;
+  //   if (this.tabs === []) return;
+  //   switch (tab.tabType) {
+  //     case 1: {
+  //       this.auditTelNo = tab.row.TelephoneNumber;
+  //       if (!this.tabs?.find(x => x.tabType == 1)) {
+  //         this.tabs.push({
+  //           tabType: 1,
+  //           name: 'Audit Trail Report (' + tab.row.TelephoneNumber + ')'
+  //         });
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+  //       } else {
+  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+  //         let updtab = this.tabs.find(x => x.tabType == 1);
+  //         if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
+  //       }
+  //       break;
+  //     }
+  //     case 2: {
+  //       let auditACTID = this.form.AuditActId.value;
+  //       this.openDialog(auditACTID, tab.row.TelephoneNumber);
+  //       break;
+  //     }
+  //     default: {
+  //       //statements; 
+  //       break;
+  //     }
+  //   }
+  // }
+
   newTab(tab: any) {
-    debugger;
-    if (this.tabs === []) return;
+    if (this.tabs === []) return;   
+   let auditACTID = this.form.AuditActID.value;
+    let telno = tab.row.TelephoneNumber;
     switch (tab.tabType) {
       case 1: {
-        this.auditTelNo = tab.row.Telno;
+        this.auditTelNo = telno;
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report (' + tab.row.Telno + ')'
+            name: 'Audit Trail Report (' + telno + ')'
           });
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
           let updtab = this.tabs.find(x => x.tabType == 1);
-          if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.Telno + ')'
+          if (updtab) updtab.name = 'Audit Trail Report(' + telno + ')'
         }
         break;
       }
       case 2: {
-        let auditACTID = this.form.AuditActId.value;
-        this.openDialog(auditACTID, tab.row.Telno);
+        this.openDialog(auditACTID, telno);
         break;
       }
       default: {
@@ -469,17 +584,19 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   createForm() {
     this.externalAuditForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true },
-        [
-          Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
-        ]
-      ),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true },
-        [
-          Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
-        ]
-      ),
-      AuditActId: new FormControl({ value: '29-20 Dec 2021', disabled: true },[Validators.required]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true },
+      //   [
+      //     Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
+      //   ]
+      // ),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: true },
+      //   [
+      //     Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
+      //   ]
+      // ),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      AuditActID: new FormControl({ value: '29-20 Dec 2021', disabled: true },[Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }),
       OSN2Source: new FormControl({ value: '', disabled: true }),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),

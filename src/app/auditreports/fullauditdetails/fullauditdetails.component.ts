@@ -8,7 +8,7 @@ import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { AuditReportsService } from '../services/audit-reports.service';
-import { UserCommentsDialogComponent } from './user-comments-dialog.component';
+// import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Utils } from 'src/app/_http';
@@ -17,6 +17,7 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { AlertService } from 'src/app/_shared/alert';
 import { Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
+import { UserCommentsDialogComponent } from '../../_shared/user-comments/user-comments-dialog.component';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -179,10 +180,14 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'SwitchPortingStatus', header: 'Switch Porting Status', showDefault: true, isImage: false },
     { headerValue: 'PortingPrefixOwner', header: 'Porting Prefix Owner', showDefault: true, isImage: false },
     { headerValue: 'SwitchType', header: 'Switch Type', showDefault: true, isImage: false },
-    { headerValue: 'CDMSNMSRPIPO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },
-    { headerValue: 'CDMSNMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
-    { headerValue: 'CDMSNMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
-    { headerValue: 'CDMSNMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
+    // { headerValue: 'CDMSNMSRPIPO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },
+    // { headerValue: 'CDMSNMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
+    // { headerValue: 'CDMSNMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
+    // { headerValue: 'CDMSNMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
+    { headerValue: 'CDMS/NMSRPI/PO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },    
+    { headerValue: 'CDMS/NMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
+    { headerValue: 'CDMS/NMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
+    { headerValue: 'CDMS/NMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
     { headerValue: 'IsVodafoneRangeHolder', header: 'Is VodafoneRange Holder', showDefault: true, isImage: false },
     { headerValue: 'BTCustomer', header: 'BT Customer', showDefault: true, isImage: false },
     { headerValue: 'BTPostcode', header: 'BTP ostcode', showDefault: true, isImage: false },
@@ -340,7 +345,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       //width: 'auto',
       height: 'auto',
       panelClass: 'custom-dialog-container',
-      data: { defaultValue: attributes, telno: telno }
+      //data: { defaultValue: attributes, telno: telno }
+      data: { listOfIdentifiers: attributes, rptElements: 'FullAuditDetails' }
     }
     );
   }
@@ -443,7 +449,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
-      showEmail: true,
+      showEmail: false,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },

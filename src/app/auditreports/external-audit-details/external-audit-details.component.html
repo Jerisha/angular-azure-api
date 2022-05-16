@@ -8,7 +8,41 @@
         <form [formGroup]="externalAuditForm" (ngSubmit)="onFormSubmit()">
             <ng-container *ngIf="configDetails  as config">
                 <div class="matsidenav-filter">
-                    <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNumber.disabled}"
+
+                    <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':form.StartTelephoneNumber.disabled}">
+                        <mat-label>Start Telephone No</mat-label>
+                        <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
+                        <input #StartTelephoneNumber formControlName="StartTelephoneNumber" numbersOnly matInput maxlength="11"
+                          placeholder="Start Telephone No" telNoPrefixValidator  (blur)="getPnlControlAttributes()">
+                        <mat-hint align="end">{{StartTelephoneNumber.value?.length || 0}}/11</mat-hint>
+                        <mat-error>
+                          
+                          <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid" class="alert alert-danger">
+                            <div *ngIf="form.StartTelephoneNumber.errors?.incorrect">Enter Start Telephone No </div>
+                            <div *ngIf="form.StartTelephoneNumber.errors?.invalidData">Start Telephone No should be less than End Telephone No </div>
+                            <div *ngIf="form.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                            <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                          </div>
+                        </mat-error>
+                      </mat-form-field>
+            
+                      <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}">
+                        <mat-label>End Telephone No</mat-label>
+                        <!-- (keypress)="numberOnly($event)" (paste)="onPaste($event)" -->
+                        <input formControlName="EndTelephoneNumber" #EndTelephoneNumber numbersOnly matInput maxlength="11" placeholder="End Telephone No"
+                           telNoPrefixValidator (blur)="getPnlControlAttributes('EndTelNo')">
+                        <mat-hint align="end">{{EndTelephoneNumber.value?.length || 0}}/11</mat-hint>
+                        <mat-error>
+                          <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid" class="alert alert-danger">
+                            <!-- <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div> -->
+                            <!-- <div *ngIf="f.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div> -->
+                            <div *ngIf="form.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>                            
+                            <div *ngIf="form.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                          </div>
+                        </mat-error>
+                      </mat-form-field>
+
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNumber.disabled}"
                         hintLabel="Max 11 characters">
                         <mat-label>Start Telephone No</mat-label>
                         <input id="StartTelephoneNumber" telNoPrefixValidator formControlName="StartTelephoneNumber"
@@ -26,9 +60,9 @@
                             </div>
                         </mat-error>
                         <mat-hint align="end">{{StartTelephoneNumber.value?.length || 0}}/11</mat-hint>
-                    </mat-form-field>
+                    </mat-form-field> -->
 
-                    <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}"
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}"
                         hintLabel="Max 11 characters">
                         <mat-label>End Telephone No</mat-label>
                         <input id="EndTelephoneNumber" telNoPrefixValidator compareStartNo
@@ -50,16 +84,16 @@
                             </div>
                         </mat-error>
                         <mat-hint align="end">{{EndTelephoneNumber.value?.length || 0}}/11</mat-hint>
-                    </mat-form-field>
+                    </mat-form-field> -->
 
-                    <mat-form-field [ngClass]="{'hidden':form.AuditActId.disabled}">
+                    <mat-form-field [ngClass]="{'hidden':form.AuditActID.disabled}">
                         <mat-label>Audit ACT ID</mat-label>
-                        <mat-select #auditACTId formControlName="AuditActId" [(ngModel)]="defaultACTID">
+                        <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
                             <mat-option *ngFor="let val of config.ExternalAuditActID" [value]="val">
                                 {{val}} </mat-option>
                         </mat-select>
                         <mat-error>
-                            <div *ngIf="form.AuditActId.hasError('required')" class="alert alert-danger">
+                            <div *ngIf="form.AuditActID.hasError('required')" class="alert alert-danger">
                                 Select Audit ACT ID
                             </div>
                         </mat-error>
@@ -221,7 +255,7 @@
                 </ng-template>
                 <span [ngSwitch]="tab.tabType">
                     <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-                        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                        <app-table-selection [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
                         <div class="mat-elevation-z8 side-bottom">
