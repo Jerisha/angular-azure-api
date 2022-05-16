@@ -9,7 +9,7 @@
     <img src="assets/images/vodafone.png" alt="image">
     <span style="margin-left: 5px;"> OSN Provisioning</span>
   </span> 
-
+  <i class='bx bx-log-out' id="log_out" (click)="logout()"></i>
 
 
 
@@ -34,7 +34,9 @@
       </button>
     </mat-menu>
     <button mat-icon-button value="Logout" color="primary">
-      <mat-icon matTooltip="Logout" [matTooltipPosition]="position.value">logout</mat-icon>
+      <mat-icon matTooltip="Logout" [matTooltipPosition]="position.value">
+        <a (click)="logout()">logout</a>
+      </mat-icon>
     </button>
 
 

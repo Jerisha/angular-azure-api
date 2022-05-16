@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <!-- <div class="logo-container hdpi-capable tablet-only"></div> -->
+    <div class="headtitle"><h1></h1></div>
+</nav>
+
+
+<div class="container">
+    <div class="img">
+        <img src="assets/images/side_img.PNG">
+    </div>
+<div class="login-content">
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    
+    <div class="input-div one">
+        <div class="i">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="div">
+            <input type="text" formControlName="username" class="input"
+                placeholder="Username" />
+        </div>
+    </div>
+    <div class="input-div pass">
+        <div class="i">
+            <i class="fas fa-lock"></i>
+        </div>
+        <div class="div">
+            <input type="password" formControlName="password" class="input"
+                placeholder="Password" />
+        </div>
+    </div>
+    <button [disabled]="loading" class="btn btn-primary">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Login
+    </button>
+    <div>
+        <p style="text-align: justify;">
+            For Windows AD Authentication, please use your VF-ROOT domain credentials.
+           
+            </p>
+    </div>
+
+</form>
+</div>
+</div>
+
+
