@@ -33,6 +33,7 @@ export class ReportReferenceService {
     'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',    
   ];
   constructor(private wrapperService: HttpWrapperService) {    
+
    }
   data: any = [
     {

@@ -132,6 +132,10 @@ for (var field of this.lstForm) {
 return  new FormGroup(group);
 }
 
+public fieldError=(controlName: string, errorName: string) =>{
+    return this.referenceForm.controls[controlName].hasError(errorName);
+}
+
 ngAfterViewInit() 
  {  
    this.cdr.detectChanges();  

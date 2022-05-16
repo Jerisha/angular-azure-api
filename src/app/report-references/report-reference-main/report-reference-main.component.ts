@@ -482,6 +482,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.metaDataSupscription = this.reportReferenceService.getMetaData(["All"]).subscribe((res:any)=>{
       //   console.log(JSON.stringify(res))
         this.reportReferenceService.metaDataCollection =res
+        console.log("metaData",res)
        // this.reportReferenceService.reportNames = res[0]
        //for mock 
 
@@ -491,11 +492,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-  ngOnInit(): void {    
-
-  
+  ngOnInit(): void { 
     this.reportNames = this.reportReferenceService.reportNames;
     console.log('reportnames1', this.reportNames)
+    console.log(this.reportReferenceService.metaDataCollection,'metacol')
    
   }
   ngAfterViewChecked() {

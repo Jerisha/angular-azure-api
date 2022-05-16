@@ -10,33 +10,36 @@ import { AuditStatusTracker } from '../../auditreports/models/separateinternalau
 import { AdministrationService } from '../services/administration.service';
 import { Utils } from 'src/app/_http';
 import { map, startWith } from 'rxjs/operators';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { AlertService } from 'src/app/_shared/alert';
+import { MatDialog } from '@angular/material/dialog';
 
-const AuditStatusTracker_Data: AuditStatusTracker [] = [
+const AuditStatusTracker_Data: AuditStatusTracker[] = [
   {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101',  StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
+    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
   },
   {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101',  StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
+    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
   },
   {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101',  StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
+    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
   },
   {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101',  StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
+    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
   },
   {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101',  StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
+    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
   },
   {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101',  StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
+    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
   },
-  
+
 ]
 
 const FilterListItems: Select[] = [
   { view: 'Audit Type', viewValue: 'AuditType', default: true },
   { view: 'Audit Act Id', viewValue: 'AuditActId ', default: true },
-  
+
 ];
 @Component({
   selector: 'app-auditstatustracker',
@@ -44,7 +47,7 @@ const FilterListItems: Select[] = [
   styleUrls: ['./auditstatustracker.component.css']
 })
 export class AuditstatustrackerComponent implements OnInit, AfterViewInit, AfterViewChecked {
-  
+
   myTable!: TableItem;
   fullAuditTable!: TableItem;
   informationTable1!: TableItem;
@@ -68,7 +71,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
-  repIdentifier = "UnsolicitedErrors";
+
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
@@ -81,25 +84,27 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
-  reportIdentifier:string ="AuditStatusTracker";
+  reportIdentifier: string = "AuditStatusTracker";
   constructor(private formBuilder: FormBuilder,
-   private service :AdministrationService,
-    private cdr: ChangeDetectorRef) { }
+    private service: AdministrationService,
+    private cdr: ChangeDetectorRef,
+    private alertService: AlertService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
     this.createForm();
-    
-    let request = Utils.preparePyConfig(['Search'], [ "AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID" ]);
+
+    let request = Utils.preparePyConfig(['Search'], ["AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID"]);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = [
-        { auditType : res.data.AuditType[0], auditActId: res.data.FullAuditActID },
-      { auditType : res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID },
-    { auditType : res.data.AuditType[2], auditActId: res.data.ExternalAuditActID } ];
+        { auditType: res.data.AuditType[0], auditActId: res.data.FullAuditActID },
+        { auditType: res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID },
+        { auditType: res.data.AuditType[2], auditActId: res.data.ExternalAuditActID }];
 
-    // this.selectedAuditType = this.configValues[0].auditType;
-    // this.auditActIdDropdown =  this.configValues[0].auditActId;
-    // this.selectedActId = this.auditActIdDropdown[0];
+      // this.selectedAuditType = this.configValues[0].auditType;
+      // this.auditActIdDropdown =  this.configValues[0].auditActId;
+      // this.selectedActId = this.auditActIdDropdown[0];
     });
 
 
@@ -108,7 +113,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
 
   }
 
-  
+
 
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
@@ -146,7 +151,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     return this.thisForm.controls;
   }
 
-  
+
 
 
   createForm() {
@@ -161,19 +166,19 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     // );
   }
 
-  changedAuditType(val : MatSelectChange) {
+  changedAuditType(val: MatSelectChange) {
     debugger;
-    let index = this.configDetails.findIndex((x:any) => x.auditType == val.value);
+    let index = this.configDetails.findIndex((x: any) => x.auditType == val.value);
     this.auditActIdDropdown = this.configDetails[index].auditActId;
     // this.selectedActId =  this.auditActIdDropdown[0];
   }
 
-  
-  onSaveSubmit() {   
+
+  onSaveSubmit() {
   }
 
   InternalErrorInformation: any;
-  
+
 
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
@@ -195,24 +200,35 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   ];
 
 
-  
 
   onFormSubmit(isEmitted?: boolean): void {
-    
+    debugger;
+    if (!this.thisForm.valid) return;
+    this.tabs.splice(0);
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.preparePyQuery('AuditStatusTracker', this.reportIdentifier, this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res.data.AuditStatusTracker,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
+
 
     this.myTable = {
-      data: of({
-        datasource: AuditStatusTracker_Data,
-        totalrecordcount: 100,
-        totalpages: 1,
-        pagenumber: 1
-        }),
+      data: this.queryResult$,
       Columns: this.auditstatustrackercolumns,
       filter: true,
       selectCheckbox: true,
-      removeNoDataColumns: true,
-      
-      
+      removeNoDataColumns: false
+
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -230,6 +246,22 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     //this.thisForm.reset();
     //this.tabs.splice(0);
     window.location.reload();
+  }
+
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
+    for (const field in this.f) {
+      const control = this.thisForm.get(field);
+      if (control?.value)
+        attributes.push({ Name: field, Value: [control?.value] });
+      else
+        attributes.push({ Name: field });
+    }
+    // console.log(JSON.stringify(attributes));
+
+    return attributes;
+
   }
 
 
@@ -322,6 +354,35 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
         //this.myform.controls[value].disable();
       }
     });
+  }
+
+  separateAuditTrail() {
+    debugger;
+
+    let request = Utils.preparePyUpdate('StartSeparateInternalAudit', this.reportIdentifier, [{}], [{}]);
+    //update 
+    this.service.updateDetails(request).subscribe(x => {
+      if (x.StatusMessage === 'Success') {
+        //success message and sshow act id
+        const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px', disableClose: false, data: {enableOk: false,
+            message: `Please note the following :<br/>
+            1. Audit ACT ID is : ${x.data.StartSeparateInternalAudit.SepAuditActId}<br/>
+            2. Audit can take sometime to produce and there may be delay of up to 15 minutes before the processing starts. </br>
+            3. Audit has been started in backgound.<br />
+            4. Check latest Audit ACT ID in Audit Tracker Screen.<br/>`
+          }
+        });
+        rangeConfirm.afterClosed().subscribe(result => {
+          if (result) {
+          }
+        });
+      
+      }
+    });
+
+    
+
   }
 
   selChangeSingle(matSelect: MatSelect) {
