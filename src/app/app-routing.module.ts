@@ -2,13 +2,24 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import * as  dat from '../assets/full-audit-table-details.json';
+import { LoginComponent } from './login/login.component';
 
 const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
   {
-    path: '',
+    path: 'login',
+    component: LoginComponent,
+    outlet:'loginPage'
+    
+    
+  },
+  { path: '',
+   component: LoginComponent,
+   outlet:'loginPage'
+  },
+  {
+    path: 'home',
     component: HomeComponent,
-    pathMatch:'full'
     
   },
   {

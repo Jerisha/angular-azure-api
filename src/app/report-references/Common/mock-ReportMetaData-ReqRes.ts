@@ -59,16 +59,20 @@ export const ReportMetaDataResponse = {
       }],
       "ReponseParams":    {
          "ScreenIdentifier": "ReportMetaObject",
-         "Action": "Search"
+         "Action": "Query"
       },
-      "Data": {"TelephoneNumber": [{"MetaDataParameters": [   { 
-        "Franchise":       [ {cPosition:1, cMinLength:0,cName:"OloCompanyFranchise" ,cDisplayName:"Olo Company Franchise",cType:"text",cValue:"",cIsKey:true,cDisplayOnOff:false,cReadOnly:true,cMandate:true,cMaxLength:100,cList:[]},
+      "Data": {"TelephoneNumber": [{"MetaDataParameters": [
+        {"ReportNames": ["SourceSystem|Source System"]},
+        
+        { 
+          "Franchise":       [ {cPosition:1, cMinLength:0,cName:"OloCompanyFranchise" ,cDisplayName:"Olo Company Franchise",cType:"text",cValue:"",cIsKey:true,cDisplayOnOff:false,cReadOnly:true,cMandate:true,cMaxLength:100,cList:[]},
           {cPosition:2, cMinLength:0,cName:"Olo" ,cDisplayName:"Olo",cType:"select",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:true,cMaxLength:100,cList:[]},
           {cPosition:3, cMinLength:0,cName:"Company" ,cDisplayName:"Company",cType:"select",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:true,cMaxLength:100,cList:[]},
           {cPosition:4, cMinLength:0,cName:"Franchise" ,cDisplayName:"Franchise",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:true,cMaxLength:100,cList:[]},
           {cPosition:5, cMinLength:0,cName:"Title" ,cDisplayName:"Title",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:100,cList:[]},
           {cPosition:6, cMinLength:0,cName:"Used" ,cDisplayName:"Used",cType:"radio",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:1,cList:[]},
           ],
+        
         "Olo":[ {cPosition:1, cMinLength:0,cName:"OloCompanyFranchise" ,cDisplayName:"Olo Company Franchise",cType:"text",cValue:"",cIsKey:true,cDisplayOnOff:false,cReadOnly:true,cMandate:true,cMaxLength:100,cList:[]},
           {cPosition:2, cMinLength:0,cName:"Title" ,cDisplayName:"Title",cType:"text",cValue:"",cIsKey:false,cDisplayOnOff:true,cReadOnly:false,cMandate:false,cMaxLength:100,cList:[]},
         ],
@@ -102,7 +106,7 @@ export const ReportMetaDataResponse = {
           cMandate: false, cMaxLength: 20, cList: []},
          ],
          "CUPIDCrossReference":[{ cPosition:1, cMinLength:0, cName: "XrefID", cDisplayName: "Xref ID", cType: "text", cValue: "", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
-          cMandate: true, cMaxLength: 200, cList: []},
+          cMandate: false, cMaxLength: 200, cList: []},
           { cPosition:2, cMinLength:0, cName: "Franchise", cDisplayName: "Franchise", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
           cMandate: true, cMaxLength: 200, cList:[]},
           { cPosition:3, cMinLength:0, cName: "BTCupID", cDisplayName: "BT CupID", cType: "select", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
@@ -173,11 +177,8 @@ export const ReportMetaDataResponse = {
        },], 
          "UnsolicitedAutoClose":[{ cPosition:1, cMinLength:0, cName: "ErrorCode", cDisplayName: "Error Code", cType: "select", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
          cMandate: true, cMaxLength: 200, cList: []},
-       { cPosition:2, cMinLength:0, cName: "ErrorType", cDisplayName: "Error Type", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-         cMandate: true, cMaxLength: 200, cList: []
-       },
-       { cPosition:3, cMinLength:0, cName: "ErrorMessage", cDisplayName: "Error Message", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
-         cMandate: true, cMaxLength: 200, cList: []
+       { cPosition:2, cMinLength:0, cName: "ErrorType", cDisplayName: "Error Type", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: false, cReadOnly: true,
+         cMandate: false, cMaxLength: 200, cList: []
        },
        { cPosition:4, cMinLength:0, cName: "CloseAfter", cDisplayName: "Close After", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
          cMandate: true, cMaxLength: 200, cList: []
@@ -190,7 +191,7 @@ export const ReportMetaDataResponse = {
          "ResolutionType":[{ cPosition:1, cMinLength:0, cName: "DisplayOrder", cDisplayName: "Display Order", cType: "text", cValue: " ", cIsKey: true, cDisplayOnOff: true, cReadOnly: true,
          cMandate: true, cMaxLength: 200, cList: []
        },
-       { cPosition:1, cMinLength:0, cName: "ResolveId", cDisplayName: "Resolve Id", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
+       { cPosition:1, cMinLength:0, cName: "ResolveId", cDisplayName: "Resolve Id", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: true, cReadOnly: true,
          cMandate: false, cMaxLength: 200, cList: []
        },
        { cPosition:2, cMinLength:0, cName: "Title", cDisplayName: "Title", cType: "text", cValue: " ", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
@@ -307,9 +308,13 @@ export const ReportMetaDataResponse = {
        },
        { cPosition:4, cMinLength:0, cName: "Comments", cDisplayName: "Comments", cType: "text", cValue: "", cIsKey: false, cDisplayOnOff: true, cReadOnly: false,
          cMandate: false, cMaxLength: 200, cList: []
-       },], 
+       },],
 
-      }]}]},
+
+      }
+
+  
+    ]}]},
       "Cache":    [
          "ApplicationKey",
          "SessionID"

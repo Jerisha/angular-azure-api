@@ -67,6 +67,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   recordIdentifier:any = "";
   metaDataSupscription: Subscription = new Subscription;
   editActionEnabled =true;
+  
 
   displayedColumnsValues:any
 
@@ -331,15 +332,16 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       (x: any) => {
       // updaterecord1[x[0]]
         console.log(x[1], x[0], 'nullvalues')
-        if (x[1] === true) { updaterecord1[x[0]] = ('Y'.trim ()) }
-        else if (x[1] === false) {
-          console.log(x[0], 'false1')
-          updaterecord1[x[0]] = 'N'.trim()
-        }
-        else if (x[1] === null) { updaterecord1[x[0]] = ''.trim() }
+        // if (x[1] === true) { updaterecord1[x[0]] = ('Y') }
+        // else if (x[1] === false) {
+        //   console.log(x[0], 'false1')
+        //   updaterecord1[x[0]] = ('N')
+        // }
+        // else if (x[1] === null) { updaterecord1[x[0]] = ('') }
        // console.log('element val', x)
+       if (x[1] === null || x[1] ===undefined) { updaterecord1[x[0]] = ('') }
        
-else { updaterecord1[x[0]].trim()}
+else { updaterecord1[x[0]]}
       }
     )
 
@@ -425,30 +427,33 @@ else { updaterecord1[x[0]].trim()}
     this.showDetailsForm = event[1];
   }
   onExport() {
-    // alert("Export Completed...");
-    if (this.data != []) {
-      var c = document.createElement("a");
-      let data = "";
-      this.data.forEach((row: any) => {
-        let result = Object.values(row);
-        data += result.toString().replace(/[,]+/g, '\t') + "\n";
-      });
-      c.download = "Report.tab";
-      // var t = new Blob([JSON.stringify(this.data)],
-      var t = new Blob([data], {
-        
-        type: "data:text/plain;charset=utf-8"
-      });
-      c.href = window.URL.createObjectURL(t);
-      // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-      // element.setAttribute('download', filename);
-      c.click();
-      this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
-    }
-    else {
-      this.alertService.info("No Data Found" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
-    }
-  }
+    console.log( this.data, 'download')
+        if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
+         {
+          console.log( this.data, 'download1')
+          var c = document.createElement("a");
+          let data = "";
+          this.data.forEach((row: any) => {
+            let result = Object.values(row);
+            data += result.toString().replace(/[,]+/g, '\t') + "\n";
+          });
+          c.download = "Report.tab";
+          // var t = new Blob([JSON.stringify(this.data)],
+          var t = new Blob([data], {
+            
+            type: "data:text/plain;charset=utf-8"
+          });
+          c.href = window.URL.createObjectURL(t);
+          // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+          // element.setAttribute('download', filename);
+          c.click();
+          this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
+        }
+        else {
+          this.alertService.info("No Data Found" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
+        }
+      }
+      
   ngOnChanges(changes: SimpleChanges) {
     // this.lstFields =this.reportReferenceService.setForm(this.reportName); 
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
@@ -462,14 +467,21 @@ else { updaterecord1[x[0]].trim()}
     this.metaDataSupscription = this.reportReferenceService.getMetaData(["All"]).subscribe((res:any)=>{
       //   console.log(JSON.stringify(res))
         this.reportReferenceService.metaDataCollection =res
+        console.log("metaData",res)
+       // this.reportReferenceService.reportNames = res[0]
+       //for mock 
 
        })
+       //this.reportNames = this.reportReferenceService.getReportNames();
    }
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-  ngOnInit(): void {    
+  ngOnInit(): void { 
     this.reportNames = this.reportReferenceService.reportNames;
+    console.log('reportnames1', this.reportNames)
+    console.log(this.reportReferenceService.metaDataCollection,'metacol')
+   
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();

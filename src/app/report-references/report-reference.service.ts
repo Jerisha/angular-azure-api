@@ -33,6 +33,7 @@ export class ReportReferenceService {
     'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',    
   ];
   constructor(private wrapperService: HttpWrapperService) {    
+
    }
   data: any = [
     {
@@ -225,7 +226,7 @@ export class ReportReferenceService {
     },
 
     {
-      UnsolicitedAutoCloseErrorCode: [
+      UnsolicitedAutoClose: [
         { ErrorCode: '1045', Type: 'WARN', ErrorMessage: 'Import Record is Missing', CloseAfter: '30', ResolveType: 'Resolved[END STATE]', ResolvingMessge: 'Auto Closed Unsolicited no longer valid' },
         { ErrorCode: '1046', Type: 'WARN', ErrorMessage: 'Import is 10 days overdue', CloseAfter: '20', ResolveType: 'Resolved[END STATE]', ResolvingMessge: 'Auto Closed Unsolicited no longer valid' },
         { ErrorCode: '1047', Type: 'WARN', ErrorMessage: 'Export Record is Missing', CloseAfter: '30', ResolveType: 'Resolved[END STATE]', ResolvingMessge: 'Auto Closed Unsolicited no longer valid' },
@@ -404,18 +405,26 @@ export class ReportReferenceService {
     { Franchise:['Actions','OloCompanyFranchise','Olo','Company','Franchise','Title','UsedCount','Comments']},
   ];
   public getReportNames():any
-  {
-    return [
-      'Franchise','Olo','Company','Source', 'Status', 'AuditStatus', 'CUPIDCrossReference',
-      'LineTypes', 'ResolverEmail', 'Command', 'CUPIDs', 'ErrorType',
-      'UnsolicitedAutoClose', 'ResolutionType', 'CustomerTitles', 'RejectedTelephonePrefix',
-      'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',
+  { 
+    console.log(this.metaDataCollection[0], 'reportnames')
+   return  this.metaDataCollection[0] 
+
+    // return [
+    //   'Franchise','Olo','Company','Source', 'Status', 'AuditStatus', 'CUPIDCrossReference',
+    //   'LineTypes', 'ResolverEmail', 'Command', 'CUPIDs', 'ErrorType',
+    //   'UnsolicitedAutoClose', 'ResolutionType', 'CustomerTitles', 'RejectedTelephonePrefix',
+    //   'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',
   
-    ];
+    // ];
   }
   public getDisplayNames(reportName:string):any
   {
-    let metaData = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters.values().next().value[reportName];   
+    console.log(this.metaDataCollection , 'datacollection0')
+    console.log(this.metaDataCollection[1][reportName] , 'datacollection')
+    console.log(JSON.stringify(this.metaDataCollection[1] ), 'datacollection1')
+    // let metaData = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters.values().next().value[reportName]; 
+    //let metaData = this.metaDataCollection[1].entries().values().next().value[reportName]; 
+    let metaData = this.metaDataCollection[1][reportName] 
     if(metaData != undefined && metaData.length >0)
     {
     let lstDisplayName =metaData.filter( (x:IColoumnDef)=> x.cDisplayOnOff  ==true) 
@@ -445,7 +454,8 @@ export class ReportReferenceService {
     else {  
       
       //start 
-           this.lstForm = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters.values().next().value[reportName] as IColoumnDef[]
+      this.lstForm = this.metaDataCollection[1][reportName] as IColoumnDef[]
+           //this.lstForm = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters.values().next().value[reportName] as IColoumnDef[]
           //console.log(this.lstForm,"col")
            this.findDropdowns()
           // let getDropdowns:any
@@ -454,7 +464,8 @@ export class ReportReferenceService {
            // console.log("dp1",this.dropdownNames) 
           // let configSubcription = 
           this.getConfig(this.dropdownNames).subscribe((result:any) =>{
-         //console.log("Config res: " + JSON.stringify(result.data))
+         //console.log("Config res: " + JSON.stringify(result.data)
+         //this.getConfig(['errorcode','ResolveType']).subscribe((result:any) =>{
          //console.log("result",result.data)
          // let res = result.data
             for (let index = 0; index < this.lstForm.length; index++) {
@@ -1012,7 +1023,7 @@ export class ReportReferenceService {
   }
   getConfig(dropValues:string[]):Observable<any>{
       let request = Utils.preparePyConfig(['Create'], dropValues);
-      // console.log(JSON.stringify(request));
+      console.log(JSON.stringify(request), 'configapire');
       return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }  
   static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
@@ -1049,26 +1060,17 @@ export class ReportReferenceService {
     let request = Utils.preparePyCreate(pageIdentifier, reportIdentifier,'CreateParameters',createIdentifier );
     console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
-    // let transform = JSON.parse(JSON.stringify(WMRequests.CREATE));
-    // // let transform = JSON.parse(JSON.stringify(WMRequests.CREATE));
-    // console.log(transform, 'transform')
-    // transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ItemName = pageIdetifier;
-    // //identifier
-    // console.log(createIdentifier, 'createIdentifier')
-    // transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-    // //Updateidentifier
-    // transform.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofIdentifiers.Identifier = createIdentifier;
-    // console.log('transform', JSON.stringify(transform))
-    // // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = UpdateAttribute;
-    // console.log(transform, 'CREATETEAN')
-    // return transform;
+    
   }
   getMetaData(reportNames:string[]):Observable<any>{
-     let request = Utils.preparePyMetaData(reportNames); 
-      let val = this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
-      console.log(val)
-      return of(ReportMetaDataResponse)
-
+ let request = Utils.preparePyMetaData(reportNames); 
+     let val = this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
+     console.log(val,'metaData req JSON')
+     //api
+ //return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
+//console.log(ReportMetaDataResponse,'metaData JSON')
+console.log(of(ReportMetaDataResponse),'metaData res JSON')
+     return of(ReportMetaDataResponse.Data.TelephoneNumber[0].MetaDataParameters)
   }
 
 }

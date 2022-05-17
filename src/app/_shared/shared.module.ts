@@ -15,9 +15,20 @@ import { RouterModule } from '@angular/router';
 import { TelephoneNoComponent } from './telephone-no/telephone-no.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserCommentsDialogComponent } from './user-comments/user-comments-dialog.component';
+import { ExporttoexcelComponent } from './exporttoexcel/exporttoexcel.component';
 
 @NgModule({
   declarations: [TelephoneAuditTrailComponent, UserCommentsDialogComponent,TransactionErrorsComponent, StartUpComponent, TelephoneNoComponent,AlertComponent,ConfirmDialogComponent],
+
+
+@NgModule({
+  declarations: [TelephoneAuditTrailComponent,
+     TransactionErrorsComponent, 
+     StartUpComponent, 
+     TelephoneNoComponent,
+     AlertComponent,
+     ConfirmDialogComponent,
+      ExporttoexcelComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -25,7 +36,8 @@ import { UserCommentsDialogComponent } from './user-comments/user-comments-dialo
     UicomponentsModule,
     RouterModule,
  FormsModule,
-    ReactiveFormsModule,  ],
+    ReactiveFormsModule,
+    ],
   exports :[
     TelephoneAuditTrailComponent,
     TransactionErrorsComponent  ,
@@ -33,7 +45,8 @@ import { UserCommentsDialogComponent } from './user-comments/user-comments-dialo
     MaterialModule,
     UserCommentsDialogComponent,
     TelephoneNoComponent,
-    AlertComponent
+    AlertComponent,
+    ExporttoexcelComponent
   ],
  
 
