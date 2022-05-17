@@ -23,6 +23,11 @@
         "displayName": "Unsolicited Errors",
         "iconName": "",
         "route": "resolvingoferrors/unsolicitederrors"
+      },
+      {
+        "displayName": "Unsolicited Actions Report",
+        "iconName": "",
+        "route": "resolvingoferrors/unsolicitedactionreport"
       }
     ]
   },
