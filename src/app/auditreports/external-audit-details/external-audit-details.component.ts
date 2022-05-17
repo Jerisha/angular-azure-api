@@ -232,6 +232,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
     this.resolutionType = '';
     this.remarkstxt = '';   
     this.externalAuditForm.reset();
+    this.updateForm.reset();
     this.disableSave = true;   
     this.selectListItems = [];
     this.tabs.splice(0);
@@ -256,16 +257,6 @@ export class ExternalAuditDetailsComponent implements OnInit {
     return this.externalAuditForm.controls;
 
   }
-
-  // openDialog() {
-  //   const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-  //     width: '500px',
-  //     // height: '400px',
-  //     data: { defaultValue: this.comments }
-  //   }
-  //   );
-  // }
-
   
   openDialog(auditACTID: any, telno: any) {
     let attributes = [
@@ -433,22 +424,35 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
     if (!this.externalAuditForm.valid) return;
 
-    if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
-      && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
-      this.form.StartTelephoneNumber.setErrors({ incorrect: true });
-      this.icstartNo.nativeElement.focus();
-      this.icstartNo.nativeElement.blur();
+    debugger;
+    var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
+    if (errMsg) {
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: { enableOk: false, message: errMsg, }
+      });
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
 
-    var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
-    if (errMsg) {
-      this.form.StartTelephoneNumber.setErrors({ invalidData: true });
-      this.icstartNo.nativeElement.focus();
-      this.icstartNo.nativeElement.blur();
-      return;     
+    // if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
+    //   && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
+    //   this.form.StartTelephoneNumber.setErrors({ incorrect: true });
+    //   this.icstartNo.nativeElement.focus();
+    //   this.icstartNo.nativeElement.blur();
+    //   return;
+    // }
+
+    // var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
+    // if (errMsg) {
+    //   this.form.StartTelephoneNumber.setErrors({ invalidData: true });
+    //   this.icstartNo.nativeElement.focus();
+    //   this.icstartNo.nativeElement.blur();
+    //   return;     
       
-    }
+    // }
 
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('ExternalAuditDetails', 'ExternalAuditDetails', this.prepareQueryParams(this.currentPage));

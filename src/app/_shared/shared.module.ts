@@ -17,8 +17,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserCommentsDialogComponent } from './user-comments/user-comments-dialog.component';
 import { ExporttoexcelComponent } from './exporttoexcel/exporttoexcel.component';
 
-@NgModule({
-  declarations: [TelephoneAuditTrailComponent, UserCommentsDialogComponent,TransactionErrorsComponent, StartUpComponent, TelephoneNoComponent,AlertComponent,ConfirmDialogComponent],
+// @NgModule({
+//   declarations: [TelephoneAuditTrailComponent, 
+//     UserCommentsDialogComponent,TransactionErrorsComponent, StartUpComponent, 
+//     TelephoneNoComponent,AlertComponent,ConfirmDialogComponent],
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import { ExporttoexcelComponent } from './exporttoexcel/exporttoexcel.component'
      StartUpComponent, 
      TelephoneNoComponent,
      AlertComponent,
+     UserCommentsDialogComponent,
      ConfirmDialogComponent,
       ExporttoexcelComponent],
   imports: [
