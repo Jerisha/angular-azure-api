@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { FullAuditDetails, SeparateInternalAuditDetails } from '../models/separateinternalauditdetails';
+import { Router } from '@angular/router';
 
 const FullAudit_Data: FullAuditDetails [] = [
   {
@@ -169,7 +170,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
 
   constructor(private formBuilder: FormBuilder,
    
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef, public router: Router) { }
 
   ngOnInit(): void {
 

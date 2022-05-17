@@ -5,6 +5,7 @@
 export const environment = {
   UnsolTransactionDays:'62',
   production: false,
+  api_py_uat :'https://ukrpirvr.ad.plc.cwintra.com:8044/pythonUATAPI/',
   api_py_sit :'https://ukrpirvr.ad.plc.cwintra.com:8044/pythonAPI/',
   api_py_dev:'https://ukrpirvr.ad.plc.cwintra.com:8044/pythonDevAPI/',
   api_sit:'http://10.196.212.98:6054/restv2/EdgeUIManagementServicesV200/',

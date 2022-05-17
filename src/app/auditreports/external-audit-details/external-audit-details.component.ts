@@ -1,14 +1,17 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { of, Subject } from 'rxjs';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { Utils } from 'src/app/_http';
 import { UserCommentsDialogComponent } from '../fullauditdetails/user-comments-dialog.component';
+import { AuditReportsService } from '../services/audit-reports.service';
 
 const ELEMENT_DATA: any[] = [
   {
@@ -157,16 +160,16 @@ const ELEMENT_DATA: any[] = [
 
 ];
 const Items: Select[] = [
-  { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
-  { view: 'TelNo End', viewValue: 'TelNoEnd', default: true },
+  { view: 'Start TelephoneNumber', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'End TelephoneNumber', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Audit ActId', viewValue: 'AuditActId', default: true },
   { view: 'CUP Id', viewValue: 'CUPId', default: true },
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
-  { view: 'CLI Status', viewValue: 'CLIStatus', default: true },
-  { view: 'Resolution Type', viewValue: 'ResType', default: true },
-  { view: 'Post Code Diff', viewValue: 'PostCodeDiff', default: true },
-  { view: 'Full Address Diff', viewValue: 'FullAddDiff', default: true },
-  { view: 'Customer Diff', viewValue: 'CustomerDiff', default: true },
+  { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
+  { view: 'Post Code Difference', viewValue: 'PostCodeDifference', default: true },
+  { view: 'Full Address Difference', viewValue: 'FullAddDifference', default: true },
+  { view: 'Customer Difference', viewValue: 'CustomerDifference', default: true },
 
 ];
 
@@ -179,9 +182,10 @@ export class ExternalAuditDetailsComponent implements OnInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
   externalAuditForm!: FormGroup;
+  updateForm!:FormGroup;
   myTable!: TableItem;
   selectedTab!: number;
-  selectListItems: string[] = [];
+  selectListItems: any[] = [];
   listItems!: Select[];
   tabs: Tab[] = [];
   auditTelNo?: any;
@@ -213,10 +217,18 @@ export class ExternalAuditDetailsComponent implements OnInit {
   ];
 
   constructor(private dialog: MatDialog,
-    private formBuilder: FormBuilder, private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef) {
+    private formBuilder: FormBuilder, private service: AuditReportsService,
+    private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef) {
   }
 
   resetForm(): void {
+    
+    this.resolutionType = '';
+    this.remarkstxt = '';   
+    this.externalAuditForm.reset();
+    this.disableSave = true;   
+    this.selectListItems = [];
+    this.tabs.splice(0);
 
   }
 
@@ -233,14 +245,33 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   }
 
-  openDialog() {
+  // openDialog() {
+  //   const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
+  //     width: '500px',
+  //     // height: '400px',
+  //     data: { defaultValue: this.comments }
+  //   }
+  //   );
+  // }
+
+  
+  openDialog(auditACTID: any, telno: any) {
+    let attributes = [
+      { Name: 'TelephoneNumber', Value: [`${telno}`] },
+      { Name: 'AuditActID', Value: [`${auditACTID}`] },
+      { Name: 'AuditType', Value: [`${'Full Audit'}`] }
+    ];
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-      width: '500px',
-      // height: '400px',
-      data: { defaultValue: this.comments }
+      width: '800px',
+      //width: 'auto',
+      height: 'auto',
+      panelClass: 'custom-dialog-container',
+      data: { defaultValue: attributes, telno: telno }
     }
     );
   }
+  resolutionType:string='';
+  remarkstxt:string='';
 
   onChange(value: string, ctrlName: string) {
     const ctrl = this.externalAuditForm.get(ctrlName) as FormControl;
@@ -252,10 +283,41 @@ export class ExternalAuditDetailsComponent implements OnInit {
     }
   }
 
+  get updateFormControls() {
+    return this.updateForm.controls;
+  }
+  onSaveSubmit(){
+
+  }
+
+
+  createUpdateForm() {
+    this.updateForm = this.formBuilder.group({
+      Resolution: new FormControl('', [Validators.required]),
+      Remarks: new FormControl('', [Validators.required])
+    });
+  }
   ngOnInit(): void {
     this.createForm();
+    this.createUpdateForm();
+
+    let request = Utils.preparePyConfig(['Search'], [ "ExternalAuditActID", "CUPID", "OSN2Source", "ExternalCLIStatus", "ResolutionTypeAudit", "PostcodeDifference", "FullAddressDifference", "CustomerDifference"  ]);
+    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
+
+    forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
+      .subscribe(results => {
+        this.configDetails = results[0].data;
+        //this.rowRange = this.configDetails.AutoCorrectionVolume[0];
+        this.defaultACTID = this.configDetails.ExternalAuditActID[0];
+        this.updateDetails = results[1].data;
+        console.log('config',this.configDetails);
+        console.log('update',this.updateDetails)
+      });
     this.listItems = Items;
   }
+  defaultACTID:string =''
+  updateDetails!:any;
+  configDetails!:any;
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -265,8 +327,64 @@ export class ExternalAuditDetailsComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  onFormSubmit(): void {
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [];
+
+    for (const field in this.form) {
+      const control = this.externalAuditForm.get(field);
+
+      if (control?.value)
+        attributes.push({ Name: field, Value: [control?.value] });
+      else
+        attributes.push({ Name: field, Value:[''] });
+    }
+    attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
+
+    return attributes;
+
+  }
+
+  @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
+  currentPage:string='1';
+  queryResult$!:Observable<any>;
+  // isEmitted:boolean =false;
+
+  onFormSubmit(isEmitted?: boolean): void {
+    this.tabs.splice(0);
+    this.selectListItems = [];   
+    this.disableSave = true;
+    this.updateForm.reset();
+    this.remarkstxt = '';
+
+    this.getTelnoValidation();
+
     if (!this.externalAuditForm.valid) return;
+
+    if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
+      && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
+      this.form.StartTelephoneNumber.setErrors({ incorrect: true });
+      this.icstartNo.nativeElement.focus();
+      this.icstartNo.nativeElement.blur();
+      return;
+    }
+
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.preparePyQuery('ExternalAuditDetails', 'ExternalAuditDetails', this.prepareQueryParams(this.currentPage));
+   console.log('request', JSON.stringify(request))
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res.data.TelephoneNumbers,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
+
     this.myTable = {
       data: of({
         datasource: ELEMENT_DATA,
@@ -302,20 +420,23 @@ export class ExternalAuditDetailsComponent implements OnInit {
     if (this.tabs === []) return;
     switch (tab.tabType) {
       case 1: {
+        this.auditTelNo = tab.row.Telno;
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+            name: 'Audit Trail Report (' + tab.row.Telno + ')'
           });
-          // this.selectedTab = 1;        
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.Telno + ')'
         }
         break;
       }
       case 2: {
-        this.openDialog();
+        let auditACTID = this.form.AuditActId.value;
+        this.openDialog(auditACTID, tab.row.Telno);
         break;
       }
       default: {
@@ -348,12 +469,12 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   createForm() {
     this.externalAuditForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: true },
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true },
         [
           Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
         ]
       ),
-      TelNoEnd: new FormControl({ value: '', disabled: true },
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true },
         [
           Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
         ]
@@ -361,29 +482,67 @@ export class ExternalAuditDetailsComponent implements OnInit {
       AuditActId: new FormControl({ value: '29-20 Dec 2021', disabled: true },[Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }),
       OSN2Source: new FormControl({ value: '', disabled: true }),
-      CLIStatus: new FormControl({ value: '', disabled: true }),
-      ResType: new FormControl({ value: '', disabled: true }),
-      PostCodeDiff: new FormControl({ value: '', disabled: true }),
-      FullAddDiff: new FormControl({ value: '', disabled: true }),
-      CustomerDiff: new FormControl({ value: '', disabled: true }),
+      ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
+      ResolutionType: new FormControl({ value: '', disabled: true }),
+      PostCodeDifference: new FormControl({ value: '', disabled: true }),
+      FullAddDifference: new FormControl({ value: '', disabled: true }),
+      CustomerDifference: new FormControl({ value: '', disabled: true }),
     })
   }
+  disableSave:boolean= true;
 
-  rowDetect(item: any) {
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
+  getPnlControlAttributes(control?: string) {
+    if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
+      && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
+      this.disableSave = false;
     }
+    else {
+      this.disableSave = true;
+    }
+
+    if (control === 'EndTelNo')
+      this.getTelnoValidation();
+
+  }
+
+  getTelnoValidation() {
+    if (this.form.StartTelephoneNumber.errors?.incorrect) {
+      this.form.StartTelephoneNumber.setErrors({ incorrect: false });
+      this.form.StartTelephoneNumber.reset();
+    }
+  }
+
+  // rowDetect(item: any) {
+  //   if (item.length == 0) {
+  //     this.selectListItems = [];
+  //   } else {
+  //     item.forEach((el: string) => {
+  //       if (!this.selectListItems.includes(el)) {
+  //         this.selectListItems.push(el)
+  //       }
+  //       else {
+  //         if (this.selectListItems.includes(el)) {
+  //           let index = this.selectListItems.indexOf(el);
+  //           this.selectListItems.splice(index, 1)
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
+
+
+  rowDetect(selectedRows: any) {
+    selectedRows.forEach((item: any) => {
+      if (item && item.length == 0) return;
+
+      if (!this.selectListItems.includes(item))
+        this.selectListItems.push(item)
+      else if (this.selectListItems.find(x => x.TelephoneNumber === item.TelephoneNumber)) {
+        let index = this.selectListItems.indexOf(item);
+        this.selectListItems.splice(index, 1)
+      }
+    })
+    //this.getSelectedDataCorrection();
+    this.getPnlControlAttributes();
   }
 }

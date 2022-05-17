@@ -520,12 +520,13 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
   // search(): void { };
   // onFormSubmit(): void { }
   resetForm(): void {
-    this.thisForm.reset();
-    this.tabs.splice(0);
-    this.StatisticMonth.setValue('');
-    this.datevalue = "";
-    this.expressions = [expNumeric, expString, expDate];
-    this.resetExp = !this.resetExp;
+    // this.thisForm.reset();
+    // this.tabs.splice(0);
+    // this.StatisticMonth.setValue('');
+    // this.datevalue = "";
+    // this.expressions = [expNumeric, expString, expDate];
+    // this.resetExp = !this.resetExp;
+    window.location.reload();
   }
 
   // resetForm(): void {

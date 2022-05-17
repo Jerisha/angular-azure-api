@@ -5,17 +5,18 @@ export interface TableItem {
     filter?: boolean;
     selectCheckbox?: boolean;
     imgConfig?: ViewColumn[];
+    disablePaginator?:boolean;
     showEmail?:boolean;
     removeNoDataColumns?:boolean;
     highlightedCells?:string[];
-    backhighlightedCells?:string[];    
+    setCellAttributes?:CellAttributes[];    
 }
 export interface ViewColumn {
     headerValue: string;
     icon: string;
     route: string;
     tabIndex : number;
-    toolTipText? :string
+    toolTipText? :string;    
 }
 
 export interface ColumnDetails {
@@ -24,5 +25,18 @@ export interface ColumnDetails {
     showDefault?: boolean;
     isImage?: boolean;
     isTotal?:boolean;
+    //isFlag?:boolean;
+    imgDesc?:boolean;
+}
+
+export interface CellAttributes{
+    flag:string,
+    cells:string[];
+    value:any;
+    isImage?:boolean;
+    isFontHighlighted?:boolean;
+    isBackgroundHighlighted?:boolean;
+   // isFlag?:boolean;
+
 }
 

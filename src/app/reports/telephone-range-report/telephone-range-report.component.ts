@@ -16,6 +16,7 @@ import { Utils, WebMethods } from 'src/app/_http';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { ReportService } from '../services/report.service';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { Custom } from 'src/app/_helper/Validators/Custom';
 
 const ELEMENT_DATA = [
   {
@@ -127,8 +128,8 @@ export class TelephoneRangeReportComponent implements OnInit {
   
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern("^[0-9]{10,11}$")]),
     })
   }
   get f() {
@@ -160,7 +161,25 @@ export class TelephoneRangeReportComponent implements OnInit {
   }
   
   onFormSubmit(isEmitted?: boolean):void{
-    if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)<=10000){
+
+    
+      debugger;
+      let errMsg = '';
+      if (!this.thisForm.valid) return;
+      errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+      if (errMsg) {
+        const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px',
+          // height:'250px',
+          disableClose: true,
+          data: {
+            enableOk: false,
+            message: errMsg,
+          }
+        });
+        rangeConfirm.afterClosed().subscribe(result => { return result; })
+        return;
+      }
       this.tabs.splice(0);
       this.currentPage = isEmitted ? this.currentPage : '1';
       let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams(this.currentPage));
@@ -169,9 +188,9 @@ export class TelephoneRangeReportComponent implements OnInit {
         if (Object.keys(res).length) {
           let result = {
             datasource: res.data.TelephoneNumbers,
-            totalrecordcount: res.data.TotalCount,
-            totalpages: res.data.NumberOfPages,
-            pagenumber: res.data.PageNumber
+            totalrecordcount: res.TotalCount,
+            totalpages: res.NumberOfPages,
+            pagenumber: res.PageNumber
           }
           return result;
         }  else return {
@@ -196,21 +215,8 @@ export class TelephoneRangeReportComponent implements OnInit {
         });
       }
       this.selectedTab = this.tabs.length;
-    }
-    else if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)>10000){
-      const rangeConfirm = this.dialog.open(ConfirmDialogComponent,{
-        width:'400px',
-        // height:'250px',
-        disableClose: true,
-        data:{
-          message: 'TelephoneRange must be less than or equal to 10000.',
-        }
-      });
-      rangeConfirm.afterClosed().subscribe(result=>{
-        //console.log("Dialog" + result);
-        return result;
-      })
-    }
+    
+    
   }
 
   resetForm():void{

@@ -8,17 +8,17 @@
         "displayName": "Solicited /Internal Errors",
         "iconName": "",
         "route": "resolvingoferrors/solicitederrors"
-      },      
+      },
       {
         "displayName": "Solicited Resolution Report",
         "iconName": "",
         "route": "resolvingoferrors/solicitedresolutionreport"
-      }  ,      
+      },
       {
         "displayName": "Solicited Actions Report",
         "iconName": "",
         "route": "resolvingoferrors/solicitedactionreport"
-      },      
+      },
       {
         "displayName": "Unsolicited Errors",
         "iconName": "",
@@ -52,12 +52,12 @@
     "displayName": "Audit Reports",
     "iconName": "",
     "route": "",
-    "children": [      
-      {
+    "children": [
+            {
         "displayName": "Full Audit Details",
         "iconName": "",
         "route": "auditreports/fullauditdetails"
-      },      
+      },
       {
         "displayName": "Audit Discrepancy Report",
         "iconName": "",
@@ -94,7 +94,7 @@
         "displayName": "InFlight Report",
         "iconName": "",
         "route": "reports/providereport"
-      },      
+      },
       {
         "displayName": "Telephone Range Report",
         "iconName": "",
@@ -116,21 +116,25 @@
         "displayName": "Transaction Trend for Source & Command",
         "iconName": "",
         "route": "statisticalreports/transactionsourcecommandhistory"
-      }   
+      }
     ]
   },
-
   {
     "displayName": "Administration",
     "iconName": "",
     "route": "",
     "children": [
       {
+        "displayName": "Audit Status Tracker",
+        "iconName": "",
+        "route": "administration/auditstatustracker"
+      },
+      {
         "displayName": "Audit Data Files",
         "iconName": "",
         "route": "administration/auditdatafiles"
       },
-	  {
+      {
         "displayName": "Restore Solicited Errors",
         "iconName": "",
         "route": "administration/restoresolicitederrors"
@@ -140,7 +144,7 @@
         "iconName": "",
         "route": "administration/datacorrectionsummary"
       },
-     {
+      {
         "displayName": "Unresolved Transaction",
         "iconName": "",
         "route": "administration/unresolvedtransaction"
@@ -172,9 +176,7 @@
         "iconName": "",
         "route": "report-references/ReferenceList"
       }
-	 
     ]
   }
-
-    
+  
 ]

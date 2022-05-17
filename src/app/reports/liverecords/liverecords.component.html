@@ -14,7 +14,7 @@
                     <mat-form-field hintLabel="Max 11 characters"
                         [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
                         <mat-label>Telephone No</mat-label>
-                        <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
+                        <input formControlName="StartTelephoneNumber" numbersOnly
                         matInput maxlength="11" placeholder="Telephone No"  #telno  telNoPrefixValidator>
                         <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
                         <mat-error>

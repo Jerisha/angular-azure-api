@@ -93,7 +93,8 @@ export class TelephoneDetailsComponent implements OnChanges {
   queryResult$!: Observable<any>;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.Source?.currentValue != changes.Source?.previousValue)
+    debugger;
+    // if (changes.Source?.currentValue != changes.Source?.previousValue)  
       this.formsubmit(false);
 
   }
@@ -101,7 +102,8 @@ export class TelephoneDetailsComponent implements OnChanges {
     this.currentPage = isEmitted ? this.currentPage : '1';
     this.Datevalue = this.StatisticDate;
     let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TransactionCommand', this.prepareQueryParams(this.currentPage));
-    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+    console.log('request', JSON.stringify(request))
+    this.queryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,

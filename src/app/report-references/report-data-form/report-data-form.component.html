@@ -1,57 +1,71 @@
 <ng-container>
-  <div class="vf-flex-container">  
-    <mat-card class="vf-card mat-elevation-z5"> 
-      <ng-container > 
-        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()" > 
-          <mat-card-subtitle class ="vf-card-title">{{reportName}}</mat-card-subtitle>                     
-          <mat-card-content >
+  <div class="vf-flex-container">
+    <mat-card class="vf-card mat-elevation-z5">
+      <ng-container>
+        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
+          <mat-card-subtitle class="vf-card-title">{{reportName}}</mat-card-subtitle>
+          <mat-card-content>
             <div class="content-main vf-flex-container-col">
-                <div class="content-submain vf-flex-container-col" *ngFor="let formData of lstForm" [ngSwitch]="true">
-                  <div *ngSwitchCase="formData.cType === 'text'" style="width:201px;height:52.063px;display:flex;align-items: center;">     
-                    <mat-form-field>
-                      <mat-label >{{formData.cDisplayName}}</mat-label>
-                      <input type="{{formData.cType}}" 
-                      matInput  name="{{formData.cName}}"  
+              <div class="content-submain vf-flex-container-col" *ngFor="let formData of lstForm" [ngSwitch]="true">
+                <div *ngSwitchCase="formData.cType === 'text'"
+                  style="width:201px;height:50px;display:flex;align-items: center;">
+                  <mat-form-field >
+                    <mat-label>{{formData.cDisplayName}}</mat-label>
+                    <input type="{{formData.cType}}" matInput name="{{formData.cName}}"
                       [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
+                      [maxLength]="formData.cMaxLength"
+                      [readonly]="this.eventName ==='Update' && formData.cReadOnly == true?  true: false "
                       placeholder="{{formData.cDisplayName}}">
-                    </mat-form-field>                        
-                  </div> 
-                  <div *ngSwitchCase="formData.cType === 'select'" style="width:201px;height:52.063px;display:flex;align-items: center;"> 
-                    <mat-form-field>  
-                      <mat-label >{{formData.cDisplayName}}</mat-label>                              
-                      <mat-select [id]="formData.cName" [formControlName]="formData.cName"                                            
-                        [(ngModel)]="formData.cValue">
-                        <mat-option [value]=''></mat-option>
-                        <mat-option *ngFor="let opt of formData.cList" [value]="opt.displayValue">
-                          {{opt.displayValue}}</mat-option>
-                      </mat-select>
-                    </mat-form-field>                        
-                  </div>
-                  <div *ngSwitchCase="formData.cType === 'radio'" style="width:201px;height:52.063px;display:flex;align-items: center;">
-                    <mat-checkbox [checked]="formData.cValue === 'Y'? true:false" 
-                    [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
-                      >{{formData.cDisplayName}}
-                  </mat-checkbox>                    
-                  </div>                                                   
-                </div>                                   
-            </div> 
-            <div class ="fixed-button-bar">   
-              <mat-card-actions>
-                <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled] = "!referenceForm.status"  matTooltip="Click this button currently showning  details will be create new Record"  >
-                  <mat-icon >save</mat-icon>Save
-                </button>
-                <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled] = "!referenceForm.status" matTooltip="Click this button currently showning details will be Update"  >
-                      <mat-icon >edit</mat-icon>Update
-                </button>
-                <button type="button" mat-raised-button  (click)=onCancelDataForm() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
-                  <mat-icon >cancel</mat-icon>Cancel
-                </button>                       
-              </mat-card-actions>                  
-            </div> 
-          </mat-card-content>                     
-        </form> 
+                      <!-- <mat-hint style="text-align:end">Max length {{formData.cMaxLength }} characters.</mat-hint> -->
+                      <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
+                      <mat-error *ngIf="fieldError(formData.cName, 'maxlength')"> Max length {{formData.cMaxLength }}Limit exceed</mat-error>
+                  </mat-form-field>
+                </div>
+                <div *ngSwitchCase="formData.cType === 'select'"
+                  style="width:201px;height:50px;display:flex;align-items: center;">
+                  <mat-form-field>
+                    <mat-label>{{formData.cDisplayName}}</mat-label>
+                    <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue">
+                      <!-- <mat-option [value]=''></mat-option> -->
+                      <mat-option *ngFor="let opt of formData.cList" [value]="opt.displayValue">
+                        {{opt.displayValue}}</mat-option>
+                    </mat-select>                    
+                    <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
+                  </mat-form-field>
+                </div>
+                <div *ngSwitchCase="formData.cType === 'radio'"
+                  style="width:201px;height:50px;display:flex;align-items: center;">
+                  <mat-checkbox [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
+                    [formControlName]="formData.cName" [(ngModel)]="formData.cValue">{{formData.cDisplayName}}
+                  </mat-checkbox>
+                  <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+          <div class="fixed-button-bar">
+            <mat-card-actions>
+              <button *ngIf="eventName==='Create'" type="submit" mat-raised-button class="btn-color"
+                [disabled]="referenceForm.invalid"
+                matTooltip="Click this button currently showning  details will be create new Record">
+                <mat-icon>save</mat-icon>Save
+              </button>
+              <button *ngIf="eventName==='Update'" type="submit" mat-raised-button class="btn-color"
+                [disabled]="referenceForm.invalid"
+                matTooltip="Click this button currently showning details will be Update">
+                <mat-icon>edit</mat-icon>Update
+              </button>
+              <button type="button" mat-raised-button (click)=onCancelDataForm() class="btn-color"
+                matTooltip="Click this button will clear or cancel the shown details">
+                <mat-icon>cancel</mat-icon>Cancel
+              </button>
+            </mat-card-actions>
+            <mat-card-subtitle class="vf-card-footer">
+              <span>{{updatedBy}}</span><span style="float: right;padding-right: 3px;">{{updatedOn}}</span>
+            </mat-card-subtitle>
+          </div>
+        </form>
       </ng-container>
     </mat-card>
   </div>
 </ng-container>
-      

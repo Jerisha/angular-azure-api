@@ -15,16 +15,18 @@
                         <mat-form-field hintLabel="Max 11 characters"
                         [ngClass]="{'hidden':f.TelephoneNumber.disabled}">
                         <mat-label>Telephone No</mat-label>
-                        <input formControlName="TelephoneNumber" (keypress)="numberOnly($event)"
-                        matInput maxlength="11" placeholder="Telephone No" #telno telNoPrefixValidator>
+                        <input formControlName="TelephoneNumber" numbersOnly
+                        matInput maxlength="11" placeholder="Telephone No"  #telno  telNoPrefixValidator>
                         <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
                         <mat-error>
-                        <div *ngIf="f.TelephoneNumber.touched && f.TelephoneNumber.invalid" class="alert alert-danger">
-                        <div *ngIf="f.TelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                        <div *ngIf="f.TelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
-                        </div>
+                            <div *ngIf="f.TelephoneNumber.touched && f.TelephoneNumber.invalid"
+                                class="alert alert-danger">
+                                
+                                 <div *ngIf="f.TelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                                <div *ngIf="f.TelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                            </div>
                         </mat-error>
-                        </mat-form-field>
+                    </mat-form-field>
                         </div>
                     <div [ngStyle]="{'display':myForm.controls.TransactionID.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[0].default" #TransactionIDOperator
@@ -65,9 +67,8 @@
                     </div>
                     
                     <div [ngStyle]="{'display':myForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeAuditOperator
-                            [resetvalue]="resetExp"
-                            (click)="OnOperatorClicked(['ResolutionTypeAuditOperator',ResolutionTypeAuditOperator.selectedViewValue])">
+                        <app-select-exp [listItems]="expressions[3].default" #ResolveTypeOperator
+                            [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolveTypeOperator',ResolveTypeOperator.selectedViewValue])">
                         </app-select-exp>
                     <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
                         <mat-label>Resolution Type</mat-label>

@@ -10,7 +10,6 @@
       </div> 
     </div> -->
 
-
     <div class="filter-sticky">
       <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
         (changes)="setControlAttribute($event)">
@@ -22,76 +21,61 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
             <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
-            <input formControlName="StartTelephoneNumber" (keypress)="numberOnly($event)"
-              (keyup)="addPrefix('StartTelephoneNumber',starttelno.value)" matInput maxlength="11"
-              placeholder="Start Telephone No" #starttelno>
+            <input formControlName="StartTelephoneNumber" numbersOnly matInput maxlength="11"
+              placeholder="Start Telephone No" #starttelno telNoPrefixValidator >
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
+              
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
-                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+                <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
               </div>
             </mat-error>
           </mat-form-field>
 
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
-            <input formControlName="EndTelephoneNumber" matInput #endtelno maxlength="11" placeholder="End Telephone No"
-              (keypress)="numberOnly($event)" (keyup)="addPrefix('EndTelephoneNumber',endtelno.value)">
+            <!-- (keypress)="numberOnly($event)" (paste)="onPaste($event)" -->
+            <input formControlName="EndTelephoneNumber" numbersOnly matInput #endtelno maxlength="11" placeholder="End Telephone No"
+               telNoPrefixValidator>
             <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
-                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No is not 11 digit</div>
+                <!-- <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div> -->
+                <!-- <div *ngIf="f.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div> -->
+                <div *ngIf="f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
               </div>
             </mat-error>
           </mat-form-field>
-
+        
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
-            <input  formControlName="Command" type="text" placeholder="Search Command" matInput
-              [matAutocomplete]="autoCommand" />
+            <input #command formControlName="Command" type="text" placeholder="Search Command" matInput
+              [matAutocomplete]="autoCommand" OptionsValidator [options]="config.Command" />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoCommand="matAutocomplete">
-              <mat-option *ngFor="let val of config.Command | splitBy: ',' | ddlFilter: f.Command.value" [value]="val">
+              <mat-option *ngFor="let val of config.Command | ddlFilter: command.value" [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
-            <!-- <mat-option>Activate Customer</mat-option>
-            <mat-option>Cease Customer</mat-option>
-            <mat-option>Import</mat-option>
-            <mat-option>Export</mat-option>
-            <mat-option>Modify</mat-option> -->
-            <!-- </mat-select> -->
-            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <mat-error *ngIf="f.Command.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source</mat-label>
-            <input formControlName="Source" type="text" placeholder="Search Source" matInput
-              [matAutocomplete]="autoSource" />
+            <input #source formControlName="Source" type="text" placeholder="Search Source" matInput
+              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
-              <mat-option *ngFor="let val of config.Source | splitBy: ',' | ddlFilter: f.Source.value" [value]="val">
+              <mat-option *ngFor="let val of config.Source  | ddlFilter: source.value" [value]="val">
                 {{val}}</mat-option>
             </mat-autocomplete>
-            <!-- <mat-option></mat-option>
-            <mat-option>AUDIT</mat-option>
-            <mat-option>SAS/COMS</mat-option>
-            <mat-option>DVA Siebel</mat-option>
-            <mat-option>VA/WAD</mat-option>
-            <mat-option>Ring Central</mat-option>
-            <mat-option>Content Guru</mat-option>
-            <mat-option>ONENET</mat-option>
-            <mat-option>Clarify</mat-option>
-            <mat-option>Amdocs SOM</mat-option>
-            <mat-option>Unknown</mat-option> -->
-            <!-- </mat-select> -->
-            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
@@ -107,61 +91,58 @@
 
           <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <input formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
-              [matAutocomplete]="autoResolutionType" />
+            <input #resolutiontype formControlName="ResolutionType" type="text" placeholder="Search Resolution Type"
+              matInput [matAutocomplete]="autoResolutionType" OptionsValidator
+              [options]="config.ResolutionType " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
               <!-- <mat-select formControlName="ResolutionType"> -->
-              <mat-option *ngFor="let val of config.ResolutionType | splitBy: ',' | ddlFilter: f.ResolutionType.value"
+              <mat-option *ngFor="let val of config.ResolutionType  | ddlFilter: resolutiontype.value"
                 [value]="val">{{val}}</mat-option>
             </mat-autocomplete>
-            <!-- <mat-option></mat-option>
-            <mat-option>New</mat-option>
-            <mat-option>Under Investigation</mat-option>
-            <mat-option>Under Governance</mat-option>
-            <mat-option>Under Governance</mat-option>
-            <mat-option>Port Req Complete</mat-option> -->
-            <!-- </mat-select> -->
-            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <!-- <mat-select formControlName="ErrorType"> -->
-            <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
-              [matAutocomplete]="autoErrorType" />
+            <input #errortype formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
+              [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorType " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #autoErrorType="matAutocomplete">
-              <mat-option *ngFor="let val of config.ErrorType | splitBy: ',' | ddlFilter: f.ErrorType.value"
+              <mat-option *ngFor="let val of config.ErrorType  | ddlFilter: errortype.value"
                 [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
-          </mat-form-field>       
+            <mat-error *ngIf="f.ErrorType.errors?.validOptions">Value need to match available options</mat-error>
+          </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
             <mat-label>Error Code</mat-label>
-            <input formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
-              [matAutocomplete]="auto" />
+            <input #errorcode formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
+              [matAutocomplete]="auto" OptionsValidator [options]="config.ErrorCode " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of  config.ErrorCode | splitBy: ',' | ddlFilter: f.ErrorCode.value"
+              <mat-option *ngFor="let option of config.ErrorCode  | ddlFilter: errorcode.value"
                 [value]="option">
                 {{option}}
               </mat-option>
             </mat-autocomplete>
+            <mat-error *ngIf="f.ErrorCode.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
             <mat-label>999 Reference</mat-label>
-            <input formControlName="Reference" matInput #input maxlength="10" placeholder="999 Reference">
-            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+            <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>
+            <mat-error *ngIf="f.Reference.errors?.valid999">Please provide a valid 999 Reference</mat-error>
+            <!-- <mat-hint align="end"></mat-hint> -->
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.OrderReference.disabled}">
@@ -182,7 +163,6 @@
       </div>
     </form>
   </mat-sidenav>
-
   <mat-sidenav-content class="side-content">
     <!-- <mat-toolbar class="page-header"
     style="margin-top:5px;margin-bottom:5px; height: 32px;;box-shadow: 0 3px 5px -1px rgba(207, 27, 27, 0.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
@@ -216,7 +196,7 @@
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
               (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
             </app-table-selection>
-            <form (ngSubmit)="onSaveSubmit()">
+            <form (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off">
               <div class="mat-elevation-z8 side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
@@ -224,50 +204,56 @@
                   </select> -->
 
                   <div style="display: inline-block;">
-                    <mat-form-field>
-                      <mat-label>Resolution Type</mat-label>
-                      <input required #resol [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}" type="text"
-                        placeholder="Search Resolution Type" matInput [matAutocomplete]="autoResolutionType1" />
-                      <span matSuffix mat-icon-button>
-                        <mat-icon>arrow_drop_down</mat-icon>
-                      </span>
-                      <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                        <ng-container *ngIf="updateDetails  as con">
-                          <mat-option *ngFor="let val of con.ResolutionType | splitBy: ',' | ddlFilter: resol.value"
+                    <ng-container *ngIf="updateDetails as con">
+                      <mat-form-field>
+                        <mat-label>Resolution Type</mat-label>
+                        <input name="resolution" required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}"
+                          type="text" #resolution="ngModel" placeholder="Search Resolution Type" matInput
+                          [matAutocomplete]="autoResolutionType1" OptionsValidator
+                          [options]="con.ResolutionType " />
+                        <span matSuffix mat-icon-button>
+                          <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
+                          <mat-option
+                            *ngFor="let val of con.ResolutionType  | ddlFilter: resolution.value"
                             [value]="val">{{val}}</mat-option>
-                        </ng-container>
-                      </mat-autocomplete>
-                      <mat-error>
-                        <div *ngIf="!resol.value" class="alert alert-danger">
-                          <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                          Select resolution type
-                        </div>
+                        </mat-autocomplete>
+                        <mat-error class="alert alert-danger">
+                          <div *ngIf="resolution.errors?.validOptions">Value need to match available options</div>
+                          <div *ngIf="!resolution.errors?.required">
+                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                            Select resolution type
+                          </div>
+                        </mat-error>
+                      </mat-form-field>
+                    </ng-container>
+                    <mat-form-field>
+                      <mat-label>999 Reference</mat-label>
+                      <input name="refer" #refer="ngModel" [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}"
+                        matInput placeholder="999 Reference" referValidator>
+                      <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+                      <mat-error class="alert alert-danger">
+                        <div *ngIf="refer.errors?.valid999">Please provide a valid 999 Reference</div>
                       </mat-error>
                     </mat-form-field>
 
-
-                    <mat-form-field>
-                      <mat-label>999 Reference</mat-label>
-                      <input [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}" matInput
-                        placeholder="999 Reference">
-                      <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-                    </mat-form-field>
-
-
                     <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                       <mat-label>Remarks</mat-label>
-                      <textarea required [(ngModel)]="Remarks" [ngModelOptions]="{standalone: true}" #input matInput
-                        maxlength="500" placeholder="Remarks"></textarea>
+                      <textarea required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks"
+                        [ngModelOptions]="{standalone: true}" #input matInput maxlength="500"
+                        placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                      <mat-error>
-                        <div *ngIf="!Remarks" class="alert alert-danger">
+                      <mat-error class="alert alert-danger">
+                        <div *ngIf="!remarks.errors?.required">
                           <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                           Add remarks for resolution
                         </div>
                       </mat-error>
                     </mat-form-field>
+
                     <!-- (!f.StartTelephoneNumber.value && !f.EndTelephoneNumber.value) -->
-                    <button [disabled]="isSaveDisable" type="submit" mat-raised-button color="primary">
+                    <button [disabled]="isSaveDisable" mat-raised-button color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 
@@ -276,13 +262,6 @@
                     </button> -->
 
                   </div>
-
-                  <!-- <mat-form-field class="side-textarea" hintLabel="Max 500 characters"  >
-                    <mat-label>Resolution</mat-label>
-                    <textarea matInput #input maxlength="500" placeholder="Resolution"></textarea>
-                    <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                  </mat-form-field> -->
-
                 </div>
                 <div class="side-right-div">
                 </div>
