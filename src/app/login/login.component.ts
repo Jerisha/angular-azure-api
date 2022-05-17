@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   error = '';
   @Output() loginState =new EventEmitter<boolean>()
   @Output() logoutState =new EventEmitter<boolean>()
-
+hide =true;
   
 
   
@@ -51,24 +51,24 @@ export class LoginComponent implements OnInit {
     
   onSubmit() {
     this.submitted = true;
-    if(this.f.username.value === '')
-       return alert("Provide your VF-Root Username");
-    if(this.f.password.value === '')
-       return alert("Password is Empty");
-    // stop here if form is invalid
-    if (this.loginForm.invalid) {            
-        return alert("Invalid Login Credentials",);
-    }
+    // if(this.f.username.value === '')
+    //    return alert("Provide your VF-Root Username");
+    // if(this.f.password.value === '')
+    //    return alert("Password is Empty");
+    // // stop here if form is invalid
+    // if (this.loginForm.invalid) {            
+    //     return alert("Invalid Login Credentials",);
+    // }
 
     this.loading = true;
-    if(this.authenticationService.login(this.f.username.value, this.f.password.value))
-    {
+    // if(this.authenticationService.login(this.f.username.value, this.f.password.value))
+    // {
       // this.router.navigate([this.returnUrl]);
       this.router.navigate(['/home']);
       this.loginState.emit(true)
       
-      alert( "Welcome back "+this.f.username.value);
-    }
+      //alert( "Welcome back "+this.f.username.value);
+    // }
      
         // .pipe(first())
         // .subscribe(
