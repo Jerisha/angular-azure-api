@@ -24,7 +24,7 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <ng-container *ngIf="isLoginSuccessfull"> 
+  <!-- <ng-container *ngIf="isLoginSuccessfull">  -->
   <ng-container *ngIf="!isError">
 
   <app-top-nav fxHide.xs></app-top-nav>
@@ -45,12 +45,11 @@
   <ng-container>
   <router-outlet name="errorPage" (activate)="removeError()" (deactivate)="Unsubscribe()"></router-outlet>
 </ng-container>
-</ng-container>
-<ng-container *ngIf="!isLoginSuccessfull">
-  <!-- <router-outlet name="loginPage" (deactivate)="loginSuccessfull($event)"></router-outlet> -->
-  <!-- <p>Login Router </p> -->
+<!-- </ng-container> -->
+<!-- <ng-container *ngIf="!isLoginSuccessfull">
+
   <app-login (loginState)="loginSuccessfull($event)"></app-login>
-</ng-container>
+</ng-container> -->
 
 </mat-sidenav-container>
 

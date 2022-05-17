@@ -192,7 +192,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   }
 
   auditstatustrackercolumns: ColumnDetails[] = [
-    { header: 'ACT ID', headerValue: 'ActID', showDefault: true, isImage: false },
+    { header: 'ACT ID', headerValue: 'ActId', showDefault: true, isImage: false },
     { header: 'Status Date', headerValue: 'StatusDate', showDefault: true, isImage: false },
     { header: 'Status Code', headerValue: 'StatusCode', showDefault: true, isImage: false },
     { header: 'Status Description', headerValue: 'StatusDescription', showDefault: true, isImage: false },
@@ -362,20 +362,20 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     let request = Utils.preparePyUpdate('StartSeparateInternalAudit', this.reportIdentifier, [{}], [{}]);
     //update 
     this.service.updateDetails(request).subscribe(x => {
-      if (x.StatusMessage === 'Success') {
+      if (x.StatusCode === "EUI000") {
         //success message and sshow act id
         const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
           width: '400px', disableClose: false, data: {enableOk: false,
             message: `Please note the following :<br/>
-            1. Audit ACT ID is : ${x.data.StartSeparateInternalAudit.SepAuditActId}<br/>
+            1. Audit ACT ID is : <b>${x.data.AuditStatusTracker[0].SepAuditActId}</b><br/>
             2. Audit can take sometime to produce and there may be delay of up to 15 minutes before the processing starts. </br>
             3. Audit has been started in backgound.<br />
             4. Check latest Audit ACT ID in Audit Tracker Screen.<br/>`
           }
         });
         rangeConfirm.afterClosed().subscribe(result => {
-          if (result) {
-          }
+          window.location.reload();
+         
         });
       
       }
