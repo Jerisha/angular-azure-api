@@ -271,8 +271,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.editRecord = element1;
       Object.entries(element1).map(
         (x: any) => {
-          if (x[1] === 'Y') { element1[x[0]] = true }
-          else if (x[1] === 'N') { element1[x[0]] = false }
+          if (x[1] === 'Y' || x[1]=== '0') { element1[x[0]] = true }
+          else if (x[1] === 'N' || x[1]=== '1') { element1[x[0]] = false }
          //console.log('element val', x)
 
         //   else if (x[1] === null) { element1[x[0]] = ('') 
