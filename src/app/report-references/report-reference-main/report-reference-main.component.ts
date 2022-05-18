@@ -67,7 +67,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   recordIdentifier:any = "";
   metaDataSupscription: Subscription = new Subscription;
   editActionEnabled =true;
-  
+  isLoading:boolean =true;
 
   displayedColumnsValues:any
 
@@ -217,11 +217,15 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     reportName = this.currentReportName
     }
     this.reportReferenceService.prepareData(reportName,'ReferenceList').pipe(takeUntil(this.onDestroyQuery)).subscribe(      
-      (res: any) =>{        
+      (res: any) =>{ 
+        this.isLoading = false;       
         if (this.currentReportName==='Franchise')
         {
           this.data = res.data[reportName];
           this.recordIdentifier = res.RecordIdentifier;
+          this.reportReferenceService.franchiseDropdowns =[];
+          this.reportReferenceService.franchiseDropdowns.push({"Olo":res.data['oloDropDown']})
+          this.reportReferenceService.franchiseDropdowns.push({"Company":res.data['companyDropDown']})
         }else if ( this.currentReportName ==='Olo')
         {
           this.data = res.data["Olos"];
@@ -230,6 +234,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         {
           this.data = res.data["Companys"];
           this.recordIdentifier = res.RecordIdentifier;
+          this.reportReferenceService.franchiseDropdowns =[];
+          this.reportReferenceService.franchiseDropdowns.push({"Olo":res.data['oloDropDown']})
         }
           // this.dataOlos =res.data["Olos"];
           // this.dataCompanys = res.data["Companys"];
@@ -245,10 +251,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     },
     (error) => {
       console.log(error,'Refresh Function')
+      this.isLoading = false;
 
     },
     ()=>{
       console.log('Refresh Completed','Refresh Function')
+      this.isLoading = false;
     } 
     );
     return true;
@@ -305,8 +313,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         if (record[this.recordIdentifier] != undefined) {
           // console.log(record[this.recordIdentifier], record, 'InternalIssues2')
           deleteparms.push({ Name: this.recordIdentifier, Value: [record[this.recordIdentifier]] });
-          let request = ReportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList', deleteparms);
+          let request = this.reportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList', deleteparms);
           this.reportReferenceService.deleteDetails(request).pipe(takeUntil(this.onDestroyDelete)).subscribe(x => {
+            // this.isLoading = false;
             if (x.StatusMessage === 'Success') {
               this.refreshData();
               this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
@@ -325,6 +334,15 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       else {
         this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
       }
+    },       
+    (error) => {
+      console.log(error,'Delete API Function')
+      // this.isLoading = false;
+
+    },
+    ()=>{
+      console.log('Delete API Completed','Delete API Function')
+      // this.isLoading = false;
     });
   }
   onDataFormSubmit(event: any[]) {
@@ -390,6 +408,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
          
           // this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', this.prepareUpdateIdentifiers(), [{}]).subscribe(x => {
           this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', reqdata, [{}]).pipe(takeUntil(this.onDestroyUpdate)).subscribe(x => {
+            // this.isLoading = false;
             if (x.StatusMessage === 'Success') {
               //success message and same data reloa
               this.refreshData();
@@ -401,6 +420,15 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
               this.alertService.notification("Record Update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
             }
+          },       
+          (error) => {
+            console.log(error,'Update API Function')
+            // this.isLoading = false;
+      
+          },
+          ()=>{
+            console.log('Update API Completed','Update API Function')
+            // this.isLoading = false;
           });
           
         }
@@ -421,6 +449,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           //console.log(event[0].keys,'eveent6')
           console.log(event[0].values, 'eveent9')
       this.reportReferenceService.prepareCreate(this.currentReportName, 'ReferenceList', reqdata).pipe(takeUntil(this.onDestroyCreate)).subscribe(x => {
+        // this.isLoading = false;
         if (x.StatusMessage === 'Success') {
           this.refreshData();
           this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
@@ -430,6 +459,15 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           this.alertService.notification("Create Record Aborted!!", { autoClose: true, keepAfterRouteChange: false });
 
         }
+      },       
+      (error) => {
+        console.log(error,'Create API Function')
+        // this.isLoading = false;
+  
+      },
+      ()=>{
+        console.log('Create API Completed','Create API Function')
+        // this.isLoading = false;
       });
       
     } 
@@ -442,17 +480,40 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.showDetailsForm = event[1];
   }
   onExport() {
-    console.log( this.data, 'download')
+    //console.log( this.data, 'download')
         if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
          {
-          console.log( this.data, 'download1')
+           let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
+         //  console.log(header,'header')
+         // console.log( this.data, 'download1')
           var c = document.createElement("a");
-          let data = "";
-          this.data.forEach((row: any) => {
-            let result = Object.values(row);
-            data += result.toString().replace(/[,]+/g, '\t') + "\n";
+          let data:any = [];
+          let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
+          data += Object.values(dataHeaderRow).toString() + "\n";
+          let  headerNames = header.filter((x: { cName: any,cValue:any }) => (x.cName,x.cValue ))
+          //console.log(headerNames,'headerNames')
+          let result1 = header.filter((x: { cDisplayName: any }) => (x.cDisplayName ))
+          //console.log(result1,'result1')
+          let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:''})))
+          //console.log(disp,'disp')
+          this.data.forEach((row : any) => {
+          //console.log(row,'row')
+          let dataRow = Object.assign(disp,row)
+          //console.log(dataRow,'dataRow')
+          //data += Object.values(dataRow).toString().replace(/[,]+/g, '\|') + "\n";
+          let val = Object.values(dataRow).toString();          
+          val.replace(/(\r\n|\n|\r|\r\t|\t)/gm,"");
+          //val.replace(/[,]+/g, '\t') 
+          data+= val+ "\n";
+          //data += val.replace(/[^ -~]+/g, "")+ "\n";
+          
+            
+            //let result = Object.values(row);
+            //console.log(result,'result')
+            //data += result.toString().replace(/[,]+/g, '\t') + "\n";
           });
-          c.download = "Report.tab";
+          c.download = this.currentReportName+' '+" _Report.csv";
+          //+ new Date().toString()+
           // var t = new Blob([JSON.stringify(this.data)],
           var t = new Blob([data], {
             
@@ -462,10 +523,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
           // element.setAttribute('download', filename);
           c.click();
-          this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.success( this.currentReportName + ' Download Completed :)', { autoClose: true, keepAfterRouteChange: false });
         }
         else {
-          this.alertService.info("No Data Found" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.info( this.currentReportName + ' No Data Found :(', { autoClose: true, keepAfterRouteChange: false });
         }
       }
       
@@ -479,14 +540,26 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private alertService: AlertService,
   ) {    
-    this.metaDataSupscription = this.reportReferenceService.getMetaData(["All"]).subscribe((res:any)=>{
+    this.metaDataSupscription = this.reportReferenceService.getMetaData(["All"]).subscribe(
+      (res:any)=>{
+        this.isLoading = false;
       //   console.log(JSON.stringify(res))
         this.reportReferenceService.metaDataCollection =res
         console.log("metaData",res)
        // this.reportReferenceService.reportNames = res[0]
        //for mock 
 
-       })
+       },       
+       (error) => {
+         console.log(error,'Dynamic JSON API Function')
+         this.isLoading = false;
+   
+       },
+       ()=>{
+         console.log('Dynamic JSON API Completed','Dynamic JSON API Function')
+         this.isLoading = false;
+       }
+       )
        //this.reportNames = this.reportReferenceService.getReportNames();
    }
   ngAfterViewInit(): void {
