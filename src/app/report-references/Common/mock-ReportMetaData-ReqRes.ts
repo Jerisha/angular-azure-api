@@ -57,7 +57,7 @@ export const ReportMetaDataResponse = {
          "StatusMessage": "Success",
          "MessageType": "Informational"
       }],
-      "ReponseParams":    {
+      "ResponseParams":    {
          "ScreenIdentifier": "ReportMetaObject",
          "Action": "Query"
       },
