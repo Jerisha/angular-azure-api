@@ -688,7 +688,7 @@
                     <ng-container *ngIf="AT.SeperateInternalAudit != null">
                         <table mat-table [dataSource]="AT.SeperateInternalAudit " multiTemplateDataRows
                             class="mat-elevation-z8">
-                            <ng-container *ngFor="let col of fullAuditTrailHeader ; let colIndex = index"
+                            <ng-container *ngFor="let col of internalAuditTrailHeader ; let colIndex = index"
                                 matColumnDef="{{col.headerValue}}">
                                 <ng-container *ngIf="col.header != 'User Comment'">
                                     <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
@@ -696,7 +696,7 @@
                                 </ng-container>
                                 <ng-container *ngIf="col.header === 'User Comment'">
 
-                                    <th mat-header-cell *matHeaderCellDef>{{col.headerValue}}</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
                                     <td mat-cell *matCellDef="let element">
                                         <mat-icon class="table-icon" style="cursor: pointer;"
                                             (click)="(expandedElement = expandedElement === element ? null : element);">
