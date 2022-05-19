@@ -27,7 +27,8 @@ export class AppComponent implements AfterViewInit {
   childRoot: any;
 
   isError!: boolean;
-
+  isLoginSuccessfull!:boolean;
+  title: any;
   constructor(private navService: NavService, private _router: Router) {
   }
 
@@ -64,6 +65,9 @@ export class AppComponent implements AfterViewInit {
   Unsubscribe() {
     this.isError = false;
     console.log("router unsubscribed");
+  }
+  loginSuccessfull(event:boolean) {
+    this.isLoginSuccessfull = event;
   }
 
 

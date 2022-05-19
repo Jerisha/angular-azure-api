@@ -4,7 +4,7 @@
     <mat-icon style ="font-size: small;">class</mat-icon></button>
       <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
         <div  class ="flex-items" *ngFor ="let reportName of reportNames let reportIndex = index">
-          <button mat-button (click)="onReportSelcted(reportName,reportIndex)">{{reportName}}</button>
+          <button mat-button (click)="onReportSelcted(reportName,reportIndex)">{{reportName.split('|')[0]}}</button>
         </div>
       </div>    
   </div>

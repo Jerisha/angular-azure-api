@@ -67,6 +67,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   recordIdentifier:any = "";
   metaDataSupscription: Subscription = new Subscription;
   editActionEnabled =true;
+  
 
   displayedColumnsValues:any
 
@@ -270,12 +271,20 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.editRecord = element1;
       Object.entries(element1).map(
         (x: any) => {
-          if (x[1] === 'Y') { element1[x[0]] = true }
-          else if (x[1] === 'N') { element1[x[0]] = false }
-    
-          console.log('element val', x)
+          if (x[1] === 'Y' || x[1]=== '0') { element1[x[0]] = true }
+          else if (x[1] === 'N' || x[1]=== '1') { element1[x[0]] = false }
+         //console.log('element val', x)
+
+        //   else if (x[1] === null) { element1[x[0]] = ('') 
+        //  console.log(x[1], x[0], 'null')
+        // }
+         else {
+          element1[x[0]]
         }
+        }
+
       )
+      console.log(this.editRecord, 'editrrecord2')
     }
     else {
       this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
@@ -329,19 +338,27 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // console.log(entries1.map, 'entri')
     Object.entries(updaterecord1).map(
       (x: any) => {
-      // updaterecord1[x[0]]
-        console.log(x[1], x[0], 'nullvalues')
-        if (x[1] === true) { updaterecord1[x[0]] = ('Y') }
-        else if (x[1] === false) {
-          console.log(x[0], 'false1')
-          updaterecord1[x[0]] = ('N')
+        // updaterecord1[x[0]]
+        console.log(x[1], x[0], 'nullvalues0')
+        // Transformation for values true-'Y' & false='N' --- impelmentaed in python layer
+        // if (x[1] === true) { updaterecord1[x[0]] = ('Y') }
+        // else if (x[1] === false) {
+        //   console.log(x[0], 'false1')
+        //   updaterecord1[x[0]] = ('N')
+        // }
+        // else if (x[1] === null) { updaterecord1[x[0]] = ('') }
+        // console.log('element val', x)
+        if (x[1] === null || x[1] === undefined) { updaterecord1[x[0]] = ('') 
+        console.log(x[1], x[0], 'nullvalues1')
+      }
+
+
+        else {
+          updaterecord1[x[0]]
         }
-        else if (x[1] === null) { updaterecord1[x[0]] = ('') }
-       // console.log('element val', x)
-       
-else { updaterecord1[x[0]]}
       }
     )
+
 
     console.log('updaterec1', updaterecord1)
     let data = Object.assign({}, updaterecord1);
@@ -425,32 +442,33 @@ else { updaterecord1[x[0]]}
     this.showDetailsForm = event[1];
   }
   onExport() {
-console.log( this.data, 'download')
-    if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
-     {
-      console.log( this.data, 'download1')
-      var c = document.createElement("a");
-      let data = "";
-      this.data.forEach((row: any) => {
-        let result = Object.values(row);
-        data += result.toString().replace(/[,]+/g, '\t') + "\n";
-      });
-      c.download = "Report.tab";
-      // var t = new Blob([JSON.stringify(this.data)],
-      var t = new Blob([data], {
-        
-        type: "data:text/plain;charset=utf-8"
-      });
-      c.href = window.URL.createObjectURL(t);
-      // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-      // element.setAttribute('download', filename);
-      c.click();
-      this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
-    }
-    else {
-      this.alertService.info("No Data Found" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
-    }
-  }
+    console.log( this.data, 'download')
+        if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
+         {
+          console.log( this.data, 'download1')
+          var c = document.createElement("a");
+          let data = "";
+          this.data.forEach((row: any) => {
+            let result = Object.values(row);
+            data += result.toString().replace(/[,]+/g, '\t') + "\n";
+          });
+          c.download = "Report.tab";
+          // var t = new Blob([JSON.stringify(this.data)],
+          var t = new Blob([data], {
+            
+            type: "data:text/plain;charset=utf-8"
+          });
+          c.href = window.URL.createObjectURL(t);
+          // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+          // element.setAttribute('download', filename);
+          c.click();
+          this.alertService.success("Download Completed" + this.editMode + ':)', { autoClose: true, keepAfterRouteChange: false });
+        }
+        else {
+          this.alertService.info("No Data Found" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
+        }
+      }
+      
   ngOnChanges(changes: SimpleChanges) {
     // this.lstFields =this.reportReferenceService.setForm(this.reportName); 
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
@@ -464,14 +482,21 @@ console.log( this.data, 'download')
     this.metaDataSupscription = this.reportReferenceService.getMetaData(["All"]).subscribe((res:any)=>{
       //   console.log(JSON.stringify(res))
         this.reportReferenceService.metaDataCollection =res
+        console.log("metaData",res)
+       // this.reportReferenceService.reportNames = res[0]
+       //for mock 
 
        })
+       //this.reportNames = this.reportReferenceService.getReportNames();
    }
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-  ngOnInit(): void {    
+  ngOnInit(): void { 
     this.reportNames = this.reportReferenceService.reportNames;
+    console.log('reportnames1', this.reportNames)
+    console.log(this.reportReferenceService.metaDataCollection,'metacol')
+   
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();
