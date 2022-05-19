@@ -70,12 +70,6 @@ tr.example-element-row:not(.example-expanded-row):active {
   opacity: 0.5;
 }
 
-/* th, .appTable::ng-deep  th {
-  font-weight: bold;
-  background-color: #e60000;
-  color: black;
-} */
-
 .notification-sec .page-header {
   font-weight: bold;
   background-color: #e60000;
@@ -85,11 +79,12 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .liveRecord-error {
   text-align: center;
-  /* color: red; */
+  height: 32px;
 }
 
-.liveRecord-error mat-divider {
-  min-height: 0%;
+.alignMiddle {
+  line-height: 32px;
+  vertical-align: middle;
 }
 
 .error {

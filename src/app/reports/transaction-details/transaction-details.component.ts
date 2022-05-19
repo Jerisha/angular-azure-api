@@ -391,7 +391,7 @@ prepareQueryParams(pageNo: string): any {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
         } else {
           let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
-          
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
           this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')';      
         }
         break;
