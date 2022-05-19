@@ -419,12 +419,19 @@ export class ReportReferenceService {
   }
   public getDisplayNames(reportName:string):any
   {
-    console.log(this.metaDataCollection , 'datacollection0')
+    // console.log(this.metaDataCollection[1][reportName] , 'datacollection')
+    // console.log(JSON.stringify(this.metaDataCollection[1] ), 'datacollection1')
+    // // let metaData = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters.values().next().value[reportName]; 
+    // //let metaData = this.metaDataCollection[1].entries().values().next().value[reportName]; 
+    // let metaData = this.metaDataCollection[1][reportName] 
     console.log(this.metaDataCollection[1][reportName] , 'datacollection')
-    console.log(JSON.stringify(this.metaDataCollection[1] ), 'datacollection1')
-    // let metaData = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters.values().next().value[reportName]; 
-    //let metaData = this.metaDataCollection[1].entries().values().next().value[reportName]; 
-    let metaData = this.metaDataCollection[1][reportName] 
+    //console.log(JSON.stringify(this.metaDataCollection[1] ), 'datacollection1')
+    //console.log(this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters , 'datacollection')
+    //let metaData = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters[1][reportName]; 
+        //let metaData = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters.values().next().value[reportName]; 
+  //let metaData = this.metaDataCollection[1].entries().values().next().value[reportName]; 
+   let metaData = this.metaDataCollection[1][reportName] 
+  
     if(metaData != undefined && metaData.length >0)
     {
     let lstDisplayName =metaData.filter( (x:IColoumnDef)=> x.cDisplayOnOff  ==true) 
@@ -452,9 +459,10 @@ export class ReportReferenceService {
       return [];
     }
     else {  
-      
-      //start 
       this.lstForm = this.metaDataCollection[1][reportName] as IColoumnDef[]
+
+      //start 
+     // this.lstForm = this.metaDataCollection[1][reportName] as IColoumnDef[]
            //this.lstForm = this.metaDataCollection.Data.TelephoneNumber[0].MetaDataParameters.values().next().value[reportName] as IColoumnDef[]
           //console.log(this.lstForm,"col")
            this.findDropdowns()
@@ -1062,15 +1070,28 @@ export class ReportReferenceService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
     
   }
+  //testing for api data
   getMetaData(reportNames:string[]):Observable<any>{
  let request = Utils.preparePyMetaData(reportNames); 
-     let val = this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
-     console.log(val,'metaData req JSON')
-     //api
- //return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
-//console.log(ReportMetaDataResponse,'metaData JSON')
-console.log(of(ReportMetaDataResponse),'metaData res JSON')
-     return of(ReportMetaDataResponse.Data.TelephoneNumber[0].MetaDataParameters)
+//      let val = this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
+//      console.log(val)
+//      //api  data
+return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
+// console.log(ReportMetaDataResponse)
+//      return of(ReportMetaDataResponse)
   }
+// Testing for the mocatdata
+  // getMetaData(reportNames: string[]): Observable<any> {
+  //   // let request = Utils.preparePyMetaData(reportNames);
+  //   // let val = this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
+  //   // console.log(val)
+  //   //api
+    
+  // //return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA, request);
+
+  // //mockdata
+  //   console.log(ReportMetaDataResponse.Data.TelephoneNumber[0].MetaDataParameters,'cg')
+  //   return of(ReportMetaDataResponse.Data.TelephoneNumber[0].MetaDataParameters)
+  // }
 
 }
