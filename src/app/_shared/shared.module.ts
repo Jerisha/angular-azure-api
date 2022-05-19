@@ -14,9 +14,16 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { RouterModule } from '@angular/router';
 import { TelephoneNoComponent } from './telephone-no/telephone-no.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ExporttoexcelComponent } from './exporttoexcel/exporttoexcel.component';
 
 @NgModule({
-  declarations: [TelephoneAuditTrailComponent, TransactionErrorsComponent, StartUpComponent, TelephoneNoComponent,AlertComponent,ConfirmDialogComponent],
+  declarations: [TelephoneAuditTrailComponent,
+     TransactionErrorsComponent, 
+     StartUpComponent, 
+     TelephoneNoComponent,
+     AlertComponent,
+     ConfirmDialogComponent,
+      ExporttoexcelComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -24,14 +31,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UicomponentsModule,
     RouterModule,
  FormsModule,
-    ReactiveFormsModule,  ],
+    ReactiveFormsModule,
+    ],
   exports :[
     TelephoneAuditTrailComponent,
     TransactionErrorsComponent  ,
     StartUpComponent,
     MaterialModule,
     TelephoneNoComponent,
-    AlertComponent
+    AlertComponent,
+    ExporttoexcelComponent
   ],
  
 

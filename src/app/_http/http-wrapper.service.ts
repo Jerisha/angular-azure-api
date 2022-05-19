@@ -105,18 +105,18 @@ export class HttpWrapperService {
     private resolvePyRespone(val: any, requestType: WebMethods) {
         debugger;
         let jsonResult = '';
-        console.log(val)
+       // console.log(val)
         let transData: any = [];
         try {
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
                 switch (requestType) {
-                    case WebMethods.CONFIG:
-                        transData = val.ReponseParams
+                    case WebMethods.CONFIG:                        
+                        transData = val.ResponseParams
                         transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
                         break;
                     case WebMethods.QUERY:
                     case WebMethods.GET:
-                        transData = val.ReponseParams
+                        transData = val.ResponseParams
                         transData.data = val.Data
                         break;
                     case WebMethods.UPDATE:
@@ -126,8 +126,12 @@ export class HttpWrapperService {
                         transData.data = val.Data
                         break;
                     case WebMethods.METADATA:
-                        transData = val.ReponseParams
-                        transData.data = val.Data.TelephoneNumber[0].MetaDataParameters[0]
+                       // transData = val.ResponseParams
+                        //transData.data = val.Data.Object_name[0].MetaDataParameters
+                        //transData.data = val.Data.TelephoneNumber[0].MetaDataParameters[1]
+                        transData = val.Data.TelephoneNumber[0].MetaDataParameters
+                        //console.log(transData, 'metadat')
+                       // console.log(JSON.stringify(transData), 'metadat1')
                         break;
                 }
             }
