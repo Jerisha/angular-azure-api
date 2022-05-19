@@ -1,51 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit} from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { of } from 'rxjs';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
-
-const ELEMENT_DATA = [
-  { ACTID: "19", FileName: "BT101330091301.DAT", CreatedOn: "22/01/2021" },
-  { ACTID: "21", FileName: "BT101330091301.DAT", CreatedOn: "21/01/2021" },
-  { ACTID: "20", FileName: "BT101330091301.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "17", FileName: "BT101330091301.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "15", FileName: "BT101330091301.DAT", CreatedOn: "19/01/2021" },
-  { ACTID: "18", FileName: "BT101330091301.DAT", CreatedOn: "18/01/2021" },
-  { ACTID: "19", FileName: "BT101330091301.DAT", CreatedOn: "22/01/2021" },
-  { ACTID: "21", FileName: "BT101330091301.DAT", CreatedOn: "21/01/2021" },
-  { ACTID: "20", FileName: "BT101330091301.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "17", FileName: "BT101330091301.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "15", FileName: "BT101330091301.DAT", CreatedOn: "19/01/2021" },
-  { ACTID: "18", FileName: "BT101330091301.DAT", CreatedOn: "18/01/2021" },
-  { ACTID: "19", FileName: "BT101330091301.DAT", CreatedOn: "22/01/2021" },
-  { ACTID: "21", FileName: "BT101330091301.DAT", CreatedOn: "21/01/2021" },
-  { ACTID: "20", FileName: "BT101330091301.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "17", FileName: "BT101330091301.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "15", FileName: "BT101330091301.DAT", CreatedOn: "19/01/2021" },
-  { ACTID: "18", FileName: "BT101330091301.DAT", CreatedOn: "18/01/2021" }
-]
-
-const ELEMENT_DATA1 = [
-  { ACTID: "19", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "22/01/2021" },
-  { ACTID: "21", FileName: "LiveInSwitch_21012021.DAT", CreatedOn: "21/01/2021" },
-  { ACTID: "20", FileName: "LiveInSwitch_20012021.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "17", FileName: "LiveInSwitch_20012021.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "15", FileName: "LiveInSwitch_19012021.DAT", CreatedOn: "19/01/2021" },
-  { ACTID: "18", FileName: "LiveInSwitch_18012021.DAT", CreatedOn: "18/01/2021" },
-  { ACTID: "19", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "22/01/2021" },
-  { ACTID: "21", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "21/01/2021" },
-  { ACTID: "20", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "17", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "15", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "19/01/2021" },
-  { ACTID: "18", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "18/01/2021" },
-  { ACTID: "19", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "22/01/2021" },
-  { ACTID: "21", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "21/01/2021" },
-  { ACTID: "20", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "17", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "20/01/2021" },
-  { ACTID: "15", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "19/01/2021" },
-  { ACTID: "18", FileName: "LiveInSwitch_22012021.DAT", CreatedOn: "18/01/2021" }
-]
+import { Utils } from 'src/app/_http';
+import { AdministrationService } from '../services/administration.service';
 
 @Component({
   selector: 'app-audit-data-files',
@@ -55,12 +15,12 @@ const ELEMENT_DATA1 = [
     trigger('toggleMenu', [
       state('collapsed', style({ height: '0px' , width: '0px', padding: '0px', display: 'none', })),
       state('expanded', style({ minHeight: '50px' })),
-      transition('expanded => collapsed', animate('500ms ease-in')),
-      transition('collapsed => expanded', animate('500ms ease-out')),
+      transition('expanded => collapsed', animate('225ms ease-in')),
+      transition('collapsed => expanded', animate('225ms ease-out')),
     ]),
   ],
 })
-export class AuditDataFilesComponent implements OnInit {
+export class AuditDataFilesComponent{
   isShow: boolean = false;
   showMenu: string = 'expanded';
   btAuditFileDetailsTable!: TableItem;
@@ -68,20 +28,18 @@ export class AuditDataFilesComponent implements OnInit {
   tabs: Tab[] = [];
   showDetails: boolean = false;
   btAuditFileDetailsTableDetails: any = [
-    { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
+    { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
     { headerValue: 'FileName', header: 'File Name', showDefault: true, isImage: false },
-    { headerValue: 'CreatedOn', header: 'Created On', showDefault: true, isImage: false },
+    { headerValue: 'CreatedDate', header: 'Created On', showDefault: true, isImage: false },
     { headerValue: 'DownloadFile', header: 'Download File', showDefault: true, isImage: true },
 
   ]
   
   selectedTab: number = 0;
-  constructor() { }
+  currentPage: string = '1';
+  queryResult$!: Observable<any>;
 
-  ngOnInit(): void {
-
-  }
-
+  constructor(private service: AdministrationService ) { }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -92,25 +50,28 @@ export class AuditDataFilesComponent implements OnInit {
     }
   }
 
-  getFileDetails(fileType: string) {
+  getFileDetails(fileType: string, isEmitted: boolean) {
+    console.log("File Type : " + fileType);
     this.isShow = true;
     this.showMenu = 'collapsed';
+    this.queryFetch(fileType, isEmitted);
     if (fileType === 'BTAuditFileDetails') {
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
           tabType: 0,
           name: 'BT Audit File Details'
         });
+      }
         this.btAuditFileDetailsTable = {
-          data: of({datasource:ELEMENT_DATA,
-            totalrecordcount: 100,
-            totalpages:1,
-            pagenumber:1}),
+          // data: of({datasource:ELEMENT_DATA,
+          //   totalrecordcount: 100,
+          //   totalpages:1,
+          //   pagenumber:1}),
+          data: this.queryResult$,
           Columns: this.btAuditFileDetailsTableDetails,
           selectCheckbox: true,
           imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]
         }
-      }
     }
     else {
       if (!this.tabs.find(x => x.tabType == 1)) {
@@ -118,16 +79,17 @@ export class AuditDataFilesComponent implements OnInit {
           tabType: 1,
           name: 'Data - Live in Switch Only'
         });
+      }
         this.dataLiveInSwitchTable = {
-           data: of({datasource:ELEMENT_DATA1,
-            totalrecordcount: 100,
-            totalpages:1,
-            pagenumber:1}),
+          //  data: of({datasource:ELEMENT_DATA1,
+          //   totalrecordcount: 200,
+          //   totalpages:2,
+          //   pagenumber:1}),
+            data: this.queryResult$,
           Columns: this.btAuditFileDetailsTableDetails,
           selectCheckbox: true,
-          imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]
+          imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 2 }]
         }
-      }
     }
     this.showDetails = true;
     this.selectedTab = this.tabs.length;
@@ -138,4 +100,67 @@ export class AuditDataFilesComponent implements OnInit {
 
   }
 
+  getNextSetRecords(pageIndex: any, tabType: number) {
+    debugger;
+    this.currentPage = pageIndex;
+    // console.log("Tab Type : " +tabType);
+    tabType ? this.getFileDetails('LiveSwitchData', true) : this.getFileDetails('BTAuditFileDetails', true);
+  }
+
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
+      console.log("Query params" + JSON.stringify(attributes));
+      return attributes;
+    }
+
+    queryFetch(fileType: string, isEmitted?: boolean)
+    {
+      debugger;
+      this.currentPage = isEmitted ? this.currentPage : '1';
+      let request = Utils.preparePyQuery( fileType, 'AuditDataFiles', this.prepareQueryParams(this.currentPage));
+      console.log("py request : " + JSON.stringify(request));
+      this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+        // console.log("Response data : " + JSON.stringify(res.data.BTAuditFiles));
+        if (Object.keys(res).length) {
+          let result = {};
+          if(fileType == 'BTAuditFileDetails'){
+           result = {
+            datasource: res.data.BTAuditFiles,
+            totalrecordcount: res.TotalCount,
+            totalpages: res.NumberOfPages,
+            pagenumber: res.PageNumber
+          }; //result
+          } else {
+            result = {
+              datasource: res.data.LiveSwitchData,
+              totalrecordcount: res.TotalCount,
+              totalpages: res.NumberOfPages,
+              pagenumber: res.PageNumber
+            }; //result
+          }// else
+          return result;
+        } else return {
+          datasource: res
+        };
+      }));
+    }
+
+    /* download functionality */
+    newTab(tab: any, tabType: number) {
+
+      let downloadLink = document.createElement('a');
+
+      if(tabType)
+      {
+        downloadLink.download = tab.row.FileName + '.csv';
+        downloadLink.href = "../../../assets/dataFiles/LiveInSwitch.csv";
+      } else {
+        downloadLink.download = tab.row.FileName;
+        downloadLink.href = "../../../assets/dataFiles/BTAuditFile.dat";
+      }    
+      downloadLink.click();
+      URL.revokeObjectURL(downloadLink.href);
+    }
+    
 }
