@@ -211,7 +211,7 @@ export class TransactionErrorsComponent implements OnInit {
   }
   ngOnChanges(changes: SimpleChanges) {
     this.btHeader = this.repIdentifier === 'UnsolicitedErrors' ? 'BT Request' : 'BT Response';
-    if (changes.telNo?.currentValue != changes.telNo?.previousValue || changes.tranId?.currentValue != changes?.tranId.previousValue) {
+    if (changes.telNo?.currentValue != changes.telNo?.previousValue || changes.tranId?.currentValue != changes.tranId?.previousValue) {
       let request = Utils.preparePyQuery('TelephoneNumberTransactionError', this.repIdentifier, this.prepareQueryParams());
       this.tranErr$ = this.service.queryDetails(request).pipe(map((res: any) => res.data));
       // let request = Utils.prepareQueryRequest('TelephoneNumberTransactionError', this.repIdentifier, this.prepareQueryParams());
