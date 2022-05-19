@@ -167,12 +167,12 @@ const Items: Select[] = [
   { view: 'Start TelephoneNumber', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End TelephoneNumber', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Audit ActId', viewValue: 'AuditActID', default: true },
-  { view: 'CUP Id', viewValue: 'CUPId', default: true },
+  { view: 'CUP Id', viewValue: 'CUPID', default: true },
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
   { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  { view: 'Post Code Difference', viewValue: 'PostCodeDifference', default: true },
-  { view: 'Full Address Difference', viewValue: 'FullAddDifference', default: true },
+  { view: 'Post Code Difference', viewValue: 'PostcodeDifference', default: true },
+  { view: 'Full Address Difference', viewValue: 'FullAddressDifference', default: true },
   { view: 'Customer Difference', viewValue: 'CustomerDifference', default: true },
 
 ];
@@ -186,7 +186,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
   externalAuditForm!: FormGroup;
-  updateForm!:FormGroup;
+  updateForm!: FormGroup;
   myTable!: TableItem;
   selectedTab!: number;
   selectListItems: any[] = [];
@@ -195,8 +195,18 @@ export class ExternalAuditDetailsComponent implements OnInit {
   auditTelNo?: any;
   repIdentifier = "ExternalAuditDetails";
   comments: string = 'No Records Found';
+  resolutionType: string = '';
+  remarkstxt: string = '';
+  defaultACTID: string = ''
+  updateDetails!: any;
+  configDetails!: any;
+  @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
+  @ViewChild('EndTelephoneNumber') icendNo!: ElementRef;
+  currentPage: string = '1';
+  queryResult$!: Observable<any>;
+  disableSave: boolean = true;
 
-  selctedOption=['29-20 Dec 2021'];
+  selctedOption = ['29-20 Dec 2021'];
 
   colHeader: ColumnDetails[] = [
     { headerValue: 'TelephoneNumber', header: 'Telephone No', showDefault: true, isImage: false },
@@ -220,26 +230,26 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   ];
 
-  
+
 
   constructor(private dialog: MatDialog,
     private formBuilder: FormBuilder, private service: AuditReportsService,
-    private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef,private alertService: AlertService) {
+    private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef, private alertService: AlertService) {
   }
 
   resetForm(): void {
-    
+
     this.resolutionType = '';
-    this.remarkstxt = '';   
+    this.remarkstxt = '';
     this.externalAuditForm.reset();
     this.updateForm.reset();
-    this.disableSave = true;   
+    this.disableSave = true;
     this.selectListItems = [];
     this.tabs.splice(0);
 
   }
 
-  cellAttrInfo: CellAttributes[] = [  
+  cellAttrInfo: CellAttributes[] = [
     { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'BTCustomer'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode', 'BTPostcode'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'FullAddressDiffFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare', 'BTLocality', 'BTPremise', 'BTThouroughfare'], value: 'Y', isBackgroundHighlighted: true },
@@ -257,7 +267,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
     return this.externalAuditForm.controls;
 
   }
-  
+
   openDialog(auditACTID: any, telno: any) {
     let attributes = [
       { Name: 'TelephoneNumber', Value: [`${telno}`] },
@@ -273,8 +283,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
     }
     );
   }
-  resolutionType:string='';
-  remarkstxt:string='';
+
 
   onChange(value: string, ctrlName: string) {
     const ctrl = this.externalAuditForm.get(ctrlName) as FormControl;
@@ -293,39 +302,38 @@ export class ExternalAuditDetailsComponent implements OnInit {
   prepareUpdateIdentifiers(): any {
     let identifiers: any[] = [];
     //switch (type) {
-      
-        if (this.selectListItems.length > 0) {
-          let telno: string[] = [];
-          this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
-          identifiers.push({ Name: 'TelephoneNumber', Value: telno });
-        }
-        else if ((this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
-          && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
-          identifiers.push({ Name: 'TelephoneNumber', Value: [`${this.form.StartTelephoneNumber.value + '|' + this.form.EndTelephoneNumber.value}`] });
-        } else
-          identifiers.push({ Name: 'TelephoneNumber', Value: [""] });
 
-        if (this.resolutionType != '')
-          identifiers.push({ Name: 'ResolutionType', Value: [this.resolutionType] });
-        else
-          identifiers.push({ Name: 'ResolutionType' });
-        if (this.remarkstxt)
-          identifiers.push({ Name: 'Remarks', Value: [this.remarkstxt] });
-        else
-          identifiers.push({ Name: 'Remarks' });
-        if (this.form.AuditActID.value!='' && this.form.AuditActID.value!=null)
-          identifiers.push({ Name: 'AuditActID', Value: [this.form.AuditActID.value] });
-        else
-          identifiers.push({ Name: 'AuditActID' });
+    if (this.selectListItems.length > 0) {
+      let telno: string[] = [];
+      this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
+      identifiers.push({ Name: 'TelephoneNumber', Value: telno });
+    }
+    else if ((this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
+      && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
+      identifiers.push({ Name: 'TelephoneNumber', Value: [`${this.form.StartTelephoneNumber.value + '|' + this.form.EndTelephoneNumber.value}`] });
+    } else
+      identifiers.push({ Name: 'TelephoneNumber', Value: [""] });
 
-        identifiers.push({ Name: 'AuditType', Value: [`${'External Audit'}`] });
-        
-       
+    if (this.resolutionType != '')
+      identifiers.push({ Name: 'ResolutionType', Value: [this.resolutionType] });
+    else
+      identifiers.push({ Name: 'ResolutionType' });
+    if (this.remarkstxt)
+      identifiers.push({ Name: 'Remarks', Value: [this.remarkstxt] });
+    else
+      identifiers.push({ Name: 'Remarks' });
+    if (this.form.AuditActID.value != '' && this.form.AuditActID.value != null)
+      identifiers.push({ Name: 'AuditActID', Value: [this.form.AuditActID.value] });
+    else
+      identifiers.push({ Name: 'AuditActID' });
+
+    identifiers.push({ Name: 'AuditType', Value: [`${'External Audit'}`] });
+
     //}
     return identifiers;
   }
 
-  
+
   onSaveSubmit(): void {
     if (this.updateForm.invalid) { return; }
     const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
@@ -336,7 +344,6 @@ export class ExternalAuditDetailsComponent implements OnInit {
     rangeConfirm.afterClosed().subscribe(result => {
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'ExternalAuditDetails', this.prepareUpdateIdentifiers(), [{}]);
-        //update 
         console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
@@ -353,34 +360,29 @@ export class ExternalAuditDetailsComponent implements OnInit {
     this.onFormSubmit(true);
   }
 
-
   createUpdateForm() {
     this.updateForm = this.formBuilder.group({
       Resolution: new FormControl('', [Validators.required]),
       Remarks: new FormControl('', [Validators.required])
     });
   }
+
   ngOnInit(): void {
     this.createForm();
     this.createUpdateForm();
 
-    let request = Utils.preparePyConfig(['Search'], [ "ExternalAuditActID", "CUPID", "OSN2Source", "ExternalCLIStatus", "ResolutionTypeAudit", "PostcodeDifference", "FullAddressDifference", "CustomerDifference"  ]);
+    let request = Utils.preparePyConfig(['Search'], ["ExternalAuditActID", "CUPID", "OSN2Source", "ExternalCLIStatus", "ResolutionTypeAudit", "PostcodeDifference", "FullAddressDifference", "CustomerDifference"]);
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
 
     forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
       .subscribe(results => {
         this.configDetails = results[0].data;
-        //this.rowRange = this.configDetails.AutoCorrectionVolume[0];
         this.defaultACTID = this.configDetails.ExternalAuditActID[0];
         this.updateDetails = results[1].data;
-        console.log('config',this.configDetails);
-        console.log('update',this.updateDetails)
       });
     this.listItems = Items;
   }
-  defaultACTID:string =''
-  updateDetails!:any;
-  configDetails!:any;
+
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -399,7 +401,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
       if (control?.value)
         attributes.push({ Name: field, Value: [control?.value] });
       else
-        attributes.push({ Name: field, Value:[''] });
+        attributes.push({ Name: field, Value: [''] });
     }
     attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
 
@@ -407,15 +409,9 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   }
 
-  @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
-  @ViewChild('EndTelephoneNumber') icendNo!: ElementRef;
-  currentPage:string='1';
-  queryResult$!:Observable<any>;
-  // isEmitted:boolean =false;
-
   onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);
-    this.selectListItems = [];   
+    this.selectListItems = [];
     this.disableSave = true;
     this.updateForm.reset();
     this.remarkstxt = '';
@@ -451,19 +447,20 @@ export class ExternalAuditDetailsComponent implements OnInit {
     //   this.icstartNo.nativeElement.focus();
     //   this.icstartNo.nativeElement.blur();
     //   return;     
-      
+
     // }
 
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('ExternalAuditDetails', 'ExternalAuditDetails', this.prepareQueryParams(this.currentPage));
-   console.log('request', JSON.stringify(request))
+    console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount:res.data.TelephoneNumbers.length
         }
         return result;
       } else return {
@@ -472,19 +469,13 @@ export class ExternalAuditDetailsComponent implements OnInit {
     }));
 
     this.myTable = {
-      // data: of({
-      //   datasource: ELEMENT_DATA,
-      //   totalrecordcount: 13,
-      //   totalpages: 10,
-      //   pagenumber: 1
-      // }),
       data: this.queryResult$,
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      setCellAttributes:this.cellAttrInfo,
-     // highlightedCells: ['TelNo'],
+      setCellAttributes: this.cellAttrInfo,
+      // highlightedCells: ['TelNo'],
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
     }
@@ -503,40 +494,9 @@ export class ExternalAuditDetailsComponent implements OnInit {
     this.tabs.splice(index, 1);
   }
 
-  // newTab(tab: any) {
-  //   debugger;
-  //   if (this.tabs === []) return;
-  //   switch (tab.tabType) {
-  //     case 1: {
-  //       this.auditTelNo = tab.row.TelephoneNumber;
-  //       if (!this.tabs?.find(x => x.tabType == 1)) {
-  //         this.tabs.push({
-  //           tabType: 1,
-  //           name: 'Audit Trail Report (' + tab.row.TelephoneNumber + ')'
-  //         });
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
-  //       } else {
-  //         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
-  //         let updtab = this.tabs.find(x => x.tabType == 1);
-  //         if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
-  //       }
-  //       break;
-  //     }
-  //     case 2: {
-  //       let auditACTID = this.form.AuditActId.value;
-  //       this.openDialog(auditACTID, tab.row.TelephoneNumber);
-  //       break;
-  //     }
-  //     default: {
-  //       //statements; 
-  //       break;
-  //     }
-  //   }
-  // }
-
   newTab(tab: any) {
-    if (this.tabs === []) return;   
-   let auditACTID = this.form.AuditActID.value;
+    if (this.tabs === []) return;
+    let auditACTID = this.form.AuditActID.value;
     let telno = tab.row.TelephoneNumber;
     switch (tab.tabType) {
       case 1: {
@@ -588,29 +548,19 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   createForm() {
     this.externalAuditForm = this.formBuilder.group({
-      // StartTelephoneNumber: new FormControl({ value: '', disabled: true },
-      //   [
-      //     Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
-      //   ]
-      // ),
-      // EndTelephoneNumber: new FormControl({ value: '', disabled: true },
-      //   [
-      //     Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
-      //   ]
-      // ),
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      AuditActID: new FormControl({ value: '29-20 Dec 2021', disabled: true },[Validators.required]),
-      CUPId: new FormControl({ value: '', disabled: true }),
+      AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      CUPID: new FormControl({ value: '', disabled: true }),
       OSN2Source: new FormControl({ value: '', disabled: true }),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
       ResolutionType: new FormControl({ value: '', disabled: true }),
-      PostCodeDifference: new FormControl({ value: '', disabled: true }),
-      FullAddDifference: new FormControl({ value: '', disabled: true }),
+      PostcodeDifference: new FormControl({ value: '', disabled: true }),
+      FullAddressDifference: new FormControl({ value: '', disabled: true }),
       CustomerDifference: new FormControl({ value: '', disabled: true }),
     })
   }
-  disableSave:boolean= true;
+
 
   getPnlControlAttributes(control?: string) {
     if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
@@ -627,30 +577,11 @@ export class ExternalAuditDetailsComponent implements OnInit {
   }
 
   getTelnoValidation() {
-    if (this.form.StartTelephoneNumber.errors?.incorrect) {
-      this.form.StartTelephoneNumber.setErrors({ incorrect: false });
-      this.form.StartTelephoneNumber.reset();
-    }
+    // if (this.form.StartTelephoneNumber.errors?.incorrect) {
+    //   this.form.StartTelephoneNumber.setErrors({ incorrect: false });
+    //   this.form.StartTelephoneNumber.reset();
+    // }
   }
-
-  // rowDetect(item: any) {
-  //   if (item.length == 0) {
-  //     this.selectListItems = [];
-  //   } else {
-  //     item.forEach((el: string) => {
-  //       if (!this.selectListItems.includes(el)) {
-  //         this.selectListItems.push(el)
-  //       }
-  //       else {
-  //         if (this.selectListItems.includes(el)) {
-  //           let index = this.selectListItems.indexOf(el);
-  //           this.selectListItems.splice(index, 1)
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
-
 
   rowDetect(selectedRows: any) {
     selectedRows.forEach((item: any) => {
@@ -663,7 +594,6 @@ export class ExternalAuditDetailsComponent implements OnInit {
         this.selectListItems.splice(index, 1)
       }
     })
-    //this.getSelectedDataCorrection();
     this.getPnlControlAttributes();
   }
 }

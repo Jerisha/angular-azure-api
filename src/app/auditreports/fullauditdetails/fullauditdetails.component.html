@@ -11,7 +11,7 @@
 
           <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>Start Telephone No</mat-label>
-            <input id="StartTelephoneNumber" telNoPrefixValidator formControlName="StartTelephoneNumber" matInput
+            <input id="StartTelephoneNumber" telNoPrefixValidator formControlName="StartTelephoneNumber" numbersOnly matInput
               #StartTelephoneNumber maxlength="11" placeholder="Start Telephone No" (blur)="getPnlControlAttributes()"
               (keypress)="numberOnly($event)" style="margin-right: 24%;">
             <mat-error>
@@ -27,16 +27,16 @@
 
           <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>End Telephone No</mat-label>
-            <input id="EndTelephoneNumber" telNoPrefixValidator compareStartNo [startNo]="form.StartTelephoneNumber"
-              formControlName="EndTelephoneNumber" matInput #EndTelephoneNumber maxlength="11"
+            <input id="EndTelephoneNumber" telNoPrefixValidator 
+              formControlName="EndTelephoneNumber"  numbersOnly matInput #EndTelephoneNumber maxlength="11"
               placeholder="End Telephone No" (blur)="getPnlControlAttributes('EndTelNo')"
               (keypress)="numberOnly($event)">
             <mat-error>
               <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid"
                 class="alert alert-danger">
-                <div *ngIf="form.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div>
+                <!-- <div *ngIf="form.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div>
                 <div *ngIf="form.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End
-                  Telephone No</div>
+                  Telephone No</div> -->
                 <div *ngIf="form.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
                 <div *ngIf="form.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
               </div>
@@ -79,9 +79,9 @@
             </mat-error>
           </mat-form-field> -->
 
-          <mat-form-field [ngClass]="{'hidden':form.CUPId.disabled}">
+          <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
             <mat-label>CUPID</mat-label>
-            <input #cupId formControlName="CUPId" type="text" placeholder="Search CUPId" matInput
+            <input #cupId formControlName="CUPID" type="text" placeholder="Search CUPID" matInput
               [matAutocomplete]="autoCupId" OptionsValidator [options]="config.CUPID  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
@@ -91,12 +91,12 @@
                 {{val}}
               </mat-option>
             </mat-autocomplete>
-            <mat-error *ngIf="form.CUPId.errors?.validOptions">Value need to match available options</mat-error>
+            <mat-error *ngIf="form.CUPID.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':form.BatchID.disabled}" hintLabel="Max 3 characters">
             <mat-label>Batch Id</mat-label>
-            <input id="BatchId" formControlName="BatchID" #BatchID matInput #input maxlength="3" placeholder="Batch Id">
+            <input id="BatchId" numbersOnly formControlName="BatchID" #BatchID matInput #input maxlength="3" placeholder="Batch Id">
             <mat-hint align="end">{{input.value?.length || 0}}/3</mat-hint>
           </mat-form-field>
 
@@ -322,9 +322,9 @@
                         </mat-select> -->
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':form.PostCodeDifference.disabled}">
+          <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
             <mat-label>Post Code Difference</mat-label>
-            <input #postCodeDifference formControlName="PostCodeDifference" type="text"
+            <input #postCodeDifference formControlName="PostcodeDifference" type="text"
               placeholder="Search Postcode Difference" matInput [matAutocomplete]="autoPostCodeDifference"
               OptionsValidator [options]="config.PostcodeDifference  " />
             <span matSuffix mat-icon-button>
@@ -336,7 +336,7 @@
                 {{val}}
               </mat-option>
             </mat-autocomplete>
-            <mat-error *ngIf="form.PostCodeDifference.errors?.validOptions">Value need to match available options
+            <mat-error *ngIf="form.PostcodeDifference.errors?.validOptions">Value need to match available options
             </mat-error>
             <!-- <mat-select id="PostCodeDiff" formControlName="PostCodeDifference">
                             <mat-option></mat-option>
@@ -345,9 +345,9 @@
                         </mat-select> -->
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':form.FullAddDifference.disabled}">
+          <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
             <mat-label>Full Address Difference</mat-label>
-            <input #fullAddDifference formControlName="FullAddDifference" type="text"
+            <input #fullAddDifference formControlName="FullAddressDifference" type="text"
               placeholder="Search Full Address Difference" matInput [matAutocomplete]="autofullAddDifference"
               OptionsValidator [options]="config.FullAddressDifference  " />
             <span matSuffix mat-icon-button>
@@ -359,7 +359,7 @@
                 {{val}}
               </mat-option>
             </mat-autocomplete>
-            <mat-error *ngIf="form.FullAddDifference.errors?.validOptions">Value need to match available options
+            <mat-error *ngIf="form.FullAddressDifference.errors?.validOptions">Value need to match available options
             </mat-error>
             <!-- <mat-select id="FullAddDiff" formControlName="FullAddDifference">
                             <mat-option></mat-option>
@@ -369,9 +369,9 @@
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
-            <mat-label>Customer Diff.</mat-label>
+            <mat-label>Customer Difference</mat-label>
             <input #customerDifference formControlName="CustomerDifference" type="text"
-              placeholder="Search Full Address Difference" matInput [matAutocomplete]="autoCustomerDifference"
+              placeholder="Search Customer Difference" matInput [matAutocomplete]="autoCustomerDifference"
               OptionsValidator [options]="config.CustomerDifference  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>

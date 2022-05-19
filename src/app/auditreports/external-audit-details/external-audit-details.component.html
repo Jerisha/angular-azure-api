@@ -18,8 +18,8 @@
                         <mat-error>
                           
                           <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid" class="alert alert-danger">
-                            <div *ngIf="form.StartTelephoneNumber.errors?.incorrect">Enter Start Telephone No </div>
-                            <div *ngIf="form.StartTelephoneNumber.errors?.invalidData">Start Telephone No should be less than End Telephone No </div>
+                            <!-- <div *ngIf="form.StartTelephoneNumber.errors?.incorrect">Enter Start Telephone No </div>
+                            <div *ngIf="form.StartTelephoneNumber.errors?.invalidData">Start Telephone No should be less than End Telephone No </div> -->
                             <div *ngIf="form.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
                             <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
                           </div>
@@ -99,9 +99,9 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field [ngClass]="{'hidden':form.CUPId.disabled}">
+                    <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
                         <mat-label>CUPID</mat-label>
-                        <input #cupId formControlName="CUPId" type="text" placeholder="Search CUPId" matInput
+                        <input #cupId formControlName="CUPID" type="text" placeholder="Search CUPID" matInput
                             [matAutocomplete]="autoCupId" OptionsValidator [options]="config.CUPID  " />
                         <span matSuffix mat-icon-button>
                             <mat-icon>arrow_drop_down</mat-icon>
@@ -111,7 +111,7 @@
                                 {{val}}
                             </mat-option>
                         </mat-autocomplete>
-                        <mat-error *ngIf="form.CUPId.errors?.validOptions">Value need to match available options
+                        <mat-error *ngIf="form.CUPID.errors?.validOptions">Value need to match available options
                         </mat-error>
                     </mat-form-field>
 
@@ -153,9 +153,46 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field [ngClass]="{'hidden':form.PostCodeDifference.disabled}">
+                    <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
+                        <mat-label>Resolution Type</mat-label>
+                        <input #resType formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
+                          [matAutocomplete]="autoResType" OptionsValidator [options]="config.ResolutionTypeAudit  " />
+                        <span matSuffix mat-icon-button>
+                          <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResType="matAutocomplete">
+                          <mat-option *ngFor="let val of config.ResolutionTypeAudit   | ddlFilter: resType.value" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="form.ResolutionType.errors?.validOptions">Value need to match available options
+                        </mat-error>
+                        <!-- <mat-select id="ResType" formControlName="ResType">
+                                        <mat-option></mat-option>
+                                        <mat-option value="0"> New</mat-option>
+                                        <mat-option value="100"> Under Investigation</mat-option>
+                                        <mat-option value="105"> Under Governance</mat-option>
+                                        <mat-option value="114"> Auto Failed</mat-option>
+                                        <mat-option value="106"> Under Porting</mat-option>
+                                        <mat-option value="107"> Port Req Complete</mat-option>
+                                        <mat-option value="110">(END) Audit Transaction Override</mat-option>
+                                        <mat-option value="111">(END) Auto Closed</mat-option>
+                                        <mat-option value="113">(END) Auto Active</mat-option>
+                                        <mat-option value="115">(END) Auto Modify</mat-option>
+                                        <mat-option value="116">(END) Auto Cease</mat-option>
+                                        <mat-option value="117">(END) Auto Special Cease</mat-option>
+                                        <mat-option value="118">(END) Auto Logic Resolved</mat-option>
+                                        <mat-option value="119">(END) Auto Resolved Areacall</mat-option>
+                                        <mat-option value="120">(END) Audit Discrepancy Override</mat-option>
+                                        <mat-option value="101">(END) Resolved</mat-option>
+                                        <mat-option value="102">(END) Unresolved</mat-option>
+                                        <mat-option value="109">(END) Auto Resolved</mat-option>
+                                    </mat-select> -->
+                      </mat-form-field>
+
+                    <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
                         <mat-label>Post Code Difference</mat-label>
-                        <input #postCodeDifference formControlName="PostCodeDifference" type="text"
+                        <input #postCodeDifference formControlName="PostcodeDifference" type="text"
                             placeholder="Search Postcode Difference" matInput [matAutocomplete]="autoPostCodeDifference"
                             OptionsValidator [options]="config.PostcodeDifference  " />
                         <span matSuffix mat-icon-button>
@@ -168,7 +205,7 @@
                                 {{val}}
                             </mat-option>
                         </mat-autocomplete>
-                        <mat-error *ngIf="form.PostCodeDifference.errors?.validOptions">Value need to match available
+                        <mat-error *ngIf="form.PostcodeDifference.errors?.validOptions">Value need to match available
                             options
                         </mat-error>
                         <!-- <mat-select id="PostCodeDiff" formControlName="PostCodeDifference">
@@ -178,9 +215,9 @@
                         </mat-select> -->
                     </mat-form-field>
 
-                    <mat-form-field [ngClass]="{'hidden':form.FullAddDifference.disabled}">
+                    <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
                         <mat-label>Full Address Difference</mat-label>
-                        <input #fullAddDifference formControlName="FullAddDifference" type="text"
+                        <input #fullAddDifference formControlName="FullAddressDifference" type="text"
                             placeholder="Search Full Address Difference" matInput
                             [matAutocomplete]="autofullAddDifference" OptionsValidator
                             [options]="config.FullAddressDifference  " />
@@ -194,7 +231,7 @@
                                 {{val}}
                             </mat-option>
                         </mat-autocomplete>
-                        <mat-error *ngIf="form.FullAddDifference.errors?.validOptions">Value need to match available
+                        <mat-error *ngIf="form.FullAddressDifference.errors?.validOptions">Value need to match available
                             options
                         </mat-error>
                         <!-- <mat-select id="FullAddDiff" formControlName="FullAddDifference">
@@ -205,9 +242,9 @@
                     </mat-form-field>
 
                     <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
-                        <mat-label>Customer Diff.</mat-label>
+                        <mat-label>Customer Difference</mat-label>
                         <input #customerDifference formControlName="CustomerDifference" type="text"
-                            placeholder="Search Full Address Difference" matInput
+                            placeholder="Search Customer Difference" matInput
                             [matAutocomplete]="autoCustomerDifference" OptionsValidator
                             [options]="config.CustomerDifference  " />
                         <span matSuffix mat-icon-button>

@@ -18,12 +18,13 @@ import { AlertService } from 'src/app/_shared/alert';
 import { Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { UserCommentsDialogComponent } from '../../_shared/user-comments/user-comments-dialog.component';
+import { Custom } from 'src/app/_helper/Validators/Custom';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Audit ActId', viewValue: 'AuditActID', default: true },
-  { view: 'CUP Id', viewValue: 'CUPId', default: true },
+  { view: 'CUP Id', viewValue: 'CUPID', default: true },
   { view: 'Batch Id', viewValue: 'BatchID', default: true },
   { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
@@ -35,8 +36,8 @@ const Items: Select[] = [
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Switch Status', viewValue: 'SwitchStatus', default: true },
   { view: 'Mori Status', viewValue: 'MoriStatus', default: true },
-  { view: 'Post Code Diff', viewValue: 'PostCodeDifference', default: true },
-  { view: 'Full Address Diff', viewValue: 'FullAddDifference', default: true },
+  { view: 'Post Code Diff', viewValue: 'PostcodeDifference', default: true },
+  { view: 'Full Address Diff', viewValue: 'FullAddressDifference', default: true },
   { view: 'Customer Diff', viewValue: 'CustomerDifference', default: true },
   { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: true },
 
@@ -184,7 +185,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     // { headerValue: 'CDMSNMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
     // { headerValue: 'CDMSNMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
     // { headerValue: 'CDMSNMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
-    { headerValue: 'CDMS/NMSRPI/PO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },    
+    { headerValue: 'CDMS/NMSRPI/PO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },
     { headerValue: 'CDMS/NMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
     { headerValue: 'CDMS/NMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
     { headerValue: 'CDMS/NMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
@@ -419,13 +420,25 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.getTelnoValidation();
     if (this.fullAuditForm.invalid) { return; }
 
-    if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
-      && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
-      this.form.StartTelephoneNumber.setErrors({ incorrect: true });
-      this.icstartNo.nativeElement.focus();
-      this.icstartNo.nativeElement.blur();
+    var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
+    if (errMsg) {
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: { enableOk: false, message: errMsg, }
+      });
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
+
+    // if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
+    //   && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
+    //   this.form.StartTelephoneNumber.setErrors({ incorrect: true });
+    //   this.icstartNo.nativeElement.focus();
+    //   this.icstartNo.nativeElement.blur();
+    //   return;
+    // }
 
     this.getPnlControlAttributes();
     this.setAttributesForManualCorrections();
@@ -673,7 +686,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      CUPId: new FormControl({ value: '', disabled: true }),
+      CUPID: new FormControl({ value: '', disabled: true }),
       BatchID: new FormControl({ value: '', disabled: true }),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
       FullAuditCLIStatus: new FormControl({ value: '', disabled: true }),
@@ -685,8 +698,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       ResolutionType: new FormControl({ value: '', disabled: true }),
       SwitchStatus: new FormControl({ value: '', disabled: true }),
       MoriStatus: new FormControl({ value: '', disabled: true }),
-      PostCodeDifference: new FormControl({ value: '', disabled: true }),
-      FullAddDifference: new FormControl({ value: '', disabled: true }),
+      PostcodeDifference: new FormControl({ value: '', disabled: true }),
+      FullAddressDifference: new FormControl({ value: '', disabled: true }),
       CustomerDifference: new FormControl({ value: '', disabled: true }),
       OverlappingStatus: new FormControl({ value: '', disabled: true })
     })

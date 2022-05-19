@@ -85,6 +85,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
+
+   // alert('pageszize '+ event.pageSize+' , pagenumber:'+ event.pageIndex +'')
     this.pageIndex.emit(this.currentPage + 1);
   }
 
@@ -113,6 +115,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.apiPageNumber = (res.pagenumber) as number;
         this.currentPage = this.apiPageNumber - 1;
         //this.paginator.pageIndex = this.currentPage;
+       // this.pageSize = (res.pagecount) as number;;
         this.paginator.length = (res.totalrecordcount) as number;
         this.dataSource.sort = this.sort;
         this.spinner.hide();

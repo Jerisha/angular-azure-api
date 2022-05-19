@@ -6,17 +6,18 @@ import { LoginComponent } from './login/login.component';
 
 const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
+  
+  {
+    path: '',
+    component: LoginComponent,
+    outlet: 'loginPage'
+  },
   {
     path: 'login',
     component: LoginComponent,
     outlet: 'loginPage'
 
 
-  },
-  {
-    path: '',
-    component: LoginComponent,
-    outlet: 'loginPage'
   },
   {
     path: 'home',
