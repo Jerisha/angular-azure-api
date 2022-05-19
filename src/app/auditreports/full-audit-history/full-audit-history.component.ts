@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Utils } from 'src/app/_http';
@@ -49,8 +50,9 @@ LiveinSource: '	185705'
 
 export class FullAuditHistoryComponent implements OnInit {
 
-  constructor(private service:AuditReportsService) { }
+  constructor(private service:AuditReportsService, private spinner : NgxSpinnerService) { }
 
+  isLoading: boolean = true;
   fullAuditHistory: any ;
   private readonly onDestroy = new Subject<void>();
 
@@ -67,11 +69,14 @@ export class FullAuditHistoryComponent implements OnInit {
   dataColumns = this.ColumnDetails?.map((e:any) => e.headerValue);
 
   ngOnInit(): void {
+    this.spinner.show();
     //this.fullAuditHistory = myData;
     let request = Utils.preparePyGet('FullAuditHistory','FullAuditHistory',[{}]);
     console.log(request)
     this.service.getDetails(request).pipe(takeUntil(this.onDestroy)).subscribe((res:any)=> {
-      this.fullAuditHistory = res.data.AuditHistory; 
+      this.fullAuditHistory = res.data.AuditHistory;
+      this.isLoading = false; 
+      this.spinner.hide();
     })
 }
 
