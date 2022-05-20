@@ -419,8 +419,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
     this.getTelnoValidation();
     if (this.fullAuditForm.invalid) { return; }
-
-    var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
+    var startTelno=this.form.StartTelephoneNumber?.value?this.form.StartTelephoneNumber?.value:''
+    var endTelno =this.form.EndTelephoneNumber?.value?this.form.EndTelephoneNumber?.value:''
+    var errMsg = Custom.compareStartAndEndTelNo(startTelno, endTelno);
     if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
