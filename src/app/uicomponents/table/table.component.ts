@@ -1,11 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { ColumnDetails, TableItem ,ViewColumn} from 'src/app/uicomponents/models/table-item';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
-import { debounceTime } from 'rxjs/operators';
+import { ViewColumn} from 'src/app/uicomponents/models/table-item';
+import { TableHeaders } from '../models/table-headers.model';
 
 @Component({
   selector: 'app-table',
@@ -18,19 +14,14 @@ export class TableComponent implements OnInit {
    @Input() imageItem?: ViewColumn[];
    @Input() cssClass?: number =1;
    
-  // imageItem?: ViewColumn[]=[
-  //     {headerValue:'View',icon:'tab',route:'',tabIndex:0}
-    
-  // ];
   selectedTelnos: string[] = [];
   isEmailRequired: boolean = false;
   dataSource!: MatTableDataSource<any>;
   dataColumns: any;
-  columnHeaders: any;
+  columnHeaders: TableHeaders[] = [];
   @Output() addNewTab = new EventEmitter<any>();
   @Output() rowChanges = new EventEmitter<any>();
   selectColumn: string = '';
-  // columnsToDisplay = ['View'];
   selectedTab!: number;
   public tabs = [{
     tabType: 0,
@@ -43,12 +34,9 @@ export class TableComponent implements OnInit {
     //console.log(this.tableitem);
     this.dataSource = new MatTableDataSource<any>(this.tableitem);
     this.dataColumns = this.toTableheaders(this.tableitem);
-    // this.imageItem = this.tableitem?.imgConfig;
     this.imageItem = [
       {headerValue:'View',icon:'tab',route:'',tabIndex: 1 }
-      
     ];
-    //this.columnHeaders = this.tableitem?.coulmnHeaders;
     
   }
   ngAfterViewInit() {
@@ -58,28 +46,28 @@ export class TableComponent implements OnInit {
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
-  
-//   selectRow(event: any, row: any) {
-//     this.rowChanges.emit([row[this.selectColumn]]);
-// }
 
   toTableheaders(item: any): string[] {
     let array = [];
+    let tableHeader: TableHeaders[] = [] ;
     if (this.tableitem != undefined) {
 
       let thisItem = item[0];
       for (let key in thisItem) {
         if (thisItem.hasOwnProperty(key)) {
           array.push(key);
+
+          let header = key.replace(/([A-Z])/g, ' $1').trimStart();
+           tableHeader.push({header: header, headerValue: key}); 
         }
       }
     }
+    this.columnHeaders = tableHeader;
     return array;
-    //console.log(table);
 
   }
   addTabs(event: any, tabType: number, row: any) {
-    console.log('inside table component',event);
+    // console.log('inside table component',event);
     event.stopPropagation();
     this.addNewTab.emit({ tabType,row });
   }

@@ -4,18 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { Utils } from 'src/app/_http';
-import { AuditReportsService } from '../services/audit-reports.service';
-
-
-const ELEMENT_DATA: any[] = [{
-  ACTID: '29', TelePhoneNo: '01131100030', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedDate: '21-NOV-20 12.38.07.340907 PM',
-  ResolutionType: 'Auto Logic Resolved', ResolutionRemarks: 'Customer Name/Address information validation pass.'
-},
-{
-  ACTID: '29', TelePhoneNo: '01131100030', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedDate: '21-NOV-20 12.38.07.340907 PM',
-  ResolutionType: 'Auto Logic Resolved', ResolutionRemarks: 'Customer Name/Address information validation pass.'
-}
-];
+import { AuditReportsService } from '../../auditreports/services/audit-reports.service';
 
 @Component({
   selector: 'user-comments-dialog',
@@ -65,22 +54,21 @@ export class UserCommentsDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { defaultValue: any, telno: any },
+    public data: { listOfIdentifiers: any, rptElements: any },
     private dialogRef: MatDialogRef<UserCommentsDialogComponent>,
-    private service: AuditReportsService
-  ) {
-    // console.log('inside',data);
+    private service: AuditReportsService) {
   }
 
   ngOnInit() {
     this.userCommentsTableInit();
   }
   telno: string = '';
+  userCommentsData: any = [];
 
   userCommentsTableInit() {
-    this.telno = this.data.telno;
-    let request = Utils.preparePyQuery('UserComments', 'FullAuditDetails', this.data.defaultValue);
-    console.log('json dsf', JSON.stringify(request))
+    this.telno = this.data.listOfIdentifiers.filter((x: any) => x.Name === 'TelephoneNumber').map((x: any) => x.Value);
+    let request = Utils.preparePyQuery('UserComments', this.data.rptElements, this.data.listOfIdentifiers);
+    //console.log('json dsf', JSON.stringify(request))
     const userCommentsQueryResult$ = new Observable(observer => {
       this.service.queryDetails(request).pipe(map((res: any) => {
         if (Object.keys(res).length) {
@@ -95,20 +83,15 @@ export class UserCommentsDialogComponent {
           datasource: res
         };
       })).subscribe(result => {
-        console.log('inside usr comments', result)
-
-        if(result.datasource.length>0){
-          this.data.defaultValue = result;
+        //console.log('inside usr comments', result)
+        if (result.datasource.length > 0) {
+          this.userCommentsData = result;
           observer.next(result);
-
-        }else{
+        } else {
           this.dialogRef.close();
           return;
-
         }
-
-        //this.data.defaultValue = result.datasource.length > 0 ? result : null;
-       
+        //this.data.defaultValue = result.datasource.length > 0 ? result : null; 
       });
     })
     this.userCommentsTable = {
