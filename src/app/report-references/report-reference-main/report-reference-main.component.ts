@@ -257,12 +257,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         }
     },
     (error) => {
-      console.log(error,'Refresh Function')
+      // console.log(error,'Refresh Function')
       this.isLoading = false;
 
     },
     ()=>{
-      console.log('Refresh Completed','Refresh Function')
+      // console.log('Refresh Completed','Refresh Function')
       this.isLoading = false;
     } 
     );
@@ -299,7 +299,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         }
 
       )
-      console.log(this.editRecord, 'editrrecord2')
+      // console.log(this.editRecord, 'editrrecord2')
     }
     else {
       this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
@@ -343,18 +343,18 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       }
     },       
     (error) => {
-      console.log(error,'Delete API Function')
+      // console.log(error,'Delete API Function')
       // this.isLoading = false;
 
     },
     ()=>{
-      console.log('Delete API Completed','Delete API Function')
+      // console.log('Delete API Completed','Delete API Function')
       // this.isLoading = false;
     });
   }
   onDataFormSubmit(event: any[]) {
     let reportName =this.editMode
-    console.log('event', event)
+    // console.log('event', event)
   
     this.editMode = "";
     this.editModeIndex = -1;
@@ -366,7 +366,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     Object.entries(updaterecord1).map(
       (x: any) => {
         // updaterecord1[x[0]]
-        console.log(x[1], x[0], 'nullvalues0')
+        // console.log(x[1], x[0], 'nullvalues0')
         // Transformation for values true-'Y' & false='N' --- impelmentaed in python layer
         // if (x[1] === true) { updaterecord1[x[0]] = ('Y') }
         // else if (x[1] === false) {
@@ -376,7 +376,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // else if (x[1] === null) { updaterecord1[x[0]] = ('') }
         // console.log('element val', x)
         if (x[1] === null || x[1] === undefined) { updaterecord1[x[0]] = ('') 
-        console.log(x[1], x[0], 'nullvalues1')
+        // console.log(x[1], x[0], 'nullvalues1')
       }
 
 
@@ -387,11 +387,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     )
 
 
-    console.log('updaterec1', updaterecord1)
+    // console.log('updaterec1', updaterecord1)
     let data = Object.assign({}, updaterecord1);
 
     //console.log( `The ${key} is ${val}`)
-    console.log(JSON.stringify(data),'data1')
+    // console.log(JSON.stringify(data),'data1')
     //let entries1 = Object.entries(event[1])
     // console.log(entries1.map, 'entri')
    let data1 = Object.entries(data)
@@ -406,12 +406,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     //   { Name: x[0], Value: [x[1]]}
     //   ));
     //console.log( `The ${key} is ${val}`)
-    console.log(JSON.stringify(reqdata),'reqdata')
+    // console.log(JSON.stringify(reqdata),'reqdata')
     //});
-    console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord1')
-    console.log(event, 'eveent2')
+    // console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord1')
+    // console.log(event, 'eveent2')
     //console.log(event[0].keys,'eveent6')
-    console.log(event[0].values, 'eveent9')
+    // console.log(event[0].values, 'eveent9')
     if (this.eventName === 'Update') {
       const updateConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '300px', disableClose: true, data: {
@@ -437,12 +437,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
             }
           },       
           (error) => {
-            console.log(error,'Update API Function')
+            // console.log(error,'Update API Function')
             // this.isLoading = false;
       
           },
           ()=>{
-            console.log('Update API Completed','Update API Function')
+            // console.log('Update API Completed','Update API Function')
             // this.isLoading = false;
           });
           
@@ -457,12 +457,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       //let entries = Object.entries(event[1])
          // let data = entries.map(([key, val]) => ({ Name: key, Value: [val] }));
           //console.log( `The ${key} is ${val}`)
-          console.log(JSON.stringify(data))
+          // console.log(JSON.stringify(data))
           //});
-          console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord')
-          console.log(event, 'eveent2')
+          // console.log(event.map((x: any) => ({ Value: x.value })), 'updaterecord')
+          // console.log(event, 'eveent2')
           //console.log(event[0].keys,'eveent6')
-          console.log(event[0].values, 'eveent9')
+          // console.log(event[0].values, 'eveent9')
       this.reportReferenceService.prepareCreate(this.currentReportName, 'ReferenceList', reqdata).pipe(takeUntil(this.onDestroyCreate)).subscribe(x => {
         // this.isLoading = false;
         if (x.StatusMessage === 'Success') {
@@ -476,12 +476,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         }
       },       
       (error) => {
-        console.log(error,'Create API Function')
+        // console.log(error,'Create API Function')
         // this.isLoading = false;
   
       },
       ()=>{
-        console.log('Create API Completed','Create API Function')
+        // console.log('Create API Completed','Create API Function')
         // this.isLoading = false;
       });
       
@@ -504,30 +504,34 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           var c = document.createElement("a");
           let data:any = [];
           let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
-          data += Object.values(dataHeaderRow).toString() + "\n";
-          let  headerNames = header.filter((x: { cName: any,cValue:any }) => (x.cName,x.cValue ))
+          data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+          //let  headerNames = header.filter((x: { cName: any,cValue:any }) => (x.cName,x.cValue ))
           //console.log(headerNames,'headerNames')
-          let result1 = header.filter((x: { cDisplayName: any }) => (x.cDisplayName ))
+         // let result1 = header.filter((x: { cDisplayName: any }) => (x.cDisplayName ))
           //console.log(result1,'result1')
-          let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:''})))
+          //let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
           //console.log(disp,'disp')
           this.data.forEach((row : any) => {
-          //console.log(row,'row')
+         // console.log(row,'row')
+          let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
           let dataRow = Object.assign(disp,row)
-          //console.log(dataRow,'dataRow')
+         // console.log(dataRow,'dataRow')         
           //data += Object.values(dataRow).toString().replace(/[,]+/g, '\|') + "\n";
-          let val = Object.values(dataRow).toString();          
-          val.replace(/(\r\n|\n|\r|\r\t|\t)/gm,"");
+          let val = Object.values(dataRow).join('|');
+          val.replace(/[/t]+/g, ' ');
+                  
+          // val.replace(/(\r\n|\n|\r)/gm,"")+"\n";
           //val.replace(/[,]+/g, '\t') 
-          data+= val+ "\n";
+          // data+= val.replace(/[,]+/g, '\t')+ "\n";
+          data+= val.replace(/[|]+/g, '\t')+ "\n";
           //data += val.replace(/[^ -~]+/g, "")+ "\n";
           
             
             //let result = Object.values(row);
             //console.log(result,'result')
-            //data += result.toString().replace(/[,]+/g, '\t') + "\n";
+            // data += result.toString().replace(/[,]+/g, '\t') + "\n";
           });
-          c.download = this.currentReportName+' '+" _Report.csv";
+          c.download = this.currentReportName+"_Report.tab";
           //+ new Date().toString()+
           // var t = new Blob([JSON.stringify(this.data)],
           var t = new Blob([data], {
@@ -560,18 +564,18 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       //   console.log(JSON.stringify(res))
         this.reportReferenceService.metaDataCollection =res
-        console.log("metaData",res)
+        // console.log("metaData",res)
        // this.reportReferenceService.reportNames = res[0]
        //for mock 
 
        },       
        (error) => {
-         console.log(error,'Dynamic JSON API Function')
+        //  console.log(error,'Dynamic JSON API Function')
          this.isLoading = false;
    
        },
        ()=>{
-         console.log('Dynamic JSON API Completed','Dynamic JSON API Function')
+        //  console.log('Dynamic JSON API Completed','Dynamic JSON API Function')
          this.isLoading = false;
        }
        )
@@ -582,8 +586,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void { 
     this.reportNames = this.reportReferenceService.reportNames;
-    console.log('reportnames1', this.reportNames)
-    console.log(this.reportReferenceService.metaDataCollection,'metacol')
+    // console.log('reportnames1', this.reportNames)
+    // console.log(this.reportReferenceService.metaDataCollection,'metacol')
    
   }
   ngAfterViewChecked() {
