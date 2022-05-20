@@ -561,7 +561,7 @@ export class ReportReferenceService {
     return transform;
   }
   prepareUpdate(pageIdentifier: string, reportIdentifier: string, updateIdentifier: any,updateParams: any): Observable<any> {
-    reportIdentifier = reportIdentifier === 'Olo' || 'Company' ? 'Franchise' : reportIdentifier
+    pageIdentifier = reportIdentifier === 'Olo' || 'Company' ? 'Franchise' : reportIdentifier
     let request = Utils.preparePyUpdate(pageIdentifier, reportIdentifier,updateIdentifier,updateParams);
     console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);

@@ -355,6 +355,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   onDataFormSubmit(event: any[]) {
     let reportName =this.editMode
     console.log('event', event)
+  
     this.editMode = "";
     this.editModeIndex = -1;
     this.showDataForm = event[0][0];
@@ -397,7 +398,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   let reqdata =data1.map(([key, val]) => ({ Name: key, Value: [val] }));
   if(this.eventName === 'Create' && ( reportName ==='Franchise'|| reportName ==='Olo'|| reportName ==='Company'))
     {
-    let newval = this.editMode ==='Franchise' ? '3' : this.editMode ==='Olo' ? '1' : '2'
+    let newval = reportName ==='Franchise' ? '3' : reportName ==='Olo' ? '1' : '2'
 
     reqdata.push({ Name: 'CreationFlag', Value: [newval] })
     }
