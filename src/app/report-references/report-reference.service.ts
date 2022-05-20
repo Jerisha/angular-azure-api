@@ -470,7 +470,7 @@ export class ReportReferenceService {
           // let getDropdowns:any
           if(this.dropdownNames.length !=0)
             {
-              if(reportName === 'Franchise' ||reportName === 'Company')
+              if(reportName === 'Franchise' || reportName === 'Company')
               {
                 for (let index = 0; index < this.lstForm.length; index++) {
                   if(this.dropdownNames.includes(this.lstForm[index].cName))
@@ -561,7 +561,7 @@ export class ReportReferenceService {
     return transform;
   }
   prepareUpdate(pageIdentifier: string, reportIdentifier: string, updateIdentifier: any,updateParams: any): Observable<any> {
-    reportIdentifier = reportIdentifier === 'Olo' || 'Company' ? 'Franchise' : reportIdentifier
+    pageIdentifier = pageIdentifier === 'Olo' ||  pageIdentifier ==='Company' ? 'Franchise' : pageIdentifier
     let request = Utils.preparePyUpdate(pageIdentifier, reportIdentifier,updateIdentifier,updateParams);
     console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
@@ -583,7 +583,9 @@ export class ReportReferenceService {
     return transform;
   }
   prepareCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier:any): Observable<any> {
-    pageIdentifier = reportIdentifier === 'Olo' || 'Company' ? 'Franchise' : reportIdentifier
+    console.log(pageIdentifier, 'pageidne1')
+    pageIdentifier = pageIdentifier === 'Olo' ||  pageIdentifier ==='Company' ? 'Franchise' : pageIdentifier
+    console.log(pageIdentifier, 'pageidne')
     let request = Utils.preparePyCreate(pageIdentifier, reportIdentifier,'CreateParameters',createIdentifier );
     console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
