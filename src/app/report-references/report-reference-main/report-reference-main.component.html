@@ -28,6 +28,11 @@
                   <ng-container   select ="details-form" style ="max-height: 455px;overflow:auto" >  
                     <div style ="max-height: 455px;overflow:auto">   
                       <div style ="max-height: 400px;overflow:auto">
+                        <div *ngIf="isLoading" class ="table-spinner">
+                          <mat-progress-spinner      
+                            mode="indeterminate">
+                          </mat-progress-spinner>
+                        </div>
                         <table mat-table   [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8 " >
                           <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol.cName}}">        
                             <div *ngIf ="disCol.cName==='Actions'" >
@@ -49,7 +54,7 @@
                             <tr class="mat-row" *matNoDataRow>
                               <td class="mat-cell" colspan="columns.length">No data found</td>
                             </tr>          
-                        </table> 
+                        </table>                         
                       </div>              
                       <div style ="margin-top: 6px;">            
                         <span>
@@ -71,4 +76,9 @@
         </div>        
       </div>
   </div>
+</div>
+<div *ngIf="isLoading" class ="table-spinner">
+  <mat-progress-spinner                              
+    mode="indeterminate">
+  </mat-progress-spinner>
 </div>
