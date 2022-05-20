@@ -224,8 +224,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           this.data = res.data[reportName];
           this.recordIdentifier = res.RecordIdentifier;
           this.reportReferenceService.franchiseDropdowns =[];
-          this.reportReferenceService.franchiseDropdowns.push({"Olo":res.data['oloDropDown']})
-          this.reportReferenceService.franchiseDropdowns.push({"Company":res.data['companyDropDown']})
+          let OloDropDown = res.data['OloDropDown']
+          let CompanyDropDown = res.data['CompanyDropDown']
+          OloDropDown = OloDropDown!=undefined ? OloDropDown[0]:[]
+          this.reportReferenceService.franchiseDropdowns.push(OloDropDown)
+          CompanyDropDown = CompanyDropDown!=undefined ? CompanyDropDown[0]:[]
+          this.reportReferenceService.franchiseDropdowns.push(CompanyDropDown)
         }else if ( this.currentReportName ==='Olo')
         {
           this.data = res.data["Olos"];
@@ -235,7 +239,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           this.data = res.data["Companys"];
           this.recordIdentifier = res.RecordIdentifier;
           this.reportReferenceService.franchiseDropdowns =[];
-          this.reportReferenceService.franchiseDropdowns.push({"Olo":res.data['oloDropDown']})
+          debugger
+          let OloDropDown = res.data['OloDropDown']
+          OloDropDown = OloDropDown!=undefined ? OloDropDown[0]:[]
+          this.reportReferenceService.franchiseDropdowns.push(OloDropDown)
         }
           // this.dataOlos =res.data["Olos"];
           // this.dataCompanys = res.data["Companys"];
@@ -346,6 +353,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     });
   }
   onDataFormSubmit(event: any[]) {
+    let reportName =this.editMode
     console.log('event', event)
     this.editMode = "";
     this.editModeIndex = -1;
@@ -387,6 +395,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // console.log(entries1.map, 'entri')
    let data1 = Object.entries(data)
   let reqdata =data1.map(([key, val]) => ({ Name: key, Value: [val] }));
+  if(this.eventName === 'Create' && ( reportName ==='Franchise'|| reportName ==='Olo'|| reportName ==='Company'))
+    {
+    let newval = this.editMode ==='Franchise' ? '3' : this.editMode ==='Olo' ? '1' : '2'
+
+    reqdata.push({ Name: 'CreationFlag', Value: [newval] })
+    }
     // let data = updaterecord1.entries().map((x:any) => (
     //   { Name: x[0], Value: [x[1]]}
     //   ));

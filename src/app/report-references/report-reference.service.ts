@@ -475,10 +475,19 @@ export class ReportReferenceService {
                 for (let index = 0; index < this.lstForm.length; index++) {
                   if(this.dropdownNames.includes(this.lstForm[index].cName))
                   {
-                   
-                     this.lstForm[index].cList = this.franchiseDropdowns[this.lstForm[index].cName].map((x:any)=>({                  
+                    console.log('franchise dp',this.franchiseDropdowns)
+                   if(this.lstForm[index].cName != 'Company')
+                   {
+                     this.lstForm[index].cList = this.franchiseDropdowns[0][this.lstForm[index].cName].map((x:any)=>({                  
                       displayValue:x,internalValue:x
-                    })) 
+                    }))
+                  }
+                  else if(this.lstForm[index].cName === 'Company'){
+                    this.lstForm[index].cList =[{                  
+                      displayValue:'',internalValue:''
+                    }]
+
+                  } 
                   }
                 }
               }
@@ -552,7 +561,7 @@ export class ReportReferenceService {
     return transform;
   }
   prepareUpdate(pageIdentifier: string, reportIdentifier: string, updateIdentifier: any,updateParams: any): Observable<any> {
- 
+    reportIdentifier = reportIdentifier === 'Olo' || 'Company' ? 'Franchise' : reportIdentifier
     let request = Utils.preparePyUpdate(pageIdentifier, reportIdentifier,updateIdentifier,updateParams);
     console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
@@ -574,6 +583,7 @@ export class ReportReferenceService {
     return transform;
   }
   prepareCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier:any): Observable<any> {
+    pageIdentifier = reportIdentifier === 'Olo' || 'Company' ? 'Franchise' : reportIdentifier
     let request = Utils.preparePyCreate(pageIdentifier, reportIdentifier,'CreateParameters',createIdentifier );
     console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);

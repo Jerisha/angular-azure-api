@@ -160,6 +160,10 @@ onEditRecord(record:any,event:Event){
     this.referenceForm.markAsUntouched();
     
 }
+onDropDownChange(event:any){
+// alert('dp:'+event.value)
+console.log('dp:',event)
+}
 
 onSubmit(){
 // alert(this.eventName+" Completed.."+JSON.stringify(this.referenceForm.value));
