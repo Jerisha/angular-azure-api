@@ -52,7 +52,7 @@ export class FullAuditHistoryComponent implements OnInit {
 
   constructor(private service:AuditReportsService, private spinner : NgxSpinnerService) { }
 
-  isLoading: boolean = true;
+  // isLoading: boolean = true;
   fullAuditHistory: any ;
   private readonly onDestroy = new Subject<void>();
 
@@ -69,14 +69,13 @@ export class FullAuditHistoryComponent implements OnInit {
   dataColumns = this.ColumnDetails?.map((e:any) => e.headerValue);
 
   ngOnInit(): void {
-    this.spinner.show();
-    //this.fullAuditHistory = myData;
+    //this.spinner.show();
     let request = Utils.preparePyGet('FullAuditHistory','FullAuditHistory',[{}]);
     console.log(request)
     this.service.getDetails(request).pipe(takeUntil(this.onDestroy)).subscribe((res:any)=> {
       this.fullAuditHistory = res.data.AuditHistory;
-      this.isLoading = false; 
-      this.spinner.hide();
+      // this.isLoading = false; 
+      // this.spinner.hide();
     })
 }
 

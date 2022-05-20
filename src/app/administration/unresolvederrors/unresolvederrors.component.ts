@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Custom } from 'src/app/_helper/Validators/Custom';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { map } from 'rxjs/operators';
+import { AlertService } from 'src/app/_shared/alert';
 const ELEMENT_DATA: UnresolvedError[] = [
   {
     TransId: '1014591106', View: 'image', Telno: '1977722725', Cmd: 'Active Customer', Source:'SAS/COMS', Created: '05Nov13',  NextTran: '10097008200',
@@ -101,9 +102,8 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   saveForm!: FormGroup;
   thisUpdateForm!: FormGroup;
   tabs: Tab[] = [];
-  Resolution!: string;
-  Refer!: string;
-  Remarks!: string;
+  Refer: string ='';
+  Remarks: string='';
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
@@ -117,13 +117,13 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
   selected: string = '';
   currentPage: string = '1';
-  //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
     private service: AdministrationService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
 
@@ -223,14 +223,70 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
       })
 }
 
+check999() {
+  if (this.Refer && this.Refer.substring(0, 3) != '999')
+    return false;
 
-
+  return true;
+}
   
   onSaveSubmit(form: any) :void{
-    
+    debugger;
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
+      ( this.check999() && this.Remarks)) {
+
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to save the records?'
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        //console.log("result " + result);
+        if (result) {
+          let request = Utils.preparePyUpdate(this.repIdentifier, this.repIdentifier, this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          //update 
+          this.service.updateDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              //success message and same data reload
+              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.onFormSubmit(true);
+            }
+          });
+        }
+      });
+    }
 
   }
   
+  prepareUpdateIdentifiers() {
+    let identifiers: any[] = [];
+    if (this.selectedGridRows.length > 0) {
+      if (this.selectedGridRows.length > 0) {
+        let transId: string[] = [];
+        this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
+        identifiers.push({ Name: 'TransactionId', Value: transId });
+      } else
+        identifiers.push({ Name: 'TransactionId', Value: [""] });
+    }
+    return identifiers;
+  }
+
+  prepareUpdateParams(){
+    let UpdateParams: any = [];
+
+    if (this.Remarks)
+      UpdateParams.push({ Name: 'Remarks', Value: [this.Remarks] });
+    else
+      UpdateParams.push({ Name: 'Remarks' });
+    if (this.Refer)
+      UpdateParams.push({ Name: '999Reference', Value: [this.Refer] });
+    else
+      UpdateParams.push({ Name: '999Reference' });
+
+    //console.log(UpdateParams);
+
+    return UpdateParams;
+  }
 
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
