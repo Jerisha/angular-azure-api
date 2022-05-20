@@ -210,8 +210,8 @@ export class TransactionErrorsComponent implements OnInit {
     // this.resolHistory = actualres[0].ResolutionHistory;
   }
   ngOnChanges(changes: SimpleChanges) {
-    this.btHeader = this.repIdentifier === 'SolicitedErrors' || 'TransactionsDetails' ? 'BT Response' : 'BT Request'
-    if (changes.telNo.currentValue != changes.telNo.previousValue || changes.tranId.currentValue != changes.tranId.previousValue) {
+    this.btHeader = this.repIdentifier === 'UnsolicitedErrors' ? 'BT Request' : 'BT Response';
+    if (changes.telNo?.currentValue != changes.telNo?.previousValue || changes.tranId?.currentValue != changes.tranId?.previousValue) {
       let request = Utils.preparePyQuery('TelephoneNumberTransactionError', this.repIdentifier, this.prepareQueryParams());
       this.tranErr$ = this.service.queryDetails(request).pipe(map((res: any) => res.data));
       // let request = Utils.prepareQueryRequest('TelephoneNumberTransactionError', this.repIdentifier, this.prepareQueryParams());
@@ -237,7 +237,7 @@ export class TransactionErrorsComponent implements OnInit {
         // "Value" : [ "01213004534" ]
         "Value": [this.telNo]
       }, {
-        "Name": this.repIdentifier === ('SolicitedErrors' || 'TransactionDetails') ? "TransactionId" : "TransactionReference",
+        "Name": this.repIdentifier === 'UnsolicitedErrors' ? "TransactionReference" : "TransactionId",
         "Value": [this.tranId]
         // "Name" : "TransactionId",
         // "Value" : [ "1013164478" ]
