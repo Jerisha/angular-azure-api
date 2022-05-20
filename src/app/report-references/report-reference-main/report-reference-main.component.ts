@@ -215,6 +215,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }else
     {
     reportName = this.currentReportName
+    this.editActionEnabled =true;
     }
     this.reportReferenceService.prepareData(reportName,'ReferenceList').pipe(takeUntil(this.onDestroyQuery)).subscribe(      
       (res: any) =>{ 
