@@ -156,8 +156,8 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      AuditType: new FormControl({ value: '', disabled: false }),
-      AuditActId: new FormControl({ value: '', disabled: false }),
+      AuditType: new FormControl({ value: '', disabled: false},[Validators.required] ),
+      AuditActId: new FormControl({ value: '', disabled: false }, [Validators.required]),
     })
 
     // this.thisForm.controls.AuditType.valueChanges.pipe(
