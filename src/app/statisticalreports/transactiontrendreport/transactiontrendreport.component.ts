@@ -23,6 +23,8 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { default as _rollupMoment, Moment } from 'moment';
+import { stringify } from 'querystring';
+
 const moment = _rollupMoment || _moment;
 
 const MY_FORMATS = {
@@ -302,6 +304,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('DayToDay', 'TransactionCommand', this.prepareQueryParams(this.currentPage));
+    console.log('source requst',JSON.stringify(Request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -526,6 +529,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     this.datevalue = "";
     this.expressions = [expNumeric, expString, expDate];
     this.resetExp = !this.resetExp;
+    
   }
 
   // resetForm(): void {

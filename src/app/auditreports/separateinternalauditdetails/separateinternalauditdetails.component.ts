@@ -1,14 +1,21 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { FullAuditDetails, SeparateInternalAuditDetails } from '../models/separateinternalauditdetails';
 import { Router } from '@angular/router';
-
+import { Utils } from 'src/app/_http/index';
+import { AuditReportsService } from '../services/audit-reports.service';
+import { map } from 'rxjs/operators';
+import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertService } from 'src/app/_shared/alert';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 const FullAudit_Data: FullAuditDetails [] = [
   {
     Telno: '01131100030', SourceSystem: 'image', ActId: 'Source Only', Cupid: 'Amdocs SOM', ExternalCliStatus: '39', FullAuditCliStatus:'Amdocs SOM Only', ResolutionType: 'New',  SourceSystemStatus: 'Active', SwitchSource:'',  AuditDate: '07-04-2022', 
@@ -113,17 +120,19 @@ const ELEMENT_DATA: SeparateInternalAuditDetails[] = [
   },
 ];
 
+
+
 const FilterListItems: Select[] = [
   { view: 'Tel No. Start', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'Tel No. End', viewValue: 'EndTelephoneNumber', default: true },
-  { view: 'Audit ACT ID', viewValue: 'AuditActId', default: true },
+  { view: 'Audit ACT ID', viewValue: 'AuditActID', default: true },
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
-  { view: 'CLI Status', viewValue: 'CLIStatus', default: true },
-  { view: 'Resolution Type', viewValue: 'ResType', default: true },
+  { view: 'CLI Status', viewValue: 'InternalCLIStatus', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Source Status', viewValue: 'SourceStatus', default: true },
-  { view: 'Postcode Diff', viewValue: 'PostCodeDiff', default: true },
-  { view: 'Full Addres Diff', viewValue: 'FullAddDiff', default: true },
-  { view: 'Customer Diff', viewValue: 'CustomerDiff', default: true },
+  { view: 'Postcode Diff', viewValue: 'PostCodeDifference', default: true },
+  { view: 'Full Addres Diff', viewValue: 'FullAddDifference', default: true },
+  { view: 'Customer Diff', viewValue: 'CustomerDifference', default: true },
 ];
 @Component({
   selector: 'app-separateinternalauditdetails',
@@ -138,7 +147,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   informationTable2!: TableItem;
   infotable1: any[] = [];
   infotable2: any[] = [];
-  selectListItems: string[] = [];
+  selectListItems: any[] = [];
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
@@ -148,6 +157,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   selectedTab!: number;
   thisForm!: FormGroup;
   thisUpdateForm!: FormGroup;
+  updateForm!: FormGroup;
   tabs: Tab[] = [];
   Resolution!: string;
   Refer!: string;
@@ -155,6 +165,8 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
+  rowRange: string = '';
+  selectedCorrectionType: string = '';
   repIdentifier = "UnsolicitedErrors";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
@@ -162,42 +174,105 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   configDetails!: any;
   updateDetails!: any;
   queryResultInfo$!: Observable<any>;
-
+  resolutionType: string = '';
   selected: string = '';
   currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
-
-  constructor(private formBuilder: FormBuilder,
+  defaultACTID: string = '';
+  remarkstxt: string = '';
+  disableSave: boolean = true;
+  showDataCorrection: boolean = false;
+  disableProcess: boolean = true;
+  constructor(private formBuilder: FormBuilder, private dialog: MatDialog,private telnoPipe: TelNoPipe,
    
-    private cdr: ChangeDetectorRef, public router: Router) { }
-
+    private cdr: ChangeDetectorRef, public router: Router, private service:AuditReportsService, private alertService: AlertService) { }
+    correctionTypes: ApplyAttributes[] = [
+      {
+        name: 'Auto Correction',
+        disabled: true,
+        subOption: [
+          { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume', disabled: true }
+        ]
+      },
+      {
+        name: 'Manual Correction',
+        disabled: true,
+        subOption: [
+          { value: 'AutoPopulateBT', viewValue: 'Auto Populate BT', disabled: true },
+          { value: 'AutoPopulateOSN2', viewValue: 'Auto Populate OSN2', disabled: true },
+          { value: 'AutoPopulateSource', viewValue: 'Auto Populate Source', disabled: true },
+          { value: 'AutoPopulateBTSource', viewValue: 'Auto Populate BT + Source', disabled: true },
+          { value: 'AutoPopulateSpecialCease', viewValue: 'Auto Populate Special Cease', disabled: true }
+        ]
+      }];
+      manualDataCorrectionConfig: any[] = [
+        { selectedValue: 'AutoPopulateBT', Message: 'BT', ManualAuditType: 'BT' },
+        { selectedValue: 'AutoPopulateOSN2', Message: 'OSN2', ManualAuditType: 'OSN' },
+        { selectedValue: 'AutoPopulateSource', Message: 'Source', ManualAuditType: 'SRC' },
+        { selectedValue: 'AutoPopulateBTSource', Message: 'BT & Source', ManualAuditType: 'BTSRC' },
+        { selectedValue: 'AutoPopulateSpecialCease', Message: 'Special Cease', ManualAuditType: 'SPLCS' }
+      ]
   ngOnInit(): void {
 
     this.createForm();
-    
-
-
-
-
-  }
-
+    this.createUpdateForm();
+    //this.listItems = Items;
+    debugger;
+    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume",'SourceStatus','InternalCLIStatus']);
+    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']); 
+    forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
+    .subscribe(results => {
+    this.configDetails = results[0].data;
+    this.rowRange = this.configDetails.AutoCorrectionVolume[0];
+    this.defaultACTID = this.configDetails.FullAuditActID[0];    
+    this.updateDetails = results[1].data;
+  }); 
   
-
+    // this.service.configDetails(request).subscribe((res: any) => {
+    //   console.log("res: " + JSON.stringify(res))
+    //   this.configDetails = res.data;
+    // });
+  }
+  
+  createUpdateForm() {
+    this.updateForm = this.formBuilder.group({
+      Resolution: new FormControl('', [Validators.required]),
+      Remarks: new FormControl('', [Validators.required])
+    });
+  }
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
+  getTelnoValidation() {
+    if (this.form.StartTelephoneNumber.errors?.incorrect) {
+      this.form.StartTelephoneNumber.setErrors({ incorrect: false });
+      this.form.StartTelephoneNumber.reset();
+    }
+  }
 
 
+  getPnlControlAttributes(control?: string) {
+    if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
+      && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
+      //this.disableSave = false;
+    }
+    else {
+     // this.disableSave = true;
+    }
 
+    if (control === 'EndTelNo')
+      this.getTelnoValidation();
+
+  }
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
     }
-    this.f[control].setValue(value);
+    this.form[control].setValue(value);
   }
 
   numberOnly(event: any): boolean {
@@ -214,9 +289,18 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     this.cdr.detectChanges();
 
   }
+  get updateFormControls() {
+    return this.updateForm.controls;
+  }
+  get selectedSwitchTypeStatus() {
+    return this.form.SwitchStatus;
+  }
 
+  get selectedFullAuditCLIStatus() {
+    return this.form.FullAuditCLIStatus;
+  }
 
-  get f() {
+  get form() {
     return this.thisForm.controls;
   }
 
@@ -227,23 +311,19 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     this.thisForm = this.formBuilder.group({
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }),
-      AuditActId: new FormControl({ value: '', disabled: true }),
+      AuditActID: new FormControl({ value: '', disabled: true }),
       OSN2Source: new FormControl({ value: '', disabled: true }),
-      CLIStatus: new FormControl({ value: '', disabled: true }),
-      ResType: new FormControl({ value: '', disabled: true }),
+      InternalCLIStatus: new FormControl({ value: '', disabled: true }),
+      ResolutionType: new FormControl({ value: '', disabled: true }),
       SourceStatus: new FormControl({ value: '', disabled: true }),
-      PostCodeDiff: new FormControl({ value: '', disabled: true }),
-      FullAddDiff: new FormControl({ value: '', disabled: true }),
-      CustomerDiff: new FormControl({ value: '', disabled: true })
+      PostCodeDifference: new FormControl({ value: '', disabled: true }),
+      FullAddDifference: new FormControl({ value: '', disabled: true }),
+      CustomerDifference: new FormControl({ value: '', disabled: true })
     })
   }
 
 
-  
-  onSaveSubmit() {
-    
-
-  }
+ 
   InternalErrorInformation: any;
   
 
@@ -259,14 +339,14 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   }
 
   fullauditdetailscolumns: ColumnDetails[] = [
-    { header: 'Tel.No.', headerValue: 'Telno', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: true },
-    { header: 'Act ID', headerValue: 'ActId', showDefault: true, isImage: false },
+    { header: 'Tel.No.', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'OSN2Source', showDefault: true, isImage: true },
+    { header: 'Act ID', headerValue: 'ACTID', showDefault: true, isImage: false },
     { header: 'Cupid', headerValue: 'Cupid', showDefault: true, isImage: false },
     { header: 'External CLI Status', headerValue: 'ExternalCliStatus', showDefault: true, isImage: false },
     { header: 'FullAudit CLI Status', headerValue: 'FullAuditCliStatus', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Source System Status', headerValue: 'SourceSystemStatus', showDefault: true, isImage: false },
+    { header: 'Source System Status', headerValue: 'SourceStatus', showDefault: true, isImage: false },
     { header: 'Switch Source', headerValue: 'SwitchSource', showDefault: true, isImage: false },
     { header: 'Audit Date', headerValue: 'AuditDate', showDefault: true, isImage: false },
     { header: 'BT Customer', headerValue: 'BTCustomer', showDefault: true, isImage: false },
@@ -345,24 +425,66 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     }
     this.selectedTab = 3;
   }
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [];
+
+    for (const field in this.form) {
+      if (field != 'AuditActID') {
+      const control = this.thisForm.get(field);
+
+      if (control?.value)
+        attributes.push({ Name: field, Value: [control?.value] });
+      else
+        attributes.push({ Name: field });
+    }
+  }
+  attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
+    attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
+
+    return attributes;
+
+  }
+  
+  cellAttrInfo: CellAttributes[] = [
+
+    { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer'], value: 'Y', isBackgroundHighlighted: true },
+    { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode', 'SourcePostcode'], value: 'Y', isBackgroundHighlighted: true },
+    { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y', isBackgroundHighlighted: true },
+   ];
 
   onFormSubmit(isEmitted?: boolean): void {
-    
-
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.preparePyQuery('SeparateInternalAuditDetails', 'SeparateInternalAuditDetails', this.prepareQueryParams(this.currentPage));
+    console.log('query request',JSON.stringify(request));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        console.log('query response',JSON.stringify(res));
+        let result = {
+          datasource: res.data.TelephoneNumbers,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
     this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 100,
-        totalpages: 1,
-        pagenumber: 1
-        }),
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      showEmail: true,
       removeNoDataColumns: true,
-      
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+      setCellAttributes: this.cellAttrInfo,
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
+      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
+      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
+      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
+      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', tabIndex: 6 },
+      { headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -372,33 +494,199 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     }
     this.selectedTab = this.tabs.length;
 
+    // this.myTable = {
+    //   data: of({
+    //     datasource: ELEMENT_DATA,
+    //     totalrecordcount: 100,
+    //     totalpages: 1,
+    //     pagenumber: 1
+    //     }),
+    //   Columns: this.columns,
+    //   filter: true,
+    //   selectCheckbox: true,
+    //   removeNoDataColumns: true,
+      
+    //   imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
+    //   { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+    // }
+    // if (!this.tabs.find(x => x.tabType == 0)) {
+    //   this.tabs.push({
+    //     tabType: 0,
+    //     name: 'Summary'
+    //   });
+    // }
+    // this.selectedTab = this.tabs.length;
+
   }
 
 
+  processDataCorrection() {
+    
+  
+   // return identifiers;
+  }
 
   resetForm(): void {
     //this.thisForm.reset();
     //this.tabs.splice(0);
     window.location.reload();
   }
+  get auditACTID() {
+    return this.form.AuditActID;
+  }
+  prepareUpdateIdentifiers(type: string): any {
+    let identifiers: any[] = [];
+    switch (type) {
+      case 'ResolutionRemarks': {
+        if (this.selectListItems.length > 0) {
+          let telno: string[] = [];
+          this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
+          identifiers.push({ Name: 'TelephoneNumber', Value: telno });
+        }
+        else if ((this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
+          && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
+          identifiers.push({ Name: 'TelephoneNumber', Value: [`${this.form.StartTelephoneNumber.value + '|' + this.form.EndTelephoneNumber.value}`] });
+        } else
+          identifiers.push({ Name: 'TelephoneNumber', Value: [""] });
+
+        if (this.resolutionType != '')
+          identifiers.push({ Name: 'ResolutionType', Value: [this.resolutionType] });
+        else
+          identifiers.push({ Name: 'ResolutionType' });
+        if (this.remarkstxt)
+          identifiers.push({ Name: 'Remarks', Value: [this.remarkstxt] });
+        else
+          identifiers.push({ Name: 'Remarks' });
+        if (this.auditACTID.value)
+          identifiers.push({ Name: 'AuditActID', Value: [this.auditACTID.value] });
+        else
+          identifiers.push({ Name: 'AuditActID' });
+
+        identifiers.push({ Name: 'AuditType', Value: [`${'Full Audit'}`] });
+        break;
+      }
+      case 'DataAutoCorrection': {
+        if (this.auditACTID.value)
+          identifiers.push({ Name: 'ActID', Value: [this.auditACTID.value] });
+        else
+          identifiers.push({ Name: 'ActID' });
+
+        if (this.selectedSwitchTypeStatus.value)
+          identifiers.push({ Name: 'SwitchStatus', Value: [this.selectedSwitchTypeStatus.value] });
+        else
+          identifiers.push({ Name: 'SwitchStatus' });
+
+        if (this.selectedFullAuditCLIStatus.value)
+          identifiers.push({ Name: 'FullAuditCLIStatus', Value: [this.selectedFullAuditCLIStatus.value] });
+        else
+          identifiers.push({ Name: 'FullAuditCLIStatus' });
+
+        if (this.rowRange != '')
+          identifiers.push({ Name: 'AutoCorrectionVolume', Value: [this.rowRange] });
+        else
+          identifiers.push({ Name: 'AutoCorrectionVolume' });
+
+        if (this.thisForm.controls['Source'].value != '')
+          identifiers.push({ Name: 'Source', Value: [this.thisForm.controls['Source'].value] });
+        else
+          identifiers.push({ Name: 'Source', Value: [''] });
+
+        // if (this.fullAuditForm.controls['OSN2Source'].value != '')
+        //   identifiers.push({ Name: 'OSN2Source', Value: [this.fullAuditForm.controls['OSN2Source'].value] });
+        // else
+        //   identifiers.push({ Name: 'OSN2Source', Value: [''] });
+
+        break;
+      }
+      case 'DataManualCorrection': {
+        var selectedCLI = this.selectListItems[0].TelephoneNumber;
+        if (selectedCLI != '') {
+          identifiers.push({ Name: 'TelephoneNumberRange', Value: [selectedCLI] });
+        }
+        else
+          identifiers.push({ Name: 'TelephoneNumberRange' });
+
+        let name = this.selectedCorrectionType === 'AutoPopulateSpecialCease' ? 'AuditActID' : 'ActID';
+        if (this.auditACTID.value != '') {
+
+          identifiers.push({ Name: name, Value: [this.auditACTID.value] });
+        }
+        else
+          identifiers.push({ Name: name });
 
 
+        if (this.remarkstxt != '')
+          identifiers.push({ Name: 'ResolutionRemarks', Value: [this.remarkstxt] });
+        else
+          identifiers.push({ Name: 'ResolutionRemarks' });
+
+        if (this.selectedCorrectionType != '') {
+          var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
+          identifiers.push({ Name: 'ManualAuditType', Value: [`${auditType}`] });
+        }
+        else
+          identifiers.push({ Name: 'ManualAuditType' });
+
+        break;
+      }
+    }
+    return identifiers;
+  }
+  getSelectedDataCorrection() {
+    if (this.selectedCorrectionType != '') {
+      if (this.selectedCorrectionType === 'AutoCorrectionVolume') {
+        this.disableProcess = false;
+      }
+      else {
+        // if (this.selectListItems.length >= 1 &&
+        //   this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
+        //   this.disableProcess = false;
+        // }
+        if (this.selectListItems.length === 1) {
+          this.disableProcess = false;
+        }
+        else {
+          this.disableProcess = true;
+        }
+      }
+    }
+  }
+  onSaveSubmit(): void {
+    if (this.updateForm.invalid) { return; }
+    const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px', disableClose: true, data: {
+        message: 'Would you like to continue to save the records?'
+      }
+    });
+    rangeConfirm.afterClosed().subscribe(result => {
+      if (result) {
+        let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
+        //update 
+        console.log('remarks', JSON.stringify(request))
+        this.service.updateDetails(request).subscribe(x => {
+          if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
+            this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+            this.onFormSubmit(true);
+          }
+        });
+      }
+    });
+  }
   rowDetect(selectedRows: any) {
-    debugger;
     selectedRows.forEach((item: any) => {
-      //this.selectedRowsCount = item.length;
-      if (item && item.length == 0) return
+      if (item && item.length == 0) return;
 
-      if (!this.selectedGridRows.includes(item))
-        this.selectedGridRows.push(item)
-      else if (this.selectedGridRows.includes(item)) {
-        let index = this.selectedGridRows.indexOf(item);
-        this.selectedGridRows.splice(index, 1)
+      if (!this.selectListItems.includes(item))
+        this.selectListItems.push(item)
+      else if (this.selectListItems.find(x => x.TelephoneNumber === item.TelephoneNumber)) {
+        let index = this.selectListItems.indexOf(item);
+        this.selectListItems.splice(index, 1)
       }
     })
-
-    // console.log("selectedGridRows" + this.selectedGridRows)
+    this.getSelectedDataCorrection();
+    this.getPnlControlAttributes();
   }
+ 
 
   getNextSetRecords(pageIndex: any) {
     debugger;
