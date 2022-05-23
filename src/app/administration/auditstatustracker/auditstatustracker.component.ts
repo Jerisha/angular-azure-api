@@ -368,7 +368,8 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
 
     const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '400px', disableClose: false, data: {
-        message: `Are you sure you want to start Audit?`
+        message: `Are you sure you want to start Audit? <br/>
+        Please make sure latest DVA Audit file is available @opt/SP/osnadmin/audit/DVA/load.`
       }
     });
     rangeConfirm.afterClosed().subscribe(result => {
