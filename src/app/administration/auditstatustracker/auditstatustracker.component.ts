@@ -85,6 +85,9 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
   reportIdentifier: string = "AuditStatusTracker";
+  selectedAuditType!: string;
+  selectedActId!: string;
+  SepAuditActId!:string;
   constructor(private formBuilder: FormBuilder,
     private service: AdministrationService,
     private cdr: ChangeDetectorRef,
@@ -102,9 +105,9 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
         { auditType: res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID },
         { auditType: res.data.AuditType[2], auditActId: res.data.ExternalAuditActID }];
 
-      // this.selectedAuditType = this.configValues[0].auditType;
-      // this.auditActIdDropdown =  this.configValues[0].auditActId;
-      // this.selectedActId = this.auditActIdDropdown[0];
+      this.selectedAuditType = this.configDetails[0].auditType;
+      this.auditActIdDropdown = this.configDetails[0].auditActId;
+      this.selectedActId = this.auditActIdDropdown[0];
     });
 
 
@@ -156,7 +159,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      AuditType: new FormControl({ value: '', disabled: false},[Validators.required] ),
+      AuditType: new FormControl({ value: '', disabled: false }, [Validators.required]),
       AuditActId: new FormControl({ value: '', disabled: false }, [Validators.required]),
     })
 
@@ -170,7 +173,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     debugger;
     let index = this.configDetails.findIndex((x: any) => x.auditType == val.value);
     this.auditActIdDropdown = this.configDetails[index].auditActId;
-    // this.selectedActId =  this.auditActIdDropdown[0];
+    this.selectedActId = this.auditActIdDropdown[0];
   }
 
 
@@ -359,29 +362,32 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   separateAuditTrail() {
     debugger;
 
-    let request = Utils.preparePyUpdate('StartSeparateInternalAudit', this.reportIdentifier, [{}], [{}]);
-    //update 
-    this.service.updateDetails(request).subscribe(x => {
-      if (x.StatusCode === "EUI000") {
-        //success message and sshow act id
-        const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
-          width: '400px', disableClose: false, data: {enableOk: false,
-            message: `Please note the following :<br/>
-            1. Audit ACT ID is : <b>${x.data.AuditStatusTracker[0].SepAuditActId}</b><br/>
-            2. Audit can take sometime to produce and there may be delay of up to 15 minutes before the processing starts. </br>
-            3. Audit has been started in backgound.<br />
-            4. Check latest Audit ACT ID in Audit Tracker Screen.<br/>`
-          }
-        });
-        rangeConfirm.afterClosed().subscribe(result => {
-          window.location.reload();
-         
-        });
-      
+
+    const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px', disableClose: false, data: {
+        message: `Are you sure you want to start Audit?`
       }
     });
+    rangeConfirm.afterClosed().subscribe(result => {
+      //window.location.reload();
+      if (result) {
+        let request = Utils.preparePyUpdate('StartSeparateInternalAudit', this.reportIdentifier, [{}], [{}]);
+        //update 
+        this.service.updateDetails(request).subscribe(x => {
+          if (x.StatusCode === "EUI000") {
+            this.SepAuditActId = x.data.AuditStatusTracker[0].SepAuditActId;
+            //success message and show act id
 
-    
+            // Please note the following :<br/>
+            //         1. Audit ACT ID is : <b>${x.data.AuditStatusTracker[0].SepAuditActId}</b><br/>
+            //         2. Audit can take sometime to produce and there may be delay of up to 15 minutes before the processing starts. </br>
+            //         3. Audit has been started in backgound.<br />
+            //         4. Check latest Audit ACT ID in Audit Tracker Screen.<br/>
+
+          }
+        });
+      }
+    });
 
   }
 
