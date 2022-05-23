@@ -265,6 +265,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
   ];
 
+  endStatus: string[] = ['Resolved', 'Unresolved',
+    'Special Cease', 'Superseded', 'System Override', 'Auto Resolved', 'Audit Transaction Override',
+    'Auto Closed', 'Auto Active', 'Auto Modify', 'Auto Cease', 'Auto Special Cease', 'Auto Logic Resolved',
+    'Auto Resolved Areacall', 'Audit Discrepancy Override'];
+
   get selectedSwitchTypeStatus() {
     return this.form.SwitchStatus;
   }
@@ -419,8 +424,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
     this.getTelnoValidation();
     if (this.fullAuditForm.invalid) { return; }
-    var startTelno=this.form.StartTelephoneNumber?.value?this.form.StartTelephoneNumber?.value:''
-    var endTelno =this.form.EndTelephoneNumber?.value?this.form.EndTelephoneNumber?.value:''
+    var startTelno = this.form.StartTelephoneNumber?.value ? this.form.StartTelephoneNumber?.value : ''
+    var endTelno = this.form.EndTelephoneNumber?.value ? this.form.EndTelephoneNumber?.value : ''
     var errMsg = Custom.compareStartAndEndTelNo(startTelno, endTelno);
     if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
@@ -710,9 +715,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     if (this.updateForm.invalid) { return; }
     const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '400px', disableClose: true, data: {
-        message: 'Would you like to continue to save the records?'
+        message: 'Would you like to continue to save the records?',
+        remarks: 'Telephone numbers having the End Type Resolution status cannot be updated.'
       }
     });
+
     rangeConfirm.afterClosed().subscribe(result => {
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
@@ -725,6 +732,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
           }
         });
       }
+
     });
   }
 
@@ -739,7 +747,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         //   this.disableProcess = false;
         // }
         if (this.selectListItems.length === 1) {
-          this.disableProcess = false;
+          let endStatusFlag = this.endStatus.find(x => x === this.selectListItems[0].ResolutionType) ? true : false;
+          this.disableProcess = endStatusFlag;
         }
         else {
           this.disableProcess = true;
@@ -955,6 +964,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     })
     this.getSelectedDataCorrection();
     this.getPnlControlAttributes();
+    console.log('selcted', this.selectListItems)
   }
 
   monthlyRefreshReportInit(auditACTID: any, telno: any) {
