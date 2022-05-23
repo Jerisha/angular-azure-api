@@ -191,7 +191,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'CDMS/NMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
     { headerValue: 'IsVodafoneRangeHolder', header: 'Is VodafoneRange Holder', showDefault: true, isImage: false },
     { headerValue: 'BTCustomer', header: 'BT Customer', showDefault: true, isImage: false },
-    { headerValue: 'BTPostcode', header: 'BTP ostcode', showDefault: true, isImage: false },
+    { headerValue: 'BTPostcode', header: 'BT Postcode', showDefault: true, isImage: false },
     { headerValue: 'BTLocality', header: 'BT Locality', showDefault: true, isImage: false },
     { headerValue: 'BTPremise', header: 'BT Premise', showDefault: true, isImage: false },
     { headerValue: 'BTThouroughfare', header: 'BT Thourough fare', showDefault: true, isImage: false },
@@ -419,8 +419,9 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
     this.getTelnoValidation();
     if (this.fullAuditForm.invalid) { return; }
-
-    var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
+    var startTelno=this.form.StartTelephoneNumber?.value?this.form.StartTelephoneNumber?.value:''
+    var endTelno =this.form.EndTelephoneNumber?.value?this.form.EndTelephoneNumber?.value:''
+    var errMsg = Custom.compareStartAndEndTelNo(startTelno, endTelno);
     if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',

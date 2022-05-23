@@ -81,7 +81,7 @@
 
           <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
             <mat-label>CUPID</mat-label>
-            <input #cupId formControlName="CUPID" type="text" placeholder="Search CUPID" matInput
+            <input #cupId numbersOnly formControlName="CUPID" type="text" placeholder="Search CUPID" matInput
               [matAutocomplete]="autoCupId" OptionsValidator [options]="config.CUPID  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>

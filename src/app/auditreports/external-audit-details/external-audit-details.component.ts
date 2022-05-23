@@ -275,7 +275,10 @@ export class ExternalAuditDetailsComponent implements OnInit {
     if (!this.externalAuditForm.valid) return;
 
     debugger;
-    var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
+    var startTelno= this.form.StartTelephoneNumber?.value?this.form.StartTelephoneNumber?.value:''
+    var endTelno = this.form.EndTelephoneNumber?.value?this.form.EndTelephoneNumber?.value:''
+    var errMsg = Custom.compareStartAndEndTelNo(startTelno, endTelno);
+    //var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
     if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
