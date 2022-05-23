@@ -16,7 +16,7 @@ import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-di
 import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
 import { TelNoPipe } from '../_helper/pipe/telno.pipe';
 import { SeparateinternalauditdetailsComponent } from './separateinternalauditdetails/separateinternalauditdetails.component';
-
+import{SeperateuserComponent}from './separateinternalauditdetails/seperate-user-comments-dialog.component'
 
 
 
@@ -29,6 +29,7 @@ import { SeparateinternalauditdetailsComponent } from './separateinternalauditde
     ExternalAuditTypeComponent,
     SeperateInternalAuditTypeComponent,
     UserCommentsDialogComponent,
+    SeperateuserComponent,
     ExternalAuditDetailsComponent,
     FullAuditHistoryComponent,
     AuditUserActionSummaryComponent,

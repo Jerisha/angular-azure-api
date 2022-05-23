@@ -89,7 +89,7 @@ export class HttpWrapperService {
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_py_sit}${endPoint.toString()}`,
+                `${environment.api_py_dev}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -111,12 +111,12 @@ export class HttpWrapperService {
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
                 switch (requestType) {
                     case WebMethods.CONFIG:
-                        transData = val.ReponseParams
+                        transData = val.ResponseParams
                         transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
                         break;
                     case WebMethods.QUERY:
                     case WebMethods.GET:
-                        transData = val.ReponseParams
+                        transData = val.ResponseParams
                         transData.data = val.Data
                         break;
                     case WebMethods.UPDATE:

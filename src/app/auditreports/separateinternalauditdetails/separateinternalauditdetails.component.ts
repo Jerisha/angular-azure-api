@@ -16,6 +16,9 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import{SeperateuserComponent}from  './seperate-user-comments-dialog.component'
+
+
 const FullAudit_Data: FullAuditDetails [] = [
   {
     Telno: '01131100030', SourceSystem: 'image', ActId: 'Source Only', Cupid: 'Amdocs SOM', ExternalCliStatus: '39', FullAuditCliStatus:'Amdocs SOM Only', ResolutionType: 'New',  SourceSystemStatus: 'Active', SwitchSource:'',  AuditDate: '07-04-2022', 
@@ -223,6 +226,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']); 
     forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
     .subscribe(results => {
+      console.log('Result from ts file',JSON.stringify(results));
     this.configDetails = results[0].data;
     this.rowRange = this.configDetails.AutoCorrectionVolume[0];
     this.defaultACTID = this.configDetails.FullAuditActID[0];    
@@ -373,32 +377,32 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   ];
 
   columns: ColumnDetails[] = [
-    { header: 'Tel.No.', headerValue: 'Telno', showDefault: true, isImage: false },
+    { header: 'Tel.No.', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'OSN2 Source', headerValue: 'Osn2Source', showDefault: true, isImage: false },
+    { header: 'OSN2 Source', headerValue: 'OSN2Source', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'ACT ID', headerValue: 'ActId', showDefault: true, isImage: false },
-    { header: 'CLI Status', headerValue: 'CliStatus', showDefault: true, isImage: false },
+    { header: 'CLI Status', headerValue: 'CLIStatus', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Source Status', headerValue: 'SourceStatus', showDefault: true, isImage: false },
     { header: 'Audit Date', headerValue: 'AuditDate', showDefault: true, isImage: false },
-    { header: 'OSN2 Customer', headerValue: 'Osn2Customer', showDefault: true, isImage: false },
-    { header: 'OSN2 Postcode', headerValue: 'Osn2Postcode', showDefault: true, isImage: false },
-    { header: 'OSN2 Thouroughfare', headerValue: 'Osn2ThoroughFare', showDefault: true, isImage: false },
-    { header: 'OSN2 Locality', headerValue: 'Osn2Locality', showDefault: true, isImage: false },
-    { header: 'OSN2 Premise', headerValue: 'Osn2Premise', showDefault: true, isImage: false },
+    //{ header: 'OSN2 Customer', headerValue: 'Osn2Customer', showDefault: true, isImage: false },
+    //{ header: 'OSN2 Postcode', headerValue: 'Osn2Postcode', showDefault: true, isImage: false },
+   // { header: 'OSN2 Thouroughfare', headerValue: 'Osn2ThoroughFare', showDefault: true, isImage: false },
+   // { header: 'OSN2 Locality', headerValue: 'Osn2Locality', showDefault: true, isImage: false },
+    //{ header: 'OSN2 Premise', headerValue: 'Osn2Premise', showDefault: true, isImage: false },
     { header: 'Source Customer', headerValue: 'SourceCustomer', showDefault: true, isImage: false },
     { header: 'Source Postcode', headerValue: 'SourcePostcode', showDefault: true, isImage: false },
     { header: 'Source Thouroughfare', headerValue: 'SourceThoroughFare', showDefault: true, isImage: false },
     { header: 'Source Locality', headerValue: 'SourceLocality', showDefault: true, isImage: false },
     { header: 'Source Premise', headerValue: 'SourcePremise', showDefault: true, isImage: false },
-    { header: 'Parent CUPID', headerValue: 'ParentCupid', showDefault: true, isImage: false },
-    { header: 'Child CUPID', headerValue: 'ChildCupid', showDefault: true, isImage: false },
+    { header: 'Parent CUPID', headerValue: 'ParentCUPID', showDefault: true, isImage: false },
+    { header: 'Child CUPID', headerValue: 'ChildCUPID', showDefault: true, isImage: false },
     { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
     { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
-    { header: 'Comments (Range)', headerValue: 'Comments', showDefault: true, isImage: false },
+   // { header: 'Comments (Range)', headerValue: 'Comments', showDefault: true, isImage: false },
   ];
 
   DisplayFullAuditDetailsTab()
@@ -460,7 +464,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
       if (Object.keys(res).length) {
         console.log('query response',JSON.stringify(res));
         let result = {
-          datasource: res.data.TelephoneNumbers,
+          datasource: res.data.SeparateInternalAuditDetails,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
           pagenumber: res.PageNumber
@@ -480,7 +484,8 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
       setCellAttributes: this.cellAttrInfo,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 3 },
+      // { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
       { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
       { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
       { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', tabIndex: 6 },
@@ -701,7 +706,8 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
 
   newTab(tab: any) {
     if (this.tabs === []) return;
-
+    var auditACTID = this.auditACTID.value;
+    var telno = tab.row.TelephoneNumber;
     switch (tab.tabType) {
       case 1: {
         //tab.row contains row data- fetch data from api and bind to respetive component
@@ -735,13 +741,31 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
         this.tranId = tab.row.TransactionReference;
         break;
       }
+      case 3: {
+        this.openDialog(auditACTID, tab.row.TelephoneNumber);
+        break;
+      }
       default: {
         //statements; 
         break;
       }
     }
   }
-
+  openDialog(auditACTID: any, telno: any) {
+    let attributes = [
+      { Name: 'TelephoneNumber', Value: [`${telno}`] },
+      { Name: 'AuditActID', Value: [`${auditACTID}`] },
+      { Name: 'AuditType', Value: [`${'Full Audit'}`] }
+    ];
+    const dialogRef = this.dialog.open(SeperateuserComponent, {
+      width: '800px',
+      //width: 'auto',
+      height: 'auto',
+      panelClass: 'custom-dialog-container',
+      data: { defaultValue: attributes, telno: telno }
+    }
+    );
+  }
 
 
   selChangeMultiple(matSelect: MatSelect) {
