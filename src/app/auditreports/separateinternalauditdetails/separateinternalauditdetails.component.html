@@ -310,7 +310,10 @@
                   </div>
                 </mat-error>
               </mat-form-field>
-
+              <button type="submit" mat-raised-button
+              color="primary" (click)="DisplayFullAuditDetailsTab()">
+              FullAudit
+            </button>
               <button [disabled]="disableSave" type="submit" mat-raised-button color="primary">
                 <mat-icon>save</mat-icon>Save
               </button>

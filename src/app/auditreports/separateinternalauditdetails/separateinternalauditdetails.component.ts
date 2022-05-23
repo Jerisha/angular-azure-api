@@ -262,10 +262,10 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   getPnlControlAttributes(control?: string) {
     if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
       && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
-      //this.disableSave = false;
+    this.disableSave = false;
     }
     else {
-     // this.disableSave = true;
+      this.disableSave = true;
     }
 
     if (control === 'EndTelNo')
@@ -418,8 +418,6 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      
-      
     }
     if (!this.tabs.find(x => x.tabType == 3)) {
       this.tabs.push({
@@ -665,7 +663,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     });
     rangeConfirm.afterClosed().subscribe(result => {
       if (result) {
-        let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
+        let request = Utils.preparePyUpdate('ResolutionRemarks', 'SeparateInternalAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
         //update 
         console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
