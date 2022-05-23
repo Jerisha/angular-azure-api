@@ -407,7 +407,7 @@ export class ReportReferenceService {
   ];
   public getReportNames():any
   { 
-    console.log(this.metaDataCollection[0], 'reportnames')
+    // console.log(this.metaDataCollection[0], 'reportnames')
    return  this.metaDataCollection[0] 
 
     // return [
@@ -475,7 +475,7 @@ export class ReportReferenceService {
                 for (let index = 0; index < this.lstForm.length; index++) {
                   if(this.dropdownNames.includes(this.lstForm[index].cName))
                   {
-                    console.log('franchise dp',this.franchiseDropdowns)
+                    // console.log('franchise dp',this.franchiseDropdowns)
                    if(this.lstForm[index].cName != 'Company')
                    {
                      this.lstForm[index].cList = this.franchiseDropdowns[0][this.lstForm[index].cName].map((x:any)=>({                  
@@ -506,14 +506,14 @@ export class ReportReferenceService {
                       //console.log('val',res[this.lstForm[index].cName])
                       // console.log('val1',res.values().next())
                       // console.log('val2',res.values().next().value[this.lstForm[index].cName])
-                      console.log("config result",result)
+                      // console.log("config result",result)
                       this.lstForm[index].cList = result.data[this.lstForm[index].cName].map((x:any)=>({                  
                         displayValue:x,internalValue:x
                       })) 
                     }
                     
                   }
-                  console.log("lstval: ",this.lstForm)
+                  // console.log("lstval: ",this.lstForm)
                   //console.log(Object.entries(result.data))
                   //result.data
                   //this.dp = result.data
@@ -530,7 +530,7 @@ export class ReportReferenceService {
     //let request = ReportReferenceService.prepareQueryRequest(pageIdentifier, reportIdentifier);
     //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
     let request = Utils.preparePyQuery(pageIdentifier, reportIdentifier,[{}]);
-    console.log(JSON.stringify(request));
+    // console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
   updateDetails(request: any): Observable<any> {
@@ -549,7 +549,7 @@ export class ReportReferenceService {
   }
   getConfig(dropValues:string[]):Observable<any>{
       let request = Utils.preparePyConfig(['Create'], dropValues);
-      console.log(JSON.stringify(request), 'configapire');
+      // console.log(JSON.stringify(request), 'configapire');
       return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }  
   prepareQueryRequest(pageIdentifier: string, reportIdentifier: string): any {
@@ -570,24 +570,24 @@ export class ReportReferenceService {
   prepareDeleteRequest(pageIdetifier: string, reportIdentifier: string, deleteIdentifier: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.DELETE));
     // let transform = JSON.parse(JSON.stringify(WMRequests.DELETE));
-    console.log(JSON.stringify(transform), 'transform0')
+    // console.log(JSON.stringify(transform), 'transform0')
     transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdetifier;
     //identifier
-    console.log(JSON.stringify(transform), 'transform1')
+    // console.log(JSON.stringify(transform), 'transform1')
     transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-    console.log(JSON.stringify(transform), 'transform2')
+    // console.log(JSON.stringify(transform), 'transform2')
     transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier =  deleteIdentifier;
-    console.log('transform3', JSON.stringify(transform))
+    // console.log('transform3', JSON.stringify(transform))
      // transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = UpdateAttribute;
    
     return transform;
   }
   prepareCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier:any): Observable<any> {
-    console.log(pageIdentifier, 'pageidne1')
+    // console.log(pageIdentifier, 'pageidne1')
     pageIdentifier = pageIdentifier === 'Olo' ||  pageIdentifier ==='Company' ? 'Franchise' : pageIdentifier
-    console.log(pageIdentifier, 'pageidne')
+    // console.log(pageIdentifier, 'pageidne')
     let request = Utils.preparePyCreate(pageIdentifier, reportIdentifier,'CreateParameters',createIdentifier );
-    console.log(JSON.stringify(request));
+    // console.log(JSON.stringify(request));
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
     
   }

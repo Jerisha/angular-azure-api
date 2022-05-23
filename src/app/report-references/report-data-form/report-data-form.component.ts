@@ -47,7 +47,7 @@ ngOnInit(): void {
     this.title = this.reportName;
     if(this.record != undefined)
     {
-      console.log('oninit')
+      // console.log('oninit')
       this.eventName ='Update'    
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
@@ -162,7 +162,7 @@ onEditRecord(record:any,event:Event){
 }
 onDropDownChange(event:any){
 // alert('dp:'+event.value)
-console.log('dp:',event)
+// console.log('dp:',event)
 }
 
 onSubmit(){
@@ -173,7 +173,7 @@ let updatedRecord
 if (this.referenceForm.valid)
 {
 updatedRecord = this.referenceForm.value;
-console.log(updatedRecord,'df updaterecord')
+// console.log(updatedRecord,'df updaterecord')
 //console.log([[false,true],updatedRecord], 'de')
 this.submitBtnClicked.emit([[false,true],updatedRecord])
 this.onCancelDataForm();
