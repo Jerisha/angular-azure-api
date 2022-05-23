@@ -10,6 +10,7 @@
     <mat-dialog-content>
         <!-- {{message}} -->
         <p [innerHTML]="message"></p>
+        <small *ngIf="remarksTxt.length>0">Note: {{remarksTxt}}</small>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <!-- <button mat-raised-button color="primary" mat-dialog-close tabindex="-1">{{cancelButtonText}}</button> -->
