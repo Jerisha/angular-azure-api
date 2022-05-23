@@ -92,10 +92,12 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     private service: AdministrationService,
     private cdr: ChangeDetectorRef,
     private alertService: AlertService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog) { 
+    
+    }
 
   ngOnInit(): void {
-
+    
     this.createForm();
 
     let request = Utils.preparePyConfig(['Search'], ["AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID"]);
@@ -206,6 +208,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    this.SepAuditActId ='';
     if (!this.thisForm.valid) return;
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
