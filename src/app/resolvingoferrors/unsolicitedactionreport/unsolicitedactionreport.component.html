@@ -56,13 +56,12 @@
             </div>
 
             <div [ngStyle]="{'display':myForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
-              <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeAuditOperator
-                  [resetvalue]="resetExp"
-                  (click)="OnOperatorClicked(['ResolutionTypeAuditOperator',ResolutionTypeAuditOperator.selectedViewValue])">
+              <app-select-exp [listItems]="expressions[3].default" #ResolveTypeOperator
+                  [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolveTypeOperator',ResolveTypeOperator.selectedViewValue])">
               </app-select-exp>
           <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
               <mat-label>Resolution Type</mat-label>
-              <input #ResolutionTypeAudit formControlName="ResolutionTypeAudit" type="text" placeholder="Search ResolutionTypeAudit" matInput
+              <input #ResolutionTypeAudit formControlName="ResolutionTypeAudit" type="text" placeholder="Search ResolutionType" matInput
                 [matAutocomplete]="autoResolutionTypeAudit" OptionsValidator [options]="config.ResolutionTypeAudit " />
               <span matSuffix mat-icon-button>
                 <mat-icon>arrow_drop_down</mat-icon>
@@ -74,6 +73,7 @@
               <mat-error *ngIf="f.ResolutionTypeAudit.errors?.validOptions">Value need to match available options</mat-error>
             </mat-form-field>
           </div>
+
 
           <div [ngStyle]="{'display':myForm.controls.Source.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #SourceOperator

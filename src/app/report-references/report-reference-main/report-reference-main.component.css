@@ -166,4 +166,11 @@
   line-height:calc(90%-20px);
   margin-top: 6px;
   }
-  
+  .table-spinner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    color:#e60000;
+  }
+ 

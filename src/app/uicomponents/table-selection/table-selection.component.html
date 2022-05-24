@@ -112,9 +112,13 @@ font-size: smaller;  ">
 
 
 <ng-container>
-  <mat-paginator #paginator style="height: 5px;" [length]="totalRows" showFirstLastButtons [pageIndex]="currentPage"
+  <mat-paginator #paginator style="height: 5px;"  [length]="totalRows" showFirstLastButtons [pageIndex]="currentPage"
     [pageSize]="pageSize" hidePageSize [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)">
   </mat-paginator>
+
+  <!-- <mat-paginator #paginator style="height: 5px;"  [pageSizeOptions]="[10,100, 500, 1000]" [length]="totalRows" [pageIndex]="currentPage"
+    [pageSize]="pageSize"   (page)="pageChanged($event)">
+  </mat-paginator> -->
 
 
   <!-- <div class="test-wrapper"> -->
