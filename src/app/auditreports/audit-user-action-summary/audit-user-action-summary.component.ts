@@ -4,13 +4,17 @@ import { MatSelect } from '@angular/material/select';
 import { of } from 'rxjs';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { TableItem } from 'src/app/uicomponents/models/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment} from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { AuditReportsService } from '../services/audit-reports.service';
+import { Utils } from 'src/app/_http/common/utils';
+import { expDate, expDropdown, expNumeric, expString } from 'src/app/_helper/Constants/exp-const';
+import { map } from 'rxjs/internal/operators/map';
 const moment = _rollupMoment || _moment;
 
 const MY_FORMATS = {
@@ -29,8 +33,8 @@ const FilterListItems: Select[] = [
   { view: 'Audit Month', viewValue: 'AuditMonth', default: true },
   { view: 'Audit Type', viewValue: 'AuditType', default: true },
   { view: 'Resolved By', viewValue: 'ResolvedBy', default: false },
-  { view: 'Resolution Type', viewValue: 'ResolutionType', default: false },
-  { view: 'Audit ACT ID', viewValue: 'AuditACTID', default: false },
+  { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: false },
+  { view: 'Audit ACT ID', viewValue: 'AuditActID', default: false },
 ];
 
 const auditUserSummaryData = [
@@ -100,8 +104,17 @@ export class AuditUserActionSummaryComponent {
   showDetails: boolean = false;
   selectedTab: number = 0;
   datevalue?:string;
+  configDetails!: any;
+  repIdentifier = "AuditUserActionSummary";
+  expressions: any = [expNumeric, expString, expDate,expDropdown];
+  resetExp: boolean = false;
+  currentPage: string = '1';
+  queryResult$: any;
+  myTable!: TableItem;
 
-  auditUserActionSummaryTableDetails: any = [
+
+  expOperatorsKeyPair: [string, string][] = [];
+  columns: ColumnDetails[]= [
     { headerValue: 'AuditActID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false },
     { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false },
     { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false },
@@ -110,21 +123,31 @@ export class AuditUserActionSummaryComponent {
     { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true },
   ]
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private service: AuditReportsService) { }
 
   ngOnInit(): void {
     this.createForm();
+    let request = Utils.preparePyConfig(['Search'], ['AuditType', 'ResolvedBy', 'ResolutionTypeAudit', 'AuditActID']);
+    console.log("req: " + JSON.stringify(request));
+    this.service.configDetails(request).subscribe((res: any) => {
+      console.log("res: " + JSON.stringify(res));
+      this.configDetails = res.data;
+    });
+
+  }
+  onFormSubmit():void {
+
   }
 
-  onFormSubmit() {
-    this.newTab();
-  }
+ 
 
   resetForm() {
-    this.searched = false;
-    this.thisForm.reset();
-    this.tabs.splice(0);
-    this.AuditMonth.setValue('');
+    // this.searched = false;
+    // this.thisForm.reset();
+    // this.tabs.splice(0);
+    // this.AuditMonth.setValue('');
+    window.location.reload();
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -154,10 +177,153 @@ export class AuditUserActionSummaryComponent {
       AuditMonth: new FormControl({ value: '', disabled: true }),
       AuditType: new FormControl({ value: '', disabled: true }, []),
       ResolvedBy: new FormControl({ value: '', disabled: true }, []),
-      ResolutionType: new FormControl({ value: '', disabled: true }, []),
-      AuditACTID: new FormControl({ value: '', disabled: true }, []),
+      ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
+      AuditActID: new FormControl({ value: '', disabled: true }, []),
     })
+
   }
+  
+  // onFormSubmit(isEmitted?: boolean): void {
+  //   debugger;
+  //   if (!this.thisForm.valid) return;
+  //   this.tabs.splice(0);
+  //   this.currentPage = isEmitted ? this.currentPage : '1';
+  //   let request = Utils.preparePyQuery('AuditUserActionSummaryOptions', 'AuditUserActionSummary', this.prepareQueryParams(this.currentPage));
+  //   this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+  //     if (Object.keys(res).length) {
+  //       let result = {
+  //         datasource: res.data.Summary,
+  //         totalrecordcount: res.TotalCount,
+  //         totalpages: res.NumberOfPages,
+  //         pagenumber: res.PageNumber
+  //         // datasource: ELEMENT_DATA,
+  //         // totalrecordcount: 1,
+  //         // totalpages: 1,
+  //         // pagenumber: 1
+  //       }
+  //       return result;
+  //     } else return {
+  //       datasource: res
+  //     };
+  //   }));
+
+  //   this.myTable = {
+  //     data: this.queryResult$,
+  //     Columns: this.columns,
+  //     filter: true,
+  //     selectCheckbox: true,
+  //     highlightedCells: ['TelephoneNumber'],
+  //     removeNoDataColumns: true,
+  //     // imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
+  //   }
+
+  //   if (!this.tabs.find(x => x.tabType == 0)) {
+  //     this.tabs.push({
+  //       tabType: 0,
+  //       name: 'Summary'
+  //     });
+  //   }
+  //   //this.isEnable();
+  // }
+  // prepareQueryParams(pageNo: string): any {
+  //   let attributes: any = [
+  //     { Name: 'PageNumber', Value: [`${pageNo}`] }];
+  //   //Reference
+  //   const control = this.thisForm.get('Reference');
+  //   if (control?.value)
+  //     attributes.push({ Name: '999Reference', Value: [control?.value] });
+  //   else
+  //     attributes.push({ Name: '999Reference' });
+  //   for (const field in this.f) {
+  //     if (field != 'Reference' ) {
+  //       const control = this.thisForm.get(field);
+  //       if (field == 'DateRange') {
+  //         const startDate = this.thisForm.get('DateRange.StartDate');
+  //         if (startDate?.value)
+  //           attributes.push({ Name: 'StartDate', Value: [formatDate(startDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+  //         else
+  //           attributes.push({ Name: 'StartDate' });
+  //         const endDate = this.thisForm.get('DateRange.EndDate');
+  //         if (endDate?.value)
+  //           attributes.push({ Name: 'EndDate', Value: [formatDate(endDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+  //         else
+  //           attributes.push({ Name: 'EndDate' });
+           
+  //         continue;
+  //       }
+  //       if (field == 'ResolutionTypeAudit')
+  //       {
+  //       attributes.push({ Name: 'ResolveType', Value: [control?.value]});
+  //       let operator: string = 'ResolveType' + "Operator";
+  //       if (this.expOperatorsKeyPair.length != 0) {
+  //         let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+  //         // console.log(expvals,"operatorVal1")
+  //         if (expvals.length != 0) {
+  //         //  console.log(control?.value,"True");
+  //             // if (control?.value) {
+  //               attributes.push({ Name: operator, Value: [expvals[0][1]] });
+  //               console.log(expvals[0][1],"operatorVal");
+  //             // }
+  //             // else {
+  //             //   attributes.push({ Name: operator, Value: ['Equal To'] });
+  //             // }
+  //         }
+         
+  //       }
+  //       else {
+  
+  //         attributes.push({ Name: operator, Value: ['Equal To'] });
+  
+  //       }
+     
+       
+  //       } 
+
+  //       if (control?.value )
+  //         attributes.push({ Name: field, Value: [control?.value] });
+  //       else
+  //         attributes.push({ Name: field });
+
+  //     }
+  //     let operator: string = field + "Operator";
+
+  //     // console.log("op vals",this.expOperatorsKeyPair);
+
+  //     //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
+  //     //  console.log("op ",operatorVal);
+  //     if (this.expOperatorsKeyPair.length != 0) {
+  //       let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+  //       // console.log(expvals,"operatorVal1")
+  //       if (expvals.length != 0) {
+  //       //  console.log(control?.value,"True");
+  //           // if (control?.value) {
+  //             attributes.push({ Name: operator, Value: [expvals[0][1]] });
+  //             console.log(expvals[0][1],"operatorVal");
+  //           // }
+  //           // else {
+  //           //   attributes.push({ Name: operator, Value: ['Equal To'] });
+  //           // }
+  //       }
+  //       else {
+  //         if (field == 'TelephoneNumber' || field == 'DateRange') {
+  //           attributes.push({ Name: operator, Value: ['Equal To'] });
+  //         }
+  //         else {
+  //           attributes.push({ Name: operator, Value: ['Equal To'] });
+  //         }
+  //       }
+  //     }
+  //     else {
+
+  //       attributes.push({ Name: operator, Value: ['Equal To'] });
+
+  //     }
+  //   }
+  //   console.log('attri',attributes);
+
+  //   return attributes;
+
+  // }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -180,7 +346,7 @@ export class AuditUserActionSummaryComponent {
             totalpages:1,
             pagenumber:1}),
             filter: true,
-          Columns: this.auditUserActionSummaryTableDetails,
+          Columns: this.columns,
           selectCheckbox: true,
         }
       this.showDetails = true;
@@ -203,6 +369,24 @@ export class AuditUserActionSummaryComponent {
     this.AuditMonth.setValue(ctrlValue);
     this.datevalue=ctrlValue;
     datepicker.close();
+  }
+  OnOperatorClicked(val: [string, string]) {
+    let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
+    if (vals.length == 0) {
+      this.expOperatorsKeyPair.push(val);
+    }
+    else {
+      this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
+      this.expOperatorsKeyPair.push(val);
+    }
+  }
+
+  getTupleValue(element: [string, string], keyvalue: string) {
+    // console.log(element, keyvalue,"gettuple");
+    if (element[0] == keyvalue) { return element[1]; }
+    else
+      return "";
+
   }
     
 }
