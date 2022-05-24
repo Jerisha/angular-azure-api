@@ -85,14 +85,19 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
   reportIdentifier: string = "AuditStatusTracker";
+  selectedAuditType!: string;
+  selectedActId!: string;
+  SepAuditActId!:string;
   constructor(private formBuilder: FormBuilder,
     private service: AdministrationService,
     private cdr: ChangeDetectorRef,
     private alertService: AlertService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog) { 
+    
+    }
 
   ngOnInit(): void {
-
+    
     this.createForm();
 
     let request = Utils.preparePyConfig(['Search'], ["AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID"]);
@@ -102,9 +107,9 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
         { auditType: res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID },
         { auditType: res.data.AuditType[2], auditActId: res.data.ExternalAuditActID }];
 
-      // this.selectedAuditType = this.configValues[0].auditType;
-      // this.auditActIdDropdown =  this.configValues[0].auditActId;
-      // this.selectedActId = this.auditActIdDropdown[0];
+      this.selectedAuditType = this.configDetails[0].auditType;
+      this.auditActIdDropdown = this.configDetails[0].auditActId;
+      this.selectedActId = this.auditActIdDropdown[0];
     });
 
 
@@ -156,8 +161,8 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      AuditType: new FormControl({ value: '', disabled: false }),
-      AuditActId: new FormControl({ value: '', disabled: false }),
+      AuditType: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      AuditActId: new FormControl({ value: '', disabled: false }, [Validators.required]),
     })
 
     // this.thisForm.controls.AuditType.valueChanges.pipe(
@@ -170,7 +175,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     debugger;
     let index = this.configDetails.findIndex((x: any) => x.auditType == val.value);
     this.auditActIdDropdown = this.configDetails[index].auditActId;
-    // this.selectedActId =  this.auditActIdDropdown[0];
+    this.selectedActId = this.auditActIdDropdown[0];
   }
 
 
@@ -192,7 +197,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   }
 
   auditstatustrackercolumns: ColumnDetails[] = [
-    { header: 'ACT ID', headerValue: 'ActID', showDefault: true, isImage: false },
+    { header: 'ACT ID', headerValue: 'ActId', showDefault: true, isImage: false },
     { header: 'Status Date', headerValue: 'StatusDate', showDefault: true, isImage: false },
     { header: 'Status Code', headerValue: 'StatusCode', showDefault: true, isImage: false },
     { header: 'Status Description', headerValue: 'StatusDescription', showDefault: true, isImage: false },
@@ -203,6 +208,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
+    this.SepAuditActId ='';
     if (!this.thisForm.valid) return;
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
@@ -359,29 +365,33 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   separateAuditTrail() {
     debugger;
 
-    let request = Utils.preparePyUpdate('StartSeparateInternalAudit', this.reportIdentifier, [{}], [{}]);
-    //update 
-    this.service.updateDetails(request).subscribe(x => {
-      if (x.StatusMessage === 'Success') {
-        //success message and sshow act id
-        const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
-          width: '400px', disableClose: false, data: {enableOk: false,
-            message: `Please note the following :<br/>
-            1. Audit ACT ID is : ${x.data.StartSeparateInternalAudit.SepAuditActId}<br/>
-            2. Audit can take sometime to produce and there may be delay of up to 15 minutes before the processing starts. </br>
-            3. Audit has been started in backgound.<br />
-            4. Check latest Audit ACT ID in Audit Tracker Screen.<br/>`
-          }
-        });
-        rangeConfirm.afterClosed().subscribe(result => {
-          if (result) {
-          }
-        });
-      
+
+    const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px', disableClose: false, data: {
+        message: `Are you sure you want to start Audit? <br/>
+        Please make sure latest DVA Audit file is available @opt/SP/osnadmin/audit/DVA/load.`
       }
     });
+    rangeConfirm.afterClosed().subscribe(result => {
+      //window.location.reload();
+      if (result) {
+        let request = Utils.preparePyUpdate('StartSeparateInternalAudit', this.reportIdentifier, [{}], [{}]);
+        //update 
+        this.service.updateDetails(request).subscribe(x => {
+          if (x.StatusCode === "EUI000") {
+            this.SepAuditActId = x.data.AuditStatusTracker[0].SepAuditActId;
+            //success message and show act id
 
-    
+            // Please note the following :<br/>
+            //         1. Audit ACT ID is : <b>${x.data.AuditStatusTracker[0].SepAuditActId}</b><br/>
+            //         2. Audit can take sometime to produce and there may be delay of up to 15 minutes before the processing starts. </br>
+            //         3. Audit has been started in backgound.<br />
+            //         4. Check latest Audit ACT ID in Audit Tracker Screen.<br/>
+
+          }
+        });
+      }
+    });
 
   }
 

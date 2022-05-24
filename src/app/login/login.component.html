@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <!-- <div class="logo-container hdpi-capable tablet-only"></div> -->
-    <div class="headtitle"><h1></h1></div>
+    <div class="headtitle">
+        <h1></h1>
+    </div>
 </nav>
 
 
@@ -8,41 +10,57 @@
     <div class="img">
         <img src="assets/images/side_img.PNG">
     </div>
-<div class="login-content">
+    <div class="login-content">
 
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    
-    <div class="input-div one">
-        <div class="i">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+            <div class="input-div">
+                <!-- <div class="i">
             <i class="fas fa-user"></i>
         </div>
         <div class="div">
             <input type="text" formControlName="username" class="input"
-                placeholder="Username" />
-        </div>
-    </div>
-    <div class="input-div pass">
-        <div class="i">
+                placeholder="Username" />               
+        </div> -->
+
+                <mat-form-field appearance="standard" >
+                    <input matInput formControlName="username" placeholder="Username"  
+                    autocomplete="off">                        
+                    <button type="button" matPrefix mat-icon-button aria-label="Clear">
+                        <mat-icon>perm_identity</mat-icon>
+                    </button>
+                </mat-form-field>
+
+            </div>
+            <div class="input-div">
+                <!-- <div class="i">
             <i class="fas fa-lock"></i>
         </div>
         <div class="div">
             <input type="password" formControlName="password" class="input"
-                placeholder="Password" />
-        </div>
+                placeholder="Password" />               
+        </div> -->
+
+                <mat-form-field appearance="standard" >
+                    <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'"
+                        formControlName="password" required>
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <button type="button" matPrefix mat-icon-button aria-label="Clear">
+                        <mat-icon>lock_open</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Login
+            </button>
+            <div>
+                <p style="text-align: justify;">
+                    For Windows AD Authentication, please use your VF-ROOT domain credentials.
+
+                </p>
+            </div>
+
+        </form>
     </div>
-    <button [disabled]="loading" class="btn btn-primary">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        Login
-    </button>
-    <div>
-        <p style="text-align: justify;">
-            For Windows AD Authentication, please use your VF-ROOT domain credentials.
-           
-            </p>
-    </div>
-
-</form>
 </div>
-</div>
-
-

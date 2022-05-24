@@ -7,11 +7,11 @@
 <mat-dialog-content>
     <!-- <mat-dialog-content [ngClass]="{'set-width':!data.defaultValue}" > -->
 
-        <div *ngIf="data.defaultValue">
+        <div *ngIf="userCommentsData">
         <app-table-selection [tableitem]="userCommentsTable">
         </app-table-selection>
     </div>
-    <div *ngIf="!data.defaultValue">
+    <div *ngIf="!userCommentsData">
         No data available for the given input
     </div>
 </mat-dialog-content>
