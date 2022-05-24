@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit,ElementRef, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { forkJoin, Observable, of } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
@@ -143,7 +143,8 @@ const FilterListItems: Select[] = [
   styleUrls: ['./separateinternalauditdetails.component.css']
 })
 export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewInit, AfterViewChecked {
-  
+  @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
+  @ViewChild('inputctrl') icRemarks!: ElementRef;
   myTable!: TableItem;
   fullAuditTable!: TableItem;
   informationTable1!: TableItem;
@@ -172,6 +173,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   selectedCorrectionType: string = '';
   repIdentifier = "UnsolicitedErrors";
   queryResult$!: Observable<any>;
+  queryResultfullAudit$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
@@ -192,29 +194,16 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     private cdr: ChangeDetectorRef, public router: Router, private service:AuditReportsService, private alertService: AlertService) { }
     correctionTypes: ApplyAttributes[] = [
       {
-        name: 'Auto Correction',
-        disabled: true,
-        subOption: [
-          { value: 'AutoCorrectionVolume', viewValue: 'Auto Correction Volume', disabled: true }
-        ]
-      },
-      {
         name: 'Manual Correction',
         disabled: true,
         subOption: [
-          { value: 'AutoPopulateBT', viewValue: 'Auto Populate BT', disabled: true },
           { value: 'AutoPopulateOSN2', viewValue: 'Auto Populate OSN2', disabled: true },
           { value: 'AutoPopulateSource', viewValue: 'Auto Populate Source', disabled: true },
-          { value: 'AutoPopulateBTSource', viewValue: 'Auto Populate BT + Source', disabled: true },
-          { value: 'AutoPopulateSpecialCease', viewValue: 'Auto Populate Special Cease', disabled: true }
         ]
       }];
       manualDataCorrectionConfig: any[] = [
-        { selectedValue: 'AutoPopulateBT', Message: 'BT', ManualAuditType: 'BT' },
         { selectedValue: 'AutoPopulateOSN2', Message: 'OSN2', ManualAuditType: 'OSN' },
-        { selectedValue: 'AutoPopulateSource', Message: 'Source', ManualAuditType: 'SRC' },
-        { selectedValue: 'AutoPopulateBTSource', Message: 'BT & Source', ManualAuditType: 'BTSRC' },
-        { selectedValue: 'AutoPopulateSpecialCease', Message: 'Special Cease', ManualAuditType: 'SPLCS' }
+        { selectedValue: 'AutoPopulateSource', Message: 'Source', ManualAuditType: 'SRC' }
       ]
   ngOnInit(): void {
 
@@ -289,9 +278,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
 
 
   ngAfterViewChecked() {
-
     this.cdr.detectChanges();
-
   }
   get updateFormControls() {
     return this.updateForm.controls;
@@ -301,15 +288,12 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   }
 
   get selectedFullAuditCLIStatus() {
-    return this.form.FullAuditCLIStatus;
+    return this.form.InternalCLIStatus;
   }
 
   get form() {
     return this.thisForm.controls;
   }
-
-  
-
 
   createForm() {
     this.thisForm = this.formBuilder.group({
@@ -386,11 +370,11 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Source Status', headerValue: 'SourceStatus', showDefault: true, isImage: false },
     { header: 'Audit Date', headerValue: 'AuditDate', showDefault: true, isImage: false },
-    //{ header: 'OSN2 Customer', headerValue: 'Osn2Customer', showDefault: true, isImage: false },
-    //{ header: 'OSN2 Postcode', headerValue: 'Osn2Postcode', showDefault: true, isImage: false },
-   // { header: 'OSN2 Thouroughfare', headerValue: 'Osn2ThoroughFare', showDefault: true, isImage: false },
-   // { header: 'OSN2 Locality', headerValue: 'Osn2Locality', showDefault: true, isImage: false },
-    //{ header: 'OSN2 Premise', headerValue: 'Osn2Premise', showDefault: true, isImage: false },
+   { header: 'OSN2 Customer', headerValue: 'OSN2Customer', showDefault: true, isImage: false },
+  { header: 'OSN2 Postcode', headerValue: 'OSN2Postcode', showDefault: true, isImage: false },
+  { header: 'OSN2 Thouroughfare', headerValue: 'OSN2ThoroughFare', showDefault: true, isImage: false },
+  { header: 'OSN2 Locality', headerValue: 'OSN2Locality', showDefault: true, isImage: false },
+  { header: 'OSN2 Premise', headerValue: 'OSN2Premise', showDefault: true, isImage: false },
     { header: 'Source Customer', headerValue: 'SourceCustomer', showDefault: true, isImage: false },
     { header: 'Source Postcode', headerValue: 'SourcePostcode', showDefault: true, isImage: false },
     { header: 'Source Thouroughfare', headerValue: 'SourceThoroughFare', showDefault: true, isImage: false },
@@ -402,11 +386,33 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
     { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
-   // { header: 'Comments (Range)', headerValue: 'Comments', showDefault: true, isImage: false },
+    { header: 'Comments (Range)', headerValue: 'Comments', showDefault: true, isImage: false },
   ];
-
+  dataCorrectionBtnConfig: ButtonCorretion[] = [
+    { value: 'SO-Amdocs SOM Only', buttonVal: ['AutoPopulateSource'] },
+    { value: 'R-Clarify Only', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
+    { value: 'DO-DVA Siebel only', buttonVal: ['AutoPopulateSource'] },
+    { value: 'S-Matched', buttonVal: ['AutoPopulateSource'] },
+    { value: 'D-Mismatched', buttonVal: ['AutoPopulateSource']},
+    { value: 'V-OSN2 Only', buttonVal: ['AutoPopulateSource'] },
+    { value: 'C-SAS/COMS Only', buttonVal: ['AutoPopulateSource'] },
+    { value: 'E-VA/WAD Only', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateOSN2']},
+     ];
   DisplayFullAuditDetailsTab()
   {
+    debugger
+    var isEmitted!:boolean;
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let requestAudit = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.prepareQueryParamsfullAudit(this.currentPage));
+    console.log('full audit query request',JSON.stringify(requestAudit));
+    this.queryResultfullAudit$ = this.service.queryDetails(requestAudit).pipe(map((res: any) => {
+     
+        console.log('query response',JSON.stringify(res));
+     
+      
+    }));
+
+
     this.fullAuditTable = {
       data: of({
         datasource: FullAudit_Data,
@@ -427,6 +433,44 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     }
     this.selectedTab = 3;
   }
+  setAttributesForManualCorrections() {
+    if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
+      this.selectedFullAuditCLIStatus?.value === null) {
+      this.correctionTypes.forEach(element => {
+        element.subOption?.forEach(child => child.disabled = true);
+        element.disabled = true;
+        this.showDataCorrection = false;
+        this.selectedCorrectionType = '';
+      });
+    }
+    else {
+      this.showDataCorrection = true;
+      this.dataCorrectionBtnConfig.forEach((element: ButtonCorretion) => {
+        if (this.selectedFullAuditCLIStatus?.value === element.value) {
+          this.correctionTypes.forEach(option => {
+            option.disabled = true;
+            this.selectedCorrectionType = '';
+            option.subOption?.forEach(subOpt => {
+              if (element.buttonVal.includes(subOpt.value)) {
+                if ((option.name === 'Auto Correction' && element.switchType?.includes(this.selectedSwitchTypeStatus?.value)) ||
+                  (option.name === 'Manual Correction')) {
+                  option.disabled = false;
+                  subOpt.disabled = false;
+                }
+                else {
+                  option.disabled = true;
+                  subOpt.disabled = true;
+                }
+              }
+              else {
+                subOpt.disabled = true;
+              }
+            });
+          });
+        }
+      });
+    }
+  }
   prepareQueryParams(pageNo: string): any {
     let attributes: any = [];
 
@@ -440,7 +484,30 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
         attributes.push({ Name: field });
     }
   }
+  
   attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
+ 
+    attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
+
+    return attributes;
+
+  }
+  prepareQueryParamsfullAudit(pageNo: string): any {
+    let attributes: any = [];
+
+    for (const field in this.form) {
+      if (field != 'AuditActID') {
+      const control = this.thisForm.get(field);
+
+      if (control?.value)
+        attributes.push({ Name: field, Value: [control?.value] });
+      else
+        attributes.push({ Name: field });
+    }
+  }
+  
+  //attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
+  attributes.push({ Name: 'AuditActID', Value: [`29 - 20 NOV 2020`] })
     attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
 
     return attributes;
@@ -455,6 +522,29 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
    ];
 
   onFormSubmit(isEmitted?: boolean): void {
+    this.tabs.splice(0);
+    this.selectListItems = [];
+    this.disableProcess = true;
+    this.disableSave = true;
+    this.updateForm.reset();
+    this.remarkstxt = '';
+    this.getTelnoValidation();
+
+    if (this.thisForm.invalid) { return; }
+
+    if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
+      && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
+      this.form.StartTelephoneNumber.setErrors({ incorrect: true });
+      this.icstartNo.nativeElement.focus();
+      this.icstartNo.nativeElement.blur();
+      return;
+    }
+
+    this.getPnlControlAttributes();
+    this.setAttributesForManualCorrections();
+
+
+
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('SeparateInternalAuditDetails', 'SeparateInternalAuditDetails', this.prepareQueryParams(this.currentPage));
     console.log('query request',JSON.stringify(request));
@@ -522,10 +612,67 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
 
   }
 
-
   processDataCorrection() {
+   
+      var msg = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.Message);
+      var processMessage = 'Do you want to proceed with raising transaction using ' + msg + ' Data?';
+
+      if (this.updateFormControls.Remarks.invalid) {
+        this.updateFormControls.Remarks.setErrors({ incorrect: true });
+        this.icRemarks.nativeElement.focus();
+        this.icRemarks.nativeElement.blur();
+        return;
+      };
+
+      const dataCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '600px', disableClose: true, data: {
+          message: processMessage
+        }
+      });
+
+      dataCorrectionConfirm.afterClosed().subscribe(result => {
+        if (result) {
+          if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
+            let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
+            console.log('manual', JSON.stringify(request));
+            this.service.updateDetails(request).subscribe(x => {
+              if (x.StatusCode === 'EUI000') {
+                this.alertService.success(x.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+                this.onFormSubmit(true);
+              }
+            });
+          }
+          else {
+            var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
+            var startTelno = '';
+            var endTelno = '';
+            if (selectedCLI != '') {
+              let strCmts = selectedCLI.split('-');
+              var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
+              startTelno = range[0];
+              endTelno = range[1] ? range[1] : ''
+            }
+            else {
+              startTelno = this.selectListItems[0].TelephoneNumber;
+            }
+            var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
+            if(endTelno=='')
+            {
+              endTelno=startTelno;
+            }
+            let data = {
+              StartphoneNumber: startTelno,
+             
+              EndPhoneNumber: endTelno,
+              ActId: this.form.AuditActID.value,
+              ResolutionRemarks: this.remarkstxt,
+              ManualAuditType: auditType
+            }
+            this.router.navigateByUrl('/transactions/transactions', { state: data });
+          }
+        }
+      })
     
-  
    // return identifiers;
   }
 
