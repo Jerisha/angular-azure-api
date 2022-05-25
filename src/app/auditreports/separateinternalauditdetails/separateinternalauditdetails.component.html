@@ -371,12 +371,11 @@
 
 
           <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
-            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
-            </app-transaction-errors>
-          </div>
-          <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
             <app-full-audit [attributes]="fullauditattributes">
             </app-full-audit>
+          </div>
+          <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
+           
           </div>
           <div *ngSwitchDefault>
 

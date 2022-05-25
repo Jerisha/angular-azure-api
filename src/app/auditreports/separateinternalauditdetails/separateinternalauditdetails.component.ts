@@ -405,11 +405,11 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     var isEmitted!:boolean;
     this.currentPage = isEmitted ? this.currentPage : '1';
     this.fullauditattributes=this.prepareQueryParamsfullAudit(this.currentPage)
-    let requestAudit = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.prepareQueryParamsfullAudit(this.currentPage));
-    console.log('full audit query request',JSON.stringify(requestAudit));
-    this.queryResultfullAudit$ = this.service.queryDetails(requestAudit).pipe(map((res: any) => {
-        console.log('query response',JSON.stringify(res));
-    }));
+    // let requestAudit = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.prepareQueryParamsfullAudit(this.currentPage));
+    // console.log('full audit query request',JSON.stringify(requestAudit));
+    // this.queryResultfullAudit$ = this.service.queryDetails(requestAudit).pipe(map((res: any) => {
+    //     console.log('query response',JSON.stringify(res));
+    // }));
 
 
     // this.fullAuditTable = {
@@ -424,13 +424,13 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     //   selectCheckbox: true,
     //   removeNoDataColumns: true,
     // }
-    if (!this.tabs.find(x => x.tabType == 3)) {
-      this.tabs.push({
-        tabType: 3,
-        name: 'View FullAudit Details'
-      });
-    }
-   this.selectedTab = 3;
+  //   if (!this.tabs.find(x => x.tabType == 3)) {
+  //     this.tabs.push({
+  //       tabType: 3,
+  //       name: 'View FullAudit Details'
+  //     });
+  //   }
+  //  this.selectedTab = 3;
   }
   setAttributesForManualCorrections() {
     if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
@@ -874,15 +874,15 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            name: 'Full Audit'
           })
 
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionReference;
+
+        this.DisplayFullAuditDetailsTab();
         break;
       }
       case 3: {

@@ -98,6 +98,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     ngOnChanges(changes: SimpleChanges) {
       // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
       //   return;
+      debugger
       this.initializeTableAttributes();
       this.disablePaginator = this.tableitem?.disablePaginator?true:false;
       this.dataObs$ = this.tableitem?.data;
@@ -129,6 +130,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     disablePaginator:boolean= false;
 
     loadDataRelatedAttributes(data:any){
+      this.ColumnDetails=[];
       this.columnHeaderFilter = this.tableitem?.filter;
       if (this.tableitem?.removeNoDataColumns) {
         if (data && data.length > 0)

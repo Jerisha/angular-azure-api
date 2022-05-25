@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { escapeRegExp } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-full-audit',
@@ -25,15 +26,17 @@ export class FullAuditComponent implements OnInit {
   select: string = 'Exp';
   isDisabled = true;
   myTable!: TableItem;
+  myTableTwo!: TableItem;
   selectedRowsCount: number = 0;
   selectListItems: string[] = [];
   selectedTab!: number;
   currentPage: string = '1';
   queryResultfullAudit$!: Observable<any>;
+  queryResultfullAuditpage$!: Observable<any>;
   @Input()attributes: any = [];
   public tabs = [{
     tabType: 0,
-    name: 'Telephone No Details'
+    name: 'full audit'
   }
   ];
   Datevalue?: string = '';
@@ -42,9 +45,11 @@ export class FullAuditComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private service: AuditReportsService,
     private cdr: ChangeDetectorRef) { }
+    fullauditdetailscolumnstwo: ColumnDetails[] = [
+    ];
     fullauditdetailscolumns: ColumnDetails[] = [
-      { header: 'Tel.No.', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-      { header: 'Source System', headerValue: 'OSN2Source', showDefault: true, isImage: true },
+    { header: 'Tel.No.', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+     { header: 'Source System', headerValue: 'OSN2Source', showDefault: true, isImage:false },
       { header: 'Act ID', headerValue: 'ACTID', showDefault: true, isImage: false },
       { header: 'Cupid', headerValue: 'Cupid', showDefault: true, isImage: false },
       { header: 'External CLI Status', headerValue: 'ExternalCliStatus', showDefault: true, isImage: false },
@@ -53,9 +58,9 @@ export class FullAuditComponent implements OnInit {
       { header: 'Source System Status', headerValue: 'SourceStatus', showDefault: true, isImage: false },
       { header: 'Switch Source', headerValue: 'SwitchSource', showDefault: true, isImage: false },
       { header: 'Audit Date', headerValue: 'AuditDate', showDefault: true, isImage: false },
-      { header: 'BT Customer', headerValue: 'BTCustomer', showDefault: true, isImage: false },
+       { header: 'BT Customer', headerValue: 'BTCustomer', showDefault: true, isImage: false },
       { header: 'BT Postcode', headerValue: 'BTPostcode', showDefault: true, isImage: false },
-      { header: 'BT Thouroughfare', headerValue: 'BTThoroughFare', showDefault: true, isImage: false },
+       { header: 'BT Thouroughfare', headerValue: 'BTThoroughFare', showDefault: true, isImage: false },
       { header: 'BT Locality', headerValue: 'BTLocality', showDefault: true, isImage: false },
       { header: 'BT Premise', headerValue: 'BTPremise', showDefault: true, isImage: false },
       { header: 'VF Customer', headerValue: 'VFCustomer', showDefault: true, isImage: false },
@@ -76,24 +81,25 @@ export class FullAuditComponent implements OnInit {
       { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
     ];
   ngOnInit(): void {
+   // this.formsubmit(false);
   }
   ngOnChanges(changes: SimpleChanges): void {
     debugger;
     // if (changes.Source?.currentValue != changes.Source?.previousValue)  
-      this.formsubmit(false);
-
+      
+    this.formsubmit(false);
   }
   formsubmit(isEmitted?: boolean) {
-    this.queryResultfullAudit$ = of([])
+
     this.currentPage = isEmitted ? this.currentPage : '1';
     this.attributes.length=isEmitted ?this.attributes.length-1:this.attributes.length;
-    //this.attributes.push({ Name: 'PageNumber', Value: [this.currentPage] })
-    this.attributes.push({ Name: 'PageNumber', Value: ['1'] })
+    this.attributes.push({ Name: 'PageNumber', Value: [this.currentPage] })
+    //this.attributes.push({ Name: 'PageNumber', Value: ['1'] })
     let request = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.attributes);
     console.log('query request',JSON.stringify(request));
-    this.queryResultfullAudit$ = this.service.queryDetails(request).pipe(map((res: any) => {
+    this.queryResultfullAuditpage$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
-        console.log('query response',JSON.stringify(res));
+        console.log('query response from full audit',JSON.stringify(res));
         let result = {
           datasource: res.data.TelephoneNumbers,
           totalrecordcount: res.TotalCount,
@@ -105,17 +111,18 @@ export class FullAuditComponent implements OnInit {
         datasource: res
       };
     }));
-    
+
+   
     this.myTable = {
-      data: this.queryResultfullAudit$,
+      data: this.queryResultfullAuditpage$,
       Columns: this.fullauditdetailscolumns,
       filter: true,
-      selectCheckbox: true,
+      //selectCheckbox: true,
       showEmail: true,
       removeNoDataColumns: true,
     }
-
   }
+  
  
   getNextSetRecords(pageIndex: any) {
     debugger;
