@@ -6,26 +6,28 @@ import { LoginComponent } from './login/login.component';
 
 const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
+  
+  {
+    path: '',
+    component: LoginComponent,
+    outlet: 'loginPage'
+  },
   {
     path: 'login',
     component: LoginComponent,
-    outlet:'loginPage'
-    
-    
-  },
-  { path: '',
-   component: LoginComponent,
-   outlet:'loginPage'
+    outlet: 'loginPage'
+
+
   },
   {
     path: 'home',
     component: HomeComponent,
-    
+
   },
   {
     path: 'administration',
     loadChildren: () => import('./administration/administration.module').then(x => x.AdministrationModule),
-    
+
   },
   {
     path: 'resolvingoferrors',
@@ -56,12 +58,12 @@ const routes: Routes = [
     path: 'shared',
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
 
-  },  
+  },
   {
-      path: 'report-references',
-      loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
-      
-      
+    path: 'report-references',
+    loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
+
+
   },
   // {
   //   path: 'governance',
@@ -73,9 +75,9 @@ const routes: Routes = [
     redirectTo: '',
     pathMatch: 'full'
   }
-  
-    
-    
+
+
+
 
 ];
 

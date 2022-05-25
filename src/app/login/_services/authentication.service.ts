@@ -15,6 +15,7 @@ private currentUserSubject: BehaviorSubject<User>;
     constructor(private http: HttpClient) {
        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('currentUser') || '{}'));
         this.currentUser = this.currentUserSubject.asObservable();
+       // alert(JSON.stringify(this.currentUser))
     }
 
     public get currentUserValue(): User {
