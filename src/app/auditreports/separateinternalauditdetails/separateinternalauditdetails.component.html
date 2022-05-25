@@ -375,9 +375,8 @@
             </app-transaction-errors>
           </div>
           <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="fullAuditTable" (rowChanges)="rowDetect($event)"
-              (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
-            </app-table-selection>
+            <app-full-audit [attributes]="fullauditattributes">
+            </app-full-audit>
           </div>
           <div *ngSwitchDefault>
 

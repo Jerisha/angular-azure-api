@@ -189,6 +189,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   disableSave: boolean = true;
   showDataCorrection: boolean = false;
   disableProcess: boolean = true;
+  fullauditattributes: any = [];
   constructor(private formBuilder: FormBuilder, private dialog: MatDialog,private telnoPipe: TelNoPipe,
    
     private cdr: ChangeDetectorRef, public router: Router, private service:AuditReportsService, private alertService: AlertService) { }
@@ -403,35 +404,33 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     debugger
     var isEmitted!:boolean;
     this.currentPage = isEmitted ? this.currentPage : '1';
+    this.fullauditattributes=this.prepareQueryParamsfullAudit(this.currentPage)
     let requestAudit = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.prepareQueryParamsfullAudit(this.currentPage));
     console.log('full audit query request',JSON.stringify(requestAudit));
     this.queryResultfullAudit$ = this.service.queryDetails(requestAudit).pipe(map((res: any) => {
-     
         console.log('query response',JSON.stringify(res));
-     
-      
     }));
 
 
-    this.fullAuditTable = {
-      data: of({
-        datasource: FullAudit_Data,
-        totalrecordcount: 100,
-        totalpages: 1,
-        pagenumber: 1
-        }),
-      Columns: this.fullauditdetailscolumns,
-      filter: true,
-      selectCheckbox: true,
-      removeNoDataColumns: true,
-    }
+    // this.fullAuditTable = {
+    //   data: of({
+    //     datasource: FullAudit_Data,
+    //     totalrecordcount: 100,
+    //     totalpages: 1,
+    //     pagenumber: 1
+    //     }),
+    //   Columns: this.fullauditdetailscolumns,
+    //   filter: true,
+    //   selectCheckbox: true,
+    //   removeNoDataColumns: true,
+    // }
     if (!this.tabs.find(x => x.tabType == 3)) {
       this.tabs.push({
         tabType: 3,
         name: 'View FullAudit Details'
       });
     }
-    this.selectedTab = 3;
+   this.selectedTab = 3;
   }
   setAttributesForManualCorrections() {
     if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
@@ -508,7 +507,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   
   //attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
   attributes.push({ Name: 'AuditActID', Value: [`29 - 20 NOV 2020`] })
-    attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
+    //attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
 
     return attributes;
 
