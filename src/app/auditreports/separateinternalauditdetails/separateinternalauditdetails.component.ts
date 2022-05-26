@@ -16,8 +16,7 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
-import{SeperateuserComponent}from  './seperate-user-comments-dialog.component'
-
+import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
 
 const FullAudit_Data: FullAuditDetails [] = [
   {
@@ -381,11 +380,11 @@ else{
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Source Status', headerValue: 'SourceStatus', showDefault: true, isImage: false },
     { header: 'Audit Date', headerValue: 'AuditDate', showDefault: true, isImage: false },
-   { header: 'OSN2 Customer', headerValue: 'OSN2Customer', showDefault: true, isImage: false },
-  { header: 'OSN2 Postcode', headerValue: 'OSN2Postcode', showDefault: true, isImage: false },
-  { header: 'OSN2 Thouroughfare', headerValue: 'OSN2ThoroughFare', showDefault: true, isImage: false },
-  { header: 'OSN2 Locality', headerValue: 'OSN2Locality', showDefault: true, isImage: false },
-  { header: 'OSN2 Premise', headerValue: 'OSN2Premise', showDefault: true, isImage: false },
+    { header: 'OSN2 Customer', headerValue: 'OSN2Customer', showDefault: true, isImage: false },
+    { header: 'OSN2 Postcode', headerValue: 'OSN2Postcode', showDefault: true, isImage: false },
+    { header: 'OSN2 Thouroughfare', headerValue: 'OSN2ThoroughFare', showDefault: true, isImage: false },
+    { header: 'OSN2 Locality', headerValue: 'OSN2Locality', showDefault: true, isImage: false },
+    { header: 'OSN2 Premise', headerValue: 'OSN2Premise', showDefault: true, isImage: false },
     { header: 'Source Customer', headerValue: 'SourceCustomer', showDefault: true, isImage: false },
     { header: 'Source Postcode', headerValue: 'SourcePostcode', showDefault: true, isImage: false },
     { header: 'Source Thouroughfare', headerValue: 'SourceThoroughFare', showDefault: true, isImage: false },
@@ -906,12 +905,13 @@ else{
       { Name: 'AuditActID', Value: [`${auditACTID}`] },
       { Name: 'AuditType', Value: [`${'Full Audit'}`] }
     ];
-    const dialogRef = this.dialog.open(SeperateuserComponent, {
+    const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
       width: '800px',
       //width: 'auto',
       height: 'auto',
       panelClass: 'custom-dialog-container',
-      data: { defaultValue: attributes, telno: telno }
+      //data: { defaultValue: attributes, telno: telno }
+      data: { listOfIdentifiers: attributes, rptElements: 'FullAuditDetails' }
     }
     );
   }

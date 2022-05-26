@@ -17,7 +17,7 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { AlertService } from 'src/app/_shared/alert';
 import { Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
-import { UserCommentsDialogComponent } from '../../_shared/user-comments/user-comments-dialog.component';
+import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component'
 import { Custom } from 'src/app/_helper/Validators/Custom';
 
 const Items: Select[] = [
