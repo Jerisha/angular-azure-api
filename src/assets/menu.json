@@ -72,6 +72,11 @@
         "displayName": "Audit User Action Summary",
         "iconName": "",
         "route": "auditreports/audituseractionsummary"
+      },
+      {
+        "displayName": "Saparateinternal Audit",
+        "iconName": "",
+        "route": "auditreports/separateinternalauditdetails"
       }
     ]
   },

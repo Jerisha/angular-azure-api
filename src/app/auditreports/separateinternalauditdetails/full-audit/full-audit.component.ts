@@ -117,7 +117,7 @@ export class FullAuditComponent implements OnInit {
       data: this.queryResultfullAuditpage$,
       Columns: this.fullauditdetailscolumns,
       filter: true,
-      //selectCheckbox: true,
+      selectCheckbox: true,
       showEmail: true,
       removeNoDataColumns: true,
     }

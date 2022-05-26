@@ -175,6 +175,23 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+
+          <!-- <mat-form-field [ngClass]="{'hidden':form.Resolution.disabled}">
+            <mat-label>Customer Diff.</mat-label>
+            <input #resolution formControlName="Resolution" type="text"
+              placeholder="Resolution" matInput [matAutocomplete]="autoResolution"
+              OptionsValidator [options]="config.Resolution" />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoResolution="matAutocomplete">
+              <mat-option *ngFor="let val of config.Resolution   | ddlFilter: resolution.value"
+                [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field> -->
+
         </ng-container>
       </div>
 
@@ -310,13 +327,14 @@
                   </div>
                 </mat-error>
               </mat-form-field>
-              <button type="submit" mat-raised-button
-              color="primary" (click)="DisplayFullAuditDetailsTab()">
-              FullAudit
-            </button>
+            
               <button [disabled]="disableSave" type="submit" mat-raised-button color="primary">
                 <mat-icon>save</mat-icon>Save
               </button>
+              <button type="submit" mat-raised-button
+              color="primary" [disabled]="disableAudit" (click)="DisplaySelectedFullAuditDetails()">
+              FullAudit
+            </button>
 
               <mat-form-field *ngIf="showDataCorrection">
                 <mat-label>Data Corrections</mat-label>

@@ -171,7 +171,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   tranId?: any;
   rowRange: string = '';
   selectedCorrectionType: string = '';
-  repIdentifier = "UnsolicitedErrors";
+  repIdentifier = "SeparateInternalAuditDetails";
   queryResult$!: Observable<any>;
   queryResultfullAudit$!: Observable<any>;
   configResult$!: Observable<any>;
@@ -187,6 +187,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   defaultACTID: string = '';
   remarkstxt: string = '';
   disableSave: boolean = true;
+  disableAudit:boolean=true;
   showDataCorrection: boolean = false;
   disableProcess: boolean = true;
   fullauditattributes: any = [];
@@ -212,7 +213,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     this.createUpdateForm();
     //this.listItems = Items;
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume",'SourceStatus','InternalCLIStatus']);
+    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume",'SourceStatus','InternalCLIStatus','Resolution']);
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']); 
     forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
     .subscribe(results => {
@@ -258,6 +259,14 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
       this.disableSave = true;
     }
 
+if (this.selectListItems.length > 1 )
+{
+  
+  this.disableAudit =false ;
+}
+else{
+  this.disableAudit =true ;
+}
     if (control === 'EndTelNo')
       this.getTelnoValidation();
 
@@ -298,8 +307,8 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.pattern("^[0-9]{10,11}$")]),
       AuditActID: new FormControl({ value: '', disabled: true }),
       OSN2Source: new FormControl({ value: '', disabled: true }),
       InternalCLIStatus: new FormControl({ value: '', disabled: true }),
@@ -307,7 +316,8 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
       SourceStatus: new FormControl({ value: '', disabled: true }),
       PostCodeDifference: new FormControl({ value: '', disabled: true }),
       FullAddDifference: new FormControl({ value: '', disabled: true }),
-      CustomerDifference: new FormControl({ value: '', disabled: true })
+      CustomerDifference: new FormControl({ value: '', disabled: true }),
+     // Resolution:new FormControl({ value: '', disabled: true }),
     })
   }
 
@@ -399,12 +409,12 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     { value: 'C-SAS/COMS Only', buttonVal: ['AutoPopulateSource'] },
     { value: 'E-VA/WAD Only', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateOSN2']},
      ];
-  DisplayFullAuditDetailsTab()
+  DisplayFullAuditDetailsTab( TelephoneNumber:string)
   {
     debugger
     var isEmitted!:boolean;
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    this.fullauditattributes=this.prepareQueryParamsfullAudit(this.currentPage)
+    this.currentPage = '1';
+    this.fullauditattributes=this.prepareQueryParamsfullAudit(this.currentPage,TelephoneNumber)
     // let requestAudit = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.prepareQueryParamsfullAudit(this.currentPage));
     // console.log('full audit query request',JSON.stringify(requestAudit));
     // this.queryResultfullAudit$ = this.service.queryDetails(requestAudit).pipe(map((res: any) => {
@@ -424,13 +434,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     //   selectCheckbox: true,
     //   removeNoDataColumns: true,
     // }
-  //   if (!this.tabs.find(x => x.tabType == 3)) {
-  //     this.tabs.push({
-  //       tabType: 3,
-  //       name: 'View FullAudit Details'
-  //     });
-  //   }
-  //  this.selectedTab = 3;
+  
   }
   setAttributesForManualCorrections() {
     if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
@@ -487,21 +491,25 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
  
     attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
-
+   console.log('console attributessss',attributes);
     return attributes;
 
   }
-  prepareQueryParamsfullAudit(pageNo: string): any {
+  prepareQueryParamsfullAudit(pageNo: string,TelphoneNumber:string): any {
     let attributes: any = [];
 
     for (const field in this.form) {
-      if (field != 'AuditActID') {
+      if (field != 'AuditActID'&&field != 'StartTelephoneNumber') {
       const control = this.thisForm.get(field);
 
       if (control?.value)
         attributes.push({ Name: field, Value: [control?.value] });
       else
         attributes.push({ Name: field });
+    }
+    if(field == 'StartTelephoneNumber')
+    {
+      attributes.push({ Name: field, Value: [TelphoneNumber] });
     }
   }
   
@@ -569,14 +577,9 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
       showEmail: true,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 3 },
-      // { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
-      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
-      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', tabIndex: 6 },
-      { headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7 }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',toolTipText: 'View Audit Details', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '',toolTipText: 'View User Comments', tabIndex: 2 },
+      { headerValue: 'View', icon: 'description', route: '',toolTipText: 'View Full Audit Details', tabIndex: 3 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -585,29 +588,6 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
       });
     }
     this.selectedTab = this.tabs.length;
-
-    // this.myTable = {
-    //   data: of({
-    //     datasource: ELEMENT_DATA,
-    //     totalrecordcount: 100,
-    //     totalpages: 1,
-    //     pagenumber: 1
-    //     }),
-    //   Columns: this.columns,
-    //   filter: true,
-    //   selectCheckbox: true,
-    //   removeNoDataColumns: true,
-      
-    //   imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-    //   { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
-    // }
-    // if (!this.tabs.find(x => x.tabType == 0)) {
-    //   this.tabs.push({
-    //     tabType: 0,
-    //     name: 'Summary'
-    //   });
-    // }
-    // this.selectedTab = this.tabs.length;
 
   }
 
@@ -800,6 +780,30 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
       }
     }
   }
+
+  DisplaySelectedFullAuditDetails()
+  {
+    let TelehponeNumbers:string='';
+    if (this.selectListItems.length > 0) {
+    let telno: string[] = [];
+    this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
+    //identifiers.push({ Name: 'TelephoneNumber', Value: telno });
+    TelehponeNumbers+=telno+',';
+    
+  }
+  TelehponeNumbers=TelehponeNumbers.slice(0,-1);
+  console.log('telephonestring',TelehponeNumbers);
+  this.DisplayFullAuditDetailsTab(TelehponeNumbers);
+  if (!this.tabs.find(x => x.tabType == 2)) {
+      this.tabs.push({
+        tabType: 2,
+        name: 'View FullAudit Details'
+      });
+    }
+   this.selectedTab = 3;
+}
+
+
   onSaveSubmit(): void {
     if (this.updateForm.invalid) { return; }
     const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
@@ -871,22 +875,23 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
         break;
       }
       case 2: {
+        this.openDialog(auditACTID, tab.row.TelephoneNumber);
+        break;
+      }
+      case 3: {
+       
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Full Audit'
+            name: 'View Full Audit details('+tab.row.TelephoneNumber+')'
           })
 
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
-
-        this.DisplayFullAuditDetailsTab();
-        break;
-      }
-      case 3: {
-        this.openDialog(auditACTID, tab.row.TelephoneNumber);
+         
+        this.DisplayFullAuditDetailsTab(tab.row.TelephoneNumber);
         break;
       }
       default: {
