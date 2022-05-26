@@ -473,19 +473,21 @@ else{
       });
     }
   }
+ 
   prepareQueryParams(pageNo: string): any {
     let attributes: any = [];
 
     for (const field in this.form) {
-      if (field != 'AuditActID') {
+     if (field != 'AuditActID') {
       const control = this.thisForm.get(field);
 
       if (control?.value)
         attributes.push({ Name: field, Value: [control?.value] });
       else
         attributes.push({ Name: field });
-    }
+   }
   }
+  
   
   attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
  
@@ -498,7 +500,8 @@ else{
     let attributes: any = [];
 
     for (const field in this.form) {
-      if (field != 'AuditActID'&&field != 'StartTelephoneNumber') {
+     // if (field != 'AuditActID'&&field != 'StartTelephoneNumber')
+     if (field != 'StartTelephoneNumber') {
       const control = this.thisForm.get(field);
 
       if (control?.value)
@@ -513,7 +516,7 @@ else{
   }
   
   //attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
-  attributes.push({ Name: 'AuditActID', Value: [`29 - 20 NOV 2020`] })
+ // attributes.push({ Name: 'AuditActID', Value: [`29 - 20 NOV 2020`] })
     //attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
 
     return attributes;
@@ -573,7 +576,7 @@ else{
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      showEmail: true,
+      showEmail: false,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',toolTipText: 'View Audit Details', tabIndex: 1 },
