@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavService } from './uicomponents/top-nav/services/nav.services';
 import { ResolvingoferrorsModule } from './resolvingoferrors/resolvingoferrors.module';
 import { AuditreportsModule } from './auditreports/auditreports.module';
@@ -17,7 +17,6 @@ import { HttpWrapperService } from './_http/http-wrapper.service';
 import { HttpErrorInterceptor } from './_http/http-error-interceptor';
 import { HttpHeaderInterceptor } from './_http/http-header-interceptor';
 import { TransactionsModule } from './transactions/transactions.module';
-import { AuditDiscpancyReportService } from './auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HelperModule } from './_helper/helper.module';
 import { StatisticalreportsModule } from './statisticalreports/statisticalreports.module';
@@ -28,6 +27,7 @@ import { AuditDataFilesComponent } from './administration/audit-data-files/audit
 import { AddressCheckComponent } from './transactions/address-check/address-check.component';
 import { AdministrationModule } from './administration/administration.module';
 import { RangeSpecialCeaseTransactionComponent } from './transactions/range-special-cease-transaction/range-special-cease-transaction.component';
+import { LoginComponent } from './login/login.component';
 
 // import { GovernanceModule } from './governance/governance.module';
 
@@ -38,6 +38,7 @@ import { RangeSpecialCeaseTransactionComponent } from './transactions/range-spec
   declarations: [
     AppComponent,
     MenuSearchPipe,
+    LoginComponent,
     
     
                  
@@ -59,7 +60,8 @@ import { RangeSpecialCeaseTransactionComponent } from './transactions/range-spec
     ReportsModule,  
     HelperModule,
     SharedModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [NavService,HttpWrapperService,
     {
@@ -72,7 +74,6 @@ import { RangeSpecialCeaseTransactionComponent } from './transactions/range-spec
     useClass: HttpHeaderInterceptor, 
     multi: true 
   },  
-  AuditDiscpancyReportService
   
 ],
   bootstrap: [AppComponent]

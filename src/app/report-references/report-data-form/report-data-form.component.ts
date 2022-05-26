@@ -47,7 +47,7 @@ ngOnInit(): void {
     this.title = this.reportName;
     if(this.record != undefined)
     {
-      console.log('oninit')
+      // console.log('oninit')
       this.eventName ='Update'    
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
@@ -95,11 +95,11 @@ formValidation() :FormGroup {
 for (var field of this.lstForm) {
  if (field.cType == 'text' && field.cMandate ==false) {
    group[field.cName] = new FormControl(field.cValue || '', [
-     
+    Validators.required,Validators.maxLength(field.cMaxLength)
    ]);
  }  
  else if (field.cType == 'text' && field.cMandate==true) {
-  group[field.cName] = new FormControl(field.cValue || '', Validators.required);
+  group[field.cName] = new FormControl(field.cValue || '', [Validators.required,Validators.maxLength(field.cMaxLength)]);
 } 
  else if (field.cType == 'select' && field.cMandate==true) {
    group[field.cName] = new FormControl(
@@ -132,6 +132,10 @@ for (var field of this.lstForm) {
 return  new FormGroup(group);
 }
 
+public fieldError=(controlName: string, errorName: string) =>{
+    return this.referenceForm.controls[controlName].hasError(errorName);
+}
+
 ngAfterViewInit() 
  {  
    this.cdr.detectChanges();  
@@ -156,6 +160,10 @@ onEditRecord(record:any,event:Event){
     this.referenceForm.markAsUntouched();
     
 }
+onDropDownChange(event:any){
+// alert('dp:'+event.value)
+// console.log('dp:',event)
+}
 
 onSubmit(){
 // alert(this.eventName+" Completed.."+JSON.stringify(this.referenceForm.value));
@@ -165,15 +173,15 @@ let updatedRecord
 if (this.referenceForm.valid)
 {
 updatedRecord = this.referenceForm.value;
-console.log(updatedRecord,'df updaterecord')
-console.log([[false,true],updatedRecord], 'de')
+// console.log(updatedRecord,'df updaterecord')
+//console.log([[false,true],updatedRecord], 'de')
 this.submitBtnClicked.emit([[false,true],updatedRecord])
 this.onCancelDataForm();
 }
 else{
   //this.submitBtnClicked.emit([false,true,updatedRecord]);
-  console.log(updatedRecord,'df updaterecord')
-console.log([[false,true],updatedRecord], 'de')
+  //console.log(updatedRecord,'df updaterecord')
+//console.log([[false,true],updatedRecord], 'de')
  this.submitBtnClicked.emit([[true,true], undefined]);
 }
 //this.submitBtnClicked.emit([false,true]);

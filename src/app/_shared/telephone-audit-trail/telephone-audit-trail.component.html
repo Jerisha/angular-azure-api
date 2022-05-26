@@ -1,23 +1,21 @@
 <ng-template #NoData>
     <div class="error">
         <span>No records found for this Telephone Number</span>
-        <!-- <mat-divider></mat-divider> -->
     </div>
  
     
 </ng-template>
-<div class="auditTab">
+<div #auditTabScroll class="auditTab" id="auditTab">
+
 <ng-container *ngIf="auditTrailReport$ | async  as AT;else NoData">
 
     <div *ngIf="AT.LiveDetails; else elseBlock">
         <mat-accordion *ngIf="AT.LiveDetails[0] as livedata; else elseBlock" [togglePosition]="'before'">
-
             <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0"
-                (opened)="setStep(0); panelOpenState1 = true;  setAddressDetails('TransactionDetails', livedata)"
-                (closed)="panelOpenState1 = false; setAddressDetails('RemoveAddress')">
+                (opened)="setStep(0); panelOpenState1 = true;  setAddressDetails('TransactionDetails', livedata);"
+                (closed)="panelOpenState1 = false; setAddressDetails('RemoveAddress');">
 
                 <mat-expansion-panel-header>
-
                     <mat-panel-title>
                         <mat-icon class="table-icon">{{panelOpenState1 && step === 0 ? 'remove_box_outline' :
                             'add_box_outline'}}</mat-icon>
@@ -208,46 +206,31 @@
 
     <ng-template #elseBlock>
         <div class="liveRecord-error error">
-            <span>No Current Live Records Found</span>
-            <mat-divider></mat-divider>
+            <span class="alignMiddle">No Current Live Records Found</span>
         </div>
 
     </ng-template>
 
     <ng-template #elseBlock1>
         <div class="liveRecord-error error" *ngIf="repIdentifier === 'UnsolicitedErrors'">
-            <span>No Unsolicited Details Records Found</span>
+            <span class="alignMiddle">No Unsolicited Details Records Found</span>
         </div>
     </ng-template>
 
-
-
-    <mat-accordion *ngIf="((repIdentifier === 'UnsolicitedErrors') && AT.UnsolicitedDetails != null); else elseBlock1"
+    <mat-accordion *ngIf="((repIdentifier === 'UnsolicitedErrors') && AT.UnsolicitedDetails != null); else elseBlock1;"
         [togglePosition]="'before'">
-
-        <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true"
+        <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true;"
             (closed)="panelOpenState2 = false">
             <mat-expansion-panel-header>
-
                 <mat-panel-title>
-
                     <mat-icon class="table-icon">{{panelOpenState2 && step === 1 ? 'remove_box_outline' :
                         'add_box_outline'}}</mat-icon>
                     &nbsp;&nbsp;
-                    <!-- <button type="button" class="btn btn-default" aria-label="Left Align">
-                    <span>
-                        <mat-icon class ="table-icon">{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
-                        {{panelOpenState2 ? 'Hide' : 'Show'}}
-                    </span>
-                </button>&nbsp;&nbsp; -->
                     All Unsolicited Details
                 </mat-panel-title>
-                <!-- <mat-panel-description>
-          some description!!
-        </mat-panel-description> -->
             </mat-expansion-panel-header>
 
-            <div class="unsolicitedDetails-sec">
+            <div class="unsolicitedDetails-sec" >
                 <app-table class="appTable" [tableitem]="AT.UnsolicitedDetails"></app-table>
             </div>
 
@@ -257,21 +240,19 @@
 
     <table mat-table [dataSource]="AT.AuditDetailedReport ? AT.AuditDetailedReport : []" multiTemplateDataRows
         class="mat-elevation-z8">
-        <ng-container *ngFor="let col of columnsToDisplay ; let colIndex = index" matColumnDef="{{col.headerValue}}">
+        <ng-container *ngFor="let col of columnsToDisplay ;" matColumnDef="{{col.headerValue}}">
             <ng-container *ngIf="col.headerValue != 'Action'">
                 <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
-                <td mat-cell *matCellDef="let element" [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}">{{element.SummaryReport[0][col.headerValue]}}</td>
+                <td mat-cell *matCellDef="let element;" [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}">{{element.SummaryReport[0][col.headerValue]}}</td>
             </ng-container>
             <ng-container *ngIf="col.headerValue === 'Action'">
 
                 <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
-                <td mat-cell [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}" *matCellDef="let element">
-                    <!-- <mat-icon class ="table-icon" style="cursor: pointer;"
-                    (click)="(expandedElement = expandedElement === element ? null : element);">{{expandedElement ===
-                    element ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon> -->
-
+                <td mat-cell [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}" *matCellDef="let element; let i = dataIndex;">
                     <mat-icon class="table-icon" style="cursor: pointer;"
-                        (click)="(expandedElement = expandedElement === element.DetailedReport ? null : element.DetailedReport); setStep(2); (expandedElement === element.DetailedReport ? setAddressDetails('TransactionDetails', element.DetailedReport[0]) : setAddressDetails('RemoveAddress')); ">
+                        (click)="(expandedElement = expandedElement === element.DetailedReport ? null : element.DetailedReport);
+                         setStep(2); (expandedElement === element.DetailedReport ? setAddressDetails('TransactionDetails', element.DetailedReport[0])
+                          : setAddressDetails('RemoveAddress')); (repIdentifier === 'UnsolicitedErrors' ? customScroll(i, true) : customScroll(i));">
                         {{expandedElement === element.DetailedReport && step === 2 ? 'remove_box_outline' :
                         'add_box_outline'}}
                     </mat-icon>
@@ -281,7 +262,7 @@
 
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
         <ng-container matColumnDef="expandedDetail" *ngIf="step === 2">
-            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+            <td mat-cell *matCellDef="let element " [attr.colspan]="columnsToDisplay.length">
                 <div class="example-element-detail"
                     [@detailExpand]="(element.DetailedReport == expandedElement && step === 2 ? 'expanded' : 'collapsed')">
                     <div class="example-element-diagram">
@@ -672,10 +653,10 @@
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
-        <tr mat-row *matRowDef="let element; columns: dataColumns;" class="example-element-row"
+        <tr mat-header-row *matHeaderRowDef="dataColumns;"></tr>
+        <tr mat-row *matRowDef="let element; columns: dataColumns; let i = index;" class="example-element-row"
             [class.example-expanded-row]="expandedElement === element"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']; let i = index;" class="example-detail-row"></tr>
     </table>
 
     <!-- Audit Trail Panel -->
@@ -685,18 +666,12 @@
             <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 3"
                 (opened)="setStep(3); panelOpenState = true" (closed)="panelOpenState = false">
                 <mat-expansion-panel-header>
-
                     <mat-panel-title>
                         <mat-icon class="table-icon">{{panelOpenState && step === 3 ? 'remove_box_outline' :
                             'add_box_outline'}}</mat-icon>
                         &nbsp;&nbsp;
-
                         Audit Trail Details for : {{AT.TelephoneNumber}}
-
                     </mat-panel-title>
-                    <!-- <mat-panel-description>
-          some description!!
-        </mat-panel-description> -->
                 </mat-expansion-panel-header>
 
                 <div class="page-header" [ngClass]="{'error' : !(AT.SeperateInternalAudit != null) }">
@@ -713,15 +688,15 @@
                     <ng-container *ngIf="AT.SeperateInternalAudit != null">
                         <table mat-table [dataSource]="AT.SeperateInternalAudit " multiTemplateDataRows
                             class="mat-elevation-z8">
-                            <ng-container *ngFor="let col of auditTrailInternalDisplay ; let colIndex = index"
-                                matColumnDef="{{col}}">
-                                <ng-container *ngIf="col != 'UserComment'">
-                                    <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                                    <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+                            <ng-container *ngFor="let col of internalAuditTrailHeader ; let colIndex = index"
+                                matColumnDef="{{col.headerValue}}">
+                                <ng-container *ngIf="col.header != 'User Comment'">
+                                    <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
+                                    <td mat-cell *matCellDef="let element">{{element[col.headerValue]}}</td>
                                 </ng-container>
-                                <ng-container *ngIf="col === 'UserComment'">
+                                <ng-container *ngIf="col.header === 'User Comment'">
 
-                                    <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
                                     <td mat-cell *matCellDef="let element">
                                         <mat-icon class="table-icon" style="cursor: pointer;"
                                             (click)="(expandedElement = expandedElement === element ? null : element);">
@@ -731,8 +706,6 @@
                                 </ng-container>
                             </ng-container>
 
-
-
                             <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
                             <ng-container matColumnDef="expandedDetail">
                                 <td mat-cell *matCellDef="let element"
@@ -740,12 +713,9 @@
                                     <div class="example-element-detail"
                                         [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-                                        <!-- <div class="error" *ngIf="element.UserComment.length == 0">No Records Found. -->
                                             <div class="error" *ngIf="!element.UserComment">No Records Found.
                                         </div>
-                                        <!-- <app-table class="appTable"
-                                            [tableitem]="element.UserComment == 0 ? false : element.UserComment">
-                                        </app-table> -->
+
                                         <app-table class="appTable"
                                             [tableitem]="element.UserComment">
                                         </app-table>
@@ -774,33 +744,23 @@
                 <div class="fullAudit-sec" *ngIf="AT.FullAudit != null">
                     <ng-container>
                         <table mat-table [dataSource]="AT.FullAudit" multiTemplateDataRows class="mat-elevation-z8">
-                            <ng-container *ngFor="let col of fullAuditTrailDisplay ; let colIndex = index"
-                                matColumnDef="{{col}}">
-                                <ng-container *ngIf="col != 'UserComment'">
-                                    <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                                    <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+                            <ng-container *ngFor="let col of fullAuditTrailHeader ; let colIndex = index"
+                                matColumnDef="{{col.headerValue }}">
+                                <ng-container *ngIf="col.header != 'User Comment'">
+                                    <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
+                                    <td mat-cell *matCellDef="let element">{{element[col.headerValue]}}</td>
                                 </ng-container>
-                                <ng-container *ngIf="col === 'UserComment'">
+                                <ng-container *ngIf="col.header === 'User Comment'">
 
-                                    <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
                                     <td mat-cell *matCellDef="let element">
                                         <mat-icon class="table-icon" style="cursor: pointer;"
                                             (click)="(expandedElement = expandedElement === element ? null : element);">
                                             {{expandedElement === element ? 'remove_box_outline' : 'add_box_outline'}}
                                         </mat-icon>
-
-                                        <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
-                                (click)="(expandedElement = expandedElement === element ? null : element);">
-                                <span> -->
-                                        <!-- <mat-icon class ="table-icon">{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon> -->
-                                        <!-- {{expandedElement === element ? 'Hide' : 'Show'}}
-                                </span>
-                            </button> -->
                                     </td>
                                 </ng-container>
                             </ng-container>
-
-
 
                             <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
                             <ng-container matColumnDef="expandedDetail">
@@ -808,11 +768,8 @@
                                     <div class="example-element-detail"
                                         [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-                                        <!-- <div class="error" *ngIf="element.UserComment.length == 0">No Records Found.</div> -->
                                         <div class="error" *ngIf="!element.UserComment">No Records Found.</div>
-                                        <!-- <app-table class="appTable"
-                                            [tableitem]="element.UserComment.length == 0 ? false : element.UserComment">
-                                        </app-table> -->
+
                                         <app-table class="appTable"
                                             [tableitem]="element.UserComment">
                                         </app-table>
@@ -835,9 +792,6 @@
 
         </mat-accordion>
     </div> <!-- audit-sec-->
+
 </ng-container>
 </div>
-
-<!--<ng-container *ngIf="auditTrailReport$ | async  as config">
-   {{config |json }}
-</ng-container> -->

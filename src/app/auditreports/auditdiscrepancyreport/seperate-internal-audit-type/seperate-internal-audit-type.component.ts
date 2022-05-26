@@ -3,10 +3,10 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
-import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import { CellHighlight, GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http';
-import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
+import { AuditReportsService } from '../../services/audit-reports.service';
 
 @Component({
   selector: 'app-seperate-internal-audit-type',
@@ -25,8 +25,16 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
   tabsName: string[] = [];
   @Input() QueryParams: any;
 
+  cellAttrInfoSummary: CellHighlight[] = [
+    { cells: ['Total'], isBackgroundHighlighted: true}
+  ];
+
+  cellAttrInfoProgress: CellHighlight[] = [
+    { cells: ['InProgressTotal','EndStatusYTotal'], isBackgroundHighlighted: true}
+  ];
+
   observerResult!: Observable<any>;
-  constructor( private spinner: NgxSpinnerService, private service:AuditDiscpancyReportService) {
+  constructor( private spinner: NgxSpinnerService, private service: AuditReportsService) {
     this.tabsName = ['InternalSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];
   }
 
@@ -67,7 +75,6 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       this.observerResult =this.service.queryDetails(request).pipe(map((res: any) => {
         this.spinner.hide();
         return res.data}));
-        console.log("All Report");
         this.AddressReportTab();
           this.AuditSummaryTab();
           this.ProgressReportTab();
@@ -100,6 +107,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       DetailedColumns: detailedColumnsArray,
       GroupHeaderColumnsArray: grpHdrColumnsArray,
       isRowLvlTotal:true,
+      setCellAttributes: this.cellAttrInfoSummary,
     }
 }
 
@@ -126,6 +134,7 @@ ProgressReportTab() {
       isRowLvlTotal:true,
       FilterColumn: true,
       isMonthFilter: false,
+      setCellAttributes: this.cellAttrInfoProgress,
     }
 }
 
@@ -172,6 +181,7 @@ var headerswithDetails: string[];
       FilterColumn: true,
       isRowLvlTotal:true,
       isMonthFilter: true,
+      
     }
 
 }

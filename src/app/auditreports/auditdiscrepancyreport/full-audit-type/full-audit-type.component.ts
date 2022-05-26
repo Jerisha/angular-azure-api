@@ -3,12 +3,12 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Simp
 import { MatSidenav } from '@angular/material/sidenav';
 import { Observable } from 'rxjs';
 import { FullAuditSummary } from '../../models/index'
-import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import { CellHighlight, GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { AuditDiscpancyReportService } from '../auditdiscrepancyreport.component.service';
 import { Utils } from 'src/app/_http';
 import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuditReportsService } from '../../services/audit-reports.service';
 
 @Component({
   selector: 'app-full-audit-type',
@@ -29,8 +29,23 @@ export class FullAuditTypeComponent implements OnInit {
   @Input() QueryParams: any;
   observerResult!: Observable<any>;
 
+  cellAttrInfoSummary: CellHighlight[] = [
+    { cells: ['BTOnlyTotal','MatchedTotal','MismatchedTotal','OSN2OnlyTotal','Total'], isBackgroundHighlighted: true}
+  ];
+
+  cellAttrInfoProgress: CellHighlight[] = [
+    { cells: ['InProgressTotal','EndStatusYTotal'], isBackgroundHighlighted: true}
+  ];
+
+  cellAttrInfoAddress: CellHighlight[] = [
+    { cells: ['OutstandingCLICount','SelectedMonthCLICountsENDStatusY'], isBackgroundHighlighted: true}
+    // { cells: ['SelectedMonthCLICountsENDStatusY'], isBackgroundHighlighted: true},
+    // { cells: ['Total'], isBackgroundHighlighted: true},
+    // { cells: ['InflightOrder'], isBackgroundHighlighted: true},
+  ];
+
   constructor(private httpClient: HttpClient, private cdref: ChangeDetectorRef,
-    private service:AuditDiscpancyReportService,private spinner: NgxSpinnerService) {
+    private service: AuditReportsService,private spinner: NgxSpinnerService) {
     this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];    
     
   }
@@ -73,7 +88,6 @@ export class FullAuditTypeComponent implements OnInit {
       this.observerResult =this.service.queryDetails(request).pipe(map((res: any) => {
         this.spinner.hide();
         return res.data; }));
-        console.log("All Report");
         this.AddressReportTab();
           this.AuditSummaryTab();
           this.ProgressReportTab();
@@ -112,6 +126,7 @@ export class FullAuditTypeComponent implements OnInit {
             DetailedColumns: detailedColumnsArray,
             GroupHeaderColumnsArray: grpHdrColumnsArray,
             isRowLvlTotal:true,
+            setCellAttributes: this.cellAttrInfoSummary,
           }
    
   }
@@ -141,6 +156,7 @@ export class FullAuditTypeComponent implements OnInit {
         isRowLvlTotal:true,
         FilterColumn: true,
         isMonthFilter: false,
+        setCellAttributes: this.cellAttrInfoProgress,
       }     
   }
 
@@ -186,6 +202,7 @@ AddressReportTab() {
        isRowLvlTotal:true,
       FilterValues: "Full Audit",
        isMonthFilter: true,
+       setCellAttributes: this.cellAttrInfoAddress,
      }
 }
 

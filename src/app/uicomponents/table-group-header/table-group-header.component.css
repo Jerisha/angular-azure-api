@@ -36,38 +36,23 @@ th.mat-sort-header-sorted {
 }
 
 .mat-header-row{
-  height: 42px;
-  /* position: relative; */
+  height: 62px;
   position: relative;
-
-  
 }
 
- /* for headerLvl1 top is not required to make table header fixed*/
-
 .headerLvl2 th {
-  top: 42px !important;
+  top: 62px !important;
 }
 
 .headerLvl3 th {
-  top: 84px !important;
+  top: 124px !important;
 }
 
-
-/* .mat-header-row {
-  top: 0;
-  position: sticky;
-  z-index: 1;
-  background-color: yellow;
-}
-   */
 
 .mat-cell {
   font-size: 14px;
   min-height: 48px;
   text-align: center;
-  /* border-right: 1px solid black;
-  border-bottom: 1px solid black; */
 }
 
 .mat-cell{
@@ -89,13 +74,10 @@ th.mat-sort-header-sorted {
 .table-container {
   height: 360px;
   overflow: auto;
-  /* max-width: 100%; */  
-  /* font-size:large; */
 }
 
 .mat-paginator-sticky {
   bottom: 0px;
-  /* position: sticky; */
   z-index: 10;
   height: 10px;
 }

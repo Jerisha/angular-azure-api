@@ -369,7 +369,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   isEnable() {
     debugger
-    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
+    if ((this.f.StartTelephoneNumber?.value?.length >= 10 && 
+      this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorType.value === "" && this.f.Final.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;

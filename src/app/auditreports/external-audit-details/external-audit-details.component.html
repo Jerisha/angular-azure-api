@@ -6,147 +6,273 @@
             </app-select-multiple>
         </div>
         <form [formGroup]="externalAuditForm" (ngSubmit)="onFormSubmit()">
-            <div class="matsidenav-filter">
+            <ng-container *ngIf="configDetails  as config">
+                <div class="matsidenav-filter">
 
-                <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':form.TelNoStart.disabled}">
-                    <mat-label>Start Telephone No</mat-label>
-                    <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
-                    <input formControlName="TelNoStart" (keypress)="numberOnly($event)"
-                        (ngModelChange)="onChange($event,'TelNoStart')" matInput maxlength="11"
-                        placeholder="Start Telephone No" #starttelno>
-                    <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
-                    <mat-error>
-                        <div *ngIf="form.TelNoStart.touched && form.TelNoStart.invalid" class="alert alert-danger">
-                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                            <div *ngIf="form.TelNoStart.errors?.pattern">Telephone No is not 11 digit</div>
-                        </div>
-                    </mat-error>
-                </mat-form-field>
+                    <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':form.StartTelephoneNumber.disabled}">
+                        <mat-label>Start Telephone No</mat-label>
+                        <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
+                        <input #StartTelephoneNumber formControlName="StartTelephoneNumber" numbersOnly matInput maxlength="11"
+                          placeholder="Start Telephone No" telNoPrefixValidator  (blur)="getPnlControlAttributes()">
+                        <mat-hint align="end">{{StartTelephoneNumber.value?.length || 0}}/11</mat-hint>
+                        <mat-error>
+                          
+                          <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid" class="alert alert-danger">
+                            <!-- <div *ngIf="form.StartTelephoneNumber.errors?.incorrect">Enter Start Telephone No </div>
+                            <div *ngIf="form.StartTelephoneNumber.errors?.invalidData">Start Telephone No should be less than End Telephone No </div> -->
+                            <div *ngIf="form.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
+                            <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                          </div>
+                        </mat-error>
+                      </mat-form-field>
+            
+                      <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}">
+                        <mat-label>End Telephone No</mat-label>
+                        <!-- (keypress)="numberOnly($event)" (paste)="onPaste($event)" -->
+                        <input formControlName="EndTelephoneNumber" #EndTelephoneNumber numbersOnly matInput maxlength="11" placeholder="End Telephone No"
+                           telNoPrefixValidator (blur)="getPnlControlAttributes('EndTelNo')">
+                        <mat-hint align="end">{{EndTelephoneNumber.value?.length || 0}}/11</mat-hint>
+                        <mat-error>
+                          <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid" class="alert alert-danger">
+                            <!-- <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div> -->
+                            <!-- <div *ngIf="f.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div> -->
+                            <div *ngIf="form.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>                            
+                            <div *ngIf="form.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                          </div>
+                        </mat-error>
+                      </mat-form-field>
 
-                <mat-form-field hintLabel="Max 11 characters">
-                    <mat-label>End Telephone No</mat-label>
-                    <input formControlName="TelNoEnd" matInput #endtelno maxlength="11" placeholder="End Telephone No"
-                        (keypress)="numberOnly($event)" (ngModelChange)="onChange($event,'TelNoEnd')">
-                    <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
-                    <mat-error>
-                        <div *ngIf="form.TelNoEnd.touched && form.TelNoEnd.invalid" class="alert alert-danger">
-                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                            <div *ngIf="form.TelNoEnd.errors?.pattern">Telephone No is not 11 digit</div>
-                        </div>
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.AuditActId.disabled}">
-                    <mat-label>Audit ACT ID</mat-label>
-                    <mat-select id="AuditActId" formControlName="AuditActId">
-                        <!-- <mat-option></mat-option> -->
-                        <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
-                        <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
-                        <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
-                    </mat-select>
-                    <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select
-                        Audit ACTID</mat-error>
-                </mat-form-field>
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNumber.disabled}"
+                        hintLabel="Max 11 characters">
+                        <mat-label>Start Telephone No</mat-label>
+                        <input id="StartTelephoneNumber" telNoPrefixValidator formControlName="StartTelephoneNumber"
+                            matInput #StartTelephoneNumber maxlength="11" placeholder="Start Telephone No"
+                            (blur)="getPnlControlAttributes()" (keypress)="numberOnly($event)"
+                            style="margin-right: 24%;">
+                        <mat-error>
+                            <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid"
+                                class="alert alert-danger">
+                                <div *ngIf="form.StartTelephoneNumber.errors?.incorrect">Enter Start Telephone No </div>
+                                <div *ngIf="form.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not
+                                    valid</div>
+                                <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11
+                                    digit</div>
+                            </div>
+                        </mat-error>
+                        <mat-hint align="end">{{StartTelephoneNumber.value?.length || 0}}/11</mat-hint>
+                    </mat-form-field> -->
 
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.CUPId.disabled}">
-                    <mat-label>CUPID</mat-label>
-                    <mat-select id="CUPId" formControlName="CUPId">
-                        <mat-option></mat-option>
-                        <mat-option value="13">13</mat-option>
-                        <mat-option value="28">28</mat-option>
-                        <mat-option value="35">35</mat-option>
-                        <mat-option value="718">718</mat-option>
-                    </mat-select>
-                    <mat-error class="error-message" *ngIf="checkError('CUPId', 'required')">Please Select CUPID
-                    </mat-error>
-                </mat-form-field>
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}"
+                        hintLabel="Max 11 characters">
+                        <mat-label>End Telephone No</mat-label>
+                        <input id="EndTelephoneNumber" telNoPrefixValidator compareStartNo
+                            [startNo]="form.StartTelephoneNumber" formControlName="EndTelephoneNumber" matInput
+                            #EndTelephoneNumber maxlength="11" placeholder="End Telephone No"
+                            (blur)="getPnlControlAttributes('EndTelNo')" (keypress)="numberOnly($event)">
+                        <mat-error>
+                            <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid"
+                                class="alert alert-danger">
+                                <div *ngIf="form.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No
+                                </div>
+                                <div *ngIf="form.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be
+                                    less than End
+                                    Telephone No</div>
+                                <div *ngIf="form.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not
+                                    valid</div>
+                                <div *ngIf="form.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11
+                                    digit</div>
+                            </div>
+                        </mat-error>
+                        <mat-hint align="end">{{EndTelephoneNumber.value?.length || 0}}/11</mat-hint>
+                    </mat-form-field> -->
 
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.OSN2Source.disabled}">
-                    <mat-label>OSN2 Source</mat-label>
-                    <mat-select id="OSN2Source" formControlName="OSN2Source">
-                        <mat-option></mat-option>
-                        <mat-option value="C">C - SAS/COMS</mat-option>
-                        <mat-option value="D">D - DVA Siebel</mat-option>
-                        <mat-option value="E">E - VA/WAD</mat-option>
-                        <mat-option value="G">G - Content Guru</mat-option>
-                        <mat-option value="R">R - Clarify</mat-option>
-                        <mat-option value="S">S - Amdocs SOM</mat-option>
-                        <mat-option value="X">X - Unknown</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                    <mat-form-field [ngClass]="{'hidden':form.AuditActID.disabled}">
+                        <mat-label>Audit ACT ID</mat-label>
+                        <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
+                            <mat-option *ngFor="let val of config.ExternalAuditActID" [value]="val">
+                                {{val}} </mat-option>
+                        </mat-select>
+                        <mat-error>
+                            <div *ngIf="form.AuditActID.hasError('required')" class="alert alert-danger">
+                                Select Audit ACT ID
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
 
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.CLIStatus.disabled}">
-                    <mat-label>CLI Status</mat-label>
-                    <mat-select id="CLI Status" formControlName="CLIStatus">
-                        <mat-option></mat-option>
-                        <mat-option value="B">B-BT Only</mat-option>
-                        <mat-option value="S">S-Matched</mat-option>
-                        <mat-option value="D">D-Mismatched</mat-option>
-                        <mat-option value="V">V-OSN2 Only</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.ResType.disabled}">
-                    <mat-label>Resolution Type</mat-label>
-                    <mat-select id="ResType" formControlName="ResType">
-                        <mat-option></mat-option>
-                        <mat-option value="0"> New</mat-option>
-                        <mat-option value="100"> Under Investigation</mat-option>
-                        <mat-option value="105"> Under Governance</mat-option>
-                        <mat-option value="114"> Auto Failed</mat-option>
-                        <mat-option value="106"> Under Porting</mat-option>
-                        <mat-option value="107"> Port Req Complete</mat-option>
-                        <mat-option value="110">(END) Audit Transaction Override</mat-option>
-                        <mat-option value="111">(END) Auto Closed</mat-option>
-                        <mat-option value="113">(END) Auto Active</mat-option>
-                        <mat-option value="115">(END) Auto Modify</mat-option>
-                        <mat-option value="116">(END) Auto Cease</mat-option>
-                        <mat-option value="117">(END) Auto Special Cease</mat-option>
-                        <mat-option value="118">(END) Auto Logic Resolved</mat-option>
-                        <mat-option value="119">(END) Auto Resolved Areacall</mat-option>
-                        <mat-option value="120">(END) Audit Discrepancy Override</mat-option>
-                        <mat-option value="101">(END) Resolved</mat-option>
-                        <mat-option value="102">(END) Unresolved</mat-option>
-                        <mat-option value="109">(END) Auto Resolved</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.PostCodeDiff.disabled}">
-                    <mat-label>Post Code Diff.</mat-label>
-                    <mat-select id="PostCodeDiff" formControlName="PostCodeDiff">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.FullAddDiff.disabled}">
-                    <mat-label>Full Address Diff.</mat-label>
-                    <mat-select id="FullAddDiff" formControlName="FullAddDiff">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.CustomerDiff.disabled}">
-                    <mat-label>Customer Diff.</mat-label>
-                    <mat-select id="CustomerDiff" formControlName="CustomerDiff">
-                        <mat-option></mat-option>
-                        <mat-option value="No">No</mat-option>
-                        <mat-option value="Yes">Yes</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                    <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
+                        <mat-label>CUPID</mat-label>
+                        <input #cupId formControlName="CUPID" type="text" placeholder="Search CUPID" matInput
+                            [matAutocomplete]="autoCupId" OptionsValidator [options]="config.CUPID  " />
+                        <span matSuffix mat-icon-button>
+                            <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autoCupId="matAutocomplete">
+                            <mat-option *ngFor="let val of config.CUPID   | ddlFilter: cupId.value" [value]="val">
+                                {{val}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="form.CUPID.errors?.validOptions">Value need to match available options
+                        </mat-error>
+                    </mat-form-field>
 
 
-            </div>
-            <div class="matsidenav-footer">
-                <button type="submit" mat-raised-button color="primary" >
-                    <mat-icon>search</mat-icon>Search
-                </button>
-                <button type="reset" mat-raised-button color="primary">
-                    <mat-icon>refresh</mat-icon>Reset
-                </button>
-            </div>
+                    <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
+                        <mat-label>OSN2 Source</mat-label>
+                        <input #osnSource formControlName="OSN2Source" type="text" placeholder="Search OSN2 Source"
+                            matInput [matAutocomplete]="autoOSN2Source" OptionsValidator
+                            [options]="config.OSN2Source" />
+                        <span matSuffix mat-icon-button>
+                            <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autoOSN2Source="matAutocomplete">
+                            <mat-option *ngFor="let val of config.OSN2Source   | ddlFilter: osnSource.value"
+                                [value]="val">
+                                {{val}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="form.OSN2Source.errors?.validOptions">Value need to match available options
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
+                        <mat-label>External CLI Status</mat-label>
+                        <input #extCLIStatus formControlName="ExternalCLIStatus" type="text"
+                            placeholder="Search External CLI Status" matInput [matAutocomplete]="autoextCLIStatus"
+                            OptionsValidator [options]="config.ExternalCLIStatus" />
+                        <span matSuffix mat-icon-button>
+                            <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autoextCLIStatus="matAutocomplete">
+                            <mat-option *ngFor="let val of config.ExternalCLIStatus | ddlFilter: extCLIStatus.value"
+                                [value]="val">
+                                {{val}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="form.ExternalCLIStatus.errors?.validOptions">Value need to match available
+                            options
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
+                        <mat-label>Resolution Type</mat-label>
+                        <input #resType formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
+                          [matAutocomplete]="autoResType" OptionsValidator [options]="config.ResolutionTypeAudit  " />
+                        <span matSuffix mat-icon-button>
+                          <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResType="matAutocomplete">
+                          <mat-option *ngFor="let val of config.ResolutionTypeAudit   | ddlFilter: resType.value" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="form.ResolutionType.errors?.validOptions">Value need to match available options
+                        </mat-error>
+                        <!-- <mat-select id="ResType" formControlName="ResType">
+                                        <mat-option></mat-option>
+                                        <mat-option value="0"> New</mat-option>
+                                        <mat-option value="100"> Under Investigation</mat-option>
+                                        <mat-option value="105"> Under Governance</mat-option>
+                                        <mat-option value="114"> Auto Failed</mat-option>
+                                        <mat-option value="106"> Under Porting</mat-option>
+                                        <mat-option value="107"> Port Req Complete</mat-option>
+                                        <mat-option value="110">(END) Audit Transaction Override</mat-option>
+                                        <mat-option value="111">(END) Auto Closed</mat-option>
+                                        <mat-option value="113">(END) Auto Active</mat-option>
+                                        <mat-option value="115">(END) Auto Modify</mat-option>
+                                        <mat-option value="116">(END) Auto Cease</mat-option>
+                                        <mat-option value="117">(END) Auto Special Cease</mat-option>
+                                        <mat-option value="118">(END) Auto Logic Resolved</mat-option>
+                                        <mat-option value="119">(END) Auto Resolved Areacall</mat-option>
+                                        <mat-option value="120">(END) Audit Discrepancy Override</mat-option>
+                                        <mat-option value="101">(END) Resolved</mat-option>
+                                        <mat-option value="102">(END) Unresolved</mat-option>
+                                        <mat-option value="109">(END) Auto Resolved</mat-option>
+                                    </mat-select> -->
+                      </mat-form-field>
+
+                    <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
+                        <mat-label>Post Code Difference</mat-label>
+                        <input #postCodeDifference formControlName="PostcodeDifference" type="text"
+                            placeholder="Search Postcode Difference" matInput [matAutocomplete]="autoPostCodeDifference"
+                            OptionsValidator [options]="config.PostcodeDifference  " />
+                        <span matSuffix mat-icon-button>
+                            <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autoPostCodeDifference="matAutocomplete">
+                            <mat-option
+                                *ngFor="let val of config.PostcodeDifference   | ddlFilter: postCodeDifference.value"
+                                [value]="val">
+                                {{val}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="form.PostcodeDifference.errors?.validOptions">Value need to match available
+                            options
+                        </mat-error>
+                        <!-- <mat-select id="PostCodeDiff" formControlName="PostCodeDifference">
+                            <mat-option></mat-option>
+                            <mat-option value="No">No</mat-option>
+                            <mat-option value="Yes">Yes</mat-option>
+                        </mat-select> -->
+                    </mat-form-field>
+
+                    <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
+                        <mat-label>Full Address Difference</mat-label>
+                        <input #fullAddDifference formControlName="FullAddressDifference" type="text"
+                            placeholder="Search Full Address Difference" matInput
+                            [matAutocomplete]="autofullAddDifference" OptionsValidator
+                            [options]="config.FullAddressDifference  " />
+                        <span matSuffix mat-icon-button>
+                            <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autofullAddDifference="matAutocomplete">
+                            <mat-option
+                                *ngFor="let val of config.FullAddressDifference   | ddlFilter: fullAddDifference.value"
+                                [value]="val">
+                                {{val}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="form.FullAddressDifference.errors?.validOptions">Value need to match available
+                            options
+                        </mat-error>
+                        <!-- <mat-select id="FullAddDiff" formControlName="FullAddDifference">
+                            <mat-option></mat-option>
+                            <mat-option value="No">No</mat-option>
+                            <mat-option value="Yes">Yes</mat-option>
+                        </mat-select> -->
+                    </mat-form-field>
+
+                    <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
+                        <mat-label>Customer Difference</mat-label>
+                        <input #customerDifference formControlName="CustomerDifference" type="text"
+                            placeholder="Search Customer Difference" matInput
+                            [matAutocomplete]="autoCustomerDifference" OptionsValidator
+                            [options]="config.CustomerDifference  " />
+                        <span matSuffix mat-icon-button>
+                            <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autoCustomerDifference="matAutocomplete">
+                            <mat-option
+                                *ngFor="let val of config.CustomerDifference   | ddlFilter: customerDifference.value"
+                                [value]="val">
+                                {{val}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-select id="CustomerDiff" formControlName="CustomerDifference">
+                            <mat-option></mat-option>
+                            <mat-option value="No">No</mat-option>
+                            <mat-option value="Yes">Yes</mat-option>
+                        </mat-select> -->
+                    </mat-form-field>
+                </div>
+                <div class="matsidenav-footer">
+                    <button type="submit" mat-raised-button color="primary">
+                        <mat-icon>search</mat-icon>Search
+                    </button>
+                    <button type="reset" (click)="resetForm()" mat-raised-button color="primary">
+                        <mat-icon>refresh</mat-icon>Reset
+                    </button>
+                </div>
+            </ng-container>
         </form>
     </mat-sidenav>
 
@@ -166,34 +292,64 @@
                 </ng-template>
                 <span [ngSwitch]="tab.tabType">
                     <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-                        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                        <app-table-selection [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
                         <div class="mat-elevation-z8 side-bottom">
-                            <div style="display:inline; margin-left: 15px;">
+                            <!-- <div style="display:inline; margin-left: 15px;"> -->
+                            <form [formGroup]="updateForm" (ngSubmit)="onSaveSubmit()" autocomplete="off">
                                 <mat-form-field>
-                                    <mat-label>Resolution Type*</mat-label>
-                                    <mat-select>
-                                        <mat-option></mat-option>
-                                        <mat-option>New</mat-option>
-                                        <mat-option>Under Investigation</mat-option>
-                                        <mat-option>Under Governance</mat-option>
-                                        <mat-option>Under Governance</mat-option>
-                                        <mat-option>Port Req Complete</mat-option>
-                                        <mat-option>(END) Resolved</mat-option>
-                                        <mat-option>(END) Unresolved</mat-option>
-                                    </mat-select>
+                                    <mat-label>Resolution Type</mat-label>
+                                    <input #resType [(ngModel)]="resolutionType" formControlName="Resolution"
+                                        type="text" placeholder="Search Resolution Type" matInput
+                                        [matAutocomplete]="autoResType" OptionsValidator
+                                        [options]="updateDetails.ResolutionType" />
+                                    <span matSuffix mat-icon-button>
+                                        <mat-icon>arrow_drop_down</mat-icon>
+                                    </span>
+                                    <mat-autocomplete panelWidth="auto" autoActiveFirstOption
+                                        #autoResType="matAutocomplete">
+                                        <mat-option
+                                            *ngFor="let val of updateDetails.ResolutionType | ddlFilter: resType.value"
+                                            [value]="val">
+                                            {{val}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error>
+                                        <div *ngIf="updateFormControls.Resolution.errors?.validOptions">
+                                            Value need to match available options
+                                        </div>
+                                        <div *ngIf="updateFormControls.Resolution.hasError('required')">
+                                            Select Resolution Type
+                                        </div>
+                                    </mat-error>
                                 </mat-form-field> &nbsp;
-                                <mat-form-field class="side-textarea" style="width:300px"
+                                <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
+                                    <mat-label>Remarks</mat-label>
+                                    <textarea id="remarks" required name="remarks" [(ngModel)]="remarkstxt"
+                                        formControlName="Remarks" #inputctrl matInput maxlength="500"
+                                        placeholder="Remarks"></textarea>
+                                    <mat-hint align="end">{{inputctrl.value?.length || 0}}/500</mat-hint>
+                                    <mat-error class="alert alert-danger">
+                                        <div *ngIf="updateFormControls.Remarks.hasError('incorrect')">
+                                            Add remarks for Manual Data Correction
+                                        </div>
+                                        <div *ngIf="updateFormControls.Remarks.hasError('required')">
+                                            Add remarks for resolution
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                                <!-- <mat-form-field class="side-textarea" style="width:300px"
                                     hintLabel="Max 500 characters">
                                     <mat-label>Remarks</mat-label>
                                     <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
                                     <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                                </mat-form-field>
-                                <button type="submit" mat-raised-button color="primary">
+                                </mat-form-field> -->
+                                <button [disabled]="disableSave" type="submit" mat-raised-button color="primary">
                                     <mat-icon>save</mat-icon>Save
                                 </button>
-                            </div>
+                            </form>
+                            <!-- </div> -->
                         </div>
                     </div>
                     <div *ngSwitchCase="1" style="height: calc(100% - 8px);">

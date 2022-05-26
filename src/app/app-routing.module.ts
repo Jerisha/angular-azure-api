@@ -2,19 +2,32 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import * as  dat from '../assets/full-audit-table-details.json';
+import { LoginComponent } from './login/login.component';
 
 const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
+  
   {
     path: '',
+    component: LoginComponent,
+    outlet: 'loginPage'
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    outlet: 'loginPage'
+
+
+  },
+  {
+    path: 'home',
     component: HomeComponent,
-    pathMatch:'full'
-    
+
   },
   {
     path: 'administration',
     loadChildren: () => import('./administration/administration.module').then(x => x.AdministrationModule),
-    
+
   },
   {
     path: 'resolvingoferrors',
@@ -45,12 +58,12 @@ const routes: Routes = [
     path: 'shared',
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
 
-  },  
+  },
   {
-      path: 'report-references',
-      loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
-      
-      
+    path: 'report-references',
+    loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
+
+
   },
   // {
   //   path: 'governance',
@@ -62,9 +75,9 @@ const routes: Routes = [
     redirectTo: '',
     pathMatch: 'full'
   }
-  
-    
-    
+
+
+
 
 ];
 

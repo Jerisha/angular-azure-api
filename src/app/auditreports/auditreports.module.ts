@@ -9,15 +9,15 @@ import { FullAuditTypeComponent } from './auditdiscrepancyreport/full-audit-type
 import { ExternalAuditTypeComponent } from './auditdiscrepancyreport/external-audit-type/external-audit-type.component';
 import { SeperateInternalAuditTypeComponent } from './auditdiscrepancyreport/seperate-internal-audit-type/seperate-internal-audit-type.component';
 import { HttpClientModule} from '@angular/common/http';
-import { AuditDiscpancyReportService } from './auditdiscrepancyreport/auditdiscrepancyreport.component.service';
 import { SharedModule } from '../_shared/shared.module';
 import { HelperModule } from '../_helper/helper.module';
-import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';
+// import { UserCommentsDialogComponent } from './fullauditdetails/user-comments-dialog.component';
 import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
 import { TelNoPipe } from '../_helper/pipe/telno.pipe';
 import { SeparateinternalauditdetailsComponent } from './separateinternalauditdetails/separateinternalauditdetails.component';
 import{SeperateuserComponent}from './separateinternalauditdetails/seperate-user-comments-dialog.component';
 import { FullAuditComponent } from './separateinternalauditdetails/full-audit/full-audit.component';
+import { UserCommentsDialogComponent } from '../_shared/user-comments/user-comments-dialog.component';
 
 
 
@@ -30,8 +30,7 @@ import { FullAuditComponent } from './separateinternalauditdetails/full-audit/fu
     FullAuditTypeComponent,
     ExternalAuditTypeComponent,
     SeperateInternalAuditTypeComponent,
-    UserCommentsDialogComponent,
-    SeperateuserComponent,
+   // UserCommentsDialogComponent,
     ExternalAuditDetailsComponent,
     FullAuditHistoryComponent,
     AuditUserActionSummaryComponent,
@@ -48,6 +47,6 @@ import { FullAuditComponent } from './separateinternalauditdetails/full-audit/fu
     SharedModule,
     HelperModule
   ],
-  providers: [AuditReportsService, AuditDiscpancyReportService]
+  providers: [AuditReportsService ]
 })
 export class AuditreportsModule { }

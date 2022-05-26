@@ -184,22 +184,12 @@ export class SolicitederrorsComponent implements OnInit {
   updateDetails!: any;
 
   ngOnInit(): void {
-    //   let requesttwo = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
-    //     "Name": "TransactionDays",
-    //     "Value": [`62`]
-    //   }])
-    //   console.log('request for info',requesttwo);
-    //  // this.queryResult$ = this.service.infoDetails(requesttwo).pipe(map((res: any) => res));
-    //   this.service.infoDetails(requesttwo).subscribe((res: any) => {
-    //     //this.infotable1 = res.dates;
-    //     //this.infotable2 = res.months      
-    //   });
+   
     this.createForm();
 
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
-    this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
+    this.service.configDetails(request).subscribe((res: any) => {      
       this.configDetails = res.data;
     });
 
@@ -518,7 +508,8 @@ export class SolicitederrorsComponent implements OnInit {
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
+    if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
+      this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")

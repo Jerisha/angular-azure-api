@@ -32,7 +32,7 @@
       <ng-container matColumnDef="{{disCol.DataHeaders}}">
         <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" >
           {{disCol.Headers}}</th>
-        <td mat-cell class="truncate-cell" *matCellDef="let element"> {{element[disCol.DataHeaders]}} </td>
+        <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)"> {{element[disCol.DataHeaders]}} </td>
         <ng-container *ngIf="isRowTotal">
           <td class="total-row" [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell
             *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders,'')}}
@@ -47,7 +47,7 @@
       </ng-container>
     </ng-container>
     <ng-container *ngFor="let grpHeaders of grpHdrColumnsArray; let hdrIndex = index;">
-      <tr [ngClass]="hdrIndex == 0 ? '' : hdrIndex == 1 ? 'headerLvl2' : 'headerLvl3'" mat-header-row *matHeaderRowDef="grpHeaders;sticky: true"> </tr>
+      <tr [ngClass]="hdrIndex == 0 ? '' : 'headerLvl2'" mat-header-row *matHeaderRowDef="grpHeaders;sticky: true"> </tr>
     </ng-container>
     <tr [ngClass]="grpHdrColumnsArray.length == 1 ? 'headerLvl2' : 'headerLvl3' " mat-header-row *matHeaderRowDef="detailedColumnsArray;sticky: true"></tr>
 

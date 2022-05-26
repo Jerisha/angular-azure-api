@@ -1,10 +1,8 @@
 import { Component, Input, NgZone, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { AuditDiscpancyReportService } from 'src/app/auditreports/auditdiscrepancyreport/auditdiscrepancyreport.component.service';
-import { GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
-import { Observable, of, Subject } from 'rxjs';
+import { CellHighlight, GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import { Observable, Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -67,9 +65,10 @@ export class TableGroupHeaderComponent implements OnDestroy {
   });
   auditType: String | undefined;
  
+  backgroundHighlightedCells: CellHighlight[] = [];
 
 
-  constructor(private service: AuditDiscpancyReportService,private ngZone: NgZone, private spinner: NgxSpinnerService) {
+  constructor(private ngZone: NgZone, private spinner: NgxSpinnerService) {
   }
   ngOnDestroy(): void {
     this.onDestroy.next();
@@ -90,6 +89,8 @@ export class TableGroupHeaderComponent implements OnDestroy {
     this.isRowTotal = this.GrpTableitem?.isRowLvlTotal ? true : false;
     this.isMonthFilter = this.GrpTableitem?.isMonthFilter? true : false;
       this.auditType = this.GrpTableitem?.FilterValues;
+
+      this.backgroundHighlightedCells = this.GrpTableitem?.setCellAttributes ? this.GrpTableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
 
     var nonTotRowCols = ['SourceSystem', 'ExternalAuditCLIStatus', 'FullAuditCLIStatus', 'InternalAuditCLIStatus'];
     this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
@@ -217,6 +218,21 @@ export class TableGroupHeaderComponent implements OnDestroy {
 
     this.dataSource.filter = JSON.stringify(this.filterValues);
     console.log("Filter end "+ JSON.stringify(this.filterValues) )
+  }
+
+  highlightCell(row: any, disCol: any) {
+    let applyStyles = {};
+
+    if (this.backgroundHighlightedCells.find(x => x.cells.includes(disCol.DataHeaders))) {
+      this.backgroundHighlightedCells.forEach(x => {
+        if (x.cells.find(x => x === (disCol.DataHeaders))) {
+          applyStyles = {
+            'background-color': '#ff9999'
+          };
+        }
+      })
+    }
+    return applyStyles;
   }
 
 }
