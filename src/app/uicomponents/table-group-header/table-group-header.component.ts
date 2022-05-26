@@ -1,7 +1,7 @@
 import { Component, Input, NgZone, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import { CellHighlight, GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Observable, Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -65,6 +65,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
   });
   auditType: String | undefined;
  
+  backgroundHighlightedCells: CellHighlight[] = [];
 
 
   constructor(private ngZone: NgZone, private spinner: NgxSpinnerService) {
@@ -88,6 +89,8 @@ export class TableGroupHeaderComponent implements OnDestroy {
     this.isRowTotal = this.GrpTableitem?.isRowLvlTotal ? true : false;
     this.isMonthFilter = this.GrpTableitem?.isMonthFilter? true : false;
       this.auditType = this.GrpTableitem?.FilterValues;
+
+      this.backgroundHighlightedCells = this.GrpTableitem?.setCellAttributes ? this.GrpTableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
 
     var nonTotRowCols = ['SourceSystem', 'ExternalAuditCLIStatus', 'FullAuditCLIStatus', 'InternalAuditCLIStatus'];
     this.totalCols = this.displayedColumns.filter(x => !nonTotRowCols.includes(x));
@@ -215,6 +218,21 @@ export class TableGroupHeaderComponent implements OnDestroy {
 
     this.dataSource.filter = JSON.stringify(this.filterValues);
     console.log("Filter end "+ JSON.stringify(this.filterValues) )
+  }
+
+  highlightCell(row: any, disCol: any) {
+    let applyStyles = {};
+
+    if (this.backgroundHighlightedCells.find(x => x.cells.includes(disCol.DataHeaders))) {
+      this.backgroundHighlightedCells.forEach(x => {
+        if (x.cells.find(x => x === (disCol.DataHeaders))) {
+          applyStyles = {
+            'background-color': '#ff9999'
+          };
+        }
+      })
+    }
+    return applyStyles;
   }
 
 }
