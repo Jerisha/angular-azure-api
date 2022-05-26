@@ -68,7 +68,7 @@ export class UserCommentsDialogComponent {
   userCommentsTableInit() {
     this.telno = this.data.listOfIdentifiers.filter((x: any) => x.Name === 'TelephoneNumber').map((x: any) => x.Value);
     let request = Utils.preparePyQuery('UserComments', this.data.rptElements, this.data.listOfIdentifiers);
-    //console.log('json dsf', JSON.stringify(request))
+    console.log('json dsf', JSON.stringify(request))
     const userCommentsQueryResult$ = new Observable(observer => {
       this.service.queryDetails(request).pipe(map((res: any) => {
         if (Object.keys(res).length) {
