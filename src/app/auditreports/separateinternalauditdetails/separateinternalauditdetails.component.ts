@@ -478,21 +478,21 @@ else{
     let attributes: any = [];
 
     for (const field in this.form) {
-     if (field != 'AuditActID') {
+    // if (field != 'AuditActID') {
       const control = this.thisForm.get(field);
 
       if (control?.value)
         attributes.push({ Name: field, Value: [control?.value] });
       else
         attributes.push({ Name: field });
-   }
+ //  }
   }
   
   
-  attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
+ // attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
  
     attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
-   console.log('console attributessss',attributes);
+   console.log('console attributes',attributes);
     return attributes;
 
   }
@@ -914,7 +914,7 @@ else{
       height: 'auto',
       panelClass: 'custom-dialog-container',
       //data: { defaultValue: attributes, telno: telno }
-      data: { listOfIdentifiers: attributes, rptElements: 'FullAuditDetails' }
+      data: { listOfIdentifiers: attributes, rptElements: 'SeparateInternalFullAuditDetails' }
     }
     );
   }
