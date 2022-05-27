@@ -5,6 +5,7 @@ import * as  dat from '../assets/full-audit-table-details.json';
 import { LoginComponent } from './login/login.component';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ErrorComponent } from './_shared/error/error.component';
+import { ExporttoexcelComponent } from './_shared/exporttoexcel/exporttoexcel.component';
 
 const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
@@ -27,6 +28,11 @@ const routes: Routes = [
     path: 'home',
     component: AppLayoutComponent,
     children:[{path:'',component:HomeComponent}]
+  },
+  {
+    path: 'exporttoexcel',
+    component: AppLayoutComponent,
+    children:[{path:'',component:ExporttoexcelComponent}]
   },
   {
     path: 'administration',
