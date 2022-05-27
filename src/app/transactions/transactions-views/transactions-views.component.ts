@@ -633,8 +633,10 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
     else {
       this.spinner.show();
-      let request = Utils.preparePyUpdate('ManualCorrections', 'FullAuditDetails', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-     
+    let RerportIdentifier=  this.AuditPopulatevalue.ReportIdentifier;
+     // let request = Utils.preparePyUpdate('ManualCorrections', 'FullAuditDetails', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+     let request = Utils.preparePyUpdate('ManualCorrections', RerportIdentifier, this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+    
        console.log('update request',JSON.stringify( request));
       this.service.updateDetails(request).subscribe((res: any) => {
         console.log("res message to show: " + JSON.stringify(res));

@@ -154,10 +154,11 @@ export class AuditDataFilesComponent{
       if(tabType)
       {
         downloadLink.download = tab.row.FileName + '.csv';
-        downloadLink.href = "../../../assets/dataFiles/LiveInSwitch.csv";
+        // downloadLink.href = "../../../assets/dataFiles/LiveInSwitch.csv";
+        downloadLink.href = "./assets/dataFiles/LiveInSwitch.csv";
       } else {
         downloadLink.download = tab.row.FileName;
-        downloadLink.href = "../../../assets/dataFiles/BTAuditFile.dat";
+        downloadLink.href = "./assets/dataFiles/BTAuditFile.dat";
       }    
       downloadLink.click();
       URL.revokeObjectURL(downloadLink.href);
