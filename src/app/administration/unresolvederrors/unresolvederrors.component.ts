@@ -7,6 +7,13 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { UnresolvedError } from '../models/administraion-ui.module';
+import { Utils } from 'src/app/_http';
+import { AdministrationService } from '../services/administration.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Custom } from 'src/app/_helper/Validators/Custom';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { map } from 'rxjs/operators';
+import { AlertService } from 'src/app/_shared/alert';
 const ELEMENT_DATA: UnresolvedError[] = [
   {
     TransId: '1014591106', View: 'image', Telno: '1977722725', Cmd: 'Active Customer', Source:'SAS/COMS', Created: '05Nov13',  NextTran: '10097008200',
@@ -68,11 +75,11 @@ const ELEMENT_DATA: UnresolvedError[] = [
 
 const FilterListItems: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
-  { view: 'End Telephone Number', viewValue: 'EndTelephoneNumber', default: true },
+  { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
-  
+  { view: '999 Reference', viewValue: 'Reference', default: true },
 ];
 
 @Component({
@@ -83,10 +90,6 @@ const FilterListItems: Select[] = [
 export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   
   myTable!: TableItem;
-  informationTable1!: TableItem;
-  informationTable2!: TableItem;
-  infotable1: any[] = [];
-  infotable2: any[] = [];
   selectListItems: string[] = [];
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
@@ -96,15 +99,15 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   selectedRowsCount: number = 0;
   selectedTab!: number;
   thisForm!: FormGroup;
+  saveForm!: FormGroup;
   thisUpdateForm!: FormGroup;
   tabs: Tab[] = [];
-  Resolution!: string;
-  Refer!: string;
-  Remarks!: string;
+  Refer: string ='';
+  Remarks: string='';
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
-  repIdentifier = "UnsolicitedErrors";
+  repIdentifier = "UnResolvedErrors";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
@@ -114,17 +117,23 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
   selected: string = '';
   currentPage: string = '1';
-  //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
-   
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef,
+    private service: AdministrationService,
+    private dialog: MatDialog,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
 
     this.createForm();
-    
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'Status']);
+    console.log("res: " + JSON.stringify(request))
+    this.service.configDetails(request).subscribe((res: any) => {
+      
+      this.configDetails = res.data;
+    });
 
 
 
@@ -141,7 +150,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   }
 
 
-
+  
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
       value = value.length <= 10 ? '0' + value : value;
@@ -159,39 +168,125 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
 
   ngAfterViewChecked() {
-
+    this.isEnable();
     this.cdr.detectChanges();
 
   }
 
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
+    //Reference
+    const control = this.thisForm.get('Reference');
+    if (control?.value)
+      attributes.push({ Name: '999Reference', Value: [control?.value] });
+    else
+      attributes.push({ Name: '999Reference' });
+
+    for (const field in this.f) {
+      if (field != 'Reference') {
+        const control = this.thisForm.get(field);
+        if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+
+      }
+    }
+    console.log(attributes);
+
+    return attributes;
+
+  }
 
   get f() {
     return this.thisForm.controls;
   }
 
-  
+  createSaveForm() {
+    this.saveForm = this.formBuilder.group({
+      Ref: new FormControl({ value: '' }, []),
+      Remark: new FormControl({ value: '' }, [])
+    })
+  }
 
 
   createForm() {
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      Status: new FormControl({ value: '', disabled: true }, [])
+      Status: new FormControl({ value: '', disabled: true }, []),
+      Reference: new FormControl({ value: '', disabled: true }, []),
       })
 }
 
+check999() {
+  if (this.Refer && this.Refer.substring(0, 3) != '999')
+    return false;
 
-
+  return true;
+}
   
-  onSaveSubmit() {
-    
+  onSaveSubmit(form: any) :void{
+    debugger;
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
+      ( this.check999() && this.Remarks)) {
+
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to save the records?'
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+        //console.log("result " + result);
+        if (result) {
+          let request = Utils.preparePyUpdate(this.repIdentifier, this.repIdentifier, this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+          //update 
+          this.service.updateDetails(request).subscribe(x => {
+            if (x.StatusMessage === 'Success') {
+              //success message and same data reload
+              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.onFormSubmit(true);
+            }
+          });
+        }
+      });
+    }
 
   }
-  InternalErrorInformation: any;
   
+  prepareUpdateIdentifiers() {
+    let identifiers: any[] = [];
+    if (this.selectedGridRows.length > 0) {
+      if (this.selectedGridRows.length > 0) {
+        let transId: string[] = [];
+        this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
+        identifiers.push({ Name: 'TransactionId', Value: transId });
+      } else
+        identifiers.push({ Name: 'TransactionId', Value: [""] });
+    }
+    return identifiers;
+  }
+
+  prepareUpdateParams(){
+    let UpdateParams: any = [];
+
+    if (this.Remarks)
+      UpdateParams.push({ Name: 'Remarks', Value: [this.Remarks] });
+    else
+      UpdateParams.push({ Name: 'Remarks' });
+    if (this.Refer)
+      UpdateParams.push({ Name: '999Reference', Value: [this.Refer] });
+    else
+      UpdateParams.push({ Name: '999Reference' });
+
+    //console.log(UpdateParams);
+
+    return UpdateParams;
+  }
 
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
@@ -206,15 +301,18 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   
 
   columns: ColumnDetails[] = [
-    { header: 'Link', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Trans Id', headerValue: 'TransId', showDefault: true, isImage: false },
-    { header: 'Tel no', headerValue: 'Telno', showDefault: true, isImage: false },
-    { header: 'Cmd', headerValue: 'Cmd', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Transaction Id', headerValue: 'TransactionId', showDefault: true, isImage: false },
+    { header: 'Telephone Number', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Created', headerValue: 'Created', showDefault: true, isImage: false },
-    { header: 'Next Tran', headerValue: 'NextTran', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Next Transaction Id', headerValue: 'NextTransactionId', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Srctype', headerValue: 'Srctype', showDefault: true, isImage: false },
+    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
+    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
   ];
 
   
@@ -222,22 +320,49 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
   onFormSubmit(isEmitted?: boolean): void {
     
+    let errMsg = '';
+    if (!this.thisForm.valid) return;
+    errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+    if (errMsg) {
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: { enableOk: false, message: errMsg, }
+      });
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
+      return;
+    }
+    this.tabs.splice(0);
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.preparePyQuery('UnResolvedErrors', 'UnResolvedErrors', this.prepareQueryParams(this.currentPage));
+    console.log(JSON.stringify(request))
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res.data.UnResolvedError,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
 
     this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 100,
-        totalpages: 1,
-        pagenumber: 1
-        }),
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "Y", isFontHighlighted: true }],
+      // highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
-    
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
+
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
@@ -270,8 +395,24 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
         this.selectedGridRows.splice(index, 1)
       }
     })
-
+    this.isEnable();
     // console.log("selectedGridRows" + this.selectedGridRows)
+  }
+
+  isEnable() {
+
+    //debugger
+    if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
+      this.f.EndTelephoneNumber?.value?.length >= 10 &&
+      this.f.Source.value === ""  && this.f.Command.value === "" &&
+      this.f.Reference.value === ""
+      && this.f.Status.value === "")
+      || (this.selectedGridRows.length > 0)) {
+      this.isSaveDisable = false;
+    }
+    else
+      this.isSaveDisable = true;
+    //console.log('isSaveDisable',this.isSaveDisable)
   }
 
   getNextSetRecords(pageIndex: any) {
@@ -318,7 +459,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
         this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionReference;
+        this.tranId = tab.row.TransactionId;
         break;
       }
       default: {
