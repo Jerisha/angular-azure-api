@@ -4,12 +4,11 @@ import {AuditstatustrackerComponent,AuditDataFilesComponent, Restoresolicitederr
 
 import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
 import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolvedtransaction.component';
-import { UnsolicitedactionreportsComponent } from './unsolicitedactionreports/unsolicitedactionreports.component';
+
 
 const routes: Routes = [
   { path: 'auditdatafiles',  component: AuditDataFilesComponent  },
   { path: 'unresolvedtransaction',  component: UnresolvedtransactionComponent  },
-  { path: 'unsolicitedactionreports',  component:UnsolicitedactionreportsComponent },
   { path: 'unresolvederrors',  component:UnresolvederrorsComponent },
   { path: 'restoresolicitederrors',  component: RestoresolicitederrorsComponent  },
   { path: 'manageusers',  component: ManageUsersComponent  },
