@@ -1,97 +1,93 @@
 <mat-sidenav-container class="side-container">
-
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-
-    <div class="filter-sticky">
+    <div class="filter-sticky filterposition">
       <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
         (changes)="setControlAttribute($event)">
       </app-select-multiple>
     </div>
-
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
-          <div [ngStyle]="{'display':thisForm.controls.AuditMonth.disabled ? 'none' : 'block'}"style="padding-left: 11px;">
-          <mat-form-field [ngClass]="{'hidden':f.AuditMonth.disabled}">
-            <mat-label>Audit Month</mat-label>
-            <input matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="AuditMonth">
-            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-            <mat-datepicker #dp
-                            startView="multi-year"
-                            (yearSelected)="chosenYearHandler($event)"
-                            (monthSelected)="chosenMonthHandler($event, dp)"
-                            panelClass="example-month-picker">
-            </mat-datepicker>
-            
-          </mat-form-field>
-        </div>
+          <div [ngStyle]="{'display':thisForm.controls.AuditMonth.disabled ? 'none' : 'block'}"
+            style="padding-left: 11px;">
+            <mat-form-field [ngClass]="{'hidden':f.AuditMonth.disabled}">
+              <mat-label>Audit Month</mat-label>
+              <input matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="AuditMonth">
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+                (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+              </mat-datepicker>
+
+            </mat-form-field>
+          </div>
           <div [ngStyle]="{'display':thisForm.controls.AuditType.disabled ? 'none' : 'block'}">
-            <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator
-                [resetvalue]="resetExp" (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])">
+            <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])">
             </app-select-exp>
-        <mat-form-field [ngClass]="{'hidden':f.AuditType.disabled}">
-            <mat-label>Audit Type</mat-label>
-            <input #AuditType formControlName="AuditType" type="text" placeholder="Search AuditType" matInput
-              [matAutocomplete]="autoAuditType" OptionsValidator [options]="config.AuditType " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoAuditType="matAutocomplete">
-              <mat-option *ngFor="let val of config.AuditType | ddlFilter: AuditType.value" [value]="val">
-                {{val}}</mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="f.AuditType.errors?.validOptions">Value need to match available options</mat-error>
-          </mat-form-field>
-        </div>
-        <div [ngStyle]="{'display':thisForm.controls.ResolvedBy.disabled ? 'none' : 'block'}">
-          <app-select-exp [listItems]="expressions[0].default" #ResolvedByOperator
-              [resetvalue]="resetExp"
+            <mat-form-field [ngClass]="{'hidden':f.AuditType.disabled}">
+              <mat-label>Audit Type</mat-label>
+              <input #AuditType formControlName="AuditType" type="text" placeholder="Search AuditType" matInput
+                [matAutocomplete]="autoAuditType" OptionsValidator [options]="config.AuditType " />
+              <span matSuffix mat-icon-button>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete autoActiveFirstOption #autoAuditType="matAutocomplete">
+                <mat-option *ngFor="let val of config.AuditType | ddlFilter: AuditType.value" [value]="val">
+                  {{val}}</mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="f.AuditType.errors?.validOptions">Value need to match available options</mat-error>
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.ResolvedBy.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[0].default" #ResolvedByOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])">
-          </app-select-exp>
-          <mat-form-field [ngClass]="{'hidden':thisForm.controls.ResolvedBy.disabled}"
-              appearance="outline">
+            </app-select-exp>
+            <mat-form-field [ngClass]="{'hidden':thisForm.controls.ResolvedBy.disabled}" appearance="outline">
               <mat-label>Resolved By</mat-label>
               <input id="ResolvedBy" formControlName="ResolvedBy" matInput maxlength="500" #input
-                  placeholder="ResolvedBy">
-          </mat-form-field>
-      </div>
+                placeholder="ResolvedBy">
+            </mat-form-field>
+          </div>
 
           <div [ngStyle]="{'display':thisForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
-            <app-select-exp [listItems]="expressions[3].default" #ResolveTypeOperator
-                [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolveTypeOperator',ResolveTypeOperator.selectedViewValue])">
+            <app-select-exp [listItems]="expressions[3].default" #ResolveTypeOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['ResolveTypeOperator',ResolveTypeOperator.selectedViewValue])">
             </app-select-exp>
-        <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
-            <mat-label>Resolution Type</mat-label>
-            <input #ResolutionTypeAudit formControlName="ResolutionTypeAudit" type="text" placeholder="Search ResolutionType" matInput
-              [matAutocomplete]="autoResolutionTypeAudit" OptionsValidator [options]="config.ResolutionTypeAudit " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoResolutionTypeAudit="matAutocomplete">
-              <mat-option *ngFor="let val of config.ResolutionTypeAudit  | ddlFilter: ResolutionTypeAudit.value" [value]="val">
-                {{val}}</mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="f.ResolutionTypeAudit.errors?.validOptions">Value need to match available options</mat-error>
-          </mat-form-field>
-        </div>
-        <div [ngStyle]="{'display':thisForm.controls.AuditActID.disabled ? 'none' : 'block'}">
-          <app-select-exp [listItems]="expressions[3].default" #AuditActIDOperator
-              [resetvalue]="resetExp" (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])">
-          </app-select-exp>
-      <mat-form-field [ngClass]="{'hidden':f.AuditActID.disabled}">
-          <mat-label>Audit Act ID</mat-label>
-          <input #AuditActID formControlName="AuditActID" type="text" placeholder="Search AuditActID" matInput
-            [matAutocomplete]="autoAuditActID" OptionsValidator [options]="config.AuditActID" />
-          <span matSuffix mat-icon-button>
-            <mat-icon>arrow_drop_down</mat-icon>
-          </span>
-          <mat-autocomplete autoActiveFirstOption #autoAuditActID="matAutocomplete">
-            <mat-option *ngFor="let val of config.AuditActID  | ddlFilter: AuditActID.value" [value]="val">
-              {{val}}</mat-option>
-          </mat-autocomplete>
-          <mat-error *ngIf="f.AuditActID.errors?.validOptions">Value need to match available options</mat-error>
-        </mat-form-field>
-      </div>
+            <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
+              <mat-label>Resolution Type</mat-label>
+              <input #ResolutionTypeAudit formControlName="ResolutionTypeAudit" type="text"
+                placeholder="Search ResolutionType" matInput [matAutocomplete]="autoResolutionTypeAudit"
+                OptionsValidator [options]="config.ResolutionTypeAudit " />
+              <span matSuffix mat-icon-button>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete autoActiveFirstOption #autoResolutionTypeAudit="matAutocomplete">
+                <mat-option *ngFor="let val of config.ResolutionTypeAudit  | ddlFilter: ResolutionTypeAudit.value"
+                  [value]="val">
+                  {{val}}</mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="f.ResolutionTypeAudit.errors?.validOptions">Value need to match available options
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.AuditActID.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" #AuditActIDOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])">
+            </app-select-exp>
+            <mat-form-field [ngClass]="{'hidden':f.AuditActID.disabled}">
+              <mat-label>Audit Act ID</mat-label>
+              <input #AuditActID formControlName="AuditActID" type="text" placeholder="Search AuditActID" matInput
+                [matAutocomplete]="autoAuditActID" OptionsValidator [options]="config.AuditActID" />
+              <span matSuffix mat-icon-button>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete autoActiveFirstOption #autoAuditActID="matAutocomplete">
+                <mat-option *ngFor="let val of config.AuditActID  | ddlFilter: AuditActID.value" [value]="val">
+                  {{val}}</mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="f.AuditActID.errors?.validOptions">Value need to match available options</mat-error>
+            </mat-form-field>
+          </div>
 
 
 
@@ -111,8 +107,39 @@
     </form>
 
   </mat-sidenav>
-
   <mat-sidenav-content class="side-content">
+    <app-start-up *ngIf="tabs.length===0"></app-start-up> <button *ngIf="tabs.length!=0" class="slidderbtn"
+      mat-basic-button color="primary" (click)="pagesidenav.toggle()"
+      matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+      <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+    </button>
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+      <mat-tab *ngFor="let tab of tabs; let index = index">
+        <ng-template mat-tab-label>
+          <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+          <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
+            <mat-icon style="font-size: large;">close</mat-icon>
+          </button>
+        </ng-template> <span [ngSwitch]="tab.tabType">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+             >
+            </app-table-selection>
+          </div>
+
+          <!-- <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+                    <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+                </div> -->
+          <!-- <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+                </div> -->
+          <div *ngSwitchDefault></div>
+        </span>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-sidenav-content>
+
+  <!-- <mat-sidenav-content class="side-content">
+
     <app-start-up *ngIf="tabs.length===0"></app-start-up>
     <div *ngIf="showDetails" class="center mat-elevation-z3">
       <mat-tab-group [(selectedIndex)]="selectedTab">
@@ -137,5 +164,5 @@
       </mat-tab-group>
 
     </div>
-  </mat-sidenav-content>
+  </mat-sidenav-content> -->
 </mat-sidenav-container>
