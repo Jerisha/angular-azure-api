@@ -95,7 +95,7 @@ formValidation() :FormGroup {
 for (var field of this.lstForm) {
  if (field.cType == 'text' && field.cMandate ==false) {
    group[field.cName] = new FormControl(field.cValue || '', [
-    Validators.required,Validators.maxLength(field.cMaxLength)
+    Validators.maxLength(field.cMaxLength)
    ]);
  }  
  else if (field.cType == 'text' && field.cMandate==true) {
