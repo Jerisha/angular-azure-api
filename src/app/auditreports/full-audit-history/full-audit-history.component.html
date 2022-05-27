@@ -1,7 +1,7 @@
 
    <div class="page-header">Full Audit History</div>
-   <!-- <div class="error" *ngIf="!fullAuditHistory && !isLoading">No Records Found.</div> -->
-   <div class="error" *ngIf="!fullAuditHistory">No Records Found.</div>
+   <div class="error" *ngIf="!fullAuditHistory && !isLoading">No Records Found.</div>
+   <!-- <div class="error" *ngIf="!fullAuditHistory">No Records Found.</div> -->
    <div class="table-container" *ngIf="fullAuditHistory">
     <table mat-table [dataSource]="fullAuditHistory" matSort class="mat-elevation-z8">
       <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
