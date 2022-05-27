@@ -8,7 +8,7 @@ import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { AuditReportsService } from '../services/audit-reports.service';
-import { UserCommentsDialogComponent } from './user-comments-dialog.component';
+// import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Utils } from 'src/app/_http';
@@ -17,12 +17,14 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { AlertService } from 'src/app/_shared/alert';
 import { Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
+import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component'
+import { Custom } from 'src/app/_helper/Validators/Custom';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Audit ActId', viewValue: 'AuditActID', default: true },
-  { view: 'CUP Id', viewValue: 'CUPId', default: true },
+  { view: 'CUP Id', viewValue: 'CUPID', default: true },
   { view: 'Batch Id', viewValue: 'BatchID', default: true },
   { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
@@ -34,8 +36,8 @@ const Items: Select[] = [
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Switch Status', viewValue: 'SwitchStatus', default: true },
   { view: 'Mori Status', viewValue: 'MoriStatus', default: true },
-  { view: 'Post Code Diff', viewValue: 'PostCodeDifference', default: true },
-  { view: 'Full Address Diff', viewValue: 'FullAddDifference', default: true },
+  { view: 'Post Code Diff', viewValue: 'PostcodeDifference', default: true },
+  { view: 'Full Address Diff', viewValue: 'FullAddressDifference', default: true },
   { view: 'Customer Diff', viewValue: 'CustomerDifference', default: true },
   { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: true },
 
@@ -179,13 +181,17 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { headerValue: 'SwitchPortingStatus', header: 'Switch Porting Status', showDefault: true, isImage: false },
     { headerValue: 'PortingPrefixOwner', header: 'Porting Prefix Owner', showDefault: true, isImage: false },
     { headerValue: 'SwitchType', header: 'Switch Type', showDefault: true, isImage: false },
-    { headerValue: 'CDMSNMSRPIPO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },
-    { headerValue: 'CDMSNMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
-    { headerValue: 'CDMSNMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
-    { headerValue: 'CDMSNMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
+    // { headerValue: 'CDMSNMSRPIPO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },
+    // { headerValue: 'CDMSNMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
+    // { headerValue: 'CDMSNMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
+    // { headerValue: 'CDMSNMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
+    { headerValue: 'CDMS/NMSRPI/PO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },
+    { headerValue: 'CDMS/NMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
+    { headerValue: 'CDMS/NMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
+    { headerValue: 'CDMS/NMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
     { headerValue: 'IsVodafoneRangeHolder', header: 'Is VodafoneRange Holder', showDefault: true, isImage: false },
     { headerValue: 'BTCustomer', header: 'BT Customer', showDefault: true, isImage: false },
-    { headerValue: 'BTPostcode', header: 'BTP ostcode', showDefault: true, isImage: false },
+    { headerValue: 'BTPostcode', header: 'BT Postcode', showDefault: true, isImage: false },
     { headerValue: 'BTLocality', header: 'BT Locality', showDefault: true, isImage: false },
     { headerValue: 'BTPremise', header: 'BT Premise', showDefault: true, isImage: false },
     { headerValue: 'BTThouroughfare', header: 'BT Thourough fare', showDefault: true, isImage: false },
@@ -258,6 +264,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
     { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
   ];
+
+  endStatus: string[] = ['Resolved', 'Unresolved',
+    'Special Cease', 'Superseded', 'System Override', 'Auto Resolved', 'Audit Transaction Override',
+    'Auto Closed', 'Auto Active', 'Auto Modify', 'Auto Cease', 'Auto Special Cease', 'Auto Logic Resolved',
+    'Auto Resolved Areacall', 'Audit Discrepancy Override'];
 
   get selectedSwitchTypeStatus() {
     return this.form.SwitchStatus;
@@ -340,7 +351,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       //width: 'auto',
       height: 'auto',
       panelClass: 'custom-dialog-container',
-      data: { defaultValue: attributes, telno: telno }
+      //data: { defaultValue: attributes, telno: telno }
+      data: { listOfIdentifiers: attributes, rptElements: 'FullAuditDetails' }
     }
     );
   }
@@ -412,14 +424,27 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
     this.getTelnoValidation();
     if (this.fullAuditForm.invalid) { return; }
-
-    if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
-      && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
-      this.form.StartTelephoneNumber.setErrors({ incorrect: true });
-      this.icstartNo.nativeElement.focus();
-      this.icstartNo.nativeElement.blur();
+    var startTelno = this.form.StartTelephoneNumber?.value ? this.form.StartTelephoneNumber?.value : ''
+    var endTelno = this.form.EndTelephoneNumber?.value ? this.form.EndTelephoneNumber?.value : ''
+    var errMsg = Custom.compareStartAndEndTelNo(startTelno, endTelno);
+    if (errMsg) {
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        // height:'250px',
+        disableClose: true,
+        data: { enableOk: false, message: errMsg, }
+      });
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
+
+    // if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
+    //   && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
+    //   this.form.StartTelephoneNumber.setErrors({ incorrect: true });
+    //   this.icstartNo.nativeElement.focus();
+    //   this.icstartNo.nativeElement.blur();
+    //   return;
+    // }
 
     this.getPnlControlAttributes();
     this.setAttributesForManualCorrections();
@@ -443,7 +468,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       Columns: this.colHeader,
       filter: true,
       selectCheckbox: true,
-      showEmail: true,
+      showEmail: false,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
@@ -667,7 +692,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      CUPId: new FormControl({ value: '', disabled: true }),
+      CUPID: new FormControl({ value: '', disabled: true }),
       BatchID: new FormControl({ value: '', disabled: true }),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
       FullAuditCLIStatus: new FormControl({ value: '', disabled: true }),
@@ -679,8 +704,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       ResolutionType: new FormControl({ value: '', disabled: true }),
       SwitchStatus: new FormControl({ value: '', disabled: true }),
       MoriStatus: new FormControl({ value: '', disabled: true }),
-      PostCodeDifference: new FormControl({ value: '', disabled: true }),
-      FullAddDifference: new FormControl({ value: '', disabled: true }),
+      PostcodeDifference: new FormControl({ value: '', disabled: true }),
+      FullAddressDifference: new FormControl({ value: '', disabled: true }),
       CustomerDifference: new FormControl({ value: '', disabled: true }),
       OverlappingStatus: new FormControl({ value: '', disabled: true })
     })
@@ -690,9 +715,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     if (this.updateForm.invalid) { return; }
     const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '400px', disableClose: true, data: {
-        message: 'Would you like to continue to save the records?'
+        message: 'Would you like to continue to save the records?',
+        remarks: 'Telephone numbers having the End Type Resolution status cannot be updated.'
       }
     });
+
     rangeConfirm.afterClosed().subscribe(result => {
       if (result) {
         let request = Utils.preparePyUpdate('ResolutionRemarks', 'FullAuditDetails', this.prepareUpdateIdentifiers('ResolutionRemarks'), [{}]);
@@ -705,6 +732,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
           }
         });
       }
+
     });
   }
 
@@ -719,7 +747,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
         //   this.disableProcess = false;
         // }
         if (this.selectListItems.length === 1) {
-          this.disableProcess = false;
+          let endStatusFlag = this.endStatus.find(x => x === this.selectListItems[0].ResolutionType) ? true : false;
+          this.disableProcess = endStatusFlag;
         }
         else {
           this.disableProcess = true;
@@ -935,6 +964,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     })
     this.getSelectedDataCorrection();
     this.getPnlControlAttributes();
+    console.log('selcted', this.selectListItems)
   }
 
   monthlyRefreshReportInit(auditACTID: any, telno: any) {

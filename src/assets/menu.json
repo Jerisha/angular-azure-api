@@ -77,6 +77,11 @@
         "displayName": "Audit User Action Summary",
         "iconName": "",
         "route": "auditreports/audituseractionsummary"
+      },
+      {
+        "displayName": "Saparateinternal Audit",
+        "iconName": "",
+        "route": "auditreports/separateinternalauditdetails"
       }
     ]
   },
@@ -153,11 +158,6 @@
         "displayName": "Unresolved Errors",
         "iconName": "",
         "route": "administration/unresolvederrors"
-      },
-      {
-        "displayName": "Unsolicited Action Reports",
-        "iconName": "",
-        "route": "administration/unsolicitedactionreports"
       },
       {
         "displayName": "Manage Users",

@@ -3,12 +3,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { of, Subject } from 'rxjs';
-import { UserCommentsDialogComponent } from 'src/app/auditreports/fullauditdetails/user-comments-dialog.component';
+// import { UserCommentsDialogComponent } from 'src/app/auditreports/fullauditdetails/user-comments-dialog.component';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
 
 const ELEMENT_DATA: any[] = [
   {

@@ -184,28 +184,16 @@ export class SolicitederrorsComponent implements OnInit {
   updateDetails!: any;
 
   ngOnInit(): void {
-    //   let requesttwo = Utils.prepareQueryRequest('InternalErrorInformation', 'UnsolicitedErrors', [{
-    //     "Name": "TransactionDays",
-    //     "Value": [`62`]
-    //   }])
-    //   console.log('request for info',requesttwo);
-    //  // this.queryResult$ = this.service.infoDetails(requesttwo).pipe(map((res: any) => res));
-    //   this.service.infoDetails(requesttwo).subscribe((res: any) => {
-    //     //this.infotable1 = res.dates;
-    //     //this.infotable2 = res.months      
-    //   });
+   
     this.createForm();
 
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
-    console.log("res: " + JSON.stringify(request))
-    this.service.configDetails(request).subscribe((res: any) => {
-      
+    this.service.configDetails(request).subscribe((res: any) => {      
       this.configDetails = res.data;
     });
 
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
-    console.log("res1: " + JSON.stringify(updateRequest))
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res.data;
