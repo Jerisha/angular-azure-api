@@ -478,18 +478,18 @@ else{
     let attributes: any = [];
 
     for (const field in this.form) {
-    // if (field != 'AuditActID') {
+     ///if (field != 'AuditActID') {
       const control = this.thisForm.get(field);
 
       if (control?.value)
         attributes.push({ Name: field, Value: [control?.value] });
       else
         attributes.push({ Name: field });
- //  }
+  // }
   }
   
   
- // attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
+  //attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
  
     attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
    console.log('console attributes',attributes);
@@ -647,7 +647,8 @@ else{
               EndPhoneNumber: endTelno,
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
-              ManualAuditType: auditType
+              ManualAuditType: auditType,
+              ReportIdentifier:'SeparateInternalAuditDetails'
             }
             this.router.navigateByUrl('/transactions/transactions', { state: data });
           }
@@ -914,7 +915,7 @@ else{
       height: 'auto',
       panelClass: 'custom-dialog-container',
       //data: { defaultValue: attributes, telno: telno }
-      data: { listOfIdentifiers: attributes, rptElements: 'SeparateInternalFullAuditDetails' }
+      data: { listOfIdentifiers: attributes, rptElements: 'SeparateInternalAuditDetails' }
     }
     );
   }

@@ -28,6 +28,9 @@ import { AddressCheckComponent } from './transactions/address-check/address-chec
 import { AdministrationModule } from './administration/administration.module';
 import { RangeSpecialCeaseTransactionComponent } from './transactions/range-special-cease-transaction/range-special-cease-transaction.component';
 import { LoginComponent } from './login/login.component';
+import { AppLayoutComponent } from './app-layout/app-layout.component';
+import { HomeComponent } from './home/home.component';
+import { ErrorComponent } from './_shared/error/error.component';
 
 // import { GovernanceModule } from './governance/governance.module';
 
@@ -39,6 +42,9 @@ import { LoginComponent } from './login/login.component';
     AppComponent,
     MenuSearchPipe,
     LoginComponent,
+    AppLayoutComponent,
+    HomeComponent,
+    ErrorComponent
     
     
                  
@@ -63,7 +69,8 @@ import { LoginComponent } from './login/login.component';
     NgxSpinnerModule,
     ReactiveFormsModule
   ],
-  providers: [NavService,HttpWrapperService,
+  providers: [NavService,
+    HttpWrapperService,
     {
     provide: HTTP_INTERCEPTORS, 
     useClass: HttpErrorInterceptor, 
