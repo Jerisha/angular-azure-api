@@ -2,7 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {Event, NavigationEnd, Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
 
-@Injectable()
+@Injectable({providedIn:'root'})
 export class NavService {
   public appDrawer: any;
   public currentUrl = new BehaviorSubject<string>('');
