@@ -914,7 +914,7 @@ else{
       height: 'auto',
       panelClass: 'custom-dialog-container',
       //data: { defaultValue: attributes, telno: telno }
-      data: { listOfIdentifiers: attributes, rptElements: 'SeparateInternalFullAuditDetails' }
+      data: { listOfIdentifiers: attributes, rptElements: 'SeparateInternalAuditDetails' }
     }
     );
   }
