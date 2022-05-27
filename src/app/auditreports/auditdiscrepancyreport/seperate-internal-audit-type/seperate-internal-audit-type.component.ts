@@ -3,7 +3,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
-import { GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import { CellHighlight, GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http';
 import { AuditReportsService } from '../../services/audit-reports.service';
@@ -24,6 +24,14 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
   tabs: Tab[] = [];
   tabsName: string[] = [];
   @Input() QueryParams: any;
+
+  cellAttrInfoSummary: CellHighlight[] = [
+    { cells: ['Total'], isBackgroundHighlighted: true}
+  ];
+
+  cellAttrInfoProgress: CellHighlight[] = [
+    { cells: ['InProgressTotal','EndStatusYTotal'], isBackgroundHighlighted: true}
+  ];
 
   observerResult!: Observable<any>;
   constructor( private spinner: NgxSpinnerService, private service: AuditReportsService) {
@@ -99,6 +107,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       DetailedColumns: detailedColumnsArray,
       GroupHeaderColumnsArray: grpHdrColumnsArray,
       isRowLvlTotal:true,
+      setCellAttributes: this.cellAttrInfoSummary,
     }
 }
 
@@ -125,6 +134,7 @@ ProgressReportTab() {
       isRowLvlTotal:true,
       FilterColumn: true,
       isMonthFilter: false,
+      setCellAttributes: this.cellAttrInfoProgress,
     }
 }
 
@@ -171,6 +181,7 @@ var headerswithDetails: string[];
       FilterColumn: true,
       isRowLvlTotal:true,
       isMonthFilter: true,
+      
     }
 
 }

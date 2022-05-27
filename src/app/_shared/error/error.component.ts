@@ -23,7 +23,7 @@ export class ErrorComponent implements OnInit {
   }
 
   homeUrl() {
-    this._route.navigateByUrl('/');
+    this._route.navigateByUrl('/home');
   }
 
 }

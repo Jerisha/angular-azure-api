@@ -17,6 +17,7 @@ export interface MergeTableItem {
     isRowLvlTotal?:boolean;
     isMonthFilter?:boolean;
     CurrentMonth?: string;
+    setCellAttributes?:CellHighlight[];    
   }
 
   export interface GroupHeaderTableDetails{
@@ -24,4 +25,9 @@ export interface MergeTableItem {
     TableName:string;
     ColumnDetails:MergeTableItem[];
     GroupHeaders: MergeTableItem[];
+  }
+
+  export interface  CellHighlight{
+    cells:string[];
+    isBackgroundHighlighted?:boolean;
   }
