@@ -842,7 +842,8 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
               EndPhoneNumber: endTelno,
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
-              ManualAuditType: auditType
+              ManualAuditType: auditType,
+              ReportIdentifier:'FullAuditDetails'
             }
             this.router.navigateByUrl('/transactions/transactions', { state: data });
           }
