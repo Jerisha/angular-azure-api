@@ -15,88 +15,88 @@ import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
 
-const ELEMENT_DATA: any = [
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
+// const ELEMENT_DATA: any = [
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
 
 
-];
+// ];
 
 const FilterListItems: Select[] = [
   { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
@@ -400,7 +400,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Date', headerValue: 'TransactionDate', showDefault: true, isImage: false },
-    { header: 'Last ResolutionType', headerValue: 'ResolutionTypeAudit', showDefault: true, isImage: false },
+    { header: 'Last ResType', headerValue: 'LastResType', showDefault: true, isImage: false },
     { header: 'Delay', headerValue: 'Delay', showDefault: true, isImage: false },
     { header: 'Under Investigation', headerValue: 'UnderInvestigation', showDefault: true, isImage: false },
     { header: 'Under Governance', headerValue: 'UnderGovernance', showDefault: true, isImage: false },
@@ -418,9 +418,9 @@ export class SolicitedresolutionreportComponent implements OnInit {
     { header: 'AddressLine 3', headerValue: 'AddressLine3', showDefault: true, isImage: false },
     { header: 'AddressLine 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
     { header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
-    { header: 'Last TransactionID', headerValue: 'LastTransactionID', showDefault: true, isImage: false },
-    { header: 'Change CUPID', headerValue: 'ChangeCUPID', showDefault: true, isImage: false },
-    { header: 'Internal CupID', headerValue: 'InternalCupID', showDefault: true, isImage: false },
+    { header: 'Last Transaction', headerValue: 'LastTransaction', showDefault: true, isImage: false },
+    { header: 'Change Cupid', headerValue: 'ChangeCupid', showDefault: true, isImage: false },
+    { header: 'Internal Cupid', headerValue: 'InternalCupid', showDefault: true, isImage: false },
   ];
 
 
