@@ -133,7 +133,7 @@ const FilterListItems: Select[] = [
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Source Status', viewValue: 'SourceStatus', default: true },
   { view: 'Postcode Diff', viewValue: 'PostCodeDifference', default: true },
-  { view: 'Full Addres Diff', viewValue: 'FullAddDifference', default: true },
+  { view: 'Full Addres Diff', viewValue: 'FullAddressDifference', default: true },
   { view: 'Customer Diff', viewValue: 'CustomerDifference', default: true },
 ];
 @Component({
@@ -212,14 +212,14 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
     this.createUpdateForm();
     //this.listItems = Items;
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume",'SourceStatus','InternalCLIStatus','Resolution']);
+    let request = Utils.preparePyConfig(['Search'], ["SepInternalAuditActID", "OSN2Source", "ResolutionTypeAudit","PostcodeDifference", "FullAddressDifference", "CustomerDifference", "ResolutionType", "AutoCorrectionVolume",'SourceStatus','InternalCLIStatus']);
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']); 
     forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
     .subscribe(results => {
       console.log('Result from ts file',JSON.stringify(results));
     this.configDetails = results[0].data;
     this.rowRange = this.configDetails.AutoCorrectionVolume[0];
-    this.defaultACTID = this.configDetails.FullAuditActID[0];    
+    this.defaultACTID = this.configDetails.SepInternalAuditActID[0];    
     this.updateDetails = results[1].data;
   }); 
   
@@ -314,9 +314,9 @@ else{
       ResolutionType: new FormControl({ value: '', disabled: true }),
       SourceStatus: new FormControl({ value: '', disabled: true }),
       PostCodeDifference: new FormControl({ value: '', disabled: true }),
-      FullAddDifference: new FormControl({ value: '', disabled: true }),
+      FullAddressDifference: new FormControl({ value: '', disabled: true }),
       CustomerDifference: new FormControl({ value: '', disabled: true }),
-     // Resolution:new FormControl({ value: '', disabled: true }),
+     // Resolutiony:new FormControl({ value: '', disabled: true }),
     })
   }
 
@@ -326,6 +326,7 @@ else{
   
 
   setControlAttribute(matSelect: MatSelect) {
+    debugger
     matSelect.options.forEach((item) => {
       if (item.selected) {
         this.thisForm.controls[item.value].enable();
