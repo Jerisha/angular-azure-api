@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import * as  dat from '../assets/full-audit-table-details.json';
 import { LoginComponent } from './login/login.component';
+import { AppLayoutComponent } from './app-layout/app-layout.component';
+import { ErrorComponent } from './_shared/error/error.component';
+import { ExporttoexcelComponent } from './_shared/exporttoexcel/exporttoexcel.component';
 
 const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
@@ -10,49 +13,63 @@ const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
-    outlet: 'loginPage'
   },
   {
     path: 'login',
     component: LoginComponent,
-    outlet: 'loginPage'
-
-
+   
+  },
+  {
+    path: 'error',
+    component: ErrorComponent,
+   
   },
   {
     path: 'home',
-    component: HomeComponent,
-
+    component: AppLayoutComponent,
+    children:[{path:'',component:HomeComponent}]
+  },
+  {
+    path: 'exporttoexcel',
+    component: AppLayoutComponent,
+    children:[{path:'',component:ExporttoexcelComponent}]
   },
   {
     path: 'administration',
+    component: AppLayoutComponent,
     loadChildren: () => import('./administration/administration.module').then(x => x.AdministrationModule),
-
+  
   },
   {
     path: 'resolvingoferrors',
+    component: AppLayoutComponent,
     loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule),
-
+  
   },
   {
     path: 'transactions',
-    loadChildren: () => import('./transactions/transactions-routing.module').then(x => x.TransactionsRoutingModule)
+    component: AppLayoutComponent,
+    loadChildren: () => import('./transactions/transactions-routing.module').then(x => x.TransactionsRoutingModule),
+  
   },
   {
     path: 'auditreports',
-    loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule)
-
-
+    component: AppLayoutComponent,
+    loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule),
+  
   },
   {
     path: 'reports',
+    component: AppLayoutComponent,
     loadChildren: () => import('./reports/reports.module').then(x => x.ReportsModule),
-
+  
 
   },
   {
     path: 'statisticalreports',
-    loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule)
+    component: AppLayoutComponent,
+    loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule),
+  
   },
   {
     path: 'shared',
@@ -61,20 +78,19 @@ const routes: Routes = [
   },
   {
     path: 'report-references',
+    component: AppLayoutComponent,
     loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
+  
 
 
-  },
+  }
   // {
   //   path: 'governance',
+  //   component: AppLayoutComponent,
   //   loadChildren: () => import('./governance/governance.module').then(x => x.GovernanceModule),
 
   // },
-  {
-    path: '**',
-    redirectTo: '',
-    pathMatch: 'full'
-  }
+
 
 
 
