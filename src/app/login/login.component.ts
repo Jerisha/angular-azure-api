@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     // {
     // this.router.navigate([this.returnUrl]);
     this.router.navigate(['/home']);
-    this.loginState.emit(true)
+    //this.loginState.emit(true)
 
     //alert( "Welcome back "+this.f.username.value);
     // }
