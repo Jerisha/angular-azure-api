@@ -28,7 +28,7 @@ export class AuthenticationService {
 
     login(username: string, password: string) {
         const now = new Date();
-        return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIQUERY, Auth.preparePyLogin(username,password));
+        //return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIQUERY, Auth.preparePyLogin(username,password));
         // return this.http.post<any>(`${environment.apiUrlAdmin}/authenticate`, Auth.preparePyLogin(username,password))     
         // .pipe(map(user => {
         //         const item = {
