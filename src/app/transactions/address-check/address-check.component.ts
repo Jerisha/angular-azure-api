@@ -1,4 +1,8 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Utils } from 'src/app/_http';
+import { TransactionDataService } from '../services/transaction-data.service';
+import { NgxSpinnerService } from "ngx-spinner";
+import { AlertService } from 'src/app/_shared/alert/alert.service';
 export interface Tile {  
   text: string;
   class:string;
@@ -141,9 +145,40 @@ export class AddressCheckComponent implements OnInit {
 
   dataSource!: IAddressCheck;
   
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private service: TransactionDataService,
+    private cdr: ChangeDetectorRef,private spinner: NgxSpinnerService, private alertService: AlertService
+   ) { }
 
   ngOnInit(): void {
+    let request2 = `"RequestType" : "PAFQUERY",
+    "UserParams":[
+      {"ReportIdentifier" : "PAFDbQuery"},
+      {"ScreenIdentifier" : "Transactions"}],
+    "AddressParams": [	{"Address1" : "98"},
+      {"Address2" : "Winterthur Way"},
+      {"Address3" : ""},
+      {"Address4" : ""},
+      {"Postcode" : "RG217UB"}
+      ],
+    
+    "Cache":["ApplicationKey","SessionID"]
+    `;
+    console.log('request for query',request2);
+    let request3 = Utils.preparePyPaf();
+   
+    this.service.pafqueryDetails(request2).subscribe((res: any) => {
+       console.log("res message to show: " + JSON.stringify(res));
+      if (Object.keys(res).length) {
+        //this.BindData(res, 'Query');
+       this.spinner.hide();
+      }
+      else {
+        this.spinner.hide()
+        this.alertService.clear();
+        this.alertService.error("No Data found on given input!", { autoClose: true, keepAfterRouteChange: false });
+        
+      }
+    });
     console.log('final address values',this.Addressvalues);
     this.pafTiles=[
       {text: 'Input Format'        ,class:"vf-grid-header"},
@@ -159,7 +194,7 @@ export class AddressCheckComponent implements OnInit {
       {text: this.Addressvalues[3]       ,class:"vf-grid-value"},
       {text: 'PAF Address3 value'  ,class:"vf-grid-value"}, 
       {text: 'Address4'            ,class:"vf-sub-title"}, 
-      {text: this.Addressvalues[4]       ,class:"vf-grid-value"}, 
+     {text: this.Addressvalues[4]       ,class:"vf-grid-value"}, 
       {text: 'PAF Address4 value'  ,class:"vf-grid-value"},
       {text: 'Postcode'            ,class:"vf-sub-title"},
       {text: this.Addressvalues[5]      ,class:"vf-grid-value"}, 
