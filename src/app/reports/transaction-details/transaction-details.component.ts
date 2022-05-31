@@ -21,14 +21,14 @@ let FilterListItems: Select[] = [
 { view: 'Customer Name', viewValue: 'CustomerName', default: true },
 { view: 'Creation Date', viewValue: 'CreationDate', default: true },
 { view: 'PostCode', viewValue: 'PostCode', default: true },
-{ view: 'Premises', viewValue: 'Premises', default: true },
-{ view: 'Thoroughfare', viewValue: 'Thoroughfare', default: true },
-{ view: 'Locality', viewValue: 'Locality', default: true },
-{ view: 'Source System', viewValue: 'Source', default: true },
-{ view: 'Cupid', viewValue: 'Cupid', default: true },
-{ view: 'Franchise', viewValue: 'Franchise', default: true },
-{ view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
-{ view: 'Type of Line', viewValue: 'TypeOfLine', default: true }
+{ view: 'Premises', viewValue: 'Premises', default: false },
+{ view: 'Thoroughfare', viewValue: 'Thoroughfare', default: false },
+{ view: 'Locality', viewValue: 'Locality', default: false },
+{ view: 'Source System', viewValue: 'Source', default: false },
+{ view: 'Cupid', viewValue: 'Cupid', default: false },
+{ view: 'Franchise', viewValue: 'Franchise', default: false },
+{ view: 'Transaction Command', viewValue: 'TransactionCommand', default: false },
+{ view: 'Type of Line', viewValue: 'TypeOfLine', default: false }
 ];
 
 @Component({

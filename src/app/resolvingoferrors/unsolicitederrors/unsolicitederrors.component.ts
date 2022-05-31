@@ -125,8 +125,8 @@ const FilterListItems: Select[] = [
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
-  { view: 'Date Range', viewValue: 'DateRange', default: true },
-  { view: 'Is Final', viewValue: 'Final', default: true },
+  { view: 'Date Range', viewValue: 'DateRange', default: false },
+  { view: 'Is Final', viewValue: 'Final', default: false },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
 
@@ -188,8 +188,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     //this.UpdateForm();
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
+    console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
+      console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
 
     });
