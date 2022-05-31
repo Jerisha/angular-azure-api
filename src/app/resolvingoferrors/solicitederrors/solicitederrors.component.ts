@@ -326,6 +326,7 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
+    
     debugger;
     let errMsg = '';
     if (!this.thisForm.valid) return;
@@ -409,6 +410,7 @@ export class SolicitederrorsComponent implements OnInit {
               this.onFormSubmit(true);
             }
           });
+          this.isSaveDisable = true;
         }
       });
     }
@@ -512,7 +514,9 @@ export class SolicitederrorsComponent implements OnInit {
     if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
       this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
-      this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
+      this.f.ResolutionType.value === ""
+      && this.f.ErrorType.value === "" 
+      && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;

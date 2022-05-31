@@ -406,6 +406,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
               this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
+            this.isSaveDisable = true;
           });
         }
 
