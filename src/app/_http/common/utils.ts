@@ -75,8 +75,13 @@ export class Utils {
     return transform;
   }
 
-  static preparePyQuery(pageIdentifier: string, reportIdentifier: string, queryParams: any): any {
+  static preparePyQuery(pageIdentifier: string, reportIdentifier: string, queryParams: any,reqParams?:any): any {
+    debugger;
     let transform = JSON.parse(JSON.stringify(PyRequests.QUERY));
+    //updating request params with paginator and records perpage
+    if(reqParams)
+    transform.RequestParams = transform.RequestParams.concat(reqParams);
+    
     transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
     //identifier
     transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];

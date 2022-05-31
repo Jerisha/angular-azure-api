@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { UserCommentsDialogComponent } from '../../_shared/user-comments/user-comments-dialog.component';
 import { Custom } from 'src/app/_helper/Validators/Custom';
+import { DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -81,11 +82,14 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   disableProcess: boolean = true;
   disableSave: boolean = true;
   configDetails!: any;
-  currentPage: string = '1';
+  //currentPage: string = '1';
   auditTelNo: any;
   repIdentifier = "FullAuditDetails";
   autoCorrectionRange: string = '';
   defaultACTID: string = '';
+
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
 
   queryResult$!: Observable<any>;
   monthlyRefreshQueryResult$!: Observable<any>;
@@ -401,8 +405,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  getNextSetRecords(pageIndex: any) {
-    this.currentPage = pageIndex;
+  // getNextSetRecords(pageIndex: any) {
+  //   this.currentPage = pageIndex;
+  //   this.onFormSubmit(true);
+  // }
+
+  getNextSetRecords(pageEvent: any) {
+    debugger;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -448,15 +459,21 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
     this.getPnlControlAttributes();
     this.setAttributesForManualCorrections();
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage));
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": 0 }];
+    //this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage.toString()),reqParams);
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -1062,13 +1079,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     ];
 
     let request = Utils.preparePyQuery('MoriCircuitDetails', 'FullAuditDetails', attributes);
+    console.log('mori', JSON.stringify(request))
     this.moriCircuitStatusQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Circuits,
           totalrecordcount: res.data.Circuits.length,
           totalpages: 1,
-          pagenumber: 1
+          pagenumber: 1,
+          pagecount: 50
         }
         return result;
       } else {

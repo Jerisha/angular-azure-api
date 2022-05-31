@@ -14,6 +14,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { delay, takeUntil } from 'rxjs/operators';
 import { isNgTemplate } from '@angular/compiler';
+import { threadId } from 'worker_threads';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -72,7 +73,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   dataObs$!: Observable<any>
   dataobj!: any;
   totalRows = 0;
-  pageSize = 500;
+  pageSize = 0;
   currentPage = 0;
   apiPageNumber: number = 0;
   pageSizeOptions: number[] = [500];
@@ -82,26 +83,56 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   }
 
-  pageChanged(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
+  pageProp: any = [];
 
-   // alert('pageszize '+ event.pageSize+' , pagenumber:'+ event.pageIndex +'')
-    this.pageIndex.emit(this.currentPage + 1);
+  pageChanged(event: PageEvent) {
+    debugger;
+    this.currentPage = event.pageIndex;
+    this.pageProp.currentPage = this.currentPage + 1;
+    this.pageProp.pageSize = event.pageSize;
+    this.pageIndex.emit(this.pageProp);
+     this.paginatorList = document.getElementsByClassName('mat-paginator-range-label');
+  
+    //     this.onPaginateChange(this.paginator, this.paginatorList);
+      
+    //this.pageIndex.emit(this.currentPage + 1);
   }
 
   copy() {
     // console.log('clipboard', this.selection.selected);
   }
 
+  //page:number = 1
+
   refresh(event: any) {
     event.stopPropagation();
     this.refreshtab.emit({ event });
   }
+  disablePageSize: boolean = true;
+  paginatorList!: HTMLCollectionOf<Element>;
+
+  onPaginateChange(paginator: MatPaginator, list: HTMLCollectionOf<Element>) {
+   // setTimeout((idx) => {  
+        
+      let from = (this.pageSize * this.currentPage) + 1;
+
+      let to = (paginator.length < this.pageSize * (this.currentPage + 1))
+        ? paginator.length
+        : this.pageSize * (this.currentPage + 1);
+
+      let toFrom = (paginator.length == 0) ? 0 : `${from} - ${to}`;
+      let pageNumber = (paginator.length == 0) ? `0 of 0` : `${this.currentPage + 1} of ${paginator.getNumberOfPages()}`;
+      let rows = `Total Records ${toFrom} of ${paginator.length} (Page ${pageNumber})`;
+
+      if (list.length >= 1)
+        list[0].innerHTML = rows;
+
+   // }, 0, this.currentPage);
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
-    //   return;
+    //   return;    
     this.initializeTableAttributes();
     this.disablePaginator = this.tableitem?.disablePaginator ? true : false;
     this.dataObs$ = this.tableitem?.data;
@@ -109,24 +140,27 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
         this.dataSource.data = res.datasource;
-        // this.initializeTableAttributes(data:any);
         this.loadDataRelatedAttributes(this.dataSource.data);
         this.totalRows = (res.totalrecordcount) as number;
         this.apiPageNumber = (res.pagenumber) as number;
         this.currentPage = this.apiPageNumber - 1;
         //this.paginator.pageIndex = this.currentPage;
-       // this.pageSize = (res.pagecount) as number;;
+        this.pageSize = (res.pagecount) as number;
         this.paginator.length = (res.totalrecordcount) as number;
         this.dataSource.sort = this.sort;
         this.spinner.hide();
-        this.isDataloaded = true;
+        this.disablePageSize = false;
+        this.isDataloaded = true; 
+        // this.paginatorList = document.getElementsByClassName('mat-paginator-range-label'); 
+        // this.onPaginateChange(this.paginator, this.paginatorList);             
       },
       (error) => { this.spinner.hide(); },
       () => {
         if (this.currentPage > 0) {
           this.toggleAllSelection();
-        }
+        }       
         this.spinner.hide();
+       
       }
     );
   }
@@ -250,14 +284,16 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewInit() {
-    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.detectChanges();     
   }
 
   ngAfterViewChecked() {
+
     if (this.isDataloaded) {
       this.toggleAllSelection();
       this.isDataloaded = false;
     }
+   
   }
 
   getTotal(cellname: string) {
@@ -437,7 +473,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     var cells = this.imageAttrCells.filter(x => x.cells.includes(cell));
     if (cells.length > 0) {
-      debugger;
+      //debugger;
       cells.forEach(x => {
         if (x.cells.find(x => x === (cell)) && row[x.flag] === x.value) {
           loopFlag = true;
@@ -483,26 +519,22 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   copyToClipboard() {
     let data = "";
-    debugger
+    //debugger
     this.selection.selected.forEach((row: any, index) => {
-      if (index === 0)
-      {       
-         let copyHeader = Object.keys(row)       
-          copyHeader.forEach((val: string) => {
-            if(this.ColumnDetails.find(e => e.headerValue === val))
+      if (index === 0) {
+        let copyHeader = Object.keys(row)
+        copyHeader.forEach((val: string) => {
+          if (this.ColumnDetails.find(e => e.headerValue === val))
             data += this.ColumnDetails.find(e => e.headerValue === val)?.header + ','
-            else
+          else
             data += val + ',';
-          });  
-          data = data.replace(/[,]+/g, '\t') + "\n";  
-      } 
+        });
+        data = data.replace(/[,]+/g, '\t') + "\n";
+      }
       let result = Object.values(row);
       data += result.toString().replace(/[,]+/g, '\t') + "\n";
-    });   
+    });
     return data;
   }
-
-
- 
 }
 

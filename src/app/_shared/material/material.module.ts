@@ -43,9 +43,9 @@ import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CustomMatPaginatorIntl } from '../custom-matpaginator-Intl';
 import { MatPaginatorI18n } from './MatPaginatorI18n';
-import {ClipboardModule} from '@angular/cdk/clipboard';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, MomentDateModule } from '@angular/material-moment-adapter';
-  // import { MatMomentDateModule } from '@angular/material';
+// import { MatMomentDateModule } from '@angular/material';
 
 const materialModules = [CommonModule,
   MomentDateModule,
@@ -102,14 +102,7 @@ const materialModules = [CommonModule,
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
     { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: { formFieldAppearance: 'legacy' } },
-    { provide: MatPaginatorIntl, useClass: MatPaginatorI18n }, 
-    // {
-    //   provide: DateAdapter,
-    //   useClass: MomentDateAdapter,
-    //   deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    // }
-
-    
+    { provide: MatPaginatorIntl, useClass: MatPaginatorI18n },
   ]
 })
 export class MaterialModule { }
