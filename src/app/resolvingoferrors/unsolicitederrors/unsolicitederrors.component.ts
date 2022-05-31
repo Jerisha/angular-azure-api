@@ -398,7 +398,6 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         }
       });
       rangeConfirm.afterClosed().subscribe(result => {
-        //console.log("result " + result);
         if (result) {
           let request = Utils.preparePyUpdate('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
@@ -408,6 +407,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
               this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
+            this.isSaveDisable = true;
           });
         }
 
@@ -451,9 +451,10 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+     { header: 'Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Error Code', headerValue: 'ErrorCode', showDefault: true, isImage: false },
-    // { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
+   
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
@@ -486,6 +487,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       return;
     }
     this.tabs.splice(0);
+    this.Resolution =  this.Remarks = this.Refer = ''
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {

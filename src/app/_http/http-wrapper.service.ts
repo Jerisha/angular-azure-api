@@ -73,6 +73,7 @@ export class HttpWrapperService {
                     categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
                     this.validateResponseStatus(this.resolveResponseStatus(categories));
                     break;
+
             }
             // debugger
             // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
@@ -105,12 +106,12 @@ export class HttpWrapperService {
     private resolvePyRespone(val: any, requestType: WebMethods) {
         debugger;
         let jsonResult = '';
-       // console.log(val)
+        // console.log(val)
         let transData: any = [];
         try {
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
                 switch (requestType) {
-                    case WebMethods.CONFIG:                        
+                    case WebMethods.CONFIG:
                         transData = val.ResponseParams
                         transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
                         break;
@@ -126,12 +127,16 @@ export class HttpWrapperService {
                         transData.data = val.Data
                         break;
                     case WebMethods.METADATA:
-                       // transData = val.ResponseParams
+                        // transData = val.ResponseParams
                         //transData.data = val.Data.Object_name[0].MetaDataParameters
                         //transData.data = val.Data.TelephoneNumber[0].MetaDataParameters[1]
                         transData = val.Data.TelephoneNumber[0].MetaDataParameters
                         //console.log(transData, 'metadat')
-                       // console.log(JSON.stringify(transData), 'metadat1')
+                        // console.log(JSON.stringify(transData), 'metadat1')
+                        break;
+                    case WebMethods.UIQUERY:
+                        transData = val.ResponseParams;
+                        transData.data = val.Data
                         break;
                 }
             }

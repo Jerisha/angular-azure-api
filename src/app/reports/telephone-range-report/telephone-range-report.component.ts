@@ -166,7 +166,7 @@ export class TelephoneRangeReportComponent implements OnInit {
       debugger;
       let errMsg = '';
       if (!this.thisForm.valid) return;
-      errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+      errMsg = this.compareStartAndEndTelNoTelephoneRange(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
       if (errMsg) {
         const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
           width: '400px',
@@ -340,4 +340,20 @@ export class TelephoneRangeReportComponent implements OnInit {
       return result;
     })
   }
+
+  compareStartAndEndTelNoTelephoneRange(startTelNo: any, endTelNo: any): string {
+    let errMsg = '';
+    //Enter start telephone no
+    if (endTelNo != '' && startTelNo == '')
+        errMsg = 'Please enter the Start Telephone No';
+    //Telephonerange
+    if ((endTelNo != '' && startTelNo != '') && (endTelNo - startTelNo) > 50000)
+        errMsg = 'TelephoneRange must be less than or equal to 50000';
+    //startTelNo should be < endTelNo
+    if ((endTelNo != '' && startTelNo != '') && (startTelNo > endTelNo))
+        errMsg = 'Start Telephone No should be less than End Telephone No';
+
+    return errMsg
+
+}
 }

@@ -326,6 +326,7 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
+    
     debugger;
     let errMsg = '';
     if (!this.thisForm.valid) return;
@@ -341,6 +342,7 @@ export class SolicitederrorsComponent implements OnInit {
       return;
     }
     this.tabs.splice(0);
+    this.Resolution =  this.Remarks = this.Refer = ''
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -408,6 +410,7 @@ export class SolicitederrorsComponent implements OnInit {
               this.onFormSubmit(true);
             }
           });
+          this.isSaveDisable = true;
         }
       });
     }
@@ -511,7 +514,9 @@ export class SolicitederrorsComponent implements OnInit {
     if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
       this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
-      this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
+      this.f.ResolutionType.value === ""
+      && this.f.ErrorType.value === "" 
+      && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
