@@ -490,6 +490,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     this.Resolution =  this.Remarks = this.Refer = ''
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
+      // console.log("Unsol-Req: ",JSON.stringify(request))  
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
