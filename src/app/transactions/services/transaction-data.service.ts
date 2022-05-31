@@ -35,4 +35,10 @@ export class TransactionDataService {
     //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
   }
+  pafqueryDetails(request: any): Observable<any> {
+    console.log('service called',request);
+    debugger
+    //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.PAFQUERY, request);
+  }
 }

@@ -314,6 +314,22 @@ export const PyRequests = {
         "Cache": ["ApplicationKey", "SessionID"]
     }
     ,
+    PAFQUERY:{
+        "RequestType" : "PAFQUERY",
+    "UserParams":[
+      {"ReportIdentifier" : "PAFDbQuery"},
+      {"ScreenIdentifier" : "Transactions"}],
+    "AddressParams": [	{"Address1" : "98"},
+      {"Address2" : ""},
+      {"Address3" : ""},
+      {"Address4" : ""},
+      {"Postcode" : "RG217UB"}
+      ],
+    
+    "Cache":["ApplicationKey","SessionID"]
+    }
+    
+    ,
     METADATA:{
     "RequestType": "MetaData",
     "UserParams": ["UserID", "RoleID"],       

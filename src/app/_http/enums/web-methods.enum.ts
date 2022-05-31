@@ -5,5 +5,6 @@ export enum WebMethods {
     CREATE ='CreateObject',
     QUERY='QueryObject',
     DELETE='DeleteObject',
+    PAFQUERY='PAFQueryObject',
     METADATA='MetaDataObject'
 }

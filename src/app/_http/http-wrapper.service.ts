@@ -105,7 +105,7 @@ export class HttpWrapperService {
     private resolvePyRespone(val: any, requestType: WebMethods) {
         debugger;
         let jsonResult = '';
-       // console.log(val)
+        console.log('response from wrapper',val)
         let transData: any = [];
         try {
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
@@ -116,6 +116,7 @@ export class HttpWrapperService {
                         break;
                     case WebMethods.QUERY:
                     case WebMethods.GET:
+                    case WebMethods.PAFQUERY:
                         transData = val.ResponseParams
                         transData.data = val.Data
                         break;
