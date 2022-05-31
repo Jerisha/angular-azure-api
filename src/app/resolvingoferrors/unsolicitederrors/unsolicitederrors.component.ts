@@ -397,7 +397,6 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         }
       });
       rangeConfirm.afterClosed().subscribe(result => {
-        //console.log("result " + result);
         if (result) {
           let request = Utils.preparePyUpdate('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
@@ -485,6 +484,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       return;
     }
     this.tabs.splice(0);
+    this.Resolution =  this.Remarks = this.Refer = ''
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
