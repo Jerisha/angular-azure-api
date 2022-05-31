@@ -424,17 +424,17 @@ const Items: Select[] = [
 ];
 const Itemstwo: Select[] = [
   { view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
-  { view: 'Customer Name', viewValue: 'CustomerName', default: true },
-  { view: 'Post Code', viewValue: 'PostCode', default: true },
-  { view: 'Created On', viewValue: 'CreationDate', default: true },
-  { view: 'Premises', viewValue: 'Premises', default: true },
-  { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: true },
-  { view: 'Locality', viewValue: 'Locality', default: true },
-  { view: 'Cupid', viewValue: 'Cupid', default: true },
-  { view: 'Type of Line', viewValue: 'TypeOfLine', default: true },
-  { view: 'Franchise', viewValue: 'Franchise', default: true },
-  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Customer Name', viewValue: 'CustomerName', default: false },
+  { view: 'Post Code', viewValue: 'PostCode', default: false },
+  { view: 'Created On', viewValue: 'CreationDate', default: false },
+  { view: 'Premises', viewValue: 'Premises', default: false },
+  { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: false },
+  { view: 'Locality', viewValue: 'Locality', default: false },
+  { view: 'Cupid', viewValue: 'Cupid', default: false },
+  { view: 'Type of Line', viewValue: 'TypeOfLine', default: false },
+  { view: 'Franchise', viewValue: 'Franchise', default: false },
+  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: false },
+  { view: 'Source', viewValue: 'Source', default: false },
 ]
 
 

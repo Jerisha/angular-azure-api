@@ -1,4 +1,4 @@
-<mat-sidenav-container class="side-container-report">
+<mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
   
     <div class="filterdataby">
@@ -90,21 +90,15 @@
         </ng-template>
 
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: 520px; overflow-y:auto;padding-left:6px;">
-            <div class="table-view">
+          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+            
             <app-table-selection [sidePan]="pagesidenav" #table1 [tableitem] = "myTable" (pageIndex)="getNextSetRecords($event)"
             (rowChanges)="rowDetect($event)" ></app-table-selection>
-            </div>
-          </div>
-
-          <div *ngSwitchDefault>
-
+            
           </div>
         </span>
-
       </mat-tab>
     </mat-tab-group>
- 
   </mat-sidenav-content>
 </mat-sidenav-container>
 
