@@ -67,7 +67,6 @@ export class TelephoneRangeReportComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private telnoPipe: TelNoPipe) {}
 
-  @ViewChild('table1') table1?:TableSelectionComponent;
   myTable!: TableItem;
   dataSaved = false;
   selectListItems: string[] = [];
