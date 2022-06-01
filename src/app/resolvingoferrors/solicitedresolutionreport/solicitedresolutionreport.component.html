@@ -48,7 +48,7 @@
         </app-select-exp>
         <mat-form-field [ngClass]="{'hidden':myForm.controls.ChangeCUPID.disabled}"
             appearance="outline">
-            <mat-label>ChangeCUPID</mat-label>
+            <mat-label>Change CUPID</mat-label>
             <input id="ChangeCUPID" formControlName="ChangeCUPID" matInput maxlength="500" #input
                 placeholder="ChangeCUPID">
         </mat-form-field>
@@ -176,7 +176,7 @@
               (click)="OnOperatorClicked(['InternalCupIDOperator',InternalCupIDOperator.selectedViewValue])">
           </app-select-exp>
       <mat-form-field [ngClass]="{'hidden':f.InternalCupID.disabled}">
-          <mat-label>InternalCupID</mat-label>
+          <mat-label>Internal CupID</mat-label>
           <input #InternalCupID formControlName="InternalCupID" type="text" placeholder="Search InternalCupID" matInput
             [matAutocomplete]="autoInternalCupID" OptionsValidator [options]="config.InternalCupID " />
           <span matSuffix mat-icon-button>
