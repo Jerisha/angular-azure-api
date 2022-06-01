@@ -405,8 +405,9 @@ export class SolicitederrorsComponent implements OnInit {
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
+              
               //success message and same data reload
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record count(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
           });
@@ -599,17 +600,20 @@ export class SolicitederrorsComponent implements OnInit {
         break;
 
       case 2:
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            // name: 'Transaction Errors'
+            name: 'Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')' 
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
+          let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')';  
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionId;
         break;
       default:
         //statements; 
