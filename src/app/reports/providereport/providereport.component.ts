@@ -49,7 +49,7 @@ const ELEMENT_DATA: ProvideReport[] = [
 
 
 const Itemstwo: Select[] = [
-    { view: 'TelephoneNumber.', viewValue: 'TelephoneNumber', default: true }
+    { view: 'TelephoneNumber', viewValue: 'TelephoneNumber', default: true }
 ]
 @Component({
     selector: 'app-providereport',
@@ -204,12 +204,12 @@ refresh(event: any)
     }
 
     createForm() {
-
+        
         this.myForm = new FormGroup({
             TelephoneNumber: new FormControl({ value: '', disabled: false },
                 [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
         })
-
+        this.onFormSubmit(true);
     }
 
     selected(s: string): void {

@@ -47,7 +47,7 @@
           <mat-form-field [ngClass]="{'hidden':form.AuditActID.disabled}">
             <mat-label>Audit ACT ID</mat-label>
             <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
-              <mat-option *ngFor="let val of config.FullAuditActID" [value]="val">
+              <mat-option *ngFor="let val of config.SepInternalAuditActID" [value]="val">
                 {{val}} </mat-option>
             </mat-select>
             <mat-error>
@@ -142,21 +142,21 @@
 
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':form.FullAddDifference.disabled}">
+          <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
             <mat-label>Full Address Difference</mat-label>
-            <input #fullAddDifference formControlName="FullAddDifference" type="text"
-              placeholder="Search Full Address Difference" matInput [matAutocomplete]="autofullAddDifference"
+            <input #fullAddressDifference formControlName="FullAddressDifference" type="text"
+              placeholder="Search Full Address Difference" matInput [matAutocomplete]="autofullAddressDifference"
               OptionsValidator [options]="config.FullAddressDifference  " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
-            <mat-autocomplete autoActiveFirstOption #autofullAddDifference="matAutocomplete">
-              <mat-option *ngFor="let val of config.FullAddressDifference   | ddlFilter: fullAddDifference.value"
+            <mat-autocomplete autoActiveFirstOption #autofullAddressDifference="matAutocomplete">
+              <mat-option *ngFor="let val of config.FullAddressDifference   | ddlFilter: fullAddressDifference.value"
                 [value]="val">
                 {{val}}
               </mat-option>
             </mat-autocomplete>
-            <mat-error *ngIf="form.FullAddDifference.errors?.validOptions">Value need to match available options
+            <mat-error *ngIf="form.FullAddressDifference.errors?.validOptions">Value need to match available options
             </mat-error>
 
           </mat-form-field>

@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, observable, Observable, Observer } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../_models';
-import { environment } from 'src/environments/environment';
-import { NodeWithI18n } from '@angular/compiler';
+import { HttpVerbs, HttpWrapperService, WebMethods } from 'src/app/_http';
+import { Auth } from 'src/app/_http/common/auth';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -15,7 +16,7 @@ export class AuthenticationService {
     private isloggedIn: boolean = false;
     private loggedInUser: User | null = null;
 
-    constructor(private http: HttpClient) {
+    constructor(private wrapperService: HttpWrapperService) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('currentUser') || '{}'));
         this.currentUser = this.currentUserSubject.asObservable();
         // alert(JSON.stringify(this.currentUser))
@@ -27,7 +28,8 @@ export class AuthenticationService {
 
     login(username: string, password: string) {
         const now = new Date();
-        // return this.http.post<any>(`${environment.apiUrlAdmin}/authenticate`, { username, password })     
+        //return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIQUERY, Auth.preparePyLogin(username,password));
+        // return this.http.post<any>(`${environment.apiUrlAdmin}/authenticate`, Auth.preparePyLogin(username,password))     
         // .pipe(map(user => {
         //         const item = {
         //             value: user,
@@ -38,14 +40,10 @@ export class AuthenticationService {
 
         // if (user) {
         //     this.isloggedIn = true;
-        //     this.loggedInUser = user;
         // } else {
         //     this.isloggedIn = false;`
         // }
-        // return this.isloggedIn;
         //     }));
-
-
         return true
     }
     isUserLoggedIn(): boolean {
@@ -60,8 +58,9 @@ export class AuthenticationService {
     getLoginUrl(): string {
         return this.loginUrl;
     }
-    getLoggedInUser(): User | null {
-        return this.loggedInUser;
+    getLoggedInUser(): any | null {
+        //get loggedInUser from session
+        return sessionStorage.getItem('currentUser');        
     }
     logoutUser(): void {
         this.isloggedIn = false;
@@ -70,8 +69,4 @@ export class AuthenticationService {
         sessionStorage.clear();
         this.currentUserSubject.next(null!);
     }
-
-
-
-
 }

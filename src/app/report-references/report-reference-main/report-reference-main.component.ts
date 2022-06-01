@@ -285,10 +285,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
 
       this.editRecord = element1;
+      let lstRadio =this.lstFields.filter( (t:IColoumnDef)=> t.cType ==='radio') ;
       Object.entries(element1).map(
         (x: any) => {
-          if (x[1] === 'Y' || x[1]=== '0') { element1[x[0]] = true }
-          else if (x[1] === 'N' || x[1]=== '1') { element1[x[0]] = false }
+          
+           let chkRadio = lstRadio.filter( (y:IColoumnDef)=> y.cName ===x[0]).length> 0
+          
+          if( (chkRadio)&&(x[1] === 'Y' || x[1]=== '0') ){ element1[x[0]] = true }
+          else if ( (chkRadio)&&(x[1] === 'N' || x[1]=== '1') ){ element1[x[0]] = false }
          //console.log('element val', x)
 
         //   else if (x[1] === null) { element1[x[0]] = ('') 
@@ -297,6 +301,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
          else {
           element1[x[0]]
         }
+
         }
 
       )
