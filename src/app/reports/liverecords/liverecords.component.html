@@ -5,7 +5,7 @@
                 (changes)="setControlAttribute($event)">
             </app-select-multiple>
         </div>
-        <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
+        <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()"  autocomplete="off">
             <div class="matsidenav-filter">
                 <ng-container *ngIf="configDetails  as config">
                     <div [ngStyle]="{'display':myForm.controls.StartTelephoneNumber.disabled ? 'none' : 'block'}">
