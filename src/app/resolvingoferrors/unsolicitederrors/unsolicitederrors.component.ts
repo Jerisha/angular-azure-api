@@ -450,19 +450,19 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
 
   columns: ColumnDetails[] = [
+    { header: 'Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-     { header: 'Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Error Code', headerValue: 'ErrorCode', showDefault: true, isImage: false },
-   
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
-    { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
-    { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
+    { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
+    { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
+    
   ];
 
   onFormSubmit(isEmitted?: boolean): void {

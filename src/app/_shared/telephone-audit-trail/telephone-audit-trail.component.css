@@ -24,6 +24,9 @@ th {
 .mat-row {
   height: 10px;
 }
+.mat-row:nth-child(even){
+  background-color: white !important;
+}
 
 
 tr.example-detail-row {
