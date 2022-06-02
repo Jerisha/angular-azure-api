@@ -424,17 +424,18 @@ const Items: Select[] = [
 ];
 const Itemstwo: Select[] = [
   { view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
-  { view: 'Customer Name', viewValue: 'CustomerName', default: false },
-  { view: 'Post Code', viewValue: 'PostCode', default: false },
-  { view: 'Created On', viewValue: 'CreationDate', default: false },
+  { view: 'Customer Name', viewValue: 'CustomerName', default: true },
+  { view: 'Post Code', viewValue: 'PostCode', default: true },
+  { view: 'Created On', viewValue: 'CreationDate', default: true },
   { view: 'Premises', viewValue: 'Premises', default: false },
   { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: false },
   { view: 'Locality', viewValue: 'Locality', default: false },
   { view: 'Cupid', viewValue: 'Cupid', default: false },
-  { view: 'Type of Line', viewValue: 'TypeOfLine', default: false },
+  { view: 'Type Of Line', viewValue: 'TypeOfLine', default: false },
   { view: 'Franchise', viewValue: 'Franchise', default: false },
-  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: false },
-  { view: 'Source', viewValue: 'Source', default: false },
+  // { view: 'Transaction Command', viewValue: 'TransactionCommand', default: false },
+  { view: 'Source System', viewValue: 'Source', default: false },
+ 
 ]
 
 
@@ -504,14 +505,14 @@ resetExp:boolean = false;
   selectedTab!: number;
   selectedGridRows: any[] = [];
   auditTelNo?: any;
-  repIdentifier = "LiveTelephoneNumberDetails";
+  repIdentifier = "LiveRecords";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   configDetails!: any;
   public tabs: Tab[] = [];
   columns: ColumnDetails[] = [
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },
     { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
     { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
@@ -532,6 +533,7 @@ resetExp:boolean = false;
     { header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
     { header: 'Parent CUPID', headerValue: 'ParentCupid', showDefault: true, isImage: false },
     { header: 'Child CUPID', headerValue: 'ChildCupid', showDefault: true, isImage: false },
+    { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
     { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
     { header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
@@ -594,6 +596,7 @@ resetExp:boolean = false;
     let request = Utils.preparePyQuery('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
+        console.log(JSON.stringify (res.data.LiveRecords), "datatest");
         let result = {
           datasource: res.data.LiveTelephoneNumberDetails,
           totalrecordcount: res.TotalCount,
