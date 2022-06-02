@@ -77,7 +77,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   columns: ColumnDetails[] = [    
     { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
-    { header: 'Telephone No.',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Telephone No',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Tran Id',headerValue:'TransactionId', showDefault: true, isImage: false },
     { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
     { header: 'Status',headerValue:'Status', showDefault: true, isImage: false },
@@ -108,7 +108,7 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Retailer Id',headerValue:'RetailerId', showDefault: true, isImage: false },
     { header: 'Address Id',headerValue:'AddressId', showDefault: true, isImage: false },
     { header: 'Address Id Source',headerValue:'AddressIdSource', showDefault: true, isImage: false },
-    { header: 'New Telephone No.',headerValue:'NewTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'New Telephone No',headerValue:'NewTelephoneNumber', showDefault: true, isImage: false },
     { header: 'Cross Ref No',headerValue:'CrossReferenceNumber', showDefault: true, isImage: false },
     { header: 'Change Cupid',headerValue:'ChangeCupid', showDefault: true, isImage: false },
     { header: 'Error List',headerValue:'ErrorList', showDefault: true, isImage: false },
