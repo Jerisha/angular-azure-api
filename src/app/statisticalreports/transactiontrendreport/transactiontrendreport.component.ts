@@ -110,7 +110,7 @@ const ELEMENT_DATA: Transactionsourcecommandhistory[] =
   ]
 const Itemstwo: Select[] = [
   { view: 'StatisticMonth.', viewValue: 'StatisticMonth', default: true },
-  { view: 'Source.', viewValue: 'Source', default: true }
+  { view: 'Source System', viewValue: 'Source', default: true }
 
 ]
 
