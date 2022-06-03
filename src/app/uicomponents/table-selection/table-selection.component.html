@@ -26,8 +26,8 @@ font-size: smaller;  ">
         </span>
       </mat-select-trigger>
       <mat-optgroup class="freezeselectall" style="min-width:220px">
-        <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
-          Select All</mat-checkbox>
+        <mat-checkbox [(ngModel)]="allSelected" #selectAll [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
+          {{ selectAll.checked ? 'Deselect All' : 'Select All' }}</mat-checkbox>
         <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns(select)"
           matTooltip="Submit">
           <!-- <mat-icon>play_arrow</mat-icon> -->
