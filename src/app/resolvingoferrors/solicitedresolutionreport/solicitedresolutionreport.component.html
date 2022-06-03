@@ -170,14 +170,14 @@
           </mat-form-field>
         </div>
 
-        <div [ngStyle]="{'display':myForm.controls.InternalCupID.disabled ? 'none' : 'block'}">
-          <app-select-exp [listItems]="expressions[3].default" #InternalCupIDOperator
+        <div [ngStyle]="{'display':myForm.controls.InternalCUPID.disabled ? 'none' : 'block'}">
+          <app-select-exp [listItems]="expressions[3].default" #InternalCUPIDOperator
               [resetvalue]="resetExp"
-              (click)="OnOperatorClicked(['InternalCupIDOperator',InternalCupIDOperator.selectedViewValue])">
+              (click)="OnOperatorClicked(['InternalCUPIDOperator',InternalCUPIDOperator.selectedViewValue])">
           </app-select-exp>
-      <mat-form-field [ngClass]="{'hidden':f.InternalCupID.disabled}">
-          <mat-label>Internal CupID</mat-label>
-          <input #InternalCupID formControlName="InternalCupID" type="text" placeholder="Search InternalCupID" matInput
+      <mat-form-field [ngClass]="{'hidden':f.InternalCUPID.disabled}">
+          <mat-label>Internal CUPID</mat-label>
+          <input #InternalCupID formControlName="InternalCUPID" type="text" placeholder="Search InternalCUPID" matInput
             [matAutocomplete]="autoInternalCupID" OptionsValidator [options]="config.InternalCupID " />
           <span matSuffix mat-icon-button>
             <mat-icon>arrow_drop_down</mat-icon>
@@ -186,7 +186,7 @@
             <mat-option *ngFor="let val of config.InternalCupID  | ddlFilter: InternalCupID.value" [value]="val">
               {{val}}</mat-option>
           </mat-autocomplete>
-          <mat-error *ngIf="f.InternalCupID.errors?.validOptions">Value need to match available options</mat-error>
+          <mat-error *ngIf="f.InternalCUPID.errors?.validOptions">Value need to match available options</mat-error>
         </mat-form-field>
       </div>
 
