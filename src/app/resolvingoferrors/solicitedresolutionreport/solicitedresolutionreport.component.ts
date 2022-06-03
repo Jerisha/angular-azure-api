@@ -167,7 +167,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     "ChangeCUPIDOperator",    
     "SourceOperator",
     "StatusOperator",
-    "TransactionCommandOperator",
+    "TranCommandOperator",
     "ResolveTypeOperator",
     "InternalCupIDOperator",
 
@@ -299,13 +299,13 @@ export class SolicitedresolutionreportComponent implements OnInit {
      
        
         } 
-
+       else{
         if (control?.value )
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
 
-      }
+      
       let operator: string = field + "Operator";
 
       // console.log("op vals",this.expOperatorsKeyPair);
@@ -339,6 +339,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
         attributes.push({ Name: operator, Value: ['Equal To'] });
 
       }
+    }
+    }
     }
     console.log('attri',attributes);
 
