@@ -240,7 +240,10 @@ div .mat-focus-indicator.mat-tab-label {
   /* color: black !important; */
   font-weight: 500 !important;
 }
-
+/* Alternate Row Colour */
+.mat-row:nth-child(even){
+  background-color: #F5F5F5;
+}
 .table-icon{
   cursor: pointer; 
   font-size: 18px;

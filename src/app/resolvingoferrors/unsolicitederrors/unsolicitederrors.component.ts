@@ -125,8 +125,8 @@ const FilterListItems: Select[] = [
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Source', viewValue: 'Source', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
-  { view: 'Date Range', viewValue: 'DateRange', default: true },
-  { view: 'Is Final', viewValue: 'Final', default: true },
+  { view: 'Date Range', viewValue: 'DateRange', default: false },
+  { view: 'Is Final', viewValue: 'Final', default: false },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
 
@@ -188,8 +188,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     //this.UpdateForm();
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
+    console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
+      console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
 
     });
@@ -397,16 +398,16 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         }
       });
       rangeConfirm.afterClosed().subscribe(result => {
-        //console.log("result " + result);
         if (result) {
           let request = Utils.preparePyUpdate('TelephoneNumber', 'UnsolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record count(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
+            this.isSaveDisable = true;
           });
         }
 
@@ -449,18 +450,19 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
 
   columns: ColumnDetails[] = [
+    { header: 'Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Error Code', headerValue: 'ErrorCode', showDefault: true, isImage: false },
-    // { header: 'Reference', headerValue: 'Reference', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
-    { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
-    { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
+    { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
+    { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
+    
   ];
 
   onFormSubmit(isEmitted?: boolean): void {
@@ -485,8 +487,10 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       return;
     }
     this.tabs.splice(0);
+    this.Resolution =  this.Remarks = this.Refer = ''
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
+      // console.log("Unsol-Req: ",JSON.stringify(request))  
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -573,18 +577,21 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         break;
       }
       case 2: {
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionReference;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            // name: 'Transaction Errors'
+            name: 'Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')' 
           })
-
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
+          let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')'; 
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionReference;
+        
         break;
       }
       default: {

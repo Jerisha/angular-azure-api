@@ -5,10 +5,11 @@ import * as  dat from '../assets/full-audit-table-details.json';
 import { LoginComponent } from './login/login.component';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ErrorComponent } from './_shared/error/error.component';
+import { ExporttoexcelComponent } from './_shared/exporttoexcel/exporttoexcel.component';
+import { AuthentiationGuard } from './authentiation.guard';
 
 const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
-  
   {
     path: '',
     component: LoginComponent,
@@ -16,54 +17,61 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-   
+
   },
   {
     path: 'error',
     component: ErrorComponent,
-   
+
   },
   {
     path: 'home',
     component: AppLayoutComponent,
-    children:[{path:'',component:HomeComponent}]
+    children: [{ path: '', component: HomeComponent }],
+    // canLoad:[AuthentiationGuard],
+    // canActivateChild :[AuthentiationGuard]
+  },
+  {
+    path: 'exporttoexcel',
+    component: AppLayoutComponent,
+    children: [{ path: '', component: ExporttoexcelComponent }]
   },
   {
     path: 'administration',
     component: AppLayoutComponent,
     loadChildren: () => import('./administration/administration.module').then(x => x.AdministrationModule),
-  
+
   },
   {
     path: 'resolvingoferrors',
     component: AppLayoutComponent,
     loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule),
-  
+
   },
   {
     path: 'transactions',
     component: AppLayoutComponent,
     loadChildren: () => import('./transactions/transactions-routing.module').then(x => x.TransactionsRoutingModule),
-  
+
   },
   {
     path: 'auditreports',
     component: AppLayoutComponent,
     loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule),
-  
+
   },
   {
     path: 'reports',
     component: AppLayoutComponent,
     loadChildren: () => import('./reports/reports.module').then(x => x.ReportsModule),
-  
+
 
   },
   {
     path: 'statisticalreports',
     component: AppLayoutComponent,
     loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule),
-  
+
   },
   {
     path: 'shared',
@@ -74,7 +82,7 @@ const routes: Routes = [
     path: 'report-references',
     component: AppLayoutComponent,
     loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
-  
+
 
 
   }
@@ -93,6 +101,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers:[AuthentiationGuard]
 })
 export class AppRoutingModule { }
