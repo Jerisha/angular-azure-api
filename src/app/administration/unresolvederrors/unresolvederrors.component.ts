@@ -252,6 +252,7 @@ check999() {
               this.onFormSubmit(true);
             }
           });
+          this.isSaveDisable = true;
         }
       });
     }
@@ -334,6 +335,7 @@ check999() {
       return;
     }
     this.tabs.splice(0);
+    this.Remarks = this.Refer = '';
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('UnResolvedErrors', 'UnResolvedErrors', this.prepareQueryParams(this.currentPage));
     console.log(JSON.stringify(request))
@@ -370,7 +372,7 @@ check999() {
       });
     }
     this.selectedTab = this.tabs.length;
-
+    this.isEnable();
   }
 
 
@@ -402,12 +404,13 @@ check999() {
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
-      this.f.EndTelephoneNumber?.value?.length >= 10 &&
-      this.f.Source.value === ""  && this.f.Command.value === "" &&
-      this.f.Reference.value === ""
-      && this.f.Status.value === "")
-      || (this.selectedGridRows.length > 0)) {
+    if (
+      // (this.f.StartTelephoneNumber?.value?.length >=10 && 
+      // this.f.EndTelephoneNumber?.value?.length >= 10 &&
+      // this.f.Source.value === ""  && this.f.Command.value === "" &&
+      // this.f.Reference.value === ""
+      // && this.f.Status.value === "")|| 
+      (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
     }
     else
