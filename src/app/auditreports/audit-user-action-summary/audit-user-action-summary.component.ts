@@ -33,9 +33,9 @@ const MY_FORMATS = {
 const FilterListItems: Select[] = [
   { view: 'Audit Month', viewValue: 'AuditMonth', default: true },
   { view: 'Audit Type', viewValue: 'AuditType', default: true },
-  { view: 'Resolved By', viewValue: 'ResolvedBy', default: false },
-  { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: false },
-  { view: 'Audit ACT ID', viewValue: 'AuditActID', default: false },
+  { view: 'Resolved By', viewValue: 'ResolvedBy', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: true },
+  { view: 'Audit ACT ID', viewValue: 'AuditActID', default:true },
 ];
 
 const auditUserSummaryData = [
@@ -66,6 +66,14 @@ const auditUserSummaryData = [
 {AuditActID : "28",AuditType : "FullAudit",ResolvedBy : "SYSTEM@VODAFONE.COM",ResolvedMonth : "2020/08",ResolutionType : "AutoLogicResolved",Count : "510842"},
 {AuditActID : "28",AuditType : "FullAudit",ResolvedBy : "SYSTEM@VODAFONE.COM",ResolvedMonth : "2020/08",ResolutionType : "AutoResolved",Count : "535786"},
 ];
+const Itemstwo: Select[] = [
+  { view: 'Audit Month', viewValue: 'AuditMonth', default: true },
+  { view: 'Audit Type', viewValue: 'AuditType', default: true },
+  { view: 'Resolved By', viewValue: 'ResolvedBy', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
+  { view: 'Audit Act ID', viewValue: 'AuditActID', default: true },
+  
+]
 
 const dropdownValues = [
   {
@@ -112,24 +120,28 @@ export class AuditUserActionSummaryComponent {
   currentPage: string = '1';
   queryResult$: any;
   myTable!: TableItem;
+  listItems!: Select[];
 
 
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
   columns: ColumnDetails[]= [
-    { headerValue: 'AuditActID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false },
+    { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false },
     { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false },
     { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false },
     { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false },
     { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false },
     { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true },
   ]
+ 
+    
 
   constructor(private formBuilder: FormBuilder,
     private service: AuditReportsService,
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.listItems = Itemstwo;
     this.createForm();
     let request = Utils.preparePyConfig(['Search'], ['AuditType', 'ResolvedBy', 'ResolutionTypeAudit', 'AuditActID']);
     console.log("req: " + JSON.stringify(request));
@@ -245,20 +257,34 @@ export class AuditUserActionSummaryComponent {
     //this.isEnable();
   }
   prepareQueryParams(pageNo: string): any {
+    debugger
     let attributes: any = [
       { Name: 'PageNumber', Value: [`${pageNo}`] }];
-    for (const field in this.thisForm?.controls) {
-      const control = this.thisForm.get(field);  
-      if (control?.value) {
-        if (field == "AuditMonth") {
-          attributes.push({ Name: field, Value: [formatDate(control?.value, 'MMM-yyyy', 'en-US')] });
+      for (const field in this.f) {
+        const StatisticMonth = this.datevalue;
+        const control = this.thisForm.get(field);
+        if (field != 'AuditMonth' && field != 'ResolutionTypeAudit') {
+          if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+          else
+          attributes.push({ Name: field });
+          }
+       
+        if (field == 'AuditMonth') {
+        // const StatisticMonth = this.datevalue;
+        // console.log('StatisticMonth',this.datevalue);
+        if (StatisticMonth)
+        attributes.push({ Name: 'AuditMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
+        
+        
+        
+        else
+        attributes.push({ Name: 'AuditMonth' });
         }
-        else{
-        attributes.push({ Name: field, Value: [control?.value] }); }
         if (field == 'ResolutionTypeAudit')
         {
-        attributes.push({ Name: 'ResolveType', Value: [control?.value]});
-        let operator: string = 'ResolveType' + "Operator";
+        attributes.push({ Name: 'ResolutionType', Value: [control?.value]});
+        let operator: string = 'ResolutionType' + "Operator";
         if (this.expOperatorsKeyPair.length != 0) {
           let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
           // console.log(expvals,"operatorVal1")
@@ -280,38 +306,68 @@ export class AuditUserActionSummaryComponent {
   
         }
      
-      }
+       
+        } 
         
-      if (control?.value )
-          attributes.push({ Name: field, Value: [control?.value] });
-      else
-          attributes.push({ Name: field });
-    let operator: string = field + "Operator";
+        else{
+          if(field != 'AuditMonth'){
+
+          
+
+        
+        
+        let operator: string = field + "Operator";
+      
         if (this.expOperatorsKeyPair.length != 0) {
-          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-          if (expvals.length != 0) {
-            attributes.push({ Name: operator, Value: [expvals[0][1]] });
-          }
-         
-          else {
-            if (field == 'AuditType' || field == 'AuditMonth') {
-              attributes.push({ Name: operator, Value: ['Equal To'] });
-            }
-            else {
-              attributes.push({ Name: operator, Value: ['Equal To'] });
-            }
-          }
+        let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        if (expvals.length != 0) {
+        if (field == 'AuditMonth') {
+        if (StatisticMonth) {
+        attributes.push({ Name: operator, Value: [expvals[0][1]] });
+        }
+        else {
+        attributes.push({ Name: operator, Value: ['Equal To'] });
+        }
+        }
+        else {
+        if (control?.value) {
+        attributes.push({ Name: operator, Value: [expvals[0][1]] });
+        }
+        else {
+        attributes.push({ Name: operator, Value: ['Equal To'] });
         }
         
-      
+        
+        
+        }
+        
+        
+        
+        }
+        else {
+        if (field == 'Source' || field == 'StatisticMonth') {
+        attributes.push({ Name: operator, Value: ['Equal To'] });
+        }
+        else {
+        attributes.push({ Name: operator, Value: ['Equal To'] });
+        }
+        }
+        }
+        else {
+        
+        attributes.push({ Name: operator, Value: ['Equal To'] });
+        
+        }
       }
     }
+        }
 
-    console.log('attri',JSON.stringify(attributes));
+    console.log('attri',attributes);
 
     return attributes;
 
   }
+
 
 
   removeTab(index: number) {
@@ -385,5 +441,5 @@ export class AuditUserActionSummaryComponent {
 
     this.cdr.detectChanges();
   }
-    
+
 }

@@ -1,11 +1,11 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-    <div class="filter-sticky filterposition">
+    <div class="filter-sticky ">
       <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
         (changes)="setControlAttribute($event)">
       </app-select-multiple>
     </div>
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()">
+    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
           <div [ngStyle]="{'display':thisForm.controls.AuditMonth.disabled ? 'none' : 'block'}"
@@ -50,26 +50,23 @@
           </div>
 
           <div [ngStyle]="{'display':thisForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
-            <app-select-exp [listItems]="expressions[3].default" #ResolveTypeOperator [resetvalue]="resetExp"
-              (click)="OnOperatorClicked(['ResolveTypeOperator',ResolveTypeOperator.selectedViewValue])">
+            <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeOperator
+                [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolutionTypeOperator',ResolutionTypeOperator.selectedViewValue])">
             </app-select-exp>
-            <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
-              <mat-label>Resolution Type</mat-label>
-              <input #ResolutionTypeAudit formControlName="ResolutionTypeAudit" type="text"
-                placeholder="Search ResolutionType" matInput [matAutocomplete]="autoResolutionTypeAudit"
-                OptionsValidator [options]="config.ResolutionTypeAudit " />
-              <span matSuffix mat-icon-button>
-                <mat-icon>arrow_drop_down</mat-icon>
-              </span>
-              <mat-autocomplete autoActiveFirstOption #autoResolutionTypeAudit="matAutocomplete">
-                <mat-option *ngFor="let val of config.ResolutionTypeAudit  | ddlFilter: ResolutionTypeAudit.value"
-                  [value]="val">
-                  {{val}}</mat-option>
-              </mat-autocomplete>
-              <mat-error *ngIf="f.ResolutionTypeAudit.errors?.validOptions">Value need to match available options
-              </mat-error>
-            </mat-form-field>
-          </div>
+        <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
+            <mat-label>Resolution Type</mat-label>
+            <input #ResolutionTypeAudit formControlName="ResolutionTypeAudit" type="text" placeholder="Search ResolutionType" matInput
+              [matAutocomplete]="autoResolutionTypeAudit" OptionsValidator [options]="config.ResolutionTypeAudit " />
+            <span matSuffix mat-icon-button>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+            <mat-autocomplete autoActiveFirstOption #autoResolutionTypeAudit="matAutocomplete">
+              <mat-option *ngFor="let val of config.ResolutionTypeAudit  | ddlFilter: ResolutionTypeAudit.value" [value]="val">
+                {{val}}</mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="f.ResolutionTypeAudit.errors?.validOptions">Value need to match available options</mat-error>
+          </mat-form-field>
+        </div>
           <div [ngStyle]="{'display':thisForm.controls.AuditActID.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #AuditActIDOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])">
