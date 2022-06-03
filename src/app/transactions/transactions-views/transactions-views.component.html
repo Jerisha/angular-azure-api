@@ -222,7 +222,7 @@
                                   <span matSuffix mat-icon-button>
                                     <mat-icon>arrow_drop_down</mat-icon>
                                   </span>
-                                  <mat-autocomplete   autoActiveFirstOption #autoSource="matAutocomplete">
+                                  <mat-autocomplete (optionSelected)="onSourceChange($event)"   autoActiveFirstOption #autoSource="matAutocomplete">
                                     <mat-option *ngFor="let val of config1.Source | ddlFilter: source.value" [value]="val">
                                       {{val}}
                                     </mat-option>

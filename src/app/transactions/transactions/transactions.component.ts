@@ -141,8 +141,9 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
   {
     // console.log("before index"+this.selectedIndex);
     this.addressCheckSuccess=initAddressCheck[0];
+
     this.addressvalues=initAddressCheck;
-  // console.log('this adress selected',initAddressCheck);
+    console.log('this adress selected from second view component',initAddressCheck);
 
    //this.tabs.splice(this.tabs.findIndex(x => x.tabType == 1), 1);
     if (!this.tabs?.find(x => x.name == 'Address Check')) 

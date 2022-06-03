@@ -282,13 +282,47 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
     this.evntflage = false;
   }
+  onSourceChange(event: any) {
+    debugger
+    let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
+      return obj.Cupid === event.option.value;
+    });
+    let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
+    .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+    //console.log('default source values',modelsource);
+  this.model.source = modelsource[0];
+
+}
   onCupIDChange(event: any) {
     debugger
     this.SourceFranchisearr={Source:[],Franchise:[]};
     this.model.source="";
     this.model.franchise="";
 
-
+    if(event.option.value === "13 - Cable & Wireless UK")
+    {
+      let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
+        return obj.Cupid === event.option.value;
+      });
+      this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+      //DefaultSource:
+      console.log('values from source', Source);
+     
+      let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+        //console.log('default source values',modelsource);
+      this.model.source = modelsource[0];
+      this.enableSource = true;
+      this.enableFrancise = true;
+      this.SourceFranchisearr={Source:this.SourceValues,Franchise:[]};
+      if(this.model.franchise!='')
+      {
+        this.views.view3 = true;
+      }
+    }
+    else
+    {
     if (event.option.value !== "") {
       let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
         return obj.Cupid === event.option.value;
@@ -296,7 +330,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       //DefaultSource:
-     // console.log('values from source', Source);
+      console.log('values from source', Source);
      
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
@@ -330,6 +364,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       }
      
     }
+  }
 
     //ctrlthree.clearValidators();
   }
@@ -615,7 +650,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     if (Object.keys(this.AuditPopulatevalue).length === 0) {
       this.spinner.show();
       let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
-      //console.log('request for query',request2);
+      console.log('request for query',JSON.stringify( request2));
       this.service.queryDetails(request2).subscribe((res: any) => {
         // console.log("res message to show: " + JSON.stringify(res));
         if (Object.keys(res).length) {
@@ -826,14 +861,13 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   public checkErrorinFrom = (controlName: string, errorName: string) => {
-    debugger
-
+  
     return this.viewForm.controls[controlName].hasError(errorName) &&
       (this.viewForm.controls[controlName].dirty || this.viewForm.controls[controlName].touched)
 
   }
   public checkError = (controlName: string, errorName: string) => {
-    debugger
+   
 
     return this.view3Form.controls[controlName].hasError(errorName) &&
       (this.view3Form.controls[controlName].dirty || this.view3Form.controls[controlName].touched)
@@ -949,7 +983,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       //DefaultSource:
-     // console.log('values from source', Source);
+     console.log('values from source', Source);
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('default source values',modelsource);

@@ -110,6 +110,7 @@ export class HttpWrapperService {
         try {
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
                 switch (requestType) {
+                  
                     case WebMethods.CONFIG:                        
                         transData = val.ResponseParams
                         transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
@@ -117,7 +118,8 @@ export class HttpWrapperService {
                     case WebMethods.QUERY:
                     case WebMethods.GET:
                     case WebMethods.PAFQUERY:
-                        transData = val.ResponseParams
+                       
+                        //transData = val.ResponseParams
                         transData.data = val.Data
                         break;
                     case WebMethods.UPDATE:

@@ -40,6 +40,7 @@ export interface IAddressCheck {
 export class AddressCheckComponent implements OnInit {
   @Input() Addressvalues!:any;
   @Output() AddressFill = new EventEmitter<any[]>();
+  data!:any
   summaryTiles: Tile[] = [    
     {text: 'Error Code' ,class:"vf-grid-header"},
     {text: 'Checked Address',class:"vf-grid-header"},
@@ -150,25 +151,70 @@ export class AddressCheckComponent implements OnInit {
    ) { }
 
   ngOnInit(): void {
-    let request2 = `"RequestType" : "PAFQUERY",
-    "UserParams":[
-      {"ReportIdentifier" : "PAFDbQuery"},
-      {"ScreenIdentifier" : "Transactions"}],
-    "AddressParams": [	{"Address1" : "98"},
-      {"Address2" : "Winterthur Way"},
-      {"Address3" : ""},
-      {"Address4" : ""},
-      {"Postcode" : "RG217UB"}
-      ],
-    
-    "Cache":["ApplicationKey","SessionID"]
-    `;
-    console.log('request for query',request2);
-    let request3 = Utils.preparePyPaf();
+console.log('address values from views page',this.Addressvalues);
+    this.spinner.show();
+    debugger
+    let attributes: any = [
+      { 'Address1':this.Addressvalues[1] },
+      { 'Address2':this.Addressvalues[2]},
+      { 'Address3':this.Addressvalues[3] },
+      { 'Address4': this.Addressvalues[4]},
+      {'Postcode': this.Addressvalues[5]},
+    ];
+    let request3 = Utils.preparePyPaf(attributes);
    
-    this.service.pafqueryDetails(request2).subscribe((res: any) => {
-       console.log("res message to show: " + JSON.stringify(res));
+
+    console.log('request for query',JSON.stringify(request3));
+    this.service.pafqueryDetails(request3).subscribe((res: any) => {
+      // console.log("res message to show: ",res.data.PAFAddress[0]);
       if (Object.keys(res).length) {
+        this.data=res;
+        console.log('final data',res.data.PAFAddress[0].Address1);
+        console.log('final data2',this.data.data.PAFAddress[0].Address1);
+        console.log('final address values',this.data.data.PAFAddress[0].Address1 );
+        this.pafTiles=[
+          {text: 'Input Format'        ,class:"vf-grid-header"},
+          {text: 'Input Address'       ,class:"vf-grid-header"},
+          {text: 'PAF Address'         ,class:"vf-grid-header"},
+          {text: 'Address1'            ,class:"vf-sub-title"},
+          {text: this.data.data.PAFAddress[0].Address1    ,class:"vf-grid-value"},
+          {text: this.data.data.PAFAddress[1].PAFAddress1  ,class:"vf-grid-value"}, 
+          {text: 'Address2'            ,class:"vf-sub-title"},
+          {text: this.data.data.PAFAddress[0].Address2     ,class:"vf-grid-value"},
+          {text: this.data.data.PAFAddress[1].PAFAddress2   ,class:"vf-grid-value"}, 
+          {text: 'Address3'            ,class:"vf-sub-title"},
+          {text: this.data.data.PAFAddress[0].Address3      ,class:"vf-grid-value"},
+          {text:this.data.data.PAFAddress[1].PAFAddress3   ,class:"vf-grid-value"}, 
+          {text: 'Address4'            ,class:"vf-sub-title"}, 
+         {text: this.data.data.PAFAddress[0].Address4      ,class:"vf-grid-value"}, 
+          {text: this.data.data.PAFAddress[1].PAFAddress4  ,class:"vf-grid-value"},
+          {text: 'Postcode'            ,class:"vf-sub-title"},
+          {text: this.data.data.PAFAddress[0].Postcode      ,class:"vf-grid-value"}, 
+          {text: this.data.data.PAFAddress[1].PAFPostcode  ,class:"vf-grid-value"}, 
+          {text: 'Validation'          ,class:"vf-sub-title"}, 
+          {text: this.data.data.PAFAddress[0].Validation   ,class:"vf-grid-value"},
+          {text:  this.data.data.PAFAddress[1].Validation,class:"vf-grid-value"},
+        ];
+       this.btTiles= [
+          {text: 'BT Format'                      ,class:"vf-grid-header"},
+          {text: 'BT Checked Address'             ,class:"vf-grid-header"},
+          {text: 'BT Checked PAF Address'         ,class:"vf-grid-header"},
+          {text: 'Premises'            ,class:"vf-sub-title"},
+          {text:   this.data.data.PAFAddress[2].Address1   ,class:"vf-grid-value"},
+          {text: this.data.data.PAFAddress[3].PAF_Premises  ,class:"vf-grid-value"}, 
+          {text: 'Throughfare'            ,class:"vf-sub-title"},
+          {text:  this.data.data.PAFAddress[2].Address2      ,class:"vf-grid-value"},
+          {text:  this.data.data.PAFAddress[3].PAF_Thoroughfare  ,class:"vf-grid-value"}, 
+          {text: 'Locality'            ,class:"vf-sub-title"},
+          {text:  this.data.data.PAFAddress[2].Address3 + ','+ this.data.data.PAFAddress[2].Address4  ,class:"vf-grid-value"},
+          {text: this.data.data.PAFAddress[3].PAF_Locality  ,class:"vf-grid-value"}, 
+          {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
+          {text:  this.data.data.PAFAddress[2].AddressOverflow      ,class:"vf-grid-value"}, 
+          {text:this.data.data.PAFAddress[3].PAF_AddressOverflow  ,class:"vf-grid-value"},
+          {text: 'Overflow Error'            ,class:"vf-sub-title"},
+          {text: this.data.data.PAFAddress[2].OverflowError     ,class:"vf-grid-value"}, 
+          {text: this.data.data.PAFAddress[3].PAF_OverflowError  ,class:"vf-grid-value"},
+        ];
         //this.BindData(res, 'Query');
        this.spinner.hide();
       }
@@ -179,50 +225,8 @@ export class AddressCheckComponent implements OnInit {
         
       }
     });
-    console.log('final address values',this.Addressvalues);
-    this.pafTiles=[
-      {text: 'Input Format'        ,class:"vf-grid-header"},
-      {text: 'Input Address'       ,class:"vf-grid-header"},
-      {text: 'PAF Address'         ,class:"vf-grid-header"},
-      {text: 'Address1'            ,class:"vf-sub-title"},
-      {text: this.Addressvalues[1]      ,class:"vf-grid-value"},
-      {text: 'PAF Address1 value'  ,class:"vf-grid-value"}, 
-      {text: 'Address2'            ,class:"vf-sub-title"},
-      {text: this.Addressvalues[2]     ,class:"vf-grid-value"},
-      {text: 'PAF Address2 value'  ,class:"vf-grid-value"}, 
-      {text: 'Address3'            ,class:"vf-sub-title"},
-      {text: this.Addressvalues[3]       ,class:"vf-grid-value"},
-      {text: 'PAF Address3 value'  ,class:"vf-grid-value"}, 
-      {text: 'Address4'            ,class:"vf-sub-title"}, 
-     {text: this.Addressvalues[4]       ,class:"vf-grid-value"}, 
-      {text: 'PAF Address4 value'  ,class:"vf-grid-value"},
-      {text: 'Postcode'            ,class:"vf-sub-title"},
-      {text: this.Addressvalues[5]      ,class:"vf-grid-value"}, 
-      {text: 'PAF Postcode value'  ,class:"vf-grid-value"}, 
-      {text: 'Validation'          ,class:"vf-sub-title"}, 
-      {text: 'Validation value'    ,class:"vf-grid-value"},
-      {text: 'PAF Validation value',class:"vf-grid-value"},
-    ];
-   this.btTiles= [
-      {text: 'BT Format'                      ,class:"vf-grid-header"},
-      {text: 'BT Checked Address'             ,class:"vf-grid-header"},
-      {text: 'BT Checked PAF Address'         ,class:"vf-grid-header"},
-      {text: 'Premises'            ,class:"vf-sub-title"},
-      {text:   this.Addressvalues[1]   ,class:"vf-grid-value"},
-      {text: 'PAF Premises value'  ,class:"vf-grid-value"}, 
-      {text: 'Throughfare'            ,class:"vf-sub-title"},
-      {text: this.Addressvalues[2]       ,class:"vf-grid-value"},
-      {text: 'PAF Throughfare value'  ,class:"vf-grid-value"}, 
-      {text: 'Locality'            ,class:"vf-sub-title"},
-      {text:  this.Addressvalues[3] + ','+this.Addressvalues[4]  ,class:"vf-grid-value"},
-      {text: 'PAF Locality value'  ,class:"vf-grid-value"}, 
-      {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
-      {text: 'BT Address Overflow value'      ,class:"vf-grid-value"}, 
-      {text: 'PAF Address Overflow value'  ,class:"vf-grid-value"},
-      {text: 'Overflow Error'            ,class:"vf-sub-title"},
-      {text: 'BT overflow Error value'      ,class:"vf-grid-value"}, 
-      {text: 'PAF overflow Error value'  ,class:"vf-grid-value"},
-    ];
+    debugger
+   
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();

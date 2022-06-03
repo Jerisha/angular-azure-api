@@ -319,7 +319,7 @@ export const PyRequests = {
     "UserParams":[
       {"ReportIdentifier" : "PAFDbQuery"},
       {"ScreenIdentifier" : "Transactions"}],
-    "AddressParams": [	{"Address1" : "98"},
+    "AddressParams": [	{"Address1" : ""},
       {"Address2" : ""},
       {"Address3" : ""},
       {"Address4" : ""},
