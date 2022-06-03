@@ -32,6 +32,7 @@ export class TelephoneAuditTrailComponent  {
   @Input() repIdentifier!: string;
   @Output() AddressCheckSelected = new EventEmitter<any[]>();
   @ViewChild('auditTabScroll') scrollDemo!: ElementRef;
+  isLoading: boolean = true;
 
   constructor(private _route: Router, private service: AuditTrailService) {
   }
@@ -67,6 +68,7 @@ export class TelephoneAuditTrailComponent  {
     console.log('from audit trail',this.telNo);
     console.log('report identifier',this.repIdentifier);
     if (changes.telNo.currentValue != changes.telNo.previousValue) {
+      this.isLoading = true;
       this.setStep(2);
       let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{
         Name: "TelephoneNumber",
@@ -78,6 +80,7 @@ export class TelephoneAuditTrailComponent  {
         let transform: any = [];
         transform = res.data;
         if(res.TelephoneNumber) transform.TelephoneNumber = res.TelephoneNumber;
+        this.isLoading = false;
         return transform;
       }
 

@@ -312,12 +312,11 @@ export const PyRequests = {
         }
         ,
         "Cache": ["ApplicationKey", "SessionID"]
-    }
-    ,
-    METADATA:{
-    "RequestType": "MetaData",
-    "UserParams": ["UserID", "RoleID"],       
-    "MetaDataRequest": {
+    },
+    METADATA: {
+        "RequestType": "MetaData",
+        "UserParams": ["UserID", "RoleID"],
+        "MetaDataRequest": {
             "MetaDataRequestType": {
                 "RequestIdentifiers": {
                     "Identifier": [
@@ -350,7 +349,7 @@ export const PyRequests = {
                                 ]
                             },
                             "ListofAttributes": {
-                                "Attribute": [                                   
+                                "Attribute": [
                                     {
                                         "Name": "ReportNames",
                                         "Value": [
@@ -364,6 +363,15 @@ export const PyRequests = {
                 }
             }
         }
+    },
+    AUTHENTICATE: {
+        "RequestType": "UIQUERY",
+        "UserParams": [
+            { "UserID": "" },
+            { "Password": "" },]
+        ,
+        "Cache": ["ApplicationKey", "SessionID"]
     }
 }
+
 

@@ -5,5 +5,6 @@ export enum WebMethods {
     CREATE ='CreateObject',
     QUERY='QueryObject',
     DELETE='DeleteObject',
-    METADATA='MetaDataObject'
+    METADATA='MetaDataObject',
+    UIQUERY = 'UiqueryObject'
 }
