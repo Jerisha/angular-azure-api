@@ -40,8 +40,8 @@ export class TelephoneAuditTrailComponent  {
   columnsToDisplay = [{ header: 'Action', headerValue: 'Action' },
   { header: 'Count Transaction', headerValue: 'CntTransaction' },
   { header: 'Status', headerValue: 'Status' },
-  { header: 'Created On', headerValue: 'Created' },
-  { header: 'Source', headerValue: 'Source' },
+  { header: 'Created On', headerValue: 'CreatedOn' },
+  { header: 'Source System', headerValue: 'Source' },
   { header: 'Customer Name', headerValue: 'CustomerName' }];
 
   dataColumns = this.columnsToDisplay?.map((e) => e.headerValue);
