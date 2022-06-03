@@ -308,14 +308,14 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
-    { header: 'Parent Cupid', headerValue: 'ParentCupId', showDefault: true, isImage: false },
-    { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
+    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    // { header: 'Parent Cupid', headerValue: 'ParentCupId', showDefault: true, isImage: false },
+    // { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 
 

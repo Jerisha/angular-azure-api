@@ -30,8 +30,9 @@
                       <div style ="max-height: 400px;overflow:auto">
                         <div *ngIf="isLoading" class ="table-spinner">
                           <mat-progress-spinner      
-                            mode="indeterminate">
+                            mode="indeterminate" color="accent">
                           </mat-progress-spinner>
+                          <div class="spinner-loading">Loading...</div>
                         </div>
                         <table mat-table   [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8 " >
                           <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol.cName}}">        
@@ -77,8 +78,9 @@
       </div>
   </div>
 </div>
-<div *ngIf="isLoading" class ="table-spinner">
+<div *ngIf="isLoading" class ="table-spinner" >
   <mat-progress-spinner                              
-    mode="indeterminate">
+    mode="indeterminate" color="accent">
   </mat-progress-spinner>
+  <div class="spinner-loading">Loading...</div>
 </div>
