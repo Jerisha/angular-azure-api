@@ -160,6 +160,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
     });
+    this.viewForm = this.formBuilder.group({
+      CupID: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      Franchise: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
+    });
     this.formsGroup = this.fb.group({
       firstView: this.fb.group({
         //StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
