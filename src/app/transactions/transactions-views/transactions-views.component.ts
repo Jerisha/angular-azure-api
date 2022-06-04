@@ -243,6 +243,19 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     //console.log('paf address',Addressval)
     return "";
   }
+  onmodelCupIDchange(value: string, ctrlName: string) {
+    debugger
+    if (value != "")
+    {
+     console.log('vlaue changed');
+    }
+    else{
+      this.SourceFranchisearr={Source:[],Franchise:[]};
+      this.model.source="";
+      this.model.franchise ="";
+     
+    }
+  }
   onChange(value: string, ctrlName: string) {
     if (!this.evntflage) {
       debugger
@@ -284,14 +297,25 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   onSourceChange(event: any) {
     debugger
-    let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
-      return obj.Cupid === event.option.value;
+    let frnachaise = this.cupIds.filter((obj: { Source: string; }) => {
+      return obj.Source === event.option.value;
     });
-    let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
-    .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-    //console.log('default source values',modelsource);
-  this.model.source = modelsource[0];
+    this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
+      .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
 
+      //this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
+      console.log('source array',this.SourceFranchisearr);
+      console.log('franchise array',this.franchiseValues);
+  
+
+    let modelfranchise = frnachaise.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
+      .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+      console.log('default franchise',modelfranchise);
+    this.model.franchise = modelfranchise[0];
+    this.SourceFranchisearr={Franchise:this.franchiseValues};
+   // console.log('default franchise',this.model.franchise);
+    this.enableSource = true;
+    this.enableFrancise = true;
 }
   onCupIDChange(event: any) {
     debugger
@@ -375,10 +399,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     if (event.option.value === "Import" || event.option.value === "Export") {
       ctrlthree.setValidators((Validators.required));
       ctrlthree.updateValueAndValidity();
+      this.isExportImportSelected = true;
     }
     else {
       ctrlthree.clearValidators();
       ctrlthree.updateValueAndValidity();
+      this.isExportImportSelected = false;
     }
 
     //ctrlthree.clearValidators();

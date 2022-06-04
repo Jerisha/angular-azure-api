@@ -147,8 +147,9 @@
                         <mat-form-field [ngClass]="{'hidden':g.CupID.disabled}" style="margin-left:2px;width:260px;">
                           <mat-label>CupID</mat-label>
                           <input #cupid formControlName="CupID" type="text" [(ngModel)]="model.CupId" placeholder="CupID" matInput
-                            [matAutocomplete]="autoCupID" OptionsValidator [options]="config.CupID" />
-                          <span matSuffix mat-icon-button>
+                            [matAutocomplete]="autoCupID" OptionsValidator (ngModelChange)="onmodelCupIDchange($event,'CupID')" [options]="config.CupID" />
+                          
+                            <span matSuffix mat-icon-button>
                             <mat-icon>arrow_drop_down</mat-icon>
                           </span>
                           <mat-autocomplete (optionSelected)="onCupIDChange($event)"  autoActiveFirstOption #autoCupID="matAutocomplete">
@@ -182,11 +183,12 @@
                           <mat-label>Franchise</mat-label>
                           <input #franchise formControlName="Franchise" [(ngModel)]="model.franchise" type="text" placeholder="Franchise" matInput
                             [matAutocomplete]="autoFranchise" OptionsValidator [options]="config1.Franchise" />
-                          <span matSuffix mat-icon-button>
+                          
+                            <span matSuffix mat-icon-button>
                             <mat-icon>arrow_drop_down</mat-icon>
                           </span>
                           <mat-autocomplete   autoActiveFirstOption #autoFranchise="matAutocomplete">
-                            <mat-option *ngFor="let val of config1.Franchise | ddlFilter: franchise.value" [value]="val">
+                            <mat-option *ngFor="let val of config1.Franchise | dropDownListFranchise: franchise.value" [value]="val">
                               {{val}}
                             </mat-option>
                           </mat-autocomplete>
