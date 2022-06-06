@@ -465,7 +465,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": 0 }];
     //this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage.toString()),reqParams);
+    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {

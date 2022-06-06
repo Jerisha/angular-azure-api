@@ -311,7 +311,9 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
     // }
 
-    this.currentPage = isEmitted ? this.currentPage : 1;
+    //this.currentPage = isEmitted ? this.currentPage : 1;
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": 1 }];

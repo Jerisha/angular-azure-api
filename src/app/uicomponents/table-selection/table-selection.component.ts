@@ -6,15 +6,12 @@ import {
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CellAttributes, ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, PaginationAttributes, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Observable, of, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
-import { delay, takeUntil } from 'rxjs/operators';
-import { isNgTemplate } from '@angular/compiler';
-import { threadId } from 'worker_threads';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,7 +56,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   gridFilter: ColumnDetails[] = [];
   filteredDataColumns: ColumnDetails[] = [];
   fontHighlightedCells: CellAttributes[] = [];
-  // highlightedCells: string[] = [];
   backgroundHighlightedCells: CellAttributes[] = [];
   imageAttrCells: CellAttributes[] = [];
   isTotDisplayed: boolean = false;
@@ -77,13 +73,15 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   currentPage = 0;
   apiPageNumber: number = 0;
   pageSizeOptions: number[] = [500];
+  disablePageSize: boolean = true;
+  disablePaginator: boolean = false;
+  paginatorList!: HTMLCollectionOf<Element>;
+  pageProp: PaginationAttributes = { currentPage: 0, pageSize: 0 };
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService) {
 
   }
-
-  pageProp: any = [];
 
   pageChanged(event: PageEvent) {
     debugger;
@@ -91,43 +89,34 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.pageProp.currentPage = this.currentPage + 1;
     this.pageProp.pageSize = event.pageSize;
     this.pageIndex.emit(this.pageProp);
-     this.paginatorList = document.getElementsByClassName('mat-paginator-range-label');
-  
-    //     this.onPaginateChange(this.paginator, this.paginatorList);
-      
-    //this.pageIndex.emit(this.currentPage + 1);
   }
 
   copy() {
     // console.log('clipboard', this.selection.selected);
   }
 
-  //page:number = 1
-
   refresh(event: any) {
     event.stopPropagation();
     this.refreshtab.emit({ event });
   }
-  disablePageSize: boolean = true;
-  paginatorList!: HTMLCollectionOf<Element>;
 
   onPaginateChange(paginator: MatPaginator, list: HTMLCollectionOf<Element>) {
-   // setTimeout((idx) => {  
-        
-      let from = (this.pageSize * this.currentPage) + 1;
+    // setTimeout((idx) => {  
 
-      let to = (paginator.length < this.pageSize * (this.currentPage + 1))
-        ? paginator.length
-        : this.pageSize * (this.currentPage + 1);
+    let from = (this.pageSize * this.currentPage) + 1;
 
-      let toFrom = (paginator.length == 0) ? 0 : `${from} - ${to}`;
-      let pageNumber = (paginator.length == 0) ? `0 of 0` : `${this.currentPage + 1} of ${paginator.getNumberOfPages()}`;
-      let rows = `Total Records ${toFrom} of ${paginator.length} (Page ${pageNumber})`;
+    let to = (paginator.length < this.pageSize * (this.currentPage + 1))
+      ? paginator.length
+      : this.pageSize * (this.currentPage + 1);
 
-      if (list.length >= 1)
-        list[0].innerHTML = rows;
+    let toFrom = (paginator.length == 0) ? 0 : `${from} - ${to}`;
+    let pageNumber = (paginator.length == 0) ? `0 of 0` : `${this.currentPage + 1} of ${paginator.getNumberOfPages()}`;
+    let rows = `Total Records ${toFrom} of ${paginator.length} (Page ${pageNumber})`;
 
-   // }, 0, this.currentPage);
+    if (list.length >= 1)
+      list[0].innerHTML = rows;
+
+    // }, 0, this.currentPage);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -144,28 +133,22 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.totalRows = (res.totalrecordcount) as number;
         this.apiPageNumber = (res.pagenumber) as number;
         this.currentPage = this.apiPageNumber - 1;
-        //this.paginator.pageIndex = this.currentPage;
         this.pageSize = (res.pagecount) as number;
         this.paginator.length = (res.totalrecordcount) as number;
         this.dataSource.sort = this.sort;
         this.spinner.hide();
         this.disablePageSize = false;
-        this.isDataloaded = true; 
-        // this.paginatorList = document.getElementsByClassName('mat-paginator-range-label'); 
-        // this.onPaginateChange(this.paginator, this.paginatorList);             
+        this.isDataloaded = true;
       },
       (error) => { this.spinner.hide(); },
       () => {
         if (this.currentPage > 0) {
           this.toggleAllSelection();
-        }       
+        }
         this.spinner.hide();
-       
       }
     );
   }
-
-  disablePaginator: boolean = false;
 
   loadDataRelatedAttributes(data: any) {
     this.ColumnDetails = [];
@@ -202,59 +185,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.showTotalRow = this.totalRowCols?.length > 0;
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
-
-    // if (this.tableitem?.removeNoDataColumns) {
-    //   if (data && data.length > 0)
-    //     this.verifyEmptyColumns(data);
-    //   else
-    //     this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
-    // }
-    // else {
-    //   this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
-    // }
-
-    // //Select checkbox
-    // if (this.tableitem?.selectCheckbox) {
-    //   const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
-    //   this.ColumnDetails.unshift(selItem);
-    // }
-
-    // this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
-    // this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
   }
-
-  // initializeTableAttributes(data:any) {
-  //   this.selection.clear();
-  //   this.allSelected = true;
-  //   this.ColumnDetails = [];   
-  //   this.imageAttrCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isImage) : [];
-  //   this.fontHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isFontHighlighted) : [];
-  //   this.backgroundHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
-  //   this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
-  //   this.showTotalRow = this.totalRowCols?.length > 0;
-  //   this.imgList = this.tableitem?.imgConfig;
-  //   this.isEmailRequired = this.tableitem?.showEmail;
-  //   this.columnHeaderFilter = this.tableitem?.filter;
-  //   if (this.tableitem?.removeNoDataColumns) {
-  //     if (data && data.length > 0)
-  //       this.verifyEmptyColumns(data);
-  //     else
-  //       this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
-  //   }
-  //   else {
-  //     this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
-  //   }
-
-  //   //Select checkbox
-  //   if (this.tableitem?.selectCheckbox) {
-  //     const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
-  //     this.ColumnDetails.unshift(selItem);
-  //   }
-
-  //   this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
-  //   this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-  // }
-
 
   removeNoDataColumns(data: any) {
     this.ColumnDetails = [];
@@ -279,12 +210,11 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
   }
 
-
   ngOnInit(): void {
   }
 
   ngAfterViewInit() {
-    this.changeDetectorRef.detectChanges();     
+    this.changeDetectorRef.detectChanges();
   }
 
   ngAfterViewChecked() {
@@ -293,7 +223,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       this.toggleAllSelection();
       this.isDataloaded = false;
     }
-   
+
   }
 
   getTotal(cellname: string) {
@@ -351,7 +281,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       this.dataSource.paginator.firstPage();
     }
   }
-
 
   toggleAllSelection() {
     if (this.select) {
@@ -537,4 +466,3 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     return data;
   }
 }
-
