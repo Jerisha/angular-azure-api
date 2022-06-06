@@ -23,6 +23,7 @@ import { TransactionDataService } from '../services/transaction-data.service';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
+import { isBuffer } from 'util';
 
 @Component({
   selector: 'app-transactions-views',
@@ -64,7 +65,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   isExportImportSelected: Boolean = false;
   telephoneSet = "";
   audittelephonenumbers: any;
-  model: any = { telno: "", rangeEnd: "", CupId: "", Franchise: "", source: "", franchise: "" };
+  model: any = { telno: "", rangeEnd: "", CupId: "", Franchise: "", source: "", franchise: "",IECUPID:"" };
   // transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
   // addressDetails:ICustomerAddress ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
   // transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};    
@@ -98,6 +99,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   configDetails!: any;
   queryResultobj!: any;
   inputtelRange!: string;
+  Commentsstring!:string;
   currentPage: string = '1';
   updateDetails!: any;
   addressDetails = new AddressDetails();
@@ -160,11 +162,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
     });
-    this.viewForm = this.formBuilder.group({
-      CupID: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      Franchise: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
-    });
+       this.viewForm = this.formBuilder.group({
+          CupID: new FormControl({ value: '', disabled: false }, [Validators.required]),
+          Franchise: new FormControl({ value: '', disabled: false }, [Validators.required]),
+          Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
+        });
     this.formsGroup = this.fb.group({
       firstView: this.fb.group({
         //StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
@@ -234,7 +236,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
   }
   FillPaffAddress(Addressval: any[]): string {
-    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: "PAF Postcode" };
+    console.log('address values from main page',Addressval);
+    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
 
     //console.log('paf address',Addressval)
     return "";
@@ -321,6 +324,10 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
    // console.log('default franchise',this.model.franchise);
     this.enableSource = true;
     this.enableFrancise = true;
+    if(this.model.franchise!='')
+      {
+        this.views.view3 = true;
+      }
 }
   onCupIDChange(event: any) {
     debugger
@@ -401,15 +408,18 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   onSelectionChange(event: any) {
     debugger
     const ctrlthree = this.view3Form.get('ImportExportCupId') as FormControl;
+   
     if (event.option.value === "Import" || event.option.value === "Export") {
       ctrlthree.setValidators((Validators.required));
       ctrlthree.updateValueAndValidity();
       this.isExportImportSelected = true;
+      this.model.IECUPID="";
     }
     else {
       ctrlthree.clearValidators();
       ctrlthree.updateValueAndValidity();
       this.isExportImportSelected = false;
+      this.model.IECUPID="";
     }
 
     //ctrlthree.clearValidators();
@@ -496,7 +506,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   updateDefaultOfficeAddressDetails() {
-    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "NEW BERKSHIRE", address3: "", address4: "", postcode: "RG14 2FN" };
+    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "Newbury, Berkshire", address3: "", address4: "", postcode: "RG14 2FN" };
   }
   updateMatchedAddressDetails() {
     this.transactionItem.customerAddress = this.matchedAuditAddress;
@@ -560,7 +570,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           TypeOfLine: new FormControl({ value: '', disabled: false }, [Validators.required]),
           OrderReference: new FormControl({ value: '', disabled: false }, [Validators.required]),
           ImportExportCupId: new FormControl({ value: '', disabled: false }, []),
-          Comments: new FormControl({ value: '', disabled: false },),
+          Comments: new FormControl({ value: this.Commentsstring, disabled: false },),
           CustomerName: new FormControl({ value: '', disabled: false }, [Validators.required]),
           AddressLine1: new FormControl({ value: '', disabled: false }, [Validators.required]),
           AddressLine2: new FormControl({ value: '', disabled: false }, [Validators.required]),
@@ -845,6 +855,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     //Reference
     let telephonerangevalues: string = "";
+    this.Commentsstring="DDI Range: Pre-populated in DB while data loading.";
     for (let i = 0; i < this.CliRangeSet.length; i++) {
 
       if (this.CliRangeSet[i][1].toString() != "") {
@@ -857,6 +868,15 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       if (i + 1 < this.CliRangeSet.length) {
         telephonerangevalues += ",";
 
+      }
+      if(this.CliRangeSet.length==1)
+      {
+        if (this.CliRangeSet[i][1].toString() != "") {
+        this.Commentsstring='DDL Range:'+this.CliRangeSet[i][0].toString() +' to '+this.CliRangeSet[i][1].toString()
+        }
+        else{
+          this.Commentsstring='DDL Range:'+this.CliRangeSet[i][0].toString()+' to '+this.CliRangeSet[i][0].toString();
+        }
       }
     }
     let attributes: any = [

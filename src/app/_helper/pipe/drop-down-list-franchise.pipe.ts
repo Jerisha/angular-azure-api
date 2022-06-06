@@ -7,7 +7,7 @@ export class DropDownListFranchisePipe implements PipeTransform {
 
   transform(items: any, strSearch: string): any {
     if (items !== null && (strSearch !== '' || strSearch != undefined)) {   
-        console.log('ddl triggered logged');         
+      //  console.log('ddl triggered logged');         
         var filterValue = strSearch?.toLowerCase();
      
         let filteredList = items.filter((x: any) =>x.toLowerCase().split('-').slice(-1)[0].indexOf(filterValue) === 0)

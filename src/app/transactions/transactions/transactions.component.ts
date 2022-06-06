@@ -134,7 +134,7 @@ export class TransactionsComponent implements OnInit {
   OnAddressFill(Addressval:any[])
   {
 let s:string=this.childEvent.FillPaffAddress(Addressval);
-   // console.log("Address values from child",Addressval);
+    console.log("Address values from child",Addressval);
   }
 
   OnAddressCheckSelected(initAddressCheck:any[])

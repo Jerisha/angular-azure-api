@@ -40,14 +40,15 @@ export interface IAddressCheck {
 export class AddressCheckComponent implements OnInit {
   @Input() Addressvalues!:any;
   @Output() AddressFill = new EventEmitter<any[]>();
-  data!:any
+  data!:any;
+  Returnaddress!:any[];
   summaryTiles: Tile[] = [    
     {text: 'Error Code' ,class:"vf-grid-header"},
     {text: 'Checked Address',class:"vf-grid-header"},
     {text: 'PAF Address',class:"vf-grid-header"},
     {text: 'Error Code value',class:"vf-grid-value"}, 
-    {text: 'Checked Address value',class:"vf-grid-value"},
-    {text: 'PAF Address value',class:"vf-grid-value"},
+    {text: '',class:"vf-grid-value"},
+    {text: '',class:"vf-grid-value"},
   ];
   summaryTiles1: Tile[] = [    
     {text: 'Error Code' ,class:"vf-grid-header"},
@@ -177,6 +178,7 @@ export class AddressCheckComponent implements OnInit {
           {text: this.data.data.PAFAddress[0].Validation   ,class:"vf-grid-value"},
           {text:  this.data.data.PAFAddress[1].Validation,class:"vf-grid-value"},
         ];
+        this.Returnaddress=["true",this.data.data.PAFAddress[1].PAFAddress1,this.data.data.PAFAddress[0].Address2 ,this.data.data.PAFAddress[0].Address3,this.data.data.PAFAddress[0].Address4,this.data.data.PAFAddress[1].PAFPostcode]
        this.btTiles= [
           {text: 'BT Format'                      ,class:"vf-grid-header"},
           {text: 'BT Checked Address'             ,class:"vf-grid-header"},
@@ -188,7 +190,7 @@ export class AddressCheckComponent implements OnInit {
           {text:  this.data.data.PAFAddress[2].Address2      ,class:"vf-grid-value"},
           {text:  this.data.data.PAFAddress[3].PAF_Thoroughfare  ,class:"vf-grid-value"}, 
           {text: 'Locality'            ,class:"vf-sub-title"},
-          {text:  this.data.data.PAFAddress[2].Address3 + ','+ this.data.data.PAFAddress[2].Address4  ,class:"vf-grid-value"},
+          {text:  this.data.data.PAFAddress[2].Locality ,class:"vf-grid-value"},
           {text: this.data.data.PAFAddress[3].PAF_Locality  ,class:"vf-grid-value"}, 
           {text: 'Address Overflow'            ,class:"vf-sub-title"}, 
           {text:  this.data.data.PAFAddress[2].AddressOverflow      ,class:"vf-grid-value"}, 
@@ -221,8 +223,9 @@ export class AddressCheckComponent implements OnInit {
   }
   ReturnAddress()
   {
-    
-    this.AddressFill.emit(["true","PAF Address1","PAF Address2","PAF Address3","PAF Address4"]); // need to check
+    this.AddressFill.emit(this.Returnaddress); // need to check
+   console.log('address values return from the paf',this.Returnaddress);
+    //this.AddressFill.emit(["true","PAF Address1","PAF Address2","PAF Address3","PAF Address4"]); // need to check
 
     //window.alert("Return Address");
   }  
