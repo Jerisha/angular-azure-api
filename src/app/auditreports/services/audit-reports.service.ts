@@ -23,6 +23,10 @@ export class AuditReportsService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
 
+  getDetails(request: any): Observable<any> {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.GET, request);
+  }
+
   // getDetails(): Observable<any> {
   //   let headers = new HttpHeaders();
   //   headers = headers.set('Content-Type', 'application/json');

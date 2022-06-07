@@ -6,11 +6,11 @@ import { TelephoneAuditTrailComponent } from './telephone-audit-trail/telephone-
 
 const routes: Routes = [
   {path:'audittrail',component:TelephoneAuditTrailComponent},
-  {
-    path: 'error',
-    component: ErrorComponent,
-    outlet: 'errorPage'
-  },
+  // {
+  //   path: 'error',
+  //   component: ErrorComponent,
+  //   outlet: 'errorPage'
+  // },
   {
     path: 'exporttoexcel',
     component: ExporttoexcelComponent,

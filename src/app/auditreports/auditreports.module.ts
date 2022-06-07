@@ -15,6 +15,7 @@ import { HelperModule } from '../_helper/helper.module';
 import { ExternalAuditDetailsComponent } from './external-audit-details/external-audit-details.component';
 import { TelNoPipe } from '../_helper/pipe/telno.pipe';
 import { SeparateinternalauditdetailsComponent } from './separateinternalauditdetails/separateinternalauditdetails.component';
+import { FullAuditComponent } from './separateinternalauditdetails/full-audit/full-audit.component';
 import { UserCommentsDialogComponent } from '../_shared/user-comments/user-comments-dialog.component';
 
 
@@ -32,7 +33,8 @@ import { UserCommentsDialogComponent } from '../_shared/user-comments/user-comme
     ExternalAuditDetailsComponent,
     FullAuditHistoryComponent,
     AuditUserActionSummaryComponent,
-    SeparateinternalauditdetailsComponent
+    SeparateinternalauditdetailsComponent,
+    FullAuditComponent,
   ],
   imports: [
     CommonModule,
