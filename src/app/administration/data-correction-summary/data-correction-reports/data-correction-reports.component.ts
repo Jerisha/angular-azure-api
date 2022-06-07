@@ -2,100 +2,108 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { of, Subject } from 'rxjs';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Observable, of, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 // import { UserCommentsDialogComponent } from 'src/app/auditreports/fullauditdetails/user-comments-dialog.component';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { Utils } from 'src/app/_http/common/utils';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
+import { AdministrationService } from '../../services/administration.service';
+
+  const AutoCorrectionSummary: string = 'AutoCorrectionSummary';
+  const ManualCorrectionSummary: string = 'ManualCorrectionSummary';
 
 const ELEMENT_DATA: any[] = [
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 0, FailedCount: 1, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 1, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 0, FailedCount: 334, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 0, FailedCount: 22, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
 
 
   },
   {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
 
 
   }, {
     OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    Count: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
+    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
     CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
 
 
@@ -151,8 +159,9 @@ const Items: Select[] = [
 export class DataCorrectionReportsComponent implements OnInit {
 
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
+  @ViewChild('switchbtn') switchBtn!: MatSlideToggle;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  externalAuditForm!: FormGroup;
+  dataCorrectionForm!: FormGroup;
   myTable!: TableItem;
   viewTelno!: TableItem;
   selectedTab!: number;
@@ -160,17 +169,18 @@ export class DataCorrectionReportsComponent implements OnInit {
   listItems!: Select[];
   tabs: Tab[] = [];
   auditTelNo?: any;
-  repIdentifier = "ExternalAuditDetails";
+  repIdentifier = "DataCorrectionSummary";
   comments: string = 'No Records Found';
-
-  selctedOption = ['29-20 Dec 2021'];
+  configDetails!: any;
+  selectedOption = '';
+  currentPage: string = '1';
+  queryResult$!: Observable<any>;
+  telNoList!: any;
+  tabName: string = 'Auto Correction Summary';
 
   colHeader: ColumnDetails[] = [
-    // { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
-    // { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
-    // { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
+    { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
+    { headerValue: 'ActId', header: 'ACT ID', showDefault: true, isImage: false },
     { headerValue: 'BatchId', header: 'Batch Id', showDefault: true, isImage: false },
     { headerValue: 'FullCLIStatus', header: 'Full CLI Status', showDefault: true, isImage: false },
     { headerValue: 'SwitchStatus', header: 'Switch Status', showDefault: true, isImage: false },
@@ -182,9 +192,10 @@ export class DataCorrectionReportsComponent implements OnInit {
     { headerValue: 'EndDate', header: 'End Date', showDefault: true, isImage: false },
     { headerValue: 'Scenario', header: 'Scenario', showDefault: true, isImage: false },
     { headerValue: 'SelectedVolume', header: 'Selected Volume', showDefault: true, isImage: false },
-    { headerValue: 'Count', header: 'Success Count', showDefault: true, isImage: false },
+    { headerValue: 'SuccessCount', header: 'Success Count', showDefault: true, isImage: false },
     { headerValue: 'FailedCount', header: 'Failed Count', showDefault: true, isImage: false },
-    { headerValue: 'UserName', header: 'UserName', showDefault: true, isImage: false },
+    { headerValue: 'UserName', header: 'User Name', showDefault: true, isImage: false },
+    // { headerValue: 'IsSuccess', header: 'Is Success', showDefault: true, isImage: false },
     // { headerValue: 'ViewTelNo', header: 'View TelNo', showDefault: true, isImage: true },
     // { headerValue: 'ViewFailedTelNo', header: 'View Failed TelNo', showDefault: true, isImage: true },
 
@@ -193,16 +204,19 @@ export class DataCorrectionReportsComponent implements OnInit {
   colHeader1: ColumnDetails[] = [    
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
     { headerValue: 'View', header: 'View', showDefault: true, isImage: true },  
-
-
   ];
 
+  // rowAttrInfo: CellAttributes[] = [
+  //   { flag: 'IsSuccess', cells: ['View','ActId','BatchId','FullCLIStatus','SwitchStatus','Source','OSN2Source','Status','ResolveType','StartDate','EndDate','Scenario','SelectedVolume','SuccessCount','FailedCount','UserName'], value: 1, isFontHighlighted: true}
+  //   ];
+
   constructor(private dialog: MatDialog,
-    private formBuilder: FormBuilder, private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef) {
+    private formBuilder: FormBuilder, private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService) {
   }
 
   resetForm(): void {
-    // this.thisForm.reset();
+    // this.selectedOption = '';
+    this.dataCorrectionForm.reset();
     this.tabs.splice(0);
   }
 
@@ -215,7 +229,7 @@ export class DataCorrectionReportsComponent implements OnInit {
   }
 
   get form() {
-    return this.externalAuditForm.controls;
+    return this.dataCorrectionForm.controls;
 
   }
 
@@ -229,7 +243,7 @@ export class DataCorrectionReportsComponent implements OnInit {
   }
 
   onChange(value: string, ctrlName: string) {
-    const ctrl = this.externalAuditForm.get(ctrlName) as FormControl;
+    const ctrl = this.dataCorrectionForm.get(ctrlName) as FormControl;
     if (isNaN(<any>value.charAt(0))) {
       //const val = coerceNumberProperty(value.slice(1, value.length));
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
@@ -241,6 +255,12 @@ export class DataCorrectionReportsComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.listItems = Items;
+    
+    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID"]);
+    this.service.configDetails(request).subscribe((res: any) => {
+      this.configDetails = res.data;
+      this.selectedOption = res.data.FullAuditActID ? res.data.FullAuditActID[0] : [''];
+    });
   }
 
   ngAfterViewInit() {
@@ -252,32 +272,88 @@ export class DataCorrectionReportsComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    if (!this.externalAuditForm.valid) return;
-    this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 13,
-        totalpages: 10,
-        pagenumber: 1
-      }),
-      Columns: this.colHeader,
-      filter: true,      
-      removeNoDataColumns: false,   
-      selectCheckbox: true,   
-      highlightedCells: ['ACTID', 'BatchId', 'FullCLIStatus', 'SwitchStatus', 'Source', 'OSN2Source', 'Status', 'ResolveType', 'StartDate', 'EndDate', 'Scenario', 'SelectedVolume', 'Count', 'FailedCount', 'UserName', 'ViewTelNo', 'ViewFailedTelNo'],
-      imgConfig: [{ headerValue: 'ViewTelNo', icon: 'description', route: '', tabIndex: 1 },
-      { headerValue: 'ViewFailedTelNo', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Audit Trail Report', tabIndex: 3 }]
-    }
+    if (!this.dataCorrectionForm.valid) return;
+
+    this.tabs.splice(0);
+  
+    
+if(this.switchBtn)
+{
+   this.tabName = this.switchBtn.checked ? 'Manual Correction Summary' : 'Auto Correction Summary';
+   this.switchBtn.checked ? this.fetchQueryResult(ManualCorrectionSummary) : this.fetchQueryResult(AutoCorrectionSummary);
+}  else {
+    this.fetchQueryResult(AutoCorrectionSummary);
+}
 
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'Auto Correction Summary'
+        name: this.tabName
       });
-    }
+    
     this.selectedTab = this.tabs.length -1;
     //console.log('selected Tab: ' + this.selectedTab, 'Tabs Length: ' + this.tabs.length);
+}
+
+}
+
+  fetchQueryResult(ObjectCategory: string, isEmitted?: boolean) {
+
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.preparePyQuery(ObjectCategory, 'DataCorrectionSummary', this.prepareQueryParams(this.currentPage));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res.data.AutoCorrectionSummary ? res.data.AutoCorrectionSummary : res.data.ManualCorrectionSummary,
+          totalrecordcount: res.TotalCount,
+          totalpages: res.NumberOfPages,
+          pagenumber: res.PageNumber
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
+
+    this.myTable = {
+      // data: of({
+      //   datasource: ELEMENT_DATA,
+      //   totalrecordcount: 13,
+      //   totalpages: 10,
+      //   pagenumber: 1
+      // }),
+      data: this.queryResult$,
+      Columns: this.colHeader,
+      filter: true,      
+      removeNoDataColumns: false,   
+      selectCheckbox: true,   
+      highlightedCells: ['ACTID', 'BatchId', 'FullCLIStatus', 'SwitchStatus', 'Source', 'OSN2Source', 'Status', 'ResolveType', 'StartDate', 'EndDate', 'Scenario', 'SelectedVolume', 'SuccessCount', 'FailedCount', 'UserName', 'ViewTelNo', 'ViewFailedTelNo'],
+      imgConfig: [{ headerValue: 'View', icon: 'description', route: '', toolTipText: 'Audit Trail Report', tabIndex: 2 }],
+    }
+
+  }
+
+  prepareQueryParams(pageNo: string)
+  {
+    debugger
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
+
+    for (const field in this.f) {
+      const control = this.dataCorrectionForm.get(field);
+      if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+      }
+    // console.log(JSON.stringify(attributes));
+
+    return attributes;
+
+  }
+
+  get f() {
+    return this.dataCorrectionForm.controls;
   }
 
   createViewList(){
@@ -299,6 +375,12 @@ export class DataCorrectionReportsComponent implements OnInit {
 
   }
 
+  getNextSetRecords(pageIndex: any) {
+    debugger;
+    this.currentPage = pageIndex;
+    // this.fetchQueryResult(true);
+  }
+
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
@@ -306,77 +388,63 @@ export class DataCorrectionReportsComponent implements OnInit {
   newTab(tab: any) {
     debugger;
     if (this.tabs === []) return;
-    switch (tab.tabType) {
-      case 1: {
-        if (!this.tabs?.find(x => x.tabType == 1)) {
-          this.tabs.push({
-            tabType: 1,
-            name: 'View Tel List for (' + tab.row.BatchId + ')'
-          });
-          this.createViewList();
-          // this.selectedTab = 1;        
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
-        } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
-          let updtab = this.tabs.find(x => x.tabType == 1);
-          if (updtab) updtab.name = 'View Tel List for (' + tab.row.BatchId + ')'
-        }
-        break;
-      }
-      case 2: {
-        if (!this.tabs?.find(x => x.tabType == 2)) {
-          this.tabs.push({
-            tabType: 2,
-            name: 'View Failed Tel List for (' + tab.row.BatchId + ')'
-          });
-          this.createViewList();
-          // this.selectedTab = 1;        
-                    this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
-        } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          let updtab = this.tabs.find(x => x.tabType == 2);
-          if (updtab) updtab.name = 'View Failed Tel List for (' + tab.row.BatchId + ')'
-        }
-        break;
-      }
-      case 3: {
-        if (!this.tabs?.find(x => x.tabType == 3)) {
-          this.tabs.push({
-            tabType: 3,
-            // name: 'Audit Trail Report(' + tab.row.TelNo + ')'
-            name: 'Audit Trail Report'
-          });
-          //this.createViewList();
-          // this.selectedTab = 1;        
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3) + 1;
-        } else {
-          this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
-          // let updtab = this.tabs.find(x => x.tabType == 3);
-          // if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelNo + ')'
-        }
-        break;
-      }
-      default: {
-        //statements; 
-        break;
-      }
+
+    if (!this.tabs?.find(x => x.tabType == 2)) {
+      this.tabs.push({
+        tabType: 2,
+        // name: 'Audit Trail Report(' + tab.row.TelNo + ')'
+        name: 'Audit Trail Report'
+      });     
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+    } else {
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+      // let updtab = this.tabs.find(x => x.tabType == 3);
+      // if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelNo + ')'
     }
+
+    this.fetchTelNoList(tab);
+    
+  }
+
+  prepareTelNoListParams(tab: any) {
+    let attributes: any = [
+      { Name: 'BatchID', Value: [`${tab.row.BatchId ? tab.row.BatchId : '' }`] },
+      { Name: 'AuditActID', Value: [`${tab.row.ActId ? tab.row.ActId : '' }`] },
+      { Name: 'Scenario', Value: [`${tab.row.Scenario ? tab.row.Scenario : '' }`] },
+      { Name: 'Flag', Value: [`${ tab.row.SuccessCount > 0 ? '1' : '2' }`] }
+    ];
+    // console.log("Tel no list params " + JSON.stringify(attributes));
+    return attributes;
+  }
+
+  fetchTelNoList(tab: any) {
+    let request = Utils.preparePyQuery('TelephoneNumberList', 'DataCorrectionSummary', this.prepareTelNoListParams(tab));
+    this.spinner.show();
+    this.service.queryDetails(request).subscribe((res: any) => {
+          // this.telNoList =  [`${res.data ? res.data.TelephoneNumbers : ''}`]
+          this.telNoList = res.data ? res.data.TelephoneNumbers[0].TelephoneNumber : ''
+        this.spinner.hide();
+    });
+  }
+
+  OnTelephoneNoSelected(selectedTelNo: any){
+    this.auditTelNo = selectedTelNo;
   }
 
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
       if (item.selected) {
-        this.externalAuditForm.controls[item.value].enable();
+        this.dataCorrectionForm.controls[item.value].enable();
       }
       else {
-        this.externalAuditForm.controls[item.value].disable();
+        this.dataCorrectionForm.controls[item.value].disable();
       }
     });
   }
 
   public checkError = (controlName: string, errorName: string) => {
-    return this.externalAuditForm.controls[controlName].hasError(errorName) &&
-      (this.externalAuditForm.controls[controlName].dirty || this.externalAuditForm.controls[controlName].touched)
+    return this.dataCorrectionForm.controls[controlName].hasError(errorName) &&
+      (this.dataCorrectionForm.controls[controlName].dirty || this.dataCorrectionForm.controls[controlName].touched)
   }
 
   ngOnDestroy() {
@@ -385,7 +453,7 @@ export class DataCorrectionReportsComponent implements OnInit {
   }
 
   createForm() {
-    this.externalAuditForm = this.formBuilder.group({
+    this.dataCorrectionForm = this.formBuilder.group({
       TelNoStart: new FormControl({ value: '', disabled: true },
         [
           Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
@@ -396,7 +464,7 @@ export class DataCorrectionReportsComponent implements OnInit {
           Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
         ]
       ),
-      AuditActId: new FormControl({ value: '29-20 Dec 2021', disabled: true }, [Validators.required]),
+      AuditActId: new FormControl({ value: '', disabled: true }, [Validators.required]),
       CUPId: new FormControl({ value: '', disabled: true }),
       OSN2Source: new FormControl({ value: '', disabled: true }),
       CLIStatus: new FormControl({ value: '', disabled: true }),
@@ -426,9 +494,9 @@ export class DataCorrectionReportsComponent implements OnInit {
   }
 
   switchTab(value: boolean) {
-    // console.log("Toggle value ",value);
     if(value) {
       this.tabs.splice(0);
+      this.fetchQueryResult(ManualCorrectionSummary);
       if (!this.tabs.find(x => x.tabType == 1)) {
         this.tabs.push({
           tabType: 1,
@@ -438,6 +506,7 @@ export class DataCorrectionReportsComponent implements OnInit {
       this.selectedTab = this.tabs.length;
     } else {
       this.tabs.splice(0);
+      this.fetchQueryResult(AutoCorrectionSummary);
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
           tabType: 0,

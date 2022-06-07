@@ -96,7 +96,7 @@ font-size: smaller;  ">
         </div>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
-      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" *matRowDef="let row; columns: dataColumns;"></tr>
+      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" [ngClass]="rowHighlight(row)" *matRowDef="let row; columns: dataColumns;"></tr>
       <!-- <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" *matRowDef="let row; columns: dataColumns;"
       (change)="selectRow($event,row)" (click)="selection.toggle(row)"> </tr> -->
 

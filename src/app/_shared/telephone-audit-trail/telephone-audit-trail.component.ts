@@ -63,9 +63,6 @@ export class TelephoneAuditTrailComponent  {
   {header: 'User Comment', headerValue: 'UserComment'}];
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes);
-    console.log('from audit trail',this.telNo);
-    console.log('report identifier',this.repIdentifier);
     if (changes.telNo.currentValue != changes.telNo.previousValue) {
       this.setStep(2);
       let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{

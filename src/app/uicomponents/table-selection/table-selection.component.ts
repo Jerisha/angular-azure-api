@@ -476,6 +476,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     return applyStyles;
   }
 
+  rowHighlight(row: any) {
+    let rowHighlight = '';
+    if((parseInt(row.SuccessCount) > 0))  rowHighlight = 'rowFontHighlight1';
+    if((parseInt(row.SuccessCount) === 0))  rowHighlight = 'rowFontHighlight2';
+    return rowHighlight;
+  }
+
   ngOnDestroy() {
 
     this.onDestroy.next();
