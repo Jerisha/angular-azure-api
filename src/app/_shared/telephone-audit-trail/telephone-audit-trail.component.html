@@ -712,11 +712,13 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
 
-                <div class="page-header" [ngClass]="{'error' : !(AT.SeperateInternalAudit != null) }">
+                <!-- <div class="page-header" [ngClass]="{'error' : !(AT.SeperateInternalAudit != null) }">
                     <ng-container [ngTemplateOutlet]="noRecordsMessage"
                         [ngTemplateOutletContext]="{ $implicit : AT.SeperateInternalAudit != null ? 'Separate Internal Audit Trail' : 'No Records for Separate Internal Audit Trail'}">
                     </ng-container>
-                </div>
+                </div> -->
+
+                <div class="page-header" *ngIf="AT.SeperateInternalAudit != null">Separate Internal Audit Trail</div>
 
                 <ng-template #noRecordsMessage let-data>
                     {{data}}
@@ -771,7 +773,7 @@
                         </table>
                     </ng-container>
                 </div>
-                <mat-divider></mat-divider>
+                <mat-divider *ngIf="AT.SeperateInternalAudit != null"></mat-divider>
 
                 <div class="page-header" [ngClass]="{'error' : !(AT.FullAudit != null) }">
                     <ng-container [ngTemplateOutlet]="noRecordsMessage"
