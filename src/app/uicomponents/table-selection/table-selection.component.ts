@@ -490,7 +490,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   copyToClipboard() {
     let data = "";
-    debugger
     this.selection.selected.forEach((row: any, index) => {
       if (index === 0)
       {       

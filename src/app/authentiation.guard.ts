@@ -20,7 +20,10 @@ export class AuthentiationGuard implements CanActivate, CanActivateChild, CanDea
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+      if (this.authService.isUserLoggedIn())
+      return false;
+
+    return false;
   }
   canDeactivate(
     component: unknown,
@@ -34,7 +37,7 @@ export class AuthentiationGuard implements CanActivate, CanActivateChild, CanDea
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (this.authService.isUserLoggedIn())
-      return true;
+      return false;
 
     return false;
   }

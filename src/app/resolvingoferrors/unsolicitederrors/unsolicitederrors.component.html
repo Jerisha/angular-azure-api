@@ -39,8 +39,8 @@
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
-            <mat-label>Source</mat-label>
-            <input formControlName="Source" type="text" placeholder="Search Source" matInput
+            <mat-label>Source System</mat-label>
+            <input formControlName="Source" type="text" placeholder="Search Source System" matInput
               [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
@@ -53,9 +53,8 @@
             <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
+          <!-- <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
-            <!-- <mat-select formControlName="ErrorType"> -->
             <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
               [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorDescription " />
             <span matSuffix mat-icon-button>
@@ -67,6 +66,16 @@
               </mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.ErrorType.errors?.validOptions">Value need to match available options</mat-error>
+          </mat-form-field> -->
+
+          <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
+            <mat-label>Error Type</mat-label>
+            <mat-select formControlName="ErrorType">  
+              <mat-option>None</mat-option>          
+              <mat-option *ngFor="let val of config.ErrorDescription" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Final.disabled}">
@@ -111,7 +120,6 @@
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
-
           <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
             <mat-label>999 Reference</mat-label>
             <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>

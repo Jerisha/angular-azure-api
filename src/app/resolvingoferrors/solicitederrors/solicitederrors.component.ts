@@ -127,7 +127,7 @@ const ELEMENT_DATA: any = [
 const FilterListItems: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
@@ -306,14 +306,14 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Parent Cupid', headerValue: 'ParentCupId', showDefault: true, isImage: false },
     { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
@@ -326,6 +326,7 @@ export class SolicitederrorsComponent implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
+    
     debugger;
     let errMsg = '';
     if (!this.thisForm.valid) return;
@@ -341,6 +342,7 @@ export class SolicitederrorsComponent implements OnInit {
       return;
     }
     this.tabs.splice(0);
+    this.Resolution =  this.Remarks = this.Refer = ''
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -403,11 +405,13 @@ export class SolicitederrorsComponent implements OnInit {
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
+              
               //success message and same data reload
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record count(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
           });
+          this.isSaveDisable = true;
         }
       });
     }
@@ -511,7 +515,9 @@ export class SolicitederrorsComponent implements OnInit {
     if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
       this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
-      this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
+      this.f.ResolutionType.value === ""
+      && this.f.ErrorType.value === "" 
+      && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
@@ -594,17 +600,20 @@ export class SolicitederrorsComponent implements OnInit {
         break;
 
       case 2:
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            // name: 'Transaction Errors'
+            name: 'Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')' 
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
+          let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')';  
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionId;
         break;
       default:
         //statements; 
