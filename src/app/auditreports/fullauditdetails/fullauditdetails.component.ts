@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { UserCommentsDialogComponent } from '../../_shared/user-comments/user-comments-dialog.component';
 import { Custom } from 'src/app/_helper/Validators/Custom';
-import { DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -90,6 +90,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
 
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   queryResult$!: Observable<any>;
   monthlyRefreshQueryResult$!: Observable<any>;
@@ -424,6 +425,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
+
   onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);
     this.selectListItems = [];
@@ -457,13 +459,16 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     //   return;
     // }
 
+
     this.getPnlControlAttributes();
     this.setAttributesForManualCorrections();
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
-    { "IsRemoveCache": 0 }];
+    { "IsRemoveCache": this.isRemoveCache }];
     //this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {

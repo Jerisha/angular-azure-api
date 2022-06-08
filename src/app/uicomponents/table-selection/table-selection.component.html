@@ -112,12 +112,12 @@ font-size: smaller;  ">
     [pageSize]="pageSize" hidePageSize [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)">
   </mat-paginator> -->
 
-  <mat-paginator #paginator style="height: 5px;"  [pageSizeOptions]="[50,100,250,500]" [length]="totalRows" [pageIndex]="currentPage"
+  <mat-paginator *ngIf="!disablePaginator" #paginator style="height: 5px;"  [pageSizeOptions]="[50,100,250,500]" [length]="totalRows" [pageIndex]="currentPage"
     [pageSize]="pageSize"  [hidePageSize]="disablePageSize" (page)="pageChanged($event)">
   </mat-paginator>
 
   <!-- <div class="test-wrapper"> -->
-  <div style="margin-bottom:10px" *ngIf="isShown">
+  <div style="margin-bottom:10px; margin-top:5px" *ngIf="isShown">
     <button [disabled]="true" type="button" mat-raised-button color="primary">
       <mat-icon>import_export</mat-icon>Export
     </button>&nbsp;&nbsp;

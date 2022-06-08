@@ -91,32 +91,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.pageIndex.emit(this.pageProp);
   }
 
-  copy() {
-    // console.log('clipboard', this.selection.selected);
-  }
-
   refresh(event: any) {
     event.stopPropagation();
     this.refreshtab.emit({ event });
-  }
-
-  onPaginateChange(paginator: MatPaginator, list: HTMLCollectionOf<Element>) {
-    // setTimeout((idx) => {  
-
-    let from = (this.pageSize * this.currentPage) + 1;
-
-    let to = (paginator.length < this.pageSize * (this.currentPage + 1))
-      ? paginator.length
-      : this.pageSize * (this.currentPage + 1);
-
-    let toFrom = (paginator.length == 0) ? 0 : `${from} - ${to}`;
-    let pageNumber = (paginator.length == 0) ? `0 of 0` : `${this.currentPage + 1} of ${paginator.getNumberOfPages()}`;
-    let rows = `Total Records ${toFrom} of ${paginator.length} (Page ${pageNumber})`;
-
-    if (list.length >= 1)
-      list[0].innerHTML = rows;
-
-    // }, 0, this.currentPage);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -134,7 +111,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.apiPageNumber = (res.pagenumber) as number;
         this.currentPage = this.apiPageNumber - 1;
         this.pageSize = (res.pagecount) as number;
-        this.paginator.length = (res.totalrecordcount) as number;
+        // this.paginator.length = (res.totalrecordcount) as number;
         this.dataSource.sort = this.sort;
         this.spinner.hide();
         this.disablePageSize = false;
