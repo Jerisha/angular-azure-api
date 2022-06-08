@@ -175,6 +175,7 @@ export class SolicitederrorsComponent implements OnInit {
   Refer: string = '';
   Remarks: string = '';
   isSaveDisable: boolean = true;
+  isExportDisable: boolean = false;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
@@ -272,8 +273,10 @@ export class SolicitederrorsComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
@@ -628,5 +631,47 @@ export class SolicitederrorsComponent implements OnInit {
     trigger.openPanel();
     control?.nativeElement.focus();
   }
+
+  reequest2Excel(event:any){
+    console.log(event)    
+
+    const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px', disableClose: true, data: {
+        message: 'Do you want to Export this Report?'          
+      }
+    });
+    exportConfirm.afterClosed().subscribe(confirm => {
+      this.isExportDisable =true;
+      if (confirm) {
+        
+        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+        this.service.exportDetails(request).subscribe(x => {
+          if (x.StatusMessage === 'Success') {
+            this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          }
+          else {
+            this.alertService.notification("Export Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+          }
+          this.isExportDisable =false;
+        },       
+        (error: any) => {
+          // console.log(error,'Export API Function')  
+          this.isExportDisable =false;      
+    
+        },
+        ()=>{
+          // console.log('Update API Completed','Export API Function')
+          this.isExportDisable =false;
+        });
+        
+      }
+      else {
+        this.alertService.info("Export Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+        this.isExportDisable =false;
+      }
+    });
+  }
+    
+  
 
 }
