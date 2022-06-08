@@ -127,7 +127,7 @@ const ELEMENT_DATA: any = [
 const FilterListItems: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
@@ -175,6 +175,7 @@ export class SolicitederrorsComponent implements OnInit {
   Refer: string = '';
   Remarks: string = '';
   isSaveDisable: boolean = true;
+  isExportDisable: boolean = false;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
@@ -272,8 +273,10 @@ export class SolicitederrorsComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
@@ -306,7 +309,7 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
@@ -314,8 +317,8 @@ export class SolicitederrorsComponent implements OnInit {
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    // { header: 'Parent Cupid', headerValue: 'ParentCupId', showDefault: true, isImage: false },
-    // { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
+    { header: 'Parent Cupid', headerValue: 'ParentCupId', showDefault: true, isImage: false },
+    { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 
 
@@ -628,5 +631,47 @@ export class SolicitederrorsComponent implements OnInit {
     trigger.openPanel();
     control?.nativeElement.focus();
   }
+
+  reequest2Excel(event:any){
+    console.log(event)    
+
+    const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px', disableClose: true, data: {
+        message: 'Do you want to Export this Report?'          
+      }
+    });
+    exportConfirm.afterClosed().subscribe(confirm => {
+      this.isExportDisable =true;
+      if (confirm) {
+        
+        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+        this.service.exportDetails(request).subscribe(x => {
+          if (x.StatusMessage === 'Success') {
+            this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          }
+          else {
+            this.alertService.notification("Export Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+          }
+          this.isExportDisable =false;
+        },       
+        (error: any) => {
+          // console.log(error,'Export API Function')  
+          this.isExportDisable =false;      
+    
+        },
+        ()=>{
+          // console.log('Update API Completed','Export API Function')
+          this.isExportDisable =false;
+        });
+        
+      }
+      else {
+        this.alertService.info("Export Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+        this.isExportDisable =false;
+      }
+    });
+  }
+    
+  
 
 }

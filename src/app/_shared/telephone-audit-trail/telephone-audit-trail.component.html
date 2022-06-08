@@ -129,7 +129,7 @@
                             <div>
                                 <span class="label">Created On</span>
                                 <span class="text-display">
-                                    {{livedata.Created}}</span>
+                                    {{livedata.CreatedOn}}</span>
                             </div>
 
                             <div>
@@ -139,7 +139,7 @@
                             </div>
 
                             <div>
-                                <span class="label">Source</span>
+                                <span class="label">Source System</span>
                                 <span class="text-display">
                                     {{livedata.Source}}</span>
                             </div>
@@ -437,7 +437,7 @@
                                         </div>
 
                                         <div>
-                                            <span class="label">Source</span>
+                                            <span class="label">Source System</span>
                                             <span class="text-display">
                                                 {{element.DetailedReport[0].Source}}</span>
                                         </div>
@@ -457,7 +457,7 @@
                                         <div>
                                             <span class="label">Created On</span>
                                             <span class="text-display">
-                                                {{element.DetailedReport[0].Created}}</span>
+                                                {{element.DetailedReport[0].CreatedOn}}</span>
                                         </div>
                                         
                                         <div>
@@ -584,7 +584,7 @@
                                         </div>
 
                                         <div>
-                                            <span class="label">Source</span>
+                                            <span class="label">Source System</span>
                                             <span class="text-display">
                                                 {{element.NotificationData[0].Source}}</span>
                                         </div>
@@ -632,7 +632,7 @@
                                         <div>
                                             <span class="label">Created On</span>
                                             <span class="text-display">
-                                                {{element.NotificationData[0].Created}}</span>
+                                                {{element.NotificationData[0].CreatedOn}}</span>
                                         </div>
 
                                         <div>
@@ -712,11 +712,13 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
 
-                <div class="page-header" [ngClass]="{'error' : !(AT.SeperateInternalAudit != null) }">
+                <!-- <div class="page-header" [ngClass]="{'error' : !(AT.SeperateInternalAudit != null) }">
                     <ng-container [ngTemplateOutlet]="noRecordsMessage"
                         [ngTemplateOutletContext]="{ $implicit : AT.SeperateInternalAudit != null ? 'Separate Internal Audit Trail' : 'No Records for Separate Internal Audit Trail'}">
                     </ng-container>
-                </div>
+                </div> -->
+
+                <div class="page-header" *ngIf="AT.SeperateInternalAudit != null">Separate Internal Audit Trail</div>
 
                 <ng-template #noRecordsMessage let-data>
                     {{data}}
@@ -771,7 +773,7 @@
                         </table>
                     </ng-container>
                 </div>
-                <mat-divider></mat-divider>
+                <mat-divider *ngIf="AT.SeperateInternalAudit != null"></mat-divider>
 
                 <div class="page-header" [ngClass]="{'error' : !(AT.FullAudit != null) }">
                     <ng-container [ngTemplateOutlet]="noRecordsMessage"
