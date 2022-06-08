@@ -40,7 +40,7 @@
               </mat-error>
             </mat-form-field>
             
-            <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
+            <!-- <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
               <mat-label>Command</mat-label>
               <input #command formControlName="Command" type="text" placeholder="Search Command" matInput
                 [matAutocomplete]="autoCommand" OptionsValidator [options]="config.Command" />
@@ -53,11 +53,21 @@
                 </mat-option>
               </mat-autocomplete>
               <mat-error *ngIf="f.Command.errors?.validOptions">Value need to match available options</mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
+              <mat-label>Command</mat-label>
+              <mat-select formControlName="Command">  
+                <mat-option>None</mat-option>          
+                <mat-option *ngFor="let val of config.Command" [value]="val">
+                  {{val}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
   
-            <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
-              <mat-label>Source</mat-label>
-              <input #source formControlName="Source" type="text" placeholder="Search Source" matInput
+            <!-- <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+              <mat-label>Source System</mat-label>
+              <input #source formControlName="Source" type="text" placeholder="Search Source System" matInput
                 [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source " />
               <span matSuffix mat-icon-button>
                 <mat-icon>arrow_drop_down</mat-icon>
@@ -67,9 +77,19 @@
                   {{val}}</mat-option>
               </mat-autocomplete>
               <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+              <mat-label>Source System</mat-label>
+              <mat-select formControlName="Source">  
+                <mat-option>None</mat-option>          
+                <mat-option *ngFor="let val of config.Source" [value]="val">
+                  {{val}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             
-            <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+            <!-- <mat-form-field [ngClass]="{'hidden':f.Status.disable}">
                 <mat-label>Status</mat-label>
                 <input #status formControlName="Status" type="text" placeholder="Search Status" matInput
                   [matAutocomplete]="autoStatus" OptionsValidator [options]="config.Status "/>
@@ -81,6 +101,16 @@
                     {{val}}</mat-option>
                 </mat-autocomplete>
                 <mat-error *ngIf="f.Status.errors?.validOptions">Value need to match available options</mat-error>
+              </mat-form-field> -->
+              
+              <mat-form-field [ngClass]="{'hidden':f.Status.disabled}">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="Status">  
+                  <mat-option>None</mat-option>          
+                  <mat-option *ngFor="let val of config.Status" [value]="val">
+                    {{val}}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
 
               <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
