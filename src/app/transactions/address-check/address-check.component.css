@@ -82,7 +82,7 @@
     text-align: center;
   }
   :host ::ng-deep.mat-grid-tile .mat-figure {
-    flex-wrap: wrap !important; 
+    /* flex-wrap: wrap !important;  */
     justify-content:flex-start !important; 
     padding-left: 16px !important; 
     /* padding-top: 3px !important; */

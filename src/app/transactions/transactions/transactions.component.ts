@@ -96,7 +96,7 @@ export class TransactionsComponent implements OnInit {
   //this.telNo='02071117400';
     if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
     {
-      this.tabs.push({tabType: 2,name: 'Audit Trail Report'});   
+      this.tabs.push({tabType: 2,name: 'Audit Trail Report(' + this.telNo + ')'});   
       this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
     } else {
     this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
@@ -189,14 +189,23 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
     //console.log('selected Number is',inittelno[1]);
     this.auditTeleNoselected=inittelno[1];
     this.telNo=inittelno[1];
-    // this.tabs.splice(this.tabs.findIndex(x => x.tabType == 2), 1);
+  // this.tabs.splice(this.tabs.findIndex(x => x.tabType == 2), 1);
     // if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
     // {
     //   this.tabs.push({tabType: 2,name: 'Audit Trail Report'});   
     //   this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
     // } else {
     // this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
+    // this.tabs?.find(x => x.name= 'Audit Trail Report')
     // }
+    // if (!this.tabs?.find(x => x.tabType == 2)) 
+    // {
+    //   this.tabs.push({tabType: 2,name: 'Audit Trail Report(' + this.telNo + ')'});   
+    //   this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
+    // } else {
+    // this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
+   //this.tabs.find(x => x.tabType == 2).name="";
+   // }
     
     
   }

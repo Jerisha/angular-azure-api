@@ -62,10 +62,10 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   multiRangeTelephoneList: string = "Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890";
   franchiseValues: any;
   SourceValues: any;
-  isExportImportSelected: Boolean = false;
+  isExportImportSelected: Boolean = true;
   telephoneSet = "";
   audittelephonenumbers: any;
-  model: any = { telno: "", rangeEnd: "", CupId: "", Franchise: "", source: "", franchise: "",IECUPID:"" };
+  model: any = { telno: "", rangeEnd: "", CupId: "", Franchise: "", source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
   // transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
   // addressDetails:ICustomerAddress ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
   // transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};    
@@ -177,6 +177,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         SearchBtn: new FormControl({ value: '', disabled: false }, []),
       }),
     });
+    this.isExportImportSelected = false;
   }
 
   onTranTypeChange(event: any) {
@@ -305,9 +306,15 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   onSourceChange(event: any) {
     debugger
-    let frnachaise = this.cupIds.filter((obj: { Source: string; }) => {
-      return obj.Source === event.option.value;
+   // model.CupId
+   
+  if(this.model.CupId === "13 - Cable & Wireless UK")
+  {
+
+    let frnachaise = this.cupIds.filter((obj: { Source: string, Cupid: string; }) => {
+      return obj.Source === event.option.value&&obj.Cupid===this.model.CupId;
     });
+
     this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
       .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
 
@@ -328,9 +335,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       {
         this.views.view3 = true;
       }
+    }
 }
   onCupIDChange(event: any) {
     debugger
+    this.isExportImportSelected = false;
     this.SourceFranchisearr={Source:[],Franchise:[]};
     this.model.source="";
     this.model.franchise="";
@@ -506,7 +515,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   updateDefaultOfficeAddressDetails() {
-    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "Newbury, Berkshire", address3: "", address4: "", postcode: "RG14 2FN" };
+    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "", address3: "Newbury", address4: "Berkshire", postcode: "RG14 2FN" };
   }
   updateMatchedAddressDetails() {
     this.transactionItem.customerAddress = this.matchedAuditAddress;
@@ -584,7 +593,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
         });
         this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
-        console.log('config dertails test',this.configDetails);
+        console.log('config details test',this.configDetails);
         this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
         this.Master = this.queryResultobj.NumberOfTransactions[0].MasterCount;
         this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
@@ -872,10 +881,10 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       if(this.CliRangeSet.length==1)
       {
         if (this.CliRangeSet[i][1].toString() != "") {
-        this.Commentsstring='DDL Range:'+this.CliRangeSet[i][0].toString() +' to '+this.CliRangeSet[i][1].toString()
+        this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString() +' to '+this.CliRangeSet[i][1].toString()
         }
         else{
-          this.Commentsstring='DDL Range:'+this.CliRangeSet[i][0].toString()+' to '+this.CliRangeSet[i][0].toString();
+          this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString()+' to '+this.CliRangeSet[i][0].toString();
         }
       }
     }
@@ -970,7 +979,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   /* field Validation End */
 
   resetTel(sf: any) {
-    this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" };
+    this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" ,source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
     this.transactionItem.customerAddress = { customerName: "", address1: "", address2: "", address3: "", address4: "", postcode: "" };
 
     this.views.view3 = false;
