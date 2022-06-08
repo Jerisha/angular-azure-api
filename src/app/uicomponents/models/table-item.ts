@@ -40,3 +40,8 @@ export interface CellAttributes{
 
 }
 
+export interface PaginationAttributes{
+    currentPage:number;
+    pageSize:number;
+}
+
