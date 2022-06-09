@@ -99,6 +99,15 @@ table td, table th {
   background-color: #dee2e6;
 }
 
+.rowFontHighlight1 td {
+  color: green;
+  font-weight: 500;
+}
+
+.rowFontHighlight2 td {
+  color: red;
+  font-weight: 500;
+}
 
 /* .my-class{
   width: 100px!important;
