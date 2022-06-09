@@ -90,7 +90,7 @@ export class HttpWrapperService {
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_py_sit}${endPoint.toString()}`,
+                `${environment.api_py_dev}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -117,7 +117,9 @@ export class HttpWrapperService {
                         break;
                     case WebMethods.QUERY:
                     case WebMethods.GET:
-                        transData = val.ResponseParams
+                    case WebMethods.PAFQUERY:
+                       
+                        //transData = val.ResponseParams
                         transData.data = val.Data
                         break;
                     case WebMethods.UPDATE:
