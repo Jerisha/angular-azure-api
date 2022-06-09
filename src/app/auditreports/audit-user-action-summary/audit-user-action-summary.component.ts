@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import { of } from 'rxjs';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
@@ -14,8 +13,9 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { AuditReportsService } from '../services/audit-reports.service';
 import { Utils } from 'src/app/_http/common/utils';
 import { expDate, expDropdown, expNumeric, expString } from 'src/app/_helper/Constants/exp-const';
-import { map } from 'rxjs/internal/operators/map';
+
 import { formatDate } from '@angular/common';
+import { map } from 'rxjs/operators';
 const moment = _rollupMoment || _moment;
 
 const MY_FORMATS = {
@@ -37,35 +37,6 @@ const FilterListItems: Select[] = [
   { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: true },
   { view: 'Audit ACT ID', viewValue: 'AuditActID', default:true },
 ];
-
-const auditUserSummaryData = [
-  {AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "SYSTEM",ResolvedMonth : "2022/03",ResolutionType : "AuditTransactionOverride",Count : "145"},
-{AuditActID : "30",AuditType : "SeparateInternalAudit",ResolvedBy : "SYSTEM",ResolvedMonth : "2022/03",ResolutionType : "AuditTransactionOverride",Count : "146"},
-{AuditActID : "29",AuditType : "ExternalAudit",ResolvedBy : "DIBYARUP.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2022/02",ResolutionType : "AutoActive",Count : "7057"},
-{AuditActID : "29",AuditType : "ExternalAudit",ResolvedBy : "DIBYARUP.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2022/02",ResolutionType : "AutoFailed",Count : "2973"},
-{AuditActID : "29",AuditType : "ExternalAudit",ResolvedBy : "SOUTRIK.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2022/02",ResolutionType : "Resolved",Count : "1"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "DIBYARUP.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2022/02",ResolutionType : "AutoActive",Count : "7057"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "DIBYARUP.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2022/02",ResolutionType : "AutoFailed",Count : "2973"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "SOUTRIK.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2022/02",ResolutionType : "Resolved",Count : "1"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "SYSTEM",ResolvedMonth : "2022/02",ResolutionType : "AuditTransactionOverride",Count : "14"},
-{AuditActID : "30",AuditType : "SeparateInternalAudit",ResolvedBy : "SYSTEM",ResolvedMonth : "2022/02",ResolutionType : "AuditTransactionOverride",Count : "4367"},
-{AuditActID : "29",AuditType : "ExternalAudit",ResolvedBy : "DIBYARUP.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2021/12",ResolutionType : "AutoActive",Count : "10357"},
-{AuditActID : "29",AuditType : "ExternalAudit",ResolvedBy : "DIBYARUP.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2021/12",ResolutionType : "AutoFailed",Count : "1432"},
-{AuditActID : "29",AuditType : "ExternalAudit",ResolvedBy : "SYSTEM",ResolvedMonth : "2021/12",ResolutionType : "AuditTransactionOverride",Count : "2"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "DIBYARUP.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2021/12",ResolutionType : "AutoActive",Count : "10557"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "DIBYARUP.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2021/12",ResolutionType : "AutoFailed",Count : "1432"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "PRASANTH.KUMAR@VODAFONE.COM",ResolvedMonth : "2021/12",ResolutionType : "UnderGovernance",Count : "1"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "SYSTEM",ResolvedMonth : "2021/12",ResolutionType : "AuditTransactionOverride",Count : "3"},
-{AuditActID : "29",AuditType : "ExternalAudit",ResolvedBy : "DIBYARUP.MUKHERJEE@VODAFONE.COM",ResolvedMonth : "2021/11",ResolutionType : "Unresolved",Count : "1"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "PRASANTH.KUMAR@VODAFONE.COM",ResolvedMonth : "2021/11",ResolutionType : "UnderPorting",Count : "3"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "SYSTEM",ResolvedMonth : "2021/06",ResolutionType : "AuditTransactionOverride",Count : "13"},
-{AuditActID : "28",AuditType : "ExternalAudit",ResolvedBy : "SYSTEM",ResolvedMonth : "2020/11",ResolutionType : "AutoClosed",Count : "1145706"},
-{AuditActID : "28",AuditType : "FullAudit",ResolvedBy : "SYSTEM",ResolvedMonth : "2020/11",ResolutionType : "AutoClosed",Count : "3431468"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "SYSTEM@VODAFONE.COM",ResolvedMonth : "2020/11",ResolutionType : "AutoLogicResolved",Count : "491692"},
-{AuditActID : "29",AuditType : "FullAudit",ResolvedBy : "SYSTEM@VODAFONE.COM",ResolvedMonth : "2020/11",ResolutionType : "AutoResolved",Count : "525132"},
-{AuditActID : "28",AuditType : "FullAudit",ResolvedBy : "SYSTEM@VODAFONE.COM",ResolvedMonth : "2020/08",ResolutionType : "AutoLogicResolved",Count : "510842"},
-{AuditActID : "28",AuditType : "FullAudit",ResolvedBy : "SYSTEM@VODAFONE.COM",ResolvedMonth : "2020/08",ResolutionType : "AutoResolved",Count : "535786"},
-];
 const Itemstwo: Select[] = [
   { view: 'Audit Month', viewValue: 'AuditMonth', default: true },
   { view: 'Audit Type', viewValue: 'AuditType', default: true },
@@ -74,26 +45,11 @@ const Itemstwo: Select[] = [
   { view: 'Audit Act ID', viewValue: 'AuditActID', default: true },
   
 ]
-
-const dropdownValues = [
-  {
-    AuditMonth: ["2022/02",
-    "2021/12",
-    "2021/11",
-    "2021/06",
-    "2020/11",
-    "2020/08"]
-  }
-]
-
 @Component({
   selector: 'app-audit-user-action-summary',
   templateUrl: './audit-user-action-summary.component.html',
   styleUrls: ['./audit-user-action-summary.component.css'],
   providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -126,12 +82,12 @@ export class AuditUserActionSummaryComponent {
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
   columns: ColumnDetails[]= [
-    { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true },
+    { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true, isFooter: true },
   ]
  
     
@@ -144,24 +100,13 @@ export class AuditUserActionSummaryComponent {
     this.listItems = Itemstwo;
     this.createForm();
     let request = Utils.preparePyConfig(['Search'], ['AuditType', 'ResolvedBy', 'ResolutionTypeAudit', 'AuditActID']);
-    console.log("req: " + JSON.stringify(request));
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res));
       this.configDetails = res.data;
     });
 
   }
-  // onFormSubmit():void {
-
-  // }
-
  
-
   resetForm() {
-    // this.searched = false;
-    // this.thisForm.reset();
-    // this.tabs.splice(0);
-    // this.AuditMonth.setValue('');
     window.location.reload();
   }
   rowDetect(selectedRows: any) {
@@ -201,7 +146,6 @@ export class AuditUserActionSummaryComponent {
     const month = today.getMonth();
     const year = today.getFullYear();
     const date = today.getDate();
-    //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
       AuditMonth: new FormControl({ value: '', disabled: true }),
@@ -219,18 +163,15 @@ export class AuditUserActionSummaryComponent {
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('AuditUserActionSummaryOptions', 'AuditUserActionSummary', this.prepareQueryParams(this.currentPage));
-    console.log('req',JSON.stringify(request));
+    //console.log('req',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
-          // datasource: ELEMENT_DATA,
-          // totalrecordcount: 1,
-          // totalpages: 1,
-          // pagenumber: 1
+          pagenumber: res.PageNumber,
+          FooterDetails: {footerName: "Cumulative", footerValue: `${res.CumulativeCount}`}
         }
         return result;
       } else return {
@@ -245,7 +186,7 @@ export class AuditUserActionSummaryComponent {
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
-      // imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
+     isCustomFooter: true
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -254,7 +195,7 @@ export class AuditUserActionSummaryComponent {
         name: 'Summary'
       });
     }
-    //this.isEnable();
+ 
   }
   prepareQueryParams(pageNo: string): any {
     debugger
@@ -271,8 +212,7 @@ export class AuditUserActionSummaryComponent {
           }
        
         if (field == 'AuditMonth') {
-        // const StatisticMonth = this.datevalue;
-        // console.log('StatisticMonth',this.datevalue);
+      
         if (StatisticMonth)
         attributes.push({ Name: 'AuditMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
         
@@ -287,35 +227,21 @@ export class AuditUserActionSummaryComponent {
         let operator: string = 'ResolutionType' + "Operator";
         if (this.expOperatorsKeyPair.length != 0) {
           let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-          // console.log(expvals,"operatorVal1")
+         
           if (expvals.length != 0) {
-          //  console.log(control?.value,"True");
-              // if (control?.value) {
-                attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                console.log(expvals[0][1],"operatorVal");
-              // }
-              // else {
-              //   attributes.push({ Name: operator, Value: ['Equal To'] });
-              // }
+              attributes.push({ Name: operator, Value: [expvals[0][1]] });
+               // console.log(expvals[0][1],"operatorVal");
+           
           }
          
         }
         else {
-  
-          attributes.push({ Name: operator, Value: ['Equal To'] });
-  
-        }
-     
-       
-        } 
-        
+           attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+      } 
         else{
           if(field != 'AuditMonth'){
 
-          
-
-        
-        
         let operator: string = field + "Operator";
       
         if (this.expOperatorsKeyPair.length != 0) {
@@ -337,12 +263,8 @@ export class AuditUserActionSummaryComponent {
         attributes.push({ Name: operator, Value: ['Equal To'] });
         }
         
-        
-        
         }
-        
-        
-        
+       
         }
         else {
         if (field == 'Source' || field == 'StatisticMonth') {
@@ -362,13 +284,11 @@ export class AuditUserActionSummaryComponent {
     }
         }
 
-    console.log('attri',attributes);
+    // console.log('attri',attributes);
 
     return attributes;
 
   }
-
-
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -378,25 +298,7 @@ export class AuditUserActionSummaryComponent {
     }
   }
 
-  newTab() {
-    if (!this.tabs?.find(x => x.tabType == 0)){
-        this.tabs.push({
-          tabType: 0,
-          name: 'Summary'
-        });
-      }
-        this.auditUserActionSummary = {
-          data: of({datasource:auditUserSummaryData,
-            totalrecordcount: 26,
-            totalpages:1,
-            pagenumber:1}),
-            filter: true,
-          Columns: this.columns,
-          selectCheckbox: true,
-        }
-      this.showDetails = true;
-    this.selectedTab = this.tabs.length;
-  }
+ 
 
   AuditMonth = new FormControl();
   chosenYearHandler(normalizedYear: Moment) {
