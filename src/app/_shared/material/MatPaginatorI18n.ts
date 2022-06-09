@@ -18,6 +18,6 @@ export class MatPaginatorI18n extends MatPaginatorIntl {
         Math.min(startIndex + pageSize, totalResults) :
         startIndex + pageSize;
   //  return `Total Records: ${startIndex + 1} - ${endIndex} of ${totalResults} & Total Pages: ${pageNumber} `
-    return `Page ${pageNumber}, Displaying Records: ${startIndex + 1} - ${endIndex} of ${totalResults}`;
+    return `Page ${pageNumber}, Records: ${startIndex + 1} - ${endIndex} of ${totalResults}`;
   }
 }
