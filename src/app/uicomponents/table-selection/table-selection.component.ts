@@ -282,13 +282,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   selectRow(event: any, row: any) {
-    this.dataSource.data = this.dataSource.data.filter(r => r !== row);
-    if (event.checked) {
-      this.dataSource.data = [row].concat(this.dataSource.data);
-    }
-    else {
-      this.dataSource.data = this.dataSource.data.concat(row);
-    }
+    // this.dataSource.data = this.dataSource.data.filter(r => r !== row);
+    // if (event.checked) {
+    //   this.dataSource.data = [row].concat(this.dataSource.data);
+    // }
+    // else {
+    //   this.dataSource.data = this.dataSource.data.concat(row);
+    // }
     this.rowChanges.emit([row]);
   }
   /** Whether the number of selected elements matches the total number of rows. */
