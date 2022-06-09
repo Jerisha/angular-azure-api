@@ -86,10 +86,6 @@
             </mat-form-field>
           </div>
 
-
-
-
-
         </ng-container>
       </div>
 
@@ -123,43 +119,9 @@
              >
             </app-table-selection>
           </div>
-
-          <!-- <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-                    <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
-                </div> -->
-          <!-- <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
-                </div> -->
           <div *ngSwitchDefault></div>
         </span>
       </mat-tab>
     </mat-tab-group>
   </mat-sidenav-content>
-
-  <!-- <mat-sidenav-content class="side-content">
-
-    <app-start-up *ngIf="tabs.length===0"></app-start-up>
-    <div *ngIf="showDetails" class="center mat-elevation-z3">
-      <mat-tab-group [(selectedIndex)]="selectedTab">
-        <mat-tab *ngFor="let tab of tabs; let index = index">
-          <ng-template mat-tab-label>
-            <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
-            <button style="color:black" mat-icon-button (click)="removeTab(index)">
-              <mat-icon style="font-size: large;">close</mat-icon>
-            </button>
-          </ng-template>
-          <span [ngSwitch]="tab.tabType">
-            <div *ngSwitchCase="0" style="height: calc(100% - 50px);">
-              <div class="table-view">
-                <app-table-selection [tableitem]="auditUserActionSummary">
-                </app-table-selection>
-              </div>
-            </div>
-            <div *ngSwitchDefault>
-            </div>
-          </span>
-        </mat-tab>
-      </mat-tab-group>
-
-    </div>
-  </mat-sidenav-content> -->
 </mat-sidenav-container>
