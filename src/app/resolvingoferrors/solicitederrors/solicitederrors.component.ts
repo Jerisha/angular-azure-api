@@ -345,7 +345,10 @@ export class SolicitederrorsComponent implements OnInit {
       return;
     }
     this.tabs.splice(0);
-    this.Resolution =  this.Remarks = this.Refer = ''
+   //reset value to empty
+   this.Resolution = this.Remarks = this.Refer = ''
+   // reset selectedrows
+   this.selectedGridRows = [];
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
@@ -410,11 +413,11 @@ export class SolicitederrorsComponent implements OnInit {
             if (x.StatusMessage === 'Success') {
               
               //success message and same data reload
-              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record count(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
           });
-          this.isSaveDisable = true;
+          //this.isSaveDisable = true;
         }
       });
     }
