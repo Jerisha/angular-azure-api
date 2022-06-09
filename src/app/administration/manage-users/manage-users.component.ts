@@ -15,6 +15,8 @@ export class TodoItemNode {
   isChecked: boolean;
   isPlanType: boolean;
   claimId: number;
+
+
 }
 
 export class TodoItemFlatNode {
