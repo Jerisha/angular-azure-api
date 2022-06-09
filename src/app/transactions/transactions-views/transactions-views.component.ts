@@ -23,6 +23,7 @@ import { TransactionDataService } from '../services/transaction-data.service';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
+import { isBuffer } from 'util';
 
 @Component({
   selector: 'app-transactions-views',
@@ -61,10 +62,10 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   multiRangeTelephoneList: string = "Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890<br>Start Tel. No. 01234567890End Tel.No. 01234567890";
   franchiseValues: any;
   SourceValues: any;
-  isExportImportSelected: Boolean = false;
+  isExportImportSelected: Boolean = true;
   telephoneSet = "";
   audittelephonenumbers: any;
-  model: any = { telno: "", rangeEnd: "", CupId: "", Franchise: "", source: "", franchise: "" };
+  model: any = { telno: "", rangeEnd: "", CupId: "", Franchise: "", source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
   // transDetails:any ={transType:"",lineType:"",typeOfLine:"",importExportCupId:"",orderRef:"",comments:""};
   // addressDetails:ICustomerAddress ={customerName:"",address1:"",address2:"",address3:"",address4:"",postcode:""};
   // transactionsItem:any ={transDetails:this.transDetails,addressDetails:this.addressDetails};    
@@ -98,6 +99,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   configDetails!: any;
   queryResultobj!: any;
   inputtelRange!: string;
+  Commentsstring!:string;
   currentPage: string = '1';
   updateDetails!: any;
   addressDetails = new AddressDetails();
@@ -160,6 +162,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
     });
+       this.viewForm = this.formBuilder.group({
+          CupID: new FormControl({ value: '', disabled: false }, [Validators.required]),
+          Franchise: new FormControl({ value: '', disabled: false }, [Validators.required]),
+          Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
+        });
     this.formsGroup = this.fb.group({
       firstView: this.fb.group({
         //StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
@@ -170,6 +177,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         SearchBtn: new FormControl({ value: '', disabled: false }, []),
       }),
     });
+    this.isExportImportSelected = false;
   }
 
   onTranTypeChange(event: any) {
@@ -229,7 +237,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
   }
   FillPaffAddress(Addressval: any[]): string {
-    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: "PAF Postcode" };
+    console.log('address values from main page',Addressval);
+    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
 
     //console.log('paf address',Addressval)
     return "";
@@ -242,6 +251,19 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     //console.log('paf address',Addressval)
     return "";
+  }
+  onmodelCupIDchange(value: string, ctrlName: string) {
+    debugger
+    if (value != "")
+    {
+     console.log('vlaue changed');
+    }
+    else{
+      this.SourceFranchisearr={Source:[],Franchise:[]};
+      this.model.source="";
+      this.model.franchise ="";
+     
+    }
   }
   onChange(value: string, ctrlName: string) {
     if (!this.evntflage) {
@@ -282,13 +304,70 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
     this.evntflage = false;
   }
+  onSourceChange(event: any) {
+    debugger
+   // model.CupId
+   
+  if(this.model.CupId === "13 - Cable & Wireless UK")
+  {
+
+    let frnachaise = this.cupIds.filter((obj: { Source: string, Cupid: string; }) => {
+      return obj.Source === event.option.value&&obj.Cupid===this.model.CupId;
+    });
+
+    this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
+      .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+
+      //this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
+      console.log('source array',this.SourceFranchisearr);
+      console.log('franchise array',this.franchiseValues);
+  
+
+    let modelfranchise = frnachaise.map((item: { DefaultFranchise: any; }) => item.DefaultFranchise)
+      .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+      console.log('default franchise',modelfranchise);
+    this.model.franchise = modelfranchise[0];
+    this.SourceFranchisearr={Franchise:this.franchiseValues};
+   // console.log('default franchise',this.model.franchise);
+    this.enableSource = true;
+    this.enableFrancise = true;
+    if(this.model.franchise!='')
+      {
+        this.views.view3 = true;
+      }
+    }
+}
   onCupIDChange(event: any) {
     debugger
+    this.isExportImportSelected = false;
     this.SourceFranchisearr={Source:[],Franchise:[]};
     this.model.source="";
     this.model.franchise="";
 
-
+    if(event.option.value === "13 - Cable & Wireless UK")
+    {
+      let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
+        return obj.Cupid === event.option.value;
+      });
+      this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+      //DefaultSource:
+      console.log('values from source', Source);
+     
+      let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+        //console.log('default source values',modelsource);
+      this.model.source = modelsource[0];
+      this.enableSource = true;
+      this.enableFrancise = true;
+      this.SourceFranchisearr={Source:this.SourceValues,Franchise:[]};
+      if(this.model.franchise!='')
+      {
+        this.views.view3 = true;
+      }
+    }
+    else
+    {
     if (event.option.value !== "") {
       let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
         return obj.Cupid === event.option.value;
@@ -296,7 +375,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       //DefaultSource:
-     // console.log('values from source', Source);
+      console.log('values from source', Source);
      
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
@@ -330,6 +409,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       }
      
     }
+  }
 
     //ctrlthree.clearValidators();
   }
@@ -337,13 +417,18 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   onSelectionChange(event: any) {
     debugger
     const ctrlthree = this.view3Form.get('ImportExportCupId') as FormControl;
+   
     if (event.option.value === "Import" || event.option.value === "Export") {
       ctrlthree.setValidators((Validators.required));
       ctrlthree.updateValueAndValidity();
+      this.isExportImportSelected = true;
+      this.model.IECUPID="";
     }
     else {
       ctrlthree.clearValidators();
       ctrlthree.updateValueAndValidity();
+      this.isExportImportSelected = false;
+      this.model.IECUPID="";
     }
 
     //ctrlthree.clearValidators();
@@ -430,7 +515,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   updateDefaultOfficeAddressDetails() {
-    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "NEW BERKSHIRE", address3: "", address4: "", postcode: "RG14 2FN" };
+    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "", address3: "Newbury", address4: "Berkshire", postcode: "RG14 2FN" };
   }
   updateMatchedAddressDetails() {
     this.transactionItem.customerAddress = this.matchedAuditAddress;
@@ -494,7 +579,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           TypeOfLine: new FormControl({ value: '', disabled: false }, [Validators.required]),
           OrderReference: new FormControl({ value: '', disabled: false }, [Validators.required]),
           ImportExportCupId: new FormControl({ value: '', disabled: false }, []),
-          Comments: new FormControl({ value: '', disabled: false },),
+          Comments: new FormControl({ value: this.Commentsstring, disabled: false },),
           CustomerName: new FormControl({ value: '', disabled: false }, [Validators.required]),
           AddressLine1: new FormControl({ value: '', disabled: false }, [Validators.required]),
           AddressLine2: new FormControl({ value: '', disabled: false }, [Validators.required]),
@@ -508,7 +593,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           Source: new FormControl({ value: '', disabled: false }, [Validators.required]),
         });
         this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
-        console.log('config dertails test',this.configDetails);
+        console.log('config details test',this.configDetails);
         this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
         this.Master = this.queryResultobj.NumberOfTransactions[0].MasterCount;
         this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
@@ -615,7 +700,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     if (Object.keys(this.AuditPopulatevalue).length === 0) {
       this.spinner.show();
       let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
-      //console.log('request for query',request2);
+      console.log('request for query',JSON.stringify( request2));
       this.service.queryDetails(request2).subscribe((res: any) => {
         // console.log("res message to show: " + JSON.stringify(res));
         if (Object.keys(res).length) {
@@ -779,6 +864,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     //Reference
     let telephonerangevalues: string = "";
+    this.Commentsstring="DDI Range: Pre-populated in DB while data loading.";
     for (let i = 0; i < this.CliRangeSet.length; i++) {
 
       if (this.CliRangeSet[i][1].toString() != "") {
@@ -791,6 +877,15 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       if (i + 1 < this.CliRangeSet.length) {
         telephonerangevalues += ",";
 
+      }
+      if(this.CliRangeSet.length==1)
+      {
+        if (this.CliRangeSet[i][1].toString() != "") {
+        this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString() +' to '+this.CliRangeSet[i][1].toString()
+        }
+        else{
+          this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString()+' to '+this.CliRangeSet[i][0].toString();
+        }
       }
     }
     let attributes: any = [
@@ -826,14 +921,13 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   public checkErrorinFrom = (controlName: string, errorName: string) => {
-    debugger
-
+  
     return this.viewForm.controls[controlName].hasError(errorName) &&
       (this.viewForm.controls[controlName].dirty || this.viewForm.controls[controlName].touched)
 
   }
   public checkError = (controlName: string, errorName: string) => {
-    debugger
+   
 
     return this.view3Form.controls[controlName].hasError(errorName) &&
       (this.view3Form.controls[controlName].dirty || this.view3Form.controls[controlName].touched)
@@ -885,7 +979,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   /* field Validation End */
 
   resetTel(sf: any) {
-    this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" };
+    this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" ,source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
     this.transactionItem.customerAddress = { customerName: "", address1: "", address2: "", address3: "", address4: "", postcode: "" };
 
     this.views.view3 = false;
@@ -949,7 +1043,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
       //DefaultSource:
-     // console.log('values from source', Source);
+     console.log('values from source', Source);
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('default source values',modelsource);

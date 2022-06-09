@@ -117,7 +117,9 @@ export class HttpWrapperService {
                         break;
                     case WebMethods.QUERY:
                     case WebMethods.GET:
-                        transData = val.ResponseParams
+                    case WebMethods.PAFQUERY:
+                       
+                        //transData = val.ResponseParams
                         transData.data = val.Data
                         break;
                     case WebMethods.UPDATE:
