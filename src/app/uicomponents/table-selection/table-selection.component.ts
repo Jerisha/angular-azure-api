@@ -44,7 +44,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   selectedrows: any;
   ColumnDetails: ColumnDetails[] = [];
   dataColumns!: string[];
-  dataColumns2!: string[];
+  footerColumns!: string[];
   columnHeaders: any;
   columnHeaderFilter?: boolean = false;
   columnFilter?: boolean = false;
@@ -70,7 +70,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   showCustomFooter?: boolean = false;
   isRowselected: boolean = false;
   totalRowCols: string[] = [];
-  footerCols: string[] = [];
+  footerDisplayCols: string[] = [];
   nonNumericCols: string[] = [];
   isLoading = false;
   isDataloaded: boolean = false;
@@ -161,9 +161,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-    if(this.tableitem?.isCustomFooter) this.dataColumns2 = this.dataColumns.map(x => `f2_${x}`);
-
-
+    if(this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
 
   initializeTableAttributes() {
@@ -177,7 +175,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
     this.showCustomFooter = this.tableitem?.isCustomFooter;
-    if(this.tableitem?.isCustomFooter) this.footerCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
+    if(this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
     //   if (data && data.length > 0)
@@ -253,7 +251,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-    if(this.tableitem?.isCustomFooter) this.dataColumns2 = this.dataColumns.map(x => `f2_${x}`);
+    if(this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
 
 
@@ -289,13 +287,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     var cell = cellname ? cellname : ''; 
 
-    if (this.dataColumns2[0] === cellname && !this.footerCols.includes(cell)) { 
+    if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) { 
 
       return this.footerDetails.footerName; 
 
     } 
 
-    if (this.footerCols.includes(cell) && this.dataColumns2.includes(cell)) 
+    if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell)) 
 
       return this.footerDetails.footerValue; 
 
@@ -379,7 +377,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   filterGridColumns(event: any) {
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
-    if(this.tableitem?.isCustomFooter) this.dataColumns2 = this.dataColumns.map(x => `f2_${x}`);
+    if(this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     event.close();
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?

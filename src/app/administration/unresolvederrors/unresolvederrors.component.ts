@@ -252,6 +252,7 @@ check999() {
               this.onFormSubmit(true);
             }
           });
+          this.isSaveDisable = true;
         }
       });
     }
@@ -305,7 +306,7 @@ check999() {
     { header: 'Transaction Id', headerValue: 'TransactionId', showDefault: true, isImage: false },
     { header: 'Telephone Number', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Next Transaction Id', headerValue: 'NextTransactionId', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
@@ -334,6 +335,8 @@ check999() {
       return;
     }
     this.tabs.splice(0);
+    this.Remarks = this.Refer = '';
+    this.selectedGridRows.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('UnResolvedErrors', 'UnResolvedErrors', this.prepareQueryParams(this.currentPage));
     console.log(JSON.stringify(request))
@@ -370,7 +373,7 @@ check999() {
       });
     }
     this.selectedTab = this.tabs.length;
-
+    this.isEnable();
   }
 
 
@@ -402,12 +405,13 @@ check999() {
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
-      this.f.EndTelephoneNumber?.value?.length >= 10 &&
-      this.f.Source.value === ""  && this.f.Command.value === "" &&
-      this.f.Reference.value === ""
-      && this.f.Status.value === "")
-      || (this.selectedGridRows.length > 0)) {
+    if (
+      // (this.f.StartTelephoneNumber?.value?.length >=10 && 
+      // this.f.EndTelephoneNumber?.value?.length >= 10 &&
+      // this.f.Source.value === ""  && this.f.Command.value === "" &&
+      // this.f.Reference.value === ""
+      // && this.f.Status.value === "")|| 
+      (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
     }
     else

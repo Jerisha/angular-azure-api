@@ -97,7 +97,7 @@ font-size: smaller;  ">
       </ng-container>
 
       <!-- custom footer container  -->
-      <ng-container *ngFor="let columnName of dataColumns2" [matColumnDef]="columnName"> 
+      <ng-container *ngFor="let columnName of footerColumns" [matColumnDef]="columnName"> 
         <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getFooterDetails(columnName)}}</td> 
      </ng-container> 
 
@@ -111,7 +111,7 @@ font-size: smaller;  ">
       </ng-container>
 
       <ng-container *ngIf="showCustomFooter"> 
-        <tr class="totalRow" mat-footer-row *matFooterRowDef="dataColumns2;sticky: true"></tr> 
+        <tr class="totalRow" mat-footer-row *matFooterRowDef="footerColumns;sticky: true"></tr> 
       </ng-container> 
 
     </table>
