@@ -7,6 +7,7 @@ import { AuditTrailService } from './services/audit-trail.service';
 import { Utils } from 'src/app/_http/common/utils';
 import { Observable } from 'rxjs';
 import { map} from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-telephone-audit-trail',
@@ -34,7 +35,7 @@ export class TelephoneAuditTrailComponent  {
   @ViewChild('auditTabScroll') scrollDemo!: ElementRef;
   isLoading: boolean = true;
 
-  constructor(private _route: Router, private service: AuditTrailService) {
+  constructor(private _route: Router, private service: AuditTrailService, private spinner: NgxSpinnerService) {
   }
 
   columnsToDisplay = [{ header: 'Action', headerValue: 'Action' },
@@ -65,19 +66,21 @@ export class TelephoneAuditTrailComponent  {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.telNo.currentValue != changes.telNo.previousValue) {
-      this.isLoading = true;
+      
       this.setStep(2);
       let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{
         Name: "TelephoneNumber",
         Value: [this.telNo]
       }]);
       // Value : [ "01171617562" ] }]);
- 
+      this.isLoading = true;
+      this.spinner.show();
       this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => {
         let transform: any = [];
         transform = res.data;
         if(res.TelephoneNumber) transform.TelephoneNumber = res.TelephoneNumber;
         this.isLoading = false;
+        this.spinner.hide();
         return transform;
       }
 

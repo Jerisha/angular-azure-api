@@ -422,7 +422,7 @@ if(this.switchBtn)
     this.spinner.show();
     this.service.queryDetails(request).subscribe((res: any) => {
           // this.telNoList =  [`${res.data ? res.data.TelephoneNumbers : ''}`]
-          this.telNoList = res.data ? res.data.TelephoneNumbers[0].TelephoneNumber : ''
+          this.telNoList = res.data ? res.data.TelephoneNumbers[0].TelephoneNumber : [''];
         this.spinner.hide();
     });
   }

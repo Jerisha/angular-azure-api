@@ -171,7 +171,7 @@ export class AuditUserActionSummaryComponent {
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
           pagenumber: res.PageNumber,
-          FooterDetails: {footerName: "Cumulative", footerValue: `${res.CumulativeCount}`}
+          FooterDetails: {footerName: "Cumulative", footerValue: `${res.CumulativeCount ? res.CumulativeCount : ''}`}
         }
         return result;
       } else return {
