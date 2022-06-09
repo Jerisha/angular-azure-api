@@ -126,12 +126,12 @@ export class AuditUserActionSummaryComponent {
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
   columns: ColumnDetails[]= [
-    { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true },
+    { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true, isFooter: true },
   ]
  
     
@@ -144,18 +144,11 @@ export class AuditUserActionSummaryComponent {
     this.listItems = Itemstwo;
     this.createForm();
     let request = Utils.preparePyConfig(['Search'], ['AuditType', 'ResolvedBy', 'ResolutionTypeAudit', 'AuditActID']);
-    console.log("req: " + JSON.stringify(request));
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res));
       this.configDetails = res.data;
     });
 
   }
-  // onFormSubmit():void {
-
-  // }
-
- 
 
   resetForm() {
     // this.searched = false;
@@ -219,18 +212,14 @@ export class AuditUserActionSummaryComponent {
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('AuditUserActionSummaryOptions', 'AuditUserActionSummary', this.prepareQueryParams(this.currentPage));
-    console.log('req',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
-          // datasource: ELEMENT_DATA,
-          // totalrecordcount: 1,
-          // totalpages: 1,
-          // pagenumber: 1
+          pagenumber: res.PageNumber,
+          FooterDetails: {footerName: "Cumulative", footerValue: `${res.CumulativeCount}`}
         }
         return result;
       } else return {
@@ -245,6 +234,7 @@ export class AuditUserActionSummaryComponent {
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      isCustomFooter: true
       // imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
     }
 
@@ -292,7 +282,7 @@ export class AuditUserActionSummaryComponent {
           //  console.log(control?.value,"True");
               // if (control?.value) {
                 attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                console.log(expvals[0][1],"operatorVal");
+                // console.log(expvals[0][1],"operatorVal");
               // }
               // else {
               //   attributes.push({ Name: operator, Value: ['Equal To'] });
@@ -362,7 +352,7 @@ export class AuditUserActionSummaryComponent {
     }
         }
 
-    console.log('attri',attributes);
+    // console.log('attri',attributes);
 
     return attributes;
 
