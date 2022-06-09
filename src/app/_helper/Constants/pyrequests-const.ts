@@ -323,7 +323,7 @@ export const PyRequests = {
       {"Address2" : ""},
       {"Address3" : ""},
       {"Address4" : ""},
-      {"Postcode" : "RG217UB"}
+      {"Postcode" : ""}
       ],
     
     "Cache":["ApplicationKey","SessionID"]
@@ -366,7 +366,7 @@ export const PyRequests = {
                                 ]
                             },
                             "ListofAttributes": {
-                                "Attribute": [                                   
+                                "Attribute": [
                                     {
                                         "Name": "ReportNames",
                                         "Value": [
@@ -380,6 +380,15 @@ export const PyRequests = {
                 }
             }
         }
+    },
+    AUTHENTICATE: {
+        "RequestType": "UIQUERY",
+        "UserParams": [
+            { "UserID": "" },
+            { "Password": "" },]
+        ,
+        "Cache": ["ApplicationKey", "SessionID"]
     }
 }
+
 

@@ -24,6 +24,9 @@ th {
 .mat-row {
   height: 10px;
 }
+.mat-row:nth-child(even){
+  background-color: white !important;
+}
 
 
 tr.example-detail-row {
@@ -182,4 +185,14 @@ h4 {
       overflow-y: auto;
       max-height: 530px;
     }
-   
+
+    .table-spinner{
+      position: relative;
+      margin-left: 40%;
+      margin-top: 15%;
+    }
+
+    .spinner-loading {
+      font: 400 14px/20px Roboto, "Helvetica Neue" !important;
+      padding: 20px;
+    }

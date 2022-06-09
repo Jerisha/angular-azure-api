@@ -31,6 +31,7 @@ import { LoginComponent } from './login/login.component';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './_shared/error/error.component';
+import { ReportReferencesModule } from './report-references/report-references.module';
 
 // import { GovernanceModule } from './governance/governance.module';
 
@@ -64,6 +65,7 @@ import { ErrorComponent } from './_shared/error/error.component';
     TransactionsModule,
     StatisticalreportsModule,
     ReportsModule,  
+    ReportReferencesModule,
     HelperModule,
     SharedModule,
     NgxSpinnerModule,

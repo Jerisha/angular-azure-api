@@ -18,7 +18,7 @@
             <mat-error>
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
                 <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
               </div>
             </mat-error>
           </mat-form-field>
@@ -33,14 +33,14 @@
                 <!-- <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div> -->
                 <!-- <div *ngIf="f.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div> -->
                 <div *ngIf="f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                <!-- <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
               </div>
             </mat-error>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
-            <mat-label>Source</mat-label>
-            <input formControlName="Source" type="text" placeholder="Search Source" matInput
+            <mat-label>Source System</mat-label>
+            <input formControlName="Source" type="text" placeholder="Search Source System" matInput
               [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
@@ -53,9 +53,8 @@
             <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
+          <!-- <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
-            <!-- <mat-select formControlName="ErrorType"> -->
             <input formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
               [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorDescription " />
             <span matSuffix mat-icon-button>
@@ -67,6 +66,16 @@
               </mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.ErrorType.errors?.validOptions">Value need to match available options</mat-error>
+          </mat-form-field> -->
+
+          <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
+            <mat-label>Error Type</mat-label>
+            <mat-select formControlName="ErrorType">  
+              <mat-option>None</mat-option>          
+              <mat-option *ngFor="let val of config.ErrorDescription" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.Final.disabled}">
@@ -111,7 +120,6 @@
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
-
           <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
             <mat-label>999 Reference</mat-label>
             <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>
@@ -206,7 +214,9 @@
                       </mat-error>
                     </mat-form-field>
 
-                    <button [disabled]="!(selectedGridRows.length>0)" type="submit" mat-raised-button color="primary">
+                    
+                    <!-- <button [disabled]="!(selectedGridRows.length>0)" type="submit" mat-raised-button color="primary"> -->
+                    <button [disabled]="isSaveDisable" type="submit" mat-raised-button color="primary">
                       <mat-icon>save</mat-icon>Save
                     </button>&nbsp;&nbsp;
 

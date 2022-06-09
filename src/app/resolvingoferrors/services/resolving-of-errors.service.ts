@@ -71,4 +71,8 @@ export class ResolvingOfErrorsService {
     console.log('information page',JSON.stringify(Information));
     return Information;
   }
+
+  exportDetails(request: any): Observable<any> {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+  }
 }

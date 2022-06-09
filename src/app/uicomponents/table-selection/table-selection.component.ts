@@ -37,6 +37,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   @Output() addNewTab = new EventEmitter<any>();
   @Output() pageIndex = new EventEmitter<any>();
   @Output() refreshtab = new EventEmitter<any>();
+  @Output() requestExport2Excel = new EventEmitter<any>();
+  @Input() isExportDisable:boolean =true;
   // dataSource!: MatTableDataSource<any>;
   public dataSource = new MatTableDataSource<any>();
   selectedrows: any;
@@ -483,7 +485,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   copyToClipboard() {
     let data = "";
-    debugger
     this.selection.selected.forEach((row: any, index) => {
       if (index === 0)
       {       
@@ -500,6 +501,11 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       data += result.toString().replace(/[,]+/g, '\t') + "\n";
     });   
     return data;
+  }
+
+  RequestExport2Excel()
+  {
+    this.requestExport2Excel.emit([]);
   }
 
 
