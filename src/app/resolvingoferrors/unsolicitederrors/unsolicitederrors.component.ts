@@ -123,7 +123,7 @@ const ELEMENT_DATA: UnSolicitedErrors[] = [
 const FilterListItems: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: false },
   { view: 'Is Final', viewValue: 'Final', default: false },
@@ -293,18 +293,18 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
           { Name: 'TelephoneNumberStart', Value: [""] }
         );
     }
-    //  else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
+     else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
 
-    //   if (startTelephoneNumber?.value)
-    //     identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
-    //   else
-    //     identifiers.push({ Name: 'TelephoneNumberStart' });
+      if (startTelephoneNumber?.value)
+        identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
+      else
+        identifiers.push({ Name: 'TelephoneNumberStart' });
 
-    //   if (endTelephoneNumber?.value)
-    //     identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
-    //   else
-    //     identifiers.push({ Name: 'TelephoneNumberEnd' });
-    // }
+      if (endTelephoneNumber?.value)
+        identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
+      else
+        identifiers.push({ Name: 'TelephoneNumberEnd' });
+    }
     return identifiers;
   }
 
@@ -351,8 +351,10 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),     
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
@@ -374,10 +376,11 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorType.value === "" && this.f.Final.value === "")
       || (this.selectedGridRows.length > 0)) {
-      this.isSaveDisable = false;
+      this.isSaveDisable = false;      
     }
-    else
-      this.isSaveDisable = true;
+    else    
+     { this.isSaveDisable = true;
+     }
     //console.log('isSaveDisable',this.isSaveDisable)
   }
 
@@ -389,7 +392,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   }
   onSaveSubmit() {
     debugger;
-    if (this.selectedGridRows.length > 0 &&
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
       (this.Resolution && this.Remarks && this.check999())) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
@@ -407,8 +410,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
               this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record count(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
-            this.isSaveDisable = true;
           });
+          this.isSaveDisable = true;
         }
 
       });
@@ -453,7 +456,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     { header: 'Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Error Code', headerValue: 'ErrorCode', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
@@ -523,7 +526,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       });
     }
     this.selectedTab = this.tabs.length;
-
+    this.isEnable();
   }
 
 

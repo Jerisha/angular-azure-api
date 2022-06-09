@@ -110,7 +110,7 @@ const ELEMENT_DATA: Transactionsourcecommandhistory[] =
   ]
 const Itemstwo: Select[] = [
   { view: 'StatisticMonth.', viewValue: 'StatisticMonth', default: true },
-  { view: 'Source.', viewValue: 'Source', default: true }
+  { view: 'Source System', viewValue: 'Source', default: true }
 
 ]
 
@@ -182,7 +182,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       // { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
       { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
       { header: 'StatisticMonth', headerValue: 'Month', showDefault: false, isImage: false },
-      { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
+      { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
       { header: 'Adds', headerValue: 'AddCommands', showDefault: false, isImage: false },
       { header: 'Ceases', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
       { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
@@ -195,7 +195,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     [
       { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
       { header: 'Statistic Date', headerValue: 'StatisticDate', showDefault: false, isImage: false },
-      { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
+      { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
       { header: 'Adds', headerValue: 'AddCommands', showDefault: false, isImage: false },
       { header: 'Ceases', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
       { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },

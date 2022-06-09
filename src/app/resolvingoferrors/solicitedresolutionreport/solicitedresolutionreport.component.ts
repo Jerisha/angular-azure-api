@@ -107,7 +107,7 @@ const FilterListItems: Select[] = [
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: true },
-  { view: 'Internal CupID', viewValue: 'InternalCupID', default: true }
+  { view: 'Internal CupID', viewValue: 'InternalCUPID', default: true }
 ];
 
 @Component({
@@ -167,9 +167,9 @@ export class SolicitedresolutionreportComponent implements OnInit {
     "ChangeCUPIDOperator",    
     "SourceOperator",
     "StatusOperator",
-    "TransactionCommandOperator",
+    "TranCommandOperator",
     "ResolveTypeOperator",
-    "InternalCupIDOperator",
+    "InternalCUPIDOperator",
 
 
   ];
@@ -299,13 +299,40 @@ export class SolicitedresolutionreportComponent implements OnInit {
      
        
         } 
-
+        if (field == 'TransactionCommand')
+        {
+        attributes.push({ Name: 'TransactionCommand', Value: [control?.value]});
+        let operator: string = 'TranCommand' + "Operator";
+        if (this.expOperatorsKeyPair.length != 0) {
+          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+          // console.log(expvals,"operatorVal1")
+          if (expvals.length != 0) {
+          //  console.log(control?.value,"True");
+              // if (control?.value) {
+                attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                console.log(expvals[0][1],"operatorVal");
+              // }
+              // else {
+              //   attributes.push({ Name: operator, Value: ['Equal To'] });
+              // }
+          }
+         
+        }
+        else {
+  
+          attributes.push({ Name: operator, Value: ['Equal To'] });
+  
+        }
+     
+       
+        } 
+       else{
         if (control?.value )
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
 
-      }
+      
       let operator: string = field + "Operator";
 
       // console.log("op vals",this.expOperatorsKeyPair);
@@ -339,6 +366,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
         attributes.push({ Name: operator, Value: ['Equal To'] });
 
       }
+    }
+    }
     }
     console.log('attri',attributes);
 
@@ -379,7 +408,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       Status: new FormControl({ value: '', disabled: true }, []),
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),
       ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
-      InternalCupID: new FormControl({ value: '', disabled: true }, [])
+      InternalCUPID: new FormControl({ value: '', disabled: true }, [])
     });
   }
 
@@ -436,6 +465,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     this.tabs.splice(0);
     this.currentPage = isEmitted ? this.currentPage : '1';
     let request = Utils.preparePyQuery('Summary', 'SolicitedResolutionReport', this.prepareQueryParams(this.currentPage));
+    // console.log(JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {

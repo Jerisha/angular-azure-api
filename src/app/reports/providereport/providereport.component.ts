@@ -92,7 +92,7 @@ export class ProvidereportComponent implements OnInit {
 
         { header: 'TelephoneNumber', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
         { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-        { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false }
+        { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false }
     ];
 
     queryResult$!: Observable<any>;
