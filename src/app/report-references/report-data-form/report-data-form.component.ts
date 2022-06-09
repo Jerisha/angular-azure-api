@@ -136,6 +136,27 @@ public fieldError=(controlName: string, errorName: string) =>{
     return this.referenceForm.controls[controlName].hasError(errorName);
 }
 
+public setReadOnlyField(cIsKey:boolean,cReadOnly:boolean){
+  switch(this.eventName){
+    case 'Update':
+      {
+        return  cIsKey == true || cReadOnly ==true
+      }
+      break;
+    case 'Create':
+      {
+        return  cReadOnly ==true
+      }
+      break;
+      default:
+        {
+          return true;
+        }
+  }
+  
+
+}
+
 ngAfterViewInit() 
  {  
    this.cdr.detectChanges();  

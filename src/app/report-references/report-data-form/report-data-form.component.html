@@ -13,9 +13,10 @@
                     <mat-label>{{formData.cDisplayName}}</mat-label>
                     <input type="{{formData.cType}}" matInput name="{{formData.cName}}"
                       [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
-                      [maxLength]="formData.cMaxLength"
-                      [readonly]="this.eventName ==='Update' && (formData.cIsKey == true || formData.cReadOnly ==true)?  true: false "
+                      [maxLength]="formData.cMaxLength"                                           
+                      [readonly]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)"
                       placeholder="{{formData.cDisplayName}}">
+                       <!-- [readonly]="this.eventName ==='Update' && (formData.cIsKey == true || formData.cReadOnly ==true)?  true: false " -->
                       <!-- <mat-hint style="text-align:end">Max length {{formData.cMaxLength }} characters.</mat-hint> -->
                       <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
                       <mat-error *ngIf="fieldError(formData.cName, 'maxlength')"> Max length {{formData.cMaxLength }}Limit exceed</mat-error>
