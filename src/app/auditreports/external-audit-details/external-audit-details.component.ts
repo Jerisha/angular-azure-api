@@ -15,7 +15,7 @@ import { AlertService } from 'src/app/_shared/alert';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AuditReportsService } from '../services/audit-reports.service';
 import { UserCommentsDialogComponent } from '../../_shared/user-comments/user-comments-dialog.component';
-import { DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const Items: Select[] = [
   { view: 'Start TelephoneNumber', viewValue: 'StartTelephoneNumber', default: true },
@@ -60,6 +60,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   queryResult$!: Observable<any>;
   disableSave: boolean = true;
 
@@ -314,9 +315,11 @@ export class ExternalAuditDetailsComponent implements OnInit {
     //this.currentPage = isEmitted ? this.currentPage : 1;
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
-    { "IsRemoveCache": 1 }];
+    { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('ExternalAuditDetails', 'ExternalAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
     console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
