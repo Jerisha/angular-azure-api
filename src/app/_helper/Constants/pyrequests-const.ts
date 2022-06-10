@@ -313,11 +313,28 @@ export const PyRequests = {
         }
         ,
         "Cache": ["ApplicationKey", "SessionID"]
-    },
-    METADATA: {
-        "RequestType": "MetaData",
-        "UserParams": ["UserID", "RoleID"],
-        "MetaDataRequest": {
+    }
+    ,
+    PAFQUERY:{
+        "RequestType" : "PAFQUERY",
+    "UserParams":[
+      {"ReportIdentifier" : "PAFDbQuery"},
+      {"ScreenIdentifier" : "Transactions"}],
+    "AddressParams": [	{"Address1" : ""},
+      {"Address2" : ""},
+      {"Address3" : ""},
+      {"Address4" : ""},
+      {"Postcode" : ""}
+      ],
+    
+    "Cache":["ApplicationKey","SessionID"]
+    }
+    
+    ,
+    METADATA:{
+    "RequestType": "MetaData",
+    "UserParams": ["UserID", "RoleID"],       
+    "MetaDataRequest": {
             "MetaDataRequestType": {
                 "RequestIdentifiers": {
                     "Identifier": [

@@ -132,6 +132,17 @@ export class Utils {
     transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier = deleteIdentifier;
     return transform;
   }
+  static preparePyPaf(PAFIdentifiers:any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.PAFQUERY));
+//transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdentifier;
+  transform.AddressParams=PAFIdentifiers;
+   // transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    //Deleteidentifier
+   // transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier = deleteIdentifier;
+    return transform;
+  }
+
+
   static preparePyMetaData(configParams: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.METADATA));
     //console.log(transform,"meta data")
