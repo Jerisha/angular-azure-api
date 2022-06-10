@@ -121,7 +121,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         if(this.showCustomFooter)  this.footerDetails = res.FooterDetails;
         //this.paginator.pageIndex = this.currentPage;
        // this.pageSize = (res.pagecount) as number;;
-        this.paginator.length = (res.totalrecordcount) as number;
+        //this.paginator.length = (res.totalrecordcount) as number;
         this.dataSource.sort = this.sort;
         this.spinner.hide();
         this.disablePageSize = false;
