@@ -5,26 +5,25 @@
                 (changes)="setControlAttribute($event)">
             </app-select-multiple>
         </div>
-        <form [formGroup]="externalAuditForm" (ngSubmit)="onFormSubmit()">
-            <div class="matsidenav-filter">             
-                <mat-form-field [ngClass]="{'hidden':externalAuditForm.controls.AuditActId.disabled}">
+        <form [formGroup]="dataCorrectionForm" (ngSubmit)="onFormSubmit()">
+            <div class="matsidenav-filter">      
+                <ng-container *ngIf="configDetails  as config">       
+                <mat-form-field [ngClass]="{'hidden':dataCorrectionForm.controls.AuditActId.disabled}">
                     <mat-label>Audit ACT ID</mat-label>
-                    <mat-select id="AuditActId" formControlName="AuditActId">
-                        <!-- <mat-option></mat-option> -->
-                        <mat-option value="29-20 Dec 2021">29-20 Dec 2021</mat-option>
-                        <mat-option value="29-20 Nov 2021">29-20 Nov 2021</mat-option>
-                        <mat-option value="29-20 Nov 2020">29-20 Nov 2020</mat-option>
+                    <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedOption">
+                        <mat-option *ngFor="let val of config.FullAuditActID" [value]="val">{{val}}</mat-option>
                     </mat-select>
                     <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select
                         Audit ACTID</mat-error>
                 </mat-form-field>
+                </ng-container>
 
             </div>
             <div class="matsidenav-footer">
-                <button type="submit" mat-raised-button color="primary" >
+                <button type="submit" mat-raised-button color="primary" [disabled]="dataCorrectionForm.invalid">
                     <mat-icon>search</mat-icon>Search
                 </button>
-                <button type="button" mat-raised-button color="primary" (click)="resetForm()">
+                <button type="button" mat-raised-button color="primary" (click)="resetForm()" [disabled]="!dataCorrectionForm.touched">
                     <mat-icon>refresh</mat-icon>Reset
                 </button>
             </div>
@@ -59,32 +58,6 @@
                         <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
-                        <!-- <div class="mat-elevation-z8 side-bottom">
-                            <div style="display:inline; margin-left: 15px;">
-                                <mat-form-field>
-                                    <mat-label>Resolution Type*</mat-label>
-                                    <mat-select>
-                                        <mat-option></mat-option>
-                                        <mat-option>New</mat-option>
-                                        <mat-option>Under Investigation</mat-option>
-                                        <mat-option>Under Governance</mat-option>
-                                        <mat-option>Under Governance</mat-option>
-                                        <mat-option>Port Req Complete</mat-option>
-                                        <mat-option>(END) Resolved</mat-option>
-                                        <mat-option>(END) Unresolved</mat-option>
-                                    </mat-select>
-                                </mat-form-field> &nbsp;
-                                <mat-form-field class="side-textarea" style="width:300px"
-                                    hintLabel="Max 500 characters">
-                                    <mat-label>Remarks</mat-label>
-                                    <textarea matInput #input maxlength="500" placeholder="Remarks"></textarea>
-                                    <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                                </mat-form-field>
-                                <button type="submit" mat-raised-button color="primary">
-                                    <mat-icon>save</mat-icon>Save
-                                </button>
-                            </div>
-                        </div> -->
                     </div>
                     <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                         <!-- <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
@@ -95,19 +68,9 @@
                         </app-table-selection>
                     </div>
                     <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
-                        <!-- <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
-                        </app-telephone-audit-trail> -->
-                        <!-- <app-table [tableitem]="myTable"></app-table> -->
-                        <app-table-selection [tableitem]="viewTelno" (rowChanges)="rowDetect($event)"
-                            (addNewTab)="newTab($event)">
-                        </app-table-selection>
-                    </div>
-                    <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
-                        <app-telephone-no></app-telephone-no>
+                        <app-telephone-no [telNoArray]="telNoList" (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
                         <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
                         </app-telephone-audit-trail>
-                        <!-- <app-table [tableitem]="myTable"></app-table> -->
-                        
                     </div>
                     <div *ngSwitchDefault>
                     </div>

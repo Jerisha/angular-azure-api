@@ -189,6 +189,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     if (this.editMode == "" || this.editMode == this.currentReportName) {
       this.editMode = this.currentReportName;
       this.lstFields = this.reportReferenceService.setForm(this.editMode);
+      //console.log(this.lstFields,'formTemplateData')
       this.editRecord = null;
       this.eventName = 'Create';
       this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);

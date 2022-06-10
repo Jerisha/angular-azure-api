@@ -17,10 +17,10 @@ import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 let FilterListItems: Select[] = [  
-{ view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
+{ view: 'Telephone', viewValue: 'StartTelephoneNumber', default: true },
 { view: 'Customer Name', viewValue: 'CustomerName', default: true },
-{ view: 'Creation Date', viewValue: 'CreationDate', default: true },
-{ view: 'PostCode', viewValue: 'PostCode', default: true },
+{ view: 'Created on', viewValue: 'CreationDate', default: true },
+{ view: 'Postcode', viewValue: 'PostCode', default: true },
 { view: 'Premises', viewValue: 'Premises', default: false },
 { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: false },
 { view: 'Locality', viewValue: 'Locality', default: false },

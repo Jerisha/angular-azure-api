@@ -107,7 +107,7 @@
                             <span matSuffix mat-icon-button>
                                 <mat-icon>arrow_drop_down</mat-icon>
                             </span>
-                            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+                            <mat-autocomplete panelWidth="auto" autoActiveFirstOption  #autoSource="matAutocomplete">
                                 <mat-option *ngFor="let val of config.Source  | ddlFilter: source.value" [value]="val">
                                     {{val}}</mat-option>
                                 </mat-autocomplete>
@@ -142,7 +142,7 @@
                             <span matSuffix mat-icon-button>
                                 <mat-icon (click)="model.TypeOfLine=''">arrow_drop_down</mat-icon>
                             </span>
-                            <mat-autocomplete autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
+                            <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
                                 <mat-option *ngFor="let val of config.TypeOfLine  | ddlFilter: TypeOfLine.value" [value]="val">
                                     {{val}}</mat-option>
                                 </mat-autocomplete>
@@ -162,7 +162,7 @@
                                 <mat-icon>arrow_drop_down</mat-icon>
                             </span>
                         
-                        <mat-autocomplete autoActiveFirstOption #autoFranchise="matAutocomplete">
+                            <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoFranchise="matAutocomplete">
                             <mat-option *ngFor="let val of config.Franchise  | ddlFilter: Franchise.value" [value]="val">
                                 {{val}}</mat-option>
                             </mat-autocomplete>

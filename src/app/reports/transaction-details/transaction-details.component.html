@@ -13,9 +13,9 @@
             (click) ="OnOperatorClicked(['StartTelephoneNumberOperator',StartTelephoneNumberOperator.selectedViewValue])"></app-select-exp>         
             <mat-form-field hintLabel="Max 11 characters"
                 [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
-                <mat-label>Telephone No</mat-label>
+                <mat-label>Telephone</mat-label>
                 <input formControlName="StartTelephoneNumber" numbersOnly
-                matInput maxlength="11" placeholder="Telephone No"  #telno  telNoPrefixValidator>
+                matInput maxlength="11" placeholder="Telephone"  #telno  telNoPrefixValidator>
                 <mat-hint align="end">{{telno.value?.length || 0}}/11</mat-hint>
                 <mat-error>
                     <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid"
@@ -43,8 +43,8 @@
               (click)="OnOperatorClicked(['CreationDateOperator',CreationDateOperator.selectedViewValue])">
             </app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.CreationDate.disabled}">
-              <mat-label>Creation Date</mat-label>
-              <input readonly formControlName="CreationDate" matInput #CreationDate placeholder="Creation Date"
+              <mat-label>Created On</mat-label>
+              <input readonly formControlName="CreationDate" matInput #CreationDate placeholder="Created On"
                 [matDatepicker]="picker">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
@@ -56,7 +56,7 @@
               (click)="OnOperatorClicked(['PostCodeOperator',PostCodeOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.PostCode.disabled}">
               <mat-label>Postcode</mat-label>
-              <input formControlName="PostCode" matInput #PostCode maxlength="20" placeholder="PostCode">
+              <input formControlName="PostCode" matInput #PostCode maxlength="20" placeholder="Postcode">
             </mat-form-field>
           </div>
 
@@ -103,12 +103,12 @@
               (click)="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
               <mat-label>Source System</mat-label>
-              <input #source formControlName="Source" type="text" placeholder="Search Source" matInput
+              <input #source formControlName="Source" type="text" placeholder="Search Source System" matInput
               [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source "/>
                 <span matSuffix mat-icon-button>
                 <mat-icon>arrow_drop_down</mat-icon>
               </span>
-              <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
+              <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoSource="matAutocomplete">
                   <mat-option *ngFor="let val of config.Source  | ddlFilter: source.value" [value]="val">
                     {{val}}</mat-option>
                 </mat-autocomplete>
@@ -142,7 +142,7 @@
               <span matSuffix mat-icon-button>
                 <mat-icon>arrow_drop_down</mat-icon>
               </span>
-              <mat-autocomplete autoActiveFirstOption #autoFranchise="matAutocomplete">
+              <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoFranchise="matAutocomplete">
                 <mat-option *ngFor="let val of config.Franchise | ddlFilter: franchise.value"
                   [value]="val">
                   {{val}}
@@ -171,13 +171,13 @@
             <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp" #TransactionCommandOperator
               (click)="OnOperatorClicked(['TransactionCommandOperator',TransactionCommandOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.TransactionCommand.disabled}">
-              <mat-label>TransactionCommand</mat-label>
-              <input #transactionCommand formControlName="TransactionCommand" type="text" placeholder="Search TransactionCommand" matInput
+              <mat-label>Transaction Command</mat-label>
+              <input #transactionCommand formControlName="TransactionCommand" type="text" placeholder="Search Transaction Command" matInput
                 [matAutocomplete]="autoTransactionCommand"  maxlength="100" OptionsValidator [options]="config.TransactionCommand " />
               <span matSuffix mat-icon-button>
                 <mat-icon>arrow_drop_down</mat-icon>
               </span>
-              <mat-autocomplete autoActiveFirstOption #autoTransactionCommand="matAutocomplete">
+              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoTransactionCommand="matAutocomplete">
                 <mat-option *ngFor="let option of config.TransactionCommand | ddlFilter: transactionCommand.value"
                   [value]="option">
                   {{option}}
@@ -213,7 +213,7 @@
               <span matSuffix mat-icon-button>
                 <mat-icon (click)="model.TypeOfLine=''">arrow_drop_down</mat-icon>
               </span>
-              <mat-autocomplete autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
+              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
                 <mat-option *ngFor="let option of config.TypeOfLine | ddlFilter: typeOfLine.value"
                   [value]="option">
                   {{option}}

@@ -175,7 +175,8 @@ prepareQueryParams()
 
 
   onReset(){
-  this.auditType = '';
+  // this.auditType = '';
+  this.auditDiscrepancyForm.reset();
   }
 
 }

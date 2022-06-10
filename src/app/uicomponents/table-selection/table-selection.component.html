@@ -95,14 +95,25 @@ font-size: smaller;  ">
           <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getTotal(disCol.headerValue)}}</td>
         </div>
       </ng-container>
+
+      <!-- custom footer container  -->
+      <ng-container *ngFor="let columnName of footerColumns" [matColumnDef]="columnName"> 
+        <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getFooterDetails(columnName)}}</td> 
+     </ng-container> 
+
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
-      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" *matRowDef="let row; columns: dataColumns;"></tr>
+      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" [ngClass]="rowHighlight(row)" *matRowDef="let row; columns: dataColumns;"></tr>
       <!-- <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" *matRowDef="let row; columns: dataColumns;"
       (change)="selectRow($event,row)" (click)="selection.toggle(row)"> </tr> -->
 
       <ng-container *ngIf="showTotalRow">
         <tr class="totalRow" mat-footer-row *matFooterRowDef="dataColumns;sticky: true"></tr>
       </ng-container>
+
+      <ng-container *ngIf="showCustomFooter"> 
+        <tr class="totalRow" mat-footer-row *matFooterRowDef="footerColumns;sticky: true"></tr> 
+      </ng-container> 
+
     </table>
 
   </div>
@@ -123,7 +134,7 @@ font-size: smaller;  ">
 
   <!-- <div class="test-wrapper"> -->
   <div style="margin-bottom:10px" *ngIf="isShown">
-    <button [disabled]="true" type="button" mat-raised-button color="primary">
+    <button [disabled]="isExportDisable" type="button" mat-raised-button color="primary" (click)="RequestExport2Excel()">
       <mat-icon>import_export</mat-icon>Export
     </button>&nbsp;&nbsp;
     <!-- [cdkCopyToClipboard]="copyToClipboard()" 
