@@ -26,7 +26,7 @@
                           panelClass="example-month-picker">
           </mat-datepicker>
         </mat-form-field>
-        <div>
+        <!-- <div>
           <app-select-exp [listItems]="expressions[3].default" #SourceOperator  [resetvalue]="resetExp"
           (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
         <!-- <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">     
@@ -57,9 +57,9 @@
           <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
         </mat-form-field> -->
       
-        <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
-          <mat-label>Source</mat-label>
-          <input #source formControlName="Source" type="text" placeholder="Search Source" matInput
+        <!-- <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+          <mat-label>Source System</mat-label>
+          <input #source formControlName="Source" type="text" placeholder="Search Source System" matInput
             [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source "/>
           <span matSuffix mat-icon-button>
             <mat-icon>arrow_drop_down</mat-icon>
@@ -70,12 +70,25 @@
           </mat-autocomplete>
           <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
         </mat-form-field>
+        </div>  -->
 
-        
+        <div>
+          <app-select-exp [listItems]="expressions[3].default" #SourceOperator  [resetvalue]="resetExp"
+          (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+            <mat-label>Source System</mat-label>
+            <mat-select formControlName="Source">  
+              <!-- <mat-option>None</mat-option>           -->
+              <mat-option *ngFor="let val of config.Source" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
 
 
-      </div>
+      
       </div>
       <div calss="matsidenav-footer" >
         <button type="submit" mat-raised-button color="primary" >

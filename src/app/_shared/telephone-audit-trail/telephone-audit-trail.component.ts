@@ -7,6 +7,7 @@ import { AuditTrailService } from './services/audit-trail.service';
 import { Utils } from 'src/app/_http/common/utils';
 import { Observable } from 'rxjs';
 import { map} from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-telephone-audit-trail',
@@ -34,14 +35,14 @@ export class TelephoneAuditTrailComponent  {
   @ViewChild('auditTabScroll') scrollDemo!: ElementRef;
   isLoading: boolean = true;
 
-  constructor(private _route: Router, private service: AuditTrailService) {
+  constructor(private _route: Router, private service: AuditTrailService, private spinner: NgxSpinnerService) {
   }
 
   columnsToDisplay = [{ header: 'Action', headerValue: 'Action' },
   { header: 'Count Transaction', headerValue: 'CntTransaction' },
   { header: 'Status', headerValue: 'Status' },
-  { header: 'Created On', headerValue: 'Created' },
-  { header: 'Source', headerValue: 'Source' },
+  { header: 'Created On', headerValue: 'CreatedOn' },
+  { header: 'Source System', headerValue: 'Source' },
   { header: 'Customer Name', headerValue: 'CustomerName' }];
 
   dataColumns = this.columnsToDisplay?.map((e) => e.headerValue);
@@ -64,23 +65,22 @@ export class TelephoneAuditTrailComponent  {
   {header: 'User Comment', headerValue: 'UserComment'}];
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes);
-    console.log('from audit trail',this.telNo);
-    console.log('report identifier',this.repIdentifier);
     if (changes.telNo.currentValue != changes.telNo.previousValue) {
-      this.isLoading = true;
+      
       this.setStep(2);
       let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{
         Name: "TelephoneNumber",
         Value: [this.telNo]
       }]);
       // Value : [ "01171617562" ] }]);
- 
+      this.isLoading = true;
+      this.spinner.show();
       this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => {
         let transform: any = [];
         transform = res.data;
         if(res.TelephoneNumber) transform.TelephoneNumber = res.TelephoneNumber;
         this.isLoading = false;
+        this.spinner.hide();
         return transform;
       }
 

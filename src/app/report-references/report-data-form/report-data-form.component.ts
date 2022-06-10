@@ -99,8 +99,12 @@ for (var field of this.lstForm) {
    ]);
  }  
  else if (field.cType == 'text' && field.cMandate==true) {
+   if(['ID','NcID','ResolveId','StatusId','XrefID'].includes(field.cName))
+   {
+    field.cValue = field.cValue ===null ||field.cValue === undefined ||field.cValue ===''?'0':field.cValue
+   }
   group[field.cName] = new FormControl(field.cValue || '', [Validators.required,Validators.maxLength(field.cMaxLength)]);
-} 
+}
  else if (field.cType == 'select' && field.cMandate==true) {
    group[field.cName] = new FormControl(
      field.cValue || '',
@@ -134,6 +138,27 @@ return  new FormGroup(group);
 
 public fieldError=(controlName: string, errorName: string) =>{
     return this.referenceForm.controls[controlName].hasError(errorName);
+}
+
+public setReadOnlyField(cIsKey:boolean,cReadOnly:boolean){
+  switch(this.eventName){
+    case 'Update':
+      {
+        return  cIsKey == true || cReadOnly ==true
+      }
+      break;
+    case 'Create':
+      {
+        return  cReadOnly ==true
+      }
+      break;
+      default:
+        {
+          return true;
+        }
+  }
+  
+
 }
 
 ngAfterViewInit() 

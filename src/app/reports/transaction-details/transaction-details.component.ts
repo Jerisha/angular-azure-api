@@ -17,10 +17,10 @@ import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 
 let FilterListItems: Select[] = [  
-{ view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
+{ view: 'Telephone', viewValue: 'StartTelephoneNumber', default: true },
 { view: 'Customer Name', viewValue: 'CustomerName', default: true },
-{ view: 'Creation Date', viewValue: 'CreationDate', default: true },
-{ view: 'PostCode', viewValue: 'PostCode', default: true },
+{ view: 'Created on', viewValue: 'CreationDate', default: true },
+{ view: 'Postcode', viewValue: 'PostCode', default: true },
 { view: 'Premises', viewValue: 'Premises', default: false },
 { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: false },
 { view: 'Locality', viewValue: 'Locality', default: false },
@@ -64,6 +64,7 @@ export class TransactionDetailsComponent implements OnInit {
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
+  model: any = { TypeOfLine: "" };
 
   repIdentifier = "TransactionDetails";
   currentPage: string = '1';
@@ -327,6 +328,7 @@ prepareQueryParams(pageNo: string): any {
    
     window.location.reload();
     this.resetExp=!this.resetExp;
+    this.model = { TypeOfLine: ""};
   }
 
   setControlAttribute(matSelect: MatSelect) {

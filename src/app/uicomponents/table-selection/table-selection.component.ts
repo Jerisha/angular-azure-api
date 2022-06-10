@@ -6,7 +6,7 @@ import {
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CellAttributes, ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, FooterDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -37,11 +37,14 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   @Output() addNewTab = new EventEmitter<any>();
   @Output() pageIndex = new EventEmitter<any>();
   @Output() refreshtab = new EventEmitter<any>();
+  @Output() requestExport2Excel = new EventEmitter<any>();
+  @Input() isExportDisable:boolean =true;
   // dataSource!: MatTableDataSource<any>;
   public dataSource = new MatTableDataSource<any>();
   selectedrows: any;
   ColumnDetails: ColumnDetails[] = [];
   dataColumns!: string[];
+  footerColumns!: string[];
   columnHeaders: any;
   columnHeaderFilter?: boolean = false;
   columnFilter?: boolean = false;
@@ -64,8 +67,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   showTotalRow!: boolean;
+  showCustomFooter?: boolean = false;
   isRowselected: boolean = false;
   totalRowCols: string[] = [];
+  footerDisplayCols: string[] = [];
   nonNumericCols: string[] = [];
   isLoading = false;
   isDataloaded: boolean = false;
@@ -76,6 +81,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   currentPage = 0;
   apiPageNumber: number = 0;
   pageSizeOptions: number[] = [500];
+  footerDetails!: FooterDetails;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService) {
@@ -115,6 +121,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.totalRows = (res.totalrecordcount) as number;
         this.apiPageNumber = (res.pagenumber) as number;
         this.currentPage = this.apiPageNumber - 1;
+        if(this.showCustomFooter)  this.footerDetails = res.FooterDetails;
         //this.paginator.pageIndex = this.currentPage;
        // this.pageSize = (res.pagecount) as number;;
         this.paginator.length = (res.totalrecordcount) as number;
@@ -155,8 +162,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-
-
+    if(this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
 
   initializeTableAttributes() {
@@ -169,6 +175,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.showTotalRow = this.totalRowCols?.length > 0;
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
+    this.showCustomFooter = this.tableitem?.isCustomFooter;
+    if(this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
     //   if (data && data.length > 0)
@@ -244,6 +252,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
+    if(this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
 
 
@@ -273,6 +282,28 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       return '';
   }
 
+  getFooterDetails(cellname: string) { 
+
+    // debugger 
+
+    var cell = cellname ? cellname : ''; 
+
+    if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) { 
+
+      return this.footerDetails.footerName; 
+
+    } 
+
+    if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell)) 
+
+      return this.footerDetails.footerValue; 
+
+    else 
+
+      return ''; 
+
+  } 
+
   getColSpan(cellname: string) {
     if (this.dataColumns[0] === cellname) {
       return this.nonNumericCols.length;
@@ -281,13 +312,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   selectRow(event: any, row: any) {
-    this.dataSource.data = this.dataSource.data.filter(r => r !== row);
-    if (event.checked) {
-      this.dataSource.data = [row].concat(this.dataSource.data);
-    }
-    else {
-      this.dataSource.data = this.dataSource.data.concat(row);
-    }
+    // this.dataSource.data = this.dataSource.data.filter(r => r !== row);
+    // if (event.checked) {
+    //   this.dataSource.data = [row].concat(this.dataSource.data);
+    // }
+    // else {
+    //   this.dataSource.data = this.dataSource.data.concat(row);
+    // }
     this.rowChanges.emit([row]);
   }
   /** Whether the number of selected elements matches the total number of rows. */
@@ -347,6 +378,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   filterGridColumns(event: any) {
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
+    if(this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     event.close();
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
@@ -477,6 +509,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     return applyStyles;
   }
 
+  rowHighlight(row: any) {
+    let rowHighlight = '';
+    if((parseInt(row.SuccessCount) > 0))  rowHighlight = 'rowFontHighlight1';
+    if((parseInt(row.SuccessCount) === 0))  rowHighlight = 'rowFontHighlight2';
+    return rowHighlight;
+  }
+
   ngOnDestroy() {
 
     this.onDestroy.next();
@@ -500,6 +539,11 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       data += result.toString().replace(/[,]+/g, '\t') + "\n";
     });   
     return data;
+  }
+
+  RequestExport2Excel()
+  {
+    this.requestExport2Excel.emit([]);
   }
 
 
