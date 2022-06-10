@@ -64,6 +64,7 @@ export class TransactionDetailsComponent implements OnInit {
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
+  model: any = { TypeOfLine: "" };
 
   repIdentifier = "TransactionDetails";
   currentPage: string = '1';
@@ -327,6 +328,7 @@ prepareQueryParams(pageNo: string): any {
    
     window.location.reload();
     this.resetExp=!this.resetExp;
+    this.model = { TypeOfLine: ""};
   }
 
   setControlAttribute(matSelect: MatSelect) {

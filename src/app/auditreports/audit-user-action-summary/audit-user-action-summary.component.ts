@@ -121,6 +121,7 @@ export class AuditUserActionSummaryComponent {
   queryResult$: any;
   myTable!: TableItem;
   listItems!: Select[];
+  defaultACTID: string = ''
 
 
   expOperatorsKeyPair: [string, string][] = [];
@@ -151,9 +152,8 @@ export class AuditUserActionSummaryComponent {
     });
 
   }
-  // onFormSubmit():void {
 
-  // }
+  
 
  
 
