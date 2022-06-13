@@ -95,7 +95,7 @@
                     </app-table-selection>
                 </div>
                 <ng-container *ngSwitchCase="1" style="height: calc(100% - 8px);">
-                    <div>
+                    <div *ngIf="isTelList" >
                         <app-telephone-no [telNoArray]="audittrailNos"
                             (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
                     </div>
