@@ -218,13 +218,13 @@ export class TableExpansionComponent implements OnDestroy {
   // }
 
   selectRow(event: any, row: any) {
-    this.dataSource.data = this.dataSource.data.filter(r => r !== row);
-    if (event.checked) {
-      this.dataSource.data = [row].concat(this.dataSource.data);
-    }
-    else {
-      this.dataSource.data = this.dataSource.data.concat(row);
-    }
+    // this.dataSource.data = this.dataSource.data.filter(r => r !== row);
+    // if (event.checked) {
+    //   this.dataSource.data = [row].concat(this.dataSource.data);
+    // }
+    // else {
+    //   this.dataSource.data = this.dataSource.data.concat(row);
+    // }
     this.rowChanges.emit([row]);
   }
 

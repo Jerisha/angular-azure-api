@@ -239,6 +239,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
 
   ngAfterViewChecked() {
+    this.isEnable()
     this.cdr.detectChanges();
   }
 
@@ -372,7 +373,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     debugger
     if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
       this.f.EndTelephoneNumber?.value?.length >= 10 &&
-      this.f.Source.value === "" && this.f.ErrorType.value === "" && this.f.Final.value === "")
+      this.f.Source.value === "" 
+      && this.f.ErrorType.value === "" 
+      && this.f.Final.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
     }
@@ -551,7 +554,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         this.selectedGridRows.splice(index, 1)
       }
     })
-
+    this.isEnable();
     // console.log("selectedGridRows" + this.selectedGridRows)
   }
   removeTab(index: number) {
