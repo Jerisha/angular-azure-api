@@ -144,5 +144,15 @@ export class Utils {
     transform.MetaDataRequest.MetaDataRequestType.ListofMetaDataObjectCategory.MetaDataObjectCategory[0].ListofAttributes.Attribute[0].Value = configParams;
     return transform;
   }
+  static preparePyExportQuery(pageIdentifier: string, reportIdentifier: string, queryParams: any,colounmMapping:any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.EXPQUERY));
+    transform.RequestParams[7]=colounmMapping
+    transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
+    //identifier
+    transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
+    //queryparameters
+    transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofQueryObjectCharacteristics.QueryObjectCharacteristics[0].ListofIdentifiers.Identifier = queryParams;
+    return transform;
+  }
 
 }

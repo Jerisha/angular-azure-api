@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpWrapperService } from 'src/app/_http';
 
 const myData = [
   {
@@ -54,7 +55,7 @@ const myData = [
 })
 export class ExporttoexcelComponent implements OnInit {
 
-  constructor() { }
+  constructor(private wrapperService: HttpWrapperService) { }
 
   exportData : any;
   ColumnDetails: any = [

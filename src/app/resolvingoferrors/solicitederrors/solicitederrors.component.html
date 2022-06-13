@@ -195,7 +195,7 @@
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
-              (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
+              (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)" (requestExport2Excel) ="reequest2Excel($event)" [isExportDisable]="isExportDisable">
             </app-table-selection>
             <form (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off">
               <div class="mat-elevation-z8 side-bottom">
