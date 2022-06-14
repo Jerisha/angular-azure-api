@@ -201,10 +201,23 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   startTelNo: string = '';
   endTelNo: string = '';
   onFormSubmit(isEmitted?: boolean): void {
-    if (!this.splCeaseTransForm.valid)
-      return;
+    let errMsg = '';
+      if (!this.splCeaseTransForm.valid) return;
+      errMsg = this.compareStartAndEndTelNoTelephoneRange(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+      if (errMsg) {
+        const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px',
+          // height:'250px',
+          disableClose: true,
+          data: {
+            enableOk: false,
+            message: errMsg,
+          }
+        });
+        rangeConfirm.afterClosed().subscribe(result => { return result; })
+        return;
+      }
     this.isAuditTrail = false;
-   
     this.isResult = true;
     this.tabs.splice(0)
     if (this.splCeaseTransForm.controls['StartTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['StartTelephoneNumber'].value != null &&
@@ -375,15 +388,18 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
 
   compareStartAndEndTelNoTelephoneRange(StartTelephoneNumber: any, EndTelephoneNumber: any): string {
     let errMsg = '';
-    //Enter start telephone no
-    if (EndTelephoneNumber != '' && StartTelephoneNumber == '')
-        errMsg = 'Please enter the Start Telephone No';
+    if(StartTelephoneNumber && EndTelephoneNumber)
+    {
     //Telephonerange
     if ((EndTelephoneNumber != '' && StartTelephoneNumber != '') && (EndTelephoneNumber - StartTelephoneNumber) > 50000)
         errMsg = 'TelephoneRange must be less than or equal to 50000';
     //startTelNo should be < endTelNo
     if ((EndTelephoneNumber != '' && StartTelephoneNumber != '') && (StartTelephoneNumber > EndTelephoneNumber))
         errMsg = 'Start Telephone No should be less than End Telephone No';
+    }
+      //  //Enter start telephone no
+      //  if (EndTelephoneNumber != '' && StartTelephoneNumber == '')
+      //  errMsg = 'Please enter the Start Telephone No';
 
     return errMsg
 
