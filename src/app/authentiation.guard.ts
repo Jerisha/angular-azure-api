@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanDeactivate, CanLoad, Route, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanDeactivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from './login/_services/authentication.service';
 
@@ -8,21 +8,26 @@ import { AuthenticationService } from './login/_services/authentication.service'
 })
 export class AuthentiationGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService,
+    private router: Router) { }
+
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.authService.isUserLoggedIn())
       return true;
 
+    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
     return false
   }
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if (this.authService.isUserLoggedIn())
-      return false;
+    if (this.authService.isUserLoggedIn())
+      return true;
 
+    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
     return false;
   }
   canDeactivate(

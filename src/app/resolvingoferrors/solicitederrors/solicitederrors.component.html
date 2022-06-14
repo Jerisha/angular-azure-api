@@ -49,7 +49,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
+          <!-- <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
             <input #command formControlName="Command" type="text" placeholder="Search Command" matInput
               [matAutocomplete]="autoCommand" OptionsValidator [options]="config.Command" />
@@ -62,9 +62,20 @@
               </mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.Command.errors?.validOptions">Value need to match available options</mat-error>
+          </mat-form-field> -->
+
+          
+          <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
+            <mat-label>Command</mat-label>
+            <mat-select formControlName="Command">  
+              <!-- <mat-option>None</mat-option>           -->
+              <mat-option *ngFor="let val of config.Command" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+          <!-- <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source System</mat-label>
             <input #source formControlName="Source" type="text" placeholder="Search Source System" matInput
               [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source " />
@@ -76,6 +87,16 @@
                 {{val}}</mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
+          </mat-form-field> -->
+           
+          <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
+            <mat-label>Source System</mat-label>
+            <mat-select formControlName="Source">  
+              <!-- <mat-option>None</mat-option>           -->
+              <mat-option *ngFor="let val of config.Source" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
@@ -89,7 +110,7 @@
             <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
+          <!-- <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
             <input #resolutiontype formControlName="ResolutionType" type="text" placeholder="Search Resolution Type"
               matInput [matAutocomplete]="autoResolutionType" OptionsValidator
@@ -99,16 +120,26 @@
             </span>
             <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
               <!-- <mat-select formControlName="ResolutionType"> -->
-              <mat-option *ngFor="let val of config.ResolutionType  | ddlFilter: resolutiontype.value"
+              <!-- <mat-option *ngFor="let val of config.ResolutionType  | ddlFilter: resolutiontype.value"
                 [value]="val">{{val}}</mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
+          </mat-form-field> --> 
+            
+          <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
+            <mat-label>Resolution Type</mat-label>
+            <mat-select formControlName="ResolutionType">  
+              <!-- <mat-option>None</mat-option>           -->
+              <mat-option *ngFor="let val of config.ResolutionType" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
+          <!-- <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <!-- <mat-select formControlName="ErrorType"> -->
-            <input #errortype formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
+            <!-- <input #errortype formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
               [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorType " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
@@ -120,14 +151,24 @@
               </mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.ErrorType.errors?.validOptions">Value need to match available options</mat-error>
+          </mat-form-field> --> 
+
+          <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
+            <mat-label>Error Type</mat-label>
+            <mat-select formControlName="ErrorType">  
+              <!-- <mat-option>None</mat-option>           -->
+              <mat-option *ngFor="let val of config.ErrorType" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
             <mat-label>Error Code</mat-label>
-            <input #errorcode formControlName="ErrorCode" type="text" placeholder="Search Error Code" matInput
+            <input #errorcode formControlName="ErrorCode"  [(ngModel)]="model.ErrorCode" type="text" placeholder="Search Error Code" matInput
               [matAutocomplete]="auto" OptionsValidator [options]="config.ErrorCode " />
             <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
+              <mat-icon (click)="model.ErrorCode=''">arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               <mat-option *ngFor="let option of config.ErrorCode  | ddlFilter: errorcode.value"

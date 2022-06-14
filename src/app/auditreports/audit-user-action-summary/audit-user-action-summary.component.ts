@@ -77,17 +77,18 @@ export class AuditUserActionSummaryComponent {
   queryResult$: any;
   myTable!: TableItem;
   listItems!: Select[];
+  defaultACTID: string = ''
 
 
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
   columns: ColumnDetails[]= [
-    { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false },
-    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true },
+    { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
+    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true, isFooter: true },
   ]
  
     
@@ -100,9 +101,7 @@ export class AuditUserActionSummaryComponent {
     this.listItems = Itemstwo;
     this.createForm();
     let request = Utils.preparePyConfig(['Search'], ['AuditType', 'ResolvedBy', 'ResolutionTypeAudit', 'AuditActID']);
-    console.log("req: " + JSON.stringify(request));
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res));
       this.configDetails = res.data;
     });
 
@@ -172,8 +171,8 @@ export class AuditUserActionSummaryComponent {
           datasource: res.data.Summary,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
-      
+          pagenumber: res.PageNumber,
+          FooterDetails: {footerName: "Cumulative", footerValue: `${res.CumulativeCount ? res.CumulativeCount : ''}`}
         }
         return result;
       } else return {
@@ -188,7 +187,7 @@ export class AuditUserActionSummaryComponent {
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
-     
+     isCustomFooter: true
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
