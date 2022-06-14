@@ -529,7 +529,8 @@ else{
     { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode', 'SourcePostcode'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y', isBackgroundHighlighted: true },
-   ];
+    { flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true } 
+  ];
 
   onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);

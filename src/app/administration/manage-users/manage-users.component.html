@@ -19,153 +19,120 @@
 
     
     <mat-card *ngIf="isLeftPanel" class="left-box mat-elevation-z3">
-        <mat-card-title style="margin:0px; padding:0px; font-size:medium" class="top-label">
+        <!-- <mat-card-title style="margin:0px; padding:0px; font-size:medium" class="top-label" style="visibility:hidden">
             {{Header}}
-        </mat-card-title>
-        <mat-divider></mat-divider>
+        </mat-card-title> -->
+        <!-- <mat-divider></mat-divider> -->
                          
             <mat-card-content> 
               <!-- UserProfile    -->
-                    <form [formGroup]="referenceForm" *ngIf="UserDetailsForm"  (ngSubmit)="onSubmit()">
+              <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTabLeft">
+                <mat-tab *ngFor="let tab of tabsLeft; let index = index">
+                    <ng-template mat-tab-label style="background-color:red!important">
+                        <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+                        <button style="color:black" mat-icon-button (click)="removeTabLeftPanel(index)">
+                            <mat-icon style="font-size: large;">close</mat-icon>
+                        </button>
+                    </ng-template>
+                    <span [ngSwitch]="tab.tabType">
+                        <div *ngSwitchCase="0" style="height:100%;">
+                            <form [formGroup]="referenceForm" *ngIf="UserDetailsForm"  (ngSubmit)="onSubmit()">
                        
-                        <div class="content-main vf-flex-container-row">
-                        <div class="content-submain vf-flex-container-col">
-                            <mat-form-field hintLabel="Max 10 characters">
-                              <mat-label>User Id</mat-label>
-                              <input formControlName="UserID" matInput #input maxlength="10"
-                                placeholder="User Id">
-                              <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>User Profile1</mat-label>
-                                <mat-select formControlName="UserProfile">
-                                  <mat-option></mat-option>
-                                  <mat-option>User Profile1</mat-option>
-                                  <mat-option>User Profile2</mat-option>
-                                  <mat-option>User Profile3</mat-option>
-                                      </mat-select>
-                                   </mat-form-field>
-                                   <mat-form-field>
-                                    <mat-label>Address Line2</mat-label>
-                                <input type="text"  matInput   formControlName="AddressLine2"
-                                placeholder="AddressLine2">
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>UK</mat-label>
-                                    <mat-select formControlName="Country">
-                                      <mat-option></mat-option>
-                                      <mat-option>UK</mat-option>
-                                      <mat-option>USA</mat-option>
-                                      <mat-option>INDIA</mat-option>
-                                          </mat-select>
-                                       </mat-form-field>
-                                       <mat-form-field>
-                                        <mat-label >First Name</mat-label>
-                                    <input type="text" matInput   formControlName="FirstName"
-                                    placeholder="First Name">
+                                <div class="content-main vf-flex-container-row">
+                                <div class="content-submain vf-flex-container-col">
+                                    <mat-form-field hintLabel="Max 10 characters">
+                                      <mat-label>User Name</mat-label>
+                                      <input formControlName="UserID" matInput #input maxlength="10"
+                                        placeholder="User Id">
+                                      <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
                                     </mat-form-field>
-                        </div>  
-                            <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
-                                <mat-form-field>
-                                    <mat-label >Address Line1</mat-label>
-                                <input type="text"  matInput   formControlName="AddressLine1"
-                                placeholder="Address Line1">
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>Email Address</mat-label>
-                                <input type="text"  matInput   formControlName="EmailAddress"
-                                placeholder="EmailAddress">
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label >Post Code</mat-label>
-                                <input type="text" matInput  formControlName="PostCode"
-                                placeholder="Post Code">
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label >YID</mat-label>
-                                <input type="text" matInput  formControlName="YID"
-                                placeholder="YID">
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label >Telephone No</mat-label>
-                                <input type="text" matInput   formControlName="TelephoneNo"
-                                placeholder="TelephoneNo">
-                                </mat-form-field>
-                            </div> 
-                           
+                                    <mat-form-field>
+                                        <mat-label>Profile</mat-label>
+                                        <mat-select formControlName="UserProfile" (selectionChange)="onSelectEvent($event.value)">
+                                          <mat-option *ngFor="let profile of Acessrights" [value]="profile.value">
+                                            {{profile.viewValue}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                    <!-- <mat-form-field>
+                                        <mat-label>User Profile1</mat-label>
+                                        <mat-select formControlName="UserProfile"  (selectionChange)="changeevent($event)">
+                                          <mat-option></mat-option>
+                                          <mat-option>Admin</mat-option>
+                                          <mat-option>Super Admin</mat-option>
+                                          <mat-option>Custom</mat-option>
+                                              </mat-select>
+                                           </mat-form-field> -->
+                                           <div style="margin-bottom:37px;">
+                                           
+                                      
+        
+        
+             <app-select-checkbox #selMultiple [listItems]="filterItems" [icon]="'filter_alt'" >
+              </app-select-checkbox>
+        
+        
+        
+            </div>
+                                       
+                                               <mat-form-field>
+                                                <mat-label >First Name</mat-label>
+                                            <input type="text" matInput   formControlName="FirstName"
+                                            placeholder="First Name">
+                                            </mat-form-field>
+                                </div>  
+                                    <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
+                                       
+                                        <mat-form-field>
+                                            <mat-label>Email Address</mat-label>
+                                        <input type="text"  matInput   formControlName="EmailAddress"
+                                        placeholder="EmailAddress">
+                                        </mat-form-field>
+                                       
+                                        <mat-form-field>
+                                            <mat-label >YID</mat-label>
+                                        <input type="text" matInput  formControlName="YID"
+                                        placeholder="YID">
+                                        </mat-form-field>
+                                        <mat-form-field>
+                                            <mat-label >Telephone No</mat-label>
+                                        <input type="text" matInput   formControlName="TelephoneNo"
+                                        placeholder="TelephoneNo">
+                                        </mat-form-field>
+                                    </div> 
+                                   
+                                </div>
+                                    <div class ="fixed-button-bar">   
+                                        <mat-card-actions>
+                                          <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                            <mat-icon >save</mat-icon>Save
+                                          </button>
+                                          <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                                <mat-icon >edit</mat-icon>Update
+                                          </button>
+                                          <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
+                                            <mat-icon >cancel</mat-icon>Cancel
+                                          </button>                       
+                                        </mat-card-actions>                  
+                                      </div> 
+                            </form>
+                          
                         </div>
-                            <div class ="fixed-button-bar">   
-                                <mat-card-actions>
-                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
-                                    <mat-icon >save</mat-icon>Save
-                                  </button>
-                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
-                                        <mat-icon >edit</mat-icon>Update
-                                  </button>
-                                  <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
-                                    <mat-icon >cancel</mat-icon>Cancel
-                                  </button>                       
-                                </mat-card-actions>                  
-                              </div> 
-                    </form>
-         <!-- UserProfile    -->  
-                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit()">
-                       
-                        <div class="content-main vf-flex-container-row">
-                            <div  class="content-submain vf-flex-container-col">
-                                <mat-form-field>
-                                    <mat-label>Email Address</mat-label>
-                                <input type="text"  matInput   formControlName="EmailAddress"
-                                placeholder="EmailAddress">
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>Message</mat-label>
-                                <textarea type="text" style="min-height:100px;"  matInput   formControlName="Message"
-                                placeholder="Message"></textarea>
-                                </mat-form-field>
-                            </div> 
-                            <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
-                                <mat-form-field>
-                                    <mat-label>Show From</mat-label>
-                                <input type="text"  matInput   formControlName="ShowFrom"
-                                placeholder="Show From">
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>Expiry Date</mat-label>
-                                <input type="text"  matInput   formControlName="ExpiryDate"
-                                placeholder="Expiry Date">
-                                </mat-form-field>
-                            </div> 
-                            <div class ="fixed-button-bar">   
-                                <mat-card-actions>
-                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
-                                    <mat-icon >save</mat-icon>Save
-                                  </button>
-                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
-                                        <mat-icon >edit</mat-icon>Update
-                                  </button>
-                                  <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
-                                    <mat-icon >cancel</mat-icon>Cancel
-                                  </button>                       
-                                </mat-card-actions>                  
-                              </div> 
-                        </div>
-                    </form>
-
-                    <form [formGroup]="UserProfileForm" *ngIf="UserProfilesForm" >
-                       
+                        <div *ngSwitchCase="1" style="height:100%;">
+                             <form [formGroup]="UserProfileForm" *ngIf="UserProfilesForm" >
+                        
                         <div class="content-main vf-flex-container-row">
                             <div  class="content-submain vf-flex-container-col">
                                 <mat-form-field>
                                     <mat-label>Profile Name</mat-label>
-                                <input type="text"  matInput   formControlName="ProfileName"
+                                <input type="text"  matInput  value="Custom"  formControlName="ProfileName"
                                 placeholder="Profile Name">
                                 </mat-form-field>
                             </div> 
                             <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
                                 <mat-form-field>
                                     <mat-label>Description</mat-label>
-                                <input type="text"  matInput   formControlName="Description"
+                                <input type="text"  matInput value="Custom Content"    formControlName="Description"
                                 placeholder="Description">
                                 </mat-form-field>
                             </div>
@@ -195,10 +162,10 @@
                                           {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                                         </mat-icon>
                                       </button>
-                                      <mat-checkbox [checked]="descendantsAllSelected(node)"
+                                      <!-- <mat-checkbox  [attr.disabled]="true" [checked]="descendantsAllSelected(node)"
                                                     [indeterminate]="descendantsPartiallySelected(node)"
-                                                    (change)="todoItemSelectionToggle(node)">{{node.label}}</mat-checkbox>
-                                    
+                                                    (change)="todoItemSelectionToggle(node)">{{node.label}}</mat-checkbox> -->
+                                    <label>{{node.label}}</label>
                                     </mat-tree-node>
                                   </mat-tree>
                                 <!-- <table mat-table [dataSource]="data0" multiTemplateDataRows  class="detail-table mat-elevation-z8" style="height:310px">
@@ -283,6 +250,206 @@
                                 </table>  -->
                             </div>
                         </div>
+                            <!-- <div class ="fixed-button-bar">   
+                                <mat-card-actions>
+                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                    <mat-icon >save</mat-icon>Save
+                                  </button>
+                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                        <mat-icon >edit</mat-icon>Update
+                                  </button>
+                                  <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
+                                    <mat-icon >cancel</mat-icon>Cancel
+                                  </button>                       
+                                </mat-card-actions>                  
+                              </div>  -->
+                        </div>
+                    </form>
+                        </div>
+                        <div *ngSwitchCase="2" style="height:100%;">
+                            <form [formGroup]="UserEditForm"  *ngIf="UserEditProfilesForm" >
+                       
+                                <div class="content-main vf-flex-container-row">
+                                    <div  class="content-submain vf-flex-container-col">
+                                        <mat-form-field>
+                                            <mat-label>Profile Name</mat-label>
+                                        <input type="text"  matInput  value="Custom"  formControlName="ProfileName"
+                                        placeholder="Profile Name">
+                                        </mat-form-field>
+                                    </div> 
+                                    <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
+                                        <mat-form-field>
+                                            <mat-label>Description</mat-label>
+                                        <input type="text"  matInput value="Custom Content"    formControlName="Description"
+                                        placeholder="Description">
+                                        </mat-form-field>
+                                    </div>
+        
+                                    <div class="userprofilerighttable" style="padding:10px;width:50vw">
+                                    <div style="max-height: 300px;overflow:auto">
+                                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                                            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                                              <button mat-icon-button disabled></button>
+                                              <mat-checkbox class="checklist-leaf-node"
+                                                            [checked]="checklistSelection.isSelected(node)"
+                                                            (change)="todoLeafItemSelectionToggle(node)">{{node.label}}</mat-checkbox>
+                                            </mat-tree-node>
+                                          
+                                            <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+                                              <button mat-icon-button disabled></button>
+                                              <mat-form-field>
+                                                <input matInput #itemValue placeholder="New item...">
+                                              </mat-form-field>
+                                              <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+                                            </mat-tree-node>
+                                          
+                                            <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                                              <button mat-icon-button matTreeNodeToggle
+                                                      [attr.aria-label]="'toggle ' + node.filename">
+                                                <mat-icon class="mat-icon-rtl-mirror">
+                                                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                                </mat-icon>
+                                              </button>
+                                              <mat-checkbox [checked]="descendantsAllSelected(node)"
+                                                            [indeterminate]="descendantsPartiallySelected(node)"
+                                                            (change)="todoItemSelectionToggle(node)">{{node.label}}</mat-checkbox>
+                                            
+                                            </mat-tree-node>
+                                          </mat-tree>
+                                        <!-- <table mat-table [dataSource]="data0" multiTemplateDataRows  class="detail-table mat-elevation-z8" style="height:310px">
+                                            <ng-container *ngFor="let disCol of displayedColumns1; let colIndex = index" matColumnDef="{{disCol}}">
+                                                <!-- Edit Coloumn -->
+                                                <!-- <div *ngIf="disCol==='Actions'">
+                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> <mat-icon >add_box</mat-icon></th>
+                                                    <td mat-cell *matCellDef="let element" class="table-coloumn">
+                                                        <ng-container>
+                                                            
+                                                                <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+                                                                style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
+                                                 
+                                                        </ng-container>
+                                                    </td>
+                                                </div> -->
+                                                <!-- Delete Coloumn -->
+                                                <!-- <div *ngIf="disCol==='Delete'">
+                                                    <th mat-header-cell *matHeaderCellDef class="table-header">Delete</th>
+                                                    <td mat-cell *matCellDef="let element" class="table-coloumn">
+                                                        <ng-container>
+                                                             </ng-container>
+                                                    </td>
+                                                </div> -->
+                                                
+                                                <!-- <div *ngIf="disCol=='Menu Group'">
+                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> Menu Group </th>
+                                                    <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
+                                                        <div  class="content-submain vf-flex-container-col">
+                                                            <mat-form-field style="width:100px;height:20px;font-size:smaller;">
+                                                                <mat-label>User Profile1</mat-label>
+                                                                <mat-select formControlName="UserProfile">
+                                                                  <mat-option></mat-option>
+                                                                  <mat-option>User Profile1</mat-option>
+                                                                  <mat-option>User Profile2</mat-option>
+                                                                  <mat-option>User Profile3</mat-option>
+                                                                      </mat-select>
+                                                                   </mat-form-field>
+                                                        </div> </td>
+                                                </div>
+                                                <div *ngIf="disCol=='Screen Name'">
+                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> Screen Name </th>
+                                                    <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
+                                                        <div  class="content-submain vf-flex-container-col">
+                                                            <mat-form-field style="width:100px;height:20px;font-size:smaller">
+                                                                <mat-label>Screen Name</mat-label>
+                                                                <mat-select formControlName="UserProfile">
+                                                                  <mat-option></mat-option>
+                                                                  <mat-option>User Profile1</mat-option>
+                                                                  <mat-option>User Profile2</mat-option>
+                                                                  <mat-option>User Profile3</mat-option>
+                                                                      </mat-select>
+                                                                   </mat-form-field>
+                                                        </div> </td>
+                                                </div>
+                                                <div *ngIf="disCol=='Access Level'">
+                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> Access Level </th>
+                                                    <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
+                                                        <div  class="content-submain vf-flex-container-col">
+                                                            <mat-form-field style="width:100px;height:20px;font-size:smaller">
+                                                                <mat-label>Access Level</mat-label>
+                                                                <mat-select formControlName="UserProfile">
+                                                                  <mat-option></mat-option>
+                                                                  <mat-option>User Profile1</mat-option>
+                                                                  <mat-option>User Profile2</mat-option>
+                                                                  <mat-option>User Profile3</mat-option>
+                                                                      </mat-select>
+                                                                   </mat-form-field>
+                                                        </div> </td>
+                                                </div>
+                                                <div *ngIf="disCol!='Actions'">
+                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> {{disCol}} </th>
+                                                    <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
+                                                        {{element[disCol]}} </td>
+                                                </div>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns1 sticky: true" class="table-row"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns1;" class="table-row"></tr>
+                                            <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="columns.length">No data found</td>
+                                            </tr>
+                                        </table>  -->
+                                    </div>
+                                </div>
+                                    <div class ="fixed-button-bar">   
+                                        <mat-card-actions>
+                                          <button  *ngIf = "eventName==='Create'"  type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                            <mat-icon >save</mat-icon>Save
+                                          </button>
+                                          <button  *ngIf = "eventName==='Update'" (click)=onreturnform()  type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                                <mat-icon >edit</mat-icon>Update
+                                          </button>
+                                          <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
+                                            <mat-icon >cancel</mat-icon>Cancel
+                                          </button>                       
+                                        </mat-card-actions>                  
+                                      </div> 
+                                </div>
+                            </form>
+                        </div>
+                        <div *ngSwitchDefault>
+                        </div>
+                    </span>
+                </mat-tab>
+              </mat-tab-group>
+            <!-- </mat-card-content> -->
+            
+                 
+         <!-- UserProfile    -->  
+                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit()">
+                       
+                        <div class="content-main vf-flex-container-row">
+                            <div  class="content-submain vf-flex-container-col">
+                                <mat-form-field>
+                                    <mat-label>Email Address</mat-label>
+                                <input type="text"  matInput   formControlName="EmailAddress"
+                                placeholder="EmailAddress">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Message</mat-label>
+                                <textarea type="text" style="min-height:100px;"  matInput   formControlName="Message"
+                                placeholder="Message"></textarea>
+                                </mat-form-field>
+                            </div> 
+                            <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
+                                <mat-form-field>
+                                    <mat-label>Show From</mat-label>
+                                <input type="text"  matInput   formControlName="ShowFrom"
+                                placeholder="Show From">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Expiry Date</mat-label>
+                                <input type="text"  matInput   formControlName="ExpiryDate"
+                                placeholder="Expiry Date">
+                                </mat-form-field>
+                            </div> 
                             <div class ="fixed-button-bar">   
                                 <mat-card-actions>
                                   <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
@@ -298,7 +465,11 @@
                               </div> 
                         </div>
                     </form>
+
+                   
                     
+
+                  
             </mat-card-content>     
                         
         
@@ -324,7 +495,7 @@
                     <div class="rightFilters">
                         <div class="rightFilters-items">
                             <mat-form-field>
-                            <mat-label >User Id</mat-label>
+                            <mat-label >User Name</mat-label>
                             <input type="text" matInput  
                             placeholder="User Id">
                             </mat-form-field>
@@ -338,7 +509,7 @@
                         </div>
                         <div class="rightFilters-items">
                             <mat-form-field>
-                            <mat-label >User Profile</mat-label>
+                            <mat-label >Profile</mat-label>
                             <input type="text" matInput  
                             placeholder="User Profile">
                             </mat-form-field>
@@ -374,6 +545,15 @@
                                             </ng-container>
                                         </td>
                                     </div>
+                                    <div *ngIf="disCol==='Profile'">
+                                        <th mat-header-cell *matHeaderCellDef class="table-header">Profile</th>
+                                        <td mat-cell *matCellDef="let element" class="table-coloumn">
+                                            <ng-container>
+                                               <input type="button" (click)="onEditUserprofile(element,$event)" class="linkbutton" style="width:150px;" value="{{element[disCol]}}"/>
+                                             
+                                            </ng-container>
+                                        </td>
+                                    </div>
                                     <!-- Delete Coloumn -->
                                     <!-- <div *ngIf="disCol==='Delete'">
                                         <th mat-header-cell *matHeaderCellDef class="table-header">Delete</th>
@@ -382,7 +562,7 @@
                                                  </ng-container>
                                         </td>
                                     </div> -->
-                                    <div *ngIf="disCol!='Actions'">
+                                    <div *ngIf="disCol!='Actions'&&disCol!='Profile'">
                                         <th mat-header-cell *matHeaderCellDef class="table-header"> {{disCol}} </th>
                                         <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
                                             {{element[disCol]}} </td>

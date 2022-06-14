@@ -7,6 +7,7 @@ import { TableItem } from 'src/app/uicomponents/models/table-item';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {SelectionModel} from '@angular/cdk/collections';
+import { Select } from 'src/app/uicomponents/models/select';
 
 export class TodoItemNode {
   children: TodoItemNode[] = [];
@@ -30,61 +31,328 @@ export class TodoItemFlatNode {
 }
 const TREE_DATA = [
   {
-    name: 'Test 1',
+    name: 'Process Management',
     id:111,
     isChecked:true, 
      isPlanType: true,
      claimId:11111,
     children: [
       {
-        name: 'Sub - Test 1',
+        name: 'Solicited/Internal Discrepancy Process',
         id:22,
         isChecked:true, 
          isPlanType: true,
-         claimId:777777,
-        children: [
-          {
-            name: 'Sub - sub - Test 1',
-            id:33,
-            isChecked:false,
-             isPlanType: true,
-            claimId:6666666,
-          },
-           {
-            name: 'Sub - sub - Test 2', 
-            id:44,
-            isChecked:true,
-             isPlanType: true,
-            claimId:5555555,
-          children: [
-          {
-            name: 'Sub - sub - sub - Test 2',
-            id:55,
-            isChecked:true,
-             isPlanType: true, 
-            claimId:112222111,
-          }],
-          }
-        ]
-      }
+         claimId:11111,
+     
+      },
+      {
+        name: 'Solicited Resolution Report',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+     
+      },
+      {
+        name: 'Solicited Actions Report',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+     
+      },
+      {
+        name: 'Unsolicited Process',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+     
+      },
+      {
+        name: 'Unsolicited Actions Report',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+     
+      },
+
+
     ]
   },
   {
-    name: 'Test 2',
+    name: 'Record Creation',
     id:66,
     isChecked:false,
      isPlanType: true, 
      claimId:33333,
     children: [
       {
-        name: 'Sub - Test 2',
+        name: 'Create Record',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Create Internal Cease',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+
+    ]
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
          isPlanType: true,
         claimId:44444444,
       }
     ]
-  }
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Inventory Records',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'InFlight Records',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Telephone Range Report',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Transaction Details Records',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Statistical Reports',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Transaction Trend for Source & Command',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+     
+  
+    ]
+  },
+  {
+    name: 'Administration',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Audit Status Tracker',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit Data Files',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Restore Solicited Errors',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Data Correction Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+
+      {
+        name: 'Unresolved Transaction',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Unresolved Errors',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Manage Users',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      }
+      
+    ]
+  },
+    {
+      name: 'Configurational Reference Data',
+      id:66,
+      isChecked:false,
+       isPlanType: true, 
+       claimId:33333,
+      children: [
+        {
+          name: 'Reference List',
+          id:77,
+          isChecked:false,
+           isPlanType: true,
+          claimId:44444444,
+        }]
+      
+  },
+  
 ];
 @Injectable()
 export class ChecklistDatabase {
@@ -150,11 +418,12 @@ export class ChecklistDatabase {
 
 
 const ELEMENT_DATA = [
-  { UserID: "19", UserProfile :"BT101330091301.DAT",AccessLevel:"Level0",EmailAddress:"OSN2@vodafone1.com",Country:"uk",Telephoneno:"987654321",YID:"Y1234", CreatedOn: "22/01/2021",CreatedBy:"TestUser" },
-  { UserID: "20", UserProfile :"BT1012440091453.DAT",AccessLevel:"Level0",EmailAddress:"OSN2@vodafone2.com",Country:"uk",Telephoneno:"987654321",YID:"Y3214", CreatedOn: "22/01/2021",CreatedBy:"TestUser" },
-  { UserID: "21", UserProfile :"BT1013347474747.DAT",AccessLevel:"Level0",EmailAddress:"OSN2@vodafone3.com",Country:"uk",Telephoneno:"987654321",YID:"Y3454", CreatedOn: "22/01/2021",CreatedBy:"TestUser" },
-  { UserID: "22", UserProfile :"BT1013357383392.DAT",AccessLevel:"Level0",EmailAddress:"OSN2@vodafone4.com",Country:"uk",Telephoneno:"987654321",YID:"Y67834", CreatedOn: "22/01/2021",CreatedBy:"TestUser" },
-  
+  {UserName:"Test User",Profile:"Custom",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Admin User",Profile:"Admin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Admin User",Profile:"SuperAdmin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Admin User",Profile:"Custom",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Admin User",Profile:"SuperAdmin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Test User",Profile:"SuperAdmin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
   
 ]
 const UserOfReports = [{
@@ -178,13 +447,13 @@ const StartUpUserMessages = [{
   {EmailAddress:"kashim.j3@vodafone.com",ShowFrom:"14 March 2022",ExpiryDate:"19 March 2022" ,Message:"test"}
 ];
 const UserAccessDetails = [
-  {UserId:"kashnji3",UserProfile:"Requester",AccessLevel:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji4","UserProfile":"Requester","AccessLevel":"Level 1","EmailAddress":"kashim.j4@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786745","Y/W/ID":"Y875766","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji5","UserProfile":"Requester","AccessLevel":"Level 2","EmailAddress":"kashim.j5@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786767","Y/W/ID":"Y875767","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji3","UserProfile":"Requester","AccessLevel":"Level 0","EmailAddress":"kashim.j3@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji4","UserProfile":"Requester","AccessLevel":"Level 1","EmailAddress":"kashim.j4@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786745","Y/W/ID":"Y875766","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji5","UserProfile":"Requester","AccessLevel":"Level 2","EmailAddress":"kashim.j5@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786767","Y/W/ID":"Y875767","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-]
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  ]
 const UserProfiles = [
   {"ProfileName":"New","Description":"New Profile","CreatedOn":"15 March 2022","CreatedBy":"admin"},
   {"ProfileName":"Test","Description":"Test Profile","CreatedOn":"15 March 2022","CreatedBy":"admin"},
@@ -193,7 +462,18 @@ const UserProfiles = [
   {"ProfileName":"Super Admin","Description":"Can view and perform all operations","CreatedOn":"15 March 2022","CreatedBy":"admin"},
   ]
   
-
+  const FilterListItems: Select[] = [
+    { view: 'Amdocs SOM', viewValue: 'StartTelephoneNumber', default: true },
+    { view: 'ONNET', viewValue: 'EndTelephoneNumber', default: false },
+    { view: 'Ring Central', viewValue: 'Source', default: false },
+    { view: 'Audit', viewValue: 'Command', default: false },
+    { view: 'EDGE', viewValue: 'ErrorType', default: false },
+    { view: 'ONNET', viewValue: 'ResolutionType', default: false },
+  ];
+  interface Access {
+    value: string;
+    viewValue: string;
+  }
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
@@ -208,11 +488,13 @@ const UserProfiles = [
   ],
   providers: [ChecklistDatabase]
 })
+
 export class ManageUsersComponent implements OnInit {
   isShow: boolean = false;
   showMenu: string = 'expanded';
   btAuditFileDetailsTable!: TableItem;
   tabs: Tab[] = [];
+  tabsLeft: Tab[] = [];
   record:any;
   eventName:string ='Create';
   thisForm!: FormGroup;
@@ -220,7 +502,14 @@ export class ManageUsersComponent implements OnInit {
   referenceForm!: FormGroup;
   StartupUsermsgsForm!:FormGroup;
   UserProfileForm!:FormGroup;
+  UserEditForm!:FormGroup;
   Header:string='';
+  Acessrights: Access[] = [
+    {value: '1', viewValue: 'Admin'},
+    {value: '2', viewValue: 'SuperAdmin'},
+    {value: '3', viewValue: 'Custom'}
+  ];  
+  filterItems: Select[] = FilterListItems;
   btAuditFileDetailsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
     { headerValue: 'FileName',
@@ -230,15 +519,16 @@ export class ManageUsersComponent implements OnInit {
 
   ]
   selectedTab: number = 0;
+  selectedTabLeft: number = 0;
   UserDetailsForm:boolean=false;
   StartupForm:boolean=false;
   UserProfilesForm:boolean=false;
-
+  UserEditProfilesForm:boolean=false;
   isLeftPanel =false;
   datauserreports:any=UserOfReports;
   userreportscolums:any=['UserId','EmailAddress','MenuGroup','ReportName'];
   data0:any =  ELEMENT_DATA;
-  displayedColumns0:any =['Actions','UserID','UserProfile','AccessLevel','EmailAddress','Country','Telephoneno','YID','CreatedOn','CreatedBy'];
+  displayedColumns0:any =['Actions','UserName','Profile','Active','EmailAddress','Country','TelephoneNo','Y/W/ID','CreatedOn','CreatedBy'];
   startupusermsgs:any=StartUpUserMessages;
   startupusermsgscols=['Actions','EmailAddress','ShowFrom','ExpiryDate','Message'];
   userprofilesdata:any=UserProfiles;
@@ -445,6 +735,60 @@ export class ManageUsersComponent implements OnInit {
     this.showMenu = 'expanded';
     }
   }
+  removeTabLeftPanel(index: number) {
+    this.tabsLeft.splice(index, 1);
+    this.showDetails = this.tabsLeft.length > 0 ? true : false;
+    if(this.tabsLeft.length == 0) {
+    //this.isShow = false;
+    this.showMenu = 'expanded';
+  this.isLeftPanel=false;
+    }
+
+  }
+
+  getFileDetailsLeftPanel(fileType: string) {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (fileType === 'UserDetailsForm') {
+      if (!this.tabsLeft.find(x => x.tabType == 0)) {
+        this.tabsLeft.push({
+          tabType: 0,
+          name: 'User Access Details'
+        });
+       
+      }
+    }
+    else if (fileType === 'UserOfReports'){
+      if (!this.tabs.find(x => x.tabType == 1)) {
+        this.tabs.push({
+          tabType: 1,
+          name: 'User Of Reports'
+        });
+        
+      }
+    }
+    else if (fileType === 'StartUpUserMessages'){
+      if (!this.tabs.find(x => x.tabType == 2)) {
+        this.tabs.push({
+          tabType: 2,
+          name: 'Start Up User Messages'
+        });
+        
+      }
+    }
+    else if (fileType === 'UserProfiles'){
+      if (!this.tabs.find(x => x.tabType == 3)) {
+        this.tabs.push({
+          tabType: 3,
+          name: 'User Profiles'
+        });
+        
+      }
+    }
+    this.showDetails = true;
+    this.selectedTab = this.tabs.length;
+  }
+
 
   getFileDetails(fileType: string) {
     this.isShow = true;
@@ -506,10 +850,26 @@ export class ManageUsersComponent implements OnInit {
   }
   onEditUserprofile(record:any,event:Event)
   {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 1)) {
+      this.tabsLeft.push({
+        tabType: 1,
+        name: 'View'
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
+    }
+    
     this.Header="User Profiles";
     this.UserDetailsForm=false;
+    this.UserEditProfilesForm=false;
     this.StartupForm=false;
     this.UserProfilesForm=true;
+
     this.isLeftPanel =true;
     this.UserProfileForm = this.formBuilder.group({
       ProfileName: new FormControl({ }),
@@ -525,7 +885,111 @@ export class ManageUsersComponent implements OnInit {
         control?.setValue(record[field]);
         console.log(record[field]);
     }
+    event.stopPropagation();
   }
+  onSelectEvent(value: any){
+
+    if(value=='3')
+    {
+    this.onEditUserprofileAceess();
+    }
+  }
+  // onEdituserDetails(record:any,event:Event){   
+  //   this.Header="User Access Details";
+  //   this.UserDetailsForm=true;
+  //   this.StartupForm=false;
+  //   this.UserProfilesForm=false;
+  //   this.isLeftPanel =true;
+  //   console.log('Edit Record');
+  //   this.eventName="Update";
+  //   debugger
+  //   this.referenceForm = this.formBuilder.group({
+      
+  //     UserID: new FormControl({ value:''}),
+  //     //AddressLine1: new FormControl({ value:''}),
+  //     //AddressLine2: new FormControl({ value:''}),
+  //     //PostCode: new FormControl({ value:''}),
+  //     UserProfile: new FormControl({ value:''}),
+  //     YID: new FormControl({ value:''}),
+  //     FirstName: new FormControl({ value:''}),
+  //     EmailAddress: new FormControl({ value:''}),
+  //     TelephoneNo: new FormControl({ value:''}),
+  //     Country: new FormControl({ value:''})
+  //   });
+   
+  //     this.record = record;
+  //     this.eventName ='Update'
+  //     //this.showDataform =true; 
+  //     //this.cdr.detectChanges();
+  //     for (let field in this.referenceForm.controls) 
+  //     {      
+  //         let control = this.referenceForm.get(field);    
+  //         control?.setValue(record[field]);
+  //         console.log(record[field]);
+  //     }
+      
+  //     //this.referenceForm.markAsUntouched();
+      
+  // }
+  onreturnform()
+  {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 2)) {
+      this.tabsLeft.push({
+        tabType: 2,
+        name: 'Add Profile'
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+    }
+    this.Header="User Access Details";
+    this.UserDetailsForm=true;
+    this.UserEditProfilesForm=false;
+    
+    this.StartupForm=false;
+    this.UserProfilesForm=false;
+    this.isLeftPanel =true;
+    console.log('Edit Record');
+    this.eventName="Update";
+  }
+  onEditUserprofileAceess()
+  {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 2)) {
+      this.tabsLeft.push({
+        tabType: 2,
+        name: 'Add Profile'
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+    this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+    }
+    this.Header="User Profiles";
+    this.UserDetailsForm=false;
+    this.StartupForm=false;
+    this.UserEditProfilesForm=true;
+    this.isLeftPanel =true;
+    this.UserEditForm = this.formBuilder.group({
+      
+      ProfileName: new FormControl({value: 'Custom' }),
+      Description: new FormControl({value:'Custome functionality'}),
+      UserProfile: new FormControl({value:'Custom'})
+
+    });
+  
+    this.eventName ='Update';
+  
+  }
+
+
+
   onEditUsermsgs(record:any,event:Event)
   {
     this.Header="Start Up User Messages";
@@ -551,7 +1015,26 @@ export class ManageUsersComponent implements OnInit {
     }
 
   }
+  changeevent(event:any) {
+    console.log('event called',event);
+  }
   onEdituserDetails(record:any,event:Event){   
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 0)) {
+      this.tabsLeft.push({
+        tabType: 0,
+        name: 'Create'
+      });
+      this.showDetails = true;
+    this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
+    }
+   
+
+
     this.Header="User Access Details";
     this.UserDetailsForm=true;
     this.StartupForm=false;
@@ -563,9 +1046,9 @@ export class ManageUsersComponent implements OnInit {
     this.referenceForm = this.formBuilder.group({
       
       UserID: new FormControl({ value:''}),
-      AddressLine1: new FormControl({ value:''}),
-      AddressLine2: new FormControl({ value:''}),
-      PostCode: new FormControl({ value:''}),
+      //AddressLine1: new FormControl({ value:''}),
+      //AddressLine2: new FormControl({ value:''}),
+      //PostCode: new FormControl({ value:''}),
       UserProfile: new FormControl({ value:''}),
       YID: new FormControl({ value:''}),
       FirstName: new FormControl({ value:''}),
@@ -590,6 +1073,20 @@ export class ManageUsersComponent implements OnInit {
   }
   onCreateUserProfiles()
   {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 1)) {
+      this.tabsLeft.push({
+        tabType: 1,
+        name: 'View'
+      });
+      this.showDetails = true;
+    this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
+      }
+   
     this.Header="User Profiles";
     this.UserDetailsForm=false;
     this.StartupForm=false;
@@ -627,9 +1124,9 @@ export class ManageUsersComponent implements OnInit {
   this.referenceForm = this.formBuilder.group({
       
     UserID: new FormControl(),
-    AddressLine1: new FormControl(),
-    AddressLine2: new FormControl(),
-    PostCode: new FormControl(),
+   // AddressLine1: new FormControl(),
+   // AddressLine2: new FormControl(),
+   // PostCode: new FormControl(),
     UserProfile: new FormControl(),
     YID: new FormControl(),
     FirstName: new FormControl(),
