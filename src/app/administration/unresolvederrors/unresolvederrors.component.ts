@@ -118,6 +118,8 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   selected: string = '';
   currentPage: string = '1';
   isSaveDisable: boolean = true;
+  model: any = { UnresolvedSource: "" };
+  
 
   constructor(private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
@@ -128,15 +130,18 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
   ngOnInit(): void {
 
     this.createForm();
-    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'Status']);
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'UnresolvedErrorStatus']);
     console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
-      
       this.configDetails = res.data;
+     debugger
+      let  stats:any[]=res.data.UnresolvedErrorStatus
+      if(stats.find(r => r ==='DELIVERED').length > 0)
+      {
+        this.model.UnresolvedSource = 'DELIVERED';
+      }
+        
     });
-
-
-
 
   }
 
