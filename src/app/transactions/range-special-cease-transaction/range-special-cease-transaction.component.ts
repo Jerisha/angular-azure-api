@@ -105,6 +105,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   repIdentifier = "CeaseTransaction";
   audittelephonenumbers: any;
   telNo?: any;
+  auditTelNo: any;
   //comments: string = 'No Records Found';
   // horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   // verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -166,6 +167,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.isAuditTrail = false;
     this.showCeasePanel = false;
     this.showTelnos = false;
+    window.location.reload();
   }
 
   get form() {
@@ -220,6 +222,8 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.isAuditTrail = false;
     this.isResult = true;
     this.tabs.splice(0)
+    this.selectedGridRows = [];
+    this.currentPage = isEmitted ? this.currentPage : '1';
     if (this.splCeaseTransForm.controls['StartTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['StartTelephoneNumber'].value != null &&
       (this.splCeaseTransForm.controls['EndTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['EndTelephoneNumber'].value != null)) {
         this.isAuditTrail = true;
@@ -248,6 +252,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         Columns: this.colHeader,
         filter: true,
         selectCheckbox: true,
+        removeNoDataColumns: true,
       }
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
@@ -258,9 +263,9 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
       this.showCeasePanel = true;
       this.selectedTab = this.tabs.length;
     }
+    
     else {
       this.openAuditTrail(true);
-      // }
     }
   }
   prepareTelNoListParams() {
@@ -338,15 +343,11 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         datasource: res
       };
     }));
+    let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
   }
 
-  ngOnChanges(changes: SimpleChanges) {
 
-    if (changes.telNo.currentValue != changes.telNo.previousValue) {
-      let updtab = this.tabs.find(x => x.tabType == 1);
-      if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
-    }
-  }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
     if (this.tabs.length === 0) { this.resetForm(); }
@@ -372,9 +373,11 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   openAuditTrail(isEmitted?: boolean) {
     this.isAuditTrail = isEmitted ? false : true;
     this.showTelnos = false;
+    //if(this.selectedGridRows.length > 0)
+    {
     let tab = { 
       tabType: 1 ,
-      name: 'Audit Trail Report'
+      name: 'Audit Trail Report(' + this.telNo + ')'
     }
     this.newTab(tab);
     // this.fetchTelNoList();
@@ -384,7 +387,12 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         this.telNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value
         console.log(this.telNo, 'teleno')
       }
+    }
+      let updtab = this.tabs.find(x => x.tabType == 1);
+      if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+      this.auditTelNo = this.telNo;
   }
+
 
   compareStartAndEndTelNoTelephoneRange(StartTelephoneNumber: any, EndTelephoneNumber: any): string {
     let errMsg = '';
@@ -412,15 +420,17 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report'
+            name: 'Audit Trail Report(' + this.telNo + ')'
           });
           // this.selectedTab = 1;        
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
-         
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
         }
         this.showCeasePanel = this.tabs.find(x => x.tabType === 0) ? false : true;
+        this.auditTelNo = this.telNo;
         break;
       }
       default: {
