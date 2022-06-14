@@ -12,8 +12,8 @@
     } */
 
 .table-view::ng-deep .mat-cell {
-  /* white-space: nowrap; */
-  white-space: pre-line;
+  white-space: nowrap;
+  /* white-space: pre-line; */
   word-wrap: normal;
 }
 /* .table-view::ng-deep .mat-column-CustomerAddress {
