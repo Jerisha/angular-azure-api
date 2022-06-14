@@ -42,6 +42,11 @@ export interface CellAttributes{
 
 }
 
+export interface PaginationAttributes{
+    currentPage:number;
+    pageSize:number;
+}
+
 export interface FooterDetails{
     footerName: string;
     footerValue: string;
