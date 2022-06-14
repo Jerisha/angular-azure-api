@@ -71,7 +71,7 @@ const FilterListItems: Select[] = [
   { view: 'TransactionID', viewValue: 'TransactionID', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: true },
   { view: 'ResolutionType', viewValue: 'ResolutionTypeAudit', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'TransactionCommand', viewValue: 'TransactionCommand', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
@@ -140,7 +140,7 @@ export class SolicitedactionreportComponent implements OnInit {
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'TransactionCommand', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
 

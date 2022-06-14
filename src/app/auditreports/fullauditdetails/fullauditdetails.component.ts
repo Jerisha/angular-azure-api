@@ -30,7 +30,7 @@ const Items: Select[] = [
   { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
   { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
   { view: 'Porting Status', viewValue: 'PortingStatus', default: true },
   { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: true },

@@ -1,13 +1,23 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, EventEmitter } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, EventEmitter, Output, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { of, Subject } from 'rxjs';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Observable, of, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { Utils } from 'src/app/_http';
+import { AlertService } from 'src/app/_shared/alert';
+import { TransactionDataService } from '../services/transaction-data.service';
+import { start } from 'repl';
 
 
 // const ELEMENT_DATA:any =[
@@ -77,6 +87,7 @@ const ELEMENT_DATA = [
 export class RangeSpecialCeaseTransactionComponent implements OnInit {
 
   splCeaseTransForm!: FormGroup;
+  ceaseupdate!: FormGroup;
   // @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -88,10 +99,27 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   listItems!: Select[];
   //unSelectListItems: string[] = [];
   tabs: Tab[] = [];
+  audittrailNos: any[] = [];
+  auditTrailSuccess: boolean = false;
+  auditTeleNoselected: any;
+  repIdentifier = "CeaseTransaction";
+  audittelephonenumbers: any;
+  telNo?: any;
+  auditTelNo: any;
   //comments: string = 'No Records Found';
   // horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   // verticalPosition: MatSnackBarVerticalPosition = 'top';
+  AuditTrail() {
+    if (this.audittelephonenumbers instanceof Array) {
+      this.AuditTrailSelected.emit(["true", this.audittelephonenumbers]);
+    } else {
+      this.AuditTrailSelected.emit(["true", [this.audittelephonenumbers]]);
+    }
+    console.log('audit telephone numbers length', this.audittelephonenumbers);
 
+
+
+  }
   validation_messages = {
     'TelNo': [
       { type: 'required', message: 'TelNo is required' },
@@ -122,16 +150,15 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false },
     { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false },
     { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false },
-
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
   ];
 
-
-  constructor(private dialog: MatDialog,
-    private formBuilder: FormBuilder, private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {
-  }
+  constructor(private service: TransactionDataService,
+    private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
+    private alertService: AlertService, private telnoPipe: TelNoPipe,
+    public router: Router, private spinner: NgxSpinnerService, private dialog: MatDialog) { }
 
   resetForm(): void {
     this.tabs.splice(0);
@@ -140,16 +167,11 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.isAuditTrail = false;
     this.showCeasePanel = false;
     this.showTelnos = false;
+    window.location.reload();
   }
 
-  get form(){
+  get form() {
     return this.splCeaseTransForm.controls;
-  }
-
-
-  OnTelephoneNoSelected(event: any) {
-    console.log('sel', event)
-
   }
 
   ngOnInit(): void {
@@ -163,32 +185,74 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
-
+  isTelList : boolean = false;
   isAuditTrail: boolean = false;
   isResult: boolean = false;
   showCeasePanel: boolean = false;
-
-  onFormSubmit(): void {
-    if(!this.splCeaseTransForm.valid)
-    return ;  
-
+  selectedGridRows: any[] = [];
+  CeaseRemarks: string = '';
+  isSaveDisable: boolean = true;
+  queryResult$!: Observable<any>;
+  configResult$!: Observable<any>;
+  updateResult$!: Observable<any>;
+  configDetails!: any;
+  currentPage: string = '1';
+  updateDetails!: any;
+  @Output() AuditTrailSelected = new EventEmitter<any[]>();
+  @Output() ResetTabs = new EventEmitter<any[]>();
+  startTelNo: string = '';
+  endTelNo: string = '';
+  onFormSubmit(isEmitted?: boolean): void {
+    let errMsg = '';
+      if (!this.splCeaseTransForm.valid) return;
+      errMsg = this.compareStartAndEndTelNoTelephoneRange(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+      if (errMsg) {
+        const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px',
+          // height:'250px',
+          disableClose: true,
+          data: {
+            enableOk: false,
+            message: errMsg,
+          }
+        });
+        rangeConfirm.afterClosed().subscribe(result => { return result; })
+        return;
+      }
     this.isAuditTrail = false;
     this.isResult = true;
     this.tabs.splice(0)
-    if (this.splCeaseTransForm.controls['TelNoStart'].value != '' && this.splCeaseTransForm.controls['TelNoStart'].value != null &&
-      (this.splCeaseTransForm.controls['TelNoEnd'].value != '' && this.splCeaseTransForm.controls['TelNoEnd'].value != null)) {
-      this.isAuditTrail = true;
+    this.selectedGridRows = [];
+    this.currentPage = isEmitted ? this.currentPage : '1';
+    if (this.splCeaseTransForm.controls['StartTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['StartTelephoneNumber'].value != null &&
+      (this.splCeaseTransForm.controls['EndTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['EndTelephoneNumber'].value != null)) {
+        this.isAuditTrail = true;
+      this.isTelList = true;
+      this.startTelNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value ? this.splCeaseTransForm.controls['StartTelephoneNumber'].value : '';
+      this.endTelNo = this.splCeaseTransForm.controls['EndTelephoneNumber'].value ? this.splCeaseTransForm.controls['EndTelephoneNumber'].value : '';
+      let request = Utils.preparePyQuery('TelephoneRangeReports', 'CeaseTransaction', this.prepareQueryParams(this.currentPage));
+      console.log('request from ts file', JSON.stringify(request));
+      this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+        if (Object.keys(res).length) {
+          console.log('result from ts file', res);
+          let result = {
+            datasource: res.data.TelephoneNumbers,
+            totalrecordcount: res.TotalCount,
+            totalpages: res.NumberOfPages,
+            pagenumber: res.PageNumber
+          }
+          return result;
+        } else return {
+          datasource: res
+        };
+      }));
+
       this.myTable = {
-        data: of({
-          datasource: ELEMENT_DATA,
-          totalrecordcount: 12,
-          totalpages: 10,
-          pagenumber: 1
-        }),
+        data: this.queryResult$,
         Columns: this.colHeader,
         filter: true,
         selectCheckbox: true,
-        removeNoDataColumns: false,
+        removeNoDataColumns: true,
       }
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
@@ -199,10 +263,90 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
       this.showCeasePanel = true;
       this.selectedTab = this.tabs.length;
     }
+    
     else {
-      this.openAuditTrail(false);
+      this.openAuditTrail(true);
     }
   }
+  prepareTelNoListParams() {
+    let attributes: any = [
+      { Name: 'StartTelephoneNumber', Value: [`${this.startTelNo}`] },
+      { Name: 'EndTelephoneNumber', Value: [`${this.endTelNo}`] },
+
+    ];
+     console.log("Tel no list params " + JSON.stringify(attributes));
+    return attributes;
+  }
+  fetchTelNoList() {
+    let request = Utils.preparePyQuery('TelephoneNumberList', 'CeaseTransaction', this.prepareTelNoListParams());
+    this.spinner.show();
+    this.service.queryDetails(request).subscribe((res: any) => {
+      // this.telNoList = [`${res.data ? res.data.TelephoneNumbers : ''}`]
+      this.audittrailNos = res.data ? res.data.TelephoneNumbers[0].TelephoneNumber : ''
+      this.spinner.hide();
+    });
+  }
+
+  prepareQueryParams(pageNo: string): any {
+
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
+    //Reference
+    const control = this.splCeaseTransForm.get('CeaseRemarks');
+    if (control?.value)
+      attributes.push({ Name: 'CeaseRemarks', Value: [control?.value] });
+    else
+      attributes.push({ Name: 'CeaseRemarks' });
+
+    for (const field in this.splCeaseTransForm?.controls) {
+      // if(field != 'CeaseRemarks')
+
+      const control = this.splCeaseTransForm.get(field);
+      if (control?.value)
+        attributes.push({ Name: field, Value: [control?.value] });
+      else
+        attributes.push({ Name: field });
+    }
+    console.log(JSON.stringify(attributes));
+    return attributes;
+  }
+
+  OnAuditTrailSelected(initAuditTrail: any[]) {
+    console.log('audit phone numbers', initAuditTrail);
+    console.log('event is calling audit', initAuditTrail);
+    this.audittrailNos = initAuditTrail;
+    this.auditTrailSuccess = initAuditTrail[0];
+    this.auditTeleNoselected = this.audittrailNos[1][0];
+    this.telNo = this.audittrailNos[1][0];
+    //this.telNo='02071117400';
+    if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) {
+      this.tabs.push({ tabType: 2, name: 'Audit Trail Report' });
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
+    } else {
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+    }
+
+  }
+  OnTelephoneNoSelected(selectedTelNo: any) {
+    this.telNo = selectedTelNo;
+    let request = Utils.preparePyQuery('TelephoneNumberList', 'CeaseTransaction', this.prepareQueryParams(this.currentPage));
+    console.log('request from ts file', JSON.stringify(request));
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        console.log('result from ts file', res);
+        let result = {
+          datasource: res.data.TelephoneNumbers,
+
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
+    let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+  }
+
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -214,6 +358,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     if (tab.index === 0) {
       this.showCeasePanel = true;
       this.isAuditTrail = true;
+    
     }
     else {
       this.isAuditTrail = false;
@@ -221,14 +366,52 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
       this.showTelnos = !this.showCeasePanel;
     }
   }
-
-  openAuditTrail(isEmitted?: boolean) {
-    this.isAuditTrail = isEmitted ? true : false;
-    this.showTelnos = false;
-    let tab = { tabType: 1 }
-    this.newTab(tab);
+  get f() {
+    return this.splCeaseTransForm.controls;
   }
 
+  openAuditTrail(isEmitted?: boolean) {
+    this.isAuditTrail = isEmitted ? false : true;
+    this.showTelnos = false;
+    //if(this.selectedGridRows.length > 0)
+    {
+    let tab = { 
+      tabType: 1 ,
+      name: 'Audit Trail Report(' + this.telNo + ')'
+    }
+    this.newTab(tab);
+    // this.fetchTelNoList();
+    if( !isEmitted ){
+      this.fetchTelNoList();
+      }else{
+        this.telNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value
+        console.log(this.telNo, 'teleno')
+      }
+    }
+      let updtab = this.tabs.find(x => x.tabType == 1);
+      if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+      this.auditTelNo = this.telNo;
+  }
+
+
+  compareStartAndEndTelNoTelephoneRange(StartTelephoneNumber: any, EndTelephoneNumber: any): string {
+    let errMsg = '';
+    if(StartTelephoneNumber && EndTelephoneNumber)
+    {
+    //Telephonerange
+    if ((EndTelephoneNumber != '' && StartTelephoneNumber != '') && (EndTelephoneNumber - StartTelephoneNumber) > 50000)
+        errMsg = 'TelephoneRange must be less than or equal to 50000';
+    //startTelNo should be < endTelNo
+    if ((EndTelephoneNumber != '' && StartTelephoneNumber != '') && (StartTelephoneNumber > EndTelephoneNumber))
+        errMsg = 'Start Telephone No should be less than End Telephone No';
+    }
+      //  //Enter start telephone no
+      //  if (EndTelephoneNumber != '' && StartTelephoneNumber == '')
+      //  errMsg = 'Please enter the Start Telephone No';
+
+    return errMsg
+
+}
   newTab(tab: any) {
     debugger;
     if (this.tabs === []) return;
@@ -237,14 +420,17 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report'
+            name: 'Audit Trail Report(' + this.telNo + ')'
           });
           // this.selectedTab = 1;        
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
         }
         this.showCeasePanel = this.tabs.find(x => x.tabType === 0) ? false : true;
+        this.auditTelNo = this.telNo;
         break;
       }
       default: {
@@ -267,38 +453,97 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
+  onCeaseUpdate() {
+    if (true) {
+      let request = Utils.preparePyUpdate('CeaseTransaction', 'CeaseTransaction', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+      //update 
+      this.service.updateDetails(request).subscribe(x => {
+        console.log('status msg', x)
+        if (x.StatusMessage === 'Ceased Successfully') {
+        
+          //success message and same data reload
+          this.alertService.success("Transaction Ceased successful!!", { autoClose: true, keepAfterRouteChange: false });
+          this.onFormSubmit(true);
+        }
+      });
+      console.log('update request', JSON.stringify(request));
+     this.ceaseupdate.reset();
+  
+    }
+  }
+
+  prepareUpdateParams() {
+
+  }
+
+  rowDetect(selectedRows: any) {
+    debugger;
+    selectedRows.forEach((item: any) => {
+      // this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
+
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+
+}
+  prepareUpdateIdentifiers() {
+debugger
+    let identifiers: any[] = [];
+    const startTelephoneNumber = this.splCeaseTransForm.get('StartTelephoneNumber');
+    const endTelephoneNumber = this.splCeaseTransForm.get('EndTelephoneNumber');
+    const ceaseRemarks = this.ceaseupdate.get('CeaseRemarks')
+    let starttelearr: string[] = [];
+    debugger
+    if (this.selectedGridRows.length > 0) {
+      if (this.selectedGridRows.length > 0) {
+       // let startTelephoneNumber: string[] = [];
+        this.selectedGridRows?.forEach(x => { starttelearr.push(x.StartTelephoneNumber + '|' + x.EndTelephoneNumber) })
+        // identifiers.push({ Name: 'StartTelephoneNumber', Value: startTelephoneNumber });
+      //} else
+        // identifiers.push({ Name: 'StartTelephoneNumber', Value: [""] });
+    }
+    console.log(starttelearr, 'test')
+if (this.selectedGridRows.length > 0) {
+   identifiers.push({ Name: 'TelephoneNumberRange', Value: [`${starttelearr.toString()}`] });
+      } else
+        identifiers.push({ Name: 'TelephoneNumberRange', Value: [""] });
+}else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
+      identifiers.push({ Name: 'TelephoneNumberRange', Value: [startTelephoneNumber.value + '|' + endTelephoneNumber.value] });
+    } else {
+      if(startTelephoneNumber?.value)
+      identifiers.push({ Name: 'TelephoneNumberRange', Value: [startTelephoneNumber.value + '|' + startTelephoneNumber.value] });
+    else    
+      identifiers.push({ Name: 'TelephoneNumberRange', Value: [""] });
+    }
+
+    if (ceaseRemarks?.value) {
+      identifiers.push({ Name: "CeaseRemarks", Value: [ceaseRemarks.value] });
+    }
+    else {
+      identifiers.push({ Name: "CeaseRemarks" });
+    }
+    console.log('update identifiers', identifiers);
+    return identifiers;
+
+  }
   createForm() {
+
     this.splCeaseTransForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: false },
-        [
-           Validators.required,
-          Validators.minLength(10)
-        ]
-      ),
-      TelNoEnd: new FormControl({ value: '', disabled: false },
-        [
-          // Validators.required,
-          Validators.minLength(10)
-        ]
-      ),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.pattern("^[0-9]{10,11}$")]),
+
+    })
+    this.ceaseupdate = this.formBuilder.group({
+      CeaseRemarks: new FormControl({ value: '', disabled: false }, []),
+
     })
   }
 
-  rowDetect(item: any) {
-    if (item.length == 0) {
-      this.selectListItems = [];
-    } else {
-      item.forEach((el: string) => {
-        if (!this.selectListItems.includes(el)) {
-          this.selectListItems.push(el)
-        }
-        else {
-          if (this.selectListItems.includes(el)) {
-            let index = this.selectListItems.indexOf(el);
-            this.selectListItems.splice(index, 1)
-          }
-        }
-      });
-    }
-  }
+
+
 }
