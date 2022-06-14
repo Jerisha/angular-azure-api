@@ -252,7 +252,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         Columns: this.colHeader,
         filter: true,
         selectCheckbox: true,
-        removeNoDataColumns: true,
+        //removeNoDataColumns: true,
       }
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
