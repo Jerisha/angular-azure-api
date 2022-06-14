@@ -88,9 +88,11 @@ export class HttpWrapperService {
 
     processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
+            debugger;
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_py_sit}${endPoint.toString()}`,
+            endPoint === WebMethods.UIQUERY ? environment.api_auth :
+                `${environment.api_py_dev}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -136,14 +138,13 @@ export class HttpWrapperService {
                         // console.log(JSON.stringify(transData), 'metadat1')
                         break;
                     case WebMethods.UIQUERY:
-                        transData = val.ResponseParams;
-                        transData.data = val.Data
+                        transData = val                        
                         break;
                 }
             }
 
         } catch (err) {
-            console.log("PyResponse: " + val + "ResponseError: " + err);
+            console.log("PyResponse: " + JSON.stringify(val) + "ResponseError: " + err);
             this.alertService.error("Incorrect PyResponse Format", { autoClose: true, keepAfterRouteChange: false });
         }
         console.log("PyData :" + JSON.stringify(transData));
@@ -151,7 +152,7 @@ export class HttpWrapperService {
     }
 
     private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
-        // debugger;
+        //debugger;
         switch (responseType) {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });

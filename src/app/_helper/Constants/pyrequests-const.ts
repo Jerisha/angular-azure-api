@@ -381,14 +381,9 @@ export const PyRequests = {
             }
         }
     },
-    AUTHENTICATE: {
-        "RequestType": "UIQUERY",
-        "UserParams": [
-            { "UserID": "" },
-            { "Password": "" },]
-        ,
-        "Cache": ["ApplicationKey", "SessionID"]
-    }
+    AUTHENTICATE: { "RequestType" : "UIQUERY",
+    "UserID": "BEEMA",
+    "Password": ""}
 }
 
 
