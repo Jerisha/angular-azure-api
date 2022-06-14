@@ -15,12 +15,12 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
         // });
         let authReq: HttpRequest<any>;
         //console.log("token " +this.authService.getUserToken())
-        if (this.authService.isUserLoggedIn()) {
+        if (this.authService.isUserLoggedIn) {
            //console.log("keys" + req.headers.keys)
             authReq = req.clone({
                 setHeaders: {
                     'Content-Type': 'application/json',
-                    //'Authorization': `Bearer ${this.authService.getUserToken()}`
+                    'Authorization': `Bearer ${this.authService.getUserToken}`
                 }
             });
         }

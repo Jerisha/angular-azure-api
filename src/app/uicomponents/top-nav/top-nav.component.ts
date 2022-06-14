@@ -16,21 +16,17 @@ export class TopNavComponent implements OnInit {
 
   constructor(public navService: NavService,
     private router: Router,
-    private authservice: AuthenticationService) { }
+    private authService: AuthenticationService) { }
   public positionOptions: TooltipPosition[] = ['below']; // Tooltip postion  
-  public position = new FormControl(this.positionOptions[0]); 
+  public position = new FormControl(this.positionOptions[0]);
+  user: any;
 
   ngOnInit() {
+    this.user = this.authService.currentUserValue
   }
 
   logout() {
-    //this.authenticationService.logout();
-    // this.router.navigate(['/login']);
-    // this.isLogout=true;
-    //this.router.navigateByUrl('/login');
-    this.authservice.logoutUser();
+    this.authService.logoutUser();
     this.router.navigateByUrl('/login');
-
-    
-}
+  }
 }

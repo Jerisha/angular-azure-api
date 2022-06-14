@@ -25,6 +25,17 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
+    public get getUserToken(): string | null {
+        //get loggedInUser from session
+        //console.log("token"+sessionStorage.getItem('token'))
+        let token = sessionStorage.getItem('token')
+        return token;        
+    }
+
+    public get isUserLoggedIn(): boolean {
+        return this.isloggedIn;
+    }
+
     login(username: string, password: string) {
         const now = new Date();
          return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIQUERY, Auth.preparePyLogin(username, password))
@@ -37,7 +48,7 @@ export class AuthenticationService {
                 // }
                 let user = x.Data.UserDetails[0];
                 sessionStorage.setItem('currentUser', JSON.stringify(user));
-                sessionStorage.setItem('token', user.Token);
+                sessionStorage.setItem('token', user.token);
                 
                 this.currentUserSubject.next((user as User));
 
@@ -48,9 +59,8 @@ export class AuthenticationService {
                 }
             }));
     }
-    isUserLoggedIn(): boolean {
-        return this.isloggedIn;
-    }
+
+    
     getRedirectUrl(): string | undefined {
         return this.redirectUrl;
     }
@@ -60,18 +70,12 @@ export class AuthenticationService {
     getLoginUrl(): string {
         return this.loginUrl;
     }
-    getLoggedInUser(): any | null {
-        //get loggedInUser from session
-        //return sessionStorage.getItem('currentUser');
-        return this.currentUser.pipe((x)=>x);
-    }
-    getUserToken(): string | null {
-        //get loggedInUser from session
-        //console.log("token"+sessionStorage.getItem('token'))
-
-        let token = sessionStorage.getItem('token')
-        return token;        
-    }
+    // getLoggedInUser(): any | null {
+    //     //get loggedInUser from session
+    //     //return sessionStorage.getItem('currentUser');
+    //     return this.currentUser.pipe((x)=>x);
+    // }
+    
     logoutUser(): void {
         this.isloggedIn = false;
         // remove user from session storage to log user out

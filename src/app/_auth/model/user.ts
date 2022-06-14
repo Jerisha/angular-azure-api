@@ -8,15 +8,17 @@
     // password!: string;
     // token?: string;
     // menuConfig?: any[] = [];
-    UserID: number;
-    FirstName: string;
-    LastName: string;
-    Email: string;
-    LastLogin: string;
-    LoginTime: string;
-    Token: string;
-    RoleName: string;
-    MenuItems: any[];
-    Favourites: any[];
-    MessageDescription: string;
-}
+    username: string;
+    firstname: string;
+    lastname: string;
+    emailaddress: string;
+    sources:any[];
+    active:string;
+    lastlogin: string;
+    logintime: string;
+    token: string;
+    rolename: string;
+    menuitems: any[];
+    favourites: any[];
+    messagedescription: string;
+   }

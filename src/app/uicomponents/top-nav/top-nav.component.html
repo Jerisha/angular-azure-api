@@ -8,7 +8,7 @@
   <span style="display: flex;cursor: pointer;" matTooltip="Home" [routerLink]="'/home'">
     <img src="assets/images/vodafone.png" alt="image">
     <span style="margin-left: 5px;"> OSN Provisioning</span>
-  </span> 
+  </span>
   <i class='bx bx-log-out' id="log_out" (click)="logout()"></i>
 
 
@@ -20,18 +20,18 @@
     <!-- <button  mat-icon-button value="Logout"  color="primary">
      <mat-icon matTooltip="About"  [matTooltipPosition]="position.value" >info</mat-icon>
    </button>     -->
-   <button mat-icon-button value="Export" color="primary" [routerLink]="'/exporttoexcel'">
-    <mat-icon matTooltip="Export to Excel" [matTooltipPosition]="position.value">import_export</mat-icon>
-  </button>
-    <button mat-icon-button matTooltip="Welcome John Doe !" [matMenuTriggerFor]="menu"
+    <button mat-icon-button value="Export" color="primary" [routerLink]="'/exporttoexcel'">
+      <mat-icon matTooltip="Export to Excel" [matTooltipPosition]="position.value">import_export</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Welcome {{user.username}} !" [matMenuTriggerFor]="menu"
       [matTooltipPosition]="position.value" color="primary">
       <mat-icon>perm_identity</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <!-- <mat-icon>power_settings_new</mat-icon> -->
-        Settings
-      </button>
+      <span mat-menu-item>
+        <mat-icon>power_settings_new</mat-icon>
+        {{user.rolename}}
+      </span>
     </mat-menu>
     <button mat-icon-button value="Logout" color="primary">
       <mat-icon matTooltip="Logout" [matTooltipPosition]="position.value">

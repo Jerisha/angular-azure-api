@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
     debugger;
     this.loading = true;
     this.authService.login('BEEMA', this.f.password.value).subscribe((x: any) => {
-      if (this.authService.isUserLoggedIn()) {
+      if (this.authService.isUserLoggedIn) {
         this.router.navigate(['/home']);
       }
     },
