@@ -111,6 +111,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.initializeTableAttributes();
     this.disablePaginator = this.tableitem?.disablePaginator ? true : false;
     this.dataObs$ = this.tableitem?.data;
+    //
     this.spinner.show();
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {

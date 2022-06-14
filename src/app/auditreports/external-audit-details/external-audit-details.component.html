@@ -99,7 +99,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
                         <mat-label>CUPID</mat-label>
                         <input #cupId formControlName="CUPID" type="text" placeholder="Search CUPID" matInput
                             [matAutocomplete]="autoCupId" OptionsValidator [options]="config.CUPID  " />
@@ -113,10 +113,20 @@
                         </mat-autocomplete>
                         <mat-error *ngIf="form.CUPID.errors?.validOptions">Value need to match available options
                         </mat-error>
-                    </mat-form-field>
+                    </mat-form-field> -->
+
+                    <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
+                        <mat-label>CUPID</mat-label>
+                        <mat-select formControlName="CUPID">  
+                          <!-- <mat-option>None</mat-option>           -->
+                          <mat-option *ngFor="let val of config.CUPID" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
 
 
-                    <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
                         <mat-label>OSN2 Source</mat-label>
                         <input #osnSource formControlName="OSN2Source" type="text" placeholder="Search OSN2 Source"
                             matInput [matAutocomplete]="autoOSN2Source" OptionsValidator
@@ -132,9 +142,19 @@
                         </mat-autocomplete>
                         <mat-error *ngIf="form.OSN2Source.errors?.validOptions">Value need to match available options
                         </mat-error>
-                    </mat-form-field>
+                    </mat-form-field> -->
 
-                    <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
+                    <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
+                        <mat-label>OSN2 Source</mat-label>
+                        <mat-select formControlName="OSN2Source">  
+                          <!-- <mat-option>None</mat-option>           -->
+                          <mat-option *ngFor="let val of config.OSN2Source" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
                         <mat-label>External CLI Status</mat-label>
                         <input #extCLIStatus formControlName="ExternalCLIStatus" type="text"
                             placeholder="Search External CLI Status" matInput [matAutocomplete]="autoextCLIStatus"
@@ -151,9 +171,20 @@
                         <mat-error *ngIf="form.ExternalCLIStatus.errors?.validOptions">Value need to match available
                             options
                         </mat-error>
-                    </mat-form-field>
+                    </mat-form-field> -->
 
-                    <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
+                    <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
+                        <mat-label>External CLI Status</mat-label>
+                        <mat-select formControlName="ExternalCLIStatus">  
+                          <!-- <mat-option>None</mat-option>           -->
+                          <mat-option *ngFor="let val of config.ExternalCLIStatus" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+            
+
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
                         <mat-label>Resolution Type</mat-label>
                         <input #resType formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
                           [matAutocomplete]="autoResType" OptionsValidator [options]="config.ResolutionTypeAudit  " />
@@ -188,9 +219,19 @@
                                         <mat-option value="102">(END) Unresolved</mat-option>
                                         <mat-option value="109">(END) Auto Resolved</mat-option>
                                     </mat-select> -->
+                      <!-- </mat-form-field>  -->
+
+                      <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
+                        <mat-label>Resolution Type</mat-label>
+                        <mat-select formControlName="ResolutionType">  
+                          <!-- <mat-option>None</mat-option>           -->
+                          <mat-option *ngFor="let val of config.ResolutionTypeAudit" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
                       </mat-form-field>
 
-                    <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
                         <mat-label>Post Code Difference</mat-label>
                         <input #postCodeDifference formControlName="PostcodeDifference" type="text"
                             placeholder="Search Postcode Difference" matInput [matAutocomplete]="autoPostCodeDifference"
@@ -213,9 +254,19 @@
                             <mat-option value="No">No</mat-option>
                             <mat-option value="Yes">Yes</mat-option>
                         </mat-select> -->
-                    </mat-form-field>
+                    <!-- </mat-form-field>  -->
 
-                    <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
+                    <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
+                        <mat-label>Postcode Difference</mat-label>
+                        <mat-select formControlName="PostcodeDifference">  
+                          <!-- <mat-option>None</mat-option>           -->
+                          <mat-option *ngFor="let val of config.PostcodeDifference" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
                         <mat-label>Full Address Difference</mat-label>
                         <input #fullAddDifference formControlName="FullAddressDifference" type="text"
                             placeholder="Search Full Address Difference" matInput
@@ -239,9 +290,19 @@
                             <mat-option value="No">No</mat-option>
                             <mat-option value="Yes">Yes</mat-option>
                         </mat-select> -->
-                    </mat-form-field>
+                    <!-- </mat-form-field> -->
 
-                    <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
+                    <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
+                        <mat-label>Full Address Difference</mat-label>
+                        <mat-select formControlName="FullAddressDifference">  
+                          <!-- <mat-option>None</mat-option>           -->
+                          <mat-option *ngFor="let val of config.FullAddressDifference" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                    <!-- <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
                         <mat-label>Customer Difference</mat-label>
                         <input #customerDifference formControlName="CustomerDifference" type="text"
                             placeholder="Search Customer Difference" matInput
@@ -262,7 +323,18 @@
                             <mat-option value="No">No</mat-option>
                             <mat-option value="Yes">Yes</mat-option>
                         </mat-select> -->
-                    </mat-form-field>
+                    <!-- </mat-form-field>  -->
+
+                    <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
+                        <mat-label>Customer Difference</mat-label>
+                        <mat-select formControlName="CustomerDifference">  
+                          <!-- <mat-option>None</mat-option>           -->
+                          <mat-option *ngFor="let val of config.CustomerDifference" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      
                 </div>
                 <div class="matsidenav-footer">
                     <button type="submit" mat-raised-button color="primary">

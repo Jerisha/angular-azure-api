@@ -457,6 +457,7 @@ export class LiverecordsComponent implements OnInit {
 
   myTable!: TableItem;
   listItems!: Select[];
+  model: any = { TypeOfLine: "" };
 
 
   constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
@@ -627,6 +628,7 @@ resetExp:boolean = false;
    
     window.location.reload();
     this.resetExp=!this.resetExp;
+    this.model = { TypeOfLine: ""};
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);

@@ -20,7 +20,7 @@
 
             </mat-form-field>
           </div>
-          <div [ngStyle]="{'display':thisForm.controls.AuditType.disabled ? 'none' : 'block'}">
+          <!-- <div [ngStyle]="{'display':thisForm.controls.AuditType.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])">
             </app-select-exp>
@@ -37,7 +37,23 @@
               </mat-autocomplete>
               <mat-error *ngIf="f.AuditType.errors?.validOptions">Value need to match available options</mat-error>
             </mat-form-field>
+          </div> -->
+           
+          <div [ngStyle]="{'display':thisForm.controls.AuditType.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])">
+            </app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.AuditType.disabled}">
+            <mat-label>Audit Type</mat-label>
+            <mat-select formControlName="AuditType">  
+              <!-- <mat-option>None</mat-option>           -->
+              <mat-option *ngFor="let val of config.AuditType" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
           </div>
+
           <div [ngStyle]="{'display':thisForm.controls.ResolvedBy.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[0].default" #ResolvedByOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])">
@@ -48,8 +64,7 @@
                 placeholder="ResolvedBy">
             </mat-form-field>
           </div>
-
-          <div [ngStyle]="{'display':thisForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
+<!--   <div [ngStyle]="{'display':thisForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeOperator
                 [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolutionTypeOperator',ResolutionTypeOperator.selectedViewValue])">
             </app-select-exp>
@@ -66,8 +81,24 @@
             </mat-autocomplete>
             <mat-error *ngIf="f.ResolutionTypeAudit.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>
-        </div>
-          <div [ngStyle]="{'display':thisForm.controls.AuditActID.disabled ? 'none' : 'block'}">
+        </div> -->
+
+        <div [ngStyle]="{'display':thisForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
+          <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeOperator
+              [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolutionTypeOperator',ResolutionTypeOperator.selectedViewValue])">
+          </app-select-exp>
+          <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
+            <mat-label>Resolution Type</mat-label>
+            <mat-select formControlName="ResolutionTypeAudit">  
+              <!-- <mat-option>None</mat-option>           -->
+              <mat-option *ngFor="let val of config.ResolutionTypeAudit" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+
+          <!-- <div [ngStyle]="{'display':thisForm.controls.AuditActID.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #AuditActIDOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])">
             </app-select-exp>
@@ -84,6 +115,24 @@
               </mat-autocomplete>
               <mat-error *ngIf="f.AuditActID.errors?.validOptions">Value need to match available options</mat-error>
             </mat-form-field>
+          </div> -->
+
+          <div [ngStyle]="{'display':thisForm.controls.AuditActID.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" #AuditActIDOperator [resetvalue]="resetExp"
+              (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])">
+            </app-select-exp>
+            <mat-form-field [ngClass]="{'hidden':f.AuditActID.disabled}">
+              <mat-label>Audit ACT ID</mat-label>
+              <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
+                  <mat-option *ngFor="let val of config.AuditActID" [value]="val">
+                      {{val}} </mat-option>
+              </mat-select>
+              <mat-error>
+                  <div *ngIf="f.AuditActID.hasError('required')" class="alert alert-danger">
+                      Select Audit ACT ID
+                  </div>
+              </mat-error>
+          </mat-form-field>
           </div>
 
         </ng-container>
