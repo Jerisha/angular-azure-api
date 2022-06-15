@@ -8,7 +8,7 @@
                             <div class="vf-flex-container-col">
                                 <div>
                                     <div>
-                                        <mat-form-field hintLabel="Max 10 characters"
+                                        <mat-form-field hintLabel="Max 11 characters"
                                             style="margin-left:10px; margin-top: 1rem; width:180px">
                                             <mat-label>Start Telephone No</mat-label>
                                             <input matInput formControlName="StartTelephoneNumber" numbersOnly
@@ -31,7 +31,7 @@
                                                 </div>
                                             </mat-error>
                                         </mat-form-field>
-                                        <mat-form-field style="margin-left:10px; margin-top: 1rem; width:180px" hintLabel="Max 10 characters">
+                                        <mat-form-field style="margin-left:10px; margin-top: 1rem; width:180px" hintLabel="Max 11 characters">
                                             <mat-label>End Telephone No</mat-label>
                                             <input matInput id="EndTelephoneNumber" formControlName="EndTelephoneNumber" numbersOnly #EndTelephoneNumber
                                                 maxlength="11" placeholder="End Telephone No" telNoPrefixValidator>
@@ -95,7 +95,7 @@
                     </app-table-selection>
                 </div>
                 <ng-container *ngSwitchCase="1" style="height: calc(100% - 8px);">
-                    <div>
+                    <div *ngIf="isTelList" >
                         <app-telephone-no [telNoArray]="audittrailNos"
                             (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
                     </div>

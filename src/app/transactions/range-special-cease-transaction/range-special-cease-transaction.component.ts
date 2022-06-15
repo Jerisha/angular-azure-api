@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, EventEmitter, Output, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, EventEmitter, Output, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -105,6 +105,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   repIdentifier = "CeaseTransaction";
   audittelephonenumbers: any;
   telNo?: any;
+  auditTelNo: any;
   //comments: string = 'No Records Found';
   // horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   // verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -166,6 +167,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.isAuditTrail = false;
     this.showCeasePanel = false;
     this.showTelnos = false;
+    window.location.reload();
   }
 
   get form() {
@@ -183,7 +185,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
-
+  isTelList : boolean = false;
   isAuditTrail: boolean = false;
   isResult: boolean = false;
   showCeasePanel: boolean = false;
@@ -201,14 +203,31 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   startTelNo: string = '';
   endTelNo: string = '';
   onFormSubmit(isEmitted?: boolean): void {
-    if (!this.splCeaseTransForm.valid)
-      return;
+    let errMsg = '';
+      if (!this.splCeaseTransForm.valid) return;
+      errMsg = this.compareStartAndEndTelNoTelephoneRange(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+      if (errMsg) {
+        const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px',
+          // height:'250px',
+          disableClose: true,
+          data: {
+            enableOk: false,
+            message: errMsg,
+          }
+        });
+        rangeConfirm.afterClosed().subscribe(result => { return result; })
+        return;
+      }
     this.isAuditTrail = false;
     this.isResult = true;
     this.tabs.splice(0)
+    this.selectedGridRows = [];
+    this.currentPage = isEmitted ? this.currentPage : '1';
     if (this.splCeaseTransForm.controls['StartTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['StartTelephoneNumber'].value != null &&
       (this.splCeaseTransForm.controls['EndTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['EndTelephoneNumber'].value != null)) {
-      this.isAuditTrail = true;
+        this.isAuditTrail = true;
+      this.isTelList = true;
       this.startTelNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value ? this.splCeaseTransForm.controls['StartTelephoneNumber'].value : '';
       this.endTelNo = this.splCeaseTransForm.controls['EndTelephoneNumber'].value ? this.splCeaseTransForm.controls['EndTelephoneNumber'].value : '';
       let request = Utils.preparePyQuery('TelephoneRangeReports', 'CeaseTransaction', this.prepareQueryParams(this.currentPage));
@@ -233,6 +252,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         Columns: this.colHeader,
         filter: true,
         selectCheckbox: true,
+        //removeNoDataColumns: true,
       }
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
@@ -243,9 +263,9 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
       this.showCeasePanel = true;
       this.selectedTab = this.tabs.length;
     }
+    
     else {
       this.openAuditTrail(true);
-      // }
     }
   }
   prepareTelNoListParams() {
@@ -323,6 +343,8 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         datasource: res
       };
     }));
+    let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
   }
 
 
@@ -336,6 +358,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     if (tab.index === 0) {
       this.showCeasePanel = true;
       this.isAuditTrail = true;
+    
     }
     else {
       this.isAuditTrail = false;
@@ -348,24 +371,43 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   }
 
   openAuditTrail(isEmitted?: boolean) {
-    this.isAuditTrail = isEmitted ? true : false;
+    this.isAuditTrail = isEmitted ? false : true;
     this.showTelnos = false;
-    let tab = { tabType: 1 }
+    //if(this.selectedGridRows.length > 0)
+    {
+    let tab = { 
+      tabType: 1 ,
+      name: 'Audit Trail Report(' + this.telNo + ')'
+    }
     this.newTab(tab);
-    this.fetchTelNoList();
+    // this.fetchTelNoList();
+    if( !isEmitted ){
+      this.fetchTelNoList();
+      }else{
+        this.telNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value
+        console.log(this.telNo, 'teleno')
+      }
+    }
+      let updtab = this.tabs.find(x => x.tabType == 1);
+      if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+      this.auditTelNo = this.telNo;
   }
+
 
   compareStartAndEndTelNoTelephoneRange(StartTelephoneNumber: any, EndTelephoneNumber: any): string {
     let errMsg = '';
-    //Enter start telephone no
-    if (EndTelephoneNumber != '' && StartTelephoneNumber == '')
-        errMsg = 'Please enter the Start Telephone No';
+    if(StartTelephoneNumber && EndTelephoneNumber)
+    {
     //Telephonerange
     if ((EndTelephoneNumber != '' && StartTelephoneNumber != '') && (EndTelephoneNumber - StartTelephoneNumber) > 50000)
         errMsg = 'TelephoneRange must be less than or equal to 50000';
     //startTelNo should be < endTelNo
     if ((EndTelephoneNumber != '' && StartTelephoneNumber != '') && (StartTelephoneNumber > EndTelephoneNumber))
         errMsg = 'Start Telephone No should be less than End Telephone No';
+    }
+      //  //Enter start telephone no
+      //  if (EndTelephoneNumber != '' && StartTelephoneNumber == '')
+      //  errMsg = 'Please enter the Start Telephone No';
 
     return errMsg
 
@@ -378,15 +420,17 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
-            name: 'Audit Trail Report'
+            name: 'Audit Trail Report(' + this.telNo + ')'
           });
           // this.selectedTab = 1;        
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
-
+          let updtab = this.tabs.find(x => x.tabType == 1);
+          if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
         }
         this.showCeasePanel = this.tabs.find(x => x.tabType === 0) ? false : true;
+        this.auditTelNo = this.telNo;
         break;
       }
       default: {
@@ -423,6 +467,8 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         }
       });
       console.log('update request', JSON.stringify(request));
+     this.ceaseupdate.reset();
+  
     }
   }
 
@@ -460,20 +506,21 @@ debugger
         // identifiers.push({ Name: 'StartTelephoneNumber', Value: startTelephoneNumber });
       //} else
         // identifiers.push({ Name: 'StartTelephoneNumber', Value: [""] });
-
     }
     console.log(starttelearr, 'test')
 if (this.selectedGridRows.length > 0) {
-   identifiers.push({ Name: 'StartTelephoneNumber', Value: starttelearr.toString });
+   identifiers.push({ Name: 'TelephoneNumberRange', Value: [`${starttelearr.toString()}`] });
       } else
-        identifiers.push({ Name: 'StartTelephoneNumber', Value: [""] });
-
-}
-    if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
+        identifiers.push({ Name: 'TelephoneNumberRange', Value: [""] });
+}else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
       identifiers.push({ Name: 'TelephoneNumberRange', Value: [startTelephoneNumber.value + '|' + endTelephoneNumber.value] });
     } else {
+      if(startTelephoneNumber?.value)
+      identifiers.push({ Name: 'TelephoneNumberRange', Value: [startTelephoneNumber.value + '|' + startTelephoneNumber.value] });
+    else    
       identifiers.push({ Name: 'TelephoneNumberRange', Value: [""] });
     }
+
     if (ceaseRemarks?.value) {
       identifiers.push({ Name: "CeaseRemarks", Value: [ceaseRemarks.value] });
     }
@@ -492,7 +539,6 @@ if (this.selectedGridRows.length > 0) {
 
     })
     this.ceaseupdate = this.formBuilder.group({
-
       CeaseRemarks: new FormControl({ value: '', disabled: false }, []),
 
     })

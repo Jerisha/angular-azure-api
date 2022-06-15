@@ -68,7 +68,8 @@ export const PyRequests = {
     QUERY: {
         "RequestType": "QUERY",
         "UserParams": ["UserID", "RoleID"],
-        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        //"RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        "RequestParams": ["Uniqueappreference", "ScreenIdentifer", "ReportIdentifer"],
         "wmRequest": {
             "QueryObjectRequest": {
                 "QueryObjectRequestType": {

@@ -79,7 +79,7 @@
         "route": "auditreports/audituseractionsummary"
       },
       {
-        "displayName": "Saparateinternal Audit",
+        "displayName": "Separate Internal Audit Details",
         "iconName": "",
         "route": "auditreports/separateinternalauditdetails"
       }
