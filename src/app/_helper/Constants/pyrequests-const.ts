@@ -481,6 +481,16 @@ export const PyRequests = {
     ,
     "Cache":["ApplicationKey","SessionID"]
     },
+    EXPSUMMARY:{ "RequestType" : "UIQUERY",
+    "UserParams":[
+        {"UserID" : "PODDARS5"},
+        {"RoleID" : "" },
+        {"ScreenIdentifier" : "ExporttoExcelReport"},
+        {"ReportIdentifier" : [""]}
+        ] 
+    ,
+    "Cache":["ApplicationKey","SessionID"]
+    }
 }
 
 

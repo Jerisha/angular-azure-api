@@ -154,5 +154,8 @@ export class Utils {
     transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofQueryObjectCharacteristics.QueryObjectCharacteristics[0].ListofIdentifiers.Identifier = queryParams;
     return transform;
   }
-
+  static preparePyExportSummary(): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.EXPSUMMARY));    
+    return transform;
+  }
 }

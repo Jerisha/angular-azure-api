@@ -141,7 +141,12 @@ export class HttpWrapperService {
                     case WebMethods.UIQUERY:
                         transData = val.ResponseParams;
                         transData.data = val.Data
-                        break;                    
+                        break; 
+                    case WebMethods.EXPSUMMARY:
+                            transData = val.ResponseParams
+                            transData.data = val.Data;
+                            transData.Status =val.Status[0];
+                            break;                     
                 }
             }
 
