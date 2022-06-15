@@ -204,6 +204,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     //console.log('refresh',this.reportName)
     if(this.currentReportName!='')
     {
+      this.isLoading=true;
       // if(this.reportName == 'Source')
       // this.reportName ='SourceSystem'
       //console.log('response1')

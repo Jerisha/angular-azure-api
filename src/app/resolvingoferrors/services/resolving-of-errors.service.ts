@@ -73,6 +73,6 @@ export class ResolvingOfErrorsService {
   }
 
   exportDetails(request: any): Observable<any> {
-    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.EXPQUERY, request);
   }
 }

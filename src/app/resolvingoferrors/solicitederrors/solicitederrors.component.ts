@@ -637,8 +637,8 @@ export class SolicitederrorsComponent implements OnInit {
     control?.nativeElement.focus();
   }
 
-  reequest2Excel(event:any){
-    console.log(event)    
+  reequest2Excel(columnMapping:any){
+    console.log(columnMapping)    
 
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
@@ -649,13 +649,16 @@ export class SolicitederrorsComponent implements OnInit {
       this.isExportDisable =true;
       if (confirm) {
         
-        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+        let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
         this.service.exportDetails(request).subscribe(x => {
-          if (x.StatusMessage === 'Success') {
-            this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          // this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          // console.log(x,'res')
+          if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode ==='EUI000') {
+            this.alertService.success("Export request placed successfully!!, Please Check Staus On ExportSummary Icon :)", { autoClose: true, keepAfterRouteChange: false });
           }
           else {
-            this.alertService.notification("Export Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+            console.log(x,'Export request Error Response')
+            this.alertService.notification("Export Aborted!!... "+x.Status.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
           }
           this.isExportDisable =false;
         },       
