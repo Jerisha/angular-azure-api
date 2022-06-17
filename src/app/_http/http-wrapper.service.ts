@@ -107,6 +107,7 @@ export class HttpWrapperService {
         debugger;
         let jsonResult = '';
         // console.log(val)
+        
         let transData: any = [];
         try {
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
@@ -114,12 +115,14 @@ export class HttpWrapperService {
                     case WebMethods.CONFIG:
                         transData = val.ResponseParams
                         transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
-                        break;
+                        break;                    
                     case WebMethods.QUERY:
                     case WebMethods.GET:
                     case WebMethods.PAFQUERY:
                         transData = val.ResponseParams
                         transData.data = val.Data
+                        transData.Status =val.Status[0]
+                        // console.log(transData,'transData')                         
                         break;
                     case WebMethods.UPDATE:
                     case WebMethods.CREATE:
@@ -138,7 +141,12 @@ export class HttpWrapperService {
                     case WebMethods.UIQUERY:
                         transData = val.ResponseParams;
                         transData.data = val.Data
-                        break;
+                        break; 
+                    case WebMethods.EXPSUMMARY:
+                            transData = val.ResponseParams
+                            transData.data = val.Data;
+                            transData.Status =val.Status[0];
+                            break;                     
                 }
             }
 

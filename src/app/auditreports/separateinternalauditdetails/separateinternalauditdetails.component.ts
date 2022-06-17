@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const FullAudit_Data: FullAuditDetails [] = [
   {
@@ -154,6 +155,9 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   selectedGridRows: any[] = [];
   selectedRowsCount: number = 0;
@@ -180,7 +184,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   queryResultInfo$!: Observable<any>;
   resolutionType: string = '';
   selected: string = '';
-  currentPage: string = '1';
+  // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
   defaultACTID: string = '';
@@ -413,13 +417,13 @@ else{
   {
     debugger
     var isEmitted!:boolean;
-    this.currentPage = '1';
-    this.fullauditattributes=this.prepareQueryParamsfullAudit(this.currentPage,TelephoneNumber)
+    this.currentPage = 1;
+    this.fullauditattributes=this.prepareQueryParamsfullAudit(this.currentPage.toString(),TelephoneNumber)
     // let requestAudit = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.prepareQueryParamsfullAudit(this.currentPage));
     // console.log('full audit query request',JSON.stringify(requestAudit));
     // this.queryResultfullAudit$ = this.service.queryDetails(requestAudit).pipe(map((res: any) => {
     //     console.log('query response',JSON.stringify(res));
-    // }));
+    // }));()
 
 
     // this.fullAuditTable = {
@@ -556,9 +560,16 @@ else{
 
 
 
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('SeparateInternalAuditDetails', 'SeparateInternalAuditDetails', this.prepareQueryParams(this.currentPage));
-    console.log('query request',JSON.stringify(request));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('SeparateInternalAuditDetails', 'SeparateInternalAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('query request',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         console.log('query response',JSON.stringify(res));
@@ -566,7 +577,8 @@ else{
           datasource: res.data.SeparateInternalAuditDetails,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -846,9 +858,10 @@ else{
   }
  
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
     //console.log('page number in parent',pageIndex)
   }

@@ -18,6 +18,7 @@ import { Utils } from 'src/app/_http';
 import { AlertService } from 'src/app/_shared/alert';
 import { TransactionDataService } from '../services/transaction-data.service';
 import { start } from 'repl';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 
 // const ELEMENT_DATA:any =[
@@ -196,12 +197,23 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-  currentPage: string = '1';
+  // currentPage: string = '1';
   updateDetails!: any;
   @Output() AuditTrailSelected = new EventEmitter<any[]>();
   @Output() ResetTabs = new EventEmitter<any[]>();
   startTelNo: string = '';
   endTelNo: string = '';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
+
+  getNextSetRecords(pageEvent: any) {
+    debugger;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
+    this.onFormSubmit(true);
+  }
+
   onFormSubmit(isEmitted?: boolean): void {
     let errMsg = '';
       if (!this.splCeaseTransForm.valid) return;
@@ -223,14 +235,21 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
     this.isResult = true;
     this.tabs.splice(0)
     this.selectedGridRows = [];
-    this.currentPage = isEmitted ? this.currentPage : '1';
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
     if (this.splCeaseTransForm.controls['StartTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['StartTelephoneNumber'].value != null &&
       (this.splCeaseTransForm.controls['EndTelephoneNumber'].value != '' && this.splCeaseTransForm.controls['EndTelephoneNumber'].value != null)) {
         this.isAuditTrail = true;
       this.isTelList = true;
       this.startTelNo = this.splCeaseTransForm.controls['StartTelephoneNumber'].value ? this.splCeaseTransForm.controls['StartTelephoneNumber'].value : '';
       this.endTelNo = this.splCeaseTransForm.controls['EndTelephoneNumber'].value ? this.splCeaseTransForm.controls['EndTelephoneNumber'].value : '';
-      let request = Utils.preparePyQuery('TelephoneRangeReports', 'CeaseTransaction', this.prepareQueryParams(this.currentPage));
+      let request = Utils.preparePyQuery('TelephoneRangeReports', 'CeaseTransaction', this.prepareQueryParams(this.currentPage.toString()), reqParams);
       console.log('request from ts file', JSON.stringify(request));
       this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
         if (Object.keys(res).length) {
@@ -239,7 +258,8 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
             datasource: res.data.TelephoneNumbers,
             totalrecordcount: res.TotalCount,
             totalpages: res.NumberOfPages,
-            pagenumber: res.PageNumber
+            pagenumber: res.PageNumber,
+            pagecount: res.Recordsperpage
           }
           return result;
         } else return {
@@ -329,7 +349,7 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   }
   OnTelephoneNoSelected(selectedTelNo: any) {
     this.telNo = selectedTelNo;
-    let request = Utils.preparePyQuery('TelephoneNumberList', 'CeaseTransaction', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('TelephoneNumberList', 'CeaseTransaction', this.prepareQueryParams(this.currentPage.toString()));
     console.log('request from ts file', JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {

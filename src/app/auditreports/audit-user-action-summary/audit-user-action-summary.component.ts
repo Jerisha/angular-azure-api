@@ -16,6 +16,7 @@ import { expDate, expDropdown, expNumeric, expString } from 'src/app/_helper/Con
 
 import { formatDate } from '@angular/common';
 import { map } from 'rxjs/operators';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 const moment = _rollupMoment || _moment;
 
 const MY_FORMATS = {
@@ -66,6 +67,9 @@ export class AuditUserActionSummaryComponent {
   auditUserActionSummary!: TableItem;
   searched: boolean = false;
   tabs: Tab[] = [];
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   showDetails: boolean = false;
   selectedTab: number = 0;
   datevalue?:string;
@@ -73,7 +77,7 @@ export class AuditUserActionSummaryComponent {
   repIdentifier = "AuditUserActionSummary";
   expressions: any = [expNumeric, expString, expDate,expDropdown];
   resetExp: boolean = false;
-  currentPage: string = '1';
+  // currentPage: string = '1';
   queryResult$: any;
   myTable!: TableItem;
   listItems!: Select[];
@@ -157,13 +161,27 @@ export class AuditUserActionSummaryComponent {
     })
 
   }
+  getNextSetRecords(pageEvent: any) {
+    debugger;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
+    this.onFormSubmit(true);
+  }
   
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.thisForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('AuditUserActionSummaryOptions', 'AuditUserActionSummary', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('AuditUserActionSummaryOptions', 'AuditUserActionSummary', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
     //console.log('req',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
@@ -172,6 +190,7 @@ export class AuditUserActionSummaryComponent {
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
           pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage,
           FooterDetails: {footerName: "Cumulative", footerValue: `${res.CumulativeCount ? res.CumulativeCount : ''}`}
         }
         return result;
