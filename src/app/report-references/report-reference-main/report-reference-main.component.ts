@@ -204,6 +204,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     //console.log('refresh',this.reportName)
     if(this.currentReportName!='')
     {
+      this.isLoading=true;
       // if(this.reportName == 'Source')
       // this.reportName ='SourceSystem'
       //console.log('response1')
@@ -324,9 +325,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       if (confirm) {
         //console.log(record[this.recordIdentifier], 'Internal Issues')
         let deleteparms = [];
-        if (record[this.recordIdentifier] != undefined) {
+      
+       let recordIdentifierValue = this.currentReportName != 'OsnProvideList' ? record[this.recordIdentifier] : record[this.recordIdentifier] + '|'  + record['ListName']  
+       console.log(recordIdentifierValue, 'recordid')
+       if (record[this.recordIdentifier] != undefined) {
           // console.log(record[this.recordIdentifier], record, 'InternalIssues2')
-          deleteparms.push({ Name: this.recordIdentifier, Value: [record[this.recordIdentifier]] });
+          deleteparms.push({ Name: this.recordIdentifier, Value: [recordIdentifierValue] });
           let request = this.reportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList', deleteparms);
           this.reportReferenceService.deleteDetails(request).pipe(takeUntil(this.onDestroyDelete)).subscribe(x => {
             // this.isLoading = false;
@@ -360,6 +364,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     });
   }
   onDataFormSubmit(event: any[]) {
+   // debugger
     let reportName =this.editMode
     // console.log('event', event)
   
@@ -368,8 +373,27 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.showDataForm = event[0][0];
     this.showDetailsForm = event[0][1];
     let updaterecord1 = Object.assign({}, event[1]);
+    //console.log(updaterecord1, 'null')
     //let entries1 = Object.entries(event[1])
-    // console.log(entries1.map, 'entri')
+  // console.log(entries1.map, 'entri')
+  let lstRadio =this.lstFields.filter( (t:IColoumnDef)=> t.cType ==='radio') ;
+  Object.entries(updaterecord1).map(
+    (x: any) => {
+      
+       let chkRadio = lstRadio.filter( (y:IColoumnDef)=> y.cName ===x[0]).length> 0
+      
+      if( (chkRadio)&&(x[1] === 'Y' || x[1]=== '0' ) ){ updaterecord1[x[0]] = true }
+      else if ( (chkRadio)&&(x[1] === 'N' || x[1]=== '1' || x[1]=== null || x[1]=== undefined || x[1]==='') ){ updaterecord1[x[0]] = false }
+     //console.log('element val', x)
+    //   else if (x[1] === null) { element1[x[0]] = ('') 
+    //console.log(x[1], x[0], 'null')
+    // }
+     else {
+      updaterecord1[x[0]]
+    }
+   // console.log(x[1], x[0], 'testing radio')
+    }
+  )
     Object.entries(updaterecord1).map(
       (x: any) => {
         // updaterecord1[x[0]]
@@ -382,11 +406,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // }
         // else if (x[1] === null) { updaterecord1[x[0]] = ('') }
         // console.log('element val', x)
-        if (x[1] === null || x[1] === undefined) { updaterecord1[x[0]] = ('') 
-        // console.log(x[1], x[0], 'nullvalues1')
+        if (x[1] === null || x[1] === undefined)
+         { 
+          updaterecord1[x[0]] = ('') 
+       // console.log(x[1], x[0], 'nullvalues1')
       }
-
-
         else {
           updaterecord1[x[0]]
         }

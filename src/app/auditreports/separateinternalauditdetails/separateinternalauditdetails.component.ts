@@ -506,7 +506,7 @@ else{
 
     for (const field in this.form) {
      // if (field != 'AuditActID'&&field != 'StartTelephoneNumber')
-     if (field != 'StartTelephoneNumber') {
+     if (field != 'StartTelephoneNumber' && field!='AuditActID') {
       const control = this.thisForm.get(field);
 
       if (control?.value)
@@ -533,6 +533,7 @@ else{
     { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode', 'SourcePostcode'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y', isBackgroundHighlighted: true },
+    { flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true } 
    ];
 
   onFormSubmit(isEmitted?: boolean): void {

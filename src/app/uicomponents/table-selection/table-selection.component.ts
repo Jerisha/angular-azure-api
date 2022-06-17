@@ -501,8 +501,39 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     return data;
   }
 
-  RequestExport2Excel() {
-    this.requestExport2Excel.emit([]);
+  RequestExport2Excel()
+  {
+    //{
+    //   "isExporttoExcel": "Y", 
+    //   "ColumnMapping": 
+    //     [
+    //     {"TelephoneNumber" : "Tel.No."},
+    //     {"TransactionId" : "Trans ID"},
+    //     {"999Reference" : "999 Reference"},
+    //     {"LatestCommentDate" : "Latest Comment Date"},
+    //     {"LatestUserComments" : "Latest User Comments"},
+    //     {"ResolutionType" : "Resolution Type"},
+    //     {"Source" : "Source"},
+    //     {"CreatedOn" : "Created On"},
+    //     {"ErrorList" : "Error List"},
+    //     {"Status" : "Status"},
+    //     {"Command" : "Command"},
+    //     {"IsLive": "Current Live Record"}]},
+    let selectedColumns: string[] = this.select.value;
+    let viewIndex = selectedColumns.findIndex(x=>x.toUpperCase() ==='VIEW')
+    if(viewIndex !=-1) {selectedColumns.splice(viewIndex,1)}
+    let excelHeaderParams = Object.create({
+         "ColumnMapping": 
+           []})
+           console.log(excelHeaderParams,'params')
+    selectedColumns.forEach((x: string) => {
+      let val = this.ColumnDetails.find(e => e.headerValue === x)
+      if (val)
+      { 
+        excelHeaderParams.ColumnMapping.push([[val.headerValue,val.header]].reduce((obj, d) => Object.assign(obj, {[d[0]]: d[1]}), {}))
+    }}) 
+    console.log(this.ColumnDetails,selectedColumns)
+    this.requestExport2Excel.emit(excelHeaderParams);
   }
 }
 
