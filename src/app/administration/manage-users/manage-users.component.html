@@ -144,35 +144,58 @@
 
                             <div class="userprofilerighttable" style="padding:10px;width:50vw">
                             <div style="max-height: 300px;overflow:auto">
+                                <button (click)="checkAll()">Toggle Select All</button>
+                                <button (click)="GetCheckAll()">Get Select All</button>
                                 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-                                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-                                      <button mat-icon-button disabled></button>
-                                      <mat-checkbox class="checklist-leaf-node"
-                                                    [checked]="checklistSelection.isSelected(node)"
-                                                    (change)="todoLeafItemSelectionToggle(node)">{{node.label}}</mat-checkbox>
-                                    </mat-tree-node>
-                                  
-                                    <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
-                                      <button mat-icon-button disabled></button>
-                                      <mat-form-field>
-                                        <input matInput #itemValue placeholder="New item...">
-                                      </mat-form-field>
-                                      <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
-                                    </mat-tree-node>
-                                  
-                                    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-                                      <button mat-icon-button matTreeNodeToggle
-                                              [attr.aria-label]="'toggle ' + node.filename">
-                                        <mat-icon class="mat-icon-rtl-mirror">
-                                          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                                        </mat-icon>
-                                      </button>
-                                      <!-- <mat-checkbox  [attr.disabled]="true" [checked]="descendantsAllSelected(node)"
-                                                    [indeterminate]="descendantsPartiallySelected(node)"
-                                                    (change)="todoItemSelectionToggle(node)">{{node.label}}</mat-checkbox> -->
-                                    <label>{{node.label}}</label>
-                                    </mat-tree-node>
-                                  </mat-tree>
+                                  <mat-tree-node
+                                    *matTreeNodeDef="let node"
+                                    matTreeNodeToggle
+                                    matTreeNodePadding
+                                  >
+                                    <button mat-icon-button disabled></button>
+                                    <mat-checkbox
+                                      class="checklist-leaf-node"
+                                      [checked]="checklistSelection.isSelected(node)"
+                                      (change)="todoLeafItemSelectionToggle(node)"
+                                      >{{node.label}}</mat-checkbox
+                                    >
+                                  </mat-tree-node>
+                                
+                                  <mat-tree-node
+                                    *matTreeNodeDef="let node; when: hasNoContent"
+                                    matTreeNodePadding
+                                  >
+                                    <button mat-icon-button disabled></button>
+                                    <mat-form-field>
+                                      <input matInput #itemValue placeholder="New item..." />
+                                    </mat-form-field>
+                                    <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+                                  </mat-tree-node>
+                                
+                                  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                                    <button
+                                      mat-icon-button
+                                      matTreeNodeToggle
+                                      [attr.aria-label]="'toggle ' + node.filename"
+                                    >
+                                      <mat-icon class="mat-icon-rtl-mirror">
+                                        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                      </mat-icon>
+                                    </button>
+                                    <mat-checkbox
+                                     
+                                     
+                                      [indeterminate]="descendantsPartiallySelected(node)"
+                                      (change)="todoItemSelectionToggle(node)"
+                                      >{{node.label}}</mat-checkbox
+                                    >
+                                  </mat-tree-node>
+                                </mat-tree>
+                                
+                                <!-- Copyright 2018 Google Inc. All Rights Reserved.
+                                    Use of this source code is governed by an MIT-style license that
+                                    can be found in the LICENSE file at http://angular.io/license -->
+                                
                                 <!-- <table mat-table [dataSource]="data0" multiTemplateDataRows  class="detail-table mat-elevation-z8" style="height:310px">
                                     <ng-container *ngFor="let disCol of displayedColumns1; let colIndex = index" matColumnDef="{{disCol}}">
                                         <!-- Edit Coloumn -->
@@ -292,35 +315,58 @@
         
                                     <div class="userprofilerighttable" style="padding:10px;width:50vw;height:303px">
                                     <div style="max-height: 300px;overflow:auto">
-                                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" style="height:266px">
-                                            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-                                              <button mat-icon-button disabled></button>
-                                              <mat-checkbox class="checklist-leaf-node"
-                                                            [checked]="checklistSelection.isSelected(node)"
-                                                            (change)="todoLeafItemSelectionToggle(node)">{{node.label}}</mat-checkbox>
-                                            </mat-tree-node>
-                                          
-                                            <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
-                                              <button mat-icon-button disabled></button>
-                                              <mat-form-field>
-                                                <input matInput #itemValue placeholder="New item...">
-                                              </mat-form-field>
-                                              <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
-                                            </mat-tree-node>
-                                          
-                                            <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-                                              <button mat-icon-button matTreeNodeToggle
-                                                      [attr.aria-label]="'toggle ' + node.filename">
-                                                <mat-icon class="mat-icon-rtl-mirror">
-                                                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                                                </mat-icon>
-                                              </button>
-                                              <mat-checkbox [checked]="descendantsAllSelected(node)"
-                                                            [indeterminate]="descendantsPartiallySelected(node)"
-                                                            (change)="todoItemSelectionToggle(node)">{{node.label}}</mat-checkbox>
+                                        <button (click)="checkAll()">Toggle Select All</button>
+                                        <button (click)="GetCheckAll()">Get Select All</button>
+                                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                                          <mat-tree-node
+                                            *matTreeNodeDef="let node"
+                                            matTreeNodeToggle
+                                            matTreeNodePadding
+                                          >
+                                            <button mat-icon-button disabled></button>
+                                            <mat-checkbox
+                                              class="checklist-leaf-node"
+                                              [checked]="checklistSelection.isSelected(node)"
+                                              (change)="todoLeafItemSelectionToggle(node)"
+                                              >{{node.label}}</mat-checkbox
+                                            >
+                                          </mat-tree-node>
+                                        
+                                          <mat-tree-node
+                                            *matTreeNodeDef="let node; when: hasNoContent"
+                                            matTreeNodePadding
+                                          >
+                                            <button mat-icon-button disabled></button>
+                                            <mat-form-field>
+                                              <input matInput #itemValue placeholder="New item..." />
+                                            </mat-form-field>
+                                            <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+                                          </mat-tree-node>
+                                        
+                                          <mat-tree-node layout="row" layout-wrap  md-scroll-y flex *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                                            <button
+                                              mat-icon-button
+                                              matTreeNodeToggle
+                                              [attr.aria-label]="'toggle ' + node.filename"
+                                            >
+                                              <mat-icon class="mat-icon-rtl-mirror">
+                                                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                              </mat-icon>
+                                            </button>
+                                            <mat-checkbox flex='20'  layout="row"
+                                             
                                             
-                                            </mat-tree-node>
-                                          </mat-tree>
+                                              [indeterminate]="descendantsPartiallySelected(node)"
+                                              (change)="todoItemSelectionToggle(node)"
+                                              >{{node.label}}</mat-checkbox
+                                            >
+                                          </mat-tree-node>
+                                        </mat-tree>
+                                        
+                                        <!-- Copyright 2018 Google Inc. All Rights Reserved.
+                                            Use of this source code is governed by an MIT-style license that
+                                            can be found in the LICENSE file at http://angular.io/license -->
+                                        
                                         <!-- <table mat-table [dataSource]="data0" multiTemplateDataRows  class="detail-table mat-elevation-z8" style="height:310px">
                                             <ng-container *ngFor="let disCol of displayedColumns1; let colIndex = index" matColumnDef="{{disCol}}">
                                                 <!-- Edit Coloumn -->

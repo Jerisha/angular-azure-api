@@ -10,40 +10,132 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { Select } from 'src/app/uicomponents/models/select';
 
 export class TodoItemNode {
-  children: TodoItemNode[] = [];
-  label: string ;
-  id:number;
+  children: TodoItemNode[];
+  label: string;
+  id: number;
   isChecked: boolean;
   isPlanType: boolean;
   claimId: number;
-
-
 }
 
+/** Flat to-do item node with expandable and level information */
 export class TodoItemFlatNode {
-  label: string ;
+  label: string;
   level: number;
-  expandable: boolean ;
-   id:number ;
-  isChecked: boolean ;
-   isPlanType: boolean ;
-   claimId: number;
+  expandable: boolean;
+  id: number;
+  isChecked: boolean;
+  isPlanType: boolean;
+  claimId: number;
 }
 const TREE_DATA = [
   {
-    name: 'Process Management',
+    name: 'Test 1',
+    id: 111,
+    isChecked: true,
+    isPlanType: true,
+    claimId: 11111,
+    children: [
+      {
+        name: 'Sub - Test 1',
+        id: 22,
+        isChecked: true,
+        isPlanType: true,
+        claimId: 777777,
+        children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 6666666,
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 5555555,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 5555555,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 5555555,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Test 2',
+    id: 66,
+    isChecked: false,
+    isPlanType: true,
+    claimId: 33333,
+    children: [
+      {
+        name: 'Sub - Test 2',
+        id: 77,
+        isChecked: false,
+        isPlanType: true,
+        claimId: 44444444,
+      },
+    ],
+  },
+];
+const TREE_DATA_two = [
+  {
+    name: 'Process Management Test',
     id:111,
     isChecked:true, 
      isPlanType: true,
      claimId:11111,
     children: [
       {
-        name: 'Solicited/Internal Discrepancy Process',
+        name: 'Solicited/Internal Discrepancy Process ',
         id:22,
         isChecked:true, 
          isPlanType: true,
          claimId:11111,
-     
+         children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 6666666,
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 5555555,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 5555555,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 5555555,
+          },
+        ],
       },
       {
         name: 'Solicited Resolution Report',
@@ -354,11 +446,20 @@ const TREE_DATA = [
   },
   
 ];
+
+
+/**
+ * Checklist database, it can build a tree structured Json object.
+ * Each node in Json object represents a to-do item or a category.
+ * If a node is a category, it has children items and new items can be added under the category.
+ */
 @Injectable()
 export class ChecklistDatabase {
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
 
-  get data(): TodoItemNode[] { return this.dataChange.value; }
+  get data(): TodoItemNode[] {
+    return this.dataChange.value;
+  }
 
   constructor() {
     this.initialize();
@@ -367,8 +468,8 @@ export class ChecklistDatabase {
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
-    const data = this.buildFileTree(TREE_DATA, 0);
-
+    const data = this.buildFileTree(TREE_DATA_two, 0);
+    console.log(data);
     // Notify the change.
     this.dataChange.next(data);
   }
@@ -377,20 +478,18 @@ export class ChecklistDatabase {
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `TodoItemNode`.
    */
-  buildFileTree(obj: {[key: string]: any}, level: number): TodoItemNode[] {
+  buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const item = obj[key];
       const node = new TodoItemNode();
       node.label = obj[key].name;
       node.id = obj[key].id;
-      node.isChecked=  obj[key].isChecked;
- node.claimId=  obj[key].claimId;
- node.isPlanType=  obj[key].isPlanType;
+      node.isChecked = obj[key].isChecked;
+      node.claimId = obj[key].claimId;
+      node.isPlanType = obj[key].isPlanType;
 
       if (item != null) {
-        if (typeof item === 'object'  && item.children!= undefined) { 
-       
-
+        if (typeof item === 'object' && item.children != undefined) {
           node.children = this.buildFileTree(item.children, level + 1);
         } else {
           node.label = item.name;
@@ -404,7 +503,7 @@ export class ChecklistDatabase {
   /** Add an item to to-do list */
   insertItem(parent: TodoItemNode, name: string) {
     if (parent.children) {
-      parent.children.push({label: name} as TodoItemNode);
+      parent.children.push({ label: name } as TodoItemNode);
       this.dataChange.next(this.data);
     }
   }
@@ -555,36 +654,45 @@ export class ManageUsersComponent implements OnInit {
   dataSource: MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
 
   /** The selection for checklist */
-  checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
+  checklistSelection = new SelectionModel<TodoItemFlatNode>(
+    true /* multiple */
+  );
 
-  constructor(private database: ChecklistDatabase,private formBuilder: FormBuilder) {
-    this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
-      this.isExpandable, this.getChildren);
-    this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel,this.isExpandable);
-    this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  constructor(private database: ChecklistDatabase,private formBuilder: FormBuilder,) {
+    this.treeFlattener = new MatTreeFlattener(
+      this.transformer,
+      this.getLevel,
+      this.isExpandable,
+      this.getChildren
+    );
+    this.treeControl = new FlatTreeControl<TodoItemFlatNode>(
+      this.getLevel,
+      this.isExpandable
+    );
+    this.dataSource = new MatTreeFlatDataSource(
+      this.treeControl,
+      this.treeFlattener
+    );
 
-    database.dataChange.subscribe(data => {
+    database.dataChange.subscribe((data) => {
       this.dataSource.data = data;
     });
   }
   //this.datasource.data=
-   checkAll(){
+  checkAll() {
     for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
-
-    if(this.treeControl.dataNodes[i].isChecked)
+      if (this.treeControl.dataNodes[i].isChecked)
         this.checklistSelection.toggle(this.treeControl.dataNodes[i]);
-      this.treeControl.expand(this.treeControl.dataNodes[i])
+      this.treeControl.expand(this.treeControl.dataNodes[i]);
     }
   }
 
-   GetCheckAll(){
+  GetCheckAll() {
+    console.log(this.dataSource.data);
+    // if( this.treeFlattener.flattenNodes[0].check) console.log(this.treeControl.dataNodes[i].id);
 
-    console.log( this.dataSource.data );
-      // if( this.treeFlattener.flattenNodes[0].check) console.log(this.treeControl.dataNodes[i].id);
- 
-     
     // for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
-     
+
     //   if(this.treeControl.dataNodes[i].isChecked) console.log(this.treeControl.dataNodes[i].id);
 
     // if(this.treeControl.dataNodes[i].isChecked){
@@ -593,7 +701,7 @@ export class ManageUsersComponent implements OnInit {
     //     console.log(this.treeControl.dataNodes[i].claimId);
 
     // }
-   // }
+    // }
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
@@ -604,46 +712,50 @@ export class ManageUsersComponent implements OnInit {
 
   hasChild = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.expandable;
 
-  hasNoContent = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.label === '';
+  hasNoContent = (_: number, _nodeData: TodoItemFlatNode) =>
+    _nodeData.label === '';
 
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
    */
   transformer = (node: TodoItemNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
-    const flatNode = existingNode && existingNode.label === node.label
+    const flatNode =
+      existingNode && existingNode.label === node.label
         ? existingNode
         : new TodoItemFlatNode();
     flatNode.label = node.label;
     flatNode.level = level;
-    flatNode.id=node.id;
-     flatNode.isChecked = node.isChecked;
-     flatNode.claimId = node.claimId;
-     flatNode.isPlanType = node.isPlanType;
+    flatNode.id = node.id;
+    flatNode.isChecked = node.isChecked;
+    flatNode.claimId = node.claimId;
+    flatNode.isPlanType = node.isPlanType;
     flatNode.expandable = !!node.children;
     this.flatNodeMap.set(flatNode, node);
     this.nestedNodeMap.set(node, flatNode);
     return flatNode;
-  }
+  };
 
   /** Whether all the descendants of the node are selected. */
   descendantsAllSelected(node: TodoItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.every(child =>
-     this.checklistSelection.isSelected(child))
+    const descAllSelected = descendants.every((child) =>
+      this.checklistSelection.isSelected(child)
+    );
     return descAllSelected;
   }
 
   /** Whether part of the descendants are selected */
   descendantsPartiallySelected(node: TodoItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    const result = descendants.some(child => this.checklistSelection.isSelected(child));
+    const result = descendants.some((child) =>
+      this.checklistSelection.isSelected(child)
+    );
     return result && !this.descendantsAllSelected(node);
   }
 
   /** Toggle the to-do item selection. Select/deselect all the descendants node */
   todoItemSelectionToggle(node: TodoItemFlatNode): void {
-  
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
     this.checklistSelection.isSelected(node)
@@ -651,16 +763,14 @@ export class ManageUsersComponent implements OnInit {
       : this.checklistSelection.deselect(...descendants);
 
     // Force update for the parent
-    descendants.every(child =>
-      this.checklistSelection.isSelected(child)
-    );
+    descendants.every((child) => this.checklistSelection.isSelected(child));
     this.checkAllParentsSelection(node);
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
   todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
     this.checklistSelection.toggle(node);
-    node.isChecked ?  node.isChecked=false:node.isChecked=true; 
+    node.isChecked ? (node.isChecked = false) : (node.isChecked = true);
     this.checkAllParentsSelection(node);
   }
 
@@ -677,7 +787,7 @@ export class ManageUsersComponent implements OnInit {
   checkRootNodeSelection(node: TodoItemFlatNode): void {
     const nodeSelected = this.checklistSelection.isSelected(node);
     const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.every(child =>
+    const descAllSelected = descendants.every((child) =>
       this.checklistSelection.isSelected(child)
     );
     if (nodeSelected && !descAllSelected) {
@@ -719,6 +829,9 @@ export class ManageUsersComponent implements OnInit {
     const nestedNode = this.flatNodeMap.get(node);
     this.database.updateItem(nestedNode!, itemValue);
   }
+
+  /** Whether all the descendants of the node are selected. */
+ 
 
   ngOnInit(): void {
     // this.thisForm =  this.formBuilder.group({
@@ -852,6 +965,7 @@ export class ManageUsersComponent implements OnInit {
   }
   onEditUserprofile(record:any,event:Event)
   {
+    //this.database.buildFileTree(TREE_DATA_two,0);
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find(x => x.tabType == 1)) {
