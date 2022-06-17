@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { IconResolver } from '@angular/material/icon';
 import { Observable, of, Subscriber, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ColoumnDef, IColoumnDef } from "src/app/report-references/IControls";
+import { ColoumnDef, IColoumnDef, IDropdown } from "src/app/report-references/IControls";
 import { WMRequests } from '../_helper';
 import { PyRequests } from '../_helper/Constants/pyrequests-const';
 import { HttpVerbs, HttpWrapperService, Utils, WebMethods } from '../_http';
@@ -26,6 +26,7 @@ export class ReportReferenceService {
   dropdownNames:any =[];
   dp:any;
   franchiseDropdowns:any=[];
+  companyDropdown: any =[];
 
   reportNames: string[] = [
     'Franchise','Olo','Company','SourceSystem', 'Status', 'AuditStatus', 'CUPIDCrossReference',
@@ -483,10 +484,10 @@ export class ReportReferenceService {
                     }))
                   }
                   else if(this.lstForm[index].cName === 'Company'){
-                    this.lstForm[index].cList =[{                  
-                      displayValue:'',internalValue:''
-                    }]
-
+                    // this.lstForm[index].cList =[{                  
+                    //   displayValue:'',internalValue:''
+                    // }]
+                    this.lstForm[index].cList = this.getCList();
                   } 
                   }
                 }
@@ -632,6 +633,27 @@ return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA,
       return [];
     }
 
+  }
+
+  getCList(): IDropdown[] {
+    let cList: IDropdown[] = [{displayValue: '', internalValue: '', companyDropdown: ['']}];
+    for(let i = 0; i < this.companyDropdown[0].length; i++)
+    {
+    let tempCompany: any = [];
+    let index = cList.findIndex(obj => obj.displayValue === this.companyDropdown[0][i].Olo);
+
+    if(index > -1)
+    {
+      tempCompany = cList[index].companyDropdown;  
+      tempCompany.push(this.companyDropdown[0][i].Company);
+      cList[index].companyDropdown = tempCompany;
+    } else {
+      cList.push({displayValue: this.companyDropdown[0][i].Olo, internalValue: this.companyDropdown[0][i].Olo, companyDropdown: [`${this.companyDropdown[0][i].Company}`]});
+    }
+    } // for loop
+    cList.splice(0,1); // remove null initialized value
+    // console.log("cList values "+ JSON.stringify(cList));
+    return cList;
   }
 
 }
