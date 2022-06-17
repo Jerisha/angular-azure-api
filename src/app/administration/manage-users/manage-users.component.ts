@@ -500,6 +500,7 @@ export class ManageUsersComponent implements OnInit {
   thisForm!: FormGroup;
   showDetails: boolean = false;
   referenceForm!: FormGroup;
+  referenceUsernameform!: FormGroup;
   StartupUsermsgsForm!:FormGroup;
   UserProfileForm!:FormGroup;
   UserEditForm!:FormGroup;
@@ -747,6 +748,7 @@ export class ManageUsersComponent implements OnInit {
   }
 
   getFileDetailsLeftPanel(fileType: string) {
+    this.tabsLeft.splice(0);
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (fileType === 'UserDetailsForm') {
@@ -823,7 +825,7 @@ export class ManageUsersComponent implements OnInit {
       if (!this.tabs.find(x => x.tabType == 2)) {
         this.tabs.push({
           tabType: 2,
-          name: 'Start Up User Messages'
+          name: 'News Update'
         });
         
       }
@@ -891,7 +893,7 @@ export class ManageUsersComponent implements OnInit {
 
     if(value=='3')
     {
-    this.onEditUserprofileAceess();
+    this.onEditUserprofileAceess('Create');
     }
   }
   // onEdituserDetails(record:any,event:Event){   
@@ -956,20 +958,25 @@ export class ManageUsersComponent implements OnInit {
     console.log('Edit Record');
     this.eventName="Update";
   }
-  onEditUserprofileAceess()
+  onEditUserprofileAceess(Actiontype:string)
   {
     this.isShow = true;
     this.showMenu = 'collapsed';
+    let name='Profile';
+    if(Actiontype=='Create')
+  {
+    name='Add Prfile'
+  }
     if (!this.tabsLeft.find(x => x.tabType == 2)) {
       this.tabsLeft.push({
         tabType: 2,
-        name: 'Add Profile'
+        name: name
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else{
-    this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
     }
     this.Header="User Profiles";
     this.UserDetailsForm=false;
@@ -978,13 +985,18 @@ export class ManageUsersComponent implements OnInit {
     this.isLeftPanel =true;
     this.UserEditForm = this.formBuilder.group({
       
-      ProfileName: new FormControl({value: 'Custom' }),
-      Description: new FormControl({value:'Custome functionality'}),
-      UserProfile: new FormControl({value:'Custom'})
+      ProfileName: new FormControl(),
+      Description: new FormControl(),
+      UserProfile: new FormControl()
 
     });
-  
+  if(Actiontype=='Create')
+  {
+    this.eventName ='Create';
+  }
+  else{
     this.eventName ='Update';
+  }
   
   }
 
@@ -992,6 +1004,7 @@ export class ManageUsersComponent implements OnInit {
 
   onEditUsermsgs(record:any,event:Event)
   {
+    this.tabsLeft.splice(0);
     this.Header="Start Up User Messages";
     console.log(JSON.stringify(record));
     this.UserDetailsForm=false;
@@ -1018,6 +1031,7 @@ export class ManageUsersComponent implements OnInit {
   changeevent(event:any) {
     console.log('event called',event);
   }
+
   onEdituserDetails(record:any,event:Event){   
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1114,8 +1128,51 @@ export class ManageUsersComponent implements OnInit {
     });
     this.eventName="Create";
   }
+
+onVerifyUserName()
+{
+  this.isShow = true;
+  this.showMenu = 'collapsed';
+  if (!this.tabsLeft.find(x => x.tabType == 3)) {
+    this.tabsLeft.push({
+      tabType: 3,
+      name: 'Check'
+    });
+    this.showDetails = true;
+  this.selectedTabLeft = this.tabsLeft.length;
+  }
+  else{
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 3);
+  }
+  this.isLeftPanel =true;
+  this.referenceUsernameform = this.formBuilder.group({
+      
+    UserID: new FormControl()
+  });
+}
+
+
+
   onCreateuserDetails()
 {
+  debugger
+  if (this.tabsLeft.find(x => x.tabType == 3)) {
+    let index:number = this.tabsLeft.findIndex(x => x.tabType == 3);
+    this.tabsLeft.splice(index) ;
+  }
+  this.isShow = true;
+  this.showMenu = 'collapsed';
+  if (!this.tabsLeft.find(x => x.tabType == 0)) {
+    this.tabsLeft.push({
+      tabType: 0,
+      name: 'Create'
+    });
+    this.showDetails = true;
+  this.selectedTabLeft = this.tabsLeft.length;
+  }
+  else{
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
+  }
   this.Header="User Access Details";
   this.UserDetailsForm=true;
   this.StartupForm=false;

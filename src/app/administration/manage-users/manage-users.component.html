@@ -4,7 +4,7 @@
     <div class="menu-button-wrapper">
     <button mat-button (click)="getFileDetails('UserAccessDetails')">User Access Details</button>
     <button mat-button (click)="getFileDetails('UserOfReports')">User Of Reports</button>
-    <button mat-button (click)="getFileDetails('StartUpUserMessages')">Start Up User Messages</button>
+    <button mat-button (click)="getFileDetails('StartUpUserMessages')">News Update</button>
     <button mat-button (click)="getFileDetails('UserProfiles')">User Profiles</button>
     <!-- <mat-button-toggle-group name="files" aria-label="Files" multiple (change)="getFileDetails($event)">
         <mat-button-toggle value="BTAuditFileDetails">BT Audit File Details</mat-button-toggle>
@@ -18,7 +18,7 @@
 <div class="container-page wrap">
 
     
-    <mat-card *ngIf="isLeftPanel" class="left-box mat-elevation-z3">
+    <mat-card *ngIf="isLeftPanel" class="left-box mat-elevation-z3" style="height:430px" id="tabset">
         <!-- <mat-card-title style="margin:0px; padding:0px; font-size:medium" class="top-label" style="visibility:hidden">
             {{Header}}
         </mat-card-title> -->
@@ -27,16 +27,16 @@
             <mat-card-content> 
               <!-- UserProfile    -->
               <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTabLeft">
-                <mat-tab *ngFor="let tab of tabsLeft; let index = index">
-                    <ng-template mat-tab-label style="background-color:red!important">
-                        <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
+                <mat-tab *ngFor="let tableft of tabsLeft; let index = index" style="background-color:red!important">
+                    <ng-template mat-tab-label >
+                        <div style="background-color:#e60000!important" class="col" style="margin-left: 20px;">{{tableft.name}}</div>
                         <button style="color:black" mat-icon-button (click)="removeTabLeftPanel(index)">
                             <mat-icon style="font-size: large;">close</mat-icon>
                         </button>
                     </ng-template>
-                    <span [ngSwitch]="tab.tabType">
+                    <span [ngSwitch]="tableft.tabType">
                         <div *ngSwitchCase="0" style="height:100%;">
-                            <form [formGroup]="referenceForm" *ngIf="UserDetailsForm"  (ngSubmit)="onSubmit()">
+                            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
                        
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
@@ -99,11 +99,16 @@
                                         <input type="text" matInput   formControlName="TelephoneNo"
                                         placeholder="TelephoneNo">
                                         </mat-form-field>
+                                        <mat-form-field>
+                                            <mat-label >Country</mat-label>
+                                        <input type="text" matInput   formControlName="Country"
+                                        placeholder="Country">
+                                        </mat-form-field>
                                     </div> 
                                    
                                 </div>
-                                    <div class ="fixed-button-bar">   
-                                        <mat-card-actions>
+                                    <div class ="fixed-button-bar" style="position:initial">    
+                                        <mat-card-actions style="height:29px">
                                           <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
                                             <mat-icon >save</mat-icon>Save
                                           </button>
@@ -119,7 +124,7 @@
                           
                         </div>
                         <div *ngSwitchCase="1" style="height:100%;">
-                             <form [formGroup]="UserProfileForm" *ngIf="UserProfilesForm" >
+                             <form [formGroup]="UserProfileForm"  >
                         
                         <div class="content-main vf-flex-container-row">
                             <div  class="content-submain vf-flex-container-col">
@@ -267,7 +272,7 @@
                     </form>
                         </div>
                         <div *ngSwitchCase="2" style="height:100%;">
-                            <form [formGroup]="UserEditForm"  *ngIf="UserEditProfilesForm" >
+                            <form [formGroup]="UserEditForm"  >
                        
                                 <div class="content-main vf-flex-container-row">
                                     <div  class="content-submain vf-flex-container-col">
@@ -285,9 +290,9 @@
                                         </mat-form-field>
                                     </div>
         
-                                    <div class="userprofilerighttable" style="padding:10px;width:50vw">
+                                    <div class="userprofilerighttable" style="padding:10px;width:50vw;height:303px">
                                     <div style="max-height: 300px;overflow:auto">
-                                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" style="height:266px">
                                             <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
                                               <button mat-icon-button disabled></button>
                                               <mat-checkbox class="checklist-leaf-node"
@@ -398,10 +403,10 @@
                                         </table>  -->
                                     </div>
                                 </div>
-                                    <div class ="fixed-button-bar">   
+                                    <div class ="fixed-button-bar">    
                                         <mat-card-actions>
                                           <button  *ngIf = "eventName==='Create'"  type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
-                                            <mat-icon >save</mat-icon>Save
+                                            <mat-icon >save</mat-icon>Go to
                                           </button>
                                           <button  *ngIf = "eventName==='Update'" (click)=onreturnform()  type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
                                                 <mat-icon >edit</mat-icon>Update
@@ -414,6 +419,31 @@
                                 </div>
                             </form>
                         </div>
+                        <div *ngSwitchCase="3" style="height:100%;">
+                            <form [formGroup]="referenceUsernameform">
+                       
+                                <div class="content-main vf-flex-container-row">
+                                <div class="content-submain vf-flex-container-col">
+                                    <mat-form-field hintLabel="Max 10 characters">
+                                      <mat-label>User Name</mat-label>
+                                      <input formControlName="UserID" matInput #input maxlength="10"
+                                        placeholder="User Name">
+                                      
+                                    </mat-form-field>
+                                    <mat-card-actions style="height:29px">
+                                       
+                                        <button type="button" mat-raised-button  (click)=onCreateuserDetails() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
+                                            <mat-icon >save</mat-icon>Proceed
+                                        </button>                       
+                                      </mat-card-actions> 
+                                </div>
+                                <div class="content-submain vf-flex-container-col">
+
+                                </div>
+                                </div>
+                            </form>
+                        </div>
+                      
                         <div *ngSwitchDefault>
                         </div>
                     </span>
@@ -580,7 +610,7 @@
                                 <button type="button" mat-raised-button color="primary" class="rm6">
                                     <mat-icon>import_export</mat-icon>Export
                                 </button>
-                                <button type="button" (click)="onCreateuserDetails()" mat-raised-button color="primary" class="rm6">
+                                <button type="button" (click)="onVerifyUserName()" mat-raised-button color="primary" class="rm6">
                                     <mat-icon>add_box</mat-icon>Create
                                 </button>
                             </span>
@@ -810,7 +840,7 @@
                                             <th mat-header-cell *matHeaderCellDef class="table-header">Actions</th>
                                             <td mat-cell *matCellDef="let element" class="table-coloumn">
                                                 <ng-container>
-                                                    <mat-icon (click)="onEditUserprofile(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                                                    <mat-icon (click)="onEditUserprofileAceess('Update')"   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                                         mode_edit_outline</mat-icon>
                                                         <mat-icon (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted"
                                                         style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
@@ -844,7 +874,7 @@
                                     <button type="button" mat-raised-button color="primary" class="rm6">
                                         <mat-icon>import_export</mat-icon>Export
                                     </button>
-                                    <button type="button" (click)="onCreateUserProfiles()" mat-raised-button color="primary" class="rm6">
+                                    <button type="button" (click)="onEditUserprofileAceess('Create')" mat-raised-button color="primary" class="rm6">
                                         <mat-icon>add_box</mat-icon>Create
                                     </button>
                                 </span>
