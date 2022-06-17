@@ -664,7 +664,7 @@ export class SolicitederrorsComponent implements OnInit {
       if (confirm) {
         
         let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()),columnMapping);
-        // let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
+      //  let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
         this.service.exportDetails(request).subscribe(x => {
           // this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
           // console.log(x,'res')
