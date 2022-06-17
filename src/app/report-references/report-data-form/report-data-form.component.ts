@@ -30,6 +30,8 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   @Output() submitBtnClicked =new EventEmitter<[boolean[], any]>();
   updatedBy:string ="";
   updatedOn:string ="";
+  companyDropdown: any = [''];
+  firstDropdownVal: string = '' ;
 
 
 
@@ -80,6 +82,9 @@ ngOnChanges(changes: SimpleChanges) {
     {      
         let control = this.referenceForm.get(field);    
         control?.setValue(this.record[field]);
+
+        // set company dropdown based on Olo selected for Franchise report
+      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo'], this.record['Company']);  
     }
     this.updatedBy = this.record['UpdatedBy'] != undefined ?'UpdatedBy:'+ this.record['UpdatedBy']:''
     this.updatedOn = this.record['UpdatedOn'] != undefined?'UpdatedOn:'+this.record['UpdatedOn']:''
@@ -183,11 +188,22 @@ onEditRecord(record:any,event:Event){
     }
     
     this.referenceForm.markAsUntouched();
-    
+
 }
 onDropDownChange(event:any){
 // alert('dp:'+event.value)
-// console.log('dp:',event)
+let Olo = event.value;
+this.setCompanyDropdownValue(Olo);
+}
+
+setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
+  if(OloValue != null) {
+  const index = this.lstForm[2].cList.findIndex((x: any) => {
+    return x.displayValue === OloValue;
+  });
+  this.companyDropdown =  this.lstForm[2].cList[index].companyDropdown;
+  this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0];
+}
 }
 
 onSubmit(){

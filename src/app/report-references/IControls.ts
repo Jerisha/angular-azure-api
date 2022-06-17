@@ -1,6 +1,7 @@
   export interface IDropdown {
     displayValue: string;
     internalValue: string;
+    companyDropdown?: string[]
   }
    export interface IColoumnDef {
     cName: string;
