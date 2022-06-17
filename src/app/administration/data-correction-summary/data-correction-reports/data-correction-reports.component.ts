@@ -11,6 +11,7 @@ import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Utils } from 'src/app/_http/common/utils';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
@@ -173,7 +174,10 @@ export class DataCorrectionReportsComponent implements OnInit {
   comments: string = 'No Records Found';
   configDetails!: any;
   selectedOption = '';
-  currentPage: string = '1';
+  // currentPage: string = '1';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   queryResult$!: Observable<any>;
   telNoList!: any;
   tabName: string = 'Auto Correction Summary';
@@ -299,15 +303,23 @@ if(this.switchBtn)
 
   fetchQueryResult(ObjectCategory: string, isEmitted?: boolean) {
 
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery(ObjectCategory, 'DataCorrectionSummary', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+
+    let request = Utils.preparePyQuery(ObjectCategory, 'DataCorrectionSummary', this.prepareQueryParams(this.currentPage.toString()), reqParams);
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.AutoCorrectionSummary ? res.data.AutoCorrectionSummary : res.data.ManualCorrectionSummary,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage 
         }
         return result;
       } else return {
@@ -356,29 +368,12 @@ if(this.switchBtn)
     return this.dataCorrectionForm.controls;
   }
 
-  createViewList(){
-    this.viewTelno = {
-      data: of({
-        datasource: ELEMENT_DATA1,
-        totalrecordcount: 13,
-        totalpages: 10,
-        pagenumber: 1
-      }),
-      Columns: this.colHeader1,
-      //filter: true,      
-      removeNoDataColumns: false,      
-      highlightedCells: ['TelNo'],
-      imgConfig: [{ headerValue: 'View', icon: 'description', route: '', tabIndex: 3 },
-      //{ headerValue: 'ViewFailedTelNo', icon: 'description', route: '', tabIndex: 2 }
-    ]
-    }
+ 
 
-  }
-
-  getNextSetRecords(pageIndex: any) {
-    debugger;
-    this.currentPage = pageIndex;
-    // this.fetchQueryResult(true);
+  getNextSetRecords(pageEvent: any) {
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
+    //  this.fetchQueryResult(true);
   }
 
   removeTab(index: number) {

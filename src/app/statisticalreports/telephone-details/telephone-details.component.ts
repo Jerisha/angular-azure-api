@@ -10,6 +10,7 @@ import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { statisticalreport } from '../services/statisticalreports.service';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
   {
@@ -57,7 +58,10 @@ export class TelephoneDetailsComponent implements OnChanges {
   selectedRowsCount: number = 0;
   selectListItems: string[] = [];
   selectedTab!: number;
-  currentPage: string = '1';
+  // currentPage: string = '1';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   @Output() addNewTab = new EventEmitter<any>();
   public tabs = [{
     tabType: 0,
@@ -99,9 +103,16 @@ export class TelephoneDetailsComponent implements OnChanges {
 
   }
   formsubmit(isEmitted?: boolean) {
-    this.currentPage = isEmitted ? this.currentPage : '1';
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
     this.Datevalue = this.StatisticDate;
-    let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TransactionCommand', this.prepareQueryParams(this.currentPage));
+    let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TransactionCommand', this.prepareQueryParams(this.currentPage.toString()), reqParams);
     console.log('request', JSON.stringify(request))
     this.queryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
@@ -109,7 +120,8 @@ export class TelephoneDetailsComponent implements OnChanges {
           datasource: res.data.TelephoneNumbers,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage  
         }
         return result;
       } else return { datasource: res };
@@ -144,9 +156,10 @@ export class TelephoneDetailsComponent implements OnChanges {
     return attributes;
 
   }
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.formsubmit(true);
   }
   selected(s: string): void {
