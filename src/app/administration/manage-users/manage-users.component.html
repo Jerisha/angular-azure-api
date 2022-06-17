@@ -321,10 +321,10 @@
                                           <mat-tree-node
                                             *matTreeNodeDef="let node"
                                             matTreeNodeToggle
-                                            matTreeNodePadding
+                                            matTreeNodePadding   [ngClass]="(node.claimId == '0')? 'a':'b'" 
                                           >
                                             <button mat-icon-button disabled></button>
-                                            <mat-checkbox
+                                            <mat-checkbox 
                                               class="checklist-leaf-node"
                                               [checked]="checklistSelection.isSelected(node)"
                                               (change)="todoLeafItemSelectionToggle(node)"
@@ -332,7 +332,7 @@
                                             >
                                           </mat-tree-node>
                                         
-                                          <mat-tree-node
+                                          <mat-tree-node 
                                             *matTreeNodeDef="let node; when: hasNoContent"
                                             matTreeNodePadding
                                           >
@@ -343,7 +343,7 @@
                                             <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
                                           </mat-tree-node>
                                         
-                                          <mat-tree-node layout="row" layout-wrap  md-scroll-y flex *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                                          <mat-tree-node   *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
                                             <button
                                               mat-icon-button
                                               matTreeNodeToggle
@@ -353,9 +353,7 @@
                                                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                                               </mat-icon>
                                             </button>
-                                            <mat-checkbox flex='20'  layout="row"
-                                             
-                                            
+                                            <mat-checkbox  flex='20'  layout="row"
                                               [indeterminate]="descendantsPartiallySelected(node)"
                                               (change)="todoItemSelectionToggle(node)"
                                               >{{node.label}}</mat-checkbox
