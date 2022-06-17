@@ -119,10 +119,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.currentPage = this.apiPageNumber - 1;
         this.pageSize = (res.pagecount) as number;
         // this.paginator.length = (res.totalrecordcount) as number;
-        if(this.showCustomFooter)  this.footerDetails = res.FooterDetails;
+        if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
         this.dataSource.sort = this.sort;
         this.spinner.hide();
-        this.disablePageSize = false;
+        this.disablePageSize = this.totalRows > 50 ? false : true;
         this.isDataloaded = true;
       },
       (error) => { this.spinner.hide(); },
@@ -156,7 +156,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-    if(this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
 
   initializeTableAttributes() {
@@ -170,7 +170,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
     this.showCustomFooter = this.tableitem?.isCustomFooter;
-    if(this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
+    if (this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
     //   if (data && data.length > 0)
@@ -213,7 +213,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-    if(this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
 
   ngOnInit(): void {
@@ -244,27 +244,27 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       return '';
   }
 
-  getFooterDetails(cellname: string) { 
+  getFooterDetails(cellname: string) {
 
     // debugger 
 
-    var cell = cellname ? cellname : ''; 
+    var cell = cellname ? cellname : '';
 
-    if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) { 
+    if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
 
-      return this.footerDetails.footerName; 
+      return this.footerDetails.footerName;
 
-    } 
+    }
 
-    if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell)) 
+    if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
 
-      return this.footerDetails.footerValue; 
+      return this.footerDetails.footerValue;
 
-    else 
+    else
 
-      return ''; 
+      return '';
 
-  } 
+  }
 
   getColSpan(cellname: string) {
     if (this.dataColumns[0] === cellname) {
@@ -339,7 +339,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   filterGridColumns(event: any) {
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
-    if(this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     event.close();
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
@@ -472,8 +472,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   rowHighlight(row: any) {
     let rowHighlight = '';
-    if((parseInt(row.SuccessCount) > 0))  rowHighlight = 'rowFontHighlight1';
-    if((parseInt(row.SuccessCount) === 0))  rowHighlight = 'rowFontHighlight2';
+    if ((parseInt(row.SuccessCount) > 0)) rowHighlight = 'rowFontHighlight1';
+    if ((parseInt(row.SuccessCount) === 0)) rowHighlight = 'rowFontHighlight2';
     return rowHighlight;
   }
 
@@ -501,8 +501,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     return data;
   }
 
-  RequestExport2Excel()
-  {
+  RequestExport2Excel() {
     //{
     //   "isExporttoExcel": "Y", 
     //   "ColumnMapping": 
@@ -520,19 +519,20 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     //     {"Command" : "Command"},
     //     {"IsLive": "Current Live Record"}]},
     let selectedColumns: string[] = this.select.value;
-    let viewIndex = selectedColumns.findIndex(x=>x.toUpperCase() ==='VIEW')
-    if(viewIndex !=-1) {selectedColumns.splice(viewIndex,1)}
+    let viewIndex = selectedColumns.findIndex(x => x.toUpperCase() === 'VIEW')
+    if (viewIndex != -1) { selectedColumns.splice(viewIndex, 1) }
     let excelHeaderParams = Object.create({
-         "ColumnMapping": 
-           []})
-           console.log(excelHeaderParams,'params')
+      "ColumnMapping":
+        []
+    })
+    console.log(excelHeaderParams, 'params')
     selectedColumns.forEach((x: string) => {
       let val = this.ColumnDetails.find(e => e.headerValue === x)
-      if (val)
-      { 
-        excelHeaderParams.ColumnMapping.push([[val.headerValue,val.header]].reduce((obj, d) => Object.assign(obj, {[d[0]]: d[1]}), {}))
-    }}) 
-    console.log(this.ColumnDetails,selectedColumns)
+      if (val) {
+        excelHeaderParams.ColumnMapping.push([[val.headerValue, val.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
+      }
+    })
+    console.log(this.ColumnDetails, selectedColumns)
     this.requestExport2Excel.emit(excelHeaderParams);
   }
 }
