@@ -3,16 +3,12 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { SolicitedErrors } from '../models/solicited-errors';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
 import { Select } from 'src/app/uicomponents/models/select';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
-import { NgxSpinnerService } from "ngx-spinner";
-import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -20,6 +16,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { Custom } from 'src/app/_helper/Validators/Custom';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
@@ -141,17 +140,22 @@ const FilterListItems: Select[] = [
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
-  styleUrls: ['./solicitederrors.component.css'],
-  //providers: [TelNoPipe]
+  styleUrls: ['./solicitederrors.component.css']
 })
-export class SolicitederrorsComponent implements OnInit {
+export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private auth:AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+    super(auth,actRoute);
+    this.intializeUser();
+  }
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
@@ -201,6 +205,7 @@ export class SolicitederrorsComponent implements OnInit {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res.data;
     });
+
     //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
