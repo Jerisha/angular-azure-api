@@ -55,7 +55,7 @@
                 <span [ngSwitch]="tab.tabType">
                     <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
                     
-                        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                        <app-table-selection [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
                     </div>
@@ -63,7 +63,7 @@
                         <!-- <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
                         </app-telephone-audit-trail> -->
                         <!-- <app-table [tableitem]="myTable"></app-table> -->
-                        <app-table-selection [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                        <app-table-selection [tableitem]="myTable"  (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"
                             (addNewTab)="newTab($event)">
                         </app-table-selection>
                     </div>

@@ -14,6 +14,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
@@ -68,10 +69,13 @@ export class ProvidereportComponent implements OnInit {
     errorCodesOptions!: Observable<any[]>;
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
-    currentPage: string = '1';
+    // currentPage: string = '1';
     Datetime: string= '';
     expOperatorsKeyPair: [string, string][] = [];
     expressions: any = [expNumeric, expString, expDate];
+    currentPage: number = DefaultPageNumber;
+    pageSize: number = DefaultPageSize;
+    isRemoveCache: number = DefaultIsRemoveCache;
     expOperators: string[] = [
         "StartTelephoneNumberOperator",
      
@@ -112,10 +116,12 @@ export class ProvidereportComponent implements OnInit {
     }
 
 
-    getNextSetRecords(pageIndex: any) {
+    getNextSetRecords(pageEvent: any) {
         debugger;
-        this.currentPage = pageIndex;
+        this.currentPage = pageEvent.currentPage;
+        this.pageSize = pageEvent.pageSize
         this.onFormSubmit(true);
+      
     }
 refresh(event: any)
 {
@@ -124,18 +130,25 @@ refresh(event: any)
 }
     onFormSubmit(isEmitted?: boolean): void {
         debugger;
-        this.currentPage = isEmitted ? this.currentPage : '1';
+        // this.currentPage = isEmitted ? this.currentPage : '1';
+        this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+        this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+        this.isRemoveCache = isEmitted ? 0 : 1;
+        var reqParams = [{ "Pagenumber": this.currentPage },
+        { "RecordsperPage": this.pageSize },
+        { "IsRemoveCache": this.isRemoveCache }];
        
         this.Datetime =   formatDate( new Date, 'dd-MMM-yyyy HH:mm', 'en-US')
         this.tabs.splice(0);
-        let request = Utils.preparePyQuery('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage));
+        let request = Utils.preparePyQuery('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage.toString()), reqParams);
         this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
             if (Object.keys(res).length) {
                 let result = {
                     datasource: res.data.TelephoneNumbers,
                     totalrecordcount: res.TotalCount,
             totalpages: res.NumberOfPages,
-            pagenumber: res.PageNumber
+            pagenumber: res.PageNumber,
+            pagecount: res.Recordsperpage  
                 }
                 return result;
             } else return res;

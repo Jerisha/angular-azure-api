@@ -15,6 +15,7 @@ import { AlertService } from 'src/app/_shared/alert';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AuditReportsService } from '../services/audit-reports.service';
 import { UserCommentsDialogComponent } from '../../_shared/user-comments/user-comments-dialog.component';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const Items: Select[] = [
   { view: 'Start TelephoneNumber', viewValue: 'StartTelephoneNumber', default: true },
@@ -57,7 +58,9 @@ export class ExternalAuditDetailsComponent implements OnInit {
   updateDetails!: any;
   configDetails!: any;
 
-  currentPage: string = '1';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   queryResult$!: Observable<any>;
   disableSave: boolean = true;
 
@@ -209,8 +212,10 @@ export class ExternalAuditDetailsComponent implements OnInit {
     });
   }
 
-  getNextSetRecords(pageIndex: any) {
-    this.currentPage = pageIndex;
+  getNextSetRecords(pageEvent: any) {
+    debugger;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -275,8 +280,8 @@ export class ExternalAuditDetailsComponent implements OnInit {
     if (!this.externalAuditForm.valid) return;
 
     debugger;
-    var startTelno= this.form.StartTelephoneNumber?.value?this.form.StartTelephoneNumber?.value:''
-    var endTelno = this.form.EndTelephoneNumber?.value?this.form.EndTelephoneNumber?.value:''
+    var startTelno = this.form.StartTelephoneNumber?.value ? this.form.StartTelephoneNumber?.value : ''
+    var endTelno = this.form.EndTelephoneNumber?.value ? this.form.EndTelephoneNumber?.value : ''
     var errMsg = Custom.compareStartAndEndTelNo(startTelno, endTelno);
     //var errMsg = Custom.compareStartAndEndTelNo(this.form.StartTelephoneNumber?.value, this.form.EndTelephoneNumber?.value);
     if (errMsg) {
@@ -307,9 +312,16 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
     // }
 
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('ExternalAuditDetails', 'ExternalAuditDetails', this.prepareQueryParams(this.currentPage));
-    console.log('request', JSON.stringify(request))
+    //this.currentPage = isEmitted ? this.currentPage : 1;
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('ExternalAuditDetails', 'ExternalAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -317,7 +329,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
           pagenumber: res.PageNumber,
-          pagecount: res.data.TelephoneNumbers.length
+          pagecount: res.Recordsperpage
         }
         return result;
       } else return {

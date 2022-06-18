@@ -15,6 +15,7 @@ import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_he
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const ELEMENT_DATA: UnresolvedTransaction[] = [
   {
@@ -132,7 +133,10 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   updateDetails!: any;
   queryResultInfo$!: Observable<any>;
   selected: string = '';
-  currentPage: string = '1';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
+  // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
   expressions: any = [expNumeric, expString, expDate, expDropdown];
@@ -187,9 +191,10 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
     return filteredList;
   }
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -268,15 +273,24 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
     debugger;
     if(!this.thisForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery( 'TransactionSummary','UnResolvedTransactions', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery( 'TransactionSummary','UnResolvedTransactions', this.prepareQueryParams(this.currentPage.toString()), reqParams);
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.UnResolvedTransactions,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage        
+      
         }
         return result;
       } else return res;

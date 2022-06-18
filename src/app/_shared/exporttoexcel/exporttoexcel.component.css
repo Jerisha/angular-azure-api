@@ -117,3 +117,5 @@ table td, table th {
     float: right;   
     cursor: pointer;
 }
+
+::ng-deep .mat-select-panel{margin-top: 40px !important; }

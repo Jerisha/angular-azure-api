@@ -19,6 +19,7 @@ import { Custom } from 'src/app/_helper/Validators/Custom';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
@@ -181,12 +182,15 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   Remarks: string = '';
   isSaveDisable: boolean = true;
   isExportDisable: boolean = false;
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-  currentPage: string = '1';
+  // currentPage: string = '1';
   updateDetails!: any;
   model: any = { ErrorCode: "" };
 
@@ -257,7 +261,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
       }
     }
-    console.log(attributes);
+   // console.log(attributes);
 
     return attributes;
 
@@ -329,9 +333,10 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   ];
 
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -356,15 +361,24 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
    this.Resolution = this.Remarks = this.Refer = ''
    // reset selectedrows
    this.selectedGridRows = [];
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.SolicitedError,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -417,8 +431,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
           let request = Utils.preparePyUpdate('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
           this.service.updateDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success') {
-              
+            if (x.StatusMessage === 'Success') {              
               //success message and same data reload
               this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
@@ -642,8 +655,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     control?.nativeElement.focus();
   }
 
-  reequest2Excel(event:any){
-    console.log(event)    
+  reequest2Excel(columnMapping:any){
+    console.log(columnMapping)    
 
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
@@ -654,13 +667,17 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       this.isExportDisable =true;
       if (confirm) {
         
-        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()),columnMapping);
+      //  let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
         this.service.exportDetails(request).subscribe(x => {
-          if (x.StatusMessage === 'Success') {
-            this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          // this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          // console.log(x,'res')
+          if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode ==='EUI000') {
+            this.alertService.success("Export request placed successfully!!, Please Check Staus On ExportSummary Icon :)", { autoClose: true, keepAfterRouteChange: false });
           }
           else {
-            this.alertService.notification("Export Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+            console.log(x,'Export request Error Response')
+            this.alertService.notification("Export Aborted!!... "+x.Status.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
           }
           this.isExportDisable =false;
         },       
