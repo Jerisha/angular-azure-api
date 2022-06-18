@@ -194,10 +194,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   updateDetails!: any;
   model: any = { ErrorCode: "" };
 
-  ngOnInit(): void {
-   
+  ngOnInit(): void {   
     this.createForm();
-
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {      
@@ -656,7 +654,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   reequest2Excel(columnMapping:any){
-    console.log(columnMapping)    
+    //console.log(columnMapping)    
 
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
@@ -676,7 +674,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
             this.alertService.success("Export request placed successfully!!, Please Check Staus On ExportSummary Icon :)", { autoClose: true, keepAfterRouteChange: false });
           }
           else {
-            console.log(x,'Export request Error Response')
+            //console.log(x,'Export request Error Response')
             this.alertService.notification("Export Aborted!!... "+x.Status.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
           }
           this.isExportDisable =false;
