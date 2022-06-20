@@ -163,4 +163,9 @@ export class Utils {
     let transform = JSON.parse(JSON.stringify(PyRequests.EXPSUMMARY));    
     return transform;
   }
+  static preparePydownloadFile(fullFilePath:string): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.DOWNLOADFILE));  
+    transform.FilePath = fullFilePath  
+    return transform;
+  }
 }

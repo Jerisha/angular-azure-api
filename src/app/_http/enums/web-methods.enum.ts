@@ -9,5 +9,6 @@ export enum WebMethods {
   METADATA = 'MetaDataObject',
   UIQUERY = 'UiqueryObject',
   EXPQUERY = 'QueryObject',
-  EXPSUMMARY ='UIExportObject'
+  EXPSUMMARY ='UIExportObject',
+  BLOBOBJECT= 'FileObjectView'
 }
