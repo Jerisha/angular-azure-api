@@ -479,17 +479,21 @@ export const PyRequests = {
         ,
         "Cache": ["ApplicationKey", "SessionID"]
     },
-    EXPSUMMARY: {
-        "RequestType": "UIQUERY",
-        "UserParams": [
-            { "UserID": "PODDARS5" },
-            { "RoleID": "" },
-            { "ScreenIdentifier": "ExporttoExcelReport" },
-            { "ReportIdentifier": [""] }
-        ]
-        ,
-        "Cache": ["ApplicationKey", "SessionID"]
-    }
+    EXPSUMMARY:{ "RequestType" : "UIQUERY",
+    "UserParams":[
+        {"UserID" : "PODDARS5"},
+        {"RoleID" : "" },
+        {"ScreenIdentifier" : "ExporttoExcelReport"},
+        {"ReportIdentifier" : [""]}
+        ] 
+    ,
+    "Cache":["ApplicationKey","SessionID"]
+    },
+    DOWNLOADFILE:{
+        "RequestType": "QUERY",
+        "UserParams": ["BEEMA", "RoleID"],
+        "FilePath": "/opt/SP/rpiadmin/workspace/osn2/excel/TelephoneRangeReports_BEEMA_20220613_101009.xlsx"
+      }
 }
 
 

@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {  Utils } from 'src/app/_http';
 import { exporttoexcelService } from './services/exporttoexcel.service';
+import { HttpResponse } from '@angular/common/http';
+
 
 const myData = [
   {
@@ -122,15 +124,38 @@ export class ExporttoexcelComponent implements OnInit {
   }
 
   filterReportWise(filterValue: any) {  
-    debugger
+    //debugger
     if(filterValue != undefined)
     { 
     this.dataSource.filter = filterValue.value.toLocaleLowerCase() != "all"?filterValue.value.toLocaleLowerCase():'';
     }
-  }
+  }  
   
-  downloadFile(file:string){
-    alert(file)
+  downloadFile(FileFullPath:string) {
+    debugger
+    // FileFullPath ='TelephoneRangeReports_BEEMA_20220613_101009.xlsx'
+    let request = Utils.preparePydownloadFile('/opt/SP/rpiadmin/workspace/osn2/excel/'+FileFullPath);
+    console.log(request,'download Request')
+    this.service.downloadFileDetails(request).subscribe((response: HttpResponse<any>) => {     
+      console.log(response,'res')
+      if (response.ok) {        
+        let type =  response.type.toString() //'application/vnd.ms-excel'
+          this.service.blob2File(response,type,FileFullPath)
+      }
+      else {
+        console.log(response,'Download File request Error Response')
+      }         
+   },       
+   (error: any) => {
+     //  console.log(error,'Download File API Function')  
 
+   },
+   ()=>{
+     // console.log('Download File API Completed','Download File API Function')
+   });
+   
+    
   }
+
+  
 }
