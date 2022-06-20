@@ -532,8 +532,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
          {
            let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
-         //  console.log(header,'header')
-         // console.log( this.data, 'download1')
+         //console.log(header,'header')
+        //  console.log( this.data, 'download1')
+  //let copydata = JSON.parse(JSON.stringify(this.data))
           var c = document.createElement("a");
           let data:any = [];
           let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
@@ -544,11 +545,17 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           //console.log(result1,'result1')
           //let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
           //console.log(disp,'disp')
+          //alignment pbl so created new copydata 
           this.data.forEach((row : any) => {
-         // console.log(row,'row')
+        // console.log(JSON.stringify(copydata), 'copydata')
+        //    copydata.forEach((row : any) => {
+        //   //console.log(row,'row')
+        // if(row.Comments != undefined)
+        //  {    delete row.Comments  } 
+         
           let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
           let dataRow = Object.assign(disp,row)
-         // console.log(dataRow,'dataRow')         
+        // console.log(dataRow,'dataRow')         
           //data += Object.values(dataRow).toString().replace(/[,]+/g, '\|') + "\n";
           let val = Object.values(dataRow).join('|');
           val.replace(/[/t]+/g, ' ');
@@ -564,6 +571,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
             //console.log(result,'result')
             // data += result.toString().replace(/[,]+/g, '\t') + "\n";
           });
+          //console.log(copydata, 'copydata12')
           c.download = this.currentReportName+"_Report.tab";
           //+ new Date().toString()+
           // var t = new Blob([JSON.stringify(this.data)],
