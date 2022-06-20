@@ -88,7 +88,6 @@ export class HttpWrapperService {
 
     processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
-        debugger;
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
                 endPoint === WebMethods.UIQUERY ? environment.api_auth :
@@ -108,7 +107,7 @@ export class HttpWrapperService {
         return this.http(httpVerb.toString(),
             `${environment.api_py_dev}${endPoint.toString()}`,
             JSON.stringify(body),
-            ResponseType.BLOB);       
+            ResponseType.BLOB);
     }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
@@ -118,6 +117,8 @@ export class HttpWrapperService {
 
         let transData: any = [];
         try {
+            if (requestType === WebMethods.BLOBOBJECT)
+                return val;
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
                 switch (requestType) {
                     case WebMethods.CONFIG:
@@ -175,7 +176,7 @@ export class HttpWrapperService {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
             case ResponseType.BLOB:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob',observe: 'response' });
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob', observe: 'response' });
         }
     }
 
