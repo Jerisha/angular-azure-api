@@ -8,6 +8,6 @@ export enum WebMethods {
   PAFQUERY = 'PAFQueryObject',
   METADATA = 'MetaDataObject',
   UIQUERY = 'UiqueryObject',
-  EXPQUERY = 'QueryObject',
+  // EXPQUERY = 'QueryObject',
   EXPSUMMARY ='UIExportObject'
 }

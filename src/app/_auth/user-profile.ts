@@ -15,6 +15,7 @@ export class UserProfile  {
     updateAccess: boolean;
     deleteAccess: boolean;
     createAccess: boolean;
+
     intializeUser(): void {
         debugger;
         let user: User = this.authService.currentUserValue;
@@ -26,5 +27,7 @@ export class UserProfile  {
         this.deleteAccess = menu?.accesslevel?.substring(2, 3)=== '1'
         this.createAccess = menu?.accesslevel?.substring(3, 4) === '1'
         //this.viewAccess = user.
-    }    
+    }     
+    
+
 }

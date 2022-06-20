@@ -88,11 +88,11 @@ export class HttpWrapperService {
 
     processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
-            debugger;
+        debugger;
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-            endPoint === WebMethods.UIQUERY ? environment.api_auth :
-                `${environment.api_py_dev}${endPoint.toString()}`,
+                endPoint === WebMethods.UIQUERY ? environment.api_auth :
+                    `${environment.api_py_sit}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -109,7 +109,7 @@ export class HttpWrapperService {
         debugger;
         let jsonResult = '';
         // console.log(val)
-        
+
         let transData: any = [];
         try {
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
@@ -117,14 +117,17 @@ export class HttpWrapperService {
                     case WebMethods.CONFIG:
                         transData = val.ResponseParams
                         transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
-                        break;                    
+                        break;
                     case WebMethods.QUERY:
                     case WebMethods.GET:
+                        transData.params = val.ResponseParams
+                        transData.data = val.Data
+                        break;
                     case WebMethods.PAFQUERY:
                         transData = val.Status[0]
                         transData.params = val.ResponseParams
-                        transData.data = val.Data                      
-                                          
+                        transData.data = val.Data
+
                         break;
                     case WebMethods.UPDATE:
                     case WebMethods.CREATE:
@@ -141,14 +144,14 @@ export class HttpWrapperService {
                         // console.log(JSON.stringify(transData), 'metadat1')
                         break;
                     case WebMethods.UIQUERY:
-                        transData = val                        
+                        transData = val
                         break;
-                       
+
                     case WebMethods.EXPSUMMARY:
-                            transData = val.ResponseParams
-                            transData.data = val.Data;
-                            transData.Status =val.Status[0];
-                            break;                     
+                        transData = val.ResponseParams
+                        transData.data = val.Data;
+                        transData.Status = val.Status[0];
+                        break;
                 }
             }
 

@@ -151,10 +151,10 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     private alertService: AlertService,
     private telnoPipe: TelNoPipe,
     private dialog: MatDialog,
-    private auth:AuthenticationService,
+    private auth: AuthenticationService,
     private actRoute: ActivatedRoute
-    ) {
-    super(auth,actRoute);
+  ) {
+    super(auth, actRoute);
     this.intializeUser();
   }
 
@@ -194,19 +194,21 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   updateDetails!: any;
   model: any = { ErrorCode: "" };
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.createForm();
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
-    this.service.configDetails(request).subscribe((res: any) => {      
+    this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
     });
 
-    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
-    this.service.configDetails(updateRequest).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
-      this.updateDetails = res.data;
-    });
+    if (this.updateAccess) {
+      let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
+      this.service.configDetails(updateRequest).subscribe((res: any) => {
+        //console.log("res: " + JSON.stringify(res))
+        this.updateDetails = res.data;
+      });
+    }
 
     //this.service.configTest(request);
     // this.service.configDetails(request);
@@ -259,7 +261,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
       }
     }
-   // console.log(attributes);
+    // console.log(attributes);
 
     return attributes;
 
@@ -339,7 +341,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
-    
+
     debugger;
     let errMsg = '';
     if (!this.thisForm.valid) return;
@@ -355,10 +357,10 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       return;
     }
     this.tabs.splice(0);
-   //reset value to empty
-   this.Resolution = this.Remarks = this.Refer = ''
-   // reset selectedrows
-   this.selectedGridRows = [];
+    //reset value to empty
+    this.Resolution = this.Remarks = this.Refer = ''
+    // reset selectedrows
+    this.selectedGridRows = [];
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
@@ -367,16 +369,18 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
+
     let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
     // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.SolicitedError,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -390,7 +394,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       filter: true,
       selectCheckbox: true,
       setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
-      // highlightedCells: ['TelephoneNumber'],
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
@@ -429,7 +433,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
           let request = Utils.preparePyUpdate('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
           this.service.updateDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success') {              
+            if (x.StatusMessage === 'Success') {
               //success message and same data reload
               this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
@@ -496,7 +500,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     // this.tabs.splice(0);
     // this.Resolution = ''; this.Refer = ''; this.Remarks = '';
     window.location.reload();
-    this.model = { ErrorCode: ""};
+    this.model = { ErrorCode: "" };
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
@@ -536,11 +540,11 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length >=10 && 
+    if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
       this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
       this.f.ResolutionType.value === ""
-      && this.f.ErrorType.value === "" 
+      && this.f.ErrorType.value === ""
       && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
       || (this.selectedGridRows.length > 0)) {
@@ -630,13 +634,13 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
           this.tabs.push({
             tabType: 2,
             // name: 'Transaction Errors'
-            name: 'Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')' 
+            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
-          let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
+          let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')';  
+          this.tabs[tabIndex].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
         }
         break;
       default:
@@ -653,50 +657,50 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     control?.nativeElement.focus();
   }
 
-  reequest2Excel(columnMapping:any){
+  reequest2Excel(columnMapping: any) {
     //console.log(columnMapping)    
 
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
-        message: 'Do you want to Export this Report?'          
+        message: 'Do you want to Export this Report?'
       }
     });
     exportConfirm.afterClosed().subscribe(confirm => {
-      this.isExportDisable =true;
+      this.isExportDisable = true;
       if (confirm) {
-        
-        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()),columnMapping);
-      //  let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
-        this.service.exportDetails(request).subscribe(x => {
+
+        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), columnMapping);
+        //  let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
+        this.service.queryDetails(request).subscribe(x => {
           // this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
           // console.log(x,'res')
-          if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode ==='EUI000') {
+          if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode === 'EUI000') {
             this.alertService.success("Export request placed successfully!!, Please Check Staus On ExportSummary Icon :)", { autoClose: true, keepAfterRouteChange: false });
           }
           else {
             //console.log(x,'Export request Error Response')
-            this.alertService.notification("Export Aborted!!... "+x.Status.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.notification("Export Aborted!!... " + x.Status.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
           }
-          this.isExportDisable =false;
-        },       
-        (error: any) => {
-          // console.log(error,'Export API Function')  
-          this.isExportDisable =false;      
-    
+          this.isExportDisable = false;
         },
-        ()=>{
-          // console.log('Update API Completed','Export API Function')
-          this.isExportDisable =false;
-        });
-        
+          (error: any) => {
+            // console.log(error,'Export API Function')  
+            this.isExportDisable = false;
+
+          },
+          () => {
+            // console.log('Update API Completed','Export API Function')
+            this.isExportDisable = false;
+          });
+
       }
       else {
         this.alertService.info("Export Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
-        this.isExportDisable =false;
+        this.isExportDisable = false;
       }
     });
   }
-    
-  
+
+
 
 }

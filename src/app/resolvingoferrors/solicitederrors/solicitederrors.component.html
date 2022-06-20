@@ -238,7 +238,7 @@
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
               (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)" (requestExport2Excel) ="reequest2Excel($event)" [isExportDisable]="isExportDisable">
             </app-table-selection>
-            <form (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off">
+            <form (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off" *ngIf="updateAccess">
               <div class="mat-elevation-z8 side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">

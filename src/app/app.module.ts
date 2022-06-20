@@ -32,6 +32,7 @@ import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './_shared/error/error.component';
 import { ReportReferencesModule } from './report-references/report-references.module';
+import { UIService } from './uicomponents/_services/ui.service';
 
 // import { GovernanceModule } from './governance/governance.module';
 
@@ -73,6 +74,7 @@ import { ReportReferencesModule } from './report-references/report-references.mo
   ],
   providers: [NavService,
     HttpWrapperService,
+    UIService,
     {
     provide: HTTP_INTERCEPTORS, 
     useClass: HttpErrorInterceptor, 

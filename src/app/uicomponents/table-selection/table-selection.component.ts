@@ -12,6 +12,10 @@ import { MatSelect } from '@angular/material/select';
 import { Observable, of, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { takeUntil } from 'rxjs/operators';
+import { UIService } from '../_services/ui.service';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Utils } from 'src/app/_http';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,6 +81,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   pageSize = 0;
   currentPage = 0;
   apiPageNumber: number = 0;
+  reportIdentifier: string;
+  screenIdentifier: string;
+  excelQueryObj: any;
   pageSizeOptions: number[] = [500];
   disablePageSize: boolean = true;
   disablePaginator: boolean = false;
@@ -85,7 +92,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   footerDetails!: FooterDetails;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private service: UIService,
+    private dialog: MatDialog) {
 
   }
 
@@ -114,10 +123,12 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       (res: any) => {
         this.dataSource.data = res.datasource;
         this.loadDataRelatedAttributes(this.dataSource.data);
-        this.totalRows = (res.totalrecordcount) as number;
-        this.apiPageNumber = (res.pagenumber) as number;
+        this.totalRows = (res.params.TotalCount) as number;
+        this.apiPageNumber = (res.params.PageNumber) as number;
         this.currentPage = this.apiPageNumber - 1;
-        this.pageSize = (res.pagecount) as number;
+        this.pageSize = (res.params.Recordsperpage) as number;
+        this.reportIdentifier = res.params.ReportIdentifier;
+        this.screenIdentifier = res.params.ScreenIdentifier;
         // this.paginator.length = (res.totalrecordcount) as number;
         if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
         this.dataSource.sort = this.sort;
@@ -162,6 +173,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   initializeTableAttributes() {
     this.selection.clear();
     this.allSelected = true;
+    this.excelQueryObj = this.tableitem?.excelQuery;
     this.imageAttrCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isImage) : [];
     this.fontHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isFontHighlighted) : [];
     this.backgroundHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
@@ -502,38 +514,43 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   RequestExport2Excel() {
-    //{
-    //   "isExporttoExcel": "Y", 
-    //   "ColumnMapping": 
-    //     [
-    //     {"TelephoneNumber" : "Tel.No."},
-    //     {"TransactionId" : "Trans ID"},
-    //     {"999Reference" : "999 Reference"},
-    //     {"LatestCommentDate" : "Latest Comment Date"},
-    //     {"LatestUserComments" : "Latest User Comments"},
-    //     {"ResolutionType" : "Resolution Type"},
-    //     {"Source" : "Source"},
-    //     {"CreatedOn" : "Created On"},
-    //     {"ErrorList" : "Error List"},
-    //     {"Status" : "Status"},
-    //     {"Command" : "Command"},
-    //     {"IsLive": "Current Live Record"}]},
-    let selectedColumns: string[] = this.select.value;
-    let viewIndex = selectedColumns.findIndex(x => x.toUpperCase() === 'VIEW')
-    if (viewIndex != -1) { selectedColumns.splice(viewIndex, 1) }
-    let excelHeaderParams = Object.create({
-      "ColumnMapping":
-        []
-    })
-    console.log(excelHeaderParams, 'params')
-    selectedColumns.forEach((x: string) => {
-      let val = this.ColumnDetails.find(e => e.headerValue === x)
-      if (val) {
-        excelHeaderParams.ColumnMapping.push([[val.headerValue, val.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
+    debugger;
+    // let selectedColumns: string[] = this.select.value;
+    // let viewIndex = selectedColumns.findIndex(x => x.toUpperCase() === 'VIEW')
+    // if (viewIndex != -1) { selectedColumns.splice(viewIndex, 1) }
+    // let excelHeaderParams = Object.create({
+    //   "ColumnMapping":
+    //     []
+    // })
+    // console.log(excelHeaderParams, 'params')
+    // selectedColumns.forEach((x: string) => {
+    //   let val = this.ColumnDetails.find(e => e.headerValue === x)
+    //   if (val) {
+    //     excelHeaderParams.ColumnMapping.push([[val.headerValue, val.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
+    //   }
+    // })
+
+    let ColumnMapping : any  = []
+    this.gridFilter.forEach(x => {
+      if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
+        ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
+    });
+
+    const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px', disableClose: true, data: {
+        message: 'Do you want to Export this Report?'
       }
-    })
-    console.log(this.ColumnDetails, selectedColumns)
-    this.requestExport2Excel.emit(excelHeaderParams);
+    });
+    exportConfirm.afterClosed().subscribe(confirm => {
+      this.isExportDisable = true;
+      if (confirm) {
+        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{"IsExporttoExcel" :"Y"},{'ColumnMapping' : ColumnMapping }]);
+        this.service.queryDetails(request).subscribe(x => x);
+      }
+    });
+
+    //console.log(this.ColumnDetails, selectedColumns)
+    //this.requestExport2Excel.emit(excelHeaderParams);
   }
 }
 
