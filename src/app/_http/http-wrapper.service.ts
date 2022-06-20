@@ -104,6 +104,12 @@ export class HttpWrapperService {
         });
         return observerRes;
     }
+    processPyBlobRequest(httpVerb: HttpVerbs, endPoint: WebMethods, body: any): Observable<any> {
+        return this.http(httpVerb.toString(),
+            `${environment.api_py_dev}${endPoint.toString()}`,
+            JSON.stringify(body),
+            ResponseType.BLOB);       
+    }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
         debugger;
@@ -120,11 +126,14 @@ export class HttpWrapperService {
                         break;                    
                     case WebMethods.QUERY:
                     case WebMethods.GET:
+                        //transData = val.Status[0]
+                        transData = val.ResponseParams
+                        transData.data = val.Data                                                      
+                        break;
                     case WebMethods.PAFQUERY:
                         transData = val.Status[0]
                         transData.params = val.ResponseParams
-                        transData.data = val.Data                      
-                                          
+                        transData.data = val.Data                                                      
                         break;
                     case WebMethods.UPDATE:
                     case WebMethods.CREATE:
@@ -166,7 +175,7 @@ export class HttpWrapperService {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
             case ResponseType.BLOB:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' });
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob',observe: 'response' });
         }
     }
 

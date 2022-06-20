@@ -653,8 +653,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     control?.nativeElement.focus();
   }
 
-  reequest2Excel(columnMapping:any){
-    //console.log(columnMapping)    
+  request2Excel(columnMapping:any){
+    console.log(columnMapping)    
 
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
