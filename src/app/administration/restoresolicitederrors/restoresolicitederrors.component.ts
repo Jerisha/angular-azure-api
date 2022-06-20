@@ -18,7 +18,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
-import { Custom } from 'src/app/_helper/Validators/Custom';
+ import { Custom } from 'src/app/_helper/Validators/Custom';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+
+
 
 const ELEMENT_DATA: any = [
   {
@@ -177,7 +180,10 @@ export class RestoresolicitederrorsComponent implements OnInit {
     configResult$!: Observable<any>;
     updateResult$!: Observable<any>;
     configDetails!: any;
-    currentPage: string = '1';
+    // currentPage: string = '1';
+    currentPage: number = DefaultPageNumber;
+    pageSize: number = DefaultPageSize;
+    isRemoveCache: number = DefaultIsRemoveCache;
     updateDetails!: any;
   ngOnInit(): void {
  
@@ -317,9 +323,10 @@ export class RestoresolicitederrorsComponent implements OnInit {
   ];
 
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -340,15 +347,23 @@ export class RestoresolicitederrorsComponent implements OnInit {
       return;
     }
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('TelephoneNumberError', 'RestoreSolicitedErrors', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'RestoreSolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log(JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.SolicitedError,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage     
         }
         return result;
       } else return {

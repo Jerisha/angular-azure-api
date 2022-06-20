@@ -13,6 +13,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
 import { MatDialog } from '@angular/material/dialog';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const AuditStatusTracker_Data: AuditStatusTracker[] = [
   {
@@ -81,8 +82,12 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
   queryResultInfo$!: Observable<any>;
 
   selected: string = '';
-  currentPage: string = '1';
+  // currentPage: string = '1';
   //isSaveDisable: string = 'true';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
+
   isSaveDisable: boolean = true;
   reportIdentifier: string = "AuditStatusTracker";
   selectedAuditType!: string;
@@ -211,15 +216,23 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     this.SepAuditActId ='';
     if (!this.thisForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('AuditStatusTracker', this.reportIdentifier, this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('AuditStatusTracker', this.reportIdentifier, this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log(JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.AuditStatusTracker,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage     
         }
         return result;
       } else return {
@@ -288,9 +301,10 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
     //console.log('page number in parent',pageIndex)
   }

@@ -17,6 +17,7 @@ import { ResolvingOfErrorsService } from '../services/resolving-of-errors.servic
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { expNumeric, expString, expDate,expDropdown,select } from 'src/app/_helper';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 
 
@@ -110,6 +111,9 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   selectedGridRows: any[] = [];
   selectedRowsCount: number = 0;
@@ -132,7 +136,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   queryResultInfo$!: Observable<any>;
 
   selected: string = '';
-  currentPage: string = '1';
+  // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
 
@@ -326,15 +330,24 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     debugger;
     if (!this.myForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('Summary', 'UnsolicitedActionReport', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('Summary', 'UnsolicitedActionReport', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage
           // datasource: ELEMENT_DATA,
           // totalrecordcount: 1,
           // totalpages: 1,
@@ -506,9 +519,10 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
     //console.log('page number in parent',pageIndex)
   }

@@ -15,6 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 let FilterListItems: Select[] = [  
 { view: 'Telephone', viewValue: 'StartTelephoneNumber', default: true },
@@ -67,13 +68,16 @@ export class TransactionDetailsComponent implements OnInit {
   model: any = { TypeOfLine: "" };
 
   repIdentifier = "TransactionDetails";
-  currentPage: string = '1';
+  // currentPage: string = '1';
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   querytemp:any;
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
 
   columns: ColumnDetails[] = [    
@@ -273,23 +277,32 @@ prepareQueryParams(pageNo: string): any {
 
   }
   
-  getNextSetRecords(pageIndex: any) {   
-    this.currentPage = pageIndex;
+  getNextSetRecords(pageEvent: any) {   
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
   onFormSubmit(isEmitted?: boolean): void {    
     if(!this.thisForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage.toString()),reqParams);
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TransactionDetails,
           totalrecordcount: res.TotalCount,
             totalpages: res.NumberOfPages,
-            pagenumber: res.PageNumber         
+            pagenumber: res.PageNumber,
+            pagecount: res.Recordsperpage         
         }
         return result;
       } else return {datasource:res};;

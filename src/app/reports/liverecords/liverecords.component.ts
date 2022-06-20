@@ -20,6 +20,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -453,7 +454,7 @@ const Itemstwo: Select[] = [
 export class LiverecordsComponent implements OnInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   formbulider: any;
-  currentPage: string = '1';
+  // currentPage: string = '1';
 
   myTable!: TableItem;
   listItems!: Select[];
@@ -511,6 +512,9 @@ resetExp:boolean = false;
   configResult$!: Observable<any>;
   configDetails!: any;
   public tabs: Tab[] = [];
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },
     { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
@@ -583,9 +587,10 @@ resetExp:boolean = false;
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -593,8 +598,16 @@ resetExp:boolean = false;
     debugger;
     if(!this.myForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         console.log(JSON.stringify (res.data.LiveRecords), "datatest");
@@ -602,7 +615,8 @@ resetExp:boolean = false;
           datasource: res.data.LiveTelephoneNumberDetails,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage
         }
         return result;
       } else return res;

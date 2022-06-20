@@ -3,16 +3,12 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { SolicitedErrors } from '../models/solicited-errors';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
 import { Select } from 'src/app/uicomponents/models/select';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
-import { NgxSpinnerService } from "ngx-spinner";
-import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -20,6 +16,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { Custom } from 'src/app/_helper/Validators/Custom';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
@@ -141,17 +141,22 @@ const FilterListItems: Select[] = [
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
-  styleUrls: ['./solicitederrors.component.css'],
-  //providers: [TelNoPipe]
+  styleUrls: ['./solicitederrors.component.css']
 })
-export class SolicitederrorsComponent implements OnInit {
+export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private auth:AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+    super(auth,actRoute);
+    this.intializeUser();
+  }
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
@@ -177,19 +182,20 @@ export class SolicitederrorsComponent implements OnInit {
   Remarks: string = '';
   isSaveDisable: boolean = true;
   isExportDisable: boolean = false;
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-  currentPage: string = '1';
+  // currentPage: string = '1';
   updateDetails!: any;
   model: any = { ErrorCode: "" };
 
-  ngOnInit(): void {
-   
+  ngOnInit(): void {   
     this.createForm();
-
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {      
@@ -201,6 +207,7 @@ export class SolicitederrorsComponent implements OnInit {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res.data;
     });
+
     //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
@@ -252,7 +259,7 @@ export class SolicitederrorsComponent implements OnInit {
 
       }
     }
-    console.log(attributes);
+   // console.log(attributes);
 
     return attributes;
 
@@ -324,9 +331,10 @@ export class SolicitederrorsComponent implements OnInit {
   ];
 
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -351,15 +359,24 @@ export class SolicitederrorsComponent implements OnInit {
    this.Resolution = this.Remarks = this.Refer = ''
    // reset selectedrows
    this.selectedGridRows = [];
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.SolicitedError,
           totalrecordcount: res.TotalCount,
           totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          pagenumber: res.PageNumber,
+          pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -412,8 +429,7 @@ export class SolicitederrorsComponent implements OnInit {
           let request = Utils.preparePyUpdate('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
           //update 
           this.service.updateDetails(request).subscribe(x => {
-            if (x.StatusMessage === 'Success') {
-              
+            if (x.StatusMessage === 'Success') {              
               //success message and same data reload
               this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
@@ -649,7 +665,8 @@ export class SolicitederrorsComponent implements OnInit {
       this.isExportDisable =true;
       if (confirm) {
         
-        let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
+        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()),columnMapping);
+      //  let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
         this.service.exportDetails(request).subscribe(x => {
           // this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
           // console.log(x,'res')
@@ -657,7 +674,7 @@ export class SolicitederrorsComponent implements OnInit {
             this.alertService.success("Export request placed successfully!!, Please Check Staus On ExportSummary Icon :)", { autoClose: true, keepAfterRouteChange: false });
           }
           else {
-            console.log(x,'Export request Error Response')
+            //console.log(x,'Export request Error Response')
             this.alertService.notification("Export Aborted!!... "+x.Status.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
           }
           this.isExportDisable =false;

@@ -164,7 +164,7 @@
           </button>
         </ng-template> <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+            <app-table-selection [sidePan]="pagesidenav"  (pageIndex)="getNextSetRecords($event)" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
              >
             </app-table-selection>
           </div>

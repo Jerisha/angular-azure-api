@@ -321,7 +321,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('ExternalAuditDetails', 'ExternalAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    console.log('request', JSON.stringify(request))
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {

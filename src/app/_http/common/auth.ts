@@ -5,8 +5,8 @@ export class Auth {
     public static preparePyLogin(userName: string, password: string) {
         let transform = JSON.parse(JSON.stringify(PyRequests.AUTHENTICATE));
         //assign attributes
-        transform.UserParams = [{ UserID: userName },
-        { Password: password }]
+        transform.UserID = userName;
+        transform.Password = password;
 
         return transform;
     }
