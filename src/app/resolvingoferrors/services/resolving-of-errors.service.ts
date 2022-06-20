@@ -72,7 +72,7 @@ export class ResolvingOfErrorsService {
     return Information;
   }
 
-  exportDetails(request: any): Observable<any> {
-    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.EXPQUERY, request);
-  }
+  // exportDetails(request: any): Observable<any> {
+  //   return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.EXPQUERY, request);
+  // }
 }

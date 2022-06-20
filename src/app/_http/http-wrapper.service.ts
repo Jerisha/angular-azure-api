@@ -88,11 +88,10 @@ export class HttpWrapperService {
 
     processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
-            debugger;
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-            endPoint === WebMethods.UIQUERY ? environment.api_auth :
-                `${environment.api_py_sit}${endPoint.toString()}`,
+                endPoint === WebMethods.UIQUERY ? environment.api_auth :
+                    `${environment.api_py_sit}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -108,32 +107,34 @@ export class HttpWrapperService {
         return this.http(httpVerb.toString(),
             `${environment.api_py_dev}${endPoint.toString()}`,
             JSON.stringify(body),
-            ResponseType.BLOB);       
+            ResponseType.BLOB);
     }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
         debugger;
         let jsonResult = '';
         // console.log(val)
-        
+
         let transData: any = [];
         try {
+            if (requestType === WebMethods.BLOBOBJECT)
+                return val;
             if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
                 switch (requestType) {
                     case WebMethods.CONFIG:
                         transData = val.ResponseParams
                         transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
-                        break;                    
+                        break;
                     case WebMethods.QUERY:
                     case WebMethods.GET:
-                        //transData = val.Status[0]
-                        transData = val.ResponseParams
-                        transData.data = val.Data                                                      
+                        transData.params = val.ResponseParams
+                        transData.data = val.Data
                         break;
                     case WebMethods.PAFQUERY:
                         transData = val.Status[0]
                         transData.params = val.ResponseParams
-                        transData.data = val.Data                                                      
+                        transData.data = val.Data
+
                         break;
                     case WebMethods.UPDATE:
                     case WebMethods.CREATE:
@@ -150,14 +151,14 @@ export class HttpWrapperService {
                         // console.log(JSON.stringify(transData), 'metadat1')
                         break;
                     case WebMethods.UIQUERY:
-                        transData = val                        
+                        transData = val
                         break;
-                       
+
                     case WebMethods.EXPSUMMARY:
-                            transData = val.ResponseParams
-                            transData.data = val.Data;
-                            transData.Status =val.Status[0];
-                            break;                     
+                        transData = val.ResponseParams
+                        transData.data = val.Data;
+                        transData.Status = val.Status[0];
+                        break;
                 }
             }
 
@@ -175,7 +176,7 @@ export class HttpWrapperService {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
             case ResponseType.BLOB:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob',observe: 'response' });
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob', observe: 'response' });
         }
     }
 
