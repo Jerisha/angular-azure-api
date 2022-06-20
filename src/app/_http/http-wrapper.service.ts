@@ -102,6 +102,12 @@ export class HttpWrapperService {
         });
         return observerRes;
     }
+    processPyBlobRequest(httpVerb: HttpVerbs, endPoint: WebMethods, body: any): Observable<any> {
+        return this.http(httpVerb.toString(),
+            `${environment.api_py_dev}${endPoint.toString()}`,
+            JSON.stringify(body),
+            ResponseType.BLOB);       
+    }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
         debugger;
@@ -164,7 +170,7 @@ export class HttpWrapperService {
             case ResponseType.JSON:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
             case ResponseType.BLOB:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob' });
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob',observe: 'response' });
         }
     }
 

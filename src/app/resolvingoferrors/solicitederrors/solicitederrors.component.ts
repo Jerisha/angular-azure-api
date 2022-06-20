@@ -637,7 +637,7 @@ export class SolicitederrorsComponent implements OnInit {
     control?.nativeElement.focus();
   }
 
-  reequest2Excel(columnMapping:any){
+  request2Excel(columnMapping:any){
     console.log(columnMapping)    
 
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {

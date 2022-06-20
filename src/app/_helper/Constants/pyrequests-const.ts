@@ -491,7 +491,12 @@ export const PyRequests = {
         ] 
     ,
     "Cache":["ApplicationKey","SessionID"]
-    }
+    },
+    DOWNLOADFILE:{
+        "RequestType": "QUERY",
+        "UserParams": ["BEEMA", "RoleID"],
+        "FilePath": "/opt/SP/rpiadmin/workspace/osn2/excel/TelephoneRangeReports_BEEMA_20220613_101009.xlsx"
+      }
 }
 
 
