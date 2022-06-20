@@ -92,7 +92,7 @@ export class HttpWrapperService {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
             endPoint === WebMethods.UIQUERY ? environment.api_auth :
-                `${environment.api_py_dev}${endPoint.toString()}`,
+                `${environment.api_py_sit}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
