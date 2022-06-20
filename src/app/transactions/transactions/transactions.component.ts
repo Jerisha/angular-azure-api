@@ -94,13 +94,33 @@ export class TransactionsComponent implements OnInit {
     this.auditTeleNoselected=this.audittrailNos[1][0];
     this.telNo=this.audittrailNos[1][0];
   //this.telNo='02071117400';
-    if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
-    {
-      this.tabs.push({tabType: 2,name: 'Audit Trail Report(' + this.telNo + ')'});   
-      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
-    } else {
-    this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
+    // if (!this.tabs.findIndex(x => x.tabType == 2)) 
+    // {
+    //   this.tabs.push({tabType: 2,name: 'Audit Trail Report(' + this.telNo + ')'});   
+    //   this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
+    // } else {
+    // this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
+    // }
+
+
+    if (!this.tabs.find(x => x.tabType == 2)) {
+      this.tabs.push({
+        tabType: 2,
+        name: 'Audit Trail Report(' + this.telNo + ')'
+      });
+     // this.showDetails = true;
+      this.selectedTab = this.tabs.length;
     }
+    else{
+    this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+    }
+
+
+
+
+
+
+
       // this.selectedTab=this.selectedTab==0?1:2;
     // } 
     // else 
