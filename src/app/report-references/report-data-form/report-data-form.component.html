@@ -2,7 +2,7 @@
   <div class="vf-flex-container">
     <mat-card class="vf-card mat-elevation-z5">
       <ng-container>
-        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()"autocomplete="off">
           <mat-card-subtitle class="vf-card-title">{{reportName}}</mat-card-subtitle>
           <mat-card-content>
             <div class="content-main vf-flex-container-col">
