@@ -155,7 +155,7 @@
                                     <button mat-icon-button disabled></button>
                                     <mat-checkbox
                                       class="checklist-leaf-node"
-                                      [checked]="checklistSelection.isSelected(node)"
+                                      [checked]="node.isChecked"
                                       (change)="todoLeafItemSelectionToggle(node)"
                                       >{{node.label}}</mat-checkbox
                                     >
@@ -184,7 +184,7 @@
                                     </button>
                                     <mat-checkbox
                                      
-                                     
+                                    [checked]="node.isChecked"
                                       [indeterminate]="descendantsPartiallySelected(node)"
                                       (change)="todoItemSelectionToggle(node)"
                                       >{{node.label}}</mat-checkbox
@@ -326,7 +326,7 @@
                                             <button mat-icon-button disabled></button>
                                             <mat-checkbox 
                                               class="checklist-leaf-node"
-                                              [checked]="checklistSelection.isSelected(node)"
+                                              [checked]="node.isChecked"
                                               (change)="todoLeafItemSelectionToggle(node)"
                                               >{{node.label}}</mat-checkbox
                                             >
@@ -354,6 +354,7 @@
                                               </mat-icon>
                                             </button>
                                             <mat-checkbox  flex='20'  layout="row"
+                                            [checked]="node.isChecked"
                                               [indeterminate]="descendantsPartiallySelected(node)"
                                               (change)="todoItemSelectionToggle(node)"
                                               >{{node.label}}</mat-checkbox
