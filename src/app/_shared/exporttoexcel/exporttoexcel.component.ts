@@ -74,7 +74,7 @@ export class ExporttoexcelComponent implements OnInit {
   reports:any;
   ColumnDetails: any = [
     { header: 'Report Name', headerValue: 'ReportName'},
-    { header: 'File Name', headerValue: 'FileName'},
+    { header: 'File Name', headerValue: 'Filepath'},
     { header: 'Created By', headerValue: 'Createdby'},
     { header: 'Status', headerValue: 'Status' },
     { header: 'Start Time', headerValue: 'Startdatetime' },
@@ -134,16 +134,17 @@ export class ExporttoexcelComponent implements OnInit {
   downloadFile(FileFullPath:string) {
     debugger
     // FileFullPath ='TelephoneRangeReports_BEEMA_20220613_101009.xlsx'
-    let request = Utils.preparePydownloadFile('/opt/SP/rpiadmin/workspace/osn2/excel/'+FileFullPath);
-    console.log(request,'download Request')
-    this.service.downloadFileDetails(request).subscribe((response: HttpResponse<any>) => {     
-      console.log(response,'res')
+    let request = Utils.preparePydownloadFile(FileFullPath);
+    //console.log(request,'download Request')
+    this.service.downloadFileDetails(request).subscribe((response: any) => {     
+      //console.log(response,'res')
       if (response.ok) {        
-        let type =  response.type.toString() //'application/vnd.ms-excel'
-          this.service.blob2File(response,type,FileFullPath)
+        let type =  response.body.type.toString() //'application/vnd.ms-excel'
+        // console.log(type,'type')
+          this.service.blob2File(response,type,FileFullPath.substring(FileFullPath.lastIndexOf('/')+1))
       }
       else {
-        console.log(response,'Download File request Error Response')
+        console.log(response,'Download File request Error Response')       
       }         
    },       
    (error: any) => {

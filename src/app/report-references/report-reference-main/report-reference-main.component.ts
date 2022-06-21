@@ -530,32 +530,38 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   onExport() {
     //console.log( this.data, 'download')
-    if (this.data != undefined && (this.data != [] && this.data.length != 0)) {
-      let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
-      //console.log(header,'header')
-      //  console.log( this.data, 'download1')
-      //let copydata = JSON.parse(JSON.stringify(this.data))
-      var c = document.createElement("a");
-      let data: any = [];
-      let dataHeaderRow = Object.assign({}, ...header.map((x: any) => ({ [x.cName]: x.cDisplayName })))
-      data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
-      //let  headerNames = header.filter((x: { cName: any,cValue:any }) => (x.cName,x.cValue ))
-      //console.log(headerNames,'headerNames')
-      // let result1 = header.filter((x: { cDisplayName: any }) => (x.cDisplayName ))
-      //console.log(result1,'result1')
-      //let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
-      //console.log(disp,'disp')
-      //alignment pbl so created new copydata 
-      this.data.forEach((row: any) => {
+        if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
+         {
+           let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
+         //console.log(header,'header')
+          console.log( this.data, 'download1')
+          let copydata = JSON.parse(JSON.stringify(this.data))
+          var c = document.createElement("a");
+          let data:any = [];
+          let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
+          data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+          //let  headerNames = header.filter((x: { cName: any,cValue:any }) => (x.cName,x.cValue ))
+          //console.log(headerNames,'headerNames')
+         // let result1 = header.filter((x: { cDisplayName: any }) => (x.cDisplayName ))
+          //console.log(result1,'result1')
+          //let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
+          //console.log(disp,'disp')
+          //alignment pbl so created new copydata 
+         // this.data.forEach((row : any) => {
         // console.log(JSON.stringify(copydata), 'copydata')
-        //    copydata.forEach((row : any) => {
+            copydata.forEach((row : any) => {
         //   //console.log(row,'row')
         // if(row.Comments != undefined)
         //  {    delete row.Comments  } 
-
-        let disp = Object.assign({}, ...header.map((x: any) => ({ [x.cName]: ' ' })))
-        let dataRow = Object.assign(disp, row)
-        // console.log(dataRow,'dataRow')         
+         
+          let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
+            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'])
+            {
+              Reflect.deleteProperty(row,i)
+            }
+        
+          let dataRow = Object.assign(disp,row)
+        console.log(dataRow,'dataRow')         
         //data += Object.values(dataRow).toString().replace(/[,]+/g, '\|') + "\n";
         let val = Object.values(dataRow).join('|');
         val.replace(/[/t]+/g, ' ');

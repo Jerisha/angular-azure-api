@@ -39,9 +39,7 @@ export class AuthenticationService {
     login(username: string, password: string) {
         const now = new Date();
          return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIQUERY, Auth.preparePyLogin(username, password))
-            // return this.http.post<any>(`${environment.apiUrlAdmin}/authenticate`, Auth.preparePyLogin(username,password))     
             .pipe(map((x: any) => {
-        
                 let user = x.Data.UserDetails[0];
                 sessionStorage.setItem('currentUser', JSON.stringify(user));
                 sessionStorage.setItem('token', user.token);

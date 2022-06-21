@@ -8,7 +8,6 @@ export enum WebMethods {
   PAFQUERY = 'PAFQueryObject',
   METADATA = 'MetaDataObject',
   UIQUERY = 'UiqueryObject',
-  EXPQUERY = 'QueryObject',
   EXPSUMMARY ='UIExportObject',
   BLOBOBJECT= 'FileObjectView'
 }

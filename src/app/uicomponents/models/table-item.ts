@@ -11,6 +11,7 @@ export interface TableItem {
     highlightedCells?:string[];
     setCellAttributes?:CellAttributes[];
     isCustomFooter?: boolean;
+    excelQuery?:any;
 }
 export interface ViewColumn {
     headerValue: string;
