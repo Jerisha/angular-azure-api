@@ -20,6 +20,9 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { Custom } from 'src/app/_helper/Validators/Custom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -141,7 +144,7 @@ const FilterListItems: Select[] = [
   styleUrls: ['./unsolicitederrors.component.css'],
   //providers: [TelNoPipe]
 })
-export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class UnsolicitederrorsComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   myTable!: TableItem;
   informationTable1!: TableItem;
@@ -184,7 +187,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private alertService: AlertService,
-    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog: MatDialog) { }
+    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog: MatDialog,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) { 
+      super(auth, actRoute);
+      this.intializeUser();
+    }
 
   ngOnInit(): void {
 
@@ -198,12 +207,13 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.configDetails = res.data;
 
     });
-
+    
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res.data;
     });
+  
   }
 
   getNextSetRecords(pageEvent: any) {
@@ -514,10 +524,11 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.UnsolicitedError,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       }
@@ -533,6 +544,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       selectCheckbox: true,
       removeNoDataColumns: true,
       setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }

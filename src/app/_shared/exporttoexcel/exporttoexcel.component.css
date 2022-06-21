@@ -122,3 +122,14 @@ table td, table th {
 .matselect-centering{
   margin-top: 30px !important; 
 }
+.hyberlinkbtn{
+
+  background-color:inherit;
+  border: 0px;  
+  border-bottom: 1px solid blue;
+  
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+}
+.hyberlinkbtn:hover{
+cursor:grab;
+}

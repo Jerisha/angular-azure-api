@@ -17,6 +17,9 @@ import { expDate, expDropdown, expNumeric, expString } from 'src/app/_helper/Con
 import { formatDate } from '@angular/common';
 import { map } from 'rxjs/operators';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 const moment = _rollupMoment || _moment;
 
 const MY_FORMATS = {
@@ -60,7 +63,7 @@ const Itemstwo: Select[] = [
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
 })
-export class AuditUserActionSummaryComponent {
+export class AuditUserActionSummaryComponent  extends UserProfile {
   
   thisForm!: FormGroup;
   filterItems: Select[] = FilterListItems;
@@ -99,7 +102,12 @@ export class AuditUserActionSummaryComponent {
 
   constructor(private formBuilder: FormBuilder,
     private service: AuditReportsService,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef,private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+      super(auth, actRoute);
+      this.intializeUser();
+     }
 
   ngOnInit(): void {
     this.listItems = Itemstwo;
@@ -187,10 +195,11 @@ export class AuditUserActionSummaryComponent {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage,
+          params: res.params,
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage,
           FooterDetails: {footerName: "Cumulative", footerValue: `${res.CumulativeCount ? res.CumulativeCount : ''}`}
         }
         return result;
@@ -204,6 +213,7 @@ export class AuditUserActionSummaryComponent {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
      isCustomFooter: true
