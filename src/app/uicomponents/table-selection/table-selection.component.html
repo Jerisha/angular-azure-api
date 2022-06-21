@@ -129,15 +129,13 @@ font-size: smaller;  ">
 
   <!-- <div class="test-wrapper"> -->
   <div style="margin-bottom:10px; margin-top:5px" *ngIf="isShown">
-    <button [disabled]="isExportDisable" type="button" mat-raised-button color="primary" (click)="RequestExport2Excel()">
+    <button  type="button" mat-raised-button color="primary" (click)="RequestExport2Excel()">
       <mat-icon>import_export</mat-icon>Export
     </button>&nbsp;&nbsp;
     <!-- [cdkCopyToClipboard]="copyToClipboard()" 
   selection.selected.length > 0 ? false : true-->
-    <!-- <button type="button" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()"
-      [disabled]="selection.selected.length > 0 ? false : true"> -->
-      <button type="button" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()"
-      [disabled]="true">
+    <button type="button" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()"
+      [disabled]="selection.selected.length > 0 ? false : true">     
       <mat-icon>file_copy</mat-icon> Copy To Clipboard
     </button>
     <span *ngIf="isEmailRequired">

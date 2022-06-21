@@ -52,7 +52,7 @@
                             </div>
                           </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumnsValues sticky: true"  class ="table-row" ></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;" class ="table-row"></tr>  
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;" class ="table-row"  (click)="hightlightedRow($event,row)" [ngClass]="{ 'highlighted' : row[displayedColumnsValues[1]]=== highlightedRows } "  ></tr>  
                             <tr class="mat-row" *matNoDataRow>
                               <td class="mat-cell" colspan="columns.length">No data found</td>
                             </tr>          
