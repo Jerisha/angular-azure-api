@@ -15,11 +15,13 @@ import { Utils } from 'src/app/_http';
 import { map } from 'rxjs/operators';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component'
 import { Custom } from 'src/app/_helper/Validators/Custom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -50,7 +52,7 @@ const Items: Select[] = [
   styleUrls: ['./fullauditdetails.component.css']
 })
 
-export class FullauditdetailsComponent implements OnInit, AfterViewInit {
+export class FullauditdetailsComponent extends UserProfile implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   @ViewChild('inputctrl') icRemarks!: ElementRef;
   @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
@@ -290,7 +292,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   constructor(private service: AuditReportsService, private dialog: MatDialog,
     private formBuilder: FormBuilder, private cdr: ChangeDetectorRef,
     private router: Router, private telnoPipe: TelNoPipe,
-    private alertService: AlertService) {
+    private alertService: AlertService, private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+      super(auth, actRoute);
+      this.intializeUser();
   }
 
   setAttributesForManualCorrections() {
@@ -475,10 +481,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -493,6 +500,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       showEmail: false,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },

@@ -4,8 +4,10 @@ import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { TelephoneAuditTrailComponent } from 'src/app/_shared/telephone-audit-trail/telephone-audit-trail.component';
 import { CustomerAddress, ICustomerAddress } from '../models/ICustomerAddress';
 import { TransactionItem } from '../models/ITransactionItem';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import{TransactionsViewsComponent}from '../transactions-views/transactions-views.component'
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 
 
 
@@ -14,7 +16,7 @@ import{TransactionsViewsComponent}from '../transactions-views/transactions-views
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css']
 })
-export class TransactionsComponent implements OnInit {
+export class TransactionsComponent  extends UserProfile implements OnInit {
   auditTrailSuccess:boolean =false;
   trans:any ={tel:"",rangeEnd:"",auditTrail:""};
   addressCheckSuccess:boolean =false;
@@ -39,7 +41,12 @@ export class TransactionsComponent implements OnInit {
   transactionItem =new TransactionItem(); //need to fix
   passedRouteData: string | { [k: string]: any; } | undefined;
 
-  constructor(private cdr: ChangeDetectorRef,public router: Router) {
+  constructor(private cdr: ChangeDetectorRef,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute,
+    public router: Router) {
+      super(auth, actRoute);
+      this.intializeUser();
    // this.AuditPopulatevalue=[{StarttelephoneNumber:"01131130009",EndTelephoneNumber:"01131130009",ResolutionRemarks:"test",ManualAuditType:"SRC",ActID:"29-20 NOV 2020"}];
     this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
     if (this.passedRouteData) {

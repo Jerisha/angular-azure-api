@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, EventEm
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,6 +19,8 @@ import { AlertService } from 'src/app/_shared/alert';
 import { TransactionDataService } from '../services/transaction-data.service';
 import { start } from 'repl';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 
 
 // const ELEMENT_DATA:any =[
@@ -85,7 +87,7 @@ const ELEMENT_DATA = [
   templateUrl: './range-special-cease-transaction.component.html',
   styleUrls: ['./range-special-cease-transaction.component.css']
 })
-export class RangeSpecialCeaseTransactionComponent implements OnInit {
+export class RangeSpecialCeaseTransactionComponent extends UserProfile implements OnInit {
 
   splCeaseTransForm!: FormGroup;
   ceaseupdate!: FormGroup;
@@ -159,7 +161,12 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
   constructor(private service: TransactionDataService,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
-    public router: Router, private spinner: NgxSpinnerService, private dialog: MatDialog) { }
+    public router: Router, private spinner: NgxSpinnerService, private dialog: MatDialog, private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+      super(auth, actRoute);
+      this.intializeUser();
+     }
 
   resetForm(): void {
     this.tabs.splice(0);
@@ -256,10 +263,11 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
           console.log('result from ts file', res);
           let result = {
             datasource: res.data.TelephoneNumbers,
-            totalrecordcount: res.TotalCount,
-            totalpages: res.NumberOfPages,
-            pagenumber: res.PageNumber,
-            pagecount: res.Recordsperpage
+            params: res.params
+            // totalrecordcount: res.TotalCount,
+            // totalpages: res.NumberOfPages,
+            // pagenumber: res.PageNumber,
+            // pagecount: res.Recordsperpage
           }
           return result;
         } else return {
@@ -271,7 +279,8 @@ export class RangeSpecialCeaseTransactionComponent implements OnInit {
         data: this.queryResult$,
         Columns: this.colHeader,
         filter: true,
-        selectCheckbox: true,
+        excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+        selectCheckbox: true
         //removeNoDataColumns: true,
       }
       if (!this.tabs.find(x => x.tabType == 0)) {
