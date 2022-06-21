@@ -123,12 +123,12 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       (res: any) => {
         this.dataSource.data = res.datasource;
         this.loadDataRelatedAttributes(this.dataSource.data);
-        this.totalRows = (res.params.TotalCount) as number;
-        this.apiPageNumber = (res.params.PageNumber) as number;
+        this.totalRows = (res?.params?.TotalCount) as number;
+        this.apiPageNumber = (res?.params?.PageNumber) as number;
         this.currentPage = this.apiPageNumber - 1;
-        this.pageSize = (res.params.Recordsperpage) as number;
-        this.reportIdentifier = res.params.ReportIdentifier;
-        this.screenIdentifier = res.params.ScreenIdentifier;
+        this.pageSize = (res?.params?.Recordsperpage) as number;
+        this.reportIdentifier = res?.params?.ReportIdentifier;
+        this.screenIdentifier = res?.params?.ScreenIdentifier;
         // this.paginator.length = (res.totalrecordcount) as number;
         if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
         this.dataSource.sort = this.sort;
