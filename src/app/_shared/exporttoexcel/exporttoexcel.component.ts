@@ -136,7 +136,7 @@ export class ExporttoexcelComponent implements OnInit {
     // FileFullPath ='TelephoneRangeReports_BEEMA_20220613_101009.xlsx'
     let request = Utils.preparePydownloadFile('/opt/SP/rpiadmin/workspace/osn2/excel/'+FileFullPath);
     console.log(request,'download Request')
-    this.service.downloadFileDetails(request).subscribe((response: HttpResponse<any>) => {     
+    this.service.downloadFileDetails(request).subscribe((response: any) => {     
       console.log(response,'res')
       if (response.ok) {        
         let type =  response.type.toString() //'application/vnd.ms-excel'

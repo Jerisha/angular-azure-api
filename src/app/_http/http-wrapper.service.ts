@@ -86,12 +86,12 @@ export class HttpWrapperService {
         }
     }
 
-    processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
+    processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, responseType = ResponseType.JSON,headers?: HttpHeaders, params?: HttpParams, ):
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
                 endPoint === WebMethods.UIQUERY ? environment.api_auth :
-                    `${environment.api_py_sit}${endPoint.toString()}`,
+                    `${environment.api_py_dev}${endPoint.toString()}`,
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -103,12 +103,12 @@ export class HttpWrapperService {
         });
         return observerRes;
     }
-    processPyBlobRequest(httpVerb: HttpVerbs, endPoint: WebMethods, body: any): Observable<any> {
-        return this.http(httpVerb.toString(),
-            `${environment.api_py_dev}${endPoint.toString()}`,
-            JSON.stringify(body),
-            ResponseType.BLOB);
-    }
+    // processPyBlobRequest(httpVerb: HttpVerbs, endPoint: WebMethods, body: any): Observable<any> {
+    //     return this.http(httpVerb.toString(),
+    //         `${environment.api_py_dev}${endPoint.toString()}`,
+    //         JSON.stringify(body),
+    //         ResponseType.BLOB);
+    // }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
         debugger;
