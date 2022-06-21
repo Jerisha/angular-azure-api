@@ -15,6 +15,9 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/_shared/alert';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 const ELEMENT_DATA: UnresolvedError[] = [
   {
     TransId: '1014591106', View: 'image', Telno: '1977722725', Cmd: 'Active Customer', Source:'SAS/COMS', Created: '05Nov13',  NextTran: '10097008200',
@@ -88,7 +91,7 @@ const FilterListItems: Select[] = [
   templateUrl: './unresolvederrors.component.html',
   styleUrls: ['./unresolvederrors.component.css']
 })
-export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class UnresolvederrorsComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
   
   myTable!: TableItem;
   selectListItems: string[] = [];
@@ -129,7 +132,14 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
     private cdr: ChangeDetectorRef,
     private service: AdministrationService,
     private dialog: MatDialog,
-    private alertService: AlertService) { }
+    private alertService: AlertService,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    )
+     {
+      super(auth, actRoute);
+    this.intializeUser();
+      }
 
   ngOnInit(): void {
 
@@ -360,10 +370,12 @@ check999() {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.UnResolvedError,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage  
+          params: res.params
+
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage  
         }
         return result;
       } else return {
@@ -379,6 +391,7 @@ check999() {
       setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "Y", isFontHighlighted: true }],
       // highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }

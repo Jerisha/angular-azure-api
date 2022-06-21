@@ -14,6 +14,9 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { AlertService } from 'src/app/_shared/alert';
 import { MatDialog } from '@angular/material/dialog';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 const AuditStatusTracker_Data: AuditStatusTracker[] = [
   {
@@ -47,7 +50,7 @@ const FilterListItems: Select[] = [
   templateUrl: './auditstatustracker.component.html',
   styleUrls: ['./auditstatustracker.component.css']
 })
-export class AuditstatustrackerComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class AuditstatustrackerComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
 
   myTable!: TableItem;
   fullAuditTable!: TableItem;
@@ -97,8 +100,12 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
     private service: AdministrationService,
     private cdr: ChangeDetectorRef,
     private alertService: AlertService,
-    private dialog: MatDialog) { 
-    
+    private dialog: MatDialog,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) { 
+      super(auth, actRoute);
+      this.intializeUser();
     }
 
   ngOnInit(): void {
@@ -229,10 +236,11 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.AuditStatusTracker,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage     
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage     
         }
         return result;
       } else return {
@@ -246,6 +254,7 @@ export class AuditstatustrackerComponent implements OnInit, AfterViewInit, After
       Columns: this.auditstatustrackercolumns,
       filter: true,
       selectCheckbox: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: false
 
     }

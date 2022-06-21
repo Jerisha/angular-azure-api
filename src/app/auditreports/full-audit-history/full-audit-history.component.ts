@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { UserProfile } from 'src/app/_auth/user-profile';
 import { Utils } from 'src/app/_http';
 import { AuditReportsService } from '../services/audit-reports.service';
 
@@ -48,9 +51,14 @@ LiveinSource: '	185705'
   styleUrls: ['./full-audit-history.component.css']
 })
 
-export class FullAuditHistoryComponent implements OnInit {
+export class FullAuditHistoryComponent extends UserProfile implements OnInit {
 
-  constructor(private service:AuditReportsService, private spinner : NgxSpinnerService) { }
+  constructor(private service:AuditReportsService, private spinner : NgxSpinnerService,private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) { 
+      super(auth, actRoute);
+      this.intializeUser();
+    }
 
   isLoading: boolean = true;
   fullAuditHistory: any ;

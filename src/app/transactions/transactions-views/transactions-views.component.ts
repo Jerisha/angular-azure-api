@@ -1005,9 +1005,9 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   AuditTrail() {
     if (this.audittelephonenumbers instanceof Array) {
-      this.AuditTrailSelected.emit(["true", this.audittelephonenumbers]);
+      this.AuditTrailSelected.emit(this.audittelephonenumbers);
     } else {
-      this.AuditTrailSelected.emit(["true", [this.audittelephonenumbers]]);
+      this.AuditTrailSelected.emit([this.audittelephonenumbers]);
     }
     //console.log('audit telephone numbers length', this.audittelephonenumbers);
 

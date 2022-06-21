@@ -482,10 +482,11 @@ export class SolicitedresolutionreportComponent implements OnInit {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
           // datasource: ELEMENT_DATA,
           // totalrecordcount: 1,
           // totalpages: 1,
@@ -503,6 +504,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }

@@ -7,13 +7,13 @@ import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolv
 
 
 const routes: Routes = [
-  { path: 'auditdatafiles',  component: AuditDataFilesComponent  },
-  { path: 'unresolvedtransaction',  component: UnresolvedtransactionComponent  },
-  { path: 'unresolvederrors',  component:UnresolvederrorsComponent },
-  { path: 'restoresolicitederrors',  component: RestoresolicitederrorsComponent  },
-  { path: 'manageusers',  component: ManageUsersComponent  },
-  { path: 'datacorrectionsummary',  component: DataCorrectionReportsComponent  },
-  { path: 'auditstatustracker', component: AuditstatustrackerComponent},
+  { path: 'auditdatafiles',  component: AuditDataFilesComponent,data: { id: 'MENU02' }  },
+  { path: 'unresolvedtransaction',  component: UnresolvedtransactionComponent,data: { id: 'MENU05' }  },
+  { path: 'unresolvederrors',  component:UnresolvederrorsComponent,data: { id: 'MENU06' } },
+  { path: 'restoresolicitederrors',  component: RestoresolicitederrorsComponent,data: { id: 'MENU03' }  },
+  { path: 'manageusers',  component: ManageUsersComponent,data: { id: 'MENU07' }  },
+  { path: 'datacorrectionsummary',  component: DataCorrectionReportsComponent,data: { id: 'MENU04' }  },
+  { path: 'auditstatustracker', component: AuditstatustrackerComponent,data: { id: 'MENU01' } }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

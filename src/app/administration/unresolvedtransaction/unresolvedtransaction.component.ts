@@ -16,6 +16,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 const ELEMENT_DATA: UnresolvedTransaction[] = [
   {
@@ -92,10 +95,15 @@ const FilterListItems: Select[] = [
   templateUrl: './unresolvedtransaction.component.html',
   styleUrls: ['./unresolvedtransaction.component.css']
 })
-export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class UnresolvedtransactionComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
 
   constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
+    private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe, private auth: AuthenticationService,
+    private actRoute: ActivatedRoute)
+     { 
+      super(auth, actRoute);
+      this.intializeUser();
+     }
 
   myTable!: TableItem;
   informationTable1!: TableItem;
@@ -286,10 +294,11 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.UnResolvedTransactions,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage        
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage        
       
         }
         return result;
@@ -301,6 +310,7 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]

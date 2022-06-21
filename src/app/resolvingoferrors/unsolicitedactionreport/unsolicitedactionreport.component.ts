@@ -344,10 +344,11 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
           // datasource: ELEMENT_DATA,
           // totalrecordcount: 1,
           // totalpages: 1,
@@ -366,6 +367,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
     }
 

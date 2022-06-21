@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { FullAuditDetails, SeparateInternalAuditDetails } from '../models/separateinternalauditdetails';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Utils } from 'src/app/_http/index';
 import { AuditReportsService } from '../services/audit-reports.service';
 import { map } from 'rxjs/operators';
@@ -18,6 +18,8 @@ import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 
 const FullAudit_Data: FullAuditDetails [] = [
   {
@@ -142,7 +144,7 @@ const FilterListItems: Select[] = [
   templateUrl: './separateinternalauditdetails.component.html',
   styleUrls: ['./separateinternalauditdetails.component.css']
 })
-export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class SeparateinternalauditdetailsComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
   @ViewChild('inputctrl') icRemarks!: ElementRef;
   myTable!: TableItem;
@@ -196,7 +198,12 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   fullauditattributes: any = [];
   constructor(private formBuilder: FormBuilder, private dialog: MatDialog,private telnoPipe: TelNoPipe,
    
-    private cdr: ChangeDetectorRef, public router: Router, private service:AuditReportsService, private alertService: AlertService) { }
+    private cdr: ChangeDetectorRef, public router: Router, private service:AuditReportsService, private alertService: AlertService,private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+      super(auth, actRoute);
+      this.intializeUser();
+     }
     correctionTypes: ApplyAttributes[] = [
       {
         name: 'Manual Correction',
@@ -575,10 +582,11 @@ else{
         console.log('query response',JSON.stringify(res));
         let result = {
           datasource: res.data.SeparateInternalAuditDetails,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -593,6 +601,7 @@ else{
       showEmail: false,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',toolTipText: 'View Audit Details', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '',toolTipText: 'View User Comments', tabIndex: 2 },
       { headerValue: 'View', icon: 'description', route: '',toolTipText: 'View Full Audit Details', tabIndex: 3 }]

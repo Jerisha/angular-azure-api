@@ -626,7 +626,7 @@ return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA,
     let lstDisplayNames = lstDisplayName.map((x:any)=>({
       cName:x.cName,cDisplayName:x.cDisplayName,cValue:""
     })) 
-    lstDisplayNames.unshift({cName:"UpdatedBy",cDisplayName:"Updated By",cValue:""},{cName:"UpdatedDate",cDisplayName:"Updated Date",cValue:""} )     
+    // lstDisplayNames.unshift({cName:"UpdatedBy",cDisplayName:"Updated By",cValue:""},{cName:"UpdatedDate",cDisplayName:"Updated Date",cValue:""} )     
     return lstDisplayNames;
     }
     else{

@@ -18,6 +18,7 @@ export class TelephoneNoComponent  {
   {
     if(changes.telNoArray.currentValue != changes.telNoArray.previousValue)
     {
+      debugger;
       
       this.telNos=this.telNoArray;
       this.selectedTelNo = this.telNos[0];
@@ -34,6 +35,7 @@ export class TelephoneNoComponent  {
 
   TelephoneNo_clicked()
   {
+    debugger
     this.TelephoneNoSelected.emit(this.selectedTelNo)
   }
 
