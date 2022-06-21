@@ -15,7 +15,7 @@ export class exporttoexcelService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.EXPSUMMARY, request);
   }
   downloadFileDetails(request: any) {
-    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.BLOBOBJECT, request,ResponseType.BLOB)
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.BLOBOBJECT, request, ResponseType.BLOB)
   }
   
   blob2File(data: any, fileType: string, fileName: string) {
