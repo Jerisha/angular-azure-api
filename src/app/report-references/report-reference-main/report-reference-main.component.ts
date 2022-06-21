@@ -533,8 +533,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
          {
            let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
          //console.log(header,'header')
-        //  console.log( this.data, 'download1')
-  //let copydata = JSON.parse(JSON.stringify(this.data))
+          console.log( this.data, 'download1')
+          let copydata = JSON.parse(JSON.stringify(this.data))
           var c = document.createElement("a");
           let data:any = [];
           let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
@@ -546,14 +546,19 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           //let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
           //console.log(disp,'disp')
           //alignment pbl so created new copydata 
-          this.data.forEach((row : any) => {
+         // this.data.forEach((row : any) => {
         // console.log(JSON.stringify(copydata), 'copydata')
-        //    copydata.forEach((row : any) => {
+            copydata.forEach((row : any) => {
         //   //console.log(row,'row')
         // if(row.Comments != undefined)
         //  {    delete row.Comments  } 
          
-          let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
+          let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
+            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'])
+            {
+              Reflect.deleteProperty(row,i)
+            }
+        
           let dataRow = Object.assign(disp,row)
         // console.log(dataRow,'dataRow')         
           //data += Object.values(dataRow).toString().replace(/[,]+/g, '\|') + "\n";
