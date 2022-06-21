@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,6 +12,8 @@ import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { UserProfile } from 'src/app/_auth/user-profile';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Utils } from 'src/app/_http/common/utils';
@@ -157,7 +160,7 @@ const Items: Select[] = [
   templateUrl: './data-correction-reports.component.html',
   styleUrls: ['./data-correction-reports.component.css']
 })
-export class DataCorrectionReportsComponent implements OnInit {
+export class DataCorrectionReportsComponent extends UserProfile implements OnInit {
 
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   @ViewChild('switchbtn') switchBtn!: MatSlideToggle;
@@ -215,7 +218,11 @@ export class DataCorrectionReportsComponent implements OnInit {
   //   ];
 
   constructor(private dialog: MatDialog,
-    private formBuilder: FormBuilder, private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService) {
+    private formBuilder: FormBuilder, private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService,private auth: AuthenticationService,
+    private actRoute: ActivatedRoute)
+     {
+      super(auth, actRoute);
+    this.intializeUser();
   }
 
   resetForm(): void {
@@ -316,10 +323,11 @@ if(this.switchBtn)
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.AutoCorrectionSummary ? res.data.AutoCorrectionSummary : res.data.ManualCorrectionSummary,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage 
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage 
         }
         return result;
       } else return {
@@ -337,7 +345,8 @@ if(this.switchBtn)
       data: this.queryResult$,
       Columns: this.colHeader,
       filter: true,      
-      removeNoDataColumns: false,   
+      removeNoDataColumns: false,  
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()), 
       selectCheckbox: true,   
       highlightedCells: ['ACTID', 'BatchId', 'FullCLIStatus', 'SwitchStatus', 'Source', 'OSN2Source', 'Status', 'ResolveType', 'StartDate', 'EndDate', 'Scenario', 'SelectedVolume', 'SuccessCount', 'FailedCount', 'UserName', 'ViewTelNo', 'ViewFailedTelNo'],
       imgConfig: [{ headerValue: 'View', icon: 'description', route: '', toolTipText: 'Audit Trail Report', tabIndex: 2 }],

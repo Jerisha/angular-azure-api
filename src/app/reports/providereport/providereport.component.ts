@@ -15,6 +15,9 @@ import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
@@ -57,7 +60,7 @@ const Itemstwo: Select[] = [
     templateUrl: './providereport.component.html',
     styleUrls: ['./providereport.component.css']
 })
-export class ProvidereportComponent implements OnInit {
+export class ProvidereportComponent extends UserProfile implements OnInit {
 
     select: string = 'Exp';
     isDisabled = true;
@@ -84,7 +87,12 @@ export class ProvidereportComponent implements OnInit {
     public tabs: Tab[] = [];
     errorCode = new FormControl();
     constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
+        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe,private auth: AuthenticationService,
+        private actRoute: ActivatedRoute)
+         {
+            super(auth, actRoute);
+            this.intializeUser();
+          }
 
     errorCodeData: Select[] = [
         { view: '101', viewValue: '101', default: true },
@@ -145,10 +153,11 @@ refresh(event: any)
             if (Object.keys(res).length) {
                 let result = {
                     datasource: res.data.TelephoneNumbers,
-                    totalrecordcount: res.TotalCount,
-            totalpages: res.NumberOfPages,
-            pagenumber: res.PageNumber,
-            pagecount: res.Recordsperpage  
+                    params: res.params
+            //         totalrecordcount: res.TotalCount,
+            // totalpages: res.NumberOfPages,
+            // pagenumber: res.PageNumber,
+            // pagecount: res.Recordsperpage  
                 }
                 return result;
             } else return res;
@@ -158,6 +167,7 @@ refresh(event: any)
             removeNoDataColumns : true,
             Columns: this.columns,
             filter: false,
+            excelQuery : this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
             //selectionColumn: 'TranId',
 

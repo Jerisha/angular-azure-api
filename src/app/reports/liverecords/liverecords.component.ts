@@ -21,6 +21,9 @@ import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -451,7 +454,7 @@ const Itemstwo: Select[] = [
 
 
 
-export class LiverecordsComponent implements OnInit {
+export class LiverecordsComponent extends UserProfile implements OnInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   formbulider: any;
   // currentPage: string = '1';
@@ -461,8 +464,18 @@ export class LiverecordsComponent implements OnInit {
   model: any = { TypeOfLine: "" };
 
 
-  constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService , private telnoPipe: TelNoPipe) { }
+  constructor(private _snackBar: MatSnackBar,
+     private formBuilder: FormBuilder,
+     private cdr: ChangeDetectorRef,
+     private service: ReportService,
+     private spinner: NgxSpinnerService , 
+     private telnoPipe: TelNoPipe,
+     private auth: AuthenticationService,
+     private actRoute: ActivatedRoute)
+     {
+      super(auth, actRoute);
+      this.intializeUser();
+    }
 
   expOperators: string[] = [
     "StartTelephoneNumberOperator",
@@ -613,10 +626,11 @@ resetExp:boolean = false;
         console.log(JSON.stringify (res.data.LiveRecords), "datatest");
         let result = {
           datasource: res.data.LiveTelephoneNumberDetails,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return res;
@@ -628,6 +642,7 @@ resetExp:boolean = false;
       filter: true,
       selectCheckbox: true,
        removeNoDataColumns : true,
+       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 
     }

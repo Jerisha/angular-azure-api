@@ -11,6 +11,9 @@ import { formatDate } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { statisticalreport } from '../services/statisticalreports.service';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
   {
@@ -50,7 +53,7 @@ const ELEMENT_DATA: TelephoneDetails[] = [
   templateUrl: './telephone-details.component.html',
   styleUrls: ['./telephone-details.component.css']
 })
-export class TelephoneDetailsComponent implements OnChanges {
+export class TelephoneDetailsComponent extends UserProfile implements OnChanges {
 
   select: string = 'Exp';
   isDisabled = true;
@@ -76,7 +79,14 @@ export class TelephoneDetailsComponent implements OnChanges {
     private service: statisticalreport,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) 
+    {
+      super(auth, actRoute);
+    this.intializeUser();
+     }
 
   openSnackBar(message: string) {
     this._snackBar.open(message);
@@ -118,10 +128,11 @@ export class TelephoneDetailsComponent implements OnChanges {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage  
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage  
         }
         return result;
       } else return { datasource: res };
@@ -131,6 +142,7 @@ export class TelephoneDetailsComponent implements OnChanges {
       data: this.queryResult$,
       Columns: this.columns,
       filter: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       selectCheckbox: true,
       // colToSetImage: ['View'],
       imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],

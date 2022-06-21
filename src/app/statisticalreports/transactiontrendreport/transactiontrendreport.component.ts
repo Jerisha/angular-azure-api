@@ -25,6 +25,9 @@ import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { stringify } from 'querystring';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 
 const moment = _rollupMoment || _moment;
 
@@ -139,7 +142,7 @@ const Itemstwo: Select[] = [
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class TransactionsourcecommandhistoryComponent implements OnInit {
+export class TransactionsourcecommandhistoryComponent extends UserProfile implements OnInit {
   panelOpenState: boolean = false;
   panelOpenState1: boolean = false;
   panelOpenState2: boolean = false;
@@ -223,7 +226,15 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
     private service: statisticalreport,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    )
+     {
+      super(auth, actRoute);
+    this.intializeUser();
+
+      }
 
   private updateText() {
     this.text = this.form.value.enable ? "Asterisk OK" : "Should not show the asterisk";
@@ -321,10 +332,11 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.DatewiseData,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage  
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage  
         }
         return result;
       } else return { datasource: res };
@@ -358,6 +370,7 @@ export class TransactionsourcecommandhistoryComponent implements OnInit {
       data: this.queryResultMonthly$,
       childData: 'Link',
       Columns: this.columns,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       filter: true,
       selectCheckbox: true,
       imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1 }],

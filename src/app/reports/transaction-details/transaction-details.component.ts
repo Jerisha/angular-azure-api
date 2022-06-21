@@ -16,6 +16,9 @@ import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 let FilterListItems: Select[] = [  
 { view: 'Telephone', viewValue: 'StartTelephoneNumber', default: true },
@@ -37,7 +40,7 @@ let FilterListItems: Select[] = [
   templateUrl: './transaction-details.component.html',
   styleUrls: ['./transaction-details.component.css']
 })
-export class TransactionDetailsComponent implements OnInit {
+export class TransactionDetailsComponent extends UserProfile implements OnInit {
   
   
   
@@ -46,7 +49,14 @@ export class TransactionDetailsComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private service: ReportService,
     private cdr: ChangeDetectorRef,
-    private spinner: NgxSpinnerService,private telnoPipe: TelNoPipe) { }
+    private spinner: NgxSpinnerService,
+    private telnoPipe: TelNoPipe,
+    private auth: AuthenticationService,
+        private actRoute: ActivatedRoute)
+        {
+          super(auth, actRoute);
+          this.intializeUser();
+         }
   
   myTable!: TableItem;
   dataSaved = false;
@@ -299,10 +309,11 @@ prepareQueryParams(pageNo: string): any {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TransactionDetails,
-          totalrecordcount: res.TotalCount,
-            totalpages: res.NumberOfPages,
-            pagenumber: res.PageNumber,
-            pagecount: res.Recordsperpage         
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          //   totalpages: res.NumberOfPages,
+          //   pagenumber: res.PageNumber,
+          //   pagecount: res.Recordsperpage         
         }
         return result;
       } else return {datasource:res};;
@@ -312,6 +323,7 @@ prepareQueryParams(pageNo: string): any {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
 
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },

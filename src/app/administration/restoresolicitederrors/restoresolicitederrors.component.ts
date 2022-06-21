@@ -20,6 +20,9 @@ import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
  import { Custom } from 'src/app/_helper/Validators/Custom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -144,7 +147,7 @@ const FilterListItems: Select[] = [
   templateUrl: './restoresolicitederrors.component.html',
   styleUrls: ['./restoresolicitederrors.component.css']
 })
-export class RestoresolicitederrorsComponent implements OnInit {
+export class RestoresolicitederrorsComponent extends UserProfile implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
@@ -152,7 +155,14 @@ export class RestoresolicitederrorsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) 
+    { 
+      super(auth, actRoute);
+      this.intializeUser();
+    }
  
     myTable!: TableItem;
     selectedGridRows: any[] = [];
@@ -360,10 +370,11 @@ export class RestoresolicitederrorsComponent implements OnInit {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.SolicitedError,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage     
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage     
         }
         return result;
       } else return {
@@ -378,6 +389,7 @@ export class RestoresolicitederrorsComponent implements OnInit {
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
