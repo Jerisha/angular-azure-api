@@ -176,9 +176,12 @@
     margin-left: 40%;
     margin-top: 15%;
   }
-
+  
   .spinner-loading {
     font: 400 14px/20px Roboto, "Helvetica Neue" !important;
     padding: 20px;
+  }
+  .highlighted{
+    background-color: lightpink;
   }
  

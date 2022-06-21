@@ -140,4 +140,10 @@
   :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 6px 0 6px 0 !important;     
   } 
- 
+  /* input:read-only{ 
+    background-color: #f17517;
+ }  */
+ input[readonly]
+{
+    background-color:#ccc;
+}
