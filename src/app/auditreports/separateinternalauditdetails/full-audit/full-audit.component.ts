@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { escapeRegExp } from '@angular/compiler/src/util';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 @Component({
   selector: 'app-full-audit',
@@ -30,9 +31,12 @@ export class FullAuditComponent implements OnInit {
   selectedRowsCount: number = 0;
   selectListItems: string[] = [];
   selectedTab!: number;
-  currentPage: string = '1';
+  // currentPage: string = '1';
   queryResultfullAudit$!: Observable<any>;
   queryResultfullAuditpage$!: Observable<any>;
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   @Input()attributes: any = [];
   public tabs = [{
     tabType: 0,
@@ -91,20 +95,32 @@ export class FullAuditComponent implements OnInit {
   }
   formsubmit(isEmitted?: boolean) {
 
-    this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+
+
+
+
+   // this.currentPage = isEmitted ? this.currentPage : '1';
     this.attributes.length=isEmitted ?this.attributes.length-1:this.attributes.length;
     this.attributes.push({ Name: 'PageNumber', Value: [this.currentPage] })
     //this.attributes.push({ Name: 'PageNumber', Value: ['1'] })
-    let request = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.attributes);
+    let request = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.attributes,reqParams);
     console.log('query request',JSON.stringify(request));
     this.queryResultfullAuditpage$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         console.log('query response from full audit',JSON.stringify(res));
         let result = {
           datasource: res.data.TelephoneNumbers,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber
+          params: res.params
         }
         return result;
       } else return {
@@ -120,13 +136,16 @@ export class FullAuditComponent implements OnInit {
       selectCheckbox: true,
       showEmail: true,
       removeNoDataColumns: true,
+      excelQuery : this.attributes,
     }
   }
   
  
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = `${pageIndex}`;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
+   // this.currentPage = `${pageIndex}`;
     this.formsubmit(true);
   }
   ngAfterViewInit() {

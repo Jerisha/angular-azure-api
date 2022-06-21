@@ -87,48 +87,31 @@ export class TransactionsComponent implements OnInit {
 
   OnAuditTrailSelected(initAuditTrail:any[])
   {
+    debugger
 //console.log('audit phone numbers',initAuditTrail);
    // console.log('event is calling audit',initAuditTrail);
     this.audittrailNos=initAuditTrail;
-    this.auditTrailSuccess=initAuditTrail[0];
-    this.auditTeleNoselected=this.audittrailNos[1][0];
-    this.telNo=this.audittrailNos[1][0];
-  //this.telNo='02071117400';
-    if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
+    if(initAuditTrail.length>0)
     {
-      this.tabs.push({tabType: 2,name: 'Audit Trail Report(' + this.telNo + ')'});   
-      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
-    } else {
-    this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) ;
-    }
-      // this.selectedTab=this.selectedTab==0?1:2;
-    // } 
-    // else 
-    // {
-      // this.selectedTab = this.tabs.findIndex(x => x.name == 'Audit Trail Report');
-      // this.selectedTab=this.selectedTab==0?1:2;
-    // }
-
-    // this.selectedIndex=1;
-
-    // console.log(this.auditTrailSuccess)
-    // console.log("before index"+this.selectedIndex);
-  //    if(this.selectedIndex===0)
-  //    {    
-     
-  //   this.auditTrailState=true;
-  //   this.addCheckState=false;
-  //   this.selectedIndex=1;
-  //   // console.log("After index"+this.selectedIndex);
-  //  }   
-  //  else if(this.selectedIndex===1)
-  //  {    
+      this.auditTrailSuccess=true;
+      this.auditTeleNoselected=initAuditTrail[0];
+      this.telNo=initAuditTrail[0];
    
-  // this.auditTrailState=true;
-  // this.addCheckState=false;
-  // this.selectedIndex=0;
-  // // console.log("After index"+this.selectedIndex);
-//  }
+      if (!this.tabs.find(x => x.tabType == 2)) {
+        this.tabs.push({
+          tabType: 2,
+          name: 'Audit Trail Report(' + this.telNo + ')'
+        });
+       // this.showDetails = true;
+        this.selectedTab = this.tabs.length;
+      }
+      else{
+      this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+      }
+    }
+    else{
+      this.auditTrailSuccess=false;
+    }
     
   }
   OnAddressFill(Addressval:any[])
@@ -186,9 +169,14 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
   }
   OnTelephoneNoSelected(inittelno:any[])
   {
+    debugger
     //console.log('selected Number is',inittelno[1]);
-    this.auditTeleNoselected=inittelno[1];
-    this.telNo=inittelno[1];
+    this.auditTeleNoselected=inittelno;
+    this.telNo=inittelno;
+    let updtab = this.tabs.find(x => x.tabType == 2);
+    if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
+
+
   // this.tabs.splice(this.tabs.findIndex(x => x.tabType == 2), 1);
     // if (!this.tabs?.find(x => x.name == 'Audit Trail Report')) 
     // {
