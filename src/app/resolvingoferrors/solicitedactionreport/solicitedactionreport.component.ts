@@ -16,6 +16,9 @@ import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { formatDate } from '@angular/common';
 import { map } from 'rxjs/operators';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { UserProfile } from 'src/app/_auth/user-profile';
 
 const ELEMENT_DATA: solicitedactionreport[] = [
   {
@@ -84,7 +87,7 @@ const FilterListItems: Select[] = [
   templateUrl: './solicitedactionreport.component.html',
   styleUrls: ['./solicitedactionreport.component.css']
 })
-export class SolicitedactionreportComponent implements OnInit {
+export class SolicitedactionreportComponent extends UserProfile implements OnInit {
   queryResult$: any;
   thisForm: any;
   isSaveDisable: boolean | undefined;
@@ -98,7 +101,13 @@ export class SolicitedactionreportComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
     private telnoPipe: TelNoPipe,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+      super(auth, actRoute);
+      this.intializeUser();
+     }
 
   myForm!: FormGroup;
   public tabs: Tab[] = [];
@@ -224,10 +233,11 @@ export class SolicitedactionreportComponent implements OnInit {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
           // datasource: ELEMENT_DATA,
           // totalrecordcount: 1,
           // totalpages: 1,
@@ -246,6 +256,7 @@ export class SolicitedactionreportComponent implements OnInit {
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
     }
 

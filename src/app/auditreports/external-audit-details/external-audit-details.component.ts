@@ -16,6 +16,9 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { AuditReportsService } from '../services/audit-reports.service';
 import { UserCommentsDialogComponent } from '../../_shared/user-comments/user-comments-dialog.component';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 
 const Items: Select[] = [
   { view: 'Start TelephoneNumber', viewValue: 'StartTelephoneNumber', default: true },
@@ -36,7 +39,7 @@ const Items: Select[] = [
   templateUrl: './external-audit-details.component.html',
   styleUrls: ['./external-audit-details.component.css']
 })
-export class ExternalAuditDetailsComponent implements OnInit {
+export class ExternalAuditDetailsComponent extends UserProfile implements OnInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   // @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
   // @ViewChild('EndTelephoneNumber') icendNo!: ElementRef;
@@ -90,7 +93,11 @@ export class ExternalAuditDetailsComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
     private formBuilder: FormBuilder, private service: AuditReportsService,
-    private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef, private alertService: AlertService) {
+    private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef, private alertService: AlertService,private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+      super(auth, actRoute);
+      this.intializeUser();
   }
 
   resetForm(): void {
@@ -326,10 +333,11 @@ export class ExternalAuditDetailsComponent implements OnInit {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber,
-          pagecount: res.Recordsperpage
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -344,6 +352,7 @@ export class ExternalAuditDetailsComponent implements OnInit {
       selectCheckbox: true,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
     }
