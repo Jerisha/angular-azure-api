@@ -17,6 +17,10 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { ReportService } from '../services/report.service';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Custom } from 'src/app/_helper/Validators/Custom';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { UserProfile } from 'src/app/_auth/user-profile';
 
 const ELEMENT_DATA = [
   {
@@ -56,7 +60,7 @@ const FilterListItems: Select[] = [
   templateUrl: './telephone-range-report.component.html',
   styleUrls: ['./telephone-range-report.component.css']
 })
-export class TelephoneRangeReportComponent implements OnInit {
+export class TelephoneRangeReportComponent extends UserProfile implements OnInit {
 
   constructor(private formBuilder: FormBuilder, 
     private _snackBar: MatSnackBar,
@@ -65,7 +69,14 @@ export class TelephoneRangeReportComponent implements OnInit {
     private http: HttpWrapperService,
     private service: ReportService,
     private cdr: ChangeDetectorRef,
-    private telnoPipe: TelNoPipe) {}
+    private telnoPipe: TelNoPipe,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+
+    ) {
+      super(auth, actRoute);
+     this.intializeUser();
+    }
 
   myTable!: TableItem;
   dataSaved = false;
@@ -82,7 +93,10 @@ export class TelephoneRangeReportComponent implements OnInit {
   selectedTab!: number;
   public tabs:Tab[] = [
   ];
-  currentPage: string = '1';
+  // currentPage: string = '1';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   columns: ColumnDetails[] =[
     { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
@@ -153,9 +167,10 @@ export class TelephoneRangeReportComponent implements OnInit {
     return attributes;
 
   }
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
   
@@ -180,16 +195,24 @@ export class TelephoneRangeReportComponent implements OnInit {
         return;
       }
       this.tabs.splice(0);
-      this.currentPage = isEmitted ? this.currentPage : '1';
-      let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams(this.currentPage));
-      //console.log(JSON.stringify(request));
+      // this.currentPage = isEmitted ? this.currentPage : '1';
+      this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+      let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+      console.log(JSON.stringify(request));
       this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
         if (Object.keys(res).length) {
           let result = {
             datasource: res.data.TelephoneNumbers,
-            totalrecordcount: res.TotalCount,
-            totalpages: res.NumberOfPages,
-            pagenumber: res.PageNumber
+            params: res.params
+            // totalrecordcount: res.TotalCount,
+            // totalpages: res.NumberOfPages,
+            // pagenumber: res.PageNumber,
+            // pagecount: res.Recordsperpage     
           }
           return result;
         }  else return {
@@ -202,6 +225,7 @@ export class TelephoneRangeReportComponent implements OnInit {
         Columns: this.columns,
         filter: true,
         selectCheckbox: true,
+        excelQuery : this.prepareQueryParams(this.currentPage.toString()),
         removeNoDataColumns: true,
         // imgConfig:[{ headerValue: 'View', icon: 'tab', route: '' },
         // { headerValue: 'View', icon: 'description', route: '' }]

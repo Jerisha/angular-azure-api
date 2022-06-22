@@ -6,7 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ErrorComponent } from './_shared/error/error.component';
 import { ExporttoexcelComponent } from './_shared/exporttoexcel/exporttoexcel.component';
-import { AuthentiationGuard } from './authentiation.guard';
+import { AuthGuard } from './_auth/authentiation.guard'
 
 const MENU_SOURCE1 = (dat as any).default;
 const routes: Routes = [
@@ -28,8 +28,8 @@ const routes: Routes = [
     path: 'home',
     component: AppLayoutComponent,
     children: [{ path: '', component: HomeComponent }],
-    // canLoad:[AuthentiationGuard],
-    // canActivateChild :[AuthentiationGuard]
+    // canLoad:[AuthGuard],
+    // canActivateChild :[AuthGuard]
   },
   {
     path: 'exporttoexcel',
@@ -102,6 +102,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers:[AuthentiationGuard]
+  providers:[AuthGuard]
 })
 export class AppRoutingModule { }

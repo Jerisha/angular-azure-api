@@ -6,14 +6,16 @@ import {
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CellAttributes, ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, FooterDetails, PaginationAttributes, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Observable, of, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
-import { delay, takeUntil } from 'rxjs/operators';
-import { isNgTemplate } from '@angular/compiler';
+import { takeUntil } from 'rxjs/operators';
+import { UIService } from '../_services/ui.service';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Utils } from 'src/app/_http';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,12 +40,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   @Output() pageIndex = new EventEmitter<any>();
   @Output() refreshtab = new EventEmitter<any>();
   @Output() requestExport2Excel = new EventEmitter<any>();
-  @Input() isExportDisable:boolean =true;
+  @Input() isExportDisable: boolean = true;
   // dataSource!: MatTableDataSource<any>;
   public dataSource = new MatTableDataSource<any>();
   selectedrows: any;
   ColumnDetails: ColumnDetails[] = [];
   dataColumns!: string[];
+  footerColumns!: string[];
   columnHeaders: any;
   columnHeaderFilter?: boolean = false;
   columnFilter?: boolean = false;
@@ -60,40 +63,47 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   gridFilter: ColumnDetails[] = [];
   filteredDataColumns: ColumnDetails[] = [];
   fontHighlightedCells: CellAttributes[] = [];
-  // highlightedCells: string[] = [];
   backgroundHighlightedCells: CellAttributes[] = [];
   imageAttrCells: CellAttributes[] = [];
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   showTotalRow!: boolean;
+  showCustomFooter?: boolean = false;
   isRowselected: boolean = false;
   totalRowCols: string[] = [];
+  footerDisplayCols: string[] = [];
   nonNumericCols: string[] = [];
   isLoading = false;
   isDataloaded: boolean = false;
   dataObs$!: Observable<any>
   dataobj!: any;
   totalRows = 0;
-  pageSize = 500;
+  pageSize = 0;
   currentPage = 0;
   apiPageNumber: number = 0;
+  reportIdentifier: string;
+  screenIdentifier: string;
+  excelQueryObj: any;
   pageSizeOptions: number[] = [500];
+  disablePageSize: boolean = true;
+  disablePaginator: boolean = false;
+  paginatorList!: HTMLCollectionOf<Element>;
+  pageProp: PaginationAttributes = { currentPage: 0, pageSize: 0 };
+  footerDetails!: FooterDetails;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private service: UIService,
+    private dialog: MatDialog) {
 
   }
 
   pageChanged(event: PageEvent) {
-    this.pageSize = event.pageSize;
+    debugger;
     this.currentPage = event.pageIndex;
-
-   // alert('pageszize '+ event.pageSize+' , pagenumber:'+ event.pageIndex +'')
-    this.pageIndex.emit(this.currentPage + 1);
-  }
-
-  copy() {
-    // console.log('clipboard', this.selection.selected);
+    this.pageProp.currentPage = this.currentPage + 1;
+    this.pageProp.pageSize = event.pageSize;
+    this.pageIndex.emit(this.pageProp);
   }
 
   refresh(event: any) {
@@ -103,24 +113,27 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   ngOnChanges(changes: SimpleChanges) {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
-    //   return;
+    //   return;    
     this.initializeTableAttributes();
     this.disablePaginator = this.tableitem?.disablePaginator ? true : false;
     this.dataObs$ = this.tableitem?.data;
+    //
     this.spinner.show();
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
         this.dataSource.data = res.datasource;
-        // this.initializeTableAttributes(data:any);
         this.loadDataRelatedAttributes(this.dataSource.data);
-        this.totalRows = (res.totalrecordcount) as number;
-        this.apiPageNumber = (res.pagenumber) as number;
+        this.totalRows = (res?.params?.TotalCount) as number;
+        this.apiPageNumber = (res?.params?.PageNumber) as number;
         this.currentPage = this.apiPageNumber - 1;
-        //this.paginator.pageIndex = this.currentPage;
-       // this.pageSize = (res.pagecount) as number;;
-        this.paginator.length = (res.totalrecordcount) as number;
+        this.pageSize = (res?.params?.Recordsperpage) as number;
+        this.reportIdentifier = res?.params?.ReportIdentifier;
+        this.screenIdentifier = res?.params?.ScreenIdentifier;
+        // this.paginator.length = (res.totalrecordcount) as number;
+        if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
         this.dataSource.sort = this.sort;
         this.spinner.hide();
+        this.disablePageSize = this.totalRows > 50 ? false : true;
         this.isDataloaded = true;
       },
       (error) => { this.spinner.hide(); },
@@ -132,8 +145,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       }
     );
   }
-
-  disablePaginator: boolean = false;
 
   loadDataRelatedAttributes(data: any) {
     this.ColumnDetails = [];
@@ -156,13 +167,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-
-
+    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
 
   initializeTableAttributes() {
     this.selection.clear();
     this.allSelected = true;
+    this.excelQueryObj = this.tableitem?.excelQuery;
     this.imageAttrCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isImage) : [];
     this.fontHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isFontHighlighted) : [];
     this.backgroundHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
@@ -170,6 +181,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.showTotalRow = this.totalRowCols?.length > 0;
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
+    this.showCustomFooter = this.tableitem?.isCustomFooter;
+    if (this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
     //   if (data && data.length > 0)
@@ -190,39 +203,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     // this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     // this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
   }
-
-  // initializeTableAttributes(data:any) {
-  //   this.selection.clear();
-  //   this.allSelected = true;
-  //   this.ColumnDetails = [];   
-  //   this.imageAttrCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isImage) : [];
-  //   this.fontHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isFontHighlighted) : [];
-  //   this.backgroundHighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
-  //   this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
-  //   this.showTotalRow = this.totalRowCols?.length > 0;
-  //   this.imgList = this.tableitem?.imgConfig;
-  //   this.isEmailRequired = this.tableitem?.showEmail;
-  //   this.columnHeaderFilter = this.tableitem?.filter;
-  //   if (this.tableitem?.removeNoDataColumns) {
-  //     if (data && data.length > 0)
-  //       this.verifyEmptyColumns(data);
-  //     else
-  //       this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
-  //   }
-  //   else {
-  //     this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
-  //   }
-
-  //   //Select checkbox
-  //   if (this.tableitem?.selectCheckbox) {
-  //     const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
-  //     this.ColumnDetails.unshift(selItem);
-  //   }
-
-  //   this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
-  //   this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-  // }
-
 
   removeNoDataColumns(data: any) {
     this.ColumnDetails = [];
@@ -245,8 +225,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
+    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
-
 
   ngOnInit(): void {
   }
@@ -256,10 +236,12 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
+
     if (this.isDataloaded) {
       this.toggleAllSelection();
       this.isDataloaded = false;
     }
+
   }
 
   getTotal(cellname: string) {
@@ -274,6 +256,28 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       return '';
   }
 
+  getFooterDetails(cellname: string) {
+
+    // debugger 
+
+    var cell = cellname ? cellname : '';
+
+    if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
+
+      return this.footerDetails.footerName;
+
+    }
+
+    if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
+
+      return this.footerDetails.footerValue;
+
+    else
+
+      return '';
+
+  }
+
   getColSpan(cellname: string) {
     if (this.dataColumns[0] === cellname) {
       return this.nonNumericCols.length;
@@ -282,13 +286,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   selectRow(event: any, row: any) {
-    this.dataSource.data = this.dataSource.data.filter(r => r !== row);
-    if (event.checked) {
-      this.dataSource.data = [row].concat(this.dataSource.data);
-    }
-    else {
-      this.dataSource.data = this.dataSource.data.concat(row);
-    }
+    // this.dataSource.data = this.dataSource.data.filter(r => r !== row);
+    // if (event.checked) {
+    //   this.dataSource.data = [row].concat(this.dataSource.data);
+    // }
+    // else {
+    //   this.dataSource.data = this.dataSource.data.concat(row);
+    // }
     this.rowChanges.emit([row]);
   }
   /** Whether the number of selected elements matches the total number of rows. */
@@ -317,7 +321,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       this.dataSource.paginator.firstPage();
     }
   }
-
 
   toggleAllSelection() {
     if (this.select) {
@@ -348,6 +351,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   filterGridColumns(event: any) {
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
+    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     event.close();
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
@@ -439,7 +443,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     var cells = this.imageAttrCells.filter(x => x.cells.includes(cell));
     if (cells.length > 0) {
-      debugger;
+      //debugger;
       cells.forEach(x => {
         if (x.cells.find(x => x === (cell)) && row[x.flag] === x.value) {
           loopFlag = true;
@@ -478,6 +482,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     return applyStyles;
   }
 
+  rowHighlight(row: any) {
+    let rowHighlight = '';
+    if ((parseInt(row.SuccessCount) > 0)) rowHighlight = 'rowFontHighlight1';
+    if ((parseInt(row.SuccessCount) === 0)) rowHighlight = 'rowFontHighlight2';
+    return rowHighlight;
+  }
+
   ngOnDestroy() {
 
     this.onDestroy.next();
@@ -486,29 +497,60 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   copyToClipboard() {
     let data = "";
     this.selection.selected.forEach((row: any, index) => {
-      if (index === 0)
-      {       
-         let copyHeader = Object.keys(row)       
-          copyHeader.forEach((val: string) => {
-            if(this.ColumnDetails.find(e => e.headerValue === val))
+      if (index === 0) {
+        let copyHeader = Object.keys(row)
+        copyHeader.forEach((val: string) => {
+          if (this.ColumnDetails.find(e => e.headerValue === val))
             data += this.ColumnDetails.find(e => e.headerValue === val)?.header + ','
-            else
+          else
             data += val + ',';
-          });  
-          data = data.replace(/[,]+/g, '\t') + "\n";  
-      } 
+        });
+        data = data.replace(/[,]+/g, '\t') + "\n";
+      }
       let result = Object.values(row);
       data += result.toString().replace(/[,]+/g, '\t') + "\n";
-    });   
+    });
     return data;
   }
 
-  RequestExport2Excel()
-  {
-    this.requestExport2Excel.emit([]);
+  RequestExport2Excel() {
+    debugger;
+    // let selectedColumns: string[] = this.select.value;
+    // let viewIndex = selectedColumns.findIndex(x => x.toUpperCase() === 'VIEW')
+    // if (viewIndex != -1) { selectedColumns.splice(viewIndex, 1) }
+    // let excelHeaderParams = Object.create({
+    //   "ColumnMapping":
+    //     []
+    // })
+    // console.log(excelHeaderParams, 'params')
+    // selectedColumns.forEach((x: string) => {
+    //   let val = this.ColumnDetails.find(e => e.headerValue === x)
+    //   if (val) {
+    //     excelHeaderParams.ColumnMapping.push([[val.headerValue, val.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
+    //   }
+    // })
+
+    let ColumnMapping : any  = []
+    this.gridFilter.forEach(x => {
+      if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
+        ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
+    });
+
+    const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px', disableClose: true, data: {
+        message: 'Do you want to Export this Report?'
+      }
+    });
+    exportConfirm.afterClosed().subscribe(confirm => {
+      this.isExportDisable = true;
+      if (confirm) {
+        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{"isExporttoExcel" :"Y"},{'ColumnMapping' : ColumnMapping }]);
+        this.service.queryDetails(request).subscribe(x => x);
+      }
+    });
+
+    //console.log(this.ColumnDetails, selectedColumns)
+    //this.requestExport2Excel.emit(excelHeaderParams);
   }
-
-
- 
 }
 

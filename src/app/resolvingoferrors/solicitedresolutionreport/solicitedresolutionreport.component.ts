@@ -14,6 +14,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 // const ELEMENT_DATA: any = [
 //   {
@@ -103,7 +104,7 @@ const FilterListItems: Select[] = [
   { view: 'Transaction ID', viewValue: 'TransactionID', default: true },
   { view: 'ChangeCUPID', viewValue: 'ChangeCUPID', default: true },
   { view: 'Transaction Date', viewValue: 'TransactionDate', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: true },
@@ -138,6 +139,9 @@ export class SolicitedresolutionreportComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
   selectedRowsCount: number = 0;
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   
   selectedTab!: number;
   public tabs: Tab[] = [];
@@ -151,7 +155,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-  currentPage: string = '1';
+  // currentPage: string = '1';
   updateDetails!: any;
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
@@ -426,7 +430,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
     { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Date', headerValue: 'TransactionDate', showDefault: true, isImage: false },
     { header: 'Last ResType', headerValue: 'LastResType', showDefault: true, isImage: false },
@@ -453,9 +457,10 @@ export class SolicitedresolutionreportComponent implements OnInit {
   ];
 
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -463,16 +468,25 @@ export class SolicitedresolutionreportComponent implements OnInit {
     debugger;
     if (!this.myForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('Summary', 'SolicitedResolutionReport', this.prepareQueryParams(this.currentPage));
-    // console.log(JSON.stringify(request));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('Summary', 'SolicitedResolutionReport', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
           // datasource: ELEMENT_DATA,
           // totalrecordcount: 1,
           // totalpages: 1,
@@ -490,6 +504,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }

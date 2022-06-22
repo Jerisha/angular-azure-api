@@ -1,8 +1,7 @@
 import { Injectable, Type } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, observable, Observable, Observer } from 'rxjs';
+import { BehaviorSubject, Observable, Observer } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from '../_models';
+import { User } from '../model/user';
 import { HttpVerbs, HttpWrapperService, WebMethods } from 'src/app/_http';
 import { Auth } from 'src/app/_http/common/auth';
 
@@ -26,29 +25,36 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(username: string, password: string) {
-        const now = new Date();
-        //return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIQUERY, Auth.preparePyLogin(username,password));
-        // return this.http.post<any>(`${environment.apiUrlAdmin}/authenticate`, Auth.preparePyLogin(username,password))     
-        // .pipe(map(user => {
-        //         const item = {
-        //             value: user,
-        //             expiry: now.getTime() + 5000
-        //         }
-        //         sessionStorage.setItem('currentUser', JSON.stringify(item));
-        //         this.currentUserSubject.next(user);
-
-        // if (user) {
-        //     this.isloggedIn = true;
-        // } else {
-        //     this.isloggedIn = false;`
-        // }
-        //     }));
-        return true
+    public get getUserToken(): string | null {
+        //get loggedInUser from session
+        //console.log("token"+sessionStorage.getItem('token'))
+        let token = sessionStorage.getItem('token')
+        return token;        
     }
-    isUserLoggedIn(): boolean {
+
+    public get isUserLoggedIn(): boolean {
         return this.isloggedIn;
     }
+
+    login(username: string, password: string) {
+        const now = new Date();
+         return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIQUERY, Auth.preparePyLogin(username, password))
+            .pipe(map((x: any) => {
+                let user = x.Data.UserDetails[0];
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                sessionStorage.setItem('token', user.token);
+                
+                this.currentUserSubject.next((user as User));
+
+                if (user) {
+                    this.isloggedIn = true;
+                } else {
+                    this.isloggedIn = false;
+                }
+            }));
+    }
+
+    
     getRedirectUrl(): string | undefined {
         return this.redirectUrl;
     }
@@ -58,14 +64,17 @@ export class AuthenticationService {
     getLoginUrl(): string {
         return this.loginUrl;
     }
-    getLoggedInUser(): any | null {
-        //get loggedInUser from session
-        return sessionStorage.getItem('currentUser');        
-    }
+    // getLoggedInUser(): any | null {
+    //     //get loggedInUser from session
+    //     //return sessionStorage.getItem('currentUser');
+    //     return this.currentUser.pipe((x)=>x);
+    // }
+    
     logoutUser(): void {
         this.isloggedIn = false;
         // remove user from session storage to log user out
         sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('token');
         sessionStorage.clear();
         this.currentUserSubject.next(null!);
     }

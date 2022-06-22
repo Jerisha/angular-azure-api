@@ -15,6 +15,10 @@ import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_hel
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { formatDate } from '@angular/common';
 import { map } from 'rxjs/operators';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { UserProfile } from 'src/app/_auth/user-profile';
 
 const ELEMENT_DATA: solicitedactionreport[] = [
   {
@@ -71,7 +75,7 @@ const FilterListItems: Select[] = [
   { view: 'TransactionID', viewValue: 'TransactionID', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: true },
   { view: 'ResolutionType', viewValue: 'ResolutionTypeAudit', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'TransactionCommand', viewValue: 'TransactionCommand', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
@@ -83,18 +87,27 @@ const FilterListItems: Select[] = [
   templateUrl: './solicitedactionreport.component.html',
   styleUrls: ['./solicitedactionreport.component.css']
 })
-export class SolicitedactionreportComponent implements OnInit {
+export class SolicitedactionreportComponent extends UserProfile implements OnInit {
   queryResult$: any;
   thisForm: any;
   isSaveDisable: boolean | undefined;
   Refer: string | undefined;
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
     private telnoPipe: TelNoPipe,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+      super(auth, actRoute);
+      this.intializeUser();
+     }
 
   myForm!: FormGroup;
   public tabs: Tab[] = [];
@@ -105,7 +118,7 @@ export class SolicitedactionreportComponent implements OnInit {
   repIdentifier = "SolicitedActionReport";
   filterItems: Select[] = FilterListItems;
   configDetails!: any;
-  currentPage: string = '1';
+  // currentPage: string = '1';
   resetExp: boolean = false;
   expressions: any = [expNumeric, expString, expDate,expDropdown];
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -140,7 +153,7 @@ export class SolicitedactionreportComponent implements OnInit {
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'TransactionCommand', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
 
@@ -195,20 +208,36 @@ export class SolicitedactionreportComponent implements OnInit {
     })
   }
 
+  getNextSetRecords(pageEvent: any) {
+    debugger;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
+    this.onFormSubmit(true);
+  }
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.myForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('Summary', 'SolicitedActionReport', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('Summary', 'SolicitedActionReport', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
           // datasource: ELEMENT_DATA,
           // totalrecordcount: 1,
           // totalpages: 1,
@@ -227,6 +256,7 @@ export class SolicitedactionreportComponent implements OnInit {
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
     }
 

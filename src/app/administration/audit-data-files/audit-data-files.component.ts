@@ -1,9 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { Utils } from 'src/app/_http';
 import { AdministrationService } from '../services/administration.service';
 
@@ -20,7 +24,7 @@ import { AdministrationService } from '../services/administration.service';
     ]),
   ],
 })
-export class AuditDataFilesComponent{
+export class AuditDataFilesComponent  extends UserProfile {
   isShow: boolean = false;
   showMenu: string = 'expanded';
   btAuditFileDetailsTable!: TableItem;
@@ -36,10 +40,19 @@ export class AuditDataFilesComponent{
   ]
   
   selectedTab: number = 0;
-  currentPage: string = '1';
+  // currentPage: string = '1';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   queryResult$!: Observable<any>;
 
-  constructor(private service: AdministrationService ) { }
+  constructor(private service: AdministrationService,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute ) 
+    {
+      super(auth, actRoute);
+      this.intializeUser();
+     }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -88,6 +101,7 @@ export class AuditDataFilesComponent{
             data: this.queryResult$,
           Columns: this.btAuditFileDetailsTableDetails,
           selectCheckbox: true,
+          excelQuery : this.prepareQueryParams(this.currentPage.toString()),
           imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 2 }]
         }
     }
@@ -100,9 +114,11 @@ export class AuditDataFilesComponent{
 
   }
 
-  getNextSetRecords(pageIndex: any, tabType: number) {
+  getNextSetRecords(pageEvent: any, tabType: number) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
+    // this.queryFetch(true);
     // console.log("Tab Type : " +tabType);
     tabType ? this.getFileDetails('LiveSwitchData', true) : this.getFileDetails('BTAuditFileDetails', true);
   }
@@ -117,8 +133,14 @@ export class AuditDataFilesComponent{
     queryFetch(fileType: string, isEmitted?: boolean)
     {
       debugger;
-      this.currentPage = isEmitted ? this.currentPage : '1';
-      let request = Utils.preparePyQuery( fileType, 'AuditDataFiles', this.prepareQueryParams(this.currentPage));
+      // this.currentPage = isEmitted ? this.currentPage : '1';
+      this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+      this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+      this.isRemoveCache = isEmitted ? 0 : 1;
+      var reqParams = [{ "Pagenumber": this.currentPage },
+      { "RecordsperPage": this.pageSize },
+      { "IsRemoveCache": this.isRemoveCache }];
+      let request = Utils.preparePyQuery( fileType, 'AuditDataFiles', this.prepareQueryParams(this.currentPage.toString()), reqParams);
       console.log("py request : " + JSON.stringify(request));
       this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
         // console.log("Response data : " + JSON.stringify(res.data.BTAuditFiles));
@@ -127,16 +149,22 @@ export class AuditDataFilesComponent{
           if(fileType == 'BTAuditFileDetails'){
            result = {
             datasource: res.data.BTAuditFiles,
-            totalrecordcount: res.TotalCount,
-            totalpages: res.NumberOfPages,
-            pagenumber: res.PageNumber
+            params: res.params
+
+            // totalrecordcount: res.TotalCount,
+            // totalpages: res.NumberOfPages,
+            // pagenumber: res.PageNumber,
+            // pagecount: res.Recordsperpage   
+
           }; //result
           } else {
             result = {
               datasource: res.data.LiveSwitchData,
-              totalrecordcount: res.TotalCount,
-              totalpages: res.NumberOfPages,
-              pagenumber: res.PageNumber
+              params: res.params
+              // totalrecordcount: res.TotalCount,
+              // totalpages: res.NumberOfPages,
+              // pagenumber: res.PageNumber,
+              // pagecount: res.Recordsperpage 
             }; //result
           }// else
           return result;

@@ -7,6 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuditdiscrepancyHeaderData } from 'src/app/_data/audit-discrepancy-header-data';
 import { Utils } from 'src/app/_http/index';
 import { IAuditActId } from '../models/audit-discrepancy-report/IAttributes';
@@ -18,7 +20,7 @@ import { AuditReportsService } from '../services/audit-reports.service';
   styleUrls: ['./auditdiscrepancyreport.component.css']
 })
 
-export class AuditdiscrepancyreportComponent implements OnInit {
+export class AuditdiscrepancyreportComponent extends UserProfile implements OnInit {
 
   auditDiscrepancyForm!: FormGroup;
   auditType: string = '';
@@ -54,10 +56,14 @@ data = new AuditdiscrepancyHeaderData();
   queryResult!: Observable<any>;
   QueryParams: any;
 
-  constructor( private formBuilder: FormBuilder, private service:AuditReportsService) {
+  constructor( private formBuilder: FormBuilder, private service:AuditReportsService, private auth: AuthenticationService,
+    private actRoute: ActivatedRoute) {
 
+      super(auth, actRoute);
+      this.intializeUser();  
     this.createForm();
     this.datamenu=this.data.headers;
+   
 
     this.ColumnDetails = [
       { Headers: 'Act ID', DataHeaders: 'ACTID', rowspan: "2", colspan: "1" },
@@ -175,7 +181,8 @@ prepareQueryParams()
 
 
   onReset(){
-  this.auditType = '';
+  // this.auditType = '';
+  this.auditDiscrepancyForm.reset();
   }
 
 }

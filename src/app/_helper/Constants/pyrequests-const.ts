@@ -68,7 +68,8 @@ export const PyRequests = {
     QUERY: {
         "RequestType": "QUERY",
         "UserParams": ["UserID", "RoleID"],
-        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        //"RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        "RequestParams": ["Uniqueappreference", "ScreenIdentifer", "ReportIdentifer"],
         "wmRequest": {
             "QueryObjectRequest": {
                 "QueryObjectRequestType": {
@@ -312,28 +313,25 @@ export const PyRequests = {
         }
         ,
         "Cache": ["ApplicationKey", "SessionID"]
-    }
-    ,
-    PAFQUERY:{
-        "RequestType" : "PAFQUERY",
-    "UserParams":[
-      {"ReportIdentifier" : "PAFDbQuery"},
-      {"ScreenIdentifier" : "Transactions"}],
-    "AddressParams": [	{"Address1" : ""},
-      {"Address2" : ""},
-      {"Address3" : ""},
-      {"Address4" : ""},
-      {"Postcode" : ""}
-      ],
-    
-    "Cache":["ApplicationKey","SessionID"]
-    }
-    
-    ,
-    METADATA:{
-    "RequestType": "MetaData",
-    "UserParams": ["UserID", "RoleID"],       
-    "MetaDataRequest": {
+    },
+    PAFQUERY: {
+        "RequestType": "PAFQUERY",
+        "UserParams": [
+            { "ReportIdentifier": "PAFDbQuery" },
+            { "ScreenIdentifier": "Transactions" }],
+        "AddressParams": [{ "Address1": "" },
+        { "Address2": "" },
+        { "Address3": "" },
+        { "Address4": "" },
+        { "Postcode": "" }
+        ],
+
+        "Cache": ["ApplicationKey", "SessionID"]
+    },
+    METADATA: {
+        "RequestType": "MetaData",
+        "UserParams": ["UserID", "RoleID"],
+        "MetaDataRequest": {
             "MetaDataRequestType": {
                 "RequestIdentifiers": {
                     "Identifier": [
@@ -383,12 +381,119 @@ export const PyRequests = {
     },
     AUTHENTICATE: {
         "RequestType": "UIQUERY",
-        "UserParams": [
-            { "UserID": "" },
-            { "Password": "" },]
+        "UserID": "BEEMA",
+        "Password": ""
+    },
+    EXPQUERY: {
+        "RequestType": "QUERY",
+        "UserParams": ["PODDARS5", "RoleID"],
+        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer",
+            { "isExporttoExcel": "Y" },
+            {
+                "ColumnMapping":
+                    [
+                        { "TelephoneNumber": "Tel.No." },
+                        { "TransactionId": "Trans ID" },
+                        { "999Reference": "999 Reference" },
+                        { "LatestCommentDate": "Latest Comment Date" },
+                        { "LatestUserComments": "Latest User Comments" },
+                        { "ResolutionType": "Resolution Type" },
+                        { "Source": "Source" },
+                        { "CreatedOn": "Created On" },
+                        { "ErrorList": "Error List" },
+                        { "Command": "Command" },
+                        { "LastDate": "Request End" },
+                        { "IsLive": "Current Live Record" }
+                    ]
+            }],
+        "wmRequest": {
+            "QueryObjectRequest": {
+                "QueryObjectRequestType": {
+                    "RequestIdentifiers": {
+                        "Identifier": [{
+                            "Name": "UserId",
+                            "Value": ["Sample"]
+                        }, {
+                            "Name": "Destination",
+                            "Value": ["OSN2"]
+                        }]
+                    },
+                    "ListofQueryObjectCategory": {
+                        "QueryObjectCategory": [{
+                            "ItemName": "TelephoneNumberError",
+                            "ListofIdentifiers": {
+                                "Identifier": [{
+                                    "Name": "ReportIdentifier",
+                                    "Value": ["SolicitedErrors"]
+                                }]
+                            },
+                            "ListofQueryObjectCharacteristics": {
+                                "QueryObjectCharacteristics": [{
+                                    "ItemName": "QueryParameters",
+                                    "ListofIdentifiers": {
+                                        "Identifier": [{
+                                            "Name": "StartTelephoneNumber",
+                                            "Value": ["02071117402"]
+                                        }, {
+                                            "Name": "EndTelephoneNumber",
+                                            "Value": ["02071117402"]
+                                        }, {
+                                            "Name": "Command",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "Source",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "FromDate",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "ToDate",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "ResolutionType",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "ErrorType",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "ErrorCode",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "OrderRefeerence",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "999Reference",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "PageNumber",
+                                            "Value": ["1"]
+                                        }]
+                                    }
+                                }]
+                            }
+                        }]
+                    }
+                }
+            }
+        }
         ,
         "Cache": ["ApplicationKey", "SessionID"]
-    }
+    },
+    EXPSUMMARY:{ "RequestType" : "UIQUERY",
+    "UserParams":[
+        {"UserID" : "PODDARS5"},
+        {"RoleID" : "" },
+        {"ScreenIdentifier" : "ExporttoExcelReport"},
+        {"ReportIdentifier" : [""]}
+        ] 
+    ,
+    "Cache":["ApplicationKey","SessionID"]
+    },
+    DOWNLOADFILE:{
+        "RequestType": "QUERY",
+        "UserParams": ["BEEMA", "RoleID"],
+        "FilePath": "/opt/SP/rpiadmin/workspace/osn2/excel/TelephoneRangeReports_BEEMA_20220613_101009.xlsx"
+      }
 }
 
 

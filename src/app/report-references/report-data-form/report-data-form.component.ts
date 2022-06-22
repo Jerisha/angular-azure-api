@@ -30,6 +30,8 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   @Output() submitBtnClicked =new EventEmitter<[boolean[], any]>();
   updatedBy:string ="";
   updatedOn:string ="";
+  companyDropdown: any = [''];
+  firstDropdownVal: string = '' ;
 
 
 
@@ -80,6 +82,9 @@ ngOnChanges(changes: SimpleChanges) {
     {      
         let control = this.referenceForm.get(field);    
         control?.setValue(this.record[field]);
+
+        // set company dropdown based on Olo selected for Franchise report
+      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo'], this.record['Company']);  
     }
     this.updatedBy = this.record['UpdatedBy'] != undefined ?'UpdatedBy:'+ this.record['UpdatedBy']:''
     this.updatedOn = this.record['UpdatedOn'] != undefined?'UpdatedOn:'+this.record['UpdatedOn']:''
@@ -99,8 +104,12 @@ for (var field of this.lstForm) {
    ]);
  }  
  else if (field.cType == 'text' && field.cMandate==true) {
+   if(['ID','NcID','ResolveId','StatusId','XrefID' , 'OloCompanyFranchise'].includes(field.cName))
+   {
+    field.cValue = field.cValue ===null ||field.cValue === undefined ||field.cValue ===''?'0':field.cValue
+   }
   group[field.cName] = new FormControl(field.cValue || '', [Validators.required,Validators.maxLength(field.cMaxLength)]);
-} 
+}
  else if (field.cType == 'select' && field.cMandate==true) {
    group[field.cName] = new FormControl(
      field.cValue || '',
@@ -113,6 +122,10 @@ for (var field of this.lstForm) {
       
     );
  } else if (field.cType == 'radio'  && field.cMandate==false) {
+  if(['SendBT','Allowed'].includes(field.cName))
+  {
+   field.cValue = field.cValue ===null ||field.cValue === undefined ||field.cValue ===''?'Y':field.cValue
+  }
    group[field.cName] = new FormControl(false, null);
  } 
  else if (field.cType == 'radio' && field.cMandate==true) {
@@ -134,6 +147,27 @@ return  new FormGroup(group);
 
 public fieldError=(controlName: string, errorName: string) =>{
     return this.referenceForm.controls[controlName].hasError(errorName);
+}
+
+public setReadOnlyField(cIsKey:boolean,cReadOnly:boolean){
+  switch(this.eventName){
+    case 'Update':
+      {
+        return  cIsKey == true || cReadOnly ==true
+      }
+      break;
+    case 'Create':
+      {
+        return  cReadOnly ==true
+      }
+      break;
+      default:
+        {
+          return true;
+        }
+  }
+  
+
 }
 
 ngAfterViewInit() 
@@ -158,11 +192,22 @@ onEditRecord(record:any,event:Event){
     }
     
     this.referenceForm.markAsUntouched();
-    
+
 }
 onDropDownChange(event:any){
 // alert('dp:'+event.value)
-// console.log('dp:',event)
+let Olo = event.value;
+this.setCompanyDropdownValue(Olo);
+}
+
+setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
+  if(OloValue != null) {
+  const index = this.lstForm[2].cList.findIndex((x: any) => {
+    return x.displayValue === OloValue;
+  });
+  this.companyDropdown =  this.lstForm[2].cList[index].companyDropdown;
+  this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0];
+}
 }
 
 onSubmit(){

@@ -18,7 +18,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
-import { Custom } from 'src/app/_helper/Validators/Custom';
+ import { Custom } from 'src/app/_helper/Validators/Custom';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+
+
 
 const ELEMENT_DATA: any = [
   {
@@ -126,7 +132,7 @@ const ELEMENT_DATA: any = [
 const FilterListItems: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
@@ -141,7 +147,7 @@ const FilterListItems: Select[] = [
   templateUrl: './restoresolicitederrors.component.html',
   styleUrls: ['./restoresolicitederrors.component.css']
 })
-export class RestoresolicitederrorsComponent implements OnInit {
+export class RestoresolicitederrorsComponent extends UserProfile implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
@@ -149,7 +155,14 @@ export class RestoresolicitederrorsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) 
+    { 
+      super(auth, actRoute);
+      this.intializeUser();
+    }
  
     myTable!: TableItem;
     selectedGridRows: any[] = [];
@@ -177,7 +190,10 @@ export class RestoresolicitederrorsComponent implements OnInit {
     configResult$!: Observable<any>;
     updateResult$!: Observable<any>;
     configDetails!: any;
-    currentPage: string = '1';
+    // currentPage: string = '1';
+    currentPage: number = DefaultPageNumber;
+    pageSize: number = DefaultPageSize;
+    isRemoveCache: number = DefaultIsRemoveCache;
     updateDetails!: any;
   ngOnInit(): void {
  
@@ -304,7 +320,7 @@ export class RestoresolicitederrorsComponent implements OnInit {
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
@@ -317,9 +333,10 @@ export class RestoresolicitederrorsComponent implements OnInit {
   ];
 
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -340,15 +357,24 @@ export class RestoresolicitederrorsComponent implements OnInit {
       return;
     }
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('TelephoneNumberError', 'RestoreSolicitedErrors', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'RestoreSolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log(JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.SolicitedError,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage     
         }
         return result;
       } else return {
@@ -363,6 +389,7 @@ export class RestoresolicitederrorsComponent implements OnInit {
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }

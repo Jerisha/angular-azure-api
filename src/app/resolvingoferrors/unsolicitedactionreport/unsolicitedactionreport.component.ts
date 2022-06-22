@@ -17,6 +17,7 @@ import { ResolvingOfErrorsService } from '../services/resolving-of-errors.servic
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { expNumeric, expString, expDate,expDropdown,select } from 'src/app/_helper';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 
 
@@ -85,7 +86,7 @@ const FilterListItems: Select[] = [
   { view: 'Transaction Reference', viewValue: 'TransactionReference', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: true },
   { view: 'ResolutionType', viewValue: 'ResolutionTypeAudit', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'Trans Command', viewValue: 'TransactionCommand', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
@@ -110,6 +111,9 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   selectedGridRows: any[] = [];
   selectedRowsCount: number = 0;
@@ -132,7 +136,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   queryResultInfo$!: Observable<any>;
 
   selected: string = '';
-  currentPage: string = '1';
+  // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
 
@@ -317,7 +321,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
   ];
@@ -326,15 +330,25 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     debugger;
     if (!this.myForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('Summary', 'UnsolicitedActionReport', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('Summary', 'UnsolicitedActionReport', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
           // datasource: ELEMENT_DATA,
           // totalrecordcount: 1,
           // totalpages: 1,
@@ -353,6 +367,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
     }
 
@@ -506,9 +521,10 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
     //console.log('page number in parent',pageIndex)
   }

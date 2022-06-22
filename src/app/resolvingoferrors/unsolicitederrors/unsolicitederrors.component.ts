@@ -19,6 +19,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { Custom } from 'src/app/_helper/Validators/Custom';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 const ELEMENT_DATA_InformationTable1: InformationTable1[] = [
@@ -140,7 +144,7 @@ const FilterListItems: Select[] = [
   styleUrls: ['./unsolicitederrors.component.css'],
   //providers: [TelNoPipe]
 })
-export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class UnsolicitederrorsComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   myTable!: TableItem;
   informationTable1!: TableItem;
@@ -151,6 +155,9 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   selectedGridRows: any[] = [];
   selectedRowsCount: number = 0;
@@ -173,14 +180,20 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
   queryResultInfo$!: Observable<any>;
 
   selected: string = '';
-  currentPage: string = '1';
+  // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private alertService: AlertService,
-    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog: MatDialog) { }
+    private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog: MatDialog,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) { 
+      super(auth, actRoute);
+      this.intializeUser();
+    }
 
   ngOnInit(): void {
 
@@ -194,19 +207,19 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       this.configDetails = res.data;
 
     });
-
+    
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res.data;
     });
-
-
+  
   }
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
     //console.log('page number in parent',pageIndex)
   }
@@ -241,6 +254,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
 
   ngAfterViewChecked() {
+    this.isEnable()
     this.cdr.detectChanges();
   }
 
@@ -265,7 +279,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     else
       UpdateParams.push({ Name: '999Reference' });
 
-    console.log(UpdateParams);
+    // console.log(UpdateParams);
 
     return UpdateParams;
   }
@@ -293,7 +307,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
           { Name: 'TelephoneNumberStart', Value: [""] }
         );
     }
-     else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
+    else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
 
       if (startTelephoneNumber?.value)
         identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
@@ -372,15 +386,17 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
 
   isEnable() {
     debugger
-    if ((this.f.StartTelephoneNumber?.value?.length >= 10 && 
+    if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
       this.f.EndTelephoneNumber?.value?.length >= 10 &&
-      this.f.Source.value === "" && this.f.ErrorType.value === "" && this.f.Final.value === "")
+      this.f.Source.value === "" 
+      && this.f.ErrorType.value === "" 
+      && this.f.Final.value === "")
       || (this.selectedGridRows.length > 0)) {
-      this.isSaveDisable = false;      
+      this.isSaveDisable = false;
     }
-    else    
-     { this.isSaveDisable = true;
-     }
+    else {
+      this.isSaveDisable = true;
+    }
     //console.log('isSaveDisable',this.isSaveDisable)
   }
 
@@ -407,11 +423,11 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record count(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
           });
-          this.isSaveDisable = true;
+          //this.isSaveDisable = true;
         }
 
       });
@@ -465,7 +481,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
     { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
-    
+
   ];
 
   onFormSubmit(isEmitted?: boolean): void {
@@ -476,8 +492,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
     if (errMsg) {
 
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
-        width: '400px',
-        // height:'250px',
+        width: '400px',        // height:'250px',
         disableClose: true,
         data: {
           enableOk: false,
@@ -490,17 +505,30 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       return;
     }
     this.tabs.splice(0);
-    this.Resolution =  this.Remarks = this.Refer = ''
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage));
-      // console.log("Unsol-Req: ",JSON.stringify(request))  
+    //reset value to empty
+    this.Resolution = this.Remarks = this.Refer = ''
+    // reset selectedrows
+    this.selectedGridRows = [];
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'UnsolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
+    // console.log("Unsol-Req: ",JSON.stringify(request))  
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.UnsolicitedError,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       }
@@ -515,7 +543,8 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      setCellAttributes:[ { flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted:true }],
+      setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -551,7 +580,7 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
         this.selectedGridRows.splice(index, 1)
       }
     })
-
+    this.isEnable();
     // console.log("selectedGridRows" + this.selectedGridRows)
   }
   removeTab(index: number) {
@@ -586,15 +615,15 @@ export class UnsolicitederrorsComponent implements OnInit, AfterViewInit, AfterV
           this.tabs.push({
             tabType: 2,
             // name: 'Transaction Errors'
-            name: 'Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')' 
+            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
-          let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
+          let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')'; 
+          this.tabs[tabIndex].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
         }
-        
+
         break;
       }
       default: {

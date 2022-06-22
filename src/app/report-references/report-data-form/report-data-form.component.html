@@ -2,7 +2,7 @@
   <div class="vf-flex-container">
     <mat-card class="vf-card mat-elevation-z5">
       <ng-container>
-        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()"autocomplete="off">
           <mat-card-subtitle class="vf-card-title">{{reportName}}</mat-card-subtitle>
           <mat-card-content>
             <div class="content-main vf-flex-container-col">
@@ -13,9 +13,10 @@
                     <mat-label>{{formData.cDisplayName}}</mat-label>
                     <input type="{{formData.cType}}" matInput name="{{formData.cName}}"
                       [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
-                      [maxLength]="formData.cMaxLength"
-                      [readonly]="this.eventName ==='Update' && (formData.cIsKey == true || formData.cReadOnly ==true)?  true: false "
+                      [maxLength]="formData.cMaxLength"                                           
+                      [readonly]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)"
                       placeholder="{{formData.cDisplayName}}">
+                       <!-- [readonly]="this.eventName ==='Update' && (formData.cIsKey == true || formData.cReadOnly ==true)?  true: false " -->
                       <!-- <mat-hint style="text-align:end">Max length {{formData.cMaxLength }} characters.</mat-hint> -->
                       <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
                       <mat-error *ngIf="fieldError(formData.cName, 'maxlength')"> Max length {{formData.cMaxLength }}Limit exceed</mat-error>
@@ -23,15 +24,51 @@
                 </div>
                 <div *ngSwitchCase="formData.cType === 'select'"
                   style="width:201px;height:50px;display:flex;align-items: center;">
+                  <ng-container *ngIf="!(reportName === 'Franchise')">
+
+                    <!-- <mat-form-field>
+                      <mat-label>{{formData.cDisplayName}}</mat-label>
+                      <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" (selectionChange)="onDropDownChange($event)">
+                        <mat-option *ngFor="let opt of formData.cList" [value]="opt.displayValue">
+                          {{opt.displayValue}}</mat-option>
+                      </mat-select>               
+                      <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
+                    </mat-form-field> -->
+
                   <mat-form-field>
                     <mat-label>{{formData.cDisplayName}}</mat-label>
-                    <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" (select)="onDropDownChange($event)">
-                      <!-- <mat-option [value]=''></mat-option> -->
-                      <mat-option *ngFor="let opt of formData.cList" [value]="opt.displayValue">
+                      <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue">
+                      <mat-option *ngFor="let opt of formData.cList" [value]="opt.internalValue">
                         {{opt.displayValue}}</mat-option>
-                    </mat-select>                    
+                    </mat-select>               
                     <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
                   </mat-form-field>
+                </ng-container>
+
+                  <ng-container *ngIf="reportName === 'Franchise'">
+                    <div *ngIf="!(formData.cName === 'Company')">
+                    <mat-form-field>
+                      <mat-label>{{formData.cDisplayName}}</mat-label>
+                      <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" (selectionChange)="onDropDownChange($event)">
+                        <mat-option *ngFor="let opt of formData.cList" [value]="opt.internalValue">
+                          {{opt.displayValue}}</mat-option>
+                      </mat-select>               
+                      <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
+                    </mat-form-field>
+                    </div>
+
+                    <div *ngIf="formData.cName === 'Company'">
+                    <mat-form-field>
+                      <mat-label>{{formData.cDisplayName}}</mat-label>
+                    <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="firstDropdownVal">
+                        <mat-option *ngFor="let opt of companyDropdown" [value]="opt">
+                          {{opt}}</mat-option>
+                    </mat-select>   
+                    <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
+                  </mat-form-field>
+                </div>
+                  </ng-container>
+
                 </div>
                 <div *ngSwitchCase="formData.cType === 'radio'"
                   style="width:201px;height:50px;display:flex;align-items: center;">

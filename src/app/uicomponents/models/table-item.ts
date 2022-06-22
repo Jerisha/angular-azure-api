@@ -9,7 +9,9 @@ export interface TableItem {
     showEmail?:boolean;
     removeNoDataColumns?:boolean;
     highlightedCells?:string[];
-    setCellAttributes?:CellAttributes[];    
+    setCellAttributes?:CellAttributes[];
+    isCustomFooter?: boolean;
+    excelQuery?:any;
 }
 export interface ViewColumn {
     headerValue: string;
@@ -27,6 +29,7 @@ export interface ColumnDetails {
     isTotal?:boolean;
     //isFlag?:boolean;
     imgDesc?:boolean;
+    isFooter?: boolean;
 }
 
 export interface CellAttributes{
@@ -38,5 +41,15 @@ export interface CellAttributes{
     isBackgroundHighlighted?:boolean;
    // isFlag?:boolean;
 
+}
+
+export interface PaginationAttributes{
+    currentPage:number;
+    pageSize:number;
+}
+
+export interface FooterDetails{
+    footerName: string;
+    footerValue: string;
 }
 

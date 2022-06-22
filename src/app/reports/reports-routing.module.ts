@@ -5,10 +5,10 @@ import { TelephoneRangeReportComponent } from './telephone-range-report/telephon
 import { LiverecordsComponent } from './liverecords/liverecords.component'; 
 const routes: Routes = [
   
-  {path: 'providereport', component:ProvidereportComponent},
-  {path: 'telephonerangereport', component:TelephoneRangeReportComponent},
-  {path:'transactiondetailsreport',component:TransactionDetailsComponent},
-  {path: 'liverecords', component:LiverecordsComponent},
+  {path: 'providereport', component:ProvidereportComponent, data: { id: 'MENU22' }},
+  {path: 'telephonerangereport', component:TelephoneRangeReportComponent,data: { id: 'MENU23' }},
+  {path:'transactiondetailsreport',component:TransactionDetailsComponent,data: { id: 'MENU21' }},
+  {path: 'liverecords', component:LiverecordsComponent,data: { id: 'MENU20' }}
 ];
 
 @NgModule({

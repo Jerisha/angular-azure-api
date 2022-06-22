@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { first } from 'rxjs/operators';
-import { AuthenticationService } from './_services/authentication.service';
+import { AuthenticationService } from '../_auth/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -26,12 +26,12 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService,
+    private authService: AuthenticationService,
 
 
   ) {
     //   // redirect to home if already logged in
-    //   if (this.authenticationService.currentUserValue) { 
+    //   if (this.authService.currentUserValue) { 
     //     this.router.navigate(['/']);
     // }
   }
@@ -58,16 +58,25 @@ export class LoginComponent implements OnInit {
     // if (this.loginForm.invalid) {            
     //     return alert("Invalid Login Credentials",);
     // }
-
+    debugger;
     this.loading = true;
-    // if(this.authenticationService.login(this.f.username.value, this.f.password.value))
-    // {
-    // this.router.navigate([this.returnUrl]);
-    this.router.navigate(['/home']);
-    //this.loginState.emit(true)
+    this.authService.login('BEEMA', this.f.password.value).subscribe((x: any) => {
+      if (this.authService.isUserLoggedIn) {
+        this.router.navigate(['/home']);
+      }
+    },
+      error => {
+        console.log("login error" + error)
+        this.loading = false;
+      }
+    )
 
+    //if (this.authService.isUserLoggedIn()) {
+    // this.router.navigate([this.returnUrl]);
+    // this.loginState.emit(true)
     //alert( "Welcome back "+this.f.username.value);
-    // }
+    //}
+
 
     // .pipe(first())
     // .subscribe(

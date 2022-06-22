@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { TransactionsourcecommandhistoryComponent, TransactionsourcecommandsummaryComponent } from './index';
 
 const routes: Routes = [
-  {path: 'transactionsourcecommandsummary', component:TransactionsourcecommandsummaryComponent},
-  {path: 'transactionsourcecommandhistory', component:TransactionsourcecommandhistoryComponent}
+  {path: 'transactionsourcecommandsummary', component:TransactionsourcecommandsummaryComponent, data: { id: '' } },
+  {path: 'transactionsourcecommandhistory', component:TransactionsourcecommandhistoryComponent, data: { id: 'MENU24' }}
 ];
 
 @NgModule({

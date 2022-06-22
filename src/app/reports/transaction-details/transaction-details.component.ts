@@ -15,6 +15,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 let FilterListItems: Select[] = [  
 { view: 'Telephone', viewValue: 'StartTelephoneNumber', default: true },
@@ -36,7 +40,7 @@ let FilterListItems: Select[] = [
   templateUrl: './transaction-details.component.html',
   styleUrls: ['./transaction-details.component.css']
 })
-export class TransactionDetailsComponent implements OnInit {
+export class TransactionDetailsComponent extends UserProfile implements OnInit {
   
   
   
@@ -45,7 +49,14 @@ export class TransactionDetailsComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private service: ReportService,
     private cdr: ChangeDetectorRef,
-    private spinner: NgxSpinnerService,private telnoPipe: TelNoPipe) { }
+    private spinner: NgxSpinnerService,
+    private telnoPipe: TelNoPipe,
+    private auth: AuthenticationService,
+        private actRoute: ActivatedRoute)
+        {
+          super(auth, actRoute);
+          this.intializeUser();
+         }
   
   myTable!: TableItem;
   dataSaved = false;
@@ -64,15 +75,19 @@ export class TransactionDetailsComponent implements OnInit {
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
+  model: any = { TypeOfLine: "" };
 
   repIdentifier = "TransactionDetails";
-  currentPage: string = '1';
+  // currentPage: string = '1';
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   querytemp:any;
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
 
   columns: ColumnDetails[] = [    
@@ -272,23 +287,33 @@ prepareQueryParams(pageNo: string): any {
 
   }
   
-  getNextSetRecords(pageIndex: any) {   
-    this.currentPage = pageIndex;
+  getNextSetRecords(pageEvent: any) {   
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
   onFormSubmit(isEmitted?: boolean): void {    
     if(!this.thisForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage.toString()),reqParams);
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TransactionDetails,
-          totalrecordcount: res.TotalCount,
-            totalpages: res.NumberOfPages,
-            pagenumber: res.PageNumber         
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          //   totalpages: res.NumberOfPages,
+          //   pagenumber: res.PageNumber,
+          //   pagecount: res.Recordsperpage         
         }
         return result;
       } else return {datasource:res};;
@@ -298,6 +323,7 @@ prepareQueryParams(pageNo: string): any {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
 
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
@@ -327,6 +353,7 @@ prepareQueryParams(pageNo: string): any {
    
     window.location.reload();
     this.resetExp=!this.resetExp;
+    this.model = { TypeOfLine: ""};
   }
 
   setControlAttribute(matSelect: MatSelect) {

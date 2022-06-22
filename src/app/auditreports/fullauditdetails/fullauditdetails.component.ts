@@ -15,10 +15,13 @@ import { Utils } from 'src/app/_http';
 import { map } from 'rxjs/operators';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component'
 import { Custom } from 'src/app/_helper/Validators/Custom';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -29,7 +32,7 @@ const Items: Select[] = [
   { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
   { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
   { view: 'Porting Status', viewValue: 'PortingStatus', default: true },
   { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: true },
@@ -49,7 +52,7 @@ const Items: Select[] = [
   styleUrls: ['./fullauditdetails.component.css']
 })
 
-export class FullauditdetailsComponent implements OnInit, AfterViewInit {
+export class FullauditdetailsComponent extends UserProfile implements OnInit, AfterViewInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   @ViewChild('inputctrl') icRemarks!: ElementRef;
   @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
@@ -81,11 +84,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   disableProcess: boolean = true;
   disableSave: boolean = true;
   configDetails!: any;
-  currentPage: string = '1';
+  //currentPage: string = '1';
   auditTelNo: any;
   repIdentifier = "FullAuditDetails";
   autoCorrectionRange: string = '';
   defaultACTID: string = '';
+
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   queryResult$!: Observable<any>;
   monthlyRefreshQueryResult$!: Observable<any>;
@@ -285,7 +292,11 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
   constructor(private service: AuditReportsService, private dialog: MatDialog,
     private formBuilder: FormBuilder, private cdr: ChangeDetectorRef,
     private router: Router, private telnoPipe: TelNoPipe,
-    private alertService: AlertService) {
+    private alertService: AlertService, private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+      super(auth, actRoute);
+      this.intializeUser();
   }
 
   setAttributesForManualCorrections() {
@@ -401,8 +412,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  getNextSetRecords(pageIndex: any) {
-    this.currentPage = pageIndex;
+  // getNextSetRecords(pageIndex: any) {
+  //   this.currentPage = pageIndex;
+  //   this.onFormSubmit(true);
+  // }
+
+  getNextSetRecords(pageEvent: any) {
+    debugger;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -412,6 +430,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       this.form.StartTelephoneNumber.reset();
     }
   }
+
 
   onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);
@@ -446,17 +465,27 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     //   return;
     // }
 
+
     this.getPnlControlAttributes();
     this.setAttributesForManualCorrections();
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage));
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    //this.currentPage = isEmitted ? this.currentPage : '1';
+    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -471,6 +500,7 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
       showEmail: false,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
@@ -1063,13 +1093,15 @@ export class FullauditdetailsComponent implements OnInit, AfterViewInit {
     ];
 
     let request = Utils.preparePyQuery('MoriCircuitDetails', 'FullAuditDetails', attributes);
+    console.log('mori', JSON.stringify(request))
     this.moriCircuitStatusQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Circuits,
           totalrecordcount: res.data.Circuits.length,
           totalpages: 1,
-          pagenumber: 1
+          pagenumber: 1,
+          pagecount: 50
         }
         return result;
       } else {

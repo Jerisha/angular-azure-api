@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { FullAuditDetails, SeparateInternalAuditDetails } from '../models/separateinternalauditdetails';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Utils } from 'src/app/_http/index';
 import { AuditReportsService } from '../services/audit-reports.service';
 import { map } from 'rxjs/operators';
@@ -17,6 +17,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 
 const FullAudit_Data: FullAuditDetails [] = [
   {
@@ -141,7 +144,7 @@ const FilterListItems: Select[] = [
   templateUrl: './separateinternalauditdetails.component.html',
   styleUrls: ['./separateinternalauditdetails.component.css']
 })
-export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class SeparateinternalauditdetailsComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChild('StartTelephoneNumber') icstartNo!: ElementRef;
   @ViewChild('inputctrl') icRemarks!: ElementRef;
   myTable!: TableItem;
@@ -154,6 +157,9 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   selectedGridRows: any[] = [];
   selectedRowsCount: number = 0;
@@ -180,7 +186,7 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   queryResultInfo$!: Observable<any>;
   resolutionType: string = '';
   selected: string = '';
-  currentPage: string = '1';
+  // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
   defaultACTID: string = '';
@@ -192,7 +198,12 @@ export class SeparateinternalauditdetailsComponent implements OnInit, AfterViewI
   fullauditattributes: any = [];
   constructor(private formBuilder: FormBuilder, private dialog: MatDialog,private telnoPipe: TelNoPipe,
    
-    private cdr: ChangeDetectorRef, public router: Router, private service:AuditReportsService, private alertService: AlertService) { }
+    private cdr: ChangeDetectorRef, public router: Router, private service:AuditReportsService, private alertService: AlertService,private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) {
+      super(auth, actRoute);
+      this.intializeUser();
+     }
     correctionTypes: ApplyAttributes[] = [
       {
         name: 'Manual Correction',
@@ -413,13 +424,13 @@ else{
   {
     debugger
     var isEmitted!:boolean;
-    this.currentPage = '1';
-    this.fullauditattributes=this.prepareQueryParamsfullAudit(this.currentPage,TelephoneNumber)
+    this.currentPage = 1;
+    this.fullauditattributes=this.prepareQueryParamsfullAudit(this.currentPage.toString(),TelephoneNumber)
     // let requestAudit = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.prepareQueryParamsfullAudit(this.currentPage));
     // console.log('full audit query request',JSON.stringify(requestAudit));
     // this.queryResultfullAudit$ = this.service.queryDetails(requestAudit).pipe(map((res: any) => {
     //     console.log('query response',JSON.stringify(res));
-    // }));
+    // }));()
 
 
     // this.fullAuditTable = {
@@ -502,7 +513,7 @@ else{
 
     for (const field in this.form) {
      // if (field != 'AuditActID'&&field != 'StartTelephoneNumber')
-     if (field != 'StartTelephoneNumber') {
+     if (field != 'StartTelephoneNumber' && field!='AuditActID') {
       const control = this.thisForm.get(field);
 
       if (control?.value)
@@ -530,7 +541,7 @@ else{
     { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode', 'SourcePostcode'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true } 
-  ];
+   ];
 
   onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);
@@ -556,17 +567,26 @@ else{
 
 
 
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('SeparateInternalAuditDetails', 'SeparateInternalAuditDetails', this.prepareQueryParams(this.currentPage));
-    console.log('query request',JSON.stringify(request));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('SeparateInternalAuditDetails', 'SeparateInternalAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('query request',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         console.log('query response',JSON.stringify(res));
         let result = {
           datasource: res.data.SeparateInternalAuditDetails,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -581,6 +601,7 @@ else{
       showEmail: false,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',toolTipText: 'View Audit Details', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '',toolTipText: 'View User Comments', tabIndex: 2 },
       { headerValue: 'View', icon: 'description', route: '',toolTipText: 'View Full Audit Details', tabIndex: 3 }]
@@ -846,9 +867,10 @@ else{
   }
  
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
     //console.log('page number in parent',pageIndex)
   }
