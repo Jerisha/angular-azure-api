@@ -45,13 +45,10 @@ font-size: smaller;  ">
   <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
       {{selection.selected.length}}</b></span>
 
-      <div class="profile">
+      <div class="profile" *ngIf="showFavCols">
       <mat-form-field style="height:15px;">
         <mat-label>Profiles</mat-label>
-        <mat-select   (selectionChange)="someMethod($event.value)">  
-          <!-- <mat-option value="None">None</mat-option>   
-          <mat-option value="Profile 1">user1@_defualt profile</mat-option>     
-          <mat-option value="Profile 2">user1@_defualt profile2</mat-option>     -->
+        <mat-select   (selectionChange)="getFavCols($event.value)"> 
           <mat-option *ngFor="let val of option" [value]="val">
             {{val}}
           </mat-option>

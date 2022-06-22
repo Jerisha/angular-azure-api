@@ -6,7 +6,7 @@ import {
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CellAttributes, ColumnDetails, FooterDetails, PaginationAttributes, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, FooterDetails, PaginationAttributes, ProfileDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, of, Subject } from 'rxjs';
@@ -91,9 +91,11 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   pageProp: PaginationAttributes = { currentPage: 0, pageSize: 0 };
   footerDetails!: FooterDetails;
 
-  opt:any =[{ name:'user1@_defualt profile', favCols:['Select','TelephoneNumber','View','Command']},
-  { name:'user1@_defualt profile2', favCols:['Select','TelephoneNumber','Command']}
- ]
+  opt: ProfileDetails[] = [
+    { name: 'user1@_defualt profile', favCols: ["TelephoneNumber"] },
+    { name: 'user1@_defualt profile2', favCols: ["TelephoneNumber", "View", "Command", "Source", "999Reference"] }
+  ]
+
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
@@ -115,25 +117,16 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.refreshtab.emit({ event });
   }
 
-  option:any;
+  option: any = [];
 
-  someMethod(val:any){
-    //alert('value'+  val )
-    debugger;
-    
-   // let selectedColumns: string[] = this.select.value;
-    let selectedColumns: string[] = this.opt.filter((x:any)=>x.name===val).map((x:any)=>x.favCols);
-    alert('datacols'+ this.dataColumns)
-    this.dataColumns =  selectedColumns;   
-    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
-  }
+
 
 
 
   ngOnChanges(changes: SimpleChanges) {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
-    //   return;   
-    this.option =this.opt.map((x:any)=>x.name) 
+    //   return;  
+    this.option = this.opt.map(x => x.name)
 
     this.initializeTableAttributes();
     this.disablePaginator = this.tableitem?.disablePaginator ? true : false;
@@ -191,6 +184,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
 
+  showFavCols: boolean = false;
+
   initializeTableAttributes() {
     this.selection.clear();
     this.allSelected = true;
@@ -203,6 +198,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
     this.showCustomFooter = this.tableitem?.isCustomFooter;
+    this.showFavCols = this.tableitem?.isFavcols ? this.tableitem?.isFavcols : false;
     if (this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
@@ -369,15 +365,43 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   // }
 
+  getFavCols(val: any) {
+    this.dataColumns = [];
+    let newStatus = true;
+    let selectedColumns = this.opt?.find(x => x.name === val)?.favCols;
+    selectedColumns = this.ColumnDetails.filter(x => selectedColumns?.includes(x.headerValue)).map(x => x.headerValue)
+    selectedColumns = selectedColumns ? selectedColumns : []
 
+    //updating column headers attributes
+    this.gridFilter.forEach((x: any) => {
+      if (selectedColumns?.includes(x.headerValue) && x.headerValue != 'Select') {
+        x.showDefault = true;
+      }
+      else {
+        x.showDefault = false;
+      }
+    });
 
+    //deselecting all options and select only the fav columns
+    this.select.options.forEach((item: MatOption, index) => { if (index != 0) item.deselect() });
+    this.select.options.forEach((item: MatOption) => {
+      if (selectedColumns?.includes(item.value)) {
+        newStatus = false;
+        item.select();
+      }
+    });
+    this.allSelected = newStatus;
+    this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
+    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+  }
 
   filterGridColumns(event: any) {
+    debugger;
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     event.close();
-    console.log('datacols',this.dataColumns)
+    console.log('datacols', this.dataColumns)
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
     //   this.tableitem?.coulmnHeaders : undefined;filter
@@ -555,7 +579,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     //   }
     // })
 
-    let ColumnMapping : any  = []
+    let ColumnMapping: any = []
     this.gridFilter.forEach(x => {
       if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
         ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
@@ -569,7 +593,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     exportConfirm.afterClosed().subscribe(confirm => {
       this.isExportDisable = true;
       if (confirm) {
-        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{"IsExporttoExcel" :"Y"},{'ColumnMapping' : ColumnMapping }]);
+        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{ "IsExporttoExcel": "Y" }, { 'ColumnMapping': ColumnMapping }]);
         this.service.queryDetails(request).subscribe(x => x);
       }
     });
