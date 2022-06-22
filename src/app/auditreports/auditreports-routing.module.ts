@@ -7,14 +7,14 @@ import { SeparateinternalauditdetailsComponent } from './separateinternalauditde
 const routes: Routes = [
   {
     path: 'auditdiscrepancyreport',
-    component: AuditdiscrepancyreportComponent, data: { id: 'MENU02'}    
+    component: AuditdiscrepancyreportComponent, data: { id: 'MENU11'}    
   },
-  { path: 'auditexcelreport', component: AuditexcelreportsComponent, },
-  { path: 'fullauditdetails', component: FullauditdetailsComponent, data: { id: 'MENU01' } },
-  { path: 'externalauditdetails', component: ExternalAuditDetailsComponent,  data: { id: 'MENU03'}  },
-  { path: 'fullaudithistory', component: FullAuditHistoryComponent, data: { id: 'MENU04'} },
-  { path: 'audituseractionsummary', component: AuditUserActionSummaryComponent,  data: { id: 'MENU05'} },
-  { path: 'separateinternalauditdetails', component: SeparateinternalauditdetailsComponent,  data: { id: 'MENU06'} }
+  { path: 'auditexcelreport', component: AuditexcelreportsComponent, data: { id: ''} },
+  { path: 'fullauditdetails', component: FullauditdetailsComponent, data: { id: 'MENU10' } },
+  { path: 'externalauditdetails', component: ExternalAuditDetailsComponent,  data: { id: 'MENU06'}  },
+  { path: 'fullaudithistory', component: FullAuditHistoryComponent, data: { id: 'MENU07'} },
+  { path: 'audituseractionsummary', component: AuditUserActionSummaryComponent,  data: { id: 'MENU09'} },
+  { path: 'separateinternalauditdetails', component: SeparateinternalauditdetailsComponent,  data: { id: 'MENU08'} }
 ];
 
 @NgModule({
