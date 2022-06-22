@@ -1989,13 +1989,13 @@ const ELEMENT_DATA = [
   
 ]
 const UserOfReports = [{
-  UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" }
+  UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" }
 
 
 ]
@@ -2088,14 +2088,47 @@ export class ManageUsersComponent implements OnInit {
   UserProfilesForm:boolean=false;
   UserEditProfilesForm:boolean=false;
   isLeftPanel =false;
+
   datauserreports:any=UserOfReports;
-  userreportscolums:any=['UserId','EmailAddress','MenuGroup','ReportName'];
+  userreportscolums:any=[
+    { header:'User Name', headerValue:'UserId' },
+    { header:'Email Address', headerValue:'EmailAddress' },
+    { header:'Sources', headerValue:'Sources' },
+    { header:'Menu Group', headerValue:'MenuGroup' },
+    { header:'Report Name', headerValue:'ReportName' }
+  ];
+  userreportscolumsvalues:any = this.userreportscolums.map((x: any) => x.headerValue);
   data0:any =  ELEMENT_DATA;
-  displayedColumns0:any =['Actions','UserName','Profile','Active','EmailAddress','Country','TelephoneNo','Y/W/ID','CreatedOn','CreatedBy'];
+  displayedColumns0:any =[
+    { header: 'Actions', headerValue: 'Actions' },
+    { header: 'User Name', headerValue: 'UserName' },
+    { header: 'Profile', headerValue: 'Profile' },
+    { header: 'Active', headerValue: 'Active' },
+    { header: 'Email Address', headerValue: 'EmailAddress' },
+    { header: 'Telephone No', headerValue: 'TelephoneNo' },
+    { header: 'Y/W/ID', headerValue: 'Y/W/ID' },
+    { header: 'Created On', headerValue: 'CreatedOn' },
+    { header: 'Created By', headerValue: 'CreatedBy' }
+  ];
+  displayedColumns0values:any = this.displayedColumns0.map((x: any) => x.headerValue);
   startupusermsgs:any=StartUpUserMessages;
-  startupusermsgscols=['Actions','EmailAddress','ShowFrom','ExpiryDate','Message'];
+  startupusermsgscols=[
+    { header: 'Actions', headerValue: 'Actions' },
+    { header: 'Email Address', headerValue: 'EmailAddress' },
+    { header: 'Show From', headerValue: 'ShowFrom' },
+    { header: 'Expiry Date', headerValue: 'ExpiryDate' },
+    { header: 'Description', headerValue: 'Message' }
+  ];
+  startupusermsgscolsvalues:any = this.startupusermsgscols.map((x: any) => x.headerValue);
   userprofilesdata:any=UserProfiles;
-  userprofilescols=["Actions","ProfileName","Description","CreatedOn","CreatedBy"];
+  userprofilescols=[
+    { header: 'Actions', headerValue: 'Actions' },
+    { header: 'Profile Name', headerValue: 'ProfileName' },
+    { header: 'Description', headerValue: 'Description' },
+    { header: 'Created On', headerValue: 'CreatedOn' },
+    { header: 'Created By', headerValue: 'CreatedBy' }
+  ];
+  userprofilescolsvalues:any = this.userprofilescols.map((x: any) => x.headerValue);
   displayedColumns1:any =['Actions','Menu Group','Screen Name','Access Level'];
  
   
@@ -2438,17 +2471,9 @@ console.log('data nodes',this.treeControl.dataNodes);
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
           tabType: 0,
-          name: 'User Access Details'
+          name: 'User Access'
         });
-        this.btAuditFileDetailsTable = {
-          data: of({datasource:ELEMENT_DATA,
-            totalrecordcount: 100,
-            totalpages:1,
-            pagenumber:1}),
-          Columns: this.btAuditFileDetailsTableDetails,
-          selectCheckbox: true,
-          imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]
-        }
+
       }
     }
     else if (fileType === 'UserOfReports'){
@@ -2830,7 +2855,7 @@ onVerifyUserName()
     FirstName: new FormControl(),
     TelephoneNo:new FormControl(),
     EmailAddress: new FormControl(),
-    Country: new FormControl()
+    // Country: new FormControl()
   });
   this.eventName="Create";
 }
@@ -2854,4 +2879,66 @@ onDeleteRecord(record:any,event:any){
   //   console.log(rowdata);
   // }
 
+  onSearchFilter(reportName: any){
+    this.onFilterPredicate();
+    switch(reportName)
+    {
+      case 'UserOfReports':
+        
+
+        let  filteritem = {
+          //UserId : [this.UserId],
+          UserId : [],
+          EmailAddress : [],
+          ReportName : []
+        }
+        console.log(JSON.stringify(filteritem));
+        this.datauserreports.filter = JSON.stringify(filteritem);
+      break;
+    }
+  }
+
+  onFilterPredicate(){
+
+    //UserOfReports
+    this.datauserreports.filterPredicate = (data: any, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isUserId = false;
+      let isEmailAddress = false;
+      let isMenuGroup = false;
+      let isReportName = false;
+
+      if (searchString.UserId.length) {
+        for (const d of searchString.UserId) {
+          if (data.UserId.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isUserId = true;
+          }
+        }
+      }
+      else 
+      isUserId = true;
+
+      if (searchString.EmailAddress.length) {
+        for (const d of searchString.EmailAddress) {
+          if (data.EmailAddress.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isEmailAddress = true;
+          }
+        }
+      }
+      else 
+      isEmailAddress = true;
+
+      if (searchString.ReportName.length) {
+        for (const d of searchString.ReportName) {
+          if (data.ReportName.trim().indexOf(d) != -1) {
+            isReportName = true;
+          }
+        }
+      }
+      else 
+      isReportName = true;
+      return isUserId && isEmailAddress && isReportName
+    }
+
+  }
 }
