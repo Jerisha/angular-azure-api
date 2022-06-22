@@ -67,7 +67,7 @@ export const PyRequests = {
     },
     QUERY: {
         "RequestType": "QUERY",
-        "UserParams": ["UserID", "RoleID"],
+        "UserParams": [{"UserID":'BEEMA'}, {"RoleID":''}],
         //"RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
         "RequestParams": ["Uniqueappreference", "ScreenIdentifer", "ReportIdentifer"],
         "wmRequest": {
