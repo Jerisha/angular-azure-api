@@ -85,6 +85,13 @@ table td, table th {
   display: none;
 }
 
+.profile{
+  margin-top: 2px;
+  margin-left: 20px;
+  margin-bottom:-17px;
+  padding-bottom:23px;
+}
+
 .totalRow {
   /* background-color: #e60000; */
   background-color: #ff9999 !important;

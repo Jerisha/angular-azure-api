@@ -91,6 +91,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   pageProp: PaginationAttributes = { currentPage: 0, pageSize: 0 };
   footerDetails!: FooterDetails;
 
+  opt:any =[{ name:'user1@_defualt profile', favCols:['Select','TelephoneNumber','View','Command']},
+  { name:'user1@_defualt profile2', favCols:['Select','TelephoneNumber','Command']}
+ ]
+
   constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
     private service: UIService,
@@ -111,9 +115,26 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.refreshtab.emit({ event });
   }
 
+  option:any;
+
+  someMethod(val:any){
+    //alert('value'+  val )
+    debugger;
+    
+   // let selectedColumns: string[] = this.select.value;
+    let selectedColumns: string[] = this.opt.filter((x:any)=>x.name===val).map((x:any)=>x.favCols);
+    alert('datacols'+ this.dataColumns)
+    this.dataColumns =  selectedColumns;   
+    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+  }
+
+
+
   ngOnChanges(changes: SimpleChanges) {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
-    //   return;    
+    //   return;   
+    this.option =this.opt.map((x:any)=>x.name) 
+
     this.initializeTableAttributes();
     this.disablePaginator = this.tableitem?.disablePaginator ? true : false;
     this.dataObs$ = this.tableitem?.data;
@@ -348,11 +369,15 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   // }
 
+
+
+
   filterGridColumns(event: any) {
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     event.close();
+    console.log('datacols',this.dataColumns)
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
     //   this.tableitem?.coulmnHeaders : undefined;filter

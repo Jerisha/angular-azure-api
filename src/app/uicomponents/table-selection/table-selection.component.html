@@ -44,6 +44,29 @@ font-size: smaller;  ">
   </mat-form-field>
   <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
       {{selection.selected.length}}</b></span>
+
+      <div class="profile">
+      <mat-form-field style="height:15px;">
+        <mat-label>Profiles</mat-label>
+        <mat-select   (selectionChange)="someMethod($event.value)">  
+          <!-- <mat-option value="None">None</mat-option>   
+          <mat-option value="Profile 1">user1@_defualt profile</mat-option>     
+          <mat-option value="Profile 2">user1@_defualt profile2</mat-option>     -->
+          <mat-option *ngFor="let val of option" [value]="val">
+            {{val}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button type="button" mat-raised-button color="primary" >
+        Add
+      </button>
+      <button type="button" mat-raised-button color="primary" >
+        Delete
+      </button>
+      <button type="button" mat-raised-button color="primary" >
+        Promote
+      </button>
+    </div>
 </div>
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
 
