@@ -13,6 +13,10 @@ import { MatSelect } from '@angular/material/select';
 import { Observable, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { takeUntil } from 'rxjs/operators';
+import { UIService } from '../_services/ui.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Utils } from 'src/app/_http';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -75,13 +79,18 @@ export class TableExpansionComponent implements OnDestroy {
   currentPage = 0;
   apiPageNumber: number = 0;
   pageSizeOptions: number[] = [500];
+  reportIdentifier: string;
+  screenIdentifier: string;
+  excelQueryObj: any;
   isDataloaded: boolean = false;
   gridFilter: ColumnDetails[] = [];
   totalRowCols: string[] = [];
   expandedElement: any;
 
   constructor(private cdr: ChangeDetectorRef,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private service: UIService,
+    private dialog: MatDialog) {
 
   }
 
@@ -101,9 +110,12 @@ export class TableExpansionComponent implements OnDestroy {
         this.allSelected = true;
         this.initializeTableAttributes(res.datasource)
         this.dataSource.data = res.datasource;
-        this.totalRows = (res.totalrecordcount) as number;
-        this.apiPageNumber = (res.pagenumber) as number;
+        this.totalRows = (res?.params?.TotalCount) as number;
+        this.apiPageNumber = (res?.params?.PageNumber) as number;
         this.currentPage = this.apiPageNumber - 1;
+        this.pageSize = (res?.params?.Recordsperpage) as number;
+        this.reportIdentifier = res?.params?.ReportIdentifier;
+        this.screenIdentifier = res?.params?.ScreenIdentifier;
         //this.paginator.pageIndex = this.currentPage;
         this.paginator.length = (res.totalrecordcount) as number;
         this.dataSource.sort = this.sort;
@@ -123,6 +135,9 @@ export class TableExpansionComponent implements OnDestroy {
   initializeTableAttributes(data: any) {
     debugger
     this.ColumnDetails = [];
+    this.selection.clear();
+    this.allSelected = true;
+    this.excelQueryObj = this.tableitem?.excelQuery;
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
     this.backhighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x=>x.isBackgroundHighlighted) : [];
     this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
@@ -328,6 +343,32 @@ export class TableExpansionComponent implements OnDestroy {
       data += result.toString().replace(/[,]+/g, '\t') + "\n";
     });
     return data;
+  }
+
+  exportToExcel() {
+    debugger;
+
+    let ColumnMapping : any  = []
+    this.gridFilter.forEach(x => {
+      if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
+        ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
+    });
+
+    const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px', disableClose: true, data: {
+        message: 'Do you want to Export this Report?'
+      }
+    });
+    exportConfirm.afterClosed().subscribe(confirm => {
+     
+      if (confirm) {
+        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{"isExporttoExcel" :"Y"},{'ColumnMapping' : ColumnMapping }]);
+        this.service.queryDetails(request).subscribe(x => x);
+      }
+    });
+
+    //console.log(this.ColumnDetails, selectedColumns)
+    //this.requestExport2Excel.emit(excelHeaderParams);
   }
   
   pageChanged(event: PageEvent) {

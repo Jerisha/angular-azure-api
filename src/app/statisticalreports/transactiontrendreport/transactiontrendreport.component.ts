@@ -352,9 +352,10 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       if (Object.keys(res)?.length) {
         let result = {
           datasource: res.data.MonthlyData,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber
         }
         return result;
       } else return { datasource: res };
