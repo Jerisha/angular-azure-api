@@ -102,7 +102,7 @@ export class HttpWrapperService {
         });
         return observerRes;
     }
-   
+
 
     private urlExtract(endPoint: WebMethods): string {
         let url = '';
@@ -160,6 +160,7 @@ export class HttpWrapperService {
                         // console.log(JSON.stringify(transData), 'metadat1')
                         break;
                     case WebMethods.UIQUERY:
+                    case WebMethods.UILOGIN:
                         transData = val
                         break;
 

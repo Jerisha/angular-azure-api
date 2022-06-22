@@ -37,6 +37,7 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
+        debugger
         const now = new Date();
          return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UILOGIN, Auth.preparePyLogin(username, password))
             .pipe(map((x: any) => {
