@@ -219,7 +219,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           this.isLoading = false;
           if (this.currentReportName === 'Franchise') {
             this.data = res.data[reportName];
-            this.recordIdentifier = res.RecordIdentifier;
+            this.recordIdentifier = res.params.RecordIdentifier;
             this.reportReferenceService.franchiseDropdowns = [];
             let OloDropDown = res.data['OloDropDown']
             // let CompanyDropDown = res.data['OloCompanyDropDown']
@@ -231,10 +231,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
             this.reportReferenceService.companyDropdown.push(CompanyDropDown);
           } else if (this.currentReportName === 'Olo') {
             this.data = res.data["Olos"];
-            this.recordIdentifier = res.RecordIdentifier;
+            this.recordIdentifier = res.params.RecordIdentifier;
           } else if (this.currentReportName === 'Company') {
             this.data = res.data["Companys"];
-            this.recordIdentifier = res.RecordIdentifier;
+            this.recordIdentifier = res.params.RecordIdentifier;
             this.reportReferenceService.franchiseDropdowns = [];
             debugger
             let OloDropDown = res.data['OloDropDown']
@@ -249,7 +249,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           //}
           else {
             this.data = res.data[reportName];
-            this.recordIdentifier = res.RecordIdentifier;
+            this.recordIdentifier = res.params.RecordIdentifier;
           }
         },
         (error) => {
@@ -273,12 +273,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.editMode = this.currentReportName;
       this.lstFields = this.reportReferenceService.setForm(this.editMode);
       this.eventName = 'Update';
+      this.highlightedRows = element
+     // console.log(this.highlightedRows,'high')
+      // console.log(event,'evetn')
       // this.showDataForm =true; 
       this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
       this.reportReferenceService.showDataForm = this.showDataForm = true;
       let element1 = Object.assign({}, element);
-
-
       this.editRecord = element1;
       let lstRadio = this.lstFields.filter((t: IColoumnDef) => t.cType === 'radio');
       Object.entries(element1).map(
@@ -308,7 +309,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   onDeleteRecord(record: any, event: any) {
-    // alert("Delete starts..."+JSON.stringify(this.record));
+   // alert("Delete starts..."+JSON.stringify(this.record));
     const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
         message: 'Do you confirm remove this record?'
@@ -318,15 +319,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       if (confirm) {
         //console.log(record[this.recordIdentifier], 'Internal Issues')
         let deleteparms = [];
-
         let recordIdentifierValue = this.currentReportName != 'OsnProvideList' ? record[this.recordIdentifier] : record[this.recordIdentifier] + '|' + record['ListName']
-        console.log(recordIdentifierValue, 'recordid')
+       // console.log(recordIdentifierValue, 'recordid')
         if (record[this.recordIdentifier] != undefined) {
           // console.log(record[this.recordIdentifier], record, 'InternalIssues2')
           deleteparms.push({ Name: this.recordIdentifier, Value: [recordIdentifierValue] });
           let request = this.reportReferenceService.prepareDeleteRequest(this.currentReportName, 'ReferenceList', deleteparms);
           this.reportReferenceService.deleteDetails(request).pipe(takeUntil(this.onDestroyDelete)).subscribe(x => {
-            // this.isLoading = false;
+          // this.isLoading = false;
             if (x.StatusMessage === 'Success') {
               this.refreshData();
               this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
@@ -359,11 +359,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   highlightedRows: any
 
-  hightlightedRow(event: any, row: any) {
-    console.log(row, 'highlight')
-    this.highlightedRows = row[this.displayedColumnsValues[1]];
-    console.log(this.highlightedRows, 'row')
-  }
+  // hightlightedRow(event: any, row: any,index: number) {
+  //   console.log(row, 'highlight')
+  //   this.highlightedRows = row[index];
+  //   console.log(this.highlightedRows, 'row')
+  // }
 
   onDataFormSubmit(event: any[]) {
     // debugger
