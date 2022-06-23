@@ -1,7 +1,9 @@
 import { User } from 'src/app/_auth/model/user';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { PyRequests } from 'src/app/_helper/Constants/pyrequests-const';
+// import { PyRequests } from 'src/app/_helper/Constants/pyrequests-const';
 import { WMRequests } from 'src/app/_helper/index'
+import { HttpWrapperService } from '../http-wrapper.service';
 
 export class Utils {
 
@@ -9,18 +11,15 @@ export class Utils {
   // constructor(private auth: AuthenticationService) {    
   // }
 
-  //  userParams:any = [
-  //   {"UserID" : this.auth.currentUserValue.username},
-  //   {"RoleID" : this.auth.currentUserValue.rolename}
-  //   ]
-
+  
   static prepareConfigRequest(action: any, configParams: any): any {
-    
+   
     let transform = JSON.parse(JSON.stringify(WMRequests.CONFIG));
     //assign filter attributes
     transform.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[0].Value = action;
     transform.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = configParams;
     return transform;
+
   }
 
   static prepareQueryRequest(pageIdentifier: string, reportIdentifier: string, queryParams: any): any {
@@ -90,8 +89,9 @@ export class Utils {
   static preparePyQuery(pageIdentifier: string, reportIdentifier: string, queryParams: any, reqParams?: any): any {
     debugger;
     let transform = JSON.parse(JSON.stringify(PyRequests.QUERY));
- 
-    //updating request params with paginator and records perpage
+    //userparams
+    transform.UserParams = user();
+    //updating request params 
     if (reqParams)
       transform.RequestParams = transform.RequestParams.concat(reqParams);
 
@@ -181,4 +181,13 @@ export class Utils {
     transform.FilePath = fullFilePath
     return transform;
   }
+
+}
+
+function user():any{
+ let  user =JSON.parse(sessionStorage.getItem('currentUser') || '{}')
+ return[
+    {"UserID" : user?.username},
+    {"RoleID" : user?.profilename}
+    ]
 }
