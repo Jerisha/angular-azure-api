@@ -144,16 +144,16 @@
 
                             <div class="userprofilerighttable" style="padding:10px;width:50vw">
                             <div style="max-height: 250px;overflow:auto">
-                                <button (click)="checkAll()">Toggle Select All</button>
-                                <button (click)="GetCheckAll()">Get Select All</button>
+                                <button (click)="checkAll()" style="visibility:hidden">Toggle Select All</button>
+                                <button (click)="GetCheckAll()" style="visibility:hidden">Get Select All</button>
                                 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                                   <mat-tree-node
                                     *matTreeNodeDef="let node"
                                     matTreeNodeToggle
-                                    matTreeNodePadding
+                                    matTreeNodePadding [ngClass]="(node.claimId == '0')? 'a':'b'"
                                   >
-                                    <button mat-icon-button disabled></button>
-                                    <mat-checkbox
+                                    <button mat-icon-button disabled></button>{{node.label}}
+                                    <mat-checkbox style="visibility:hidden"
                                       class="checklist-leaf-node"
                                       [checked]="node.isChecked"
                                       (change)="todoLeafItemSelectionToggle(node)"
@@ -181,10 +181,10 @@
                                       <mat-icon class="mat-icon-rtl-mirror">
                                         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                                       </mat-icon>
-                                    </button>
+                                    </button>{{node.label}}
                                     <mat-checkbox
                                      
-                                    [checked]="node.isChecked"
+                                    [checked]="node.isChecked" style="visibility:hidden"
                                       [indeterminate]="descendantsPartiallySelected(node)"
                                       (change)="todoItemSelectionToggle(node)"
                                       >{{node.label}}</mat-checkbox
@@ -315,8 +315,8 @@
         
                                     <div class="userprofilerighttable" style="padding:10px;width:50vw;height:303px">
                                     <div style="max-height: 250px;overflow:auto">
-                                        <button (click)="checkAll()">Toggle Select All</button>
-                                        <button (click)="GetCheckAll()">Get Select All</button>
+                                        <button (click)="checkAll()" style="visibility:hidden">Toggle Select All</button>
+                                        <button (click)="GetCheckAll()" style="visibility:hidden">Get Select All</button>
                                         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                                           <mat-tree-node
                                             *matTreeNodeDef="let node"
@@ -324,7 +324,7 @@
                                             matTreeNodePadding   [ngClass]="(node.claimId == '0')? 'a':'b'" 
                                           >
                                             <button mat-icon-button disabled></button>
-                                            <mat-checkbox 
+                                            <mat-checkbox  
                                               class="checklist-leaf-node"
                                               [checked]="node.isChecked"
                                               (change)="todoLeafItemSelectionToggle(node)"
@@ -353,7 +353,7 @@
                                                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                                               </mat-icon>
                                             </button>
-                                            <mat-checkbox  flex='20'  layout="row"
+                                            <mat-checkbox  flex='20'  layout="row" 
                                             [checked]="node.isChecked"
                                               [indeterminate]="descendantsPartiallySelected(node)"
                                               (change)="todoItemSelectionToggle(node)"
@@ -450,7 +450,7 @@
                                 </div>
                                     <div class ="fixed-button-bar">    
                                         <mat-card-actions>
-                                          <button  *ngIf = "eventName==='Create'"  type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                          <button  *ngIf = "eventName==='Create'"  (click)=onreturnform()   type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
                                             <mat-icon >save</mat-icon>Go to
                                           </button>
                                           <button  *ngIf = "eventName==='Update'" (click)=onreturnform()  type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >

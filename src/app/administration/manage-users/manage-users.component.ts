@@ -1003,7 +1003,14 @@ const TREE_DATA_two = [
 
 const TREE_DATA_three = [
   {
-    name: 'Process Management Test',
+    name: 'All',
+    id:111,
+    isChecked:true, 
+     isPlanType: true,
+     claimId:11111,
+    children:[
+  {
+    name: 'Process Management',
     id:111,
     isChecked:true, 
      isPlanType: true,
@@ -1022,6 +1029,7 @@ const TREE_DATA_three = [
             isChecked: false,
             isPlanType: true,
             claimId: 0,
+            isAvailable:true
           },
           {
             name: 'D',
@@ -1029,6 +1037,7 @@ const TREE_DATA_three = [
             isChecked: true,
             isPlanType: true,
             claimId: 0,
+            isAvailable:true
           },
           {
             name: 'C',
@@ -1036,6 +1045,7 @@ const TREE_DATA_three = [
             isChecked: true,
             isPlanType: true,
             claimId: 0,
+            isAvailable:true
           },
           {
             name: 'R',
@@ -1906,7 +1916,8 @@ const TREE_DATA_three = [
           ]
         }]
       
-  },
+  }]
+}
   
 ];
 
@@ -2516,6 +2527,7 @@ console.log('data nodes',this.treeControl.dataNodes);
   }
   onEditUserprofile(record:any,event:Event)
   {
+    this.initialize();
     //this.database.buildFileTree(TREE_DATA_two,0);
     this.isShow = true;
     this.showMenu = 'collapsed';
