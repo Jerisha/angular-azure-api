@@ -101,6 +101,7 @@ export class ExporttoexcelComponent implements OnInit {
   }
   refresh(){    
     let request = Utils.preparePyExportSummary();
+    //console.log('export2excel',JSON.stringify(request))
     this.service.queryDetails(request).subscribe(x => {     
        //console.log(x,'res')
       if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode ==='EUI000') {

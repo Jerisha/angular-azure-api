@@ -545,7 +545,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       this.isExportDisable = true;
       if (confirm) {
         let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{"isExporttoExcel" :"Y"},{'ColumnMapping' : ColumnMapping }]);
-        this.service.queryDetails(request).subscribe(x => x);
+        //console.log('Export2ExcelRequest',request)
+        this.service.queryDetails(request).subscribe((x:any) => {
+         // console.log("Export2ExcelResponse",x)
+          x});
       }
     });
 

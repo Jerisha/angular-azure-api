@@ -481,7 +481,7 @@ export const PyRequests = {
     },
     EXPSUMMARY:{ "RequestType" : "UIQUERY",
     "UserParams":[
-        {"UserID" : "PODDARS5"},
+        {"UserID" : "BEEMA"},
         {"RoleID" : "" },
         {"ScreenIdentifier" : "ExporttoExcelReport"},
         {"ReportIdentifier" : [""]}
@@ -491,7 +491,11 @@ export const PyRequests = {
     },
     DOWNLOADFILE:{
         "RequestType": "QUERY",
-        "UserParams": ["BEEMA", "RoleID"],
+        // "UserParams": ["BEEMA", "RoleID"],
+        "UserParams": [
+            {"UserID" : "BEEMA"},
+            {"RoleID" :"Super Admin"}
+            ],
         "FilePath": "/opt/SP/rpiadmin/workspace/osn2/excel/TelephoneRangeReports_BEEMA_20220613_101009.xlsx"
       }
 }
