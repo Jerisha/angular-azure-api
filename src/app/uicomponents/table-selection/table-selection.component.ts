@@ -548,9 +548,17 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.service.queryDetails(request).subscribe(x => {
           //update msg
           const excelDetail = this.dialog.open(ConfirmDialogComponent, {
-            width: '1000px', disableClose: true, data: {
-              message: `Add your content here use break for adding new line? <br/>
-                ${JSON.stringify(x.data.ExportData)}`
+            width: '680px', disableClose: true, data: {
+              // message: `Add your content here use break for adding new line? <br/>
+              message:
+              `Please Note the following:<br/>
+                1. Excel spreadsheets can take some time to produce and there may be delay of up to 15 minutes.<br/>
+                2. The background processing is performed in order of user requests.<br/>
+                3. The file name will be<strong> ${x.data.ExportData[0].FileName}</strong> .<br/>
+                4.The progress can be monitored by clicking on excel reports icon towards the right on top corner.<br/>
+                5. When spread sheet is available,clicking on the file name will allow to download to the local disk.<br/>
+                6. The previous week spread sheet will be deleted.<br/>`
+                //  ${JSON.stringify(x.data.ExportData)}`
             }
           });
           excelDetail.afterClosed().subscribe();
