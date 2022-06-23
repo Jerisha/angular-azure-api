@@ -364,16 +364,15 @@ export class TableExpansionComponent implements OnDestroy {
         let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{ "isExporttoExcel": "Y" }, { 'ColumnMapping': ColumnMapping }]);
         this.service.queryDetails(request).subscribe(x => {
           //update msg
-          console.log(x)
-            const excelDetail = this.dialog.open(ConfirmDialogComponent, {
-              width: '400px', disableClose: false, data: {
-                message: `Add your content here use break for adding new line? <br/>
+          const excelDetail = this.dialog.open(ConfirmDialogComponent, {
+            width: '400px', disableClose: false, data: {
+              message: `Add your content here use break for adding new line? <br/>
                 ${x.ResponseParams}`
-              }
-            });
+            }
+          });
 
-            excelDetail.afterClosed().subscribe();
-         
+          excelDetail.afterClosed().subscribe();
+
         });
       }
     });

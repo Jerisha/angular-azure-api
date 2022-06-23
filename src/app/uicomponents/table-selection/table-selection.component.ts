@@ -530,7 +530,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     //   }
     // })
 
-    let ColumnMapping : any  = []
+    let ColumnMapping: any = []
     this.gridFilter.forEach(x => {
       if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
         ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
@@ -544,19 +544,16 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     exportConfirm.afterClosed().subscribe(confirm => {
       this.isExportDisable = true;
       if (confirm) {
-        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{"isExporttoExcel" :"Y"},{'ColumnMapping' : ColumnMapping }]);
+        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{ "isExporttoExcel": "Y" }, { 'ColumnMapping': ColumnMapping }]);
         this.service.queryDetails(request).subscribe(x => {
-
           //update msg
-          console.log(x)
-            const excelDetail = this.dialog.open(ConfirmDialogComponent, {
-              width: '1000px', disableClose: true, data: {
-                message: `Add your content here use break for adding new line? <br/>
+          const excelDetail = this.dialog.open(ConfirmDialogComponent, {
+            width: '1000px', disableClose: true, data: {
+              message: `Add your content here use break for adding new line? <br/>
                 ${JSON.stringify(x.data.ExportData)}`
-              }
-            });
-
-            excelDetail.afterClosed().subscribe();
+            }
+          });
+          excelDetail.afterClosed().subscribe();
         });
       }
     });
