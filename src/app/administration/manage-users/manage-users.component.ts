@@ -1005,15 +1005,14 @@ const TREE_DATA_three = [
   {
     name: 'All',
     id:111,
-    isChecked:true, 
      isPlanType: true,
      claimId:11111,
     children:[
   {
     name: 'Process Management',
-    id:111,
-    isChecked:true, 
+    id:111, 
      isPlanType: true,
+     isChecked: true,
      claimId:11111,
     children: [
       {
@@ -1042,7 +1041,7 @@ const TREE_DATA_three = [
           {
             name: 'C',
             id: 54,
-            isChecked: true,
+            isChecked: false,
             isPlanType: true,
             claimId: 0,
             isAvailable:true
@@ -1458,14 +1457,14 @@ const TREE_DATA_three = [
     {
       name: 'Configurational Reference Data',
       id:66,
-      isChecked:false,
+      isSelected:false,
        isPlanType: true, 
        claimId:33333,
       children: [
         {
           name: 'Reference List',
           id:77,
-          isChecked:false,
+          isSelected:false,
            isPlanType: true,
           claimId:44444444,
           children: [
@@ -2254,24 +2253,7 @@ export class ManageUsersComponent implements OnInit {
   }
 
   GetCheckAll() {
-   // console.log(this.dataSource.data);
-    //if( this.treeFlattener.flattenNodes[0].check) console.log(this.treeControl.dataNodes[i].id);
-console.log('data nodes',this.treeControl.dataNodes);
-    for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
-
-      //if(this.treeControl.dataNodes[i].isChecked) console.log(this.treeControl.dataNodes[i].id);
-
-    // if(this.treeControl.dataNodes[i].isChecked){
-    //   console.log('---------------------------------------------');
-    //     console.log(this.treeControl.dataNodes[i].id,'Checked');
-    //     console.log(this.treeControl.dataNodes[i].claimId);
-
-    // }
-    // else{
-    //   console.log(this.treeControl.dataNodes[i].id,'Not Checked');
-    //   console.log(this.treeControl.dataNodes[i].claimId);
-    // }
-    }
+  console.log(this.treeControl.dataNodes);
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
