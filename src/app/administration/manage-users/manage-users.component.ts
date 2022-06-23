@@ -1,13 +1,17 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {SelectionModel} from '@angular/cdk/collections';
 import { Select } from 'src/app/uicomponents/models/select';
+import { Utils } from 'src/app/_http';
+import { AdministrationService } from '../services/administration.service';
+import { takeUntil } from 'rxjs/operators';
+import { MatTableDataSource } from '@angular/material/table';
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -2099,48 +2103,50 @@ export class ManageUsersComponent implements OnInit {
   UserEditProfilesForm:boolean=false;
   isLeftPanel =false;
 
-  datauserreports:any=UserOfReports;
+  datauserreports:MatTableDataSource<any>;
   userreportscolums:any=[
-    { header:'User Name', headerValue:'UserId' },
-    { header:'Email Address', headerValue:'EmailAddress' },
-    { header:'Sources', headerValue:'Sources' },
-    { header:'Menu Group', headerValue:'MenuGroup' },
-    { header:'Report Name', headerValue:'ReportName' }
+    { header:'User Name', headerValue:'username' },
+    { header:'Email Address', headerValue:'emailaddress' },
+    { header:'Sources', headerValue:'sources' },
+    { header:'Menu Group', headerValue:'menugroup' },
+    { header:'Report Name', headerValue:'reportname' }
   ];
   userreportscolumsvalues:any = this.userreportscolums.map((x: any) => x.headerValue);
-  data0:any =  ELEMENT_DATA;
+  data0:MatTableDataSource<any>;
   displayedColumns0:any =[
     { header: 'Actions', headerValue: 'Actions' },
-    { header: 'User Name', headerValue: 'UserName' },
-    { header: 'Profile', headerValue: 'Profile' },
-    { header: 'Active', headerValue: 'Active' },
-    { header: 'Email Address', headerValue: 'EmailAddress' },
-    { header: 'Telephone No', headerValue: 'TelephoneNo' },
-    { header: 'Y/W/ID', headerValue: 'Y/W/ID' },
-    { header: 'Created On', headerValue: 'CreatedOn' },
-    { header: 'Created By', headerValue: 'CreatedBy' }
+    { header: 'User Name', headerValue: 'username' },
+    { header: 'Profile Name', headerValue: 'profilename' },
+    { header: 'Active', headerValue: 'active' },
+    { header: 'Email Address', headerValue: 'emailaddress' },
+    { header: 'Telephone No', headerValue: 'telephoneno' },
+    { header: 'Y/W/ID', headerValue: 'yid' },
+    { header: 'Created On', headerValue: 'createddttm' },
+    { header: 'Created By', headerValue: 'createdby' }
   ];
   displayedColumns0values:any = this.displayedColumns0.map((x: any) => x.headerValue);
-  startupusermsgs:any=StartUpUserMessages;
+  startupusermsgs:MatTableDataSource<any>;
   startupusermsgscols=[
     { header: 'Actions', headerValue: 'Actions' },
-    { header: 'Email Address', headerValue: 'EmailAddress' },
-    { header: 'Show From', headerValue: 'ShowFrom' },
-    { header: 'Expiry Date', headerValue: 'ExpiryDate' },
-    { header: 'Description', headerValue: 'Message' }
+    { header: 'News Id', headerValue: 'newsid' },
+    { header: 'Email Address', headerValue: 'emailaddress' },
+    { header: 'Start Date', headerValue: 'startdate' },
+    { header: 'Expiry Date', headerValue: 'expirydate' },
+    { header: 'News Description', headerValue: 'newsdescription' }
   ];
   startupusermsgscolsvalues:any = this.startupusermsgscols.map((x: any) => x.headerValue);
-  userprofilesdata:any=UserProfiles;
+  userprofilesdata:MatTableDataSource<any>;
   userprofilescols=[
     { header: 'Actions', headerValue: 'Actions' },
-    { header: 'Profile Name', headerValue: 'ProfileName' },
-    { header: 'Description', headerValue: 'Description' },
-    { header: 'Created On', headerValue: 'CreatedOn' },
-    { header: 'Created By', headerValue: 'CreatedBy' }
+    { header: 'Profile Name', headerValue: 'profilename' },
+    { header: 'Profile Description', headerValue: 'profiledescription' },
+    { header: 'Created On', headerValue: 'createddttm' },
+    { header: 'Created By', headerValue: 'createdby' }
   ];
   userprofilescolsvalues:any = this.userprofilescols.map((x: any) => x.headerValue);
   displayedColumns1:any =['Actions','Menu Group','Screen Name','Access Level'];
  
+  private readonly onDestroyQuery = new Subject<void>();
   
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
@@ -2223,7 +2229,8 @@ export class ManageUsersComponent implements OnInit {
   }
 
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+    private service : AdministrationService) {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
@@ -2466,8 +2473,17 @@ export class ManageUsersComponent implements OnInit {
           tabType: 0,
           name: 'User Access'
         });
-
+        this.selectedTab = this.tabs.length;
       }
+      else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 0);
+      }
+      let request = Utils.preparePyUIQuery('ManageUsers','UserAccess');
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res:any) => {
+          this.data0 = res.Data;
+        }
+      );
     }
     else if (fileType === 'UserOfReports'){
       if (!this.tabs.find(x => x.tabType == 1)) {
@@ -2475,8 +2491,18 @@ export class ManageUsersComponent implements OnInit {
           tabType: 1,
           name: 'User Of Reports'
         });
-        
+        this.selectedTab = this.tabs.length;
       }
+      else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+      }
+      let request = Utils.preparePyUIQuery('ManageUsers','UserReports');
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res:any) => {
+          this.datauserreports = res.Data;
+        }
+      );
+
     }
     else if (fileType === 'StartUpUserMessages'){
       if (!this.tabs.find(x => x.tabType == 2)) {
@@ -2484,8 +2510,17 @@ export class ManageUsersComponent implements OnInit {
           tabType: 2,
           name: 'News Update'
         });
-        
+        this.selectedTab = this.tabs.length;
       }
+      else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+      }
+      let request = Utils.preparePyUIQuery('ManageUsers','NewsUpdate','NewsId');
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res:any) => {
+          this.startupusermsgs = res.Data;
+        }
+      );
     }
     else if (fileType === 'UserProfiles'){
       if (!this.tabs.find(x => x.tabType == 3)) {
@@ -2493,11 +2528,19 @@ export class ManageUsersComponent implements OnInit {
           tabType: 3,
           name: 'User Profiles'
         });
-        
+        this.selectedTab = this.tabs.length;
       }
+      else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
+      }
+      let request = Utils.preparePyUIQuery('ManageUsers','UserProfile','Profile Name');
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res:any) => {
+          this.userprofilesdata = res.Data;
+        }
+      );
     }
     this.showDetails = true;
-    this.selectedTab = this.tabs.length;
   }
 
   btnClicked() {

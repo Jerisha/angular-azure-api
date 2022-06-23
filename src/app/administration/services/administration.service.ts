@@ -35,4 +35,8 @@ export class AdministrationService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
 
+  uiQueryDetails(request: any): Observable<any> {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIQUERY, request);
+
+  }
   }

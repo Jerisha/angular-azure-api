@@ -181,4 +181,13 @@ export class Utils {
     transform.FilePath = fullFilePath
     return transform;
   }
+  static preparePyUIQuery(reportIdentifier:any, subReportName:any, recordIdentifier?: any): any{
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIQUERY));
+    if (recordIdentifier)
+      transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+    console.log(JSON.stringify(transform))
+    return transform;
+  }
 }
