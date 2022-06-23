@@ -68,7 +68,7 @@ export class TableExpansionComponent implements OnDestroy {
   filteredDataColumns: ColumnDetails[] = [];
   highlightedCells: string[] = [];
   // backhighlightedCells: string[] = [];
-  backhighlightedCells:any;
+  backhighlightedCells: any;
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   shouldTotalRow: boolean = false;
@@ -101,7 +101,7 @@ export class TableExpansionComponent implements OnDestroy {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
     //   return;
     debugger
-    console.log('transaction command data',this.tableitem?.data)
+    console.log('transaction command data', this.tableitem?.data)
     this.dataObs$ = this.tableitem?.data;
     this.spinner.show();
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
@@ -139,7 +139,7 @@ export class TableExpansionComponent implements OnDestroy {
     this.allSelected = true;
     this.excelQueryObj = this.tableitem?.excelQuery;
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
-    this.backhighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x=>x.isBackgroundHighlighted) : [];
+    this.backhighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
     this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
     this.showTotalRow = this.totalRowCols.length > 0;
     this.imgList = this.tableitem?.imgConfig;
@@ -348,7 +348,7 @@ export class TableExpansionComponent implements OnDestroy {
   exportToExcel() {
     debugger;
 
-    let ColumnMapping : any  = []
+    let ColumnMapping: any = []
     this.gridFilter.forEach(x => {
       if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
         ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
@@ -360,17 +360,28 @@ export class TableExpansionComponent implements OnDestroy {
       }
     });
     exportConfirm.afterClosed().subscribe(confirm => {
-     
       if (confirm) {
-        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{"isExporttoExcel" :"Y"},{'ColumnMapping' : ColumnMapping }]);
-        this.service.queryDetails(request).subscribe(x => x);
+        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{ "isExporttoExcel": "Y" }, { 'ColumnMapping': ColumnMapping }]);
+        this.service.queryDetails(request).subscribe(x => {
+          //update msg
+          console.log(x)
+            const excelDetail = this.dialog.open(ConfirmDialogComponent, {
+              width: '400px', disableClose: false, data: {
+                message: `Add your content here use break for adding new line? <br/>
+                ${x.ResponseParams}`
+              }
+            });
+
+            excelDetail.afterClosed().subscribe();
+         
+        });
       }
     });
 
     //console.log(this.ColumnDetails, selectedColumns)
     //this.requestExport2Excel.emit(excelHeaderParams);
   }
-  
+
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;

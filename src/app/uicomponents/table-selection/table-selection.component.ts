@@ -545,7 +545,19 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       this.isExportDisable = true;
       if (confirm) {
         let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{"isExporttoExcel" :"Y"},{'ColumnMapping' : ColumnMapping }]);
-        this.service.queryDetails(request).subscribe(x => x);
+        this.service.queryDetails(request).subscribe(x => {
+
+          //update msg
+          console.log(x)
+            const excelDetail = this.dialog.open(ConfirmDialogComponent, {
+              width: '1000px', disableClose: true, data: {
+                message: `Add your content here use break for adding new line? <br/>
+                ${JSON.stringify(x.data.ExportData)}`
+              }
+            });
+
+            excelDetail.afterClosed().subscribe();
+        });
       }
     });
 
