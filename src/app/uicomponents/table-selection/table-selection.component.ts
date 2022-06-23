@@ -542,6 +542,11 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.onDestroy.next();
   }
+  isFav:boolean=false;
+
+  toggleFav(){
+    this.isFav=!this.isFav;
+  }
 
   copyToClipboard() {
     let data = "";
@@ -578,6 +583,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     //     excelHeaderParams.ColumnMapping.push([[val.headerValue, val.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
     //   }
     // })
+
+    
 
     let ColumnMapping: any = []
     this.gridFilter.forEach(x => {

@@ -92,6 +92,18 @@ table td, table th {
   padding-bottom:23px;
 }
 
+.info
+  {
+    /* display:flex!important; */
+    font-size: xx-large;
+    margin-left:5px;
+    margin-top:5px;
+    /* margin: 5px; */
+    /* margin-right: 14; */
+    float: right;   
+    cursor: pointer;
+    }
+
 .totalRow {
   /* background-color: #e60000; */
   background-color: #ff9999 !important;

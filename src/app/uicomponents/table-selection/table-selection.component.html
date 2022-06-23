@@ -44,25 +44,35 @@ font-size: smaller;  ">
   </mat-form-field>
   <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
       {{selection.selected.length}}</b></span>
-
-      <div class="profile" *ngIf="showFavCols">
-      <mat-form-field style="height:15px;">
-        <mat-label>Profiles</mat-label>
-        <mat-select   (selectionChange)="getFavCols($event.value)"> 
-          <mat-option *ngFor="let val of option" [value]="val">
-            {{val}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button type="button" mat-raised-button color="primary" >
-        Add
-      </button>
-      <button type="button" mat-raised-button color="primary" >
-        Delete
-      </button>
-      <button type="button" mat-raised-button color="primary" >
-        Promote
-      </button>
+      <ng-container *ngIf="showFavCols" style="margin-top:50px">
+        <div appearance="standard" class="colfilter" style="margin-left: 8px; margin-top:5px">
+          <mat-form-field>
+            <!-- <mat-label>Profiles</mat-label> -->
+            <mat-select placeholder="User Profiles" (selectionChange)="getFavCols($event.value)">
+              <!-- <mat-option >Slect</mat-option> -->
+              <mat-option *ngFor="let val of option" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div style="margin-bottom: 10px;margin-top: 10px;">
+          <button type="button" mat-raised-button color="primary">
+            Add
+          </button>
+          <button type="button" mat-raised-button color="primary">
+            Delete
+          </button>
+          <button type="button" mat-raised-button color="primary">
+            Promote
+          </button>
+        </div>
+      </ng-container>
+      <div>
+      <!-- <button class="info" mat-icon-button>
+      <mat-icon>star</mat-icon> -->
+      <mat-icon *ngIf="!isFav" class="info" (click)="toggleFav()" matTooltip="Add to Favorite ">star_border</mat-icon>
+      <mat-icon *ngIf="isFav" class="info" (click)="toggleFav()" matTooltip="Remove from Favorite ">star</mat-icon>
     </div>
 </div>
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
