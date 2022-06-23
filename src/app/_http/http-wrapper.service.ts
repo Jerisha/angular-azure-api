@@ -86,12 +86,11 @@ export class HttpWrapperService {
         }
     }
 
-    processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, responseType = ResponseType.JSON,headers?: HttpHeaders, params?: HttpParams, ):
+    processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, responseType = ResponseType.JSON, headers?: HttpHeaders, params?: HttpParams,):
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                endPoint === WebMethods.UIQUERY ? environment.api_auth :
-                    `${environment.api_py_dev}${endPoint.toString()}`,
+                this.urlExtract(endPoint),
                 JSON.stringify(body),
                 responseType,
                 headers,
@@ -103,12 +102,22 @@ export class HttpWrapperService {
         });
         return observerRes;
     }
-    // processPyBlobRequest(httpVerb: HttpVerbs, endPoint: WebMethods, body: any): Observable<any> {
-    //     return this.http(httpVerb.toString(),
-    //         `${environment.api_py_dev}${endPoint.toString()}`,
-    //         JSON.stringify(body),
-    //         ResponseType.BLOB);
-    // }
+
+
+    private urlExtract(endPoint: WebMethods): string {
+        let url = '';
+        switch (endPoint) {
+            case WebMethods.UIQUERY:
+            case WebMethods.UILOGIN:
+                url = `${environment.api_auth}${endPoint.toString()}`
+                break;
+            default:
+                url = `${environment.api_py_sit}${endPoint.toString()}`
+        }
+        return url;
+        // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
+        //     `${environment.api_py_sit}${endPoint.toString()}`;
+    }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
         debugger;
@@ -151,6 +160,7 @@ export class HttpWrapperService {
                         // console.log(JSON.stringify(transData), 'metadat1')
                         break;
                     case WebMethods.UIQUERY:
+                    case WebMethods.UILOGIN:
                         transData = val
                         break;
 
@@ -389,3 +399,5 @@ export class HttpWrapperService {
         }
     }
 }
+
+
