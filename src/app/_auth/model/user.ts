@@ -17,7 +17,7 @@
     lastlogin: string;
     logintime: string;
     token: string;
-    rolename: string;
+    profilename: string;
     menuitems: any[];
     favourites: any[];
     messagedescription: string;
