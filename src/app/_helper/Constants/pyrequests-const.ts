@@ -493,7 +493,16 @@ export const PyRequests = {
         "RequestType": "QUERY",
         "UserParams": ["BEEMA", "RoleID"],
         "FilePath": "/opt/SP/rpiadmin/workspace/osn2/excel/TelephoneRangeReports_BEEMA_20220613_101009.xlsx"
-      }
+      },
+    UIQUERY:{ "RequestType" : "UIQUERY",
+      "UserParams":[
+          {"UserID" : "PODDARS5",
+          "Destination" : "OSN2"}
+      ],
+      "RequestParams":[
+          {"ReportIdenitifer":"ManageUsers",
+          "SubReportName":"UserReports"}]
+      } 
 }
 
 
