@@ -287,8 +287,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
           let chkRadio = lstRadio.filter((y: IColoumnDef) => y.cName === x[0]).length > 0
 
-          if ((chkRadio) && (x[1] === 'Y' || x[1] === '0')) { element1[x[0]] = true }
-          else if ((chkRadio) && (x[1] === 'N' || x[1] === '1')) { element1[x[0]] = false }
+          if ((chkRadio) && (x[1] === 'Y' || x[1] === '1')) { element1[x[0]] = true }
+          else if ((chkRadio) && (x[1] === 'N' || x[1] === '0')) { element1[x[0]] = false }
           //console.log('element val', x)
 
           //   else if (x[1] === null) { element1[x[0]] = ('') 
@@ -555,7 +555,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         //  {    delete row.Comments  } 
          
           let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'])
+            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
             {
               Reflect.deleteProperty(row,i)
             }
