@@ -524,6 +524,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   viewAddressCheck(event: any) {
     //console.log('Address called');
     this.AddressCheckSelected.emit(["true", this.transactionItem.customerAddress.address1, this.transactionItem.customerAddress.address2, this.transactionItem.customerAddress.address3, this.transactionItem.customerAddress.address4, this.transactionItem.customerAddress.postcode]) // need to check
+  console.log(["true", this.transactionItem.customerAddress.address1, this.transactionItem.customerAddress.address2, this.transactionItem.customerAddress.address3, this.transactionItem.customerAddress.address4, this.transactionItem.customerAddress.postcode]);
     event.preventDefault();
   }
   sysEditText(val: string) {

@@ -1,170 +1,2015 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {SelectionModel} from '@angular/cdk/collections';
+import { Select } from 'src/app/uicomponents/models/select';
+import { Utils } from 'src/app/_http';
+import { AdministrationService } from '../services/administration.service';
+import { takeUntil } from 'rxjs/operators';
+import { MatTableDataSource } from '@angular/material/table';
 
 export class TodoItemNode {
-  children: TodoItemNode[] = [];
-  label: string ;
-  id:number;
+  children: TodoItemNode[];
+  label: string;
+  id: number;
   isChecked: boolean;
   isPlanType: boolean;
   claimId: number;
-
-
 }
 
+/** Flat to-do item node with expandable and level information */
 export class TodoItemFlatNode {
-  label: string ;
+  label: string;
   level: number;
-  expandable: boolean ;
-   id:number ;
-  isChecked: boolean ;
-   isPlanType: boolean ;
-   claimId: number;
+  expandable: boolean;
+  id: number;
+  isChecked: boolean;
+  isPlanType: boolean;
+  claimId: number;
 }
 const TREE_DATA = [
   {
     name: 'Test 1',
+    id: 111,
+    isChecked: true,
+    isPlanType: true,
+    claimId: 11111,
+    children: [
+      {
+        name: 'Sub - Test 1',
+        id: 22,
+        isChecked: true,
+        isPlanType: true,
+        claimId: 777777,
+        children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 6666666,
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 5555555,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 5555555,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 5555555,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Test 2',
+    id: 66,
+    isChecked: false,
+    isPlanType: true,
+    claimId: 33333,
+    children: [
+      {
+        name: 'Sub - Test 2',
+        id: 77,
+        isChecked: false,
+        isPlanType: true,
+        claimId: 44444444,
+      },
+    ],
+  },
+];
+const TREE_DATA_two = [
+  {
+    name: 'Process Management Test',
     id:111,
     isChecked:true, 
      isPlanType: true,
      claimId:11111,
     children: [
       {
-        name: 'Sub - Test 1',
+        name: 'Solicited/Internal Discrepancy Process ',
         id:22,
         isChecked:true, 
          isPlanType: true,
-         claimId:777777,
-        children: [
+         claimId:11111,
+         children: [
           {
-            name: 'Sub - sub - Test 1',
-            id:33,
-            isChecked:false,
-             isPlanType: true,
-            claimId:6666666,
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 0,
           },
-           {
-            name: 'Sub - sub - Test 2', 
-            id:44,
-            isChecked:true,
-             isPlanType: true,
-            claimId:5555555,
-          children: [
           {
-            name: 'Sub - sub - sub - Test 2',
-            id:55,
-            isChecked:true,
-             isPlanType: true, 
-            claimId:112222111,
-          }],
-          }
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+        ],
+      },
+      {
+        name: 'Solicited Resolution Report',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+         children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
         ]
-      }
+     
+      },
+      {
+        name: 'Solicited Actions Report',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+         children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+        ]
+     
+      },
+      {
+        name: 'Unsolicited Process',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+         children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          
+          },
+        ]
+     
+      },
+      {
+        name: 'Unsolicited Actions Report',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+         children: [
+         
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+        ]
+     
+      },
+
+
     ]
   },
   {
-    name: 'Test 2',
+    name: 'Record Creation',
     id:66,
     isChecked:false,
      isPlanType: true, 
      claimId:33333,
     children: [
       {
-        name: 'Sub - Test 2',
+        name: 'Create Record',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Create Internal Cease',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+
+    ]
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
          isPlanType: true,
         claimId:44444444,
       }
     ]
-  }
-];
-@Injectable()
-export class ChecklistDatabase {
-  dataChange = new BehaviorSubject<TodoItemNode[]>([]);
-
-  get data(): TodoItemNode[] { return this.dataChange.value; }
-
-  constructor() {
-    this.initialize();
-  }
-
-  initialize() {
-    // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
-    //     file node as children.
-    const data = this.buildFileTree(TREE_DATA, 0);
-
-    // Notify the change.
-    this.dataChange.next(data);
-  }
-
-  /**
-   * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
-   * The return value is the list of `TodoItemNode`.
-   */
-  buildFileTree(obj: {[key: string]: any}, level: number): TodoItemNode[] {
-    return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
-      const item = obj[key];
-      const node = new TodoItemNode();
-      node.label = obj[key].name;
-      node.id = obj[key].id;
-      node.isChecked=  obj[key].isChecked;
- node.claimId=  obj[key].claimId;
- node.isPlanType=  obj[key].isPlanType;
-
-      if (item != null) {
-        if (typeof item === 'object'  && item.children!= undefined) { 
-       
-
-          node.children = this.buildFileTree(item.children, level + 1);
-        } else {
-          node.label = item.name;
-        }
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
       }
+    ]
+  },
+  {
+    name: 'Inventory Records',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'InFlight Records',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Telephone Range Report',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Transaction Details Records',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Statistical Reports',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Transaction Trend for Source & Command',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+     
+  
+    ]
+  },
+  {
+    name: 'Administration',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Audit Status Tracker',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit Data Files',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Restore Solicited Errors',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Data Correction Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
 
-      return accumulator.concat(node);
-    }, []);
-  }
+      {
+        name: 'Unresolved Transaction',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Unresolved Errors',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Manage Users',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      }
+      
+    ]
+  },
+    {
+      name: 'Configurational Reference Data',
+      id:66,
+      isChecked:false,
+       isPlanType: true, 
+       claimId:33333,
+      children: [
+        {
+          name: 'Reference List',
+          id:77,
+          isChecked:false,
+           isPlanType: true,
+          claimId:44444444,
+          children: [
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Olo',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Company',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'SourceSystem',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Status',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'AuditStatus',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'CUPIDCrossReference',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'LineTypes',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'ResolverEmail',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+          ]
+        }]
+      
+  },
+  
+];
 
-  /** Add an item to to-do list */
-  insertItem(parent: TodoItemNode, name: string) {
-    if (parent.children) {
-      parent.children.push({label: name} as TodoItemNode);
-      this.dataChange.next(this.data);
-    }
-  }
+const TREE_DATA_three = [
+  {
+    name: 'All',
+    id:111,
+     isPlanType: true,
+     claimId:11111,
+    children:[
+  {
+    name: 'Process Management',
+    id:111, 
+     isPlanType: true,
+     isChecked: true,
+     claimId:11111,
+    children: [
+      {
+        name: 'Solicited/Internal Discrepancy Process updated',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+         children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 0,
+            isAvailable:true
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+            isAvailable:true
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 0,
+            isAvailable:true
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+        ],
+      },
+      {
+        name: 'Solicited Resolution Report',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+         children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+        ]
+     
+      },
+      {
+        name: 'Solicited Actions Report',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+         children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+        ]
+     
+      },
+      {
+        name: 'Unsolicited Process',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+         children: [
+          {
+            name: 'U',
+            id: 33,
+            isChecked: false,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'D',
+            id: 44,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          
+          },
+        ]
+     
+      },
+      {
+        name: 'Unsolicited Actions Report',
+        id:22,
+        isChecked:true, 
+         isPlanType: true,
+         claimId:11111,
+         children: [
+         
+          {
+            name: 'C',
+            id: 54,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+          {
+            name: 'R',
+            id: 374,
+            isChecked: true,
+            isPlanType: true,
+            claimId: 0,
+          },
+        ]
+     
+      },
 
-  updateItem(node: TodoItemNode, name: string) {
-    node.label = name;
-    this.dataChange.next(this.data);
-  }
+
+    ]
+  },
+  {
+    name: 'Record Creation',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Create Record',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Create Internal Cease',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+
+    ]
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Inventory Records',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'InFlight Records',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Telephone Range Report',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Transaction Details Records',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Statistical Reports',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Transaction Trend for Source & Command',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+     
+  
+    ]
+  },
+  {
+    name: 'Administration',
+    id:66,
+    isChecked:false,
+     isPlanType: true, 
+     claimId:33333,
+    children: [
+      {
+        name: 'Audit Status Tracker',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Audit Data Files',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Restore Solicited Errors',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Data Correction Summary',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+
+      {
+        name: 'Unresolved Transaction',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Unresolved Errors',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      },
+      {
+        name: 'Manage Users',
+        id:77,
+        isChecked:false,
+         isPlanType: true,
+        claimId:44444444,
+      }
+      
+    ]
+  },
+    {
+      name: 'Configurational Reference Data',
+      id:66,
+      isSelected:false,
+       isPlanType: true, 
+       claimId:33333,
+      children: [
+        {
+          name: 'Reference List',
+          id:77,
+          isSelected:false,
+           isPlanType: true,
+          claimId:44444444,
+          children: [
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Olo',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Company',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'SourceSystem',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'Status',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'AuditStatus',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'CUPIDCrossReference',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'LineTypes',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+            {
+              name: 'ResolverEmail',
+              id:22,
+              isChecked:true, 
+               isPlanType: true,
+               claimId:11111,
+               children: [
+                {
+                  name: 'U',
+                  id: 33,
+                  isChecked: false,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'D',
+                  id: 44,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'C',
+                  id: 54,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+                {
+                  name: 'R',
+                  id: 374,
+                  isChecked: true,
+                  isPlanType: true,
+                  claimId: 0,
+                },
+              ],
+            },
+          ]
+        }]
+      
+  }]
 }
+  
+];
+
+
+/**
+ * Checklist database, it can build a tree structured Json object.
+ * Each node in Json object represents a to-do item or a category.
+ * If a node is a category, it has children items and new items can be added under the category.
+ */
+// @Injectable()
+// export class ChecklistDatabase {
+//   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
+
+//   get data(): TodoItemNode[] {
+//     return this.dataChange.value;
+//   }
+
+//   constructor() {
+//     this.initialize();
+//   }
+
+//   initialize() {
+//     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
+//     //     file node as children.
+//     const data = this.buildFileTree(TREE_DATA_two, 0);
+//     console.log(data);
+//     // Notify the change.
+//     this.dataChange.next(data);
+//   }
+
+//   /**
+//    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
+//    * The return value is the list of `TodoItemNode`.
+//    */
+//   buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
+//     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
+//       const item = obj[key];
+//       const node = new TodoItemNode();
+//       node.label = obj[key].name;
+//       node.id = obj[key].id;
+//       node.isChecked = obj[key].isChecked;
+//       node.claimId = obj[key].claimId;
+//       node.isPlanType = obj[key].isPlanType;
+
+//       if (item != null) {
+//         if (typeof item === 'object' && item.children != undefined) {
+//           node.children = this.buildFileTree(item.children, level + 1);
+//         } else {
+//           node.label = item.name;
+//         }
+//       }
+
+//       return accumulator.concat(node);
+//     }, []);
+//   }
+
+//   /** Add an item to to-do list */
+//   insertItem(parent: TodoItemNode, name: string) {
+//     if (parent.children) {
+//       parent.children.push({ label: name } as TodoItemNode);
+//       this.dataChange.next(this.data);
+//     }
+//   }
+
+//   updateItem(node: TodoItemNode, name: string) {
+//     node.label = name;
+//     this.dataChange.next(this.data);
+//   }
+// }
 /** Flat to-do item node with expandable and level information */
 
 
 const ELEMENT_DATA = [
-  { UserID: "19", UserProfile :"BT101330091301.DAT",AccessLevel:"Level0",EmailAddress:"OSN2@vodafone1.com",Country:"uk",Telephoneno:"987654321",YID:"Y1234", CreatedOn: "22/01/2021",CreatedBy:"TestUser" },
-  { UserID: "20", UserProfile :"BT1012440091453.DAT",AccessLevel:"Level0",EmailAddress:"OSN2@vodafone2.com",Country:"uk",Telephoneno:"987654321",YID:"Y3214", CreatedOn: "22/01/2021",CreatedBy:"TestUser" },
-  { UserID: "21", UserProfile :"BT1013347474747.DAT",AccessLevel:"Level0",EmailAddress:"OSN2@vodafone3.com",Country:"uk",Telephoneno:"987654321",YID:"Y3454", CreatedOn: "22/01/2021",CreatedBy:"TestUser" },
-  { UserID: "22", UserProfile :"BT1013357383392.DAT",AccessLevel:"Level0",EmailAddress:"OSN2@vodafone4.com",Country:"uk",Telephoneno:"987654321",YID:"Y67834", CreatedOn: "22/01/2021",CreatedBy:"TestUser" },
-  
+  {UserName:"Test User",Profile:"Custom",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Admin User",Profile:"Admin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Admin User",Profile:"SuperAdmin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Admin User",Profile:"Custom",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Admin User",Profile:"SuperAdmin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"Test User",Profile:"SuperAdmin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
   
 ]
 const UserOfReports = [{
-  UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" }
+  UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
+  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" }
 
 
 ]
@@ -178,13 +2023,13 @@ const StartUpUserMessages = [{
   {EmailAddress:"kashim.j3@vodafone.com",ShowFrom:"14 March 2022",ExpiryDate:"19 March 2022" ,Message:"test"}
 ];
 const UserAccessDetails = [
-  {UserId:"kashnji3",UserProfile:"Requester",AccessLevel:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji4","UserProfile":"Requester","AccessLevel":"Level 1","EmailAddress":"kashim.j4@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786745","Y/W/ID":"Y875766","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji5","UserProfile":"Requester","AccessLevel":"Level 2","EmailAddress":"kashim.j5@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786767","Y/W/ID":"Y875767","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji3","UserProfile":"Requester","AccessLevel":"Level 0","EmailAddress":"kashim.j3@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji4","UserProfile":"Requester","AccessLevel":"Level 1","EmailAddress":"kashim.j4@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786745","Y/W/ID":"Y875766","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {"UserId":"kashnji5","UserProfile":"Requester","AccessLevel":"Level 2","EmailAddress":"kashim.j5@vodafone.com","Country":"United Kingdom","TelephoneNo":"0456786767","Y/W/ID":"Y875767","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-]
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
+  ]
 const UserProfiles = [
   {"ProfileName":"New","Description":"New Profile","CreatedOn":"15 March 2022","CreatedBy":"admin"},
   {"ProfileName":"Test","Description":"Test Profile","CreatedOn":"15 March 2022","CreatedBy":"admin"},
@@ -193,7 +2038,18 @@ const UserProfiles = [
   {"ProfileName":"Super Admin","Description":"Can view and perform all operations","CreatedOn":"15 March 2022","CreatedBy":"admin"},
   ]
   
-
+  const FilterListItems: Select[] = [
+    { view: 'Amdocs SOM', viewValue: 'StartTelephoneNumber', default: true },
+    { view: 'ONNET', viewValue: 'EndTelephoneNumber', default: false },
+    { view: 'Ring Central', viewValue: 'Source', default: false },
+    { view: 'Audit', viewValue: 'Command', default: false },
+    { view: 'EDGE', viewValue: 'ErrorType', default: false },
+    { view: 'ONNET', viewValue: 'ResolutionType', default: false },
+  ];
+  interface Access {
+    value: string;
+    viewValue: string;
+  }
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
@@ -206,21 +2062,31 @@ const UserProfiles = [
       transition('collapsed => expanded', animate('500ms ease-out')),
     ]),
   ],
-  providers: [ChecklistDatabase]
+  providers: []
 })
+
 export class ManageUsersComponent implements OnInit {
   isShow: boolean = false;
   showMenu: string = 'expanded';
   btAuditFileDetailsTable!: TableItem;
   tabs: Tab[] = [];
+  tabsLeft: Tab[] = [];
   record:any;
   eventName:string ='Create';
   thisForm!: FormGroup;
   showDetails: boolean = false;
   referenceForm!: FormGroup;
+  referenceUsernameform!: FormGroup;
   StartupUsermsgsForm!:FormGroup;
   UserProfileForm!:FormGroup;
+  UserEditForm!:FormGroup;
   Header:string='';
+  Acessrights: Access[] = [
+    {value: '1', viewValue: 'Admin'},
+    {value: '2', viewValue: 'SuperAdmin'},
+    {value: '3', viewValue: 'Custom'}
+  ];  
+  filterItems: Select[] = FilterListItems;
   btAuditFileDetailsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
     { headerValue: 'FileName',
@@ -230,21 +2096,57 @@ export class ManageUsersComponent implements OnInit {
 
   ]
   selectedTab: number = 0;
+  selectedTabLeft: number = 0;
   UserDetailsForm:boolean=false;
   StartupForm:boolean=false;
   UserProfilesForm:boolean=false;
-
+  UserEditProfilesForm:boolean=false;
   isLeftPanel =false;
-  datauserreports:any=UserOfReports;
-  userreportscolums:any=['UserId','EmailAddress','MenuGroup','ReportName'];
-  data0:any =  ELEMENT_DATA;
-  displayedColumns0:any =['Actions','UserID','UserProfile','AccessLevel','EmailAddress','Country','Telephoneno','YID','CreatedOn','CreatedBy'];
-  startupusermsgs:any=StartUpUserMessages;
-  startupusermsgscols=['Actions','EmailAddress','ShowFrom','ExpiryDate','Message'];
-  userprofilesdata:any=UserProfiles;
-  userprofilescols=["Actions","ProfileName","Description","CreatedOn","CreatedBy"];
+
+  datauserreports:MatTableDataSource<any>;
+  userreportscolums:any=[
+    { header:'User Name', headerValue:'username' },
+    { header:'Email Address', headerValue:'emailaddress' },
+    { header:'Sources', headerValue:'sources' },
+    { header:'Menu Group', headerValue:'menugroup' },
+    { header:'Report Name', headerValue:'reportname' }
+  ];
+  userreportscolumsvalues:any = this.userreportscolums.map((x: any) => x.headerValue);
+  data0:MatTableDataSource<any>;
+  displayedColumns0:any =[
+    { header: 'Actions', headerValue: 'Actions' },
+    { header: 'User Name', headerValue: 'username' },
+    { header: 'Profile Name', headerValue: 'profilename' },
+    { header: 'Active', headerValue: 'active' },
+    { header: 'Email Address', headerValue: 'emailaddress' },
+    { header: 'Telephone No', headerValue: 'telephoneno' },
+    { header: 'Y/W/ID', headerValue: 'yid' },
+    { header: 'Created On', headerValue: 'createddttm' },
+    { header: 'Created By', headerValue: 'createdby' }
+  ];
+  displayedColumns0values:any = this.displayedColumns0.map((x: any) => x.headerValue);
+  startupusermsgs:MatTableDataSource<any>;
+  startupusermsgscols=[
+    { header: 'Actions', headerValue: 'Actions' },
+    { header: 'News Id', headerValue: 'newsid' },
+    { header: 'Email Address', headerValue: 'emailaddress' },
+    { header: 'Start Date', headerValue: 'startdate' },
+    { header: 'Expiry Date', headerValue: 'expirydate' },
+    { header: 'News Description', headerValue: 'newsdescription' }
+  ];
+  startupusermsgscolsvalues:any = this.startupusermsgscols.map((x: any) => x.headerValue);
+  userprofilesdata:MatTableDataSource<any>;
+  userprofilescols=[
+    { header: 'Actions', headerValue: 'Actions' },
+    { header: 'Profile Name', headerValue: 'profilename' },
+    { header: 'Profile Description', headerValue: 'profiledescription' },
+    { header: 'Created On', headerValue: 'createddttm' },
+    { header: 'Created By', headerValue: 'createdby' }
+  ];
+  userprofilescolsvalues:any = this.userprofilescols.map((x: any) => x.headerValue);
   displayedColumns1:any =['Actions','Menu Group','Screen Name','Access Level'];
  
+  private readonly onDestroyQuery = new Subject<void>();
   
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
@@ -264,45 +2166,101 @@ export class ManageUsersComponent implements OnInit {
   dataSource: MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
 
   /** The selection for checklist */
-  checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
+  checklistSelection = new SelectionModel<TodoItemFlatNode>(
+    true /* multiple */
+  );
+  initialize() {
+    // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
+    //     file node as children.
+    const data = this.buildFileTree(TREE_DATA_three, 0);
+    console.log(data);
+    this.dataSource.data = data;
+    // Notify the change.
+    this.dataChange.next(data);
 
-  constructor(private database: ChecklistDatabase,private formBuilder: FormBuilder) {
-    this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
-      this.isExpandable, this.getChildren);
-    this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel,this.isExpandable);
-    this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-    database.dataChange.subscribe(data => {
-      this.dataSource.data = data;
-    });
   }
-  //this.datasource.data=
-   checkAll(){
-    for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
 
-    if(this.treeControl.dataNodes[i].isChecked)
-        this.checklistSelection.toggle(this.treeControl.dataNodes[i]);
-      this.treeControl.expand(this.treeControl.dataNodes[i])
+  /**
+   * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
+   * The return value is the list of `TodoItemNode`.
+   */
+  buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
+    return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
+      const item = obj[key];
+      const node = new TodoItemNode();
+      node.label = obj[key].name;
+      node.id = obj[key].id;
+      node.isChecked = obj[key].isChecked;
+      node.claimId = obj[key].claimId;
+      node.isPlanType = obj[key].isPlanType;
+
+      if (item != null) {
+        if (typeof item === 'object' && item.children != undefined) {
+          node.children = this.buildFileTree(item.children, level + 1);
+        } else {
+          node.label = item.name;
+        }
+      }
+
+      return accumulator.concat(node);
+    }, []);
+  }
+
+  /** Add an item to to-do list */
+  insertItem(parent: TodoItemNode, name: string) {
+    if (parent.children) {
+      parent.children.push({ label: name } as TodoItemNode);
+      this.dataChange.next(this.data);
     }
   }
 
-   GetCheckAll(){
+  updateItem(node: TodoItemNode, name: string) {
+    node.label = name;
+    this.dataChange.next(this.data);
+  }
 
-    console.log( this.dataSource.data );
-      // if( this.treeFlattener.flattenNodes[0].check) console.log(this.treeControl.dataNodes[i].id);
- 
-     
-    // for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
-     
-    //   if(this.treeControl.dataNodes[i].isChecked) console.log(this.treeControl.dataNodes[i].id);
 
-    // if(this.treeControl.dataNodes[i].isChecked){
-    //   console.log('---------------------------------------------');
-    //     console.log(this.treeControl.dataNodes[i].id);
-    //     console.log(this.treeControl.dataNodes[i].claimId);
 
-    // }
-   // }
+
+
+  dataChange = new BehaviorSubject<TodoItemNode[]>([]);
+  get data(): TodoItemNode[] {
+    return this.dataChange.value;
+  }
+
+
+  constructor(private formBuilder: FormBuilder,
+    private service : AdministrationService) {
+    this.treeFlattener = new MatTreeFlattener(
+      this.transformer,
+      this.getLevel,
+      this.isExpandable,
+      this.getChildren
+    );
+    this.treeControl = new FlatTreeControl<TodoItemFlatNode>(
+      this.getLevel,
+      this.isExpandable
+    );
+    this.dataSource = new MatTreeFlatDataSource(
+      this.treeControl,
+      this.treeFlattener
+    );
+
+    // database.dataChange.subscribe((data) => {
+    //   this.dataSource.data = data;
+    // });
+  }
+  //this.datasource.data=
+  checkAll() {
+    for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
+      if (this.treeControl.dataNodes[i].isChecked)
+        this.checklistSelection.toggle(this.treeControl.dataNodes[i]);
+      this.treeControl.expand(this.treeControl.dataNodes[i]);
+    }
+  }
+
+  GetCheckAll() {
+  console.log(this.treeControl.dataNodes);
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
@@ -313,46 +2271,50 @@ export class ManageUsersComponent implements OnInit {
 
   hasChild = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.expandable;
 
-  hasNoContent = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.label === '';
+  hasNoContent = (_: number, _nodeData: TodoItemFlatNode) =>
+    _nodeData.label === '';
 
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
    */
   transformer = (node: TodoItemNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
-    const flatNode = existingNode && existingNode.label === node.label
+    const flatNode =
+      existingNode && existingNode.label === node.label
         ? existingNode
         : new TodoItemFlatNode();
     flatNode.label = node.label;
     flatNode.level = level;
-    flatNode.id=node.id;
-     flatNode.isChecked = node.isChecked;
-     flatNode.claimId = node.claimId;
-     flatNode.isPlanType = node.isPlanType;
+    flatNode.id = node.id;
+    flatNode.isChecked = node.isChecked;
+    flatNode.claimId = node.claimId;
+    flatNode.isPlanType = node.isPlanType;
     flatNode.expandable = !!node.children;
     this.flatNodeMap.set(flatNode, node);
     this.nestedNodeMap.set(node, flatNode);
     return flatNode;
-  }
+  };
 
   /** Whether all the descendants of the node are selected. */
   descendantsAllSelected(node: TodoItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.every(child =>
-     this.checklistSelection.isSelected(child))
+    const descAllSelected = descendants.every((child) =>
+      this.checklistSelection.isSelected(child)
+    );
     return descAllSelected;
   }
 
   /** Whether part of the descendants are selected */
   descendantsPartiallySelected(node: TodoItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    const result = descendants.some(child => this.checklistSelection.isSelected(child));
+    const result = descendants.some((child) =>
+      this.checklistSelection.isSelected(child)
+    );
     return result && !this.descendantsAllSelected(node);
   }
 
   /** Toggle the to-do item selection. Select/deselect all the descendants node */
   todoItemSelectionToggle(node: TodoItemFlatNode): void {
-  
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
     this.checklistSelection.isSelected(node)
@@ -360,16 +2322,14 @@ export class ManageUsersComponent implements OnInit {
       : this.checklistSelection.deselect(...descendants);
 
     // Force update for the parent
-    descendants.every(child =>
-      this.checklistSelection.isSelected(child)
-    );
+    descendants.every((child) => this.checklistSelection.isSelected(child));
     this.checkAllParentsSelection(node);
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
   todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
     this.checklistSelection.toggle(node);
-    node.isChecked ?  node.isChecked=false:node.isChecked=true; 
+    node.isChecked ? (node.isChecked = false) : (node.isChecked = true);
     this.checkAllParentsSelection(node);
   }
 
@@ -386,7 +2346,7 @@ export class ManageUsersComponent implements OnInit {
   checkRootNodeSelection(node: TodoItemFlatNode): void {
     const nodeSelected = this.checklistSelection.isSelected(node);
     const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.every(child =>
+    const descAllSelected = descendants.every((child) =>
       this.checklistSelection.isSelected(child)
     );
     if (nodeSelected && !descAllSelected) {
@@ -419,15 +2379,18 @@ export class ManageUsersComponent implements OnInit {
   /** Select the category so we can insert the new item. */
   addNewItem(node: TodoItemFlatNode) {
     const parentNode = this.flatNodeMap.get(node);
-    this.database.insertItem(parentNode!, '');
+    this.insertItem(parentNode!, '');
     this.treeControl.expand(node);
   }
 
   /** Save the node to database */
   saveNode(node: TodoItemFlatNode, itemValue: string) {
     const nestedNode = this.flatNodeMap.get(node);
-    this.database.updateItem(nestedNode!, itemValue);
+    this.updateItem(nestedNode!, itemValue);
   }
+
+  /** Whether all the descendants of the node are selected. */
+ 
 
   ngOnInit(): void {
     // this.thisForm =  this.formBuilder.group({
@@ -445,25 +2408,28 @@ export class ManageUsersComponent implements OnInit {
     this.showMenu = 'expanded';
     }
   }
+  removeTabLeftPanel(index: number) {
+    this.tabsLeft.splice(index, 1);
+    this.showDetails = this.tabsLeft.length > 0 ? true : false;
+    if(this.tabsLeft.length == 0) {
+    //this.isShow = false;
+    this.showMenu = 'expanded';
+  this.isLeftPanel=false;
+    }
 
-  getFileDetails(fileType: string) {
+  }
+
+  getFileDetailsLeftPanel(fileType: string) {
+    this.tabsLeft.splice(0);
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (fileType === 'UserAccessDetails') {
-      if (!this.tabs.find(x => x.tabType == 0)) {
-        this.tabs.push({
+    if (fileType === 'UserDetailsForm') {
+      if (!this.tabsLeft.find(x => x.tabType == 0)) {
+        this.tabsLeft.push({
           tabType: 0,
           name: 'User Access Details'
         });
-        this.btAuditFileDetailsTable = {
-          data: of({datasource:ELEMENT_DATA,
-            totalrecordcount: 100,
-            totalpages:1,
-            pagenumber:1}),
-          Columns: this.btAuditFileDetailsTableDetails,
-          selectCheckbox: true,
-          imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]
-        }
+       
       }
     }
     else if (fileType === 'UserOfReports'){
@@ -497,6 +2463,86 @@ export class ManageUsersComponent implements OnInit {
     this.selectedTab = this.tabs.length;
   }
 
+
+  getFileDetails(fileType: string) {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (fileType === 'UserAccessDetails') {
+      if (!this.tabs.find(x => x.tabType == 0)) {
+        this.tabs.push({
+          tabType: 0,
+          name: 'User Access'
+        });
+        this.selectedTab = this.tabs.length;
+      }
+      else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 0);
+      }
+      let request = Utils.preparePyUIQuery('ManageUsers','UserAccess');
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res:any) => {
+          this.data0 = res.Data;
+        }
+      );
+    }
+    else if (fileType === 'UserOfReports'){
+      if (!this.tabs.find(x => x.tabType == 1)) {
+        this.tabs.push({
+          tabType: 1,
+          name: 'User Of Reports'
+        });
+        this.selectedTab = this.tabs.length;
+      }
+      else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+      }
+      let request = Utils.preparePyUIQuery('ManageUsers','UserReports');
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res:any) => {
+          this.datauserreports = res.Data;
+        }
+      );
+
+    }
+    else if (fileType === 'StartUpUserMessages'){
+      if (!this.tabs.find(x => x.tabType == 2)) {
+        this.tabs.push({
+          tabType: 2,
+          name: 'News Update'
+        });
+        this.selectedTab = this.tabs.length;
+      }
+      else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+      }
+      let request = Utils.preparePyUIQuery('ManageUsers','NewsUpdate','NewsId');
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res:any) => {
+          this.startupusermsgs = res.Data;
+        }
+      );
+    }
+    else if (fileType === 'UserProfiles'){
+      if (!this.tabs.find(x => x.tabType == 3)) {
+        this.tabs.push({
+          tabType: 3,
+          name: 'User Profiles'
+        });
+        this.selectedTab = this.tabs.length;
+      }
+      else {
+        this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
+      }
+      let request = Utils.preparePyUIQuery('ManageUsers','UserProfile','Profile Name');
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res:any) => {
+          this.userprofilesdata = res.Data;
+        }
+      );
+    }
+    this.showDetails = true;
+  }
+
   btnClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
 
@@ -506,10 +2552,28 @@ export class ManageUsersComponent implements OnInit {
   }
   onEditUserprofile(record:any,event:Event)
   {
+    this.initialize();
+    //this.database.buildFileTree(TREE_DATA_two,0);
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 1)) {
+      this.tabsLeft.push({
+        tabType: 1,
+        name: 'View'
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
+    }
+    
     this.Header="User Profiles";
     this.UserDetailsForm=false;
+    this.UserEditProfilesForm=false;
     this.StartupForm=false;
     this.UserProfilesForm=true;
+
     this.isLeftPanel =true;
     this.UserProfileForm = this.formBuilder.group({
       ProfileName: new FormControl({ }),
@@ -525,9 +2589,125 @@ export class ManageUsersComponent implements OnInit {
         control?.setValue(record[field]);
         console.log(record[field]);
     }
+    event.stopPropagation();
   }
+  onSelectEvent(value: any){
+
+    if(value=='3')
+    {
+      this.initialize();
+    this.onEditUserprofileAceess('Create');
+    }
+  }
+  // onEdituserDetails(record:any,event:Event){   
+  //   this.Header="User Access Details";
+  //   this.UserDetailsForm=true;
+  //   this.StartupForm=false;
+  //   this.UserProfilesForm=false;
+  //   this.isLeftPanel =true;
+  //   console.log('Edit Record');
+  //   this.eventName="Update";
+  //   debugger
+  //   this.referenceForm = this.formBuilder.group({
+      
+  //     UserID: new FormControl({ value:''}),
+  //     //AddressLine1: new FormControl({ value:''}),
+  //     //AddressLine2: new FormControl({ value:''}),
+  //     //PostCode: new FormControl({ value:''}),
+  //     UserProfile: new FormControl({ value:''}),
+  //     YID: new FormControl({ value:''}),
+  //     FirstName: new FormControl({ value:''}),
+  //     EmailAddress: new FormControl({ value:''}),
+  //     TelephoneNo: new FormControl({ value:''}),
+  //     Country: new FormControl({ value:''})
+  //   });
+   
+  //     this.record = record;
+  //     this.eventName ='Update'
+  //     //this.showDataform =true; 
+  //     //this.cdr.detectChanges();
+  //     for (let field in this.referenceForm.controls) 
+  //     {      
+  //         let control = this.referenceForm.get(field);    
+  //         control?.setValue(record[field]);
+  //         console.log(record[field]);
+  //     }
+      
+  //     //this.referenceForm.markAsUntouched();
+      
+  // }
+  onreturnform()
+  {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 2)) {
+      this.tabsLeft.push({
+        tabType: 2,
+        name: 'Add Profile'
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+    }
+    this.Header="User Access Details";
+    this.UserDetailsForm=true;
+    this.UserEditProfilesForm=false;
+    
+    this.StartupForm=false;
+    this.UserProfilesForm=false;
+    this.isLeftPanel =true;
+    console.log('Edit Record');
+    this.eventName="Update";
+  }
+  onEditUserprofileAceess(Actiontype:string)
+  {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    let name='Profile';
+    if(Actiontype=='Create')
+  {
+    name='Add Profile'
+  }
+    if (!this.tabsLeft.find(x => x.tabType == 2)) {
+      this.tabsLeft.push({
+        tabType: 2,
+        name: name
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+    }
+    this.Header="User Profiles";
+    this.UserDetailsForm=false;
+    this.StartupForm=false;
+    this.UserEditProfilesForm=true;
+    this.isLeftPanel =true;
+    this.UserEditForm = this.formBuilder.group({
+      
+      ProfileName: new FormControl(),
+      Description: new FormControl(),
+      UserProfile: new FormControl()
+
+    });
+  if(Actiontype=='Create')
+  {
+    this.eventName ='Create';
+  }
+  else{
+    this.eventName ='Update';
+  }
+  
+  }
+
+
+
   onEditUsermsgs(record:any,event:Event)
   {
+    this.tabsLeft.splice(0);
     this.Header="Start Up User Messages";
     console.log(JSON.stringify(record));
     this.UserDetailsForm=false;
@@ -551,7 +2731,27 @@ export class ManageUsersComponent implements OnInit {
     }
 
   }
+  changeevent(event:any) {
+    console.log('event called',event);
+  }
+
   onEdituserDetails(record:any,event:Event){   
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 0)) {
+      this.tabsLeft.push({
+        tabType: 0,
+        name: 'Create'
+      });
+      this.showDetails = true;
+    this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
+    }
+   
+
+
     this.Header="User Access Details";
     this.UserDetailsForm=true;
     this.StartupForm=false;
@@ -563,9 +2763,9 @@ export class ManageUsersComponent implements OnInit {
     this.referenceForm = this.formBuilder.group({
       
       UserID: new FormControl({ value:''}),
-      AddressLine1: new FormControl({ value:''}),
-      AddressLine2: new FormControl({ value:''}),
-      PostCode: new FormControl({ value:''}),
+      //AddressLine1: new FormControl({ value:''}),
+      //AddressLine2: new FormControl({ value:''}),
+      //PostCode: new FormControl({ value:''}),
       UserProfile: new FormControl({ value:''}),
       YID: new FormControl({ value:''}),
       FirstName: new FormControl({ value:''}),
@@ -590,6 +2790,20 @@ export class ManageUsersComponent implements OnInit {
   }
   onCreateUserProfiles()
   {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 1)) {
+      this.tabsLeft.push({
+        tabType: 1,
+        name: 'View'
+      });
+      this.showDetails = true;
+    this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else{
+      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
+      }
+   
     this.Header="User Profiles";
     this.UserDetailsForm=false;
     this.StartupForm=false;
@@ -617,8 +2831,51 @@ export class ManageUsersComponent implements OnInit {
     });
     this.eventName="Create";
   }
+
+onVerifyUserName()
+{
+  this.isShow = true;
+  this.showMenu = 'collapsed';
+  if (!this.tabsLeft.find(x => x.tabType == 3)) {
+    this.tabsLeft.push({
+      tabType: 3,
+      name: 'Check'
+    });
+    this.showDetails = true;
+  this.selectedTabLeft = this.tabsLeft.length;
+  }
+  else{
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 3);
+  }
+  this.isLeftPanel =true;
+  this.referenceUsernameform = this.formBuilder.group({
+      
+    UserID: new FormControl()
+  });
+}
+
+
+
   onCreateuserDetails()
 {
+  debugger
+  if (this.tabsLeft.find(x => x.tabType == 3)) {
+    let index:number = this.tabsLeft.findIndex(x => x.tabType == 3);
+    this.tabsLeft.splice(index) ;
+  }
+  this.isShow = true;
+  this.showMenu = 'collapsed';
+  if (!this.tabsLeft.find(x => x.tabType == 0)) {
+    this.tabsLeft.push({
+      tabType: 0,
+      name: 'Create'
+    });
+    this.showDetails = true;
+  this.selectedTabLeft = this.tabsLeft.length;
+  }
+  else{
+    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
+  }
   this.Header="User Access Details";
   this.UserDetailsForm=true;
   this.StartupForm=false;
@@ -627,15 +2884,15 @@ export class ManageUsersComponent implements OnInit {
   this.referenceForm = this.formBuilder.group({
       
     UserID: new FormControl(),
-    AddressLine1: new FormControl(),
-    AddressLine2: new FormControl(),
-    PostCode: new FormControl(),
+   // AddressLine1: new FormControl(),
+   // AddressLine2: new FormControl(),
+   // PostCode: new FormControl(),
     UserProfile: new FormControl(),
     YID: new FormControl(),
     FirstName: new FormControl(),
     TelephoneNo:new FormControl(),
     EmailAddress: new FormControl(),
-    Country: new FormControl()
+    // Country: new FormControl()
   });
   this.eventName="Create";
 }
@@ -659,4 +2916,66 @@ onDeleteRecord(record:any,event:any){
   //   console.log(rowdata);
   // }
 
+  onSearchFilter(reportName: any){
+    this.onFilterPredicate();
+    switch(reportName)
+    {
+      case 'UserOfReports':
+        
+
+        let  filteritem = {
+          //UserId : [this.UserId],
+          UserId : [],
+          EmailAddress : [],
+          ReportName : []
+        }
+        console.log(JSON.stringify(filteritem));
+        this.datauserreports.filter = JSON.stringify(filteritem);
+      break;
+    }
+  }
+
+  onFilterPredicate(){
+
+    //UserOfReports
+    this.datauserreports.filterPredicate = (data: any, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isUserId = false;
+      let isEmailAddress = false;
+      let isMenuGroup = false;
+      let isReportName = false;
+
+      if (searchString.UserId.length) {
+        for (const d of searchString.UserId) {
+          if (data.UserId.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isUserId = true;
+          }
+        }
+      }
+      else 
+      isUserId = true;
+
+      if (searchString.EmailAddress.length) {
+        for (const d of searchString.EmailAddress) {
+          if (data.EmailAddress.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isEmailAddress = true;
+          }
+        }
+      }
+      else 
+      isEmailAddress = true;
+
+      if (searchString.ReportName.length) {
+        for (const d of searchString.ReportName) {
+          if (data.ReportName.trim().indexOf(d) != -1) {
+            isReportName = true;
+          }
+        }
+      }
+      else 
+      isReportName = true;
+      return isUserId && isEmailAddress && isReportName
+    }
+
+  }
 }

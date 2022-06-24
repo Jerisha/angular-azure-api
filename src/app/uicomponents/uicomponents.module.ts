@@ -18,6 +18,7 @@ import {
 } from './index';
 
 import { HelperModule } from '../_helper/helper.module';
+import { SelectCheckboxComponent } from './select-checkbox/select-checkbox.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { HelperModule } from '../_helper/helper.module';
     SelectExpressionComponent,
     SelectSingleComponent,
     TableGroupHeaderComponent,
-    TableExpansionComponent
+    TableExpansionComponent,
+    SelectCheckboxComponent
 
   ],
   imports: [
@@ -52,7 +54,8 @@ import { HelperModule } from '../_helper/helper.module';
     SelectExpressionComponent,
     SelectMultipleComponent,
     SelectSingleComponent,
-    TableExpansionComponent
+    TableExpansionComponent,
+    SelectCheckboxComponent
   ],
  })
 export class UicomponentsModule { }

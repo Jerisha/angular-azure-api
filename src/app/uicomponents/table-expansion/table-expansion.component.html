@@ -103,7 +103,7 @@
 </mat-paginator>
   <!-- <div class="test-wrapper"> -->
   <div style="margin-bottom:10px" *ngIf="isShown">
-    <button type="reset" [disabled]="true" mat-raised-button color="primary" (click)="exportToExcel()">
+    <button type="reset" mat-raised-button color="primary" (click)="exportToExcel()">
       <mat-icon>import_export</mat-icon>Export
     </button>&nbsp;&nbsp;
     <button type="reset" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()" [disabled]="selection.selected.length > 0 ? false : true">
