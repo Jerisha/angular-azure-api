@@ -193,7 +193,7 @@
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
             </app-table-selection>
-            <form name="form" (ngSubmit)="save.form.valid && onSaveSubmit()" #save="ngForm" autocomplete="off">
+            <form name="form" (ngSubmit)="save.form.valid && onSaveSubmit()" #save="ngForm" autocomplete="off" *ngIf="updateAccess">
               <div class="mat-elevation-z8 side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">

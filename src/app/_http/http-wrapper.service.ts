@@ -11,79 +11,10 @@ import { Router } from '@angular/router';
 import { AlertService } from '../_shared/alert/alert.service';
 import { Utils } from './common/utils';
 
-
-
 @Injectable({ providedIn: 'root' })
 export class HttpWrapperService {
 
     constructor(private httpClient: HttpClient, private _route: Router, private alertService: AlertService) {
-    }
-
-    processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
-        Observable<Type> {
-        const observerRes = new Observable((observer: Observer<Type>) => {
-            this.http(httpVerb.toString(),
-                `${environment.api_py_sit}${endPoint.toString()}`,
-                //`${environment.api_py}${endPoint.toString()}`,
-                JSON.stringify(body),
-                responseType,
-                headers,
-                params).subscribe((response: Type) => {
-                    observer.next(this.resolveRespone(response, endPoint))
-                    observer.complete()
-                    //this.resolveRespone(response, endPoint);
-                })
-        });
-        return observerRes;
-    }
-
-    private resolveRespone(val: any, requestType: WebMethods) {
-        // debugger;
-        let categories = [];
-        let jsonResult = '';
-        try {
-
-            switch (requestType) {
-                case WebMethods.CONFIG:
-                    categories = val.ConfigObjectResponse.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory;
-                    this.validateResponseStatus(this.resolveResponseStatus(categories));
-                    jsonResult = this.processConfigObject(categories);
-                    break;
-                case WebMethods.QUERY:
-                    categories = val.QueryObjectResponse.QueryObjectResponseType.ListofQueryObjectCategory.QueryObjectCategory;
-                    if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                        jsonResult = this.processQueryObject(categories);
-                    break;
-                case WebMethods.GET:
-                    categories = val.GetObjectResponse.GetObjectResponseType.ListofGetObjectCategory.GetObjectCategory;
-                    if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
-                        jsonResult = this.processGetObject(categories);
-                    break;
-                case WebMethods.UPDATE:
-                    debugger
-                    categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
-                    let responseStatus = this.resolveResponseStatus(categories);
-                    if (this.validateResponseStatus(responseStatus))
-                        jsonResult = JSON.stringify(responseStatus);
-                    else
-                        this.alertService.error("Save failed!!", { autoClose: true, keepAfterRouteChange: false });
-                    //this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-                    break;
-                case WebMethods.CREATE:
-                    categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
-                    this.validateResponseStatus(this.resolveResponseStatus(categories));
-                    break;
-
-            }
-            // debugger
-            // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
-            console.log("jsonString :" + jsonResult);
-            //console.log(JSON.parse(jsonResult))
-            return jsonResult ? JSON.parse(jsonResult) : [];
-        } catch (err) {
-            console.log("Response: " + val + "ResponseError: " + err);
-            this.alertService.error("Incorrect Response Format", { autoClose: true, keepAfterRouteChange: false });
-        }
     }
 
     processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, responseType = ResponseType.JSON, headers?: HttpHeaders, params?: HttpParams,):
@@ -187,6 +118,74 @@ export class HttpWrapperService {
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
             case ResponseType.BLOB:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob', observe: 'response' });
+        }
+    }
+
+
+    processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
+        Observable<Type> {
+        const observerRes = new Observable((observer: Observer<Type>) => {
+            this.http(httpVerb.toString(),
+                `${environment.api_py_sit}${endPoint.toString()}`,
+                //`${environment.api_py}${endPoint.toString()}`,
+                JSON.stringify(body),
+                responseType,
+                headers,
+                params).subscribe((response: Type) => {
+                    observer.next(this.resolveRespone(response, endPoint))
+                    observer.complete()
+                    //this.resolveRespone(response, endPoint);
+                })
+        });
+        return observerRes;
+    }
+
+    private resolveRespone(val: any, requestType: WebMethods) {
+        // debugger;
+        let categories = [];
+        let jsonResult = '';
+        try {
+
+            switch (requestType) {
+                case WebMethods.CONFIG:
+                    categories = val.ConfigObjectResponse.ConfigObjectResponseType.ListofConfigObjectCategory.ConfigObjectCategory;
+                    this.validateResponseStatus(this.resolveResponseStatus(categories));
+                    jsonResult = this.processConfigObject(categories);
+                    break;
+                case WebMethods.QUERY:
+                    categories = val.QueryObjectResponse.QueryObjectResponseType.ListofQueryObjectCategory.QueryObjectCategory;
+                    if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
+                        jsonResult = this.processQueryObject(categories);
+                    break;
+                case WebMethods.GET:
+                    categories = val.GetObjectResponse.GetObjectResponseType.ListofGetObjectCategory.GetObjectCategory;
+                    if (this.validateResponseStatus(this.resolveResponseStatus(categories)))
+                        jsonResult = this.processGetObject(categories);
+                    break;
+                case WebMethods.UPDATE:
+                    debugger
+                    categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
+                    let responseStatus = this.resolveResponseStatus(categories);
+                    if (this.validateResponseStatus(responseStatus))
+                        jsonResult = JSON.stringify(responseStatus);
+                    else
+                        this.alertService.error("Save failed!!", { autoClose: true, keepAfterRouteChange: false });
+                    //this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+                    break;
+                case WebMethods.CREATE:
+                    categories = val.CreateObjectResponseType.ListofCreateObjectCategory.CreateObjectCategory;
+                    this.validateResponseStatus(this.resolveResponseStatus(categories));
+                    break;
+
+            }
+            // debugger
+            // console.log("jsonCreation :" + JSON.stringify(JSON.parse(jsonResult)));
+            console.log("jsonString :" + jsonResult);
+            //console.log(JSON.parse(jsonResult))
+            return jsonResult ? JSON.parse(jsonResult) : [];
+        } catch (err) {
+            console.log("Response: " + val + "ResponseError: " + err);
+            this.alertService.error("Incorrect Response Format", { autoClose: true, keepAfterRouteChange: false });
         }
     }
 

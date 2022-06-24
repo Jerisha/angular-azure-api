@@ -147,3 +147,7 @@
 {
     background-color:#ccc;
 }
+::ng-deep .mat-select-panel{margin-top: 40px !important; }
+.matselect-centering{
+  margin-top: 40px !important; 
+}
