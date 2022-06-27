@@ -71,8 +71,9 @@ testfun(islive :boolean)
   {header: 'User Comment', headerValue: 'UserComment'}];
 
   ngOnChanges(changes: SimpleChanges) {
+    if(changes.telNo.currentValue != '')
+    {
     if (changes.telNo.currentValue != changes.telNo.previousValue) {
-      
       this.setStep(2);
       let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{
         Name: "TelephoneNumber",
@@ -84,7 +85,7 @@ testfun(islive :boolean)
       this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => {
         let transform: any = [];
         transform = res.data;
-        if(res.TelephoneNumber) transform.TelephoneNumber = res.TelephoneNumber;
+        if(res.params.TelephoneNumber) transform.TelephoneNumber = res.params.TelephoneNumber;
         this.isLoading = false;
         this.spinner.hide();
         return transform;
@@ -95,6 +96,8 @@ testfun(islive :boolean)
     }
   }
 
+  }
+
   setStep(index: number) {
     this.step = index;
   }
@@ -103,13 +106,18 @@ testfun(islive :boolean)
     return this.addressDetails;
   }
 
+  /*  unsol restriction removed
   customScroll(i: number, isUnSol?: boolean) {
     if(isUnSol) {
       i == 0 ? this.scrollDemo.nativeElement.scrollTo(0,64) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94);
     } else {
     i == 0 ? this.scrollDemo!.nativeElement.scrollTo(0,32) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 62);
     }
+  } */
 
+  customScroll(i:number, isUnSol?: boolean) {
+  //  this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94);
+   setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 62); }, 200);
   }
 
   setAddressDetails(section: string, element?: any) {

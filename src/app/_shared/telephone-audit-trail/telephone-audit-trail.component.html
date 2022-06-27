@@ -207,16 +207,28 @@
             <div class="liveRecord-error error">
                 <span class="alignMiddle">No Current Live Records Found</span>
             </div>
+            </ng-template>
 
-        </ng-template>
+    <mat-accordion *ngIf=" AT.UnsolicitedDetails != null" [togglePosition]="'before'">
+        <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true;"
+            (closed)="panelOpenState2 = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="table-icon">{{panelOpenState2 && step === 1 ? 'remove_box_outline' :
+                        'add_box_outline'}}</mat-icon>
+                    &nbsp;&nbsp;
+                    All Unsolicited Details
+                </mat-panel-title>
+            </mat-expansion-panel-header>
 
-        <ng-template #elseBlock1>
-            <div class="liveRecord-error error" *ngIf="repIdentifier === 'UnsolicitedErrors'">
-                <span class="alignMiddle">No Unsolicited Details Records Found</span>
+            <div class="unsolicitedDetails-sec" >
+                <app-table class="appTable" [tableitem]="AT.UnsolicitedDetails"></app-table>
             </div>
-        </ng-template>
+        <!-- </ng-template> -->
+        </mat-expansion-panel>
+        </mat-accordion>
 
-        <mat-accordion
+        <!-- <mat-accordion
             *ngIf="((repIdentifier === 'UnsolicitedErrors') && AT.UnsolicitedDetails != null); else elseBlock1;"
             [togglePosition]="'before'">
             <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1"
@@ -235,7 +247,7 @@
                 </div>
 
             </mat-expansion-panel>
-        </mat-accordion>
+        </mat-accordion> -->
 
 
         <table mat-table [dataSource]="AT.AuditDetailedReport ? AT.AuditDetailedReport : []" multiTemplateDataRows
@@ -256,13 +268,13 @@
                         <mat-icon class="table-icon" style="cursor: pointer;"
                             (click)="(expandedElement = expandedElement === element.DetailedReport ? null : element.DetailedReport);
                          setStep(2); (expandedElement === element.DetailedReport ? setAddressDetails('TransactionDetails', element.DetailedReport[0])
-                          : setAddressDetails('RemoveAddress')); (repIdentifier === 'UnsolicitedErrors' ? customScroll(i, true) : customScroll(i));">
-                            {{expandedElement === element.DetailedReport && step === 2 ? 'remove_box_outline' :
-                            'add_box_outline'}}
-                        </mat-icon>
-                    </td>
-                </ng-container>
+                          : setAddressDetails('RemoveAddress')); (AT.UnsolicitedDetails != null ? customScroll(i, true) : customScroll(i));">
+                        {{expandedElement === element.DetailedReport && step === 2 ? 'remove_box_outline' :
+                        'add_box_outline'}}
+                    </mat-icon>
+                </td>
             </ng-container>
+        </ng-container>
 
             <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
             <ng-container matColumnDef="expandedDetail" *ngIf="step === 2">
@@ -690,6 +702,8 @@
                     </div>
                 </td>
             </ng-container>
+
+           
 
             <tr mat-header-row *matHeaderRowDef="dataColumns;"></tr>
             <tr mat-row *matRowDef="let element; columns: dataColumns; let i = index;" class="example-element-row"
