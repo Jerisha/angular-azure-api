@@ -454,7 +454,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
         this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionReference;
+        this.tranId = tab.row.TransactionId;
         break;
       }
       default: {

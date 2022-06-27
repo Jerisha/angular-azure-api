@@ -209,14 +209,7 @@
 
     </ng-template>
 
-    <ng-template #elseBlock1>
-        <div class="liveRecord-error error" *ngIf="repIdentifier === 'UnsolicitedErrors'">
-            <span class="alignMiddle">No Unsolicited Details Records Found</span>
-        </div>
-    </ng-template>
-
-    <mat-accordion *ngIf="((repIdentifier === 'UnsolicitedErrors') && AT.UnsolicitedDetails != null); else elseBlock1;"
-        [togglePosition]="'before'">
+    <mat-accordion *ngIf=" AT.UnsolicitedDetails != null" [togglePosition]="'before'">
         <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true;"
             (closed)="panelOpenState2 = false">
             <mat-expansion-panel-header>
@@ -250,7 +243,7 @@
                     <mat-icon class="table-icon" style="cursor: pointer;"
                         (click)="(expandedElement = expandedElement === element.DetailedReport ? null : element.DetailedReport);
                          setStep(2); (expandedElement === element.DetailedReport ? setAddressDetails('TransactionDetails', element.DetailedReport[0])
-                          : setAddressDetails('RemoveAddress')); (repIdentifier === 'UnsolicitedErrors' ? customScroll(i, true) : customScroll(i));">
+                          : setAddressDetails('RemoveAddress')); (AT.UnsolicitedDetails != null ? customScroll(i, true) : customScroll(i));">
                         {{expandedElement === element.DetailedReport && step === 2 ? 'remove_box_outline' :
                         'add_box_outline'}}
                     </mat-icon>
