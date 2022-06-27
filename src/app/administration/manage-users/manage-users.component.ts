@@ -28,6 +28,7 @@ export class TodoItemFlatNode {
   level: number;
   expandable: boolean;
   id: number;
+  MenuID:string;
   isChecked: boolean;
   isPlanType: boolean;
   claimId: number;
@@ -1009,15 +1010,17 @@ const TREE_DATA_three = [
   {
     name: 'All',
     id:111,
+   
      isPlanType: true,
      claimId:11111,
     children:[
   {
     name: 'Process Management',
     id:111, 
-     isPlanType: true,
-     isChecked: true,
-     claimId:11111,
+    MenuID:'Menu01',
+    isPlanType: true,
+    isChecked: true,
+    claimId:11111,
     children: [
       {
         name: 'Solicited/Internal Discrepancy Process updated',
@@ -2172,6 +2175,32 @@ export class ManageUsersComponent implements OnInit {
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
+    debugger
+    if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
+      for(var i=0;i<TREE_DATA_three.length;i++)
+      {
+      let  Tree=TREE_DATA_three[i];
+      for(var j=0;j<Tree.children.length;j++)
+      {
+       let tchild=Tree.children[j];
+        for(var k=0;k<tchild.children.length;k++)
+        {
+          let grandhchild:any=tchild.children[k];
+          console.log('gradchild',grandhchild);
+          for(var m=0;m<grandhchild.children.length;m++)
+          {
+            console.log('content value',grandhchild.children[m]);
+          }
+        }
+         
+      }
+     
+    }
+  }
+
+
+
+
     const data = this.buildFileTree(TREE_DATA_three, 0);
     console.log(data);
     this.dataSource.data = data;
@@ -2482,6 +2511,7 @@ export class ManageUsersComponent implements OnInit {
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res:any) => {
           this.data0 = res.Data;
+          console.log('data of manage users',this.data0);
         }
       );
     }
