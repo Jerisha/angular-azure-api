@@ -110,7 +110,7 @@
         </mat-tab>
     </mat-tab-group>
     <div *ngIf="showCeasePanel" class="mat-elevation-z8 side-bottom">
-        <form [formGroup]="ceaseupdate" autocomplete="off">
+        <form [formGroup]="ceaseupdate" autocomplete="off" *ngIf="updateAccess">
             <div class="mat-elevation-z8 side-bottom">
                 <div style="display:inline; margin-left: 15px;">
                     <mat-form-field class="side-textarea" style="width:200px" >
