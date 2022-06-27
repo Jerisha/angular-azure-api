@@ -19,7 +19,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
                     let errorMessage = '';
                     //unauthorized user token validation
-                    if (error?.status === 401 && error?.error?.code === '"token_not_valid"')
+                    if (error?.status === 401 && error?.error?.code === 'token_not_valid')
                     {
 
                         this._route.navigate(['/login']);   
