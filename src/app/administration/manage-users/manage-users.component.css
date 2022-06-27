@@ -6,7 +6,18 @@
     padding: 10px;
     /* height:450px */
   }
-
+.a
+{
+  display:inline-block;
+  padding:1px;
+  padding-left: 40px!important;
+  /* background-color: gray; */
+}
+.b 
+{
+ font-weight: 100;
+  /* display:contents; */
+}
   .header-menu{
     position: absolute;
     width: calc(100% - 6px);
@@ -185,4 +196,20 @@
     /* padding: 6px; */
     text-align:justify;
     /* column-gap: 30px; */
+  }
+  .linkbutton
+  {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    /*optional*/
+    font-family: arial, sans-serif;
+    /*input has OS specific font-family*/
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  #mat-tab-label-1-0
+  {
+    background-color :red!important;
   }

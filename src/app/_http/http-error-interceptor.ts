@@ -13,7 +13,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request)
-            .pipe(  
+            .pipe(
                 //retry(1),
                 catchError((error: HttpErrorResponse) => {
                     let errorMessage = '';
@@ -23,10 +23,13 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         // console.log(errorMessage);
                     } else {
                         // Server-side errors
-                        this.spinner.hide();
+                        // this.spinner.hide();
                         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-                        //console.log(errorMessage);
-                        this._route.navigate(['/error'], {state: {errCode: error.status, errMsg: error.message}});
+                        //unauthorized token validation
+                        if (error.status === 401 && error.error.code === '"token_not_valid"')
+                            this._route.navigate(['/login']);
+                        else
+                            this._route.navigate(['/error'], { state: { errCode: error.status, errMsg: error.message } });
                     }
                     return throwError(errorMessage);
                 })

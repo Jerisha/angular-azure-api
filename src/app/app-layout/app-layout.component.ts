@@ -32,6 +32,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     this.navService.appDrawer = this.appDrawer;
+    this.navItems.filter(x=>x.menuiId);
   }
 
   ngAfterViewChecked() {
