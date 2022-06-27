@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     });
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
-
+    this.authService.logoutUser();
 
   }
   get f() { return this.loginForm.controls; }
