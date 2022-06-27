@@ -34,7 +34,13 @@ export class TelephoneAuditTrailComponent  {
   @Output() AddressCheckSelected = new EventEmitter<any[]>();
   @ViewChild('auditTabScroll') scrollDemo!: ElementRef;
   isLoading: boolean = true;
-
+  @Output() isLiveRecord = new EventEmitter<any>();
+  
+testfun(islive :boolean)
+{
+  this.isLiveRecord.emit(islive )
+  //console.log(islive,'live')
+} 
   constructor(private _route: Router, private service: AuditTrailService, private spinner: NgxSpinnerService) {
   }
 
