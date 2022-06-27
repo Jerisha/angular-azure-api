@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      username: new FormControl('', Validators.required),
+      username: new FormControl('BEEMA', Validators.required),
       password: new FormControl('', Validators.required)
     });
 
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     // }
     debugger;
     this.loading = true;
-    this.authService.login('BEEMA', this.f.password.value).subscribe((x: any) => {
+    this.authService.login(this.f.username.value, this.f.password.value).subscribe((x: any) => {
       if (this.authService.isUserLoggedIn) {
         this.router.navigate(['/home']);
       }

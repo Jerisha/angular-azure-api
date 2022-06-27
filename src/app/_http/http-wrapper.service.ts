@@ -11,13 +11,116 @@ import { Router } from '@angular/router';
 import { AlertService } from '../_shared/alert/alert.service';
 import { Utils } from './common/utils';
 
-
-
 @Injectable({ providedIn: 'root' })
 export class HttpWrapperService {
 
     constructor(private httpClient: HttpClient, private _route: Router, private alertService: AlertService) {
     }
+
+    processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, responseType = ResponseType.JSON, headers?: HttpHeaders, params?: HttpParams,):
+        Observable<Type> {
+        const observerRes = new Observable((observer: Observer<Type>) => {
+            this.http(httpVerb.toString(),
+                this.urlExtract(endPoint),
+                JSON.stringify(body),
+                responseType,
+                headers,
+                params).subscribe((response: Type) => {
+                    observer.next(this.resolvePyRespone(response, endPoint))
+                    observer.complete()
+                    //this.resolveRespone(response, endPoint);
+                })
+        });
+        return observerRes;
+    }
+
+
+    private urlExtract(endPoint: WebMethods): string {
+        let url = '';
+        switch (endPoint) {
+            case WebMethods.UIQUERY:
+            case WebMethods.UILOGIN:
+                url = `${environment.api_auth}${endPoint.toString()}`
+                break;
+            default:
+                url = `${environment.api_py_sit}${endPoint.toString()}`
+        }
+        return url;
+        // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
+        //     `${environment.api_py_sit}${endPoint.toString()}`;
+    }
+
+    private resolvePyRespone(val: any, requestType: WebMethods) {
+        debugger;
+        let jsonResult = '';
+        // console.log(val)
+
+        let transData: any = [];
+        try {
+            if (requestType === WebMethods.BLOBOBJECT)
+                return val;
+            if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
+                switch (requestType) {
+                    case WebMethods.CONFIG:
+                        transData = val.ResponseParams
+                        transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
+                        break;
+                    case WebMethods.QUERY:
+                    case WebMethods.GET:
+                        transData.params = val.ResponseParams
+                        transData.data = val.Data
+                        break;
+                    case WebMethods.PAFQUERY:
+                        transData = val.Status[0]
+                        transData.params = val.ResponseParams
+                        transData.data = val.Data
+
+                        break;
+                    case WebMethods.UPDATE:
+                    case WebMethods.CREATE:
+                    case WebMethods.DELETE:
+                        transData = val.Status[0]
+                        transData.data = val.Data
+                        break;
+                    case WebMethods.METADATA:
+                        // transData = val.ResponseParams
+                        //transData.data = val.Data.Object_name[0].MetaDataParameters
+                        //transData.data = val.Data.TelephoneNumber[0].MetaDataParameters[1]
+                        transData = val.Data.TelephoneNumber[0].MetaDataParameters
+                        //console.log(transData, 'metadat')
+                        // console.log(JSON.stringify(transData), 'metadat1')
+                        break;
+                    case WebMethods.UIQUERY:
+                    case WebMethods.UILOGIN:
+                        transData = val
+                        break;
+
+                    case WebMethods.EXPSUMMARY:
+                        transData = val.ResponseParams
+                        transData.data = val.Data;
+                        transData.Status = val.Status[0];
+                        break;
+                }
+            }
+
+        } catch (err) {
+            console.log("PyResponse: " + JSON.stringify(val) + "ResponseError: " + err);
+            this.alertService.error("Incorrect PyResponse Format", { autoClose: true, keepAfterRouteChange: false });
+        }
+        console.log("PyData :" + JSON.stringify(transData));
+        return transData;
+    }
+
+    private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
+        //debugger;
+        switch (responseType) {
+            case ResponseType.JSON:
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
+            case ResponseType.BLOB:
+                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob', observe: 'response' });
+        }
+    }
+
 
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
@@ -83,100 +186,6 @@ export class HttpWrapperService {
         } catch (err) {
             console.log("Response: " + val + "ResponseError: " + err);
             this.alertService.error("Incorrect Response Format", { autoClose: true, keepAfterRouteChange: false });
-        }
-    }
-
-    processPyRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, responseType = ResponseType.JSON,headers?: HttpHeaders, params?: HttpParams, ):
-        Observable<Type> {
-        const observerRes = new Observable((observer: Observer<Type>) => {
-            this.http(httpVerb.toString(),
-                endPoint === WebMethods.UIQUERY ? environment.api_auth :
-                    `${environment.api_py_sit}${endPoint.toString()}`,
-                JSON.stringify(body),
-                responseType,
-                headers,
-                params).subscribe((response: Type) => {
-                    observer.next(this.resolvePyRespone(response, endPoint))
-                    observer.complete()
-                    //this.resolveRespone(response, endPoint);
-                })
-        });
-        return observerRes;
-    }
-    // processPyBlobRequest(httpVerb: HttpVerbs, endPoint: WebMethods, body: any): Observable<any> {
-    //     return this.http(httpVerb.toString(),
-    //         `${environment.api_py_dev}${endPoint.toString()}`,
-    //         JSON.stringify(body),
-    //         ResponseType.BLOB);
-    // }
-
-    private resolvePyRespone(val: any, requestType: WebMethods) {
-        debugger;
-        let jsonResult = '';
-        // console.log(val)
-
-        let transData: any = [];
-        try {
-            if (requestType === WebMethods.BLOBOBJECT)
-                return val;
-            if (val?.hasOwnProperty("Status") && this.validateResponseStatus(val.Status[0])) {
-                switch (requestType) {
-                    case WebMethods.CONFIG:
-                        transData = val.ResponseParams
-                        transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
-                        break;
-                    case WebMethods.QUERY:
-                    case WebMethods.GET:
-                        transData.params = val.ResponseParams
-                        transData.data = val.Data
-                        break;
-                    case WebMethods.PAFQUERY:
-                        transData = val.Status[0]
-                        transData.params = val.ResponseParams
-                        transData.data = val.Data
-
-                        break;
-                    case WebMethods.UPDATE:
-                    case WebMethods.CREATE:
-                    case WebMethods.DELETE:
-                        transData = val.Status[0]
-                        transData.data = val.Data
-                        break;
-                    case WebMethods.METADATA:
-                        // transData = val.ResponseParams
-                        //transData.data = val.Data.Object_name[0].MetaDataParameters
-                        //transData.data = val.Data.TelephoneNumber[0].MetaDataParameters[1]
-                        transData = val.Data.TelephoneNumber[0].MetaDataParameters
-                        //console.log(transData, 'metadat')
-                        // console.log(JSON.stringify(transData), 'metadat1')
-                        break;
-                    case WebMethods.UIQUERY:
-                        transData = val
-                        break;
-
-                    case WebMethods.EXPSUMMARY:
-                        transData = val.ResponseParams
-                        transData.data = val.Data;
-                        transData.Status = val.Status[0];
-                        break;
-                }
-            }
-
-        } catch (err) {
-            console.log("PyResponse: " + JSON.stringify(val) + "ResponseError: " + err);
-            this.alertService.error("Incorrect PyResponse Format", { autoClose: true, keepAfterRouteChange: false });
-        }
-        console.log("PyData :" + JSON.stringify(transData));
-        return transData;
-    }
-
-    private http(httpVerb: string, url: string, body: string, responseType: ResponseType, headers?: HttpHeaders, params?: HttpParams): Observable<any> {
-        //debugger;
-        switch (responseType) {
-            case ResponseType.JSON:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
-            case ResponseType.BLOB:
-                return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob', observe: 'response' });
         }
     }
 
@@ -389,3 +398,5 @@ export class HttpWrapperService {
         }
     }
 }
+
+

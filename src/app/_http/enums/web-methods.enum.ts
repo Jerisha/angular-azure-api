@@ -7,7 +7,8 @@ export enum WebMethods {
   DELETE = 'DeleteObject',
   PAFQUERY = 'PAFQueryObject',
   METADATA = 'MetaDataObject',
-  UIQUERY = 'UiqueryObject',
+  UIQUERY = 'UIQuery',
+  UILOGIN = 'Login',
   EXPSUMMARY ='UIExportObject',
   BLOBOBJECT= 'FileObjectView'
 }

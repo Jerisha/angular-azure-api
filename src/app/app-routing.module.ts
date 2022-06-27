@@ -34,55 +34,56 @@ const routes: Routes = [
   {
     path: 'exporttoexcel',
     component: AppLayoutComponent,
-    children: [{ path: '', component: ExporttoexcelComponent }]
+    children: [{ path: '', component: ExporttoexcelComponent }],
+    canActivateChild :[AuthGuard]
   },
   {
     path: 'administration',
     component: AppLayoutComponent,
     loadChildren: () => import('./administration/administration.module').then(x => x.AdministrationModule),
-
+    canActivateChild :[AuthGuard]
   },
   {
     path: 'resolvingoferrors',
     component: AppLayoutComponent,
     loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule),
-
+    canActivateChild :[AuthGuard]
   },
   {
     path: 'transactions',
     component: AppLayoutComponent,
     loadChildren: () => import('./transactions/transactions-routing.module').then(x => x.TransactionsRoutingModule),
-
+    canActivateChild :[AuthGuard]
   },
   {
     path: 'auditreports',
     component: AppLayoutComponent,
     loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule),
-
+    canActivateChild :[AuthGuard]
   },
   {
     path: 'reports',
     component: AppLayoutComponent,
     loadChildren: () => import('./reports/reports.module').then(x => x.ReportsModule),
-
+    canActivateChild :[AuthGuard]
 
   },
   {
     path: 'statisticalreports',
     component: AppLayoutComponent,
     loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule),
-
+    canActivateChild :[AuthGuard]
   },
   {
     path: 'shared',
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
-
+    canActivateChild :[AuthGuard]
   },
   {
     path: 'report-references',
     component: AppLayoutComponent,
     loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
-
+    canActivateChild :[AuthGuard]
 
 
   }

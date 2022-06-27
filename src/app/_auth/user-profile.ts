@@ -10,7 +10,7 @@ export class UserProfile {
     ) { }
 
 
-    userRole: string;
+    userProfile: string;
     viewAccess: boolean;
     updateAccess: boolean;
     deleteAccess: boolean;
@@ -19,7 +19,7 @@ export class UserProfile {
     intializeUser(): void {
         debugger;
         let user: User = this.authService.currentUserValue;
-        this.userRole = user.rolename;
+        this.userProfile = user.profilename;
 
         let menu = user.menuitems.find(x => x.menuid?.toLowerCase() === (this.activatedRoute.snapshot.data['id'] as string).toLowerCase())
         if (menu?.isfullaccess === 1) {
