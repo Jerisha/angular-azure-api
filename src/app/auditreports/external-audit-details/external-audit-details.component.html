@@ -369,7 +369,7 @@
                         </app-table-selection>
                         <div class="mat-elevation-z8 side-bottom">
                             <!-- <div style="display:inline; margin-left: 15px;"> -->
-                            <form [formGroup]="updateForm" (ngSubmit)="onSaveSubmit()" autocomplete="off">
+                            <form [formGroup]="updateForm" (ngSubmit)="onSaveSubmit()" autocomplete="off" *ngIf="updateAccess">
                                 <mat-form-field>
                                     <mat-label>Resolution Type</mat-label>
                                     <input #resType [(ngModel)]="resolutionType" formControlName="Resolution"
