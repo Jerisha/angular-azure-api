@@ -150,13 +150,13 @@
                                   <mat-tree-node
                                     *matTreeNodeDef="let node"
                                     matTreeNodeToggle
-                                    matTreeNodePadding [ngClass]="(node.claimId == '0')? 'a':'b'"
+                                    matTreeNodePadding [ngClass]="(node.Position == '0')? 'a':'b'"
                                   >
                                     <button mat-icon-button disabled></button>{{node.label}}
                                     <mat-checkbox style="visibility:hidden"
-                                      class="checklist-leaf-node"
+                                      class="checklist-leaf-node" 
                                       [checked]="descendantsAllSelected(node)"
-                                      (change)="todoLeafItemSelectionToggle(node)"
+                                      (change)="todoLeafItemSelectionToggle(node,$event)"
                                       >{{node.label}}</mat-checkbox
                                     >
                                   </mat-tree-node>
@@ -185,8 +185,8 @@
                                     <mat-checkbox
                                      
                                     [checked]="descendantsAllSelected(node)" style="visibility:hidden"
-                                      [indeterminate]="descendantsPartiallySelected(node)"
-                                      (change)="todoItemSelectionToggle(node)"
+                                     [indeterminate]="descendantsPartiallySelected(node)"
+                                      (change)="todoItemSelectionToggle(node,$event)"
                                       >{{node.label}}</mat-checkbox
                                     >
                                   </mat-tree-node>
@@ -321,7 +321,7 @@
                                           <mat-tree-node
                                             *matTreeNodeDef="let node"
                                             matTreeNodeToggle
-                                            matTreeNodePadding   [ngClass]="(node.claimId == '0')? 'a':'b'" 
+                                            matTreeNodePadding   [ngClass]="(node.Position == '0')? 'a':'b'" 
                                           >
                                             <button mat-icon-button disabled></button>
                                             <mat-checkbox  
@@ -330,7 +330,7 @@
                                               [checked]="checklistSelection.isSelected(node)"
                                               [checked]="node.isChecked"
                                              
-                                              (change)="todoLeafItemSelectionToggle(node)"
+                                              (change)="todoLeafItemSelectionToggle(node,$event)"
                                               >{{node.label}}</mat-checkbox
                                             >
                                           </mat-tree-node>
@@ -360,7 +360,7 @@
                                             [checked]="descendantsAllSelected(node)"
                                             [checked]="node.isChecked"
                                               [indeterminate]="descendantsPartiallySelected(node)"
-                                              (change)="todoItemSelectionToggle(node)"
+                                              (change)="todoItemSelectionToggle(node,$event)"
                                               >{{node.label}}</mat-checkbox
                                             >
                                           </mat-tree-node>

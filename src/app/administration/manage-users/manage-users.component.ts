@@ -12,6 +12,7 @@ import { Utils } from 'src/app/_http';
 import { AdministrationService } from '../services/administration.service';
 import { takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -19,7 +20,7 @@ export class TodoItemNode {
   id: number;
   isChecked: boolean;
   isPlanType: boolean;
-  claimId: number;
+  Position: number;
 }
 
 /** Flat to-do item node with expandable and level information */
@@ -31,50 +32,50 @@ export class TodoItemFlatNode {
   MenuID:string;
   isChecked: boolean;
   isPlanType: boolean;
-  claimId: number;
+  Position: number;
 }
 const TREE_DATA = [
   {
     name: 'Test 1',
     id: 111,
     isChecked: true,
-    isPlanType: true,
-    claimId: 11111,
+   
+    Position: 11111,
     children: [
       {
         name: 'Sub - Test 1',
         id: 22,
         isChecked: true,
-        isPlanType: true,
-        claimId: 777777,
+       
+        Position: 777777,
         children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-            isPlanType: true,
-            claimId: 6666666,
+           
+            Position: 6666666,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-            isPlanType: true,
-            claimId: 5555555,
+           
+            Position: 5555555,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 5555555,
+           
+            Position: 5555555,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 5555555,
+           
+            Position: 5555555,
           },
         ],
       },
@@ -84,15 +85,15 @@ const TREE_DATA = [
     name: 'Test 2',
     id: 66,
     isChecked: false,
-    isPlanType: true,
-    claimId: 33333,
+   
+    Position: 33333,
     children: [
       {
         name: 'Sub - Test 2',
         id: 77,
         isChecked: false,
-        isPlanType: true,
-        claimId: 44444444,
+       
+        Position: 44444444,
       },
     ],
   },
@@ -102,43 +103,43 @@ const TREE_DATA_two = [
     name: 'Process Management Test',
     id:111,
     isChecked:true, 
-     isPlanType: true,
-     claimId:11111,
+    
+     Position:11111,
     children: [
       {
         name: 'Solicited/Internal Discrepancy Process ',
         id:22,
         isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        
+         Position:11111,
          children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
         ],
       },
@@ -146,36 +147,36 @@ const TREE_DATA_two = [
         name: 'Solicited Resolution Report',
         id:22,
         isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        
+         Position:11111,
          children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
         ]
      
@@ -184,36 +185,36 @@ const TREE_DATA_two = [
         name: 'Solicited Actions Report',
         id:22,
         isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        
+         Position:11111,
          children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
         ]
      
@@ -222,36 +223,36 @@ const TREE_DATA_two = [
         name: 'Unsolicited Process',
         id:22,
         isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        
+         Position:11111,
          children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           
           },
         ]
@@ -261,23 +262,23 @@ const TREE_DATA_two = [
         name: 'Unsolicited Actions Report',
         id:22,
         isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        
+         Position:11111,
          children: [
          
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
         ]
      
@@ -290,22 +291,22 @@ const TREE_DATA_two = [
     name: 'Record Creation',
     id:66,
     isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
+     
+     Position:33333,
     children: [
       {
         name: 'Create Record',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Create Internal Cease',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
 
     ]
@@ -314,50 +315,50 @@ const TREE_DATA_two = [
     name: 'Audit Process Management',
     id:66,
     isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
+     
+     Position:33333,
     children: [
       {
         name: 'Full Audit Details',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Audit Discrepancy Report',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'External Audit Details',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       }
     ]
   },
@@ -365,50 +366,50 @@ const TREE_DATA_two = [
     name: 'Audit Process Management',
     id:66,
     isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
+     
+     Position:33333,
     children: [
       {
         name: 'Full Audit Details',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Audit Discrepancy Report',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'External Audit Details',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       }
     ]
   },
@@ -416,50 +417,50 @@ const TREE_DATA_two = [
     name: 'Inventory Records',
     id:66,
     isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
+     
+     Position:33333,
     children: [
       {
         name: 'InFlight Records',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Telephone Range Report',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Transaction Details Records',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       }
     ]
   },
@@ -467,15 +468,15 @@ const TREE_DATA_two = [
     name: 'Statistical Reports',
     id:66,
     isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
+     
+     Position:33333,
     children: [
       {
         name: 'Transaction Trend for Source & Command',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
      
   
@@ -485,58 +486,58 @@ const TREE_DATA_two = [
     name: 'Administration',
     id:66,
     isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
+     
+     Position:33333,
     children: [
       {
         name: 'Audit Status Tracker',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Audit Data Files',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Restore Solicited Errors',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Data Correction Summary',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
 
       {
         name: 'Unresolved Transaction',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Unresolved Errors',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       },
       {
         name: 'Manage Users',
         id:77,
         isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
+        
+        Position:44444444,
       }
       
     ]
@@ -545,50 +546,50 @@ const TREE_DATA_two = [
       name: 'Configurational Reference Data',
       id:66,
       isChecked:false,
-       isPlanType: true, 
-       claimId:33333,
+       
+       Position:33333,
       children: [
         {
           name: 'Reference List',
           id:77,
           isChecked:false,
-           isPlanType: true,
-          claimId:44444444,
+          
+          Position:44444444,
           children: [
             {
               name: 'Franchise',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -596,36 +597,36 @@ const TREE_DATA_two = [
               name: 'Franchise',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -633,36 +634,36 @@ const TREE_DATA_two = [
               name: 'Franchise',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -670,36 +671,36 @@ const TREE_DATA_two = [
               name: 'Franchise',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -707,36 +708,36 @@ const TREE_DATA_two = [
               name: 'Olo',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -744,36 +745,36 @@ const TREE_DATA_two = [
               name: 'Company',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -781,36 +782,36 @@ const TREE_DATA_two = [
               name: 'SourceSystem',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -818,36 +819,36 @@ const TREE_DATA_two = [
               name: 'Status',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -855,36 +856,36 @@ const TREE_DATA_two = [
               name: 'AuditStatus',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -892,36 +893,36 @@ const TREE_DATA_two = [
               name: 'CUPIDCrossReference',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -929,36 +930,36 @@ const TREE_DATA_two = [
               name: 'LineTypes',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -966,36 +967,36 @@ const TREE_DATA_two = [
               name: 'ResolverEmail',
               id:22,
               isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
+              
+               Position:11111,
                children: [
                 {
                   name: 'U',
                   id: 33,
                   isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'D',
                   id: 44,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'C',
                   id: 54,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
                 {
                   name: 'R',
                   id: 374,
                   isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
+                 
+                  Position: 0,
                 },
               ],
             },
@@ -1009,56 +1010,48 @@ const TREE_DATA_two = [
 const TREE_DATA_three = [
   {
     name: 'All',
-    id:111,
-   
-     isPlanType: true,
-     claimId:11111,
+      id:111,
     children:[
   {
     name: 'Process Management',
     id:111, 
     MenuID:'Menu01',
-    isPlanType: true,
     isChecked: true,
-    claimId:11111,
+    Position:11111,
     children: [
       {
         name: 'Solicited/Internal Discrepancy Process updated',
         id:22,
-        isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        isChecked:true,     
+         Position:11111,
          children: [
           {
             name: 'U',
             id: 33,
-            isChecked: false,
-            isPlanType: true,
-            claimId: 0,
+            isChecked: true,
+            Position: 0,
             isAvailable:true
           },
           {
             name: 'D',
             id: 44,
-            isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+            isChecked: true,    
+            Position: 0,
             isAvailable:true
           },
           {
             name: 'C',
             id: 54,
-            isChecked: false,
-            isPlanType: true,
-            claimId: 0,
+            isChecked: false,         
+            Position: 0,
             isAvailable:true
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
         ],
       },
@@ -1066,36 +1059,36 @@ const TREE_DATA_three = [
         name: 'Solicited Resolution Report',
         id:22,
         isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        
+         Position:11111,
          children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
         ]
      
@@ -1104,36 +1097,36 @@ const TREE_DATA_three = [
         name: 'Solicited Actions Report',
         id:22,
         isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        
+         Position:11111,
          children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
         ]
      
@@ -1142,36 +1135,36 @@ const TREE_DATA_three = [
         name: 'Unsolicited Process',
         id:22,
         isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        
+         Position:11111,
          children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           
           },
         ]
@@ -1181,23 +1174,23 @@ const TREE_DATA_three = [
         name: 'Unsolicited Actions Report',
         id:22,
         isChecked:true, 
-         isPlanType: true,
-         claimId:11111,
+        
+         Position:11111,
          children: [
          
           {
             name: 'C',
             id: 54,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-            isPlanType: true,
-            claimId: 0,
+           
+            Position: 0,
           },
         ]
      
@@ -1205,724 +1198,724 @@ const TREE_DATA_three = [
 
 
     ]
-  },
-  {
-    name: 'Record Creation',
-    id:66,
-    isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
-    children: [
-      {
-        name: 'Create Record',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Create Internal Cease',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
+  }]
+  // {
+  //   name: 'Record Creation',
+  //   id:66,
+  //   isChecked:false,
+  //    
+  //    Position:33333,
+  //   children: [
+  //     {
+  //       name: 'Create Record',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Create Internal Cease',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
 
-    ]
-  },
-  {
-    name: 'Audit Process Management',
-    id:66,
-    isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
-    children: [
-      {
-        name: 'Full Audit Details',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Audit Discrepancy Report',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'External Audit Details',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Full Audit History',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Audit User Action Summary',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Saparateinternal Audit',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      }
-    ]
-  },
-  {
-    name: 'Audit Process Management',
-    id:66,
-    isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
-    children: [
-      {
-        name: 'Full Audit Details',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Audit Discrepancy Report',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'External Audit Details',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Full Audit History',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Audit User Action Summary',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Saparateinternal Audit',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      }
-    ]
-  },
-  {
-    name: 'Inventory Records',
-    id:66,
-    isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
-    children: [
-      {
-        name: 'InFlight Records',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Telephone Range Report',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Transaction Details Records',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Full Audit History',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Audit User Action Summary',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Saparateinternal Audit',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      }
-    ]
-  },
-  {
-    name: 'Statistical Reports',
-    id:66,
-    isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
-    children: [
-      {
-        name: 'Transaction Trend for Source & Command',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
+  //   ]
+  // },
+  // {
+  //   name: 'Audit Process Management',
+  //   id:66,
+  //   isChecked:false,
+  //    
+  //    Position:33333,
+  //   children: [
+  //     {
+  //       name: 'Full Audit Details',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Audit Discrepancy Report',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'External Audit Details',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Full Audit History',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Audit User Action Summary',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Saparateinternal Audit',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: 'Audit Process Management',
+  //   id:66,
+  //   isChecked:false,
+  //    
+  //    Position:33333,
+  //   children: [
+  //     {
+  //       name: 'Full Audit Details',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Audit Discrepancy Report',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'External Audit Details',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Full Audit History',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Audit User Action Summary',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Saparateinternal Audit',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: 'Inventory Records',
+  //   id:66,
+  //   isChecked:false,
+  //    
+  //    Position:33333,
+  //   children: [
+  //     {
+  //       name: 'InFlight Records',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Telephone Range Report',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Transaction Details Records',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Full Audit History',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Audit User Action Summary',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Saparateinternal Audit',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: 'Statistical Reports',
+  //   id:66,
+  //   isChecked:false,
+  //    
+  //    Position:33333,
+  //   children: [
+  //     {
+  //       name: 'Transaction Trend for Source & Command',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
      
   
-    ]
-  },
-  {
-    name: 'Administration',
-    id:66,
-    isChecked:false,
-     isPlanType: true, 
-     claimId:33333,
-    children: [
-      {
-        name: 'Audit Status Tracker',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Audit Data Files',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Restore Solicited Errors',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Data Correction Summary',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
+  //   ]
+  // },
+  // {
+  //   name: 'Administration',
+  //   id:66,
+  //   isChecked:false,
+  //    
+  //    Position:33333,
+  //   children: [
+  //     {
+  //       name: 'Audit Status Tracker',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Audit Data Files',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Restore Solicited Errors',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Data Correction Summary',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
 
-      {
-        name: 'Unresolved Transaction',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Unresolved Errors',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      },
-      {
-        name: 'Manage Users',
-        id:77,
-        isChecked:false,
-         isPlanType: true,
-        claimId:44444444,
-      }
+  //     {
+  //       name: 'Unresolved Transaction',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Unresolved Errors',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     },
+  //     {
+  //       name: 'Manage Users',
+  //       id:77,
+  //       isChecked:false,
+  //       
+  //       Position:44444444,
+  //     }
       
-    ]
-  },
-    {
-      name: 'Configurational Reference Data',
-      id:66,
-      isSelected:false,
-       isPlanType: true, 
-       claimId:33333,
-      children: [
-        {
-          name: 'Reference List',
-          id:77,
-          isSelected:false,
-           isPlanType: true,
-          claimId:44444444,
-          children: [
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'Olo',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'Company',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'SourceSystem',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'Status',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'AuditStatus',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'CUPIDCrossReference',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'LineTypes',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-            {
-              name: 'ResolverEmail',
-              id:22,
-              isChecked:true, 
-               isPlanType: true,
-               claimId:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                  isPlanType: true,
-                  claimId: 0,
-                },
-              ],
-            },
-          ]
-        }]
+  //   ]
+  // },
+  //   {
+  //     name: 'Configurational Reference Data',
+  //     id:66,
+  //     isSelected:false,
+  //      
+  //      Position:33333,
+  //     children: [
+  //       {
+  //         name: 'Reference List',
+  //         id:77,
+  //         isSelected:false,
+  //         
+  //         Position:44444444,
+  //         children: [
+  //           {
+  //             name: 'Franchise',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'Franchise',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'Franchise',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'Franchise',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'Olo',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'Company',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'SourceSystem',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'Status',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'AuditStatus',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'CUPIDCrossReference',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'LineTypes',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             name: 'ResolverEmail',
+  //             id:22,
+  //             isChecked:true, 
+  //             
+  //              Position:11111,
+  //              children: [
+  //               {
+  //                 name: 'U',
+  //                 id: 33,
+  //                 isChecked: false,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'D',
+  //                 id: 44,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'C',
+  //                 id: 54,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //               {
+  //                 name: 'R',
+  //                 id: 374,
+  //                 isChecked: true,
+  //                
+  //                 Position: 0,
+  //               },
+  //             ],
+  //           },
+  //         ]
+  //       }]
       
-  }]
+  // }]
 }
   
 ];
@@ -1965,7 +1958,7 @@ const TREE_DATA_three = [
 //       node.label = obj[key].name;
 //       node.id = obj[key].id;
 //       node.isChecked = obj[key].isChecked;
-//       node.claimId = obj[key].claimId;
+//       node.Position = obj[key].Position;
 //       node.isPlanType = obj[key].isPlanType;
 
 //       if (item != null) {
@@ -2084,6 +2077,7 @@ export class ManageUsersComponent implements OnInit {
   UserProfileForm!:FormGroup;
   UserEditForm!:FormGroup;
   Header:string='';
+  isChecked?: boolean = false;
   Acessrights: Access[] = [
     {value: '1', viewValue: 'Admin'},
     {value: '2', viewValue: 'SuperAdmin'},
@@ -2189,6 +2183,17 @@ export class ManageUsersComponent implements OnInit {
           console.log('gradchild',grandhchild);
           for(var m=0;m<grandhchild.children.length;m++)
           {
+            if(grandhchild.children[m].name=='U')
+            {
+              grandhchild.children[m].isChecked=false;
+            }
+          else
+          {
+            grandhchild.children[m].isChecked=true;
+          }
+
+        
+           
             console.log('content value',grandhchild.children[m]);
           }
         }
@@ -2197,6 +2202,7 @@ export class ManageUsersComponent implements OnInit {
      
     }
   }
+  console.log('loop completed',TREE_DATA_three);
 
 
 
@@ -2220,7 +2226,7 @@ export class ManageUsersComponent implements OnInit {
       node.label = obj[key].name;
       node.id = obj[key].id;
       node.isChecked = obj[key].isChecked;
-      node.claimId = obj[key].claimId;
+      node.Position = obj[key].Position;
       node.isPlanType = obj[key].isPlanType;
 
       if (item != null) {
@@ -2289,7 +2295,9 @@ export class ManageUsersComponent implements OnInit {
   }
 
   GetCheckAll() {
-  console.log(this.treeControl.dataNodes);
+ // console.log(this.treeControl.dataNodes);
+ var checklistSelection = new SelectionModel<TodoItemFlatNode>(true);
+console.log('get selected',checklistSelection);
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
@@ -2316,7 +2324,7 @@ export class ManageUsersComponent implements OnInit {
     flatNode.level = level;
     flatNode.id = node.id;
     flatNode.isChecked = node.isChecked;
-    flatNode.claimId = node.claimId;
+    flatNode.Position = node.Position;
     flatNode.isPlanType = node.isPlanType;
     flatNode.expandable = !!node.children;
     this.flatNodeMap.set(flatNode, node);
@@ -2335,6 +2343,7 @@ export class ManageUsersComponent implements OnInit {
 
   /** Whether part of the descendants are selected */
   descendantsPartiallySelected(node: TodoItemFlatNode): boolean {
+   // console.log('descendent event',node);
     const descendants = this.treeControl.getDescendants(node);
     const result = descendants.some((child) =>
       this.checklistSelection.isSelected(child)
@@ -2343,9 +2352,11 @@ export class ManageUsersComponent implements OnInit {
   }
 
   /** Toggle the to-do item selection. Select/deselect all the descendants node */
-  todoItemSelectionToggle(node: TodoItemFlatNode): void {
+  todoItemSelectionToggle(node: TodoItemFlatNode,event:MatCheckboxChange): void {
+   
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
+
     this.checklistSelection.isSelected(node)
       ? this.checklistSelection.select(...descendants)
       : this.checklistSelection.deselect(...descendants);
@@ -2353,11 +2364,18 @@ export class ManageUsersComponent implements OnInit {
     // Force update for the parent
     descendants.every((child) => this.checklistSelection.isSelected(child));
     this.checkAllParentsSelection(node);
+    console.log('node change event',node,event.checked);
+    const partialSelection = this.treeControl.dataNodes.filter(x => 
+      this.descendantsPartiallySelected(x));
+      console.log('final result',this.checklistSelection.selected, partialSelection);
+   
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
-  todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
+  todoLeafItemSelectionToggle(node: TodoItemFlatNode,event:MatCheckboxChange): void {
+
     this.checklistSelection.toggle(node);
+    console.log('chnage event node',node,event.checked);
     node.isChecked ? (node.isChecked = false) : (node.isChecked = true);
     this.checkAllParentsSelection(node);
   }
