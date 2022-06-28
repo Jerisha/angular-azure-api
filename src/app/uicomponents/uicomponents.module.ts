@@ -18,6 +18,8 @@ import {
 } from './index';
 
 import { HelperModule } from '../_helper/helper.module';
+import { SharedModule } from '../_shared/shared.module';
+// import { ProfileCreationDialogComponent } from '../_shared/profile-creation-dialog/profile-creation-dialog.component';
 
 
 @NgModule({
@@ -31,7 +33,7 @@ import { HelperModule } from '../_helper/helper.module';
     SelectExpressionComponent,
     SelectSingleComponent,
     TableGroupHeaderComponent,
-    TableExpansionComponent
+    TableExpansionComponent,
 
   ],
   imports: [
