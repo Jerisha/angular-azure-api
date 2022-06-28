@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Injectable, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
@@ -2062,6 +2062,8 @@ const UserProfiles = [
 })
 
 export class ManageUsersComponent implements OnInit {
+  userProfile: string = '';
+  userProfilesDropdown : string[] = [''];
   isShow: boolean = false;
   showMenu: string = 'expanded';
   btAuditFileDetailsTable!: TableItem;
@@ -2125,11 +2127,10 @@ export class ManageUsersComponent implements OnInit {
   startupusermsgs:MatTableDataSource<any>;
   startupusermsgscols=[
     { header: 'Actions', headerValue: 'Actions' },
-    { header: 'News Id', headerValue: 'newsid' },
+    { header: 'News Description', headerValue: 'newsdescription' },
     { header: 'Email Address', headerValue: 'emailaddress' },
     { header: 'Start Date', headerValue: 'startdate' },
     { header: 'Expiry Date', headerValue: 'expirydate' },
-    { header: 'News Description', headerValue: 'newsdescription' }
   ];
   startupusermsgscolsvalues:any = this.startupusermsgscols.map((x: any) => x.headerValue);
   userprofilesdata:MatTableDataSource<any>;
@@ -2443,6 +2444,7 @@ console.log('get selected',checklistSelection);
     // this.thisForm =  this.formBuilder.group({
     //   UserId: new FormControl({ value: 'ashok' }'')
     // })
+    this.createForms();
     this.isLeftPanel=false;
    
   }
@@ -2457,10 +2459,10 @@ console.log('get selected',checklistSelection);
   }
   removeTabLeftPanel(index: number) {
     this.tabsLeft.splice(index, 1);
-    this.showDetails = this.tabsLeft.length > 0 ? true : false;
+    // this.showDetails = this.tabsLeft.length > 0 ? true : false;
     if(this.tabsLeft.length == 0) {
     //this.isShow = false;
-    this.showMenu = 'expanded';
+    // this.showMenu = 'expanded';
   this.isLeftPanel=false;
     }
 
@@ -2762,20 +2764,21 @@ console.log('get selected',checklistSelection);
     this.StartupForm=true;
     this.UserProfilesForm=false;
     this.isLeftPanel =true;
-    this.StartupUsermsgsForm = this.formBuilder.group({
-      ShowFrom: new FormControl(),
-      Message: new FormControl(),
-      ExpiryDate: new FormControl(),
-      EmailAddress: new FormControl()
-    });
+    // this.StartupUsermsgsForm = this.formBuilder.group({
+    //   startdate: new FormControl([Validators.required]),
+    //   newsdescription: new FormControl(),
+    //   expirydate: new FormControl(),
+    //   emailaddress: new FormControl(),
+    //   newsid : new FormControl(),
+    // });
     this.record = record;
-    console.log('usermsgs'+this.record);
+    // console.log('usermsgs'+this.record);
     this.eventName ='Update';
     for (let field in this.StartupUsermsgsForm.controls) 
     {      
         let control = this.StartupUsermsgsForm.get(field);    
         control?.setValue(record[field]);
-        console.log(record[field]);
+        // console.log(record[field]);
     }
 
   }
@@ -2808,19 +2811,17 @@ console.log('get selected',checklistSelection);
     console.log('Edit Record');
     this.eventName="Update";
     debugger
-    this.referenceForm = this.formBuilder.group({
+    // this.referenceForm = this.formBuilder.group({
       
-      UserID: new FormControl({ value:''}),
-      //AddressLine1: new FormControl({ value:''}),
-      //AddressLine2: new FormControl({ value:''}),
-      //PostCode: new FormControl({ value:''}),
-      UserProfile: new FormControl({ value:''}),
-      YID: new FormControl({ value:''}),
-      FirstName: new FormControl({ value:''}),
-      EmailAddress: new FormControl({ value:''}),
-      TelephoneNo: new FormControl({ value:''}),
-      Country: new FormControl({ value:''})
-    });
+    //   username: new FormControl(),
+    //   userprofiles: new FormControl(),
+    //   yid: new FormControl(),
+    //   firstname: new FormControl(),
+    //   lastname: new FormControl(),
+    //   emailaddress: new FormControl(),
+    //   telephoneno: new FormControl(),
+
+    // });
    
       this.record = record;
       this.eventName ='Update'
@@ -2829,8 +2830,19 @@ console.log('get selected',checklistSelection);
       for (let field in this.referenceForm.controls) 
       {      
           let control = this.referenceForm.get(field);    
-          control?.setValue(record[field]);
-          console.log(record[field]);
+          // control?.setValue(record[field]);
+          // console.log(record[field]);
+
+          if(field === 'userprofiles') {
+            this.userProfilesDropdown = record[field];
+            // this.userProfile = record['profilename'];
+            control?.setValue(record['profilename']);
+          } else if(field === 'source') {
+            // control?.setValue(record[field]);
+            
+          } else {
+            control?.setValue(record[field]);
+          }
       }
       
       //this.referenceForm.markAsUntouched();
@@ -2866,17 +2878,18 @@ console.log('get selected',checklistSelection);
   }
   onCreateuserMsgs()
   {
+    this.StartupUsermsgsForm.reset();
     this.Header="Start Up User Messages";
     this.UserDetailsForm=false;
     this.StartupForm=true;
     this.UserProfilesForm=false;
     this.isLeftPanel =true;
-    this.StartupUsermsgsForm = this.formBuilder.group({
-      ShowFrom: new FormControl(),
-      Message: new FormControl(),
-      ExpiryDate: new FormControl(),
-      EmailAddress: new FormControl()
-    });
+    // this.StartupUsermsgsForm = this.formBuilder.group({
+    //   startdate: new FormControl(),
+    //   newsdescription: new FormControl(),
+    //   expirydate: new FormControl(),
+    //   emailaddress: new FormControl(),
+    // });
     this.eventName="Create";
   }
 
@@ -2929,25 +2942,58 @@ onVerifyUserName()
   this.StartupForm=false;
   this.UserProfilesForm=false;
   this.isLeftPanel =true;
-  this.referenceForm = this.formBuilder.group({
-      
-    UserID: new FormControl(),
-   // AddressLine1: new FormControl(),
-   // AddressLine2: new FormControl(),
-   // PostCode: new FormControl(),
-    UserProfile: new FormControl(),
-    YID: new FormControl(),
-    FirstName: new FormControl(),
-    TelephoneNo:new FormControl(),
-    EmailAddress: new FormControl(),
-    // Country: new FormControl()
-  });
+  this.referenceForm.reset();
+  // this.referenceForm = this.formBuilder.group({
+  //   username: new FormControl(),
+  //   userprofiles: new FormControl(),
+  //   yid: new FormControl(),
+  //   firstname: new FormControl(),
+  //   lastname: new FormControl(),
+  //   emailaddress: new FormControl(),
+  //   telephoneno: new FormControl(),
+  // });
   this.eventName="Create";
 }
-onSubmit(){
+onSubmit(reportIdentifier?: string){
  // alert("Create/Edit Completed..");
   this.isLeftPanel =false;
  // this.showDetailsForm=true;
+//  console.log("event name "+ this.eventName);
+
+  if (this.eventName === 'Update') {
+    switch (reportIdentifier) {
+      case 'UserAccessDetails':
+        let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareUpdateData(this.referenceForm));
+        console.log("Update request1 : " + JSON.stringify(request1));
+        // this.service.uiUpdateDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        //   (res:any) => {
+        //     this.userprofilesdata = res.Data;
+        //   }
+        // );
+        break;
+      case 'StartupUserMessages':
+        let request2 = Utils.preparePyUIUpdate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareUpdateData(this.StartupUsermsgsForm));
+        console.log("Update request2 : " + JSON.stringify(request2));
+        // this.service.uiUpdateDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        //   (res:any) => {
+        //     this.userprofilesdata = res.Data;
+        //   }
+        // );
+        break;
+      case 'UserProfiles':
+        let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareUpdateData(this.referenceForm));
+        console.log("Update request3 : " + JSON.stringify(request3));
+        // this.service.uiUpdateDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        //   (res:any) => {
+        //     this.userprofilesdata = res.Data;
+        //   }
+        // );
+        break;
+    }
+  }
+  else{
+    // Create Logic
+  }
 }
 onDeleteRecord(record:any,event:any){    
   alert("Delete starts..."+JSON.stringify(this.record));
@@ -3025,5 +3071,38 @@ onDeleteRecord(record:any,event:any){
       return isUserId && isEmailAddress && isReportName
     }
 
+  }
+
+  prepareUpdateData(form: FormGroup) {
+    let attribute: any = {};
+    for(const field in form.controls)
+    {
+      const control = form.get(field);
+      if (control?.value) attribute[field] = control.value;
+    }
+    console.log("Update data : "+JSON.stringify(attribute));
+    return attribute;
+  }
+
+  createForms(){
+    this.referenceForm = this.formBuilder.group({
+      username: new FormControl({value:''}),
+      userprofiles: new FormControl({value:''}),
+      yid: new FormControl({value:''}),
+      firstname: new FormControl({value:''}),
+      lastname: new FormControl({value:''}),
+      emailaddress: new FormControl({value:''}),
+      telephoneno: new FormControl({value:''}),
+    });
+
+    this.StartupUsermsgsForm = this.formBuilder.group({
+      newsid : new FormControl({value:''},[]),
+      startdate: new FormControl({ value: ''}, []),
+      newsdescription: new FormControl({value:''},[]),
+      expirydate: new FormControl({value:''},[]),
+      emailaddress: new FormControl({value:''},[]),
+    });
+
+    this.StartupUsermsgsForm.reset();
   }
 }

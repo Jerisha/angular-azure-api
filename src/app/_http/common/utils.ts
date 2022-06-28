@@ -190,6 +190,14 @@ export class Utils {
     console.log(JSON.stringify(transform))
     return transform;
   }
+  static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData:any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+    transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+    transform.Data[0] = updateData;
+    return transform;
+  }
 
 }
 

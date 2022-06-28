@@ -40,6 +40,7 @@ export class HttpWrapperService {
         switch (endPoint) {
             case WebMethods.UIQUERY:
             case WebMethods.UILOGIN:
+            case WebMethods.UIUPDATE:
                 url = `${environment.api_auth}${endPoint.toString()}`
                 break;
             default:
@@ -94,7 +95,9 @@ export class HttpWrapperService {
                     case WebMethods.UILOGIN:
                         transData = val
                         break;
-
+                    case WebMethods.UIUPDATE:
+                            transData.params = val.ResponseParams;
+                            break;
                     case WebMethods.EXPSUMMARY:
                         transData = val.ResponseParams
                         transData.data = val.Data;

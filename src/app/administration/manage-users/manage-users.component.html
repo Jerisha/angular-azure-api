@@ -36,21 +36,21 @@
                     </ng-template>
                     <span [ngSwitch]="tableft.tabType">
                         <div *ngSwitchCase="0" style="height:100%;">
-                            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
+                            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit('UserAccessDetails')">
                        
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
                                     <mat-form-field hintLabel="Max 10 characters">
                                       <mat-label>User Name</mat-label>
-                                      <input formControlName="UserID" matInput #input maxlength="10"
+                                      <input formControlName="username" matInput #input maxlength="10"
                                         placeholder="User Id">
                                       <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
                                     </mat-form-field>
                                     <mat-form-field>
                                         <mat-label>Profile</mat-label>
-                                        <mat-select formControlName="UserProfile" (selectionChange)="onSelectEvent($event.value)">
-                                          <mat-option *ngFor="let profile of Acessrights" [value]="profile.value">
-                                            {{profile.viewValue}}
+                                        <mat-select formControlName="userprofiles" (selectionChange)="onSelectEvent($event.value)">
+                                          <mat-option *ngFor="let profile of userProfilesDropdown" [value]="profile">
+                                            {{profile}}
                                           </mat-option>
                                         </mat-select>
                                       </mat-form-field>
@@ -77,33 +77,35 @@
                                        
                                                <mat-form-field>
                                                 <mat-label >First Name</mat-label>
-                                            <input type="text" matInput   formControlName="FirstName"
+                                            <input type="text" matInput   formControlName="firstname"
                                             placeholder="First Name">
                                             </mat-form-field>
+                                            
+                                            
                                 </div>  
                                     <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
                                        
                                         <mat-form-field>
                                             <mat-label>Email Address</mat-label>
-                                        <input type="text"  matInput   formControlName="EmailAddress"
+                                        <input type="text"  matInput   formControlName="emailaddress"
                                         placeholder="EmailAddress">
                                         </mat-form-field>
                                        
                                         <mat-form-field>
                                             <mat-label >YID</mat-label>
-                                        <input type="text" matInput  formControlName="YID"
+                                        <input type="text" matInput  formControlName="yid"
                                         placeholder="YID">
                                         </mat-form-field>
                                         <mat-form-field>
                                             <mat-label >Telephone No</mat-label>
-                                        <input type="text" matInput   formControlName="TelephoneNo"
+                                        <input type="text" matInput   formControlName="telephoneno"
                                         placeholder="TelephoneNo">
                                         </mat-form-field>
-                                        <!-- <mat-form-field>
-                                            <mat-label >Country</mat-label>
-                                        <input type="text" matInput   formControlName="Country"
-                                        placeholder="Country">
-                                        </mat-form-field> -->
+                                        <mat-form-field>
+                                            <mat-label >Last Name</mat-label>
+                                        <input type="text" matInput   formControlName="lastname"
+                                        placeholder="Last Name">
+                                        </mat-form-field>
                                     </div> 
                                    
                                 </div>
@@ -502,30 +504,30 @@
             
                  
          <!-- UserProfile    -->  
-                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit('StartupUserMessages')">
                        
                         <div class="content-main vf-flex-container-row">
                             <div  class="content-submain vf-flex-container-col">
                                 <mat-form-field>
                                     <mat-label>Email Address</mat-label>
-                                <input type="text"  matInput   formControlName="EmailAddress"
-                                placeholder="EmailAddress">
+                                <input type="text"  matInput   formControlName="emailaddress"
+                                placeholder="Email Address">
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>Description</mat-label>
-                                <textarea type="text" style="min-height:100px;"  matInput   formControlName="Message"
-                                placeholder="Message"></textarea>
+                                <textarea type="text" style="min-height:100px;"  matInput   formControlName="newsdescription"
+                                placeholder="Description"></textarea>
                                 </mat-form-field>
                             </div> 
                             <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
                                 <mat-form-field>
-                                    <mat-label>Show From</mat-label>
-                                <input type="text"  matInput   formControlName="ShowFrom"
-                                placeholder="Show From">
+                                    <mat-label>Start Date</mat-label>
+                                <input type="text"  matInput   formControlName="startdate"
+                                placeholder="Start Date">
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>Expiry Date</mat-label>
-                                <input type="text"  matInput   formControlName="ExpiryDate"
+                                <input type="text"  matInput   formControlName="expirydate"
                                 placeholder="Expiry Date">
                                 </mat-form-field>
                             </div> 
