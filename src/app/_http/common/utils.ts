@@ -190,6 +190,16 @@ export class Utils {
     console.log(JSON.stringify(transform))
     return transform;
   }
+  static preparePyUICreate(reportIdentifier: any, subReportName: any, recordIdentifier?: any, data?: any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UICREATE));
+    //transform.UserParams = user();
+    if (recordIdentifier)
+      transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+    transform.Data = data;
+    return transform;
+  }
 
 }
 

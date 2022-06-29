@@ -506,7 +506,31 @@ export const PyRequests = {
       "RequestParams":[
           {"ReportIdenitifer":"ManageUsers",
           "SubReportName":"UserReports"}]
-      } 
+      },
+      UICREATE:{
+        "RequestType": "UICREATE",
+        "UserParams": [
+          {
+            "UserID": "BHUWAN",
+            "Destination": "OSN2"
+          }
+        ],
+        "RequestParams": [
+          {
+            "ReportIdenitifer": "ManageUsers",
+            "SubReportName": "FavouriteReports",
+            "RecordIdentifier": "favmenid"
+          }
+        ],
+        "Data": [
+          {
+            "favmenuid": "MENU18",
+            "isactive": "1",
+            "isdelete": "0"
+          }
+        ]
+      }
+       
 }
 
 

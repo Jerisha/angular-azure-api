@@ -40,6 +40,7 @@ export class HttpWrapperService {
         switch (endPoint) {
             case WebMethods.UIQUERY:
             case WebMethods.UILOGIN:
+            case WebMethods.UICREATE:
                 url = `${environment.api_auth}${endPoint.toString()}`
                 break;
             default:

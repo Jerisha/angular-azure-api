@@ -8,9 +8,12 @@ export class UIService {
 
 
   constructor(private wrapperService: HttpWrapperService) { }
- 
+
   queryDetails(request: any): Observable<any> {
-    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);   
-     
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+  }
+
+  uiCreateDetails(request: any): Observable<any> {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UICREATE, request);
   }
 }

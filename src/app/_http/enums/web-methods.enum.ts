@@ -9,6 +9,7 @@ export enum WebMethods {
   METADATA = 'MetaDataObject',
   UIQUERY = 'UIQuery',
   UILOGIN = 'Login',
+  UICREATE = 'UICreate',
   EXPSUMMARY ='UIExportObject',
   BLOBOBJECT= 'FileObjectView'
 }

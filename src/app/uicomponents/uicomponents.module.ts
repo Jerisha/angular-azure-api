@@ -19,8 +19,6 @@ import {
 
 import { HelperModule } from '../_helper/helper.module';
 import { SelectCheckboxComponent } from './select-checkbox/select-checkbox.component';
-// import { ProfileCreationDialogComponent } from '../_shared/profile-creation-dialog/profile-creation-dialog.component';
-
 
 @NgModule({
   declarations: [    
