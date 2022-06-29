@@ -198,6 +198,22 @@ export class Utils {
     transform.Data[0] = updateData;
     return transform;
   }
+  static preparePyUICreate(reportIdentifier: string, subReportName: string, recordIdentifier: string, createData:any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UICREATE));
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+    transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+    transform.Data[0] = createData;
+    return transform;
+  }
+  static preparePyUIDelete(reportIdentifier: string, subReportName: string, recordIdentifier: string, deleteData:any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIDELETE));
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+    transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+    transform.Data[0] = deleteData;
+    return transform;
+  }
 
 }
 

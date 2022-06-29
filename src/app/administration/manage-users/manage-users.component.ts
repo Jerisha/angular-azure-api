@@ -4,15 +4,18 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
-import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
-import {FlatTreeControl} from '@angular/cdk/tree';
-import {SelectionModel} from '@angular/cdk/collections';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Utils } from 'src/app/_http';
 import { AdministrationService } from '../services/administration.service';
 import { takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertService } from 'src/app/_shared/alert/alert.service';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -29,7 +32,7 @@ export class TodoItemFlatNode {
   level: number;
   expandable: boolean;
   id: number;
-  MenuID:string;
+  MenuID: string;
   isChecked: boolean;
   isPlanType: boolean;
   Position: number;
@@ -39,42 +42,42 @@ const TREE_DATA = [
     name: 'Test 1',
     id: 111,
     isChecked: true,
-   
+
     Position: 11111,
     children: [
       {
         name: 'Sub - Test 1',
         id: 22,
         isChecked: true,
-       
+
         Position: 777777,
         children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-           
+
             Position: 6666666,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-           
+
             Position: 5555555,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-           
+
             Position: 5555555,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-           
+
             Position: 5555555,
           },
         ],
@@ -85,14 +88,14 @@ const TREE_DATA = [
     name: 'Test 2',
     id: 66,
     isChecked: false,
-   
+
     Position: 33333,
     children: [
       {
         name: 'Sub - Test 2',
         id: 77,
         isChecked: false,
-       
+
         Position: 44444444,
       },
     ],
@@ -101,187 +104,187 @@ const TREE_DATA = [
 const TREE_DATA_two = [
   {
     name: 'Process Management Test',
-    id:111,
-    isChecked:true, 
-    
-     Position:11111,
+    id: 111,
+    isChecked: true,
+
+    Position: 11111,
     children: [
       {
         name: 'Solicited/Internal Discrepancy Process ',
-        id:22,
-        isChecked:true, 
-        
-         Position:11111,
-         children: [
+        id: 22,
+        isChecked: true,
+
+        Position: 11111,
+        children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-           
+
             Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-           
+
             Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-           
+
             Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-           
+
             Position: 0,
           },
         ],
       },
       {
         name: 'Solicited Resolution Report',
-        id:22,
-        isChecked:true, 
-        
-         Position:11111,
-         children: [
+        id: 22,
+        isChecked: true,
+
+        Position: 11111,
+        children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-           
+
             Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-           
+
             Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-           
+
             Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-           
+
             Position: 0,
           },
         ]
-     
+
       },
       {
         name: 'Solicited Actions Report',
-        id:22,
-        isChecked:true, 
-        
-         Position:11111,
-         children: [
+        id: 22,
+        isChecked: true,
+
+        Position: 11111,
+        children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-           
+
             Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-           
+
             Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-           
+
             Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-           
+
             Position: 0,
           },
         ]
-     
+
       },
       {
         name: 'Unsolicited Process',
-        id:22,
-        isChecked:true, 
-        
-         Position:11111,
-         children: [
+        id: 22,
+        isChecked: true,
+
+        Position: 11111,
+        children: [
           {
             name: 'U',
             id: 33,
             isChecked: false,
-           
+
             Position: 0,
           },
           {
             name: 'D',
             id: 44,
             isChecked: true,
-           
+
             Position: 0,
           },
           {
             name: 'C',
             id: 54,
             isChecked: true,
-           
+
             Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-           
+
             Position: 0,
-          
+
           },
         ]
-     
+
       },
       {
         name: 'Unsolicited Actions Report',
-        id:22,
-        isChecked:true, 
-        
-         Position:11111,
-         children: [
-         
+        id: 22,
+        isChecked: true,
+
+        Position: 11111,
+        children: [
+
           {
             name: 'C',
             id: 54,
             isChecked: true,
-           
+
             Position: 0,
           },
           {
             name: 'R',
             id: 374,
             isChecked: true,
-           
+
             Position: 0,
           },
         ]
-     
+
       },
 
 
@@ -289,1635 +292,1635 @@ const TREE_DATA_two = [
   },
   {
     name: 'Record Creation',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
+    id: 66,
+    isChecked: false,
+
+    Position: 33333,
     children: [
       {
         name: 'Create Record',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Create Internal Cease',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
 
     ]
   },
   {
     name: 'Audit Process Management',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
+    id: 66,
+    isChecked: false,
+
+    Position: 33333,
     children: [
       {
         name: 'Full Audit Details',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Audit Discrepancy Report',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'External Audit Details',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Full Audit History',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Audit User Action Summary',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Saparateinternal Audit',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       }
     ]
   },
   {
     name: 'Audit Process Management',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
+    id: 66,
+    isChecked: false,
+
+    Position: 33333,
     children: [
       {
         name: 'Full Audit Details',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Audit Discrepancy Report',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'External Audit Details',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Full Audit History',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Audit User Action Summary',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Saparateinternal Audit',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       }
     ]
   },
   {
     name: 'Inventory Records',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
+    id: 66,
+    isChecked: false,
+
+    Position: 33333,
     children: [
       {
         name: 'InFlight Records',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Telephone Range Report',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Transaction Details Records',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Full Audit History',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Audit User Action Summary',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Saparateinternal Audit',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       }
     ]
   },
   {
     name: 'Statistical Reports',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
+    id: 66,
+    isChecked: false,
+
+    Position: 33333,
     children: [
       {
         name: 'Transaction Trend for Source & Command',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
-     
-  
+
+
     ]
   },
   {
     name: 'Administration',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
+    id: 66,
+    isChecked: false,
+
+    Position: 33333,
     children: [
       {
         name: 'Audit Status Tracker',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Audit Data Files',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Restore Solicited Errors',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Data Correction Summary',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
 
       {
         name: 'Unresolved Transaction',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Unresolved Errors',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       },
       {
         name: 'Manage Users',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
       }
-      
+
     ]
   },
-    {
-      name: 'Configurational Reference Data',
-      id:66,
-      isChecked:false,
-       
-       Position:33333,
-      children: [
-        {
-          name: 'Reference List',
-          id:77,
-          isChecked:false,
-          
-          Position:44444444,
-          children: [
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'Olo',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'Company',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'SourceSystem',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'Status',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'AuditStatus',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'CUPIDCrossReference',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'LineTypes',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-            {
-              name: 'ResolverEmail',
-              id:22,
-              isChecked:true, 
-              
-               Position:11111,
-               children: [
-                {
-                  name: 'U',
-                  id: 33,
-                  isChecked: false,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'D',
-                  id: 44,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'C',
-                  id: 54,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-                {
-                  name: 'R',
-                  id: 374,
-                  isChecked: true,
-                 
-                  Position: 0,
-                },
-              ],
-            },
-          ]
-        }]
-      
+  {
+    name: 'Configurational Reference Data',
+    id: 66,
+    isChecked: false,
+
+    Position: 33333,
+    children: [
+      {
+        name: 'Reference List',
+        id: 77,
+        isChecked: false,
+
+        Position: 44444444,
+        children: [
+          {
+            name: 'Franchise',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'Franchise',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'Franchise',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'Franchise',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'Olo',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'Company',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'SourceSystem',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'Status',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'AuditStatus',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'CUPIDCrossReference',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'LineTypes',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+          {
+            name: 'ResolverEmail',
+            id: 22,
+            isChecked: true,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
+          },
+        ]
+      }]
+
   },
-  
+
 ];
 
 const TREE_DATA_three = [
   {
     name: 'All',
-      id:111,
-    children:[
-  {
-    name: 'Process Management',
-    id:111, 
-    MenuID:'Menu01',
-    isChecked: true,
-    Position:11111,
+    id: 111,
     children: [
       {
-        name: 'Solicited/Internal Discrepancy Process updated',
-        id:22,
-        isChecked:true,     
-         Position:11111,
-         children: [
+        name: 'Process Management',
+        id: 111,
+        MenuID: 'Menu01',
+        isChecked: true,
+        Position: 11111,
+        children: [
           {
-            name: 'U',
-            id: 33,
+            name: 'Solicited/Internal Discrepancy Process updated',
+            id: 22,
             isChecked: true,
-            Position: 0,
-            isAvailable:true
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: true,
+                Position: 0,
+                isAvailable: true
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+                Position: 0,
+                isAvailable: true
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: false,
+                Position: 0,
+                isAvailable: true
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ],
           },
           {
-            name: 'D',
-            id: 44,
-            isChecked: true,    
-            Position: 0,
-            isAvailable:true
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: false,         
-            Position: 0,
-            isAvailable:true
-          },
-          {
-            name: 'R',
-            id: 374,
+            name: 'Solicited Resolution Report',
+            id: 22,
             isChecked: true,
-           
-            Position: 0,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ]
+
           },
-        ],
-      },
-      {
-        name: 'Solicited Resolution Report',
-        id:22,
-        isChecked:true, 
-        
-         Position:11111,
-         children: [
           {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-           
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
+            name: 'Solicited Actions Report',
+            id: 22,
             isChecked: true,
-           
-            Position: 0,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ]
+
           },
           {
-            name: 'C',
-            id: 54,
+            name: 'Unsolicited Process',
+            id: 22,
             isChecked: true,
-           
-            Position: 0,
+
+            Position: 11111,
+            children: [
+              {
+                name: 'U',
+                id: 33,
+                isChecked: false,
+
+                Position: 0,
+              },
+              {
+                name: 'D',
+                id: 44,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+
+              },
+            ]
+
           },
           {
-            name: 'R',
-            id: 374,
+            name: 'Unsolicited Actions Report',
+            id: 22,
             isChecked: true,
-           
-            Position: 0,
+
+            Position: 11111,
+            children: [
+
+              {
+                name: 'C',
+                id: 54,
+                isChecked: true,
+
+                Position: 0,
+              },
+              {
+                name: 'R',
+                id: 374,
+                isChecked: true,
+
+                Position: 0,
+              },
+            ]
+
           },
-        ]
-     
-      },
-      {
-        name: 'Solicited Actions Report',
-        id:22,
-        isChecked:true, 
-        
-         Position:11111,
-         children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-           
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-           
-            Position: 0,
-          },
-        ]
-     
-      },
-      {
-        name: 'Unsolicited Process',
-        id:22,
-        isChecked:true, 
-        
-         Position:11111,
-         children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-           
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-           
-            Position: 0,
-          
-          },
-        ]
-     
-      },
-      {
-        name: 'Unsolicited Actions Report',
-        id:22,
-        isChecked:true, 
-        
-         Position:11111,
-         children: [
-         
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-           
-            Position: 0,
-          },
-        ]
-     
-      },
 
 
-    ]
-  }]
-  // {
-  //   name: 'Record Creation',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Create Record',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Create Internal Cease',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
+        ]
+      }]
+    // {
+    //   name: 'Record Creation',
+    //   id:66,
+    //   isChecked:false,
+    //    
+    //    Position:33333,
+    //   children: [
+    //     {
+    //       name: 'Create Record',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Create Internal Cease',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
 
-  //   ]
-  // },
-  // {
-  //   name: 'Audit Process Management',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Full Audit Details',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit Discrepancy Report',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'External Audit Details',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Full Audit History',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit User Action Summary',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Saparateinternal Audit',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     }
-  //   ]
-  // },
-  // {
-  //   name: 'Audit Process Management',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Full Audit Details',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit Discrepancy Report',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'External Audit Details',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Full Audit History',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit User Action Summary',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Saparateinternal Audit',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     }
-  //   ]
-  // },
-  // {
-  //   name: 'Inventory Records',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'InFlight Records',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Telephone Range Report',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Transaction Details Records',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Full Audit History',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit User Action Summary',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Saparateinternal Audit',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     }
-  //   ]
-  // },
-  // {
-  //   name: 'Statistical Reports',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Transaction Trend for Source & Command',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-     
-  
-  //   ]
-  // },
-  // {
-  //   name: 'Administration',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Audit Status Tracker',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit Data Files',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Restore Solicited Errors',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Data Correction Summary',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
+    //   ]
+    // },
+    // {
+    //   name: 'Audit Process Management',
+    //   id:66,
+    //   isChecked:false,
+    //    
+    //    Position:33333,
+    //   children: [
+    //     {
+    //       name: 'Full Audit Details',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Audit Discrepancy Report',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'External Audit Details',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Full Audit History',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Audit User Action Summary',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Saparateinternal Audit',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'Audit Process Management',
+    //   id:66,
+    //   isChecked:false,
+    //    
+    //    Position:33333,
+    //   children: [
+    //     {
+    //       name: 'Full Audit Details',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Audit Discrepancy Report',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'External Audit Details',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Full Audit History',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Audit User Action Summary',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Saparateinternal Audit',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'Inventory Records',
+    //   id:66,
+    //   isChecked:false,
+    //    
+    //    Position:33333,
+    //   children: [
+    //     {
+    //       name: 'InFlight Records',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Telephone Range Report',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Transaction Details Records',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Full Audit History',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Audit User Action Summary',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Saparateinternal Audit',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'Statistical Reports',
+    //   id:66,
+    //   isChecked:false,
+    //    
+    //    Position:33333,
+    //   children: [
+    //     {
+    //       name: 'Transaction Trend for Source & Command',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
 
-  //     {
-  //       name: 'Unresolved Transaction',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Unresolved Errors',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Manage Users',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     }
-      
-  //   ]
-  // },
-  //   {
-  //     name: 'Configurational Reference Data',
-  //     id:66,
-  //     isSelected:false,
-  //      
-  //      Position:33333,
-  //     children: [
-  //       {
-  //         name: 'Reference List',
-  //         id:77,
-  //         isSelected:false,
-  //         
-  //         Position:44444444,
-  //         children: [
-  //           {
-  //             name: 'Franchise',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Franchise',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Franchise',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Franchise',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Olo',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Company',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'SourceSystem',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Status',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'AuditStatus',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'CUPIDCrossReference',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'LineTypes',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'ResolverEmail',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //         ]
-  //       }]
-      
-  // }]
-}
-  
+
+    //   ]
+    // },
+    // {
+    //   name: 'Administration',
+    //   id:66,
+    //   isChecked:false,
+    //    
+    //    Position:33333,
+    //   children: [
+    //     {
+    //       name: 'Audit Status Tracker',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Audit Data Files',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Restore Solicited Errors',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Data Correction Summary',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+
+    //     {
+    //       name: 'Unresolved Transaction',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Unresolved Errors',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     },
+    //     {
+    //       name: 'Manage Users',
+    //       id:77,
+    //       isChecked:false,
+    //       
+    //       Position:44444444,
+    //     }
+
+    //   ]
+    // },
+    //   {
+    //     name: 'Configurational Reference Data',
+    //     id:66,
+    //     isSelected:false,
+    //      
+    //      Position:33333,
+    //     children: [
+    //       {
+    //         name: 'Reference List',
+    //         id:77,
+    //         isSelected:false,
+    //         
+    //         Position:44444444,
+    //         children: [
+    //           {
+    //             name: 'Franchise',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'Franchise',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'Franchise',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'Franchise',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'Olo',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'Company',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'SourceSystem',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'Status',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'AuditStatus',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'CUPIDCrossReference',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'LineTypes',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //           {
+    //             name: 'ResolverEmail',
+    //             id:22,
+    //             isChecked:true, 
+    //             
+    //              Position:11111,
+    //              children: [
+    //               {
+    //                 name: 'U',
+    //                 id: 33,
+    //                 isChecked: false,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'D',
+    //                 id: 44,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'C',
+    //                 id: 54,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //               {
+    //                 name: 'R',
+    //                 id: 374,
+    //                 isChecked: true,
+    //                
+    //                 Position: 0,
+    //               },
+    //             ],
+    //           },
+    //         ]
+    //       }]
+
+    // }]
+  }
+
 ];
 
 
@@ -1990,69 +1993,71 @@ const TREE_DATA_three = [
 
 
 const ELEMENT_DATA = [
-  {UserName:"Test User",Profile:"Custom",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"Admin User",Profile:"Admin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"Admin User",Profile:"SuperAdmin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"Admin User",Profile:"Custom",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"Admin User",Profile:"SuperAdmin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"Test User",Profile:"SuperAdmin",Active:"Yes",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  
+  { UserName: "Test User", Profile: "Custom", Active: "Yes", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "Admin User", Profile: "Admin", Active: "Yes", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "Admin User", Profile: "SuperAdmin", Active: "Yes", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "Admin User", Profile: "Custom", Active: "Yes", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "Admin User", Profile: "SuperAdmin", Active: "Yes", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "Test User", Profile: "SuperAdmin", Active: "Yes", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+
 ]
 const UserOfReports = [{
-  UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" },
-  {UserId:"kashnji3",EmailAddress:"kashim.j3@vodafone.com",Sources:"Amdocs,SAS/COM",MenuGroup:"Resolving of Errors",ReportName:"Solicited Errors" }
+  UserId: "kashnji3", EmailAddress: "kashim.j3@vodafone.com", Sources: "Amdocs,SAS/COM", MenuGroup: "Resolving of Errors", ReportName: "Solicited Errors"
+},
+{ UserId: "kashnji3", EmailAddress: "kashim.j3@vodafone.com", Sources: "Amdocs,SAS/COM", MenuGroup: "Resolving of Errors", ReportName: "Solicited Errors" },
+{ UserId: "kashnji3", EmailAddress: "kashim.j3@vodafone.com", Sources: "Amdocs,SAS/COM", MenuGroup: "Resolving of Errors", ReportName: "Solicited Errors" },
+{ UserId: "kashnji3", EmailAddress: "kashim.j3@vodafone.com", Sources: "Amdocs,SAS/COM", MenuGroup: "Resolving of Errors", ReportName: "Solicited Errors" },
+{ UserId: "kashnji3", EmailAddress: "kashim.j3@vodafone.com", Sources: "Amdocs,SAS/COM", MenuGroup: "Resolving of Errors", ReportName: "Solicited Errors" },
+{ UserId: "kashnji3", EmailAddress: "kashim.j3@vodafone.com", Sources: "Amdocs,SAS/COM", MenuGroup: "Resolving of Errors", ReportName: "Solicited Errors" },
+{ UserId: "kashnji3", EmailAddress: "kashim.j3@vodafone.com", Sources: "Amdocs,SAS/COM", MenuGroup: "Resolving of Errors", ReportName: "Solicited Errors" }
 
 
 ]
 
 const StartUpUserMessages = [{
-  EmailAddress:"kashim.j3@vodafone.com",ShowFrom:"14 March 2022",ExpiryDate:"19 March 2022" ,Message:"test"},
-  {EmailAddress:"kashim.j3@vodafone.com",ShowFrom:"14 March 2022",ExpiryDate:"19 March 2022" ,Message:"test"},
-  {EmailAddress:"kashim.j3@vodafone.com",ShowFrom:"14 March 2022",ExpiryDate:"19 March 2022" ,Message:"test"},
-  {EmailAddress:"kashim.j3@vodafone.com",ShowFrom:"14 March 2022",ExpiryDate:"19 March 2022" ,Message:"test"},
-  {EmailAddress:"kashim.j3@vodafone.com",ShowFrom:"14 March 2022",ExpiryDate:"19 March 2022" ,Message:"test"},
-  {EmailAddress:"kashim.j3@vodafone.com",ShowFrom:"14 March 2022",ExpiryDate:"19 March 2022" ,Message:"test"}
+  EmailAddress: "kashim.j3@vodafone.com", ShowFrom: "14 March 2022", ExpiryDate: "19 March 2022", Message: "test"
+},
+{ EmailAddress: "kashim.j3@vodafone.com", ShowFrom: "14 March 2022", ExpiryDate: "19 March 2022", Message: "test" },
+{ EmailAddress: "kashim.j3@vodafone.com", ShowFrom: "14 March 2022", ExpiryDate: "19 March 2022", Message: "test" },
+{ EmailAddress: "kashim.j3@vodafone.com", ShowFrom: "14 March 2022", ExpiryDate: "19 March 2022", Message: "test" },
+{ EmailAddress: "kashim.j3@vodafone.com", ShowFrom: "14 March 2022", ExpiryDate: "19 March 2022", Message: "test" },
+{ EmailAddress: "kashim.j3@vodafone.com", ShowFrom: "14 March 2022", ExpiryDate: "19 March 2022", Message: "test" }
 ];
 const UserAccessDetails = [
-  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  {UserName:"kashnji3",Profile:"Requester",Active:"Level 0",EmailAddress:"kashim.j3@vodafone.com",Country:"United Kingdom",TelephoneNo:"0456786765","Y/W/ID":"Y875765","CreatedOn":"02/01/2022","CreatedBy":"admin"},
-  ]
+  { UserName: "kashnji3", Profile: "Requester", Active: "Level 0", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "kashnji3", Profile: "Requester", Active: "Level 0", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "kashnji3", Profile: "Requester", Active: "Level 0", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "kashnji3", Profile: "Requester", Active: "Level 0", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "kashnji3", Profile: "Requester", Active: "Level 0", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+  { UserName: "kashnji3", Profile: "Requester", Active: "Level 0", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
+]
 const UserProfiles = [
-  {"ProfileName":"New","Description":"New Profile","CreatedOn":"15 March 2022","CreatedBy":"admin"},
-  {"ProfileName":"Test","Description":"Test Profile","CreatedOn":"15 March 2022","CreatedBy":"admin"},
-  {"ProfileName":"Requestor","Description":"Requestor Profile","CreatedOn":"15 March 2022","CreatedBy":"admin"},
-  {"ProfileName":"Administrator","Description":"Admin of OSN2","CreatedOn":"15 March 2022","CreatedBy":"admin"},
-  {"ProfileName":"Super Admin","Description":"Can view and perform all operations","CreatedOn":"15 March 2022","CreatedBy":"admin"},
-  ]
-  
-  const FilterListItems: Select[] = [
-    { view: 'Amdocs SOM', viewValue: 'StartTelephoneNumber', default: true },
-    { view: 'ONNET', viewValue: 'EndTelephoneNumber', default: false },
-    { view: 'Ring Central', viewValue: 'Source', default: false },
-    { view: 'Audit', viewValue: 'Command', default: false },
-    { view: 'EDGE', viewValue: 'ErrorType', default: false },
-    { view: 'ONNET', viewValue: 'ResolutionType', default: false },
-  ];
-  interface Access {
-    value: string;
-    viewValue: string;
-  }
+  { "ProfileName": "New", "Description": "New Profile", "CreatedOn": "15 March 2022", "CreatedBy": "admin" },
+  { "ProfileName": "Test", "Description": "Test Profile", "CreatedOn": "15 March 2022", "CreatedBy": "admin" },
+  { "ProfileName": "Requestor", "Description": "Requestor Profile", "CreatedOn": "15 March 2022", "CreatedBy": "admin" },
+  { "ProfileName": "Administrator", "Description": "Admin of OSN2", "CreatedOn": "15 March 2022", "CreatedBy": "admin" },
+  { "ProfileName": "Super Admin", "Description": "Can view and perform all operations", "CreatedOn": "15 March 2022", "CreatedBy": "admin" },
+]
+
+const FilterListItems: Select[] = [
+  { view: 'Amdocs SOM', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'ONNET', viewValue: 'EndTelephoneNumber', default: false },
+  { view: 'Ring Central', viewValue: 'Source', default: false },
+  { view: 'Audit', viewValue: 'Command', default: false },
+  { view: 'EDGE', viewValue: 'ErrorType', default: false },
+  { view: 'ONNET', viewValue: 'ResolutionType', default: false },
+];
+interface Access {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css'],
   animations: [
     trigger('toggleMenu', [
-      state('collapsed', style({ height: '0px' , width: '0px', padding: '0px', display: 'none', })),
+      state('collapsed', style({ height: '0px', width: '0px', padding: '0px', display: 'none', })),
       state('expanded', style({ minHeight: '50px' })),
       transition('expanded => collapsed', animate('500ms ease-in')),
       transition('collapsed => expanded', animate('500ms ease-out')),
@@ -2063,56 +2068,58 @@ const UserProfiles = [
 
 export class ManageUsersComponent implements OnInit {
   userProfile: string = '';
-  userProfilesDropdown : string[] = [''];
+  userProfilesDropdown: string[] = [''];
   isShow: boolean = false;
   showMenu: string = 'expanded';
   btAuditFileDetailsTable!: TableItem;
   tabs: Tab[] = [];
   tabsLeft: Tab[] = [];
-  record:any;
-  eventName:string ='Create';
+  record: any;
+  eventName: string = 'Create';
   thisForm!: FormGroup;
   showDetails: boolean = false;
   referenceForm!: FormGroup;
   referenceUsernameform!: FormGroup;
-  StartupUsermsgsForm!:FormGroup;
-  UserProfileForm!:FormGroup;
-  UserEditForm!:FormGroup;
-  Header:string='';
+  StartupUsermsgsForm!: FormGroup;
+  UserProfileForm!: FormGroup;
+  UserEditForm!: FormGroup;
+  Header: string = '';
   isChecked?: boolean = false;
   Acessrights: Access[] = [
-    {value: '1', viewValue: 'Admin'},
-    {value: '2', viewValue: 'SuperAdmin'},
-    {value: '3', viewValue: 'Custom'}
-  ];  
+    { value: '1', viewValue: 'Admin' },
+    { value: '2', viewValue: 'SuperAdmin' },
+    { value: '3', viewValue: 'Custom' }
+  ];
   filterItems: Select[] = FilterListItems;
   btAuditFileDetailsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
-    { headerValue: 'FileName',
-    r: 'File Name', showDefault: true, isImage: false },
+    {
+      headerValue: 'FileName',
+      r: 'File Name', showDefault: true, isImage: false
+    },
     { headerValue: 'CreatedOn', header: 'Created On', showDefault: true, isImage: false },
     { headerValue: 'DownloadFile', header: 'Download File', showDefault: true, isImage: true },
 
   ]
   selectedTab: number = 0;
   selectedTabLeft: number = 0;
-  UserDetailsForm:boolean=false;
-  StartupForm:boolean=false;
-  UserProfilesForm:boolean=false;
-  UserEditProfilesForm:boolean=false;
-  isLeftPanel =false;
+  UserDetailsForm: boolean = false;
+  StartupForm: boolean = false;
+  UserProfilesForm: boolean = false;
+  UserEditProfilesForm: boolean = false;
+  isLeftPanel = false;
 
-  datauserreports:MatTableDataSource<any>;
-  userreportscolums:any=[
-    { header:'User Name', headerValue:'username' },
-    { header:'Email Address', headerValue:'emailaddress' },
-    { header:'Sources', headerValue:'sources' },
-    { header:'Menu Group', headerValue:'menugroup' },
-    { header:'Report Name', headerValue:'reportname' }
+  datauserreports = new MatTableDataSource<any>();
+  userreportscolums: any = [
+    { header: 'User Name', headerValue: 'username' },
+    { header: 'Email Address', headerValue: 'emailaddress' },
+    { header: 'Sources', headerValue: 'sources' },
+    { header: 'Menu Group', headerValue: 'menugroup' },
+    { header: 'Report Name', headerValue: 'reportname' }
   ];
-  userreportscolumsvalues:any = this.userreportscolums.map((x: any) => x.headerValue);
-  data0:MatTableDataSource<any>;
-  displayedColumns0:any =[
+  userreportscolumsvalues: any = this.userreportscolums.map((x: any) => x.headerValue);
+  userAccessData = new MatTableDataSource<any>();
+  userAccessDispCols: any = [
     { header: 'Actions', headerValue: 'Actions' },
     { header: 'User Name', headerValue: 'username' },
     { header: 'Profile Name', headerValue: 'profilename' },
@@ -2123,29 +2130,29 @@ export class ManageUsersComponent implements OnInit {
     { header: 'Created On', headerValue: 'createddttm' },
     { header: 'Created By', headerValue: 'createdby' }
   ];
-  displayedColumns0values:any = this.displayedColumns0.map((x: any) => x.headerValue);
-  startupusermsgs:MatTableDataSource<any>;
-  startupusermsgscols=[
+  userAccessDispColsValue: any = this.userAccessDispCols.map((x: any) => x.headerValue);
+  startupusermsgs = new MatTableDataSource<any>();
+  startupusermsgscols = [
     { header: 'Actions', headerValue: 'Actions' },
     { header: 'News Description', headerValue: 'newsdescription' },
     { header: 'Email Address', headerValue: 'emailaddress' },
     { header: 'Start Date', headerValue: 'startdate' },
     { header: 'Expiry Date', headerValue: 'expirydate' },
   ];
-  startupusermsgscolsvalues:any = this.startupusermsgscols.map((x: any) => x.headerValue);
-  userprofilesdata:MatTableDataSource<any>;
-  userprofilescols=[
+  startupusermsgscolsvalues: any = this.startupusermsgscols.map((x: any) => x.headerValue);
+  userprofilesdata = new MatTableDataSource<any>();
+  userprofilescols = [
     { header: 'Actions', headerValue: 'Actions' },
     { header: 'Profile Name', headerValue: 'profilename' },
     { header: 'Profile Description', headerValue: 'profiledescription' },
     { header: 'Created On', headerValue: 'createddttm' },
     { header: 'Created By', headerValue: 'createdby' }
   ];
-  userprofilescolsvalues:any = this.userprofilescols.map((x: any) => x.headerValue);
-  displayedColumns1:any =['Actions','Menu Group','Screen Name','Access Level'];
- 
+  userprofilescolsvalues: any = this.userprofilescols.map((x: any) => x.headerValue);
+  displayedColumns1: any = ['Actions', 'Menu Group', 'Screen Name', 'Access Level'];
+
   private readonly onDestroyQuery = new Subject<void>();
-  
+
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
   /** Map from nested node to flattened node. This helps us to keep the same object for selection */
@@ -2172,38 +2179,32 @@ export class ManageUsersComponent implements OnInit {
     //     file node as children.
     debugger
     if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
-      for(var i=0;i<TREE_DATA_three.length;i++)
-      {
-      let  Tree=TREE_DATA_three[i];
-      for(var j=0;j<Tree.children.length;j++)
-      {
-       let tchild=Tree.children[j];
-        for(var k=0;k<tchild.children.length;k++)
-        {
-          let grandhchild:any=tchild.children[k];
-          console.log('gradchild',grandhchild);
-          for(var m=0;m<grandhchild.children.length;m++)
-          {
-            if(grandhchild.children[m].name=='U')
-            {
-              grandhchild.children[m].isChecked=false;
+      for (var i = 0; i < TREE_DATA_three.length; i++) {
+        let Tree = TREE_DATA_three[i];
+        for (var j = 0; j < Tree.children.length; j++) {
+          let tchild = Tree.children[j];
+          for (var k = 0; k < tchild.children.length; k++) {
+            let grandhchild: any = tchild.children[k];
+            console.log('gradchild', grandhchild);
+            for (var m = 0; m < grandhchild.children.length; m++) {
+              if (grandhchild.children[m].name == 'U') {
+                grandhchild.children[m].isChecked = false;
+              }
+              else {
+                grandhchild.children[m].isChecked = true;
+              }
+
+
+
+              console.log('content value', grandhchild.children[m]);
             }
-          else
-          {
-            grandhchild.children[m].isChecked=true;
           }
 
-        
-           
-            console.log('content value',grandhchild.children[m]);
-          }
         }
-         
+
       }
-     
     }
-  }
-  console.log('loop completed',TREE_DATA_three);
+    console.log('loop completed', TREE_DATA_three);
 
 
 
@@ -2266,7 +2267,9 @@ export class ManageUsersComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-    private service : AdministrationService) {
+    private service: AdministrationService,
+    private dialog: MatDialog,
+    private alertService: AlertService,) {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
@@ -2296,9 +2299,9 @@ export class ManageUsersComponent implements OnInit {
   }
 
   GetCheckAll() {
- // console.log(this.treeControl.dataNodes);
- var checklistSelection = new SelectionModel<TodoItemFlatNode>(true);
-console.log('get selected',checklistSelection);
+    // console.log(this.treeControl.dataNodes);
+    var checklistSelection = new SelectionModel<TodoItemFlatNode>(true);
+    console.log('get selected', checklistSelection);
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
@@ -2344,7 +2347,7 @@ console.log('get selected',checklistSelection);
 
   /** Whether part of the descendants are selected */
   descendantsPartiallySelected(node: TodoItemFlatNode): boolean {
-   // console.log('descendent event',node);
+    // console.log('descendent event',node);
     const descendants = this.treeControl.getDescendants(node);
     const result = descendants.some((child) =>
       this.checklistSelection.isSelected(child)
@@ -2353,8 +2356,8 @@ console.log('get selected',checklistSelection);
   }
 
   /** Toggle the to-do item selection. Select/deselect all the descendants node */
-  todoItemSelectionToggle(node: TodoItemFlatNode,event:MatCheckboxChange): void {
-   
+  todoItemSelectionToggle(node: TodoItemFlatNode, event: MatCheckboxChange): void {
+
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
 
@@ -2365,18 +2368,18 @@ console.log('get selected',checklistSelection);
     // Force update for the parent
     descendants.every((child) => this.checklistSelection.isSelected(child));
     this.checkAllParentsSelection(node);
-    console.log('node change event',node,event.checked);
-    const partialSelection = this.treeControl.dataNodes.filter(x => 
+    console.log('node change event', node, event.checked);
+    const partialSelection = this.treeControl.dataNodes.filter(x =>
       this.descendantsPartiallySelected(x));
-      console.log('final result',this.checklistSelection.selected, partialSelection);
-   
+    console.log('final result', this.checklistSelection.selected, partialSelection);
+
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
-  todoLeafItemSelectionToggle(node: TodoItemFlatNode,event:MatCheckboxChange): void {
+  todoLeafItemSelectionToggle(node: TodoItemFlatNode, event: MatCheckboxChange): void {
 
     this.checklistSelection.toggle(node);
-    console.log('chnage event node',node,event.checked);
+    console.log('chnage event node', node, event.checked);
     node.isChecked ? (node.isChecked = false) : (node.isChecked = true);
     this.checkAllParentsSelection(node);
   }
@@ -2438,32 +2441,32 @@ console.log('get selected',checklistSelection);
   }
 
   /** Whether all the descendants of the node are selected. */
- 
+
 
   ngOnInit(): void {
     // this.thisForm =  this.formBuilder.group({
     //   UserId: new FormControl({ value: 'ashok' }'')
     // })
     this.createForms();
-    this.isLeftPanel=false;
-   
+    this.isLeftPanel = false;
+
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
     this.showDetails = this.tabs.length > 0 ? true : false;
-    if(this.tabs.length == 0) {
-    this.isShow = false;
-    this.showMenu = 'expanded';
+    if (this.tabs.length == 0) {
+      this.isShow = false;
+      this.showMenu = 'expanded';
     }
   }
   removeTabLeftPanel(index: number) {
     this.tabsLeft.splice(index, 1);
     // this.showDetails = this.tabsLeft.length > 0 ? true : false;
-    if(this.tabsLeft.length == 0) {
-    //this.isShow = false;
-    // this.showMenu = 'expanded';
-  this.isLeftPanel=false;
+    if (this.tabsLeft.length == 0) {
+      //this.isShow = false;
+      // this.showMenu = 'expanded';
+      this.isLeftPanel = false;
     }
 
   }
@@ -2478,34 +2481,34 @@ console.log('get selected',checklistSelection);
           tabType: 0,
           name: 'User Access Details'
         });
-       
+
       }
     }
-    else if (fileType === 'UserOfReports'){
+    else if (fileType === 'UserOfReports') {
       if (!this.tabs.find(x => x.tabType == 1)) {
         this.tabs.push({
           tabType: 1,
           name: 'User Of Reports'
         });
-        
+
       }
     }
-    else if (fileType === 'StartUpUserMessages'){
+    else if (fileType === 'StartUpUserMessages') {
       if (!this.tabs.find(x => x.tabType == 2)) {
         this.tabs.push({
           tabType: 2,
           name: 'Start Up User Messages'
         });
-        
+
       }
     }
-    else if (fileType === 'UserProfiles'){
+    else if (fileType === 'UserProfiles') {
       if (!this.tabs.find(x => x.tabType == 3)) {
         this.tabs.push({
           tabType: 3,
           name: 'User Profiles'
         });
-        
+
       }
     }
     this.showDetails = true;
@@ -2527,15 +2530,15 @@ console.log('get selected',checklistSelection);
       else {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 0);
       }
-      let request = Utils.preparePyUIQuery('ManageUsers','UserAccess');
+      let request = Utils.preparePyUIQuery('ManageUsers', 'UserAccess');
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-        (res:any) => {
-          this.data0 = res.Data;
-          console.log('data of manage users',this.data0);
+        (res: any) => {
+          this.userAccessData.data = res.Data;
+          console.log('data of manage users', this.userAccessData);
         }
       );
     }
-    else if (fileType === 'UserOfReports'){
+    else if (fileType === 'UserOfReports') {
       if (!this.tabs.find(x => x.tabType == 1)) {
         this.tabs.push({
           tabType: 1,
@@ -2546,15 +2549,15 @@ console.log('get selected',checklistSelection);
       else {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
       }
-      let request = Utils.preparePyUIQuery('ManageUsers','UserReports');
+      let request = Utils.preparePyUIQuery('ManageUsers', 'UserReports');
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-        (res:any) => {
-          this.datauserreports = res.Data;
+        (res: any) => {
+          this.datauserreports.data = res.Data;
         }
       );
 
     }
-    else if (fileType === 'StartUpUserMessages'){
+    else if (fileType === 'StartUpUserMessages') {
       if (!this.tabs.find(x => x.tabType == 2)) {
         this.tabs.push({
           tabType: 2,
@@ -2565,14 +2568,14 @@ console.log('get selected',checklistSelection);
       else {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
       }
-      let request = Utils.preparePyUIQuery('ManageUsers','NewsUpdate','NewsId');
+      let request = Utils.preparePyUIQuery('ManageUsers', 'NewsUpdate', 'NewsId');
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-        (res:any) => {
-          this.startupusermsgs = res.Data;
+        (res: any) => {
+          this.startupusermsgs.data = res.Data;
         }
       );
     }
-    else if (fileType === 'UserProfiles'){
+    else if (fileType === 'UserProfiles') {
       if (!this.tabs.find(x => x.tabType == 3)) {
         this.tabs.push({
           tabType: 3,
@@ -2583,10 +2586,10 @@ console.log('get selected',checklistSelection);
       else {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
       }
-      let request = Utils.preparePyUIQuery('ManageUsers','UserProfile','Profile Name');
+      let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile', 'Profile Name');
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-        (res:any) => {
-          this.userprofilesdata = res.Data;
+        (res: any) => {
+          this.userprofilesdata.data = res.Data;
         }
       );
     }
@@ -2597,11 +2600,10 @@ console.log('get selected',checklistSelection);
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
 
   }
-  onCancel(){
+  onCancel() {
     this.isLeftPanel = false;
   }
-  onEditUserprofile(record:any,event:Event)
-  {
+  onEditUserprofile(record: any, event: Event) {
     this.initialize();
     //this.database.buildFileTree(TREE_DATA_two,0);
     this.isShow = true;
@@ -2614,39 +2616,37 @@ console.log('get selected',checklistSelection);
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
     }
-    else{
-    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
+    else {
+      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
     }
-    
-    this.Header="User Profiles";
-    this.UserDetailsForm=false;
-    this.UserEditProfilesForm=false;
-    this.StartupForm=false;
-    this.UserProfilesForm=true;
 
-    this.isLeftPanel =true;
+    this.Header = "User Profiles";
+    this.UserDetailsForm = false;
+    this.UserEditProfilesForm = false;
+    this.StartupForm = false;
+    this.UserProfilesForm = true;
+
+    this.isLeftPanel = true;
     this.UserProfileForm = this.formBuilder.group({
-      ProfileName: new FormControl({ }),
+      ProfileName: new FormControl({}),
       Description: new FormControl({}),
       UserProfile: new FormControl({})
 
     });
     this.record = record;
-    this.eventName ='Update';
-    for (let field in this.UserProfileForm.controls) 
-    {      
-        let control = this.UserProfileForm.get(field);    
-        control?.setValue(record[field]);
-        console.log(record[field]);
+    this.eventName = 'Update';
+    for (let field in this.UserProfileForm.controls) {
+      let control = this.UserProfileForm.get(field);
+      control?.setValue(record[field]);
+      console.log(record[field]);
     }
     event.stopPropagation();
   }
-  onSelectEvent(value: any){
+  onSelectEvent(value: any) {
 
-    if(value=='3')
-    {
+    if (value == '3') {
       this.initialize();
-    this.onEditUserprofileAceess('Create');
+      this.onEditUserprofileAceess('Create');
     }
   }
   // onEdituserDetails(record:any,event:Event){   
@@ -2659,7 +2659,7 @@ console.log('get selected',checklistSelection);
   //   this.eventName="Update";
   //   debugger
   //   this.referenceForm = this.formBuilder.group({
-      
+
   //     UserID: new FormControl({ value:''}),
   //     //AddressLine1: new FormControl({ value:''}),
   //     //AddressLine2: new FormControl({ value:''}),
@@ -2671,7 +2671,7 @@ console.log('get selected',checklistSelection);
   //     TelephoneNo: new FormControl({ value:''}),
   //     Country: new FormControl({ value:''})
   //   });
-   
+
   //     this.record = record;
   //     this.eventName ='Update'
   //     //this.showDataform =true; 
@@ -2682,12 +2682,11 @@ console.log('get selected',checklistSelection);
   //         control?.setValue(record[field]);
   //         console.log(record[field]);
   //     }
-      
+
   //     //this.referenceForm.markAsUntouched();
-      
+
   // }
-  onreturnform()
-  {
+  onreturnform() {
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find(x => x.tabType == 2)) {
@@ -2698,28 +2697,26 @@ console.log('get selected',checklistSelection);
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
     }
-    else{
-    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+    else {
+      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
     }
-    this.Header="User Access Details";
-    this.UserDetailsForm=true;
-    this.UserEditProfilesForm=false;
-    
-    this.StartupForm=false;
-    this.UserProfilesForm=false;
-    this.isLeftPanel =true;
+    this.Header = "User Access Details";
+    this.UserDetailsForm = true;
+    this.UserEditProfilesForm = false;
+
+    this.StartupForm = false;
+    this.UserProfilesForm = false;
+    this.isLeftPanel = true;
     console.log('Edit Record');
-    this.eventName="Update";
+    this.eventName = "Update";
   }
-  onEditUserprofileAceess(Actiontype:string)
-  {
+  onEditUserprofileAceess(Actiontype: string) {
     this.isShow = true;
     this.showMenu = 'collapsed';
-    let name='Profile';
-    if(Actiontype=='Create')
-  {
-    name='Add Profile'
-  }
+    let name = 'Profile';
+    if (Actiontype == 'Create') {
+      name = 'Add Profile'
+    }
     if (!this.tabsLeft.find(x => x.tabType == 2)) {
       this.tabsLeft.push({
         tabType: 2,
@@ -2728,42 +2725,40 @@ console.log('get selected',checklistSelection);
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
     }
-    else{
-    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+    else {
+      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
     }
-    this.Header="User Profiles";
-    this.UserDetailsForm=false;
-    this.StartupForm=false;
-    this.UserEditProfilesForm=true;
-    this.isLeftPanel =true;
+    this.Header = "User Profiles";
+    this.UserDetailsForm = false;
+    this.StartupForm = false;
+    this.UserEditProfilesForm = true;
+    this.isLeftPanel = true;
     this.UserEditForm = this.formBuilder.group({
-      
+
       ProfileName: new FormControl(),
       Description: new FormControl(),
       UserProfile: new FormControl()
 
     });
-  if(Actiontype=='Create')
-  {
-    this.eventName ='Create';
-  }
-  else{
-    this.eventName ='Update';
-  }
-  
+    if (Actiontype == 'Create') {
+      this.eventName = 'Create';
+    }
+    else {
+      this.eventName = 'Update';
+    }
+
   }
 
 
 
-  onEditUsermsgs(record:any,event:Event)
-  {
+  onEditUsermsgs(record: any, event: Event) {
     this.tabsLeft.splice(0);
-    this.Header="Start Up User Messages";
+    this.Header = "Start Up User Messages";
     console.log(JSON.stringify(record));
-    this.UserDetailsForm=false;
-    this.StartupForm=true;
-    this.UserProfilesForm=false;
-    this.isLeftPanel =true;
+    this.UserDetailsForm = false;
+    this.StartupForm = true;
+    this.UserProfilesForm = false;
+    this.isLeftPanel = true;
     // this.StartupUsermsgsForm = this.formBuilder.group({
     //   startdate: new FormControl([Validators.required]),
     //   newsdescription: new FormControl(),
@@ -2773,20 +2768,19 @@ console.log('get selected',checklistSelection);
     // });
     this.record = record;
     // console.log('usermsgs'+this.record);
-    this.eventName ='Update';
-    for (let field in this.StartupUsermsgsForm.controls) 
-    {      
-        let control = this.StartupUsermsgsForm.get(field);    
-        control?.setValue(record[field]);
-        // console.log(record[field]);
+    this.eventName = 'Update';
+    for (let field in this.StartupUsermsgsForm.controls) {
+      let control = this.StartupUsermsgsForm.get(field);
+      control?.setValue(record[field]);
+      // console.log(record[field]);
     }
 
   }
-  changeevent(event:any) {
-    console.log('event called',event);
+  changeevent(event: any) {
+    console.log('event called', event);
   }
 
-  onEdituserDetails(record:any,event:Event){   
+  onEdituserDetails(record: any, event: Event) {
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find(x => x.tabType == 0)) {
@@ -2795,24 +2789,24 @@ console.log('get selected',checklistSelection);
         name: 'Create'
       });
       this.showDetails = true;
-    this.selectedTabLeft = this.tabsLeft.length;
+      this.selectedTabLeft = this.tabsLeft.length;
     }
-    else{
+    else {
       this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
     }
-   
 
 
-    this.Header="User Access Details";
-    this.UserDetailsForm=true;
-    this.StartupForm=false;
-    this.UserProfilesForm=false;
-    this.isLeftPanel =true;
+
+    this.Header = "User Access Details";
+    this.UserDetailsForm = true;
+    this.StartupForm = false;
+    this.UserProfilesForm = false;
+    this.isLeftPanel = true;
     console.log('Edit Record');
-    this.eventName="Update";
+    this.eventName = "Update";
     debugger
     // this.referenceForm = this.formBuilder.group({
-      
+
     //   username: new FormControl(),
     //   userprofiles: new FormControl(),
     //   yid: new FormControl(),
@@ -2822,34 +2816,32 @@ console.log('get selected',checklistSelection);
     //   telephoneno: new FormControl(),
 
     // });
-   
-      this.record = record;
-      this.eventName ='Update'
-      //this.showDataform =true; 
-      //this.cdr.detectChanges();
-      for (let field in this.referenceForm.controls) 
-      {      
-          let control = this.referenceForm.get(field);    
-          // control?.setValue(record[field]);
-          // console.log(record[field]);
 
-          if(field === 'userprofiles') {
-            this.userProfilesDropdown = record[field];
-            // this.userProfile = record['profilename'];
-            control?.setValue(record['profilename']);
-          } else if(field === 'source') {
-            // control?.setValue(record[field]);
-            
-          } else {
-            control?.setValue(record[field]);
-          }
+    this.record = record;
+    this.eventName = 'Update'
+    //this.showDataform =true; 
+    //this.cdr.detectChanges();
+    for (let field in this.referenceForm.controls) {
+      let control = this.referenceForm.get(field);
+      // control?.setValue(record[field]);
+      // console.log(record[field]);
+
+      if (field === 'userprofiles') {
+        this.userProfilesDropdown = record[field];
+        // this.userProfile = record['profilename'];
+        control?.setValue(record['profilename']);
+      } else if (field === 'source') {
+        // control?.setValue(record[field]);
+
+      } else {
+        control?.setValue(record[field]);
       }
-      
-      //this.referenceForm.markAsUntouched();
-      
+    }
+
+    //this.referenceForm.markAsUntouched();
+
   }
-  onCreateUserProfiles()
-  {
+  onCreateUserProfiles() {
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find(x => x.tabType == 1)) {
@@ -2858,148 +2850,302 @@ console.log('get selected',checklistSelection);
         name: 'View'
       });
       this.showDetails = true;
-    this.selectedTabLeft = this.tabsLeft.length;
+      this.selectedTabLeft = this.tabsLeft.length;
     }
-    else{
+    else {
       this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
-      }
-   
-    this.Header="User Profiles";
-    this.UserDetailsForm=false;
-    this.StartupForm=false;
-    this.UserProfilesForm=true;
-    this.isLeftPanel =true;
+    }
+
+    this.Header = "User Profiles";
+    this.UserDetailsForm = false;
+    this.StartupForm = false;
+    this.UserProfilesForm = true;
+    this.isLeftPanel = true;
     this.UserProfileForm = this.formBuilder.group({
       ProfileName: new FormControl(),
       Description: new FormControl(),
       UserProfile: new FormControl()
     });
-    this.eventName="Create";
+    this.eventName = "Create";
   }
-  onCreateuserMsgs()
-  {
+  onCreateuserMsgs() {
     this.StartupUsermsgsForm.reset();
-    this.Header="Start Up User Messages";
-    this.UserDetailsForm=false;
-    this.StartupForm=true;
-    this.UserProfilesForm=false;
-    this.isLeftPanel =true;
+    this.Header = "Start Up User Messages";
+    this.UserDetailsForm = false;
+    this.StartupForm = true;
+    this.UserProfilesForm = false;
+    this.isLeftPanel = true;
     // this.StartupUsermsgsForm = this.formBuilder.group({
     //   startdate: new FormControl(),
     //   newsdescription: new FormControl(),
     //   expirydate: new FormControl(),
     //   emailaddress: new FormControl(),
     // });
-    this.eventName="Create";
+    this.eventName = "Create";
   }
 
-onVerifyUserName()
-{
-  this.isShow = true;
-  this.showMenu = 'collapsed';
-  if (!this.tabsLeft.find(x => x.tabType == 3)) {
-    this.tabsLeft.push({
-      tabType: 3,
-      name: 'Check'
+  onVerifyUserName() {
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 3)) {
+      this.tabsLeft.push({
+        tabType: 3,
+        name: 'Check'
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else {
+      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 3);
+    }
+    this.isLeftPanel = true;
+    this.referenceUsernameform = this.formBuilder.group({
+
+      UserID: new FormControl()
     });
-    this.showDetails = true;
-  this.selectedTabLeft = this.tabsLeft.length;
   }
-  else{
-    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 3);
-  }
-  this.isLeftPanel =true;
-  this.referenceUsernameform = this.formBuilder.group({
-      
-    UserID: new FormControl()
-  });
-}
 
-
-
-  onCreateuserDetails()
-{
-  debugger
-  if (this.tabsLeft.find(x => x.tabType == 3)) {
-    let index:number = this.tabsLeft.findIndex(x => x.tabType == 3);
-    this.tabsLeft.splice(index) ;
+  onCreateuserDetails() {
+    debugger
+    if (this.tabsLeft.find(x => x.tabType == 3)) {
+      let index: number = this.tabsLeft.findIndex(x => x.tabType == 3);
+      this.tabsLeft.splice(index);
+    }
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    if (!this.tabsLeft.find(x => x.tabType == 0)) {
+      this.tabsLeft.push({
+        tabType: 0,
+        name: 'Create'
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else {
+      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
+    }
+    this.Header = "User Access Details";
+    this.UserDetailsForm = true;
+    this.StartupForm = false;
+    this.UserProfilesForm = false;
+    this.isLeftPanel = true;
+    this.referenceForm.reset();
+    // this.referenceForm = this.formBuilder.group({
+    //   username: new FormControl(),
+    //   userprofiles: new FormControl(),
+    //   yid: new FormControl(),
+    //   firstname: new FormControl(),
+    //   lastname: new FormControl(),
+    //   emailaddress: new FormControl(),
+    //   telephoneno: new FormControl(),
+    // });
+    this.eventName = "Create";
   }
-  this.isShow = true;
-  this.showMenu = 'collapsed';
-  if (!this.tabsLeft.find(x => x.tabType == 0)) {
-    this.tabsLeft.push({
-      tabType: 0,
-      name: 'Create'
-    });
-    this.showDetails = true;
-  this.selectedTabLeft = this.tabsLeft.length;
-  }
-  else{
-    this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
-  }
-  this.Header="User Access Details";
-  this.UserDetailsForm=true;
-  this.StartupForm=false;
-  this.UserProfilesForm=false;
-  this.isLeftPanel =true;
-  this.referenceForm.reset();
-  // this.referenceForm = this.formBuilder.group({
-  //   username: new FormControl(),
-  //   userprofiles: new FormControl(),
-  //   yid: new FormControl(),
-  //   firstname: new FormControl(),
-  //   lastname: new FormControl(),
-  //   emailaddress: new FormControl(),
-  //   telephoneno: new FormControl(),
-  // });
-  this.eventName="Create";
-}
-onSubmit(reportIdentifier?: string){
- // alert("Create/Edit Completed..");
-  this.isLeftPanel =false;
- // this.showDetailsForm=true;
-//  console.log("event name "+ this.eventName);
+  onSubmit(reportIdentifier?: string) {
+    // alert("Create/Edit Completed..");
+    this.isLeftPanel = false;
+    // this.showDetailsForm=true;
+    //  console.log("event name "+ this.eventName);
 
-  if (this.eventName === 'Update') {
-    switch (reportIdentifier) {
-      case 'UserAccessDetails':
-        let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareUpdateData(this.referenceForm));
-        console.log("Update request1 : " + JSON.stringify(request1));
-        // this.service.uiUpdateDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-        //   (res:any) => {
-        //     this.userprofilesdata = res.Data;
-        //   }
-        // );
+    if (this.eventName === 'Update') {
+      switch (reportIdentifier) {
+        case 'User Access Details':
+          const updateConfirm1 = this.dialog.open(ConfirmDialogComponent, {
+            width: '300px', disableClose: true, data: {
+              message: 'Do you confirm update this record?'
+            }
+          });
+          updateConfirm1.afterClosed().subscribe(confirm => {
+            if (confirm) {
+              let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm));
+              console.log("Update request1 : " + JSON.stringify(request1));
+              this.service.uiUpdateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+                (res: any) => {
+                  if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                    //success message and same data reload
+                    // this.refreshData();
+                    this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                  }
+                });
+            }
+            else {
+              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+            }
+          });
+          break;
+
+        case 'Start Up User Messages':
+          const updateConfirm2 = this.dialog.open(ConfirmDialogComponent, {
+            width: '300px', disableClose: true, data: {
+              message: 'Do you confirm update this record?'
+            }
+          });
+          updateConfirm2.afterClosed().subscribe(confirm => {
+            if (confirm) {
+              let request2 = Utils.preparePyUIUpdate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
+              console.log("Update request2 : " + JSON.stringify(request2));
+              this.service.uiUpdateDetails(request2).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+                (res: any) => {
+                  if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                    //success message and same data reload
+                    // this.refreshData();
+                    this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                  }
+                });
+            }
+            else {
+              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+            }
+          });
+          break;
+
+        case 'User Profiles':
+          const updateConfirm3 = this.dialog.open(ConfirmDialogComponent, {
+            width: '300px', disableClose: true, data: {
+              message: 'Do you confirm update this record?'
+            }
+          });
+          updateConfirm3.afterClosed().subscribe(confirm => {
+            if (confirm) {
+              let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
+              console.log("Update request2 : " + JSON.stringify(request3));
+              this.service.uiUpdateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+                (res: any) => {
+                  if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                    //success message and same data reload
+                    // this.refreshData();
+                    this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                  }
+                });
+            }
+            else {
+              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+            }
+          });
+          break;
+      }
+    }
+    else {
+      // Create Logic
+      switch (reportIdentifier) {
+        case 'User Access Details':
+          let request1 = Utils.preparePyUICreate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm));
+          console.log("Create request1 : " + JSON.stringify(request1));
+          this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+            (res: any) => {
+              if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                //success message and same data reload
+                // this.refreshData();
+                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              }
+            });
+          break;
+        case 'Start Up User Messages':
+          let request2 = Utils.preparePyUICreate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
+          console.log("Create request2 : " + JSON.stringify(request2));
+          this.service.uiCreateDetails(request2).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+            (res: any) => {
+              if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                //success message and same data reload
+                // this.refreshData();
+                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              }
+            });
+          break;
+        case 'User Profiles':
+          let request3 = Utils.preparePyUICreate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
+          console.log("Create request3 : " + JSON.stringify(request3));
+          this.service.uiCreateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+            (res: any) => {
+              if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                //success message and same data reload
+                // this.refreshData();
+                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              }
+            });
+          break;
+      }
+    }
+  }
+
+  onDeleteRecord(record: any, reportName: string) {
+    switch (reportName) {
+      case 'User Access':
+        const updateConfirm1 = this.dialog.open(ConfirmDialogComponent, {
+          width: '300px', disableClose: true, data: {
+            message: 'Do you confirm update this record?'
+          }
+        });
+        updateConfirm1.afterClosed().subscribe(confirm => {
+          if (confirm) {
+        let request1 = Utils.preparePyUIDelete('ManageUsers', 'UserAccess', 'UserName', this.prepareDeleteData(record, reportName));
+        console.log("Delete request1 : " + JSON.stringify(request1));
+        this.service.uiDeleteDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+          (res: any) => {
+            if (res.Status && res.Status[0].StatusMessage === 'Success') {
+              //success message and same data reload
+              // this.refreshData();
+              this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+            }
+            else {
+              this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+            }
+          });
+        }
+      });
         break;
-      case 'StartupUserMessages':
-        let request2 = Utils.preparePyUIUpdate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareUpdateData(this.StartupUsermsgsForm));
-        console.log("Update request2 : " + JSON.stringify(request2));
-        // this.service.uiUpdateDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-        //   (res:any) => {
-        //     this.userprofilesdata = res.Data;
-        //   }
-        // );
+      case 'News Update':
+        const updateConfirm2 = this.dialog.open(ConfirmDialogComponent, {
+          width: '300px', disableClose: true, data: {
+            message: 'Do you confirm update this record?'
+          }
+        });
+        updateConfirm2.afterClosed().subscribe(confirm => {
+          if (confirm) {
+        let request2 = Utils.preparePyUIDelete('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareDeleteData(record, reportName));
+        console.log("Delete request2 : " + JSON.stringify(request2));
+        this.service.uiDeleteDetails(request2).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+          (res: any) => {
+            if (res.Status && res.Status[0].StatusMessage === 'Success') {
+              //success message and same data reload
+              // this.refreshData();
+              this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+            }
+            else {
+              this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+            }
+          });
+        }
+      });
         break;
-      case 'UserProfiles':
-        let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareUpdateData(this.referenceForm));
-        console.log("Update request3 : " + JSON.stringify(request3));
-        // this.service.uiUpdateDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-        //   (res:any) => {
-        //     this.userprofilesdata = res.Data;
-        //   }
-        // );
+      case 'User Profiles':
+        const updateConfirm3 = this.dialog.open(ConfirmDialogComponent, {
+          width: '300px', disableClose: true, data: {
+            message: 'Do you confirm update this record?'
+          }
+        });
+        updateConfirm3.afterClosed().subscribe(confirm => {
+          if (confirm) {
+        let request3 = Utils.preparePyUIDelete('ManageUsers', 'UserProfile', 'ProfileName', this.prepareDeleteData(record, reportName));
+        console.log("Delete request3 : " + JSON.stringify(request3));
+        this.service.uiDeleteDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+          (res: any) => {
+            if (res.Status && res.Status[0].StatusMessage === 'Success') {
+              //success message and same data reload
+              // this.refreshData();
+              this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+            }
+            else {
+              this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+            }
+          });
+        }
+      });
         break;
     }
   }
-  else{
-    // Create Logic
-  }
-}
-onDeleteRecord(record:any,event:any){    
-  alert("Delete starts..."+JSON.stringify(this.record));
-}
-  
-  
+
+
   // (index:any)
   // {
   //   console.log('Edit event binded'+index);
@@ -3010,26 +3156,25 @@ onDeleteRecord(record:any,event:any){
   //   console.log(rowdata);
   // }
 
-  onSearchFilter(reportName: any){
+  onSearchFilter(reportName: any) {
     this.onFilterPredicate();
-    switch(reportName)
-    {
+    switch (reportName) {
       case 'UserOfReports':
-        
 
-        let  filteritem = {
+
+        let filteritem = {
           //UserId : [this.UserId],
-          UserId : [],
-          EmailAddress : [],
-          ReportName : []
+          UserId: [],
+          EmailAddress: [],
+          ReportName: []
         }
         console.log(JSON.stringify(filteritem));
         this.datauserreports.filter = JSON.stringify(filteritem);
-      break;
+        break;
     }
   }
 
-  onFilterPredicate(){
+  onFilterPredicate() {
 
     //UserOfReports
     this.datauserreports.filterPredicate = (data: any, filter: string): boolean => {
@@ -3046,8 +3191,8 @@ onDeleteRecord(record:any,event:any){
           }
         }
       }
-      else 
-      isUserId = true;
+      else
+        isUserId = true;
 
       if (searchString.EmailAddress.length) {
         for (const d of searchString.EmailAddress) {
@@ -3056,8 +3201,8 @@ onDeleteRecord(record:any,event:any){
           }
         }
       }
-      else 
-      isEmailAddress = true;
+      else
+        isEmailAddress = true;
 
       if (searchString.ReportName.length) {
         for (const d of searchString.ReportName) {
@@ -3066,41 +3211,56 @@ onDeleteRecord(record:any,event:any){
           }
         }
       }
-      else 
-      isReportName = true;
+      else
+        isReportName = true;
       return isUserId && isEmailAddress && isReportName
     }
 
   }
 
-  prepareUpdateData(form: FormGroup) {
+  prepareData(form: FormGroup) {
     let attribute: any = {};
-    for(const field in form.controls)
-    {
+    for (const field in form.controls) {
       const control = form.get(field);
       if (control?.value) attribute[field] = control.value;
     }
-    console.log("Update data : "+JSON.stringify(attribute));
+    console.log("prepare form data : " + JSON.stringify(attribute));
     return attribute;
   }
 
-  createForms(){
+  prepareDeleteData(record: any, reportName: string) {
+    let attribute: any = {};
+    switch (reportName) {
+      case 'User Access':
+        attribute.username = record.username;
+        break;
+      case 'News Update':
+        attribute.newsid = record.newsid;
+        break;
+      case 'User Profiles':
+        attribute.profilename = record.profilename;
+        break;
+    }
+    return attribute;
+  }
+
+  createForms() {
     this.referenceForm = this.formBuilder.group({
-      username: new FormControl({value:''}),
-      userprofiles: new FormControl({value:''}),
-      yid: new FormControl({value:''}),
-      firstname: new FormControl({value:''}),
-      lastname: new FormControl({value:''}),
-      emailaddress: new FormControl({value:''}),
-      telephoneno: new FormControl({value:''}),
+      username: new FormControl({ value: '' }),
+      userprofiles: new FormControl({ value: '' }),
+      yid: new FormControl({ value: '' }),
+      firstname: new FormControl({ value: '' }),
+      lastname: new FormControl({ value: '' }),
+      emailaddress: new FormControl({ value: '' }),
+      telephoneno: new FormControl({ value: '' }),
     });
 
     this.StartupUsermsgsForm = this.formBuilder.group({
-      newsid : new FormControl({value:''},[]),
-      startdate: new FormControl({ value: ''}, []),
-      newsdescription: new FormControl({value:''},[]),
-      expirydate: new FormControl({value:''},[]),
-      emailaddress: new FormControl({value:''},[]),
+      newsid: new FormControl({ value: '' }, []),
+      startdate: new FormControl({ value: '' }, []),
+      newsdescription: new FormControl({ value: '' }, []),
+      expirydate: new FormControl({ value: '' }, []),
+      emailaddress: new FormControl({ value: '' }, []),
     });
 
     this.StartupUsermsgsForm.reset();

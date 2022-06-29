@@ -36,7 +36,7 @@
                     </ng-template>
                     <span [ngSwitch]="tableft.tabType">
                         <div *ngSwitchCase="0" style="height:100%;">
-                            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit('UserAccessDetails')">
+                            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit('User Access Details')">
                        
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
@@ -111,10 +111,10 @@
                                 </div>
                                     <div class ="fixed-button-bar" style="position:initial">    
                                         <mat-card-actions style="height:29px">
-                                          <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                          <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled]="referenceForm.invalid"  matTooltip="Click this button currently showning  details will be create new Record"  >
                                             <mat-icon >save</mat-icon>Save
                                           </button>
-                                          <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                          <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled]="referenceForm.invalid" matTooltip="Click this button currently showning details will be Update"  >
                                                 <mat-icon >edit</mat-icon>Update
                                           </button>
                                           <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
@@ -504,7 +504,7 @@
             
                  
          <!-- UserProfile    -->  
-                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit('StartupUserMessages')">
+                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit('Start Up User Messages')">
                        
                         <div class="content-main vf-flex-container-row">
                             <div  class="content-submain vf-flex-container-col">
@@ -533,10 +533,10 @@
                             </div> 
                             <div class ="fixed-button-bar">   
                                 <mat-card-actions>
-                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled]="StartupUsermsgsForm.invalid"  matTooltip="Click this button currently showning  details will be create new Record"  >
                                     <mat-icon >save</mat-icon>Save
                                   </button>
-                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled]="StartupUsermsgsForm.invalid" matTooltip="Click this button currently showning details will be Update"  >
                                         <mat-icon >edit</mat-icon>Update
                                   </button>
                                   <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
@@ -611,8 +611,8 @@
                     <!-- table start -->
                     <div style ="max-height: 400px;overflow:hidden">   
                         <div style="max-height: 300px;overflow:auto">
-                            <table mat-table [dataSource]="data0" multiTemplateDataRows  class="detail-table mat-elevation-z8 ">
-                                <ng-container *ngFor="let disCol of displayedColumns0; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
+                            <table mat-table [dataSource]="userAccessData" multiTemplateDataRows  class="detail-table mat-elevation-z8 ">
+                                <ng-container *ngFor="let disCol of userAccessDispCols; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
                                     <!-- Edit Coloumn -->
                                     <div *ngIf="disCol.headerValue==='Actions'">
                                         <th mat-header-cell *matHeaderCellDef class="table-header">Actions</th>
@@ -620,7 +620,7 @@
                                             <ng-container>
                                                 <mat-icon (click)="onEdituserDetails(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                                     mode_edit_outline</mat-icon>
-                                                    <mat-icon (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted"
+                                                    <mat-icon (click)="onDeleteRecord(element,tab.name)" mat-tooltip="Click this button,this row Record will be Deleted"
                                                     style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
                                      
                                             </ng-container>
@@ -649,8 +649,8 @@
                                             {{element[disCol.headerValue]}} </td>
                                     </div>
                                 </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="displayedColumns0values sticky: true" class="table-row"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumns0values;" class="table-row"></tr>
+                                <tr mat-header-row *matHeaderRowDef="userAccessDispColsValue sticky: true" class="table-row"></tr>
+                                <tr mat-row *matRowDef="let row; columns: userAccessDispColsValue;" class="table-row"></tr>
                                 <tr class="mat-row" *matNoDataRow>
                                     <td class="mat-cell" colspan="columns.length">No data found</td>
                                 </tr>
@@ -802,7 +802,7 @@
                                                 <ng-container>
                                                     <mat-icon (click)="onEditUsermsgs(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                                         mode_edit_outline</mat-icon>
-                                                        <mat-icon (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted"
+                                                        <mat-icon (click)="onDeleteRecord(element,tab.name)" mat-tooltip="Click this button,this row Record will be Deleted"
                                                         style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
                                          
                                                 </ng-container>
@@ -893,7 +893,7 @@
                                                 <ng-container>
                                                     <mat-icon (click)="onEditUserprofileAceess('Update')"   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                                         mode_edit_outline</mat-icon>
-                                                        <mat-icon (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted"
+                                                        <mat-icon (click)="onDeleteRecord(element,tab.name)" mat-tooltip="Click this button,this row Record will be Deleted"
                                                         style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
                                          
                                                 </ng-container>
