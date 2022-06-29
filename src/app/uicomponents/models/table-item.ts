@@ -58,3 +58,8 @@ export interface ProfileDetails{
     name:string;
     favCols:string[];
 }
+
+export interface FavProfileDetails{
+    name:string;
+    favCols:string[];
+}

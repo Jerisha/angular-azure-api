@@ -22,6 +22,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   menuSelected: string = '';
   baseRoot = 'Home';
   childRoot: any;
+  isFav:boolean= false;
 
 
   title: any;
