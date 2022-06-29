@@ -3158,18 +3158,42 @@ export class ManageUsersComponent implements OnInit {
 
   onSearchFilter(reportName: any) {
     this.onFilterPredicate();
-    switch (reportName) {
+    switch(reportName)
+    {
       case 'UserOfReports':
-
-
-        let filteritem = {
-          //UserId : [this.UserId],
-          UserId: [],
-          EmailAddress: [],
-          ReportName: []
+        let  filteritem1 = {
+          username : [],
+          menugroup: [],
+          reportname : [],
+          sources: []
         }
-        console.log(JSON.stringify(filteritem));
-        this.datauserreports.filter = JSON.stringify(filteritem);
+        console.log(JSON.stringify(filteritem1));
+        this.datauserreports.filter = JSON.stringify(filteritem1);
+      break;
+      case 'UserAccessDetails':
+        let  filteritem2 = {
+          username : [],
+          profilename: []
+        }
+        console.log(JSON.stringify(filteritem2));
+        this.userAccessData.filter = JSON.stringify(filteritem2);
+        break;
+      case 'StartupUserMessages':
+        let  filteritem3 = {
+          emailaddress : [],
+          startdate: [],
+          expirydate: []
+        }
+        console.log(JSON.stringify(filteritem3));
+        this.startupusermsgs.filter = JSON.stringify(filteritem3);
+        break;
+      case 'UserProfiles':
+        let  filteritem4 = {
+          profilename: [],
+          createdby: []
+        }
+        console.log(JSON.stringify(filteritem4));
+        this.userprofilesdata.filter = JSON.stringify(filteritem4);
         break;
     }
   }
@@ -3177,43 +3201,156 @@ export class ManageUsersComponent implements OnInit {
   onFilterPredicate() {
 
     //UserOfReports
+    if(this.datauserreports)
     this.datauserreports.filterPredicate = (data: any, filter: string): boolean => {
       let searchString = JSON.parse(filter);
-      let isUserId = false;
-      let isEmailAddress = false;
+      let isSources = false;
+      let isUserName = false;
       let isMenuGroup = false;
       let isReportName = false;
 
-      if (searchString.UserId.length) {
-        for (const d of searchString.UserId) {
-          if (data.UserId.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isUserId = true;
+      if (searchString.sources.length) {
+        for (const d of searchString.sources) {
+          if (data.sources.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isSources = true;
           }
         }
       }
-      else
-        isUserId = true;
+      else 
+      isSources = true;
 
-      if (searchString.EmailAddress.length) {
-        for (const d of searchString.EmailAddress) {
-          if (data.EmailAddress.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isEmailAddress = true;
+      if (searchString.username.length) {
+        for (const d of searchString.username) {
+          if (data.username.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isUserName = true;
           }
         }
       }
-      else
-        isEmailAddress = true;
+      else 
+      isUserName = true;
 
-      if (searchString.ReportName.length) {
-        for (const d of searchString.ReportName) {
-          if (data.ReportName.trim().indexOf(d) != -1) {
+      if (searchString.reportname.length) {
+        for (const d of searchString.reportname) {
+          if (data.reportname.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
             isReportName = true;
           }
         }
       }
-      else
-        isReportName = true;
-      return isUserId && isEmailAddress && isReportName
+      else 
+      isReportName = true;
+
+      if (searchString.menugroup.length) {
+        for (const d of searchString.menugroup) {
+          if (data.menugroup.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isMenuGroup = true;
+          }
+        }
+      }
+      else 
+      isMenuGroup = true;
+
+      return isSources && isUserName && isReportName  && isMenuGroup;
+    }
+
+    //News Update
+    if(this.startupusermsgs)
+    this.startupusermsgs.filterPredicate = (data: any, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isEmailAddress = false;
+      let isStartDate = false;
+      let isExpiryDate = false;
+
+      if (searchString.emailaddress.length) {
+        for (const d of searchString.emailaddress) {
+          if (data.emailaddress.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isEmailAddress = true;
+          }
+        }
+      }
+      else 
+      isEmailAddress = true;
+
+      if (searchString.startdate.length) {
+        for (const d of searchString.startdate) {
+          if (data.startdate.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isStartDate = true;
+          }
+        }
+      }
+      else 
+      isStartDate = true;
+
+      if (searchString.expirydate.length) {
+        for (const d of searchString.expirydate) {
+          if (data.expirydate.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isExpiryDate = true;
+          }
+        }
+      }
+      else 
+      isExpiryDate = true;
+
+      return isEmailAddress && isStartDate && isExpiryDate;
+    }
+
+    //User Access
+    if(this.userAccessData)
+    this.userAccessData.filterPredicate = (data: any, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isUserName = false;
+      let isProfileName = false;
+
+      if (searchString.username.length) {
+        for (const d of searchString.username) {
+          if (data.username.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isUserName = true;
+          }
+        }
+      }
+      else 
+      isUserName = true;
+
+      if (searchString.profilename.length) {
+        for (const d of searchString.profilename) {
+          if (data.profilename.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isProfileName = true;
+          }
+        }
+      }
+      else 
+      isProfileName = true;
+
+      return isUserName && isProfileName;
+    }
+
+    //User Profiles
+    if(this.userprofilesdata)
+    this.userprofilesdata.filterPredicate = (data: any, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isProfileName = false;
+      let isCreatedBy = false;
+
+      if (searchString.profilename.length) {
+        for (const d of searchString.profilename) {
+          if (data.profilename.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isProfileName = true;
+          }
+        }
+      }
+      else 
+      isProfileName = true;
+
+      if (searchString.createdby.length) {
+        for (const d of searchString.createdby) {
+          if (data.createdby.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isCreatedBy = true;
+          }
+        }
+      }
+      else 
+      isCreatedBy = true;
+
+      return isProfileName && isCreatedBy;
     }
 
   }

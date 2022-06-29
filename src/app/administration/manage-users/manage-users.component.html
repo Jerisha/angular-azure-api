@@ -578,7 +578,7 @@
                             <mat-form-field>
                             <mat-label >User Name</mat-label>
                             <input type="text" matInput  
-                            placeholder="User Id">
+                            placeholder="User Name">
                             </mat-form-field>
                         </div>
                         <div class="rightFilters-items">
@@ -597,7 +597,7 @@
                         </div>
                         
                         <div style="padding-top:10px ;" class="rightFilters-items">
-                            <button type="submit" mat-raised-button color="primary">
+                            <button (click)="onSearchFilter('UserAccessDetails')" type="submit" mat-raised-button color="primary">
                                 <mat-icon >search</mat-icon>Submit
                             </button>
                         </div>
@@ -703,7 +703,7 @@
                             </div>
                          
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button type="submit" mat-raised-button color="primary">
+                                <button (click)="onSearchFilter('UserOfReports')" type="submit" mat-raised-button color="primary">
                                     <mat-icon >search</mat-icon>Submit
                                 </button>
                             </div>
@@ -779,7 +779,7 @@
                             </div>
                          
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button type="submit" mat-raised-button color="primary">
+                                <button (click)="onSearchFilter('StartUpUserMessages')" type="submit" mat-raised-button color="primary">
                                     <mat-icon >search</mat-icon>Submit
                                 </button>
                             </div>
@@ -870,7 +870,7 @@
                             </div>
                          
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button type="submit" mat-raised-button color="primary">
+                                <button (click)="onSearchFilter('UserProfiles')" type="submit" mat-raised-button color="primary">
                                     <mat-icon >search</mat-icon>Submit
                                 </button>
                             </div>
