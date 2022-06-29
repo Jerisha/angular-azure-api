@@ -89,6 +89,14 @@ table td, table th {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: white;
+}
+.nowrap-cell1 {
+  /* max-width: 120px;  */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: white;
 }
 
 .totalRow{
@@ -125,9 +133,11 @@ table td, table th {
 }
 .hyberlinkbtn{
 
-  background-color:inherit;
+  background-color:transparent;
   border: 0px;  
-  border-bottom: 1px solid blue;
+  border-bottom: 1px solid #0000EE;
+  color: #0000EE
+  /* border-bottom: 1px solid blue; */
   
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
@@ -137,3 +147,31 @@ cursor:grab;
 /* .hyberlinkbtn:visited{
   color: #dee2e6;
   } */
+  addlink{
+    background-color:inherit;
+    border: 0px;  
+    border-bottom: 1px solid #0000EE;
+    color: #22c90c
+
+  }
+  removelink{
+    background-color:inherit;
+    border: 0px;    
+
+  }
+   /* unvisited link */
+   hyberlinkbtn:link {
+    color: #ccc;
+  }
+  /* visited link */
+  hyberlinkbtn:visited {
+    color: #095484;
+  }
+  /* mouse over link */
+  hyberlinkbtn:hover {
+    color: #8ebf42;
+  }
+  /* selected link */
+  hyberlinkbtn:active {
+    color: #800000;
+  }
