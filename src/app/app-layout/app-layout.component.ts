@@ -4,6 +4,7 @@ import * as  menu from '../../assets/menu.json';
 import { NavService } from '../uicomponents/top-nav/services/nav.services';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../_auth/services/authentication.service';
+import { User } from '../_auth/model/user';
 
 const MENU_SOURCE = (menu as any).default;
 @Component({
@@ -23,6 +24,10 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   menuSelected: string = '';
   baseRoot = 'Home';
   childRoot: any;
+  isFav: boolean = false;
+  showFavorites: boolean = true;
+  favReports: string[] = [];
+  userDetails!: User;
 
 
   title: any;
@@ -34,7 +39,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     debugger;
-    this.navService.appDrawer = this.appDrawer;
+    this.navService.appDrawer = this.appDrawer; 
     if (this.authService.currentUserValue.iscompleteaccess === 0) {
       let menus = this.authService.currentUserValue.menuitems.map(e => e.menuitemid)
       this.navItems.forEach((x, index) => {
@@ -43,6 +48,9 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
         x.children = selectedMenu;
       });
     }
+     
+    this.userDetails= (JSON.parse(sessionStorage.getItem('currentUser') || '{}')) as User;
+    this.favReports = this.userDetails.favourites;    
   }
 
   ngAfterViewChecked() {
@@ -50,26 +58,27 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    debugger;
     this.navService.appDrawer = this.appDrawer;
     this.navService.currentUrl.subscribe((url: any) => {
-      if (url !== '/') {
+      if (url !== '/home') {
         this.navItems.forEach(item => {
-          var val = item.children?.filter(child => url.includes(child.route));
-          if (val && val.length > 0) {
+          var val = item.children?.filter(child => url.includes(child.route)) ? item.children?.filter(child => url.includes(child.route)) : [];
+          if (val.length > 0) {
             this.baseRoot = item.displayName;
             this.childRoot = val[0].displayName;
+            this.showFavorites = true;
+            this.isFav = (this.favReports.find(x => val[0].menuId === x)) ? true : false;
             return;
           }
         });
       }
       else {
+        this.showFavorites = false;
         this.baseRoot = "Home";
         this.childRoot = "";
+
       }
     });
   }
-
-
-
-
 }

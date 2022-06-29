@@ -6,7 +6,7 @@ import {
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CellAttributes, ColumnDetails, FooterDetails, PaginationAttributes, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, FooterDetails, PaginationAttributes, ProfileDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, of, Subject } from 'rxjs';
@@ -16,6 +16,7 @@ import { UIService } from '../_services/ui.service';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Utils } from 'src/app/_http';
+import { ProfileCreationDialogComponent } from '../../_shared/profile-creation-dialog/profile-creation-dialog.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -87,9 +88,16 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   pageSizeOptions: number[] = [500];
   disablePageSize: boolean = true;
   disablePaginator: boolean = false;
+  isFav: boolean = false;
   paginatorList!: HTMLCollectionOf<Element>;
   pageProp: PaginationAttributes = { currentPage: 0, pageSize: 0 };
   footerDetails!: FooterDetails;
+
+  opt: ProfileDetails[] = [
+    { name: 'user1@_defualt profile', favCols: ["TelephoneNumber"] },
+    { name: 'user1@_defualt profile2', favCols: ["TelephoneNumber", "View", "Command", "Source", "999Reference"] }
+  ]
+
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
@@ -111,9 +119,17 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.refreshtab.emit({ event });
   }
 
+  option: any = [];
+
+
+
+
+
   ngOnChanges(changes: SimpleChanges) {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
-    //   return;    
+    //   return;  
+    
+
     this.initializeTableAttributes();
     this.disablePaginator = this.tableitem?.disablePaginator ? true : false;
     this.dataObs$ = this.tableitem?.data;
@@ -167,8 +183,15 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
+    let defaultProfile =  this.ColumnDetails?.map((e) => e.headerValue);
+    let options: ProfileDetails={name:'Default', favCols: defaultProfile}
+    this.opt.unshift(options);
+    this.option = this.opt.map(x => x.name);
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
+
+  showFavCols: boolean = false;
+  defaultUserProfile:string= 'Default'
 
   initializeTableAttributes() {
     this.selection.clear();
@@ -182,6 +205,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
     this.showCustomFooter = this.tableitem?.isCustomFooter;
+    this.showFavCols = this.tableitem?.isFavcols ? this.tableitem?.isFavcols : false;
     if (this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
@@ -349,10 +373,12 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   // }
 
   filterGridColumns(event: any) {
+    debugger;
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     event.close();
+    console.log('datacols', this.dataColumns)
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
     //   this.tableitem?.coulmnHeaders : undefined;filter
@@ -490,8 +516,92 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   ngOnDestroy() {
-
     this.onDestroy.next();
+  }
+
+  enableCustomization:boolean =false;
+
+  getFavCols(val: any) {
+    
+    this.dataColumns = [];
+    let newStatus = true;
+    let selectedColumns = this.opt?.find(x => x.name === val)?.favCols;
+    selectedColumns = this.ColumnDetails.filter(x => selectedColumns?.includes(x.headerValue)).map(x => x.headerValue)
+    selectedColumns = selectedColumns ? selectedColumns : []
+    this.enableCustomization = val !='Default' ? true : false;
+
+    //updating column headers attributes
+    this.gridFilter.forEach((x: any) => {
+      if (selectedColumns?.includes(x.headerValue) && x.headerValue != 'Select') {
+        x.showDefault = true;
+      }
+      else {
+        x.showDefault = false;
+      }
+    });
+
+    //deselecting all options and select only the fav columns
+    this.select.options.forEach((item: MatOption, index) => { if (index != 0) item.deselect() });
+    this.select.options.forEach((item: MatOption) => {
+      if (selectedColumns?.includes(item.value)) {
+        newStatus = false;
+        item.select();
+      }
+    });
+    let actualCols = this.ColumnDetails.filter(x => x.headerValue != 'Select').map(x => x.headerValue).length;
+    selectedColumns = selectedColumns.filter(x => x != 'Select');
+    this.allSelected = (actualCols === selectedColumns.length) ? true : false;
+    this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
+    if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+  }
+
+
+  createProfile() {
+    let selectedCols: string[] = [];
+    this.select.options.forEach((item: MatOption) => {
+      if (item.selected) {
+        selectedCols.push(item.value)
+      }
+    });
+
+      let dialogRef = this.dialog.open(ProfileCreationDialogComponent, { width: '250px',       
+        data: { selectedColsArray: selectedCols }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.isExportDisable = true;
+        if (result!='') {
+          var profile: ProfileDetails = { name: result, favCols: selectedCols };
+          this.opt.push(profile)
+          this.defaultUserProfile = result
+          this.getFavCols(this.defaultUserProfile);
+          this.option = this.opt.map(x => x.name);
+        }
+      });
+
+    }  
+  
+
+
+  deleteProfile(){
+    const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px', disableClose: true, data: {
+        message: 'Do you want to Delete this User profile?'
+      }
+    });
+    deleteConfirm.afterClosed().subscribe(result => {
+     // this.isExportDisable = true;
+      if (result) {
+        this.defaultUserProfile ='Default'
+      this.getFavCols(this.defaultUserProfile);
+     // this.defaultUserProfile ='Default'
+      // this.opt.slice(0,1)
+        // let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{ "IsExporttoExcel": "Y" }, { 'ColumnMapping': ColumnMapping }]);
+        // this.service.queryDetails(request).subscribe(x => x);
+      }
+    });
+
+
   }
 
   copyToClipboard() {

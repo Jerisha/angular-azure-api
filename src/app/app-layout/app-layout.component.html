@@ -31,8 +31,13 @@
   <div class="page-header">    
        <div style="padding: 2px;"> {{baseRoot}}</div>
       <mat-icon>arrow_right</mat-icon>
-      <div style="padding: 2px;">{{childRoot}}</div>    
-  </div>
+      <div style="padding: 2px;">{{childRoot}}</div> 
+     
+      <ng-container *ngIf="showFavorites">
+      <mat-icon class="info" *ngIf="!isFav"  (click)="this.isFav=!this.isFav;" matTooltip="Add to Favorite ">star_border</mat-icon>
+      <mat-icon class="info" *ngIf="isFav"  (click)="this.isFav=!this.isFav;"  matTooltip="Remove from Favorite ">star</mat-icon>  
+    </ng-container>
+    </div>
   <alert></alert>
   <router-outlet></router-outlet>
   

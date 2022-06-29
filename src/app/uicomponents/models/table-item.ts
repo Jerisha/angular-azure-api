@@ -12,6 +12,7 @@ export interface TableItem {
     setCellAttributes?:CellAttributes[];
     isCustomFooter?: boolean;
     excelQuery?:any;
+    isFavcols?:boolean;
 }
 export interface ViewColumn {
     headerValue: string;
@@ -53,3 +54,12 @@ export interface FooterDetails{
     footerValue: string;
 }
 
+export interface ProfileDetails{
+    name:string;
+    favCols:string[];
+}
+
+export interface FavProfileDetails{
+    name:string;
+    favCols:string[];
+}
