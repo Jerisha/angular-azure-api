@@ -3,6 +3,7 @@ import { NavItem } from '../uicomponents/models/nav-item';
 import * as  menu from '../../assets/menu.json';
 import { NavService } from '../uicomponents/top-nav/services/nav.services';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../_auth/services/authentication.service';
 
 const MENU_SOURCE = (menu as any).default;
 @Component({
@@ -27,11 +28,21 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   title: any;
   constructor(private navService: NavService,
     private cdr: ChangeDetectorRef,
-    private _router: Router) {
+    private _router: Router,
+    private authService: AuthenticationService) {
   }
 
   ngOnInit() {
+    debugger;
     this.navService.appDrawer = this.appDrawer;
+    if (this.authService.currentUserValue.iscompleteaccess === 0) {
+      let menus = this.authService.currentUserValue.menuitems.map(e => e.menuitemid)
+      this.navItems.forEach((x, index) => {
+        let selectedMenu = x.children?.filter(y => menus.indexOf(y.menuId) >= 0)
+        delete x.children;
+        x.children = selectedMenu;
+      });
+    }
   }
 
   ngAfterViewChecked() {
@@ -44,7 +55,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
       if (url !== '/') {
         this.navItems.forEach(item => {
           var val = item.children?.filter(child => url.includes(child.route));
-          if (val.length > 0) {
+          if (val && val.length > 0) {
             this.baseRoot = item.displayName;
             this.childRoot = val[0].displayName;
             return;

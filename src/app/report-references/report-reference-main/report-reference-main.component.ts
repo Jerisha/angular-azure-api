@@ -287,8 +287,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
           let chkRadio = lstRadio.filter((y: IColoumnDef) => y.cName === x[0]).length > 0
 
-          if ((chkRadio) && (x[1] === 'Y' || x[1] === '0')) { element1[x[0]] = true }
-          else if ((chkRadio) && (x[1] === 'N' || x[1] === '1')) { element1[x[0]] = false }
+          if ((chkRadio) && (x[1] === 'Y' || x[1] === '1')) { element1[x[0]] = true }
+          else if ((chkRadio) && (x[1] === 'N' || x[1] === '0')) { element1[x[0]] = false }
           //console.log('element val', x)
 
           //   else if (x[1] === null) { element1[x[0]] = ('') 
@@ -534,7 +534,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
          {
            let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
          //console.log(header,'header')
-          console.log( this.data, 'download1')
+         // console.log( this.data, 'download1')
           let copydata = JSON.parse(JSON.stringify(this.data))
           var c = document.createElement("a");
           let data:any = [];
@@ -555,13 +555,18 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         //  {    delete row.Comments  } 
          
           let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'])
+            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
+            {
+              Reflect.deleteProperty(row,i)
+            }
+            if(this.currentReportName ==='ResolutionType'||this.currentReportName ==='AuditStatus')
+            for (const i of ['Description'])
             {
               Reflect.deleteProperty(row,i)
             }
         
           let dataRow = Object.assign(disp,row)
-        console.log(dataRow,'dataRow')         
+        //console.log(dataRow,'dataRow')         
         //data += Object.values(dataRow).toString().replace(/[,]+/g, '\|') + "\n";
         let val = Object.values(dataRow).join('|');
         val.replace(/[/t]+/g, ' ');

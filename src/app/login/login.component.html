@@ -12,7 +12,7 @@
     </div>
     <div class="login-content">
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onSubmit()">
 
             <div class="input-div">
                 <!-- <div class="i">
@@ -29,6 +29,11 @@
                     <button type="button" matPrefix mat-icon-button aria-label="Clear">
                         <mat-icon>perm_identity</mat-icon>
                     </button>
+                    <mat-error class="alert alert-danger">                        
+                        <div *ngIf="f.username.errors?.required">
+                          Please enter the username                         
+                        </div>
+                      </mat-error>
                 </mat-form-field>
 
             </div>
@@ -48,6 +53,11 @@
                     <button type="button" matPrefix mat-icon-button aria-label="Clear">
                         <mat-icon>lock_open</mat-icon>
                     </button>
+                    <mat-error class="alert alert-danger">                        
+                        <div *ngIf="f.password.errors?.required">
+                          Please enter the password                         
+                        </div>
+                      </mat-error>
                 </mat-form-field>
             </div>
             <button [disabled]="loading" class="btn btn-primary">
