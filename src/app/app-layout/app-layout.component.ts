@@ -3,6 +3,7 @@ import { NavItem } from '../uicomponents/models/nav-item';
 import * as  menu from '../../assets/menu.json';
 import { NavService } from '../uicomponents/top-nav/services/nav.services';
 import { Router } from '@angular/router';
+import { User } from '../_auth/model/user';
 
 const MENU_SOURCE = (menu as any).default;
 @Component({
@@ -22,7 +23,10 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   menuSelected: string = '';
   baseRoot = 'Home';
   childRoot: any;
-  isFav:boolean= false;
+  isFav: boolean = false;
+  showFavorites: boolean = true;
+  favReports: string[] = [];
+  userDetails!: User;
 
 
   title: any;
@@ -32,7 +36,9 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    this.navService.appDrawer = this.appDrawer;
+    this.navService.appDrawer = this.appDrawer;   
+    this.userDetails= (JSON.parse(sessionStorage.getItem('currentUser') || '{}')) as User;
+    this.favReports = this.userDetails.favourites;    
   }
 
   ngAfterViewChecked() {
@@ -40,26 +46,27 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    debugger;
     this.navService.appDrawer = this.appDrawer;
     this.navService.currentUrl.subscribe((url: any) => {
-      if (url !== '/') {
+      if (url !== '/home') {
         this.navItems.forEach(item => {
-          var val = item.children?.filter(child => url.includes(child.route));
+          var val = item.children?.filter(child => url.includes(child.route)) ? item.children?.filter(child => url.includes(child.route)) : [];
           if (val.length > 0) {
             this.baseRoot = item.displayName;
             this.childRoot = val[0].displayName;
+            this.showFavorites = true;
+            this.isFav = (this.favReports.find(x => val[0].menuId === x)) ? true : false;
             return;
           }
         });
       }
       else {
+        this.showFavorites = false;
         this.baseRoot = "Home";
         this.childRoot = "";
+
       }
     });
   }
-
-
-
-
 }
