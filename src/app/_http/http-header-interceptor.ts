@@ -14,7 +14,7 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
         //     'Access-Control-Allow-Methods': 'GET, DELETE, HEAD, OPTIONS, POST'
         // });
         let authReq: HttpRequest<any>;
-        //console.log("token " +this.authService.getUserToken())
+        // console.log("isUserLoggedIn " +this.authService.isUserLoggedIn)
         if (this.authService.isUserLoggedIn) {
            //console.log("keys" + req.headers.keys)
             authReq = req.clone({

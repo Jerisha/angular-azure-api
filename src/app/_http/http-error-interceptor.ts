@@ -16,24 +16,20 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             .pipe(
                 //retry(1),
                 catchError((error: HttpErrorResponse) => {
-
+                    debugger;
                     let errorMessage = '';
-                    //unauthorized user token validation
-                    if (error?.status === 401 && error?.error?.code === 'token_not_valid')
-                    {
-
-                        this._route.navigate(['/login']);   
-                    }
-                                         
-
                     if (error.error instanceof ErrorEvent) {
                         // client-side error
                         errorMessage = `Error: ${error.error.message}`;
+                        //unauthorized user token validation
+                        if (error?.status === 401) {
+                            this._route.navigate(['login']);
+                        }
                         // console.log(errorMessage);
                     } else {
                         // Server-side errors
                         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-                        this._route.navigate(['/error'], { state: { errCode: error.status, errMsg: error.message } });
+                        this._route.navigate(['error'], { state: { errCode: error.status, errMsg: error.message } });
                     }
                     return throwError(errorMessage);
                 })

@@ -34,13 +34,15 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     debugger;
-    let menus = this.authService.currentUserValue.menuitems.map(e => e.menuitemid)
     this.navService.appDrawer = this.appDrawer;
-    this.navItems.forEach((x, index) => {
-      let selectedMenu = x.children?.filter(y => menus.indexOf(y.menuId) >= 0)
-      delete x.children;
-      x.children = selectedMenu;
-    });
+    if (this.authService.currentUserValue.iscompleteaccess === 0) {
+      let menus = this.authService.currentUserValue.menuitems.map(e => e.menuitemid)
+      this.navItems.forEach((x, index) => {
+        let selectedMenu = x.children?.filter(y => menus.indexOf(y.menuId) >= 0)
+        delete x.children;
+        x.children = selectedMenu;
+      });
+    }
   }
 
   ngAfterViewChecked() {
