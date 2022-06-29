@@ -16,8 +16,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl!: string;
   error = '';
-  @Output() loginState = new EventEmitter<boolean>()
-  @Output() logoutState = new EventEmitter<boolean>()
+
   hide = true;
 
 
@@ -30,10 +29,10 @@ export class LoginComponent implements OnInit {
 
 
   ) {
-    //   // redirect to home if already logged in
-    //   if (this.authService.currentUserValue) { 
-    //     this.router.navigate(['/']);
-    // }
+      // redirect to home if already logged in
+      if (this.authService.isUserLoggedIn) { 
+        this.router.navigate(['home']);
+    }
   }
 
   ngOnInit(): void {
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', Validators.required)
     });
 
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
     this.authService.logoutUser();
 
   }
@@ -62,7 +61,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authService.login(this.f.username.value, this.f.password.value).subscribe((x: any) => {
       if (this.authService.isUserLoggedIn) {
-        this.router.navigate(['/home']);
+        this.router.navigate([this.returnUrl]);
       }
     },
       error => {

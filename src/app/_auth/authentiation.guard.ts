@@ -6,7 +6,7 @@ import { AuthenticationService } from './services/authentication.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
+export class AuthGuard implements CanActivate, CanActivateChild {
 
   constructor(private authService: AuthenticationService,
     private router: Router) { }
@@ -15,37 +15,50 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.isUserLoggedIn)
-      return true;
-
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+      if (this.authService.isUserLoggedIn) {
+        // authorised so return true
+        return true;
+      }
+      else {
+        // not logged in so redirect to login page with the return url
+        this.router.navigate(['/login'], {
+          queryParams: { returnUrl: state.url }
+        });
+      }
     return false
   }
 
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.isUserLoggedIn)
+    if (this.authService.isUserLoggedIn) {
+      // authorised so return true
       return true;
+    }
+    else {
+      // not logged in so redirect to login page with the return url
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: state.url }
+      });
+    }
 
-    
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    return false;
-  }
-  canDeactivate(
-    component: unknown,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
-  }
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      //this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+      return false;
+    }
+    // canDeactivate(
+    //   component: unknown,
+    //   currentRoute: ActivatedRouteSnapshot,
+    //   currentState: RouterStateSnapshot,
+    //   nextState ?: RouterStateSnapshot): Observable < boolean | UrlTree > | Promise < boolean | UrlTree > | boolean | UrlTree {
+    //   return true;
+    // }
+    canLoad(
+      route: Route,
+      segments: UrlSegment[]): Observable < boolean | UrlTree > | Promise < boolean | UrlTree > | boolean | UrlTree {
 
-    if (this.authService.isUserLoggedIn)
-      return true;
+      if (this.authService.isUserLoggedIn)
+        return true;
 
-    return false;
+      return false;
+    }
   }
-}
