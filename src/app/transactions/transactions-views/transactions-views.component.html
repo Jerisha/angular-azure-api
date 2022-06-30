@@ -32,7 +32,7 @@
                           </div>
                         </mat-error>
                       </mat-form-field>
-                      <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="Maximum CLIs 10000 Only" matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                        
+                      <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="Maximum CLIs 10000 Only" matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                         -->
                     </div>
                       <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
                         <mat-list style ="max-height:300px;overflow-x:hidden; overflow-y:auto;" #cliList>
@@ -64,10 +64,10 @@
                     <div style="display: flex;align-items: center;justify-content: center;">
                         <span>
                           <!-- <button  *ngIf="visibleSearchOption2.checked == true" type="submit"  mat-raised-button [ngClass]="btncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:50px;background-color: green !important;color:white" (click)="addRangeTel()"> -->
-                            <button  type="button"  mat-raised-button [ngClass]="addbtncolor" matTooltip="start or end valid telephone no entered then this add button will be enable" style ="margin-left:0px;" (click)="addRangeTel()" [disabled]="addCliState">
+                            <button  type="button"  mat-raised-button [ngClass]="addbtncolor"  style ="margin-left:0px;" (click)="addRangeTel()" [disabled]="addCliState">
                             <mat-icon>add_box</mat-icon>Add Cli(s)
                           </button>
-                        <button type="button"  mat-raised-button [ngClass]="defaultbtn" matTooltip="start or end valid telephone no entered then this Search button will be enable" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
+                        <button type="button"  mat-raised-button [ngClass]="defaultbtn" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
                           <mat-icon>search</mat-icon>Search
                         </button>
                       </span>
@@ -98,7 +98,7 @@
                                 <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> i-->
                               <!-- </button> -->
                               <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip= mutliRangeTelephoneList matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon> -->
-                              <button type="button" mat-raised-button   [ngClass]="defaultbtn" style="margin-left: 10px; padding-left:2px;width:auto;height:2em;font-size: small;line-height: 16px !important;" matTooltip="Review Multi Range Telephone(s)"  (click)="ReviewCli()">
+                              <button type="button" mat-raised-button   [ngClass]="defaultbtn" style="margin-left: 10px; padding-left:2px;width:auto;height:2em;font-size: small;line-height: 16px !important;"   (click)="ReviewCli()">
                                 <i class="material-icons" style ="font-size:larger;width:30px; vertical-align: middle;">edit</i>Review
                               </button>  
                             </span>                         
@@ -114,11 +114,11 @@
                                 <span style="font-size:x-small;padding-left:6px;"><strong>Live: </strong>{{Live}}</span>   
                               </div>                          
                        <div style ="float:right"> 
-                      <span><button type="submit" mat-raised-button [ngClass]="defaultbtn" style="margin-left: 10px; margin-top:6px;height: 2em;font-size: small;line-height: 16px !important;"  matTooltip="Click this button,Current Telephone no's Audit Trail will be navigate "  (click)="AuditTrail()">                        
+                      <span><button type="submit" mat-raised-button [ngClass]="defaultbtn" style="margin-left: 10px; margin-top:6px;height: 2em;font-size: small;line-height: 16px !important;"    (click)="AuditTrail()">                        
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">history</i>Audit Trail 
                       </button></span>
                       <span>
-                      <button type="cancel" mat-raised-button   [ngClass]="defaultbtn" style="margin-left: 10px; padding-left: 20px;padding-right: 20px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;" matTooltip="All the values are Reset & back to start state"  (click)="resetTel(this)">
+                      <button type="cancel" mat-raised-button   [ngClass]="defaultbtn" style="margin-left: 10px; padding-left: 20px;padding-right: 20px; margin-top: 6px; height:2em;font-size: small;line-height: 16px !important;"   (click)="resetTel(this)">
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">refresh</i>Reset
                       </button>  
                     </span>
@@ -441,13 +441,13 @@
                       </div>
                   </div>
                   <div class =vf-flex-container style="margin-block: 1px; padding-bottom: 2px;">                           
-                    <button type="submit" mat-raised-button [ngClass]="defaultbtn" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE" matTooltip="Click this button currently showning Transaction details will be saved" (click)="saveTran('N')" [disabled]="view3Form.invalid || viewForm.invalid ">
+                    <button type="submit" mat-raised-button [ngClass]="defaultbtn" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="SAVE"  (click)="saveTran('N')" [disabled]="view3Form.invalid || viewForm.invalid ">
                     <mat-icon style ="font-size:small;width:30px;height: 16px;">save</mat-icon>Save
                   </button>
-                  <button type="submit" mat-raised-button  [ngClass]="defaultbtn" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Click this button Check Address will be navigate"  (click)="viewAddressCheck($event)">
+                  <button type="submit" mat-raised-button  [ngClass]="defaultbtn" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;"  (click)="viewAddressCheck($event)">
                     <mat-icon style ="font-size:small;width:30px;height: 16px;">search</mat-icon>Check Address
                   </button>
-                  <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="defaultbtn" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save" matTooltip="Click this button currently showning Transaction details will be forced to saved"  (click)="saveTran('Y')" [disabled]="view3Form.invalid || viewForm.invalid">                             
+                  <button type="submit"  id="forcesavedisable" mat-raised-button  [ngClass]="defaultbtn" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" value="Force Validate Save"  (click)="saveTran('Y')" [disabled]="view3Form.invalid || viewForm.invalid">                             
                     <span class="material-icons" style ="font-size:small;width:30px;height: 16px;">
                       save_alt
                       </span>Force Validate Save

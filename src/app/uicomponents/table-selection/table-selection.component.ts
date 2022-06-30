@@ -531,16 +531,19 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     // })
 
     let ColumnMapping: any = []
-    let tempColumns:string =''
+    //let tempColumns:string =''
+    let temp:any = {}
     this.gridFilter.forEach(x => {
       if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
       {       
         //console.log(`"${x.headerValue}":"${x.header}"`)
-        //tempColumns +=`"${x.headerValue}":"${x.header}",`
-         ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))        
+       //tempColumns +=`'${x.headerValue}':'${x.header}',`
+       temp[x.headerValue]=x.header
+         //ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))        
       }
     });
     //ColumnMapping.push(`{${tempColumns}}`)
+    ColumnMapping.push(temp)
     //console.log(ColumnMapping,'columnMapping')
   
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {

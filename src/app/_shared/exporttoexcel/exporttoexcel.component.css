@@ -136,8 +136,8 @@ table td, table th {
 
   background-color:transparent;
   border: 0px;  
-  border-bottom: 1px solid #0000EE;
-  color: #0000EE
+  border-bottom: 1px solid #0000FF; 
+  color: #0000FF
   /* border-bottom: 1px solid blue; */
   
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
@@ -148,16 +148,13 @@ cursor:grab;
 /* .hyberlinkbtn:visited{
   color: #dee2e6;
   } */
-  addlink{
-    background-color:inherit;
-    border: 0px;  
-    border-bottom: 1px solid #0000EE;
-    color: #22c90c
+  addlink{    
+    border-bottom: 1px solid #0000FF;
+    color: #0000FF
 
   }
   removelink{
-    background-color:inherit;
-    border: 0px;    
+   color: black; 
 
   }
    /* unvisited link */
