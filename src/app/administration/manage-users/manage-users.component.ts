@@ -18,6 +18,7 @@ import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { formatDate } from '@angular/common';
+import { DateRange } from '@angular/material/datepicker';
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -2154,6 +2155,12 @@ export class ManageUsersComponent implements OnInit {
   userprofilescolsvalues: any = this.userprofilescols.map((x: any) => x.headerValue);
   displayedColumns1: any = ['Actions', 'Menu Group', 'Screen Name', 'Access Level'];
 
+  //Filter Form
+  filterUserofReportForm: FormGroup;
+  filterUserAccessForm: FormGroup;
+  filterNewsUpdateForm: FormGroup;
+  filterUserProfilesForm: FormGroup; 
+
   private readonly onDestroyQuery = new Subject<void>();
 
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
@@ -3193,39 +3200,57 @@ export class ManageUsersComponent implements OnInit {
     {
       case 'UserOfReports':
         let  filteritem1 = {
-          username : [],
-          menugroup: [],
-          reportname : [],
-          sources: []
+          username : [this.filterUserofReportForm.controls['username'].value ? this.filterUserofReportForm.controls['username'].value : '' ],
+          menugroup: [this.filterUserofReportForm.controls['menugroup'].value ? this.filterUserofReportForm.controls['menugroup'].value : '' ],
+          reportname : [this.filterUserofReportForm.controls['reportname'].value ? this.filterUserofReportForm.controls['reportname'].value : '' ],
+          sources: [this.filterUserofReportForm.controls['sources'].value ? this.filterUserofReportForm.controls['sources'].value : '' ]
         }
         console.log(JSON.stringify(filteritem1));
         this.datauserreports.filter = JSON.stringify(filteritem1);
       break;
       case 'UserAccessDetails':
         let  filteritem2 = {
-          username : [],
-          profilename: []
+          username : [this.filterUserAccessForm.controls['username'].value ? this.filterUserAccessForm.controls['username'].value : '' ],
+          profilename: [this.filterUserAccessForm.controls['profilename'].value ? this.filterUserAccessForm.controls['profilename'].value : '' ]
         }
         console.log(JSON.stringify(filteritem2));
         this.userAccessData.filter = JSON.stringify(filteritem2);
         break;
-      case 'StartupUserMessages':
+      case 'StartUpUserMessages':
         let  filteritem3 = {
-          emailaddress : [],
-          startdate: [],
-          expirydate: []
+          emailaddress : [this.filterNewsUpdateForm.controls['emailaddress'].value ? this.filterNewsUpdateForm.controls['emailaddress'].value : '' ],
+          startdate: [this.filterNewsUpdateForm.controls['startdate'].value ? this.filterNewsUpdateForm.controls['startdate'].value : '' ],
+          expirydate: [this.filterNewsUpdateForm.controls['expirydate'].value ? this.filterNewsUpdateForm.controls['expirydate'].value : '' ]
         }
         console.log(JSON.stringify(filteritem3));
         this.startupusermsgs.filter = JSON.stringify(filteritem3);
         break;
       case 'UserProfiles':
         let  filteritem4 = {
-          profilename: [],
-          createdby: []
+          profilename: [this.filterUserProfilesForm.controls['profilename'].value ? this.filterUserProfilesForm.controls['profilename'].value : '' ],
+          createdby: [this.filterUserProfilesForm.controls['createdby'].value ? this.filterUserProfilesForm.controls['createdby'].value : '' ]
         }
         console.log(JSON.stringify(filteritem4));
         this.userprofilesdata.filter = JSON.stringify(filteritem4);
         break;
+    }
+  }
+  
+  resetFilter(reportName:any){
+    switch (reportName){
+      case 'UserOfReports' :
+        this.datauserreports.filter ='';
+        break;
+      case 'UserAccessDetails' :
+        this.userAccessData.filter ='';
+        break;
+      case 'StartUpUserMessages' :
+        this.startupusermsgs.filter =''; 
+        break;
+      case 'UserProfiles' :
+        this.userprofilesdata.filter ='';
+        break; 
+
     }
   }
 
@@ -3441,6 +3466,35 @@ export class ManageUsersComponent implements OnInit {
       newssubheader: new FormControl({ value: '' }, []),
     });
 
+    this.filterUserofReportForm = this.formBuilder.group({
+      username: new FormControl({ value: '' }, []),
+      sources: new FormControl({ value: '' }, []),
+      menugroup: new FormControl({ value: '' }, []),
+      reportname: new FormControl({ value: '' }, []),
+    });
+
+    this.filterNewsUpdateForm = this.formBuilder.group({
+      emailaddress: new FormControl({ value: '' }, []),
+      startdate: new FormControl({ value: '' }, []),
+      expirydate: new FormControl({ value: '' }, []), 
+    });
+
+    this.filterUserAccessForm = this.formBuilder.group({
+      username: new FormControl({ value: '' }, []),
+      profilename: new FormControl({ value: '' }, []),
+    });
+
+    this.filterUserProfilesForm = this.formBuilder.group({
+      profilename: new FormControl({ value: '' }, []),
+      createdby: new FormControl({ value: '' }, []),
+    });
+
     this.StartupUsermsgsForm.reset();
+    this.referenceForm.reset();
+    this.filterUserofReportForm.reset();
+    this.filterNewsUpdateForm.reset();
+    this.filterUserAccessForm.reset();
+    this.filterUserProfilesForm.reset();
+
   }
 }

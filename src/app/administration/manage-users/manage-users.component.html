@@ -594,40 +594,36 @@
                     </app-table-selection> -->
                     <!-- right side filter -->
                     <div style="padding: 10px;">
+                        <form [formGroup]="filterUserAccessForm" (ngSubmit)="onSearchFilter('UserAccessDetails')">
                     <div class="rightFilters">
                         <div class="rightFilters-items">
                             <mat-form-field>
                             <mat-label >User Name</mat-label>
                             <input type="text" matInput  
-                            placeholder="User Name">
+                            placeholder="User Name" formControlName="username">
                             </mat-form-field>
                         </div>
+                    
                         <div class="rightFilters-items">
                             <mat-form-field>
-                            <mat-label >Email Address</mat-label>
+                            <mat-label >Profile Name</mat-label>
                             <input type="text" matInput  
-                            placeholder="Email Address">
-                            </mat-form-field>
-                        </div>
-                        <div class="rightFilters-items">
-                            <mat-form-field>
-                            <mat-label >Profile</mat-label>
-                            <input type="text" matInput  
-                            placeholder="User Profile">
+                            placeholder="Profile Name" formControlName="profilename">
                             </mat-form-field>
                         </div>
                         
                         <div style="padding-top:10px ;" class="rightFilters-items">
-                            <button (click)="onSearchFilter('UserAccessDetails')" type="submit" mat-raised-button color="primary">
+                            <button type="submit" mat-raised-button color="primary">
                                 <mat-icon >search</mat-icon>Submit
                             </button>
                         </div>
                         <div style="padding-top:10px ;" class="rightFilters-items">
-                            <button  type="reset" mat-raised-button color="primary">
+                            <button (click)="resetFilter('UserAccessDetails')" type="reset" mat-raised-button color="primary">
                                 <mat-icon >refresh</mat-icon>Clear
                             </button>
                         </div>
                     </div>
+                    </form>
 
                     <!-- table start -->
                     <div style ="max-height: 400px;overflow:hidden">   
@@ -693,47 +689,49 @@
                 </div>
                 <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
+                        <form [formGroup]="filterUserofReportForm" (ngSubmit)="onSearchFilter('UserOfReports')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>
-                                <mat-label >User Id</mat-label>
+                                <mat-label >User Name</mat-label>
                                 <input type="text" matInput  
-                                placeholder="User Id">
+                                placeholder="User Name" formControlName="username">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
-                                <mat-label >Email Address</mat-label>
+                                <mat-label >Sources</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Email Address">
+                                placeholder="Sources" formControlName="sources">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Menu Group</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Menu Group">
+                                placeholder="Menu Group" formControlName="menugroup">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Report Name</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Report Name">
+                                placeholder="Report Name" formControlName="reportname">
                                 </mat-form-field>
                             </div>
                          
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button (click)="onSearchFilter('UserOfReports')" type="submit" mat-raised-button color="primary">
+                                <button type="submit" mat-raised-button color="primary">
                                     <mat-icon >search</mat-icon>Submit
                                 </button>
                             </div>
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button  type="reset" mat-raised-button color="primary">
+                                <button (click)="resetFilter('UserOfReports')" type="reset" mat-raised-button color="primary">
                                     <mat-icon >refresh</mat-icon>Clear
                                 </button>
                             </div>
                         </div>
+                        </form>
     
                         <!-- table start -->
                         <div style ="max-height: 400px;overflow:hidden">   
@@ -769,47 +767,42 @@
                 </div>
                 <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
+                        <form [formGroup]="filterNewsUpdateForm" (ngSubmit)="onSearchFilter('StartUpUserMessages')">
                         <div class="rightFilters">
-                            <div class="rightFilters-items">
-                                <mat-form-field>
-                                <mat-label >User Id</mat-label>
-                                <input type="text" matInput  
-                                placeholder="User Id">
-                                </mat-form-field>
-                            </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Email Address</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Email Address">
+                                placeholder="Email Address" formControlName="emailaddress">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
-                                <mat-label >Show From</mat-label>
+                                <mat-label >Start Date</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Show From">
+                                placeholder="Start Date" formControlName="startdate">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Expiry Date</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Expiry Date">
+                                placeholder="Expiry Date" formControlName="expirydate">
                                 </mat-form-field>
                             </div>
                          
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button (click)="onSearchFilter('StartUpUserMessages')" type="submit" mat-raised-button color="primary">
+                                <button type="submit" mat-raised-button color="primary">
                                     <mat-icon >search</mat-icon>Submit
                                 </button>
                             </div>
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button  type="reset" mat-raised-button color="primary">
+                                <button (click)="resetFilter('StartUpUserMessages')" type="reset" mat-raised-button color="primary">
                                     <mat-icon >refresh</mat-icon>Clear
                                 </button>
                             </div>
                         </div>
+                        </form>
     
                         <!-- table start -->
                         <div style ="max-height: 400px;overflow:hidden">   
@@ -867,40 +860,36 @@
                 </div>
                 <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
+                        <form [formGroup]="filterUserProfilesForm" (ngSubmit)="onSearchFilter('UserProfiles')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Profile Name</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Profile Name">
+                                placeholder="Profile Name" formControlName="profilename">
                                 </mat-form-field>
                             </div>
-                            <div class="rightFilters-items">
-                                <mat-form-field>
-                                <mat-label >Created On</mat-label>
-                                <input type="text" matInput  
-                                placeholder="Created On">
-                                </mat-form-field>
-                            </div>
+
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Created By</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Created By">
+                                placeholder="Created By" formControlName="createdby">
                                 </mat-form-field>
                             </div>
                          
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button (click)="onSearchFilter('UserProfiles')" type="submit" mat-raised-button color="primary">
+                                <button type="submit" mat-raised-button color="primary">
                                     <mat-icon >search</mat-icon>Submit
                                 </button>
                             </div>
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button  type="reset" mat-raised-button color="primary">
+                                <button (click)="resetFilter('UserProfiles')" type="reset" mat-raised-button color="primary">
                                     <mat-icon >refresh</mat-icon>Clear
                                 </button>
                             </div>
                         </div>
+                    </form>
    
                         <!-- table start -->
                         <div style ="max-height: 400px;overflow:hidden">   
