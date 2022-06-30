@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { formatDate } from '@angular/common';
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -2135,6 +2136,7 @@ export class ManageUsersComponent implements OnInit {
   startupusermsgs = new MatTableDataSource<any>();
   startupusermsgscols = [
     { header: 'Actions', headerValue: 'Actions' },
+    { header: 'News Header', headerValue: 'newsheader' },
     { header: 'News Description', headerValue: 'newsdescription' },
     { header: 'Email Address', headerValue: 'emailaddress' },
     { header: 'Start Date', headerValue: 'startdate' },
@@ -2781,7 +2783,17 @@ export class ManageUsersComponent implements OnInit {
     this.eventName = 'Update';
     for (let field in this.StartupUsermsgsForm.controls) {
       let control = this.StartupUsermsgsForm.get(field);
-      control?.setValue(record[field]);
+      if(field === 'DateRange') {
+        let start = this.StartupUsermsgsForm.get('DateRange.startdate');
+        start?.setValue(new Date(record['startdate']));
+        let end = this.StartupUsermsgsForm.get('DateRange.expirydate');
+        end?.setValue(new Date(record['expirydate']));
+        console.log("Date  " + new Date(record['expirydate']));
+        
+      } 
+      else {
+        control?.setValue(record[field]);
+      }
       // console.log(record[field]);
     }
 
@@ -3378,9 +3390,15 @@ export class ManageUsersComponent implements OnInit {
     let attribute: any = {};
     for (const field in form.controls) {
       const control = form.get(field);
-      if (control?.value) attribute[field] = control.value;
+
+      if(field === 'DateRange') {
+        attribute.startdate = formatDate(form.get('DateRange.startdate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
+        attribute.expirydate = formatDate(form.get('DateRange.expirydate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
+      } 
+      else if (control?.value) attribute[field] = control.value;
+
     }
-    console.log("prepare form data : " + JSON.stringify(attribute));
+    console.log(JSON.stringify(attribute));
     return attribute;
   }
 
@@ -3413,10 +3431,14 @@ export class ManageUsersComponent implements OnInit {
 
     this.StartupUsermsgsForm = this.formBuilder.group({
       newsid: new FormControl({ value: '' }, []),
-      startdate: new FormControl({ value: '' }, []),
       newsdescription: new FormControl({ value: '' }, []),
-      expirydate: new FormControl({ value: '' }, []),
+      DateRange: this.formBuilder.group({
+        startdate: new FormControl({ value: '' }, []),
+        expirydate: new FormControl({ value: '' }, [])
+      }),
       emailaddress: new FormControl({ value: '' }, []),
+      newsheader: new FormControl({ value: '' }, []),
+      newssubheader: new FormControl({ value: '' }, []),
     });
 
     this.StartupUsermsgsForm.reset();

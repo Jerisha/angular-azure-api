@@ -520,7 +520,18 @@
                                 </mat-form-field>
                             </div> 
                             <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
+
                                 <mat-form-field>
+                                     <mat-label>Date Range</mat-label>
+                                     <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
+                                     <input readonly formControlName="startdate" matStartDate placeholder="Start Date">
+                                     <input readonly formControlName="expirydate" matEndDate placeholder="Expiry Date">
+                                     </mat-date-range-input>
+                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                     <mat-date-range-picker #picker></mat-date-range-picker>
+                                </mat-form-field>
+
+                                <!-- <mat-form-field>
                                     <mat-label>Start Date</mat-label>
                                 <input type="text"  matInput   formControlName="startdate"
                                 placeholder="Start Date">
@@ -529,6 +540,16 @@
                                     <mat-label>Expiry Date</mat-label>
                                 <input type="text"  matInput   formControlName="expirydate"
                                 placeholder="Expiry Date">
+                                </mat-form-field> -->
+                                <mat-form-field>
+                                    <mat-label>News Header</mat-label>
+                                <input type="text"  matInput   formControlName="newsheader"
+                                placeholder="News Header">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>News Sub Header</mat-label>
+                                <input type="text"  matInput   formControlName="newssubheader"
+                                placeholder="News Sub Header">
                                 </mat-form-field>
                             </div> 
                             <div class ="fixed-button-bar">   
