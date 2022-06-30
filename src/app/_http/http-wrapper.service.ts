@@ -43,7 +43,7 @@ export class HttpWrapperService {
                 url = `${environment.api_auth}${endPoint.toString()}`
                 break;
             default:
-                url = `${environment.api_py_uat}${endPoint.toString()}`
+                url = `${environment.api_py_sit}${endPoint.toString()}`
         }
         return url;
         // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
