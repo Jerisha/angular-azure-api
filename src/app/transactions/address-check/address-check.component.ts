@@ -142,6 +142,15 @@ export class AddressCheckComponent implements OnInit {
   {
     this.spinner.show();
     debugger
+    if(this.Addressvalues[3]==null||undefined)
+    {
+      this.Addressvalues[3]="";
+    }
+    if(this.Addressvalues[4]==null||undefined)
+    {
+      this.Addressvalues[4]="";
+    }
+    
     let attributes: any = [
       { 'Address1':this.Addressvalues[1] },
       { 'Address2':this.Addressvalues[2]},

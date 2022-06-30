@@ -36,21 +36,21 @@
                     </ng-template>
                     <span [ngSwitch]="tableft.tabType">
                         <div *ngSwitchCase="0" style="height:100%;">
-                            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
+                            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit('User Access Details')">
                        
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
                                     <mat-form-field hintLabel="Max 10 characters">
                                       <mat-label>User Name</mat-label>
-                                      <input formControlName="UserID" matInput #input maxlength="10"
+                                      <input formControlName="username" matInput #input maxlength="10"
                                         placeholder="User Id">
                                       <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
                                     </mat-form-field>
                                     <mat-form-field>
                                         <mat-label>Profile</mat-label>
-                                        <mat-select formControlName="UserProfile" (selectionChange)="onSelectEvent($event.value)">
-                                          <mat-option *ngFor="let profile of Acessrights" [value]="profile.value">
-                                            {{profile.viewValue}}
+                                        <mat-select formControlName="userprofiles" (selectionChange)="onSelectEvent($event.value)">
+                                          <mat-option *ngFor="let profile of userProfilesDropdown" [value]="profile">
+                                            {{profile}}
                                           </mat-option>
                                         </mat-select>
                                       </mat-form-field>
@@ -77,42 +77,44 @@
                                        
                                                <mat-form-field>
                                                 <mat-label >First Name</mat-label>
-                                            <input type="text" matInput   formControlName="FirstName"
+                                            <input type="text" matInput   formControlName="firstname"
                                             placeholder="First Name">
                                             </mat-form-field>
+                                            
+                                            
                                 </div>  
                                     <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
                                        
                                         <mat-form-field>
                                             <mat-label>Email Address</mat-label>
-                                        <input type="text"  matInput   formControlName="EmailAddress"
+                                        <input type="text"  matInput   formControlName="emailaddress"
                                         placeholder="EmailAddress">
                                         </mat-form-field>
                                        
                                         <mat-form-field>
                                             <mat-label >YID</mat-label>
-                                        <input type="text" matInput  formControlName="YID"
+                                        <input type="text" matInput  formControlName="yid"
                                         placeholder="YID">
                                         </mat-form-field>
                                         <mat-form-field>
                                             <mat-label >Telephone No</mat-label>
-                                        <input type="text" matInput   formControlName="TelephoneNo"
+                                        <input type="text" matInput   formControlName="telephoneno"
                                         placeholder="TelephoneNo">
                                         </mat-form-field>
-                                        <!-- <mat-form-field>
-                                            <mat-label >Country</mat-label>
-                                        <input type="text" matInput   formControlName="Country"
-                                        placeholder="Country">
-                                        </mat-form-field> -->
+                                        <mat-form-field>
+                                            <mat-label >Last Name</mat-label>
+                                        <input type="text" matInput   formControlName="lastname"
+                                        placeholder="Last Name">
+                                        </mat-form-field>
                                     </div> 
                                    
                                 </div>
                                     <div class ="fixed-button-bar" style="position:initial">    
                                         <mat-card-actions style="height:29px">
-                                          <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                          <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled]="referenceForm.invalid"  matTooltip="Click this button currently showning  details will be create new Record"  >
                                             <mat-icon >save</mat-icon>Save
                                           </button>
-                                          <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                          <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled]="referenceForm.invalid" matTooltip="Click this button currently showning details will be Update"  >
                                                 <mat-icon >edit</mat-icon>Update
                                           </button>
                                           <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
@@ -502,39 +504,60 @@
             
                  
          <!-- UserProfile    -->  
-                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit('Start Up User Messages')">
                        
                         <div class="content-main vf-flex-container-row">
                             <div  class="content-submain vf-flex-container-col">
                                 <mat-form-field>
                                     <mat-label>Email Address</mat-label>
-                                <input type="text"  matInput   formControlName="EmailAddress"
-                                placeholder="EmailAddress">
+                                <input type="text"  matInput   formControlName="emailaddress"
+                                placeholder="Email Address">
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>Description</mat-label>
-                                <textarea type="text" style="min-height:100px;"  matInput   formControlName="Message"
-                                placeholder="Message"></textarea>
+                                <textarea type="text" style="min-height:100px;"  matInput   formControlName="newsdescription"
+                                placeholder="Description"></textarea>
                                 </mat-form-field>
                             </div> 
                             <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
+
                                 <mat-form-field>
-                                    <mat-label>Show From</mat-label>
-                                <input type="text"  matInput   formControlName="ShowFrom"
-                                placeholder="Show From">
+                                     <mat-label>Date Range</mat-label>
+                                     <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
+                                     <input readonly formControlName="startdate" matStartDate placeholder="Start Date">
+                                     <input readonly formControlName="expirydate" matEndDate placeholder="Expiry Date">
+                                     </mat-date-range-input>
+                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                     <mat-date-range-picker #picker></mat-date-range-picker>
+                                </mat-form-field>
+
+                                <!-- <mat-form-field>
+                                    <mat-label>Start Date</mat-label>
+                                <input type="text"  matInput   formControlName="startdate"
+                                placeholder="Start Date">
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>Expiry Date</mat-label>
-                                <input type="text"  matInput   formControlName="ExpiryDate"
+                                <input type="text"  matInput   formControlName="expirydate"
                                 placeholder="Expiry Date">
+                                </mat-form-field> -->
+                                <mat-form-field>
+                                    <mat-label>News Header</mat-label>
+                                <input type="text"  matInput   formControlName="newsheader"
+                                placeholder="News Header">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>News Sub Header</mat-label>
+                                <input type="text"  matInput   formControlName="newssubheader"
+                                placeholder="News Sub Header">
                                 </mat-form-field>
                             </div> 
                             <div class ="fixed-button-bar">   
                                 <mat-card-actions>
-                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled]="StartupUsermsgsForm.invalid"  matTooltip="Click this button currently showning  details will be create new Record"  >
                                     <mat-icon >save</mat-icon>Save
                                   </button>
-                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled]="StartupUsermsgsForm.invalid" matTooltip="Click this button currently showning details will be Update"  >
                                         <mat-icon >edit</mat-icon>Update
                                   </button>
                                   <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
@@ -571,26 +594,21 @@
                     </app-table-selection> -->
                     <!-- right side filter -->
                     <div style="padding: 10px;">
+                        <form [formGroup]="filterUserAccessForm" (ngSubmit)="onSearchFilter('UserAccessDetails')">
                     <div class="rightFilters">
                         <div class="rightFilters-items">
                             <mat-form-field>
                             <mat-label >User Name</mat-label>
                             <input type="text" matInput  
-                            placeholder="User Id">
+                            placeholder="User Name" formControlName="username">
                             </mat-form-field>
                         </div>
+                    
                         <div class="rightFilters-items">
                             <mat-form-field>
-                            <mat-label >Email Address</mat-label>
+                            <mat-label >Profile Name</mat-label>
                             <input type="text" matInput  
-                            placeholder="Email Address">
-                            </mat-form-field>
-                        </div>
-                        <div class="rightFilters-items">
-                            <mat-form-field>
-                            <mat-label >Profile</mat-label>
-                            <input type="text" matInput  
-                            placeholder="User Profile">
+                            placeholder="Profile Name" formControlName="profilename">
                             </mat-form-field>
                         </div>
                         
@@ -600,17 +618,18 @@
                             </button>
                         </div>
                         <div style="padding-top:10px ;" class="rightFilters-items">
-                            <button  type="reset" mat-raised-button color="primary">
+                            <button (click)="resetFilter('UserAccessDetails')" type="reset" mat-raised-button color="primary">
                                 <mat-icon >refresh</mat-icon>Clear
                             </button>
                         </div>
                     </div>
+                    </form>
 
                     <!-- table start -->
                     <div style ="max-height: 400px;overflow:hidden">   
                         <div style="max-height: 300px;overflow:auto">
-                            <table mat-table [dataSource]="data0" multiTemplateDataRows  class="detail-table mat-elevation-z8 ">
-                                <ng-container *ngFor="let disCol of displayedColumns0; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
+                            <table mat-table [dataSource]="userAccessData" multiTemplateDataRows  class="detail-table mat-elevation-z8 ">
+                                <ng-container *ngFor="let disCol of userAccessDispCols; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
                                     <!-- Edit Coloumn -->
                                     <div *ngIf="disCol.headerValue==='Actions'">
                                         <th mat-header-cell *matHeaderCellDef class="table-header">Actions</th>
@@ -618,7 +637,7 @@
                                             <ng-container>
                                                 <mat-icon (click)="onEdituserDetails(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                                     mode_edit_outline</mat-icon>
-                                                    <mat-icon (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted"
+                                                    <mat-icon (click)="onDeleteRecord(element,tab.name)" mat-tooltip="Click this button,this row Record will be Deleted"
                                                     style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
                                      
                                             </ng-container>
@@ -647,8 +666,8 @@
                                             {{element[disCol.headerValue]}} </td>
                                     </div>
                                 </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="displayedColumns0values sticky: true" class="table-row"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumns0values;" class="table-row"></tr>
+                                <tr mat-header-row *matHeaderRowDef="userAccessDispColsValue sticky: true" class="table-row"></tr>
+                                <tr mat-row *matRowDef="let row; columns: userAccessDispColsValue;" class="table-row"></tr>
                                 <tr class="mat-row" *matNoDataRow>
                                     <td class="mat-cell" colspan="columns.length">No data found</td>
                                 </tr>
@@ -670,33 +689,34 @@
                 </div>
                 <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
+                        <form [formGroup]="filterUserofReportForm" (ngSubmit)="onSearchFilter('UserOfReports')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>
-                                <mat-label >User Id</mat-label>
+                                <mat-label >User Name</mat-label>
                                 <input type="text" matInput  
-                                placeholder="User Id">
+                                placeholder="User Name" formControlName="username">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
-                                <mat-label >Email Address</mat-label>
+                                <mat-label >Sources</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Email Address">
+                                placeholder="Sources" formControlName="sources">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Menu Group</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Menu Group">
+                                placeholder="Menu Group" formControlName="menugroup">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Report Name</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Report Name">
+                                placeholder="Report Name" formControlName="reportname">
                                 </mat-form-field>
                             </div>
                          
@@ -706,11 +726,12 @@
                                 </button>
                             </div>
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button  type="reset" mat-raised-button color="primary">
+                                <button (click)="resetFilter('UserOfReports')" type="reset" mat-raised-button color="primary">
                                     <mat-icon >refresh</mat-icon>Clear
                                 </button>
                             </div>
                         </div>
+                        </form>
     
                         <!-- table start -->
                         <div style ="max-height: 400px;overflow:hidden">   
@@ -746,33 +767,27 @@
                 </div>
                 <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
+                        <form [formGroup]="filterNewsUpdateForm" (ngSubmit)="onSearchFilter('StartUpUserMessages')">
                         <div class="rightFilters">
-                            <div class="rightFilters-items">
-                                <mat-form-field>
-                                <mat-label >User Id</mat-label>
-                                <input type="text" matInput  
-                                placeholder="User Id">
-                                </mat-form-field>
-                            </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Email Address</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Email Address">
+                                placeholder="Email Address" formControlName="emailaddress">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
-                                <mat-label >Show From</mat-label>
+                                <mat-label >Start Date</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Show From">
+                                placeholder="Start Date" formControlName="startdate">
                                 </mat-form-field>
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Expiry Date</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Expiry Date">
+                                placeholder="Expiry Date" formControlName="expirydate">
                                 </mat-form-field>
                             </div>
                          
@@ -782,11 +797,12 @@
                                 </button>
                             </div>
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button  type="reset" mat-raised-button color="primary">
+                                <button (click)="resetFilter('StartUpUserMessages')" type="reset" mat-raised-button color="primary">
                                     <mat-icon >refresh</mat-icon>Clear
                                 </button>
                             </div>
                         </div>
+                        </form>
     
                         <!-- table start -->
                         <div style ="max-height: 400px;overflow:hidden">   
@@ -800,7 +816,7 @@
                                                 <ng-container>
                                                     <mat-icon (click)="onEditUsermsgs(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                                         mode_edit_outline</mat-icon>
-                                                        <mat-icon (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted"
+                                                        <mat-icon (click)="onDeleteRecord(element,tab.name)" mat-tooltip="Click this button,this row Record will be Deleted"
                                                         style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
                                          
                                                 </ng-container>
@@ -844,26 +860,21 @@
                 </div>
                 <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
+                        <form [formGroup]="filterUserProfilesForm" (ngSubmit)="onSearchFilter('UserProfiles')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Profile Name</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Profile Name">
+                                placeholder="Profile Name" formControlName="profilename">
                                 </mat-form-field>
                             </div>
-                            <div class="rightFilters-items">
-                                <mat-form-field>
-                                <mat-label >Created On</mat-label>
-                                <input type="text" matInput  
-                                placeholder="Created On">
-                                </mat-form-field>
-                            </div>
+
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Created By</mat-label>
                                 <input type="text" matInput  
-                                placeholder="Created By">
+                                placeholder="Created By" formControlName="createdby">
                                 </mat-form-field>
                             </div>
                          
@@ -873,11 +884,12 @@
                                 </button>
                             </div>
                             <div style="padding-top:10px ;" class="rightFilters-items">
-                                <button  type="reset" mat-raised-button color="primary">
+                                <button (click)="resetFilter('UserProfiles')" type="reset" mat-raised-button color="primary">
                                     <mat-icon >refresh</mat-icon>Clear
                                 </button>
                             </div>
                         </div>
+                    </form>
    
                         <!-- table start -->
                         <div style ="max-height: 400px;overflow:hidden">   
@@ -891,7 +903,7 @@
                                                 <ng-container>
                                                     <mat-icon (click)="onEditUserprofileAceess('Update')"   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                                         mode_edit_outline</mat-icon>
-                                                        <mat-icon (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted"
+                                                        <mat-icon (click)="onDeleteRecord(element,tab.name)" mat-tooltip="Click this button,this row Record will be Deleted"
                                                         style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
                                          
                                                 </ng-container>

@@ -16,8 +16,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl!: string;
   error = '';
-  @Output() loginState = new EventEmitter<boolean>()
-  @Output() logoutState = new EventEmitter<boolean>()
+
   hide = true;
 
 
@@ -30,20 +29,20 @@ export class LoginComponent implements OnInit {
 
 
   ) {
-    //   // redirect to home if already logged in
-    //   if (this.authService.currentUserValue) { 
-    //     this.router.navigate(['/']);
-    // }
+      // redirect to home if already logged in
+      if (this.authService.isUserLoggedIn) { 
+        this.router.navigate(['home']);
+    }
   }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      username: new FormControl('', Validators.required),
+      username: new FormControl('BEEMA', Validators.required),
       password: new FormControl('', Validators.required)
     });
 
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
-
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
+    this.authService.logoutUser();
 
   }
   get f() { return this.loginForm.controls; }
@@ -60,9 +59,9 @@ export class LoginComponent implements OnInit {
     // }
     debugger;
     this.loading = true;
-    this.authService.login('BEEMA', this.f.password.value).subscribe((x: any) => {
+    this.authService.login(this.f.username.value, this.f.password.value).subscribe((x: any) => {
       if (this.authService.isUserLoggedIn) {
-        this.router.navigate(['/home']);
+        this.router.navigate([this.returnUrl]);
       }
     },
       error => {

@@ -51,10 +51,11 @@ table td, table th {
 
 .table-container {
   /* min-height: 100px; */
-  height: 350px;
+  height: 430px;
   overflow: auto;
   /* max-width: 100%; */  
   /* font-size:large; */
+  padding-bottom: 10px;
 }
 
 .mat-paginator-sticky {
@@ -133,3 +134,6 @@ table td, table th {
 .hyberlinkbtn:hover{
 cursor:grab;
 }
+/* .hyberlinkbtn:visited{
+  color: #dee2e6;
+  } */

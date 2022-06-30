@@ -21,4 +21,6 @@
     menuitems: any[];
     favourites: any[];
     messagedescription: string;
+    iscompleteaccess:number
+    iscustom:number;
    }

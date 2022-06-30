@@ -40,10 +40,13 @@ export class HttpWrapperService {
         switch (endPoint) {
             case WebMethods.UIQUERY:
             case WebMethods.UILOGIN:
+            case WebMethods.UIUPDATE:
+            case WebMethods.UICREATE:
+            case WebMethods.UIDELETE:
                 url = `${environment.api_auth}${endPoint.toString()}`
                 break;
             default:
-                url = `${environment.api_py_sit}${endPoint.toString()}`
+                url = `${environment.api_py_uat}${endPoint.toString()}`
         }
         return url;
         // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
@@ -92,9 +95,11 @@ export class HttpWrapperService {
                         break;
                     case WebMethods.UIQUERY:
                     case WebMethods.UILOGIN:
+                    case WebMethods.UIUPDATE:
+                    case WebMethods.UICREATE:
+                    case WebMethods.UIDELETE:
                         transData = val
                         break;
-
                     case WebMethods.EXPSUMMARY:
                         transData = val.ResponseParams
                         transData.data = val.Data;

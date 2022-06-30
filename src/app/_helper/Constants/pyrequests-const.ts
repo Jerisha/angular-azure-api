@@ -506,7 +506,94 @@ export const PyRequests = {
       "RequestParams":[
           {"ReportIdenitifer":"ManageUsers",
           "SubReportName":"UserReports"}]
-      } 
+      },
+      UIUPDATE:{ "RequestType" : "UIUPDATE",
+      "UserParams":[
+          {"UserID" : "PODDARS5",
+          "Destination" : "OSN2"}
+      ],
+      "RequestParams":[
+          {"ReportIdenitifer":"ManageUsers",
+          "SubReportName":"UserAccess",
+          "RecordIdentifier":"UserName"}],
+      "Data": [
+          {
+              "username": "PODDARS5",
+              "profilename": "Custom-PODDARS5",
+              "firstname":"Soumi",
+              "lastname":"Poddar",
+              "sources": "Amdocs",
+              "telephoneno": "11111",
+              "emailaddress": "soumi.poddar@vodafone.com",
+              "yid": "PODDARS5",
+              "active": "Yes",
+              "iscustomprofile": 1,
+              "profiledata":    {
+              "profilename": "CUSTOM-PODDARS5",
+              "profiledescription":"This is custom",
+              "iseditprofile": 1,
+              "iscustom": 0,
+              "isdelete": 1,
+              "isdefaultprofile": 0,
+              "profileitems": {
+                  "menuid": "Menu04",
+                  "isfullaccess": 1,
+                  "accesslevel": "1110"
+              }
+          }
+          }
+      ]
+    },
+    UICREATE:{ "RequestType" : "UICREATE",
+    "UserParams":[
+        {"UserID" : "PODDARS5",
+        "Destination" : "OSN2"}
+    ],
+    "RequestParams":[
+        {"ReportIdenitifer":"ManageUsers",
+        "SubReportName":"UserAccess",
+        "RecordIdentifier":"UserName"}],
+    "Data": [
+        {
+            "username": "PODDARS6",
+            "profilename": "Custom-PODDARS6",
+            "firstname":"Soumi",
+            "lastname":"Poddar",
+            "sources": "Amdocs",
+            "telephoneno": "11111",
+            "emailaddress": "soumi.poddar@vodafone.com",
+            "yid": "Y987654",
+            "active": "Yes",
+            "iscustomprofile": 1,
+            "profiledata":        {
+            "profilename": "Custom-PODDARS6",
+            "profiledescription":"Admin",
+            "iseditprofile": 1,
+            "iscustom": 0,
+            "isdelete": 1,
+            "isdefaultprofile": 0,
+            "profileitems": {
+                "menuid": "Menu05",
+                "isfullaccess": 1,
+                "accesslevel": "1110"
+            }
+        }
+        }
+    ]
+    },
+    UIDELETE:{ "RequestType" : "UIDELETE",
+    "UserParams":[
+        {"UserID" : "PODDARS5",
+        "Destination" : "OSN2"}
+    ],
+    "RequestParams":[
+        {"ReportIdenitifer":"ManageUsers",
+        "SubReportName":"UserAccess",
+        "RecordIdentifier":"UserName"}],
+    "Data": [
+        {
+    "username": "PODDARS6"
+    }
+    ]
+    }
 }
-
-
