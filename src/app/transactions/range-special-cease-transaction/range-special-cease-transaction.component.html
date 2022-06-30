@@ -117,9 +117,14 @@
                         <mat-label>Cease Remarks</mat-label>
                         <textarea formControlName="CeaseRemarks" name="ceaseremarks"  [(ngModel)]="CeaseRemarks"
                           #input matInput maxlength="500" [(ngModel)]="isAuditTrail ? range : special " 
-                          placeholder="Cease Remarks"></textarea>
+                          placeholder=" Add Ceaseremarks"></textarea>
                         <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
-                       
+                        <!-- <mat-error class="alert alert-danger">
+                            <div *ngIf="!ceaseremarks.errors?.required">
+                               <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                            <!-- Add Ceaseremarks
+                            </div>
+                          </mat-error> -->
                       </mat-form-field>
                     <button  type="submit" [disabled]="ceaseupdate.invalid || (isLiveRecords && isLiveAudit)" mat-raised-button color="primary">Cease</button>
                 </div>
