@@ -110,17 +110,18 @@
         </mat-tab>
     </mat-tab-group>
     <div *ngIf="showCeasePanel" class="mat-elevation-z8 side-bottom">
-        <form [formGroup]="ceaseupdate" autocomplete="off" *ngIf="updateAccess">
+        <form [formGroup]="ceaseupdate" (ngSubmit)="onCeaseUpdate()" autocomplete="off" *ngIf="updateAccess">
             <div class="mat-elevation-z8 side-bottom">
                 <div style="display:inline; margin-left: 15px;">
-                    <mat-form-field class="side-textarea" style="width:200px" >
+                    <mat-form-field class="side-textarea"  style="width:200px">
                         <mat-label>Cease Remarks</mat-label>
-                        <textarea  form="CeaseRemarks" formControlName="CeaseRemarks" matInput #input [(ngModel)]="isAuditTrail ? range : special " ></textarea>
-                            <!-- <textarea  form="CeaseRemarks" formControlName="CeaseRemarks" matInput #input 
-                            maxlength="500" placeholder="Cease Remarks"></textarea> -->
-                        <!-- <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint> -->
-                    </mat-form-field>
-                    <button  type="submit" (click)="onCeaseUpdate()"[disabled]="isLiveRecords && isLiveAudit" mat-raised-button color="primary">Cease</button>
+                        <textarea formControlName="CeaseRemarks" name="ceaseremarks"  [(ngModel)]="CeaseRemarks"
+                          #input matInput maxlength="500" [(ngModel)]="isAuditTrail ? range : special " 
+                          placeholder="Cease Remarks"></textarea>
+                        <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+                       
+                      </mat-form-field>
+                    <button  type="submit" [disabled]="ceaseupdate.invalid || (isLiveRecords && isLiveAudit)" mat-raised-button color="primary">Cease</button>
                 </div>
             </div>
         </form>
