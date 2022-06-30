@@ -190,25 +190,28 @@ export class Utils {
     console.log(JSON.stringify(transform))
     return transform;
   }
-  static preparePyUICreate(reportIdentifier: any, subReportName: any, recordIdentifier?: any, data?: any): any {
-    let transform = JSON.parse(JSON.stringify(PyRequests.UICREATE));
-    //transform.UserParams = user();
-    if (recordIdentifier)
-      transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+  static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData:any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
-    transform.Data = data;
+    transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+    transform.Data[0] = updateData;
     return transform;
   }
-
-  static preparePyUIDelete(reportIdentifier: any, subReportName: any, recordIdentifier?: any, data?: any): any {
-    let transform = JSON.parse(JSON.stringify(PyRequests.UIDELETE));
-    //transform.UserParams = user();
-    if (recordIdentifier)
-      transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+  static preparePyUICreate(reportIdentifier: string, subReportName: string, recordIdentifier: string, createData:any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UICREATE));
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
-    transform.Data = data;
+    transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+    transform.Data[0] = createData;
+    return transform;
+  }
+  static preparePyUIDelete(reportIdentifier: string, subReportName: string, recordIdentifier: string, deleteData:any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIDELETE));
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+    transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+    transform.Data[0] = deleteData;
     return transform;
   }
 

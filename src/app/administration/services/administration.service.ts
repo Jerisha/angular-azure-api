@@ -39,4 +39,13 @@ export class AdministrationService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIQUERY, request);
 
   }
+  uiUpdateDetails(request: any): Observable<any> {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIUPDATE, request);
+  }
+  uiCreateDetails(request: any): Observable<any> {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UICREATE, request);
+  }
+  uiDeleteDetails(request: any): Observable<any> {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIDELETE, request);
+  }
   }

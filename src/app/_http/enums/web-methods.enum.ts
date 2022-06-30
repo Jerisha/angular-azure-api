@@ -12,5 +12,8 @@ export enum WebMethods {
   UICREATE = 'UICreate',
   UIDELETE = 'UIDelete',
   EXPSUMMARY ='UIExportObject',
-  BLOBOBJECT= 'FileObjectView'
+  BLOBOBJECT= 'FileObjectView',
+  UIUPDATE = 'UIUpdate',
+  UICREATE = 'UICreate',
+  UIDELETE = 'UIDelete'
 }
