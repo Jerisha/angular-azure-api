@@ -30,6 +30,7 @@ export class TodoItemFlatNode {
   expandable: boolean;
   id: number;
   MenuID:string;
+  isparent:boolean
   isChecked: boolean;
   isPlanType: boolean;
   Position: number;
@@ -1007,917 +1008,486 @@ const TREE_DATA_two = [
   
 ];
 
+
+
+const profileitems=
+{"profileitems":        [  {
+  "menuid": "MENU01",
+  "accessname": "View|Update|Create|Delete",
+  "accesslevel": "1000"
+},
+{
+  "menuid": "MENU02",
+  "accessname": "View|Update|Create|Delete",
+  "accesslevel": "1100"
+},
+{
+  "menuid": "MENU03",
+  "accessname": "View|Update|Create|Delete",
+  "accesslevel": "1110"
+},
+{
+  "menuid": "Menu42",
+  "accessname": "View|Update|Create|Delete",
+  "accesslevel": "1110"
+},
+{
+  "menuid": "Menu43",
+  "accessname": "View|Update|Create|Delete",
+  "accesslevel": "1110"
+},
+{
+  "menuid": "Menu44",
+  "accessname": "View|Update|Create|Delete",
+  "accesslevel": "1110"
+},
+
+]
+};
+
 const TREE_DATA_three = [
   {
     name: 'All',
-      id:111,
+    id:111,
     children:[
   {
     name: 'Process Management',
     id:111, 
-    MenuID:'Menu01',
-    isChecked: true,
+  
+    isChecked:false,
     Position:11111,
     children: [
       {
         name: 'Solicited/Internal Discrepancy Process updated',
         id:22,
-        isChecked:true,     
+        isChecked:false,     
          Position:11111,
-         children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: true,
-            Position: 0,
-            isAvailable:true
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,    
-            Position: 0,
-            isAvailable:true
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: false,         
-            Position: 0,
-            isAvailable:true
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-           
-            Position: 0,
-          },
-        ],
+         MenuID:'Menu01',
+        
+        
       },
       {
         name: 'Solicited Resolution Report',
         id:22,
-        isChecked:true, 
-        
+        isChecked:false, 
+        MenuID:'Menu02',
          Position:11111,
-         children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-           
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-           
-            Position: 0,
-          },
-        ]
+        
      
       },
       {
         name: 'Solicited Actions Report',
         id:22,
-        isChecked:true, 
+        isChecked:false, 
+        MenuID:'Menu03',
         
          Position:11111,
-         children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-           
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-           
-            Position: 0,
-          },
-        ]
+        
      
       },
       {
         name: 'Unsolicited Process',
         id:22,
-        isChecked:true, 
-        
+        isChecked:false, 
+        MenuID:'Menu04',
          Position:11111,
-         children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-           
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-           
-            Position: 0,
-          
-          },
-        ]
+      
      
       },
       {
         name: 'Unsolicited Actions Report',
         id:22,
-        isChecked:true, 
-        
+        isChecked:false, 
+        MenuID:'Menu05',
          Position:11111,
-         children: [
-         
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-           
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-           
-            Position: 0,
-          },
-        ]
+        
      
       },
 
 
     ]
-  }]
-  // {
-  //   name: 'Record Creation',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Create Record',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Create Internal Cease',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
+  },
+  {
+    name: 'Record Creation',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        MenuID:'Menu06',
+        name: 'Create Record',
+        id:77,
+        isChecked:false,
+        
+        Position:44444444,
+      },
+      {
+        MenuID:'Menu07',
+        name: 'Create Internal Cease',
+        id:77,
+        isChecked:false,
+        
+        Position:44444444,
+      },
 
-  //   ]
-  // },
-  // {
-  //   name: 'Audit Process Management',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Full Audit Details',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit Discrepancy Report',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'External Audit Details',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Full Audit History',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit User Action Summary',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Saparateinternal Audit',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     }
-  //   ]
-  // },
-  // {
-  //   name: 'Audit Process Management',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Full Audit Details',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit Discrepancy Report',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'External Audit Details',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Full Audit History',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit User Action Summary',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Saparateinternal Audit',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     }
-  //   ]
-  // },
-  // {
-  //   name: 'Inventory Records',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'InFlight Records',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Telephone Range Report',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Transaction Details Records',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Full Audit History',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit User Action Summary',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Saparateinternal Audit',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     }
-  //   ]
-  // },
-  // {
-  //   name: 'Statistical Reports',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Transaction Trend for Source & Command',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
+    ]
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu08',
+        Position:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu09',
+        
+        Position:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu10',
+        
+        Position:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu11',
+        Position:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu12',
+        Position:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu13',
+        
+        Position:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu14',
+        
+        Position:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu15',
+        
+        Position:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu16',
+        
+        Position:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu17',   
+        Position:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu18',
+        
+        Position:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu19',
+        
+        Position:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Inventory Records',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'InFlight Records',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu20',
+        Position:44444444,
+      },
+      {
+        name: 'Telephone Range Report',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu21',
+        Position:44444444,
+      },
+      {
+        name: 'Transaction Details Records',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu22',
+        Position:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu23',
+        Position:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu24',
+        Position:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu25',
+        Position:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Statistical Reports',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'Transaction Trend for Source & Command',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu26',
+        Position:44444444,
+      },
      
   
-  //   ]
-  // },
-  // {
-  //   name: 'Administration',
-  //   id:66,
-  //   isChecked:false,
-  //    
-  //    Position:33333,
-  //   children: [
-  //     {
-  //       name: 'Audit Status Tracker',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Audit Data Files',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Restore Solicited Errors',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Data Correction Summary',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
+    ]
+  },
+  {
+    name: 'Administration',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'Audit Status Tracker',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu27',
+        Position:44444444,
+      },
+      {
+        name: 'Audit Data Files',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu28',
+        Position:44444444,
+      },
+      {
+        name: 'Restore Solicited Errors',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu29',
+        Position:44444444,
+      },
+      {
+        name: 'Data Correction Summary',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu30',
+        Position:44444444,
+      },
 
-  //     {
-  //       name: 'Unresolved Transaction',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Unresolved Errors',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     },
-  //     {
-  //       name: 'Manage Users',
-  //       id:77,
-  //       isChecked:false,
-  //       
-  //       Position:44444444,
-  //     }
+      {
+        name: 'Unresolved Transaction',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu31', 
+        Position:44444444,
+      },
+      {
+        name: 'Unresolved Errors',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu32',
+        Position:44444444,
+      },
+      {
+        name: 'Manage Users',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu33',
+        Position:44444444,
+      }
       
-  //   ]
-  // },
-  //   {
-  //     name: 'Configurational Reference Data',
-  //     id:66,
-  //     isSelected:false,
-  //      
-  //      Position:33333,
-  //     children: [
-  //       {
-  //         name: 'Reference List',
-  //         id:77,
-  //         isSelected:false,
-  //         
-  //         Position:44444444,
-  //         children: [
-  //           {
-  //             name: 'Franchise',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Franchise',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Franchise',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Franchise',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Olo',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Company',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'SourceSystem',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'Status',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'AuditStatus',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'CUPIDCrossReference',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'LineTypes',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             name: 'ResolverEmail',
-  //             id:22,
-  //             isChecked:true, 
-  //             
-  //              Position:11111,
-  //              children: [
-  //               {
-  //                 name: 'U',
-  //                 id: 33,
-  //                 isChecked: false,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'D',
-  //                 id: 44,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'C',
-  //                 id: 54,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //               {
-  //                 name: 'R',
-  //                 id: 374,
-  //                 isChecked: true,
-  //                
-  //                 Position: 0,
-  //               },
-  //             ],
-  //           },
-  //         ]
-  //       }]
+    ]
+  },
+    {
+      name: 'Configurational Reference Data',
+      id:66,
+      isSelected:false,
+       
+       Position:33333,
+      children: [
+        {
+          name: 'Reference List',
+          id:77,
+          isSelected:false,
+          
+          Position:44444444,
+          children: [
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu34',
+               Position:11111,
+            
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu35',
+               Position:11111,
+               
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu36',
+               Position:11111,
+            
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:false, 
+              
+               Position:11111,
+               MenuID:'Menu37',
+            },
+            {
+              name: 'Olo',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu38',
+               Position:11111,
+             
+            },
+            {
+              name: 'Company',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu39',
+               Position:11111,
+             
+            },
+            {
+              name: 'SourceSystem',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu40',
+               Position:11111,
+              
+            },
+            {
+              name: 'Status',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu41',
+               Position:11111,
+              
+            },
+            {
+              name: 'AuditStatus',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu42',
+               Position:11111,
+             
+            },
+            {
+              name: 'CUPIDCrossReference',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu43',
+               Position:11111,
+             
+            },
+            {
+              name: 'LineTypes',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu44',
+               Position:11111,
+              
+            },
+            {
+              name: 'ResolverEmail',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu45',
+               Position:11111,
+              
+            },
+          ]
+        }]
       
-  // }]
+  }]
+
 }
-  
 ];
 
 
@@ -2169,6 +1739,11 @@ export class ManageUsersComponent implements OnInit {
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
+    console.log('profileitems',JSON.stringify(profileitems));
+    debugger
+   
+    //this.viewAccess = user.
+
     debugger
     if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
       for(var i=0;i<TREE_DATA_three.length;i++)
@@ -2180,26 +1755,33 @@ export class ManageUsersComponent implements OnInit {
         for(var k=0;k<tchild.children.length;k++)
         {
           let grandhchild:any=tchild.children[k];
-          console.log('gradchild',grandhchild);
-          for(var m=0;m<grandhchild.children.length;m++)
+          console.log('gradchild',grandhchild.MenuID);
+          if(grandhchild.MenuID!=undefined)
           {
-            if(grandhchild.children[m].name=='U')
-            {
-              grandhchild.children[m].isChecked=false;
-            }
-          else
+          let menu = profileitems.profileitems.find(x => x.menuid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
           {
-            grandhchild.children[m].isChecked=true;
+            if(menu!=undefined)
+            grandhchild.isChecked=true;
           }
-
-        
-           
-            console.log('content value',grandhchild.children[m]);
+        }
+        else{
+          for(var l=0;l<grandhchild.children.length;l++)
+        {
+          let greatgrandchild=grandhchild.children[l];
+          if(greatgrandchild.MenuID!=undefined)
+          {
+          let menu = profileitems.profileitems.find(x => x.menuid?.toLowerCase() === (greatgrandchild.MenuID).toLowerCase())
+          {
+            if(menu!=undefined)
+            greatgrandchild.isChecked=true;
           }
+        }
         }
          
       }
      
+    }
+      }
     }
   }
   console.log('loop completed',TREE_DATA_three);
@@ -2750,8 +2332,6 @@ console.log('get selected',checklistSelection);
   }
   
   }
-
-
 
   onEditUsermsgs(record:any,event:Event)
   {
