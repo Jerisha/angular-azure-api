@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, VERSION, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, VERSION, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavItem } from '../uicomponents/models/nav-item';
 import * as  menu from '../../assets/menu.json';
 import { NavService } from '../uicomponents/top-nav/services/nav.services';
@@ -61,7 +61,6 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
-    debugger;
     this.navService.appDrawer = this.appDrawer;
     this.navService.currentUrl.subscribe((url: any) => {
       this.userDetails = (JSON.parse(sessionStorage.getItem('currentUser') || '{}')) as User;
@@ -93,22 +92,21 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
     var reqJson: any;
     var data: any;
     if (action === "Add") {
-      data = [{
+      data = {
         "favmenuid": this.menuId,
         "isactive": "1",
         "isdelete": "0"
-      }];
+      };
       reqJson = Utils.preparePyUICreate('ManageUsers', 'FavouriteReports', 'favmenid', data);
       request = this.service.uiApiDetails(reqJson, WebMethods.UICREATE);
     }
     else {
-      data = [{
+      data = {
         "favmenuid": this.menuId
-      }];
+      };
       reqJson = Utils.preparePyUIDelete('ManageUsers', 'FavouriteReports', 'ReportMenuItem', data);
       request = this.service.uiApiDetails(reqJson, WebMethods.UIDELETE);
     }
-    console.log('fav req', JSON.stringify(reqJson))
     request.pipe(map((res: any) => {
       let status: any;
       if (res?.Status && res?.Status[0]) {
