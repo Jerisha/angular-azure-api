@@ -2250,7 +2250,7 @@ export class ManageUsersComponent implements OnInit {
   }
   onSelectEvent(value: any) {
 
-    if (value == '3') {
+    if (value == 'CUSTOM-ASHOK') {
       this.initialize();
       this.onEditUserprofileAceess('Create');
     }
