@@ -16,6 +16,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -2269,7 +2270,8 @@ export class ManageUsersComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private service: AdministrationService,
     private dialog: MatDialog,
-    private alertService: AlertService,) {
+    private alertService: AlertService,
+    private spinner: NgxSpinnerService) {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
@@ -2531,10 +2533,12 @@ export class ManageUsersComponent implements OnInit {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 0);
       }
       let request = Utils.preparePyUIQuery('ManageUsers', 'UserAccess');
+      this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.userAccessData.data = res.Data;
           console.log('data of manage users', this.userAccessData);
+          this.spinner.hide();
         }
       );
     }
@@ -2550,9 +2554,11 @@ export class ManageUsersComponent implements OnInit {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
       }
       let request = Utils.preparePyUIQuery('ManageUsers', 'UserReports');
+      this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.datauserreports.data = res.Data;
+          this.spinner.hide();
         }
       );
 
@@ -2569,9 +2575,11 @@ export class ManageUsersComponent implements OnInit {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
       }
       let request = Utils.preparePyUIQuery('ManageUsers', 'NewsUpdate', 'NewsId');
+      this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.startupusermsgs.data = res.Data;
+          this.spinner.hide();
         }
       );
     }
@@ -2587,9 +2595,11 @@ export class ManageUsersComponent implements OnInit {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
       }
       let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile', 'Profile Name');
+      this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.userprofilesdata.data = res.Data;
+          this.spinner.hide();
         }
       );
     }
@@ -2965,6 +2975,7 @@ export class ManageUsersComponent implements OnInit {
                     //success message and same data reload
                     // this.refreshData();
                     this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.getFileDetails('UserAccessDetails');
                   }
                 });
             }
@@ -2990,6 +3001,7 @@ export class ManageUsersComponent implements OnInit {
                     //success message and same data reload
                     // this.refreshData();
                     this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.getFileDetails('StartUpUserMessages');
                   }
                 });
             }
@@ -3008,13 +3020,14 @@ export class ManageUsersComponent implements OnInit {
           updateConfirm3.afterClosed().subscribe(confirm => {
             if (confirm) {
               let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
-              console.log("Update request2 : " + JSON.stringify(request3));
+              console.log("Update request3 : " + JSON.stringify(request3));
               this.service.uiUpdateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
                     this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.getFileDetails('UserProfiles')
                   }
                 });
             }
@@ -3037,6 +3050,7 @@ export class ManageUsersComponent implements OnInit {
                 //success message and same data reload
                 // this.refreshData();
                 this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.getFileDetails('UserAccessDetails');
               }
             });
           break;
@@ -3049,6 +3063,7 @@ export class ManageUsersComponent implements OnInit {
                 //success message and same data reload
                 // this.refreshData();
                 this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.getFileDetails('StartUpUserMessages');
               }
             });
           break;
@@ -3061,6 +3076,7 @@ export class ManageUsersComponent implements OnInit {
                 //success message and same data reload
                 // this.refreshData();
                 this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.getFileDetails('UserProfiles');
               }
             });
           break;
@@ -3086,6 +3102,7 @@ export class ManageUsersComponent implements OnInit {
               //success message and same data reload
               // this.refreshData();
               this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.getFileDetails('UserAccessDetails');
             }
             else {
               this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -3110,6 +3127,7 @@ export class ManageUsersComponent implements OnInit {
               //success message and same data reload
               // this.refreshData();
               this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.getFileDetails('StartUpUserMessages');
             }
             else {
               this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -3134,6 +3152,7 @@ export class ManageUsersComponent implements OnInit {
               //success message and same data reload
               // this.refreshData();
               this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.getFileDetails('UserProfiles');
             }
             else {
               this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
