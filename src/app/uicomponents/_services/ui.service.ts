@@ -13,7 +13,7 @@ export class UIService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
 
-  uiCreateDetails(request: any): Observable<any> {
-    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UICREATE, request);
+  uiApiDetails(request: any,endpoint: WebMethods): Observable<any> {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, endpoint, request);
   }
 }

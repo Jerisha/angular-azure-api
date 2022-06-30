@@ -10,6 +10,7 @@ export enum WebMethods {
   UIQUERY = 'UIQuery',
   UILOGIN = 'Login',
   UICREATE = 'UICreate',
+  UIDELETE = 'UIDelete',
   EXPSUMMARY ='UIExportObject',
   BLOBOBJECT= 'FileObjectView'
 }

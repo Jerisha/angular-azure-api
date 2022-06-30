@@ -41,6 +41,7 @@ export class HttpWrapperService {
             case WebMethods.UIQUERY:
             case WebMethods.UILOGIN:
             case WebMethods.UICREATE:
+                case WebMethods.UIDELETE:
                 url = `${environment.api_auth}${endPoint.toString()}`
                 break;
             default:
@@ -93,6 +94,8 @@ export class HttpWrapperService {
                         break;
                     case WebMethods.UIQUERY:
                     case WebMethods.UILOGIN:
+                    case WebMethods.UICREATE:
+                    case WebMethods.UIDELETE:
                         transData = val
                         break;
 

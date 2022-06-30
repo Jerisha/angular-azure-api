@@ -201,6 +201,17 @@ export class Utils {
     return transform;
   }
 
+  static preparePyUIDelete(reportIdentifier: any, subReportName: any, recordIdentifier?: any, data?: any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIDELETE));
+    //transform.UserParams = user();
+    if (recordIdentifier)
+      transform.RequestParams[0].RecordIdentifier = recordIdentifier;
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+    transform.Data = data;
+    return transform;
+  }
+
 }
 
 function user():any{

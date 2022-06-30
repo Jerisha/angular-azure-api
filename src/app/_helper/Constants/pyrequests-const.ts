@@ -511,7 +511,7 @@ export const PyRequests = {
         "RequestType": "UICREATE",
         "UserParams": [
           {
-            "UserID": "BHUWAN",
+            "UserID": "BEEMA",
             "Destination": "OSN2"
           }
         ],
@@ -529,7 +529,27 @@ export const PyRequests = {
             "isdelete": "0"
           }
         ]
-      }
+      },
+    UIDELETE: {
+        "RequestType": "UIDELETE",
+        "UserParams": [
+            {
+                "UserID": "BEEMA",
+                "Destination": "OSN2"
+            }
+        ],
+        "RequestParams": [
+            {
+                "ReportIdenitifer": "ManageUsers",
+                "SubReportName": "FavouriteReports",
+                "RecordIdentifier": "ReportMenuItem"
+            }],
+        "Data": [
+            {
+                "favmenuid": "MENU02"
+            }
+]
+} 
        
 }
 
