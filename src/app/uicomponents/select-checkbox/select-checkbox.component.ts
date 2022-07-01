@@ -17,7 +17,7 @@ export class SelectCheckboxComponent implements OnInit {
   allSelected = false;
   @Input() listItems!: Select[];
   @Input() icon!: string;
-  @Output() changes = new EventEmitter<MatSelect>();
+  @Output() changes = new EventEmitter<any>();
 
 
   selectFormControl = new FormControl();
@@ -75,7 +75,7 @@ export class SelectCheckboxComponent implements OnInit {
       });
       this.allSelected = flag;
     }
-    this.changes.emit(this.select);
+   
   }
 
   openedChange(e: any) {
@@ -107,6 +107,8 @@ export class SelectCheckboxComponent implements OnInit {
         }
       });
     }
+    console.log('event changes');
+    this.changes.emit(this.selectedValues);
   }
 
   setMandatoryValues() {

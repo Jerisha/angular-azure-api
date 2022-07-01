@@ -19,6 +19,7 @@ import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-d
 import { NgxSpinnerService } from 'ngx-spinner';
 import { formatDate } from '@angular/common';
 import { DateRange } from '@angular/material/datepicker';
+import { debug } from 'console';
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -26,6 +27,7 @@ export class TodoItemNode {
   id: number;
   isChecked: boolean;
   isPlanType: boolean;
+  MenuID:string;
   Position: number;
 }
 
@@ -493,75 +495,6 @@ const TREE_DATA_three = [
 }
 ];
 
-
-/**
- * Checklist database, it can build a tree structured Json object.
- * Each node in Json object represents a to-do item or a category.
- * If a node is a category, it has children items and new items can be added under the category.
- */
-// @Injectable()
-// export class ChecklistDatabase {
-//   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
-
-//   get data(): TodoItemNode[] {
-//     return this.dataChange.value;
-//   }
-
-//   constructor() {
-//     this.initialize();
-//   }
-
-//   initialize() {
-//     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
-//     //     file node as children.
-//     const data = this.buildFileTree(TREE_DATA_two, 0);
-//     console.log(data);
-//     // Notify the change.
-//     this.dataChange.next(data);
-//   }
-
-//   /**
-//    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
-//    * The return value is the list of `TodoItemNode`.
-//    */
-//   buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
-//     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
-//       const item = obj[key];
-//       const node = new TodoItemNode();
-//       node.label = obj[key].name;
-//       node.id = obj[key].id;
-//       node.isChecked = obj[key].isChecked;
-//       node.Position = obj[key].Position;
-//       node.isPlanType = obj[key].isPlanType;
-
-//       if (item != null) {
-//         if (typeof item === 'object' && item.children != undefined) {
-//           node.children = this.buildFileTree(item.children, level + 1);
-//         } else {
-//           node.label = item.name;
-//         }
-//       }
-
-//       return accumulator.concat(node);
-//     }, []);
-//   }
-
-//   /** Add an item to to-do list */
-//   insertItem(parent: TodoItemNode, name: string) {
-//     if (parent.children) {
-//       parent.children.push({ label: name } as TodoItemNode);
-//       this.dataChange.next(this.data);
-//     }
-//   }
-
-//   updateItem(node: TodoItemNode, name: string) {
-//     node.label = name;
-//     this.dataChange.next(this.data);
-//   }
-// }
-/** Flat to-do item node with expandable and level information */
-
-
 const ELEMENT_DATA = [
   { UserName: "Test User", Profile: "Custom", Active: "Yes", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
   { UserName: "Admin User", Profile: "Admin", Active: "Yes", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
@@ -610,12 +543,11 @@ const UserProfiles = [
 ]
 
 const FilterListItems: Select[] = [
-  { view: 'Amdocs SOM', viewValue: 'StartTelephoneNumber', default: true },
-  { view: 'ONNET', viewValue: 'EndTelephoneNumber', default: false },
-  { view: 'Ring Central', viewValue: 'Source', default: false },
-  { view: 'Audit', viewValue: 'Command', default: false },
-  { view: 'EDGE', viewValue: 'ErrorType', default: false },
-  { view: 'ONNET', viewValue: 'ResolutionType', default: false },
+  { view: 'Amdocs SOM', viewValue: 'Amdocs SOM', default: false },
+  { view: 'ONNET', viewValue: 'ONNET', default: false },
+  { view: 'Ring Central', viewValue: 'Ring Central', default: false },
+  { view: 'Audit', viewValue: 'Audit', default: false },
+  { view: 'EDGE', viewValue: 'EDGE', default: false }
 ];
 interface Access {
   value: string;
@@ -655,6 +587,9 @@ export class ManageUsersComponent implements OnInit {
   UserEditForm!: FormGroup;
   Header: string = '';
   isChecked?: boolean = false;
+   Menuattributes: any = [];
+   ApiMenuattributes:any=[];
+   Resultattributes:any=[]
   Acessrights: Access[] = [
     { value: '1', viewValue: 'Admin' },
     { value: '2', viewValue: 'SuperAdmin' },
@@ -756,18 +691,38 @@ export class ManageUsersComponent implements OnInit {
     //     file node as children.
     let profileMenu:any;
     console.log('profileitems',JSON.stringify(profileitems));
-    debugger
+   
     let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
     console.log('request',request);
     this.bindtreedata(TREE_DATA_three);
     this.spinner.show();
     this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
       (res: any) => {
-       
+        debugger
       //  this.userAccessData.data = res.Data;
         console.log('data of Profile', res.Data);
          profileitems=res.Data[0].profileitems;
-     debugger
+         this.UserEditForm = this.formBuilder.group({
+          ProfileName: new FormControl({},),
+          Description: new FormControl({},),
+          UserProfile: new FormControl({},)
+    
+        });
+        for (let field in this.UserEditForm.controls) {
+          let control = this.UserEditForm.get(field);
+          // c
+          // console.log(record[field]);
+    
+          if (field === 'ProfileName') {
+            control?.setValue(res.Data[0].profilename);
+          } else if (field === 'Description') {
+             control?.setValue(res.Data[0].profiledescription);
+    
+          } 
+        }
+        //this.record = record;
+        this.eventName = 'Update';
+     
         if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
           for(var i=0;i<TREE_DATA_three.length;i++)
           {
@@ -784,7 +739,10 @@ export class ManageUsersComponent implements OnInit {
               let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
               {
                 if(menu!=undefined)
+                {
+                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
                 grandhchild.isChecked=true;
+                }
               }
             }
             else{
@@ -796,7 +754,10 @@ export class ManageUsersComponent implements OnInit {
               let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (greatgrandchild.MenuID).toLowerCase())
               {
                 if(menu!=undefined)
+                {
+                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
                 greatgrandchild.isChecked=true;
+                }
               }
             }
             }
@@ -807,7 +768,7 @@ export class ManageUsersComponent implements OnInit {
         }
       }
       this.bindtreedata(TREE_DATA_three);
-       
+       console.log('api menuitems',this.ApiMenuattributes);
       }
     );
     //this.viewAccess = user.
@@ -834,6 +795,7 @@ bindtreedata(treestructure:any)
       const item = obj[key];
       const node = new TodoItemNode();
       node.label = obj[key].name;
+    node.MenuID= obj[key].MenuID;
       node.id = obj[key].id;
       node.isChecked = obj[key].isChecked;
       node.Position = obj[key].Position;
@@ -937,6 +899,7 @@ bindtreedata(treestructure:any)
     flatNode.level = level;
     flatNode.id = node.id;
     flatNode.isChecked = node.isChecked;
+    flatNode.MenuID=node.MenuID
     flatNode.Position = node.Position;
     flatNode.expandable = !!node.children;
     this.flatNodeMap.set(flatNode, node);
@@ -979,7 +942,15 @@ bindtreedata(treestructure:any)
     console.log('node change event', node, event.checked);
     const partialSelection = this.treeControl.dataNodes.filter(x =>
       this.descendantsPartiallySelected(x));
-    console.log('final result', this.checklistSelection.selected, partialSelection);
+    console.log('final result', this.checklistSelection.selected);
+    debugger
+       descendants.forEach((char: any) => {
+      this.Menuattributes = this.Menuattributes.filter((item: { MenuID: any; }) => item.MenuID !== char.MenuID);
+      if(char.MenuID!=undefined)
+     this.Menuattributes.push({'MenuID':char.MenuID,'isChecked':event.checked});
+    });
+     console.log('attributes',this.Menuattributes);
+    console.log('final result',  partialSelection);
 
   }
 
@@ -990,6 +961,12 @@ bindtreedata(treestructure:any)
     console.log('chnage event node', node, event.checked);
     node.isChecked ? (node.isChecked = false) : (node.isChecked = true);
     this.checkAllParentsSelection(node);
+    debugger
+    this.Menuattributes = this.Menuattributes.filter((item: { MenuID: any; }) => item.MenuID !== node.MenuID);
+   // delete this.Menuattributes[this.Menuattributes.findIndex((item: { MenuID: any; }) => item.MenuID == node.MenuID)];
+    //this.Menuattributes.splice()
+    this.Menuattributes.push({'MenuID':node.MenuID,'isChecked':event.checked});
+    console.log('attributes',this.Menuattributes);
   }
 
   /* Checks all the parents when a leaf node is selected/unselected */
@@ -1243,19 +1220,7 @@ bindtreedata(treestructure:any)
     this.UserProfilesForm = true;
 
     this.isLeftPanel = true;
-    this.UserProfileForm = this.formBuilder.group({
-      ProfileName: new FormControl({}),
-      Description: new FormControl({}),
-      UserProfile: new FormControl({})
-
-    });
-    this.record = record;
-    this.eventName = 'Update';
-    for (let field in this.UserProfileForm.controls) {
-      let control = this.UserProfileForm.get(field);
-      control?.setValue(record[field]);
-      console.log(record[field]);
-    }
+   
     event.stopPropagation();
   }
   onSelectEvent(value: any) {
@@ -1302,29 +1267,76 @@ bindtreedata(treestructure:any)
   //     //this.referenceForm.markAsUntouched();
 
   // }
+  preparemenu()
+  {
+    debugger
+  //this.Resultattributes:any=[];
+    this.ApiMenuattributes.forEach((element: any) => {
+     let flage:boolean=true;
+      this.Menuattributes.forEach((char: any) => {
+      
+       
+          if(char.MenuID==element.MenuID)
+          {
+           this.Resultattributes.push({'MenuID':char.MenuID,'isfullaccess':char.isChecked});
+            flage=false;
+          }
+        
+        
+      });
+      if(flage)
+      {
+        this.Resultattributes.push({'MenuID':element.MenuID,'isfullaccess':element.isChecked});
+      }
+
+     
+    });
+    this.Menuattributes.forEach((element: any) => {
+      if(element.isChecked)
+      {
+        this.Resultattributes.push({'MenuID':element.MenuID,'isfullaccess':true});
+      }
+    });
+    console.log('final result',this.Resultattributes);
+  }
   onreturnform() {
     this.isShow = true;
+  this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2));
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 2)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
-        tabType: 2,
-        name: 'Add Profile'
+        tabType: 0,
+        name: 'Create'
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
     }
-    this.Header = "User Access Details";
-    this.UserDetailsForm = true;
-    this.UserEditProfilesForm = false;
+    this.preparemenu();
+    // this.isShow = true;
+    // this.showMenu = 'collapsed';
+    // if (!this.tabsLeft.find(x => x.tabType == 2)) {
+    //   this.tabsLeft.push({
+    //     tabType: 2,
+    //     name: 'Add Profile'
+    //   });
+    //   this.showDetails = true;
+    //   this.selectedTabLeft = this.tabsLeft.length;
+    // }
+    // else {
+    //   this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+    // }
+    // this.Header = "User Access Details";
+    // this.UserDetailsForm = true;
+    // this.UserEditProfilesForm = false;
 
-    this.StartupForm = false;
-    this.UserProfilesForm = false;
-    this.isLeftPanel = true;
-    console.log('Edit Record');
-    this.eventName = "Update";
+    // this.StartupForm = false;
+    // this.UserProfilesForm = false;
+    // this.isLeftPanel = true;
+    // console.log('Edit Record');
+    // this.eventName = "Update";
   }
   onEditUserprofileAceess(Actiontype: string) {
     this.isShow = true;
@@ -1333,7 +1345,7 @@ bindtreedata(treestructure:any)
     if (Actiontype == 'Create') {
       name = 'Add Profile'
     }
-    if (!this.tabsLeft.find(x => x.tabType == 2)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 2)) {
       this.tabsLeft.push({
         tabType: 2,
         name: name
@@ -1342,7 +1354,7 @@ bindtreedata(treestructure:any)
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
     }
     this.Header = "User Profiles";
     this.UserDetailsForm = false;
@@ -1409,7 +1421,7 @@ bindtreedata(treestructure:any)
   onEdituserDetails(record: any, event: Event) {
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 0)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
         tabType: 0,
         name: 'Create'
@@ -1418,7 +1430,7 @@ bindtreedata(treestructure:any)
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
     }
 
 
@@ -1470,7 +1482,7 @@ bindtreedata(treestructure:any)
   onCreateUserProfiles() {
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 1)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 1)) {
       this.tabsLeft.push({
         tabType: 1,
         name: 'View'
@@ -1479,7 +1491,7 @@ bindtreedata(treestructure:any)
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 1);
     }
 
     this.Header = "User Profiles";
@@ -1513,7 +1525,7 @@ bindtreedata(treestructure:any)
   onVerifyUserName() {
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 3)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 3)) {
       this.tabsLeft.push({
         tabType: 3,
         name: 'Check'
@@ -1522,7 +1534,7 @@ bindtreedata(treestructure:any)
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 3);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
     }
     this.isLeftPanel = true;
     this.referenceUsernameform = this.formBuilder.group({
@@ -1533,13 +1545,13 @@ bindtreedata(treestructure:any)
 
   onCreateuserDetails() {
     debugger
-    if (this.tabsLeft.find(x => x.tabType == 3)) {
-      let index: number = this.tabsLeft.findIndex(x => x.tabType == 3);
+    if (this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 3)) {
+      let index: number = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
       this.tabsLeft.splice(index);
     }
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 0)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
         tabType: 0,
         name: 'Create'
@@ -1548,7 +1560,7 @@ bindtreedata(treestructure:any)
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
     }
     this.Header = "User Access Details";
     this.UserDetailsForm = true;
@@ -1581,9 +1593,9 @@ bindtreedata(treestructure:any)
               message: 'Do you confirm update this record?'
             }
           });
-          updateConfirm1.afterClosed().subscribe(confirm => {
+          updateConfirm1.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
-              let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm));
+              let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm,'UserAccess'));
               console.log("Update request1 : " + JSON.stringify(request1));
               this.service.uiUpdateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
@@ -1607,7 +1619,7 @@ bindtreedata(treestructure:any)
               message: 'Do you confirm update this record?'
             }
           });
-          updateConfirm2.afterClosed().subscribe(confirm => {
+          updateConfirm2.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
               let request2 = Utils.preparePyUIUpdate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
               console.log("Update request2 : " + JSON.stringify(request2));
@@ -1633,7 +1645,7 @@ bindtreedata(treestructure:any)
               message: 'Do you confirm update this record?'
             }
           });
-          updateConfirm3.afterClosed().subscribe(confirm => {
+          updateConfirm3.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
               let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
               console.log("Update request3 : " + JSON.stringify(request3));
@@ -1658,17 +1670,17 @@ bindtreedata(treestructure:any)
       // Create Logic
       switch (reportIdentifier) {
         case 'User Access Details':
-          let request1 = Utils.preparePyUICreate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm));
+          let request1 = Utils.preparePyUICreate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm,'UserAccess'));
           console.log("Create request1 : " + JSON.stringify(request1));
-          this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-            (res: any) => {
-              if (res.Status && res.Status[0].StatusMessage === 'Success') {
-                //success message and same data reload
-                // this.refreshData();
-                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-                this.getFileDetails('UserAccessDetails');
-              }
-            });
+          // this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+          //   (res: any) => {
+          //     if (res.Status && res.Status[0].StatusMessage === 'Success') {
+          //       //success message and same data reload
+          //       // this.refreshData();
+          //       this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          //       this.getFileDetails('UserAccessDetails');
+          //     }
+          //   });
           break;
         case 'Start Up User Messages':
           let request2 = Utils.preparePyUICreate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
@@ -1708,7 +1720,7 @@ bindtreedata(treestructure:any)
             message: 'Do you confirm update this record?'
           }
         });
-        updateConfirm1.afterClosed().subscribe(confirm => {
+        updateConfirm1.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
         let request1 = Utils.preparePyUIDelete('ManageUsers', 'UserAccess', 'UserName', this.prepareDeleteData(record, reportName));
         console.log("Delete request1 : " + JSON.stringify(request1));
@@ -1733,7 +1745,7 @@ bindtreedata(treestructure:any)
             message: 'Do you confirm update this record?'
           }
         });
-        updateConfirm2.afterClosed().subscribe(confirm => {
+        updateConfirm2.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
         let request2 = Utils.preparePyUIDelete('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareDeleteData(record, reportName));
         console.log("Delete request2 : " + JSON.stringify(request2));
@@ -1758,7 +1770,7 @@ bindtreedata(treestructure:any)
             message: 'Do you confirm update this record?'
           }
         });
-        updateConfirm3.afterClosed().subscribe(confirm => {
+        updateConfirm3.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
         let request3 = Utils.preparePyUIDelete('ManageUsers', 'UserProfile', 'ProfileName', this.prepareDeleteData(record, reportName));
         console.log("Delete request3 : " + JSON.stringify(request3));
@@ -1779,7 +1791,12 @@ bindtreedata(treestructure:any)
         break;
     }
   }
-
+  multipleSelect(event:any){
+    // console.log(event)
+    if(event){
+      console.log(event.toString())
+    }
+  }
 
   // (index:any)
   // {
@@ -2008,17 +2025,36 @@ bindtreedata(treestructure:any)
 
   }
 
-  prepareData(form: FormGroup) {
+  prepareData(form: FormGroup,action?:string) {
     let attribute: any = {};
+    let profilename:string="";
     for (const field in form.controls) {
       const control = form.get(field);
-
-      if(field === 'DateRange') {
+      if(field === 'userprofiles')
+      {
+        if(control?.value)
+        profilename=control.value;
+      }
+      else if(field === 'DateRange') {
         attribute.startdate = formatDate(form.get('DateRange.startdate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
         attribute.expirydate = formatDate(form.get('DateRange.expirydate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
       } 
       else if (control?.value) attribute[field] = control.value;
 
+    }
+    if(action=='UserAccess')
+    {
+      let newattribute:any={};
+
+      newattribute['profilename']=profilename;
+      newattribute['profiledescription']='This is custom';
+      newattribute['iseditprofile']=1;
+      newattribute['isdefaultprofile']=1;
+      newattribute['profileitems']=this.Resultattributes;
+      
+      
+    
+      attribute['profiledata']=newattribute;
     }
     console.log(JSON.stringify(attribute));
     return attribute;
