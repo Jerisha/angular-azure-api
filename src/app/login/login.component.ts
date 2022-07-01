@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../_auth/services/authentication.service';
+import { AlertService } from '../_shared/alert';
 
 @Component({
   selector: 'app-login',
@@ -26,13 +27,13 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthenticationService,
-
+    private alertService: AlertService
 
   ) {
       // redirect to home if already logged in
-      if (this.authService.isUserLoggedIn) { 
-        this.router.navigate(['home']);
-    }
+    //   if (this.authService.isUserLoggedIn) { 
+    //     this.router.navigate(['home']);
+    // }
   }
 
   ngOnInit(): void {
@@ -41,8 +42,8 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', Validators.required)
     });
 
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
-    this.authService.logoutUser();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+   // this.authService.logoutUser();
 
   }
   get f() { return this.loginForm.controls; }
@@ -59,36 +60,35 @@ export class LoginComponent implements OnInit {
     // }
     debugger;
     this.loading = true;
-    this.authService.login(this.f.username.value, this.f.password.value).subscribe((x: any) => {
-      if (this.authService.isUserLoggedIn) {
-        this.router.navigate([this.returnUrl]);
-      }
-    },
-      error => {
-        console.log("login error" + error)
-        this.loading = false;
-      }
-    )
+    this.authService.login(this.f.username.value, this.f.password.value)
+    // .subscribe((x: any) => {
+    //   if (this.authService.isUserLoggedIn) {
+    //     this.router.navigate([this.returnUrl]);
+    //   }
+    // },
+    //   error => {
+    //     console.log("login error" + error)
+    //     this.loading = false;
+    //   }
+    // )
 
-    //if (this.authService.isUserLoggedIn()) {
-    // this.router.navigate([this.returnUrl]);
-    // this.loginState.emit(true)
-    //alert( "Welcome back "+this.f.username.value);
-    //}
+    .pipe(first())
+            .subscribe({
+                next: () => {
+                    // get return url from query parameters or default to home page
+                    //const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+                    if (this.authService.isUserLoggedIn) 
+                    this.router.navigateByUrl(this.returnUrl);
+                },
+                error: error => {
+                    this.alertService.error(error);
+                    // this.loading = false;
+                }
+              });
+            
+              
 
-
-    // .pipe(first())
-    // .subscribe(
-    //     data => {
-    //         this.router.navigate([this.returnUrl]);
-    //        // this.toastrservice.success(data.firstName + " " + data.lastName, "Welcome back");
-    //        alert(data.firstName + " " + data.lastName);
-    //     },
-    //     error => {
-    //         // this.toastrservice.error(error);
-    //         alert(error)
-    //         this.loading = false;
-    //     });
+    
   }
 
 

@@ -5,8 +5,9 @@
     </div>
 </nav>
 
-
+<alert></alert>
 <div class="container">
+   
     <div class="img">
         <img src="assets/images/side_img.PNG">
     </div>
@@ -23,17 +24,16 @@
                 placeholder="Username" />               
         </div> -->
 
-                <mat-form-field appearance="standard" >
-                    <input matInput formControlName="username" placeholder="Username"  
-                    autocomplete="off">                        
+                <mat-form-field appearance="standard">
+                    <input matInput formControlName="username" placeholder="Username" autocomplete="off">
                     <button type="button" matPrefix mat-icon-button aria-label="Clear">
                         <mat-icon>perm_identity</mat-icon>
                     </button>
-                    <mat-error class="alert alert-danger">                        
+                    <mat-error class="alert alert-danger">
                         <div *ngIf="f.username.errors?.required">
-                          Please enter the username                         
+                            Please enter the username
                         </div>
-                      </mat-error>
+                    </mat-error>
                 </mat-form-field>
 
             </div>
@@ -46,18 +46,18 @@
                 placeholder="Password" />               
         </div> -->
 
-                <mat-form-field appearance="standard" >
+                <mat-form-field appearance="standard">
                     <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'"
                         formControlName="password" required>
                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     <button type="button" matPrefix mat-icon-button aria-label="Clear">
                         <mat-icon>lock_open</mat-icon>
                     </button>
-                    <mat-error class="alert alert-danger">                        
+                    <mat-error class="alert alert-danger">
                         <div *ngIf="f.password.errors?.required">
-                          Please enter the password                         
+                            Please enter the password
                         </div>
-                      </mat-error>
+                    </mat-error>
                 </mat-form-field>
             </div>
             <button [disabled]="loading" class="btn btn-primary">

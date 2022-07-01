@@ -26,7 +26,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   version = VERSION;
   strSearch: string = '';
   mainmenu: any;
-  navItems: NavItem[] = MENU_SOURCE;
+  navItems: NavItem[] ;
   menuSelected: string = '';
   baseRoot = 'Home';
   childRoot: any;
@@ -41,15 +41,17 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
     private cdr: ChangeDetectorRef,
     private _router: Router, private alertService: AlertService,
     private authService: AuthenticationService) {
+    this.navItems = MENU_SOURCE
   }
 
   ngOnInit() {
     debugger;
+   
     this.navService.appDrawer = this.appDrawer;
     if (this.authService.currentUserValue.iscompleteaccess === 0) {
-      let menus = this.authService.currentUserValue.menuitems.map(e => e.menuitemid)
-      this.navItems.forEach((x, index) => {
-        let selectedMenu = x.children?.filter(y => menus.indexOf(y.menuId) >= 0)
+      let menus = this.authService.currentUserValue.menuitems.map(e => (e.menuitemid as string).toUpperCase())
+      this.navItems?.forEach((x, index) => {
+        let selectedMenu = x.children?.filter(y => menus.indexOf(y.menuId.toUpperCase()) >= 0)
         delete x.children;
         x.children = selectedMenu;
       });

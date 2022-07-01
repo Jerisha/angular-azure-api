@@ -28,62 +28,62 @@ const routes: Routes = [
     component: AppLayoutComponent,
     children: [{ path: '', component: HomeComponent }],
     //canLoad:[AuthGuard],
-    // canActivateChild :[AuthGuard]
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'exporttoexcel',
     component: AppLayoutComponent,
     children: [{ path: '', component: ExporttoexcelComponent }],
-// canActivateChild :[AuthGuard]
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'administration',
     component: AppLayoutComponent,
     loadChildren: () => import('./administration/administration.module').then(x => x.AdministrationModule),
-// canActivateChild :[AuthGuard]
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'resolvingoferrors',
     component: AppLayoutComponent,
     loadChildren: () => import('./resolvingoferrors/resolvingoferrors.module').then(x => x.ResolvingoferrorsModule),
-    canActivate :[AuthGuard],
-// canActivateChild :[AuthGuard]
+    //canActivate :[AuthGuard],
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'transactions',
     component: AppLayoutComponent,
     loadChildren: () => import('./transactions/transactions-routing.module').then(x => x.TransactionsRoutingModule),
-// canActivateChild :[AuthGuard]
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'auditreports',
     component: AppLayoutComponent,
     loadChildren: () => import('./auditreports/auditreports.module').then(x => x.AuditreportsModule),
-// canActivateChild :[AuthGuard]
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'reports',
     component: AppLayoutComponent,
     loadChildren: () => import('./reports/reports.module').then(x => x.ReportsModule),
-// canActivateChild :[AuthGuard]
+    canActivateChild: [AuthGuard]
 
   },
   {
     path: 'statisticalreports',
     component: AppLayoutComponent,
     loadChildren: () => import('./statisticalreports/statisticalreports.module').then(x => x.StatisticalreportsModule),
-// canActivateChild :[AuthGuard]
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'shared',
     loadChildren: () => import('./_shared/shared.module').then(x => x.SharedModule),
-// canActivateChild :[AuthGuard]
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'report-references',
     component: AppLayoutComponent,
     loadChildren: () => import('./report-references/report-references.module').then(x => x.ReportReferencesModule),
-// canActivateChild :[AuthGuard]
+    canActivateChild: [AuthGuard]
 
 
   }
@@ -103,6 +103,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers:[AuthGuard]
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

@@ -54,9 +54,8 @@ export class HttpWrapperService {
     }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
-        debugger;
+        // debugger;
         let jsonResult = '';
-        // console.log(val)
 
         let transData: any = [];
         try {
