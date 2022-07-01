@@ -14,9 +14,8 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
         //     'Access-Control-Allow-Methods': 'GET, DELETE, HEAD, OPTIONS, POST'
         // });
         let authReq: HttpRequest<any>;
-        //console.log("isUserLoggedIn " +this.authService.isUserLoggedIn + "req" + req.method)
+       
         if (this.authService.isUserLoggedIn) {
-           //console.log("keys" + req.headers.keys)
             authReq = req.clone({
                 setHeaders: {
                     'Content-Type': 'application/json',
@@ -39,7 +38,7 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
         //     }
         // });
 
-        //console.log('Intercepted HttpHeaderInterceptor call', authReq);
+        
         return next.handle(authReq);
     }
 }
