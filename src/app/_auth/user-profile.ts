@@ -19,9 +19,9 @@ export class UserProfile {
     intializeUser(): void {
         debugger;
         let user: User = this.authService.currentUserValue;
-        this.userProfile = user.profilename;
+        this.userProfile = user?.profilename;
 
-        let menu = user.menuitems.find(x => x.menuitemid?.toLowerCase() === (this.activatedRoute.snapshot.data['id'] as string).toLowerCase())
+        let menu = user?.menuitems?.find(x => x.menuitemid?.toLowerCase() === (this.activatedRoute.snapshot.data['id'] as string).toLowerCase())
         if (menu?.isfullaccess === 1 || user.iscompleteaccess === 1) {
             this.viewAccess = true;
             this.updateAccess = true;           
