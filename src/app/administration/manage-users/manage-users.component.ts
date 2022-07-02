@@ -681,11 +681,83 @@ export class ManageUsersComponent implements OnInit {
   treeFlattener: MatTreeFlattener<TodoItemNode, TodoItemFlatNode>;
 
   dataSource: MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
-
+datasourceview:MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
   /** The selection for checklist */
   checklistSelection = new SelectionModel<TodoItemFlatNode>(
     true /* multiple */
   );
+
+InitializeTreeview()
+{
+  let profileMenu:any;
+  console.log('profileitems',JSON.stringify(profileitems));
+ 
+  let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
+  console.log('request',request);
+ // this.bindtreeedataview(TREE_DATA_three);
+  this.spinner.show();
+  this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+    (res: any) => {
+      debugger
+      if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
+        for(var i=0;i<TREE_DATA_three.length;i++)
+        {
+        let  Tree=TREE_DATA_three[i];
+        for(var j=0;j<Tree.children.length;j++)
+        {
+         let tchild=Tree.children[j];
+          for(var k=0;k<tchild.children.length;k++)
+          {
+            let grandhchild:any=tchild.children[k];
+            console.log('gradchild',grandhchild.MenuID);
+            if(grandhchild.MenuID!=undefined)
+            {
+            let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
+            {
+              if(menu!=undefined)
+              {
+              this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
+              grandhchild.isChecked=true;
+             
+              }
+              else{
+                grandhchild.label='NO Access';
+              }
+            }
+          }
+          else{
+            for(var l=0;l<grandhchild.children.length;l++)
+          {
+            let greatgrandchild=grandhchild.children[l];
+            if(greatgrandchild.MenuID!=undefined)
+            {
+            let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (greatgrandchild.MenuID).toLowerCase())
+            {
+              if(menu!=undefined)
+              {
+              this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
+              greatgrandchild.isChecked=true;
+            
+              }
+              else{
+                greatgrandchild.label='NO Access';
+              }
+            }
+          }
+          }
+           
+        }
+      }
+        }
+      }
+    }
+    this.bindtreeedataview(TREE_DATA_three);
+     console.log('api menuitems',this.ApiMenuattributes);
+
+    });
+}
+
+
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
@@ -786,6 +858,16 @@ bindtreedata(treestructure:any)
   // Notify the change.
   this.dataChange.next(data);
 }
+bindtreeedataview(treestructure:any)
+{
+  debugger
+  this.spinner.hide();
+  const data = this.buildFileTree(treestructure, 0);
+  console.log(data);
+  this.datasourceview.data = data;
+  // Notify the change.
+  this.dataChange.next(data);
+}
   /**
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `TodoItemNode`.
@@ -855,6 +937,11 @@ bindtreedata(treestructure:any)
       this.treeControl,
       this.treeFlattener
     );
+    this.datasourceview = new MatTreeFlatDataSource(
+      this.treeControl,
+      this.treeFlattener
+    );
+
 
     // database.dataChange.subscribe((data) => {
     //   this.dataSource.data = data;
@@ -1197,7 +1284,7 @@ bindtreedata(treestructure:any)
     this.isLeftPanel = false;
   }
   onEditUserprofile(record: any, event: Event) {
-    this.initialize();
+    this.InitializeTreeview();
     //this.database.buildFileTree(TREE_DATA_two,0);
     this.isShow = true;
     this.showMenu = 'collapsed';
