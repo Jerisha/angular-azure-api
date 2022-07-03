@@ -17,7 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { formatDate } from '@angular/common';
+import { formatDate, NumberFormatStyle } from '@angular/common';
 import { DateRange } from '@angular/material/datepicker';
 import { debug } from 'console';
 
@@ -613,7 +613,7 @@ export class ManageUsersComponent implements OnInit {
   UserProfilesForm: boolean = false;
   UserEditProfilesForm: boolean = false;
   isLeftPanel = false;
-
+   Formstatus:string='';
   datauserreports = new MatTableDataSource<any>();
   userreportscolums: any = [
     { header: 'User Name', headerValue: 'username' },
@@ -758,15 +758,18 @@ InitializeTreeview()
 }
 
 
-  initialize() {
+  initialize(Event:string) {
+    
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
+    if(Event!='Create')
+    {
     let profileMenu:any;
     console.log('profileitems',JSON.stringify(profileitems));
-   
+   let Treedataupdate:any=TREE_DATA_three;
     let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
     console.log('request',request);
-    this.bindtreedata(TREE_DATA_three);
+    this.bindtreedata(Treedataupdate);
     this.spinner.show();
     this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
       (res: any) => {
@@ -795,10 +798,10 @@ InitializeTreeview()
         //this.record = record;
         this.eventName = 'Update';
      
-        if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
-          for(var i=0;i<TREE_DATA_three.length;i++)
+        if (Treedataupdate != undefined && Treedataupdate.length > 0) {
+          for(var i=0;i<Treedataupdate.length;i++)
           {
-          let  Tree=TREE_DATA_three[i];
+          let  Tree=Treedataupdate[i];
           for(var j=0;j<Tree.children.length;j++)
           {
            let tchild=Tree.children[j];
@@ -839,10 +842,48 @@ InitializeTreeview()
           }
         }
       }
-      this.bindtreedata(TREE_DATA_three);
+      this.bindtreedata(Treedataupdate);
        console.log('api menuitems',this.ApiMenuattributes);
       }
     );
+    }
+    else{
+      debugger
+      if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
+        for(var i=0;i<TREE_DATA_three.length;i++)
+        {
+        let  Tree=TREE_DATA_three[i];
+        for(var j=0;j<Tree.children.length;j++)
+        {
+         let tchild=Tree.children[j];
+          for(var k=0;k<tchild.children.length;k++)
+          {
+            let grandhchild:any=tchild.children[k];
+            console.log('gradchild',grandhchild.MenuID);
+            if(grandhchild.MenuID!=undefined)
+            {
+           
+              grandhchild.isChecked=false;
+             
+          }
+          else{
+            for(var l=0;l<grandhchild.children.length;l++)
+          {
+            let greatgrandchild=grandhchild.children[l];
+            if(greatgrandchild.MenuID!=undefined)
+          
+              greatgrandchild.isChecked=false;
+             
+          }
+          }
+           
+        }
+      
+        }
+      }
+    }
+      this.bindtreedata(TREE_DATA_three);
+    }
     //this.viewAccess = user.
    
     debugger
@@ -1312,52 +1353,18 @@ bindtreeedataview(treestructure:any)
   }
   onSelectEvent(value: any) {
 
-    if (value == 'CUSTOM-ASHOK') {
-      this.initialize();
+    if (value == 'Custom') {
+      this.initialize(this.eventName);
       this.onEditUserprofileAceess('Create');
     }
   }
-  // onEdituserDetails(record:any,event:Event){   
-  //   this.Header="User Access Details";
-  //   this.UserDetailsForm=true;
-  //   this.StartupForm=false;
-  //   this.UserProfilesForm=false;
-  //   this.isLeftPanel =true;
-  //   console.log('Edit Record');
-  //   this.eventName="Update";
-  //   debugger
-  //   this.referenceForm = this.formBuilder.group({
-
-  //     UserID: new FormControl({ value:''}),
-  //     //AddressLine1: new FormControl({ value:''}),
-  //     //AddressLine2: new FormControl({ value:''}),
-  //     //PostCode: new FormControl({ value:''}),
-  //     UserProfile: new FormControl({ value:''}),
-  //     YID: new FormControl({ value:''}),
-  //     FirstName: new FormControl({ value:''}),
-  //     EmailAddress: new FormControl({ value:''}),
-  //     TelephoneNo: new FormControl({ value:''}),
-  //     Country: new FormControl({ value:''})
-  //   });
-
-  //     this.record = record;
-  //     this.eventName ='Update'
-  //     //this.showDataform =true; 
-  //     //this.cdr.detectChanges();
-  //     for (let field in this.referenceForm.controls) 
-  //     {      
-  //         let control = this.referenceForm.get(field);    
-  //         control?.setValue(record[field]);
-  //         console.log(record[field]);
-  //     }
-
-  //     //this.referenceForm.markAsUntouched();
-
-  // }
+  
   preparemenu()
   {
     debugger
   //this.Resultattributes:any=[];
+  if(this.eventName!='Create')
+  {
     this.ApiMenuattributes.forEach((element: any) => {
      let flage:boolean=true;
       this.Menuattributes.forEach((char: any) => {
@@ -1384,8 +1391,31 @@ bindtreeedataview(treestructure:any)
         this.Resultattributes.push({'MenuID':element.MenuID,'isfullaccess':true});
       }
     });
-    console.log('final result',this.Resultattributes);
+    console.log('Update Result ',this.Resultattributes);
+    }
+    else{
+      this.Menuattributes.forEach((char: any) => {
+        if(char.isChecked)
+      {
+         this.Resultattributes.push({'MenuID':char.MenuID,'isfullaccess':char.isChecked});
+      }
+          
+        });
+        console.log('Create Result',this.Resultattributes);
+    }
   }
+redirecttoForm()
+{
+if(this.Formstatus=='Profile')
+{
+  this.preparemenu();
+}
+else{
+
+  this.onreturnform();
+}
+}
+
   onreturnform() {
     this.isShow = true;
   this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2));
@@ -1426,6 +1456,9 @@ bindtreeedataview(treestructure:any)
     // this.eventName = "Update";
   }
   onEditUserprofileAceess(Actiontype: string) {
+    this.Formstatus='Profile';
+    this.initialize(Actiontype);
+    debugger
     this.isShow = true;
     this.showMenu = 'collapsed';
     let name = 'Profile';
@@ -1506,6 +1539,7 @@ bindtreeedataview(treestructure:any)
   }
 
   onEdituserDetails(record: any, event: Event) {
+    this.Formstatus='UserAccessDetails'
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
@@ -1552,6 +1586,7 @@ bindtreeedataview(treestructure:any)
       // console.log(record[field]);
 
       if (field === 'userprofiles') {
+        record[field].push('Custom');
         this.userProfilesDropdown = record[field];
         // this.userProfile = record['profilename'];
         control?.setValue(record['profilename']);
@@ -1631,6 +1666,20 @@ bindtreeedataview(treestructure:any)
   }
 
   onCreateuserDetails() {
+    let request1 = Utils.preparePyUICreateFirstRequest('ManageUsers', 'UserAccess', 'KasimJ3', "1");
+    console.log("Create first  request1 : " + JSON.stringify(request1));
+    this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+      (res: any) => {
+        if (res.Status && res.Status[0].StatusMessage === 'Success') {
+          //success message and same data reload
+          // this.refreshData();
+          this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          //this.getFileDetails('UserAccessDetails');
+        }
+      });
+
+
+
     debugger
     if (this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 3)) {
       let index: number = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
@@ -1665,6 +1714,37 @@ bindtreeedataview(treestructure:any)
     //   telephoneno: new FormControl(),
     // });
     this.eventName = "Create";
+
+    for (let field in this.referenceForm.controls) {
+      let control = this.referenceForm.get(field);
+      // control?.setValue(record[field]);
+      // console.log(record[field]);
+
+      if (field === 'userprofiles') {
+        this.userProfilesDropdown = [
+          "custom_beema",
+          "Super Admin",
+          "Admin",
+          "Requestor",
+          "Readonly",
+          "Custom"
+      ];
+        // this.userProfile = record['profilename'];
+        control?.setValue([
+          "custom_beema",
+          "Super Admin",
+          "Admin",
+          "Requestor",
+          "Readonly",
+          "Custom"
+      ]);
+      } else if (field === 'source') {
+        // control?.setValue(record[field]);
+
+      } else {
+       // control?.setValue(record[field]);
+      }
+    }
   }
   onSubmit(reportIdentifier?: string) {
     // alert("Create/Edit Completed..");
@@ -2131,13 +2211,22 @@ bindtreeedataview(treestructure:any)
     }
     if(action=='UserAccess')
     {
-      let newattribute:any={};
 
+      let newattribute:any={};
+     if(profilename==='Custom')
+     {
       newattribute['profilename']=profilename;
+      newattribute['profileitems']=this.Resultattributes;
+     }
+     else{
+      newattribute['profilename']=profilename;
+      newattribute['isdefaultprofile']=1;
+     // newattribute['profileitems']=this.Resultattributes;
+     }
       newattribute['profiledescription']='This is custom';
       newattribute['iseditprofile']=1;
-      newattribute['isdefaultprofile']=1;
-      newattribute['profileitems']=this.Resultattributes;
+      
+     
       
       
     

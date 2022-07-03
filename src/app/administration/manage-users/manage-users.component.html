@@ -30,7 +30,7 @@
                 <mat-tab *ngFor="let tableft of tabsLeft; let index = index" style="background-color:red!important">
                     <ng-template mat-tab-label >
                         <div style="background-color:#e60000!important" class="col" style="margin-left: 20px;">{{tableft.name}}</div>
-                        <button style="color:black" mat-icon-button (click)="removeTabLeftPanel(index)">
+                        <button style="color:black" mat-icon-button  (click)="removeTabLeftPanel(index)">
                             <mat-icon style="font-size: large;">close</mat-icon>
                         </button>
                     </ng-template>
@@ -456,10 +456,10 @@
                                 </div>
                                     <div class ="fixed-button-bar">    
                                         <mat-card-actions>
-                                          <button  *ngIf = "eventName==='Create'"  (click)=onreturnform()   type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                          <button  *ngIf = "eventName==='Create'"  (click)=redirecttoForm()   type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
                                             <mat-icon >save</mat-icon>Go to
                                           </button>
-                                          <button  *ngIf = "eventName==='Update'" (click)=onreturnform()  type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                          <button  *ngIf = "eventName==='Update'" (click)=redirecttoForm()  type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
                                                 <mat-icon >edit</mat-icon>Update
                                           </button>
                                           <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
