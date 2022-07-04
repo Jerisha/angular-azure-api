@@ -890,6 +890,13 @@ InitializeTreeview()
    
 
   }
+  bindSource()
+  {
+    let request = Utils.preparePyConfig(['Search'], ['Source']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      console.log("source from config: " + JSON.stringify(res))});
+      //this.configDetails = res.data;
+  }
 bindtreedata(treestructure:any)
 {
   this.spinner.hide();
@@ -1161,6 +1168,7 @@ bindtreeedataview(treestructure:any)
     //   UserId: new FormControl({ value: 'ashok' }'')
     // })
     this.createForms();
+    //this.bindSource();
     this.isLeftPanel = false;
 
   }
@@ -1356,7 +1364,7 @@ bindtreeedataview(treestructure:any)
 
     if (value == 'Custom') {
       this.initialize(this.eventName);
-      this.onEditUserprofileAceess('Create');
+      this.onEditUserprofileAceessUserAccess('Create');
     }
   }
   
@@ -1407,9 +1415,11 @@ bindtreeedataview(treestructure:any)
   }
 redirecttoForm()
 {
+  debugger
 if(this.Formstatus=='Profile')
 {
   this.preparemenu();
+  this.onSubmit('User Profiles');
 }
 else{
 
@@ -1455,6 +1465,47 @@ else{
     // this.isLeftPanel = true;
     // console.log('Edit Record');
     // this.eventName = "Update";
+  }
+  onEditUserprofileAceessUserAccess(Actiontype: string) {
+   // this.Formstatus='Profile';
+    this.initialize(Actiontype);
+    debugger
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    let name = 'Profile';
+    if (Actiontype == 'Create') {
+      name = 'Add Profile'
+    }
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 2)) {
+      this.tabsLeft.push({
+        tabType: 2,
+        name: name
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else {
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
+    }
+    this.Header = "User Profiles";
+    this.UserDetailsForm = false;
+    this.StartupForm = false;
+    this.UserEditProfilesForm = true;
+    this.isLeftPanel = true;
+    this.UserEditForm = this.formBuilder.group({
+
+      ProfileName: new FormControl(),
+      Description: new FormControl(),
+      UserProfile: new FormControl()
+
+    });
+    if (Actiontype == 'Create') {
+      this.eventName = 'Create';
+    }
+    else {
+      this.eventName = 'Update';
+    }
+
   }
   onEditUserprofileAceess(Actiontype: string) {
     this.Formstatus='Profile';
@@ -1540,6 +1591,7 @@ else{
   }
 
   onEdituserDetails(record: any, event: Event) {
+    debugger
     this.Formstatus='UserAccessDetails'
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1748,6 +1800,7 @@ else{
     }
   }
   onSubmit(reportIdentifier?: string) {
+    debugger
     // alert("Create/Edit Completed..");
     this.isLeftPanel = false;
     // this.showDetailsForm=true;
@@ -2259,24 +2312,24 @@ else{
 
   createForms() {
     this.referenceForm = this.formBuilder.group({
-      username: new FormControl({ value: '' }),
-      userprofiles: new FormControl({ value: '' }),
+      username: new FormControl({ value: '' },[Validators.required]),
+      userprofiles: new FormControl({ value:null },[Validators.required]),
       yid: new FormControl({ value: '' }),
-      firstname: new FormControl({ value: '' }),
-      lastname: new FormControl({ value: '' }),
-      emailaddress: new FormControl({ value: '' }),
+      firstname: new FormControl({ value: '' },[Validators.required]),
+      lastname: new FormControl({ value: '' },[Validators.required]),
+      emailaddress: new FormControl({ value: '' },[Validators.required]),
       telephoneno: new FormControl({ value: '' }),
     });
 
     this.StartupUsermsgsForm = this.formBuilder.group({
       newsid: new FormControl({ value: '' }, []),
-      newsdescription: new FormControl({ value: '' }, []),
+      newsdescription: new FormControl({ value: '' }, [Validators.required]),
       DateRange: this.formBuilder.group({
-        startdate: new FormControl({ value: '' }, []),
-        expirydate: new FormControl({ value: '' }, [])
+        startdate: new FormControl({ value: '' },[Validators.required]),
+        expirydate: new FormControl({ value: '' },[Validators.required])
       }),
-      emailaddress: new FormControl({ value: '' }, []),
-      newsheader: new FormControl({ value: '' }, []),
+      emailaddress: new FormControl({ value: '' },[Validators.required]),
+      newsheader: new FormControl({ value: '' },[Validators.required]),
       newssubheader: new FormControl({ value: '' }, []),
     });
 
