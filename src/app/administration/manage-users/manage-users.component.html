@@ -42,7 +42,7 @@
                                 <div class="content-submain vf-flex-container-col">
                                     <mat-form-field hintLabel="Max 10 characters">
                                       <mat-label>User Name</mat-label>
-                                      <input formControlName="username" matInput #input maxlength="10"
+                                      <input formControlName="username"   matInput #input maxlength="10"
                                         placeholder="User Id">
                                       <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
                                     </mat-form-field>
@@ -151,7 +151,7 @@
                             <div class="userprofilerighttable" style="padding:10px;width:50vw">
                             <div style="max-height: 250px;overflow:auto">
                                 <button (click)="checkAll()" style="visibility:hidden">Toggle Select All</button>
-                                <button (click)="GetCheckAll()">Get Select All</button>
+                                <button (click)="GetCheckAll()" style="visibility:hidden">Get Select All</button>
                                 <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
                                   <mat-tree-node
                                     *matTreeNodeDef="let node"
@@ -678,7 +678,7 @@
                         </div>
                         <div style="margin-top: 6px;">
                             <span>
-                                <button type="button" mat-raised-button color="primary" class="rm6">
+                                <button type="button" (click)="onExport(userAccessDispCols,'User_Access',userAccessData)" mat-raised-button color="primary" class="rm6">
                                     <mat-icon>import_export</mat-icon>Download
                                 </button>
                                 <button type="button" (click)="onVerifyUserName()" mat-raised-button color="primary" class="rm6">
@@ -757,7 +757,7 @@
                             </div>
                             <div style="margin-top: 6px;">
                                 <span>
-                                    <button type="button" mat-raised-button color="primary" class="rm6">
+                                    <button type="button" (click)="onExport(userreportscolums,'User_Of_Reports',datauserreports)" mat-raised-button color="primary" class="rm6">
                                         <mat-icon>import_export</mat-icon>Download
                                     </button>
                                    
@@ -848,7 +848,7 @@
                             </div>
                             <div style="margin-top: 6px;">
                                 <span>
-                                    <button type="button" mat-raised-button color="primary" class="rm6">
+                                    <button type="button" (click)="onExport(startupusermsgscols,'News_Update',startupusermsgs)" mat-raised-button color="primary" class="rm6">
                                         <mat-icon>import_export</mat-icon>Download
                                     </button>
                                     <button type="button" (click)="onCreateuserMsgs()" mat-raised-button color="primary" class="rm6">
@@ -935,7 +935,7 @@
                             </div>
                             <div style="margin-top: 6px;">
                                 <span>
-                                    <button type="button" mat-raised-button color="primary" class="rm6">
+                                    <button type="button" (click)="onExport(userprofilescols,'User_Profiles',userprofilesdata)" mat-raised-button color="primary" class="rm6">
                                         <mat-icon>import_export</mat-icon>Download
                                     </button>
                                     <button type="button" (click)="onEditUserprofileAceess('Create')" mat-raised-button color="primary" class="rm6">

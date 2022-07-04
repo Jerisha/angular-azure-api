@@ -890,6 +890,13 @@ InitializeTreeview()
    
 
   }
+  bindSource()
+  {
+    let request = Utils.preparePyConfig(['Search'], ['Source']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      console.log("source from config: " + JSON.stringify(res))});
+      //this.configDetails = res.data;
+  }
 bindtreedata(treestructure:any)
 {
   this.spinner.hide();
@@ -1161,6 +1168,7 @@ bindtreeedataview(treestructure:any)
     //   UserId: new FormControl({ value: 'ashok' }'')
     // })
     this.createForms();
+    //this.bindSource();
     this.isLeftPanel = false;
 
   }
@@ -1314,6 +1322,7 @@ bindtreeedataview(treestructure:any)
         }
       );
     }
+    this.resetFilter(fileType);
     this.showDetails = true;
   }
 
@@ -2071,15 +2080,19 @@ else{
     switch (reportName){
       case 'UserOfReports' :
         this.datauserreports.filter ='';
+        this.filterUserofReportForm.reset();
         break;
       case 'UserAccessDetails' :
         this.userAccessData.filter ='';
+        this.filterUserAccessForm.reset();
         break;
       case 'StartUpUserMessages' :
         this.startupusermsgs.filter =''; 
+        this.filterNewsUpdateForm.reset();
         break;
       case 'UserProfiles' :
         this.userprofilesdata.filter ='';
+        this.filterUserProfilesForm.reset();
         break; 
 
     }
@@ -2360,4 +2373,60 @@ else{
     this.filterUserProfilesForm.reset();
 
   }
+
+  onExport(tableHeader: any,tabName:string,tableData: any) {
+        if (tableData.data != undefined && (tableData.data != []  &&  tableData.data.length != 0) )
+         {
+          //  let header = this.reportReferenceService.getDownLoadHeaders(currentReportName)
+
+          let header = tableHeader ;
+          // header.filter((x:any) => x.headerValue != 'Actions');
+          let copydata = JSON.parse(JSON.stringify(tableData.data));
+          var c = document.createElement("a");
+          let data:any = [];
+          let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.headerValue]:x.header})))
+          Reflect.deleteProperty(dataHeaderRow,"Actions");
+          data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+            copydata.forEach((row : any) => {
+              
+              for (const i of ['Actions','firstname','lastname','userprofiles','sources','updateddttm','updatedby','profileitems','newsid','iseditprofile','iscustomprofile','isdefaultprofile','isdelete'])
+            {
+              Reflect.deleteProperty(row,i);
+            }
+
+            if(tabName === 'News_Update') {
+              for (const i of ['createddttm','createdby','newssubheader'])
+              {
+                Reflect.deleteProperty(row,i);
+              }
+            }
+
+          let disp = Object.assign({} ,...header.map((x:any)=> ({[x.headerValue]:" "})))    
+          Reflect.deleteProperty(disp,"Actions");       
+          // console.log( "data value" +JSON.stringify(row));
+          // console.log( "header data value" +JSON.stringify(disp));
+          let dataRow = Object.assign(disp,row); 
+          Object.keys(dataRow).forEach((key:any) =>{
+            if(dataRow[key] =="")
+            dataRow[key]= " ";
+          });
+          // console.log( "data row value" +JSON.stringify(dataRow));
+        let val = Object.values(dataRow).join('|');
+        val.replace(/[/t]+/g, ' ');
+        data += val.replace(/[|]+/g, '\t') + "\n";
+      });
+      c.download = tabName + "_Report.tab";
+      var t = new Blob([data], {
+
+        type: "data:text/plain;charset=utf-8"
+      });
+      c.href = window.URL.createObjectURL(t);
+      c.click();
+      this.alertService.success('UserAccess' + ' Download Completed :)', { autoClose: true, keepAfterRouteChange: false });
+    }
+    else {
+      this.alertService.info('UserAccess' + ' No Data Found :(', { autoClose: true, keepAfterRouteChange: false });
+    }
+  }
+
 }
