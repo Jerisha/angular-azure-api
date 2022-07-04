@@ -31,6 +31,16 @@
 // .mat-menu-item:hover .mat-icon{
 //   color: red;  
 // }
+.logoutbtn{
+  color:white;
+  background-color:#e60606;
+  margin: 4%;
+  padding: 2%;
+  // text-align: center;
+}
+.mat-menu-item .mat-icon{
+  color: white;
+}
 .mat-menu-item{
   height: max-content;
   line-height: 18px !important;  
