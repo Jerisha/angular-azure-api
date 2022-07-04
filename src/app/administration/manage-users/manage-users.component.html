@@ -90,6 +90,13 @@
                                             <mat-label>Email Address</mat-label>
                                         <input type="text"  matInput   formControlName="emailaddress"
                                         placeholder="EmailAddress">
+                                        <mat-error>
+                                            <div *ngIf="referenceForm.controls['emailaddress'].touched && referenceForm.controls['emailaddress'].invalid" class="alert alert-danger">
+                                                <div *ngIf="referenceForm.controls['emailaddress'].errors?.email">
+                                                    Please enter a valid email address
+                                                </div>
+                                            </div>
+                                        </mat-error>
                                         </mat-form-field>
                                        
                                         <mat-form-field>
@@ -516,6 +523,13 @@
                                     <mat-label>Email Address</mat-label>
                                 <input type="text"  matInput   formControlName="emailaddress"
                                 placeholder="Email Address">
+                                <mat-error>
+                                    <div *ngIf="StartupUsermsgsForm.controls['emailaddress'].touched && StartupUsermsgsForm.controls['emailaddress'].invalid" class="alert alert-danger">
+                                        <div *ngIf="StartupUsermsgsForm.controls['emailaddress'].errors?.email">
+                                            Please enter a valid email address
+                                        </div>
+                                    </div>
+                                </mat-error>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>Date Range</mat-label>

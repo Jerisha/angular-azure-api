@@ -1258,6 +1258,7 @@ bindtreeedataview(treestructure:any)
           this.userAccessData.data = res.Data;
           // User Profile Dropdown
           this.userProfilesDropdown = res.Data[res.Data.length-1].userprofiles.map((x:any) =>x.profilename);
+          this.userProfilesDropdown.push('Custom');
     
           console.log('data of manage users', this.userAccessData);
           this.spinner.hide();
@@ -2328,7 +2329,7 @@ else{
       yid: new FormControl({ value: '' }),
       firstname: new FormControl({ value: '' },[Validators.required]),
       lastname: new FormControl({ value: '' },[Validators.required]),
-      emailaddress: new FormControl({ value: '' },[Validators.required]),
+      emailaddress: new FormControl({ value: '' },[Validators.required,Validators.email]),
       telephoneno: new FormControl({ value: '' },[Validators.pattern("^[0-9]{11}$")]),
       active: new FormControl({ value: '' },[Validators.required])
     });
@@ -2340,7 +2341,7 @@ else{
         startdate: new FormControl({ value: '' },[Validators.required]),
         expirydate: new FormControl({ value: '' },[Validators.required])
       }),
-      emailaddress: new FormControl({ value: '' },[Validators.required]),
+      emailaddress: new FormControl({ value: '' },[Validators.required,Validators.email]),
       newsheader: new FormControl({ value: '' },[Validators.required]),
       newssubheader: new FormControl({ value: '' }, []),
     });
