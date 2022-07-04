@@ -17,6 +17,7 @@ export class SelectCheckboxComponent implements OnInit {
   allSelected = false;
   @Input() listItems!: Select[];
   @Input() icon!: string;
+  @Input() label: string;
   @Output() changes = new EventEmitter<any>();
 
 

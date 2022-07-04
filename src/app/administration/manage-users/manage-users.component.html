@@ -69,7 +69,7 @@
                                       
         
         
-             <app-select-checkbox #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
+             <app-select-checkbox [label]="'Sources'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
               </app-select-checkbox>
         
         
@@ -97,9 +97,9 @@
                                         <input type="text" matInput  formControlName="yid"
                                         placeholder="YID">
                                         </mat-form-field>
-                                        <mat-form-field>
+                                        <mat-form-field hintLabel="Max 11 characters">
                                             <mat-label >Telephone No</mat-label>
-                                        <input type="text" matInput   formControlName="telephoneno"
+                                        <input type="tel" maxlength="11" matInput   formControlName="telephoneno"
                                         placeholder="TelephoneNo">
                                         </mat-form-field>
                                         <mat-form-field>
@@ -107,6 +107,9 @@
                                         <input type="text" matInput   formControlName="lastname"
                                         placeholder="Last Name">
                                         </mat-form-field>
+                                        <mat-checkbox
+                                        formControlName="active">Active
+                                        </mat-checkbox>
                                     </div> 
                                    
                                 </div>
@@ -515,23 +518,17 @@
                                 placeholder="Email Address">
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-label>Description</mat-label>
-                                <textarea type="text" style="min-height:100px;"  matInput   formControlName="newsdescription"
-                                placeholder="Description"></textarea>
-                                </mat-form-field>
+                                    <mat-label>Date Range</mat-label>
+                                    <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
+                                    <input readonly formControlName="startdate" matStartDate placeholder="Start Date">
+                                    <input readonly formControlName="expirydate" matEndDate placeholder="Expiry Date">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                               </mat-form-field>
                             </div> 
                             <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
-
-                                <mat-form-field>
-                                     <mat-label>Date Range</mat-label>
-                                     <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
-                                     <input readonly formControlName="startdate" matStartDate placeholder="Start Date">
-                                     <input readonly formControlName="expirydate" matEndDate placeholder="Expiry Date">
-                                     </mat-date-range-input>
-                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                     <mat-date-range-picker #picker></mat-date-range-picker>
-                                </mat-form-field>
-
+                                
                                 <!-- <mat-form-field>
                                     <mat-label>Start Date</mat-label>
                                 <input type="text"  matInput   formControlName="startdate"
@@ -551,6 +548,11 @@
                                     <mat-label>News Sub Header</mat-label>
                                 <input type="text"  matInput   formControlName="newssubheader"
                                 placeholder="News Sub Header">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>News Description</mat-label>
+                                <textarea type="text" style="min-height:100px;"  matInput   formControlName="newsdescription"
+                                placeholder="News Description"></textarea>
                                 </mat-form-field>
                             </div> 
                             <div class ="fixed-button-bar">   

@@ -1637,7 +1637,10 @@ else{
       } else if (field === 'source') {
         // control?.setValue(record[field]);
 
-      } else {
+      } else if (field === 'active'){
+        record[field]==='Yes' ? control?.setValue(true) : control?.setValue(false);
+      }
+      else {
         control?.setValue(record[field]);
       }
     }
@@ -1673,6 +1676,7 @@ else{
     this.eventName = "Create";
   }
   onCreateuserMsgs() {
+    this.tabsLeft.splice(0);
     this.StartupUsermsgsForm.reset();
     this.Header = "Start Up User Messages";
     this.UserDetailsForm = false;
@@ -1689,6 +1693,7 @@ else{
   }
 
   onVerifyUserName() {
+    this.StartupForm = false;
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 3)) {
@@ -2251,6 +2256,9 @@ else{
         attribute.startdate = formatDate(form.get('DateRange.startdate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
         attribute.expirydate = formatDate(form.get('DateRange.expirydate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
       } 
+      else if (field === 'active'){
+        control?.value == true ? attribute[field]='Yes' : attribute[field]='No';
+      }
       else if (control?.value) attribute[field] = control.value;
 
     }
@@ -2300,12 +2308,13 @@ else{
   createForms() {
     this.referenceForm = this.formBuilder.group({
       username: new FormControl({ value: '' },[Validators.required]),
-      userprofiles: new FormControl({ value:null },[Validators.required]),
+      userprofiles: new FormControl({ value:'' },[Validators.required]),
       yid: new FormControl({ value: '' }),
       firstname: new FormControl({ value: '' },[Validators.required]),
       lastname: new FormControl({ value: '' },[Validators.required]),
       emailaddress: new FormControl({ value: '' },[Validators.required]),
-      telephoneno: new FormControl({ value: '' }),
+      telephoneno: new FormControl({ value: '' },[Validators.pattern("^[0-9]{11}$")]),
+      active: new FormControl({ value: '' },[Validators.required])
     });
 
     this.StartupUsermsgsForm = this.formBuilder.group({
