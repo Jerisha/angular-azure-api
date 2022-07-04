@@ -20,9 +20,15 @@ export class TopNavComponent implements OnInit {
   public positionOptions: TooltipPosition[] = ['below']; // Tooltip postion  
   public position = new FormControl(this.positionOptions[0]);
   user: any;
+  userDetails :string =''
 
   ngOnInit() {
     this.user = this.authService.currentUserValue
+    this.userDetails =`<div> <p innerHtml= "User Name: ${this.user.username} \r\n
+    Email Address: ${this.user.emailaddress} \r\n
+    User Role: ${this.user.profilename} \r\n
+    Last Login: ${this.user.lastlogin}"> </p></div>`
+
   }
 
   logout() {

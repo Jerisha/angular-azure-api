@@ -25,13 +25,17 @@
   vertical-align: bottom;
 }
 
-.mat-menu-item:hover{
-  color: red;
+// .mat-menu-item:hover{
+//   color: red;
+// }
+// .mat-menu-item:hover .mat-icon{
+//   color: red;  
+// }
+.mat-menu-item{
+  height: max-content;
+  line-height: 18px !important;  
 }
-.mat-menu-item:hover .mat-icon{
-  color: red;
-  
-}
+
 .banner{
   height: 90%;
   // background-color: #e60000;

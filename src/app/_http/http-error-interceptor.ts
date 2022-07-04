@@ -20,7 +20,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 catchError((error: HttpErrorResponse) => {
                     debugger;
                     let errorMessage = '';
-                    if ([401, 403].includes(error.status) && this.authService.currentUserValue) {
+                    if ([401, 403].includes(error.status) && this.authService.getUserToken) {
                         // auto logout if 401 or 403 response returned from api
                         this.authService.logoutUser();
                         this._route.navigate(['login'])

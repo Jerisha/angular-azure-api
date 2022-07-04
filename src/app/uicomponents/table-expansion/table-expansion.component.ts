@@ -338,9 +338,17 @@ export class TableExpansionComponent implements OnDestroy {
 
   copyToClipboard() {
     let data = "";
-    this.selection.selected.forEach((row: any) => {
-      let result = Object.values(row);
-      data += result.toString().replace(/[,]+/g, '\t') + "\n";
+
+    this.selection.selected.forEach((row: any, index) => {
+      if (index === 0) {
+        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
+        data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
+      }
+      let tabValue: string[] = []
+      this.select?.value?.forEach((x: string) => {
+        if (x != 'View') tabValue.push(row[x])
+      })
+      data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
     });
     return data;
   }
@@ -373,7 +381,7 @@ export class TableExpansionComponent implements OnDestroy {
                 1. Excel spreadsheets can take some time to produce and there may be delay of up to 15 minutes.<br/>
                 2. The background processing is performed in order of user requests.<br/>
                 3. The file name will be<strong> ${x.data.ExportData[0].FileName}</strong> .<br/>
-                4.The progress can be monitored by clicking on excel reports icon towards the right on top corner.<br/>
+                4. The progress can be monitored by clicking on excel reports icon towards the right on top corner.<br/>
                 5. When spread sheet is available,clicking on the file name will allow to download to the local disk.<br/>
                 6. The previous week spread sheet will be deleted.<br/>`
             }
