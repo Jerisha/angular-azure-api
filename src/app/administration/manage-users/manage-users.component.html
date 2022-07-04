@@ -42,7 +42,7 @@
                                 <div class="content-submain vf-flex-container-col">
                                     <mat-form-field hintLabel="Max 10 characters">
                                       <mat-label>User Name</mat-label>
-                                      <input formControlName="username" matInput #input maxlength="10"
+                                      <input formControlName="username"   matInput #input maxlength="10"
                                         placeholder="User Id">
                                       <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
                                     </mat-form-field>
@@ -148,7 +148,7 @@
                             <div class="userprofilerighttable" style="padding:10px;width:50vw">
                             <div style="max-height: 250px;overflow:auto">
                                 <button (click)="checkAll()" style="visibility:hidden">Toggle Select All</button>
-                                <button (click)="GetCheckAll()">Get Select All</button>
+                                <button (click)="GetCheckAll()" style="visibility:hidden">Get Select All</button>
                                 <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
                                   <mat-tree-node
                                     *matTreeNodeDef="let node"

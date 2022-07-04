@@ -890,6 +890,13 @@ InitializeTreeview()
    
 
   }
+  bindSource()
+  {
+    let request = Utils.preparePyConfig(['Search'], ['Source']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      console.log("source from config: " + JSON.stringify(res))});
+      //this.configDetails = res.data;
+  }
 bindtreedata(treestructure:any)
 {
   this.spinner.hide();
@@ -1161,6 +1168,7 @@ bindtreeedataview(treestructure:any)
     //   UserId: new FormControl({ value: 'ashok' }'')
     // })
     this.createForms();
+    //this.bindSource();
     this.isLeftPanel = false;
 
   }
