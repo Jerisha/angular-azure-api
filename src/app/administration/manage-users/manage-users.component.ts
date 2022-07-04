@@ -1256,6 +1256,9 @@ bindtreeedataview(treestructure:any)
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.userAccessData.data = res.Data;
+          // User Profile Dropdown
+          this.userProfilesDropdown = res.Data[res.Data.length-1].userprofiles.map((x:any) =>x.profilename);
+    
           console.log('data of manage users', this.userAccessData);
           this.spinner.hide();
         }
@@ -1639,8 +1642,8 @@ else{
       // console.log(record[field]);
 
       if (field === 'userprofiles') {
-        record[field].push('Custom');
-        this.userProfilesDropdown = record[field];
+        // record[field].push('Custom');
+        // this.userProfilesDropdown = record[field];
         // this.userProfile = record['profilename'];
         control?.setValue(record['profilename']);
       } else if (field === 'source') {
