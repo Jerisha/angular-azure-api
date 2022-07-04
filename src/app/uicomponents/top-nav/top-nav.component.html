@@ -36,8 +36,10 @@
         Role: {{user.profilename}}<br />
         Last Login: {{user.lastlogin}}
       </span>
-      <span style="color:white;background-color:#e60606;margin: 4%;padding: 2%;" mat-menu-item (click)="logout()">
-        <mat-icon matTooltip="Logout" [matTooltipPosition]="position.value"> logout </mat-icon>
+      <span matTooltip="Logout" [matTooltipPosition]="position.value"
+        style="color:white;background-color:#e60606;margin: 4%;padding: 2%;text-align: center;" mat-menu-item
+        (click)="logout()">
+        <mat-icon> logout </mat-icon>
         Logout
       </span>
     </mat-menu>
