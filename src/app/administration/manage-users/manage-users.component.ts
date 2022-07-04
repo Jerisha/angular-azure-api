@@ -2389,13 +2389,19 @@ else{
           data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
             copydata.forEach((row : any) => {
               
-              for (const i of ['Actions','firstname','lastname','userprofiles','sources','updateddttm','updatedby','profileitems','newsid','iseditprofile','iscustomprofile','isdefaultprofile','isdelete'])
+              for (const i of ['Actions','firstname','lastname','userprofiles','updateddttm','updatedby','profileitems','newsid','iseditprofile','iscustomprofile','isdefaultprofile','isdelete'])
             {
               Reflect.deleteProperty(row,i);
             }
 
             if(tabName === 'News_Update') {
               for (const i of ['createddttm','createdby','newssubheader'])
+              {
+                Reflect.deleteProperty(row,i);
+              }
+            }
+            if(tabName != 'User_Of_Reports') {
+              for (const i of ['sources'])
               {
                 Reflect.deleteProperty(row,i);
               }
