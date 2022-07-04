@@ -675,7 +675,7 @@
                         </div>
                         <div style="margin-top: 6px;">
                             <span>
-                                <button type="button" mat-raised-button color="primary" class="rm6">
+                                <button type="button" (click)="onExport(userAccessDispCols,'User_Access',userAccessData)" mat-raised-button color="primary" class="rm6">
                                     <mat-icon>import_export</mat-icon>Download
                                 </button>
                                 <button type="button" (click)="onVerifyUserName()" mat-raised-button color="primary" class="rm6">
@@ -754,7 +754,7 @@
                             </div>
                             <div style="margin-top: 6px;">
                                 <span>
-                                    <button type="button" mat-raised-button color="primary" class="rm6">
+                                    <button type="button" (click)="onExport(userreportscolums,'User_Of_Reports',datauserreports)" mat-raised-button color="primary" class="rm6">
                                         <mat-icon>import_export</mat-icon>Download
                                     </button>
                                    
@@ -845,7 +845,7 @@
                             </div>
                             <div style="margin-top: 6px;">
                                 <span>
-                                    <button type="button" mat-raised-button color="primary" class="rm6">
+                                    <button type="button" (click)="onExport(startupusermsgscols,'News_Update',startupusermsgs)" mat-raised-button color="primary" class="rm6">
                                         <mat-icon>import_export</mat-icon>Download
                                     </button>
                                     <button type="button" (click)="onCreateuserMsgs()" mat-raised-button color="primary" class="rm6">
@@ -932,7 +932,7 @@
                             </div>
                             <div style="margin-top: 6px;">
                                 <span>
-                                    <button type="button" mat-raised-button color="primary" class="rm6">
+                                    <button type="button" (click)="onExport(userprofilescols,'User_Profiles',userprofilesdata)" mat-raised-button color="primary" class="rm6">
                                         <mat-icon>import_export</mat-icon>Download
                                     </button>
                                     <button type="button" (click)="onEditUserprofileAceess('Create')" mat-raised-button color="primary" class="rm6">
