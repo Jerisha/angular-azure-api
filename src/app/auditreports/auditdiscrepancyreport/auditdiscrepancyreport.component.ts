@@ -1,30 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { InternalAuditSummary } from 'src/app/auditreports/models/index';
 import { GroupHeaderTableDetails, GroupHeaderTableItem, MergeTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuditdiscrepancyHeaderData } from 'src/app/_data/audit-discrepancy-header-data';
-import { CupId } from 'src/app/_data/listValues/CupId';
-import { AuditDiscpancyReportService } from './auditdiscrepancyreport.component.service';
-
-const ELEMENT_DATA: InternalAuditSummary[] = [
-  {
-    ACTID: "df", SourceSystem: "fg", PostcodeDiff: 1, CustomerDiff: 2, AutoResolvedSAS: 1, FullAddDiff: 0, New: 1,
-    CSASCOMSOnly: 1, Total: 12, DMismatched: 1, DODVASiebelOnly: 2, EVAWADOnly: 1, RClarifyOnly: 1, SMatched: 1,
-    SOAmdocsSOMOnly: 1, VOSN2Only: 2
-  },
-  {
-    ACTID: "df", SourceSystem: "fg", PostcodeDiff: 1, CustomerDiff: 2, AutoResolvedSAS: 1, FullAddDiff: 0, New: 1,
-    CSASCOMSOnly: 1, Total: 12, DMismatched: 1, DODVASiebelOnly: 2, EVAWADOnly: 1, RClarifyOnly: 1, SMatched: 1,
-    SOAmdocsSOMOnly: 1, VOSN2Only: 2
-  },
-
-
-];
+import { Utils } from 'src/app/_http/index';
+import { IAuditActId } from '../models/audit-discrepancy-report/IAttributes';
+import { AuditReportsService } from '../services/audit-reports.service';
 
 @Component({
   selector: 'app-auditdiscrepancyreport',
@@ -32,11 +20,12 @@ const ELEMENT_DATA: InternalAuditSummary[] = [
   styleUrls: ['./auditdiscrepancyreport.component.css']
 })
 
-export class AuditdiscrepancyreportComponent implements OnInit {
+export class AuditdiscrepancyreportComponent extends UserProfile implements OnInit {
 
   auditDiscrepancyForm!: FormGroup;
   auditType: string = '';
-  selectedAuditType: string = '';
+  selectedAuditType!: string;
+  selectedActId!: string;
 
   grpTableitem!: GroupHeaderTableItem;
   dataSource1!: MatTableDataSource<any>;
@@ -56,19 +45,25 @@ export class AuditdiscrepancyreportComponent implements OnInit {
   grpExternalAuditTableDetails: GroupHeaderTableDetails[] = [];
 
   totalColmns:any;
-
   datamenu:any;
 
   public sidep = new Subject<MatSidenav>();
 
 data = new AuditdiscrepancyHeaderData();
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, 
-    private route: ActivatedRoute, private service:AuditDiscpancyReportService) {
+  configDetails!: any;
+  configValues!: IAuditActId[];
+  auditActIdDropdown: any = [];
+  queryResult!: Observable<any>;
+  QueryParams: any;
 
+  constructor( private formBuilder: FormBuilder, private service:AuditReportsService, private auth: AuthenticationService,
+    private actRoute: ActivatedRoute) {
+
+      super(auth, actRoute);
+      this.intializeUser();  
     this.createForm();
     this.datamenu=this.data.headers;
-
-    //console.log('datamenu comp',this.datamenu)
+   
 
     this.ColumnDetails = [
       { Headers: 'Act ID', DataHeaders: 'ACTID', rowspan: "2", colspan: "1" },
@@ -109,23 +104,25 @@ data = new AuditdiscrepancyHeaderData();
 
     this.grpTblHdrDtls = this.datamenu;
 
-   // this.grpTblHdrDtls = this.route.snapshot.data['headers'];
+    let request = Utils.preparePyConfig(['Search'], [ "AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID" ]);
+    this.service.configDetails(request).subscribe((res: any) => {
+      this.configValues = [
+        { auditType : res.data.AuditType[0], auditActId: res.data.FullAuditActID ? res.data.FullAuditActID : [''] },
+      { auditType : res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID ? res.data.SepInternalAuditActID : [''] },
+    { auditType : res.data.AuditType[2], auditActId: res.data.ExternalAuditActID ? res.data.ExternalAuditActID : ['']} ];
 
-     //this.route.data.subscribe(res=> console.log('data meu',res));
-    this.grpTableitem = {
-      data: ELEMENT_DATA,
-      ColumnDetails: this.ColumnDetails,
-      DisplayedColumns: this.displayedColumns,
-      DetailedColumns: this.detailedColumnsArray,
-      GroupHeaderColumnsArray: this.grpHdrColumnsArray,
-      GroupHeaders: this.groupHeaders,
-      isRowLvlTot:true
-    }
+    console.log(JSON.stringify(this.configValues));
+
+      this.selectedAuditType = this.configValues[0].auditType;
+      this.auditActIdDropdown =  this.configValues[0].auditActId;
+      this.selectedActId =  this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
+    });
+
   }
 
   createForm() {
     this.auditDiscrepancyForm = this.formBuilder.group({
-      ACTID: new FormControl('', [Validators.required]),
+      AuditActId: new FormControl('', [Validators.required]),
       AuditType: new FormControl('', [Validators.required])
     })
   }
@@ -136,14 +133,17 @@ data = new AuditdiscrepancyHeaderData();
   }
 
   submitAuditDiscrepancyForm() {
+
+    this.QueryParams = this.prepareQueryParams();
+
     var grpTblHdrDtls1: any;
     this.auditType = this.selectedAuditType;
     if (this.auditType == 'Full Audit') {
       grpTblHdrDtls1 = this.grpTblHdrDtls.filter(x => x.AuditType == 'FullAudit');
       this.grpFullAuditTableDetails = grpTblHdrDtls1;
     }
-    else if (this.auditType == 'Seperate Internal Audit') {
-      grpTblHdrDtls1 = this.grpTblHdrDtls.filter(x => x.AuditType == 'SeperateInternalAudit');
+    else if (this.auditType == 'Separate Internal Audit') {
+      grpTblHdrDtls1 = this.grpTblHdrDtls.filter(x => x.AuditType == 'SeparateInternalAudit');
       this.grpInternalAuditTableDetails = grpTblHdrDtls1
     }
     else if (this.auditType == 'External Audit') {
@@ -151,4 +151,38 @@ data = new AuditdiscrepancyHeaderData();
       this.grpExternalAuditTableDetails = grpTblHdrDtls1
     }
   }
+
+prepareQueryParams()
+  {
+    debugger
+    let attributes: any = [];
+    for (const field in this.f) {
+      const control = this.auditDiscrepancyForm.get(field);
+      if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+      }
+    // console.log(JSON.stringify(attributes));
+
+    return attributes;
+
+  }
+
+  get f() {
+    return this.auditDiscrepancyForm.controls;
+  }
+
+  changedAuditType(type: MatSelectChange) {
+    let index = this.configValues.findIndex(x => x.auditType == type.value);
+    this.auditActIdDropdown = this.configValues[index].auditActId;
+    this.selectedActId =  this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
+  }
+
+
+  onReset(){
+  // this.auditType = '';
+  this.auditDiscrepancyForm.reset();
+  }
+
 }

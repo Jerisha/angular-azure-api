@@ -5,6 +5,9 @@
     border-radius: 3px;
     vertical-align: middle;
   }
+  .mat-menu-panel {
+      max-width: fit-content!important;
+    }
   .vf-panel-title-btn{    
         background-color:#54575a;
         color: white;
@@ -15,3 +18,7 @@
   .mat-radio-button{
         padding-left: 3px;
   }
+  /* .mat-radio-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    } */

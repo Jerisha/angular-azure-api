@@ -24,6 +24,9 @@ th {
 .mat-row {
   height: 10px;
 }
+.mat-row:nth-child(even){
+  background-color: white !important;
+}
 
 
 tr.example-detail-row {
@@ -70,12 +73,6 @@ tr.example-element-row:not(.example-expanded-row):active {
   opacity: 0.5;
 }
 
-/* th, .appTable::ng-deep  th {
-  font-weight: bold;
-  background-color: #e60000;
-  color: black;
-} */
-
 .notification-sec .page-header {
   font-weight: bold;
   background-color: #e60000;
@@ -85,11 +82,12 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .liveRecord-error {
   text-align: center;
-  /* color: red; */
+  height: 32px;
 }
 
-.liveRecord-error mat-divider {
-  min-height: 0%;
+.alignMiddle {
+  line-height: 32px;
+  vertical-align: middle;
 }
 
 .error {
@@ -103,20 +101,16 @@ h4 {
 
 .container-fluid {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-start;
-  column-gap: 50px;
+  column-gap: 20px;
 }
 
 .fluid-item {
-  flex: 0 1 1;
-  min-width: 500px;
+  flex-shrink: 0;
+  /* flex: 0 0 1; */
+  /* min-width: 500px; */
 }
-
-/* .notification-sec .container-fluid{
-  justify-content: flex-start;
-  column-gap: 300px;
-} */
 
 .mat-expansion-panel-header.mat-expansion-toggle-indicator-before {
   /* flex-direction: row-reverse; */
@@ -152,22 +146,19 @@ h4 {
 
   .label {
     display: inline-block;
-    /* font-size: small; */
     font: 500 14px/20px Roboto, "Helvetica Neue" !important;
     color: rgba(0, 0, 0, 1);
-    /* font-weight: 500; */
     min-width: 160px;
   }
   
   .text-display {
     font: 400 14px/20px Roboto, "Helvetica Neue" !important;
     color: rgba(0, 0, 0, 1);
-    /* font-weight: 400; */
   }
 
-  /* .notification-sec .label {
-    min-width: 160px;
-  } */
+  .details-sec-1 div, .details-sec-2 div, .liverecord-sec-1 div, .liverecord-sec-2 div, .notification-sec-1 div, .notification-sec-2 div {
+    height: 16px;
+  }
 
   mat-divider {
     min-height: 20px;
@@ -178,13 +169,9 @@ h4 {
     background-color: lightgreen;
   }
 
-    /* .maindiv {
-      max-height: 300px;
-      overflow-y: auto;
-    } */
-
     .auditTab {
       overflow-y: auto;
       max-height: 530px;
     }
-   
+
+

@@ -4,29 +4,35 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AuthenticationService } from '../_auth/services/authentication.service';
 
 @Injectable({ providedIn: 'root' })
 export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(private _route: Router,
-        private spinner: NgxSpinnerService) {
+        private spinner: NgxSpinnerService,
+        private authService : AuthenticationService) {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request)
-            .pipe(  
+            .pipe(
                 //retry(1),
                 catchError((error: HttpErrorResponse) => {
+                    debugger;
                     let errorMessage = '';
+                    if ([401, 403].includes(error.status) && this.authService.getUserToken) {
+                        // auto logout if 401 or 403 response returned from api
+                        this.authService.logoutUser();
+                        this._route.navigate(['login'])
+                    }
                     if (error.error instanceof ErrorEvent) {
                         // client-side error
                         errorMessage = `Error: ${error.error.message}`;
-                        // console.log(errorMessage);
+                       
                     } else {
                         // Server-side errors
-                        this.spinner.hide();
                         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-                        //console.log(errorMessage);
-                        this._route.navigate(['/shared/', {outlets: {errorPage: 'error'}}], {state: {errCode: error.status, errMsg: error.message}});
+                        this._route.navigate(['error'], { state: { errCode: error.status, errMsg: error.message } });
                     }
                     return throwError(errorMessage);
                 })

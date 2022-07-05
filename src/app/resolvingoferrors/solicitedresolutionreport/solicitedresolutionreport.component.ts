@@ -13,101 +13,102 @@ import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
-import { Exp } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
-const ELEMENT_DATA: any = [
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
-  {
-    TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
-    TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
-    PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
-    AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
-  },
+// const ELEMENT_DATA: any = [
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
+//   {
+//     TelephoneNo: '1977722725', TransactionID: '1014591106', OrderReference: '898934', TransactionCommand: 'A', Source: '', Status: '',
+//     TransactionDate: '14 Nov 2013', LastResolutionType: 'Resolved', Delay: '', UnderInvestigation: '', UnderGovernance: '', UnderPorting: '',
+//     PortComplete: '', Resolved: '', Unresolved: '', Superseded: '', SpecialCease: '', Total: '', ResolveRemarks: '', Errors: '', AddressLine1: '', AddressLine2: '',
+//     AddressLine3: '', AddressLine4: '', Postcode: '', LastTransactionID: '', ChangeCupid: '', InternalCupid: ''
+//   },
 
 
-];
+// ];
 
 const FilterListItems: Select[] = [
   { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
-  { view: 'Transaction Id', viewValue: 'TransactionId', default: true },
-  { view: 'ChangeCupid', viewValue: 'ChangeCupid', default: true },
+  { view: 'Transaction ID', viewValue: 'TransactionID', default: true },
+  { view: 'ChangeCUPID', viewValue: 'ChangeCUPID', default: true },
   { view: 'Transaction Date', viewValue: 'TransactionDate', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
-  { view: 'Last ResolveType', viewValue: 'LastResolveType', default: true },
-  { view: 'Internal Cupid', viewValue: 'InternalCupid', default: true }
+  { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: true },
+  { view: 'Internal CupID', viewValue: 'InternalCUPID', default: true }
 ];
 
 @Component({
@@ -124,19 +125,24 @@ export class SolicitedresolutionreportComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   myTable!: TableItem;
-  selectedGridRows: any[] = [];
+  myForm!: FormGroup;
+  resetExp: boolean = false;
+  queryResult$: any;
   filterItems: Select[] = FilterListItems;
   auditTelNo?: any;
+  expressions: any = [expNumeric, expString, expDate,expDropdown];
   telNo?: any;
   tranId?: any;
-  repIdentifier = "SolicitedErrors";
-  expressions: any = Exp;
+  repIdentifier = "SolicitedResolutionReport";
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   errorCodesOptions!: Observable<any[]>;
   selectedRowsCount: number = 0;
-  errorCodeData!: any[];
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
+  
   selectedTab!: number;
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -146,22 +152,40 @@ export class SolicitedresolutionreportComponent implements OnInit {
   Refer!: string;
   Remarks!: string;
   isSaveDisable: boolean = true;
-
-  queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-  currentPage: string = '1';
+  // currentPage: string = '1';
   updateDetails!: any;
+  errorCodeData: Select[] = [
+    { view: '101', viewValue: '101', default: true },
+    { view: '202', viewValue: '202', default: true },
+    { view: '303', viewValue: '303', default: true },
+  ];
+  errorCode = new FormControl();
+  selectedGridRows: any[] = [];
+  expOperators: string[] = [
 
+    "TelephoneNumberOperator",
+    "TransactionIDOperator",
+    "ChangeCUPIDOperator",    
+    "SourceOperator",
+    "StatusOperator",
+    "TranCommandOperator",
+    "ResolveTypeOperator",
+    "InternalCUPIDOperator",
+
+
+  ];
+  expOperatorsKeyPair: [string, string][] = [];
   ngOnInit(): void {
     this.createForm();
 
     debugger;
-    let request = Utils.prepareConfigRequest(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.preparePyConfig(['Search'], ['TransactionCommand', 'Source', 'ResolutionTypeAudit', 'Status', 'InternalCupID']);
     this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
-      this.configDetails = res[0];
+      console.log("res: " + JSON.stringify(res))
+      this.configDetails = res.data;
     });
 
     // let updateRequest = Utils.prepareConfigRequest(['Update'], ['ResolutionType']);
@@ -188,85 +212,228 @@ export class SolicitedresolutionreportComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  // prepareQueryParams(pageNo: string): any {
+  //   let attributes: any = [
+  //     { Name: 'PageNumber', Value: [`${pageNo}`] }];
+  //   //Reference
+  //   const control = this.thisForm.get('Reference');
+  //   if (control?.value)
+  //     attributes.push({ Name: '999Reference', Value: [control?.value] });
+  //   else
+  //     attributes.push({ Name: '999Reference' });
+
+  //   for (const field in this.f) {
+  //     if (field != 'Reference') {
+  //       const control = this.thisForm.get(field);
+  //       if (field == 'DateRange') {
+  //         const fromDate = this.thisForm.get('DateRange.FromDate');
+  //         if (fromDate?.value)
+  //           attributes.push({ Name: 'FromDate', Value: [formatDate(fromDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+  //         else
+  //           attributes.push({ Name: 'FromDate' });
+  //         const toDate = this.thisForm.get('DateRange.ToDate');
+  //         if (toDate?.value)
+  //           attributes.push({ Name: 'ToDate', Value: [formatDate(toDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+  //         else
+  //           attributes.push({ Name: 'ToDate' });
+  //         continue;
+  //       }
+  //       if (control?.value)
+  //         attributes.push({ Name: field, Value: [control?.value] });
+  //       else
+  //         attributes.push({ Name: field });
+
+  //     }
+  //   }
+  //   console.log(attributes);
+
+  //   return attributes;
+
+  // }
   prepareQueryParams(pageNo: string): any {
     let attributes: any = [
       { Name: 'PageNumber', Value: [`${pageNo}`] }];
     //Reference
-    const control = this.thisForm.get('Reference');
+    const control = this.myForm.get('Reference');
     if (control?.value)
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
-
     for (const field in this.f) {
-      if (field != 'Reference') {
-        const control = this.thisForm.get(field);
-        if (field == 'DateRange') {
-          const fromDate = this.thisForm.get('DateRange.FromDate');
-          if (fromDate?.value)
-            attributes.push({ Name: 'FromDate', Value: [formatDate(fromDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+      if (field != 'Reference' ) {
+        const control = this.myForm.get(field);
+        if (field == 'TransactionDate') {
+          const startDate = this.myForm.get('TransactionDate.StartDate');
+          if (startDate?.value)
+            attributes.push({ Name: 'StartDate', Value: [formatDate(startDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
-            attributes.push({ Name: 'FromDate' });
-          const toDate = this.thisForm.get('DateRange.ToDate');
-          if (toDate?.value)
-            attributes.push({ Name: 'ToDate', Value: [formatDate(toDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+            attributes.push({ Name: 'StartDate' });
+          const endDate = this.myForm.get('TransactionDate.EndDate');
+          if (endDate?.value)
+            attributes.push({ Name: 'EndDate', Value: [formatDate(endDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
-            attributes.push({ Name: 'ToDate' });
+            attributes.push({ Name: 'EndDate' });
+           
           continue;
         }
-        if (control?.value)
+        if (field == 'ResolutionTypeAudit')
+        {
+        attributes.push({ Name: 'ResolveType', Value: [control?.value]});
+        let operator: string = 'ResolveType' + "Operator";
+        if (this.expOperatorsKeyPair.length != 0) {
+          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+          // console.log(expvals,"operatorVal1")
+          if (expvals.length != 0) {
+          //  console.log(control?.value,"True");
+              // if (control?.value) {
+                attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                console.log(expvals[0][1],"operatorVal");
+              // }
+              // else {
+              //   attributes.push({ Name: operator, Value: ['Equal To'] });
+              // }
+          }
+         
+        }
+        else {
+  
+          attributes.push({ Name: operator, Value: ['Equal To'] });
+  
+        }
+     
+       
+        } 
+        if (field == 'TransactionCommand')
+        {
+        attributes.push({ Name: 'TransactionCommand', Value: [control?.value]});
+        let operator: string = 'TranCommand' + "Operator";
+        if (this.expOperatorsKeyPair.length != 0) {
+          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+          // console.log(expvals,"operatorVal1")
+          if (expvals.length != 0) {
+          //  console.log(control?.value,"True");
+              // if (control?.value) {
+                attributes.push({ Name: operator, Value: [expvals[0][1]] });
+                console.log(expvals[0][1],"operatorVal");
+              // }
+              // else {
+              //   attributes.push({ Name: operator, Value: ['Equal To'] });
+              // }
+          }
+         
+        }
+        else {
+  
+          attributes.push({ Name: operator, Value: ['Equal To'] });
+  
+        }
+     
+       
+        } 
+       else{
+        if (control?.value )
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
 
+      
+      let operator: string = field + "Operator";
+
+      // console.log("op vals",this.expOperatorsKeyPair);
+
+      //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
+      //  console.log("op ",operatorVal);
+      if (this.expOperatorsKeyPair.length != 0) {
+        let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        // console.log(expvals,"operatorVal1")
+        if (expvals.length != 0) {
+        //  console.log(control?.value,"True");
+            // if (control?.value) {
+              attributes.push({ Name: operator, Value: [expvals[0][1]] });
+              console.log(expvals[0][1],"operatorVal");
+            // }
+            // else {
+            //   attributes.push({ Name: operator, Value: ['Equal To'] });
+            // }
+        }
+        else {
+          if (field == 'TelephoneNumber' || field == 'TransactionDate') {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+          else {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+        }
+      }
+      else {
+
+        attributes.push({ Name: operator, Value: ['Equal To'] });
+
       }
     }
-    console.log(attributes);
+    }
+    }
+    console.log('attri',attributes);
 
     return attributes;
 
   }
 
-  createSaveForm() {
-    this.saveForm = this.formBuilder.group({
-      Resolution: new FormControl({ value: '' }, []),
-      Ref: new FormControl({ value: '' }, []),
-      Remark: new FormControl({ value: '' }, [])
-    })
+  getTupleValue(element: [string, string], keyvalue: string) {
+    // console.log(element, keyvalue,"gettuple");
+    if (element[0] == keyvalue) { return element[1]; }
+    else
+      return "";
 
   }
+
+  // createSaveForm() {
+  //   this.saveForm = this.formBuilder.group({
+  //     Resolution: new FormControl({ value: '' }, []),
+  //     Ref: new FormControl({ value: '' }, []),
+  //     Remark: new FormControl({ value: '' }, [])
+  //   })
+
+  // }
   createForm() {
-    this.thisForm = this.formBuilder.group({
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    const date = today.getDate();
+    //ToDate: new FormControl(new Date(year, month, date))
+
+    this.myForm = this.formBuilder.group({
       TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      TransactionId: new FormControl({ value: '', disabled: true }, []),
-      ChangeCupid: new FormControl({ value: '', disabled: true }, []),
-      TransactionDate: new FormControl(),
+      TransactionID: new FormControl({ value: '', disabled: true }, []),
+      ChangeCUPID: new FormControl({ value: '', disabled: true }, []),
+      // TransactionDate: new FormControl(),
+      TransactionDate: this.formBuilder.group({StartDate: new FormControl(),EndDate: new FormControl(), disabled: true}),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),
-      LastResolveType: new FormControl({ value: '', disabled: true }, []),
-      InternalCupid: new FormControl({ value: '', disabled: true }, [])
+      ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
+      InternalCUPID: new FormControl({ value: '', disabled: true }, [])
     });
   }
 
   get f() {
-    return this.thisForm.controls;
+    return this.myForm.controls;
   }
 
-  // get s() {
-  //   return this.saveForm.controls;
-  // }
+  get s() {
+    return this.myForm.controls;
+  }
 
   columns: ColumnDetails[] = [
-    { header: 'Telephone No', headerValue: 'TelephoneNo', showDefault: true, isImage: false },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Transaction Id', headerValue: 'TransactionID', showDefault: true, isImage: false },
+    { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
     { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Date', headerValue: 'TransactionDate', showDefault: true, isImage: false },
-    { header: 'Last ResolutionType', headerValue: 'LastResolutionType', showDefault: true, isImage: false },
+    { header: 'Last ResType', headerValue: 'LastResType', showDefault: true, isImage: false },
     { header: 'Delay', headerValue: 'Delay', showDefault: true, isImage: false },
     { header: 'Under Investigation', headerValue: 'UnderInvestigation', showDefault: true, isImage: false },
     { header: 'Under Governance', headerValue: 'UnderGovernance', showDefault: true, isImage: false },
@@ -284,46 +451,60 @@ export class SolicitedresolutionreportComponent implements OnInit {
     { header: 'AddressLine 3', headerValue: 'AddressLine3', showDefault: true, isImage: false },
     { header: 'AddressLine 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
     { header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
-    { header: 'Last TransactionID', headerValue: 'LastTransactionID', showDefault: true, isImage: false },
+    { header: 'Last Transaction', headerValue: 'LastTransaction', showDefault: true, isImage: false },
     { header: 'Change Cupid', headerValue: 'ChangeCupid', showDefault: true, isImage: false },
     { header: 'Internal Cupid', headerValue: 'InternalCupid', showDefault: true, isImage: false },
   ];
 
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    // let request = Utils.prepareQueryRequest('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
-    // this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
-    //   if (Object.keys(res).length) {
-    //     let result = {
-    //       datasource: res[0].SolicitedError,
-    //       totalrecordcount: res[0].TotalCount,
-    //       totalpages: res[0].NumberOfPages,
-    //       pagenumber: res[0].PageNumber
-    //     }
-    //     return result;
-    //   } else return res;
-    // }));
+    if (!this.myForm.valid) return;
     this.tabs.splice(0);
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('Summary', 'SolicitedResolutionReport', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res.data.Summary,
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
+          // datasource: ELEMENT_DATA,
+          // totalrecordcount: 1,
+          // totalpages: 1,
+          // pagenumber: 1
+        }
+        return result;
+      } else return {
+        datasource: res
+      };
+    }));
     this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 100,
-        totalpages: 1,
-        pagenumber: 1
-      }),
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
-      removeNoDataColumns: false,
+      removeNoDataColumns: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -338,63 +519,63 @@ export class SolicitedresolutionreportComponent implements OnInit {
 
   }
 
-  onSaveSubmit(): void {
-    debugger;
-    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
-      (this.Resolution && this.Remarks)) {
-      let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-      this.service.updateDetails(request).subscribe(x => x);
-    }
+  // onSaveSubmit(): void {
+  //   debugger;
+  //   if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
+  //     (this.Resolution && this.Remarks)) {
+  //     let request = Utils.prepareUpdateRequest('TelephoneNumber', 'SolicitedErrors', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+  //     this.service.updateDetails(request).subscribe(x => x);
+  //   }
 
-  }
+  // }
 
-  prepareUpdateIdentifiers() {
-    let identifiers: any[] = [];
-    const startTelephoneNumber = this.thisForm.get('StartTelephoneNumber');
-    const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
+  // prepareUpdateIdentifiers() {
+  //   let identifiers: any[] = [];
+  //   const startTelephoneNumber = this.thisForm.get('StartTelephoneNumber');
+  //   const endTelephoneNumber = this.thisForm.get('EndTelephoneNumber');
 
-    if (this.selectedGridRows.length > 0) {
-      if (this.selectedGridRows.length > 0) {
-        let transId: string[] = [];
-        this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
-        identifiers.push({ Name: 'TransactionId', Value: transId });
-      } else
-        identifiers.push({ Name: 'TransactionId', Value: [""] });
-    } else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
+  //   if (this.selectedGridRows.length > 0) {
+  //     if (this.selectedGridRows.length > 0) {
+  //       let transId: string[] = [];
+  //       this.selectedGridRows?.forEach(x => { transId.push(x.TransactionId) })
+  //       identifiers.push({ Name: 'TransactionId', Value: transId });
+  //     } else
+  //       identifiers.push({ Name: 'TransactionId', Value: [""] });
+  //   } else if (startTelephoneNumber?.value && endTelephoneNumber?.value) {
 
-      if (startTelephoneNumber?.value)
-        identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
-      else
-        identifiers.push({ Name: 'TelephoneNumberStart' });
+  //     if (startTelephoneNumber?.value)
+  //       identifiers.push({ Name: 'TelephoneNumberStart', Value: [startTelephoneNumber.value] });
+  //     else
+  //       identifiers.push({ Name: 'TelephoneNumberStart' });
 
-      if (endTelephoneNumber?.value)
-        identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
-      else
-        identifiers.push({ Name: 'TelephoneNumberEnd' });
-    }
-    return identifiers;
-  }
+  //     if (endTelephoneNumber?.value)
+  //       identifiers.push({ Name: 'TelephoneNumberEnd', Value: [endTelephoneNumber.value] });
+  //     else
+  //       identifiers.push({ Name: 'TelephoneNumberEnd' });
+  //   }
+  //   return identifiers;
+  // }
 
-  prepareUpdateParams(): any {
-    let UpdateParams: any = [];
+  // prepareUpdateParams(): any {
+  //   let UpdateParams: any = [];
 
-    if (this.Resolution)
-      UpdateParams.push({ Name: 'ResolutionType', Value: [this.Resolution] });
-    else
-      UpdateParams.push({ Name: 'ResolutionType' });
-    if (this.Remarks)
-      UpdateParams.push({ Name: 'Remarks', Value: [this.Remarks] });
-    else
-      UpdateParams.push({ Name: 'Remarks' });
-    if (this.Refer)
-      UpdateParams.push({ Name: '999Reference', Value: [this.Refer] });
-    else
-      UpdateParams.push({ Name: '999Reference' });
+  //   if (this.Resolution)
+  //     UpdateParams.push({ Name: 'ResolutionType', Value: [this.Resolution] });
+  //   else
+  //     UpdateParams.push({ Name: 'ResolutionType' });
+  //   if (this.Remarks)
+  //     UpdateParams.push({ Name: 'Remarks', Value: [this.Remarks] });
+  //   else
+  //     UpdateParams.push({ Name: 'Remarks' });
+  //   if (this.Refer)
+  //     UpdateParams.push({ Name: '999Reference', Value: [this.Refer] });
+  //   else
+  //     UpdateParams.push({ Name: '999Reference' });
 
-    //console.log(UpdateParams);
+  //   //console.log(UpdateParams);
 
-    return UpdateParams;
-  }
+  //   return UpdateParams;
+  // }
 
 
 
@@ -412,10 +593,10 @@ export class SolicitedresolutionreportComponent implements OnInit {
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
       if (item.selected) {
-        this.thisForm.controls[item.value].enable();
+        this.myForm.controls[item.value].enable();
       }
       else {
-        this.thisForm.controls[item.value].disable();
+        this.myForm.controls[item.value].disable();
       }
     });
   }
@@ -456,6 +637,16 @@ export class SolicitedresolutionreportComponent implements OnInit {
     this.tabs.splice(index, 1);
   }
 
+  OnOperatorClicked(val: [string, string]) {
+    let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
+    if (vals.length == 0) {
+      this.expOperatorsKeyPair.push(val);
+    }
+    else {
+      this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
+      this.expOperatorsKeyPair.push(val);
+    }
+  }
 
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {

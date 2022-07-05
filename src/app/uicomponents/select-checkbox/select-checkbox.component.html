@@ -1,0 +1,43 @@
+<mat-form-field style="
+width:180px;height: 35px;;
+" >
+    
+  <mat-label>{{label}}</mat-label>          
+  <!-- <button matPrefix mat-icon-button aria-label="Clear">
+    <mat-icon >{{icon}}</mat-icon>
+  </button> -->
+  <mat-select  #select (openedChange)="openedChange($event)"  [formControl]="selectFormControl"
+     multiple disableOptionCentering panelClass="selpanel">
+    <mat-select-trigger>
+      Source
+      
+      <!-- {{selectFormControl.value ? selectFormControl.value[0] : ''}}
+      <span *ngIf="selectFormControl.value?.length > 1" class="additional-selection">
+        (+{{selectFormControl.value.length - 1}} {{selectFormControl.value?.length === 2 ? 'other' : 'others'}})
+      </span> -->
+    </mat-select-trigger>
+    <div class="select-container">
+      <mat-optgroup>
+        <mat-form-field appearance="standard" >
+          <input style="width:202px;" #search autocomplete="off" placeholder="Search filters" aria-label="Search" matInput
+            [formControl]="searchTextboxControl" (keydown)="$event.stopPropagation()">
+          <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear"
+            (click)="clearSearch($event)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-optgroup>
+      <mat-optgroup *ngIf="(filteredOptions | async)?.length == 0">
+        <div>No results found!</div>
+      </mat-optgroup>
+      <div *ngIf="(filteredOptions | async)?.length != 0 && search.value==''" style="margin-top:2%;margin-left:10px;">
+        <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSelection()">
+          Select All</mat-checkbox>
+      </div>
+      <mat-option (onSelectionChange)="selectionChange($event)" *ngFor="let option of filteredOptions | async"
+        [value]="option.viewValue">
+        {{option.view}}
+      </mat-option>
+    </div>
+  </mat-select>
+</mat-form-field>

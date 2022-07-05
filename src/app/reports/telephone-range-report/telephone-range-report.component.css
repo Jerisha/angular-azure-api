@@ -5,15 +5,19 @@
     justify-content: center;
   }
    */
-  .side-container-report {
+  /* .side-container-report {
     width: auto;
     height: 520px !important;
     box-sizing: border-box;
-    }
+    } */
 
-/* .table-view::ng-deep .mat-cell {
-  padding-right:15px ;
+.table-view::ng-deep .mat-cell {
   white-space: nowrap;
+  /* white-space: pre-line; */
+  word-wrap: normal;
+}
+/* .table-view::ng-deep .mat-column-CustomerAddress {
+  max-width: 220px ;
 } */
 /* .table-view::ng-deep.mat-table{
   overflow-x: scroll;

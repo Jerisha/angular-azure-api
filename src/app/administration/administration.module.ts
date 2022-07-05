@@ -8,20 +8,22 @@ import { SharedModule } from '../_shared/shared.module';
 import { AdministrationRoutingModule } from './administration-routing.module';
 import {RestoresolicitederrorsComponent,AuditDataFilesComponent,ManageUsersComponent, DataCorrectionReportsComponent} from './index'
 import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolvedtransaction.component';
-import { UnsolicitedactionreportsComponent } from './unsolicitedactionreports/unsolicitedactionreports.component';
+
 
 import { AdministrationService } from './services/administration.service';
 import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
+import { AuditstatustrackerComponent } from '../administration/auditstatustracker/auditstatustracker.component';
+
 
 @NgModule({
   declarations: [
     AuditDataFilesComponent,
     UnresolvedtransactionComponent,
-    UnsolicitedactionreportsComponent,
     RestoresolicitederrorsComponent,
     ManageUsersComponent,
     DataCorrectionReportsComponent,
-    UnresolvederrorsComponent
+    UnresolvederrorsComponent,
+    AuditstatustrackerComponent
   ],
   imports: [
     CommonModule,

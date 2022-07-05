@@ -52,13 +52,30 @@
     padding-top: 3px;
     padding-bottom: 3px;   
   }
-  .vf-grid-value{
+  .vf-grid-valueValidation{
     /* border: 1px solid #4a4d4e;  */
     /* box-sizing: border-box; */
     color:#000000; 
     /* background-color:#666666; */
     /* color:#000000;  */
     font-size: small; 
+    font-weight:300;  
+    box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
+    /* border-style:solid */
+    /* padding-left: 3px; */
+    padding-top: 3px;
+    padding-bottom: 3px;
+    height: 400px;
+  }
+
+
+  .vf-grid-value{
+    /* border: 1px solid #4a4d4e;  */
+    /* box-sizing: border-box; */
+    color:#000000; 
+    /* background-color:#666666; */
+    /* color:#000000;  */
+    font-size:smaller;
     font-weight:300;  
     box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
     /* border-style:solid */
@@ -82,7 +99,7 @@
     text-align: center;
   }
   :host ::ng-deep.mat-grid-tile .mat-figure {
-    flex-wrap: wrap !important; 
+    /* flex-wrap: wrap !important;  */
     justify-content:flex-start !important; 
     padding-left: 16px !important; 
     /* padding-top: 3px !important; */

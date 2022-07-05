@@ -1,276 +1,274 @@
 <ng-template #NoData>
-    <div class="error">
+    <div class="error" *ngIf="!isLoading">
         <span>No records found for this Telephone Number</span>
-        <!-- <mat-divider></mat-divider> -->
     </div>
-    
+
 </ng-template>
-<div class="auditTab">
-<ng-container *ngIf="auditTrailReport$ | async  as AT;else NoData">
+<div #auditTabScroll class="auditTab" id="auditTab">
 
-    <div *ngIf="AT.LiveDetails; else elseBlock">
-        <mat-accordion *ngIf="AT.LiveDetails[0] as livedata; else elseBlock" [togglePosition]="'before'">
+    <ng-container *ngIf="auditTrailReport$ | async  as AT;else NoData">
+        {{AT.LiveDetails ? testfun(false) :testfun(true) }}
+        <div *ngIf="AT.LiveDetails; else elseBlock">
+            
+            <mat-accordion *ngIf="AT.LiveDetails[0] as livedata; else elseBlock" [togglePosition]="'before'">
+                <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0"
+                    (opened)="setStep(0); panelOpenState1 = true;  setAddressDetails('TransactionDetails', livedata);"
+                    (closed)="panelOpenState1 = false; setAddressDetails('RemoveAddress');">
 
-            <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0"
-                (opened)="setStep(0); panelOpenState1 = true;  setAddressDetails('TransactionDetails', livedata)"
-                (closed)="panelOpenState1 = false; setAddressDetails('RemoveAddress')">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon class="table-icon">{{panelOpenState1 && step === 0 ? 'remove_box_outline' :
+                                'add_box_outline'}}</mat-icon>
+                            &nbsp;&nbsp;
+                            Current Live Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
 
-                <mat-expansion-panel-header>
+                    <div class="liverecord-sec">
+                        <div class="container-fluid">
+                            <div class="fluid-item liverecord-sec-1">
 
-                    <mat-panel-title>
-                        <mat-icon class="table-icon">{{panelOpenState1 && step === 0 ? 'remove_box_outline' :
-                            'add_box_outline'}}</mat-icon>
-                        &nbsp;&nbsp;
-                        Current Live Details
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
+                                <div>
+                                    <span class="label"> Transaction ID</span>
+                                    <span class="text-display">{{livedata.TransactionId}}</span>
+                                </div>
 
-                <div class="liverecord-sec">
-                    <div class="container-fluid">
-                        <div class="fluid-item liverecord-sec-1">
+                                <div>
+                                    <span class="label">Parent CUPID</span>
+                                    <span class="text-display">
+                                        {{livedata.ParentCupid}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label"> Transaction ID</span>
-                                <span class="text-display">{{livedata.TransactionId}}</span>
+                                <div>
+                                    <span class="label">Child CUPID</span>
+                                    <span class="text-display">
+                                        {{livedata.ChildCupid}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Customer Title</span>
+                                    <span class="text-display">
+                                        {{livedata.CustomerTitle}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Customer Forename</span>
+                                    <span class="text-display">
+                                        {{livedata.CustomerForename}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Customer Name</span>
+                                    <span class="text-display">
+                                        {{livedata.CustomerName}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Business Suffix</span>
+                                    <span class="text-display">
+                                        {{livedata.BusinessSuffix}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Premises</span>
+                                    <span class="text-display">
+                                        {{livedata.Premises}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Thoroughfare</span>
+                                    <span class="text-display">
+                                        {{livedata.Thoroughfare}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Locality</span>
+                                    <span class="text-display">
+                                        {{livedata.Locality}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Postcode</span>
+                                    <span class="text-display">
+                                        {{livedata.Postcode}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Retailer ID</span>
+                                    <span class="text-display">
+                                        {{livedata.RetailerId}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Address ID</span>
+                                    <span class="text-display">
+                                        {{livedata.AddressId}}</span>
+                                </div>
+
+                                <div>
+                                    <span class="label">Address ID Source</span>
+                                    <span class="text-display">
+                                        {{livedata.AddressIdSource}}</span>
+                                </div>
+
                             </div>
 
-                            <div>
-                                <span class="label">Transaction Reference</span>
-                                <span class="text-display">
-                                    {{livedata.TransactionReference}}</span>
-                            </div>
+                            <div class="fluid-item liverecord-sec-2">
 
-                            <div>
-                                <span class="label">Parent CUPID</span>
-                                <span class="text-display">
-                                    {{livedata.ParentCupid}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">Transaction Reference</span>
+                                    <span class="text-display">
+                                        {{livedata.TransactionReference}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Created On</span>
-                                <span class="text-display">
-                                    {{livedata.Created}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">Created On</span>
+                                    <span class="text-display">
+                                        {{livedata.CreatedOn}}</span>
+                                </div>
 
+                                <div>
+                                    <span class="label">Created By</span>
+                                    <span class="text-display">
+                                        {{livedata.CreatedBy}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Child CUPID</span>
-                                <span class="text-display">
-                                    {{livedata.ChildCupid}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">Source System</span>
+                                    <span class="text-display">
+                                        {{livedata.Source}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Created By</span>
-                                <span class="text-display">
-                                    {{livedata.CreatedBy}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">Franchise</span>
+                                    <span class="text-display">
+                                        {{livedata.Franchise}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Customer Title</span>
-                                <span class="text-display">
-                                    {{livedata.CustomerTitle}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">Source Type</span>
+                                    <span class="text-display">
+                                        {{livedata.SourceType}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Source</span>
-                                <span class="text-display">
-                                    {{livedata.Source}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">Internal Address1</span>
+                                    <span class="text-display">
+                                        {{livedata.InternalAddress1}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Customer Forename</span>
-                                <span class="text-display">
-                                    {{livedata.CustomerForename}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">Internal Address2</span>
+                                    <span class="text-display">
+                                        {{livedata.InternalAddress2}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Franchise</span>
-                                <span class="text-display">
-                                    {{livedata.Franchise}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">Internal Address3</span>
+                                    <span class="text-display">
+                                        {{livedata.InternalAddress3}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Customer Name</span>
-                                <span class="text-display">
-                                    {{livedata.CustomerName}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">Internal Address4</span>
+                                    <span class="text-display">
+                                        {{livedata.InternalAddress4}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Source Type</span>
-                                <span class="text-display">
-                                    {{livedata.SourceType}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">New Telephone No.</span>
+                                    <span class="text-display">
+                                        {{livedata.NewTelephoneNumber}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Business Suffix</span>
-                                <span class="text-display">
-                                    {{livedata.BusinessSuffix}}</span>
-                            </div>
+                                <div>
+                                    <span class="label">XReference</span>
+                                    <span class="text-display">
+                                        {{livedata.XReference}}</span>
+                                </div>
 
-                            <div>
-                                <span class="label">Premises</span>
-                                <span class="text-display">
-                                    {{livedata.Premises}}</span>
+                                <div>
+                                    <span class="label">Line Type</span>
+                                    <span class="text-display">
+                                        {{livedata.LineType}}</span>
+                                </div>
+
                             </div>
 
                         </div>
-
-                        <div class="fluid-item liverecord-sec-2">
-
-                            <div>
-                                <span class="label">Internal Address1</span>
-                                <span class="text-display">
-                                    {{livedata.InternalAddress1}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Internal Address2</span>
-                                <span class="text-display">
-                                    {{livedata.InternalAddress2}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Internal Address3</span>
-                                <span class="text-display">
-                                    {{livedata.InternalAddress3}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Internal Address4</span>
-                                <span class="text-display">
-                                    {{livedata.InternalAddress4}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Thoroughfare</span>
-                                <span class="text-display">
-                                    {{livedata.Thoroughfare}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Locality</span>
-                                <span class="text-display">
-                                    {{livedata.Locality}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Postcode</span>
-                                <span class="text-display">
-                                    {{livedata.Postcode}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Retailer ID</span>
-                                <span class="text-display">
-                                    {{livedata.RetailerId}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">New Telephone No.</span>
-                                <span class="text-display">
-                                    {{livedata.NewTelephoneNumber}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Address ID</span>
-                                <span class="text-display">
-                                    {{livedata.AddressId}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">XReference</span>
-                                <span class="text-display">
-                                    {{livedata.XReference}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Address ID Source</span>
-                                <span class="text-display">
-                                    {{livedata.AddressIdSource}}</span>
-                            </div>
-
-                            <div>
-                                <span class="label">Line Type</span>
-                                <span class="text-display">
-                                    {{livedata.LineType}}</span>
-                            </div>
-
-                        </div>
-
                     </div>
-                </div>
 
-            </mat-expansion-panel>
+                </mat-expansion-panel>
 
-        </mat-accordion>
-    </div>
-
-    <ng-template #elseBlock>
-        <div class="liveRecord-error error">
-            <span>No Current Live Records Found</span>
-            <mat-divider></mat-divider>
+            </mat-accordion>
         </div>
 
-    </ng-template>
+        <ng-template #elseBlock>
+            <div class="liveRecord-error error">
+                <span class="alignMiddle">No Current Live Records Found</span>
+            </div>
+            </ng-template>
 
-    <ng-template #elseBlock1>
-        <div class="liveRecord-error error" *ngIf="repIdentifier === 'UnsolicitedErrors'">
-            <span>No Unsolicited Details Records Found</span>
-        </div>
-    </ng-template>
-
-
-
-    <mat-accordion *ngIf="((repIdentifier === 'UnsolicitedErrors') && AT.UnsolicitedDetails != null); else elseBlock1"
-        [togglePosition]="'before'">
-
-        <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true"
+    <mat-accordion *ngIf=" AT.UnsolicitedDetails != null" [togglePosition]="'before'">
+        <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true;"
             (closed)="panelOpenState2 = false">
             <mat-expansion-panel-header>
-
                 <mat-panel-title>
-
                     <mat-icon class="table-icon">{{panelOpenState2 && step === 1 ? 'remove_box_outline' :
                         'add_box_outline'}}</mat-icon>
                     &nbsp;&nbsp;
-                    <!-- <button type="button" class="btn btn-default" aria-label="Left Align">
-                    <span>
-                        <mat-icon class ="table-icon">{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
-                        {{panelOpenState2 ? 'Hide' : 'Show'}}
-                    </span>
-                </button>&nbsp;&nbsp; -->
                     All Unsolicited Details
                 </mat-panel-title>
-                <!-- <mat-panel-description>
-          some description!!
-        </mat-panel-description> -->
             </mat-expansion-panel-header>
 
-            <div class="unsolicitedDetails-sec">
+            <div class="unsolicitedDetails-sec" >
                 <app-table class="appTable" [tableitem]="AT.UnsolicitedDetails"></app-table>
             </div>
-
+        <!-- </ng-template> -->
         </mat-expansion-panel>
-    </mat-accordion>
+        </mat-accordion>
+
+        <!-- <mat-accordion
+            *ngIf="((repIdentifier === 'UnsolicitedErrors') && AT.UnsolicitedDetails != null); else elseBlock1;"
+            [togglePosition]="'before'">
+            <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1"
+                (opened)="setStep(1); panelOpenState2 = true;" (closed)="panelOpenState2 = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon class="table-icon">{{panelOpenState2 && step === 1 ? 'remove_box_outline' :
+                            'add_box_outline'}}</mat-icon>
+                        &nbsp;&nbsp;
+                        All Unsolicited Details
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="unsolicitedDetails-sec">
+                    <app-table class="appTable" [tableitem]="AT.UnsolicitedDetails"></app-table>
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion> -->
 
 
-    <table mat-table [dataSource]="AT.AuditDetailedReport ? AT.AuditDetailedReport : []" multiTemplateDataRows
-        class="mat-elevation-z8">
-        <ng-container *ngFor="let col of columnsToDisplay ; let colIndex = index" matColumnDef="{{col.headerValue}}">
-            <ng-container *ngIf="col.headerValue != 'Action'">
-                <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
-                <td mat-cell *matCellDef="let element" [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}">{{element.SummaryReport[0][col.headerValue]}}</td>
-            </ng-container>
-            <ng-container *ngIf="col.headerValue === 'Action'">
+        <table mat-table [dataSource]="AT.AuditDetailedReport ? AT.AuditDetailedReport : []" multiTemplateDataRows
+            class="mat-elevation-z8">
+            <ng-container *ngFor="let col of columnsToDisplay ;" matColumnDef="{{col.headerValue}}">
+                <ng-container *ngIf="col.headerValue != 'Action'">
+                    <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
+                    <td mat-cell *matCellDef="let element;"
+                        [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}">
+                        {{element.SummaryReport[0][col.headerValue]}}</td>
+                </ng-container>
+                <ng-container *ngIf="col.headerValue === 'Action'">
 
-                <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
-                <td mat-cell [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}" *matCellDef="let element">
-                    <!-- <mat-icon class ="table-icon" style="cursor: pointer;"
-                    (click)="(expandedElement = expandedElement === element ? null : element);">{{expandedElement ===
-                    element ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon> -->
-
-                    <mat-icon class="table-icon" style="cursor: pointer;"
-                        (click)="(expandedElement = expandedElement === element.DetailedReport ? null : element.DetailedReport); setStep(2); (expandedElement === element.DetailedReport ? setAddressDetails('TransactionDetails', element.DetailedReport[0]) : setAddressDetails('RemoveAddress')); ">
+                    <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
+                    <td mat-cell
+                        [ngClass]="{ highlighted: AT.LiveDetails ? element.TransactionId === AT.LiveDetails[0].TransactionId : false}"
+                        *matCellDef="let element; let i = dataIndex;">
+                        <mat-icon class="table-icon" style="cursor: pointer;"
+                            (click)="(expandedElement = expandedElement === element.DetailedReport ? null : element.DetailedReport);
+                         setStep(2); (expandedElement === element.DetailedReport ? setAddressDetails('TransactionDetails', element.DetailedReport[0])
+                          : setAddressDetails('RemoveAddress')); (AT.UnsolicitedDetails != null ? customScroll(i, true) : customScroll(i));">
                         {{expandedElement === element.DetailedReport && step === 2 ? 'remove_box_outline' :
                         'add_box_outline'}}
                     </mat-icon>
@@ -278,565 +276,583 @@
             </ng-container>
         </ng-container>
 
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail" *ngIf="step === 2">
-            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-                <div class="example-element-detail"
-                    [@detailExpand]="(element.DetailedReport == expandedElement && step === 2 ? 'expanded' : 'collapsed')">
-                    <div class="example-element-diagram">
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail" *ngIf="step === 2">
+                <td mat-cell *matCellDef="let element " [attr.colspan]="columnsToDisplay.length">
+                    <div class="example-element-detail"
+                        [@detailExpand]="(element.DetailedReport == expandedElement && step === 2 ? 'expanded' : 'collapsed')">
+                        <div class="example-element-diagram">
 
-                        <div class="maindiv">
-                            <div class="details-sec" *ngIf="element.DetailedReport">
+                            <div class="maindiv">
+                                <div class="details-sec" *ngIf="element.DetailedReport">
 
-                                <div class="container-fluid">
-                                    <div class="fluid-item details-sec-1">
-                                        <div  >
-                                            <span class="label"> Transaction ID</span>
-                                            <span class="text-display">
-                                                {{element.TransactionId}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Thoroughfare</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Thoroughfare}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Transaction Reference</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].TransactionReference}}</span>
+                                    <div class="container-fluid">
+                                        <div class="fluid-item details-sec-1">
+                                            <div>
+                                                <span class="label"> Transaction ID</span>
+                                                <span class="text-display">
+                                                    {{element.TransactionId}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Transaction Command</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].TransactionCommand}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">BT Command</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].BtCommand}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Parent CUPID</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].ParentCupid}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Child CUPID</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].ChildCupid}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Change CUPID</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].ChangeCupid}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Customer Title</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].CustomerTitle}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Customer Forename</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].CustomerForename}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Customer Name</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].CustomerName}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Business Suffix</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].BusinessSuffix}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Premises</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Premises}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Thoroughfare</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Thoroughfare}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Locality</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Locality}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Postcode</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Postcode}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Retailer ID</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].RetailerId}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Address ID</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].AddressId}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Address ID Source</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].AddressIdSource}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">SAR Reference No.</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].SarReferenceNumber}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">SAR Transaction No.</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].SarTransactionNumber}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Reference</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Reference}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Connection Type</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].ConnectionType}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Access Method</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].AccessMethod}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Previous Transaction ID</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].PreviousTransactionId}}</span>
+                                            </div>
+
                                         </div>
 
-                                        <div>
-                                            <span class="label">Transaction Command</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].TransactionCommand}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Locality</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Locality}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Status</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Status}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Business Suffix</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].BusinessSuffix}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Connection Type</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].ConnectionType}}</span>
+                                        <div class="fluid-item details-sec-2">
+
+                                            <div>
+                                                <span class="label">Transaction Reference</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].TransactionReference}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Status</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Status}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">BT Source</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].BtSource}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Source System</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Source}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Franchise</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Franchise}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Order Reference</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].OrderReference}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Created On</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].CreatedOn}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Created By</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].CreatedBy}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Source Type</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].SourceType}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Internal Address1</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].InternalAddress1}}</span>
+                                            </div>
+                                            <div>
+                                                <span class="label">Internal Address2</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].InternalAddress2}}</span>
+                                            </div>
+                                            <div>
+                                                <span class="label">Internal Address3</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].InternalAddress3}}</span>
+                                            </div>
+                                            <div>
+                                                <span class="label">Internal Address4</span>
+                                                <span class="text-display">
+
+                                                    {{element.DetailedReport[0].InternalAddress4}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Force validate</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].ForceValidate}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">New Telephone No.</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].NewTelephoneNumber}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">XReference</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].XReference}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Line Type</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].LineType}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Provide</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Provide}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Effective</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Effective}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">End Status</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].EndStatus}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Callback</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].Callback}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Type of Line</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].TypeOfLine}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Next Transaction ID</span>
+                                                <span class="text-display">
+                                                    {{element.DetailedReport[0].NextTransactionId}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Comment</span>
+                                                <span class="text-display">
+                                                    {{element.Comment}}</span>
+                                            </div>
+
                                         </div>
 
-                                        <div>
-                                            <span class="label">BT Command</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].BtCommand}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Postcode</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Postcode}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">BT Source</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].BtSource}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Force validate</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].ForceValidate}}</span>
-                                        </div>
+                                    </div> <!-- container-fluid -->
 
-                                        <div  >
-                                            <span class="label">Customer Title</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].CustomerTitle}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">SAR Reference No.</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].SarReferenceNumber}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Created On</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Created}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Provide</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Provide}}</span>
-                                        </div>
+                                </div> <!-- details-sec -->
 
+                                <mat-divider></mat-divider>
 
-                                        <div  >
-                                            <span class="label">Customer Forename</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].CustomerForename}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">SAR Transaction No.</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].SarTransactionNumber}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Created By</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].CreatedBy}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Effective</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Effective}}</span>
-                                        </div>
-
-
-                                        <div  >
-                                            <span class="label">Customer Name</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].CustomerName}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Reference</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Reference}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Source Type</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].SourceType}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">End Status</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].EndStatus}}</span>
-                                        </div>
-
+                                <div class="notification-sec">
+                                    <div class="page-header">
+                                        <span>Notification Data</span>
                                     </div>
 
-                                    <div class="fluid-item details-sec-2">
+                                    <div class="error" *ngIf="!element.NotificationData">No Records Found.</div>
 
-                                        <div  >
-                                            <span class="label">Parent CUPID</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].ParentCupId}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Child CUPID</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].ChildCupId}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Change CUPID</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].ChangeCupId}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Retailer ID</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].RetailerId}}</span>
-                                        </div>
+                                    <div class="container-fluid" *ngIf="element.NotificationData">
+                                        <div class="fluid-item notification-sec-1">
+                                            <div>
+                                                <span class="label">Start Telephone No.</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].StartTelephoneNumber}}</span>
+                                            </div>
 
-                                        <div  >
-                                            <span class="label">Source</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Source}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">New Telephone No.</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].NewTelephoneNumber}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Address ID</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].AddressId}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Franchise</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Franchise}}</span>
+                                            <div>
+                                                <span class="label">Source System</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].Source}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Notification Status</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].NotificationStatus}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Notification Error</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].NotificationError}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Extracted Date</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].ExtractedDate}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Updated Date</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].UpdatedDate}}</span>
+                                            </div>
+
                                         </div>
 
-                                        <div  >
-                                            <span class="label">XReference</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].XReference}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Address ID Source</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].AddressIdSource}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Order Reference</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].OrderReference}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Line Type</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].LineType}}</span>
+                                        <div class="fluid-item notification-sec-2">
+
+                                            <div>
+                                                <span class="label">End Telephone No.</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].EndTelephoneNumber}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Order Reference </span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].OrderReference}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">Created On</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].CreatedOn}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">BT Status</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].BtStatus}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">BT Error Code</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].BtErrorCode}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="label">BT Error Message</span>
+                                                <span class="text-display">
+                                                    {{element.NotificationData[0].BtErrorMessage}}</span>
+                                            </div>
+
                                         </div>
 
-                                        <div  >
-                                            <span class="label">Premises</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Premises}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Access Method</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].AccessMethod}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Callback</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].Callback}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Internal Address1</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].InternalAddress1}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Internal Address2</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].InternalAddress2}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Internal Address3</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].InternalAddress3}}</span>
-                                        </div>
-                                        <div  >
-                                            <span class="label">Internal Address4</span>
-                                            <span class="text-display">
+                                    </div> <!-- container-fluid -->
+                                </div> <!-- notification-sec-->
 
-                                                {{element.DetailedReport[0].InternalAddress4}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Type of Line</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].TypeOfLine}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Previous Transaction ID</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].PreviousTransactionId}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Next Transaction ID</span>
-                                            <span class="text-display">
-                                                {{element.DetailedReport[0].NextTransactionId}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Comment</span>
-                                            <span class="text-display">
-                                                {{element.Comment}}</span>
-                                        </div>
+                                <mat-divider></mat-divider>
 
-                                    </div>
 
-                                </div> <!-- container-fluid -->
+                                <div class="error-response-sec">
+                                    <div class="page-header">Error Data</div>
 
-                            </div> <!-- details-sec -->
-
-                            <mat-divider></mat-divider>
-
-                            <div class="notification-sec">
-                                <div class="page-header">
-                                    <span>Notification Data</span>
+                                    <div class="error" *ngIf="!element.VodafoneError">No Records Found.</div>
+                                    <app-table class="appTable" [tableitem]="element.VodafoneError"></app-table>
                                 </div>
 
-                                <div class="error" *ngIf="!element.NotificationData">No Records Found.</div>
+                                <mat-divider></mat-divider>
 
-                                <div class="container-fluid" *ngIf="element.NotificationData">
-                                    <div class="fluid-item notification-sec-1">
-                                        <div>
-                                            <span class="label">Start Telephone No.</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].StartTelephoneNumber}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">End Telephone No.</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].EndTelephoneNumber}}</span>
-                                        </div>
+                                <div class="response-sec">
+                                    <div class="page-header">Response Data</div>
+                                    <!-- <h4>Response Data</h4> -->
+                                    <div class="error" *ngIf="!element.SupplierError">No Records Found.</div>
+                                    <app-table class="appTable" [tableitem]="element.SupplierError"></app-table>
+                                </div>
+                                <mat-divider></mat-divider>
+                                <div class="resolution-sec">
+                                    <div class="page-header">Resolution Data</div>
+                                    <!-- <h4>Resolution Data</h4> -->
+                                    <div class="error" *ngIf="!element.ResolutionHistory">No Records Found.</div>
+                                    <app-table class="appTable" [tableitem]="element.ResolutionHistory"></app-table>
+                                </div>
+                                <mat-divider></mat-divider>
 
-
-                                        <div>
-                                            <span class="label">Source</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].Source}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Order Reference </span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].OrderReference}}</span>
-                                        </div>
-
-
-                                        <div>
-                                            <span class="label">Notification Status</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].NotificationStatus}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">Created On</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].Created}}</span>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="fluid-item notification-sec-2">
-
-                                        <div>
-                                            <span class="label">Notification Error</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].NotificationError}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">BT Status</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].BtStatus}}</span>
-                                        </div>
-
-
-                                        <div>
-                                            <span class="label">Extracted Date</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].ExtractedDate}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">BT Error Code</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].BtErrorCode}}</span>
-                                        </div>
-
-
-                                        <div>
-                                            <span class="label">Updated Date</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].UpdatedDate}}</span>
-                                        </div>
-                                        <div>
-                                            <span class="label">BT Error Message</span>
-                                            <span class="text-display">
-                                                {{element.NotificationData[0].BtErrorMessage}}</span>
-                                        </div>
-
-                                    </div>
-
-                                </div> <!-- container-fluid -->
-                            </div> <!-- notification-sec-->
-
-                            <mat-divider></mat-divider>
-
-
-                            <div class="error-response-sec">
-                                <div class="page-header">Error Data</div>
-
-                                <div class="error" *ngIf="!element.VodafoneError">No Records Found.</div>
-                                <app-table class="appTable" [tableitem]="element.VodafoneError"></app-table>
-                            </div>
-
-                            <mat-divider></mat-divider>
-
-                            <div class="response-sec">
-                                <div class="page-header">Response Data</div>
-                                <!-- <h4>Response Data</h4> -->
-                                <div class="error" *ngIf="!element.SupplierError">No Records Found.</div>
-                                <app-table class="appTable" [tableitem]="element.SupplierError"></app-table>
-                            </div>
-                            <mat-divider></mat-divider>
-                            <div class="resolution-sec">
-                                <div class="page-header">Resolution Data</div>
-                                <!-- <h4>Resolution Data</h4> -->
-                                <div class="error" *ngIf="!element.ResolutionHistory">No Records Found.</div>
-                                <app-table class="appTable" [tableitem]="element.ResolutionHistory"></app-table>
-                            </div>
-                            <mat-divider></mat-divider>
-
-                        </div> <!-- maindiv -->
+                            </div> <!-- maindiv -->
+                        </div>
                     </div>
-                </div>
-            </td>
-        </ng-container>
+                </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
-        <tr mat-row *matRowDef="let element; columns: dataColumns;" class="example-element-row"
-            [class.example-expanded-row]="expandedElement === element"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-    </table>
+           
 
-    <!-- Audit Trail Panel -->
-    <div class="audit-sec">
-        <mat-accordion [togglePosition]="'before'">
+            <tr mat-header-row *matHeaderRowDef="dataColumns;"></tr>
+            <tr mat-row *matRowDef="let element; columns: dataColumns; let i = index;" class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']; let i = index;" class="example-detail-row">
+            </tr>
+        </table>
 
-            <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 3"
-                (opened)="setStep(3); panelOpenState = true" (closed)="panelOpenState = false">
-                <mat-expansion-panel-header>
+        <!-- Audit Trail Panel -->
+        <div class="audit-sec">
+            <mat-accordion [togglePosition]="'before'">
 
-                    <mat-panel-title>
-                        <mat-icon class="table-icon">{{panelOpenState && step === 3 ? 'remove_box_outline' :
-                            'add_box_outline'}}</mat-icon>
-                        &nbsp;&nbsp;
+                <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 3"
+                    (opened)="setStep(3); panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon class="table-icon">{{panelOpenState && step === 3 ? 'remove_box_outline' :
+                                'add_box_outline'}}</mat-icon>
+                            &nbsp;&nbsp;
+                            Audit Trail Details for : {{AT.TelephoneNumber}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
 
-                        Audit Trail Details for : {{AT.TelephoneNumber}}
-
-                    </mat-panel-title>
-                    <!-- <mat-panel-description>
-          some description!!
-        </mat-panel-description> -->
-                </mat-expansion-panel-header>
-
-                <div class="page-header" [ngClass]="{'error' : !(AT.SeperateInternalAudit != null) }">
+                    <!-- <div class="page-header" [ngClass]="{'error' : !(AT.SeperateInternalAudit != null) }">
                     <ng-container [ngTemplateOutlet]="noRecordsMessage"
                         [ngTemplateOutletContext]="{ $implicit : AT.SeperateInternalAudit != null ? 'Separate Internal Audit Trail' : 'No Records for Separate Internal Audit Trail'}">
                     </ng-container>
-                </div>
+                </div> -->
 
-                <ng-template #noRecordsMessage let-data>
-                    {{data}}
-                </ng-template>
+                    <div class="page-header" *ngIf="AT.SeperateInternalAudit != null">Separate Internal Audit Trail
+                    </div>
 
-                <div class="internalAudit-sec" *ngIf="AT.SeperateInternalAudit != null">
-                    <ng-container *ngIf="AT.SeperateInternalAudit != null">
-                        <table mat-table [dataSource]="AT.SeperateInternalAudit " multiTemplateDataRows
-                            class="mat-elevation-z8">
-                            <ng-container *ngFor="let col of auditTrailInternalDisplay ; let colIndex = index"
-                                matColumnDef="{{col}}">
-                                <ng-container *ngIf="col != 'UserComment'">
-                                    <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                                    <td mat-cell *matCellDef="let element">{{element[col]}}</td>
+                    <ng-template #noRecordsMessage let-data>
+                        {{data}}
+                    </ng-template>
+
+                    <div class="internalAudit-sec" *ngIf="AT.SeperateInternalAudit != null">
+                        <ng-container *ngIf="AT.SeperateInternalAudit != null">
+                            <table mat-table [dataSource]="AT.SeperateInternalAudit " multiTemplateDataRows
+                                class="mat-elevation-z8">
+                                <ng-container *ngFor="let col of internalAuditTrailHeader ; let colIndex = index"
+                                    matColumnDef="{{col.headerValue}}">
+                                    <ng-container *ngIf="col.header != 'User Comment'">
+                                        <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
+                                        <td mat-cell *matCellDef="let element">{{element[col.headerValue]}}</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="col.header === 'User Comment'">
+
+                                        <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <mat-icon class="table-icon" style="cursor: pointer;"
+                                                (click)="(expandedElement = expandedElement === element ? null : element);">
+                                                {{expandedElement === element ? 'remove_box_outline' :
+                                                'add_box_outline'}}
+                                            </mat-icon>
+                                        </td>
+                                    </ng-container>
                                 </ng-container>
-                                <ng-container *ngIf="col === 'UserComment'">
 
-                                    <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                                    <td mat-cell *matCellDef="let element">
-                                        <mat-icon class="table-icon" style="cursor: pointer;"
-                                            (click)="(expandedElement = expandedElement === element ? null : element);">
-                                            {{expandedElement === element ? 'remove_box_outline' : 'add_box_outline'}}
-                                        </mat-icon>
-                                    </td>
-                                </ng-container>
-                            </ng-container>
+                                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
+                                <ng-container matColumnDef="expandedDetail">
+                                    <td mat-cell *matCellDef="let element"
+                                        [attr.colspan]="auditTrailInternalDisplay.length">
+                                        <div class="example-element-detail"
+                                            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-
-
-                            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
-                            <ng-container matColumnDef="expandedDetail">
-                                <td mat-cell *matCellDef="let element"
-                                    [attr.colspan]="auditTrailInternalDisplay.length">
-                                    <div class="example-element-detail"
-                                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-
-                                        <!-- <div class="error" *ngIf="element.UserComment.length == 0">No Records Found. -->
                                             <div class="error" *ngIf="!element.UserComment">No Records Found.
+                                            </div>
+
+                                            <app-table class="appTable" [tableitem]="element.UserComment">
+                                            </app-table>
+                                            <br>
                                         </div>
-                                        <!-- <app-table class="appTable"
-                                            [tableitem]="element.UserComment == 0 ? false : element.UserComment">
-                                        </app-table> -->
-                                        <app-table class="appTable"
-                                            [tableitem]="element.UserComment">
-                                        </app-table>
-                                        <br>
-                                    </div>
-                                </td>
-                            </ng-container>
-
-                            <tr mat-header-row *matHeaderRowDef="auditTrailInternalDisplay"></tr>
-                            <tr mat-row *matRowDef="let element; columns: auditTrailInternalDisplay;"
-                                class="example-element-row" [class.example-expanded-row]="expandedElement === element">
-                            </tr>
-                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
-                            </tr>
-                        </table>
-                    </ng-container>
-                </div>
-                <mat-divider></mat-divider>
-
-                <div class="page-header" [ngClass]="{'error' : !(AT.FullAudit != null) }">
-                    <ng-container [ngTemplateOutlet]="noRecordsMessage"
-                        [ngTemplateOutletContext]="{ $implicit : AT.FullAudit != null ? 'Full Audit Trail' : 'No Records for Full Audit Trail'}">
-                    </ng-container>
-                </div>
-
-                <div class="fullAudit-sec" *ngIf="AT.FullAudit != null">
-                    <ng-container>
-                        <table mat-table [dataSource]="AT.FullAudit" multiTemplateDataRows class="mat-elevation-z8">
-                            <ng-container *ngFor="let col of fullAuditTrailDisplay ; let colIndex = index"
-                                matColumnDef="{{col}}">
-                                <ng-container *ngIf="col != 'UserComment'">
-                                    <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                                    <td mat-cell *matCellDef="let element">{{element[col]}}</td>
-                                </ng-container>
-                                <ng-container *ngIf="col === 'UserComment'">
-
-                                    <th mat-header-cell *matHeaderCellDef>{{col}}</th>
-                                    <td mat-cell *matCellDef="let element">
-                                        <mat-icon class="table-icon" style="cursor: pointer;"
-                                            (click)="(expandedElement = expandedElement === element ? null : element);">
-                                            {{expandedElement === element ? 'remove_box_outline' : 'add_box_outline'}}
-                                        </mat-icon>
-
-                                        <!-- <button type="button" class="btn btn-default" aria-label="Left Align"
-                                (click)="(expandedElement = expandedElement === element ? null : element);">
-                                <span> -->
-                                        <!-- <mat-icon class ="table-icon">{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon> -->
-                                        <!-- {{expandedElement === element ? 'Hide' : 'Show'}}
-                                </span>
-                            </button> -->
                                     </td>
                                 </ng-container>
-                            </ng-container>
 
+                                <tr mat-header-row *matHeaderRowDef="auditTrailInternalDisplay"></tr>
+                                <tr mat-row *matRowDef="let element; columns: auditTrailInternalDisplay;"
+                                    class="example-element-row"
+                                    [class.example-expanded-row]="expandedElement === element">
+                                </tr>
+                                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
+                                    class="example-detail-row">
+                                </tr>
+                            </table>
+                        </ng-container>
+                    </div>
+                    <mat-divider *ngIf="AT.SeperateInternalAudit != null"></mat-divider>
 
+                    <div class="page-header" [ngClass]="{'error' : !(AT.FullAudit != null) }">
+                        <ng-container [ngTemplateOutlet]="noRecordsMessage"
+                            [ngTemplateOutletContext]="{ $implicit : AT.FullAudit != null ? 'Full Audit Trail' : 'No Records for Full Audit Trail'}">
+                        </ng-container>
+                    </div>
 
-                            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
-                            <ng-container matColumnDef="expandedDetail">
-                                <td mat-cell *matCellDef="let element" [attr.colspan]="fullAuditTrailDisplay.length">
-                                    <div class="example-element-detail"
-                                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <div class="fullAudit-sec" *ngIf="AT.FullAudit != null">
+                        <ng-container>
+                            <table mat-table [dataSource]="AT.FullAudit" multiTemplateDataRows class="mat-elevation-z8">
+                                <ng-container *ngFor="let col of fullAuditTrailHeader ; let colIndex = index"
+                                    matColumnDef="{{col.headerValue }}">
+                                    <ng-container *ngIf="col.header != 'User Comment'">
+                                        <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
+                                        <td mat-cell *matCellDef="let element">{{element[col.headerValue]}}</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="col.header === 'User Comment'">
 
-                                        <!-- <div class="error" *ngIf="element.UserComment.length == 0">No Records Found.</div> -->
-                                        <div class="error" *ngIf="!element.UserComment">No Records Found.</div>
-                                        <!-- <app-table class="appTable"
-                                            [tableitem]="element.UserComment.length == 0 ? false : element.UserComment">
-                                        </app-table> -->
-                                        <app-table class="appTable"
-                                            [tableitem]="element.UserComment">
-                                        </app-table>
-                                        <br>
-                                    </div>
-                                </td>
-                            </ng-container>
+                                        <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <mat-icon class="table-icon" style="cursor: pointer;"
+                                                (click)="(expandedElement = expandedElement === element ? null : element);">
+                                                {{expandedElement === element ? 'remove_box_outline' :
+                                                'add_box_outline'}}
+                                            </mat-icon>
+                                        </td>
+                                    </ng-container>
+                                </ng-container>
 
-                            <tr mat-header-row *matHeaderRowDef="fullAuditTrailDisplay"></tr>
-                            <tr mat-row *matRowDef="let element; columns: fullAuditTrailDisplay;"
-                                class="example-element-row" [class.example-expanded-row]="expandedElement === element">
-                            </tr>
-                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
-                            </tr>
-                        </table>
-                    </ng-container>
-                </div>
-                <mat-divider></mat-divider>
-            </mat-expansion-panel>
+                                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns  -->
+                                <ng-container matColumnDef="expandedDetail">
+                                    <td mat-cell *matCellDef="let element"
+                                        [attr.colspan]="fullAuditTrailDisplay.length">
+                                        <div class="example-element-detail"
+                                            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-        </mat-accordion>
-    </div> <!-- audit-sec-->
-</ng-container>
+                                            <div class="error" *ngIf="!element.UserComment">No Records Found.</div>
+
+                                            <app-table class="appTable" [tableitem]="element.UserComment">
+                                            </app-table>
+                                            <br>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="fullAuditTrailDisplay"></tr>
+                                <tr mat-row *matRowDef="let element; columns: fullAuditTrailDisplay;"
+                                    class="example-element-row"
+                                    [class.example-expanded-row]="expandedElement === element">
+                                </tr>
+                                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
+                                    class="example-detail-row">
+                                </tr>
+                            </table>
+                        </ng-container>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-expansion-panel>
+
+            </mat-accordion>
+        </div> <!-- audit-sec-->
+
+    </ng-container>
 </div>
-
-<!--<ng-container *ngIf="auditTrailReport$ | async  as config">
-   {{config |json }}
-</ng-container> -->

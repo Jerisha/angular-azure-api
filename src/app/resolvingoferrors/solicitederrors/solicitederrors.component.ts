@@ -3,22 +3,24 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { SolicitedErrors } from '../models/solicited-errors';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
 import { Select } from 'src/app/uicomponents/models/select';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatSelect } from '@angular/material/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
-import { NgxSpinnerService } from "ngx-spinner";
-import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
+import { Custom } from 'src/app/_helper/Validators/Custom';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
   {
@@ -126,7 +128,7 @@ const ELEMENT_DATA: any = [
 const FilterListItems: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
@@ -139,17 +141,22 @@ const FilterListItems: Select[] = [
 @Component({
   selector: 'app-solicitederrors',
   templateUrl: './solicitederrors.component.html',
-  styleUrls: ['./solicitederrors.component.css'],
-  //providers: [TelNoPipe]
+  styleUrls: ['./solicitederrors.component.css']
 })
-export class SolicitederrorsComponent implements OnInit {
+export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
     private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+  ) {
+    super(auth, actRoute);
+    this.intializeUser();
+  }
 
   myTable!: TableItem;
   selectedGridRows: any[] = [];
@@ -174,29 +181,35 @@ export class SolicitederrorsComponent implements OnInit {
   Refer: string = '';
   Remarks: string = '';
   isSaveDisable: boolean = true;
+  isExportDisable: boolean = false;
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
-  currentPage: string = '1';
+  // currentPage: string = '1';
   updateDetails!: any;
+  model: any = { ErrorCode: "" };
 
   ngOnInit(): void {
     this.createForm();
-
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
 
-    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
-    this.service.configDetails(updateRequest).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
-      this.updateDetails = res.data;
-    });
+    if (this.updateAccess) {
+      let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
+      this.service.configDetails(updateRequest).subscribe((res: any) => {
+        //console.log("res: " + JSON.stringify(res))
+        this.updateDetails = res.data;
+      });
+    }
+
     //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
@@ -248,7 +261,7 @@ export class SolicitederrorsComponent implements OnInit {
 
       }
     }
-    console.log(attributes);
+    // console.log(attributes);
 
     return attributes;
 
@@ -271,8 +284,10 @@ export class SolicitederrorsComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [ Validators.pattern("^[0-9]{10,11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
@@ -305,51 +320,67 @@ export class SolicitederrorsComponent implements OnInit {
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
-    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
-    { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
+    { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
+    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false }
+    { header: 'Parent Cupid', headerValue: 'ParentCupId', showDefault: true, isImage: false },
+    { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 
 
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
   onFormSubmit(isEmitted?: boolean): void {
+
     debugger;
+    let errMsg = '';
     if (!this.thisForm.valid) return;
-    if ((this.f.EndTelephoneNumber.value - this.f.StartTelephoneNumber.value) >= 10000) {
+    errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+    if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
         // height:'250px',
         disableClose: true,
-        data: {
-          enableOk: false,
-          message: 'TelephoneRange must be less than or equal to 10000.',
-        }
+        data: { enableOk: false, message: errMsg, }
       });
-      rangeConfirm.afterClosed().subscribe(result => {
-        return result;
-      })
+      rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage));
+    //reset value to empty
+    this.Resolution = this.Remarks = this.Refer = ''
+    // reset selectedrows
+    this.selectedGridRows = [];
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+
+    let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.SolicitedError,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -362,7 +393,8 @@ export class SolicitederrorsComponent implements OnInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      highlightedCells: ['TelephoneNumber'],
+      setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
@@ -403,10 +435,11 @@ export class SolicitederrorsComponent implements OnInit {
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
           });
+          //this.isSaveDisable = true;
         }
       });
     }
@@ -467,7 +500,7 @@ export class SolicitederrorsComponent implements OnInit {
     // this.tabs.splice(0);
     // this.Resolution = ''; this.Refer = ''; this.Remarks = '';
     window.location.reload();
-
+    this.model = { ErrorCode: "" };
 
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
@@ -507,9 +540,12 @@ export class SolicitederrorsComponent implements OnInit {
   isEnable() {
 
     //debugger
-    if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
+    if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
+      this.f.EndTelephoneNumber?.value?.length >= 10 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
-      this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
+      this.f.ResolutionType.value === ""
+      && this.f.ErrorType.value === ""
+      && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
@@ -531,8 +567,18 @@ export class SolicitederrorsComponent implements OnInit {
     }
   }
 
+  onPaste(event: any): boolean {
+    debugger;
+    let clipboardData = event.clipboardData;
+    let pastedText = clipboardData.getData('text');
+    //console.log("pastedText :"+ pastedText+ isNaN(pastedText));
+    return isNaN(pastedText) ? false : true
+
+  }
+
 
   numberOnly(event: any): boolean {
+
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
@@ -582,17 +628,20 @@ export class SolicitederrorsComponent implements OnInit {
         break;
 
       case 2:
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            // name: 'Transaction Errors'
+            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
+          let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[tabIndex].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionId;
         break;
       default:
         //statements; 
@@ -607,5 +656,51 @@ export class SolicitederrorsComponent implements OnInit {
     trigger.openPanel();
     control?.nativeElement.focus();
   }
+
+  reequest2Excel(columnMapping: any) {
+    //console.log(columnMapping)    
+
+    const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px', disableClose: true, data: {
+        message: 'Do you want to Export this Report?'
+      }
+    });
+    exportConfirm.afterClosed().subscribe(confirm => {
+      this.isExportDisable = true;
+      if (confirm) {
+
+        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), columnMapping);
+        //  let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
+        this.service.queryDetails(request).subscribe(x => {
+          // this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          // console.log(x,'res')
+          if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode === 'EUI000') {
+            this.alertService.success("Export request placed successfully!!, Please Check Staus On ExportSummary Icon :)", { autoClose: true, keepAfterRouteChange: false });
+          }
+          else {
+            //console.log(x,'Export request Error Response')
+            this.alertService.notification("Export Aborted!!... " + x.Status.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+          }
+          this.isExportDisable = false;
+        },
+          (error: any) => {
+            // console.log(error,'Export API Function')  
+            this.isExportDisable = false;
+
+          },
+          () => {
+            // console.log('Update API Completed','Export API Function')
+            this.isExportDisable = false;
+          });
+
+      }
+      else {
+        this.alertService.info("Export Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+        this.isExportDisable = false;
+      }
+    });
+  }
+
+
 
 }

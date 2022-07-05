@@ -4,10 +4,10 @@ import { RangeSpecialCeaseTransactionComponent } from './range-special-cease-tra
 import { TransactionsComponent } from './transactions/transactions.component';
 
 const routes: Routes = [
-  {path:'transactions', component:TransactionsComponent},
+  {path:'transactions', component:TransactionsComponent, data: { id: 'MENU12' }},
   {
     path: 'ceasetransaction',
-    component: RangeSpecialCeaseTransactionComponent    
+    component: RangeSpecialCeaseTransactionComponent, data: { id: 'MENU13'}    
   },
 ];
 

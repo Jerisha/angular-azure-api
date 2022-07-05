@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, of } from 'rxjs';
-import { SelectMultipleComponent } from 'src/app/uicomponents';
+import { SelectExpressionComponent, SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
@@ -9,74 +9,84 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { UnresolvedTransaction } from '../models/administraion-ui.module';
 import { Utils } from 'src/app/_http/common/utils';
 import { AdministrationService } from '../services/administration.service';
+import { map, startWith } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
+import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 const ELEMENT_DATA: UnresolvedTransaction[] = [
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
 
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
   {
-    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference:'013/013/134', ProvideDate: '11 FEB 2020',  CreationDate: '11 FEB 2020',
+    View: 'image', TransId: '1014591106', Telephone: '1977722725', Status: '102-Do Not Send', TransactionReference: '013/013/134', ProvideDate: '11 FEB 2020', CreationDate: '11 FEB 2020',
     EffectiveDate: '11 FEB 2020', ParentCupid: '13', ChildCupid: '13', Franchise: 'AUD', SourceSystem: 'A- Audit'
   },
 ];
 
 const FilterListItems: Select[] = [
-  { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
+  { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
   { view: 'Customer Name', viewValue: 'CustomerName', default: true },
-  { view: 'Source', viewValue: 'DateRange', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Date Range', viewValue: 'DateRange', default: true },
+  { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
-  { view: 'Trans Command', viewValue: 'TransCommand', default: true },
+  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
   { view: 'Source Type', viewValue: 'SourceType', default: true },
 ];
 
@@ -85,8 +95,16 @@ const FilterListItems: Select[] = [
   templateUrl: './unresolvedtransaction.component.html',
   styleUrls: ['./unresolvedtransaction.component.css']
 })
-export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, AfterViewChecked {
-  
+export class UnresolvedtransactionComponent extends UserProfile implements OnInit, AfterViewInit, AfterViewChecked {
+
+  constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe, private auth: AuthenticationService,
+    private actRoute: ActivatedRoute)
+     { 
+      super(auth, actRoute);
+      this.intializeUser();
+     }
+
   myTable!: TableItem;
   informationTable1!: TableItem;
   informationTable2!: TableItem;
@@ -96,63 +114,105 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
-
-  selectedGridRows: any[] = [];
-  selectedRowsCount: number = 0;
+  errorCodesOptions!: Observable<any[]>;
+  errorCodeData: Select[] = [
+    { view: '101', viewValue: '101', default: true },
+    { view: '202', viewValue: '202', default: true },
+    { view: '303', viewValue: '303', default: true },
+  ];
+  errorCode = new FormControl();
   selectedTab!: number;
+  selectedGridRows: any[] = [];
+  auditTelNo?: any;
+  selectedRowsCount: number = 0;
   thisForm!: FormGroup;
   thisUpdateForm!: FormGroup;
   tabs: Tab[] = [];
   Resolution!: string;
   Refer!: string;
   Remarks!: string;
-  auditTelNo?: any;
   telNo?: any;
   tranId?: any;
-  repIdentifier = "UnsolicitedErrors";
+  repIdentifier = "UnResolvedTransactions";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
   configDetails!: any;
   updateDetails!: any;
   queryResultInfo$!: Observable<any>;
-
   selected: string = '';
-  currentPage: string = '1';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
+  // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
+  expOperators: string[] = [
+    "TelephoneNumberOperator",
+    "CustomerNameOperator",
+    "SourceOperator",
+    "StatusOperator",
+    "TransactionCommandOperator",
+    "SourceTypeOperator",
+  ];
+  expOperatorsKeyPair: [string, string][] = [];
+  resetExp: boolean = false;
 
-  constructor(private formBuilder: FormBuilder,
-   private service : AdministrationService,
-    private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-
     this.createForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Source', 'Status', 'SourceType']);
+    let request = Utils.preparePyConfig(['Search'], ['Source','Status', 'TransactionCommand','SourceType']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
-
     });
-
-
-
-
-
+  }
+  get f() {
+    return this.thisForm.controls;
+  }
+  setOptions() {
+    this.errorCodesOptions = this.errorCode.valueChanges
+      .pipe(
+        startWith<string>(''),
+        map(name => this._filter(name))
+      );
   }
 
-  
+  setControlAttribute(matSelect: MatSelect) {
+    matSelect.options.forEach((item) => {
+      if (item.selected) {
+        this.thisForm.controls[item.value].enable();
+      }
+      else {
+        this.thisForm.controls[item.value].disable();
+      }
+    });
+  }
+
+  private _filter(name: string): any[] {
+    const filterValue = name.toLowerCase();
+    // let filteredList = this.data.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    // return filteredList;
+    let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
+    return filteredList;
+  }
+
+  getNextSetRecords(pageEvent: any) {
+    debugger;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
+    this.onFormSubmit(true);
+  }
 
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
   }
+
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-
-
 
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
@@ -176,133 +236,190 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
 
   }
 
-
-  get f() {
-    return this.thisForm.controls;
-  }
-
-  
-
-
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
-      CustomerName: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.minLength(11)]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.maxLength(11),Validators.pattern("^[0-9]{10,11}$")]),
+      CustomerName: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
-      TransCommand: new FormControl({ value: '', disabled: true }, []),
-      SourceType: new FormControl({ value: '', disabled: true }, []),      
+      TransactionCommand: new FormControl({ value: '', disabled: true }, []),
+      SourceType: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
-        FromDate: new FormControl(),
-        ToDate: new FormControl(), disabled: true
+        StartDate: new FormControl(),
+        EndDate: new FormControl(), disabled: true
       })
     })
   }
-
-
-  
-  onSaveSubmit() {
-    
-
-  }
- 
-  
-
-  setControlAttribute(matSelect: MatSelect) {
-    matSelect.options.forEach((item) => {
-      if (item.selected) {
-        this.thisForm.controls[item.value].enable();
-      }
-      else {
-        this.thisForm.controls[item.value].disable();
-      }
-    });
-  }
-  
-
   columns: ColumnDetails[] = [
-    { header: 'Trans Id', headerValue: 'TransId', showDefault: true, isImage: false },
     { header: 'Link', headerValue: 'View', showDefault: true, isImage: true },
-    
-    { header: 'Telephone', headerValue: 'Telephone', showDefault: true, isImage: false },
+    { header: 'Trans ID', headerValue: 'TransactionId', showDefault: true, isImage: false },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Transaction Ref', headerValue: 'TransactionReference', showDefault: true, isImage: false },
+    { header: 'Transaction Ref', headerValue: 'TransactionRef', showDefault: true, isImage: false },
     { header: 'Provide Date', headerValue: 'ProvideDate', showDefault: true, isImage: false },
     { header: 'Creation Date', headerValue: 'CreationDate', showDefault: true, isImage: false },
     { header: 'Effective Date', headerValue: 'EffectiveDate', showDefault: true, isImage: false },
     { header: 'Parent Cupid', headerValue: 'ParentCupid', showDefault: true, isImage: false },
     { header: 'Child Cupid', headerValue: 'ChildCupid', showDefault: true, isImage: false },
     { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
+    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
+    { header: 'Trans Command', headerValue: 'TranCommand', showDefault: true, isImage: false },
+    { header: 'BT Command', headerValue: 'BTCommand', showDefault: true, isImage: false },
+    { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
+    { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
+    { header: 'Premises', headerValue: 'AddressPremises', showDefault: true, isImage: false },
+    { header: 'Thoroughfare', headerValue: 'AddressThoroughfare', showDefault: true, isImage: false },
+    { header: 'Locality', headerValue: 'AddressLocality', showDefault: true, isImage: false },
+    { header: 'Postcode', headerValue: 'Postcode', showDefault: true, isImage: false },
+    
   ];
 
-  
-
-
   onFormSubmit(isEmitted?: boolean): void {
-    
+    debugger;
+    if(!this.thisForm.valid) return;
+    this.tabs.splice(0);
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery( 'TransactionSummary','UnResolvedTransactions', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
+      if (Object.keys(res).length) {
+        let result = {
+          datasource: res.data.UnResolvedTransactions,
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage        
+      
+        }
+        return result;
+      } else return res;
+    }));
 
     this.myTable = {
-      data: of({
-        datasource: ELEMENT_DATA,
-        totalrecordcount: 100,
-        totalpages: 1,
-        pagenumber: 1
-        }),
+      data: this.queryResult$,
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
-      
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'Summary'
+        name: 'Transaction Summary'
       });
     }
     this.selectedTab = this.tabs.length;
-
   }
 
 
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
+    for (const field in this.thisForm?.controls) {
+      const control = this.thisForm.get(field);
+
+      if (field == 'DateRange') {
+        const StartDate = this.thisForm.get('DateRange.StartDate');
+        if (StartDate?.value)
+          attributes.push({ Name: 'StartDate', Value: [formatDate(StartDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+        else
+          attributes.push({ Name: 'StartDate' });
+        const EndDate = this.thisForm.get('DateRange.EndDate');
+        if (EndDate?.value)
+          attributes.push({ Name: 'EndDate', Value: [formatDate(EndDate?.value, 'dd-MMM-yyyy', 'en-US')] });
+        else
+          attributes.push({ Name: 'EndDate' });
+        continue;
+      }
+      if (control?.value)
+        attributes.push({ Name: field, Value: [control?.value] });
+      else
+        attributes.push({ Name: field });
+
+      let operator: string = field + "Operator";
+
+      // console.log("op vals",this.expOperatorsKeyPair);
+
+      //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
+      //  console.log("op ",operatorVal);
+      if (this.expOperatorsKeyPair.length != 0) {
+        let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        // console.log(expvals,"operatorVal1")
+        if (expvals.length != 0) {
+          //  console.log(control?.value,"True");
+          // if (control?.value) {
+          attributes.push({ Name: operator, Value: [expvals[0][1]] });
+          console.log(expvals[0][1], "operatorVal");
+          // }
+          // else {
+          //   attributes.push({ Name: operator, Value: ['Equal To'] });
+          // }
+        }
+        else {
+          if (field == 'TelephoneNumber' || field == 'DateRange') {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+          else {
+            attributes.push({ Name: operator, Value: ['Equal To'] });
+          }
+        }
+      }
+      else {
+
+        attributes.push({ Name: operator, Value: ['Equal To'] });
+
+      }
+    }
+    console.log('attri', attributes);
+
+    return attributes;
+
+  }
 
   resetForm(): void {
-    //this.thisForm.reset();
-    //this.tabs.splice(0);
+
     window.location.reload();
+    this.resetExp = !this.resetExp;
   }
-
-
-  rowDetect(selectedRows: any) {
-    debugger;
-    selectedRows.forEach((item: any) => {
-      //this.selectedRowsCount = item.length;
-      if (item && item.length == 0) return
-
-      if (!this.selectedGridRows.includes(item))
-        this.selectedGridRows.push(item)
-      else if (this.selectedGridRows.includes(item)) {
-        let index = this.selectedGridRows.indexOf(item);
-        this.selectedGridRows.splice(index, 1)
-      }
-    })
-
-    // console.log("selectedGridRows" + this.selectedGridRows)
-  }
-
-  getNextSetRecords(pageIndex: any) {
-    debugger;
-    this.currentPage = pageIndex;
-    this.onFormSubmit(true);
-    //console.log('page number in parent',pageIndex)
-  }
-
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
+  OnOperatorClicked(val: [string, string]) {
+    // if (event.target.value !="")
+    // console.log("operators event", "value ", val);
+    let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
+    // console.log("operators event1", "vals ", vals);
+    if (vals.length == 0) {
+      this.expOperatorsKeyPair.push(val);
+      // console.log("if part", this.expOperatorsKeyPair);
+    }
+    else {
+      this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
+      this.expOperatorsKeyPair.push(val);
+      // console.log("else part", this.expOperatorsKeyPair);
+    }
+  }
+
+  getTupleValue(element: [string, string], keyvalue: string) {
+    if (element[0] == keyvalue) { return element[1]; }
+    else
+      return "";
+
+  }
+
 
   newTab(tab: any) {
     if (this.tabs === []) return;
@@ -326,18 +443,18 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
         break;
       }
       case 2: {
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
           })
-
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[this.selectedTab].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionReference;
         break;
       }
       default: {
@@ -347,7 +464,21 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
     }
   }
 
+  rowDetect(selectedRows: any) {
+    debugger;
+    selectedRows.forEach((item: any) => {
+      // this.selectedRowsCount = item.length;
+      if (item && item.length == 0) return
 
+      if (!this.selectedGridRows.includes(item))
+        this.selectedGridRows.push(item)
+      else if (this.selectedGridRows.includes(item)) {
+        let index = this.selectedGridRows.indexOf(item);
+        this.selectedGridRows.splice(index, 1)
+      }
+    })
+
+}
 
   selChangeMultiple(matSelect: MatSelect) {
 
@@ -355,14 +486,14 @@ export class UnresolvedtransactionComponent implements OnInit, AfterViewInit, Af
       if (item.selected) {
         if (!this.filtered.includes(item.value))
           this.filtered.push(item.value)
-        //this.myform.controls[value].enable();
+        //this.thisForm.controls[value].enable();
       }
       else {
         if (this.filtered.includes(item.value)) {
           let index = this.filtered.indexOf(item.value);
           this.filtered.splice(index, 1)
         }
-        //this.myform.controls[value].disable();
+        //this.thisForm.controls[value].disable();
       }
     });
   }

@@ -6,15 +6,18 @@ export interface MergeTableItem {
   }
 
   export interface GroupHeaderTableItem {
-    data: any;
+    data?: any;
     ColumnDetails:MergeTableItem[];
     GroupHeaders: MergeTableItem[];
     GroupHeaderColumnsArray:Array<string[]>;
     DetailedColumns?:string[];
     DisplayedColumns:string[];
     FilterColumn?:boolean;
-    FilterValues?:Array<string[]>;
-    isRowLvlTot?:boolean;
+    FilterValues?:String;
+    isRowLvlTotal?:boolean;
+    isMonthFilter?:boolean;
+    CurrentMonth?: string;
+    setCellAttributes?:CellHighlight[];    
   }
 
   export interface GroupHeaderTableDetails{
@@ -22,4 +25,9 @@ export interface MergeTableItem {
     TableName:string;
     ColumnDetails:MergeTableItem[];
     GroupHeaders: MergeTableItem[];
+  }
+
+  export interface  CellHighlight{
+    cells:string[];
+    isBackgroundHighlighted?:boolean;
   }

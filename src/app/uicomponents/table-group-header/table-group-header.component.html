@@ -1,8 +1,18 @@
 <div *ngIf="filterColumn">
   <form [formGroup]="filterForm">
+
+    <ng-container *ngIf="isMonthFilter">
+    <mat-form-field appearance="standard">
+      <mat-label>Month</mat-label>
+      <mat-select id="resolveMonthFilter" formControlName="resolveMonthFilter" [(ngModel)]="monthValue">
+        <mat-option *ngFor="let month of resolveMonthList" [value]="month">{{month}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+
     <mat-form-field appearance="standard">
       <mat-label>Source System</mat-label>
-      <mat-select formControlName="sourceSystemFilter" multiple>
+      <mat-select formControlName="sourceSystemFilter" multiple >
         <mat-option *ngFor="let sourcesystem of sourceSystemList" [value]="sourcesystem">{{sourcesystem}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -20,10 +30,10 @@
   <table #mytable mat-table [dataSource]="dataSource" class="mat-elevation-z8">
    <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index">     
       <ng-container matColumnDef="{{disCol.DataHeaders}}">
-        <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan">
+        <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" >
           {{disCol.Headers}}</th>
-        <td mat-cell class="truncate-cell" *matCellDef="let element"> {{element[disCol.DataHeaders]}} </td>
-        <ng-container *ngIf="isRowTot">
+        <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)"> {{element[disCol.DataHeaders]}} </td>
+        <ng-container *ngIf="isRowTotal">
           <td class="total-row" [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell
             *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders,'')}}
           </td>
@@ -36,24 +46,14 @@
           {{headersVal.Headers}} </th>
       </ng-container>
     </ng-container>
-    <ng-container *ngFor="let grpHeaders of grpHdrColumnsArray">
-      <tr mat-header-row *matHeaderRowDef="grpHeaders;sticky: true"> </tr>
+    <ng-container *ngFor="let grpHeaders of grpHdrColumnsArray; let hdrIndex = index;">
+      <tr [ngClass]="hdrIndex == 0 ? '' : 'headerLvl2'" mat-header-row *matHeaderRowDef="grpHeaders;sticky: true"> </tr>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="detailedColumnsArray;sticky: true"></tr>
+    <tr [ngClass]="grpHdrColumnsArray.length == 1 ? 'headerLvl2' : 'headerLvl3' " mat-header-row *matHeaderRowDef="detailedColumnsArray;sticky: true"></tr>
+
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    <ng-container *ngIf="isRowTot">
+    <ng-container *ngIf="isRowTotal">
       <tr class="total-row" mat-footer-row *matFooterRowDef="totalCols;sticky: true"></tr>
     </ng-container>
   </table>
-</div>
-<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10,20,50,100]" showFirstLastButtons>
-</mat-paginator>
-
-<div style="margin-bottom:10px">
-  <button type="reset" mat-raised-button color="primary">
-    <mat-icon>import_export</mat-icon>Export
-  </button>&nbsp;&nbsp;
-  <button type="reset" mat-raised-button color="primary">
-    <mat-icon>file_copy</mat-icon> Copy To Clipboard
-  </button>
 </div>

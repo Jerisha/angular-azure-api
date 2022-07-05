@@ -5,34 +5,49 @@
   </button>&nbsp;
 
 
-  <span style="display: flex;cursor: pointer;" matTooltip="Home" [routerLink]="['']">
+  <span style="display: flex;cursor: pointer;" matTooltip="Home" [routerLink]="'/home'">
     <img src="assets/images/vodafone.png" alt="image">
     <span style="margin-left: 5px;"> OSN Provisioning</span>
-  </span> 
-
+  </span>
+  <i class='bx bx-log-out' id="log_out" (click)="logout()"></i>
 
 
 
   <span class="menuheaderright">
-    <!-- <button mat-icon-button value="home" [routerLink]="['']" color="primary">
-      <mat-icon matTooltip="Nagivate to Home Page" [matTooltipPosition]="position.value">home</mat-icon>
-    </button> -->
+    <button mat-icon-button value="home" [routerLink]="['/home']" color="primary">
+      <mat-icon matTooltip="Go to Home" [matTooltipPosition]="position.value">home</mat-icon>
+    </button>
     <!-- <button  mat-icon-button value="Logout"  color="primary">
      <mat-icon matTooltip="About"  [matTooltipPosition]="position.value" >info</mat-icon>
    </button>     -->
-    <button mat-icon-button matTooltip="Welcome John Doe !" [matMenuTriggerFor]="menu"
+    <button mat-icon-button value="Export" color="primary" [routerLink]="'/exporttoexcel'" matTooltip="Excel Reports"
+      [matTooltipPosition]="position.value">
+      <img width='20px' height="20px" src='assets/images/Excel.svg'>
+      <!-- <mat-icon matTooltip="Excel Reports" [matTooltipPosition]="position.value">import_export</mat-icon> -->
+    </button>
+    <button mat-icon-button matTooltip="Welcome {{user.username}}" [matMenuTriggerFor]="menu"
       [matTooltipPosition]="position.value" color="primary">
       <mat-icon>perm_identity</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <!-- <mat-icon>power_settings_new</mat-icon> -->
-        Settings
-      </button>
+      <span mat-menu-item>
+        User Name: {{user.username}} <br />
+        Email: {{user.emailaddress}}<br />
+        Role: {{user.profilename}}<br />
+        Last Login: {{user.lastlogin}}
+      </span>
+      <span matTooltip="Logout" [matTooltipPosition]="position.value"
+        style="color:white;background-color:#e60606;margin: 4%;padding: 2%;text-align: center;" mat-menu-item
+        (click)="logout()">
+        <mat-icon> logout </mat-icon>
+        Logout
+      </span>
     </mat-menu>
-    <button mat-icon-button value="Logout" color="primary">
-      <mat-icon matTooltip="Logout" [matTooltipPosition]="position.value">logout</mat-icon>
-    </button>
+    <!-- <button mat-icon-button value="Logout" color="primary">
+      <mat-icon matTooltip="Logout" [matTooltipPosition]="position.value">
+        <a (click)="logout()">logout</a>
+      </mat-icon>
+    </button> -->
 
 
 

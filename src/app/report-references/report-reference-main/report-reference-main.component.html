@@ -4,7 +4,7 @@
     <mat-icon style ="font-size: small;">class</mat-icon></button>
       <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
         <div  class ="flex-items" *ngFor ="let reportName of reportNames let reportIndex = index">
-          <button mat-button (click)="onReportSelcted(reportName,reportIndex)">{{reportName}}</button>
+          <button mat-button (click)="onReportSelcted(reportName,reportIndex)">{{reportName.split('|')[0]}}</button>
         </div>
       </div>    
   </div>
@@ -26,37 +26,44 @@
                     </button>
                 </ng-template>           
                   <ng-container   select ="details-form" style ="max-height: 455px;overflow:auto" >  
-                    <div style ="max-height: 455px;overflow:auto">   
+                    <div *ngIf="isLoading" class ="table-spinner">
+                          <mat-progress-spinner      
+                            mode="indeterminate" color="accent">
+                          </mat-progress-spinner>
+                          <div class="spinner-loading">Loading...</div>
+                        </div> 
+                      <div *ngIf="!isLoading" style ="max-height: 455px;overflow:auto">   
                       <div style ="max-height: 400px;overflow:auto">
-                        <table mat-table   [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8 " >
-                          <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol}}">        
-                            <div *ngIf ="disCol==='Actions'">
+                        
+                        <table mat-table    [dataSource]="data" multiTemplateDataRows class="detail-table mat-elevation-z8 " >
+                          <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol.cName}}">        
+                            <div *ngIf ="disCol.cName==='Actions'" >
                                 <th mat-header-cell *matHeaderCellDef class ="table-header" >Actions</th>
                                   <td mat-cell *matCellDef="let element" class ="table-coloumn"> 
                                     <ng-container>
                                       <mat-icon  (click)="onEditRecord(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">mode_edit_outline</mat-icon>
-                                      <mat-icon  (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted" style="color:#e60000;margin-left:20px">delete_outline</mat-icon> 
+                                      <mat-icon *ngIf ="this.editActionEnabled" (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted" style="color:#e60000;margin-left:20px">delete_outline</mat-icon> 
                                     </ng-container>
                                   </td>
                             </div>
-                            <div *ngIf ="disCol!='Actions'">
-                              <th mat-header-cell *matHeaderCellDef class ="table-header" > {{disCol}} </th>
-                              <td mat-cell *matCellDef="let element"class ="table-coloumn"  (click)="$event.stopPropagation()"> {{element[disCol]}}  </td>
+                            <div *ngIf ="disCol.cName!='Actions'">
+                              <th mat-header-cell *matHeaderCellDef class ="table-header" > {{disCol.cDisplayName}} </th>
+                              <td mat-cell *matCellDef="let element"class ="table-coloumn"  (click)="$event.stopPropagation()"> {{element[disCol.cName]}}  </td>
                             </div>
                           </ng-container>
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"  class ="table-row" ></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class ="table-row"></tr>  
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsValues sticky: true"  class ="table-row" ></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;" class ="table-row"  [ngClass]="{ 'highlighted' : row === highlightedRows } "  ></tr>  
                             <tr class="mat-row" *matNoDataRow>
                               <td class="mat-cell" colspan="columns.length">No data found</td>
                             </tr>          
-                        </table> 
+                        </table>                         
                       </div>              
                       <div style ="margin-top: 6px;">            
                         <span>
                             <button  type="button" (click)=onCreateRecord() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button, open create new Record Option"  >
                             <mat-icon >add_box</mat-icon>Create
                             </button>
-                            <button  type="button" (click)=onExport() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button currently showning details will be download as CSV format File"  >
+                            <button  type="button" (click)=onExport()  mat-raised-button class="rm6 btn-color"  matTooltip="Click this button currently showning details will be download as CSV format File"  >
                                 <mat-icon >file_download</mat-icon>Download
                             </button>
                             <!-- <button type="button" (click)=onRefreshDetailPane() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button,Refresh the detail Pane"  >
@@ -71,4 +78,10 @@
         </div>        
       </div>
   </div>
+</div>
+<div *ngIf="isLoading" class ="table-spinner" >
+  <mat-progress-spinner                              
+    mode="indeterminate" color="accent">
+  </mat-progress-spinner>
+  <div class="spinner-loading">Loading...</div>
 </div>

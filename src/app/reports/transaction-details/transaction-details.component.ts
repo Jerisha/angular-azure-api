@@ -8,27 +8,31 @@ import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item
 import { ReportService} from 'src/app/reports/services/report.service';
 import { MatSelect } from '@angular/material/select';
 import { query } from '@angular/animations';
-import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { Utils } from 'src/app/_http/common/utils';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 let FilterListItems: Select[] = [  
-{ view: 'Telephone No.', viewValue: 'StartTelephoneNumber', default: true },
+{ view: 'Telephone', viewValue: 'StartTelephoneNumber', default: true },
 { view: 'Customer Name', viewValue: 'CustomerName', default: true },
-{ view: 'Creation Date', viewValue: 'CreationDate', default: true },
-{ view: 'PostCode', viewValue: 'PostCode', default: true },
-{ view: 'Premises', viewValue: 'Premises', default: true },
-{ view: 'Thoroughfare', viewValue: 'Thoroughfare', default: true },
-{ view: 'Locality', viewValue: 'Locality', default: true },
-{ view: 'Source System', viewValue: 'Source', default: true },
-{ view: 'Cupid', viewValue: 'Cupid', default: true },
-{ view: 'Franchise', viewValue: 'Franchise', default: true },
-{ view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
-{ view: 'Type of Line', viewValue: 'TypeOfLine', default: true }
+{ view: 'Created on', viewValue: 'CreationDate', default: true },
+{ view: 'Postcode', viewValue: 'PostCode', default: true },
+{ view: 'Premises', viewValue: 'Premises', default: false },
+{ view: 'Thoroughfare', viewValue: 'Thoroughfare', default: false },
+{ view: 'Locality', viewValue: 'Locality', default: false },
+{ view: 'Source System', viewValue: 'Source', default: false },
+{ view: 'Cupid', viewValue: 'Cupid', default: false },
+{ view: 'Franchise', viewValue: 'Franchise', default: false },
+{ view: 'Transaction Command', viewValue: 'TransactionCommand', default: false },
+{ view: 'Type of Line', viewValue: 'TypeOfLine', default: false }
 ];
 
 @Component({
@@ -36,7 +40,7 @@ let FilterListItems: Select[] = [
   templateUrl: './transaction-details.component.html',
   styleUrls: ['./transaction-details.component.css']
 })
-export class TransactionDetailsComponent implements OnInit {
+export class TransactionDetailsComponent extends UserProfile implements OnInit {
   
   
   
@@ -45,14 +49,22 @@ export class TransactionDetailsComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private service: ReportService,
     private cdr: ChangeDetectorRef,
-    private spinner: NgxSpinnerService,private telnoPipe: TelNoPipe) { }
+    private spinner: NgxSpinnerService,
+    private telnoPipe: TelNoPipe,
+    private auth: AuthenticationService,
+        private actRoute: ActivatedRoute)
+        {
+          super(auth, actRoute);
+          this.intializeUser();
+         }
   
   myTable!: TableItem;
   dataSaved = false;
   massage = null;  
   selectedGridRows: any[] = [];
   filterItems: Select[] = FilterListItems;  
-  expressions:any = [expNumeric,expString,expDate];  
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
+   
   expOperatorsKeyPair:[string,string][] =[]; 
   resetExp: boolean=false;
   
@@ -63,20 +75,24 @@ export class TransactionDetailsComponent implements OnInit {
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
+  model: any = { TypeOfLine: "" };
 
   repIdentifier = "TransactionDetails";
-  currentPage: string = '1';
+  // currentPage: string = '1';
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   thisForm!: FormGroup;
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   querytemp:any;
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
 
   columns: ColumnDetails[] = [    
     { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
-    { header: 'Telephone No.',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Telephone No',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Tran Id',headerValue:'TransactionId', showDefault: true, isImage: false },
     { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
     { header: 'Status',headerValue:'Status', showDefault: true, isImage: false },
@@ -107,7 +123,7 @@ export class TransactionDetailsComponent implements OnInit {
     { header: 'Retailer Id',headerValue:'RetailerId', showDefault: true, isImage: false },
     { header: 'Address Id',headerValue:'AddressId', showDefault: true, isImage: false },
     { header: 'Address Id Source',headerValue:'AddressIdSource', showDefault: true, isImage: false },
-    { header: 'New Telephone No.',headerValue:'NewTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'New Telephone No',headerValue:'NewTelephoneNumber', showDefault: true, isImage: false },
     { header: 'Cross Ref No',headerValue:'CrossReferenceNumber', showDefault: true, isImage: false },
     { header: 'Change Cupid',headerValue:'ChangeCupid', showDefault: true, isImage: false },
     { header: 'Error List',headerValue:'ErrorList', showDefault: true, isImage: false },
@@ -153,7 +169,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{11}$")]), 
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true },  [Validators.pattern("^[0-9]{10,11}$")]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true },[]),
       PostCode: new FormControl({ value: '', disabled: true }, []),
@@ -271,23 +287,33 @@ prepareQueryParams(pageNo: string): any {
 
   }
   
-  getNextSetRecords(pageIndex: any) {   
-    this.currentPage = pageIndex;
+  getNextSetRecords(pageEvent: any) {   
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
   onFormSubmit(isEmitted?: boolean): void {    
     if(!this.thisForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('TransactionDetailsSummary','TransactionDetails', this.prepareQueryParams(this.currentPage.toString()),reqParams);
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TransactionDetails,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber          
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          //   totalpages: res.NumberOfPages,
+          //   pagenumber: res.PageNumber,
+          //   pagecount: res.Recordsperpage         
         }
         return result;
       } else return {datasource:res};;
@@ -297,6 +323,7 @@ prepareQueryParams(pageNo: string): any {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
 
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
@@ -322,10 +349,11 @@ prepareQueryParams(pageNo: string): any {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }
-  resetForm(): void {   
-    this.thisForm.reset();
-    this.tabs.splice(0); 
-    this.resetExp=!this.resetExp; 
+  resetForm(): void {
+   
+    window.location.reload();
+    this.resetExp=!this.resetExp;
+    this.model = { TypeOfLine: ""};
   }
 
   setControlAttribute(matSelect: MatSelect) {
@@ -390,7 +418,7 @@ prepareQueryParams(pageNo: string): any {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
         } else {
           let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
-          
+          this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
           this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')';      
         }
         break;

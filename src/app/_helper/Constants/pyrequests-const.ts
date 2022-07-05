@@ -67,8 +67,9 @@ export const PyRequests = {
     },
     QUERY: {
         "RequestType": "QUERY",
-        "UserParams": ["UserID", "RoleID"],
-        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        "UserParams": [{"UserID":'BEEMA'}, {"RoleID":''}],
+        //"RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        "RequestParams": ["Uniqueappreference", "ScreenIdentifer", "ReportIdentifer"],
         "wmRequest": {
             "QueryObjectRequest": {
                 "QueryObjectRequestType": {
@@ -267,5 +268,346 @@ export const PyRequests = {
             }
         },
         "Cache": ["ApplicationKey", "SessionID"]
+    },
+    DELETE:
+    {
+        "RequestType": "DELETE",
+        "UserParams": ["UserID", "RoleID"],
+        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
+        "wmRequest": {
+            "DeleteObjectRequest": {
+                "DeleteObjectRequestType": {
+                    "RequestIdentifiers": {
+                        "Identifier": [{
+                            "Name": "UserId",
+                            "Value": ["sample"]
+                        }, {
+                            "Name": "Destination",
+                            "Value": ["OSN2"]
+                        }]
+                    },
+                    "ListofDeleteObjectCategory": {
+                        "DeleteObjectCategory": [{
+                            "ItemName": "AuditStatus",
+                            "ListofIdentifiers": {
+                                "Identifier": [{
+                                    "Name": "ReportIdentifier",
+                                    "Value": ["ReferenceList"]
+                                }]
+                            },
+                            "ListofDeleteObjectCharacteristics": {
+                                "DeleteObjectCharacteristics": [{
+                                    "ItemName": "DeleteParameters",
+                                    "ListofIdentifiers": {
+                                        "Identifier": [{
+                                            "Name": "StatusId",
+                                            "Value": ["11"]
+                                        }]
+                                    }
+                                }]
+                            }
+                        }]
+                    }
+                }
+            }
+        }
+        ,
+        "Cache": ["ApplicationKey", "SessionID"]
+    },
+    PAFQUERY: {
+        "RequestType": "PAFQUERY",
+        "UserParams": [
+            { "ReportIdentifier": "PAFDbQuery" },
+            { "ScreenIdentifier": "Transactions" }],
+        "AddressParams": [{ "Address1": "" },
+        { "Address2": "" },
+        { "Address3": "" },
+        { "Address4": "" },
+        { "Postcode": "" }
+        ],
+
+        "Cache": ["ApplicationKey", "SessionID"]
+    },
+    METADATA: {
+        "RequestType": "MetaData",
+        "UserParams": ["UserID", "RoleID"],
+        "MetaDataRequest": {
+            "MetaDataRequestType": {
+                "RequestIdentifiers": {
+                    "Identifier": [
+                        {
+                            "Name": "UserId",
+                            "Value": [
+                                "abc"
+                            ]
+                        },
+                        {
+                            "Name": "Destination",
+                            "Value": [
+                                "OSN2"
+                            ]
+                        }
+                    ]
+                },
+                "ListofMetaDataObjectCategory": {
+                    "MetaDataObjectCategory": [
+                        {
+                            "ItemName": "MetaDataObject",
+                            "ListofIdentifiers": {
+                                "Identifier": [
+                                    {
+                                        "Name": "ObjectName",
+                                        "Value": [
+                                            "TelephoneNumber"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "ListofAttributes": {
+                                "Attribute": [
+                                    {
+                                        "Name": "ReportNames",
+                                        "Value": [
+                                            "All"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    AUTHENTICATE: {
+        "RequestType": "UIQUERY",
+        "UserID": "BEEMA",
+        "Password": ""
+    },
+    EXPQUERY: {
+        "RequestType": "QUERY",
+        "UserParams": ["PODDARS5", "RoleID"],
+        "RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer",
+            { "isExporttoExcel": "Y" },
+            {
+                "ColumnMapping":
+                    [
+                        { "TelephoneNumber": "Tel.No." },
+                        { "TransactionId": "Trans ID" },
+                        { "999Reference": "999 Reference" },
+                        { "LatestCommentDate": "Latest Comment Date" },
+                        { "LatestUserComments": "Latest User Comments" },
+                        { "ResolutionType": "Resolution Type" },
+                        { "Source": "Source" },
+                        { "CreatedOn": "Created On" },
+                        { "ErrorList": "Error List" },
+                        { "Command": "Command" },
+                        { "LastDate": "Request End" },
+                        { "IsLive": "Current Live Record" }
+                    ]
+            }],
+        "wmRequest": {
+            "QueryObjectRequest": {
+                "QueryObjectRequestType": {
+                    "RequestIdentifiers": {
+                        "Identifier": [{
+                            "Name": "UserId",
+                            "Value": ["Sample"]
+                        }, {
+                            "Name": "Destination",
+                            "Value": ["OSN2"]
+                        }]
+                    },
+                    "ListofQueryObjectCategory": {
+                        "QueryObjectCategory": [{
+                            "ItemName": "TelephoneNumberError",
+                            "ListofIdentifiers": {
+                                "Identifier": [{
+                                    "Name": "ReportIdentifier",
+                                    "Value": ["SolicitedErrors"]
+                                }]
+                            },
+                            "ListofQueryObjectCharacteristics": {
+                                "QueryObjectCharacteristics": [{
+                                    "ItemName": "QueryParameters",
+                                    "ListofIdentifiers": {
+                                        "Identifier": [{
+                                            "Name": "StartTelephoneNumber",
+                                            "Value": ["02071117402"]
+                                        }, {
+                                            "Name": "EndTelephoneNumber",
+                                            "Value": ["02071117402"]
+                                        }, {
+                                            "Name": "Command",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "Source",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "FromDate",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "ToDate",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "ResolutionType",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "ErrorType",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "ErrorCode",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "OrderRefeerence",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "999Reference",
+                                            "Value": [""]
+                                        }, {
+                                            "Name": "PageNumber",
+                                            "Value": ["1"]
+                                        }]
+                                    }
+                                }]
+                            }
+                        }]
+                    }
+                }
+            }
+        }
+        ,
+        "Cache": ["ApplicationKey", "SessionID"]
+    },
+    EXPSUMMARY:{ "RequestType" : "UIQUERY",
+    "UserParams":[
+        {"UserID" : "BEEMA"},
+        {"RoleID" : "" },
+        {"ScreenIdentifier" : "ExporttoExcelReport"},
+        {"ReportIdentifier" : [""]}
+        ] 
+    ,
+    "Cache":["ApplicationKey","SessionID"]
+    },
+    DOWNLOADFILE:{
+        "RequestType": "QUERY",
+        // "UserParams": ["BEEMA", "RoleID"],
+        "UserParams": [
+            {"UserID" : "BEEMA"},
+            {"RoleID" :"Super Admin"}
+            ],
+        "FilePath": "/opt/SP/rpiadmin/workspace/osn2/excel/TelephoneRangeReports_BEEMA_20220613_101009.xlsx"
+      },
+    UIQUERY:{ "RequestType" : "UIQUERY",
+      "UserParams":[
+          {"UserID" : "PODDARS5",
+          "Destination" : "OSN2"}
+      ],
+      "RequestParams":[
+          {"ReportIdenitifer":"ManageUsers",
+          "SubReportName":"UserReports"}]
+      },
+      UIUPDATE:{ "RequestType" : "UIUPDATE",
+      "UserParams":[
+          {"UserID" : "PODDARS5",
+          "Destination" : "OSN2"}
+      ],
+      "RequestParams":[
+          {"ReportIdenitifer":"ManageUsers",
+          "SubReportName":"UserAccess",
+          "RecordIdentifier":"UserName"}],
+      "Data": [
+          {
+              "username": "PODDARS5",
+              "profilename": "Custom-PODDARS5",
+              "firstname":"Soumi",
+              "lastname":"Poddar",
+              "sources": "Amdocs",
+              "telephoneno": "11111",
+              "emailaddress": "soumi.poddar@vodafone.com",
+              "yid": "PODDARS5",
+              "active": "Yes",
+              "iscustomprofile": 1,
+              "profiledata":    {
+              "profilename": "CUSTOM-PODDARS5",
+              "profiledescription":"This is custom",
+              "iseditprofile": 1,
+              "iscustom": 0,
+              "isdelete": 1,
+              "isdefaultprofile": 0,
+              "profileitems": {
+                  "menuid": "Menu04",
+                  "isfullaccess": 1,
+                  "accesslevel": "1110"
+              }
+          }
+          }
+      ]
+    },
+    UICREATE:{ "RequestType" : "UICREATE",
+    "UserParams":[
+        {"UserID" : "PODDARS5",
+        "Destination" : "OSN2"}
+    ],
+    "RequestParams":[
+        {"ReportIdenitifer":"ManageUsers",
+        "SubReportName":"UserAccess",
+        "RecordIdentifier":"UserName"}],
+    "Data": [
+        {
+            "username": "PODDARS6",
+            "profilename": "Custom-PODDARS6",
+            "firstname":"Soumi",
+            "lastname":"Poddar",
+            "sources": "Amdocs",
+            "telephoneno": "11111",
+            "emailaddress": "soumi.poddar@vodafone.com",
+            "yid": "Y987654",
+            "active": "Yes",
+            "iscustomprofile": 1,
+            "profiledata":        {
+            "profilename": "Custom-PODDARS6",
+            "profiledescription":"Admin",
+            "iseditprofile": 1,
+            "iscustom": 0,
+            "isdelete": 1,
+            "isdefaultprofile": 0,
+            "profileitems": {
+                "menuid": "Menu05",
+                "isfullaccess": 1,
+                "accesslevel": "1110"
+            }
+        }
+        }
+    ]
+    },
+    UICREATEFIRST:{
+        "Request": "UICreate",
+        "UserParams":[{"userid":"BEEMA",
+                    "destination":"OSN2"
+                        }],
+        "RequestParams":
+        [{"reportidentifier" :"ManageUsers",
+        "SubReportName" : "UserAccess",
+        "username":"",
+        "is_ldap_auth":""
+        
+        
+        }]
+    },
+    UIDELETE:{ "RequestType" : "UIDELETE",
+    "UserParams":[
+        {"UserID" : "PODDARS5",
+        "Destination" : "OSN2"}
+    ],
+    "RequestParams":[
+        {"ReportIdenitifer":"ManageUsers",
+        "SubReportName":"UserAccess",
+        "RecordIdentifier":"UserName"}],
+    "Data": [
+        {
+    "username": "PODDARS6"
+    }
+    ]
     }
 }

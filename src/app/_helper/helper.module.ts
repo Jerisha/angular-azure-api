@@ -8,7 +8,9 @@ import {
   OptionsValidatorDirective,
   ReferenceValidatorDirective,
   TelphoneNoValidatorDirective,
-  CompareStartEndTelNo
+  OnlynumberDirective,
+  CompareStartEndTelNo,
+  DropDownListFranchisePipe
 } from './index';
 
 
@@ -21,7 +23,9 @@ import {
     OptionsValidatorDirective,
     ReferenceValidatorDirective,
     TelphoneNoValidatorDirective,
-    CompareStartEndTelNo
+    OnlynumberDirective,
+    CompareStartEndTelNo,
+    DropDownListFranchisePipe
   ],
   imports: [
     CommonModule
@@ -33,6 +37,8 @@ import {
     OptionsValidatorDirective,
     ReferenceValidatorDirective,
     TelphoneNoValidatorDirective,
-    CompareStartEndTelNo]
+    OnlynumberDirective,
+    CompareStartEndTelNo,
+    DropDownListFranchisePipe]
 })
 export class HelperModule { }

@@ -1,0 +1,25 @@
+/* .side-nav button{
+margin:2px;
+} */
+
+.side-bottom .side-textarea{
+    /* background-color: lawngreen!important; */
+    width: 360px;
+    font-size: smaller;  
+  /* position:absolute; 
+  margin-top: 90px;*/
+  /* margin-left: 200px; */
+  margin: 5px;
+ 
+  }
+  .info
+  {
+    /* display:flex!important;*/
+  
+    margin: 2px;
+    margin-right: 10px;
+    float: right;   
+    cursor: pointer;
+    }
+
+.hidden{display: none;}

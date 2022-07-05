@@ -8,31 +8,37 @@
           </span> -->
       <!-- </mat-card-title>  -->
         <mat-card-content>           
-            <mat-grid-list cols="3" rowHeight="18px" gutterSize="3px" style="padding-bottom:3px;">                
-                <mat-grid-tile
+            <mat-grid-list  cols="3" rowHeight="11px"  gutterSize="3px" style="padding-bottom:3px;">                
+                <mat-grid-tile  
+                
                     *ngFor="let tile of summaryTiles"
-                    [ngClass]="tile.class"                  
+                    [ngClass]="tile.class"  
+                    [rowspan]="tile.rowspan" 
+                    [colspan]="tile.colspan"               
                     >
                     <div style="right: auto;text-justify: auto;">{{tile.text}}</div>
                 </mat-grid-tile>                  
               </mat-grid-list>
-            <mat-grid-list cols="3" rowHeight="18px" gutterSize="3px" style="padding-bottom:3px;">                              
+            <mat-grid-list cols="3" rowHeight="11px" gutterSize="3px" style="padding-bottom:3px;">                              
                 <mat-grid-tile
                     *ngFor="let tile of pafTiles"                                      
-                    [ngClass]="tile.class"
+                    [ngClass]="tile.class" [rowspan]="tile.rowspan" 
+                    [colspan]="tile.colspan" 
                     >
                     {{tile.text}}
                 </mat-grid-tile>
               </mat-grid-list>
-            <mat-grid-list cols="3" rowHeight="18px" gutterSize="3px" style="padding-bottom:3px;">                
+            <mat-grid-list cols="3" rowHeight="11px" gutterSize="3px" style="padding-bottom:3px;">                
                 <mat-grid-tile
                     *ngFor="let tile of btTiles"
-                    [ngClass]="tile.class"                    
+                    [ngClass]="tile.class"        
+                    [rowspan]="tile.rowspan" 
+                    [colspan]="tile.colspan"             
                     >
                     {{tile.text}}
                 </mat-grid-tile>
               </mat-grid-list>
-              <div class ="vf-primary-btn" style="margin-top: 5px;"><button mat-flat-button class ="vf-primary-btn"><mat-icon>save</mat-icon>Return PAF Address</button></div>
+              <div class ="vf-primary-btn" style="margin-top: 5px;" ><button mat-flat-button class ="vf-primary-btn" (click)="ReturnAddress()"><mat-icon>save</mat-icon>Return PAF Address</button></div>
         </mat-card-content>        
     </mat-card>
 </div>

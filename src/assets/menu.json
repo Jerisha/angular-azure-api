@@ -1,104 +1,131 @@
 [
   {
-    "displayName": "Resolving Of Errors",
+    "displayName": "Process Management",
     "iconName": "",
     "route": "",
     "children": [
       {
-        "displayName": "Solicited /Internal Errors",
+        "displayName": "Solicited/Internal Discrepancy Process",
         "iconName": "",
-        "route": "resolvingoferrors/solicitederrors"
-      },      
+        "route": "resolvingoferrors/solicitederrors",
+        "menuId" :"MENU01"
+      },
       {
         "displayName": "Solicited Resolution Report",
         "iconName": "",
-        "route": "resolvingoferrors/solicitedresolutionreport"
-      }  ,      
+        "route": "resolvingoferrors/solicitedresolutionreport",
+        "menuId" :"MENU02"
+      },
       {
         "displayName": "Solicited Actions Report",
         "iconName": "",
-        "route": "resolvingoferrors/solicitedactionreport"
-      },      
+        "route": "resolvingoferrors/solicitedactionreport",
+        "menuId" :"MENU03"
+      },
       {
-        "displayName": "Unsolicited Errors",
+        "displayName": "Unsolicited Process",
         "iconName": "",
-        "route": "resolvingoferrors/unsolicitederrors"
+        "route": "resolvingoferrors/unsolicitederrors",
+        "menuId" :"MENU04"
+      },
+      {
+        "displayName": "Unsolicited Actions Report",
+        "iconName": "",
+        "route": "resolvingoferrors/unsolicitedactionreport",
+        "menuId" :"MENU05"
       }
     ]
   },
   {
-    "displayName": "Transactions",
+    "displayName": "Record Creation",
     "iconName": "",
     "route": "",
     "children": [
       {
-        "displayName": "Transactions",
+        "displayName": "Create Record",
         "iconName": "",
-        "route": "transactions/transactions"
+        "route": "transactions/transactions",
+        "menuId" :"MENU12"
       },
       {
-        "displayName": "Cease Transaction",
+        "displayName": "Create Internal Cease",
         "iconName": "",
-        "route": "transactions/ceasetransaction"
+        "route": "transactions/ceasetransaction",
+        "menuId" :"MENU13"
       }
     ]
   },
   {
-    "displayName": "Audit Reports",
+    "displayName": "Audit Process Management",
     "iconName": "",
     "route": "",
-    "children": [      
-      {
+    "children": [
+            {
         "displayName": "Full Audit Details",
         "iconName": "",
-        "route": "auditreports/fullauditdetails"
-      },      
+        "route": "auditreports/fullauditdetails",
+        "menuId" :"MENU10"
+      },
       {
         "displayName": "Audit Discrepancy Report",
         "iconName": "",
-        "route": "auditreports/auditdiscrepancyreport"
+        "route": "auditreports/auditdiscrepancyreport",
+        "menuId" :"MENU11"
       },
       {
         "displayName": "External Audit Details",
         "iconName": "",
-        "route": "auditreports/externalauditdetails"
+        "route": "auditreports/externalauditdetails",
+        "menuId" :"MENU06"
       },
       {
         "displayName": "Full Audit History",
         "iconName": "",
-        "route": "auditreports/fullaudithistory"
+        "route": "auditreports/fullaudithistory",
+        "menuId" :"MENU07"
       },
       {
         "displayName": "Audit User Action Summary",
         "iconName": "",
-        "route": "auditreports/audituseractionsummary"
+        "route": "auditreports/audituseractionsummary",
+        "menuId" :"MENU09"
+      },
+      {
+        "displayName": "Separate Internal Audit Details",
+        "iconName": "",
+        "route": "auditreports/separateinternalauditdetails",
+        "menuId" :"MENU08"
       }
     ]
   },
   {
-    "displayName": "Reports",
+    "displayName": "Inventory Records",
     "iconName": "",
     "route": "",
     "children": [
       {
         "displayName": "Live Records",
         "iconName": "",
-        "route": "reports/liverecords"
+        "route": "reports/liverecords",
+        "menuId" :"MENU20"
       },
       {
-        "displayName": "InFlight Report",
+        "displayName": "InFlight Records",
         "iconName": "",
-        "route": "reports/providereport"
-      },      
+        "route": "reports/providereport",
+        "menuId" :"MENU22"
+      },
       {
         "displayName": "Telephone Range Report",
         "iconName": "",
-        "route": "reports/telephonerangereport"
+        "route": "reports/telephonerangereport",
+        "menuId" :"MENU23"
       },
       {
-        "displayName": "Transaction Details Report",
+        "displayName": "Transaction Details Records",
         "iconName": "",
-        "route": "reports/transactiondetailsreport"
+        "route": "reports/transactiondetailsreport",
+        "menuId" :"MENU21"
       }
     ]
   },
@@ -110,50 +137,57 @@
       {
         "displayName": "Transaction Trend for Source & Command",
         "iconName": "",
-        "route": "statisticalreports/transactionsourcecommandhistory"
-      }   
+        "route": "statisticalreports/transactionsourcecommandhistory",
+        "menuId" :"MENU24"
+      }
     ]
   },
-
   {
     "displayName": "Administration",
     "iconName": "",
     "route": "",
     "children": [
       {
+        "displayName": "Audit Status Tracker",
+        "iconName": "",
+        "route": "administration/auditstatustracker",
+        "menuId" :"MENU15"
+      },
+      {
         "displayName": "Audit Data Files",
         "iconName": "",
-        "route": "administration/auditdatafiles"
+        "route": "administration/auditdatafiles",
+        "menuId" :"MENU14"
       },
-	  {
+      {
         "displayName": "Restore Solicited Errors",
         "iconName": "",
-        "route": "administration/restoresolicitederrors"
+        "route": "administration/restoresolicitederrors",
+        "menuId" :"MENU26"
       },
       {
         "displayName": "Data Correction Summary",
         "iconName": "",
-        "route": "administration/datacorrectionsummary"
+        "route": "administration/datacorrectionsummary",
+        "menuId" :"MENU16"
       },
-     {
+      {
         "displayName": "Unresolved Transaction",
         "iconName": "",
-        "route": "administration/unresolvedtransaction"
+        "route": "administration/unresolvedtransaction",
+        "menuId" :"MENU18"
       },
       {
         "displayName": "Unresolved Errors",
         "iconName": "",
-        "route": "administration/unresolvederrors"
-      },
-      {
-        "displayName": "Unsolicited Action Reports",
-        "iconName": "",
-        "route": "administration/unsolicitedactionreports"
+        "route": "administration/unresolvederrors",
+        "menuId" :"MENU17"
       },
       {
         "displayName": "Manage Users",
         "iconName": "",
-        "route": "administration/manageusers"
+        "route": "administration/manageusers",
+        "menuId" :"MENU19"
       }
     ]
   },
@@ -165,11 +199,10 @@
       {
         "displayName": "Reference List",
         "iconName": "",
-        "route": "report-references/ReferenceList"
+        "route": "report-references/ReferenceList",
+        "menuId" :"MENU25"
       }
-	 
     ]
   }
-
-    
+  
 ]

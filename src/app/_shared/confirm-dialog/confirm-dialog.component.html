@@ -4,17 +4,21 @@
 <div class="dialog">
 
     <h2 mat-dialog-title>
-    {{heading}}
+        {{heading}}
     </h2>
 
-<mat-dialog-content>
-    {{message}}
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-<!-- <button mat-raised-button color="primary" mat-dialog-close tabindex="-1">{{cancelButtonText}}</button> -->
-<button *ngIf="enableOkButton" mat-raised-button color="primary" (click)="onConfirmClick()">{{okButtonText}}</button>
-<button mat-raised-button color="primary" (click)="onCancel()" mat-dialog-close="false">{{cancelButtonText}}</button>
+    <mat-dialog-content>
+        <!-- {{message}} -->
+        <p [innerHTML]="message"></p>
+        <small *ngIf="remarksTxt.length>0">Note: {{remarksTxt}}</small>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <!-- <button mat-raised-button color="primary" mat-dialog-close tabindex="-1">{{cancelButtonText}}</button> -->
+        <button *ngIf="enableOkButton" mat-raised-button color="primary"
+            (click)="onConfirmClick()">{{okButtonText}}</button>
+        <button mat-raised-button color="primary" (click)="onCancel()"
+            mat-dialog-close="false">{{cancelButtonText}}</button>
 
-</mat-dialog-actions>
+    </mat-dialog-actions>
 
 </div>

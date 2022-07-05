@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { Utils } from 'src/app/_http';
+import { AuditReportsService } from '../services/audit-reports.service';
 
 const myData = [{
   ACTID:	'29',
@@ -43,26 +51,40 @@ LiveinSource: '	185705'
   styleUrls: ['./full-audit-history.component.css']
 })
 
-export class FullAuditHistoryComponent implements OnInit {
+export class FullAuditHistoryComponent extends UserProfile implements OnInit {
 
-  constructor() { }
+  constructor(private service:AuditReportsService, private spinner : NgxSpinnerService,private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
+    ) { 
+      super(auth, actRoute);
+      this.intializeUser();
+    }
 
+  isLoading: boolean = true;
   fullAuditHistory: any ;
- 
+  private readonly onDestroy = new Subject<void>();
+
   ColumnDetails: any = [
     { header: 'ACT ID', headerValue: 'ACTID'},
     { header: 'ACT Status Date', headerValue: 'ACTStatusDate'},
-    { header: 'Active in - BT Only', headerValue: 'BTOnlyCount' },
+    { header: 'Active in - BT Only', headerValue: 'SupplierOnlyCount' },
     { header: 'Active in - Vodafone Only', headerValue: 'VodafoneOnlyCount' },
     { header: 'Matched Count', headerValue: 'MatchedCount' },
     { header: 'Mismatched Count', headerValue: 'MismatchedCount' },
-    { header: 'Live in Source', headerValue: 'LiveinSource' },
+    { header: 'Live in Source', headerValue: 'LiveInSource' },
    
   ];
   dataColumns = this.ColumnDetails?.map((e:any) => e.headerValue);
 
   ngOnInit(): void {
-    this.fullAuditHistory = myData;
+    this.spinner.show();
+    let request = Utils.preparePyGet('FullAuditHistory','FullAuditHistory',[{}]);
+    console.log(request)
+    this.service.getDetails(request).pipe(takeUntil(this.onDestroy)).subscribe((res:any)=> {
+      this.fullAuditHistory = res.data.AuditHistory;
+      this.isLoading = false; 
+      this.spinner.hide();
+    })
 }
 
 }

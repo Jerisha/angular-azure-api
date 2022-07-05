@@ -1,15 +1,65 @@
+
+<ng-container *ngIf="observerResult | async as result">
+    <!-- {{result| json }} -->
+
 <button class="slidderbtn" mat-basic-button color="primary" (click)="sidePan.toggle()"
     matTooltip="{{sidePan.opened ? 'Hide Filters' : 'Show Filters'}}">
     <mat-icon>{{sidePan.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
 </button>
-<mat-tab-group [selectedIndex]="selectedTab">
-    <mat-tab *ngFor="let tab of tabs;  trackBy: trackTabs">
+  
+
+<!-- <mat-tab-group [(selectedIndex)]="selectedTab" (selectedTabChange)="tabChanged($event)"> -->
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+    <!-- <mat-tab *ngFor="let tab of tabs;  trackBy: trackTabs"> -->
+        <mat-tab *ngFor="let tab of tabs; trackBy: trackTabs">
         <ng-template mat-tab-label>
             <div *ngIf="tab.tabType===0" style="margin-left: 20px;">{{tab.name}}</div>
             <div *ngIf="tab.tabType!=0">{{tab.name}}</div>
         </ng-template>
-        <ng-template matTabContent>
-            <app-table-group-header [GrpTableitem]="tab.data"></app-table-group-header>
-        </ng-template>
+
+        <span [ngSwitch]="tab.tabType">
+            <div *ngSwitchCase="0" >
+                <!-- <div *ngIf=" result.FullAuditSummary ; else NoData"> -->
+                <app-table-group-header [GrpTableitem]="auditSummaryTable" [obsData] ="result.FullAuditSummary ? result.FullAuditSummary : []"></app-table-group-header>
+            <!-- </div> -->
+        </div>
+
+            <div *ngSwitchCase="1" >
+                <app-table-group-header [GrpTableitem]="progressReportTable" [obsData] ="result.FullAuditProgressReport ? result.FullAuditProgressReport : []"></app-table-group-header>
+            </div>
+
+           <div *ngSwitchCase="2" >
+                <app-table-group-header [GrpTableitem]="monthReportTable"  [obsData] ="result.FullAuditMonthReport ? result.FullAuditMonthReport : []"></app-table-group-header>
+            </div>
+
+             <div *ngSwitchCase="3" >
+
+                 <!-- <div *ngIf=" isMonthFilter">
+                     <div *ngIf="observerRes1 | async as result1">
+                        <div *ngIf="result1.FullAuditAddressPostCode ; else NoData">
+                <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result1.FullAuditAddressPostCode ? result1.FullAuditAddressPostCode : []" [AllMonths]="result.FullAuditAllMonths" (MonthDate)="fetchMonthData($event)"></app-table-group-header>
+                </div>
+                </div>
+                </div> -->
+
+            <!-- <div *ngIf="!isMonthFilter"> -->
+                <!-- <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.FullAuditAddressPostCode ? result.FullAuditAddressPostCode : []" [AllMonths]="result.FullAuditAllMonths" (MonthDate)="fetchMonthData($event)"></app-table-group-header> -->
+                
+                <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.FullAuditAddressPostCode ? result.FullAuditAddressPostCode : []"></app-table-group-header>
+
+        </div>
+
+            <div *ngSwitchDefault>
+            </div>
+
+        </span>
+
     </mat-tab>
 </mat-tab-group>
+</ng-container>
+
+<!-- <ng-template #NoData>
+    <div class="error">
+        <span>No records found for this Tab</span>
+    </div>
+</ng-template> -->

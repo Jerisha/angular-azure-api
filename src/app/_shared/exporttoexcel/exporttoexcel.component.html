@@ -1,0 +1,41 @@
+
+<div class="error" *ngIf="!dataSource">No Records Found.</div>   
+<div class="filter">   
+  <mat-form-field>
+    <mat-label>Report</mat-label>
+    <mat-select  disableOptionCentering panelClass="matselect-centering"  (selectionChange)="filterReportWise($event)">
+      <mat-option value="All">All</mat-option>
+      <mat-option *ngFor="let val of reports" [value]="val">
+        {{val}}</mat-option>
+    </mat-select>                   
+  </mat-form-field>
+  <mat-icon class="info" matTooltip="Refresh" (click)="refresh()">autorenew</mat-icon>
+  <div class="table-container" *ngIf="dataSource">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
+          <div *ngIf ="disCol.headerValue=='Filepath'" >
+              <th mat-header-cell *matHeaderCellDef class="nowrap-cell-head" >{{disCol.header}}</th>
+                <td mat-cell *matCellDef="let element" class="nowrap-cell" > 
+                  <ng-container>
+                  <!-- <a href="..\..\..\assets\export.xlsx" download={{element[disCol.headerValue]}}>{{element[disCol.headerValue]}}</a> -->
+                  <!-- <a href={{FilePath}} download={{element[disCol.headerValue]}}>{{element[disCol.headerValue]}}</a> -->  
+                  <button type="button"  [disabled] = " element.Status != 'Available'"  [ngClass]="element.Status =='Available'?'hyberlinkbtn':'removelink'" (click)="downloadFile(element[disCol.headerValue])">{{ element[disCol.headerValue].substring(element[disCol.headerValue].lastIndexOf('/')+1)}}</button>
+                  <!-- <a href=${pageContext.request.contextPath} download={{element[disCol.headerValue]}}>{{element[disCol.headerValue]}}</a> -->                  
+                  </ng-container>
+                </td>
+          </div>
+
+          <div *ngIf ="disCol.headerValue!='Filepath'" >
+          <th mat-header-cell class="nowrap-cell-head" *matHeaderCellDef>{{disCol.header}}</th>
+          <td mat-cell class="nowrap-cell" *matCellDef="let element">
+            {{element[disCol.headerValue]}} 
+          </td>
+          </div>
+        </ng-container>
+
+    
+      <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: dataColumns;"> </tr>
+    </table>
+  </div>
+</div>

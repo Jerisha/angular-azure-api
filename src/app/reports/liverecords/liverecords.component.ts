@@ -15,11 +15,15 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { WMRequests } from 'src/app/_helper/Constants/wmrequests-const';
 import { Utils } from 'src/app/_http/index';
 import { ReportService } from '../services/report.service';
-import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -427,14 +431,15 @@ const Itemstwo: Select[] = [
   { view: 'Customer Name', viewValue: 'CustomerName', default: true },
   { view: 'Post Code', viewValue: 'PostCode', default: true },
   { view: 'Created On', viewValue: 'CreationDate', default: true },
-  { view: 'Premises', viewValue: 'Premises', default: true },
-  { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: true },
-  { view: 'Locality', viewValue: 'Locality', default: true },
-  { view: 'Cupid', viewValue: 'Cupid', default: true },
-  { view: 'Type of Line', viewValue: 'TypeOfLine', default: true },
-  { view: 'Franchise', viewValue: 'Franchise', default: true },
-  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
-  { view: 'Source', viewValue: 'Source', default: true },
+  { view: 'Premises', viewValue: 'Premises', default: false },
+  { view: 'Thoroughfare', viewValue: 'Thoroughfare', default: false },
+  { view: 'Locality', viewValue: 'Locality', default: false },
+  { view: 'Cupid', viewValue: 'Cupid', default: false },
+  { view: 'Type Of Line', viewValue: 'TypeOfLine', default: false },
+  { view: 'Franchise', viewValue: 'Franchise', default: false },
+  // { view: 'Transaction Command', viewValue: 'TransactionCommand', default: false },
+  { view: 'Source System', viewValue: 'Source', default: false },
+ 
 ]
 
 
@@ -449,17 +454,28 @@ const Itemstwo: Select[] = [
 
 
 
-export class LiverecordsComponent implements OnInit {
+export class LiverecordsComponent extends UserProfile implements OnInit {
   @ViewChild('selMultiple') selMultiple!: SelectMultipleComponent;
   formbulider: any;
-  currentPage: string = '1';
+  // currentPage: string = '1';
 
   myTable!: TableItem;
   listItems!: Select[];
+  model: any = { TypeOfLine: "" };
 
 
-  constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService , private telnoPipe: TelNoPipe) { }
+  constructor(private _snackBar: MatSnackBar,
+     private formBuilder: FormBuilder,
+     private cdr: ChangeDetectorRef,
+     private service: ReportService,
+     private spinner: NgxSpinnerService , 
+     private telnoPipe: TelNoPipe,
+     private auth: AuthenticationService,
+     private actRoute: ActivatedRoute)
+     {
+      super(auth, actRoute);
+      this.intializeUser();
+    }
 
   expOperators: string[] = [
     "StartTelephoneNumberOperator",
@@ -490,7 +506,7 @@ resetExp:boolean = false;
   SelectedDate = null;
   isMale = true;
   isFeMale = false;
-  expressions: any = [expNumeric, expString, expDate];
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
   destroy$: Subject<boolean> = new Subject<boolean>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -504,14 +520,17 @@ resetExp:boolean = false;
   selectedTab!: number;
   selectedGridRows: any[] = [];
   auditTelNo?: any;
-  repIdentifier = "LiveTelephoneNumberDetails";
+  repIdentifier = "LiveRecords";
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   configDetails!: any;
   public tabs: Tab[] = [];
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
   columns: ColumnDetails[] = [
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },
     { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
-    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
     { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
@@ -532,6 +551,7 @@ resetExp:boolean = false;
     { header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
     { header: 'Parent CUPID', headerValue: 'ParentCupid', showDefault: true, isImage: false },
     { header: 'Child CUPID', headerValue: 'ChildCupid', showDefault: true, isImage: false },
+    { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
     { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
     { header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
@@ -559,7 +579,7 @@ resetExp:boolean = false;
     });
 
   }
- 
+
 
   get f() {
     return this.myForm.controls;
@@ -580,9 +600,10 @@ resetExp:boolean = false;
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
 
@@ -590,15 +611,26 @@ resetExp:boolean = false;
     debugger;
     if(!this.myForm.valid) return;
     this.tabs.splice(0);
-    this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage));
+    // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+    let request = Utils.preparePyQuery('LiveDataSummary', 'LiveRecords', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
+        console.log(JSON.stringify (res.data.LiveRecords), "datatest");
         let result = {
           datasource: res.data.LiveTelephoneNumberDetails,
-          totalrecordcount: res.data.TotalCount,
-          totalpages: res.data.NumberOfPages,
-          pagenumber: res.data.PageNumber
+          params: res.params
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber,
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return res;
@@ -610,6 +642,7 @@ resetExp:boolean = false;
       filter: true,
       selectCheckbox: true,
        removeNoDataColumns : true,
+       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 
     }
@@ -620,11 +653,11 @@ resetExp:boolean = false;
       });
     }
   }
-
   resetForm(): void {
-    this.myForm.reset();
-    this.tabs.splice(0);
+   
+    window.location.reload();
     this.resetExp=!this.resetExp;
+    this.model = { TypeOfLine: ""};
   }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
@@ -768,8 +801,9 @@ resetExp:boolean = false;
   }
 
   createForm() {
+
     this.myForm = new FormGroup({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),  Validators.pattern("^[0-9]{10,11}$")]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       PostCode: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true }, []),
@@ -795,11 +829,7 @@ resetExp:boolean = false;
   }
   onChange(value: string, ctrlName: string) {
     const ctrl = this.myForm.get(ctrlName) as FormControl;
-    if (isNaN(<any>value))
-    if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
-      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-    } else {
+    if (value != null && value != undefined) {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }

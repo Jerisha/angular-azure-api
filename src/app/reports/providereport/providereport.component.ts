@@ -14,6 +14,10 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
@@ -49,14 +53,14 @@ const ELEMENT_DATA: ProvideReport[] = [
 
 
 const Itemstwo: Select[] = [
-    { view: 'TelephoneNumber.', viewValue: 'TelephoneNumber', default: true }
+    { view: 'TelephoneNumber', viewValue: 'TelephoneNumber', default: true }
 ]
 @Component({
     selector: 'app-providereport',
     templateUrl: './providereport.component.html',
     styleUrls: ['./providereport.component.css']
 })
-export class ProvidereportComponent implements OnInit {
+export class ProvidereportComponent extends UserProfile implements OnInit {
 
     select: string = 'Exp';
     isDisabled = true;
@@ -68,10 +72,13 @@ export class ProvidereportComponent implements OnInit {
     errorCodesOptions!: Observable<any[]>;
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
-    currentPage: string = '1';
+    // currentPage: string = '1';
     Datetime: string= '';
     expOperatorsKeyPair: [string, string][] = [];
     expressions: any = [expNumeric, expString, expDate];
+    currentPage: number = DefaultPageNumber;
+    pageSize: number = DefaultPageSize;
+    isRemoveCache: number = DefaultIsRemoveCache;
     expOperators: string[] = [
         "StartTelephoneNumberOperator",
      
@@ -80,7 +87,12 @@ export class ProvidereportComponent implements OnInit {
     public tabs: Tab[] = [];
     errorCode = new FormControl();
     constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe) { }
+        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe,private auth: AuthenticationService,
+        private actRoute: ActivatedRoute)
+         {
+            super(auth, actRoute);
+            this.intializeUser();
+          }
 
     errorCodeData: Select[] = [
         { view: '101', viewValue: '101', default: true },
@@ -92,7 +104,7 @@ export class ProvidereportComponent implements OnInit {
 
         { header: 'TelephoneNumber', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
         { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-        { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false }
+        { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false }
     ];
 
     queryResult$!: Observable<any>;
@@ -112,10 +124,12 @@ export class ProvidereportComponent implements OnInit {
     }
 
 
-    getNextSetRecords(pageIndex: any) {
+    getNextSetRecords(pageEvent: any) {
         debugger;
-        this.currentPage = pageIndex;
+        this.currentPage = pageEvent.currentPage;
+        this.pageSize = pageEvent.pageSize
         this.onFormSubmit(true);
+      
     }
 refresh(event: any)
 {
@@ -124,18 +138,26 @@ refresh(event: any)
 }
     onFormSubmit(isEmitted?: boolean): void {
         debugger;
-        this.currentPage = isEmitted ? this.currentPage : '1';
+        // this.currentPage = isEmitted ? this.currentPage : '1';
+        this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+        this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+        this.isRemoveCache = isEmitted ? 0 : 1;
+        var reqParams = [{ "Pagenumber": this.currentPage },
+        { "RecordsperPage": this.pageSize },
+        { "IsRemoveCache": this.isRemoveCache }];
        
         this.Datetime =   formatDate( new Date, 'dd-MMM-yyyy HH:mm', 'en-US')
         this.tabs.splice(0);
-        let request = Utils.preparePyQuery('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage));
+        let request = Utils.preparePyQuery('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage.toString()), reqParams);
         this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
             if (Object.keys(res).length) {
                 let result = {
                     datasource: res.data.TelephoneNumbers,
-                    totalrecordcount: res.data.TotalCount,
-                    totalpages: res.data.NumberOfPages,
-                    pagenumber: res.data.PageNumber
+                    params: res.params
+            //         totalrecordcount: res.TotalCount,
+            // totalpages: res.NumberOfPages,
+            // pagenumber: res.PageNumber,
+            // pagecount: res.Recordsperpage  
                 }
                 return result;
             } else return res;
@@ -145,6 +167,7 @@ refresh(event: any)
             removeNoDataColumns : true,
             Columns: this.columns,
             filter: false,
+            excelQuery : this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
             //selectionColumn: 'TranId',
 
@@ -204,12 +227,12 @@ refresh(event: any)
     }
 
     createForm() {
-
+        
         this.myForm = new FormGroup({
             TelephoneNumber: new FormControl({ value: '', disabled: false },
-                [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+                [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
         })
-
+        this.onFormSubmit(true);
     }
 
     selected(s: string): void {

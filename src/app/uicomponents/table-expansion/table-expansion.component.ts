@@ -13,6 +13,10 @@ import { MatSelect } from '@angular/material/select';
 import { Observable, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { takeUntil } from 'rxjs/operators';
+import { UIService } from '../_services/ui.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Utils } from 'src/app/_http';
+import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -63,7 +67,8 @@ export class TableExpansionComponent implements OnDestroy {
   gridSelectList: ColumnDetails[] = [];
   filteredDataColumns: ColumnDetails[] = [];
   highlightedCells: string[] = [];
-  backhighlightedCells: string[] = []
+  // backhighlightedCells: string[] = [];
+  backhighlightedCells: any;
   isTotDisplayed: boolean = false;
   totShowed: boolean = false;
   shouldTotalRow: boolean = false;
@@ -74,13 +79,18 @@ export class TableExpansionComponent implements OnDestroy {
   currentPage = 0;
   apiPageNumber: number = 0;
   pageSizeOptions: number[] = [500];
+  reportIdentifier: string;
+  screenIdentifier: string;
+  excelQueryObj: any;
   isDataloaded: boolean = false;
   gridFilter: ColumnDetails[] = [];
   totalRowCols: string[] = [];
   expandedElement: any;
 
   constructor(private cdr: ChangeDetectorRef,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private service: UIService,
+    private dialog: MatDialog) {
 
   }
 
@@ -91,7 +101,7 @@ export class TableExpansionComponent implements OnDestroy {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
     //   return;
     debugger
-    console.log('transaction command data',this.tableitem?.data)
+    console.log('transaction command data', this.tableitem?.data)
     this.dataObs$ = this.tableitem?.data;
     this.spinner.show();
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
@@ -100,9 +110,12 @@ export class TableExpansionComponent implements OnDestroy {
         this.allSelected = true;
         this.initializeTableAttributes(res.datasource)
         this.dataSource.data = res.datasource;
-        this.totalRows = (res.totalrecordcount) as number;
-        this.apiPageNumber = (res.pagenumber) as number;
+        this.totalRows = (res?.params?.TotalCount) as number;
+        this.apiPageNumber = (res?.params?.PageNumber) as number;
         this.currentPage = this.apiPageNumber - 1;
+        this.pageSize = (res?.params?.Recordsperpage) as number;
+        this.reportIdentifier = res?.params?.ReportIdentifier;
+        this.screenIdentifier = res?.params?.ScreenIdentifier;
         //this.paginator.pageIndex = this.currentPage;
         this.paginator.length = (res.totalrecordcount) as number;
         this.dataSource.sort = this.sort;
@@ -122,8 +135,11 @@ export class TableExpansionComponent implements OnDestroy {
   initializeTableAttributes(data: any) {
     debugger
     this.ColumnDetails = [];
+    this.selection.clear();
+    this.allSelected = true;
+    this.excelQueryObj = this.tableitem?.excelQuery;
     this.highlightedCells = this.tableitem?.highlightedCells ? this.tableitem?.highlightedCells : [];
-    this.backhighlightedCells = this.tableitem?.backhighlightedCells ? this.tableitem?.backhighlightedCells : [];
+    this.backhighlightedCells = this.tableitem?.setCellAttributes ? this.tableitem?.setCellAttributes.filter(x => x.isBackgroundHighlighted) : [];
     this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
     this.showTotalRow = this.totalRowCols.length > 0;
     this.imgList = this.tableitem?.imgConfig;
@@ -217,13 +233,13 @@ export class TableExpansionComponent implements OnDestroy {
   // }
 
   selectRow(event: any, row: any) {
-    this.dataSource.data = this.dataSource.data.filter(r => r !== row);
-    if (event.checked) {
-      this.dataSource.data = [row].concat(this.dataSource.data);
-    }
-    else {
-      this.dataSource.data = this.dataSource.data.concat(row);
-    }
+    // this.dataSource.data = this.dataSource.data.filter(r => r !== row);
+    // if (event.checked) {
+    //   this.dataSource.data = [row].concat(this.dataSource.data);
+    // }
+    // else {
+    //   this.dataSource.data = this.dataSource.data.concat(row);
+    // }
     this.rowChanges.emit([row]);
   }
 
@@ -322,13 +338,65 @@ export class TableExpansionComponent implements OnDestroy {
 
   copyToClipboard() {
     let data = "";
-    this.selection.selected.forEach((row: any) => {
-      let result = Object.values(row);
-      data += result.toString().replace(/[,]+/g, '\t') + "\n";
+
+    this.selection.selected.forEach((row: any, index) => {
+      if (index === 0) {
+        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
+        data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
+      }
+      let tabValue: string[] = []
+      this.select?.value?.forEach((x: string) => {
+        if (x != 'View') tabValue.push(row[x])
+      })
+      data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
     });
     return data;
   }
-  
+
+  exportToExcel() {
+    debugger;
+
+    let ColumnMapping: any = []
+    this.gridFilter.forEach(x => {
+      if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
+        ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
+    });
+
+    const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px', disableClose: true, data: {
+        message: 'Do you want to Export this Report?'
+      }
+    });
+    exportConfirm.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{ "isExporttoExcel": "Y" }, { 'ColumnMapping': ColumnMapping }]);
+        this.service.queryDetails(request).subscribe(x => {
+          //update msg
+          const excelDetail = this.dialog.open(ConfirmDialogComponent, {
+            width: '680px', disableClose: false, data: {
+              // message: `Add your content here use break for adding new line? <br/>
+              //   ${x.ResponseParams}`
+              message:
+              `Please Note the following:<br/>
+                1. Excel spreadsheets can take some time to produce and there may be delay of up to 15 minutes.<br/>
+                2. The background processing is performed in order of user requests.<br/>
+                3. The file name will be<strong> ${x.data.ExportData[0].FileName}</strong> .<br/>
+                4. The progress can be monitored by clicking on excel reports icon towards the right on top corner.<br/>
+                5. When spread sheet is available,clicking on the file name will allow to download to the local disk.<br/>
+                6. The previous week spread sheet will be deleted.<br/>`
+            }
+          });
+
+          excelDetail.afterClosed().subscribe();
+
+        });
+      }
+    });
+
+    //console.log(this.ColumnDetails, selectedColumns)
+    //this.requestExport2Excel.emit(excelHeaderParams);
+  }
+
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;

@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AuditDataFilesComponent, RestoresolicitederrorsComponent,ManageUsersComponent, DataCorrectionReportsComponent } from 'src/app/administration/index'
+import {AuditstatustrackerComponent,AuditDataFilesComponent, RestoresolicitederrorsComponent,ManageUsersComponent, DataCorrectionReportsComponent } from 'src/app/administration/index'
 
 import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
 import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolvedtransaction.component';
-import { UnsolicitedactionreportsComponent } from './unsolicitedactionreports/unsolicitedactionreports.component';
+
 
 const routes: Routes = [
-  { path: 'auditdatafiles',  component: AuditDataFilesComponent  },
-  { path: 'unresolvedtransaction',  component: UnresolvedtransactionComponent  },
-  { path: 'unsolicitedactionreports',  component:UnsolicitedactionreportsComponent },
-  { path: 'unresolvederrors',  component:UnresolvederrorsComponent },
-  { path: 'restoresolicitederrors',  component: RestoresolicitederrorsComponent  },
-  { path: 'manageusers',  component: ManageUsersComponent  },
-  { path: 'datacorrectionsummary',  component: DataCorrectionReportsComponent  },
-  
+  { path: 'auditdatafiles',  component: AuditDataFilesComponent,data: { id: 'MENU14' }  },
+  { path: 'unresolvedtransaction',  component: UnresolvedtransactionComponent,data: { id: 'MENU18' }  },
+  { path: 'unresolvederrors',  component:UnresolvederrorsComponent,data: { id: 'MENU17' } },
+  { path: 'restoresolicitederrors',  component: RestoresolicitederrorsComponent,data: { id: '' }  },
+  { path: 'manageusers',  component: ManageUsersComponent,data: { id: 'MENU19' }  },
+  { path: 'datacorrectionsummary',  component: DataCorrectionReportsComponent,data: { id: 'MENU16' }  },
+  { path: 'auditstatustracker', component: AuditstatustrackerComponent,data: { id: 'MENU15' } }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -1,146 +1,13 @@
 
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AuditDetails, LiveRecord, TelephoneAuditTrail, TransactionDetails, UnsolicitedDetails } from 'src/app/_shared/models/telephone-audit-trail';
 import { AddressDetails } from 'src/app/_shared/models/address-details';
-import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { Router } from '@angular/router';
 import { AuditTrailService } from './services/audit-trail.service';
 import { Utils } from 'src/app/_http/common/utils';
 import { Observable } from 'rxjs';
-import { map, subscribeOn } from 'rxjs/operators';
-import { of } from 'rxjs';
-
-
-const auditres = {
-  "ReportIdentifier": "SolicitedErrors",
-  "TelephoneNumber": "02075957399",
-  "LiveDetails": [
-    {
-      "TransactionId": "1000010076",
-      "ParentCupid": "13",
-      "ChildCupid": "13",
-      "CustomerName": "PARIBASNET LTD",
-      "Premises": "MARYLEBONE GATE",
-      "Thoroughfare": "10 HAREWOOD AVENUE",
-      "Locality": "LONDON",
-      "Postcode": "NW1 6AA",
-      "TransactionReference": "013/013/001000010076",
-      "Created": "26-Sep-2013",
-      "Source": "C",
-      "Franchise": "MCL",
-      "SourceType": "B",
-      "InternalAddress1": "MARYLEBONE GATE",
-      "InternalAddress2": "10 HAREWOOD AVENUE",
-      "InternalAddress3": "LONDON",
-      "LineType": "V"
-    }
-  ],
-  "AuditDetailedReport": [
-    {
-      "TransactionId": "1000010076",
-      "Comment": "DDI RANGE- 02075950000- 02075959999",
-      "SummaryReport": [
-        {
-          "CntTransaction": "A",
-          "Created": "26-Sep-2013",
-          "Status": "108",
-          "Source": "C",
-          "CustomerName": "PARIBASNET LTD"
-        }
-      ],
-      "DetailedReport": [
-        {
-          "Created": "26-Sep-2013",
-          "EndStatus": "25-Oct-2013",
-          "Effective": "26-Sep-2013",
-          "Provide": "25-Sep-2013",
-          "TransactionCommand": "A",
-          "BtCommand": "A",
-          "ParentCupid": "13",
-          "ChildCupid": "13",
-          "CustomerName": "PARIBASNET LTD",
-          "Premises": "MARYLEBONE GATE",
-          "Thoroughfare": "10 HAREWOOD AVENUE",
-          "Locality": "LONDON",
-          "Postcode": "NW1 6AA",
-          "Reference": "9015418",
-          "ConnectionType": "D",
-          "PreviousTransactionId": "0",
-          "Status": "108",
-          "BtSource": "COMS",
-          "Source": "C",
-          "Franchise": "MCL",
-          "OrderReference": "965506",
-          "SourceType": "B",
-          "InternalAddress1": "MARYLEBONE GATE",
-          "InternalAddress2": "10 HAREWOOD AVENUE",
-          "InternalAddress3": "LONDON",
-          "ForceValidate": "N",
-          "LineType": "V",
-          "TypeOfLine": "BB",
-          "NextTransactionId": "0"
-        }
-      ]
-    }
-  ],
-  "SeperateInternalAudit": [
-    {
-      "TelephoneNumber": "02075957399",
-      "AuditActId": "30 - 17-FEB-2022",
-      "ResolutionType": "New",
-      "CliStatus": "D"
-    }
-  ],
-  "ExternalAudit": [
-    {
-      "TelephoneNumber": "02075957399",
-      "AuditActId": "28",
-      "ResolutionType": "Auto Closed",
-      "CliStatus": "S-Matched",
-      "UserComment": [
-        {
-          "TelephoneNumber": "02075957399",
-          "AuditActId": "28",
-          "CreationDate": "21-Nov-2020",
-          "CreatedBy": "SYSTEM",
-          "ResolutionType": "Auto Closed",
-          "Comments": "Auto closed occurs when a new Audit run is generated."
-        }
-      ]
-    },
-    {
-      "TelephoneNumber": "02075957399",
-      "AuditActId": "28",
-      "ResolutionType": "Auto Closed",
-      "CliStatus": "S-Matched",
-      "UserComment": [
-        {
-          "TelephoneNumber": "02075957399",
-          "AuditActId": "28",
-          "CreationDate": "21-Nov-2020",
-          "CreatedBy": "SYSTEM",
-          "ResolutionType": "Auto Closed",
-          "Comments": "Auto closed occurs when a new Audit run is generated."
-        }
-      ]
-    }
-  ],
-  "FullAudit": [
-    {
-      "TelephoneNumber": "02075957399",
-      "AuditActId": "28 - 28-AUG-2020",
-      "ResolutionType": "S-Matched"
-    },
-    {
-      "TelephoneNumber": "02075957399",
-      "AuditActId": "29 - 20-NOV-2020",
-      "ResolutionType": "S-Matched"
-    }
-  ]
-}
-
-
+import { map} from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-telephone-audit-trail',
@@ -155,60 +22,57 @@ const auditres = {
   ],
 })
 
-
-
-export class TelephoneAuditTrailComponent implements OnInit {
+export class TelephoneAuditTrailComponent  {
   panelOpenState: boolean = false;
   panelOpenState1: boolean = false;
   panelOpenState2: boolean = false;
-
   step: number = 2;
-
   addressDetails = new AddressDetails();
-
   auditTrailReport$!: Observable<any>;
-
   @Input() telNo!: string;
   @Input() repIdentifier!: string;
-
-
-  // ELEMENT_DATA: Option[] = [];
-  constructor(private _route: Router, private service: AuditTrailService) {
-    // for (let i = 0; i < this.dataSource.length; i++) {
-    //   for (let item of this.dataSource[i].options) {
-
-    //     this.ELEMENT_DATA.push(item);
-    //   }
-    // }
+  @Output() AddressCheckSelected = new EventEmitter<any[]>();
+  @ViewChild('auditTabScroll') scrollDemo!: ElementRef;
+  isLoading: boolean = true;
+  @Output() isLiveRecord = new EventEmitter<any>();
+  
+testfun(islive :boolean)
+{
+  this.isLiveRecord.emit(islive )
+  //console.log(islive,'live')
+} 
+  constructor(private _route: Router, private service: AuditTrailService, private spinner: NgxSpinnerService) {
   }
-
-  // dataColumns = ["Action", "CntTransaction", "Status", "Created", "Source", "CustomerName"];
-  // columnsToDisplay = ["Action", "Count Transaction", "Status", "Created On", "Source", "Customer Name"];
 
   columnsToDisplay = [{ header: 'Action', headerValue: 'Action' },
   { header: 'Count Transaction', headerValue: 'CntTransaction' },
   { header: 'Status', headerValue: 'Status' },
-  { header: 'Created On', headerValue: 'Created' },
-  { header: 'Source', headerValue: 'Source' },
+  { header: 'Created On', headerValue: 'CreatedOn' },
+  { header: 'Source System', headerValue: 'Source' },
   { header: 'Customer Name', headerValue: 'CustomerName' }];
 
   dataColumns = this.columnsToDisplay?.map((e) => e.headerValue);
 
+  UnsolicitedHeader: string[] = ['Code', 'Error Message', 'Date', 'Franchise', 'Postcode', 'File Name'];
   auditTrailInternalDisplay: string[] = ['AuditActId', 'TelephoneNumber', 'ResolutionType', 'CliStatus', 'UserComment'];
   fullAuditTrailDisplay: string[] = ['AuditActId', 'TelephoneNumber', 'ResolutionType', 'ExternalCliStatus', 'FullAuditCliStatus', 'UserComment'];
 
-  ngOnInit(): void {
+  internalAuditTrailHeader = [ {header: 'Audit Act Id', headerValue: 'AuditActId'},
+  {header: 'Telephone Number', headerValue: 'TelephoneNumber'},
+  {header: 'Resolution Type', headerValue: 'ResolutionType'},
+  {header: 'Cli Status', headerValue: 'CliStatus'},
+  {header: 'User Comment', headerValue: 'UserComment'}];
 
-    // let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
-    // Value : [ "02071117402" ] }]);
-    // let request = Utils.prepareGetRequest("TelephoneNumberAuditTrail", "SolicitedErrors", [{  Name : "TelephoneNumber",
-    // Value : [ this.telephoneNumber ] }]);
-    // this.auditTrailReport$ = of(auditres);
-  }
+  fullAuditTrailHeader = [ {header: 'Audit Act Id', headerValue: 'AuditActId'},
+  {header: 'Telephone Number', headerValue: 'TelephoneNumber'},
+  {header: 'Resolution Type', headerValue: 'ResolutionType'},
+  {header: 'External Cli Status', headerValue: 'ExternalCliStatus'},
+  {header: 'Full Audit Cli Status', headerValue: 'FullAuditCliStatus'},
+  {header: 'User Comment', headerValue: 'UserComment'}];
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes.telephoneNumber.currentValue);
-    // console.log(changes);
+    if(changes.telNo.currentValue != '')
+    {
     if (changes.telNo.currentValue != changes.telNo.previousValue) {
       this.setStep(2);
       let request = Utils.preparePyGet("TelephoneNumberAuditTrail", this.repIdentifier, [{
@@ -216,17 +80,22 @@ export class TelephoneAuditTrailComponent implements OnInit {
         Value: [this.telNo]
       }]);
       // Value : [ "01171617562" ] }]);
-
+      this.isLoading = true;
+      this.spinner.show();
       this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => {
         let transform: any = [];
-        transform = res.data
-        transform.TelephoneNumber = res.TelephoneNumber
-        return transform
+        transform = res.data;
+        if(res.params.TelephoneNumber) transform.TelephoneNumber = res.params.TelephoneNumber;
+        this.isLoading = false;
+        this.spinner.hide();
+        return transform;
       }
 
       ));
 
     }
+  }
+
   }
 
   setStep(index: number) {
@@ -237,12 +106,19 @@ export class TelephoneAuditTrailComponent implements OnInit {
     return this.addressDetails;
   }
 
+  /*  unsol restriction removed
+  customScroll(i: number, isUnSol?: boolean) {
+    if(isUnSol) {
+      i == 0 ? this.scrollDemo.nativeElement.scrollTo(0,64) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94);
+    } else {
+    i == 0 ? this.scrollDemo!.nativeElement.scrollTo(0,32) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 62);
+    }
+  } */
 
-  // clicked(errCode: string, errMessage: string) {
-  //   this._route.navigate(['/errors', {outlets: {errorPage: 'error'}}], {state: {errData1: errCode, errData2: errMessage}});
-  //   // this._route.navigate([ {outlets: {errorPage: 'Myerror'}}], {state: {data1: errCode, data2: errMessage}});
-  // }
-
+  customScroll(i:number, isUnSol?: boolean) {
+  //  this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94);
+   setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 62); }, 200);
+  }
 
   setAddressDetails(section: string, element?: any) {
     // console.log(element.details.postcode);
@@ -254,6 +130,8 @@ export class TelephoneAuditTrailComponent implements OnInit {
       this.addressDetails.internalAddr2 = element.InternalAddress2;
       this.addressDetails.internalAddr3 = element.InternalAddress3;
       this.addressDetails.internalAddr4 = element.InternalAddress4;
+      this.AddressCheckSelected.emit([this.addressDetails]) // need to check
+ 
     } else if (section === 'RemoveAddress') {
       this.addressDetails = new AddressDetails();
     }

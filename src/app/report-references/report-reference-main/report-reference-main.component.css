@@ -166,4 +166,22 @@
   line-height:calc(90%-20px);
   margin-top: 6px;
   }
+  .table-spinner{
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    color:#e60000; */
+    position: relative;
+    margin-left: 40%;
+    margin-top: 15%;
+  }
   
+  .spinner-loading {
+    font: 400 14px/20px Roboto, "Helvetica Neue" !important;
+    padding: 20px;
+  }
+  .highlighted{
+    background-color: lightpink;
+  }
+ 

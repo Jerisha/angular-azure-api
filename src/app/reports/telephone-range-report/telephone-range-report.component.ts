@@ -16,6 +16,11 @@ import { Utils, WebMethods } from 'src/app/_http';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { ReportService } from '../services/report.service';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
+import { Custom } from 'src/app/_helper/Validators/Custom';
+import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { UserProfile } from 'src/app/_auth/user-profile';
 
 const ELEMENT_DATA = [
   {
@@ -55,7 +60,7 @@ const FilterListItems: Select[] = [
   templateUrl: './telephone-range-report.component.html',
   styleUrls: ['./telephone-range-report.component.css']
 })
-export class TelephoneRangeReportComponent implements OnInit {
+export class TelephoneRangeReportComponent extends UserProfile implements OnInit {
 
   constructor(private formBuilder: FormBuilder, 
     private _snackBar: MatSnackBar,
@@ -64,9 +69,15 @@ export class TelephoneRangeReportComponent implements OnInit {
     private http: HttpWrapperService,
     private service: ReportService,
     private cdr: ChangeDetectorRef,
-    private telnoPipe: TelNoPipe) {}
+    private telnoPipe: TelNoPipe,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute
 
-  @ViewChild('table1') table1?:TableSelectionComponent;
+    ) {
+      super(auth, actRoute);
+     this.intializeUser();
+    }
+
   myTable!: TableItem;
   dataSaved = false;
   selectListItems: string[] = [];
@@ -82,7 +93,10 @@ export class TelephoneRangeReportComponent implements OnInit {
   selectedTab!: number;
   public tabs:Tab[] = [
   ];
-  currentPage: string = '1';
+  // currentPage: string = '1';
+  currentPage: number = DefaultPageNumber;
+  pageSize: number = DefaultPageSize;
+  isRemoveCache: number = DefaultIsRemoveCache;
 
   columns: ColumnDetails[] =[
     { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
@@ -127,8 +141,8 @@ export class TelephoneRangeReportComponent implements OnInit {
   
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required,Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      StartTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern("^[0-9]{10,11}$")]),
+      EndTelephoneNumber: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern("^[0-9]{10,11}$")]),
     })
   }
   get f() {
@@ -153,25 +167,52 @@ export class TelephoneRangeReportComponent implements OnInit {
     return attributes;
 
   }
-  getNextSetRecords(pageIndex: any) {
+  getNextSetRecords(pageEvent: any) {
     debugger;
-    this.currentPage = pageIndex;
+    this.currentPage = pageEvent.currentPage;
+    this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
   
   onFormSubmit(isEmitted?: boolean):void{
-    if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)<=10000){
+
+    
+      debugger;
+      let errMsg = '';
+      if (!this.thisForm.valid) return;
+      errMsg = this.compareStartAndEndTelNoTelephoneRange(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
+      if (errMsg) {
+        const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px',
+          // height:'250px',
+          disableClose: true,
+          data: {
+            enableOk: false,
+            message: errMsg,
+          }
+        });
+        rangeConfirm.afterClosed().subscribe(result => { return result; })
+        return;
+      }
       this.tabs.splice(0);
-      this.currentPage = isEmitted ? this.currentPage : '1';
-      let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams(this.currentPage));
-      //console.log(JSON.stringify(request));
+      // this.currentPage = isEmitted ? this.currentPage : '1';
+      this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.isRemoveCache = isEmitted ? 0 : 1;
+    var reqParams = [{ "Pagenumber": this.currentPage },
+    { "RecordsperPage": this.pageSize },
+    { "IsRemoveCache": this.isRemoveCache }];
+      let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TelephoneRangeReports', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+      console.log(JSON.stringify(request));
       this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
         if (Object.keys(res).length) {
           let result = {
             datasource: res.data.TelephoneNumbers,
-            totalrecordcount: res.data.TotalCount,
-            totalpages: res.data.NumberOfPages,
-            pagenumber: res.data.PageNumber
+            params: res.params
+            // totalrecordcount: res.TotalCount,
+            // totalpages: res.NumberOfPages,
+            // pagenumber: res.PageNumber,
+            // pagecount: res.Recordsperpage     
           }
           return result;
         }  else return {
@@ -184,6 +225,7 @@ export class TelephoneRangeReportComponent implements OnInit {
         Columns: this.columns,
         filter: true,
         selectCheckbox: true,
+        excelQuery : this.prepareQueryParams(this.currentPage.toString()),
         removeNoDataColumns: true,
         // imgConfig:[{ headerValue: 'View', icon: 'tab', route: '' },
         // { headerValue: 'View', icon: 'description', route: '' }]
@@ -196,27 +238,14 @@ export class TelephoneRangeReportComponent implements OnInit {
         });
       }
       this.selectedTab = this.tabs.length;
-    }
-    else if(this.thisForm.valid && (this.f.EndTelephoneNumber.value-this.f.StartTelephoneNumber.value)>10000){
-      const rangeConfirm = this.dialog.open(ConfirmDialogComponent,{
-        width:'400px',
-        // height:'250px',
-        disableClose: true,
-        data:{
-          message: 'TelephoneRange must be less than or equal to 10000.',
-        }
-      });
-      rangeConfirm.afterClosed().subscribe(result=>{
-        //console.log("Dialog" + result);
-        return result;
-      })
-    }
+    
+    
   }
 
   resetForm():void{
-    this.thisForm.reset();
-    this.tabs.splice(0);
-    // window.location.reload();
+    // this.thisForm.reset();
+    // this.tabs.splice(0);
+    window.location.reload();
     // this.spinner = true;
     // setTimeout(()=>{
     //  this.spinner= false;
@@ -299,10 +328,7 @@ export class TelephoneRangeReportComponent implements OnInit {
 
   onChange(value: string, ctrlName: string) {
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
-    if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
-      ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
-    } else {
+    if (value != null && value != undefined) {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     }
   }
@@ -337,4 +363,20 @@ export class TelephoneRangeReportComponent implements OnInit {
       return result;
     })
   }
+
+  compareStartAndEndTelNoTelephoneRange(startTelNo: any, endTelNo: any): string {
+    let errMsg = '';
+    //Enter start telephone no
+    if (endTelNo != '' && startTelNo == '')
+        errMsg = 'Please enter the Start Telephone No';
+    //Telephonerange
+    if ((endTelNo != '' && startTelNo != '') && (endTelNo - startTelNo) > 50000)
+        errMsg = 'TelephoneRange must be less than or equal to 50000';
+    //startTelNo should be < endTelNo
+    if ((endTelNo != '' && startTelNo != '') && (startTelNo > endTelNo))
+        errMsg = 'Start Telephone No should be less than End Telephone No';
+
+    return errMsg
+
+}
 }

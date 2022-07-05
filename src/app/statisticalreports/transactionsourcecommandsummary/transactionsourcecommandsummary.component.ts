@@ -68,7 +68,7 @@ export class TransactionsourcecommandsummaryComponent implements OnInit {
   columns: ColumnDetails[] = [
     { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
     { header: 'Statistic Month', headerValue: 'StatisticMonth', showDefault: true, isImage: false },
-    { header: 'Source', headerValue: 'Source', showDefault: false, isImage: false },
+    { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
     { header: 'Adds', headerValue: 'Adds', showDefault: true, isImage: false },
     { header: 'Ceases', headerValue: 'Ceases', showDefault: true, isImage: false },
     { header: 'Modifies', headerValue: 'Modifies', showDefault: true, isImage: false },
