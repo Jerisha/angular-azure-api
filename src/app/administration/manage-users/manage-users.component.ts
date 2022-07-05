@@ -663,6 +663,8 @@ export class ManageUsersComponent implements OnInit {
   filterNewsUpdateForm: FormGroup;
   filterUserProfilesForm: FormGroup; 
 
+  UserProfileRowData: any;
+
   private readonly onDestroyQuery = new Subject<void>();
 
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
@@ -777,12 +779,12 @@ InitializeTreeview()
       //  this.userAccessData.data = res.Data;
         console.log('data of Profile', res.Data);
          profileitems=res.Data[0].profileitems;
-         this.UserEditForm = this.formBuilder.group({
-          ProfileName: new FormControl({},),
-          Description: new FormControl({},),
-          UserProfile: new FormControl({},)
+        //  this.UserEditForm = this.formBuilder.group({
+        //   ProfileName: new FormControl({},),
+        //   Description: new FormControl({},),
+        //   UserProfile: new FormControl({},)
     
-        });
+        // });
         for (let field in this.UserEditForm.controls) {
           let control = this.UserEditForm.get(field);
           // c
@@ -1496,13 +1498,13 @@ else{
     this.StartupForm = false;
     this.UserEditProfilesForm = true;
     this.isLeftPanel = true;
-    this.UserEditForm = this.formBuilder.group({
+    // this.UserEditForm = this.formBuilder.group({
 
-      ProfileName: new FormControl(),
-      Description: new FormControl(),
-      UserProfile: new FormControl()
+    //   ProfileName: new FormControl(),
+    //   Description: new FormControl(),
+    //   UserProfile: new FormControl()
 
-    });
+    // });
     if (Actiontype == 'Create') {
       this.eventName = 'Create';
     }
@@ -1511,7 +1513,7 @@ else{
     }
 
   }
-  onEditUserprofileAceess(Actiontype: string) {
+  onEditUserprofileAceess(Actiontype: string, row ?: any) {
     this.Formstatus='Profile';
     this.initialize(Actiontype);
     debugger
@@ -1537,18 +1539,22 @@ else{
     this.StartupForm = false;
     this.UserEditProfilesForm = true;
     this.isLeftPanel = true;
-    this.UserEditForm = this.formBuilder.group({
+    // this.UserEditForm = this.formBuilder.group({
 
-      ProfileName: new FormControl(),
-      Description: new FormControl(),
-      UserProfile: new FormControl()
+    //   ProfileName: new FormControl(),
+    //   Description: new FormControl(),
+    //   UserProfile: new FormControl()
 
-    });
+    // });
     if (Actiontype == 'Create') {
       this.eventName = 'Create';
+      this.UserEditForm.reset();
     }
     else {
       this.eventName = 'Update';
+      this.UserEditForm.get('profilename')?.setValue(row.profilename);
+      this.UserEditForm.get('profiledescription')?.setValue(row.profiledescription);
+      this.UserProfileRowData = row;
     }
 
   }
@@ -1877,7 +1883,7 @@ else{
           });
           updateConfirm3.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
-              let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
+              let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.UserEditForm,'UserProfileUpdate'));
               console.log("Update request3 : " + JSON.stringify(request3));
               this.service.uiUpdateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
@@ -1926,7 +1932,7 @@ else{
             });
           break;
         case 'User Profiles':
-          let request3 = Utils.preparePyUICreate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
+          let request3 = Utils.preparePyUICreate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.UserEditForm,'UserProfileCreate'));
           console.log("Create request3 : " + JSON.stringify(request3));
           this.service.uiCreateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
             (res: any) => {
@@ -2260,6 +2266,7 @@ else{
   }
 
   prepareData(form: FormGroup,action?:string) {
+    debugger;
     let attribute: any = {};
     let profilename:string="";
     for (const field in form.controls) {
@@ -2301,6 +2308,38 @@ else{
       
     
       attribute['profiledata']=newattribute;
+    }
+
+    if(action=='UserProfileCreate')
+    {
+
+      let newattribute:any={};
+     
+      attribute['isdefaultprofile']=0;
+      attribute['iseditprofile']=1;
+      attribute['iscustom']=0;
+      attribute['isdelete']=1;
+
+      attribute['profileitems']=this.Resultattributes;
+
+      // attribute['profiledata']=newattribute;
+    }
+
+    if(action=='UserProfileUpdate')
+    {
+
+      let newattribute:any={};
+      if(this.UserProfileRowData)
+      {
+      attribute['isdefaultprofile']=this.UserProfileRowData.isdefaultprofile;
+      attribute['iseditprofile']=this.UserProfileRowData.iseditprofile;
+      attribute['iscustom']=this.UserProfileRowData.iscustomprofile;
+      attribute['isdelete']=this.UserProfileRowData.isdelete;
+      }
+
+      attribute['profileitems']=this.Resultattributes;
+
+      // attribute['profiledata']=newattribute;
     }
     console.log(JSON.stringify(attribute));
     return attribute;
@@ -2346,6 +2385,13 @@ else{
       newssubheader: new FormControl({ value: '' }, []),
     });
 
+    this.UserEditForm = this.formBuilder.group({
+
+      profilename: new FormControl({ value: '' }, []),
+      profiledescription: new FormControl({ value: '' }, []),
+      // userprofile: new FormControl()
+
+    });
     this.filterUserofReportForm = this.formBuilder.group({
       username: new FormControl({ value: '' }, []),
       sources: new FormControl({ value: '' }, []),
@@ -2375,7 +2421,7 @@ else{
     this.filterNewsUpdateForm.reset();
     this.filterUserAccessForm.reset();
     this.filterUserProfilesForm.reset();
-
+    this.UserEditForm.reset();
   }
 
   onExport(tableHeader: any,tabName:string,tableData: any) {
