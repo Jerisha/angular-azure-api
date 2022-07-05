@@ -443,18 +443,18 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
         break;
       }
       case 2: {
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
           })
-
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[this.selectedTab].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionId;
         break;
       }
       default: {

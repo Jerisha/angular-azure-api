@@ -84,11 +84,20 @@ table td, table th {
   z-index: 4;
 }
 
+.nowrap-cell-head {
+  /* max-width: 120px;  */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: #e60000;
+  color:white
+}
 .nowrap-cell {
   /* max-width: 120px;  */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: white;
 }
 
 .totalRow{
@@ -125,9 +134,11 @@ table td, table th {
 }
 .hyberlinkbtn{
 
-  background-color:inherit;
+  background-color:transparent;
   border: 0px;  
-  border-bottom: 1px solid blue;
+  border-bottom: 1px solid #0000FF; 
+  color: #0000FF
+  /* border-bottom: 1px solid blue; */
   
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
@@ -137,3 +148,28 @@ cursor:grab;
 /* .hyberlinkbtn:visited{
   color: #dee2e6;
   } */
+  addlink{    
+    border-bottom: 1px solid #0000FF;
+    color: #0000FF
+
+  }
+  removelink{
+   color: black; 
+
+  }
+   /* unvisited link */
+   hyberlinkbtn:link {
+    color: #ccc;
+  }
+  /* visited link */
+  hyberlinkbtn:visited {
+    color: #095484;
+  }
+  /* mouse over link */
+  hyberlinkbtn:hover {
+    color: #8ebf42;
+  }
+  /* selected link */
+  hyberlinkbtn:active {
+    color: #800000;
+  }

@@ -140,7 +140,8 @@ export class ExporttoexcelComponent implements OnInit {
     this.service.downloadFileDetails(request).subscribe((response: any) => {     
       //console.log(response,'res')
       if (response.ok) {        
-        let type =  response.body.type.toString() //'application/vnd.ms-excel'
+        //let type =  response.body.type.toString() 
+       let type =  'application/vnd.ms-excel'
         // console.log(type,'type')
           this.service.blob2File(response,type,FileFullPath.substring(FileFullPath.lastIndexOf('/')+1))
       }

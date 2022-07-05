@@ -33,7 +33,9 @@ export class AuthenticationService {
     }
 
     public get isUserLoggedIn(): boolean {
-        return this.isloggedIn;
+        const user = this.currentUserSubject.value
+        const token = sessionStorage.getItem('token') ? true : false;
+        return user && token;
     }
 
     login(username: string, password: string) {
@@ -44,14 +46,14 @@ export class AuthenticationService {
                 let user = x.Data.UserDetails[0];
                 sessionStorage.setItem('currentUser', JSON.stringify(user));
                 sessionStorage.setItem('token', user.token);
-                
-                this.currentUserSubject.next((user as User));
+                this.currentUserSubject
+                this.currentUserSubject.next(user as User);
 
-                if (user) {
-                    this.isloggedIn = true;
-                } else {
-                    this.isloggedIn = false;
-                }
+                // if (user) {
+                //     this.isloggedIn = true;
+                // } else {
+                //     this.isloggedIn = false;
+                // }
             }));
     }
 

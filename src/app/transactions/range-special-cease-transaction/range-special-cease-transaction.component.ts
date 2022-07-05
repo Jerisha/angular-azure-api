@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, EventEmitter, Output, Input, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ControlContainer, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -180,7 +180,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     this.showCeasePanel = false;
     this.showTelnos = false;
     window.location.reload();
-    //this.isEnable();
+    this.isEnable();
   }
 
   get form() {
@@ -292,8 +292,8 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
         Columns: this.colHeader,
         filter: true,
         excelQuery: this.prepareQueryParams(this.currentPage.toString()),
-        selectCheckbox: true
-        //removeNoDataColumns: true,
+        selectCheckbox: true,
+        removeNoDataColumns: true
       }
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({
@@ -505,13 +505,27 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   }
   isEnable() {
     //debugger
-    if (this.selectedGridRows.length > 0) {
-      this.isCeaseDisable = false;
-    }
-    else
-      this.isCeaseDisable = true;
-    console.log('isCeaseDisable', this.isCeaseDisable)
-    // this.onCeaseUpdate();
+    if (this.selectedGridRows.length > 0){
+    for (let value of this.selectedGridRows) {
+      console.log(value, 'value')
+      
+        if (value.LiveRecords > 0  ) {
+          this.isLiveRecords = false;
+       // this.isCeaseDisable = true;
+         // this.isEnable();
+         // console.log('live', this.isLiveRecords)
+         // console.log(this.isLiveAudit, 'isliveaudit')
+          break;
+        } else {
+          this.isLiveRecords = true
+          //this.isCeaseDisable = false;
+        //  console.log('live1', this.isLiveRecords)
+         // console.log(this.isLiveAudit, 'isliveaudit1')
+        }
+      }
+      } else {
+        this.isLiveRecords = true;
+      }
   }
 
   onCeaseUpdate() {
@@ -546,31 +560,14 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
       if (item && item.length == 0) return
       if (!this.selectedGridRows.includes(item)){
         this.selectedGridRows.push(item)
-        for (let value of selectedRows) {
-          console.log(value, 'value')
-          if (this.selectedGridRows.length > 0){
-            if (value.LiveRecords > 0  ) {
-              this.isLiveRecords = false
-           // this.isCeaseDisable = true;
-             // this.isEnable();
-             // console.log('live', this.isLiveRecords)
-             // console.log(this.isLiveAudit, 'isliveaudit')
-              break;
-            } else {
-              this.isLiveRecords = true
-              //this.isCeaseDisable = false;
-            //  console.log('live1', this.isLiveRecords)
-             // console.log(this.isLiveAudit, 'isliveaudit1')
-            }
-          }
-          }
         }
       else if (this.selectedGridRows.includes(item)) {
         let index = this.selectedGridRows.indexOf(item);
         this.selectedGridRows.splice(index, 1)
       }
     })
-    
+      this.isEnable();
+      console.log("selectedGridRows" + this.selectedGridRows)
   }
   prepareUpdateIdentifiers() {
     // debugger
@@ -616,7 +613,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
       EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.pattern("^[0-9]{10,11}$")]),
     })
     this.ceaseupdate = this.formBuilder.group({
-      CeaseRemarks: new FormControl({ value: '', disabled: false }, []),
+      CeaseRemarks: new FormControl({ value: '' }, [Validators.required]),
     })
   }
 }
