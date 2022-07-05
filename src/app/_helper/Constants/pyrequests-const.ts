@@ -581,6 +581,20 @@ export const PyRequests = {
         }
     ]
     },
+    UICREATEFIRST:{
+        "Request": "UICreate",
+        "UserParams":[{"userid":"BEEMA",
+                    "destination":"OSN2"
+                        }],
+        "RequestParams":
+        [{"reportidentifier" :"ManageUsers",
+        "SubReportName" : "UserAccess",
+        "username":"",
+        "is_ldap_auth":""
+        
+        
+        }]
+    },
     UIDELETE:{ "RequestType" : "UIDELETE",
     "UserParams":[
         {"UserID" : "PODDARS5",
