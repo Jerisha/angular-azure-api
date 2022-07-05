@@ -176,7 +176,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
 
     this.createForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Source', 'ResolutionTypeAudit', 'TransactionCommand', 'Status']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'AllResolutionType', 'TransactionCommand', 'ErrorStatus']);
     this.service.configDetails(request).subscribe((res: any) => {
       console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
