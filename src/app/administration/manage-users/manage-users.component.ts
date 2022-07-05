@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { async, BehaviorSubject, of, Subject } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
@@ -20,6 +20,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { formatDate, NumberFormatStyle } from '@angular/common';
 import { DateRange } from '@angular/material/datepicker';
 import { debug } from 'console';
+import { SelectCheckboxComponent } from 'src/app/uicomponents/select-checkbox/select-checkbox.component';
+
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -50,7 +52,7 @@ let profileitems=
   "accesslevel": "1000"
 };
 
-const TREE_DATA_three = [
+let TREE_DATA_three = [
   {
     name: 'All',
     id:111,
@@ -543,11 +545,11 @@ const UserProfiles = [
 ]
 
 const FilterListItems: Select[] = [
-  { view: 'Amdocs SOM', viewValue: 'Amdocs SOM', default: false },
-  { view: 'ONNET', viewValue: 'ONNET', default: false },
-  { view: 'Ring Central', viewValue: 'Ring Central', default: false },
-  { view: 'Audit', viewValue: 'Audit', default: false },
-  { view: 'EDGE', viewValue: 'EDGE', default: false }
+  // { view: 'Amdocs SOM', viewValue: 'Amdocs SOM', default: false },
+  // { view: 'ONNET', viewValue: 'ONNET', default: false },
+  // { view: 'Ring Central', viewValue: 'Ring Central', default: false },
+  // { view: 'Audit', viewValue: 'Audit', default: false },
+  // { view: 'EDGE', viewValue: 'EDGE', default: false }
 ];
 interface Access {
   value: string;
@@ -595,7 +597,8 @@ export class ManageUsersComponent implements OnInit {
     { value: '2', viewValue: 'SuperAdmin' },
     { value: '3', viewValue: 'Custom' }
   ];
-  filterItems: Select[] = FilterListItems;
+  filterItems: Select[] =[];
+  // FilterListItems;
   btAuditFileDetailsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
     {
@@ -656,7 +659,7 @@ export class ManageUsersComponent implements OnInit {
   ];
   userprofilescolsvalues: any = this.userprofilescols.map((x: any) => x.headerValue);
   displayedColumns1: any = ['Actions', 'Menu Group', 'Screen Name', 'Access Level'];
-
+  @ViewChild(SelectCheckboxComponent) SelectCheckbox!: SelectCheckboxComponent;
   //Filter Form
   filterUserofReportForm: FormGroup;
   filterUserAccessForm: FormGroup;
@@ -688,30 +691,38 @@ datasourceview:MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
   checklistSelection = new SelectionModel<TodoItemFlatNode>(
     true /* multiple */
   );
+  Sourcedata: string;
 
-InitializeTreeview()
+InitializeTreeview(ProfileName?:string)
 {
+  debugger
   let profileMenu:any;
-  console.log('profileitems',JSON.stringify(profileitems));
- 
-  let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
+  //console.log('profileitems',JSON.stringify(profileitems));
+  let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','',ProfileName);
+  //let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','',ProfileName);
   console.log('request',request);
- // this.bindtreeedataview(TREE_DATA_three);
+ this.bindtreeedataview(TREE_DATA_three);
+  const Treeview= Object.assign({},TREE_DATA_three);
+  //let TreeviewNew[]:any[]=Treeview;//
+  console.log('new object',Treeview);
+  console.log('old object',TREE_DATA_three);
   this.spinner.show();
   this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
     (res: any) => {
       debugger
-      if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
-        for(var i=0;i<TREE_DATA_three.length;i++)
+      if(res.Data[0].profileitems)
+      {
+      if (Treeview != undefined && Treeview.length > 0) {
+        for(var i=0;i<Treeview.length;i++)
         {
-        let  Tree=TREE_DATA_three[i];
+        let  Tree=Treeview[i];
         for(var j=0;j<Tree.children.length;j++)
         {
          let tchild=Tree.children[j];
           for(var k=0;k<tchild.children.length;k++)
           {
             let grandhchild:any=tchild.children[k];
-            console.log('gradchild',grandhchild.MenuID);
+           // console.log('gradchild',grandhchild.MenuID);
             if(grandhchild.MenuID!=undefined)
             {
             let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
@@ -723,7 +734,7 @@ InitializeTreeview()
              
               }
               else{
-                grandhchild.label='NO Access';
+                grandhchild.name='';
               }
             }
           }
@@ -742,7 +753,7 @@ InitializeTreeview()
             
               }
               else{
-                greatgrandchild.label='NO Access';
+                greatgrandchild.name='';
               }
             }
           }
@@ -752,24 +763,34 @@ InitializeTreeview()
       }
         }
       }
+      this.bindtreeedataview(Treeview);
+      console.log('Treeview',Treeview);
+      console.log('Three',TREE_DATA_three);
     }
-    this.bindtreeedataview(TREE_DATA_three);
-     console.log('api menuitems',this.ApiMenuattributes);
-
+  }
+  else{
+   
+    this.bindtreeedataview([]);
+    //console.log('api menuitems',this.ApiMenuattributes);
+  }
+   
+   
+  this.spinner.hide();
     });
 }
 
 
-  initialize(Event:string) {
+  initialize(Event:string,Profilename?:string) {
     
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
     if(Event!='Create')
     {
+      debugger
     let profileMenu:any;
     console.log('profileitems',JSON.stringify(profileitems));
    let Treedataupdate:any=TREE_DATA_three;
-    let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
+    let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','',Profilename);
     console.log('request',request);
     this.bindtreedata(Treedataupdate);
     this.spinner.show();
@@ -778,28 +799,30 @@ InitializeTreeview()
         debugger
       //  this.userAccessData.data = res.Data;
         console.log('data of Profile', res.Data);
-         profileitems=res.Data[0].profileitems;
+        this.ApiMenuattributes=[];
+         profileitems=res.Data[0]?.profileitems;
         //  this.UserEditForm = this.formBuilder.group({
         //   ProfileName: new FormControl({},),
         //   Description: new FormControl({},),
         //   UserProfile: new FormControl({},)
     
         // });
-        for (let field in this.UserEditForm.controls) {
-          let control = this.UserEditForm.get(field);
-          // c
-          // console.log(record[field]);
+        // for (let field in this.UserEditForm.controls) {
+        //   let control = this.UserEditForm.get(field);
+        //   // c
+        //   // console.log(record[field]);
     
-          if (field === 'ProfileName') {
-            control?.setValue(res.Data[0].profilename);
-          } else if (field === 'Description') {
-             control?.setValue(res.Data[0].profiledescription);
+        //   if (field === 'ProfileName') {
+        //     control?.setValue(res.Data[0].profilename);
+        //   } else if (field === 'Description') {
+        //      control?.setValue(res.Data[0].profiledescription);
     
-          } 
-        }
+        //   } 
+        // }
         //this.record = record;
         this.eventName = 'Update';
-     
+     if(profileitems)
+     {
         if (Treedataupdate != undefined && Treedataupdate.length > 0) {
           for(var i=0;i<Treedataupdate.length;i++)
           {
@@ -810,7 +833,7 @@ InitializeTreeview()
             for(var k=0;k<tchild.children.length;k++)
             {
               let grandhchild:any=tchild.children[k];
-              console.log('gradchild',grandhchild.MenuID);
+             // console.log('gradchild',grandhchild.MenuID);
               if(grandhchild.MenuID!=undefined)
               {
               let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
@@ -843,7 +866,12 @@ InitializeTreeview()
         }
           }
         }
-      }
+      
+      
+      
+      
+      
+         } }
       this.bindtreedata(Treedataupdate);
        console.log('api menuitems',this.ApiMenuattributes);
       }
@@ -895,8 +923,27 @@ InitializeTreeview()
   bindSource()
   {
     let request = Utils.preparePyConfig(['Search'], ['Source']);
+    this.filterItems=[];
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("source from config: " + JSON.stringify(res))});
+      console.log("source from config: " + JSON.stringify(res))
+  
+      res.data.Source?.forEach((element:any) => {
+        this.filterItems.push({view: element, viewValue: element, default: false})
+      });
+    
+    });
+     
+
+
+
+      // const FilterListItems: Select[] = [
+      //   { view: 'Amdocs SOM', viewValue: 'Amdocs SOM', default: false },
+      //   { view: 'ONNET', viewValue: 'ONNET', default: false },
+      //   { view: 'Ring Central', viewValue: 'Ring Central', default: false },
+      //   { view: 'Audit', viewValue: 'Audit', default: false },
+      //   { view: 'EDGE', viewValue: 'EDGE', default: false }
+      // ];
+
       //this.configDetails = res.data;
   }
 bindtreedata(treestructure:any)
@@ -1170,7 +1217,7 @@ bindtreeedataview(treestructure:any)
     //   UserId: new FormControl({ value: 'ashok' }'')
     // })
     this.createForms();
-    //this.bindSource();
+    this.bindSource();
     this.isLeftPanel = false;
 
   }
@@ -1259,7 +1306,7 @@ bindtreeedataview(treestructure:any)
         (res: any) => {
           this.userAccessData.data = res.Data;
           // User Profile Dropdown
-          this.userProfilesDropdown = res.Data[res.Data.length-1].userprofiles.map((x:any) =>x.profilename);
+          this.userProfilesDropdown = res.Data[res.Data.length-1].userprofiles.filter((x:any)=>x.iscustomprofile==0).map((x:any) =>x.profilename);
           this.userProfilesDropdown.push('Custom');
     
           console.log('data of manage users', this.userAccessData);
@@ -1339,9 +1386,15 @@ bindtreeedataview(treestructure:any)
   onCancel() {
     this.isLeftPanel = false;
   }
-  onEditUserprofile(record: any, event: Event) {
-    this.InitializeTreeview();
+  onEditUserprofile(record: any, event: Event,row?:any) {
+    this.UserProfileForm.reset()
+    this.InitializeTreeview(row.profilename);
     //this.database.buildFileTree(TREE_DATA_two,0);
+    if(row)
+    {
+    this.UserProfileForm.get('profilename')?.setValue(row.profilename);
+    this.UserProfileForm.get('profiledescription')?.setValue(row.profilename);
+    }
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find(x => x.tabType == 1)) {
@@ -1355,7 +1408,7 @@ bindtreeedataview(treestructure:any)
     else {
       this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
     }
-
+   
     this.Header = "User Profiles";
     this.UserDetailsForm = false;
     this.UserEditProfilesForm = false;
@@ -1367,9 +1420,9 @@ bindtreeedataview(treestructure:any)
     event.stopPropagation();
   }
   onSelectEvent(value: any) {
-
+    console.log('event name',this.eventName);
     if (value == 'Custom') {
-      this.initialize(this.eventName);
+      this.initialize(this.eventName,'CUSTOM-'+this.referenceForm.controls.username?.value);
       this.onEditUserprofileAceessUserAccess('Create');
     }
   }
@@ -1474,7 +1527,7 @@ else{
   }
   onEditUserprofileAceessUserAccess(Actiontype: string) {
    // this.Formstatus='Profile';
-    this.initialize(Actiontype);
+    //this.initialize(Actiontype);
     debugger
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1505,6 +1558,10 @@ else{
     //   UserProfile: new FormControl()
 
     // });
+    this.UserEditForm.get('profilename')?.setValue('CUSTOM-'+this.referenceForm.controls.username?.value);
+    this.UserEditForm.get('profiledescription')?.setValue('Description');
+
+
     if (Actiontype == 'Create') {
       this.eventName = 'Create';
     }
@@ -1515,7 +1572,13 @@ else{
   }
   onEditUserprofileAceess(Actiontype: string, row ?: any) {
     this.Formstatus='Profile';
-    this.initialize(Actiontype);
+    if(row)
+    {
+    this.initialize(Actiontype,row.profilename);
+    }
+    else{
+      this.initialize(Actiontype);
+    }
     debugger
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1597,7 +1660,10 @@ else{
 
   }
   changeevent(event: any) {
+    debugger
     console.log('event called', event);
+  //  this.Sourcedata=event;
+    //this.referenceForm.get('sources')?.setValue(JSON.stringify(event));
   }
 
   onEdituserDetails(record: any, event: Event) {
@@ -1643,6 +1709,34 @@ else{
     this.eventName = 'Update'
     //this.showDataform =true; 
     //this.cdr.detectChanges();
+    //
+    debugger
+    //this.bindSource();
+    if(this.eventName==='Update')
+    {
+    if(record['sources'])
+    {
+    
+      let arr:any[]=record['sources'].split(',');
+      arr.push('SAS/COMS');
+      arr.forEach((value:any)=>{
+         this.filterItems.map((x:any)=>{
+          if(x.view===value)
+          {
+            x.default=true;
+          }
+          else{
+            x.default=false;
+          }
+         });
+      })
+
+    }
+    }
+
+    this.SelectCheckbox?.clearvaluesselection();
+
+
     for (let field in this.referenceForm.controls) {
       let control = this.referenceForm.get(field);
       // control?.setValue(record[field]);
@@ -1653,12 +1747,15 @@ else{
         // this.userProfilesDropdown = record[field];
         // this.userProfile = record['profilename'];
         control?.setValue(record['profilename']);
-      } else if (field === 'source') {
+      } else if (field === 'sources') {
         // control?.setValue(record[field]);
+        
+
 
       } else if (field === 'active'){
         record[field]==='Yes' ? control?.setValue(true) : control?.setValue(false);
       }
+      
       else {
         control?.setValue(record[field]);
       }
@@ -1727,10 +1824,8 @@ else{
       this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
     }
     this.isLeftPanel = true;
-    this.referenceUsernameform = this.formBuilder.group({
-
-      UserID: new FormControl()
-    });
+    this.referenceUsernameform.reset();
+   
   }
 
   onCreateuserDetails() {
@@ -1766,12 +1861,15 @@ else{
     else {
       this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
     }
+    this.referenceForm.reset();
+    this.referenceForm.get('username')?.setValue(this.referenceUsernameform.controls.UserID?.value);
+    
     this.Header = "User Access Details";
     this.UserDetailsForm = true;
     this.StartupForm = false;
     this.UserProfilesForm = false;
     this.isLeftPanel = true;
-    this.referenceForm.reset();
+    
     // this.referenceForm = this.formBuilder.group({
     //   username: new FormControl(),
     //   userprofiles: new FormControl(),
@@ -1782,37 +1880,13 @@ else{
     //   telephoneno: new FormControl(),
     // });
     this.eventName = "Create";
-
-    for (let field in this.referenceForm.controls) {
-      let control = this.referenceForm.get(field);
-      // control?.setValue(record[field]);
-      // console.log(record[field]);
-
-      if (field === 'userprofiles') {
-        this.userProfilesDropdown = [
-          "custom_beema",
-          "Super Admin",
-          "Admin",
-          "Requestor",
-          "Readonly",
-          "Custom"
-      ];
-        // this.userProfile = record['profilename'];
-        control?.setValue([
-          "custom_beema",
-          "Super Admin",
-          "Admin",
-          "Requestor",
-          "Readonly",
-          "Custom"
-      ]);
-      } else if (field === 'source') {
-        // control?.setValue(record[field]);
-
-      } else {
-       // control?.setValue(record[field]);
-      }
+    this.filterItems.map((x:any)=>
+    {
+      x.default=false;
     }
+  
+    );
+    this.SelectCheckbox?.clearvaluesselection();
   }
   onSubmit(reportIdentifier?: string) {
     debugger
@@ -2030,7 +2104,8 @@ else{
   multipleSelect(event:any){
     // console.log(event)
     if(event){
-      console.log(event.toString())
+      console.log(event.toString());
+      this.Sourcedata=event.toString();
     }
   }
 
@@ -2266,6 +2341,7 @@ else{
   }
 
   prepareData(form: FormGroup,action?:string) {
+    console.log('form group data',form);
     debugger;
     let attribute: any = {};
     let profilename:string="";
@@ -2288,20 +2364,35 @@ else{
     }
     if(action=='UserAccess')
     {
-
+      if(this.Sourcedata){
+        attribute['sources']=this.Sourcedata;
+      }
+     
       let newattribute:any={};
      if(profilename==='Custom')
      {
+      attribute['profilename']=this.UserEditForm.controls.profilename?.value;
+      newattribute['iscustom']='0';
+      newattribute['iseditprofile']='1';
+      newattribute['isdefaultprofile']='0';
       newattribute['profilename']=profilename;
       newattribute['profileitems']=this.Resultattributes;
+      attribute['iscustomprofile']='1';
+     // newattribute['profiledescription']='This is custom';
      }
+
      else{
+      attribute['iscustomprofile']='0';
       newattribute['profilename']=profilename;
-      newattribute['isdefaultprofile']=1;
+      newattribute['iscustom']='0';
+      newattribute['iseditprofile']='1';
+      newattribute['isdefaultprofile']='1';
+      attribute['iscustomprofile']='0';
      // newattribute['profileitems']=this.Resultattributes;
      }
-      newattribute['profiledescription']='This is custom';
-      newattribute['iseditprofile']=1;
+     newattribute['isdelete']='1';
+     
+     
       
      
       
@@ -2370,7 +2461,8 @@ else{
       lastname: new FormControl({ value: '' },[Validators.required]),
       emailaddress: new FormControl({ value: '' },[Validators.required,Validators.email]),
       telephoneno: new FormControl({ value: '' },[Validators.pattern("^[0-9]{11}$")]),
-      active: new FormControl({ value: '' },[Validators.required])
+      active: new FormControl({ value: '' },[]),
+      sources:new FormControl({ value: '' }),
     });
 
     this.StartupUsermsgsForm = this.formBuilder.group({
@@ -2387,11 +2479,19 @@ else{
 
     this.UserEditForm = this.formBuilder.group({
 
-      profilename: new FormControl({ value: '' }, []),
-      profiledescription: new FormControl({ value: '' }, []),
+      profilename: new FormControl({ value: '' },[Validators.required]),
+      profiledescription: new FormControl({ value: '' },[Validators.required]),
       // userprofile: new FormControl()
 
     });
+    this.UserProfileForm = this.formBuilder.group({
+
+      profilename: new FormControl({ value: '' },[Validators.required]),
+      profiledescription: new FormControl({ value: '' },[Validators.required]),
+      // userprofile: new FormControl()
+
+    });
+    
     this.filterUserofReportForm = this.formBuilder.group({
       username: new FormControl({ value: '' }, []),
       sources: new FormControl({ value: '' }, []),
@@ -2414,7 +2514,10 @@ else{
       profilename: new FormControl({ value: '' }, []),
       createdby: new FormControl({ value: '' }, []),
     });
+    this.referenceUsernameform = this.formBuilder.group({
 
+      UserID: new FormControl({value:''},[Validators.required]),
+    });
     this.StartupUsermsgsForm.reset();
     this.referenceForm.reset();
     this.filterUserofReportForm.reset();
