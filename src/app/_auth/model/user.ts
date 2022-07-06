@@ -20,7 +20,7 @@
     profilename: string;
     menuitems: any[];
     favourites: any[];
-    messagedescription: string;
+    newsupdate: any[];
     iscompleteaccess:number
     iscustom:number;
    }
