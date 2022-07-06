@@ -2,12 +2,20 @@ import { Directive, Injectable, OnChanges, OnInit, SimpleChanges } from "@angula
 import { ActivatedRoute, Router } from "@angular/router";
 import { User } from "./model/user";
 import { AuthenticationService } from "./services/authentication.service";
+import * as  menu from '../../assets/menu.json';
 
+
+const MENU_SOURCE = (menu as any).default;
 @Injectable({ providedIn: 'root' })
+
+
 export class UserProfile {
+    menuItem : any[] = [];
     constructor(private authService: AuthenticationService,
         private activatedRoute: ActivatedRoute
-    ) { }
+    ) {
+        this.menuItem = MENU_SOURCE;
+     }
 
 
     userProfile: string;
@@ -15,14 +23,19 @@ export class UserProfile {
     updateAccess: boolean;
     deleteAccess: boolean;
     createAccess: boolean;
+    newsupdate:any[];
+    favouriteMenu: any;
+
 
     intializeUser(): void {
         debugger;
         let user: User = this.authService.currentUserValue;
-        this.userProfile = user?.profilename;
+        this.userProfile = user.profilename;
+        
+       this.newsupdate = user.newsupdate;
 
-        let menu = user?.menuitems?.find(x => x.menuitemid?.toLowerCase() === (this.activatedRoute.snapshot.data['id'] as string).toLowerCase())
-        if (menu?.isfullaccess === 1 || user.iscompleteaccess === 1) {
+        let menu = user.menuitems.find(x => x.menuid?.toLowerCase() === (this.activatedRoute.snapshot.data['id'] as string).toLowerCase())
+        if (menu?.isfullaccess === 1) {
             this.viewAccess = true;
             this.updateAccess = true;           
             this.createAccess = true;

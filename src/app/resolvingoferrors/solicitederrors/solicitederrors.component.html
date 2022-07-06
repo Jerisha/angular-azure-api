@@ -22,10 +22,10 @@
             <mat-label>Start Telephone No</mat-label>
             <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
             <input formControlName="StartTelephoneNumber" numbersOnly matInput maxlength="11"
-              placeholder="Start Telephone No" #starttelno telNoPrefixValidator >
+              placeholder="Start Telephone No" #starttelno telNoPrefixValidator>
             <mat-hint align="end">{{starttelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
-              
+
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
                 <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
                 <!-- <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
@@ -36,8 +36,8 @@
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.EndTelephoneNumber.disabled}">
             <mat-label>End Telephone No</mat-label>
             <!-- (keypress)="numberOnly($event)" (paste)="onPaste($event)" -->
-            <input formControlName="EndTelephoneNumber" numbersOnly matInput #endtelno maxlength="11" placeholder="End Telephone No"
-               telNoPrefixValidator>
+            <input formControlName="EndTelephoneNumber" numbersOnly matInput #endtelno maxlength="11"
+              placeholder="End Telephone No" telNoPrefixValidator>
             <mat-hint align="end">{{endtelno.value?.length || 0}}/11</mat-hint>
             <mat-error>
               <div *ngIf="f.EndTelephoneNumber.touched && f.EndTelephoneNumber.invalid" class="alert alert-danger">
@@ -64,10 +64,10 @@
             <mat-error *ngIf="f.Command.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field> -->
 
-          
+
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
-            <mat-select formControlName="Command">  
+            <mat-select formControlName="Command">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.Command" [value]="val">
                 {{val}}
@@ -88,10 +88,10 @@
             </mat-autocomplete>
             <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field> -->
-           
+
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source System</mat-label>
-            <mat-select formControlName="Source">  
+            <mat-select formControlName="Source">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.Source" [value]="val">
                 {{val}}
@@ -120,15 +120,15 @@
             </span>
             <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
               <!-- <mat-select formControlName="ResolutionType"> -->
-              <!-- <mat-option *ngFor="let val of config.ResolutionType  | ddlFilter: resolutiontype.value"
+          <!-- <mat-option *ngFor="let val of config.ResolutionType  | ddlFilter: resolutiontype.value"
                 [value]="val">{{val}}</mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
-          </mat-form-field> --> 
-            
+          </mat-form-field> -->
+
           <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="ResolutionType">  
+            <mat-select formControlName="ResolutionType">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.ResolutionType" [value]="val">
                 {{val}}
@@ -139,7 +139,7 @@
           <!-- <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <!-- <mat-select formControlName="ErrorType"> -->
-            <!-- <input #errortype formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
+          <!-- <input #errortype formControlName="ErrorType" type="text" placeholder="Search Error Type" matInput
               [matAutocomplete]="autoErrorType" OptionsValidator [options]="config.ErrorType " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
@@ -151,11 +151,11 @@
               </mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="f.ErrorType.errors?.validOptions">Value need to match available options</mat-error>
-          </mat-form-field> --> 
+          </mat-form-field> -->
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
-            <mat-select formControlName="ErrorType">  
+            <mat-select formControlName="ErrorType">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.ErrorType" [value]="val">
                 {{val}}
@@ -165,14 +165,14 @@
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
             <mat-label>Error Code</mat-label>
-            <input #errorcode formControlName="ErrorCode"  [(ngModel)]="model.ErrorCode" type="text" placeholder="Search Error Code" matInput
-              [matAutocomplete]="auto" OptionsValidator [options]="config.ErrorCode " />
+            <input #errorcode formControlName="ErrorCode" [(ngModel)]="model.ErrorCode" type="text"
+              placeholder="Search Error Code" matInput [matAutocomplete]="auto" OptionsValidator
+              [options]="config.ErrorCode " />
             <span matSuffix mat-icon-button>
               <mat-icon (click)="model.ErrorCode=''">arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of config.ErrorCode  | ddlFilter: errorcode.value"
-                [value]="option">
+              <mat-option *ngFor="let option of config.ErrorCode  | ddlFilter: errorcode.value" [value]="option">
                 {{option}}
               </mat-option>
             </mat-autocomplete>
@@ -238,7 +238,8 @@
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
               (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
             </app-table-selection>
-            <form (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off" *ngIf="updateAccess">
+            <form (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off"
+              *ngIf="updateAccess">
               <div class="mat-elevation-z8 side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
@@ -247,28 +248,42 @@
 
                   <div style="display: inline-block;">
                     <ng-container *ngIf="updateDetails as con">
+
+
                       <mat-form-field>
                         <mat-label>Resolution Type</mat-label>
-                        <input name="resolution" required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}"
-                          type="text" #resolution="ngModel" placeholder="Search Resolution Type" matInput
-                          [matAutocomplete]="autoResolutionType1" OptionsValidator
-                          [options]="con.ResolutionType " />
-                        <span matSuffix mat-icon-button>
-                          <mat-icon>arrow_drop_down</mat-icon>
-                        </span>
-                        <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                          <mat-option
-                            *ngFor="let val of con.ResolutionType  | ddlFilter: resolution.value"
-                            [value]="val">{{val}}</mat-option>
-                        </mat-autocomplete>
-                        <mat-error class="alert alert-danger">
-                          <div *ngIf="resolution.errors?.validOptions">Value need to match available options</div>
-                          <div *ngIf="!resolution.errors?.required">
+                        <mat-select #resolution="ngModel" name="resolution" required [(ngModel)]="Resolution">
+                          <mat-option *ngFor="let val of con.ResolutionType" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error class="alert alert-danger">                          
+                          <div *ngIf="resolution.errors?.required">
                             <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                             Select resolution type
                           </div>
                         </mat-error>
                       </mat-form-field>
+                      <!-- <mat-form-field>
+                        <mat-label>Resolution Type</mat-label>
+                        <input name="resolution" required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}"
+                          type="text" #resolution="ngModel" placeholder="Search Resolution Type" matInput
+                          [matAutocomplete]="autoResolutionType1" OptionsValidator [options]="con.ResolutionType " />
+                        <span matSuffix mat-icon-button>
+                          <mat-icon>arrow_drop_down</mat-icon>
+                        </span>
+                        <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
+                          <mat-option *ngFor="let val of con.ResolutionType  | ddlFilter: resolution.value"
+                            [value]="val">{{val}}</mat-option>
+                        </mat-autocomplete>
+                        <mat-error class="alert alert-danger">
+                          <div *ngIf="resolution.errors?.validOptions">Value need to match available options</div>
+                          <div *ngIf="!resolution.errors?.required">
+                           
+                            Select resolution type
+                          </div>
+                        </mat-error>
+                      </mat-form-field> -->
                     </ng-container>
                     <mat-form-field>
                       <mat-label>999 Reference</mat-label>
@@ -287,7 +302,7 @@
                         placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                       <mat-error class="alert alert-danger">
-                        <div *ngIf="!remarks.errors?.required">
+                        <div *ngIf="remarks.errors?.required">
                           <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                           Add remarks for resolution
                         </div>
