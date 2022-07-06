@@ -458,7 +458,7 @@
                                         </table>  -->
                                     </div>
                                 </div>
-                                    <div class ="fixed-button-bar">    
+                                    <div class ="fixed-button-bar" *ngIf = "Profilebutton">    
                                         <mat-card-actions>
                                           <button  *ngIf = "eventName==='Create'" [disabled]="UserEditForm.invalid"  (click)=redirecttoForm()   type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
                                             <mat-icon >save</mat-icon>Go to
