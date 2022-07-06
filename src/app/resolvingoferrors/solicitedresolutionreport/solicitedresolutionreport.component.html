@@ -36,7 +36,7 @@
           </app-select-exp>
           <mat-form-field [ngClass]="{'hidden':myForm.controls.TransactionID.disabled}"
               appearance="outline">
-              <mat-label>TransactionID</mat-label>
+              <mat-label>Transaction ID</mat-label>
               <input id="TransactionID" formControlName="TransactionID" matInput maxlength="500" #input
                   placeholder="TransactionID">
           </mat-form-field>
@@ -142,7 +142,7 @@
             <mat-label>Status</mat-label>
             <mat-select formControlName="Status">  
               <!-- <mat-option>None</mat-option>           -->
-              <mat-option *ngFor="let val of config.Status" [value]="val">
+              <mat-option *ngFor="let val of config.ErrorStatus" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
@@ -221,15 +221,15 @@
           </mat-form-field>
         </div> -->
 
-        <div [ngStyle]="{'display':myForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
+        <div [ngStyle]="{'display':myForm.controls.ResolveType.disabled ? 'none' : 'block'}">
           <app-select-exp [listItems]="expressions[3].default" #ResolveTypeOperator
               [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolveTypeOperator',ResolveTypeOperator.selectedViewValue])">
           </app-select-exp>
-          <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ResolveType.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="ResolutionTypeAudit">  
+            <mat-select formControlName="ResolveType">  
               <!-- <mat-option>None</mat-option>           -->
-              <mat-option *ngFor="let val of config.ResolutionTypeAudit" [value]="val">
+              <mat-option *ngFor="let val of config.AllResolutionType" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
