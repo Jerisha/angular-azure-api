@@ -43,11 +43,18 @@ export class AuthenticationService {
         const now = new Date();
          return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UILOGIN, Auth.preparePyLogin(username, password))
             .pipe(map((x: any) => {
-                let user = x.Data.UserDetails[0];
+                let user = x.Data.UserDetails[0] as User;
+
+                if(user.emailaddress && user.token)
+                {
                 sessionStorage.setItem('currentUser', JSON.stringify(user));
                 sessionStorage.setItem('token', user.token);
                 this.currentUserSubject
-                this.currentUserSubject.next(user as User);
+                this.currentUserSubject.next(user);
+                }
+                else{
+                    
+                }
 
                 // if (user) {
                 //     this.isloggedIn = true;
