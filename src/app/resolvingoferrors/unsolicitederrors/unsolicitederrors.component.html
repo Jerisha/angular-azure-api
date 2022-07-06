@@ -203,19 +203,13 @@
                     <ng-container *ngIf="updateDetails  as con">
                       <mat-form-field>
                         <mat-label>Resolution Type</mat-label>
-                        <input name="resolution" required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}"
-                          type="text" #resolution="ngModel" placeholder="Search Resolution Type" matInput
-                          [matAutocomplete]="autoResolutionType1" OptionsValidator [options]="con.ResolutionType " />
-                        <span matSuffix mat-icon-button>
-                          <mat-icon>arrow_drop_down</mat-icon>
-                        </span>
-                        <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                          <mat-option *ngFor="let val of con.ResolutionType | ddlFilter: resolution.value"
-                            [value]="val">{{val}}</mat-option>
-                        </mat-autocomplete>
-                        <mat-error class="alert alert-danger">
-                          <div *ngIf="resolution.errors?.validOptions">Value need to match available options</div>
-                          <div *ngIf="!resolution.errors?.required">
+                        <mat-select #resolution="ngModel" name="resolution" required [(ngModel)]="Resolution">
+                          <mat-option *ngFor="let val of con.ResolutionType" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error class="alert alert-danger">                          
+                          <div *ngIf="resolution.errors?.required">
                             <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                             Select resolution type
                           </div>
@@ -236,7 +230,7 @@
                         [ngModelOptions]="{standalone: true}" matInput maxlength="500" placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{remarks.value?.length || 0}}/500</mat-hint>
                       <mat-error>
-                        <div *ngIf="!remarks.errors?.required" class="alert alert-danger">
+                        <div *ngIf="remarks.errors?.required" class="alert alert-danger">
                           <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                           Add remarks for resolution
                         </div>
