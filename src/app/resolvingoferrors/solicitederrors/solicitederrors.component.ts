@@ -396,7 +396,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
-      isFavcols:true,
+      //isFavcols:true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }

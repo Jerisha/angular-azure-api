@@ -63,3 +63,14 @@ export interface FavProfileDetails{
     name:string;
     favCols:string[];
 }
+
+export interface FavoriteProfile{
+    reportmenuitem?: string;
+      favprofname: string,
+      favprofileid?: string,
+      favcolumnlist: string[],
+      isdefaultprofile?: number,
+      issharedprofile?: number,
+      createddttm?: string,
+      createdby?: string
+}

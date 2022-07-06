@@ -167,6 +167,7 @@ refresh(event: any)
             removeNoDataColumns : true,
             Columns: this.columns,
             filter: false,
+            isFavcols:true,
             excelQuery : this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
             //selectionColumn: 'TranId',

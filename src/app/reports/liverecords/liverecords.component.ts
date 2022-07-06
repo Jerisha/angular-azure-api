@@ -642,6 +642,7 @@ resetExp:boolean = false;
       filter: true,
       selectCheckbox: true,
        removeNoDataColumns : true,
+       isFavcols:true,
        excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 

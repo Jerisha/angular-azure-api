@@ -543,7 +543,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
-      isFavcols:true,
+      //isFavcols:true,
       setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },

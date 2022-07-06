@@ -505,7 +505,8 @@ export const PyRequests = {
       ],
       "RequestParams":[
           {"ReportIdenitifer":"ManageUsers",
-          "SubReportName":"UserReports"}]
+          "SubReportName":"UserReports",
+          }]
       },
       UIUPDATE:{ "RequestType" : "UIUPDATE",
       "UserParams":[
