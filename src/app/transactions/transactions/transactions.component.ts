@@ -46,7 +46,7 @@ export class TransactionsComponent  extends UserProfile implements OnInit {
     private actRoute: ActivatedRoute,
     public router: Router) {
       super(auth, actRoute);
-      this.intializeUser();
+      //this.intializeUser();
    // this.AuditPopulatevalue=[{StarttelephoneNumber:"01131130009",EndTelephoneNumber:"01131130009",ResolutionRemarks:"test",ManualAuditType:"SRC",ActID:"29-20 NOV 2020"}];
     this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
     if (this.passedRouteData) {

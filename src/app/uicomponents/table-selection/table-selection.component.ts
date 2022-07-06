@@ -260,7 +260,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-
     if (this.isDataloaded) {
       this.toggleAllSelection();
       this.isDataloaded = false;
@@ -606,56 +605,38 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   copyToClipboard() {
     let data = "";
+
     this.selection.selected.forEach((row: any, index) => {
       if (index === 0) {
-        let copyHeader = Object.keys(row)
-        copyHeader.forEach((val: string) => {
-          if (this.ColumnDetails.find(e => e.headerValue === val))
-            data += this.ColumnDetails.find(e => e.headerValue === val)?.header + ','
-          else
-            data += val + ',';
-        });
-        data = data.replace(/[,]+/g, '\t') + "\n";
+        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
+        data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
       }
-      let result = Object.values(row);
-      data += result.toString().replace(/[,]+/g, '\t') + "\n";
+      let tabValue: string[] = []
+      this.select?.value?.forEach((x: string) => {
+        if (x != 'View') tabValue.push(row[x])
+      })
+      data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
     });
     return data;
   }
 
   RequestExport2Excel() {
     debugger;
-    // let selectedColumns: string[] = this.select.value;
-    // let viewIndex = selectedColumns.findIndex(x => x.toUpperCase() === 'VIEW')
-    // if (viewIndex != -1) { selectedColumns.splice(viewIndex, 1) }
-    // let excelHeaderParams = Object.create({
-    //   "ColumnMapping":
-    //     []
-    // })
-    // console.log(excelHeaderParams, 'params')
-    // selectedColumns.forEach((x: string) => {
-    //   let val = this.ColumnDetails.find(e => e.headerValue === x)
-    //   if (val) {
-    //     excelHeaderParams.ColumnMapping.push([[val.headerValue, val.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
-    //   }
-    // })
-
     let ColumnMapping: any = []
     //let tempColumns:string =''
-    let temp:any = {}
+    let temp: any = {}
     this.gridFilter.forEach(x => {
-      if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
-      {       
+      if (x.headerValue != 'View' && this.select.value.includes(x.headerValue)) {
         //console.log(`"${x.headerValue}":"${x.header}"`)
-       //tempColumns +=`'${x.headerValue}':'${x.header}',`
-       temp[x.headerValue]=x.header
-         //ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))        
+        //tempColumns +=`'${x.headerValue}':'${x.header}',`
+        temp[x.headerValue] = x.header
+        //ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))        
       }
     });
     //ColumnMapping.push(`{${tempColumns}}`)
     ColumnMapping.push(temp)
     //console.log(ColumnMapping,'columnMapping')
-  
+
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
         message: 'Do you want to Export this Report?'
@@ -671,14 +652,14 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
             width: '680px', disableClose: true, data: {
               // message: `Add your content here use break for adding new line? <br/>
               message:
-              `Please Note the following:<br/>
+                `Please Note the following:<br/>
                 1. Excel spreadsheets can take some time to produce and there may be delay of up to 15 minutes.<br/>
                 2. The background processing is performed in order of user requests.<br/>
                 3. The file name will be<strong> ${x.data.ExportData[0].FileName}</strong> .<br/>
                 4. The progress can be monitored by clicking on excel reports icon towards the right on top corner.<br/>
                 5. When spread sheet is available,clicking on the file name will allow to download to the local disk.<br/>
                 6. The previous week spread sheet will be deleted.<br/>`
-                //  ${JSON.stringify(x.data.ExportData)}`
+              //  ${JSON.stringify(x.data.ExportData)}`
             }
           });
           excelDetail.afterClosed().subscribe();

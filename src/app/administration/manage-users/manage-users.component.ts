@@ -16,6 +16,10 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { formatDate, NumberFormatStyle } from '@angular/common';
+import { DateRange } from '@angular/material/datepicker';
+import { debug } from 'console';
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -23,6 +27,7 @@ export class TodoItemNode {
   id: number;
   isChecked: boolean;
   isPlanType: boolean;
+  MenuID:string;
   Position: number;
 }
 
@@ -32,259 +37,76 @@ export class TodoItemFlatNode {
   level: number;
   expandable: boolean;
   id: number;
-  MenuID: string;
+  MenuID:string;
+  isparent:boolean
   isChecked: boolean;
-  isPlanType: boolean;
   Position: number;
 }
-const TREE_DATA = [
-  {
-    name: 'Test 1',
-    id: 111,
-    isChecked: true,
 
-    Position: 11111,
+let profileitems=
+ {
+  "menuid": "M",
+  "accessname": "View|Update|Create|Delete",
+  "accesslevel": "1000"
+};
+
+const TREE_DATA_three = [
+  {
+    name: 'All',
+    id:111,
+    children:[
+  {
+    name: 'Process Management',
+    id:111, 
+  
+    isChecked:false,
+    Position:11111,
     children: [
       {
-        name: 'Sub - Test 1',
-        id: 22,
-        isChecked: true,
-
-        Position: 777777,
-        children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-
-            Position: 6666666,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-
-            Position: 5555555,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-
-            Position: 5555555,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-
-            Position: 5555555,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: 'Test 2',
-    id: 66,
-    isChecked: false,
-
-    Position: 33333,
-    children: [
-      {
-        name: 'Sub - Test 2',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
-      },
-    ],
-  },
-];
-const TREE_DATA_two = [
-  {
-    name: 'Process Management Test',
-    id: 111,
-    isChecked: true,
-
-    Position: 11111,
-    children: [
-      {
-        name: 'Solicited/Internal Discrepancy Process ',
-        id: 22,
-        isChecked: true,
-
-        Position: 11111,
-        children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-
-            Position: 0,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-
-            Position: 0,
-          },
-        ],
+        name: 'Solicited/Internal Discrepancy Process updated',
+        id:22,
+        isChecked:false,     
+         Position:11111,
+         MenuID:'Menu01',
+        
+        
       },
       {
         name: 'Solicited Resolution Report',
-        id: 22,
-        isChecked: true,
-
-        Position: 11111,
-        children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-
-            Position: 0,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-
-            Position: 0,
-          },
-        ]
-
+        id:22,
+        isChecked:false, 
+        MenuID:'Menu02',
+         Position:11111,
+        
+     
       },
       {
         name: 'Solicited Actions Report',
-        id: 22,
-        isChecked: true,
-
-        Position: 11111,
-        children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-
-            Position: 0,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-
-            Position: 0,
-          },
-        ]
-
+        id:22,
+        isChecked:false, 
+        MenuID:'Menu03',
+        
+         Position:11111,
+        
+     
       },
       {
         name: 'Unsolicited Process',
-        id: 22,
-        isChecked: true,
-
-        Position: 11111,
-        children: [
-          {
-            name: 'U',
-            id: 33,
-            isChecked: false,
-
-            Position: 0,
-          },
-          {
-            name: 'D',
-            id: 44,
-            isChecked: true,
-
-            Position: 0,
-          },
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-
-            Position: 0,
-
-          },
-        ]
-
+        id:22,
+        isChecked:false, 
+        MenuID:'Menu04',
+         Position:11111,
+      
+     
       },
       {
         name: 'Unsolicited Actions Report',
-        id: 22,
-        isChecked: true,
-
-        Position: 11111,
-        children: [
-
-          {
-            name: 'C',
-            id: 54,
-            isChecked: true,
-
-            Position: 0,
-          },
-          {
-            name: 'R',
-            id: 374,
-            isChecked: true,
-
-            Position: 0,
-          },
-        ]
-
+        id:22,
+        isChecked:false, 
+        MenuID:'Menu05',
+         Position:11111,
+        
+     
       },
 
 
@@ -292,1705 +114,386 @@ const TREE_DATA_two = [
   },
   {
     name: 'Record Creation',
-    id: 66,
-    isChecked: false,
-
-    Position: 33333,
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
     children: [
       {
+        MenuID:'Menu06',
         name: 'Create Record',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        
+        Position:44444444,
       },
       {
+        MenuID:'Menu07',
         name: 'Create Internal Cease',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        
+        Position:44444444,
       },
 
     ]
   },
   {
     name: 'Audit Process Management',
-    id: 66,
-    isChecked: false,
-
-    Position: 33333,
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
     children: [
       {
         name: 'Full Audit Details',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu08',
+        Position:44444444,
       },
       {
         name: 'Audit Discrepancy Report',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu09',
+        
+        Position:44444444,
       },
       {
         name: 'External Audit Details',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu10',
+        
+        Position:44444444,
       },
       {
         name: 'Full Audit History',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu11',
+        Position:44444444,
       },
       {
         name: 'Audit User Action Summary',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu12',
+        Position:44444444,
       },
       {
         name: 'Saparateinternal Audit',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu13',
+        
+        Position:44444444,
       }
     ]
   },
   {
     name: 'Audit Process Management',
-    id: 66,
-    isChecked: false,
-
-    Position: 33333,
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
     children: [
       {
         name: 'Full Audit Details',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu14',
+        
+        Position:44444444,
       },
       {
         name: 'Audit Discrepancy Report',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu15',
+        
+        Position:44444444,
       },
       {
         name: 'External Audit Details',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu16',
+        
+        Position:44444444,
       },
       {
         name: 'Full Audit History',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu17',   
+        Position:44444444,
       },
       {
         name: 'Audit User Action Summary',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu18',
+        
+        Position:44444444,
       },
       {
         name: 'Saparateinternal Audit',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu19',
+        
+        Position:44444444,
       }
     ]
   },
   {
     name: 'Inventory Records',
-    id: 66,
-    isChecked: false,
-
-    Position: 33333,
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
     children: [
       {
         name: 'InFlight Records',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu20',
+        Position:44444444,
       },
       {
         name: 'Telephone Range Report',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu21',
+        Position:44444444,
       },
       {
         name: 'Transaction Details Records',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu22',
+        Position:44444444,
       },
       {
         name: 'Full Audit History',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu23',
+        Position:44444444,
       },
       {
         name: 'Audit User Action Summary',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu24',
+        Position:44444444,
       },
       {
         name: 'Saparateinternal Audit',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu25',
+        Position:44444444,
       }
     ]
   },
   {
     name: 'Statistical Reports',
-    id: 66,
-    isChecked: false,
-
-    Position: 33333,
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
     children: [
       {
         name: 'Transaction Trend for Source & Command',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu26',
+        Position:44444444,
       },
-
-
+     
+  
     ]
   },
   {
     name: 'Administration',
-    id: 66,
-    isChecked: false,
-
-    Position: 33333,
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
     children: [
       {
         name: 'Audit Status Tracker',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu27',
+        Position:44444444,
       },
       {
         name: 'Audit Data Files',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu28',
+        Position:44444444,
       },
       {
         name: 'Restore Solicited Errors',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu29',
+        Position:44444444,
       },
       {
         name: 'Data Correction Summary',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu30',
+        Position:44444444,
       },
 
       {
         name: 'Unresolved Transaction',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu31', 
+        Position:44444444,
       },
       {
         name: 'Unresolved Errors',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu32',
+        Position:44444444,
       },
       {
         name: 'Manage Users',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
+        id:77,
+        isChecked:false,
+        MenuID:'Menu33',
+        Position:44444444,
       }
-
+      
     ]
   },
-  {
-    name: 'Configurational Reference Data',
-    id: 66,
-    isChecked: false,
-
-    Position: 33333,
-    children: [
-      {
-        name: 'Reference List',
-        id: 77,
-        isChecked: false,
-
-        Position: 44444444,
-        children: [
-          {
-            name: 'Franchise',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'Franchise',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'Franchise',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'Franchise',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'Olo',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'Company',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'SourceSystem',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'Status',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'AuditStatus',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'CUPIDCrossReference',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'LineTypes',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'ResolverEmail',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-        ]
-      }]
-
-  },
-
+    {
+      name: 'Configurational Reference Data',
+      id:66,
+      isSelected:false,
+       
+       Position:33333,
+      children: [
+        {
+          name: 'Reference List',
+          id:77,
+          isSelected:false,
+          
+          Position:44444444,
+          children: [
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu34',
+               Position:11111,
+            
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu35',
+               Position:11111,
+               
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu36',
+               Position:11111,
+            
+            },
+            {
+              name: 'Franchise',
+              id:22,
+              isChecked:false, 
+              
+               Position:11111,
+               MenuID:'Menu37',
+            },
+            {
+              name: 'Olo',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu38',
+               Position:11111,
+             
+            },
+            {
+              name: 'Company',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu39',
+               Position:11111,
+             
+            },
+            {
+              name: 'SourceSystem',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu40',
+               Position:11111,
+              
+            },
+            {
+              name: 'Status',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu41',
+               Position:11111,
+              
+            },
+            {
+              name: 'AuditStatus',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu42',
+               Position:11111,
+             
+            },
+            {
+              name: 'CUPIDCrossReference',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu43',
+               Position:11111,
+             
+            },
+            {
+              name: 'LineTypes',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu44',
+               Position:11111,
+              
+            },
+            {
+              name: 'ResolverEmail',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu45',
+               Position:11111,
+              
+            },
+          ]
+        }]
+      
+  }]
+
+}
 ];
-
-const TREE_DATA_three = [
-  {
-    name: 'All',
-    id: 111,
-    children: [
-      {
-        name: 'Process Management',
-        id: 111,
-        MenuID: 'Menu01',
-        isChecked: true,
-        Position: 11111,
-        children: [
-          {
-            name: 'Solicited/Internal Discrepancy Process updated',
-            id: 22,
-            isChecked: true,
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: true,
-                Position: 0,
-                isAvailable: true
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-                Position: 0,
-                isAvailable: true
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: false,
-                Position: 0,
-                isAvailable: true
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ],
-          },
-          {
-            name: 'Solicited Resolution Report',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ]
-
-          },
-          {
-            name: 'Solicited Actions Report',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ]
-
-          },
-          {
-            name: 'Unsolicited Process',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-              {
-                name: 'U',
-                id: 33,
-                isChecked: false,
-
-                Position: 0,
-              },
-              {
-                name: 'D',
-                id: 44,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-
-              },
-            ]
-
-          },
-          {
-            name: 'Unsolicited Actions Report',
-            id: 22,
-            isChecked: true,
-
-            Position: 11111,
-            children: [
-
-              {
-                name: 'C',
-                id: 54,
-                isChecked: true,
-
-                Position: 0,
-              },
-              {
-                name: 'R',
-                id: 374,
-                isChecked: true,
-
-                Position: 0,
-              },
-            ]
-
-          },
-
-
-        ]
-      }]
-    // {
-    //   name: 'Record Creation',
-    //   id:66,
-    //   isChecked:false,
-    //    
-    //    Position:33333,
-    //   children: [
-    //     {
-    //       name: 'Create Record',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Create Internal Cease',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-
-    //   ]
-    // },
-    // {
-    //   name: 'Audit Process Management',
-    //   id:66,
-    //   isChecked:false,
-    //    
-    //    Position:33333,
-    //   children: [
-    //     {
-    //       name: 'Full Audit Details',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Audit Discrepancy Report',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'External Audit Details',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Full Audit History',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Audit User Action Summary',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Saparateinternal Audit',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     }
-    //   ]
-    // },
-    // {
-    //   name: 'Audit Process Management',
-    //   id:66,
-    //   isChecked:false,
-    //    
-    //    Position:33333,
-    //   children: [
-    //     {
-    //       name: 'Full Audit Details',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Audit Discrepancy Report',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'External Audit Details',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Full Audit History',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Audit User Action Summary',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Saparateinternal Audit',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     }
-    //   ]
-    // },
-    // {
-    //   name: 'Inventory Records',
-    //   id:66,
-    //   isChecked:false,
-    //    
-    //    Position:33333,
-    //   children: [
-    //     {
-    //       name: 'InFlight Records',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Telephone Range Report',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Transaction Details Records',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Full Audit History',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Audit User Action Summary',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Saparateinternal Audit',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     }
-    //   ]
-    // },
-    // {
-    //   name: 'Statistical Reports',
-    //   id:66,
-    //   isChecked:false,
-    //    
-    //    Position:33333,
-    //   children: [
-    //     {
-    //       name: 'Transaction Trend for Source & Command',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-
-
-    //   ]
-    // },
-    // {
-    //   name: 'Administration',
-    //   id:66,
-    //   isChecked:false,
-    //    
-    //    Position:33333,
-    //   children: [
-    //     {
-    //       name: 'Audit Status Tracker',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Audit Data Files',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Restore Solicited Errors',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Data Correction Summary',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-
-    //     {
-    //       name: 'Unresolved Transaction',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Unresolved Errors',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     },
-    //     {
-    //       name: 'Manage Users',
-    //       id:77,
-    //       isChecked:false,
-    //       
-    //       Position:44444444,
-    //     }
-
-    //   ]
-    // },
-    //   {
-    //     name: 'Configurational Reference Data',
-    //     id:66,
-    //     isSelected:false,
-    //      
-    //      Position:33333,
-    //     children: [
-    //       {
-    //         name: 'Reference List',
-    //         id:77,
-    //         isSelected:false,
-    //         
-    //         Position:44444444,
-    //         children: [
-    //           {
-    //             name: 'Franchise',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'Franchise',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'Franchise',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'Franchise',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'Olo',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'Company',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'SourceSystem',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'Status',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'AuditStatus',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'CUPIDCrossReference',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'LineTypes',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //           {
-    //             name: 'ResolverEmail',
-    //             id:22,
-    //             isChecked:true, 
-    //             
-    //              Position:11111,
-    //              children: [
-    //               {
-    //                 name: 'U',
-    //                 id: 33,
-    //                 isChecked: false,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'D',
-    //                 id: 44,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'C',
-    //                 id: 54,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //               {
-    //                 name: 'R',
-    //                 id: 374,
-    //                 isChecked: true,
-    //                
-    //                 Position: 0,
-    //               },
-    //             ],
-    //           },
-    //         ]
-    //       }]
-
-    // }]
-  }
-
-];
-
-
-/**
- * Checklist database, it can build a tree structured Json object.
- * Each node in Json object represents a to-do item or a category.
- * If a node is a category, it has children items and new items can be added under the category.
- */
-// @Injectable()
-// export class ChecklistDatabase {
-//   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
-
-//   get data(): TodoItemNode[] {
-//     return this.dataChange.value;
-//   }
-
-//   constructor() {
-//     this.initialize();
-//   }
-
-//   initialize() {
-//     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
-//     //     file node as children.
-//     const data = this.buildFileTree(TREE_DATA_two, 0);
-//     console.log(data);
-//     // Notify the change.
-//     this.dataChange.next(data);
-//   }
-
-//   /**
-//    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
-//    * The return value is the list of `TodoItemNode`.
-//    */
-//   buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
-//     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
-//       const item = obj[key];
-//       const node = new TodoItemNode();
-//       node.label = obj[key].name;
-//       node.id = obj[key].id;
-//       node.isChecked = obj[key].isChecked;
-//       node.Position = obj[key].Position;
-//       node.isPlanType = obj[key].isPlanType;
-
-//       if (item != null) {
-//         if (typeof item === 'object' && item.children != undefined) {
-//           node.children = this.buildFileTree(item.children, level + 1);
-//         } else {
-//           node.label = item.name;
-//         }
-//       }
-
-//       return accumulator.concat(node);
-//     }, []);
-//   }
-
-//   /** Add an item to to-do list */
-//   insertItem(parent: TodoItemNode, name: string) {
-//     if (parent.children) {
-//       parent.children.push({ label: name } as TodoItemNode);
-//       this.dataChange.next(this.data);
-//     }
-//   }
-
-//   updateItem(node: TodoItemNode, name: string) {
-//     node.label = name;
-//     this.dataChange.next(this.data);
-//   }
-// }
-/** Flat to-do item node with expandable and level information */
-
 
 const ELEMENT_DATA = [
   { UserName: "Test User", Profile: "Custom", Active: "Yes", EmailAddress: "kashim.j3@vodafone.com", Country: "United Kingdom", TelephoneNo: "0456786765", "Y/W/ID": "Y875765", "CreatedOn": "02/01/2022", "CreatedBy": "admin" },
@@ -2040,12 +543,11 @@ const UserProfiles = [
 ]
 
 const FilterListItems: Select[] = [
-  { view: 'Amdocs SOM', viewValue: 'StartTelephoneNumber', default: true },
-  { view: 'ONNET', viewValue: 'EndTelephoneNumber', default: false },
-  { view: 'Ring Central', viewValue: 'Source', default: false },
-  { view: 'Audit', viewValue: 'Command', default: false },
-  { view: 'EDGE', viewValue: 'ErrorType', default: false },
-  { view: 'ONNET', viewValue: 'ResolutionType', default: false },
+  { view: 'Amdocs SOM', viewValue: 'Amdocs SOM', default: false },
+  { view: 'ONNET', viewValue: 'ONNET', default: false },
+  { view: 'Ring Central', viewValue: 'Ring Central', default: false },
+  { view: 'Audit', viewValue: 'Audit', default: false },
+  { view: 'EDGE', viewValue: 'EDGE', default: false }
 ];
 interface Access {
   value: string;
@@ -2085,6 +587,9 @@ export class ManageUsersComponent implements OnInit {
   UserEditForm!: FormGroup;
   Header: string = '';
   isChecked?: boolean = false;
+   Menuattributes: any = [];
+   ApiMenuattributes:any=[];
+   Resultattributes:any=[]
   Acessrights: Access[] = [
     { value: '1', viewValue: 'Admin' },
     { value: '2', viewValue: 'SuperAdmin' },
@@ -2108,7 +613,7 @@ export class ManageUsersComponent implements OnInit {
   UserProfilesForm: boolean = false;
   UserEditProfilesForm: boolean = false;
   isLeftPanel = false;
-
+   Formstatus:string='';
   datauserreports = new MatTableDataSource<any>();
   userreportscolums: any = [
     { header: 'User Name', headerValue: 'username' },
@@ -2134,6 +639,7 @@ export class ManageUsersComponent implements OnInit {
   startupusermsgs = new MatTableDataSource<any>();
   startupusermsgscols = [
     { header: 'Actions', headerValue: 'Actions' },
+    { header: 'News Header', headerValue: 'newsheader' },
     { header: 'News Description', headerValue: 'newsdescription' },
     { header: 'Email Address', headerValue: 'emailaddress' },
     { header: 'Start Date', headerValue: 'startdate' },
@@ -2150,6 +656,12 @@ export class ManageUsersComponent implements OnInit {
   ];
   userprofilescolsvalues: any = this.userprofilescols.map((x: any) => x.headerValue);
   displayedColumns1: any = ['Actions', 'Menu Group', 'Screen Name', 'Access Level'];
+
+  //Filter Form
+  filterUserofReportForm: FormGroup;
+  filterUserAccessForm: FormGroup;
+  filterNewsUpdateForm: FormGroup;
+  filterUserProfilesForm: FormGroup; 
 
   private readonly onDestroyQuery = new Subject<void>();
 
@@ -2169,54 +681,241 @@ export class ManageUsersComponent implements OnInit {
   treeFlattener: MatTreeFlattener<TodoItemNode, TodoItemFlatNode>;
 
   dataSource: MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
-
+datasourceview:MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
   /** The selection for checklist */
   checklistSelection = new SelectionModel<TodoItemFlatNode>(
     true /* multiple */
   );
-  initialize() {
-    // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
-    //     file node as children.
-    debugger
-    if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
-      for (var i = 0; i < TREE_DATA_three.length; i++) {
-        let Tree = TREE_DATA_three[i];
-        for (var j = 0; j < Tree.children.length; j++) {
-          let tchild = Tree.children[j];
-          for (var k = 0; k < tchild.children.length; k++) {
-            let grandhchild: any = tchild.children[k];
-            console.log('gradchild', grandhchild);
-            for (var m = 0; m < grandhchild.children.length; m++) {
-              if (grandhchild.children[m].name == 'U') {
-                grandhchild.children[m].isChecked = false;
+
+InitializeTreeview()
+{
+  let profileMenu:any;
+  console.log('profileitems',JSON.stringify(profileitems));
+ 
+  let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
+  console.log('request',request);
+ // this.bindtreeedataview(TREE_DATA_three);
+  this.spinner.show();
+  this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+    (res: any) => {
+      debugger
+      if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
+        for(var i=0;i<TREE_DATA_three.length;i++)
+        {
+        let  Tree=TREE_DATA_three[i];
+        for(var j=0;j<Tree.children.length;j++)
+        {
+         let tchild=Tree.children[j];
+          for(var k=0;k<tchild.children.length;k++)
+          {
+            let grandhchild:any=tchild.children[k];
+            console.log('gradchild',grandhchild.MenuID);
+            if(grandhchild.MenuID!=undefined)
+            {
+            let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
+            {
+              if(menu!=undefined)
+              {
+              this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
+              grandhchild.isChecked=true;
+             
               }
-              else {
-                grandhchild.children[m].isChecked = true;
+              else{
+                grandhchild.label='NO Access';
               }
-
-
-
-              console.log('content value', grandhchild.children[m]);
             }
           }
-
+          else{
+            for(var l=0;l<grandhchild.children.length;l++)
+          {
+            let greatgrandchild=grandhchild.children[l];
+            if(greatgrandchild.MenuID!=undefined)
+            {
+            let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (greatgrandchild.MenuID).toLowerCase())
+            {
+              if(menu!=undefined)
+              {
+              this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
+              greatgrandchild.isChecked=true;
+            
+              }
+              else{
+                greatgrandchild.label='NO Access';
+              }
+            }
+          }
+          }
+           
         }
-
+      }
+        }
       }
     }
-    console.log('loop completed', TREE_DATA_three);
+    this.bindtreeedataview(TREE_DATA_three);
+     console.log('api menuitems',this.ApiMenuattributes);
+
+    });
+}
 
 
-
-
-    const data = this.buildFileTree(TREE_DATA_three, 0);
-    console.log(data);
-    this.dataSource.data = data;
-    // Notify the change.
-    this.dataChange.next(data);
+  initialize(Event:string) {
+    
+    // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
+    //     file node as children.
+    if(Event!='Create')
+    {
+    let profileMenu:any;
+    console.log('profileitems',JSON.stringify(profileitems));
+   let Treedataupdate:any=TREE_DATA_three;
+    let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
+    console.log('request',request);
+    this.bindtreedata(Treedataupdate);
+    this.spinner.show();
+    this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+      (res: any) => {
+        debugger
+      //  this.userAccessData.data = res.Data;
+        console.log('data of Profile', res.Data);
+         profileitems=res.Data[0].profileitems;
+         this.UserEditForm = this.formBuilder.group({
+          ProfileName: new FormControl({},),
+          Description: new FormControl({},),
+          UserProfile: new FormControl({},)
+    
+        });
+        for (let field in this.UserEditForm.controls) {
+          let control = this.UserEditForm.get(field);
+          // c
+          // console.log(record[field]);
+    
+          if (field === 'ProfileName') {
+            control?.setValue(res.Data[0].profilename);
+          } else if (field === 'Description') {
+             control?.setValue(res.Data[0].profiledescription);
+    
+          } 
+        }
+        //this.record = record;
+        this.eventName = 'Update';
+     
+        if (Treedataupdate != undefined && Treedataupdate.length > 0) {
+          for(var i=0;i<Treedataupdate.length;i++)
+          {
+          let  Tree=Treedataupdate[i];
+          for(var j=0;j<Tree.children.length;j++)
+          {
+           let tchild=Tree.children[j];
+            for(var k=0;k<tchild.children.length;k++)
+            {
+              let grandhchild:any=tchild.children[k];
+              console.log('gradchild',grandhchild.MenuID);
+              if(grandhchild.MenuID!=undefined)
+              {
+              let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
+              {
+                if(menu!=undefined)
+                {
+                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
+                grandhchild.isChecked=true;
+                }
+              }
+            }
+            else{
+              for(var l=0;l<grandhchild.children.length;l++)
+            {
+              let greatgrandchild=grandhchild.children[l];
+              if(greatgrandchild.MenuID!=undefined)
+              {
+              let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (greatgrandchild.MenuID).toLowerCase())
+              {
+                if(menu!=undefined)
+                {
+                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
+                greatgrandchild.isChecked=true;
+                }
+              }
+            }
+            }
+             
+          }
+        }
+          }
+        }
+      }
+      this.bindtreedata(Treedataupdate);
+       console.log('api menuitems',this.ApiMenuattributes);
+      }
+    );
+    }
+    else{
+      debugger
+      if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
+        for(var i=0;i<TREE_DATA_three.length;i++)
+        {
+        let  Tree=TREE_DATA_three[i];
+        for(var j=0;j<Tree.children.length;j++)
+        {
+         let tchild=Tree.children[j];
+          for(var k=0;k<tchild.children.length;k++)
+          {
+            let grandhchild:any=tchild.children[k];
+            console.log('gradchild',grandhchild.MenuID);
+            if(grandhchild.MenuID!=undefined)
+            {
+           
+              grandhchild.isChecked=false;
+             
+          }
+          else{
+            for(var l=0;l<grandhchild.children.length;l++)
+          {
+            let greatgrandchild=grandhchild.children[l];
+            if(greatgrandchild.MenuID!=undefined)
+          
+              greatgrandchild.isChecked=false;
+             
+          }
+          }
+           
+        }
+      
+        }
+      }
+    }
+      this.bindtreedata(TREE_DATA_three);
+    }
+    //this.viewAccess = user.
+   
+    debugger
+   
 
   }
-
+  bindSource()
+  {
+    let request = Utils.preparePyConfig(['Search'], ['Source']);
+    this.service.configDetails(request).subscribe((res: any) => {
+      console.log("source from config: " + JSON.stringify(res))});
+      //this.configDetails = res.data;
+  }
+bindtreedata(treestructure:any)
+{
+  this.spinner.hide();
+  const data = this.buildFileTree(treestructure, 0);
+  console.log(data);
+  this.dataSource.data = data;
+  // Notify the change.
+  this.dataChange.next(data);
+}
+bindtreeedataview(treestructure:any)
+{
+  debugger
+  this.spinner.hide();
+  const data = this.buildFileTree(treestructure, 0);
+  console.log(data);
+  this.datasourceview.data = data;
+  // Notify the change.
+  this.dataChange.next(data);
+}
   /**
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `TodoItemNode`.
@@ -2226,6 +925,7 @@ export class ManageUsersComponent implements OnInit {
       const item = obj[key];
       const node = new TodoItemNode();
       node.label = obj[key].name;
+    node.MenuID= obj[key].MenuID;
       node.id = obj[key].id;
       node.isChecked = obj[key].isChecked;
       node.Position = obj[key].Position;
@@ -2269,7 +969,8 @@ export class ManageUsersComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private service: AdministrationService,
     private dialog: MatDialog,
-    private alertService: AlertService,) {
+    private alertService: AlertService,
+    private spinner: NgxSpinnerService) {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
@@ -2284,6 +985,11 @@ export class ManageUsersComponent implements OnInit {
       this.treeControl,
       this.treeFlattener
     );
+    this.datasourceview = new MatTreeFlatDataSource(
+      this.treeControl,
+      this.treeFlattener
+    );
+
 
     // database.dataChange.subscribe((data) => {
     //   this.dataSource.data = data;
@@ -2328,8 +1034,8 @@ export class ManageUsersComponent implements OnInit {
     flatNode.level = level;
     flatNode.id = node.id;
     flatNode.isChecked = node.isChecked;
+    flatNode.MenuID=node.MenuID
     flatNode.Position = node.Position;
-    flatNode.isPlanType = node.isPlanType;
     flatNode.expandable = !!node.children;
     this.flatNodeMap.set(flatNode, node);
     this.nestedNodeMap.set(node, flatNode);
@@ -2371,7 +1077,15 @@ export class ManageUsersComponent implements OnInit {
     console.log('node change event', node, event.checked);
     const partialSelection = this.treeControl.dataNodes.filter(x =>
       this.descendantsPartiallySelected(x));
-    console.log('final result', this.checklistSelection.selected, partialSelection);
+    console.log('final result', this.checklistSelection.selected);
+    debugger
+       descendants.forEach((char: any) => {
+      this.Menuattributes = this.Menuattributes.filter((item: { MenuID: any; }) => item.MenuID !== char.MenuID);
+      if(char.MenuID!=undefined)
+     this.Menuattributes.push({'MenuID':char.MenuID,'isChecked':event.checked});
+    });
+     console.log('attributes',this.Menuattributes);
+    console.log('final result',  partialSelection);
 
   }
 
@@ -2382,6 +1096,12 @@ export class ManageUsersComponent implements OnInit {
     console.log('chnage event node', node, event.checked);
     node.isChecked ? (node.isChecked = false) : (node.isChecked = true);
     this.checkAllParentsSelection(node);
+    debugger
+    this.Menuattributes = this.Menuattributes.filter((item: { MenuID: any; }) => item.MenuID !== node.MenuID);
+   // delete this.Menuattributes[this.Menuattributes.findIndex((item: { MenuID: any; }) => item.MenuID == node.MenuID)];
+    //this.Menuattributes.splice()
+    this.Menuattributes.push({'MenuID':node.MenuID,'isChecked':event.checked});
+    console.log('attributes',this.Menuattributes);
   }
 
   /* Checks all the parents when a leaf node is selected/unselected */
@@ -2448,6 +1168,7 @@ export class ManageUsersComponent implements OnInit {
     //   UserId: new FormControl({ value: 'ashok' }'')
     // })
     this.createForms();
+    //this.bindSource();
     this.isLeftPanel = false;
 
   }
@@ -2531,10 +1252,16 @@ export class ManageUsersComponent implements OnInit {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 0);
       }
       let request = Utils.preparePyUIQuery('ManageUsers', 'UserAccess');
+      this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.userAccessData.data = res.Data;
+          // User Profile Dropdown
+          this.userProfilesDropdown = res.Data[res.Data.length-1].userprofiles.map((x:any) =>x.profilename);
+          this.userProfilesDropdown.push('Custom');
+    
           console.log('data of manage users', this.userAccessData);
+          this.spinner.hide();
         }
       );
     }
@@ -2550,9 +1277,11 @@ export class ManageUsersComponent implements OnInit {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
       }
       let request = Utils.preparePyUIQuery('ManageUsers', 'UserReports');
+      this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.datauserreports.data = res.Data;
+          this.spinner.hide();
         }
       );
 
@@ -2569,9 +1298,11 @@ export class ManageUsersComponent implements OnInit {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
       }
       let request = Utils.preparePyUIQuery('ManageUsers', 'NewsUpdate', 'NewsId');
+      this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.startupusermsgs.data = res.Data;
+          this.spinner.hide();
         }
       );
     }
@@ -2587,12 +1318,15 @@ export class ManageUsersComponent implements OnInit {
         this.selectedTab = this.tabs.findIndex(x => x.tabType == 3);
       }
       let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile', 'Profile Name');
+      this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.userprofilesdata.data = res.Data;
+          this.spinner.hide();
         }
       );
     }
+    this.resetFilter(fileType);
     this.showDetails = true;
   }
 
@@ -2604,7 +1338,7 @@ export class ManageUsersComponent implements OnInit {
     this.isLeftPanel = false;
   }
   onEditUserprofile(record: any, event: Event) {
-    this.initialize();
+    this.InitializeTreeview();
     //this.database.buildFileTree(TREE_DATA_two,0);
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -2627,97 +1361,126 @@ export class ManageUsersComponent implements OnInit {
     this.UserProfilesForm = true;
 
     this.isLeftPanel = true;
-    this.UserProfileForm = this.formBuilder.group({
-      ProfileName: new FormControl({}),
-      Description: new FormControl({}),
-      UserProfile: new FormControl({})
-
-    });
-    this.record = record;
-    this.eventName = 'Update';
-    for (let field in this.UserProfileForm.controls) {
-      let control = this.UserProfileForm.get(field);
-      control?.setValue(record[field]);
-      console.log(record[field]);
-    }
+   
     event.stopPropagation();
   }
   onSelectEvent(value: any) {
 
-    if (value == '3') {
-      this.initialize();
-      this.onEditUserprofileAceess('Create');
+    if (value == 'Custom') {
+      this.initialize(this.eventName);
+      this.onEditUserprofileAceessUserAccess('Create');
     }
   }
-  // onEdituserDetails(record:any,event:Event){   
-  //   this.Header="User Access Details";
-  //   this.UserDetailsForm=true;
-  //   this.StartupForm=false;
-  //   this.UserProfilesForm=false;
-  //   this.isLeftPanel =true;
-  //   console.log('Edit Record');
-  //   this.eventName="Update";
-  //   debugger
-  //   this.referenceForm = this.formBuilder.group({
+  
+  preparemenu()
+  {
+    debugger
+  //this.Resultattributes:any=[];
+  if(this.eventName!='Create')
+  {
+    this.ApiMenuattributes.forEach((element: any) => {
+     let flage:boolean=true;
+      this.Menuattributes.forEach((char: any) => {
+      
+       
+          if(char.MenuID==element.MenuID)
+          {
+           this.Resultattributes.push({'MenuID':char.MenuID,'isfullaccess':char.isChecked});
+            flage=false;
+          }
+        
+        
+      });
+      if(flage)
+      {
+        this.Resultattributes.push({'MenuID':element.MenuID,'isfullaccess':element.isChecked});
+      }
 
-  //     UserID: new FormControl({ value:''}),
-  //     //AddressLine1: new FormControl({ value:''}),
-  //     //AddressLine2: new FormControl({ value:''}),
-  //     //PostCode: new FormControl({ value:''}),
-  //     UserProfile: new FormControl({ value:''}),
-  //     YID: new FormControl({ value:''}),
-  //     FirstName: new FormControl({ value:''}),
-  //     EmailAddress: new FormControl({ value:''}),
-  //     TelephoneNo: new FormControl({ value:''}),
-  //     Country: new FormControl({ value:''})
-  //   });
+     
+    });
+    this.Menuattributes.forEach((element: any) => {
+      if(element.isChecked)
+      {
+        this.Resultattributes.push({'MenuID':element.MenuID,'isfullaccess':true});
+      }
+    });
+    console.log('Update Result ',this.Resultattributes);
+    }
+    else{
+      this.Menuattributes.forEach((char: any) => {
+        if(char.isChecked)
+      {
+         this.Resultattributes.push({'MenuID':char.MenuID,'isfullaccess':char.isChecked});
+      }
+          
+        });
+        console.log('Create Result',this.Resultattributes);
+    }
+  }
+redirecttoForm()
+{
+  debugger
+if(this.Formstatus=='Profile')
+{
+  this.preparemenu();
+  this.onSubmit('User Profiles');
+}
+else{
 
-  //     this.record = record;
-  //     this.eventName ='Update'
-  //     //this.showDataform =true; 
-  //     //this.cdr.detectChanges();
-  //     for (let field in this.referenceForm.controls) 
-  //     {      
-  //         let control = this.referenceForm.get(field);    
-  //         control?.setValue(record[field]);
-  //         console.log(record[field]);
-  //     }
+  this.onreturnform();
+}
+}
 
-  //     //this.referenceForm.markAsUntouched();
-
-  // }
   onreturnform() {
     this.isShow = true;
+  this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2));
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 2)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
-        tabType: 2,
-        name: 'Add Profile'
+        tabType: 0,
+        name: 'Create'
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
     }
-    this.Header = "User Access Details";
-    this.UserDetailsForm = true;
-    this.UserEditProfilesForm = false;
+    this.preparemenu();
+    // this.isShow = true;
+    // this.showMenu = 'collapsed';
+    // if (!this.tabsLeft.find(x => x.tabType == 2)) {
+    //   this.tabsLeft.push({
+    //     tabType: 2,
+    //     name: 'Add Profile'
+    //   });
+    //   this.showDetails = true;
+    //   this.selectedTabLeft = this.tabsLeft.length;
+    // }
+    // else {
+    //   this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+    // }
+    // this.Header = "User Access Details";
+    // this.UserDetailsForm = true;
+    // this.UserEditProfilesForm = false;
 
-    this.StartupForm = false;
-    this.UserProfilesForm = false;
-    this.isLeftPanel = true;
-    console.log('Edit Record');
-    this.eventName = "Update";
+    // this.StartupForm = false;
+    // this.UserProfilesForm = false;
+    // this.isLeftPanel = true;
+    // console.log('Edit Record');
+    // this.eventName = "Update";
   }
-  onEditUserprofileAceess(Actiontype: string) {
+  onEditUserprofileAceessUserAccess(Actiontype: string) {
+   // this.Formstatus='Profile';
+    this.initialize(Actiontype);
+    debugger
     this.isShow = true;
     this.showMenu = 'collapsed';
     let name = 'Profile';
     if (Actiontype == 'Create') {
       name = 'Add Profile'
     }
-    if (!this.tabsLeft.find(x => x.tabType == 2)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 2)) {
       this.tabsLeft.push({
         tabType: 2,
         name: name
@@ -2726,7 +1489,48 @@ export class ManageUsersComponent implements OnInit {
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 2);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
+    }
+    this.Header = "User Profiles";
+    this.UserDetailsForm = false;
+    this.StartupForm = false;
+    this.UserEditProfilesForm = true;
+    this.isLeftPanel = true;
+    this.UserEditForm = this.formBuilder.group({
+
+      ProfileName: new FormControl(),
+      Description: new FormControl(),
+      UserProfile: new FormControl()
+
+    });
+    if (Actiontype == 'Create') {
+      this.eventName = 'Create';
+    }
+    else {
+      this.eventName = 'Update';
+    }
+
+  }
+  onEditUserprofileAceess(Actiontype: string) {
+    this.Formstatus='Profile';
+    this.initialize(Actiontype);
+    debugger
+    this.isShow = true;
+    this.showMenu = 'collapsed';
+    let name = 'Profile';
+    if (Actiontype == 'Create') {
+      name = 'Add Profile'
+    }
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 2)) {
+      this.tabsLeft.push({
+        tabType: 2,
+        name: name
+      });
+      this.showDetails = true;
+      this.selectedTabLeft = this.tabsLeft.length;
+    }
+    else {
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
     }
     this.Header = "User Profiles";
     this.UserDetailsForm = false;
@@ -2771,7 +1575,17 @@ export class ManageUsersComponent implements OnInit {
     this.eventName = 'Update';
     for (let field in this.StartupUsermsgsForm.controls) {
       let control = this.StartupUsermsgsForm.get(field);
-      control?.setValue(record[field]);
+      if(field === 'DateRange') {
+        let start = this.StartupUsermsgsForm.get('DateRange.startdate');
+        start?.setValue(new Date(record['startdate']));
+        let end = this.StartupUsermsgsForm.get('DateRange.expirydate');
+        end?.setValue(new Date(record['expirydate']));
+        console.log("Date  " + new Date(record['expirydate']));
+        
+      } 
+      else {
+        control?.setValue(record[field]);
+      }
       // console.log(record[field]);
     }
 
@@ -2781,9 +1595,11 @@ export class ManageUsersComponent implements OnInit {
   }
 
   onEdituserDetails(record: any, event: Event) {
+    debugger
+    this.Formstatus='UserAccessDetails'
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 0)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
         tabType: 0,
         name: 'Create'
@@ -2792,7 +1608,7 @@ export class ManageUsersComponent implements OnInit {
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
     }
 
 
@@ -2827,13 +1643,17 @@ export class ManageUsersComponent implements OnInit {
       // console.log(record[field]);
 
       if (field === 'userprofiles') {
-        this.userProfilesDropdown = record[field];
+        // record[field].push('Custom');
+        // this.userProfilesDropdown = record[field];
         // this.userProfile = record['profilename'];
         control?.setValue(record['profilename']);
       } else if (field === 'source') {
         // control?.setValue(record[field]);
 
-      } else {
+      } else if (field === 'active'){
+        record[field]==='Yes' ? control?.setValue(true) : control?.setValue(false);
+      }
+      else {
         control?.setValue(record[field]);
       }
     }
@@ -2844,7 +1664,7 @@ export class ManageUsersComponent implements OnInit {
   onCreateUserProfiles() {
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 1)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 1)) {
       this.tabsLeft.push({
         tabType: 1,
         name: 'View'
@@ -2853,7 +1673,7 @@ export class ManageUsersComponent implements OnInit {
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 1);
     }
 
     this.Header = "User Profiles";
@@ -2869,6 +1689,7 @@ export class ManageUsersComponent implements OnInit {
     this.eventName = "Create";
   }
   onCreateuserMsgs() {
+    this.tabsLeft.splice(0);
     this.StartupUsermsgsForm.reset();
     this.Header = "Start Up User Messages";
     this.UserDetailsForm = false;
@@ -2885,9 +1706,10 @@ export class ManageUsersComponent implements OnInit {
   }
 
   onVerifyUserName() {
+    this.StartupForm = false;
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 3)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 3)) {
       this.tabsLeft.push({
         tabType: 3,
         name: 'Check'
@@ -2896,7 +1718,7 @@ export class ManageUsersComponent implements OnInit {
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 3);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
     }
     this.isLeftPanel = true;
     this.referenceUsernameform = this.formBuilder.group({
@@ -2906,14 +1728,28 @@ export class ManageUsersComponent implements OnInit {
   }
 
   onCreateuserDetails() {
+    let request1 = Utils.preparePyUICreateFirstRequest('ManageUsers', 'UserAccess', 'KasimJ3', "1");
+    console.log("Create first  request1 : " + JSON.stringify(request1));
+    this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+      (res: any) => {
+        if (res.Status && res.Status[0].StatusMessage === 'Success') {
+          //success message and same data reload
+          // this.refreshData();
+          this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          //this.getFileDetails('UserAccessDetails');
+        }
+      });
+
+
+
     debugger
-    if (this.tabsLeft.find(x => x.tabType == 3)) {
-      let index: number = this.tabsLeft.findIndex(x => x.tabType == 3);
+    if (this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 3)) {
+      let index: number = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
       this.tabsLeft.splice(index);
     }
     this.isShow = true;
     this.showMenu = 'collapsed';
-    if (!this.tabsLeft.find(x => x.tabType == 0)) {
+    if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
         tabType: 0,
         name: 'Create'
@@ -2922,7 +1758,7 @@ export class ManageUsersComponent implements OnInit {
       this.selectedTabLeft = this.tabsLeft.length;
     }
     else {
-      this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 0);
+      this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
     }
     this.Header = "User Access Details";
     this.UserDetailsForm = true;
@@ -2940,8 +1776,40 @@ export class ManageUsersComponent implements OnInit {
     //   telephoneno: new FormControl(),
     // });
     this.eventName = "Create";
+
+    for (let field in this.referenceForm.controls) {
+      let control = this.referenceForm.get(field);
+      // control?.setValue(record[field]);
+      // console.log(record[field]);
+
+      if (field === 'userprofiles') {
+        this.userProfilesDropdown = [
+          "custom_beema",
+          "Super Admin",
+          "Admin",
+          "Requestor",
+          "Readonly",
+          "Custom"
+      ];
+        // this.userProfile = record['profilename'];
+        control?.setValue([
+          "custom_beema",
+          "Super Admin",
+          "Admin",
+          "Requestor",
+          "Readonly",
+          "Custom"
+      ]);
+      } else if (field === 'source') {
+        // control?.setValue(record[field]);
+
+      } else {
+       // control?.setValue(record[field]);
+      }
+    }
   }
   onSubmit(reportIdentifier?: string) {
+    debugger
     // alert("Create/Edit Completed..");
     this.isLeftPanel = false;
     // this.showDetailsForm=true;
@@ -2955,9 +1823,9 @@ export class ManageUsersComponent implements OnInit {
               message: 'Do you confirm update this record?'
             }
           });
-          updateConfirm1.afterClosed().subscribe(confirm => {
+          updateConfirm1.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
-              let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm));
+              let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm,'UserAccess'));
               console.log("Update request1 : " + JSON.stringify(request1));
               this.service.uiUpdateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
@@ -2965,6 +1833,7 @@ export class ManageUsersComponent implements OnInit {
                     //success message and same data reload
                     // this.refreshData();
                     this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.getFileDetails('UserAccessDetails');
                   }
                 });
             }
@@ -2980,7 +1849,7 @@ export class ManageUsersComponent implements OnInit {
               message: 'Do you confirm update this record?'
             }
           });
-          updateConfirm2.afterClosed().subscribe(confirm => {
+          updateConfirm2.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
               let request2 = Utils.preparePyUIUpdate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
               console.log("Update request2 : " + JSON.stringify(request2));
@@ -2990,6 +1859,7 @@ export class ManageUsersComponent implements OnInit {
                     //success message and same data reload
                     // this.refreshData();
                     this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.getFileDetails('StartUpUserMessages');
                   }
                 });
             }
@@ -3005,16 +1875,17 @@ export class ManageUsersComponent implements OnInit {
               message: 'Do you confirm update this record?'
             }
           });
-          updateConfirm3.afterClosed().subscribe(confirm => {
+          updateConfirm3.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
               let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
-              console.log("Update request2 : " + JSON.stringify(request3));
+              console.log("Update request3 : " + JSON.stringify(request3));
               this.service.uiUpdateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
                     this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.getFileDetails('UserProfiles')
                   }
                 });
             }
@@ -3029,16 +1900,17 @@ export class ManageUsersComponent implements OnInit {
       // Create Logic
       switch (reportIdentifier) {
         case 'User Access Details':
-          let request1 = Utils.preparePyUICreate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm));
+          let request1 = Utils.preparePyUICreate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm,'UserAccess'));
           console.log("Create request1 : " + JSON.stringify(request1));
-          this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-            (res: any) => {
-              if (res.Status && res.Status[0].StatusMessage === 'Success') {
-                //success message and same data reload
-                // this.refreshData();
-                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-              }
-            });
+          // this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+          //   (res: any) => {
+          //     if (res.Status && res.Status[0].StatusMessage === 'Success') {
+          //       //success message and same data reload
+          //       // this.refreshData();
+          //       this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          //       this.getFileDetails('UserAccessDetails');
+          //     }
+          //   });
           break;
         case 'Start Up User Messages':
           let request2 = Utils.preparePyUICreate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
@@ -3049,6 +1921,7 @@ export class ManageUsersComponent implements OnInit {
                 //success message and same data reload
                 // this.refreshData();
                 this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.getFileDetails('StartUpUserMessages');
               }
             });
           break;
@@ -3061,6 +1934,7 @@ export class ManageUsersComponent implements OnInit {
                 //success message and same data reload
                 // this.refreshData();
                 this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.getFileDetails('UserProfiles');
               }
             });
           break;
@@ -3076,7 +1950,7 @@ export class ManageUsersComponent implements OnInit {
             message: 'Do you confirm update this record?'
           }
         });
-        updateConfirm1.afterClosed().subscribe(confirm => {
+        updateConfirm1.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
         let request1 = Utils.preparePyUIDelete('ManageUsers', 'UserAccess', 'UserName', this.prepareDeleteData(record, reportName));
         console.log("Delete request1 : " + JSON.stringify(request1));
@@ -3086,6 +1960,7 @@ export class ManageUsersComponent implements OnInit {
               //success message and same data reload
               // this.refreshData();
               this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.getFileDetails('UserAccessDetails');
             }
             else {
               this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -3100,7 +1975,7 @@ export class ManageUsersComponent implements OnInit {
             message: 'Do you confirm update this record?'
           }
         });
-        updateConfirm2.afterClosed().subscribe(confirm => {
+        updateConfirm2.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
         let request2 = Utils.preparePyUIDelete('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareDeleteData(record, reportName));
         console.log("Delete request2 : " + JSON.stringify(request2));
@@ -3110,6 +1985,7 @@ export class ManageUsersComponent implements OnInit {
               //success message and same data reload
               // this.refreshData();
               this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.getFileDetails('StartUpUserMessages');
             }
             else {
               this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -3124,7 +2000,7 @@ export class ManageUsersComponent implements OnInit {
             message: 'Do you confirm update this record?'
           }
         });
-        updateConfirm3.afterClosed().subscribe(confirm => {
+        updateConfirm3.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
         let request3 = Utils.preparePyUIDelete('ManageUsers', 'UserProfile', 'ProfileName', this.prepareDeleteData(record, reportName));
         console.log("Delete request3 : " + JSON.stringify(request3));
@@ -3134,6 +2010,7 @@ export class ManageUsersComponent implements OnInit {
               //success message and same data reload
               // this.refreshData();
               this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.getFileDetails('UserProfiles');
             }
             else {
               this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -3144,7 +2021,12 @@ export class ManageUsersComponent implements OnInit {
         break;
     }
   }
-
+  multipleSelect(event:any){
+    // console.log(event)
+    if(event){
+      console.log(event.toString())
+    }
+  }
 
   // (index:any)
   // {
@@ -3158,73 +2040,269 @@ export class ManageUsersComponent implements OnInit {
 
   onSearchFilter(reportName: any) {
     this.onFilterPredicate();
-    switch (reportName) {
+    switch(reportName)
+    {
       case 'UserOfReports':
-
-
-        let filteritem = {
-          //UserId : [this.UserId],
-          UserId: [],
-          EmailAddress: [],
-          ReportName: []
+        let  filteritem1 = {
+          username : [this.filterUserofReportForm.controls['username'].value ? this.filterUserofReportForm.controls['username'].value : '' ],
+          menugroup: [this.filterUserofReportForm.controls['menugroup'].value ? this.filterUserofReportForm.controls['menugroup'].value : '' ],
+          reportname : [this.filterUserofReportForm.controls['reportname'].value ? this.filterUserofReportForm.controls['reportname'].value : '' ],
+          sources: [this.filterUserofReportForm.controls['sources'].value ? this.filterUserofReportForm.controls['sources'].value : '' ]
         }
-        console.log(JSON.stringify(filteritem));
-        this.datauserreports.filter = JSON.stringify(filteritem);
+        console.log(JSON.stringify(filteritem1));
+        this.datauserreports.filter = JSON.stringify(filteritem1);
+      break;
+      case 'UserAccessDetails':
+        let  filteritem2 = {
+          username : [this.filterUserAccessForm.controls['username'].value ? this.filterUserAccessForm.controls['username'].value : '' ],
+          profilename: [this.filterUserAccessForm.controls['profilename'].value ? this.filterUserAccessForm.controls['profilename'].value : '' ]
+        }
+        console.log(JSON.stringify(filteritem2));
+        this.userAccessData.filter = JSON.stringify(filteritem2);
         break;
+      case 'StartUpUserMessages':
+        let  filteritem3 = {
+          emailaddress : [this.filterNewsUpdateForm.controls['emailaddress'].value ? this.filterNewsUpdateForm.controls['emailaddress'].value : '' ],
+          startdate: [this.filterNewsUpdateForm.controls['startdate'].value ? this.filterNewsUpdateForm.controls['startdate'].value : '' ],
+          expirydate: [this.filterNewsUpdateForm.controls['expirydate'].value ? this.filterNewsUpdateForm.controls['expirydate'].value : '' ]
+        }
+        console.log(JSON.stringify(filteritem3));
+        this.startupusermsgs.filter = JSON.stringify(filteritem3);
+        break;
+      case 'UserProfiles':
+        let  filteritem4 = {
+          profilename: [this.filterUserProfilesForm.controls['profilename'].value ? this.filterUserProfilesForm.controls['profilename'].value : '' ],
+          createdby: [this.filterUserProfilesForm.controls['createdby'].value ? this.filterUserProfilesForm.controls['createdby'].value : '' ]
+        }
+        console.log(JSON.stringify(filteritem4));
+        this.userprofilesdata.filter = JSON.stringify(filteritem4);
+        break;
+    }
+  }
+  
+  resetFilter(reportName:any){
+    switch (reportName){
+      case 'UserOfReports' :
+        this.datauserreports.filter ='';
+        this.filterUserofReportForm.reset();
+        break;
+      case 'UserAccessDetails' :
+        this.userAccessData.filter ='';
+        this.filterUserAccessForm.reset();
+        break;
+      case 'StartUpUserMessages' :
+        this.startupusermsgs.filter =''; 
+        this.filterNewsUpdateForm.reset();
+        break;
+      case 'UserProfiles' :
+        this.userprofilesdata.filter ='';
+        this.filterUserProfilesForm.reset();
+        break; 
+
     }
   }
 
   onFilterPredicate() {
 
     //UserOfReports
+    if(this.datauserreports)
     this.datauserreports.filterPredicate = (data: any, filter: string): boolean => {
       let searchString = JSON.parse(filter);
-      let isUserId = false;
-      let isEmailAddress = false;
+      let isSources = false;
+      let isUserName = false;
       let isMenuGroup = false;
       let isReportName = false;
 
-      if (searchString.UserId.length) {
-        for (const d of searchString.UserId) {
-          if (data.UserId.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isUserId = true;
+      if (searchString.sources.length) {
+        for (const d of searchString.sources) {
+          if (data.sources.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isSources = true;
           }
         }
       }
-      else
-        isUserId = true;
+      else 
+      isSources = true;
 
-      if (searchString.EmailAddress.length) {
-        for (const d of searchString.EmailAddress) {
-          if (data.EmailAddress.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isEmailAddress = true;
+      if (searchString.username.length) {
+        for (const d of searchString.username) {
+          if (data.username.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isUserName = true;
           }
         }
       }
-      else
-        isEmailAddress = true;
+      else 
+      isUserName = true;
 
-      if (searchString.ReportName.length) {
-        for (const d of searchString.ReportName) {
-          if (data.ReportName.trim().indexOf(d) != -1) {
+      if (searchString.reportname.length) {
+        for (const d of searchString.reportname) {
+          if (data.reportname.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
             isReportName = true;
           }
         }
       }
-      else
-        isReportName = true;
-      return isUserId && isEmailAddress && isReportName
+      else 
+      isReportName = true;
+
+      if (searchString.menugroup.length) {
+        for (const d of searchString.menugroup) {
+          if (data.menugroup.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isMenuGroup = true;
+          }
+        }
+      }
+      else 
+      isMenuGroup = true;
+
+      return isSources && isUserName && isReportName  && isMenuGroup;
+    }
+
+    //News Update
+    if(this.startupusermsgs)
+    this.startupusermsgs.filterPredicate = (data: any, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isEmailAddress = false;
+      let isStartDate = false;
+      let isExpiryDate = false;
+
+      if (searchString.emailaddress.length) {
+        for (const d of searchString.emailaddress) {
+          if (data.emailaddress.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isEmailAddress = true;
+          }
+        }
+      }
+      else 
+      isEmailAddress = true;
+
+      if (searchString.startdate.length) {
+        for (const d of searchString.startdate) {
+          if (data.startdate.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isStartDate = true;
+          }
+        }
+      }
+      else 
+      isStartDate = true;
+
+      if (searchString.expirydate.length) {
+        for (const d of searchString.expirydate) {
+          if (data.expirydate.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isExpiryDate = true;
+          }
+        }
+      }
+      else 
+      isExpiryDate = true;
+
+      return isEmailAddress && isStartDate && isExpiryDate;
+    }
+
+    //User Access
+    if(this.userAccessData)
+    this.userAccessData.filterPredicate = (data: any, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isUserName = false;
+      let isProfileName = false;
+
+      if (searchString.username.length) {
+        for (const d of searchString.username) {
+          if (data.username.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isUserName = true;
+          }
+        }
+      }
+      else 
+      isUserName = true;
+
+      if (searchString.profilename.length) {
+        for (const d of searchString.profilename) {
+          if (data.profilename.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isProfileName = true;
+          }
+        }
+      }
+      else 
+      isProfileName = true;
+
+      return isUserName && isProfileName;
+    }
+
+    //User Profiles
+    if(this.userprofilesdata)
+    this.userprofilesdata.filterPredicate = (data: any, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isProfileName = false;
+      let isCreatedBy = false;
+
+      if (searchString.profilename.length) {
+        for (const d of searchString.profilename) {
+          if (data.profilename.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isProfileName = true;
+          }
+        }
+      }
+      else 
+      isProfileName = true;
+
+      if (searchString.createdby.length) {
+        for (const d of searchString.createdby) {
+          if (data.createdby.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            isCreatedBy = true;
+          }
+        }
+      }
+      else 
+      isCreatedBy = true;
+
+      return isProfileName && isCreatedBy;
     }
 
   }
 
-  prepareData(form: FormGroup) {
+  prepareData(form: FormGroup,action?:string) {
     let attribute: any = {};
+    let profilename:string="";
     for (const field in form.controls) {
       const control = form.get(field);
-      if (control?.value) attribute[field] = control.value;
+      if(field === 'userprofiles')
+      {
+        if(control?.value)
+        profilename=control.value;
+      }
+      else if(field === 'DateRange') {
+        attribute.startdate = formatDate(form.get('DateRange.startdate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
+        attribute.expirydate = formatDate(form.get('DateRange.expirydate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
+      } 
+      else if (field === 'active'){
+        control?.value == true ? attribute[field]='Yes' : attribute[field]='No';
+      }
+      else if (control?.value) attribute[field] = control.value;
+
     }
-    console.log("prepare form data : " + JSON.stringify(attribute));
+    if(action=='UserAccess')
+    {
+
+      let newattribute:any={};
+     if(profilename==='Custom')
+     {
+      newattribute['profilename']=profilename;
+      newattribute['profileitems']=this.Resultattributes;
+     }
+     else{
+      newattribute['profilename']=profilename;
+      newattribute['isdefaultprofile']=1;
+     // newattribute['profileitems']=this.Resultattributes;
+     }
+      newattribute['profiledescription']='This is custom';
+      newattribute['iseditprofile']=1;
+      
+     
+      
+      
+    
+      attribute['profiledata']=newattribute;
+    }
+    console.log(JSON.stringify(attribute));
     return attribute;
   }
 
@@ -3246,23 +2324,119 @@ export class ManageUsersComponent implements OnInit {
 
   createForms() {
     this.referenceForm = this.formBuilder.group({
-      username: new FormControl({ value: '' }),
-      userprofiles: new FormControl({ value: '' }),
+      username: new FormControl({ value: '' },[Validators.required]),
+      userprofiles: new FormControl({ value:'' },[Validators.required]),
       yid: new FormControl({ value: '' }),
-      firstname: new FormControl({ value: '' }),
-      lastname: new FormControl({ value: '' }),
-      emailaddress: new FormControl({ value: '' }),
-      telephoneno: new FormControl({ value: '' }),
+      firstname: new FormControl({ value: '' },[Validators.required]),
+      lastname: new FormControl({ value: '' },[Validators.required]),
+      emailaddress: new FormControl({ value: '' },[Validators.required,Validators.email]),
+      telephoneno: new FormControl({ value: '' },[Validators.pattern("^[0-9]{11}$")]),
+      active: new FormControl({ value: '' },[Validators.required])
     });
 
     this.StartupUsermsgsForm = this.formBuilder.group({
       newsid: new FormControl({ value: '' }, []),
-      startdate: new FormControl({ value: '' }, []),
-      newsdescription: new FormControl({ value: '' }, []),
-      expirydate: new FormControl({ value: '' }, []),
+      newsdescription: new FormControl({ value: '' }, [Validators.required]),
+      DateRange: this.formBuilder.group({
+        startdate: new FormControl({ value: '' },[Validators.required]),
+        expirydate: new FormControl({ value: '' },[Validators.required])
+      }),
+      emailaddress: new FormControl({ value: '' },[Validators.required,Validators.email]),
+      newsheader: new FormControl({ value: '' },[Validators.required]),
+      newssubheader: new FormControl({ value: '' }, []),
+    });
+
+    this.filterUserofReportForm = this.formBuilder.group({
+      username: new FormControl({ value: '' }, []),
+      sources: new FormControl({ value: '' }, []),
+      menugroup: new FormControl({ value: '' }, []),
+      reportname: new FormControl({ value: '' }, []),
+    });
+
+    this.filterNewsUpdateForm = this.formBuilder.group({
       emailaddress: new FormControl({ value: '' }, []),
+      startdate: new FormControl({ value: '' }, []),
+      expirydate: new FormControl({ value: '' }, []), 
+    });
+
+    this.filterUserAccessForm = this.formBuilder.group({
+      username: new FormControl({ value: '' }, []),
+      profilename: new FormControl({ value: '' }, []),
+    });
+
+    this.filterUserProfilesForm = this.formBuilder.group({
+      profilename: new FormControl({ value: '' }, []),
+      createdby: new FormControl({ value: '' }, []),
     });
 
     this.StartupUsermsgsForm.reset();
+    this.referenceForm.reset();
+    this.filterUserofReportForm.reset();
+    this.filterNewsUpdateForm.reset();
+    this.filterUserAccessForm.reset();
+    this.filterUserProfilesForm.reset();
+
   }
+
+  onExport(tableHeader: any,tabName:string,tableData: any) {
+        if (tableData.data != undefined && (tableData.data != []  &&  tableData.data.length != 0) )
+         {
+          //  let header = this.reportReferenceService.getDownLoadHeaders(currentReportName)
+
+          let header = tableHeader ;
+          // header.filter((x:any) => x.headerValue != 'Actions');
+          let copydata = JSON.parse(JSON.stringify(tableData.data));
+          var c = document.createElement("a");
+          let data:any = [];
+          let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.headerValue]:x.header})))
+          Reflect.deleteProperty(dataHeaderRow,"Actions");
+          data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+            copydata.forEach((row : any) => {
+              
+              for (const i of ['Actions','firstname','lastname','userprofiles','updateddttm','updatedby','profileitems','newsid','iseditprofile','iscustomprofile','isdefaultprofile','isdelete'])
+            {
+              Reflect.deleteProperty(row,i);
+            }
+
+            if(tabName === 'News_Update') {
+              for (const i of ['createddttm','createdby','newssubheader'])
+              {
+                Reflect.deleteProperty(row,i);
+              }
+            }
+            if(tabName != 'User_Of_Reports') {
+              for (const i of ['sources'])
+              {
+                Reflect.deleteProperty(row,i);
+              }
+            }
+
+          let disp = Object.assign({} ,...header.map((x:any)=> ({[x.headerValue]:" "})))    
+          Reflect.deleteProperty(disp,"Actions");       
+          // console.log( "data value" +JSON.stringify(row));
+          // console.log( "header data value" +JSON.stringify(disp));
+          let dataRow = Object.assign(disp,row); 
+          Object.keys(dataRow).forEach((key:any) =>{
+            if(dataRow[key] =="")
+            dataRow[key]= " ";
+          });
+          // console.log( "data row value" +JSON.stringify(dataRow));
+        let val = Object.values(dataRow).join('|');
+        val.replace(/[/t]+/g, ' ');
+        data += val.replace(/[|]+/g, '\t') + "\n";
+      });
+      c.download = tabName + "_Report.tab";
+      var t = new Blob([data], {
+
+        type: "data:text/plain;charset=utf-8"
+      });
+      c.href = window.URL.createObjectURL(t);
+      c.click();
+      this.alertService.success('UserAccess' + ' Download Completed :)', { autoClose: true, keepAfterRouteChange: false });
+    }
+    else {
+      this.alertService.info('UserAccess' + ' No Data Found :(', { autoClose: true, keepAfterRouteChange: false });
+    }
+  }
+
 }

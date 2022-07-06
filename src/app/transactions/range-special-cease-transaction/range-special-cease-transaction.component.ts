@@ -180,7 +180,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     this.showCeasePanel = false;
     this.showTelnos = false;
     window.location.reload();
-    //this.isEnable();
+    this.isEnable();
   }
 
   get form() {
@@ -292,8 +292,8 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
         Columns: this.colHeader,
         filter: true,
         excelQuery: this.prepareQueryParams(this.currentPage.toString()),
-        selectCheckbox: true
-        //removeNoDataColumns: true,
+        selectCheckbox: true,
+        removeNoDataColumns: true
       }
       if (!this.tabs.find(x => x.tabType == 0)) {
         this.tabs.push({

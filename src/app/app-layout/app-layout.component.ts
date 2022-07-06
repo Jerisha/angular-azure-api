@@ -41,7 +41,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
     private cdr: ChangeDetectorRef,
     private _router: Router, private alertService: AlertService,
     private authService: AuthenticationService) {
-    this.navItems = MENU_SOURCE
+    this.navItems = JSON.parse(JSON.stringify(MENU_SOURCE));
   }
 
   ngOnInit() {
