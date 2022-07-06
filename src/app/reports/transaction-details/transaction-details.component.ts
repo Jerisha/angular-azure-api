@@ -32,8 +32,15 @@ let FilterListItems: Select[] = [
 { view: 'Cupid', viewValue: 'Cupid', default: false },
 { view: 'Franchise', viewValue: 'Franchise', default: false },
 { view: 'Transaction Command', viewValue: 'TransactionCommand', default: false },
-{ view: 'Type of Line', viewValue: 'TypeOfLine', default: false }
+{ view: 'Type of Line', viewValue: 'TypeOfLine', default: false },
+
+{ view: 'Status', viewValue: 'Status', default: false },
+{ view: 'Source Type', viewValue: 'SourceType', default: false },
+{ view: 'Internal Errors', viewValue: 'InternalErrors', default: false },
+{ view: 'BT Responses', viewValue: 'BtResponses', default: false },
+{ view: 'BT File Name', viewValue: 'BtFileName', default: false }
 ];
+
 
 @Component({
   selector: 'app-transaction-details',
@@ -142,7 +149,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
   ];
   ngOnInit(): void {    
-    let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine']);
+    let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine','Status','SourceType','InternalErrors','BtResponses']);
     this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res.data));  
     this.createForm();   
   }
@@ -181,9 +188,15 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
       Franchise: new FormControl({ value: '', disabled: true }, []),  
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),    
       TypeOfLine: new FormControl({ value: '', disabled: true }, []),
+
+      Status: new FormControl({ value: '', disabled: true }, []),
+      SourceType: new FormControl({ value: '', disabled: true }, []),  
+      InternalErrors: new FormControl({ value: '', disabled: true }, []),    
+      BtResponses: new FormControl({ value: '', disabled: true }, []),
+      BtFileName: new FormControl({ value: '', disabled: true }, []),
      
-    })
-   
+    })   
+
       }
   
       get f() {
