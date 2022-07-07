@@ -236,7 +236,7 @@
               <span matSuffix mat-icon-button>
                 <mat-icon (click)="model.Status=''">arrow_drop_down</mat-icon>
               </span>
-              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
+              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoStatus="matAutocomplete">
                 <mat-option *ngFor="let option of config.Status | ddlFilter: Status.value"
                   [value]="option">
                   {{option}}
@@ -257,7 +257,7 @@
               <span matSuffix mat-icon-button>
                 <mat-icon (click)="model.SourceType=''">arrow_drop_down</mat-icon>
               </span>
-              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
+              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoSourceType="matAutocomplete">
                 <mat-option *ngFor="let option of config.SourceType | ddlFilter: SourceType.value"
                   [value]="option">
                   {{option}}
@@ -270,7 +270,7 @@
           </div>
           <div [ngStyle]="{'display':thisForm.controls.InternalErrors.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp"#InternalErrorsOperator
-              (click)="OnOperatorClicked(['TypeOfLineOperator',InternalErrorsOperator.selectedViewValue])"></app-select-exp>
+              (click)="OnOperatorClicked(['InternalErrorsOperator',InternalErrorsOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.InternalErrors.disabled}">
               <mat-label>Internal Errors</mat-label>
               <input #InternalErrors formControlName="InternalErrors" [(ngModel)]="model.InternalErrors" type="text" placeholder="Search Internal Errors" matInput
@@ -294,13 +294,13 @@
               (click)="OnOperatorClicked(['BtResponsesOperator',BtResponsesOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.BtResponses.disabled}">
               <mat-label>BT Responses</mat-label>
-              <input #typeOfLine formControlName="BtResponses" [(ngModel)]="model.BtResponses" type="text" placeholder="BT Responses" matInput
-                [matAutocomplete]="autoBtResponses" maxlength="200" OptionsValidator [options]="config.BtResponses " />
+              <input #BtResponses formControlName="BtResponses" [(ngModel)]="model.BtResponses" type="text" placeholder="BT Responses" matInput
+                [matAutocomplete]="autoBtResponses" maxlength="200" OptionsValidator [options]="config.BTResponses " />
               <span matSuffix mat-icon-button>
                 <mat-icon (click)="model.BtResponses=''">arrow_drop_down</mat-icon>
               </span>
               <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoBtResponses="matAutocomplete">
-                <mat-option *ngFor="let option of config.BtResponses | ddlFilter: BtResponses.value"
+                <mat-option *ngFor="let option of config.BTResponses | ddlFilter: BtResponses.value"
                   [value]="option">
                   {{option}}
                 </mat-option>
