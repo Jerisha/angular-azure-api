@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { async, BehaviorSubject, of, Subject } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
@@ -20,6 +20,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { formatDate, NumberFormatStyle } from '@angular/common';
 import { DateRange } from '@angular/material/datepicker';
 import { debug } from 'console';
+import { SelectCheckboxComponent } from 'src/app/uicomponents/select-checkbox/select-checkbox.component';
+
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -50,7 +52,7 @@ let profileitems=
   "accesslevel": "1000"
 };
 
-const TREE_DATA_three = [
+let TREE_DATA_three = [
   {
     name: 'All',
     id:111,
@@ -105,11 +107,7 @@ const TREE_DATA_three = [
         isChecked:false, 
         MenuID:'Menu05',
          Position:11111,
-        
-     
       },
-
-
     ]
   },
   {
@@ -392,7 +390,7 @@ const TREE_DATA_three = [
           Position:44444444,
           children: [
             {
-              name: 'Franchise',
+              name: 'AuditStatus',
               id:22,
               isChecked:false, 
               MenuID:'Menu34',
@@ -400,7 +398,7 @@ const TREE_DATA_three = [
             
             },
             {
-              name: 'Franchise',
+              name: 'Command',
               id:22,
               isChecked:false, 
               MenuID:'Menu35',
@@ -408,7 +406,7 @@ const TREE_DATA_three = [
                
             },
             {
-              name: 'Franchise',
+              name: 'CUPIDCrossReference',
               id:22,
               isChecked:false, 
               MenuID:'Menu36',
@@ -416,7 +414,7 @@ const TREE_DATA_three = [
             
             },
             {
-              name: 'Franchise',
+              name: 'CUPIDs',
               id:22,
               isChecked:false, 
               
@@ -424,7 +422,7 @@ const TREE_DATA_three = [
                MenuID:'Menu37',
             },
             {
-              name: 'Olo',
+              name: 'CustomerTitles',
               id:22,
               isChecked:false, 
               MenuID:'Menu38',
@@ -432,7 +430,7 @@ const TREE_DATA_three = [
              
             },
             {
-              name: 'Company',
+              name: 'ErrorCodes',
               id:22,
               isChecked:false, 
               MenuID:'Menu39',
@@ -440,7 +438,7 @@ const TREE_DATA_three = [
              
             },
             {
-              name: 'SourceSystem',
+              name: 'ErrorTypes',
               id:22,
               isChecked:false, 
               MenuID:'Menu40',
@@ -448,7 +446,7 @@ const TREE_DATA_three = [
               
             },
             {
-              name: 'Status',
+              name: 'Franchises',
               id:22,
               isChecked:false, 
               MenuID:'Menu41',
@@ -456,7 +454,7 @@ const TREE_DATA_three = [
               
             },
             {
-              name: 'AuditStatus',
+              name: 'InterimCommands',
               id:22,
               isChecked:false, 
               MenuID:'Menu42',
@@ -464,7 +462,7 @@ const TREE_DATA_three = [
              
             },
             {
-              name: 'CUPIDCrossReference',
+              name: 'LineTypes',
               id:22,
               isChecked:false, 
               MenuID:'Menu43',
@@ -472,7 +470,7 @@ const TREE_DATA_three = [
              
             },
             {
-              name: 'LineTypes',
+              name: 'NextCommandCheck',
               id:22,
               isChecked:false, 
               MenuID:'Menu44',
@@ -480,13 +478,551 @@ const TREE_DATA_three = [
               
             },
             {
-              name: 'ResolverEmail',
+              name: 'OsnProvideList',
               id:22,
               isChecked:false, 
               MenuID:'Menu45',
                Position:11111,
               
             },
+            {
+              name: 'PermittedLineStatus',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu46',
+               Position:11111,
+              
+            },
+            {
+              name: 'RejectedTelephonePrefix',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu47',
+               Position:11111,
+              
+            },
+            {
+              name: 'ResolutionTypes',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu48',
+               Position:11111,
+              
+            },
+            {
+              name: 'ResolverEmails',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu49',
+               Position:11111,
+              
+            },
+            {
+              name: 'Olo',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu50',
+               Position:11111,
+              
+            },
+            {
+              name: 'Company',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu51',
+               Position:11111,
+              
+            },
+
+          ]
+        }]
+      
+  }]
+
+}
+];
+let TREE_DATA_View = [
+  {
+    name: 'All',
+    id:111,
+    children:[
+  {
+    name: 'Process Management',
+    id:111, 
+  
+    isChecked:false,
+    Position:11111,
+    children: [
+      {
+        name: 'Solicited/Internal Discrepancy Process updated',
+        id:22,
+        isChecked:false,     
+         Position:11111,
+         MenuID:'Menu01',
+        
+        
+      },
+      {
+        name: 'Solicited Resolution Report',
+        id:22,
+        isChecked:false, 
+        MenuID:'Menu02',
+         Position:11111,
+        
+     
+      },
+      {
+        name: 'Solicited Actions Report',
+        id:22,
+        isChecked:false, 
+        MenuID:'Menu03',
+        
+         Position:11111,
+        
+     
+      },
+      {
+        name: 'Unsolicited Process',
+        id:22,
+        isChecked:false, 
+        MenuID:'Menu04',
+         Position:11111,
+      
+     
+      },
+      {
+        name: 'Unsolicited Actions Report',
+        id:22,
+        isChecked:false, 
+        MenuID:'Menu05',
+         Position:11111,
+      },
+    ]
+  },
+  {
+    name: 'Record Creation',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        MenuID:'Menu06',
+        name: 'Create Record',
+        id:77,
+        isChecked:false,
+        
+        Position:44444444,
+      },
+      {
+        MenuID:'Menu07',
+        name: 'Create Internal Cease',
+        id:77,
+        isChecked:false,
+        
+        Position:44444444,
+      },
+
+    ]
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu08',
+        Position:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu09',
+        
+        Position:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu10',
+        
+        Position:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu11',
+        Position:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu12',
+        Position:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu13',
+        
+        Position:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Audit Process Management',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'Full Audit Details',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu14',
+        
+        Position:44444444,
+      },
+      {
+        name: 'Audit Discrepancy Report',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu15',
+        
+        Position:44444444,
+      },
+      {
+        name: 'External Audit Details',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu16',
+        
+        Position:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu17',   
+        Position:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu18',
+        
+        Position:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu19',
+        
+        Position:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Inventory Records',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'InFlight Records',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu20',
+        Position:44444444,
+      },
+      {
+        name: 'Telephone Range Report',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu21',
+        Position:44444444,
+      },
+      {
+        name: 'Transaction Details Records',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu22',
+        Position:44444444,
+      },
+      {
+        name: 'Full Audit History',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu23',
+        Position:44444444,
+      },
+      {
+        name: 'Audit User Action Summary',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu24',
+        Position:44444444,
+      },
+      {
+        name: 'Saparateinternal Audit',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu25',
+        Position:44444444,
+      }
+    ]
+  },
+  {
+    name: 'Statistical Reports',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'Transaction Trend for Source & Command',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu26',
+        Position:44444444,
+      },
+     
+  
+    ]
+  },
+  {
+    name: 'Administration',
+    id:66,
+    isChecked:false,
+     
+     Position:33333,
+    children: [
+      {
+        name: 'Audit Status Tracker',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu27',
+        Position:44444444,
+      },
+      {
+        name: 'Audit Data Files',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu28',
+        Position:44444444,
+      },
+      {
+        name: 'Restore Solicited Errors',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu29',
+        Position:44444444,
+      },
+      {
+        name: 'Data Correction Summary',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu30',
+        Position:44444444,
+      },
+
+      {
+        name: 'Unresolved Transaction',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu31', 
+        Position:44444444,
+      },
+      {
+        name: 'Unresolved Errors',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu32',
+        Position:44444444,
+      },
+      {
+        name: 'Manage Users',
+        id:77,
+        isChecked:false,
+        MenuID:'Menu33',
+        Position:44444444,
+      }
+      
+    ]
+  },
+    {
+      name: 'Configurational Reference Data',
+      id:66,
+      isSelected:false,
+       
+       Position:33333,
+      children: [
+        {
+          name: 'Reference List',
+          id:77,
+          isSelected:false,
+          
+          Position:44444444,
+          children: [
+            {
+              name: 'AuditStatus',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu34',
+               Position:11111,
+            
+            },
+            {
+              name: 'Command',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu35',
+               Position:11111,
+               
+            },
+            {
+              name: 'CUPIDCrossReference',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu36',
+               Position:11111,
+            
+            },
+            {
+              name: 'CUPIDs',
+              id:22,
+              isChecked:false, 
+              
+               Position:11111,
+               MenuID:'Menu37',
+            },
+            {
+              name: 'CustomerTitles',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu38',
+               Position:11111,
+             
+            },
+            {
+              name: 'ErrorCodes',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu39',
+               Position:11111,
+             
+            },
+            {
+              name: 'ErrorTypes',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu40',
+               Position:11111,
+              
+            },
+            {
+              name: 'Franchises',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu41',
+               Position:11111,
+              
+            },
+            {
+              name: 'InterimCommands',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu42',
+               Position:11111,
+             
+            },
+            {
+              name: 'LineTypes',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu43',
+               Position:11111,
+             
+            },
+            {
+              name: 'NextCommandCheck',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu44',
+               Position:11111,
+              
+            },
+            {
+              name: 'OsnProvideList',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu45',
+               Position:11111,
+              
+            },
+            {
+              name: 'PermittedLineStatus',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu46',
+               Position:11111,
+              
+            },
+            {
+              name: 'RejectedTelephonePrefix',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu47',
+               Position:11111,
+              
+            },
+            {
+              name: 'ResolutionTypes',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu48',
+               Position:11111,
+              
+            },
+            {
+              name: 'ResolverEmails',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu49',
+               Position:11111,
+              
+            },
+            {
+              name: 'Olo',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu50',
+               Position:11111,
+              
+            },
+            {
+              name: 'Company',
+              id:22,
+              isChecked:false, 
+              MenuID:'Menu51',
+               Position:11111,
+              
+            },
+
           ]
         }]
       
@@ -543,11 +1079,11 @@ const UserProfiles = [
 ]
 
 const FilterListItems: Select[] = [
-  { view: 'Amdocs SOM', viewValue: 'Amdocs SOM', default: false },
-  { view: 'ONNET', viewValue: 'ONNET', default: false },
-  { view: 'Ring Central', viewValue: 'Ring Central', default: false },
-  { view: 'Audit', viewValue: 'Audit', default: false },
-  { view: 'EDGE', viewValue: 'EDGE', default: false }
+  // { view: 'Amdocs SOM', viewValue: 'Amdocs SOM', default: false },
+  // { view: 'ONNET', viewValue: 'ONNET', default: false },
+  // { view: 'Ring Central', viewValue: 'Ring Central', default: false },
+  // { view: 'Audit', viewValue: 'Audit', default: false },
+  // { view: 'EDGE', viewValue: 'EDGE', default: false }
 ];
 interface Access {
   value: string;
@@ -595,7 +1131,8 @@ export class ManageUsersComponent implements OnInit {
     { value: '2', viewValue: 'SuperAdmin' },
     { value: '3', viewValue: 'Custom' }
   ];
-  filterItems: Select[] = FilterListItems;
+  filterItems: Select[] =[];
+  // FilterListItems;
   btAuditFileDetailsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
     {
@@ -613,6 +1150,7 @@ export class ManageUsersComponent implements OnInit {
   UserProfilesForm: boolean = false;
   UserEditProfilesForm: boolean = false;
   isLeftPanel = false;
+  Profilebutton:boolean=true;
    Formstatus:string='';
   datauserreports = new MatTableDataSource<any>();
   userreportscolums: any = [
@@ -656,12 +1194,14 @@ export class ManageUsersComponent implements OnInit {
   ];
   userprofilescolsvalues: any = this.userprofilescols.map((x: any) => x.headerValue);
   displayedColumns1: any = ['Actions', 'Menu Group', 'Screen Name', 'Access Level'];
-
+  @ViewChild(SelectCheckboxComponent) SelectCheckbox!: SelectCheckboxComponent;
   //Filter Form
   filterUserofReportForm: FormGroup;
   filterUserAccessForm: FormGroup;
   filterNewsUpdateForm: FormGroup;
   filterUserProfilesForm: FormGroup; 
+
+  UserProfileRowData: any;
 
   private readonly onDestroyQuery = new Subject<void>();
 
@@ -686,42 +1226,61 @@ datasourceview:MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
   checklistSelection = new SelectionModel<TodoItemFlatNode>(
     true /* multiple */
   );
+  Sourcedata: string;
 
-InitializeTreeview()
+InitializeTreeview(ProfileName?:string)
 {
+  this.UserProfileForm?.get('profilename')?.disable();
+    this.UserProfileForm?.get('profiledescription')?.disable();
+  debugger
   let profileMenu:any;
-  console.log('profileitems',JSON.stringify(profileitems));
- 
-  let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
+  //console.log('profileitems',JSON.stringify(profileitems));
+  let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','',ProfileName);
+  //let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','',ProfileName);
   console.log('request',request);
- // this.bindtreeedataview(TREE_DATA_three);
+ this.bindtreeedataview([]);  
   this.spinner.show();
   this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
     (res: any) => {
       debugger
-      if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
-        for(var i=0;i<TREE_DATA_three.length;i++)
+      console.log('proifle items in view ',res.Data[0].profileitems);
+      if(res.Data[0].profileitems)
+      {
+
+      if (TREE_DATA_View != undefined && TREE_DATA_View.length > 0) {
+        for(var i=0;i<TREE_DATA_View.length;i++)
         {
-        let  Tree=TREE_DATA_three[i];
+        let  Tree=TREE_DATA_View[i];
         for(var j=0;j<Tree.children.length;j++)
         {
          let tchild=Tree.children[j];
           for(var k=0;k<tchild.children.length;k++)
           {
             let grandhchild:any=tchild.children[k];
-            console.log('gradchild',grandhchild.MenuID);
+           // console.log('gradchild',grandhchild.MenuID);
             if(grandhchild.MenuID!=undefined)
             {
             let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
             {
               if(menu!=undefined)
               {
-              this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
               grandhchild.isChecked=true;
              
               }
               else{
-                grandhchild.label='NO Access';
+                if(res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() ==='menu00'))
+                {
+                  if(grandhchild.name=='')
+                  {
+                    grandhchild.name=grandhchild.label;
+                  }
+                  //
+                }
+                else{
+                  grandhchild.label=grandhchild.name;
+                  grandhchild.name='';
+                }
+               
               }
             }
           }
@@ -735,12 +1294,21 @@ InitializeTreeview()
             {
               if(menu!=undefined)
               {
-              this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
               greatgrandchild.isChecked=true;
             
               }
               else{
-                greatgrandchild.label='NO Access';
+                if(res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() ==='menu00'))
+                {
+                  if(grandhchild.name=='')
+                  {
+                    grandhchild.name=grandhchild.label;
+                  }
+                }
+                else{
+                  grandhchild.label=grandhchild.name;
+                  grandhchild.name='';
+                }
               }
             }
           }
@@ -750,24 +1318,32 @@ InitializeTreeview()
       }
         }
       }
+      this.bindtreeedataview(TREE_DATA_View);
     }
-    this.bindtreeedataview(TREE_DATA_three);
-     console.log('api menuitems',this.ApiMenuattributes);
-
+  }
+  else{
+   
+    this.bindtreeedataview([]);
+    //console.log('api menuitems',this.ApiMenuattributes);
+  }
+   
+   
+  this.spinner.hide();
     });
 }
 
 
-  initialize(Event:string) {
+  initialize(Event:string,Profilename?:string) {
     
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
     if(Event!='Create')
     {
+      debugger
     let profileMenu:any;
     console.log('profileitems',JSON.stringify(profileitems));
    let Treedataupdate:any=TREE_DATA_three;
-    let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
+    let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','',Profilename);
     console.log('request',request);
     this.bindtreedata(Treedataupdate);
     this.spinner.show();
@@ -776,28 +1352,30 @@ InitializeTreeview()
         debugger
       //  this.userAccessData.data = res.Data;
         console.log('data of Profile', res.Data);
-         profileitems=res.Data[0].profileitems;
-         this.UserEditForm = this.formBuilder.group({
-          ProfileName: new FormControl({},),
-          Description: new FormControl({},),
-          UserProfile: new FormControl({},)
+        this.ApiMenuattributes=[];
+         profileitems=res.Data[0]?.profileitems;
+        //  this.UserEditForm = this.formBuilder.group({
+        //   ProfileName: new FormControl({},),
+        //   Description: new FormControl({},),
+        //   UserProfile: new FormControl({},)
     
-        });
-        for (let field in this.UserEditForm.controls) {
-          let control = this.UserEditForm.get(field);
-          // c
-          // console.log(record[field]);
+        // });
+        // for (let field in this.UserEditForm.controls) {
+        //   let control = this.UserEditForm.get(field);
+        //   // c
+        //   // console.log(record[field]);
     
-          if (field === 'ProfileName') {
-            control?.setValue(res.Data[0].profilename);
-          } else if (field === 'Description') {
-             control?.setValue(res.Data[0].profiledescription);
+        //   if (field === 'ProfileName') {
+        //     control?.setValue(res.Data[0].profilename);
+        //   } else if (field === 'Description') {
+        //      control?.setValue(res.Data[0].profiledescription);
     
-          } 
-        }
+        //   } 
+        // }
         //this.record = record;
         this.eventName = 'Update';
-     
+     if(profileitems)
+     {
         if (Treedataupdate != undefined && Treedataupdate.length > 0) {
           for(var i=0;i<Treedataupdate.length;i++)
           {
@@ -808,14 +1386,14 @@ InitializeTreeview()
             for(var k=0;k<tchild.children.length;k++)
             {
               let grandhchild:any=tchild.children[k];
-              console.log('gradchild',grandhchild.MenuID);
+             // console.log('gradchild',grandhchild.MenuID);
               if(grandhchild.MenuID!=undefined)
               {
               let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
               {
                 if(menu!=undefined)
                 {
-                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
+                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':1,'accesslevel':'1111'});
                 grandhchild.isChecked=true;
                 }
               }
@@ -830,7 +1408,7 @@ InitializeTreeview()
               {
                 if(menu!=undefined)
                 {
-                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
+                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':1,'accesslevel':'1111'});
                 greatgrandchild.isChecked=true;
                 }
               }
@@ -841,7 +1419,7 @@ InitializeTreeview()
         }
           }
         }
-      }
+         } }
       this.bindtreedata(Treedataupdate);
        console.log('api menuitems',this.ApiMenuattributes);
       }
@@ -893,9 +1471,15 @@ InitializeTreeview()
   bindSource()
   {
     let request = Utils.preparePyConfig(['Search'], ['Source']);
+    this.filterItems=[];
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("source from config: " + JSON.stringify(res))});
-      //this.configDetails = res.data;
+      console.log("source from config: " + JSON.stringify(res))
+  
+      res.data.Source?.forEach((element:any) => {
+        this.filterItems.push({view: element, viewValue: element, default: false})
+      });
+    
+    });
   }
 bindtreedata(treestructure:any)
 {
@@ -905,6 +1489,8 @@ bindtreedata(treestructure:any)
   this.dataSource.data = data;
   // Notify the change.
   this.dataChange.next(data);
+ // treeControl.expandAll();
+ this.treeControl.expandAll();
 }
 bindtreeedataview(treestructure:any)
 {
@@ -955,11 +1541,6 @@ bindtreeedataview(treestructure:any)
     node.label = name;
     this.dataChange.next(this.data);
   }
-
-
-
-
-
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
   get data(): TodoItemNode[] {
     return this.dataChange.value;
@@ -1168,7 +1749,7 @@ bindtreeedataview(treestructure:any)
     //   UserId: new FormControl({ value: 'ashok' }'')
     // })
     this.createForms();
-    //this.bindSource();
+    this.bindSource();
     this.isLeftPanel = false;
 
   }
@@ -1182,13 +1763,41 @@ bindtreeedataview(treestructure:any)
     }
   }
   removeTabLeftPanel(index: number) {
-    this.tabsLeft.splice(index, 1);
-    // this.showDetails = this.tabsLeft.length > 0 ? true : false;
-    if (this.tabsLeft.length == 0) {
-      //this.isShow = false;
-      // this.showMenu = 'expanded';
-      this.isLeftPanel = false;
-    }
+   let indexnew= this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
+   let indexuseraccess= this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
+   console.log('button status',this.Profilebutton)
+   console.log(indexnew);
+   if(index==indexnew)
+      {
+        if(this.Profilebutton)
+        {
+          this.tabsLeft.splice(index, 1);
+        // this.showDetails = this.tabsLeft.length > 0 ? true : false;
+        if (this.tabsLeft.length == 0) {
+          //this.isShow = false;
+          // this.showMenu = 'expanded';
+          this.isLeftPanel = false;
+        }
+        }
+    
+      }
+      else{
+
+        if(indexuseraccess==index)
+        {
+          if(indexnew>0)
+          {
+            this.tabsLeft.splice(indexnew, 1);
+          }
+        }
+        this.tabsLeft.splice(index, 1);
+        // this.showDetails = this.tabsLeft.length > 0 ? true : false;
+        if (this.tabsLeft.length == 0) {
+          //this.isShow = false;
+          // this.showMenu = 'expanded';
+          this.isLeftPanel = false;
+        }
+      }
 
   }
 
@@ -1255,9 +1864,10 @@ bindtreeedataview(treestructure:any)
       this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
-          this.userAccessData.data = res.Data;
+        console.log('userdata from response',res.Data);
+          this.userAccessData.data = res.Data[0].userdata;
           // User Profile Dropdown
-          this.userProfilesDropdown = res.Data[res.Data.length-1].userprofiles.map((x:any) =>x.profilename);
+          this.userProfilesDropdown = res.Data[res.Data.length-1].userprofiles.filter((x:any)=>x.iscustomprofile==0).map((x:any) =>x.profilename);
           this.userProfilesDropdown.push('Custom');
     
           console.log('data of manage users', this.userAccessData);
@@ -1337,9 +1947,15 @@ bindtreeedataview(treestructure:any)
   onCancel() {
     this.isLeftPanel = false;
   }
-  onEditUserprofile(record: any, event: Event) {
-    this.InitializeTreeview();
+  onEditUserprofile(record: any, event: Event,row?:any) {
+    this.UserProfileForm.reset()
+    this.InitializeTreeview(row.profilename);
     //this.database.buildFileTree(TREE_DATA_two,0);
+    if(row)
+    {
+    this.UserProfileForm.get('profilename')?.setValue(row.profilename);
+    this.UserProfileForm.get('profiledescription')?.setValue(row.profilename);
+    }
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find(x => x.tabType == 1)) {
@@ -1353,7 +1969,7 @@ bindtreeedataview(treestructure:any)
     else {
       this.selectedTabLeft = this.tabsLeft.findIndex(x => x.tabType == 1);
     }
-
+   
     this.Header = "User Profiles";
     this.UserDetailsForm = false;
     this.UserEditProfilesForm = false;
@@ -1365,17 +1981,33 @@ bindtreeedataview(treestructure:any)
     event.stopPropagation();
   }
   onSelectEvent(value: any) {
-
+    console.log('event name',this.eventName);
+    
     if (value == 'Custom') {
-      this.initialize(this.eventName);
+      this.Profilebutton=false;
+      this.Menuattributes=[];
+      this.UserEditForm.get('profilename')?.disable();
+      this.UserEditForm?.get('profiledescription')?.disable();
+      
+     
+      this.initialize(this.eventName,'CUSTOM-'+this.referenceForm.controls.username?.value);
       this.onEditUserprofileAceessUserAccess('Create');
+      //this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
+    
+    }
+    else{
+      let index=this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
+     // console.log('index position',index);
+      if(index>0)
+       this.tabsLeft.splice( this.tabsLeft?.findIndex((x: { tabType: number; }) => x.tabType == 2), 1);
     }
   }
   
   preparemenu()
   {
     debugger
-  //this.Resultattributes:any=[];
+  
+  this.Resultattributes=[];
   if(this.eventName!='Create')
   {
     this.ApiMenuattributes.forEach((element: any) => {
@@ -1385,7 +2017,7 @@ bindtreeedataview(treestructure:any)
        
           if(char.MenuID==element.MenuID)
           {
-           this.Resultattributes.push({'MenuID':char.MenuID,'isfullaccess':char.isChecked});
+           this.Resultattributes.push({'MenuID':char.MenuID,'accesslevel':'1111','isfullaccess':(char.isChecked)?"1":"0"});
             flage=false;
           }
         
@@ -1393,7 +2025,7 @@ bindtreeedataview(treestructure:any)
       });
       if(flage)
       {
-        this.Resultattributes.push({'MenuID':element.MenuID,'isfullaccess':element.isChecked});
+        this.Resultattributes.push({'MenuID':element.MenuID,'accesslevel':'1111','isfullaccess':(element.isChecked)?"1":"0"});
       }
 
      
@@ -1401,7 +2033,7 @@ bindtreeedataview(treestructure:any)
     this.Menuattributes.forEach((element: any) => {
       if(element.isChecked)
       {
-        this.Resultattributes.push({'MenuID':element.MenuID,'isfullaccess':true});
+        this.Resultattributes.push({'MenuID':element.MenuID,'accesslevel':'1111','isfullaccess':'1',});
       }
     });
     console.log('Update Result ',this.Resultattributes);
@@ -1410,7 +2042,7 @@ bindtreeedataview(treestructure:any)
       this.Menuattributes.forEach((char: any) => {
         if(char.isChecked)
       {
-         this.Resultattributes.push({'MenuID':char.MenuID,'isfullaccess':char.isChecked});
+         this.Resultattributes.push({'MenuID':char.MenuID,'accesslevel':'1111','isfullaccess':(char.isChecked)?"1":"0"});
       }
           
         });
@@ -1472,7 +2104,7 @@ else{
   }
   onEditUserprofileAceessUserAccess(Actiontype: string) {
    // this.Formstatus='Profile';
-    this.initialize(Actiontype);
+    //this.initialize(Actiontype);
     debugger
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1496,13 +2128,17 @@ else{
     this.StartupForm = false;
     this.UserEditProfilesForm = true;
     this.isLeftPanel = true;
-    this.UserEditForm = this.formBuilder.group({
+    // this.UserEditForm = this.formBuilder.group({
 
-      ProfileName: new FormControl(),
-      Description: new FormControl(),
-      UserProfile: new FormControl()
+    //   ProfileName: new FormControl(),
+    //   Description: new FormControl(),
+    //   UserProfile: new FormControl()
 
-    });
+    // });
+    this.UserEditForm.get('profilename')?.setValue('CUSTOM-'+this.referenceForm.controls.username?.value);
+    this.UserEditForm.get('profiledescription')?.setValue('Description');
+
+
     if (Actiontype == 'Create') {
       this.eventName = 'Create';
     }
@@ -1511,9 +2147,20 @@ else{
     }
 
   }
-  onEditUserprofileAceess(Actiontype: string) {
+  onEditUserprofileAceess(Actiontype: string, row ?: any) {
+    this.tabsLeft.splice( this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0), 1);
+    this.Profilebutton=true;
     this.Formstatus='Profile';
-    this.initialize(Actiontype);
+    this.UserEditForm?.get('profilename')?.enable();
+    this.UserEditForm?.get('profiledescription')?.enable();
+    if(row)
+    {
+
+    this.initialize(Actiontype,row.profilename);
+    }
+    else{
+      this.initialize(Actiontype);
+    }
     debugger
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1537,18 +2184,22 @@ else{
     this.StartupForm = false;
     this.UserEditProfilesForm = true;
     this.isLeftPanel = true;
-    this.UserEditForm = this.formBuilder.group({
+    // this.UserEditForm = this.formBuilder.group({
 
-      ProfileName: new FormControl(),
-      Description: new FormControl(),
-      UserProfile: new FormControl()
+    //   ProfileName: new FormControl(),
+    //   Description: new FormControl(),
+    //   UserProfile: new FormControl()
 
-    });
+    // });
     if (Actiontype == 'Create') {
       this.eventName = 'Create';
+      this.UserEditForm.reset();
     }
     else {
       this.eventName = 'Update';
+      this.UserEditForm.get('profilename')?.setValue(row.profilename);
+      this.UserEditForm.get('profiledescription')?.setValue(row.profiledescription);
+      this.UserProfileRowData = row;
     }
 
   }
@@ -1591,11 +2242,16 @@ else{
 
   }
   changeevent(event: any) {
+    debugger
     console.log('event called', event);
+  //  this.Sourcedata=event;
+    //this.referenceForm.get('sources')?.setValue(JSON.stringify(event));
   }
 
   onEdituserDetails(record: any, event: Event) {
     debugger
+    this.Menuattributes=[];
+    this.tabsLeft.splice( this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2), 1);
     this.Formstatus='UserAccessDetails'
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1637,6 +2293,34 @@ else{
     this.eventName = 'Update'
     //this.showDataform =true; 
     //this.cdr.detectChanges();
+    //
+    debugger
+    //this.bindSource();
+    if(this.eventName==='Update')
+    {
+    if(record['sources'])
+    {
+    
+      let arr:any[]=record['sources'].split(',');
+      //arr.push('SAS/COMS');
+      arr.forEach((value:any)=>{
+         this.filterItems.map((x:any)=>{
+          if(x.view===value)
+          {
+            x.default=true;
+          }
+          else{
+            x.default=false;
+          }
+         });
+      })
+
+    }
+    }
+
+    this.SelectCheckbox?.clearvaluesselection();
+
+
     for (let field in this.referenceForm.controls) {
       let control = this.referenceForm.get(field);
       // control?.setValue(record[field]);
@@ -1647,12 +2331,15 @@ else{
         // this.userProfilesDropdown = record[field];
         // this.userProfile = record['profilename'];
         control?.setValue(record['profilename']);
-      } else if (field === 'source') {
+      } else if (field === 'sources') {
         // control?.setValue(record[field]);
+        
+
 
       } else if (field === 'active'){
         record[field]==='Yes' ? control?.setValue(true) : control?.setValue(false);
       }
+      
       else {
         control?.setValue(record[field]);
       }
@@ -1706,6 +2393,7 @@ else{
   }
 
   onVerifyUserName() {
+    this.tabsLeft.splice( this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2), 1);
     this.StartupForm = false;
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1721,10 +2409,8 @@ else{
       this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
     }
     this.isLeftPanel = true;
-    this.referenceUsernameform = this.formBuilder.group({
-
-      UserID: new FormControl()
-    });
+    this.referenceUsernameform.reset();
+   
   }
 
   onCreateuserDetails() {
@@ -1760,12 +2446,15 @@ else{
     else {
       this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
     }
+    this.referenceForm.reset();
+    this.referenceForm.get('username')?.setValue(this.referenceUsernameform.controls.UserID?.value);
+    
     this.Header = "User Access Details";
     this.UserDetailsForm = true;
     this.StartupForm = false;
     this.UserProfilesForm = false;
     this.isLeftPanel = true;
-    this.referenceForm.reset();
+    
     // this.referenceForm = this.formBuilder.group({
     //   username: new FormControl(),
     //   userprofiles: new FormControl(),
@@ -1776,37 +2465,13 @@ else{
     //   telephoneno: new FormControl(),
     // });
     this.eventName = "Create";
-
-    for (let field in this.referenceForm.controls) {
-      let control = this.referenceForm.get(field);
-      // control?.setValue(record[field]);
-      // console.log(record[field]);
-
-      if (field === 'userprofiles') {
-        this.userProfilesDropdown = [
-          "custom_beema",
-          "Super Admin",
-          "Admin",
-          "Requestor",
-          "Readonly",
-          "Custom"
-      ];
-        // this.userProfile = record['profilename'];
-        control?.setValue([
-          "custom_beema",
-          "Super Admin",
-          "Admin",
-          "Requestor",
-          "Readonly",
-          "Custom"
-      ]);
-      } else if (field === 'source') {
-        // control?.setValue(record[field]);
-
-      } else {
-       // control?.setValue(record[field]);
-      }
+    this.filterItems.map((x:any)=>
+    {
+      x.default=false;
     }
+  
+    );
+    this.SelectCheckbox?.clearvaluesselection();
   }
   onSubmit(reportIdentifier?: string) {
     debugger
@@ -1877,7 +2542,7 @@ else{
           });
           updateConfirm3.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
-              let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
+              let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.UserEditForm,'UserProfileUpdate'));
               console.log("Update request3 : " + JSON.stringify(request3));
               this.service.uiUpdateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
@@ -1926,7 +2591,7 @@ else{
             });
           break;
         case 'User Profiles':
-          let request3 = Utils.preparePyUICreate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
+          let request3 = Utils.preparePyUICreate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.UserEditForm,'UserProfileCreate'));
           console.log("Create request3 : " + JSON.stringify(request3));
           this.service.uiCreateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
             (res: any) => {
@@ -2024,7 +2689,8 @@ else{
   multipleSelect(event:any){
     // console.log(event)
     if(event){
-      console.log(event.toString())
+      console.log(event.toString());
+      this.Sourcedata=event.toString();
     }
   }
 
@@ -2260,6 +2926,8 @@ else{
   }
 
   prepareData(form: FormGroup,action?:string) {
+    console.log('form group data',form);
+    debugger;
     let attribute: any = {};
     let profilename:string="";
     for (const field in form.controls) {
@@ -2281,26 +2949,70 @@ else{
     }
     if(action=='UserAccess')
     {
-
+     
+      if(this.Sourcedata){
+        attribute['sources']=this.Sourcedata;
+      }
+     
       let newattribute:any={};
      if(profilename==='Custom')
      {
+      this.preparemenu();
+      attribute['profilename']=this.UserEditForm.controls.profilename?.value;
+      newattribute['iscustom']=0;
+      newattribute['iseditprofile']=1;
+      newattribute['isdefaultprofile']=0;
       newattribute['profilename']=profilename;
       newattribute['profileitems']=this.Resultattributes;
+      attribute['iscustomprofile']=1;
+     // newattribute['profiledescription']='This is custom';
      }
+
      else{
+      attribute['profilename']=profilename;
+      attribute['iscustomprofile']=0;
       newattribute['profilename']=profilename;
+      newattribute['iscustom']=0;
+      newattribute['iseditprofile']=1;
       newattribute['isdefaultprofile']=1;
+      attribute['iscustomprofile']=0;
      // newattribute['profileitems']=this.Resultattributes;
      }
-      newattribute['profiledescription']='This is custom';
-      newattribute['iseditprofile']=1;
-      
+     newattribute['isdelete']=1;
      
-      
-      
-    
       attribute['profiledata']=newattribute;
+    }
+
+    if(action=='UserProfileCreate')
+    {
+
+      let newattribute:any={};
+     
+      attribute['isdefaultprofile']=0;
+      attribute['iseditprofile']=1;
+      attribute['iscustom']=0;
+      attribute['isdelete']=1;
+
+      attribute['profileitems']=this.Resultattributes;
+
+      // attribute['profiledata']=newattribute;
+    }
+
+    if(action=='UserProfileUpdate')
+    {
+
+      let newattribute:any={};
+      if(this.UserProfileRowData)
+      {
+      attribute['isdefaultprofile']=this.UserProfileRowData.isdefaultprofile;
+      attribute['iseditprofile']=this.UserProfileRowData.iseditprofile;
+      attribute['iscustom']=this.UserProfileRowData.iscustomprofile;
+      attribute['isdelete']=this.UserProfileRowData.isdelete;
+      }
+
+      attribute['profileitems']=this.Resultattributes;
+
+      // attribute['profiledata']=newattribute;
     }
     console.log(JSON.stringify(attribute));
     return attribute;
@@ -2331,7 +3043,8 @@ else{
       lastname: new FormControl({ value: '' },[Validators.required]),
       emailaddress: new FormControl({ value: '' },[Validators.required,Validators.email]),
       telephoneno: new FormControl({ value: '' },[Validators.pattern("^[0-9]{11}$")]),
-      active: new FormControl({ value: '' },[Validators.required])
+      active: new FormControl({ value: '' },[]),
+      sources:new FormControl({ value: '' }),
     });
 
     this.StartupUsermsgsForm = this.formBuilder.group({
@@ -2346,6 +3059,21 @@ else{
       newssubheader: new FormControl({ value: '' }, []),
     });
 
+    this.UserEditForm = this.formBuilder.group({
+
+      profilename: new FormControl({ value: '' },[Validators.required]),
+      profiledescription: new FormControl({ value: '' },[Validators.required]),
+      // userprofile: new FormControl()
+
+    });
+    this.UserProfileForm = this.formBuilder.group({
+
+      profilename: new FormControl({ value: '' },[Validators.required]),
+      profiledescription: new FormControl({ value: '' },[Validators.required]),
+      // userprofile: new FormControl()
+
+    });
+    
     this.filterUserofReportForm = this.formBuilder.group({
       username: new FormControl({ value: '' }, []),
       sources: new FormControl({ value: '' }, []),
@@ -2368,14 +3096,17 @@ else{
       profilename: new FormControl({ value: '' }, []),
       createdby: new FormControl({ value: '' }, []),
     });
+    this.referenceUsernameform = this.formBuilder.group({
 
+      UserID: new FormControl({value:''},[Validators.required]),
+    });
     this.StartupUsermsgsForm.reset();
     this.referenceForm.reset();
     this.filterUserofReportForm.reset();
     this.filterNewsUpdateForm.reset();
     this.filterUserAccessForm.reset();
     this.filterUserProfilesForm.reset();
-
+    this.UserEditForm.reset();
   }
 
   onExport(tableHeader: any,tabName:string,tableData: any) {
