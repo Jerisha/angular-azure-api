@@ -1,11 +1,64 @@
-<div class="container">
-<!-- <mat-card> -->
-  <!-- <mat-card-title> -->
-    <strong>About OSN PROVISIONING</strong>
-  <!-- </mat-card-title> -->
-  <!-- <mat-card-content> -->
-  OSN PROVISIONING application is about storing and managing fixed line customer details like CLI, customer name, address, line type, command and few supporting attributes, which are required for 999 emergency service.
-  There is an OSN2 Audit functionality which to check data consistency between BT 999 platform, OSN2 Platform and Vodafone provisioning and fulfilment systems. Based on above audit check, both automatic and manual correction of inconsistent data can be carried out though the OSN2 GUI.
-<!-- </mat-card-content> -->
-<!-- </mat-card> -->
-</div>
+
+<mat-card class="home-card">
+  <mat-card-title>
+  </mat-card-title>
+  <mat-card-subtitle class="aboutcard">
+    <div class="img" style=" display: flex">
+      <img style="height:96px; width: 96px; padding: 5px" src="assets/images/side_img.PNG">
+      <span classs="aboutheader">
+        OSN PROVISIONING application is about storing and managing fixed line customer details like CLI, customer name,
+        address, line type, command and few supporting attributes, which are required for 999 emergency service.
+        There is an OSN2 Audit functionality which to check data consistency between BT 999 platform, OSN2 Platform and
+        Vodafone provisioning and fulfilment systems. Based on above audit check, both automatic and manual correction
+        of
+        inconsistent data can be carried out though the OSN2 GUI.
+
+      </span>
+    </div>
+  </mat-card-subtitle>
+  <mat-card-content>
+    <div class="main">
+      <div class="favcard">
+        <h1 class="header">
+          <mat-icon>grade</mat-icon>Favorites
+        </h1>
+        <div class="menuitems" *ngFor="let menu of menus.slice(0,5) let menuIndex = index">
+          <a class="menu" href={{menu.route}}>{{ menu.displayName }}</a>
+        </div>
+      </div>
+      <div class="newscard" >
+        <h1 class="header">
+          <mat-icon>update</mat-icon>
+          New Updates
+        </h1>
+        <div style="max-height: 200px; overflow-y: auto;">
+          <div class="menuitems" *ngFor="let news of newslist let newsIndex = index" >
+            <div>
+              <h2 style="padding-left : 30px; color:black ; text-align: center;">{{news.newsheader}}</h2>
+            </div>
+            <div>
+              <h3 style="padding-left : 30px;">{{news.newssubheader}}</h3>
+            </div>
+            <div>
+              <p style="padding-left : 30px;background-color: grey; color: white; font-size: 15px; ">{{news.newsdescription}}</p>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- <mat-card-actions> -->
+          <!-- <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button> -->
+        <!-- </mat-card-actions> -->
+      </div>
+    </div>
+
+  </mat-card-content>
+  <!-- 
+  <mat-card-footer class="footerbelow">
+
+    <a href="#"> Legal Notices | Privacy Policy | Acceptable Usage Policy </a>
+
+  </mat-card-footer> -->
+</mat-card>

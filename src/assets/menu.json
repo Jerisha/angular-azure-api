@@ -163,7 +163,7 @@
         "displayName": "Restore Solicited Errors",
         "iconName": "",
         "route": "administration/restoresolicitederrors",
-        "menuId" :""
+        "menuId" :"MENU26"
       },
       {
         "displayName": "Data Correction Summary",

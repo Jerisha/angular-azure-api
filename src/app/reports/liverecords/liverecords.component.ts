@@ -439,6 +439,7 @@ const Itemstwo: Select[] = [
   { view: 'Franchise', viewValue: 'Franchise', default: false },
   // { view: 'Transaction Command', viewValue: 'TransactionCommand', default: false },
   { view: 'Source System', viewValue: 'Source', default: false },
+  { view: 'Line Type', viewValue: 'LineType', default: false }
  
 ]
 
@@ -490,6 +491,7 @@ export class LiverecordsComponent extends UserProfile implements OnInit {
     "FranchiseOperator",
     "TransactionCommandOperator",
     "TypeOfLineOperator",
+    "LineTypeOperator",
   ];
   expOperatorsKeyPair: [string, string][] = [];
 resetExp:boolean = false;
@@ -572,7 +574,7 @@ resetExp:boolean = false;
     // this.setOptions();
     this.createForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Source', 'Franchise', 'TypeOfLine', 'TransactionCommand']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'Franchise', 'TypeOfLine', 'TransactionCommand','LineType']);
     this.service.configDetails(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
@@ -815,6 +817,7 @@ resetExp:boolean = false;
       Franchise: new FormControl({ value: '', disabled: true }, []),
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
+      LineType: new FormControl({ value: '', disabled: true }, []),
 
     })
 

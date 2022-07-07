@@ -102,6 +102,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   Commentsstring!:string;
   currentPage: string = '1';
   updateDetails!: any;
+  AuditStatus:boolean=true;
   addressDetails = new AddressDetails();
   passedRouteData: any;
   Cuparr:any;
@@ -567,7 +568,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     //console.log('update bind method called',JSON.stringify(res));
     if (Type == 'Query') {
       if(Object.keys(res).length) {
-
+        this.AuditStatus=false;
         //this.Provide=res.Data.NumberOfTransactions.MasterCount;
         this.queryResultobj = res.data;
         let type: string = res.data.TransactionTypes[0].TransactionType;
@@ -595,11 +596,16 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         });
         this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
         console.log('config details test',this.configDetails);
+        console.log('query result',this.queryResultobj);
         this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
         this.Master = this.queryResultobj.NumberOfTransactions[0].MasterCount;
         this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
         this.cupIds = this.queryResultobj.CupidFranchiseList[0].CupidFranchise;
+        if(this.queryResultobj.TelephoneNumbers[0]!=undefined)
+        {
         this.audittelephonenumbers = this.queryResultobj.TelephoneNumbers[0].TelephoneNumber;
+        this.AuditStatus=true;
+        }
         let test: any = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('uniquer values',test);
@@ -618,6 +624,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       //  console.log('calling update api');
         if (Object.keys(res).length) {
             debugger
+            this.AuditStatus=false;
           //this.Provide=res.Data.NumberOfTransactions.MasterCount;
           this.queryResultobj = res.data;
           let type: string = res.data.TransactionTypes[0].TransactionType;
@@ -649,13 +656,16 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           });
           this.model.CupId=staticvalues.CupID;
           this.configDetails = { TransactionType: type, LineType: linetype, TypeOfLine: TypeOfLine };
-          // console.log('config dertails test',this.configDetails);
+           console.log('config details test',this.queryResultobj);
           this.Live = this.queryResultobj.NumberOfTransactions[0].LiveCount;
           this.Master = this.queryResultobj.NumberOfTransactions[0].MasterCount;
           this.Provide = this.queryResultobj.NumberOfTransactions[0].ProvideCount;
           this.cupIds = this.queryResultobj.CupidFranchiseList[0].CupidFranchise;
+          if(this.queryResultobj.TelephoneNumbers[0]!=undefined)
+          {
           this.audittelephonenumbers = this.queryResultobj.TelephoneNumbers[0].TelephoneNumber;
-
+          this.AuditStatus=true;
+          }
           //console.log('uniquer values',test);
           this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
             .filter((value: any, index: number, self: any) => self.indexOf(value) === index);

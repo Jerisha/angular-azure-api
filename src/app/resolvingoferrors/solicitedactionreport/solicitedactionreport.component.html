@@ -35,7 +35,7 @@
                         </app-select-exp>
                         <mat-form-field [ngClass]="{'hidden':myForm.controls.TransactionID.disabled}"
                             appearance="outline">
-                            <mat-label>TransactionID</mat-label>
+                            <mat-label>Transaction ID</mat-label>
                             <input id="TransactionID" formControlName="TransactionID" matInput maxlength="500" #input
                                 placeholder="TransactionID">
                         </mat-form-field>
@@ -85,15 +85,15 @@
                       </mat-form-field>
                     </div> -->
 
-                    <div [ngStyle]="{'display':myForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
+                    <div [ngStyle]="{'display':myForm.controls.ResolveType.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[3].default" #ResolveTypeOperator
                             [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolveTypeOperator',ResolveTypeOperator.selectedViewValue])">
                         </app-select-exp>
-                        <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
+                        <mat-form-field [ngClass]="{'hidden':f.ResolveType.disabled}">
                             <mat-label>Resolution Type</mat-label>
-                            <mat-select formControlName="ResolutionTypeAudit">  
+                            <mat-select formControlName="ResolveType">  
                               <!-- <mat-option>None</mat-option>           -->
-                              <mat-option *ngFor="let val of config.ResolutionTypeAudit" [value]="val">
+                              <mat-option *ngFor="let val of config.AllResolutionType" [value]="val">
                                 {{val}}
                               </mat-option>
                             </mat-select>
@@ -166,7 +166,7 @@
                             <mat-label>Status</mat-label>
                             <mat-select formControlName="Status">  
                               <!-- <mat-option>None</mat-option>           -->
-                              <mat-option *ngFor="let val of config.Status" [value]="val">
+                              <mat-option *ngFor="let val of config.ErrorStatus" [value]="val">
                                 {{val}}
                               </mat-option>
                             </mat-select>
@@ -194,9 +194,9 @@
                     </div> -->
 
                     <div [ngStyle]="{'display':myForm.controls.TransactionCommand.disabled ? 'none' : 'block'}">
-                        <app-select-exp [listItems]="expressions[3].default" #TransactionCommandOperator
+                        <app-select-exp [listItems]="expressions[3].default" #TranCommandOperator
                             [resetvalue]="resetExp"
-                            (click)="OnOperatorClicked(['TransactionCommandOperator',TransactionCommandOperator.selectedViewValue])">
+                            (click)="OnOperatorClicked(['TranCommandOperator',TranCommandOperator.selectedViewValue])">
                         </app-select-exp>
                         <mat-form-field [ngClass]="{'hidden':f.TransactionCommand.disabled}">
                             <mat-label>Transaction Command</mat-label>
@@ -210,14 +210,10 @@
                     </div>
 
                     <div [ngStyle]="{'display':myForm.controls.Reference.disabled ? 'none' : 'block'}"style="padding-left: 11px;">
-                    <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
+                      <mat-form-field [ngClass]="{'hidden':f.Reference.disabled}">
                         <mat-label>999 Reference</mat-label>
-                        <input name="refer" #refer="ngModel" [(ngModel)]="Refer" [ngModelOptions]="{standalone: true}"
-                          matInput placeholder="999 Reference" referValidator>
-                        <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
-                        <mat-error class="alert alert-danger">
-                          <div *ngIf="refer.errors?.valid999">Please provide a valid 999 Reference</div>
-                        </mat-error>
+                        <input formControlName="Reference" matInput #input placeholder="999 Reference" referValidator>
+                        <mat-error *ngIf="f.Reference.errors?.valid999">Please provide a valid 999 Reference</mat-error>
                         <!-- <mat-hint align="end"></mat-hint> -->
                       </mat-form-field>
                     </div>

@@ -34,7 +34,6 @@ export class HttpWrapperService {
         return observerRes;
     }
 
-
     private urlExtract(endPoint: WebMethods): string {
         let url = '';
         switch (endPoint) {
@@ -122,6 +121,23 @@ export class HttpWrapperService {
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'json' });
             case ResponseType.BLOB:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob', observe: 'response' });
+        }
+    }
+
+    private validateResponseStatus(wmResponse: any) {
+        let status = false;
+        switch (wmResponse.MessageType as WMMessageType) {
+            case WMMessageType.Informational:
+                if (wmResponse.StatusCode != "EUI100")
+                    status = true;
+                else
+                    this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+                return status;
+                break;
+            case WMMessageType.Error:
+                this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+                return status;
+                break;
         }
     }
 
@@ -385,22 +401,7 @@ export class HttpWrapperService {
         return JSON.parse(jsonCreation);
     }
 
-    private validateResponseStatus(wmResponse: any) {
-        let status = false;
-        switch (wmResponse.MessageType as WMMessageType) {
-            case WMMessageType.Informational:
-                if (wmResponse.StatusCode != "EUI100")
-                    status = true;
-                else
-                    this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-                return status;
-                break;
-            case WMMessageType.Error:
-                this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-                return status;
-                break;
-        }
-    }
+  
 }
 
 
