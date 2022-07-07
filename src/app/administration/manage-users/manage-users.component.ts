@@ -69,7 +69,7 @@ let TREE_DATA_three = [
         id:22,
         isChecked:false,     
          Position:11111,
-         MenuID:'Menu01',
+         MenuID:'MENU01',
         
         
       },
@@ -77,7 +77,7 @@ let TREE_DATA_three = [
         name: 'Solicited Resolution Report',
         id:22,
         isChecked:false, 
-        MenuID:'Menu02',
+        MenuID:'MENU02',
          Position:11111,
         
      
@@ -86,7 +86,7 @@ let TREE_DATA_three = [
         name: 'Solicited Actions Report',
         id:22,
         isChecked:false, 
-        MenuID:'Menu03',
+        MenuID:'MENU03',
         
          Position:11111,
         
@@ -96,7 +96,7 @@ let TREE_DATA_three = [
         name: 'Unsolicited Process',
         id:22,
         isChecked:false, 
-        MenuID:'Menu04',
+        MenuID:'MENU04',
          Position:11111,
       
      
@@ -105,7 +105,7 @@ let TREE_DATA_three = [
         name: 'Unsolicited Actions Report',
         id:22,
         isChecked:false, 
-        MenuID:'Menu05',
+        MenuID:'MENU05',
          Position:11111,
       },
     ]
@@ -118,7 +118,7 @@ let TREE_DATA_three = [
      Position:33333,
     children: [
       {
-        MenuID:'Menu06',
+        MenuID:'MENU06',
         name: 'Create Record',
         id:77,
         isChecked:false,
@@ -126,7 +126,7 @@ let TREE_DATA_three = [
         Position:44444444,
       },
       {
-        MenuID:'Menu07',
+        MenuID:'MENU07',
         name: 'Create Internal Cease',
         id:77,
         isChecked:false,
@@ -147,14 +147,14 @@ let TREE_DATA_three = [
         name: 'Full Audit Details',
         id:77,
         isChecked:false,
-        MenuID:'Menu08',
+        MenuID:'MENU08',
         Position:44444444,
       },
       {
         name: 'Audit Discrepancy Report',
         id:77,
         isChecked:false,
-        MenuID:'Menu09',
+        MenuID:'MENU09',
         
         Position:44444444,
       },
@@ -162,7 +162,7 @@ let TREE_DATA_three = [
         name: 'External Audit Details',
         id:77,
         isChecked:false,
-        MenuID:'Menu10',
+        MenuID:'MENU10',
         
         Position:44444444,
       },
@@ -170,21 +170,21 @@ let TREE_DATA_three = [
         name: 'Full Audit History',
         id:77,
         isChecked:false,
-        MenuID:'Menu11',
+        MenuID:'MENU11',
         Position:44444444,
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
-        MenuID:'Menu12',
+        MenuID:'MENU12',
         Position:44444444,
       },
       {
         name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
-        MenuID:'Menu13',
+        MenuID:'MENU13',
         
         Position:44444444,
       }
@@ -201,7 +201,7 @@ let TREE_DATA_three = [
         name: 'Full Audit Details',
         id:77,
         isChecked:false,
-        MenuID:'Menu14',
+        MenuID:'MENU14',
         
         Position:44444444,
       },
@@ -209,7 +209,7 @@ let TREE_DATA_three = [
         name: 'Audit Discrepancy Report',
         id:77,
         isChecked:false,
-        MenuID:'Menu15',
+        MenuID:'MENU15',
         
         Position:44444444,
       },
@@ -217,7 +217,7 @@ let TREE_DATA_three = [
         name: 'External Audit Details',
         id:77,
         isChecked:false,
-        MenuID:'Menu16',
+        MenuID:'MENU16',
         
         Position:44444444,
       },
@@ -225,14 +225,14 @@ let TREE_DATA_three = [
         name: 'Full Audit History',
         id:77,
         isChecked:false,
-        MenuID:'Menu17',   
+        MenuID:'MENU17',   
         Position:44444444,
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
-        MenuID:'Menu18',
+        MenuID:'MENU18',
         
         Position:44444444,
       },
@@ -240,7 +240,7 @@ let TREE_DATA_three = [
         name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
-        MenuID:'Menu19',
+        MenuID:'MENU19',
         
         Position:44444444,
       }
@@ -257,42 +257,42 @@ let TREE_DATA_three = [
         name: 'InFlight Records',
         id:77,
         isChecked:false,
-        MenuID:'Menu20',
+        MenuID:'MENU20',
         Position:44444444,
       },
       {
         name: 'Telephone Range Report',
         id:77,
         isChecked:false,
-        MenuID:'Menu21',
+        MenuID:'MENU21',
         Position:44444444,
       },
       {
         name: 'Transaction Details Records',
         id:77,
         isChecked:false,
-        MenuID:'Menu22',
+        MenuID:'MENU22',
         Position:44444444,
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
-        MenuID:'Menu23',
+        MenuID:'MENU23',
         Position:44444444,
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
-        MenuID:'Menu24',
+        MenuID:'MENU24',
         Position:44444444,
       },
       {
         name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
-        MenuID:'Menu25',
+        MenuID:'MENU25',
         Position:44444444,
       }
     ]
@@ -308,7 +308,7 @@ let TREE_DATA_three = [
         name: 'Transaction Trend for Source & Command',
         id:77,
         isChecked:false,
-        MenuID:'Menu26',
+        MenuID:'MENU26',
         Position:44444444,
       },
      
@@ -326,28 +326,28 @@ let TREE_DATA_three = [
         name: 'Audit Status Tracker',
         id:77,
         isChecked:false,
-        MenuID:'Menu27',
+        MenuID:'MENUU7',
         Position:44444444,
       },
       {
         name: 'Audit Data Files',
         id:77,
         isChecked:false,
-        MenuID:'Menu28',
+        MenuID:'MENU28',
         Position:44444444,
       },
       {
         name: 'Restore Solicited Errors',
         id:77,
         isChecked:false,
-        MenuID:'Menu29',
+        MenuID:'MENU29',
         Position:44444444,
       },
       {
         name: 'Data Correction Summary',
         id:77,
         isChecked:false,
-        MenuID:'Menu30',
+        MenuID:'MENU30',
         Position:44444444,
       },
 
@@ -355,21 +355,21 @@ let TREE_DATA_three = [
         name: 'Unresolved Transaction',
         id:77,
         isChecked:false,
-        MenuID:'Menu31', 
+        MenuID:'MENU31', 
         Position:44444444,
       },
       {
         name: 'Unresolved Errors',
         id:77,
         isChecked:false,
-        MenuID:'Menu32',
+        MenuID:'MENU32',
         Position:44444444,
       },
       {
         name: 'Manage Users',
         id:77,
         isChecked:false,
-        MenuID:'Menu33',
+        MenuID:'MENU33',
         Position:44444444,
       }
       
@@ -393,7 +393,7 @@ let TREE_DATA_three = [
               name: 'AuditStatus',
               id:22,
               isChecked:false, 
-              MenuID:'Menu34',
+              MenuID:'MENU34',
                Position:11111,
             
             },
@@ -401,7 +401,7 @@ let TREE_DATA_three = [
               name: 'Command',
               id:22,
               isChecked:false, 
-              MenuID:'Menu35',
+              MenuID:'MENU35',
                Position:11111,
                
             },
@@ -409,7 +409,7 @@ let TREE_DATA_three = [
               name: 'CUPIDCrossReference',
               id:22,
               isChecked:false, 
-              MenuID:'Menu36',
+              MenuID:'MENU36',
                Position:11111,
             
             },
@@ -419,13 +419,13 @@ let TREE_DATA_three = [
               isChecked:false, 
               
                Position:11111,
-               MenuID:'Menu37',
+               MenuID:'MENU37',
             },
             {
               name: 'CustomerTitles',
               id:22,
               isChecked:false, 
-              MenuID:'Menu38',
+              MenuID:'MENU38',
                Position:11111,
              
             },
@@ -433,7 +433,7 @@ let TREE_DATA_three = [
               name: 'ErrorCodes',
               id:22,
               isChecked:false, 
-              MenuID:'Menu39',
+              MenuID:'MENU39',
                Position:11111,
              
             },
@@ -441,7 +441,7 @@ let TREE_DATA_three = [
               name: 'ErrorTypes',
               id:22,
               isChecked:false, 
-              MenuID:'Menu40',
+              MenuID:'MENU40',
                Position:11111,
               
             },
@@ -449,7 +449,7 @@ let TREE_DATA_three = [
               name: 'Franchises',
               id:22,
               isChecked:false, 
-              MenuID:'Menu41',
+              MenuID:'MENU41',
                Position:11111,
               
             },
@@ -457,7 +457,7 @@ let TREE_DATA_three = [
               name: 'InterimCommands',
               id:22,
               isChecked:false, 
-              MenuID:'Menu42',
+              MenuID:'MENU42',
                Position:11111,
              
             },
@@ -465,7 +465,7 @@ let TREE_DATA_three = [
               name: 'LineTypes',
               id:22,
               isChecked:false, 
-              MenuID:'Menu43',
+              MenuID:'MENU43',
                Position:11111,
              
             },
@@ -473,7 +473,7 @@ let TREE_DATA_three = [
               name: 'NextCommandCheck',
               id:22,
               isChecked:false, 
-              MenuID:'Menu44',
+              MenuID:'MENU44',
                Position:11111,
               
             },
@@ -481,7 +481,7 @@ let TREE_DATA_three = [
               name: 'OsnProvideList',
               id:22,
               isChecked:false, 
-              MenuID:'Menu45',
+              MenuID:'MENU45',
                Position:11111,
               
             },
@@ -489,7 +489,7 @@ let TREE_DATA_three = [
               name: 'PermittedLineStatus',
               id:22,
               isChecked:false, 
-              MenuID:'Menu46',
+              MenuID:'MENU46',
                Position:11111,
               
             },
@@ -497,7 +497,7 @@ let TREE_DATA_three = [
               name: 'RejectedTelephonePrefix',
               id:22,
               isChecked:false, 
-              MenuID:'Menu47',
+              MenuID:'MENU47',
                Position:11111,
               
             },
@@ -505,7 +505,7 @@ let TREE_DATA_three = [
               name: 'ResolutionTypes',
               id:22,
               isChecked:false, 
-              MenuID:'Menu48',
+              MenuID:'MENU48',
                Position:11111,
               
             },
@@ -513,7 +513,7 @@ let TREE_DATA_three = [
               name: 'ResolverEmails',
               id:22,
               isChecked:false, 
-              MenuID:'Menu49',
+              MenuID:'MENU49',
                Position:11111,
               
             },
@@ -521,7 +521,7 @@ let TREE_DATA_three = [
               name: 'Olo',
               id:22,
               isChecked:false, 
-              MenuID:'Menu50',
+              MenuID:'MENU50',
                Position:11111,
               
             },
@@ -529,7 +529,7 @@ let TREE_DATA_three = [
               name: 'Company',
               id:22,
               isChecked:false, 
-              MenuID:'Menu51',
+              MenuID:'MENU51',
                Position:11111,
               
             },
@@ -1334,7 +1334,7 @@ InitializeTreeview(ProfileName?:string)
 
 
   initialize(Event:string,Profilename?:string) {
-    
+    this.resettree();
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
     if(Event!='Create')
@@ -1393,7 +1393,7 @@ InitializeTreeview(ProfileName?:string)
               {
                 if(menu!=undefined)
                 {
-                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':1,'accesslevel':'1111'});
+                this.ApiMenuattributes.push({'menuid':grandhchild.MenuID,'isChecked':1,'accesslevel':'1111'});
                 grandhchild.isChecked=true;
                 }
               }
@@ -1408,7 +1408,7 @@ InitializeTreeview(ProfileName?:string)
               {
                 if(menu!=undefined)
                 {
-                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':1,'accesslevel':'1111'});
+                this.ApiMenuattributes.push({'menuid':grandhchild.MenuID,'isChecked':1,'accesslevel':'1111'});
                 greatgrandchild.isChecked=true;
                 }
               }
@@ -1492,6 +1492,44 @@ bindtreedata(treestructure:any)
  // treeControl.expandAll();
  this.treeControl.expandAll();
 }
+resettree()
+{
+  if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
+    for(var i=0;i<TREE_DATA_three.length;i++)
+    {
+    let  Tree=TREE_DATA_three[i];
+    for(var j=0;j<Tree.children.length;j++)
+    {
+     let tchild=Tree.children[j];
+      for(var k=0;k<tchild.children.length;k++)
+      {
+        let grandhchild:any=tchild.children[k];
+        console.log('gradchild',grandhchild.MenuID);
+        if(grandhchild.MenuID!=undefined)
+        {
+       
+          grandhchild.isChecked=false;
+         
+      }
+      else{
+        for(var l=0;l<grandhchild.children.length;l++)
+      {
+        let greatgrandchild=grandhchild.children[l];
+        if(greatgrandchild.MenuID!=undefined)
+      
+          greatgrandchild.isChecked=false;
+         
+      }
+      }
+       
+    }
+  
+    }
+  }
+}
+}
+
+
 bindtreeedataview(treestructure:any)
 {
   debugger
@@ -1663,7 +1701,7 @@ bindtreeedataview(treestructure:any)
        descendants.forEach((char: any) => {
       this.Menuattributes = this.Menuattributes.filter((item: { MenuID: any; }) => item.MenuID !== char.MenuID);
       if(char.MenuID!=undefined)
-     this.Menuattributes.push({'MenuID':char.MenuID,'isChecked':event.checked});
+     this.Menuattributes.push({'menuid':char.MenuID,'isChecked':event.checked});
     });
      console.log('attributes',this.Menuattributes);
     console.log('final result',  partialSelection);
@@ -1681,7 +1719,7 @@ bindtreeedataview(treestructure:any)
     this.Menuattributes = this.Menuattributes.filter((item: { MenuID: any; }) => item.MenuID !== node.MenuID);
    // delete this.Menuattributes[this.Menuattributes.findIndex((item: { MenuID: any; }) => item.MenuID == node.MenuID)];
     //this.Menuattributes.splice()
-    this.Menuattributes.push({'MenuID':node.MenuID,'isChecked':event.checked});
+    this.Menuattributes.push({'menuid':node.MenuID,'isChecked':event.checked});
     console.log('attributes',this.Menuattributes);
   }
 
@@ -2015,9 +2053,10 @@ bindtreeedataview(treestructure:any)
       this.Menuattributes.forEach((char: any) => {
       
        
-          if(char.MenuID==element.MenuID)
+          if(char.menuid==element.menuid)
           {
-           this.Resultattributes.push({'MenuID':char.MenuID,'accesslevel':'1111','isfullaccess':(char.isChecked)?"1":"0"});
+            if(char.isChecked)
+           this.Resultattributes.push({'menuid':char.menuid,'accesslevel':'1111','isfullaccess':(char.isChecked)?1:0});
             flage=false;
           }
         
@@ -2025,7 +2064,7 @@ bindtreeedataview(treestructure:any)
       });
       if(flage)
       {
-        this.Resultattributes.push({'MenuID':element.MenuID,'accesslevel':'1111','isfullaccess':(element.isChecked)?"1":"0"});
+        this.Resultattributes.push({'menuid':element.menuid,'accesslevel':'1111','isfullaccess':(element.isChecked)?1:0});
       }
 
      
@@ -2033,16 +2072,18 @@ bindtreeedataview(treestructure:any)
     this.Menuattributes.forEach((element: any) => {
       if(element.isChecked)
       {
-        this.Resultattributes.push({'MenuID':element.MenuID,'accesslevel':'1111','isfullaccess':'1',});
+        this.Resultattributes.push({'menuid':element.menuid,'accesslevel':'1111','isfullaccess':1});
       }
     });
     console.log('Update Result ',this.Resultattributes);
+   
+      console.log('Update Result2 ',this.Resultattributes);
     }
     else{
       this.Menuattributes.forEach((char: any) => {
         if(char.isChecked)
       {
-         this.Resultattributes.push({'MenuID':char.MenuID,'accesslevel':'1111','isfullaccess':(char.isChecked)?"1":"0"});
+         this.Resultattributes.push({'menuid':char.menuid,'accesslevel':'1111','isfullaccess':(char.isChecked)?1:0});
       }
           
         });
@@ -2567,15 +2608,15 @@ else{
         case 'User Access Details':
           let request1 = Utils.preparePyUICreate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm,'UserAccess'));
           console.log("Create request1 : " + JSON.stringify(request1));
-          // this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-          //   (res: any) => {
-          //     if (res.Status && res.Status[0].StatusMessage === 'Success') {
-          //       //success message and same data reload
-          //       // this.refreshData();
-          //       this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-          //       this.getFileDetails('UserAccessDetails');
-          //     }
-          //   });
+          this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+            (res: any) => {
+              if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                //success message and same data reload
+                // this.refreshData();
+                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.getFileDetails('UserAccessDetails');
+              }
+            });
           break;
         case 'Start Up User Messages':
           let request2 = Utils.preparePyUICreate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
@@ -2962,7 +3003,8 @@ else{
       newattribute['iscustom']=0;
       newattribute['iseditprofile']=1;
       newattribute['isdefaultprofile']=0;
-      newattribute['profilename']=profilename;
+      //newattribute['profilename']=profilename;
+      newattribute['profilename']=this.UserEditForm.controls.profilename?.value;
       newattribute['profileitems']=this.Resultattributes;
       attribute['iscustomprofile']=1;
      // newattribute['profiledescription']='This is custom';
