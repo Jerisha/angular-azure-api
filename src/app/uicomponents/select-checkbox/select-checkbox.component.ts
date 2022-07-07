@@ -19,7 +19,7 @@ export class SelectCheckboxComponent implements OnInit {
   @Input() icon!: string;
   @Input() label: string;
   @Output() changes = new EventEmitter<any>();
-
+  
 
   selectFormControl = new FormControl();
   searchTextboxControl = new FormControl();
@@ -78,7 +78,17 @@ export class SelectCheckboxComponent implements OnInit {
     }
    
   }
+clearvaluesselection()
+{
+  console.log('event called calear');
+  //this.selectedValues = [];
+  //this.selectedValues = this.listItems?.filter((e) => e.default == true).map((i) => i.viewValue);
+  this.selectedValues = []
+  this.setMandatoryValues();
+  this.selectFormControl.patchValue(this.selectedValues);
+  this.changes.emit(this.selectedValues);
 
+}
   openedChange(e: any) {
     // Set search textbox value as empty while opening selectbox 
     this.searchTextboxControl.patchValue('');
