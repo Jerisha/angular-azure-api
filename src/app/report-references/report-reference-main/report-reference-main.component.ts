@@ -13,6 +13,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Utils } from 'src/app/_http';
 import { element } from 'protractor';
 import { stringify } from 'querystring';
+import FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -108,11 +109,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.newTab();
       // }
       // else{
-      //   this.alertService.info("Data not found or some technical Issue, please try again :(", { autoClose: true, keepAfterRouteChange: false });
+      //   this.alertService.info("Data not found or some technical Issue, please try again", { autoClose: true, keepAfterRouteChange: false });
       // }
     }
     else {
-      this.alertService.info("Please close some Tabs, Max allowed  tabs is 5 :(", { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.info("Please close some Tabs, Max allowed  tabs is 5", { autoClose: true, keepAfterRouteChange: false });
     }
   }
   Onselecttabchange($event: any) {
@@ -154,11 +155,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         }
       }
       else {
-        this.alertService.info("Please close some Tabs, Max allowed  tabs is 5 :(", { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.info("Please close some Tabs, Max allowed  tabs is 5", { autoClose: true, keepAfterRouteChange: false });
       }
     }
     else {
-      this.alertService.warn("No data found, Please try later some time :(", { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.warn("No data found, Please try later some time", { autoClose: true, keepAfterRouteChange: false });
     }
   }
   removeTab(index: number) {
@@ -195,7 +196,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
     else {
       //alert("close opened report:" + this.editMode)
-      this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
     }
   }
   refreshData() {
@@ -304,7 +305,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       // console.log(this.editRecord, 'editrrecord2')
     }
     else {
-      this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
       // alert("close opened report:"+this.editMode)
     }
   }
@@ -329,7 +330,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           // this.isLoading = false;
             if (x.StatusMessage === 'Success') {
               this.refreshData();
-              this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
             }
             else {
               this.alertService.notification("Record delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
@@ -461,7 +462,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
               //success message and same data reloa
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
-              this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             }
             else {
@@ -500,7 +501,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // this.isLoading = false;
         if (x.StatusMessage === 'Success') {
           this.refreshData();
-          this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.success("Record create successfully!!", { autoClose: true, keepAfterRouteChange: false });
           // this.onFormSubmit(true);
         }
         else {
@@ -536,7 +537,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
          //console.log(header,'header')
          // console.log( this.data, 'download1')
           let copydata = JSON.parse(JSON.stringify(this.data))
-          var c = document.createElement("a");
+          //var c = document.createElement("a");
           let data:any = [];
           let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
           data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
@@ -583,21 +584,27 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // data += result.toString().replace(/[,]+/g, '\t') + "\n";
       });
       //console.log(copydata, 'copydata12')
-      c.download = this.currentReportName + "_Report.tab";
+      // c.download = this.currentReportName + "_Report.tab";      
       //+ new Date().toString()+
       // var t = new Blob([JSON.stringify(this.data)],
       var t = new Blob([data], {
 
-        type: "data:text/plain;charset=utf-8"
+       // type: "data:text/plain;charset=utf-8"
+        
       });
-      c.href = window.URL.createObjectURL(t);
+      const file = new File([t], this.currentReportName + "_Report.xlsx",      
+        { type: 'application/vnd.ms-excel' }
+      );
+      FileSaver.saveAs(file);
+      //c.href = window.URL.createObjectURL(t);
+     
       // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       // element.setAttribute('download', filename);
-      c.click();
-      this.alertService.success(this.currentReportName + ' Download Completed :)', { autoClose: true, keepAfterRouteChange: false });
+      //c.click();
+      this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
     }
     else {
-      this.alertService.info(this.currentReportName + ' No Data Found :(', { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
     }
   }
 
