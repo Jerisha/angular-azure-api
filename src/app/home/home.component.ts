@@ -21,8 +21,7 @@ export class HomeComponent implements OnInit {
   menuItems!: NavItem[];
 
   constructor(private authService: AuthenticationService) {
-    this.menuItems = MENU_SOURCE;
-console.log(this.menuItems,'menu')
+    this.menuItems = JSON.parse(JSON.stringify(MENU_SOURCE));
   }
  
 
@@ -32,13 +31,8 @@ console.log(this.menuItems,'menu')
     this.menuItems?.forEach((item:NavItem, index) => {
     let test = item.children?.filter((x: NavItem) => user?.favourites?.includes(x.menuId.toUpperCase()));
     test?.forEach(y=> this.menus.push(y))
-    
-    console.log(test,'test')
-    // this.menus.concat(test!)
     });
    
- 
-    // this.newslist = user.newsupdate
  
 
    this.newslist= [
