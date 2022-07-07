@@ -3003,7 +3003,8 @@ else{
       newattribute['iscustom']=0;
       newattribute['iseditprofile']=1;
       newattribute['isdefaultprofile']=0;
-      newattribute['profilename']=profilename;
+      //newattribute['profilename']=profilename;
+      newattribute['profilename']=this.UserEditForm.controls.profilename?.value;
       newattribute['profileitems']=this.Resultattributes;
       attribute['iscustomprofile']=1;
      // newattribute['profiledescription']='This is custom';
