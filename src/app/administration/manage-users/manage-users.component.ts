@@ -2302,7 +2302,7 @@ else{
     {
     
       let arr:any[]=record['sources'].split(',');
-      arr.push('SAS/COMS');
+      //arr.push('SAS/COMS');
       arr.forEach((value:any)=>{
          this.filterItems.map((x:any)=>{
           if(x.view===value)
@@ -2959,25 +2959,26 @@ else{
      {
       this.preparemenu();
       attribute['profilename']=this.UserEditForm.controls.profilename?.value;
-      newattribute['iscustom']='0';
-      newattribute['iseditprofile']='1';
-      newattribute['isdefaultprofile']='0';
+      newattribute['iscustom']=0;
+      newattribute['iseditprofile']=1;
+      newattribute['isdefaultprofile']=0;
       newattribute['profilename']=profilename;
       newattribute['profileitems']=this.Resultattributes;
-      attribute['iscustomprofile']='1';
+      attribute['iscustomprofile']=1;
      // newattribute['profiledescription']='This is custom';
      }
 
      else{
-      attribute['iscustomprofile']='0';
+      attribute['profilename']=profilename;
+      attribute['iscustomprofile']=0;
       newattribute['profilename']=profilename;
-      newattribute['iscustom']='0';
-      newattribute['iseditprofile']='1';
-      newattribute['isdefaultprofile']='1';
-      attribute['iscustomprofile']='0';
+      newattribute['iscustom']=0;
+      newattribute['iseditprofile']=1;
+      newattribute['isdefaultprofile']=1;
+      attribute['iscustomprofile']=0;
      // newattribute['profileitems']=this.Resultattributes;
      }
-     newattribute['isdelete']='1';
+     newattribute['isdelete']=1;
      
       attribute['profiledata']=newattribute;
     }
