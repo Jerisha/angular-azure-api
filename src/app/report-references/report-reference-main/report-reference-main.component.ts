@@ -13,7 +13,6 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Utils } from 'src/app/_http';
 import { element } from 'protractor';
 import { stringify } from 'querystring';
-import FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -529,7 +528,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.showDetailsForm = event[1];
     this.highlightedRows = '';
   }
-  onExport() {
+  onExportTabFormat() {
     //console.log( this.data, 'download')
         if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
          {
@@ -537,7 +536,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
          //console.log(header,'header')
          // console.log( this.data, 'download1')
           let copydata = JSON.parse(JSON.stringify(this.data))
-          //var c = document.createElement("a");
+          var c = document.createElement("a");
           let data:any = [];
           let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
           data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
@@ -584,29 +583,30 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // data += result.toString().replace(/[,]+/g, '\t') + "\n";
       });
       //console.log(copydata, 'copydata12')
-      // c.download = this.currentReportName + "_Report.tab";      
+      c.download = this.currentReportName + "_Report.tab";      
       //+ new Date().toString()+
       // var t = new Blob([JSON.stringify(this.data)],
       var t = new Blob([data], {
 
-       // type: "data:text/plain;charset=utf-8"
+        type: "data:text/plain;charset=utf-8"
         
       });
-      const file = new File([t], this.currentReportName + "_Report.xlsx",      
-        { type: 'application/vnd.ms-excel' }
-      );
-      FileSaver.saveAs(file);
-      //c.href = window.URL.createObjectURL(t);
+      // const file = new File([t], this.currentReportName + "_Report.tab",      
+      //   { type: "data:text/tab-separated-values;charset=utf-8" }
+      // );
+      
+      c.href = window.URL.createObjectURL(t);
      
       // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       // element.setAttribute('download', filename);
-      //c.click();
+      c.click();
       this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
     }
     else {
       this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
     }
   }
+  
 
   ngOnChanges(changes: SimpleChanges) {
     // this.lstFields =this.reportReferenceService.setForm(this.reportName); 
