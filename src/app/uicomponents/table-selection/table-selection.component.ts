@@ -280,7 +280,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-
     if (this.isDataloaded) {
       this.toggleAllSelection();
       this.isDataloaded = false;
@@ -629,40 +628,23 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
   copyToClipboard() {
     let data = "";
+
     this.selection.selected.forEach((row: any, index) => {
       if (index === 0) {
-        let copyHeader = Object.keys(row)
-        copyHeader.forEach((val: string) => {
-          if (this.ColumnDetails.find(e => e.headerValue === val))
-            data += this.ColumnDetails.find(e => e.headerValue === val)?.header + ','
-          else
-            data += val + ',';
-        });
-        data = data.replace(/[,]+/g, '\t') + "\n";
+        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
+        data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
       }
-      let result = Object.values(row);
-      data += result.toString().replace(/[,]+/g, '\t') + "\n";
+      let tabValue: string[] = []
+      this.select?.value?.forEach((x: string) => {
+        if (x != 'View') tabValue.push(row[x])
+      })
+      data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
     });
     return data;
   }
 
   RequestExport2Excel() {
     debugger;
-    // let selectedColumns: string[] = this.select.value;
-    // let viewIndex = selectedColumns.findIndex(x => x.toUpperCase() === 'VIEW')
-    // if (viewIndex != -1) { selectedColumns.splice(viewIndex, 1) }
-    // let excelHeaderParams = Object.create({
-    //   "ColumnMapping":
-    //     []
-    // })
-    // console.log(excelHeaderParams, 'params')
-    // selectedColumns.forEach((x: string) => {
-    //   let val = this.ColumnDetails.find(e => e.headerValue === x)
-    //   if (val) {
-    //     excelHeaderParams.ColumnMapping.push([[val.headerValue, val.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
-    //   }
-    // })
-
     let ColumnMapping: any = []
     //let tempColumns:string =''
     let temp: any = {}

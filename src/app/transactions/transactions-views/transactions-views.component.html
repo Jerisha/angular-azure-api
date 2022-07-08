@@ -114,7 +114,7 @@
                                 <span style="font-size:x-small;padding-left:6px;"><strong>Live: </strong>{{Live}}</span>   
                               </div>                          
                        <div style ="float:right"> 
-                      <span><button type="submit" mat-raised-button [ngClass]="defaultbtn" style="margin-left: 10px; margin-top:6px;height: 2em;font-size: small;line-height: 16px !important;"    (click)="AuditTrail()">                        
+                      <span><button type="submit"  *ngIf="AuditStatus" mat-raised-button [ngClass]="defaultbtn" style="margin-left: 10px; margin-top:6px;height: 2em;font-size: small;line-height: 16px !important;"    (click)="AuditTrail()">                        
                         <i class="material-icons" style ="font-size:small;vertical-align: middle;">history</i>Audit Trail 
                       </button></span>
                       <span>

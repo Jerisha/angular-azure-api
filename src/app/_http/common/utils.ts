@@ -181,15 +181,14 @@ export class Utils {
     transform.FilePath = fullFilePath
     return transform;
   }
-  static preparePyUIQuery(reportIdentifier:any, subReportName:any, recordIdentifier?: any,reportName?:any): any{
+  static preparePyUIQuery(reportIdentifier:any, subReportName:any, recordIdentifier?: any,profilename?:any): any{
     let transform = JSON.parse(JSON.stringify(PyRequests.UIQUERY));
     if (recordIdentifier)
       transform.RequestParams[0].RecordIdentifier = recordIdentifier;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
-    if(reportName)
-    transform.RequestParams[0].ReportName = reportName;
-    
+    transform.RequestParams[0].ProfileName = profilename;
+
     console.log(JSON.stringify(transform))
     return transform;
   }
@@ -209,6 +208,17 @@ export class Utils {
     transform.Data[0] = createData;
     return transform;
   }
+  static preparePyUICreateFirstRequest(reportIdentifier: string, subReportName: string, UserName: string, is_ldap_auth:any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UICREATEFIRST));
+    transform.RequestParams[0].reportidentifier = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+    transform.RequestParams[0].username = UserName;
+    transform.RequestParams[0].is_ldap_auth =is_ldap_auth;
+    return transform;
+  }
+
+
+
   static preparePyUIDelete(reportIdentifier: string, subReportName: string, recordIdentifier: string, deleteData:any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIDELETE));
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
