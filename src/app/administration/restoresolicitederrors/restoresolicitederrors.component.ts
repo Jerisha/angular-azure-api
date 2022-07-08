@@ -18,7 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
- import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/Custom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
@@ -135,7 +135,7 @@ const FilterListItems: Select[] = [
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
-  { view: 'Resolution Type', viewValue: 'RestoreSolResolutionType', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: true },
   { view: 'Error Code', viewValue: 'ErrorCode', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true },
@@ -291,7 +291,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
       EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       Command: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
-      RestoreSolResolutionType: new FormControl({ value: '', disabled: true }, []),
+      ResolutionType: new FormControl({ value: '', disabled: true }, []),
       ErrorCode: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Reference: new FormControl({ value: '', disabled: true }, []),
@@ -324,7 +324,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Resolution Type', headerValue: 'RestoreSolResolutionType', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
     { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
@@ -340,9 +340,8 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
-
   onFormSubmit(isEmitted?: boolean): void {
-   
+
     debugger;
     let errMsg = '';
     if (!this.thisForm.valid) return;
@@ -358,15 +357,21 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
       return;
     }
     this.tabs.splice(0);
+    //reset value to empty
+    this.Resolution = this.Remarks = this.Refer = ''
+    // reset selectedrows
+    this.selectedGridRows = [];
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
+
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
+
     let request = Utils.preparePyQuery('TelephoneNumberError', 'RestoreSolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    // console.log(JSON.stringify(request));
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -375,7 +380,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
           // totalrecordcount: res.TotalCount,
           // totalpages: res.NumberOfPages,
           // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage     
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -388,9 +393,9 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      highlightedCells: ['TelephoneNumber'],
-      removeNoDataColumns: true,
+      setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+      removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -403,6 +408,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     }
     this.isEnable();
   }
+
 
   check999() {
     if (this.Refer && this.Refer.substring(0, 3) != '999')
@@ -430,10 +436,11 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
           });
+          //this.isSaveDisable = true;
         }
       });
     }
@@ -470,9 +477,9 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     let UpdateParams: any = [];
 
     if (this.Resolution)
-      UpdateParams.push({ Name: 'RestoreSolResolutionType', Value: [this.Resolution] });
+      UpdateParams.push({ Name: 'ResolutionType', Value: [this.Resolution] });
     else
-      UpdateParams.push({ Name: 'RestoreSolResolutionType' });
+      UpdateParams.push({ Name: 'ResolutionType' });
     if (this.Remarks)
       UpdateParams.push({ Name: 'Remarks', Value: [this.Remarks] });
     else
