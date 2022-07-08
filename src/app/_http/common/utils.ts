@@ -184,25 +184,30 @@ export class Utils {
   static preparePyUIQuery(reportIdentifier: any, subReportName: any, recordIdentifier?: any, profilename?: any, reportName?: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIQUERY));
     if (recordIdentifier)
+    transform.UserParams[0].UserID =  this.userDetails().UserID;
       transform.RequestParams[0].RecordIdentifier = recordIdentifier;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].ProfileName = profilename;
     transform.RequestParams[0].ReportName = reportName;
+        
 
     console.log(JSON.stringify(transform))
     return transform;
   }
   static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
+    transform.UserParams[0].UserID =  this.userDetails().UserID;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].RecordIdentifier = recordIdentifier;
     transform.Data[0] = updateData;
+      
     return transform;
   }
   static preparePyUICreate(reportIdentifier: string, subReportName: string, recordIdentifier: string, createData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UICREATE));
+    transform.UserParams[0].UserID = this.userDetails().UserID;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].RecordIdentifier = recordIdentifier;
@@ -218,10 +223,9 @@ export class Utils {
     return transform;
   }
 
-
-
   static preparePyUIDelete(reportIdentifier: string, subReportName: string, recordIdentifier: string, deleteData: any): any {
-    let transform = JSON.parse(JSON.stringify(PyRequests.UIDELETE));
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIDELETE));   
+    transform.UserParams[0].UserID =  this.userDetails().UserID;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].RecordIdentifier = recordIdentifier;

@@ -90,6 +90,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   }
 
   addRemoveFavoriteReport(action: string) {
+    debugger;
     var request!: Observable<any>;
     var reqJson: any;
     var data: any;
@@ -100,13 +101,16 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
         "isdelete": "0"
       };
       reqJson = Utils.preparePyUICreate('ManageUsers', 'FavouriteReports', 'favmenid', data);
+      console.log('add fav', JSON.stringify(reqJson))
       request = this.service.uiApiDetails(reqJson, WebMethods.UICREATE);
     }
     else {
       data = {
         "favmenuid": this.menuId
       };
+    
       reqJson = Utils.preparePyUIDelete('ManageUsers', 'FavouriteReports', 'ReportMenuItem', data);
+      console.log('remove fav', JSON.stringify(reqJson))
       request = this.service.uiApiDetails(reqJson, WebMethods.UIDELETE);
     }
     request.pipe(map((res: any) => {
@@ -117,6 +121,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
       }
     })).subscribe(result => {
       if (result?.StatusCode === 'PY1000') {
+        console.log('delete', JSON.stringify(result))
         this.updateUserData(action);
         let message = action != 'Add' ? 'Menu removed from favorites' : 'Menu Added to favorites';
         this.alertService.success(message, { autoClose: true, keepAfterRouteChange: false });
