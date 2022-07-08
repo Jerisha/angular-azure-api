@@ -32,8 +32,14 @@ let FilterListItems: Select[] = [
 { view: 'Cupid', viewValue: 'Cupid', default: false },
 { view: 'Franchise', viewValue: 'Franchise', default: false },
 { view: 'Transaction Command', viewValue: 'TransactionCommand', default: false },
-{ view: 'Type of Line', viewValue: 'TypeOfLine', default: false }
+{ view: 'Type of Line', viewValue: 'TypeOfLine', default: false },
+{ view: 'Status', viewValue: 'Status', default: false },
+{ view: 'Source Type', viewValue: 'SourceType', default: false },
+{ view: 'Internal Errors', viewValue: 'InternalErrors', default: false },
+{ view: 'BT Responses', viewValue: 'BtResponses', default: false },
+{ view: 'BT File Name', viewValue: 'BtFileName', default: false }
 ];
+
 
 @Component({
   selector: 'app-transaction-details',
@@ -41,9 +47,6 @@ let FilterListItems: Select[] = [
   styleUrls: ['./transaction-details.component.css']
 })
 export class TransactionDetailsComponent extends UserProfile implements OnInit {
-  
-  
-  
   
   constructor(
     private formBuilder: FormBuilder, 
@@ -91,8 +94,8 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
 
 
   columns: ColumnDetails[] = [    
-    { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
     { header: 'Telephone No',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
     { header: 'Tran Id',headerValue:'TransactionId', showDefault: true, isImage: false },
     { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
     { header: 'Status',headerValue:'Status', showDefault: true, isImage: false },
@@ -142,7 +145,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
   ];
   ngOnInit(): void {    
-    let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine']);
+    let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine','Status','SourceType','InternalErrors','BTResponses']);
     this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res.data));  
     this.createForm();   
   }
@@ -181,9 +184,14 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
       Franchise: new FormControl({ value: '', disabled: true }, []),  
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),    
       TypeOfLine: new FormControl({ value: '', disabled: true }, []),
+      Status: new FormControl({ value: '', disabled: true }, []),
+      SourceType: new FormControl({ value: '', disabled: true }, []),  
+      InternalErrors: new FormControl({ value: '', disabled: true }, []),    
+      BtResponses: new FormControl({ value: '', disabled: true }, []),
+      BtFileName: new FormControl({ value: '', disabled: true }, []),
      
-    })
-   
+    })   
+
       }
   
       get f() {
@@ -224,16 +232,16 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     return true;
   }
 
-getTupleValue(element:[string,string],keyvalue:string)
+  getTupleValue(element:[string,string],keyvalue:string)
 {
   if (element[0]==keyvalue)
   {  return element[1];}
   else 
     return "";
  
-}
+  }
 
-prepareQueryParams(pageNo: string): any {
+  prepareQueryParams(pageNo: string): any {
   let attributes: any = [
     { Name: 'PageNumber', Value: [`${pageNo}`] }];
 
@@ -352,8 +360,10 @@ prepareQueryParams(pageNo: string): any {
   resetForm(): void {
    
     window.location.reload();
+    console.log(this.thisForm,'form')
     this.resetExp=!this.resetExp;
     this.model = { TypeOfLine: ""};
+    
   }
 
   setControlAttribute(matSelect: MatSelect) {

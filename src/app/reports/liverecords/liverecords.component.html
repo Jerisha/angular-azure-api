@@ -183,6 +183,23 @@
                             </mat-select>
                           </mat-form-field>
                     </div>
+                    <div [ngStyle]="{'display':myForm.controls.LineType.disabled ? 'none' : 'block'}">
+                        <app-select-exp [listItems]="expressions[3].default" #LineTypeOperator [resetvalue]="resetExp"
+                        (click) ="OnOperatorClicked(['LineTypeOperator',LineTypeOperator.selectedViewValue])"></app-select-exp> 
+                        <mat-form-field appearance="outline" [ngClass]="{'hidden':f.LineType.disabled}">
+                            <mat-label>Line Type</mat-label>
+                            <input #LineType formControlName="LineType"  [(ngModel)]="model.LineType" type="text" placeholder="Search LineType" matInput
+                                [matAutocomplete]="autoLineType" OptionsValidator [options]="config.LineType " />
+                            <span matSuffix mat-icon-button>
+                                <mat-icon (click)="model.LineType=''">arrow_drop_down</mat-icon>
+                            </span>
+                            <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoLineType="matAutocomplete">
+                                <mat-option *ngFor="let val of config.LineType  | ddlFilter: LineType.value" [value]="val">
+                                    {{val}}</mat-option>
+                                </mat-autocomplete>
+                            <mat-error *ngIf="f.LineType.errors?.validOptions">Value need to match available options</mat-error>
+                        </mat-form-field>
+                    </div>
 
 <!-- 
                     <div [ngStyle]="{'display':myForm.controls.TransactionCommand.disabled ? 'none' : 'block'}">

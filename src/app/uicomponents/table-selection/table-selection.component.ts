@@ -604,6 +604,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   copyToClipboard() {
+    // debugger;
     let data = "";
 
     this.selection.selected.forEach((row: any, index) => {
@@ -613,7 +614,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       }
       let tabValue: string[] = []
       this.select?.value?.forEach((x: string) => {
-        if (x != 'View') tabValue.push(row[x])
+        if (x != 'View') tabValue.push(row[x]||' ')
       })
       data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
     });

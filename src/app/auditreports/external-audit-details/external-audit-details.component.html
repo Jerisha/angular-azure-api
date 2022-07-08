@@ -370,7 +370,7 @@
                         <div class="mat-elevation-z8 side-bottom">
                             <!-- <div style="display:inline; margin-left: 15px;"> -->
                             <form [formGroup]="updateForm" (ngSubmit)="onSaveSubmit()" autocomplete="off" *ngIf="updateAccess">
-                                <mat-form-field>
+                                <!-- <mat-form-field>
                                     <mat-label>Resolution Type</mat-label>
                                     <input #resType [(ngModel)]="resolutionType" formControlName="Resolution"
                                         type="text" placeholder="Search Resolution Type" matInput
@@ -395,7 +395,23 @@
                                             Select Resolution Type
                                         </div>
                                     </mat-error>
-                                </mat-form-field> &nbsp;
+                                </mat-form-field> &nbsp; -->
+                                <ng-container *ngIf="updateDetails as con">
+                                    <mat-form-field>
+                                      <mat-label>Resolution Type</mat-label>
+                                      <mat-select  name="Resolution" formControlName="Resolution" required [(ngModel)]="resolutionType">
+                                        <mat-option *ngFor="let val of con.ResolutionType" [value]="val">
+                                          {{val}}
+                                        </mat-option>
+                                      </mat-select>
+                                      <mat-error class="alert alert-danger">                          
+                                        <div *ngIf="updateFormControls.Resolution.errors?.required">
+                                          <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                                          Select resolution type
+                                        </div>
+                                      </mat-error>
+                                    </mat-form-field>
+                                </ng-container>
                                 <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                                     <mat-label>Remarks</mat-label>
                                     <textarea id="remarks" required name="remarks" [(ngModel)]="remarkstxt"

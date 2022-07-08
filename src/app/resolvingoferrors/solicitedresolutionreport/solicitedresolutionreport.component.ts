@@ -102,12 +102,12 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 const FilterListItems: Select[] = [
   { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
   { view: 'Transaction ID', viewValue: 'TransactionID', default: true },
-  { view: 'ChangeCUPID', viewValue: 'ChangeCUPID', default: true },
+  { view: 'Change CUPID', viewValue: 'ChangeCUPID', default: true },
   { view: 'Transaction Date', viewValue: 'TransactionDate', default: true },
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
-  { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolveType', default: true },
   { view: 'Internal CupID', viewValue: 'InternalCUPID', default: true }
 ];
 
@@ -182,7 +182,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     this.createForm();
 
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['TransactionCommand', 'Source', 'ResolutionTypeAudit', 'Status', 'InternalCupID']);
+    let request = Utils.preparePyConfig(['Search'], ['TransactionCommand', 'Source', 'AllResolutionType', 'ErrorStatus', 'InternalCupID']);
     this.service.configDetails(request).subscribe((res: any) => {
       console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
@@ -276,33 +276,33 @@ export class SolicitedresolutionreportComponent implements OnInit {
            
           continue;
         }
-        if (field == 'ResolutionTypeAudit')
-        {
-        attributes.push({ Name: 'ResolveType', Value: [control?.value]});
-        let operator: string = 'ResolveType' + "Operator";
-        if (this.expOperatorsKeyPair.length != 0) {
-          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-          // console.log(expvals,"operatorVal1")
-          if (expvals.length != 0) {
-          //  console.log(control?.value,"True");
-              // if (control?.value) {
-                attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                console.log(expvals[0][1],"operatorVal");
-              // }
-              // else {
-              //   attributes.push({ Name: operator, Value: ['Equal To'] });
-              // }
-          }
+        // if (field == 'ResolveType')
+        // {
+        // attributes.push({ Name: 'ResolveType', Value: [control?.value]});
+        // let operator: string = 'ResolveType' + "Operator";
+        // if (this.expOperatorsKeyPair.length != 0) {
+        //   let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        //   // console.log(expvals,"operatorVal1")
+        //   if (expvals.length != 0) {
+        //   //  console.log(control?.value,"True");
+        //       // if (control?.value) {
+        //         attributes.push({ Name: operator, Value: [expvals[0][1]] });
+        //         // console.log(expvals[0][1],"operatorVal");
+        //       // }
+        //       // else {
+        //       //   attributes.push({ Name: operator, Value: ['Equal To'] });
+        //       // }
+        //   }
          
-        }
-        else {
+        // }
+        // else {
   
-          attributes.push({ Name: operator, Value: ['Equal To'] });
+        //   attributes.push({ Name: operator, Value: ['Equal To'] });
   
-        }
+        // }
      
        
-        } 
+        // } 
         if (field == 'TransactionCommand')
         {
         attributes.push({ Name: 'TransactionCommand', Value: [control?.value]});
@@ -314,13 +314,13 @@ export class SolicitedresolutionreportComponent implements OnInit {
           //  console.log(control?.value,"True");
               // if (control?.value) {
                 attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                console.log(expvals[0][1],"operatorVal");
+                // console.log(expvals[0][1],"operatorVal");
               // }
               // else {
               //   attributes.push({ Name: operator, Value: ['Equal To'] });
               // }
           }
-         
+ 
         }
         else {
   
@@ -350,7 +350,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
         //  console.log(control?.value,"True");
             // if (control?.value) {
               attributes.push({ Name: operator, Value: [expvals[0][1]] });
-              console.log(expvals[0][1],"operatorVal");
+              // console.log(expvals[0][1],"operatorVal");
             // }
             // else {
             //   attributes.push({ Name: operator, Value: ['Equal To'] });
@@ -411,7 +411,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),
-      ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
+      ResolveType: new FormControl({ value: '', disabled: true }, []),
       InternalCUPID: new FormControl({ value: '', disabled: true }, [])
     });
   }
