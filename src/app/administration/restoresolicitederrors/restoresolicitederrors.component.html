@@ -125,9 +125,9 @@
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>  -->
 
-          <mat-form-field [ngClass]="{'hidden':f.RestoreSolResolutionType .disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ResolutionType .disabled}">
             <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="RestoreSolResolutionType">  
+            <mat-select formControlName="ResolutionType">  
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.RestoreSolResolutionType" [value]="val">
                 {{val}}
