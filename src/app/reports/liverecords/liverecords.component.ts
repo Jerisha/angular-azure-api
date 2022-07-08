@@ -627,10 +627,6 @@ resetExp:boolean = false;
         let result = {
           datasource: res.data.LiveTelephoneNumberDetails,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
         }
         return result;
       } else return res;

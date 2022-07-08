@@ -61,10 +61,6 @@ export interface ProfileDetails{
     favCols:string[];
 }
 
-export interface FavProfileDetails{
-    name:string;
-    favCols:string[];
-}
 
 export interface FavoriteProfile{
     reportname?: string;

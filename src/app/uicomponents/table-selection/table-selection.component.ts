@@ -141,7 +141,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.reportIdentifier = res?.params?.ReportIdentifier;
         this.screenIdentifier = res?.params?.ScreenIdentifier;
         if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
-        this.dataSource.sort = this.sort;
+       // this.dataSource.sort = this.sort;
         this.spinner.hide();
         this.disablePageSize = this.totalRows > 50 ? false : true;
         this.isDataloaded = true;
@@ -152,7 +152,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
           this.toggleAllSelection();
         }
         this.spinner.hide();
-        debugger;
         if (this.dataSource.data != undefined && this.tableitem?.isFavcols) {
           this.showFavCols = true;
           this.loadFavProfile();
