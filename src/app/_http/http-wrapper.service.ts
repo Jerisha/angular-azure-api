@@ -53,7 +53,7 @@ export class HttpWrapperService {
     }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
-        // debugger;
+        debugger;
         let jsonResult = '';
 
         let transData: any = [];
@@ -110,7 +110,7 @@ export class HttpWrapperService {
             console.log("PyResponse: " + JSON.stringify(val) + "ResponseError: " + err);
             this.alertService.error("Incorrect PyResponse Format", { autoClose: true, keepAfterRouteChange: false });
         }
-        console.log("PyData :" + JSON.stringify(transData));
+        console.log("PyData :" + JSON.stringify(transData.data));
         return transData;
     }
 

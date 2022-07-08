@@ -113,6 +113,28 @@ table td, table th {
   font-weight: 500;
 }
 
+/* width */
+/* .table-container::-webkit-scrollbar {
+  width: 10px;
+} */
+
+/* Track */
+.table-container::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #000000; 
+  border-radius: 10px;
+}
+
+/* Handle */
+.table-container::-webkit-scrollbar-thumb {
+  background:#f77373; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+/* .table-container::-webkit-scrollbar-thumb:hover {
+  background:#686464; 
+} */
+
 /* .my-class{
   width: 100px!important;
   min-width: 20px!important;
