@@ -6,17 +6,19 @@ import {
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CellAttributes, ColumnDetails, FooterDetails, PaginationAttributes, ProfileDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
+import { CellAttributes, ColumnDetails, FavoriteProfile, FooterDetails, PaginationAttributes, ProfileDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, of, Subject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
-import { takeUntil } from 'rxjs/operators';
+import { ignoreElements, map, takeUntil } from 'rxjs/operators';
 import { UIService } from '../_services/ui.service';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Utils } from 'src/app/_http';
+import { Utils, WebMethods } from 'src/app/_http';
 import { ProfileCreationDialogComponent } from '../../_shared/profile-creation-dialog/profile-creation-dialog.component';
+import { AlertService } from 'src/app/_shared/alert';
+import { utils } from 'protractor';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -88,20 +90,19 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   pageSizeOptions: number[] = [500];
   disablePageSize: boolean = true;
   disablePaginator: boolean = false;
-  isFav: boolean = false;
   paginatorList!: HTMLCollectionOf<Element>;
   pageProp: PaginationAttributes = { currentPage: 0, pageSize: 0 };
   footerDetails!: FooterDetails;
-
-  opt: ProfileDetails[] = [
-    { name: 'user1@_defualt profile', favCols: ["TelephoneNumber"] },
-    { name: 'user1@_defualt profile2', favCols: ["TelephoneNumber", "View", "Command", "Source", "999Reference"] }
-  ]
-
+  option: any = [];
+  favProfile: FavoriteProfile[] = [];
+  showFavCols: boolean = false;
+  selectedUserProfileId: any;
+  enableCustomization: boolean = false;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
     private service: UIService,
+    private alertService: AlertService,
     private dialog: MatDialog) {
 
   }
@@ -119,16 +120,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.refreshtab.emit({ event });
   }
 
-  option: any = [];
-
-
-
-
-
   ngOnChanges(changes: SimpleChanges) {
     // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
     //   return;  
-    
+
 
     this.initializeTableAttributes();
     this.disablePaginator = this.tableitem?.disablePaginator ? true : false;
@@ -145,9 +140,8 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.pageSize = (res?.params?.Recordsperpage) as number;
         this.reportIdentifier = res?.params?.ReportIdentifier;
         this.screenIdentifier = res?.params?.ScreenIdentifier;
-        // this.paginator.length = (res.totalrecordcount) as number;
         if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
-        this.dataSource.sort = this.sort;
+       // this.dataSource.sort = this.sort;
         this.spinner.hide();
         this.disablePageSize = this.totalRows > 50 ? false : true;
         this.isDataloaded = true;
@@ -158,12 +152,19 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
           this.toggleAllSelection();
         }
         this.spinner.hide();
+        if (this.dataSource.data != undefined && this.tableitem?.isFavcols) {
+          this.showFavCols = true;
+          this.loadFavProfile();
+        } else {
+          this.showFavCols = false;
+        }
       }
     );
   }
 
   loadDataRelatedAttributes(data: any) {
     this.ColumnDetails = [];
+    this.favProfile = [];
     this.columnHeaderFilter = this.tableitem?.filter;
     if (this.tableitem?.removeNoDataColumns) {
       if (data && data.length > 0)
@@ -183,15 +184,12 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
 
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-    let defaultProfile =  this.ColumnDetails?.map((e) => e.headerValue);
-    let options: ProfileDetails={name:'Default', favCols: defaultProfile}
-    this.opt.unshift(options);
-    this.option = this.opt.map(x => x.name);
+    // let defaultProfile = this.ColumnDetails?.map((e) => e.headerValue);
+    // let options: FavoriteProfile = { favprofname: 'Default', favcolumnlist: defaultProfile, favprofileid:'Default' }
+    // this.favProfile.unshift(options);
+    // this.option = this.opt.map(x => x.name);
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
-
-  showFavCols: boolean = false;
-  defaultUserProfile:string= 'Default'
 
   initializeTableAttributes() {
     this.selection.clear();
@@ -205,7 +203,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
     this.showCustomFooter = this.tableitem?.isCustomFooter;
-    this.showFavCols = this.tableitem?.isFavcols ? this.tableitem?.isFavcols : false;
+    // this.showFavCols = this.tableitem?.isFavcols ? this.tableitem?.isFavcols : false;
     if (this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
@@ -253,6 +251,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    // if (this.showFavCols){
+    //  this.loadFavProfile();
+    // }
   }
 
   ngAfterViewInit() {
@@ -424,7 +425,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     })
   }
 
-
   removeNullOrEmpty(data: any) {
 
     this.tableitem?.Columns?.forEach(x => {
@@ -432,19 +432,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     })
 
   }
-
-  // checkImgcols(obj: any) {
-
-  //   var coun = this.tableitem?.backhighlightedCells?.filter(x=>x.isFlag)
-  //   coun?.forEach(v => {
-  //     if (obj[v.flag] === 'Y') {
-  //       v.cells.forEach(i => {
-  //         debugger;
-  //         this.nonemptyColumns.push(i);
-  //       })
-  //     }     
-  //   })
-  // }
 
   checkIsNullOrEmptyProperties(obj: any) {
     for (var key in obj) {
@@ -518,16 +505,14 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.onDestroy.next();
   }
 
-  enableCustomization:boolean =false;
-
-  getFavCols(val: any) {
-    
+  getSelectedProfile(val: any) {
+    debugger;
     this.dataColumns = [];
     let newStatus = true;
-    let selectedColumns = this.opt?.find(x => x.name === val)?.favCols;
+    let selectedColumns = this.favProfile?.find(x => x.favprofileid === val)?.favcolumnlist;
     selectedColumns = this.ColumnDetails.filter(x => selectedColumns?.includes(x.headerValue)).map(x => x.headerValue)
     selectedColumns = selectedColumns ? selectedColumns : []
-    this.enableCustomization = val !='Default' ? true : false;
+    this.enableCustomization = this.favProfile?.find(x => x.favprofileid === val)?.isdefaultprofile === 1 ? false : true;
 
     //updating column headers attributes
     this.gridFilter.forEach((x: any) => {
@@ -548,59 +533,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       }
     });
     let actualCols = this.ColumnDetails.filter(x => x.headerValue != 'Select').map(x => x.headerValue).length;
-    selectedColumns = selectedColumns.filter(x => x != 'Select');
+    selectedColumns = selectedColumns.filter((x: any) => x != 'Select');
     this.allSelected = (actualCols === selectedColumns.length) ? true : false;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
-  }
-
-
-  createProfile() {
-    let selectedCols: string[] = [];
-    this.select.options.forEach((item: MatOption) => {
-      if (item.selected) {
-        selectedCols.push(item.value)
-      }
-    });
-
-      let dialogRef = this.dialog.open(ProfileCreationDialogComponent, { width: '250px',       
-        data: { selectedColsArray: selectedCols }
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        this.isExportDisable = true;
-        if (result!='') {
-          var profile: ProfileDetails = { name: result, favCols: selectedCols };
-          this.opt.push(profile)
-          this.defaultUserProfile = result
-          this.getFavCols(this.defaultUserProfile);
-          this.option = this.opt.map(x => x.name);
-        }
-      });
-
-    }  
-  
-
-
-  deleteProfile(){
-    const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
-      width: '300px', disableClose: true, data: {
-        message: 'Do you want to Delete this User profile?'
-      }
-    });
-    deleteConfirm.afterClosed().subscribe(result => {
-     // this.isExportDisable = true;
-      if (result) {
-        this.defaultUserProfile ='Default'
-      this.getFavCols(this.defaultUserProfile);
-     // this.defaultUserProfile ='Default'
-      // this.opt.slice(0,1)
-        // let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{ "IsExporttoExcel": "Y" }, { 'ColumnMapping': ColumnMapping }]);
-        // this.service.queryDetails(request).subscribe(x => x);
-      }
-    });
-
-
   }
 
   copyToClipboard() {
@@ -671,5 +607,120 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     //console.log(this.ColumnDetails, selectedColumns)
     //this.requestExport2Excel.emit(excelHeaderParams);
   }
-}
 
+  createProfile() {
+    let selectedCols: string[] = [];
+    this.select.options.forEach((item: MatOption) => {
+      if (item.selected) {
+        selectedCols.push(item.value)
+      }
+    });
+
+    let dialogRef = this.dialog.open(ProfileCreationDialogComponent, {
+      width: '250px',
+      data: { selectedColsArray: selectedCols }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.isExportDisable = true;
+      if (result != '') {
+        debugger;
+        var profileName = Utils.userDetails().UserID + '-' + result;
+        var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: result, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 0 };
+        let request = Utils.preparePyUICreate('ManageUsers', 'FavouriteProfile', 'ReportMenuItem', profile)
+        this.service.uiApiDetails(request, WebMethods.UICREATE).subscribe(response => {
+          if (response.Status[0].StatusCode === 'PY1000') {
+            profile.favprofileid = response.Data[0].favprofileid;
+            this.favProfile.push(profile);
+            this.alertService.success("User Profile Created Successfully!", { autoClose: true, keepAfterRouteChange: false });
+            this.selectedUserProfileId = profile.favprofileid;
+            this.getSelectedProfile(this.selectedUserProfileId);
+          }
+        });
+      }
+    });
+
+  }
+
+  promoteProfile() {
+    var selectedProfile = this.favProfile.find(x => x.favprofileid === this.selectedUserProfileId);
+    const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px', disableClose: true, data: {
+        message: !selectedProfile?.favprofname.startsWith('All') ? 'Do you want to promote this report to All Users?'
+          : 'Do you want make this report for private use only?'
+      }
+    });
+    deleteConfirm.afterClosed().subscribe(result => {
+      if (result) {
+        let selectedCols: string[] = [];
+        var profileName: string = '';
+        this.select.options.forEach((item: MatOption) => {
+          if (item.selected) {
+            selectedCols.push(item.value)
+          }
+        });
+
+        if (selectedProfile?.favprofname.startsWith('All')) {
+          profileName = selectedProfile?.favprofname.replace('All', Utils.userDetails().UserID);
+        } else if (selectedProfile?.favprofname.startsWith(Utils.userDetails().UserID)) {
+          profileName = selectedProfile?.favprofname.replace(Utils.userDetails().UserID, 'All');
+        }
+
+        var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: selectedProfile?.favprofileid, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 1 };
+        let request = Utils.preparePyUIUpdate('ManageUsers', 'FavouriteProfile', 'favprofileid', profile)
+        this.service.uiApiDetails(request, WebMethods.UIUPDATE).subscribe(response => {
+          if (response.Status[0].StatusCode === 'PY1000') {
+            this.favProfile = this.favProfile.filter(x => x.favprofileid != profile.favprofileid);
+            profile.favprofname = profileName;
+            this.favProfile.push(profile);
+            this.alertService.success("User Profile Promoted Successfully!", { autoClose: true, keepAfterRouteChange: false });
+            this.selectedUserProfileId = profile.favprofileid;
+            this.getSelectedProfile(this.selectedUserProfileId);
+          }
+        });
+      }
+    });
+  }
+
+  deleteProfile() {
+    const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px', disableClose: true, data: {
+        message: 'Do you want to Delete this User profile?'
+      }
+    });
+    deleteConfirm.afterClosed().subscribe(result => {
+      if (result) {
+        let data = {
+          favprofileid: this.selectedUserProfileId
+        }
+        let request = Utils.preparePyUIDelete('ManageUsers', 'FavouriteProfile', 'favprofileid', data)
+        this.service.uiApiDetails(request, WebMethods.UIDELETE).subscribe(result => {
+          if (result.Status[0].StatusCode === 'PY1000') {
+            this.alertService.success("User Profile Deleted Successfully!", { autoClose: true, keepAfterRouteChange: false });
+            this.favProfile = this.favProfile.filter(x => x.favprofileid != this.selectedUserProfileId);
+            this.selectedUserProfileId = this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid ? this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid : 0;
+            this.getSelectedProfile(this.selectedUserProfileId);
+          }
+        });
+      }
+    });
+  }
+
+  loadFavProfile() {
+    debugger;
+    if (this.reportIdentifier) {
+      let request = Utils.preparePyUIQuery('ManageUsers', 'FavouriteProfile', 'favprofileid', null, this.reportIdentifier)
+      //console.log('load req', JSON.stringify(request))
+      this.service.uiApiDetails(request, WebMethods.UIQUERY).subscribe(result => {
+        if (result) {
+          this.favProfile = result.Data;
+          this.selectedUserProfileId = this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid ? this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid : 0;
+          this.getSelectedProfile(this.selectedUserProfileId);
+        }
+      });
+    }
+    else {
+      this.showFavCols = false;
+    }
+  }
+}

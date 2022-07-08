@@ -48,10 +48,10 @@ font-size: smaller;  ">
   <ng-container *ngIf="showFavCols" style="margin-top:50px">
     <div appearance="standard" class="colfilter" style="margin-left: 8px; margin-top:5px">
       <mat-form-field>
-        <mat-select placeholder="User Profiles" [(ngModel)]="defaultUserProfile"
-          (selectionChange)="getFavCols($event.value)">
-          <mat-option *ngFor="let val of option" [value]="val">
-            {{val}}
+        <mat-select placeholder="User Profiles" [(ngModel)]="selectedUserProfileId"
+          (selectionChange)="getSelectedProfile($event.value)">
+          <mat-option *ngFor="let val of favProfile" [value]="val.favprofileid">
+            {{val.favprofname}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -64,7 +64,8 @@ font-size: smaller;  ">
         (click)="deleteProfile()">
         <mat-icon>delete</mat-icon>Delete
       </button>
-      <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary">
+      <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary"
+        (click)="promoteProfile()">
         <mat-icon>how_to_reg</mat-icon>Promote
       </button>
     </div>
