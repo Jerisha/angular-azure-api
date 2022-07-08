@@ -1,3 +1,5 @@
+import { AnyARecord } from "dns";
+
 export interface TableItem {
     data: any;
     childData?:string;
@@ -65,10 +67,10 @@ export interface FavProfileDetails{
 }
 
 export interface FavoriteProfile{
-    reportmenuitem?: string;
+    reportname?: string;
       favprofname: string,
-      favprofileid?: string,
-      favcolumnlist: string[],
+      favprofileid?: any,
+      favcolumnlist: any,
       isdefaultprofile?: number,
       issharedprofile?: number,
       createddttm?: string,

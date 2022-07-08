@@ -181,13 +181,14 @@ export class Utils {
     transform.FilePath = fullFilePath
     return transform;
   }
-  static preparePyUIQuery(reportIdentifier:any, subReportName:any, recordIdentifier?: any,profilename?:any): any{
+  static preparePyUIQuery(reportIdentifier:any, subReportName:any, recordIdentifier?: any,profilename?:any, reportName?:any): any{
     let transform = JSON.parse(JSON.stringify(PyRequests.UIQUERY));
     if (recordIdentifier)
       transform.RequestParams[0].RecordIdentifier = recordIdentifier;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].ProfileName = profilename;
+    transform.RequestParams[0].ReportName = reportName;
 
     console.log(JSON.stringify(transform))
     return transform;
@@ -227,6 +228,15 @@ export class Utils {
     transform.Data[0] = deleteData;
     return transform;
   }
+
+  static userDetails(){
+    let  user =JSON.parse(sessionStorage.getItem('currentUser') || '{}')
+    
+       let userDetails ={UserID : user?.username}
+       return  userDetails;
+      
+       
+   }
 
 }
 
