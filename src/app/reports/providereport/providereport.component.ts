@@ -166,7 +166,7 @@ refresh(event: any)
             data: this.queryResult$,
             removeNoDataColumns : true,
             Columns: this.columns,
-            filter: true,        
+            filter: false,        
             excelQuery : this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
             

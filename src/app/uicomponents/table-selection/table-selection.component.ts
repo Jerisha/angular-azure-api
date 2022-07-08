@@ -121,14 +121,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // if (changes.tableitem?.currentValue === changes.tableitem?.previousValue)
-    //   return;  
-
-
     this.initializeTableAttributes();
     this.disablePaginator = this.tableitem?.disablePaginator ? true : false;
     this.dataObs$ = this.tableitem?.data;
-    //
     this.spinner.show();
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
@@ -141,7 +136,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         this.reportIdentifier = res?.params?.ReportIdentifier;
         this.screenIdentifier = res?.params?.ScreenIdentifier;
         if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
-       // this.dataSource.sort = this.sort;
+        // this.dataSource.sort = this.sort;
         this.spinner.hide();
         this.disablePageSize = this.totalRows > 50 ? false : true;
         this.isDataloaded = true;
@@ -175,19 +170,13 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     else {
       this.ColumnDetails = this.tableitem?.Columns ? this.tableitem?.Columns.map(e => e) : [];
     }
-
     //Select checkbox
     if (this.tableitem?.selectCheckbox) {
       const selItem = { header: 'Select', headerValue: 'Select', showDefault: true, isImage: false };
       this.ColumnDetails.unshift(selItem);
     }
-
     this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
     this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
-    // let defaultProfile = this.ColumnDetails?.map((e) => e.headerValue);
-    // let options: FavoriteProfile = { favprofname: 'Default', favcolumnlist: defaultProfile, favprofileid:'Default' }
-    // this.favProfile.unshift(options);
-    // this.option = this.opt.map(x => x.name);
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
   }
 
@@ -203,7 +192,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.imgList = this.tableitem?.imgConfig;
     this.isEmailRequired = this.tableitem?.showEmail;
     this.showCustomFooter = this.tableitem?.isCustomFooter;
-    // this.showFavCols = this.tableitem?.isFavcols ? this.tableitem?.isFavcols : false;
     if (this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
 
     // if (this.tableitem?.removeNoDataColumns) {
@@ -251,9 +239,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    // if (this.showFavCols){
-    //  this.loadFavProfile();
-    // }
   }
 
   ngAfterViewInit() {
@@ -378,7 +363,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     event.close();
-    console.log('datacols', this.dataColumns)
+    //console.log('datacols', this.dataColumns)
     // let coulmnHeader: string[] = [];
     // let staticColumns = this.tableitem?.coulmnHeaders ?
     //   this.tableitem?.coulmnHeaders : undefined;filter
@@ -415,18 +400,10 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       if (this.nonemptyColumns.find(c => c === x.headerValue) || x.isImage) {
         this.ColumnDetails.push(x);
       }
-      // else if (x.isImage && this.nonemptyColumns.find(c => c === x.headerValue)) {
-      //   this.ColumnDetails.push(x);
-      // }
-      // else {
-      //   this.ColumnDetails.push(x);
-      // }
-
     })
   }
 
   removeNullOrEmpty(data: any) {
-
     this.tableitem?.Columns?.forEach(x => {
       let col = data[x.headerValue];
     })
@@ -550,7 +527,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       }
       let tabValue: string[] = []
       this.select?.value?.forEach((x: string) => {
-        if (x != 'View') tabValue.push(row[x]||' ')
+        if (x != 'View') tabValue.push(row[x] || ' ')
       })
       data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
     });
@@ -710,7 +687,6 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     debugger;
     if (this.reportIdentifier) {
       let request = Utils.preparePyUIQuery('ManageUsers', 'FavouriteProfile', 'favprofileid', null, this.reportIdentifier)
-      //console.log('load req', JSON.stringify(request))
       this.service.uiApiDetails(request, WebMethods.UIQUERY).subscribe(result => {
         if (result) {
           this.favProfile = result.Data;
