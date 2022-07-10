@@ -30,7 +30,7 @@ export class TodoItemNode {
   isChecked: boolean;
   isPlanType: boolean;
   MenuID:string;
-  Position: number;
+  Position: string;
 }
 
 /** Flat to-do item node with expandable and level information */
@@ -42,7 +42,7 @@ export class TodoItemFlatNode {
   MenuID:string;
   isparent:boolean
   isChecked: boolean;
-  Position: number;
+  Position: string;
 }
 
 let profileitems=
@@ -62,13 +62,13 @@ let TREE_DATA_three = [
     id:111, 
   
     isChecked:false,
-    Position:11111,
+     Position:'44444444',
     children: [
       {
         name: 'Solicited/Internal Discrepancy Process updated',
         id:22,
         isChecked:false,     
-         Position:11111,
+          Position:'44444444',
          MenuID:'MENU01',
         
         
@@ -78,7 +78,7 @@ let TREE_DATA_three = [
         id:22,
         isChecked:false, 
         MenuID:'MENU02',
-         Position:11111,
+          Position:'44444444',
         
      
       },
@@ -88,7 +88,7 @@ let TREE_DATA_three = [
         isChecked:false, 
         MenuID:'MENU03',
         
-         Position:11111,
+          Position:'44444444',
         
      
       },
@@ -97,7 +97,7 @@ let TREE_DATA_three = [
         id:22,
         isChecked:false, 
         MenuID:'MENU04',
-         Position:11111,
+          Position:'44444444',
       
      
       },
@@ -106,7 +106,7 @@ let TREE_DATA_three = [
         id:22,
         isChecked:false, 
         MenuID:'MENU05',
-         Position:11111,
+          Position:'44444444',
       },
     ]
   },
@@ -123,7 +123,7 @@ let TREE_DATA_three = [
         id:77,
         isChecked:false,
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         MenuID:'MENU07',
@@ -131,7 +131,7 @@ let TREE_DATA_three = [
         id:77,
         isChecked:false,
         
-        Position:44444444,
+        Position:'44444444',
       },
 
     ]
@@ -148,7 +148,7 @@ let TREE_DATA_three = [
         id:77,
         isChecked:false,
         MenuID:'MENU08',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit Discrepancy Report',
@@ -156,7 +156,7 @@ let TREE_DATA_three = [
         isChecked:false,
         MenuID:'MENU09',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'External Audit Details',
@@ -164,21 +164,21 @@ let TREE_DATA_three = [
         isChecked:false,
         MenuID:'MENU10',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
         MenuID:'MENU11',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
         MenuID:'MENU12',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Saparateinternal Audit',
@@ -186,7 +186,7 @@ let TREE_DATA_three = [
         isChecked:false,
         MenuID:'MENU13',
         
-        Position:44444444,
+        Position:'44444444',
       }
     ]
   },
@@ -203,7 +203,7 @@ let TREE_DATA_three = [
         isChecked:false,
         MenuID:'MENU14',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit Discrepancy Report',
@@ -211,7 +211,7 @@ let TREE_DATA_three = [
         isChecked:false,
         MenuID:'MENU15',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'External Audit Details',
@@ -219,14 +219,14 @@ let TREE_DATA_three = [
         isChecked:false,
         MenuID:'MENU16',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
         MenuID:'MENU17',   
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit User Action Summary',
@@ -234,7 +234,7 @@ let TREE_DATA_three = [
         isChecked:false,
         MenuID:'MENU18',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Saparateinternal Audit',
@@ -242,7 +242,7 @@ let TREE_DATA_three = [
         isChecked:false,
         MenuID:'MENU19',
         
-        Position:44444444,
+        Position:'44444444',
       }
     ]
   },
@@ -258,42 +258,42 @@ let TREE_DATA_three = [
         id:77,
         isChecked:false,
         MenuID:'MENU20',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Telephone Range Report',
         id:77,
         isChecked:false,
         MenuID:'MENU21',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Transaction Details Records',
         id:77,
         isChecked:false,
         MenuID:'MENU22',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
         MenuID:'MENU23',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
         MenuID:'MENU24',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
         MenuID:'MENU25',
-        Position:44444444,
+        Position:'44444444',
       }
     ]
   },
@@ -309,7 +309,7 @@ let TREE_DATA_three = [
         id:77,
         isChecked:false,
         MenuID:'MENU26',
-        Position:44444444,
+        Position:'44444444',
       },
      
   
@@ -327,28 +327,28 @@ let TREE_DATA_three = [
         id:77,
         isChecked:false,
         MenuID:'MENUU7',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit Data Files',
         id:77,
         isChecked:false,
         MenuID:'MENU28',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Restore Solicited Errors',
         id:77,
         isChecked:false,
         MenuID:'MENU29',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Data Correction Summary',
         id:77,
         isChecked:false,
         MenuID:'MENU30',
-        Position:44444444,
+        Position:'44444444',
       },
 
       {
@@ -356,21 +356,21 @@ let TREE_DATA_three = [
         id:77,
         isChecked:false,
         MenuID:'MENU31', 
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Unresolved Errors',
         id:77,
         isChecked:false,
         MenuID:'MENU32',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Manage Users',
         id:77,
         isChecked:false,
         MenuID:'MENU33',
-        Position:44444444,
+        Position:'44444444',
       }
       
     ]
@@ -387,14 +387,14 @@ let TREE_DATA_three = [
           id:77,
           isSelected:false,
           
-          Position:44444444,
+          Position:'44444444',
           children: [
             {
               name: 'AuditStatus',
               id:22,
               isChecked:false, 
               MenuID:'MENU34',
-               Position:11111,
+                Position:'44444444',
             
             },
             {
@@ -402,7 +402,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU35',
-               Position:11111,
+                Position:'44444444',
                
             },
             {
@@ -410,7 +410,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU36',
-               Position:11111,
+                Position:'44444444',
             
             },
             {
@@ -418,7 +418,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               
-               Position:11111,
+                Position:'44444444',
                MenuID:'MENU37',
             },
             {
@@ -426,7 +426,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU38',
-               Position:11111,
+                Position:'44444444',
              
             },
             {
@@ -434,7 +434,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU39',
-               Position:11111,
+                Position:'44444444',
              
             },
             {
@@ -442,7 +442,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU40',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -450,7 +450,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU41',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -458,7 +458,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU42',
-               Position:11111,
+                Position:'44444444',
              
             },
             {
@@ -466,7 +466,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU43',
-               Position:11111,
+                Position:'44444444',
              
             },
             {
@@ -474,7 +474,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU44',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -482,7 +482,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU45',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -490,7 +490,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU46',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -498,7 +498,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU47',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -506,7 +506,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU48',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -514,7 +514,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU49',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -522,7 +522,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU50',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -530,7 +530,7 @@ let TREE_DATA_three = [
               id:22,
               isChecked:false, 
               MenuID:'MENU51',
-               Position:11111,
+                Position:'44444444',
               
             },
 
@@ -551,15 +551,15 @@ let TREE_DATA_View = [
     id:111, 
   
     isChecked:false,
-    Position:11111,
+     Position:'44444444',
     children: [
       {
         name: 'Solicited/Internal Discrepancy Process updated',
         id:22,
         isChecked:false,     
-         Position:11111,
+         Position:'11111',
          MenuID:'Menu01',
-        
+          
         
       },
       {
@@ -567,7 +567,7 @@ let TREE_DATA_View = [
         id:22,
         isChecked:false, 
         MenuID:'Menu02',
-         Position:11111,
+         Position:'11111',
         
      
       },
@@ -577,7 +577,7 @@ let TREE_DATA_View = [
         isChecked:false, 
         MenuID:'Menu03',
         
-         Position:11111,
+         Position:'11111',
         
      
       },
@@ -586,7 +586,7 @@ let TREE_DATA_View = [
         id:22,
         isChecked:false, 
         MenuID:'Menu04',
-         Position:11111,
+         Position:'11111',
       
      
       },
@@ -595,7 +595,7 @@ let TREE_DATA_View = [
         id:22,
         isChecked:false, 
         MenuID:'Menu05',
-         Position:11111,
+         Position:'11111',
       },
     ]
   },
@@ -612,7 +612,7 @@ let TREE_DATA_View = [
         id:77,
         isChecked:false,
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         MenuID:'Menu07',
@@ -620,7 +620,7 @@ let TREE_DATA_View = [
         id:77,
         isChecked:false,
         
-        Position:44444444,
+        Position:'44444444',
       },
 
     ]
@@ -630,14 +630,14 @@ let TREE_DATA_View = [
     id:66,
     isChecked:false,
      
-     Position:33333,
+     Position:'33333',
     children: [
       {
         name: 'Full Audit Details',
         id:77,
         isChecked:false,
         MenuID:'Menu08',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit Discrepancy Report',
@@ -645,7 +645,7 @@ let TREE_DATA_View = [
         isChecked:false,
         MenuID:'Menu09',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'External Audit Details',
@@ -653,21 +653,21 @@ let TREE_DATA_View = [
         isChecked:false,
         MenuID:'Menu10',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
         MenuID:'Menu11',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
         MenuID:'Menu12',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Saparateinternal Audit',
@@ -675,7 +675,7 @@ let TREE_DATA_View = [
         isChecked:false,
         MenuID:'Menu13',
         
-        Position:44444444,
+        Position:'44444444',
       }
     ]
   },
@@ -692,7 +692,7 @@ let TREE_DATA_View = [
         isChecked:false,
         MenuID:'Menu14',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit Discrepancy Report',
@@ -700,7 +700,7 @@ let TREE_DATA_View = [
         isChecked:false,
         MenuID:'Menu15',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'External Audit Details',
@@ -708,14 +708,14 @@ let TREE_DATA_View = [
         isChecked:false,
         MenuID:'Menu16',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
         MenuID:'Menu17',   
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit User Action Summary',
@@ -723,7 +723,7 @@ let TREE_DATA_View = [
         isChecked:false,
         MenuID:'Menu18',
         
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Saparateinternal Audit',
@@ -731,7 +731,7 @@ let TREE_DATA_View = [
         isChecked:false,
         MenuID:'Menu19',
         
-        Position:44444444,
+        Position:'44444444',
       }
     ]
   },
@@ -747,42 +747,42 @@ let TREE_DATA_View = [
         id:77,
         isChecked:false,
         MenuID:'Menu20',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Telephone Range Report',
         id:77,
         isChecked:false,
         MenuID:'Menu21',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Transaction Details Records',
         id:77,
         isChecked:false,
         MenuID:'Menu22',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Full Audit History',
         id:77,
         isChecked:false,
         MenuID:'Menu23',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit User Action Summary',
         id:77,
         isChecked:false,
         MenuID:'Menu24',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Saparateinternal Audit',
         id:77,
         isChecked:false,
         MenuID:'Menu25',
-        Position:44444444,
+        Position:'44444444',
       }
     ]
   },
@@ -798,7 +798,7 @@ let TREE_DATA_View = [
         id:77,
         isChecked:false,
         MenuID:'Menu26',
-        Position:44444444,
+        Position:'44444444',
       },
      
   
@@ -816,28 +816,28 @@ let TREE_DATA_View = [
         id:77,
         isChecked:false,
         MenuID:'Menu27',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Audit Data Files',
         id:77,
         isChecked:false,
         MenuID:'Menu28',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Restore Solicited Errors',
         id:77,
         isChecked:false,
         MenuID:'Menu29',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Data Correction Summary',
         id:77,
         isChecked:false,
         MenuID:'Menu30',
-        Position:44444444,
+        Position:'44444444',
       },
 
       {
@@ -845,21 +845,21 @@ let TREE_DATA_View = [
         id:77,
         isChecked:false,
         MenuID:'Menu31', 
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Unresolved Errors',
         id:77,
         isChecked:false,
         MenuID:'Menu32',
-        Position:44444444,
+        Position:'44444444',
       },
       {
         name: 'Manage Users',
         id:77,
         isChecked:false,
         MenuID:'Menu33',
-        Position:44444444,
+        Position:'44444444',
       }
       
     ]
@@ -876,14 +876,14 @@ let TREE_DATA_View = [
           id:77,
           isSelected:false,
           
-          Position:44444444,
+          Position:'44444444',
           children: [
             {
               name: 'AuditStatus',
               id:22,
               isChecked:false, 
               MenuID:'Menu34',
-               Position:11111,
+                Position:'44444444',
             
             },
             {
@@ -891,7 +891,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu35',
-               Position:11111,
+                Position:'44444444',
                
             },
             {
@@ -899,7 +899,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu36',
-               Position:11111,
+                Position:'44444444',
             
             },
             {
@@ -907,7 +907,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               
-               Position:11111,
+                Position:'44444444',
                MenuID:'Menu37',
             },
             {
@@ -915,7 +915,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu38',
-               Position:11111,
+                Position:'44444444',
              
             },
             {
@@ -923,7 +923,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu39',
-               Position:11111,
+                Position:'44444444',
              
             },
             {
@@ -931,7 +931,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu40',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -939,7 +939,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu41',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -947,7 +947,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu42',
-               Position:11111,
+                Position:'44444444',
              
             },
             {
@@ -955,7 +955,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu43',
-               Position:11111,
+                Position:'44444444',
              
             },
             {
@@ -963,7 +963,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu44',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -971,7 +971,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu45',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -979,7 +979,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu46',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -987,7 +987,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu47',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -995,7 +995,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu48',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -1003,7 +1003,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu49',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -1011,7 +1011,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu50',
-               Position:11111,
+                Position:'44444444',
               
             },
             {
@@ -1019,7 +1019,7 @@ let TREE_DATA_View = [
               id:22,
               isChecked:false, 
               MenuID:'Menu51',
-               Position:11111,
+                Position:'44444444',
               
             },
 
@@ -1264,6 +1264,10 @@ InitializeTreeview(ProfileName?:string)
             {
               if(menu!=undefined)
               {
+              if(grandhchild.name=='')
+              {
+                grandhchild.name=grandhchild.Position;
+              }
               grandhchild.isChecked=true;
              
               }
@@ -1272,12 +1276,14 @@ InitializeTreeview(ProfileName?:string)
                 {
                   if(grandhchild.name=='')
                   {
-                    grandhchild.name=grandhchild.label;
+                    grandhchild.name= grandhchild.Position
+                   // grandhchild.Position=grandhchild.name;
+                    //grandhchild.position=grandhchild.name;
                   }
                   //
                 }
                 else{
-                  grandhchild.label=grandhchild.name;
+                  grandhchild.Position=grandhchild.name;
                   grandhchild.name='';
                 }
                
@@ -1295,19 +1301,23 @@ InitializeTreeview(ProfileName?:string)
               if(menu!=undefined)
               {
               greatgrandchild.isChecked=true;
-            
+              if(greatgrandchild.name=='')
+              {
+                greatgrandchild.name=greatgrandchild.Position
+              }
               }
               else{
                 if(res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() ==='menu00'))
                 {
-                  if(grandhchild.name=='')
+                  if(greatgrandchild.name=='')
                   {
-                    grandhchild.name=grandhchild.label;
+                   // grandhchild.name=grandhchild.position;
+                   greatgrandchild.name=greatgrandchild.Position;
                   }
                 }
                 else{
-                  grandhchild.label=grandhchild.name;
-                  grandhchild.name='';
+                  greatgrandchild.Position=greatgrandchild.name;
+                  greatgrandchild.name='';
                 }
               }
             }
@@ -2237,6 +2247,7 @@ else{
       this.UserEditForm.reset();
     }
     else {
+      debugger
       this.eventName = 'Update';
       this.UserEditForm.get('profilename')?.setValue(row.profilename);
       this.UserEditForm.get('profiledescription')?.setValue(row.profiledescription);
@@ -2371,7 +2382,20 @@ else{
         // record[field].push('Custom');
         // this.userProfilesDropdown = record[field];
         // this.userProfile = record['profilename'];
+        if(record['iscustomprofile']==1)
+        {
+          control?.setValue('Custom');
+          this.Profilebutton=false;
+          this.Menuattributes=[];
+          this.UserEditForm.get('profilename')?.disable();
+          this.UserEditForm?.get('profiledescription')?.disable();
+          this.initialize(this.eventName,'CUSTOM-'+this.referenceForm.controls.username?.value);
+          this.onEditUserprofileAceessUserAccess('Create');
+        }
+        else
+        {
         control?.setValue(record['profilename']);
+        }
       } else if (field === 'sources') {
         // control?.setValue(record[field]);
         
@@ -2432,7 +2456,12 @@ else{
     // });
     this.eventName = "Create";
   }
-
+backuseraccessform()
+{
+  
+    this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
+  
+}
   onVerifyUserName() {
     this.tabsLeft.splice( this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2), 1);
     this.StartupForm = false;
@@ -2441,7 +2470,7 @@ else{
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 3)) {
       this.tabsLeft.push({
         tabType: 3,
-        name: 'Check'
+        name: 'Create'
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
@@ -3084,11 +3113,12 @@ else{
       firstname: new FormControl({ value: '' },[Validators.required]),
       lastname: new FormControl({ value: '' },[Validators.required]),
       emailaddress: new FormControl({ value: '' },[Validators.required,Validators.email]),
-      telephoneno: new FormControl({ value: '' },[Validators.pattern("^[0-9]{11}$")]),
+      telephoneno: new FormControl({ value: '' }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
       active: new FormControl({ value: '' },[]),
       sources:new FormControl({ value: '' }),
     });
 
+    
     this.StartupUsermsgsForm = this.formBuilder.group({
       newsid: new FormControl({ value: '' }, []),
       newsdescription: new FormControl({ value: '' }, [Validators.required]),
@@ -3150,7 +3180,14 @@ else{
     this.filterUserProfilesForm.reset();
     this.UserEditForm.reset();
   }
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
 
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
   onExport(tableHeader: any,tabName:string,tableData: any) {
         if (tableData.data != undefined && (tableData.data != []  &&  tableData.data.length != 0) )
          {

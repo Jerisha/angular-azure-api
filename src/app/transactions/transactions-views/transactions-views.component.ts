@@ -24,6 +24,10 @@ import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import { isBuffer } from 'util';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { User } from 'src/app/_auth/model/user';
+//import { AuthenticationService } from '../_auth/services/authentication.service';
+//import { User } from '../_auth/model/user';
 
 @Component({
   selector: 'app-transactions-views',
@@ -110,7 +114,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
-    public router: Router,private spinner: NgxSpinnerService) {
+    public router: Router,private spinner: NgxSpinnerService,private authService: AuthenticationService) {
     // this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
     // if (this.passedRouteData) {
     //   console.log('constructer name' + JSON.stringify(this.passedRouteData))
@@ -344,7 +348,10 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.SourceFranchisearr={Source:[],Franchise:[]};
     this.model.source="";
     this.model.franchise="";
-
+    let user: User = this.authService.currentUserValue;
+    let test =  user?.sources;
+    console.log('get values from auth',test);
+    
     if(event.option.value === "13 - Cable & Wireless UK")
     {
       let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
