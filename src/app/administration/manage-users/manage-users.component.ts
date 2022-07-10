@@ -3029,7 +3029,7 @@ backuseraccessform()
      {
       this.preparemenu();
       attribute['profilename']=this.UserEditForm.controls.profilename?.value;
-      newattribute['iscustom']=0;
+      newattribute['iscustom']=1;
       newattribute['iseditprofile']=1;
       newattribute['isdefaultprofile']=0;
       //newattribute['profilename']=profilename;
