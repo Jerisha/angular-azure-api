@@ -20,7 +20,6 @@ import {
 import { HelperModule } from '../_helper/helper.module';
 import { SelectCheckboxComponent } from './select-checkbox/select-checkbox.component';
 
-
 @NgModule({
   declarations: [    
     TableSelectionComponent,

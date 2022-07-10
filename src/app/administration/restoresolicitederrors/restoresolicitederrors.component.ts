@@ -18,7 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
- import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/Custom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
@@ -29,102 +29,102 @@ import { ActivatedRoute } from '@angular/router';
 const ELEMENT_DATA: any = [
   {
     TranId: '1014591106', View: 'image', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591109', View: 'image', TelephoneNumber: '1977722725', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
 
   },
   {
     TranId: '1014591107', View: 'image', TelephoneNumber: '1977722726', Command: 'Import', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591108', View: 'image', TelephoneNumber: '1977722727', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722728', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722729', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722730', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722731', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722732', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722733', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722734', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722735', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722736', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722737', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722738', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722739', Command: 'Import', Source: 'SAS/COMS', CreatedOnOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722740', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722741', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722742', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
   {
     TranId: '1014591106', View: 'image', TelephoneNumber: '1977722743', Command: 'Import', Source: 'SAS/COMS', CreatedOn: '02May19',
-    Status: 'EF - 04May19', ResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
+    Status: 'EF - 04May19', RestoreSolResolutionType: 'Under Governance', ErrorType: '2102,2033', Reference: '999Reference', LatestUserComments: 'Awiating Updates from Customer',
     LatestCommentDate: '02-May-2019'
   },
 ];
@@ -195,18 +195,19 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     pageSize: number = DefaultPageSize;
     isRemoveCache: number = DefaultIsRemoveCache;
     updateDetails!: any;
+    model: any = { ErrorCode: "" };
   ngOnInit(): void {
  
     this.createForm();
 
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'RestoreSolResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
 
-    let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
+    let updateRequest = Utils.preparePyConfig(['Update'], ['RestoreSolResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res.data;
@@ -339,9 +340,8 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
-
   onFormSubmit(isEmitted?: boolean): void {
-   
+
     debugger;
     let errMsg = '';
     if (!this.thisForm.valid) return;
@@ -357,15 +357,21 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
       return;
     }
     this.tabs.splice(0);
+    //reset value to empty
+    this.Resolution = this.Remarks = this.Refer = ''
+    // reset selectedrows
+    this.selectedGridRows = [];
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
+
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
+
     let request = Utils.preparePyQuery('TelephoneNumberError', 'RestoreSolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    // console.log(JSON.stringify(request));
+    // console.log('request', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -374,7 +380,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
           // totalrecordcount: res.TotalCount,
           // totalpages: res.NumberOfPages,
           // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage     
+          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -387,9 +393,9 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      highlightedCells: ['TelephoneNumber'],
-      removeNoDataColumns: true,
+      setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+      removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
     }
@@ -402,6 +408,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     }
     this.isEnable();
   }
+
 
   check999() {
     if (this.Refer && this.Refer.substring(0, 3) != '999')
@@ -429,10 +436,11 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
           });
+          //this.isSaveDisable = true;
         }
       });
     }
@@ -493,8 +501,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     //this.tabs.splice(0);
     // this.Resolution = ''; this.Refer = ''; this.Remarks = '';
     window.location.reload();
-
-
+    this.model = { ErrorCode: "" };
     // this._snackBar.open('Reset Form Completed!', 'Close', {
     //   duration: 5000,
     //   horizontalPosition: this.horizontalPosition,
@@ -535,7 +542,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     //debugger
     if ((this.f.StartTelephoneNumber?.value?.length === 11 && this.f.EndTelephoneNumber?.value?.length === 11 &&
       this.f.Source.value === "" && this.f.ErrorCode.value === "" && this.f.Command.value === "" &&
-      this.f.ResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
+      this.f.RestoreSolResolutionType.value === "" && this.f.ErrorType.value === "" && this.f.Reference.value === ""
       && this.f.OrderReference.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
@@ -574,6 +581,7 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     return true;
   }
 
+ 
   reference(event: any, ctrlName: string): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     const ctrl = this.thisForm.get(ctrlName) as FormControl;
@@ -616,17 +624,20 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
         break;
 
       case 2:
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            // name: 'Transaction Errors'
+            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
+          let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[tabIndex].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionId;
         break;
       default:
         //statements; 
@@ -634,7 +645,6 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
 
     }
   }
-
   openPanel(control: any, evt: any, trigger: MatAutocompleteTrigger): void {
     evt.stopPropagation();
     control?.reset();

@@ -11,6 +11,7 @@
         <div *ngIf="AT.LiveDetails; else elseBlock">
             
             <mat-accordion *ngIf="AT.LiveDetails[0] as livedata; else elseBlock" [togglePosition]="'before'">
+                <div class="accordionWidth">
                 <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0"
                     (opened)="setStep(0); panelOpenState1 = true;  setAddressDetails('TransactionDetails', livedata);"
                     (closed)="panelOpenState1 = false; setAddressDetails('RemoveAddress');">
@@ -199,7 +200,7 @@
                     </div>
 
                 </mat-expansion-panel>
-
+                </div>
             </mat-accordion>
         </div>
 
@@ -210,6 +211,7 @@
             </ng-template>
 
     <mat-accordion *ngIf=" AT.UnsolicitedDetails != null" [togglePosition]="'before'">
+        <div class="accordionWidth">
         <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 1" (opened)="setStep(1); panelOpenState2 = true;"
             (closed)="panelOpenState2 = false">
             <mat-expansion-panel-header>
@@ -226,6 +228,7 @@
             </div>
         <!-- </ng-template> -->
         </mat-expansion-panel>
+        </div>
         </mat-accordion>
 
         <!-- <mat-accordion
@@ -715,7 +718,7 @@
         <!-- Audit Trail Panel -->
         <div class="audit-sec">
             <mat-accordion [togglePosition]="'before'">
-
+                <div class="accordionWidth">
                 <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 3"
                     (opened)="setStep(3); panelOpenState = true" (closed)="panelOpenState = false">
                     <mat-expansion-panel-header>
@@ -850,7 +853,7 @@
                     </div>
                     <mat-divider></mat-divider>
                 </mat-expansion-panel>
-
+                </div>
             </mat-accordion>
         </div> <!-- audit-sec-->
 

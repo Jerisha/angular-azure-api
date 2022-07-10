@@ -7,13 +7,13 @@ import { HttpWrapperService } from '../http-wrapper.service';
 
 export class Utils {
 
-   
+
   // constructor(private auth: AuthenticationService) {    
   // }
 
-  
+
   static prepareConfigRequest(action: any, configParams: any): any {
-   
+
     let transform = JSON.parse(JSON.stringify(WMRequests.CONFIG));
     //assign filter attributes
     transform.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[0].Value = action;
@@ -181,46 +181,51 @@ export class Utils {
     transform.FilePath = fullFilePath
     return transform;
   }
-  static preparePyUIQuery(reportIdentifier:any, subReportName:any, recordIdentifier?: any,profilename?:any): any{
+  static preparePyUIQuery(reportIdentifier: any, subReportName: any, recordIdentifier?: any, profilename?: any, reportName?: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIQUERY));
     if (recordIdentifier)
+    transform.UserParams[0].UserID =  this.userDetails().UserID;
       transform.RequestParams[0].RecordIdentifier = recordIdentifier;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].ProfileName = profilename;
+    transform.RequestParams[0].ReportName = reportName;
+        
 
     console.log(JSON.stringify(transform))
     return transform;
   }
-  static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData:any): any {
+  static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
+    transform.UserParams[0].UserID =  this.userDetails().UserID;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].RecordIdentifier = recordIdentifier;
     transform.Data[0] = updateData;
+      
     return transform;
   }
-  static preparePyUICreate(reportIdentifier: string, subReportName: string, recordIdentifier: string, createData:any): any {
+  static preparePyUICreate(reportIdentifier: string, subReportName: string, recordIdentifier: string, createData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UICREATE));
+    transform.UserParams[0].UserID = this.userDetails().UserID;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].RecordIdentifier = recordIdentifier;
     transform.Data[0] = createData;
     return transform;
   }
-  static preparePyUICreateFirstRequest(reportIdentifier: string, subReportName: string, UserName: string, is_ldap_auth:any): any {
+  static preparePyUICreateFirstRequest(reportIdentifier: string, subReportName: string, UserName: string, is_ldap_auth: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UICREATEFIRST));
     transform.RequestParams[0].reportidentifier = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].username = UserName;
-    transform.RequestParams[0].is_ldap_auth =is_ldap_auth;
+    transform.RequestParams[0].is_ldap_auth = is_ldap_auth;
     return transform;
   }
 
-
-
-  static preparePyUIDelete(reportIdentifier: string, subReportName: string, recordIdentifier: string, deleteData:any): any {
-    let transform = JSON.parse(JSON.stringify(PyRequests.UIDELETE));
+  static preparePyUIDelete(reportIdentifier: string, subReportName: string, recordIdentifier: string, deleteData: any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIDELETE));   
+    transform.UserParams[0].UserID =  this.userDetails().UserID;
     transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
     transform.RequestParams[0].SubReportName = subReportName;
     transform.RequestParams[0].RecordIdentifier = recordIdentifier;
@@ -228,12 +233,18 @@ export class Utils {
     return transform;
   }
 
+  static userDetails() {
+    let user = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+    let userDetails = { UserID: user?.username }
+    return userDetails;
+
+  }
 }
 
-function user():any{
- let  user =JSON.parse(sessionStorage.getItem('currentUser') || '{}')
- return[
-    {"UserID" : user?.username},
-    {"RoleID" : user?.profilename}
-    ]
+function user(): any {
+  let user = JSON.parse(sessionStorage.getItem('currentUser') || '{}')
+  return [
+    { "UserID": user?.username },
+    { "RoleID": user?.profilename }
+  ]
 }

@@ -166,11 +166,10 @@ refresh(event: any)
             data: this.queryResult$,
             removeNoDataColumns : true,
             Columns: this.columns,
-            filter: false,
+            filter: false,        
             excelQuery : this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
-            //selectionColumn: 'TranId',
-
+            
         }
         if (!this.tabs.find(x => x.tabType == 0)) {
             this.tabs.push({
