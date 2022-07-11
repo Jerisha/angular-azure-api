@@ -9,3 +9,9 @@
  
   }
   .hidden{display: none;}
+
+  .table-view::ng-deep .mat-cell,
+  .table-view::ng-deep .mat-header-cell,
+  .table-view::ng-deep .totalRow {
+    text-align: center;
+  }
