@@ -169,9 +169,10 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  errorCodesOptions!: Observable<any[]>;
+
   selectedRowsCount: number = 0;
-  errorCodeData!: any[];
+
+  errorCodes: string[];
   selectedTab!: number;
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -200,6 +201,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
+      this.errorCodes = res.data?.ErrorCode
     });
 
     if (this.updateAccess) {
@@ -318,7 +320,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
@@ -394,7 +396,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       filter: true,
       selectCheckbox: true,
       setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
       //isFavcols:true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
@@ -657,50 +659,14 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     control?.nativeElement.focus();
   }
 
-  reequest2Excel(columnMapping: any) {
-    //console.log(columnMapping)    
 
-    const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
-      width: '300px', disableClose: true, data: {
-        message: 'Do you want to Export this Report?'
-      }
-    });
-    exportConfirm.afterClosed().subscribe(confirm => {
-      this.isExportDisable = true;
-      if (confirm) {
+  errorTypeChanges(event: any) {
+    debugger;
+    let errType = event.value;
+    let code = errType === 'Internal Errors' ? '2' : '1';
+    this.errorCodes = this.configDetails?.ErrorCode.filter((x: string) => x.startsWith(code))
 
-        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), columnMapping);
-        //  let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
-        this.service.queryDetails(request).subscribe(x => {
-          // this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-          // console.log(x,'res')
-          if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode === 'EUI000') {
-            this.alertService.success("Export request placed successfully!!, Please Check Staus On ExportSummary Icon :)", { autoClose: true, keepAfterRouteChange: false });
-          }
-          else {
-            //console.log(x,'Export request Error Response')
-            this.alertService.notification("Export Aborted!!... " + x.Status.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-          }
-          this.isExportDisable = false;
-        },
-          (error: any) => {
-            // console.log(error,'Export API Function')  
-            this.isExportDisable = false;
-
-          },
-          () => {
-            // console.log('Update API Completed','Export API Function')
-            this.isExportDisable = false;
-          });
-
-      }
-      else {
-        this.alertService.info("Export Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
-        this.isExportDisable = false;
-      }
-    });
   }
-
 
 
 }
