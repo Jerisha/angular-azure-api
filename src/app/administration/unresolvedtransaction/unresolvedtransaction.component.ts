@@ -251,9 +251,10 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
     })
   }
   columns: ColumnDetails[] = [
-    { header: 'Link', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Trans ID', headerValue: 'TransactionId', showDefault: true, isImage: false },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Trans ID', headerValue: 'TransactionId', showDefault: true, isImage: false },
+   
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Ref', headerValue: 'TransactionRef', showDefault: true, isImage: false },
     { header: 'Provide Date', headerValue: 'ProvideDate', showDefault: true, isImage: false },
