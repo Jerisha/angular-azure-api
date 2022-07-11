@@ -203,11 +203,11 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
       { header: 'Statistic Date', headerValue: 'StatisticDate', showDefault: false, isImage: false },
       { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Adds', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'Ceases', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'Exports', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'Imports', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false },
       { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
@@ -243,17 +243,17 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
 
     this.isshow = !enable;
     if (this.isshow) {
-      this.tabs[0].name = "M-O-M Summery";
+      this.tabs[0].name = "M-O-M";
 
     }
     else {
-      this.tabs[0].name = "D-2-D Summery";
+      this.tabs[0].name = "D-2-D";
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'M-O-M Summary'
+        name: 'M-O-M'
       });
     }
     this.selectedTab = 0;
@@ -391,7 +391,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'M-O-M Summary'
+        name: 'M-O-M'
       });
     }
     // this.selectedTab = this.tabs.length;
