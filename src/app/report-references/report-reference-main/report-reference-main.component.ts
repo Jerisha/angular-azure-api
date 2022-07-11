@@ -632,6 +632,51 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
     }
   }
+
+  onExportXlsxFormat(){
+    
+    if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
+    {
+      let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
+   
+     let copydata = JSON.parse(JSON.stringify(this.data))
+    
+     let data:any = [];
+     //let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
+     // data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+     //data.push(dataHeaderRow);
+       copydata.forEach((row : any) => {
+
+    
+     let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
+       for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
+       if(this.currentReportName ==='ResolutionType'||this.currentReportName ==='AuditStatus')
+       for (const i of ['Description'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
+   
+     let dataRow = Object.assign(disp,row)
+
+   // let val = Object.values(dataRow).join('|');
+   // val.replace(/[/t]+/g, ' ');
+
+   // data += val.replace(/[|]+/g, '\t') + "\n";
+   data.push(dataRow);
+   
+ }); 
+
+ this.reportReferenceService.downloadXlsxFile(this.currentReportName,data,[header.map((x: { cDisplayName: any; })=>x.cDisplayName)])
+  
+ this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+}
+else {
+ this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
+}
+ }
   
 
   ngOnChanges(changes: SimpleChanges) {
