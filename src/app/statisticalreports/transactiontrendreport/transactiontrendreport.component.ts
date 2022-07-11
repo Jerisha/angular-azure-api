@@ -243,17 +243,17 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
 
     this.isshow = !enable;
     if (this.isshow) {
-      this.tabs[0].name = "M-O-M Summery";
+      this.tabs[0].name = "M-O-M";
 
     }
     else {
-      this.tabs[0].name = "D-2-D Summery";
+      this.tabs[0].name = "D-2-D";
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'M-O-M Summary'
+        name: 'M-O-M'
       });
     }
     this.selectedTab = 0;
@@ -391,7 +391,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
-        name: 'M-O-M Summary'
+        name: 'M-O-M'
       });
     }
     // this.selectedTab = this.tabs.length;
