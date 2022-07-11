@@ -393,7 +393,7 @@ check999() {
       removeNoDataColumns: true,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -486,7 +486,7 @@ check999() {
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            name: 'Transaction History'
           })
 
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
