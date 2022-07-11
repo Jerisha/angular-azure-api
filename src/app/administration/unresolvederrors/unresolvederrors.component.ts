@@ -483,18 +483,21 @@ check999() {
         break;
       }
       case 2: {
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction History'
+            name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
           })
 
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
+          let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[tabIndex].name = 'Transaction History(' + this.telNo + '/' + this.tranId + ')';
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionId;
+        
         break;
       }
       default: {
