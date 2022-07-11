@@ -95,7 +95,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
 
   columns: ColumnDetails[] = [    
     { header: 'Telephone No',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View',headerValue:'Links', showDefault: true, isImage: true },
+    { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
     { header: 'Tran Id',headerValue:'TransactionId', showDefault: true, isImage: false },
     { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
     { header: 'Status',headerValue:'Status', showDefault: true, isImage: false },
