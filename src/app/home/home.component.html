@@ -22,7 +22,7 @@
         <h1 class="header">
           <mat-icon>grade</mat-icon>Favorites
         </h1>
-        <div class="menuitems" *ngFor="let menu of menus.slice(0,5) let menuIndex = index">
+        <div class="menuitems" *ngFor="let menu of menus.slice(0,10) let menuIndex = index">
           <a class="menu" href={{menu.route}}>{{ menu.displayName }}</a>
         </div>
       </div>
