@@ -66,7 +66,7 @@ export class TransactionsourcecommandsummaryComponent implements OnInit {
   ctrl = new FormControl(true); 
     
   columns: ColumnDetails[] = [
-    { header: 'View', headerValue: 'Link', showDefault: true, isImage: true },
+    { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
     { header: 'Statistic Month', headerValue: 'StatisticMonth', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
     { header: 'Activate', headerValue: 'Adds', showDefault: true, isImage: false },

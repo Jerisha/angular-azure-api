@@ -187,7 +187,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   columns: ColumnDetails[] =
     [
       // { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
-      { header: 'View', headerValue: 'Link', showDefault: true, isImage: true },
+      { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
       { header: 'Statistic Month', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
       { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false },
