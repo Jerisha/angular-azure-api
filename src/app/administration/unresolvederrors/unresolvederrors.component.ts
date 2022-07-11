@@ -321,9 +321,10 @@ check999() {
   
 
   columns: ColumnDetails[] = [
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Transaction Id', headerValue: 'TransactionId', showDefault: true, isImage: false },
     { header: 'Telephone Number', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Transaction Id', headerValue: 'TransactionId', showDefault: true, isImage: false },
+   
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },

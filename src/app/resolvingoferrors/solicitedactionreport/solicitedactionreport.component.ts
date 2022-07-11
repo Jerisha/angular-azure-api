@@ -147,7 +147,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     // { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
    
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'Links', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
     { header: 'ResolutionType', headerValue: 'ResolveType', showDefault: true, isImage: false },
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },

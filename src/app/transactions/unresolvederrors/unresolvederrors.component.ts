@@ -205,7 +205,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
   columns: ColumnDetails[] = [
     { header: 'Tran.Id', headerValue: 'TransId', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Tel.No', headerValue: 'TelNo', showDefault: true, isImage: false },
     { header: 'Cmd', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },

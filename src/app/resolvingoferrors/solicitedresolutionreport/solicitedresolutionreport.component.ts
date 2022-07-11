@@ -426,7 +426,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
     { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
