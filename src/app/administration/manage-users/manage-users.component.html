@@ -106,7 +106,7 @@
                                         </mat-form-field>
                                         <mat-form-field hintLabel="Max 11 characters">
                                             <mat-label >Telephone No</mat-label>
-                                        <input type="tel" maxlength="11" matInput   formControlName="telephoneno"
+                                        <input type="tel" maxlength="11" matInput (keypress)="keyPress($event)"  formControlName="telephoneno"
                                         placeholder="TelephoneNo">
                                         </mat-form-field>
                                         <mat-form-field>
@@ -160,12 +160,13 @@
                                 <button (click)="checkAll()" style="visibility:hidden">Toggle Select All</button>
                                 <button (click)="GetCheckAll()" style="visibility:hidden">Get Select All</button>
                                 <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
-                                  <mat-tree-node
+                                  <mat-tree-node  
                                     *matTreeNodeDef="let node"
                                     matTreeNodeToggle
-                                    matTreeNodePadding [ngClass]="(node.Positio == '0')? 'a':'b'"
-                                  >
-                                    <button mat-icon-button disabled></button>{{node.label}}
+                                    matTreeNodePadding [ngClass]="(node.Positio == '0')? 'treeview-a':'treeview-b'"
+                                 style="align-items:left!important" >
+                                    <!-- <button mat-icon-button disabled></button> -->
+                                    <b><span style="display: flex; flex-direction: column;align-items: left!important;;"><li>{{node.label}}</li></span></b>
                                     <mat-checkbox style="visibility:hidden"
                                       class="checklist-leaf-node" 
                                       [checked]="descendantsAllSelected(node)"
@@ -174,7 +175,7 @@
                                     >
                                   </mat-tree-node>
                                 
-                                  <mat-tree-node
+                                  <mat-tree-node  style="align-items:left!important"
                                     *matTreeNodeDef="let node; when: hasNoContent"
                                     matTreeNodePadding
                                   >
@@ -182,7 +183,7 @@
                                    
                                        </mat-tree-node>
                                 
-                                  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                                  <mat-tree-node   style="align-items:left!important"  *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
                                     <button
                                       mat-icon-button
                                       matTreeNodeToggle
@@ -191,7 +192,7 @@
                                       <mat-icon class="mat-icon-rtl-mirror">
                                         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                                       </mat-icon>
-                                    </button>{{node.label}}
+                                    </button><b>{{node.label}}</b>
                                     <mat-checkbox
                                      
                                     [checked]="descendantsAllSelected(node)" style="visibility:hidden"
@@ -341,7 +342,7 @@
                                               [checked]="node.isChecked"
                                              
                                               (change)="todoLeafItemSelectionToggle(node,$event)"
-                                              >{{node.label}}</mat-checkbox
+                                              ><b>{{node.label}}</b></mat-checkbox
                                             >
                                           </mat-tree-node>
                                         
@@ -367,7 +368,7 @@
                                             [checked]="node.isChecked"
                                               [indeterminate]="descendantsPartiallySelected(node)"
                                               (change)="todoItemSelectionToggle(node,$event)"
-                                              >{{node.label}}</mat-checkbox
+                                              ><b>{{node.label}}</b></mat-checkbox
                                             >
                                           </mat-tree-node>
                                         </mat-tree>
@@ -471,6 +472,23 @@
                                           </button>                       
                                         </mat-card-actions>                  
                                       </div> 
+                                      <div class ="fixed-button-bar" *ngIf = "!Profilebutton">    
+                                        <mat-card-actions>
+                                          <button     (click)=backuseraccessform()   type="submit" mat-raised-button class ="btn-color"  >
+                                            <mat-icon >edit</mat-icon>Go back
+                                          </button>
+                                          <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
+                                            <mat-icon >cancel</mat-icon>Cancel
+                                          </button>                       
+                                        </mat-card-actions>                  
+                                      </div> 
+
+
+
+
+
+
+
                                 </div>
                             </form>
                         </div>
