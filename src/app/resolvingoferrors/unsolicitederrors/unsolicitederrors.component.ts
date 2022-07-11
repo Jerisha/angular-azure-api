@@ -471,7 +471,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Error Code', headerValue: 'ErrorCode', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },

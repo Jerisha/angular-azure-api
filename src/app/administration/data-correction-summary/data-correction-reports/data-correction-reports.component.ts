@@ -186,7 +186,7 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
   tabName: string = 'Auto Correction Summary';
 
   colHeader: ColumnDetails[] = [
-    { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
+    { headerValue: 'View', header: 'Inventory', showDefault: true, isImage: true },
     { headerValue: 'ActId', header: 'ACT ID', showDefault: true, isImage: false },
     { headerValue: 'BatchId', header: 'Batch Id', showDefault: true, isImage: false },
     { headerValue: 'FullCLIStatus', header: 'Full CLI Status', showDefault: true, isImage: false },
@@ -210,7 +210,7 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
   ];
   colHeader1: ColumnDetails[] = [    
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
-    { headerValue: 'View', header: 'View', showDefault: true, isImage: true },  
+    { headerValue: 'View', header: 'Inventory', showDefault: true, isImage: true },  
   ];
 
   // rowAttrInfo: CellAttributes[] = [
