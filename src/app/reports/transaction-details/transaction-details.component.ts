@@ -335,7 +335,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
 
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-                  { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]  }
+                  { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]  }
     
                   if (!this.tabs.find(x => x.tabType == 0)) {
                     this.tabs.push({
@@ -423,13 +423,13 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')' 
+            name: 'Transaction History(' + this.telNo +'/'+ this.tranId+ ')' 
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
         } else {
           let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')';      
+          this.tabs[tabIndex].name ='Transaction History(' + this.telNo +'/'+ this.tranId+ ')';      
         }
         break;
       }

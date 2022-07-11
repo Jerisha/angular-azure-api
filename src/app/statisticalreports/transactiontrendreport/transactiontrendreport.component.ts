@@ -188,13 +188,13 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     [
       // { header: 'select', headerValue: 'select', showDefault: true, isImage: true },
       { header: 'View', headerValue: 'Link', showDefault: true, isImage: true },
-      { header: 'StatisticMonth', headerValue: 'Month', showDefault: false, isImage: false },
+      { header: 'Statistic Month', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Adds', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'Ceases', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'Exports', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'Imports', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false },
       { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false }
     ];
 
