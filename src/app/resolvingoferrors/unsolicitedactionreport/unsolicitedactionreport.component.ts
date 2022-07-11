@@ -313,9 +313,10 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
 
   
   columns: ColumnDetails[] = [
-    { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
-    { header: 'Resolution Type', headerValue: 'ResolveType', showDefault: true, isImage: false },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResolveType', showDefault: true, isImage: false },
+    { header: 'View', headerValue: 'Links', showDefault: true, isImage: true },
+    
     { header: 'Transaction Ref', headerValue: 'TransactionReference', showDefault: true, isImage: false },
     { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
