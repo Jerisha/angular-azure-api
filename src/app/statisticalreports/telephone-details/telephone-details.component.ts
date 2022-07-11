@@ -97,12 +97,12 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
   columns: ColumnDetails[] = [
     { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
     { header: 'Telephone Nos', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Add Commands', headerValue: 'AddCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Modifiy Commands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true },
+    { header: 'Activate', headerValue: 'AddCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Cease', headerValue: 'CeaseCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Modifiy', headerValue: 'ModifiyCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Export', headerValue: 'ExportCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Import', headerValue: 'ImportCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true },
   ];
   queryResult$!: Observable<any>;
 
