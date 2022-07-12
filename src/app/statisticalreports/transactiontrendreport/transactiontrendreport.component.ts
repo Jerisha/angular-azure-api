@@ -375,6 +375,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       filter: true,
       selectCheckbox: true,
       imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1 }],
+      removeNoDataColumns: true,
     }
     this.myTableChild = {
       data: this.queryResult$,

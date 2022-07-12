@@ -145,6 +145,7 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       selectCheckbox: true,
       // colToSetImage: ['View'],
+      removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],
       // showTotal: true,
       // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
