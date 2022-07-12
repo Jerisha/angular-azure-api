@@ -133,7 +133,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   updateUserData(action: any) {
     let prevData = this.authService.currentUserValue
     if (action === 'Add')
-      prevData.favourites = prevData.favourites.concat(this.menuId);
+     prevData.favourites?.unshift(this.menuId);
     else {
       prevData.favourites = prevData.favourites.filter(x => x != this.menuId);
     }
