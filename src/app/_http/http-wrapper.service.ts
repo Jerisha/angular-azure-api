@@ -34,24 +34,6 @@ export class HttpWrapperService {
         return observerRes;
     }
 
-    private urlExtract(endPoint: WebMethods): string {
-        let url = '';
-        switch (endPoint) {
-            case WebMethods.UIQUERY:
-            case WebMethods.UILOGIN:
-            case WebMethods.UIUPDATE:
-            case WebMethods.UICREATE:
-            case WebMethods.UIDELETE:
-                url = `${environment.api_auth}${endPoint.toString()}`
-                break;
-            default:
-                url = `${environment.api_py_sit}${endPoint.toString()}`
-        }
-        return url;
-        // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
-        //     `${environment.api_py_sit}${endPoint.toString()}`;
-    }
-
     private resolvePyRespone(val: any, requestType: WebMethods) {
         debugger;
         let jsonResult = '';
@@ -124,6 +106,24 @@ export class HttpWrapperService {
         }
     }
 
+    private urlExtract(endPoint: WebMethods): string {
+        let url = '';
+        switch (endPoint) {
+            case WebMethods.UIQUERY:
+            case WebMethods.UILOGIN:
+            case WebMethods.UIUPDATE:
+            case WebMethods.UICREATE:
+            case WebMethods.UIDELETE:
+                url = `${environment.api_auth}${endPoint.toString()}`
+                break;
+            default:
+                url = `${environment.api_py_sit}${endPoint.toString()}`
+        }
+        return url;
+        // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
+        //     `${environment.api_py_sit}${endPoint.toString()}`;
+    }
+
     private validateResponseStatus(wmResponse: any) {
         let status = false;
         switch (wmResponse.MessageType as WMMessageType) {
@@ -142,6 +142,7 @@ export class HttpWrapperService {
     }
 
 
+    //#region  wM API Resolver
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
@@ -400,7 +401,7 @@ export class HttpWrapperService {
         console.log("StatusResponse :" + jsonCreation);
         return JSON.parse(jsonCreation);
     }
-
+    //#endregion
 
 }
 

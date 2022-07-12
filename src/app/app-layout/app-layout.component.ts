@@ -65,7 +65,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.navService.appDrawer = this.appDrawer;
     this.navService.currentUrl.subscribe((url: any) => {
-      this.userDetails = (JSON.parse(sessionStorage.getItem('currentUser') || '{}')) as User;
+      this.userDetails = this.authService.currentUserValue;
       this.favReports = this.userDetails.favourites;
       if (!this.ignoreFavMenu.includes(url)) {
         this.navItems.forEach(item => {
@@ -131,13 +131,13 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   }
 
   updateUserData(action: any) {
-    let prevData = (JSON.parse(sessionStorage.getItem('currentUser') || '{}')) as User;
+    let prevData = this.authService.currentUserValue
     if (action === 'Add')
-      prevData.favourites = prevData.favourites.concat(this.menuId);
+     prevData.favourites?.unshift(this.menuId);
     else {
       prevData.favourites = prevData.favourites.filter(x => x != this.menuId);
     }
-    sessionStorage.setItem('currentUser', JSON.stringify(prevData));
+    this.authService.updateCurrentUser(prevData);
   }
 
 }

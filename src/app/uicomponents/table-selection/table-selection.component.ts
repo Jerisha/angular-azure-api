@@ -18,7 +18,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Utils, WebMethods } from 'src/app/_http';
 import { ProfileCreationDialogComponent } from '../../_shared/profile-creation-dialog/profile-creation-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
-import { utils } from 'protractor';
+import { UserProfile } from 'src/app/_auth/user-profile';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +30,7 @@ import { utils } from 'protractor';
   styleUrls: ['./table-selection.component.css']
 })
 
-export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
+export class TableSelectionComponent extends UserProfile implements OnDestroy, AfterViewChecked {
   private readonly onDestroy = new Subject<void>();
   fltvalue: string = '';
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -103,7 +106,11 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     private spinner: NgxSpinnerService,
     private service: UIService,
     private alertService: AlertService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private auth: AuthenticationService,
+    private actRoute: ActivatedRoute) {
+    super(auth, actRoute)
+    this.intializeUser();
 
   }
 
@@ -585,6 +592,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
     //this.requestExport2Excel.emit(excelHeaderParams);
   }
 
+  
   createProfile() {
     let selectedCols: string[] = [];
     this.select.options.forEach((item: MatOption) => {
@@ -602,7 +610,7 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
       this.isExportDisable = true;
       if (result != '') {
         debugger;
-        var profileName = Utils.userDetails().UserID + '-' + result;
+        var profileName = this.userDetails.username + '-' + result;
         var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: result, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 0 };
         let request = Utils.preparePyUICreate('ManageUsers', 'FavouriteProfile', 'ReportMenuItem', profile)
         this.service.uiApiDetails(request, WebMethods.UICREATE).subscribe(response => {
@@ -638,9 +646,9 @@ export class TableSelectionComponent implements OnDestroy, AfterViewChecked {
         });
 
         if (selectedProfile?.favprofname.startsWith('All')) {
-          profileName = selectedProfile?.favprofname.replace('All', Utils.userDetails().UserID);
-        } else if (selectedProfile?.favprofname.startsWith(Utils.userDetails().UserID)) {
-          profileName = selectedProfile?.favprofname.replace(Utils.userDetails().UserID, 'All');
+          profileName = selectedProfile?.favprofname.replace('All', this.userDetails.username);
+        } else if (selectedProfile?.favprofname.startsWith(this.userDetails.username)) {
+          profileName = selectedProfile?.favprofname.replace(this.userDetails.username, 'All');
         }
 
         var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: selectedProfile?.favprofileid, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 1 };
