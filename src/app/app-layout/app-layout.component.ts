@@ -131,13 +131,13 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   }
 
   updateUserData(action: any) {
-    let prevData = (JSON.parse(sessionStorage.getItem('currentUser') || '{}')) as User;
+    let prevData = this.authService.currentUserValue
     if (action === 'Add')
       prevData.favourites = prevData.favourites.concat(this.menuId);
     else {
       prevData.favourites = prevData.favourites.filter(x => x != this.menuId);
     }
-    sessionStorage.setItem('currentUser', JSON.stringify(prevData));
+    this.authService.updateCurrentUser(prevData);
   }
 
 }
