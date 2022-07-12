@@ -145,8 +145,9 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   expOperatorsKeyPair: [string, string][] = [];
   columns: ColumnDetails[] = [
     // { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
+   
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
     { header: 'ResolutionType', headerValue: 'ResolveType', showDefault: true, isImage: false },
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },

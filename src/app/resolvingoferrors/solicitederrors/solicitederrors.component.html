@@ -155,7 +155,7 @@
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
-            <mat-select formControlName="ErrorType">
+            <mat-select formControlName="ErrorType" (selectionChange)="errorTypeChanges($event)">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.ErrorType" [value]="val">
                 {{val}}
@@ -167,12 +167,12 @@
             <mat-label>Error Code</mat-label>
             <input #errorcode formControlName="ErrorCode" [(ngModel)]="model.ErrorCode" type="text"
               placeholder="Search Error Code" matInput [matAutocomplete]="auto" OptionsValidator
-              [options]="config.ErrorCode " />
+              [options]="errorCodes" />
             <span matSuffix mat-icon-button>
               <mat-icon (click)="model.ErrorCode=''">arrow_drop_down</mat-icon>
             </span>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of config.ErrorCode  | ddlFilter: errorcode.value" [value]="option">
+              <mat-option *ngFor="let option of errorCodes  | ddlFilter: errorcode.value" [value]="option">
                 {{option}}
               </mat-option>
             </mat-autocomplete>

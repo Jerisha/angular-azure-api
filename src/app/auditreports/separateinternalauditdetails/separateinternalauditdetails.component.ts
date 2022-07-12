@@ -384,7 +384,7 @@ else{
 
   columns: ColumnDetails[] = [
     { header: 'Tel.No.', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'OSN2 Source', headerValue: 'OSN2Source', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'ACT ID', headerValue: 'ActId', showDefault: true, isImage: false },

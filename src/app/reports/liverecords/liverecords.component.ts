@@ -532,7 +532,7 @@ resetExp:boolean = false;
   isRemoveCache: number = DefaultIsRemoveCache;
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },
-    { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
     { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },

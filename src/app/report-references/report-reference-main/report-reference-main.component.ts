@@ -13,7 +13,6 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Utils } from 'src/app/_http';
 import { element } from 'protractor';
 import { stringify } from 'querystring';
-import FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -34,7 +33,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   private readonly onDestroyUpdate = new Subject<void>();
   private readonly onDestroyCreate = new Subject<void>();
   private readonly onDestroyDelete = new Subject<void>();
-  reportNames!: string[];
+ // reportNames!: string[];
   title: string = "";
   reportName: string = "";
   showDataForm: boolean = false;
@@ -45,6 +44,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   oloDropDown: any = [];
   companyDropDown: any = [];
   dataObs$ !: Observable<any>;
+  reportTitleNames!:{name:string,viewName:string}[]
 
 
   StatusID: string = '';
@@ -63,7 +63,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   tabs: Tab[] = [];
   editRecord: any;
   editMode: string = "";
-  editModeIndex!: number;
+  // editModeIndex!: number;
   currentReportName: string = "";
   recordIdentifier: any = "";
   metaDataSupscription: Subscription = new Subscription;
@@ -119,7 +119,19 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   Onselecttabchange($event: any) {
     //console.log('tab changed,Index: ',$event.index)   
     //this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
-    this.currentReportName = this.reportName = $event.index != -1 ? this.tabs[$event.index].name : "";
+    // this.currentReportName = this.reportName = $event.index != -1 ? this.tabs[$event.index].name : "";
+    if($event.index == -1)
+    {
+      return
+    }
+    let selectedTab= $event.index != -1 ? this.reportReferenceService.reportTitleNames.find( x=> x.viewName === this.tabs[$event.index].name)?.name : "";
+    if(selectedTab ==='')
+    {      
+      this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
+      return 
+    }
+    this.currentReportName = this.reportName  =selectedTab !=undefined? selectedTab:''
+   
     //this.reportIndex = this.reportNames.findIndex(x => x == this.currentReportName);
     // this.displayedColumns = this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]||[] : [];
     this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
@@ -140,18 +152,24 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   }
   newTab() {
-    if (this.data != [] || this.displayedColumns != []) {
-      let reportName = this.currentReportName
+    if (this.data != [] || this.displayedColumns != []) {     
+      let tabName = this.reportReferenceService.reportTitleNames.find( x=> x.name === this.currentReportName)?.viewName
+      tabName =tabName!= undefined? tabName:''
+      if(tabName ==='')
+      {       
+        this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
+        return 
+      }
       if (this.tabs.length < 5) {
-        if (!this.tabs?.find(x => x.name == reportName)) {
+        if (!this.tabs?.find(x => x.name === tabName)) {
           this.tabs.push({
             tabType: this.tabs.length,
-            name: reportName,
+            name: tabName            
           });
-          this.selectedTab = this.tabs.findIndex(x => x.name == reportName) + 1;
+          this.selectedTab = this.tabs.findIndex(x => x.name === tabName) + 1;
         }
         else {
-          this.selectedTab = this.tabs.findIndex(x => x.name == reportName);
+          this.selectedTab = this.tabs.findIndex(x => x.name === tabName);
         }
       }
       else {
@@ -164,10 +182,17 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   removeTab(index: number) {
     //let tabobj = this.tabs.find(x => x.tabType == (index))
-    let tabobj = this.tabs[index];
-    if (tabobj != undefined && tabobj.name == this.editMode) {
+    let tabobj = this.tabs[index];    
+    let tabName = this.reportReferenceService.reportTitleNames.find( x=> x.viewName === tabobj.name)?.name
+      tabName =tabName!= undefined? tabName:''
+      if(tabName ==='')
+      {       
+        this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
+        return 
+      }
+    if (tabobj != undefined &&  tabName === this.editMode ) {
       this.editMode = "";
-      this.editModeIndex = -1;
+      // this.editModeIndex = -1;
       this.showDataForm = false;
     }
     // else if (tabobj != undefined && tabobj.name != this.editMode){
@@ -185,13 +210,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   onCreateRecord() {
-    if (this.editMode == "" || this.editMode == this.currentReportName) {
+    if (this.editMode == "" || this.editMode === this.currentReportName) {
       this.editMode = this.currentReportName;
       this.lstFields = this.reportReferenceService.setForm(this.editMode);
       //console.log(this.lstFields,'formTemplateData')
       this.editRecord = null;
       this.eventName = 'Create';
-      this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
+      // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
       this.reportReferenceService.showDataForm = this.showDataForm = true;
     }
     else {
@@ -278,7 +303,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
      // console.log(this.highlightedRows,'high')
       // console.log(event,'evetn')
       // this.showDataForm =true; 
-      this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
+      // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
       this.reportReferenceService.showDataForm = this.showDataForm = true;
       let element1 = Object.assign({}, element);
       this.editRecord = element1;
@@ -372,7 +397,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // console.log('event', event)
 
     this.editMode = "";
-    this.editModeIndex = -1;
+    // this.editModeIndex = -1;
     this.showDataForm = event[0][0];
     this.showDetailsForm = event[0][1];
     this.highlightedRows = '';
@@ -524,12 +549,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   onDataFormCancel(event: any[]) {
     this.editMode = "";
-    this.editModeIndex = -1;
+    // this.editModeIndex = -1;
     this.showDataForm = event[0];
     this.showDetailsForm = event[1];
     this.highlightedRows = '';
   }
-  onExport() {
+  onExportTabFormat() {
     //console.log( this.data, 'download')
         if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
          {
@@ -537,7 +562,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
          //console.log(header,'header')
          // console.log( this.data, 'download1')
           let copydata = JSON.parse(JSON.stringify(this.data))
-          //var c = document.createElement("a");
+          var c = document.createElement("a");
           let data:any = [];
           let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
           data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
@@ -584,29 +609,75 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // data += result.toString().replace(/[,]+/g, '\t') + "\n";
       });
       //console.log(copydata, 'copydata12')
-      // c.download = this.currentReportName + "_Report.tab";      
+      c.download = this.currentReportName + "_Report.tab";      
       //+ new Date().toString()+
       // var t = new Blob([JSON.stringify(this.data)],
       var t = new Blob([data], {
 
-       // type: "data:text/plain;charset=utf-8"
+        type: "data:text/plain;charset=utf-8"
         
       });
-      const file = new File([t], this.currentReportName + "_Report.xlsx",      
-        { type: 'application/vnd.ms-excel' }
-      );
-      FileSaver.saveAs(file);
-      //c.href = window.URL.createObjectURL(t);
+      // const file = new File([t], this.currentReportName + "_Report.tab",      
+      //   { type: "data:text/tab-separated-values;charset=utf-8" }
+      // );
+      
+      c.href = window.URL.createObjectURL(t);
      
       // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       // element.setAttribute('download', filename);
-      //c.click();
+      c.click();
       this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
     }
     else {
       this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
     }
   }
+
+  onExportXlsxFormat(){
+    
+    if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
+    {
+      let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
+   
+     let copydata = JSON.parse(JSON.stringify(this.data))
+    
+     let data:any = [];
+     //let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
+     // data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+     //data.push(dataHeaderRow);
+       copydata.forEach((row : any) => {
+
+    
+     let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
+       for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
+       if(this.currentReportName ==='ResolutionType'||this.currentReportName ==='AuditStatus')
+       for (const i of ['Description'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
+   
+     let dataRow = Object.assign(disp,row)
+
+   // let val = Object.values(dataRow).join('|');
+   // val.replace(/[/t]+/g, ' ');
+
+   // data += val.replace(/[|]+/g, '\t') + "\n";
+   data.push(dataRow);
+   
+ }); 
+
+ this.reportReferenceService.downloadXlsxFile(this.currentReportName,data,[header.map((x: { cDisplayName: any; })=>x.cDisplayName)])
+  
+ this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+}
+else {
+ this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
+}
+ }
+  
 
   ngOnChanges(changes: SimpleChanges) {
     // this.lstFields =this.reportReferenceService.setForm(this.reportName); 
@@ -644,9 +715,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
   ngOnInit(): void {
-    this.reportNames = this.reportReferenceService.reportNames;
+    //this.reportNames = this.reportReferenceService.reportNames;
     // console.log('reportnames1', this.reportNames)
     // console.log(this.reportReferenceService.metaDataCollection,'metacol')
+    this.reportTitleNames =this.reportReferenceService.reportTitleNames;
 
   }
   ngAfterViewChecked() {

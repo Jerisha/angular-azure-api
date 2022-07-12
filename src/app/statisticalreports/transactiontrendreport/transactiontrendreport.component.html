@@ -114,7 +114,7 @@
     <mat-tab-group [(selectedIndex)]="selectedTab">
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
-          <div class="col" style="margin-left: 20px;">{{index==0?isChecked?'D-2-D Summary':'M-O-M Summary':tab.name}}</div>
+          <div class="col" style="margin-left: 20px;">{{index==0?isChecked?'D-2-D':'M-O-M':tab.name}}</div>
           <button *ngIf="tab.tabType !== 0" style="color:black" mat-icon-button (click)="removeTab(index)">
             <mat-icon style="font-size: large;">close</mat-icon>
           </button>
@@ -128,7 +128,7 @@
             
             
             <mat-slide-toggle (change)="changeView()"  [(ngModel)]="isChecked" class="toggleclass">
-              {{isChecked?'Switch to M-O-M Summary View':'Switch to D-2-D Summary View'}} </mat-slide-toggle>
+              {{isChecked?'Switch to M-O-M View':'Switch to D-2-D View'}} </mat-slide-toggle>
 
             <div *ngIf="!isChecked">
               <app-table-exp class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
@@ -137,9 +137,10 @@
             </div>
 
             <div *ngIf="isChecked">
+              <div class="table-view">
               <app-table-selection class="childtb" [sidePan]="pagesidenav" (addNewTab)="OndayTodayselected($event)"
                 [tableitem]="myTableChild" (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"></app-table-selection>
-
+                </div>
             </div>
           </div>
           <div *ngSwitchCase="1" style="height: calc(100% - 8px);">

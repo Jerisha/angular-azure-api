@@ -135,7 +135,7 @@
     "route": "",
     "children": [
       {
-        "displayName": "Transaction Trend for Source & Command",
+        "displayName": "Transaction Source Command Summary",
         "iconName": "",
         "route": "statisticalreports/transactionsourcecommandhistory",
         "menuId" :"MENU24"

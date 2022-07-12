@@ -51,3 +51,8 @@ margin: 4px;
     box-sizing: border-box;
     }
     .hidden{display: none;}
+    .table-view::ng-deep .mat-cell,
+  .table-view::ng-deep .mat-header-cell,
+  .table-view::ng-deep .totalRow {
+    text-align: center;
+  }

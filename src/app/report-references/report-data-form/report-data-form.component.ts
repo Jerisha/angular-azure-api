@@ -18,8 +18,8 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   data:any;
   
   @Input() reportName:string='';
-  @Input()
-  reportIndex!: number;
+  //@Input()
+  //reportIndex!: number;
   referenceForm!: FormGroup;
   @Input('lstFields') lstForm: IColoumnDef[] = [];
   title:string ="";
