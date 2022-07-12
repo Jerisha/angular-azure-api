@@ -8,10 +8,7 @@ import { HttpWrapperService } from '../http-wrapper.service';
 export class Utils {
 
 
-  // constructor(private auth: AuthenticationService) {    
-  // }
-
-
+//#region wM API call
   static prepareConfigRequest(action: any, configParams: any): any {
 
     let transform = JSON.parse(JSON.stringify(WMRequests.CONFIG));
@@ -55,6 +52,7 @@ export class Utils {
     transform.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = updateParams;
     return transform;
   }
+
   static prepareCreateRequest(pageIdetifier: string, reportIdentifier: string, createIdentifier: any): any {
     let transform = JSON.parse(JSON.stringify(WMRequests.CREATE));
     console.log(transform, 'transform')
@@ -76,6 +74,7 @@ export class Utils {
     let value = JSON.stringify(data).replace('\n', '\\n').replace('\r', '\\r').replace('\t', '\\t');
     return JSON.parse(value);
   }
+  //#endregion 
 
   //Python Requests //
   static preparePyConfig(action: any, configParams: any): any {
@@ -125,6 +124,7 @@ export class Utils {
     transform.wmRequest.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofUpdateObjectCharacteristics.UpdateObjectCharacteristics[0].ListofAttributes.Attribute = updateParams;
     return transform;
   }
+
   static preparePyCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier: any, createParams: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.CREATE));
     transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ItemName = pageIdentifier;
@@ -136,6 +136,7 @@ export class Utils {
     transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofCreateObjectCharacteristics.CreateObjectCharacteristics[0].ListofIdentifiers.Identifier = createParams;
     return transform;
   }
+
   static preparePyDelete(pageIdentifier: string, reportIdentifier: string, deleteIdentifier: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.DELETE));
     transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdentifier;
@@ -145,6 +146,7 @@ export class Utils {
     transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier = deleteIdentifier;
     return transform;
   }
+
   static preparePyPaf(PAFIdentifiers: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.PAFQUERY));
     //transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdentifier;
@@ -155,13 +157,13 @@ export class Utils {
     return transform;
   }
 
-
   static preparePyMetaData(configParams: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.METADATA));
     //console.log(transform,"meta data")
     transform.MetaDataRequest.MetaDataRequestType.ListofMetaDataObjectCategory.MetaDataObjectCategory[0].ListofAttributes.Attribute[0].Value = configParams;
     return transform;
   }
+
   static preparePyExportQuery(pageIdentifier: string, reportIdentifier: string, queryParams: any, colounmMapping: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.EXPQUERY));
     transform.RequestParams[7] = colounmMapping
@@ -172,15 +174,18 @@ export class Utils {
     transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofQueryObjectCharacteristics.QueryObjectCharacteristics[0].ListofIdentifiers.Identifier = queryParams;
     return transform;
   }
+
   static preparePyExportSummary(): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.EXPSUMMARY));
     return transform;
   }
+
   static preparePydownloadFile(fullFilePath: string): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.DOWNLOADFILE));
     transform.FilePath = fullFilePath
     return transform;
   }
+
   static preparePyUIQuery(reportIdentifier: any, subReportName: any, recordIdentifier?: any, profilename?: any, reportName?: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIQUERY));
     if (recordIdentifier)
@@ -195,6 +200,7 @@ export class Utils {
     console.log(JSON.stringify(transform))
     return transform;
   }
+
   static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
     transform.UserParams = user();
@@ -205,6 +211,7 @@ export class Utils {
 
     return transform;
   }
+
   static preparePyUICreate(reportIdentifier: string, subReportName: string, recordIdentifier: string, createData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UICREATE));
     transform.UserParams = user();
@@ -214,6 +221,7 @@ export class Utils {
     transform.Data[0] = createData;
     return transform;
   }
+  
   static preparePyUICreateFirstRequest(reportIdentifier: string, subReportName: string, UserName: string, is_ldap_auth: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UICREATEFIRST));
     transform.RequestParams[0].reportidentifier = reportIdentifier;
