@@ -10,6 +10,8 @@ import { HttpVerbs, HttpWrapperService, Utils, WebMethods } from '../_http';
 import { MetaRequests } from './Common/MetaRequests';
 import { ReportMetaDataRequest, ReportMetaDataResponse } from './Common/mock-ReportMetaData-ReqRes';
 
+import * as XLSX from "xlsx";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,27 +37,27 @@ export class ReportReferenceService {
   //   'NextCommandCheck', 'OsnProvideList', 'ErrorCode', 'PermittedLineStatus', 'InterimCommands',    
   // ];
   reportTitleNames: {name:string,viewName:string}[] =[
-    {name:'Franchises',viewName:'Franchises'},
-    {name:'Olo',viewName:'Olo'},
+    {name:'Franchise',viewName:'Franchise'},
+    {name:'Olo',viewName:'OLO'},
     {name:'Company',viewName:'Company'},
-    {name:'SourceSystem',viewName:'Source Systems'},
+    {name:'SourceSystem',viewName:'Source System'},
     {name:'Status',viewName:'Status'},
     {name:'AuditStatus',viewName:'Audit Status'},
     {name:'CUPIDCrossReference',viewName:'CUPID Cross Reference'},
-    {name:'LineTypes',viewName:'Line Types'},
-    {name:'ResolverEmail',viewName:'Resolver Emails'},
-    {name:'Command',viewName:'Commands'},
+    {name:'LineTypes',viewName:'Line Type'},
+    {name:'ResolverEmail',viewName:'Resolver Email'},
+    {name:'Command',viewName:'Command'},
     {name:'CUPIDs',viewName:'CUPIDs'},
-    {name:'ErrorType',viewName:'Error Types'},
-    {name:'UnsolicitedAutoClose',viewName:'Unsolicited  Auto Close'},
+    {name:'ErrorType',viewName:'Error Type'},
+    {name:'UnsolicitedAutoClose',viewName:'Unsolicited Auto Close'},
     {name:'ResolutionType',viewName:'Resolution Type'},
-    {name:'CustomerTitles',viewName:'Customer Titles'},
-    {name:'RejectedTelephonePrefix',viewName:'Rejected Telephone Prefixes'},
+    {name:'CustomerTitles',viewName:'Customer Title'},
+    {name:'RejectedTelephonePrefix',viewName:'Rejected Telephone Prefix'},
     {name:'NextCommandCheck',viewName:'Next Command Check'},
-    {name:'OsnProvideList',viewName:'Osn Provide Lists'},
-    {name:'ErrorCode',viewName:'Error Codes'},
+    {name:'OsnProvideList',viewName:'OSN Provide List'},
+    {name:'ErrorCode',viewName:'Error Code'},
     {name:'PermittedLineStatus',viewName:'Permitted Line Status'},
-    {name:'InterimCommands',viewName:'Interim Commands'}
+    {name:'InterimCommands',viewName:'Interim Command'}
   ];
   constructor(private wrapperService: HttpWrapperService) {    
 
@@ -682,4 +684,12 @@ return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA,
     return cList;
   }
 
+  downloadXlsxFile(sheetName:string,sheetData:any,sheetHeader:[[]]){      
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(sheetData);
+    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);  
+    XLSX.utils.sheet_add_aoa(worksheet, sheetHeader, { origin: "A1" });  
+    
+     XLSX.writeFile(workbook,sheetName+'.xlsx' );
+  }
 }

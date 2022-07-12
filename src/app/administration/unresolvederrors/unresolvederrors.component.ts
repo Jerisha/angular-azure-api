@@ -321,9 +321,10 @@ check999() {
   
 
   columns: ColumnDetails[] = [
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Transaction Id', headerValue: 'TransactionId', showDefault: true, isImage: false },
     { header: 'Telephone Number', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Transaction Id', headerValue: 'TransactionId', showDefault: true, isImage: false },
+   
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
@@ -483,18 +484,21 @@ check999() {
         break;
       }
       case 2: {
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionId;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction History'
+            name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
           })
 
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
+          let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[tabIndex].name = 'Transaction History(' + this.telNo + '/' + this.tranId + ')';
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionId;
+        
         break;
       }
       default: {
