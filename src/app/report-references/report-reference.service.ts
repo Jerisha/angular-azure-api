@@ -463,13 +463,13 @@ export class ReportReferenceService {
     {
     let lstDisplayName =metaData.filter( (x:IColoumnDef)=> x.cDisplayOnOff  ==true) 
     let lstDisplayNames = lstDisplayName.map((x:any)=>({
-      cName:x.cName,cDisplayName:x.cDisplayName
+      cName:x.cName,cDisplayName:x.cDisplayName,ctooltip:x.ctooltip
     })) 
-    lstDisplayNames.unshift({cName:"Actions",cDisplayName:"Actions"} )     
+    lstDisplayNames.unshift({cName:"Actions",cDisplayName:"Actions", ctooltip:"Actions"} )     
     return lstDisplayNames;
     }
     else{
-      return [{cName:"Actions",cDisplayName:"Actions"}]
+      return [{cName:"Actions",cDisplayName:"Actions",ctooltip:"Actions"}]
     }
   }
   private findDropdowns()
@@ -692,4 +692,6 @@ return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.METADATA,
     
      XLSX.writeFile(workbook,sheetName+'.xlsx' );
   }
+
 }
+
