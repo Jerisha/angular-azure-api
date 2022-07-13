@@ -146,7 +146,6 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
       selectCheckbox: true,
       removeNoDataColumns : true,
       // colToSetImage: ['View'],
-      removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],
       // showTotal: true,
       // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
