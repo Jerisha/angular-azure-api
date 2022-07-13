@@ -211,18 +211,35 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   onCreateRecord() {
     if (this.editMode == "" || this.editMode === this.currentReportName) {
-      this.editMode = this.currentReportName;
+      if(this.editMode != "")
+      {
+        const createConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px', disableClose: true, data: {
+            message: 'Would you like to discard current changes and continue to Create?'
+          }
+        });
+        createConfirm.afterClosed().subscribe(result => {
+          if (result) {
+            this.createRecordLogic();
+          }
+        });
+    } else {
+      this.createRecordLogic();
+    }
+    }
+    else {
+      //alert("close opened report:" + this.editMode)
+      this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
+    }
+  }
+  createRecordLogic() {
+    this.editMode = this.currentReportName;
       this.lstFields = this.reportReferenceService.setForm(this.editMode);
       //console.log(this.lstFields,'formTemplateData')
       this.editRecord = null;
       this.eventName = 'Create';
       // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
       this.reportReferenceService.showDataForm = this.showDataForm = true;
-    }
-    else {
-      //alert("close opened report:" + this.editMode)
-      this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
-    }
   }
   refreshData() {
     //console.log('refresh',this.reportName)
@@ -296,43 +313,60 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   onEditRecord(element: any, event: any) {
     if (this.editMode == "" || this.editMode == this.currentReportName) {
-      this.editMode = this.currentReportName;
-      this.lstFields = this.reportReferenceService.setForm(this.editMode);
-      this.eventName = 'Update';
-      this.highlightedRows = element
-     // console.log(this.highlightedRows,'high')
-      // console.log(event,'evetn')
-      // this.showDataForm =true; 
-      // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
-      this.reportReferenceService.showDataForm = this.showDataForm = true;
-      let element1 = Object.assign({}, element);
-      this.editRecord = element1;
-      let lstRadio = this.lstFields.filter((t: IColoumnDef) => t.cType === 'radio');
-      Object.entries(element1).map(
-        (x: any) => {
-
-          let chkRadio = lstRadio.filter((y: IColoumnDef) => y.cName === x[0]).length > 0
-
-          if ((chkRadio) && (x[1] === 'Y' || x[1] === '1')) { element1[x[0]] = true }
-          else if ((chkRadio) && (x[1] === 'N' || x[1] === '0')) { element1[x[0]] = false }
-          //console.log('element val', x)
-
-          //   else if (x[1] === null) { element1[x[0]] = ('') 
-          //  console.log(x[1], x[0], 'null')
-          // }
-          else {
-            element1[x[0]]
+      if(this.editMode != "")
+      {
+        const editConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px', disableClose: true, data: {
+            message: 'Would you like to discard current changes and continue to edit this records?'
           }
-
-        }
-
-      )
-      // console.log(this.editRecord, 'editrrecord2')
+        });
+        editConfirm.afterClosed().subscribe(result => {
+          if (result) {
+            this.editRecordLogic(element);
+          }
+        });
+    } else {
+      this.editRecordLogic(element);
     }
+  }
     else {
       this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
       // alert("close opened report:"+this.editMode)
     }
+  }
+  editRecordLogic(element: any) {
+    this.editMode = this.currentReportName;
+    this.lstFields = this.reportReferenceService.setForm(this.editMode);
+    this.eventName = 'Update';
+    this.highlightedRows = element
+   // console.log(this.highlightedRows,'high')
+    // console.log(event,'evetn')
+    // this.showDataForm =true;
+    // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
+    this.reportReferenceService.showDataForm = this.showDataForm = true;
+    let element1 = Object.assign({}, element);
+    this.editRecord = element1;
+    let lstRadio = this.lstFields.filter((t: IColoumnDef) => t.cType === 'radio');
+    Object.entries(element1).map(
+      (x: any) => {
+
+        let chkRadio = lstRadio.filter((y: IColoumnDef) => y.cName === x[0]).length > 0
+
+        if ((chkRadio) && (x[1] === 'Y' || x[1] === '1')) { element1[x[0]] = true }
+        else if ((chkRadio) && (x[1] === 'N' || x[1] === '0')) { element1[x[0]] = false }
+        //console.log('element val', x)
+
+        //   else if (x[1] === null) { element1[x[0]] = ('') 
+        //  console.log(x[1], x[0], 'null')
+        // }
+        else {
+          element1[x[0]]
+        }
+
+      }
+
+    )
+    // console.log(this.editRecord, 'editrrecord2')
   }
   onDeleteRecord(record: any, event: any) {
    // alert("Delete starts..."+JSON.stringify(this.record));
@@ -548,6 +582,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   }
   onDataFormCancel(event: any[]) {
+    console.log(event);
+    
     this.editMode = "";
     // this.editModeIndex = -1;
     this.showDataForm = event[0];
