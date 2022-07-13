@@ -51,12 +51,16 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .example-element-diagram, .liverecord-sec {
-  min-width: 80px;
+  min-width: 960px;
   border: 2px solid grey;
   padding: 8px;
   /* font-weight: lighter; */
   margin: 8px 0;
   height: 100%;
+}
+
+.accordionWidth {
+  min-width: 1028px;
 }
 
 .example-element-symbol {
@@ -170,7 +174,7 @@ h4 {
   }
 
     .auditTab {
-      overflow-y: auto;
+      overflow: auto;
       max-height: 530px;
     }
 

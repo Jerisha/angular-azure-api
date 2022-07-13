@@ -26,7 +26,8 @@ font-size: smaller;  ">
         </span>
       </mat-select-trigger>
       <mat-optgroup class="freezeselectall" style="min-width:220px">
-        <mat-checkbox [(ngModel)]="allSelected" #selectAll [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
+        <mat-checkbox [(ngModel)]="allSelected" #selectAll [ngModelOptions]="{standalone: true}"
+          (change)="toggleAllSelection()">
           {{ selectAll.checked ? 'Deselect All' : 'Select All' }}</mat-checkbox>
         <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns(select)"
           matTooltip="Submit">
@@ -35,7 +36,7 @@ font-size: smaller;  ">
         </button>
       </mat-optgroup>
       <ng-container *ngFor="let cols of (gridFilter || []); let fltIndex = index">
-        <mat-option [disabled]="fltIndex===0? true:false" style="min-width:220px" color="primary"
+        <mat-option [disabled]="fltIndex===0 || cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false" style="min-width:220px" color="primary"
           (click)="optionClick()" [value]="cols.headerValue">
           {{ cols.header }}
         </mat-option>
@@ -44,6 +45,31 @@ font-size: smaller;  ">
   </mat-form-field>
   <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
       {{selection.selected.length}}</b></span>
+  <ng-container *ngIf="showFavCols" style="margin-top:50px">
+    <div appearance="standard" class="colfilter" style="margin-left: 8px; margin-top:5px">
+      <mat-form-field>
+        <mat-select placeholder="User Profiles" [(ngModel)]="selectedUserProfileId"
+          (selectionChange)="getSelectedProfile($event.value)">
+          <mat-option *ngFor="let val of favProfile" [value]="val.favprofileid">
+            {{val.favprofname}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div style="margin-bottom: 10px;margin-top: 10px;">
+      <button type="button" mat-raised-button color="primary" (click)="createProfile()">
+        <mat-icon>add</mat-icon>Add
+      </button>
+      <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary"
+        (click)="deleteProfile()">
+        <mat-icon>delete</mat-icon>Delete
+      </button>
+      <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary"
+        (click)="promoteProfile()">
+        <mat-icon>how_to_reg</mat-icon>Promote
+      </button>
+    </div>
+  </ng-container>
 </div>
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
 
@@ -97,12 +123,13 @@ font-size: smaller;  ">
       </ng-container>
 
       <!-- custom footer container  -->
-      <ng-container *ngFor="let columnName of footerColumns" [matColumnDef]="columnName"> 
-        <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getFooterDetails(columnName)}}</td> 
-     </ng-container> 
+      <ng-container *ngFor="let columnName of footerColumns" [matColumnDef]="columnName">
+        <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getFooterDetails(columnName)}}</td>
+      </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
-      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" [ngClass]="rowHighlight(row)" *matRowDef="let row; columns: dataColumns;"></tr>
+      <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" [ngClass]="rowHighlight(row)"
+        *matRowDef="let row; columns: dataColumns;"></tr>
       <!-- <tr mat-row [ngClass]="{'highlight':selection.isSelected(row)}" *matRowDef="let row; columns: dataColumns;"
       (change)="selectRow($event,row)" (click)="selection.toggle(row)"> </tr> -->
 
@@ -110,9 +137,9 @@ font-size: smaller;  ">
         <tr class="totalRow" mat-footer-row *matFooterRowDef="dataColumns;sticky: true"></tr>
       </ng-container>
 
-      <ng-container *ngIf="showCustomFooter"> 
-        <tr class="totalRow" mat-footer-row *matFooterRowDef="footerColumns;sticky: true"></tr> 
-      </ng-container> 
+      <ng-container *ngIf="showCustomFooter">
+        <tr class="totalRow" mat-footer-row *matFooterRowDef="footerColumns;sticky: true"></tr>
+      </ng-container>
 
     </table>
 
@@ -123,19 +150,20 @@ font-size: smaller;  ">
     [pageSize]="pageSize" hidePageSize [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)">
   </mat-paginator> -->
 
-  <mat-paginator *ngIf="!disablePaginator" #paginator style="height: 5px;"  [pageSizeOptions]="[50,100,250,500]" [length]="totalRows" [pageIndex]="currentPage"
-    [pageSize]="pageSize"  [hidePageSize]="disablePageSize" (page)="pageChanged($event)">
+  <mat-paginator *ngIf="!disablePaginator" #paginator style="height: 5px;" [pageSizeOptions]="[50,100,250,500]"
+    [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize" [hidePageSize]="disablePageSize"
+    (page)="pageChanged($event)">
   </mat-paginator>
 
   <!-- <div class="test-wrapper"> -->
   <div style="margin-bottom:10px; margin-top:5px" *ngIf="isShown">
-    <button  type="button" mat-raised-button color="primary" (click)="RequestExport2Excel()">
+    <button type="button" mat-raised-button color="primary" (click)="RequestExport2Excel()">
       <mat-icon>import_export</mat-icon>Export
     </button>&nbsp;&nbsp;
     <!-- [cdkCopyToClipboard]="copyToClipboard()" 
   selection.selected.length > 0 ? false : true-->
     <button type="button" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()"
-      [disabled]="selection.selected.length > 0 ? false : true">     
+      [disabled]="selection.selected.length > 0 ? false : true">
       <mat-icon>file_copy</mat-icon> Copy To Clipboard
     </button>
     <span *ngIf="isEmailRequired">

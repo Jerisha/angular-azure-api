@@ -1,0 +1,34 @@
+<ng-container *ngIf="this.data.selectedColsArray.length>1">
+	<h2 matDialogTitle>Create Profile</h2>
+	<mat-dialog-content>
+		<div>
+			<p><em>Enter a favorite Title</em></p>
+			<mat-form-field>
+				<!-- <mat-label>Enter Title</mat-label> -->
+				<input minlength="12" matInput placeholder="Title" [(ngModel)]="profileName"
+					#uname="ngModel">
+				<!-- <mat-hint align="end">{{uname.value?.length || 0}}/12</mat-hint> -->
+				<mat-error>
+					<div *ngIf="uname.errors?.minlength">
+						Title has to atleast 12 characters
+					</div>
+				</mat-error>
+			</mat-form-field>
+		</div>
+
+	</mat-dialog-content>
+	<mat-dialog-actions align="end">
+		<button mat-raised-button color="primary" [matDialogClose]="profileName" [disabled]="checkInvalid">OK</button>
+		<button mat-raised-button color="primary" matDialogClose>CANCEL</button>
+	</mat-dialog-actions>
+</ng-container>
+
+<ng-container *ngIf="this.data.selectedColsArray.length===1">
+	<h2 matDialogTitle>Notification</h2>
+	<mat-dialog-content>
+		<div>There are no selected columns to save as favourite</div>
+	</mat-dialog-content>
+	<mat-dialog-actions align="end">
+		<button mat-raised-button color="primary" matDialogClose>OK</button>
+	</mat-dialog-actions>
+</ng-container>

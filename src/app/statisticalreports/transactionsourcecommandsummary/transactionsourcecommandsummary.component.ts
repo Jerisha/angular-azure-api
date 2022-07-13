@@ -66,14 +66,14 @@ export class TransactionsourcecommandsummaryComponent implements OnInit {
   ctrl = new FormControl(true); 
     
   columns: ColumnDetails[] = [
-    { header: 'Link', headerValue: 'Link', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'Link', showDefault: true, isImage: true },
     { header: 'Statistic Month', headerValue: 'StatisticMonth', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
-    { header: 'Adds', headerValue: 'Adds', showDefault: true, isImage: false },
-    { header: 'Ceases', headerValue: 'Ceases', showDefault: true, isImage: false },
-    { header: 'Modifies', headerValue: 'Modifies', showDefault: true, isImage: false },
-    { header: 'Exports', headerValue: 'Exports', showDefault: true, isImage: false },
-    { header: 'Imports', headerValue: 'Imports', showDefault: true, isImage: false },
+    { header: 'Activate', headerValue: 'Adds', showDefault: true, isImage: false },
+    { header: 'Cease', headerValue: 'Ceases', showDefault: true, isImage: false },
+    { header: 'Modifi', headerValue: 'Modifies', showDefault: true, isImage: false },
+    { header: 'Export', headerValue: 'Exports', showDefault: true, isImage: false },
+    { header: 'Import', headerValue: 'Imports', showDefault: true, isImage: false },
     { header: 'Total Cmds', headerValue: 'TotalCmds', showDefault: true, isImage: false },
   ];
 

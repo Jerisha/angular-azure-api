@@ -251,9 +251,10 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
     })
   }
   columns: ColumnDetails[] = [
-    { header: 'Link', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Trans ID', headerValue: 'TransactionId', showDefault: true, isImage: false },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Trans ID', headerValue: 'TransactionId', showDefault: true, isImage: false },
+   
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Ref', headerValue: 'TransactionRef', showDefault: true, isImage: false },
     { header: 'Provide Date', headerValue: 'ProvideDate', showDefault: true, isImage: false },
@@ -313,7 +314,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -448,12 +449,12 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
+            name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[this.selectedTab].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
+          this.tabs[this.selectedTab].name = 'Transaction History(' + this.telNo + '/' + this.tranId + ')';
         }
         break;
       }

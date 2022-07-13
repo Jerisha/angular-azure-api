@@ -3,22 +3,25 @@
     <button *ngIf="isShow" mat-mini-fab class ="btn-icon" (click)="onMenuClicked()" >
     <mat-icon style ="font-size: small;">class</mat-icon></button>
       <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
-        <div  class ="flex-items" *ngFor ="let reportName of reportNames let reportIndex = index">
+        <!-- <div  class ="flex-items" *ngFor ="let reportName of reportNames let reportIndex = index">
           <button mat-button (click)="onReportSelcted(reportName,reportIndex)">{{reportName.split('|')[0]}}</button>
+        </div> -->
+        <div  class ="flex-items" *ngFor ="let reportName of reportTitleNames let reportIndex = index">
+          <button mat-button (click)="onReportSelcted(reportName.name,reportIndex)">{{reportName.viewName}}</button>
         </div>
       </div>    
   </div>
   <div #contentSection class="container-section">
       <div class="wrap">
         <div class="left-box" *ngIf=showDataForm>         
-          <app-report-data-form  #dataForm  [reportName]="editMode" [reportIndex]="editModeIndex" 
+          <app-report-data-form  #dataForm  [reportName]="editMode"  
           [lstFields] ="lstFields" (cancelBtnClicked)="onDataFormCancel($event)" 
           (submitBtnClicked) = "onDataFormSubmit($event)" [record]="editRecord"
           ></app-report-data-form>
         </div>
         <div class="right-box" *ngIf="showDetailsForm" > 
           <mat-tab-group  [(selectedIndex)]="selectedTab" (selectedTabChange)="Onselecttabchange($event)" dynamicHeight  style="overflow-y: auto;padding-left: 1rem; height:auto;"> 
-            <mat-tab *ngFor="let tab of tabs; let index = index">
+            <mat-tab *ngFor="let tab of tabs; let index = index;" >
                 <ng-template mat-tab-label>
                     <div style="margin-left: 10px;">{{tab.name}}</div>
                     <button *ngIf=tab.name style="color:black" matSuffix mat-icon-button  (click)="removeTab(index)">
@@ -41,8 +44,8 @@
                                 <th mat-header-cell *matHeaderCellDef class ="table-header" >Actions</th>
                                   <td mat-cell *matCellDef="let element" class ="table-coloumn"> 
                                     <ng-container>
-                                      <mat-icon  (click)="onEditRecord(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">mode_edit_outline</mat-icon>
-                                      <mat-icon *ngIf ="this.editActionEnabled" (click)="onDeleteRecord(element,$event)" mat-tooltip="Click this button,this row Record will be Deleted" style="color:#e60000;margin-left:20px">delete_outline</mat-icon> 
+                                      <mat-icon  (click)="onEditRecord(element,$event)"   style="cursor:pointer;">mode_edit_outline</mat-icon>
+                                      <mat-icon *ngIf ="this.editActionEnabled" (click)="onDeleteRecord(element,$event)"  style="color:#e60000;margin-left:20px;cursor:pointer;">delete_outline</mat-icon> 
                                     </ng-container>
                                   </td>
                             </div>
@@ -60,10 +63,10 @@
                       </div>              
                       <div style ="margin-top: 6px;">            
                         <span>
-                            <button  type="button" (click)=onCreateRecord() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button, open create new Record Option"  >
+                            <button  type="button" (click)=onCreateRecord() mat-raised-button class="rm6 btn-color" >
                             <mat-icon >add_box</mat-icon>Create
                             </button>
-                            <button  type="button" (click)=onExport()  mat-raised-button class="rm6 btn-color"  matTooltip="Click this button currently showning details will be download as CSV format File"  >
+                            <button  type="button" (click)=onExportXlsxFormat()  mat-raised-button class="rm6 btn-color">
                                 <mat-icon >file_download</mat-icon>Download
                             </button>
                             <!-- <button type="button" (click)=onRefreshDetailPane() mat-raised-button class="rm6 btn-color"  matTooltip="Click this button,Refresh the detail Pane"  >

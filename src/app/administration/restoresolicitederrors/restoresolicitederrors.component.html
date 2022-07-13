@@ -116,7 +116,7 @@
               [options]="config.ResolutionType " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
-            </span>
+            </span>createf
             <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
               <!-- <mat-select formControlName="ResolutionType"> -->
               <!-- <mat-option *ngFor="let val of config.ResolutionType  | ddlFilter: resolutiontype.value"
@@ -125,11 +125,11 @@
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>  -->
 
-          <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ResolutionType .disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolutionType">  
               <!-- <mat-option>None</mat-option>           -->
-              <mat-option *ngFor="let val of config.ResolutionType" [value]="val">
+              <mat-option *ngFor="let val of config.RestoreSolResolutionType" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
@@ -255,7 +255,7 @@
 
                   <div style="display: inline-block;">
                     <ng-container *ngIf="updateDetails as con">
-                      <mat-form-field>
+                      <!-- <mat-form-field>
                         <mat-label>Resolution Type</mat-label>
                         <input name="resolution" required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}"
                           type="text" #resolution="ngModel" placeholder="Search Resolution Type" matInput
@@ -272,6 +272,20 @@
                         <mat-error class="alert alert-danger">
                           <div *ngIf="resolution.errors?.validOptions">Value need to match available options</div>
                           <div *ngIf="!resolution.errors?.required">
+                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                            <!-- Select resolution type
+                          </div>
+                        </mat-error>
+                      </mat-form-field> --> 
+                      <mat-form-field>
+                        <mat-label>Resolution Type</mat-label>
+                        <mat-select #resolution="ngModel" name="resolution" required [(ngModel)]="Resolution">
+                          <mat-option *ngFor="let val of con.RestoreSolResolutionType" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error class="alert alert-danger">                          
+                          <div *ngIf="resolution.errors?.required">
                             <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                             Select resolution type
                           </div>

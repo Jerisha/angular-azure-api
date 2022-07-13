@@ -532,7 +532,7 @@ resetExp:boolean = false;
   isRemoveCache: number = DefaultIsRemoveCache;
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },
-    { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Business Suffix', headerValue: 'BusinessSuffix', showDefault: true, isImage: false },
     { header: 'Premises', headerValue: 'Premises', showDefault: true, isImage: false },
@@ -629,10 +629,6 @@ resetExp:boolean = false;
         let result = {
           datasource: res.data.LiveTelephoneNumberDetails,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
         }
         return result;
       } else return res;
@@ -644,6 +640,7 @@ resetExp:boolean = false;
       filter: true,
       selectCheckbox: true,
        removeNoDataColumns : true,
+       isFavcols:true,
        excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 

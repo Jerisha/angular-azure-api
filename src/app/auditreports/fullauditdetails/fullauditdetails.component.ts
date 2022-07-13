@@ -170,7 +170,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
 
   colHeader: ColumnDetails[] = [
     { headerValue: 'TelephoneNumber', header: 'Telephone No', showDefault: true, isImage: false },
-    { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
+    { headerValue: 'View', header: 'Inventory', showDefault: true, isImage: true },
     { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
     { headerValue: 'Source', header: 'Source', showDefault: true, isImage: false },
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
@@ -294,9 +294,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     private router: Router, private telnoPipe: TelNoPipe,
     private alertService: AlertService, private auth: AuthenticationService,
     private actRoute: ActivatedRoute
-    ) {
-      super(auth, actRoute);
-      this.intializeUser();
+  ) {
+    super(auth, actRoute);
+    this.intializeUser();
   }
 
   setAttributesForManualCorrections() {
@@ -500,7 +500,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       showEmail: false,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
       { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
@@ -873,7 +873,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
               ManualAuditType: auditType,
-              ReportIdentifier:'FullAuditDetails'
+              ReportIdentifier: 'FullAuditDetails'
             }
             this.router.navigateByUrl('/transactions/transactions', { state: data });
           }
@@ -1126,6 +1126,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     ];
 
     let request = Utils.preparePyQuery('OverlappingRange', 'FullAuditDetails', attributes);
+    console.log('overlapling', JSON.stringify(request))
     this.overlappingQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {

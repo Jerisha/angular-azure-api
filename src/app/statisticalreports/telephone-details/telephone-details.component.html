@@ -1,4 +1,6 @@
 <span ><b> Data displayed for choosen date : {{StatisticDate}}</b></span>
 <br>
+<div class="table-view">
 <app-table-selection [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"  (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
 </app-table-selection>
+</div>
