@@ -94,7 +94,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
       if(this.currentReportName ==='CUPIDCrossReference')
       {
-        this.displayedColumns.splice(1,0,{cName:"FranchiseCode",cDisplayName:"Franchise Code"})
+        this.displayedColumns.splice(1,0,{cName:"FranchiseCode",cDisplayName:"Franchise Code", ctooltip:"Franchise Code"})
       }
       this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
      

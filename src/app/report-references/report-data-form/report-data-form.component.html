@@ -58,7 +58,7 @@
                       <mat-option   *ngFor="let opt of formData.cList" [value]="opt.internalValue">
                         {{opt.displayValue}}</mat-option>
                     </mat-select>               
-                    <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
+                    <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
                   </mat-form-field>
                 </ng-container>
 
@@ -72,7 +72,7 @@
                         <mat-option  *ngFor="let opt of formData.cList" [value]="opt.internalValue">
                           {{opt.displayValue}}</mat-option>
                       </mat-select>               
-                      <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
+                      <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
                     </mat-form-field>
                     </div>
 
@@ -85,7 +85,7 @@
                         <mat-option *ngFor="let opt of companyDropdown" [value]="opt">
                           {{opt}}</mat-option>
                     </mat-select>   
-                    <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
+                    <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
                   </mat-form-field>
                 </div>
                   </ng-container>
@@ -96,7 +96,7 @@
                   <mat-checkbox [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
                     [formControlName]="formData.cName" [(ngModel)]="formData.cValue">{{formData.cDisplayName}}
                   </mat-checkbox>
-                  <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cName}} is required</mat-error>
+                  <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
                 </div>
               </div>
             </div>

@@ -108,7 +108,7 @@ for (var field of this.lstForm) {
    ]);
  }  
  else if (field.cType == 'text' && field.cMandate==true) {
-   if(['ID','NcID','ResolveId','StatusId','XrefID' , 'OloCompanyFranchise'].includes(field.cName))
+   if(['ID','NcID','ResolveId','XrefID' , 'OloCompanyFranchise'].includes(field.cName))
    {
     field.cValue = field.cValue ===null ||field.cValue === undefined ||field.cValue ===''?'0':field.cValue
    }
@@ -120,7 +120,7 @@ if (field.cType == 'textarea' && field.cMandate ==false) {
   ]);
 }  
 else if (field.cType == 'textarea' && field.cMandate==true) {
-  if(['ID','NcID','ResolveId','StatusId','XrefID' , 'OloCompanyFranchise'].includes(field.cName))
+  if(['ID','NcID','ResolveId','XrefID' , 'OloCompanyFranchise'].includes(field.cName))
   {
    field.cValue = field.cValue ===null ||field.cValue === undefined ||field.cValue ===''?'0':field.cValue
   }
