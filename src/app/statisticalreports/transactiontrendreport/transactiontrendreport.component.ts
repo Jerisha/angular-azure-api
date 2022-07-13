@@ -195,7 +195,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
       { header: 'Exports', headerValue: 'ExportCommands', showDefault: false, isImage: false },
       { header: 'Imports', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true }
     ];
 
   columnsChild: ColumnDetails[] =
@@ -375,6 +375,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       filter: true,
       selectCheckbox: true,
       imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1 }],
+     
     }
     this.myTableChild = {
       data: this.queryResult$,
