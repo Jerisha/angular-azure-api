@@ -92,7 +92,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       // this.displayedColumns =  this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] ||[]:[];
       //console.log('dispcol: ',this.displayedColumns);
       this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+      if(this.currentReportName ==='CUPIDCrossReference')
+      {
+        this.displayedColumns.splice(1,0,{cName:"FranchiseCode",cDisplayName:"Franchise Code"})
+      }
       this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+     
       //console.log(this.displayedColumns1)
       //let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
       // this.data = this.reportIndex != -1 ?this.reportReferenceService.data[this.reportIndex][this.reportName] || []:[];
