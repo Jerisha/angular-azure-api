@@ -97,7 +97,6 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     { header: 'Telephone No',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Inventory',headerValue:'Links', showDefault: true, isImage: true },
     { header: 'Tran Id',headerValue:'TransactionId', showDefault: true, isImage: false },
-    { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
     { header: 'Status',headerValue:'Status', showDefault: true, isImage: false },
     { header: 'Provide Date',headerValue:'ProvideDate', showDefault: true, isImage: false },
     { header: 'Created On',headerValue:'CreationDate', showDefault: true, isImage: false },
@@ -142,7 +141,8 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     { header: 'Service Type',headerValue:'ServiceType', showDefault: true, isImage: false }, //wire frame field na
     { header: 'Internal Errors',headerValue:'InternalErrors', showDefault: true, isImage: false },//wire frame field na
     { header: 'BT Responses',headerValue:'BtResponses', showDefault: true, isImage: false }, //wire frame field na
-    { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
+    { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false }, //wire frame field na
+    { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
   ];
   ngOnInit(): void {    
     let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine','Status','SourceType','InternalErrors','BTResponses']);
