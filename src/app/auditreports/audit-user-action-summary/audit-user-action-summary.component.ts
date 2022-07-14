@@ -85,7 +85,8 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   myTable!: TableItem;
   listItems!: Select[];
   defaultACTID: string = ''
-
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
 
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
