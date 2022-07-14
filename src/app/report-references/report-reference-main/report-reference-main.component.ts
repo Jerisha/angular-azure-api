@@ -644,7 +644,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         //  {    delete row.Comments  } 
          
           let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
+            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise','ListType'])
             {
               Reflect.deleteProperty(row,i)
             }
