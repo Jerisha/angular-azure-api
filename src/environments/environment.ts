@@ -17,6 +17,8 @@ export const environment = {
 
 //  api_auth:'https://ukond1vr.ad.plc.cwintra.com:6054/userProfiles/',
 //  api_py_dev:'https://ukond1vr.ad.plc.cwintra.com:6054/pythonDevAPI/',
+//  api_py_sit:'https://ukont1vr.ad.plc.cwintra.com:6054/userProfiles/',
+//  api_py_uat:'https://ukont2vr.ad.plc.cwintra.com:6054/pythonDevAPI/',
 }
 
 /*
