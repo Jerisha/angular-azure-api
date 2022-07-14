@@ -343,7 +343,12 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       if (this.allSelected) {
         this.select.options.forEach((item: MatOption) => item.select());
       } else {
-        this.select.options.forEach((item: MatOption, index) => { if (index != 0) item.deselect() });
+        this.select.options.forEach((item: MatOption, index) => { 
+          if (!(index != 0 || item.value != ('View' || 'TelephoneNumber' || 'Link' || 'Links')))
+          {
+             item.deselect();
+          }
+         });
       }
     }
   }
