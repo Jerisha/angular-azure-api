@@ -91,16 +91,16 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       //this.displayedColumns = dispVal || [];
       // this.displayedColumns =  this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] ||[]:[];
       //console.log('dispcol: ',this.displayedColumns);
-      this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
-      if(this.currentReportName ==='CUPIDCrossReference')
-      {
-        this.displayedColumns.splice(2,0,{cName:"FranchiseCode",cDisplayName:"Franchise", ctooltip:""})
-      }
-      if(this.currentReportName ==='Command')
-      {
-        this.displayedColumns.splice(5,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description", ctooltip:""})
-      }
-      this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+      // this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+      // if(this.currentReportName ==='CUPIDCrossReference')
+      // {
+      //   this.displayedColumns.splice(2,0,{cName:"FranchiseCode",cDisplayName:"Franchise", ctooltip:""})
+      // }
+      // if(this.currentReportName ==='Command')
+      // {
+      //   this.displayedColumns.splice(5,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description", ctooltip:""})
+      // }
+      // this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
      
       //console.log(this.displayedColumns1)
       //let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
@@ -143,8 +143,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
    
     //this.reportIndex = this.reportNames.findIndex(x => x == this.currentReportName);
     // this.displayedColumns = this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]||[] : [];
-    this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
-    this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+    // this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+    // this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
     //  this.data = this.reportIndex != -1 ? this.reportReferenceService.data[this.reportIndex][this.reportName] || [] :[];
     this.refreshData()
     // if(this.refreshData())
@@ -252,6 +252,16 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.reportReferenceService.showDataForm = this.showDataForm = true;
   }
   refreshData() {
+    this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+      if(this.currentReportName ==='CUPIDCrossReference')
+      {
+        this.displayedColumns.splice(2,0,{cName:"FranchiseCode",cDisplayName:"Franchise", ctooltip:""})
+      }
+      if(this.currentReportName ==='Command')
+      {
+        this.displayedColumns.splice(5,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description", ctooltip:""})
+      }
+      this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
     //console.log('refresh',this.reportName)
     if (this.currentReportName != '') {
       this.isLoading = true;
