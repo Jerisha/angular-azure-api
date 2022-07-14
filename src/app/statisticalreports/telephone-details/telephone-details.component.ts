@@ -102,7 +102,7 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
     { header: 'Modifiy', headerValue: 'ModifiyCommands', showDefault: true, isImage: false, isTotal: true },
     { header: 'Export', headerValue: 'ExportCommands', showDefault: true, isImage: false, isTotal: true },
     { header: 'Import', headerValue: 'ImportCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true },
+    { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true,isBold:true  },
   ];
   queryResult$!: Observable<any>;
 

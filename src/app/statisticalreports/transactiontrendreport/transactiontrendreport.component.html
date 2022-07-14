@@ -13,7 +13,7 @@
       <ng-container *ngIf="configDetails  as config">
       <div class="matsidenav-filter">
         <!-- <app-select-exp [listItems]="expDefaultmonth"></app-select-exp> -->
-                   <app-select-exp [listItems]="expressions[2].default" #StatisticMonthOperator  [resetvalue]="resetExp"
+                   <!-- <app-select-exp [listItems]="expressions[2].default" #StatisticMonthOperator  [resetvalue]="resetExp"
                    (click) ="OnOperatorClicked(['StatisticMonthOperator',StatisticMonthOperator.selectedViewValue])"></app-select-exp>
         <mat-form-field>
           <mat-label>Statistic Month</mat-label>
@@ -25,7 +25,7 @@
                           (monthSelected)="chosenMonthHandler($event, dp)"
                           panelClass="example-month-picker">
           </mat-datepicker>
-        </mat-form-field>
+        </mat-form-field> -->
         <!-- <div>
           <app-select-exp [listItems]="expressions[3].default" #SourceOperator  [resetvalue]="resetExp"
           (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
@@ -71,7 +71,15 @@
           <mat-error *ngIf="f.Source.errors?.validOptions">Value need to match available options</mat-error>
         </mat-form-field>
         </div>  -->
-
+        <div style="margin-bottom:10px">
+          <app-select-exp [listItems]="expressions[2].default" #StatisticMonthOperator  [resetvalue]="resetExp"
+          (click) ="OnOperatorClicked(['StatisticMonthOperator',StatisticMonthOperator.selectedViewValue])"></app-select-exp>
+        
+        
+          <app-select-checkbox style="margin-left:0px" [label]="'StatisticMonth'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
+          </app-select-checkbox>
+        
+        </div>
         <div>
           <app-select-exp [listItems]="expressions[3].default" #SourceOperator  [resetvalue]="resetExp"
           (click) ="OnOperatorClicked(['SourceOperator',SourceOperator.selectedViewValue])"></app-select-exp>
@@ -84,6 +92,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+         
         </div>
 
 
