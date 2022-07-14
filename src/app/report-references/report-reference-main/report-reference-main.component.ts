@@ -94,7 +94,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
       if(this.currentReportName ==='CUPIDCrossReference')
       {
-        this.displayedColumns.splice(1,0,{cName:"FranchiseCode",cDisplayName:"Franchise Code", ctooltip:"Franchise Code"})
+        this.displayedColumns.splice(2,0,{cName:"FranchiseCode",cDisplayName:"Franchise", ctooltip:""})
+      }
+      if(this.currentReportName ==='Command')
+      {
+        this.displayedColumns.splice(5,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description", ctooltip:""})
       }
       this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
      
@@ -364,6 +368,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         //   else if (x[1] === null) { element1[x[0]] = ('') 
         //  console.log(x[1], x[0], 'null')
         // }
+        else if( x[0] ==='LineStatus' && ( x[1] != null || x[1] != undefined))
+        {
+          element1[x[0]] = x[1].split('')
+        }
         else {
           element1[x[0]]
         }
@@ -457,6 +465,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         //   else if (x[1] === null) { element1[x[0]] = ('') 
         //console.log(x[1], x[0], 'null')
         // }
+        else if( x[0]==='LineStatus'  && ( x[1] != null || x[1] != undefined))
+        {
+         // console.log(x[0],x[1],'LineStatus')
+          updaterecord1[x[0]] =x[1].join().replaceAll(',','')
+        }
         else {
           updaterecord1[x[0]]
         }
@@ -478,7 +491,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         if (x[1] === null || x[1] === undefined) {
           updaterecord1[x[0]] = ('')
           // console.log(x[1], x[0], 'nullvalues1')
-        }
+        }       
         else {
           updaterecord1[x[0]]
         }
@@ -587,7 +600,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   }
   onDataFormCancel(event: any[]) {
-    console.log(event);
+    //console.log(event);
     
     this.editMode = "";
     // this.editModeIndex = -1;
@@ -690,7 +703,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     
      let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-       for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
+       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
        {
          Reflect.deleteProperty(row,i)
        }
@@ -699,6 +712,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
        {
          Reflect.deleteProperty(row,i)
        }
+       if(!['Status','ErrorCode','InterimCommands'].includes(this.currentReportName,0))
+       for (const i of ['Comments'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
+       
    
      let dataRow = Object.assign(disp,row)
 
