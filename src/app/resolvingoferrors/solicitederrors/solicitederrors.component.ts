@@ -277,8 +277,11 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     })
 
   }
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   createForm() {
 
+    this.minDate = new Date(2000, 0, 1);
     const today = new Date();
     const month = today.getMonth();
     const year = today.getFullYear();
