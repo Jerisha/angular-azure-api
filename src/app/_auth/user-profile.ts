@@ -22,6 +22,7 @@ export class UserProfile {
         debugger;
         let user: User = this.authService.currentUserValue;
         this.userDetails = user;
+        if (this.activatedRoute.snapshot.data['id'] === undefined) return;
 
         let menu = user.menuitems.find(x => x.menuid?.toLowerCase() === (this.activatedRoute.snapshot.data['id'] as string).toLowerCase())
         if (menu?.isfullaccess === 1 || user.iscompleteaccess === 1) {
