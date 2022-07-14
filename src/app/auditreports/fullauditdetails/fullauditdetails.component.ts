@@ -449,21 +449,12 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
-        // height:'250px',
         disableClose: true,
         data: { enableOk: false, message: errMsg, }
       });
       rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
-
-    // if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
-    //   && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
-    //   this.form.StartTelephoneNumber.setErrors({ incorrect: true });
-    //   this.icstartNo.nativeElement.focus();
-    //   this.icstartNo.nativeElement.blur();
-    //   return;
-    // }
 
 
     this.getPnlControlAttributes();
@@ -482,10 +473,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         let result = {
           datasource: res.data.TelephoneNumbers,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -501,13 +488,13 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
       excelQuery: this.prepareQueryParams(this.currentPage.toString()),
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
-      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
-      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', tabIndex: 6 },
-      { headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7 }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 , toolTipText:'Audit Trail Report' },
+      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2, toolTipText:'User Comments' },
+      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3, toolTipText:'Range Report' },
+      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 , toolTipText:'Inflight Order Report'},
+      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 , toolTipText:'Monthly RefreshF lag'},
+      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', tabIndex: 6, toolTipText:'Mori Circuit Status Report' },
+      { headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7, toolTipText:'Overlapping Range Report' }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
