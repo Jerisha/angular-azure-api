@@ -507,7 +507,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     //debugger
     if (this.selectedGridRows.length > 0){
     for (let value of this.selectedGridRows) {
-      console.log(value, 'value')
+     // console.log(value, 'value')
       
         if (value.LiveRecords > 0  ) {
           this.isLiveRecords = false;
@@ -529,7 +529,17 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
   }
 
   onCeaseUpdate() {
-    if (true) {
+       debugger;
+    if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value )) &&
+      (this.CeaseRemarks)) {
+
+      const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px', disableClose: true, data: {
+          message: 'Would you like to continue to cease the records?'
+        }
+      });
+      rangeConfirm.afterClosed().subscribe(result => {
+    if (result) {
       let request = Utils.preparePyUpdate('CeaseTransaction', 'CeaseTransaction', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
       //update 
       this.service.updateDetails(request).subscribe(x => {
@@ -539,16 +549,19 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
           //success message and same data reload
           this.alertService.success("Transaction Ceased successful!!", { autoClose: true, keepAfterRouteChange: false });
           this.onFormSubmit(true);
-        }
-        else{
-          this.alertService.success("Transaction Ceased !!", { autoClose: true, keepAfterRouteChange: false });
-         
-
+          this.isEnable();
         }
       });
-      console.log('update request', JSON.stringify(request));
-      //this.ceaseupdate.reset();
     }
+    else {
+      this.alertService.info("Transaction Ceased Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+    }
+
+  });
+  }
+     // console.log('update request', JSON.stringify(request));
+      //this.ceaseupdate.reset();
+    
   }
   prepareUpdateParams() {
   }

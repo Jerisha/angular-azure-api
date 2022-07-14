@@ -139,7 +139,20 @@ else if (field.cType == 'textarea' && field.cMandate==true) {
       field.cValue || '',[]
       
     );
- } else if (field.cType == 'radio'  && field.cMandate==false) {
+ } 
+ else if (field.cType == 'multiselect' && field.cMandate==true) {
+  group[field.cName] = new FormControl(
+    field.cValue || '',
+    Validators.required
+  );
+}
+  else if (field.cType == 'multiselect' && field.cMandate==false) {
+   group[field.cName] = new FormControl(
+     field.cValue || '',[]
+     
+   );
+} 
+ else if (field.cType == 'radio'  && field.cMandate==false) {
   if(['SendBT','Allowed'].includes(field.cName))
   {
    field.cValue = field.cValue ===null ||field.cValue === undefined ||field.cValue ===''?'Y':field.cValue
@@ -212,6 +225,11 @@ onDropDownChange(event:any){
 let Olo = event.value;
 this.setCompanyDropdownValue(Olo);
 }
+onMultiselectDropDownChange(event:any){
+
+ // console.log(event,'event')
+
+}
 setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
   if(OloValue != null) {
   const index = this.lstForm[2].cList.findIndex((x: any) => {
@@ -229,7 +247,7 @@ let updatedRecord
 if (this.referenceForm.valid)
 {
 updatedRecord = this.referenceForm.value;
-// console.log(updatedRecord,'df updaterecord')
+ //console.log(updatedRecord,'df updaterecord')
 //console.log([[false,true],updatedRecord], 'de')
 this.submitBtnClicked.emit([[false,true],updatedRecord])
 this.onCancelDataForm();

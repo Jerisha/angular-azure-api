@@ -474,7 +474,7 @@ export class ReportReferenceService {
   }
   private findDropdowns()
   { 
-    let lstDropDown =this.lstForm.filter( (x:IColoumnDef)=> x.cType ==='select')   
+    let lstDropDown =this.lstForm.filter( (x:IColoumnDef)=> x.cType ==='select' || x.cType ==='multiselect')   
     this.dropdownNames =lstDropDown.length >0 ? (lstDropDown as IColoumnDef[]).map( x => x.cName)  :[]
     //console.log(this.dropdownNames,"dropdown names")
     //column name and filter  name should be same  
@@ -530,15 +530,31 @@ export class ReportReferenceService {
               //console.log("result",result.data)
               // let res = result.data
                   for (let index = 0; index < this.lstForm.length; index++) {
+                    //console.log('PermittedLineStatus',this.lstForm[index].cName )
+                    //console.log(this.dropdownNames,'dp')
                     if(this.dropdownNames.includes(this.lstForm[index].cName))
                     {
                       //console.log('val',res[this.lstForm[index].cName])
                       // console.log('val1',res.values().next())
                       // console.log('val2',res.values().next().value[this.lstForm[index].cName])
                       // console.log("config result",result)
-                      this.lstForm[index].cList = result.data[this.lstForm[index].cName].map((x:any)=>({                  
-                        displayValue:x,internalValue:x
-                      })) 
+                     // console.log('PermittedLineStatus',this.lstForm[index].cList )
+                       if(this.lstForm[index].cName !='LineStatus')
+                       {
+                        this.lstForm[index].cList = result.data[this.lstForm[index].cName].map((x:any)=>({                  
+                          displayValue:x,internalValue:x
+                        })) 
+                       }
+                       if(this.lstForm[index].cName ==='LineStatus')
+                       {                      
+                      //   // this.lstForm[index].cList = result.data['PermittedLineStatus'].map((x:any)=>({                  
+                      //   //   displayValue:x,internalValue:x[0]
+                           this.lstForm[index].cList = result.data[this.lstForm[index].cName].map((x:any)=>({                  
+                             displayValue:x,internalValue:x[0]
+                         })) 
+                      //   //console.log('PermittedLineStatus',this.lstForm[index].cList )
+                       }
+
                     }
                     
                   }
@@ -577,7 +593,19 @@ export class ReportReferenceService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
   }
   getConfig(dropValues:string[]):Observable<any>{
-      let request = Utils.preparePyConfig(['Create'], dropValues);
+  //  let LineStatus =  dropValues.findIndex(x=>x==='LineStatus')
+   let request:any
+  //  if(LineStatus != -1)
+  //  {   
+  //    request = Utils.preparePyConfig(['Create'], ['PermittedLineStatus']);
+  //  }
+  //  else
+  //  {
+  //   request = Utils.preparePyConfig(['Create'], dropValues);
+  //  }
+
+   request = Utils.preparePyConfig(['Create'], dropValues);
+     
       // console.log(JSON.stringify(request), 'configapire');
       return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }  
@@ -616,7 +644,7 @@ export class ReportReferenceService {
     pageIdentifier = pageIdentifier === 'Olo' ||  pageIdentifier ==='Company' ? 'Franchise' : pageIdentifier
     // console.log(pageIdentifier, 'pageidne')
     let request = Utils.preparePyCreate(pageIdentifier, reportIdentifier,'CreateParameters',createIdentifier );
-    // console.log(JSON.stringify(request));
+     //console.log(JSON.stringify(request),'E0 Create Request');
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CREATE, request);
     
   }
