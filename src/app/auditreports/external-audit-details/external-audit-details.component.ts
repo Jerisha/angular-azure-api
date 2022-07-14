@@ -353,8 +353,9 @@ export class ExternalAuditDetailsComponent extends UserProfile implements OnInit
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '',toolTipText: 'Audit Trail Report',  tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '',toolTipText: 'User Comments', tabIndex: 2 }]
+      
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
