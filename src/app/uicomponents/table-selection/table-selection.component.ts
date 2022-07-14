@@ -343,7 +343,15 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       if (this.allSelected) {
         this.select.options.forEach((item: MatOption) => item.select());
       } else {
-        this.select.options.forEach((item: MatOption, index) => { if (index != 0) item.deselect() });
+        this.select.options.forEach((item: MatOption, index) => { 
+          if (index == 0 || item.value == 'TelephoneNumber' || item.value == 'View' || item.value == 'Link' || item.value == 'Links')
+          {
+            //  item.deselect();
+            ;
+          }else {
+            item.deselect();
+          }
+         });
       }
     }
   }
@@ -524,7 +532,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   copyToClipboard() {
-    // debugger;
+     debugger;
     let data = "";
 
     this.selection.selected.forEach((row: any, index) => {
@@ -536,7 +544,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.select?.value?.forEach((x: string) => {
         if (x != 'View') tabValue.push(row[x] || ' ')
       })
-      data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
+      data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });
     return data;
   }
