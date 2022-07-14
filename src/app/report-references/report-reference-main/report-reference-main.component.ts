@@ -238,11 +238,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   createRecordLogic() {
+    this.highlightedRows = '';
+    this.eventName = 'Create';
     this.editMode = this.currentReportName;
       this.lstFields = this.reportReferenceService.setForm(this.editMode);
       //console.log(this.lstFields,'formTemplateData')
       this.editRecord = null;
-      this.eventName = 'Create';
       // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
       this.reportReferenceService.showDataForm = this.showDataForm = true;
   }
@@ -587,8 +588,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   }
   onDataFormCancel(event: any[]) {
-    console.log(event);
-    
     this.editMode = "";
     // this.editModeIndex = -1;
     this.showDataForm = event[0];

@@ -84,7 +84,9 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   queryResult$: any;
   myTable!: TableItem;
   listItems!: Select[];
-  defaultACTID: string = ''
+  defaultACTID: string = '';
+  minDate: Date;
+  maxDate: Date;
 
 
   expOperatorsKeyPair: [string, string][] = [];
@@ -110,6 +112,8 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
      }
 
   ngOnInit(): void {
+    this.minDate = new Date('01/01/2000');
+    this.maxDate = new Date();
     this.listItems = Itemstwo;
     this.createForm();
     let request = Utils.preparePyConfig(['Search'], ['AuditType', 'ResolvedBy', 'ResolutionTypeAudit', 'AuditActID']);
@@ -200,7 +204,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
           // totalpages: res.NumberOfPages,
           // pagenumber: res.PageNumber,
           // pagecount: res.Recordsperpage,
-          FooterDetails: {footerName: "Cumulative", footerValue: `${res.CumulativeCount ? res.CumulativeCount : ''}`}
+          FooterDetails: {footerName: "Cumulative", footerValue: `${res.params.CumulativeCount ? res.params.CumulativeCount : ''}`}
         }
         return result;
       } else return {
