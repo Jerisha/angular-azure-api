@@ -449,21 +449,12 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
-        // height:'250px',
         disableClose: true,
         data: { enableOk: false, message: errMsg, }
       });
       rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
-
-    // if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
-    //   && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
-    //   this.form.StartTelephoneNumber.setErrors({ incorrect: true });
-    //   this.icstartNo.nativeElement.focus();
-    //   this.icstartNo.nativeElement.blur();
-    //   return;
-    // }
 
 
     this.getPnlControlAttributes();
@@ -482,10 +473,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         let result = {
           datasource: res.data.TelephoneNumbers,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
