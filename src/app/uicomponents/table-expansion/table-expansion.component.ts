@@ -348,7 +348,7 @@ export class TableExpansionComponent implements OnDestroy {
       this.select?.value?.forEach((x: string) => {
         if (x != 'View') tabValue.push(row[x] || ' ')
       })
-      data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
+      data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });
     return data;
   }

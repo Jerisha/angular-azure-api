@@ -524,7 +524,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   copyToClipboard() {
-    // debugger;
+     debugger;
     let data = "";
 
     this.selection.selected.forEach((row: any, index) => {
@@ -536,7 +536,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.select?.value?.forEach((x: string) => {
         if (x != 'View') tabValue.push(row[x] || ' ')
       })
-      data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
+      data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });
     return data;
   }
