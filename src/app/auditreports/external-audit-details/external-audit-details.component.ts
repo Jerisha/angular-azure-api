@@ -69,7 +69,7 @@ export class ExternalAuditDetailsComponent extends UserProfile implements OnInit
 
   colHeader: ColumnDetails[] = [
     { headerValue: 'TelephoneNumber', header: 'Telephone No', showDefault: true, isImage: false },
-    { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
+    { headerValue: 'View', header: 'Inventory', showDefault: true, isImage: true },
     { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
     { headerValue: 'CUPID', header: 'CUPID', showDefault: true, isImage: false },

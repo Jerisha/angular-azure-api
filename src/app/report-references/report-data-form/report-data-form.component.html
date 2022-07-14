@@ -91,6 +91,50 @@
                   </ng-container>
 
                 </div>
+                <div *ngSwitchCase="formData.cType === 'multiselect'"
+                style="width:201px;height:50px;display:flex;align-items: center;">
+                <ng-container *ngIf="!(reportName === 'Franchise')">
+                <mat-form-field>
+                  <mat-label>{{formData.cDisplayName}}</mat-label>
+                    <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" multiple 
+                    disableOptionCentering panelClass="matselect-centering" (selectionChange)="onMultiselectDropDownChange($event)" 
+                    >
+                    <!-- <mat-option>None</mat-option> -->
+                    <mat-option   *ngFor="let opt of formData.cList" [value]="opt.internalValue">
+                      {{opt.displayValue}}</mat-option>
+                  </mat-select>               
+                  <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
+                </mat-form-field>
+              </ng-container>
+              <!-- franchise not fixed for multiselect-->
+                <ng-container *ngIf="reportName === 'Franchise'">
+                  <div *ngIf="!(formData.cName === 'Company')">
+                  <mat-form-field>
+                    <mat-label>{{formData.cDisplayName}}</mat-label>
+                    <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" 
+                    disableOptionCentering panelClass="matselect-centering" (selectionChange)="onDropDownChange($event)" 
+                    [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)">
+                      <mat-option  *ngFor="let opt of formData.cList" [value]="opt.internalValue">
+                        {{opt.displayValue}}</mat-option>
+                    </mat-select>               
+                    <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
+                  </mat-form-field>
+                  </div>
+                  <div *ngIf="formData.cName === 'Company'">
+                  <mat-form-field>
+                    <mat-label>{{formData.cDisplayName}}</mat-label>
+                  <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="firstDropdownVal" 
+                  disableOptionCentering panelClass="matselect-centering" 
+                  [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)">
+                      <mat-option *ngFor="let opt of companyDropdown" [value]="opt">
+                        {{opt}}</mat-option>
+                  </mat-select>   
+                  <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
+                </mat-form-field>
+              </div>
+                </ng-container>
+
+              </div>
                 <div *ngSwitchCase="formData.cType === 'radio'"
                   style="width:201px;height:50px;display:flex;align-items: center;">
                   <mat-checkbox [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
