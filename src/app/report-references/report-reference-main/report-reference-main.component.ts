@@ -701,6 +701,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
     {
       let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
+      if(this.currentReportName ==='CUPIDCrossReference')
+      {
+        header.splice(1,0,{cName:"FranchiseCode",cDisplayName:"Franchise"})
+      }
+      if(this.currentReportName ==='Command')
+      {
+        header.splice(4,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description"})
+      }
    
      let copydata = JSON.parse(JSON.stringify(this.data))
     
@@ -712,7 +720,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     
      let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
+       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'])
        {
          Reflect.deleteProperty(row,i)
        }
