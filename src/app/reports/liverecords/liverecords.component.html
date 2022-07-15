@@ -51,7 +51,7 @@
                     (click) ="OnOperatorClicked(['CreationDateOperator',CreationDateOperator.selectedViewValue])"></app-select-exp> 
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.CreationDate.disabled}" appearance="outline">
                         <mat-label>Created On</mat-label>
-                        <input [readonly]="true" id="CreationDate" [matDatepicker]="picker" formControlName="CreationDate" matInput #input
+                        <input [min]="minDate" [max]="maxDate" [readonly]="true" id="CreationDate" [matDatepicker]="picker" formControlName="CreationDate" matInput #input
                             maxlength="20" placeholder="Created On">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>

@@ -147,6 +147,8 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
   // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   expressions: any = [expNumeric, expString, expDate, expDropdown];
   expOperators: string[] = [
     "TelephoneNumberOperator",
@@ -238,7 +240,8 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      TelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.maxLength(11),Validators.pattern("^[0-9]{10,11}$")]),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.maxLength(11),Validators.pattern("^[0-9]{10,11}$")]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),

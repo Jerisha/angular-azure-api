@@ -255,7 +255,7 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
       filter: true,
       selectCheckbox: true,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
-      removeNoDataColumns: false
+      removeNoDataColumns: true
 
     }
     if (!this.tabs.find(x => x.tabType == 0)) {

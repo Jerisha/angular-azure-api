@@ -17,6 +17,7 @@ export class ResolvingOfErrorsService {
     });
     console.log("test " + this.test)
   }
+
   configDetails(request: any): Observable<any> {
     // const observable = new Observable(observer => {
     //   this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.CONFIG, request).subscribe((res: any) =>
@@ -29,7 +30,9 @@ export class ResolvingOfErrorsService {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.CONFIG, request);
   }
 
-
+  updateDetails(request: any): Observable<any> {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
+  }
 
   queryDetails(request: any): Observable<any> {
     //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
@@ -38,10 +41,6 @@ export class ResolvingOfErrorsService {
 
   getDetails(request: any): Observable<any> {
     return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.GET, request);
-  }
-
-  updateDetails(request: any): Observable<any> {
-    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UPDATE, request);
   }
 
   infoDetails(request: any): Observable<any> {
@@ -72,7 +71,5 @@ export class ResolvingOfErrorsService {
     return Information;
   }
 
-  // exportDetails(request: any): Observable<any> {
-  //   return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.EXPQUERY, request);
-  // }
+
 }

@@ -71,6 +71,8 @@ ngOnChanges(changes: SimpleChanges) {
     // this.data =this.service.data[this.reportIndex][this.reportName];    
     //console.log("onchanges:",changes);
     //this.lstForm  = this.service.setForm(this.reportName);
+    this.eventName = 'Create';
+    this.referenceForm?.reset();
     this.referenceForm = this.formValidation();
     if(this.record != undefined)
     {

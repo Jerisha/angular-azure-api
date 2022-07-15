@@ -139,6 +139,8 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
@@ -280,7 +282,8 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     //ToDate: new FormControl(new Date(year, month, date))
     
    this.myForm = new FormGroup({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")] ),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")] ),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       TransactionReference: new FormControl({ value: '', disabled: true }, []),
       ResolveType: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),

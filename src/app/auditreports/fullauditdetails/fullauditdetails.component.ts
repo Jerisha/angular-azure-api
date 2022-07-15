@@ -488,13 +488,13 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
       excelQuery: this.prepareQueryParams(this.currentPage.toString()),
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 , toolTipText:'Audit Trail Report' },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2, toolTipText:'User Comments' },
-      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3, toolTipText:'Range Report' },
-      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 , toolTipText:'Inflight Order Report'},
-      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 , toolTipText:'Monthly RefreshF lag'},
-      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', tabIndex: 6, toolTipText:'Mori Circuit Status Report' },
-      { headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7, toolTipText:'Overlapping Range Report' }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '',toolTipText: 'User Comments', tabIndex: 2 },
+      { headerValue: 'RangeReport', icon: 'description', route: '',toolTipText: 'Range Report', tabIndex: 3 },
+      { headerValue: 'InflightOrder', icon: 'description', route: '',toolTipText: 'Inflight Order', tabIndex: 4 },
+      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '',toolTipText: 'Monthly Refresh Flag', tabIndex: 5 },
+      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '',toolTipText: 'MoriCircuitStatus', tabIndex: 6 },
+      { headerValue: 'Comments', icon: 'description', route: '',toolTipText: 'User Comments', tabIndex: 7 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
