@@ -72,6 +72,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   displayedColumnsValues: any
 
+  displayReportName:string = '';
+
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     this.isShow = true;
@@ -91,8 +93,17 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       //this.displayedColumns = dispVal || [];
       // this.displayedColumns =  this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] ||[]:[];
       //console.log('dispcol: ',this.displayedColumns);
-      this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
-      this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+      // this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+      // if(this.currentReportName ==='CUPIDCrossReference')
+      // {
+      //   this.displayedColumns.splice(2,0,{cName:"FranchiseCode",cDisplayName:"Franchise", ctooltip:""})
+      // }
+      // if(this.currentReportName ==='Command')
+      // {
+      //   this.displayedColumns.splice(5,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description", ctooltip:""})
+      // }
+      // this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+     
       //console.log(this.displayedColumns1)
       //let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
       // this.data = this.reportIndex != -1 ?this.reportReferenceService.data[this.reportIndex][this.reportName] || []:[];
@@ -134,8 +145,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
    
     //this.reportIndex = this.reportNames.findIndex(x => x == this.currentReportName);
     // this.displayedColumns = this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]||[] : [];
-    this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
-    this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+    // this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+    // this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
     //  this.data = this.reportIndex != -1 ? this.reportReferenceService.data[this.reportIndex][this.reportName] || [] :[];
     this.refreshData()
     // if(this.refreshData())
@@ -211,20 +222,48 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   onCreateRecord() {
     if (this.editMode == "" || this.editMode === this.currentReportName) {
-      this.editMode = this.currentReportName;
-      this.lstFields = this.reportReferenceService.setForm(this.editMode);
-      //console.log(this.lstFields,'formTemplateData')
-      this.editRecord = null;
-      this.eventName = 'Create';
-      // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
-      this.reportReferenceService.showDataForm = this.showDataForm = true;
+      if(this.editMode != "")
+      {
+        const createConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px', disableClose: true, data: {
+            message: 'Would you like to discard current changes and continue to Create?'
+          }
+        });
+        createConfirm.afterClosed().subscribe(result => {
+          if (result) {
+            this.createRecordLogic();
+          }
+        });
+    } else {
+      this.createRecordLogic();
+    }
     }
     else {
       //alert("close opened report:" + this.editMode)
       this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
     }
   }
+  createRecordLogic() {
+    this.highlightedRows = '';
+    this.eventName = 'Create';
+    this.editMode = this.currentReportName;
+      this.lstFields = this.reportReferenceService.setForm(this.editMode);
+      //console.log(this.lstFields,'formTemplateData')
+      this.editRecord = null;
+      // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
+      this.reportReferenceService.showDataForm = this.showDataForm = true;
+  }
   refreshData() {
+    this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+      if(this.currentReportName ==='CUPIDCrossReference')
+      {
+        this.displayedColumns.splice(2,0,{cName:"FranchiseCode",cDisplayName:"Franchise", ctooltip:""})
+      }
+      if(this.currentReportName ==='Command')
+      {
+        this.displayedColumns.splice(5,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description", ctooltip:""})
+      }
+      this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
     //console.log('refresh',this.reportName)
     if (this.currentReportName != '') {
       this.isLoading = true;
@@ -296,43 +335,64 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   onEditRecord(element: any, event: any) {
     if (this.editMode == "" || this.editMode == this.currentReportName) {
-      this.editMode = this.currentReportName;
-      this.lstFields = this.reportReferenceService.setForm(this.editMode);
-      this.eventName = 'Update';
-      this.highlightedRows = element
-     // console.log(this.highlightedRows,'high')
-      // console.log(event,'evetn')
-      // this.showDataForm =true; 
-      // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
-      this.reportReferenceService.showDataForm = this.showDataForm = true;
-      let element1 = Object.assign({}, element);
-      this.editRecord = element1;
-      let lstRadio = this.lstFields.filter((t: IColoumnDef) => t.cType === 'radio');
-      Object.entries(element1).map(
-        (x: any) => {
-
-          let chkRadio = lstRadio.filter((y: IColoumnDef) => y.cName === x[0]).length > 0
-
-          if ((chkRadio) && (x[1] === 'Y' || x[1] === '1')) { element1[x[0]] = true }
-          else if ((chkRadio) && (x[1] === 'N' || x[1] === '0')) { element1[x[0]] = false }
-          //console.log('element val', x)
-
-          //   else if (x[1] === null) { element1[x[0]] = ('') 
-          //  console.log(x[1], x[0], 'null')
-          // }
-          else {
-            element1[x[0]]
+      if(this.editMode != "")
+      {
+        const editConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px', disableClose: true, data: {
+            message: 'Would you like to discard current changes and continue to edit this records?'
           }
-
-        }
-
-      )
-      // console.log(this.editRecord, 'editrrecord2')
+        });
+        editConfirm.afterClosed().subscribe(result => {
+          if (result) {
+            this.editRecordLogic(element);
+          }
+        });
+    } else {
+      this.editRecordLogic(element);
     }
+  }
     else {
       this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
       // alert("close opened report:"+this.editMode)
     }
+  }
+  editRecordLogic(element: any) {
+    this.editMode = this.currentReportName;
+    this.lstFields = this.reportReferenceService.setForm(this.editMode);
+    this.eventName = 'Update';
+    this.highlightedRows = element
+   // console.log(this.highlightedRows,'high')
+    // console.log(event,'evetn')
+    // this.showDataForm =true;
+    // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
+    this.reportReferenceService.showDataForm = this.showDataForm = true;
+    let element1 = Object.assign({}, element);
+    this.editRecord = element1;
+    let lstRadio = this.lstFields.filter((t: IColoumnDef) => t.cType === 'radio');
+    Object.entries(element1).map(
+      (x: any) => {
+
+        let chkRadio = lstRadio.filter((y: IColoumnDef) => y.cName === x[0]).length > 0
+
+        if ((chkRadio) && (x[1] === 'Y' || x[1] === '1')) { element1[x[0]] = true }
+        else if ((chkRadio) && (x[1] === 'N' || x[1] === '0')) { element1[x[0]] = false }
+        //console.log('element val', x)
+
+        //   else if (x[1] === null) { element1[x[0]] = ('') 
+        //  console.log(x[1], x[0], 'null')
+        // }
+        else if( x[0] ==='LineStatus' && ( x[1] != null || x[1] != undefined))
+        {
+          element1[x[0]] = x[1].split('')
+        }
+        else {
+          element1[x[0]]
+        }
+
+      }
+
+    )
+    // console.log(this.editRecord, 'editrrecord2')
   }
   onDeleteRecord(record: any, event: any) {
    // alert("Delete starts..."+JSON.stringify(this.record));
@@ -418,6 +478,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         //   else if (x[1] === null) { element1[x[0]] = ('') 
         //console.log(x[1], x[0], 'null')
         // }
+        else if( x[0]==='LineStatus'  && ( x[1] != null || x[1] != undefined))
+        {
+         // console.log(x[0],x[1],'LineStatus')
+          updaterecord1[x[0]] =x[1].join().replaceAll(',','')
+        }
         else {
           updaterecord1[x[0]]
         }
@@ -439,7 +504,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         if (x[1] === null || x[1] === undefined) {
           updaterecord1[x[0]] = ('')
           // console.log(x[1], x[0], 'nullvalues1')
-        }
+        }       
         else {
           updaterecord1[x[0]]
         }
@@ -581,7 +646,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         //  {    delete row.Comments  } 
          
           let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
+            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise','ListType'])
             {
               Reflect.deleteProperty(row,i)
             }
@@ -638,6 +703,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
     {
       let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
+      if(this.currentReportName ==='CUPIDCrossReference')
+      {
+        header.splice(1,0,{cName:"FranchiseCode",cDisplayName:"Franchise"})
+      }
+      if(this.currentReportName ==='Command')
+      {
+        header.splice(4,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description"})
+      }
    
      let copydata = JSON.parse(JSON.stringify(this.data))
     
@@ -649,7 +722,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     
      let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-       for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
+       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','ListType'])
        {
          Reflect.deleteProperty(row,i)
        }
@@ -658,6 +731,17 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
        {
          Reflect.deleteProperty(row,i)
        }
+       if(!['Status','ErrorCode','InterimCommands'].includes(this.currentReportName,0))
+       for (const i of ['Comments'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
+       if( this.currentReportName ==='Olo')
+       for (const i of ['OloCompanyFranchise'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
+       
    
      let dataRow = Object.assign(disp,row)
 
@@ -718,7 +802,7 @@ else {
     //this.reportNames = this.reportReferenceService.reportNames;
     // console.log('reportnames1', this.reportNames)
     // console.log(this.reportReferenceService.metaDataCollection,'metacol')
-    this.reportTitleNames =this.reportReferenceService.reportTitleNames;
+    this.reportTitleNames =this.reportReferenceService.reportTitleNames;    
 
   }
   ngAfterViewChecked() {

@@ -16,6 +16,7 @@
     cPosition:number;
     cMandate:boolean;
     cList:IDropdown[];
+    ctooltip:string;
   }
   
   export class ColoumnDef implements IColoumnDef {
@@ -31,6 +32,7 @@
     cPosition!: number;
     cMandate!: boolean;
     cList!: IDropdown[];
+    ctooltip:string;
     constructor(
       Name: string="",
     DisplayName: string="",
@@ -42,7 +44,8 @@
     MaxLength: number =0,
     MinLength: number=0,
     cPosition: number=0,
-    Mandate: boolean=false
+    Mandate: boolean=false,
+    ctooltip: string="",
 
     ){
     this.cName=Name
@@ -56,5 +59,6 @@
     this.cMinLength=MinLength
     this.cPosition=cPosition
     this.cMandate=Mandate
+    this.ctooltip
     }
   }

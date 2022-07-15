@@ -8,5 +8,10 @@ export const environment = {
   api_sit:'http://10.196.212.98:6054/restv2/EdgeUIManagementServicesV200/',
   api_dev:'http://10.196.220.58:6054/restv2/EdgeUIManagementServicesV200/',
   api_url:'http://10.196.220.58:6054/restv2/OperatorServiceNetwork/',
-  api_mediator :'https://wm-mediator-tst.hosts.plc.cwintra.com:26231/ws/VS_OSN2SampleAPI_St3/1.0/OperatorServiceNetwork/'
+  api_mediator :'https://wm-mediator-tst.hosts.plc.cwintra.com:26231/ws/VS_OSN2SampleAPI_St3/1.0/OperatorServiceNetwork/',
+
+//  api_auth:'https://ukond1vr.ad.plc.cwintra.com:6054/userProfiles/',
+//  api_py_dev:'https://ukond1vr.ad.plc.cwintra.com:6054/pythonDevAPI/',
+//  api_py_sit:'https://ukont1vr.ad.plc.cwintra.com:6054/userProfiles/',
+//  api_py_uat:'https://ukont2vr.ad.plc.cwintra.com:6054/pythonDevAPI/',
 };

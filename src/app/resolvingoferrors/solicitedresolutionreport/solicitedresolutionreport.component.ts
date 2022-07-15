@@ -157,6 +157,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
   configDetails!: any;
   // currentPage: string = '1';
   updateDetails!: any;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
@@ -403,7 +405,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.myForm = this.formBuilder.group({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       TransactionID: new FormControl({ value: '', disabled: true }, []),
       ChangeCUPID: new FormControl({ value: '', disabled: true }, []),
       // TransactionDate: new FormControl(),

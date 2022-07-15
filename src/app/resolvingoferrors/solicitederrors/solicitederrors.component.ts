@@ -194,7 +194,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   // currentPage: string = '1';
   updateDetails!: any;
   model: any = { ErrorCode: "" };
-
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   ngOnInit(): void {
     this.createForm();
     debugger;
@@ -277,12 +278,13 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     })
 
   }
+
   createForm() {
 
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    const date = today.getDate();
+    // const today = new Date();
+    // const month = today.getMonth();
+    // const year = today.getFullYear();
+    // const date = today.getDate();
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
@@ -331,6 +333,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Change Cupid', headerValue: 'ChangeCupId', showDefault: true, isImage: false },
+    { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false}
     // { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 

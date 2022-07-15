@@ -20,7 +20,7 @@
               <mat-error>
                 <div *ngIf="f.TelephoneNumber.touched && f.TelephoneNumber.invalid" class="alert alert-danger">
                   <div *ngIf="f.TelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                  <div *ngIf="f.TelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                  <!-- <div *ngIf="f.TelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
                 </div>
               </mat-error>
             </mat-form-field>
@@ -39,7 +39,7 @@
           <div [ngStyle]="{'display':thisForm.controls.DateRange.disabled ? 'none' : 'block'}"style="padding-left: 11px;">
             <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}"> 
                 <mat-label>Date Range</mat-label>
-                <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
+                <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
                   <input readonly formControlName="StartDate" matStartDate placeholder="StartDate">
                   <input readonly formControlName="EndDate" matEndDate placeholder="EndDate">
                 </mat-date-range-input>
