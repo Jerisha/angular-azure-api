@@ -191,11 +191,11 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Inventory', headerValue: 'Link', showDefault: true, isImage: true },
       { header: 'Statistic Month', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Adds', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'Ceases', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'Modifys', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'Exports', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'Imports', headerValue: 'ImportCommands', showDefault: false, isImage: false },
+      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false },
+      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
+      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
+      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false },
+      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false },
       { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true }
     ];
 
@@ -395,7 +395,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       Columns: this.columnsChild,
       filter: true,
       //selectCheckbox: true,      
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 }],
+      selectCheckbox:true
     }
 
     //this.datevalue="";
@@ -436,8 +437,12 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         // const StatisticMonth = this.datevalue;
         // console.log('StatisticMonth',this.datevalue);
         if (this.staticmontharray)
+        {
          // attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
-         attributes.push({ Name: 'StatisticMonth', Value: [this.staticmontharray] });
+         var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
+       var newchar=  result.substring(1, result.length-1)
+         attributes.push({ Name: 'StatisticMonth', Value: [newchar] });
+        }
         else
           attributes.push({ Name: 'StatisticMonth' });
       }
@@ -617,6 +622,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
           // this.selectedTab = 2;          
         }
         this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 2);
+        let updtab = this.tabs.find(x => x.tabType == 2);
+        if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
         break;
       }
       default: {
@@ -648,7 +655,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     debugger
     // console.log('expansion tab',tab);
     this.StatisticDate = tab.row.StatisticDate;
-    this.Source = tab.row.SourceSystem;
+    this.Source = tab.row.Source;
     if (!this.tabs?.find(x => x.tabType == 1)) {
       this.tabs.push({
         tabType: 1,
@@ -683,7 +690,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       // this.selectedTab = this.tabs.length;
     }
     this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 2);
-
+    let updtab = this.tabs.find(x => x.tabType == 2);
+    if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
   }
 
 }
