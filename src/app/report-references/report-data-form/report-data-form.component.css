@@ -1,0 +1,165 @@
+
+.vf-card-title{
+  box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
+  background-color:#e60000;
+  color:white;
+  text-align:left;    
+  font-size: 14px;
+  padding-block: 1px;    
+  padding-left: 5px;    
+  width:100%;    
+} 
+.vf-card-footer{
+  box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
+  background-color:#e60000;
+  color:white;
+  text-align:left;    
+  font-size: 10px;
+  padding-block: 1px;    
+  padding-left: 5px;    
+  min-height: 10px;
+  /* width:calc(100%-5px);     */
+} 
+.mat-card-actions, .mat-card-subtitle {
+  margin-bottom: 1px;
+}
+
+.container-page{
+    min-height:90%;    
+    width: auto;
+    box-sizing: border-box;
+  }
+  .wrap{
+    display:flex;
+    justify-content: center;
+    max-height: 460px;
+  }
+  .left-box{        
+        width: 60vw;        
+        overflow: auto;      
+    }
+  .right-box{     
+      /* height: 78vh;  */
+      width: 96vw;         
+      overflow: auto;
+  }
+  .vf-flex-container {
+    display: flex;
+    height: auto;
+    flex-direction: row;
+    /* justify-content: center;  */
+  }
+  .vf-flex-container-col {
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    /* justify-content: center;         */
+    margin-top: 10px;
+    /* justify-content: space-around; */
+  }
+  .vf-card{
+    /* width:auto; */
+    min-width: 90%;
+    min-height: 460px;
+    /* display: flex;
+    flex-direction: row;  
+    box-sizing: content-box; */
+    /* box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12); */
+  }
+  .content-main{
+    /* align-items: center; */
+    max-height:390px;
+    flex-wrap: wrap;
+    /* padding-top:10px; */
+    padding-bottom: 6px;
+  }
+  .content-submain{
+    /* align-items: center; */
+    max-height:390px;
+    flex-wrap: wrap;
+  }
+  .detail-table{
+    margin-top: 10px;
+     width: 100%;
+     max-height:400px;
+     overflow: auto; 
+     /* min-height: 400px; 
+      width: 100%;          */
+      /* overflow: auto; */
+  }
+  .table-header{
+    min-width:100px; 
+    width:auto;
+    min-height:16px; 
+    background-color:#e60000;
+    color:white;    
+    padding: 6px;
+    /* text-align:justify; */
+    text-align: center;
+  }
+  .table-row{
+    min-height:16px; 
+    height: auto;    
+    /* color:white; */
+  }
+  .table-coloumn{
+    min-width:100px; 
+    width: auto; 
+     
+    /* color:white;    */
+    /* padding: 6px; */
+    text-align:justify;
+  }
+  .dataform-title{
+  font-size: 14px;
+  background-color:#e60000;
+  color: white; 
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 6px;
+  }
+  .btn-color{
+  background-color: #4a4d4e;
+  color: white;
+  
+  }
+  .rm6{
+  margin-right: 6px;
+  }
+  .fixed-button-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: calc(90%-1px);
+  width: 100%;
+  /* color:#FFFFFF; */
+  text-align: center;
+  line-height:calc(90%-1px);
+  margin-top: 6px;
+  }
+  :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 6px 0 6px 0 !important;     
+  } 
+  /* input:read-only{ 
+    background-color: #f17517;
+ }  */
+ input[readonly]
+{
+    background-color:#ccc;
+}
+::ng-deep .mat-select-panel{margin-top: 40px !important; }
+.matselect-centering{
+  margin-top: 40px !important; 
+}
+.radio1{
+  width:201px;
+  height:50px;
+  display:flex;
+  align-items: center;
+}
+.radio2{
+  width:201px;
+  height:20px;
+  display:flex;
+  align-items: center;
+}

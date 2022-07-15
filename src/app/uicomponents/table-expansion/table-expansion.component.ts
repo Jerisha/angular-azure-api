@@ -352,10 +352,7 @@ export class TableExpansionComponent implements OnDestroy {
       this.select?.value?.forEach((x: string) => {
         if (x != 'View'&&x != 'Inventory') tabValue.push(row[x] || ' ')
       })
-     // var ret = tabValue.toString().replace('[object Object]','');
-     // var newret=tabValue.toString().replace('[object Object] ','');
-      data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
-     // console.log('copy clipboard',data); 
+      data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });
     return data;
   }
