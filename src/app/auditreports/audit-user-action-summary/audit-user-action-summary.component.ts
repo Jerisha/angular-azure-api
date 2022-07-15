@@ -338,14 +338,14 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   chosenYearHandler(normalizedYear: Moment) {
     this.AuditMonth = new FormControl(moment());
     const ctrlValue = this.AuditMonth.value;
-    ctrlValue.year(normalizedYear.year());
+    ctrlValue?.year(normalizedYear.year());
     this.AuditMonth.setValue(ctrlValue);
   }
   
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
     
     const ctrlValue = this.AuditMonth.value;
-    ctrlValue.month(normalizedMonth.month());
+    ctrlValue?.month(normalizedMonth.month());
     //let datevaluetest=formatDate(ctrlValue, 'MMM-yyyy', 'en-US')
     this.AuditMonth.setValue(ctrlValue);
     this.datevalue=ctrlValue;
