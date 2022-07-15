@@ -806,7 +806,8 @@ resetExp:boolean = false;
   createForm() {
 
     this.myForm = new FormGroup({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),  Validators.pattern("^[0-9]{10,11}$")]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),  Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       PostCode: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true }, []),

@@ -20,16 +20,22 @@
         <span [ngSwitch]="tab.tabType">
             <div *ngSwitchCase="0" >
                 <!-- <div *ngIf=" result.FullAuditSummary ; else NoData"> -->
+                    <div class="page-container">
                 <app-table-group-header [GrpTableitem]="auditSummaryTable" [obsData] ="result.FullAuditSummary ? result.FullAuditSummary : []"></app-table-group-header>
+                </div>
             <!-- </div> -->
         </div>
 
             <div *ngSwitchCase="1" >
+                <div class="page-container">
                 <app-table-group-header [GrpTableitem]="progressReportTable" [obsData] ="result.FullAuditProgressReport ? result.FullAuditProgressReport : []"></app-table-group-header>
+            </div>
             </div>
 
            <div *ngSwitchCase="2" >
+            <div class="page-container">
                 <app-table-group-header [GrpTableitem]="monthReportTable"  [obsData] ="result.FullAuditMonthReport ? result.FullAuditMonthReport : []"></app-table-group-header>
+            </div>
             </div>
 
              <div *ngSwitchCase="3" >
@@ -44,9 +50,9 @@
 
             <!-- <div *ngIf="!isMonthFilter"> -->
                 <!-- <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.FullAuditAddressPostCode ? result.FullAuditAddressPostCode : []" [AllMonths]="result.FullAuditAllMonths" (MonthDate)="fetchMonthData($event)"></app-table-group-header> -->
-                
+                <div class="page-container">
                 <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.FullAuditAddressPostCode ? result.FullAuditAddressPostCode : []"></app-table-group-header>
-
+                </div>
         </div>
 
             <div *ngSwitchDefault>

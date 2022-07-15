@@ -14,7 +14,7 @@ export class statisticalreport {
   constructor(private wrapperService: HttpWrapperService) { }
 
   queryDetails(request: any): Observable<any> {
-
+console.log('request',request);
     // let ReportIdentifier: string = request.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName;
     // console.log('ReportIdentifier', ReportIdentifier);
     // if (ReportIdentifier == 'DayToDay') {

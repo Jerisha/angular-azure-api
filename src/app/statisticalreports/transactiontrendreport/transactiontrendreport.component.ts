@@ -181,8 +181,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
   datevalue?: string;
-  minDate = new Date(2000, 0, 1);
-  maxDate = new Date();
+  staticmontharray?:string;
 
   @ViewChild(MatTabGroup) tabGroup !: MatTabGroup;
 
@@ -197,7 +196,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
       { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false },
       { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true }
     ];
 
   columnsChild: ColumnDetails[] =
@@ -210,7 +209,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
       { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false },
       { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false }
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true }
     ];
 
 
@@ -265,14 +264,19 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   queryResultMonthly$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
+  filterItems: Select[] = [];
   resetExp: boolean = false;
   ngOnInit(): void {
     this.createForm();
+    this.filterItems = [];
     //console.log('worked');
-    let request = Utils.preparePyConfig(['Search'], ['Source']);
+    let request = Utils.preparePyConfig(['Search'], ['Source','StatisticMonth']);
     this.service.configDetails(request).subscribe((res: any) => {
-      // console.log("config details: " + JSON.stringify(res))
+      console.log("config details: " + JSON.stringify(res))
       this.configDetails = res.data;
+      res.data.StatisticMonth?.forEach((element: any) => {
+        this.filterItems.push({ view: element, viewValue: element, default: false })
+      });
     });
 
 
@@ -284,6 +288,13 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     const ctrlValue = this.StatisticMonth.value;
     ctrlValue.year(normalizedYear.year());
     this.StatisticMonth.setValue(ctrlValue);
+  }
+  multipleSelect(event: any) {
+    // console.log(event)
+    if (event) {
+      console.log(event.toString());
+    this.staticmontharray = event.toString();
+    }
   }
 
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
@@ -329,7 +340,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('DayToDay', 'TransactionCommand', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    console.log('source requst',JSON.stringify(Request));
+    console.log('source requst day to day',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -349,7 +360,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     //    console.log('one one two',res)
     //  ));
     let requesttwo = Utils.preparePyQuery('MonthOnMonth', 'TransactionCommand', this.prepareQueryParams(this.currentPage));
-    //console.log('Monthly Request',requesttwo);
+    console.log('Monthly Request',JSON.stringify(requesttwo));
     this.queryResultMonthly$ = this.service.queryDetails(requesttwo).pipe(map((res: any) => {
       if (Object.keys(res)?.length) {
         let result = {
@@ -384,7 +395,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       Columns: this.columnsChild,
       filter: true,
       //selectCheckbox: true,      
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 }]
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 }],
+      selectCheckbox:true
     }
 
     //this.datevalue="";
@@ -424,9 +436,13 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       if (field == 'StatisticMonth') {
         // const StatisticMonth = this.datevalue;
         // console.log('StatisticMonth',this.datevalue);
-        if (StatisticMonth)
-          attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
-
+        if (this.staticmontharray)
+        {
+         // attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
+         var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
+       var newchar=  result.substring(1, result.length-1)
+         attributes.push({ Name: 'StatisticMonth', Value: [newchar] });
+        }
         else
           attributes.push({ Name: 'StatisticMonth' });
       }
@@ -441,7 +457,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
         if (expvals.length != 0) {
           if (field == 'StatisticMonth') {
-            if (StatisticMonth) {
+            if (this.staticmontharray) {
               attributes.push({ Name: operator, Value: [expvals[0][1]] });
             }
             else {
@@ -577,7 +593,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       case 1: {
         debugger
         this.StatisticDate = tab.row.StatisticDate;
-        this.Source = tab.row.Source;
+        this.Source = tab.row.SourceSystem;
         // console.log('static date',this.StatisticDate);
         // console.log('source',this.Source);
         /// this.telNo = tab.row.TelephoneNumber;
@@ -606,6 +622,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
           // this.selectedTab = 2;          
         }
         this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 2);
+        let updtab = this.tabs.find(x => x.tabType == 2);
+        if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
         break;
       }
       default: {
@@ -616,9 +634,10 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   }
 
   OnTelephoneDetailSelected(tab: any) {
+    debugger
     //console.log('tab details monthly',tab);
     this.StatisticDate = tab.tab.row.Date;
-    this.Source = tab.tab.row.Source;
+    this.Source = tab.tab.row.SourceSystem;
     //console.log(tab.tab.row.Date);
     if (!this.tabs?.find(x => x.tabType == 1)) {
       this.tabs.push({
@@ -633,6 +652,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   }
 
   OndayTodayselected(tab: any) {
+    debugger
     // console.log('expansion tab',tab);
     this.StatisticDate = tab.row.StatisticDate;
     this.Source = tab.row.Source;
@@ -670,7 +690,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       // this.selectedTab = this.tabs.length;
     }
     this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 2);
-
+    let updtab = this.tabs.find(x => x.tabType == 2);
+    if (updtab) updtab.name = 'Audit Trail Report(' + this.telNo + ')'
   }
 
 }

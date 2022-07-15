@@ -228,8 +228,9 @@ refresh(event: any)
     createForm() {
         
         this.myForm = new FormGroup({
-            TelephoneNumber: new FormControl({ value: '', disabled: false },
-                [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+            // TelephoneNumber: new FormControl({ value: '', disabled: false },
+            //     [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+            TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
         })
         this.onFormSubmit(true);
     }
