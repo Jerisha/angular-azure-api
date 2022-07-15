@@ -734,6 +734,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
        {
          Reflect.deleteProperty(row,i)
        }
+       if( this.currentReportName ==='Olo')
+       for (const i of ['OloCompanyFranchise'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
        
    
      let dataRow = Object.assign(disp,row)
