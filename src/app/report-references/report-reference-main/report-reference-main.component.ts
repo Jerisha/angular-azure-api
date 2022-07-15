@@ -72,6 +72,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   displayedColumnsValues: any
 
+  displayReportName:string = '';
+
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     this.isShow = true;
@@ -734,6 +736,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
        {
          Reflect.deleteProperty(row,i)
        }
+       if( this.currentReportName ==='Olo')
+       for (const i of ['OloCompanyFranchise'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
        
    
      let dataRow = Object.assign(disp,row)
@@ -795,7 +802,7 @@ else {
     //this.reportNames = this.reportReferenceService.reportNames;
     // console.log('reportnames1', this.reportNames)
     // console.log(this.reportReferenceService.metaDataCollection,'metacol')
-    this.reportTitleNames =this.reportReferenceService.reportTitleNames;
+    this.reportTitleNames =this.reportReferenceService.reportTitleNames;    
 
   }
   ngAfterViewChecked() {

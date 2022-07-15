@@ -117,7 +117,9 @@ font-size: smaller;  ">
           <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
           <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"
             [ngStyle]="highlightCell(element,disCol)">
-            {{element[disCol.headerValue]}} </td>
+            <!-- {{element[disCol.headerValue]}} -->
+             <span [ngStyle]="disCol.isBold?{'font-weight': '1000'} : {'font-weight': '500'}">{{element[disCol.headerValue]}}</span>
+            </td> 
           <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getTotal(disCol.headerValue)}}</td>
         </div>
       </ng-container>

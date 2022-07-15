@@ -616,9 +616,16 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         let test: any = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('uniquer values',test);
-        this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
+        let user: User = this.authService.currentUserValue;
+       let authsource =  user?.sources;
+        //let authsource = [''];
+        debugger  
+        if(authsource.length!=0)
+        {
+          this.cupIds = this.cupIds.filter((el: any) => authsource.includes(el.Source));
+        }
+          this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-         
           this.Cuparr ={CupID:this.cupidValues};  
         
         //update manual correction

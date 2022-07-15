@@ -33,6 +33,7 @@ export interface ColumnDetails {
     //isFlag?:boolean;
     imgDesc?:boolean;
     isFooter?: boolean;
+    isBold?:boolean
 }
 
 export interface CellAttributes{
