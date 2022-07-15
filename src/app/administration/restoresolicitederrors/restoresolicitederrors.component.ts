@@ -195,6 +195,8 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     pageSize: number = DefaultPageSize;
     isRemoveCache: number = DefaultIsRemoveCache;
     updateDetails!: any;
+    minDate = new Date(2000, 0, 1);
+    maxDate = new Date();
     model: any = { ErrorCode: "" };
   ngOnInit(): void {
  

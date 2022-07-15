@@ -530,6 +530,9 @@ resetExp:boolean = false;
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
+
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },
     { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },

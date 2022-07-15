@@ -183,6 +183,8 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
   // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
