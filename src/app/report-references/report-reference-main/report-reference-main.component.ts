@@ -72,6 +72,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   displayedColumnsValues: any
 
+  displayReportName:string = '';
+
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     this.isShow = true;
@@ -800,7 +802,7 @@ else {
     //this.reportNames = this.reportReferenceService.reportNames;
     // console.log('reportnames1', this.reportNames)
     // console.log(this.reportReferenceService.metaDataCollection,'metacol')
-    this.reportTitleNames =this.reportReferenceService.reportTitleNames;
+    this.reportTitleNames =this.reportReferenceService.reportTitleNames;    
 
   }
   ngAfterViewChecked() {
