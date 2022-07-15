@@ -23,7 +23,7 @@
                   </mat-form-field>
                 </div>
                 <div *ngSwitchCase="formData.cType === 'textarea'"
-                  style="width:201px;height:100px;display:flex;align-items: center;">                  
+                  style="width:201px;height:100px;display:flex;align-items: top;">                  
                   <mat-form-field >
                     <mat-label>{{formData.cDisplayName}}</mat-label>
                     <textarea matInput name="{{formData.cName}}"
@@ -136,7 +136,7 @@
 
               </div>
                 <div *ngSwitchCase="formData.cType === 'radio'"
-                  style="width:201px;height:50px;display:flex;align-items: center;">
+                [ngClass]="{'radio1': reportName != 'ErrorCode', 'radio2' : reportName === 'ErrorCode' }">
                   <mat-checkbox [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
                     [formControlName]="formData.cName" [(ngModel)]="formData.cValue">{{formData.cDisplayName}}
                   </mat-checkbox>

@@ -151,3 +151,15 @@
 .matselect-centering{
   margin-top: 40px !important; 
 }
+.radio1{
+  width:201px;
+  height:50px;
+  display:flex;
+  align-items: center;
+}
+.radio2{
+  width:201px;
+  height:20px;
+  display:flex;
+  align-items: center;
+}
