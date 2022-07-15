@@ -84,7 +84,9 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   queryResult$: any;
   myTable!: TableItem;
   listItems!: Select[];
-  defaultACTID: string = ''
+  defaultACTID: string = '';
+  minDate: Date = new Date('01/01/2000');
+  maxDate: Date = new Date();
 
 
   expOperatorsKeyPair: [string, string][] = [];
@@ -112,7 +114,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   ngOnInit(): void {
     this.listItems = Itemstwo;
     this.createForm();
-    let request = Utils.preparePyConfig(['Search'], ['AuditType', 'ResolvedBy', 'ResolutionTypeAudit', 'AuditActID']);
+    let request = Utils.preparePyConfig(['Search'], ['AuditType', 'UASResolvedBy', 'ResolutionTypeAudit', 'AuditActID']);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
     });
@@ -200,7 +202,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
           // totalpages: res.NumberOfPages,
           // pagenumber: res.PageNumber,
           // pagecount: res.Recordsperpage,
-          FooterDetails: {footerName: "Cumulative", footerValue: `${res.CumulativeCount ? res.CumulativeCount : ''}`}
+          FooterDetails: {footerName: "Cumulative", footerValue: `${res.params.CumulativeCount ? res.params.CumulativeCount : ''}`}
         }
         return result;
       } else return {
@@ -341,7 +343,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
     
     const ctrlValue = this.AuditMonth.value;
-    ctrlValue.month(normalizedMonth.month());
+    ctrlValue?.month(normalizedMonth.month());
     //let datevaluetest=formatDate(ctrlValue, 'MMM-yyyy', 'en-US')
     this.AuditMonth.setValue(ctrlValue);
     this.datevalue=ctrlValue;

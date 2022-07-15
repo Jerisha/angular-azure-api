@@ -125,6 +125,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   errorCodesOptions!: Observable<any[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
@@ -145,15 +147,16 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   expOperatorsKeyPair: [string, string][] = [];
   columns: ColumnDetails[] = [
     // { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
+   
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'ResolutionType', headerValue: 'ResolveType', showDefault: true, isImage: false },
+    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
+    { header: 'Resolution Type', headerValue: 'ResolveType', showDefault: true, isImage: false },
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
 
@@ -195,7 +198,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.myForm = new FormGroup({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       TransactionID: new FormControl({ value: '', disabled: true }, []),
       // CreatedOn: new FormControl({ value: '', disabled: true }, []),
       ResolveType: new FormControl({ value: '', disabled: true }, []),

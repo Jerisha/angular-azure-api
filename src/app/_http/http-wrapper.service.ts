@@ -34,26 +34,8 @@ export class HttpWrapperService {
         return observerRes;
     }
 
-    private urlExtract(endPoint: WebMethods): string {
-        let url = '';
-        switch (endPoint) {
-            case WebMethods.UIQUERY:
-            case WebMethods.UILOGIN:
-            case WebMethods.UIUPDATE:
-            case WebMethods.UICREATE:
-            case WebMethods.UIDELETE:
-                url = `${environment.api_auth}${endPoint.toString()}`
-                break;
-            default:
-                url = `${environment.api_py_sit}${endPoint.toString()}`
-        }
-        return url;
-        // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
-        //     `${environment.api_py_sit}${endPoint.toString()}`;
-    }
-
     private resolvePyRespone(val: any, requestType: WebMethods) {
-        // debugger;
+        debugger;
         let jsonResult = '';
 
         let transData: any = [];
@@ -110,7 +92,7 @@ export class HttpWrapperService {
             console.log("PyResponse: " + JSON.stringify(val) + "ResponseError: " + err);
             this.alertService.error("Incorrect PyResponse Format", { autoClose: true, keepAfterRouteChange: false });
         }
-        console.log("PyData :" + JSON.stringify(transData));
+        console.log("PyData :" + JSON.stringify(transData.data));
         return transData;
     }
 
@@ -122,6 +104,24 @@ export class HttpWrapperService {
             case ResponseType.BLOB:
                 return this.httpClient.request(httpVerb, url, { body, headers, params, responseType: 'blob', observe: 'response' });
         }
+    }
+
+    private urlExtract(endPoint: WebMethods): string {
+        let url = '';
+        switch (endPoint) {
+            case WebMethods.UIQUERY:
+            case WebMethods.UILOGIN:
+            case WebMethods.UIUPDATE:
+            case WebMethods.UICREATE:
+            case WebMethods.UIDELETE:
+                url = `${environment.api_auth}${endPoint.toString()}`
+                break;
+            default:
+                url = `${environment.api_py_sit}${endPoint.toString()}`
+        }
+        return url;
+        // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
+        //     `${environment.api_py_sit}${endPoint.toString()}`;
     }
 
     private validateResponseStatus(wmResponse: any) {
@@ -142,6 +142,7 @@ export class HttpWrapperService {
     }
 
 
+    //#region  wM API Resolver
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
@@ -400,7 +401,7 @@ export class HttpWrapperService {
         console.log("StatusResponse :" + jsonCreation);
         return JSON.parse(jsonCreation);
     }
-
+    //#endregion
 
 }
 

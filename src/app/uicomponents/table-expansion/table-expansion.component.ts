@@ -337,18 +337,22 @@ export class TableExpansionComponent implements OnDestroy {
   }
 
   copyToClipboard() {
+    
     let data = "";
 
     this.selection.selected.forEach((row: any, index) => {
+      //console.log('row data',row);
+      delete row.Link
       if (index === 0) {
-        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
-        data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
+        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' &&  x.headerValue != 'Inventory' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
+        let  datahead   = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
+        data =datahead.toString().replace('Inventory', '');
       }
       let tabValue: string[] = []
       this.select?.value?.forEach((x: string) => {
-        if (x != 'View') tabValue.push(row[x])
+        if (x != 'View'&&x != 'Inventory') tabValue.push(row[x] || ' ')
       })
-      data += tabValue.toString().replace(/[,]+/g, '\t') + "\n";
+      data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });
     return data;
   }

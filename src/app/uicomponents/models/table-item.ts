@@ -1,3 +1,5 @@
+import { AnyARecord } from "dns";
+
 export interface TableItem {
     data: any;
     childData?:string;
@@ -12,6 +14,7 @@ export interface TableItem {
     setCellAttributes?:CellAttributes[];
     isCustomFooter?: boolean;
     excelQuery?:any;
+    isFavcols?:boolean;
 }
 export interface ViewColumn {
     headerValue: string;
@@ -30,6 +33,7 @@ export interface ColumnDetails {
     //isFlag?:boolean;
     imgDesc?:boolean;
     isFooter?: boolean;
+    isBold?:boolean
 }
 
 export interface CellAttributes{
@@ -53,3 +57,19 @@ export interface FooterDetails{
     footerValue: string;
 }
 
+export interface ProfileDetails{
+    name:string;
+    favCols:string[];
+}
+
+
+export interface FavoriteProfile{
+    reportname?: string;
+      favprofname: string,
+      favprofileid?: any,
+      favcolumnlist: any,
+      isdefaultprofile?: number,
+      issharedprofile?: number,
+      createddttm?: string,
+      createdby?: string
+}

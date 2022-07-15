@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import * as  dat from '../assets/full-audit-table-details.json';
 import { LoginComponent } from './login/login.component';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ErrorComponent } from './_shared/error/error.component';
 import { ExporttoexcelComponent } from './_shared/exporttoexcel/exporttoexcel.component';
 import { AuthGuard } from './_auth/authentiation.guard'
 
-const MENU_SOURCE1 = (dat as any).default;
+
 const routes: Routes = [
   {
     path: '',

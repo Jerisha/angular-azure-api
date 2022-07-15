@@ -91,13 +91,15 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
+
 
 
   columns: ColumnDetails[] = [    
     { header: 'Telephone No',headerValue:'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Links',headerValue:'Links', showDefault: true, isImage: true },
+    { header: 'Inventory',headerValue:'Links', showDefault: true, isImage: true },
     { header: 'Tran Id',headerValue:'TransactionId', showDefault: true, isImage: false },
-    { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
     { header: 'Status',headerValue:'Status', showDefault: true, isImage: false },
     { header: 'Provide Date',headerValue:'ProvideDate', showDefault: true, isImage: false },
     { header: 'Created On',headerValue:'CreationDate', showDefault: true, isImage: false },
@@ -142,7 +144,8 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     { header: 'Service Type',headerValue:'ServiceType', showDefault: true, isImage: false }, //wire frame field na
     { header: 'Internal Errors',headerValue:'InternalErrors', showDefault: true, isImage: false },//wire frame field na
     { header: 'BT Responses',headerValue:'BtResponses', showDefault: true, isImage: false }, //wire frame field na
-    { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false } //wire frame field na
+    { header: 'BT File Name',headerValue:'BtFileName', showDefault: true, isImage: false }, //wire frame field na
+    { header: 'Tran Ref',headerValue:'TransactionReference', showDefault: true, isImage: false },
   ];
   ngOnInit(): void {    
     let request = Utils.preparePyConfig(['Search'],['TransactionCommand','Source','Franchise','TypeOfLine','Status','SourceType','InternalErrors','BTResponses']);
@@ -172,7 +175,8 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true },  [Validators.pattern("^[0-9]{10,11}$")]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true },  [Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]), 
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       CreationDate: new FormControl({ value: '', disabled: true },[]),
       PostCode: new FormControl({ value: '', disabled: true }, []),
@@ -335,7 +339,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
 
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-                  { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]  }
+                  { headerValue: 'Links', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]  }
     
                   if (!this.tabs.find(x => x.tabType == 0)) {
                     this.tabs.push({
@@ -423,13 +427,13 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')' 
+            name: 'Transaction History(' + this.telNo +'/'+ this.tranId+ ')' 
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1 ;
         } else {
           let tabIndex:number =this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[tabIndex].name ='Transaction Errors(' + this.telNo +'/'+ this.tranId+ ')';      
+          this.tabs[tabIndex].name ='Transaction History(' + this.telNo +'/'+ this.tranId+ ')';      
         }
         break;
       }

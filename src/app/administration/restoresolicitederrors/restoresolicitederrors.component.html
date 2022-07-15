@@ -28,7 +28,7 @@
               
               <div *ngIf="f.StartTelephoneNumber.touched && f.StartTelephoneNumber.invalid" class="alert alert-danger">
                 <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
               </div>
             </mat-error>
           </mat-form-field>
@@ -44,7 +44,7 @@
                 <!-- <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div> -->
                 <!-- <div *ngIf="f.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div> -->
                 <div *ngIf="f.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                <!-- <div *ngIf="f.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
               </div>
             </mat-error>
           </mat-form-field>
@@ -100,7 +100,7 @@
 
           <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
             <mat-label>Date Range</mat-label>
-            <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
+            <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
               <input readonly formControlName="FromDate" matStartDate placeholder="From ">
               <input readonly formControlName="ToDate" matEndDate placeholder="To date">
             </mat-date-range-input>
@@ -116,7 +116,7 @@
               [options]="config.ResolutionType " />
             <span matSuffix mat-icon-button>
               <mat-icon>arrow_drop_down</mat-icon>
-            </span>
+            </span>createf
             <mat-autocomplete autoActiveFirstOption #autoResolutionType="matAutocomplete">
               <!-- <mat-select formControlName="ResolutionType"> -->
               <!-- <mat-option *ngFor="let val of config.ResolutionType  | ddlFilter: resolutiontype.value"
@@ -125,11 +125,11 @@
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field>  -->
 
-          <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ResolutionType .disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolutionType">  
               <!-- <mat-option>None</mat-option>           -->
-              <mat-option *ngFor="let val of config.ResolutionType" [value]="val">
+              <mat-option *ngFor="let val of config.RestoreSolResolutionType" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
@@ -255,7 +255,7 @@
 
                   <div style="display: inline-block;">
                     <ng-container *ngIf="updateDetails as con">
-                      <mat-form-field>
+                      <!-- <mat-form-field>
                         <mat-label>Resolution Type</mat-label>
                         <input name="resolution" required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}"
                           type="text" #resolution="ngModel" placeholder="Search Resolution Type" matInput
@@ -272,6 +272,20 @@
                         <mat-error class="alert alert-danger">
                           <div *ngIf="resolution.errors?.validOptions">Value need to match available options</div>
                           <div *ngIf="!resolution.errors?.required">
+                            <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                            <!-- Select resolution type
+                          </div>
+                        </mat-error>
+                      </mat-form-field> --> 
+                      <mat-form-field>
+                        <mat-label>Resolution Type</mat-label>
+                        <mat-select #resolution="ngModel" name="resolution" required [(ngModel)]="Resolution">
+                          <mat-option *ngFor="let val of con.RestoreSolResolutionType" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error class="alert alert-danger">                          
+                          <div *ngIf="resolution.errors?.required">
                             <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                             Select resolution type
                           </div>

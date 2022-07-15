@@ -12,7 +12,7 @@
             style="padding-left: 11px;">
             <mat-form-field [ngClass]="{'hidden':f.AuditMonth.disabled}">
               <mat-label>Audit Month</mat-label>
-              <input matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="AuditMonth">
+              <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="AuditMonth">
               <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
               <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
                 (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
@@ -54,7 +54,7 @@
           </mat-form-field>
           </div>
 
-          <div [ngStyle]="{'display':thisForm.controls.ResolvedBy.disabled ? 'none' : 'block'}">
+          <!-- <div [ngStyle]="{'display':thisForm.controls.ResolvedBy.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[0].default" #ResolvedByOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])">
             </app-select-exp>
@@ -63,7 +63,21 @@
               <input id="ResolvedBy" formControlName="ResolvedBy" matInput maxlength="500" #input
                 placeholder="ResolvedBy">
             </mat-form-field>
-          </div>
+          </div> -->
+          <div [ngStyle]="{'display':thisForm.controls.ResolvedBy.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" #ResolvedByOperator
+                [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])">
+            </app-select-exp>
+            <mat-form-field [ngClass]="{'hidden':f.ResolvedBy.disabled}">
+              <mat-label>Resolved By</mat-label>
+              <mat-select formControlName="ResolvedBy">  
+                <!-- <mat-option>None</mat-option>           -->
+                <mat-option *ngFor="let val of config.UASResolvedBy" [value]="val">
+                  {{val}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
 <!--   <div [ngStyle]="{'display':thisForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeOperator
                 [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolutionTypeOperator',ResolutionTypeOperator.selectedViewValue])">

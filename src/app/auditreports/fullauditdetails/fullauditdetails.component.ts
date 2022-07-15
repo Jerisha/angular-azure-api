@@ -170,7 +170,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
 
   colHeader: ColumnDetails[] = [
     { headerValue: 'TelephoneNumber', header: 'Telephone No', showDefault: true, isImage: false },
-    { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
+    { headerValue: 'View', header: 'Inventory', showDefault: true, isImage: true },
     { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
     { headerValue: 'Source', header: 'Source', showDefault: true, isImage: false },
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
@@ -294,9 +294,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     private router: Router, private telnoPipe: TelNoPipe,
     private alertService: AlertService, private auth: AuthenticationService,
     private actRoute: ActivatedRoute
-    ) {
-      super(auth, actRoute);
-      this.intializeUser();
+  ) {
+    super(auth, actRoute);
+    this.intializeUser();
   }
 
   setAttributesForManualCorrections() {
@@ -449,21 +449,12 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
-        // height:'250px',
         disableClose: true,
         data: { enableOk: false, message: errMsg, }
       });
       rangeConfirm.afterClosed().subscribe(result => { return result; })
       return;
     }
-
-    // if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
-    //   && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
-    //   this.form.StartTelephoneNumber.setErrors({ incorrect: true });
-    //   this.icstartNo.nativeElement.focus();
-    //   this.icstartNo.nativeElement.blur();
-    //   return;
-    // }
 
 
     this.getPnlControlAttributes();
@@ -482,10 +473,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         let result = {
           datasource: res.data.TelephoneNumbers,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -500,14 +487,14 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       showEmail: false,
       removeNoDataColumns: true,
       setCellAttributes: this.cellAttrInfo,
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
-      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
-      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', tabIndex: 6 },
-      { headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7 }]
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '',toolTipText: 'User Comments', tabIndex: 2 },
+      { headerValue: 'RangeReport', icon: 'description', route: '',toolTipText: 'Range Report', tabIndex: 3 },
+      { headerValue: 'InflightOrder', icon: 'description', route: '',toolTipText: 'Inflight Order', tabIndex: 4 },
+      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '',toolTipText: 'Monthly Refresh Flag', tabIndex: 5 },
+      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '',toolTipText: 'MoriCircuitStatus', tabIndex: 6 },
+      { headerValue: 'Comments', icon: 'description', route: '',toolTipText: 'User Comments', tabIndex: 7 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -719,8 +706,10 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
 
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
       CUPID: new FormControl({ value: '', disabled: true }),
       BatchID: new FormControl({ value: '', disabled: true }),
@@ -873,7 +862,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
               ManualAuditType: auditType,
-              ReportIdentifier:'FullAuditDetails'
+              ReportIdentifier: 'FullAuditDetails'
             }
             this.router.navigateByUrl('/transactions/transactions', { state: data });
           }
@@ -1126,6 +1115,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     ];
 
     let request = Utils.preparePyQuery('OverlappingRange', 'FullAuditDetails', attributes);
+    console.log('overlapling', JSON.stringify(request))
     this.overlappingQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {

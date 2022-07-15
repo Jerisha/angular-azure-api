@@ -28,10 +28,16 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     debugger
     let user: User = this.authService.currentUserValue;
-    this.menuItems?.forEach((item:NavItem, index) => {
-    let test = item.children?.filter((x: NavItem) => user?.favourites?.includes(x.menuId.toUpperCase()));
-    test?.forEach(y=> this.menus.push(y))
-    });
+    // this.menuItems?.forEach((item:NavItem, index) => {
+    // let test = item.children?.filter((x: NavItem) => user?.favourites?.includes(x.menuId.toUpperCase()));
+    // test?.forEach(y=> this.menus.push(y))
+    let favourtie = user.favourites;
+    favourtie.forEach((favItem: any) => {
+      this.menuItems?.forEach((item: NavItem, index) => {
+        let test = item.children?.filter((x: NavItem) => x.menuId === favItem);
+        test?.forEach(y => this.menus.push(y));
+      });
+    })
    
  
    this.newslist = user.newsupdate

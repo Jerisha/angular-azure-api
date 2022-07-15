@@ -35,7 +35,7 @@ export class TableComponent implements OnInit {
     this.dataSource = new MatTableDataSource<any>(this.tableitem);
     this.dataColumns = this.toTableheaders(this.tableitem);
     this.imageItem = [
-      {headerValue:'View',icon:'tab',route:'',tabIndex: 1 }
+      {headerValue:'Inventory',icon:'tab',route:'',tabIndex: 1 }
     ];
     
   }

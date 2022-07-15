@@ -26,12 +26,18 @@ table
 
 .mat-cell{
   font-size:small;
+  text-align: center;
 }
 
 .mat-row {
   height: 10px;
 }
-
+.mat-row:nth-child(even) {
+  background-color: white;
+}
+.mat-row:nth-child(4n - 1) {
+  background-color: #F5F5F5;
+}
 tr.example-detail-row {
   height: 0;
 }
@@ -46,6 +52,7 @@ th {
   
 .mat-header-cell {
   color: white;
+  text-align: center;
   /* padding: 2px 10px; */
   
   /* width: auto;

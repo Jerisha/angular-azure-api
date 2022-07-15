@@ -24,6 +24,10 @@ import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import { isBuffer } from 'util';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { User } from 'src/app/_auth/model/user';
+//import { AuthenticationService } from '../_auth/services/authentication.service';
+//import { User } from '../_auth/model/user';
 
 @Component({
   selector: 'app-transactions-views',
@@ -110,7 +114,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
-    public router: Router,private spinner: NgxSpinnerService) {
+    public router: Router,private spinner: NgxSpinnerService,private authService: AuthenticationService) {
     // this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
     // if (this.passedRouteData) {
     //   console.log('constructer name' + JSON.stringify(this.passedRouteData))
@@ -266,6 +270,22 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
      
     }
   }
+  onmodelSourcechange(value: string, ctrlName: string) {
+    debugger
+   
+    if (value != "")
+    {
+     console.log('vlaue changed');
+    }
+    else{
+      if(this.model.CupId === "13 - Cable & Wireless UK")
+  {
+      this.SourceFranchisearr={Franchise:[]};
+      this.model.franchise ="";
+  }
+     
+    }
+  }
   onChange(value: string, ctrlName: string) {
     if (!this.evntflage) {
       debugger
@@ -308,7 +328,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   onSourceChange(event: any) {
     debugger
    // model.CupId
-   
+  //  this.model.franchise='';
+  //  this.SourceFranchisearr={};
   if(this.model.CupId === "13 - Cable & Wireless UK")
   {
 
@@ -344,7 +365,10 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.SourceFranchisearr={Source:[],Franchise:[]};
     this.model.source="";
     this.model.franchise="";
-
+    let user: User = this.authService.currentUserValue;
+    let test =  user?.sources;
+    console.log('get values from auth',test);
+    
     if(event.option.value === "13 - Cable & Wireless UK")
     {
       let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
@@ -358,7 +382,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('default source values',modelsource);
-      this.model.source = modelsource[0];
+    
+        // this.model.source = modelsource[0];
       this.enableSource = true;
       this.enableFrancise = true;
       this.SourceFranchisearr={Source:this.SourceValues,Franchise:[]};
@@ -609,9 +634,16 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         let test: any = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('uniquer values',test);
-        this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
+        let user: User = this.authService.currentUserValue;
+       let authsource =  user?.sources;
+        //let authsource = [''];
+        debugger  
+        if(authsource.length!=0)
+        {
+          this.cupIds = this.cupIds.filter((el: any) => authsource.includes(el.Source));
+        }
+          this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-         
           this.Cuparr ={CupID:this.cupidValues};  
         
         //update manual correction

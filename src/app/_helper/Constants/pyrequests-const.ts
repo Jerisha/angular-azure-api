@@ -505,7 +505,8 @@ export const PyRequests = {
       ],
       "RequestParams":[
           {"ReportIdenitifer":"ManageUsers",
-          "SubReportName":"UserReports"}]
+          "SubReportName":"UserReports",
+          }]
       },
       UIUPDATE:{ "RequestType" : "UIUPDATE",
       "UserParams":[
@@ -546,7 +547,7 @@ export const PyRequests = {
     },
     UICREATE:{ "RequestType" : "UICREATE",
     "UserParams":[
-        {"UserID" : "PODDARS5",
+        {"UserID" : "BEEMA",
         "Destination" : "OSN2"}
     ],
     "RequestParams":[
@@ -597,7 +598,7 @@ export const PyRequests = {
     },
     UIDELETE:{ "RequestType" : "UIDELETE",
     "UserParams":[
-        {"UserID" : "PODDARS5",
+        {"UserID" : "BEEMA",
         "Destination" : "OSN2"}
     ],
     "RequestParams":[

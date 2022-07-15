@@ -166,11 +166,10 @@ refresh(event: any)
             data: this.queryResult$,
             removeNoDataColumns : true,
             Columns: this.columns,
-            filter: false,
+            filter: false,        
             excelQuery : this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
-            //selectionColumn: 'TranId',
-
+            
         }
         if (!this.tabs.find(x => x.tabType == 0)) {
             this.tabs.push({
@@ -229,8 +228,9 @@ refresh(event: any)
     createForm() {
         
         this.myForm = new FormGroup({
-            TelephoneNumber: new FormControl({ value: '', disabled: false },
-                [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+            // TelephoneNumber: new FormControl({ value: '', disabled: false },
+            //     [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+            TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
         })
         this.onFormSubmit(true);
     }

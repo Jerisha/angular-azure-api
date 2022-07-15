@@ -169,9 +169,10 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  errorCodesOptions!: Observable<any[]>;
+
   selectedRowsCount: number = 0;
-  errorCodeData!: any[];
+
+  errorCodes: string[];
   selectedTab!: number;
   public tabs: Tab[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -193,13 +194,15 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   // currentPage: string = '1';
   updateDetails!: any;
   model: any = { ErrorCode: "" };
-
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   ngOnInit(): void {
     this.createForm();
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
+      this.errorCodes = res.data?.ErrorCode
     });
 
     if (this.updateAccess) {
@@ -275,12 +278,13 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     })
 
   }
+
   createForm() {
 
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    const date = today.getDate();
+    // const today = new Date();
+    // const month = today.getMonth();
+    // const year = today.getFullYear();
+    // const date = today.getDate();
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
@@ -318,7 +322,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
@@ -329,6 +333,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Change Cupid', headerValue: 'ChangeCupId', showDefault: true, isImage: false },
+    { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false}
     // { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 
@@ -394,10 +399,11 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       filter: true,
       selectCheckbox: true,
       setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
+      //isFavcols:true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -633,14 +639,13 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            // name: 'Transaction Errors'
-            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
+            name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[tabIndex].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
+          this.tabs[tabIndex].name = 'Transaction History(' + this.telNo + '/' + this.tranId + ')';
         }
         break;
       default:
@@ -657,50 +662,14 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     control?.nativeElement.focus();
   }
 
-  reequest2Excel(columnMapping: any) {
-    //console.log(columnMapping)    
 
-    const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
-      width: '300px', disableClose: true, data: {
-        message: 'Do you want to Export this Report?'
-      }
-    });
-    exportConfirm.afterClosed().subscribe(confirm => {
-      this.isExportDisable = true;
-      if (confirm) {
+  errorTypeChanges(event: any) {
+    debugger;
+    let errType = event.value;
+    let code = errType === 'Internal Errors' ? '2' : '1';
+    this.errorCodes = this.configDetails?.ErrorCode.filter((x: string) => x.startsWith(code))
 
-        let request = Utils.preparePyQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage.toString()), columnMapping);
-        //  let request = Utils.preparePyExportQuery('TelephoneNumberError', 'SolicitedErrors', this.prepareQueryParams(this.currentPage),columnMapping);
-        this.service.queryDetails(request).subscribe(x => {
-          // this.alertService.success("Export successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-          // console.log(x,'res')
-          if (x.Status.StatusMessage === 'Success' || x.Status.StatusCode === 'EUI000') {
-            this.alertService.success("Export request placed successfully!!, Please Check Staus On ExportSummary Icon :)", { autoClose: true, keepAfterRouteChange: false });
-          }
-          else {
-            //console.log(x,'Export request Error Response')
-            this.alertService.notification("Export Aborted!!... " + x.Status.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-          }
-          this.isExportDisable = false;
-        },
-          (error: any) => {
-            // console.log(error,'Export API Function')  
-            this.isExportDisable = false;
-
-          },
-          () => {
-            // console.log('Update API Completed','Export API Function')
-            this.isExportDisable = false;
-          });
-
-      }
-      else {
-        this.alertService.info("Export Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
-        this.isExportDisable = false;
-      }
-    });
   }
-
 
 
 }

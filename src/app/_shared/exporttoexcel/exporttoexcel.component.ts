@@ -88,6 +88,9 @@ export class ExporttoexcelComponent implements OnInit {
   ngOnInit(): void {
     //this.exportData = myData;        
     this.refresh();
+    this.dataSource.filterPredicate = function (record,filter) {
+      return record.ReportName.toLocaleLowerCase().indexOf(filter) == 0;
+   }
   }
   //formControlName="reportctl"
   ngOnChanges(changes: SimpleChanges) {
