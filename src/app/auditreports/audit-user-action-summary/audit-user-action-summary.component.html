@@ -14,7 +14,7 @@
               <mat-label>Audit Month</mat-label>
               <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="AuditMonth">
               <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-              <mat-datepicker #dp startView="year" (yearSelected)="chosenYearHandler($event)"
+              <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
                 (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
               </mat-datepicker>
 
