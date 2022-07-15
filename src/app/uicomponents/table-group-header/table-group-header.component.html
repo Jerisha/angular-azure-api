@@ -53,7 +53,7 @@
 
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <ng-container *ngIf="isRowTotal">
-      <tr class="total-row" mat-footer-row *matFooterRowDef="totalCols;sticky: true"></tr>
+      <tr class="total-row" mat-footer-row *matFooterRowDef="totalCols;"></tr>
     </ng-container>
   </table>
 </div>
