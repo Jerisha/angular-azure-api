@@ -555,6 +555,7 @@ export class RangeSpecialCeaseTransactionComponent extends UserProfile implement
     }
     else {
       this.alertService.info("Transaction Ceased Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+      this.onFormSubmit(true);
     }
 
   });
