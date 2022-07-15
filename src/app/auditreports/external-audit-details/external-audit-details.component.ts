@@ -282,7 +282,8 @@ export class ExternalAuditDetailsComponent extends UserProfile implements OnInit
     this.updateForm.reset();
     this.remarkstxt = '';
 
-    this.getTelnoValidation();
+   // this.getTelnoValidation();
+    this.getPnlControlAttributes();
 
     if (!this.externalAuditForm.valid) return;
 
