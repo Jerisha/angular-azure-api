@@ -17,7 +17,7 @@
                    (click) ="OnOperatorClicked(['StatisticMonthOperator',StatisticMonthOperator.selectedViewValue])"></app-select-exp>
         <mat-form-field>
           <mat-label>Statistic Month</mat-label>
-          <input matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="StatisticMonth">
+          <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="StatisticMonth">
           <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
           <mat-datepicker #dp
                           startView="multi-year"

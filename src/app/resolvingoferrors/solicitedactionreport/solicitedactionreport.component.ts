@@ -125,6 +125,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   errorCodesOptions!: Observable<any[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },

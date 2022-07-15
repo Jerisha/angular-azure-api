@@ -91,6 +91,9 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
+
 
 
   columns: ColumnDetails[] = [    

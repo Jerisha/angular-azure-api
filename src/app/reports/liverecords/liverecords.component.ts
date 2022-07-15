@@ -530,6 +530,9 @@ resetExp:boolean = false;
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
+
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },
     { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
@@ -539,7 +542,7 @@ resetExp:boolean = false;
     { header: 'Thoroughfare', headerValue: 'Thoroughfare', showDefault: true, isImage: false },
     { header: 'Locality', headerValue: 'Locality', showDefault: true, isImage: false },
     { header: 'PostCode', headerValue: 'PostCode', showDefault: true, isImage: false },
-    { header: 'Transaction Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
+    
     { header: 'Customer Title', headerValue: 'CustomerTitle', showDefault: true, isImage: false },
     { header: 'Customer Forename', headerValue: 'CustomerForename', showDefault: true, isImage: false },
     { header: 'Franchise', headerValue: 'Franchise', showDefault: true, isImage: false },
@@ -556,7 +559,8 @@ resetExp:boolean = false;
     { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
     { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
-    { header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false }
+    { header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false },
+    { header: 'Transaction Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
   ];
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {

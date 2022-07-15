@@ -147,6 +147,8 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
   // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   expressions: any = [expNumeric, expString, expDate, expDropdown];
   expOperators: string[] = [
     "TelephoneNumberOperator",

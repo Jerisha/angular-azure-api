@@ -194,7 +194,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   // currentPage: string = '1';
   updateDetails!: any;
   model: any = { ErrorCode: "" };
-
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   ngOnInit(): void {
     this.createForm();
     debugger;
@@ -277,12 +278,13 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     })
 
   }
+
   createForm() {
 
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    const date = today.getDate();
+    // const today = new Date();
+    // const month = today.getMonth();
+    // const year = today.getFullYear();
+    // const date = today.getDate();
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({

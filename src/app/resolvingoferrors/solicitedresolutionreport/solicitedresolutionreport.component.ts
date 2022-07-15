@@ -157,6 +157,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
   configDetails!: any;
   // currentPage: string = '1';
   updateDetails!: any;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
