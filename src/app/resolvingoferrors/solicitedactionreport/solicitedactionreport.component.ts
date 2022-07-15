@@ -148,13 +148,13 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
    
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
-    { header: 'ResolutionType', headerValue: 'ResolveType', showDefault: true, isImage: false },
+    { header: 'Resolution Type', headerValue: 'ResolveType', showDefault: true, isImage: false },
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
 
@@ -196,7 +196,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.myForm = new FormGroup({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       TransactionID: new FormControl({ value: '', disabled: true }, []),
       // CreatedOn: new FormControl({ value: '', disabled: true }, []),
       ResolveType: new FormControl({ value: '', disabled: true }, []),

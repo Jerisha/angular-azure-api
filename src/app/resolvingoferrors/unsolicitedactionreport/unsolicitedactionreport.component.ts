@@ -280,7 +280,8 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     //ToDate: new FormControl(new Date(year, month, date))
     
    this.myForm = new FormGroup({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")] ),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")] ),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       TransactionReference: new FormControl({ value: '', disabled: true }, []),
       ResolveType: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),

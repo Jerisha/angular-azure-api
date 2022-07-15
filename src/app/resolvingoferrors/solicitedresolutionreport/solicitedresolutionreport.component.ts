@@ -403,7 +403,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.myForm = this.formBuilder.group({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       TransactionID: new FormControl({ value: '', disabled: true }, []),
       ChangeCUPID: new FormControl({ value: '', disabled: true }, []),
       // TransactionDate: new FormControl(),
