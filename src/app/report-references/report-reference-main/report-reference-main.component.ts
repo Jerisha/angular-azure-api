@@ -720,7 +720,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     
      let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'])
+       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','ListType'])
        {
          Reflect.deleteProperty(row,i)
        }
