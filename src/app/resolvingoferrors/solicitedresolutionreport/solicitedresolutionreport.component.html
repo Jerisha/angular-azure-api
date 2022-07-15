@@ -57,7 +57,7 @@
     <div [ngStyle]="{'display':myForm.controls.TransactionDate.disabled ? 'none' : 'block'}"style="padding-left: 11px;">
       <mat-form-field [ngClass]="{'hidden':f.TransactionDate.disabled}"> 
           <mat-label>Transaction Date</mat-label>
-          <mat-date-range-input formGroupName="TransactionDate" [rangePicker]="picker">
+          <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="TransactionDate" [rangePicker]="picker">
             <input readonly formControlName="StartDate" matStartDate placeholder="StartDate">
             <input readonly formControlName="EndDate" matEndDate placeholder="EndDate">
           </mat-date-range-input>

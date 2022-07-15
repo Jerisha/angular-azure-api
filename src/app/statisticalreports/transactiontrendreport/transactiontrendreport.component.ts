@@ -181,6 +181,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
   datevalue?: string;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
 
   @ViewChild(MatTabGroup) tabGroup !: MatTabGroup;
 

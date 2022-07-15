@@ -116,7 +116,7 @@
 
           <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
             <mat-label>Date Range</mat-label>
-            <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
+            <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
               <input readonly formControlName="FromDate" matStartDate placeholder="From ">
               <input readonly formControlName="ToDate" matEndDate placeholder="To date">
             </mat-date-range-input>
