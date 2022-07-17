@@ -23,6 +23,8 @@ export class TableComponent implements OnInit {
   @Output() rowChanges = new EventEmitter<any>();
   selectColumn: string = '';
   selectedTab!: number;
+  totalRowCols: string[] = [];
+  showTotalRow: boolean=false;
   public tabs = [{
     tabType: 0,
     name: 'Summary'
@@ -32,8 +34,18 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {
     //console.log(this.tableitem);
+    debugger;
     this.dataSource = new MatTableDataSource<any>(this.tableitem);
     this.dataColumns = this.toTableheaders(this.tableitem);
+    //this.totalRowCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isTotal === true).map(e => e.headerValue) : [];
+    //console.log('data columns',this.dataColumns);
+  //  channelArray.some(x => x === "three")
+    if(this.dataColumns.some((x: string) => x === "Inventory"))
+    {
+    this.showTotalRow=true;
+      this.totalRowCols = ['Activate','Cease'	,'Modify',	'Export',	'Import',	'Total', 'Cmds','TotalCmds'];
+   
+    }
     this.imageItem = [
       {headerValue:'Inventory',icon:'tab',route:'',tabIndex: 1 }
     ];
@@ -94,6 +106,17 @@ export class TableComponent implements OnInit {
         break;
       }
     }
+  }
+  getTotal(cellname: string) {
+    // debugger
+    var cell = cellname ? cellname : '';
+    if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
+      return 'Total';
+    }
+    if (this.totalRowCols.includes(cell) && this.dataColumns.includes(cell))
+      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] === '') ? 0 : parseInt(b[cell])), 0);
+    else
+      return '';
   }
  
 }

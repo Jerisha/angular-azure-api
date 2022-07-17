@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ContentChild, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Transactionsourcecommandhistory, Link } from 'src/app/statisticalreports/models/transactionsourcecommandhistory';
-import { ColumnDetails, TableItem, ViewColumn } from 'src/app/uicomponents/models/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { expDate, expDropdown, expNumeric, expString } from 'src/app/_helper/Constants/exp-const';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -191,25 +191,25 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Inventory', headerValue: 'Link', showDefault: true, isImage: true },
       { header: 'Statistic Month', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true }
+      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false,isTotal:true },
+      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false,isTotal:true },
+      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false ,isTotal:true},
+      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false ,isTotal:true},
+      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false ,isTotal:true},
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true,isTotal:true }
     ];
 
   columnsChild: ColumnDetails[] =
     [
       { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
       { header: 'Statistic Date', headerValue: 'StatisticDate', showDefault: false, isImage: false },
-      { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false },
-      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false },
-      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false },
-      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false },
-      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false },
-      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true }
+      { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false},
+      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false,isTotal:true  },
+      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false,isTotal:true  },
+      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false,isTotal:true  },
+      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false ,isTotal:true },
+      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false,isTotal:true  },
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true ,isTotal:true }
     ];
 
 
@@ -387,15 +387,18 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       filter: true,
       selectCheckbox: true,
-      imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1 }],
+      imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1,toolTipText: 'Telephone Details' }],
       removeNoDataColumns: true,
+    
+      //totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
+
     }
     this.myTableChild = {
       data: this.queryResult$,
       Columns: this.columnsChild,
       filter: true,
       //selectCheckbox: true,      
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 }],
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 ,toolTipText: 'Telephone Details'}],
       selectCheckbox:true
     }
 

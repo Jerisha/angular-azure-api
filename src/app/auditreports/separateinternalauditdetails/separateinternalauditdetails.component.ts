@@ -351,7 +351,7 @@ else{
   }
 
   fullauditdetailscolumns: ColumnDetails[] = [
-    { header: 'Tel.No.', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Telephone Number', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'OSN2Source', showDefault: true, isImage: true },
     { header: 'Act ID', headerValue: 'ACTID', showDefault: true, isImage: false },
     { header: 'Cupid', headerValue: 'Cupid', showDefault: true, isImage: false },
