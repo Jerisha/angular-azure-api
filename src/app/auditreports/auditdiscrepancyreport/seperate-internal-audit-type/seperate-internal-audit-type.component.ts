@@ -50,7 +50,7 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       },
       {
         tabType: 2,
-        name: 'Month Report'
+        name: 'M-O-M'
       },
       {
         tabType: 3,

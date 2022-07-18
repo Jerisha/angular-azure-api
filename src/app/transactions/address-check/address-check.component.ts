@@ -166,13 +166,15 @@ export class AddressCheckComponent implements OnInit {
       // console.log("res message to show: ",res.data.PAFAddress[0]);
       if (Object.keys(res).length) {
         this.data=res;
+      let replacestring=  this.data.data.PAFAddress[0].CheckedAddress;
+      console.log('replace string',replacestring.replace(/^(.+?,.+?),\s*/g,'$1\n'));
         this.summaryTiles= [    
           {text: 'Error Code' ,class:"vf-grid-header",rowspan:1,colspan:1},
           {text: 'Checked Address',class:"vf-grid-header",rowspan:1,colspan:1},
           {text: 'PAF Address',class:"vf-grid-header",rowspan:1,colspan:1},
           {text: this.data.data.PAFAddress[0].ErrorCode,class:"vf-grid-valueValidation",rowspan:4,colspan:1}, 
-          {text: this.data.data.PAFAddress[0].CheckedAddress,class:"vf-grid-valueValidation",rowspan:4,colspan:1},
-          {text: this.data.data.PAFAddress[0].PAFAddress,class:"vf-grid-valueValidation",rowspan:4,colspan:1},
+          {text: this.data.data.PAFAddress[0].CheckedAddress.replace(/^(.+?,.+?),\s*/g,'$1\n'),class:"vf-grid-valueValidation",rowspan:4,colspan:1},
+          {text: this.data.data.PAFAddress[0].PAFAddress.replace(/^(.+?,.+?),\s*/g,'$1\n'),class:"vf-grid-valueValidation",rowspan:4,colspan:1},
         ];
         this.pafTiles=[
           {text: 'Input Format'        ,class:"vf-grid-header",rowspan:1,colspan:1},

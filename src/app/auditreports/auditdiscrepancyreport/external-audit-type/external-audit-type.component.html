@@ -18,16 +18,21 @@
     
             <span [ngSwitch]="tab.tabType">
                 <div *ngSwitchCase="0" >
-                    <app-table-group-header [GrpTableitem]="auditSummaryTable" [obsData] ="result.ExternalAuditSummary ? result.ExternalAuditSummary : []"></app-table-group-header>
-    
+                    <div class="page-container">
+                        <app-table-group-header [GrpTableitem]="auditSummaryTable" [obsData] ="result.ExternalAuditSummary ? result.ExternalAuditSummary : []"></app-table-group-header>
+                    </div>
             </div>
     
                 <div *ngSwitchCase="1" >
-                    <app-table-group-header [GrpTableitem]="progressReportTable" [obsData] ="result.ExternalAuditProgressReport ? result.ExternalAuditProgressReport : []"></app-table-group-header>
+                    <div class="page-container">
+                        <app-table-group-header [GrpTableitem]="progressReportTable" [obsData] ="result.ExternalAuditProgressReport ? result.ExternalAuditProgressReport : []"></app-table-group-header>
+                    </div>
                 </div>
     
                <div *ngSwitchCase="2" >
-                    <app-table-group-header [GrpTableitem]="monthReportTable"  [obsData] ="result.ExternalAuditMonthReport ? result.ExternalAuditMonthReport : []"></app-table-group-header>
+                    <div class="page-container">
+                     <app-table-group-header [GrpTableitem]="monthReportTable"  [obsData] ="result.ExternalAuditMonthReport ? result.ExternalAuditMonthReport : []"></app-table-group-header>
+                    </div>
                 </div>
     
                  <div *ngSwitchCase="3" >
@@ -41,8 +46,9 @@
                 <!-- <div *ngIf="!isMonthFilter"> -->
                     <!-- <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.ExternalAuditAddressPostCode ? result.ExternalAuditAddressPostCode : []" [AllMonths]="result.AllMonths" (MonthDate)="fetchMonthData($event)"></app-table-group-header> -->
                     <!-- <div> -->
-                    <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.ExternalAuditAddressPostCode ? result.ExternalAuditAddressPostCode : []"></app-table-group-header>
-
+                        <div class="page-container">
+                                <app-table-group-header [GrpTableitem]="addressReportTable" [obsData] ="result.ExternalAuditAddressPostCode ? result.ExternalAuditAddressPostCode : []"></app-table-group-header>
+                        </div>
             </div>
     
                 <div *ngSwitchDefault>

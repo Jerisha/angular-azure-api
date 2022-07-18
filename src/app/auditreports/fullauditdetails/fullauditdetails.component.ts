@@ -706,8 +706,10 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
 
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
       CUPID: new FormControl({ value: '', disabled: true }),
       BatchID: new FormControl({ value: '', disabled: true }),

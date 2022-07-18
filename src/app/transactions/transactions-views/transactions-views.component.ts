@@ -270,6 +270,22 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
      
     }
   }
+  onmodelSourcechange(value: string, ctrlName: string) {
+    debugger
+   
+    if (value != "")
+    {
+     console.log('vlaue changed');
+    }
+    else{
+      if(this.model.CupId === "13 - Cable & Wireless UK")
+  {
+      this.SourceFranchisearr={Franchise:[]};
+      this.model.franchise ="";
+  }
+     
+    }
+  }
   onChange(value: string, ctrlName: string) {
     if (!this.evntflage) {
       debugger
@@ -312,7 +328,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   onSourceChange(event: any) {
     debugger
    // model.CupId
-   
+  //  this.model.franchise='';
+  //  this.SourceFranchisearr={};
   if(this.model.CupId === "13 - Cable & Wireless UK")
   {
 
@@ -365,7 +382,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('default source values',modelsource);
-      this.model.source = modelsource[0];
+    
+        // this.model.source = modelsource[0];
       this.enableSource = true;
       this.enableFrancise = true;
       this.SourceFranchisearr={Source:this.SourceValues,Franchise:[]};
@@ -616,9 +634,16 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         let test: any = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('uniquer values',test);
-        this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
+        let user: User = this.authService.currentUserValue;
+       let authsource =  user?.sources;
+        //let authsource = [''];
+        debugger  
+        if(authsource.length!=0)
+        {
+          this.cupIds = this.cupIds.filter((el: any) => authsource.includes(el.Source));
+        }
+          this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-         
           this.Cuparr ={CupID:this.cupidValues};  
         
         //update manual correction

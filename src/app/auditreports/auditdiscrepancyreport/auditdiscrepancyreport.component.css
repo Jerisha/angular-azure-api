@@ -1,53 +1,45 @@
-table {
-  
+/* table {
     border-collapse: collapse;
-    /* width: 100%; */
-  }
+  } */
   
-  td, th {
+  /* td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-  }
+  } */
 
-  .cRepTitle{
+  /* .cRepTitle{
       background-color: lightblue;
       padding-left: 4px;
-  }
+  } */
 
-  .tablediv{
+  /* .tablediv{
       overflow: auto;
-      
+  } */
 
-  }
-
-  .controlsStylediv{
+  /* .controlsStylediv{
     margin:10px 
-  }
+  } */
 
-  .footer{
-    
+  /* .footer{
       position: fixed;
       padding: 10px 10px 0px 10px;
       bottom: 5;
         width: 15%;
-      /* Height of5sthe footer*/ 
+      Height of5sthe footer 
       height: 40px;
       background: grey;
   
-  }
+  } */
 
   
-.slidderbtn{
-  /* float: left; */
+/* .slidderbtn{
 cursor: pointer;
   border:none;
- /* border:1px solid #e60000; */
   background-color: #e60000;
   color:  #EFEFEF;
-  /* border-radius: 12%; */
   font-size:x-small;
   margin-left: -50px;
   height: 40px;
-}
+} */
 

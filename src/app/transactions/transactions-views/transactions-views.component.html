@@ -221,7 +221,7 @@
                               <ng-container *ngIf="SourceFranchisearr  as config1">
                                 <mat-form-field *ngIf = "enableSource"   [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:260px;">
                                   <mat-label>Source</mat-label>
-                                  <input #source formControlName="Source" [(ngModel)]="model.source"  type="text" placeholder="Source" matInput
+                                  <input #source formControlName="Source" [(ngModel)]="model.source"  (ngModelChange)="onmodelSourcechange($event,'CupID')" type="text" placeholder="Source" matInput
                                     [matAutocomplete]="autoSource" OptionsValidator [options]="config1.Source" />
                                   <span matSuffix mat-icon-button>
                                   
