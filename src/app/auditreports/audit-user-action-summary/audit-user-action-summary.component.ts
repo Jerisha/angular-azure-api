@@ -114,7 +114,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   ngOnInit(): void {
     this.listItems = Itemstwo;
     this.createForm();
-    let request = Utils.preparePyConfig(['Search'], ['AuditType', 'UASResolvedBy', 'ResolutionTypeAudit', 'AuditActID']);
+    let request = Utils.preparePyConfig(['Search'], ['AuditType', 'UASResolvedBy', 'UASResolutionType', 'AuditActID']);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
     });
