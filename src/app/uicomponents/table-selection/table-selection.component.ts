@@ -394,6 +394,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
 
   addTabs(event: any, tabType: number, row: any) {
     event.stopPropagation();
+    this.alertService.clear();
     this.addNewTab.emit({ tabType, row });
   }
 

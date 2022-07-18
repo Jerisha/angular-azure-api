@@ -333,7 +333,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
     { header: 'Change Cupid', headerValue: 'ChangeCupId', showDefault: true, isImage: false },
-    { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false}
+    { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false }
     // { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 
@@ -608,16 +608,16 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     }
     return true;
   }
-
+  onTabChanged(event:any){
+    //this.alertService.clear();
+  }
   newTab(tab: any) {
     if (this.tabs === []) return;
 
-
+    // this.alertService.clear();
     switch (tab.tabType) {
       case 1:
-        //console.log('New Tab: '+ JSON.stringify(tab.row) )
         //tab.row contains row data- fetch data from api and bind to respetive component
-
         if (!this.tabs?.find(x => x.tabType == 1)) {
           this.tabs.push({
             tabType: 1,
