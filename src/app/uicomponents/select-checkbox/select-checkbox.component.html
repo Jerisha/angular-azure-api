@@ -1,5 +1,5 @@
 <mat-form-field style="
-width:180px;height: 35px;;
+width:170px;height: 35px;margin-left:0px;
 " >
     
   <mat-label>{{label}}</mat-label>          
@@ -9,7 +9,7 @@ width:180px;height: 35px;;
   <mat-select  #select (openedChange)="openedChange($event)"  [formControl]="selectFormControl"
      multiple disableOptionCentering panelClass="selpanel">
     <mat-select-trigger>
-      Source
+      {{label}}
       
       <!-- {{selectFormControl.value ? selectFormControl.value[0] : ''}}
       <span *ngIf="selectFormControl.value?.length > 1" class="additional-selection">

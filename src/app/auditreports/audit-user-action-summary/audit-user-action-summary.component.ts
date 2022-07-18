@@ -85,8 +85,8 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   myTable!: TableItem;
   listItems!: Select[];
   defaultACTID: string = '';
-  minDate: Date;
-  maxDate: Date;
+  minDate: Date = new Date('01/01/2000');
+  maxDate: Date = new Date();
 
 
   expOperatorsKeyPair: [string, string][] = [];
@@ -112,8 +112,6 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
      }
 
   ngOnInit(): void {
-    this.minDate = new Date('01/01/2000');
-    this.maxDate = new Date();
     this.listItems = Itemstwo;
     this.createForm();
     let request = Utils.preparePyConfig(['Search'], ['AuditType', 'UASResolvedBy', 'UASResolutionType', 'AuditActID']);
@@ -345,7 +343,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
     
     const ctrlValue = this.AuditMonth.value;
-    ctrlValue.month(normalizedMonth.month());
+    ctrlValue?.month(normalizedMonth.month());
     //let datevaluetest=formatDate(ctrlValue, 'MMM-yyyy', 'en-US')
     this.AuditMonth.setValue(ctrlValue);
     this.datevalue=ctrlValue;

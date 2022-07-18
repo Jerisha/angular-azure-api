@@ -1,0 +1,4 @@
+.page-container {
+    max-height: 490px;
+    overflow: auto;
+}

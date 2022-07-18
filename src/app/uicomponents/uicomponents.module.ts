@@ -19,6 +19,7 @@ import {
 
 import { HelperModule } from '../_helper/helper.module';
 import { SelectCheckboxComponent } from './select-checkbox/select-checkbox.component';
+import { TableExpansionNewComponent } from './table-expansion-new/table-expansion-new.component';
 
 @NgModule({
   declarations: [    
@@ -32,7 +33,8 @@ import { SelectCheckboxComponent } from './select-checkbox/select-checkbox.compo
     SelectSingleComponent,
     TableGroupHeaderComponent,
     TableExpansionComponent,
-    SelectCheckboxComponent
+    SelectCheckboxComponent,
+    TableExpansionNewComponent
 
   ],
   imports: [
@@ -54,7 +56,8 @@ import { SelectCheckboxComponent } from './select-checkbox/select-checkbox.compo
     SelectMultipleComponent,
     SelectSingleComponent,
     TableExpansionComponent,
-    SelectCheckboxComponent
+    SelectCheckboxComponent,
+    TableExpansionNewComponent
   ],
  })
 export class UicomponentsModule { }
