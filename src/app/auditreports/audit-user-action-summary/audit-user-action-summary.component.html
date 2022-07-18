@@ -105,7 +105,7 @@
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolutionTypeAudit">  
               <!-- <mat-option>None</mat-option>           -->
-              <mat-option *ngFor="let val of config.ResolutionTypeAudit" [value]="val">
+              <mat-option *ngFor="let val of config.UASResolutionType" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
