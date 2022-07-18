@@ -44,8 +44,8 @@ export class TableComponent implements OnInit {
     {
     this.showTotalRow=true;
       this.totalRowCols = ['Activate','Cease'	,'Modify',	'Export',	'Import',	'Total', 'Cmds','TotalCmds'];
-   
     }
+    
     this.imageItem = [
       {headerValue:'Inventory',icon:'tab',route:'',tabIndex: 1 }
     ];

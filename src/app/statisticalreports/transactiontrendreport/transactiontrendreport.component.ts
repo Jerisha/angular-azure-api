@@ -191,12 +191,12 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Inventory', headerValue: 'Link', showDefault: true, isImage: true },
       { header: 'Statistic Month', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false,isTotal:true },
-      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false,isTotal:true },
-      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false ,isTotal:true},
-      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false ,isTotal:true},
-      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false ,isTotal:true},
-      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true,isTotal:true }
+      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false,isTotal:true,isFooter:true },
+      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false,isTotal:true,isFooter:true },
+      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true},
+      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true},
+      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true},
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true,isTotal:true,isFooter:true }
     ];
 
   columnsChild: ColumnDetails[] =
@@ -389,6 +389,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       selectCheckbox: true,
       imgConfig: [{ headerValue: 'Link', icon: 'tab', route: '', tabIndex: 1,toolTipText: 'Telephone Details' }],
       removeNoDataColumns: true,
+      isCustomFooter:true
     
       //totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 

@@ -218,7 +218,8 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
       this.showTotalRow =true;
       this.imgList = this.tableitem?.imgConfig;
       this.isEmailRequired = this.tableitem?.showEmail;
-      this.showCustomFooter = this.tableitem?.isCustomFooter;
+       this.showCustomFooter = this.tableitem?.isCustomFooter;
+      //this.showCustomFooter =true;
       if (this.tableitem?.isCustomFooter) this.footerDisplayCols = this.tableitem?.Columns ? this.tableitem?.Columns.filter(e => e.isFooter === true).map(e => `f2_${e.headerValue}`) : [];
   
       // if (this.tableitem?.removeNoDataColumns) {
@@ -294,20 +295,20 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
   
     getFooterDetails(cellname: string) {
   
-      // debugger 
-  
+      debugger 
+  console.log('footer details',this.footerDetails);
       var cell = cellname ? cellname : '';
   
       if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
   
-        return this.footerDetails.footerName;
-  
+      //  return this.footerDetails.footerName;
+  return 'Cumulative'
       }
   
       if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
   
-        return this.footerDetails.footerValue;
-  
+       // return this.footerDetails.footerValue;
+  return 500;
       else
   
         return '';
