@@ -95,14 +95,14 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
 
 
   columns: ColumnDetails[] = [
-    { header: 'Inventory', headerValue: 'ViewDetails', showDefault: false, isImage: true },
+    { header: 'Inventory', headerValue: 'ViewDetails', showDefault: false, isImage: true, },
     { header: 'Telephone Nos', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Activate', headerValue: 'AddCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Activate', headerValue: 'AddCommands', showDefault: true, isImage: false, isTotal: true,isNumber:true },
     { header: 'Cease', headerValue: 'CeaseCommands', showDefault: true, isImage: false, isTotal: true },
     { header: 'Modifiy', headerValue: 'ModifiyCommands', showDefault: true, isImage: false, isTotal: true },
     { header: 'Export', headerValue: 'ExportCommands', showDefault: true, isImage: false, isTotal: true },
     { header: 'Import', headerValue: 'ImportCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true,isBold:true  },
+    { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true,isBold:true,isNumber:true  },
   ];
   queryResult$!: Observable<any>;
 
@@ -126,6 +126,7 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
     console.log('request', JSON.stringify(request))
     this.queryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
+        console.log('result from telephone',JSON.stringify(res.data));
         let result = {
           datasource: res.data.TelephoneNumbers,
           params: res.params
@@ -146,7 +147,7 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
       selectCheckbox: true,
       removeNoDataColumns : true,
       // colToSetImage: ['View'],
-      imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],
+      imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1,toolTipText: 'View Audit Details' },],
       // showTotal: true,
       // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 

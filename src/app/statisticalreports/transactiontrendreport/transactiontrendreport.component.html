@@ -76,7 +76,7 @@
           (click) ="OnOperatorClicked(['StatisticMonthOperator',StatisticMonthOperator.selectedViewValue])"></app-select-exp>
         
         
-          <app-select-checkbox style="margin-left:0px" [label]="'StatisticMonth'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
+          <app-select-checkbox style="margin-left:0px" [label]="'Statistic Month'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
           </app-select-checkbox>
         
         </div>
@@ -140,9 +140,13 @@
               {{isChecked?'Switch to M-O-M View':'Switch to D-2-D View'}} </mat-slide-toggle>
 
             <div *ngIf="!isChecked">
-              <app-table-exp class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
+              <!-- <app-table-exp class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
                 [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecordsExps($event)">
-              </app-table-exp>
+              </app-table-exp> -->
+              <app-table-expansion-new class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
+                [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecords($event)">
+              </app-table-expansion-new>
+
             </div>
 
             <div *ngIf="isChecked">
