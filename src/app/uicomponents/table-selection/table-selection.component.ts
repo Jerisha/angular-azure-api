@@ -41,6 +41,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   @Input() tableitem?: TableItem;
   @Input() sidePan: any;
   @Input() isShown: boolean = true;
+  @Input() reportName?:string;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   @Output() pageIndex = new EventEmitter<any>();
@@ -101,7 +102,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   showFavCols: boolean = false;
   selectedUserProfileId: any;
   enableCustomization: boolean = false;
-
+   
   constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
     private service: UIService,
@@ -271,11 +272,27 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     else
       return '';
   }
-
+  getFooterDetailstemp(cell: string) {
+    debugger
+    var cellname = cell.replace('f2_','');
+    var cell = cellname ? cellname : '';
+    if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
+      return 'Cumulative';
+    }
+    if (this.totalRowCols.includes(cell) && this.dataColumns.includes(cell))
+      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] === '') ? 0 : parseInt(b[cell])), 0);
+    else
+      return '';
+  }
   getFooterDetails(cellname: string) {
 
-    // debugger 
-
+    if(this.reportName)
+    {
+       var result=this.getFooterDetailstemp(cellname);
+       return result;
+    }
+     else
+     {
     var cell = cellname ? cellname : '';
 
     if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
@@ -291,7 +308,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     else
 
       return '';
-
+  }
   }
 
   getColSpan(cellname: string) {

@@ -400,7 +400,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       filter: true,
       //selectCheckbox: true,      
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 ,toolTipText: 'Telephone Details'}],
-      selectCheckbox:true
+      selectCheckbox:true,
+      isCustomFooter:true
     }
 
     //this.datevalue="";

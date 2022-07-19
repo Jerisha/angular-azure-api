@@ -150,7 +150,7 @@ font-size: smaller;  ">
   
         <!-- custom footer container  -->
         <ng-container *ngFor="let columnName of footerColumns" [matColumnDef]="columnName">
-          <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getFooterDetails(columnName)}}</td>
+          <td mat-footer-cell class="totalRow" *matFooterCellDef> {{columnName==='f2_Select'? getFooterDetails(columnName):getFooterDetails(columnName)| number}}</td>
         </ng-container>
   
         <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
