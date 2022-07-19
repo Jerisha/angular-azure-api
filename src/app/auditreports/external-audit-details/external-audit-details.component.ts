@@ -104,12 +104,12 @@ export class ExternalAuditDetailsComponent extends UserProfile implements OnInit
 
     this.resolutionType = '';
     this.remarkstxt = '';
-    this.externalAuditForm.reset();
+    //this.externalAuditForm.reset();
     this.updateForm.reset();
     this.disableSave = true;
     this.selectListItems = [];
     this.tabs.splice(0);
-
+    window.location.reload();
   }
 
   cellAttrInfo: CellAttributes[] = [
