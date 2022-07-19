@@ -339,7 +339,7 @@
               (click)="OnOperatorClicked(['InternalErrorsOperator',InternalErrorsOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.InternalErrors.disabled}">
               <mat-label>Internal Errors</mat-label>
-              <mat-select formControlName="SourceType">
+              <mat-select formControlName="InternalErrors">
                 <mat-option *ngFor="let option of config.InternalErrors" [value]="option">
                   {{option}}
                 </mat-option>

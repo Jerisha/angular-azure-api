@@ -360,15 +360,14 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       if (this.allSelected) {
         this.select.options.forEach((item: MatOption) => item.select());
       } else {
-        this.select.options.forEach((item: MatOption, index) => { 
-          if (index == 0 || item.value == 'TelephoneNumber' || item.value == 'View' || item.value == 'Link' || item.value == 'Links')
-          {
+        this.select.options.forEach((item: MatOption, index) => {
+          if (index == 0 || item.value == 'TelephoneNumber' || item.value == 'View' || item.value == 'Link' || item.value == 'Links') {
             //  item.deselect();
             ;
-          }else {
+          } else {
             item.deselect();
           }
-         });
+        });
       }
     }
   }
@@ -550,17 +549,18 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   copyToClipboard() {
-     debugger;
     let data = "";
-
+    let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
+    let selectedCol = this.tableitem?.filter ? 
+    this.select?.value?.filter((z:string)=> colsExcludeImage?.includes(z)) : colsExcludeImage
     this.selection.selected.forEach((row: any, index) => {
       if (index === 0) {
-        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
+        let tablehead = this.gridFilter.filter(x => !x.isImage && selectedCol?.includes(x.headerValue)).map(e => e.header);
         data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
       }
       let tabValue: string[] = []
-      this.select?.value?.forEach((x: string) => {
-        if (x != 'View') tabValue.push(row[x] || ' ')
+      selectedCol?.forEach((x: string) => {
+        tabValue.push(row[x] || ' ')
       })
       data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });
@@ -618,7 +618,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     //this.requestExport2Excel.emit(excelHeaderParams);
   }
 
-  
+
   createProfile() {
     let selectedCols: string[] = [];
     this.select.options.forEach((item: MatOption) => {

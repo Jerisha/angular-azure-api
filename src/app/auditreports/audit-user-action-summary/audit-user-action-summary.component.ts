@@ -97,7 +97,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
     { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false, isFooter: false},
     { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false, isFooter: false},
     { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
-    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true, isFooter: true },
+    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true, isFooter: true,isNumber:true },
   ]
  
     
