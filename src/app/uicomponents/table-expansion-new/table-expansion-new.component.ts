@@ -200,6 +200,8 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
       this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
       this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
       if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+      //temp
+      //if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => x);
     }
   
     newTab(tab: any) {
@@ -292,28 +294,44 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
       else
         return '';
     }
-  
-    getFooterDetails(cellname: string) {
-  
-      debugger 
-  console.log('footer details',this.footerDetails);
-      var cell = cellname ? cellname : '';
-  
-      if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
-  
-      //  return this.footerDetails.footerName;
-  return 'Cumulative'
-      }
-  
-      if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
-  
-       // return this.footerDetails.footerValue;
-  return 500;
-      else
-  
-        return '';
-  
+    isNumber(o:any): boolean {
+      return ! isNaN (o-0) && o !== null && o !== "" && o !== false;
     }
+    //Temp
+    getFooterDetails(cell: string) {
+      debugger
+      var cellname = cell.replace('f2_','');
+      var cell = cellname ? cellname : '';
+      if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
+        return 'Cumulative';
+      }
+      if (this.totalRowCols.includes(cell) && this.dataColumns.includes(cell))
+        return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] === '') ? 0 : parseInt(b[cell])), 0);
+      else
+        return '';
+    }
+  
+  //   getFooterDetails(cellname: string) {
+  
+  //     debugger 
+  // console.log('footer details',this.footerDetails);
+  //     var cell = cellname ? cellname : '';
+  
+  //     if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
+  
+  //     //  return this.footerDetails.footerName;
+  // return 'Cumulative'
+  //     }
+  
+  //     if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
+  
+  //      // return this.footerDetails.footerValue;
+  // return 500;
+  //     else
+  
+  //       return '';
+  
+  //   }
   
     getColSpan(cellname: string) {
       if (this.dataColumns[0] === cellname) {
