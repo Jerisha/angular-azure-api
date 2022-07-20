@@ -27,22 +27,22 @@ const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Audit ActId', viewValue: 'AuditActID', default: true },
-  { view: 'CUP Id', viewValue: 'CUPID', default: true },
-  { view: 'Batch Id', viewValue: 'BatchID', default: true },
-  { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
+  { view: 'CUP Id', viewValue: 'CUPID', default: false },
+  { view: 'Batch Id', viewValue: 'BatchID', default: false },
+  { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: false },
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
-  { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: true },
+  { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: false },
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
   { view: 'Porting Status', viewValue: 'PortingStatus', default: true },
   { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Switch Status', viewValue: 'SwitchStatus', default: true },
-  { view: 'Mori Status', viewValue: 'MoriStatus', default: true },
-  { view: 'Post Code Diff', viewValue: 'PostcodeDifference', default: true },
-  { view: 'Full Address Diff', viewValue: 'FullAddressDifference', default: true },
-  { view: 'Customer Diff', viewValue: 'CustomerDifference', default: true },
-  { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: true },
+  { view: 'Mori Status', viewValue: 'MoriStatus', default: false },
+  { view: 'Post Code Diff', viewValue: 'PostcodeDifference', default: false },
+  { view: 'Full Address Diff', viewValue: 'FullAddressDifference', default: false },
+  { view: 'Customer Diff', viewValue: 'CustomerDifference', default: false },
+  { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: false },
 
 ];
 
@@ -338,7 +338,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     }
   }
 
+
   resetForm(): void {
+    debugger;
     this.showDataCorrection = false;
     this.selectedCorrectionType = '';
     this.resolutionType = '';
@@ -347,8 +349,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     //this.fullAuditForm.reset();
     this.disableSave = true;
     this.disableProcess = true;
-    this.selectListItems = [];
+    this.selectListItems = [];    
     this.tabs.splice(0);
+    // this.defaultACTID =  this.configDetails.FullAuditActID?this.configDetails.FullAuditActID[0]:'';
     window.location.reload();
   }
 
@@ -391,8 +394,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     this.createUpdateForm();
     this.setDefaultValues();
 
-    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume"]);
+    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "AuditSource", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume"]);
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
+    console.log('config', JSON.stringify(request))
 
     forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
       .subscribe(results => {
