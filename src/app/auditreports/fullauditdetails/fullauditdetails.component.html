@@ -235,7 +235,7 @@
             <mat-label>Source System</mat-label>
             <mat-select formControlName="Source">  
               <!-- <mat-option>None</mat-option>           -->
-              <mat-option *ngFor="let val of config.Source" [value]="val">
+              <mat-option *ngFor="let val of config.AuditSource" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
