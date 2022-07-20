@@ -5,7 +5,19 @@
   display: inline-block;
 }
 
-
+.totalRow {
+  /* background-color: #e60000; */
+  background-color: #ff9999 !important;
+  color:black;
+  
+  font-size: small;
+  font-weight: 600;
+ 
+  height: 20px;
+ 
+  /* padding: 0 !important; */
+  padding: 2px 10px;
+}
 .tbfitcontent
 {
   width:fit-content;

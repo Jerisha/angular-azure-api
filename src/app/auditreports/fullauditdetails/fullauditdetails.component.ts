@@ -346,12 +346,13 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     this.resolutionType = '';
     this.remarkstxt = '';
     //this.rowRange = '';
-    this.fullAuditForm.reset();
+    //this.fullAuditForm.reset();
     this.disableSave = true;
     this.disableProcess = true;
     this.selectListItems = [];    
     this.tabs.splice(0);
     // this.defaultACTID =  this.configDetails.FullAuditActID?this.configDetails.FullAuditActID[0]:'';
+    window.location.reload();
   }
 
   openDialog(auditACTID: any, telno: any) {

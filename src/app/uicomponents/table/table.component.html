@@ -6,9 +6,11 @@
     <div *ngIf="disCol.header!='Inventory'">
       <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
       <td mat-cell *matCellDef="let element ">
-        <span [ngStyle]="disCol.header==='Total Cmds'?{'font-weight': '1000'} : {'font-weight': '500'}">{{element[disCol.headerValue]}}</span>
+        <span [ngStyle]="disCol.header==='Total Cmds'?{'font-weight': '1000'} : {'font-weight': '500'}">{{checkNumber(disCol.headerValue)? (element[disCol.headerValue]|number):(element[disCol.headerValue])}}</span>
         <!-- {{element[disCol.headerValue]}}  -->
       </td>
+      <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getTotal(disCol.headerValue)|number}}</td>
+      
     </div>  
 
   <div *ngIf="disCol.header==='Inventory'">
@@ -19,9 +21,14 @@
             {{img.icon}}</mat-icon>  
       </ng-container> 
     </td>
+    <td mat-footer-cell class="totalRow" *matFooterCellDef> {{getTotal(disCol.headerValue)}} </td>
+      
   </div> 
 </ng-container> 
   <tr mat-header-row *matHeaderRowDef="dataColumns;sticky: true"></tr>
   <tr mat-row *matRowDef="let row; columns: dataColumns;"> </tr>
+  <ng-container *ngIf="showTotalRow">
+    <tr class="totalRow" mat-footer-row *matFooterRowDef="dataColumns;sticky: true"></tr>
+  </ng-container>
 </table>
 </div>

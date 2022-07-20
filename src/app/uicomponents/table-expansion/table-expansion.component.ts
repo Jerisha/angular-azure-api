@@ -337,20 +337,18 @@ export class TableExpansionComponent implements OnDestroy {
   }
 
   copyToClipboard() {
-    
     let data = "";
-
+    let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
+    let selectedCol = this.tableitem?.filter ? 
+    this.select?.value?.filter((z:string)=> colsExcludeImage?.includes(z)) : colsExcludeImage
     this.selection.selected.forEach((row: any, index) => {
-      //console.log('row data',row);
-      delete row.Link
       if (index === 0) {
-        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' &&  x.headerValue != 'Inventory' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
-        let  datahead   = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
-        data =datahead.toString().replace('Inventory', '');
+        let tablehead = this.gridFilter.filter(x => !x.isImage && selectedCol?.includes(x.headerValue)).map(e => e.header);
+        data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
       }
       let tabValue: string[] = []
-      this.select?.value?.forEach((x: string) => {
-        if (x != 'View'&&x != 'Inventory') tabValue.push(row[x] || ' ')
+      selectedCol?.forEach((x: string) => {
+        tabValue.push(row[x] || ' ')
       })
       data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });

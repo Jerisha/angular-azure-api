@@ -45,7 +45,7 @@ export class UserCommentsDialogComponent {
 
   userCommentsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
-    { headerValue: 'TelephoneNumber', header: 'TelePhoneNo', showDefault: true, isImage: false },
+    { headerValue: 'TelephoneNumber', header: 'Telephone Number', showDefault: true, isImage: false },
     { headerValue: 'CreatedBy', header: 'Created By', showDefault: true, isImage: false },
     { headerValue: 'CreateDate', header: 'Created Date', showDefault: true, isImage: false },
     { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false },
