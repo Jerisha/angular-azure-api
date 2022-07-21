@@ -4,6 +4,7 @@ import { MaterialModule } from '../_shared/material/material.module';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MonthpickerComponent} from './monthpicker/monthpicker.component'
 
 import {
   TableSelectionComponent,
@@ -15,6 +16,7 @@ import {
   SelectExpressionComponent,
   TableExpansionComponent,
   TableGroupHeaderComponent
+  
 } from './index';
 
 import { HelperModule } from '../_helper/helper.module';
@@ -34,7 +36,8 @@ import { TableExpansionNewComponent } from './table-expansion-new/table-expansio
     TableGroupHeaderComponent,
     TableExpansionComponent,
     SelectCheckboxComponent,
-    TableExpansionNewComponent
+    TableExpansionNewComponent,
+    MonthpickerComponent
 
   ],
   imports: [
@@ -57,7 +60,9 @@ import { TableExpansionNewComponent } from './table-expansion-new/table-expansio
     SelectSingleComponent,
     TableExpansionComponent,
     SelectCheckboxComponent,
-    TableExpansionNewComponent
+    TableExpansionNewComponent,
+    MonthpickerComponent
+
   ],
  })
 export class UicomponentsModule { }

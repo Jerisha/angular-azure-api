@@ -564,12 +564,14 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   RequestExport2Excel() {
-    debugger;
+   // debugger;
     let ColumnMapping: any = []
-    //let tempColumns:string =''
+    let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
+    let selectedCol = this.tableitem?.filter ? 
+    this.select?.value?.filter((z:string)=> colsExcludeImage?.includes(z)) : colsExcludeImage
     let temp: any = {}
     this.gridFilter.forEach(x => {
-      if (x.headerValue != 'View' && this.select.value.includes(x.headerValue)) {
+      if (selectedCol.includes(x.headerValue)) {
         //console.log(`"${x.headerValue}":"${x.header}"`)
         //tempColumns +=`'${x.headerValue}':'${x.header}',`
         temp[x.headerValue] = x.header

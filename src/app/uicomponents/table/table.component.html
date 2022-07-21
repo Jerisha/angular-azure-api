@@ -25,10 +25,10 @@
       
   </div> 
 </ng-container> 
-  <tr mat-header-row *matHeaderRowDef="dataColumns;sticky: true"></tr>
+  <tr mat-header-row *matHeaderRowDef="dataColumns;sticky: false"></tr>
   <tr mat-row *matRowDef="let row; columns: dataColumns;"> </tr>
   <ng-container *ngIf="showTotalRow">
-    <tr class="totalRow" mat-footer-row *matFooterRowDef="dataColumns;sticky: true"></tr>
+    <tr class="totalRow" mat-footer-row *matFooterRowDef="dataColumns;sticky: false"></tr>
   </ng-container>
 </table>
 </div>
