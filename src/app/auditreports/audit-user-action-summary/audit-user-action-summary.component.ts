@@ -87,7 +87,8 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   defaultACTID: string = '';
   minDate: Date = new Date('01/01/2000');
   maxDate: Date = new Date();
-
+  public monthAndYear: Date | null ;
+  public date = new Date();
 
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
