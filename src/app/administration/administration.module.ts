@@ -13,6 +13,7 @@ import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolv
 import { AdministrationService } from './services/administration.service';
 import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
 import { AuditstatustrackerComponent } from '../administration/auditstatustracker/auditstatustracker.component';
+import { FranchiseComponent } from './franchise/franchise.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { AuditstatustrackerComponent } from '../administration/auditstatustracke
     ManageUsersComponent,
     DataCorrectionReportsComponent,
     UnresolvederrorsComponent,
-    AuditstatustrackerComponent
+    AuditstatustrackerComponent,
+    FranchiseComponent
   ],
   imports: [
     CommonModule,
