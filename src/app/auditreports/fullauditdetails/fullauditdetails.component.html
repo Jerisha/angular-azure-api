@@ -84,7 +84,7 @@
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':form.FullAuditCLIStatus.disabled}">
-            <mat-label>FullAudit CLI Status</mat-label>
+            <mat-label>Full Audit CLI Status</mat-label>
             <mat-select formControlName="FullAuditCLIStatus">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.FullAuditCLIStatus" [value]="val">
