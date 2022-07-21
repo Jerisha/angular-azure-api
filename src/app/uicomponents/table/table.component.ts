@@ -30,6 +30,7 @@ export class TableComponent implements OnInit {
     name: 'Summary'
   }
   ];
+  NumberCols = ['Activate','Cease'	,'Modify',	'Export',	'Import',	'Total', 'Cmds','TotalCmds'];
   constructor( private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -54,7 +55,10 @@ export class TableComponent implements OnInit {
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-
+checkNumber(val:string)
+{
+return this.NumberCols.includes(val);
+}
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
