@@ -246,11 +246,13 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
        
         if (field == 'AuditMonth') {
       
-        if (StatisticMonth)
-        attributes.push({ Name: 'AuditMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
+        if (StatisticMonth){
+
+        let auditDate = this.monthAndYear?.toDateString()
+        attributes.push({ Name: 'AuditMonth', Value: [formatDate(auditDate || '', 'MMM-yyyy', 'en-US')] });
         
         
-        
+        }
         else
         attributes.push({ Name: 'AuditMonth' });
         }
