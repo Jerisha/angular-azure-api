@@ -11,9 +11,9 @@
 
           <mat-form-field [ngClass]="{'hidden':form.StartTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>Start Telephone No</mat-label>
-            <input id="StartTelephoneNumber" telNoPrefixValidator formControlName="StartTelephoneNumber" numbersOnly matInput
-              #StartTelephoneNumber maxlength="11" placeholder="Start Telephone No" (blur)="getPnlControlAttributes()"
-              (keypress)="numberOnly($event)" style="margin-right: 24%;">
+            <input id="StartTelephoneNumber" telNoPrefixValidator formControlName="StartTelephoneNumber" numbersOnly
+              matInput #StartTelephoneNumber maxlength="11" placeholder="Start Telephone No"
+              (blur)="getPnlControlAttributes()" (keypress)="numberOnly($event)" style="margin-right: 24%;">
             <mat-error>
               <div *ngIf="form.StartTelephoneNumber.touched && form.StartTelephoneNumber.invalid"
                 class="alert alert-danger">
@@ -27,10 +27,9 @@
 
           <mat-form-field [ngClass]="{'hidden':form.EndTelephoneNumber.disabled}" hintLabel="Max 11 characters">
             <mat-label>End Telephone No</mat-label>
-            <input id="EndTelephoneNumber" telNoPrefixValidator 
-              formControlName="EndTelephoneNumber"  numbersOnly matInput #EndTelephoneNumber maxlength="11"
-              placeholder="End Telephone No" (blur)="getPnlControlAttributes('EndTelNo')"
-              (keypress)="numberOnly($event)">
+            <input id="EndTelephoneNumber" telNoPrefixValidator formControlName="EndTelephoneNumber" numbersOnly
+              matInput #EndTelephoneNumber maxlength="11" placeholder="End Telephone No"
+              (blur)="getPnlControlAttributes('EndTelNo')" (keypress)="numberOnly($event)">
             <mat-error>
               <div *ngIf="form.EndTelephoneNumber.touched && form.EndTelephoneNumber.invalid"
                 class="alert alert-danger">
@@ -48,55 +47,18 @@
             <mat-label>Audit ACT ID</mat-label>
             <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
               <mat-option *ngFor="let val of config.FullAuditActID" [value]="val">
-                {{val}} </mat-option>              
-            </mat-select>         
-            <mat-error>              
+                {{val}} </mat-option>
+            </mat-select>
+            <mat-error>
               <div *ngIf="form.AuditActID.hasError('required')" class="alert alert-danger">
                 Select Audit ACT ID
               </div>
             </mat-error>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.AuditActID.disabled}">
-            <mat-label>Audit ACT ID</mat-label>
-            <input #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID" type="text"
-              placeholder="Search Audit Act ID" matInput [matAutocomplete]="autoAuditACTId" OptionsValidator
-              [options]="config.FullAuditActID" />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoAuditACTId="matAutocomplete">
-              <mat-option *ngFor="let val of config.FullAuditActID | ddlFilter: auditACTId.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error>
-              <div *ngIf="form.AuditActID.errors?.validOptions" class="alert alert-danger">Value need to match available
-                options</div>
-              <div *ngIf="form.AuditActID.hasError('required')" class="alert alert-danger">
-                Select Audit ACT ID
-              </div>
-            </mat-error>
-          </mat-form-field> -->
-
-          <!-- <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
-            <mat-label>CUPID</mat-label>
-            <input #cupId numbersOnly formControlName="CUPID" type="text" placeholder="Search CUPID" matInput
-              [matAutocomplete]="autoCupId" OptionsValidator [options]="config.CUPID  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoCupId="matAutocomplete">
-              <mat-option *ngFor="let val of config.CUPID   | ddlFilter: cupId.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.CUPID.errors?.validOptions">Value need to match available options</mat-error>
-          </mat-form-field> -->
-
           <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
             <mat-label>CUPID</mat-label>
-            <mat-select formControlName="CUPID">  
+            <mat-select formControlName="CUPID">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.CUPID" [value]="val">
                 {{val}}
@@ -106,30 +68,14 @@
 
           <mat-form-field [ngClass]="{'hidden':form.BatchID.disabled}" hintLabel="Max 3 characters">
             <mat-label>Batch Id</mat-label>
-            <input id="BatchId" numbersOnly formControlName="BatchID" #BatchID matInput #input maxlength="3" placeholder="Batch Id">
+            <input id="BatchId" numbersOnly formControlName="BatchID" #BatchID matInput #input maxlength="3"
+              placeholder="Batch Id">
             <mat-hint align="end">{{input.value?.length || 0}}/3</mat-hint>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
-            <mat-label>External CLI Status</mat-label>
-            <input #extCLIStatus formControlName="ExternalCLIStatus" type="text"
-              placeholder="Search External CLI Status" matInput [matAutocomplete]="autoextCLIStatus" OptionsValidator
-              [options]="config.ExternalCLIStatus" />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoextCLIStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.ExternalCLIStatus | ddlFilter: extCLIStatus.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.ExternalCLIStatus.errors?.validOptions">Value need to match available options
-            </mat-error>
-          </mat-form-field> -->
-
           <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
             <mat-label>External CLI Status</mat-label>
-            <mat-select formControlName="ExternalCLIStatus">  
+            <mat-select formControlName="ExternalCLIStatus">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.ExternalCLIStatus" [value]="val">
                 {{val}}
@@ -137,50 +83,9 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.FullAuditCLIStatus.disabled}">
-            <mat-label>Full Audit CLI Status</mat-label>
-            <input #fullCLIStatus formControlName="FullAuditCLIStatus" type="text"
-              placeholder="Search Full Audit CLI Status" matInput [matAutocomplete]="autoFullAuditCLIStatus"
-              OptionsValidator [options]="config.FullAuditCLIStatus" />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoFullAuditCLIStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.FullAuditCLIStatus | ddlFilter: fullCLIStatus.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.FullAuditCLIStatus.errors?.validOptions">Value need to match available options
-            </mat-error>
-
-            <!-- <mat-select id="FullAuditCLIStatus" formControlName="FullAuditCLIStatus">
-                            <mat-option></mat-option>
-                            <mat-option value="BA - BT only - Source Active">BA-BT Only - Source Active</mat-option>
-                            <mat-option value="BC-BT Only - Source Ceased">BC-BT Only - Source Ceased</mat-option>
-                            <mat-option value="BN-BT Only - Source Not Found">BN-BT Only - Source Not Found</mat-option>
-                            <mat-option value="LS-Live in Source">LS-Live in Source</mat-option>
-                            <mat-option value="SAS-Matched - Source Active Matched">SAS-Matched - Source Active Matched
-                            </mat-option>
-                            <mat-option value="SAD-Matched - Source Active MisMatched">SAD-Matched - Source Active
-                                MisMatched</mat-option>
-                            <mat-option value="SC-Matched - Source Cease">SC-Matched - Source Cease</mat-option>
-                            <mat-option value="SN-Matched - Source Not found">SN-Matched - Source Not found</mat-option>
-                            <mat-option value="DAS-MisMatched - Source Active Matched">DAS-MisMatched - Source Active
-                                Matched</mat-option>
-                            <mat-option value="DAD-MisMatched - Source Active MisMatched">DAD-MisMatched - Source Active
-                                MisMatched</mat-option>
-                            <mat-option value="DC-MisMatched - Source Cease">DC-MisMatched - Source Cease</mat-option>
-                            <mat-option value="DN-MisMatched - Source Not found">DN-MisMatched - Source Not found
-                            </mat-option>
-                            <mat-option value="VA-OSN2 Only - Source Active">VA-OSN2 Only - Source Active</mat-option>
-                            <mat-option value="VC-OSN2 Only - Source Ceased">VC-OSN2 Only - Source Ceased</mat-option>
-                            <mat-option value="VN-OSN2 Only - Source Not Found">VN-OSN2 Only - Source Not Found</mat-option>
-                        </mat-select> -->
-          <!-- </mat-form-field>  -->
-
           <mat-form-field [ngClass]="{'hidden':form.FullAuditCLIStatus.disabled}">
             <mat-label>FullAudit CLI Status</mat-label>
-            <mat-select formControlName="FullAuditCLIStatus">  
+            <mat-select formControlName="FullAuditCLIStatus">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.FullAuditCLIStatus" [value]="val">
                 {{val}}
@@ -188,27 +93,9 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.MonthlyRefreshFlag.disabled}">
-            <mat-label>Monthly Refresh Flag</mat-label>
-            <input #monthlyRefreshFlag formControlName="MonthlyRefreshFlag" type="text"
-              placeholder="Search Monthly Refresh Flag" matInput [matAutocomplete]="autoMonthlyRefreshFlag"
-              OptionsValidator [options]="config.MonthlyRefreshFlag" />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoMonthlyRefreshFlag="matAutocomplete">
-              <mat-option *ngFor="let val of config.MonthlyRefreshFlag | ddlFilter: monthlyRefreshFlag.value"
-                [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.MonthlyRefreshFlag.errors?.validOptions">Value need to match available options
-            </mat-error>
-          </mat-form-field> -->
-
           <mat-form-field [ngClass]="{'hidden':form.MonthlyRefreshFlag.disabled}">
             <mat-label>MonthlyRefreshFlag</mat-label>
-            <mat-select formControlName="MonthlyRefreshFlag">  
+            <mat-select formControlName="MonthlyRefreshFlag">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.MonthlyRefreshFlag" [value]="val">
                 {{val}}
@@ -216,24 +103,10 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.Source.disabled}">
-            <mat-label>Source System</mat-label>
-            <input #source formControlName="Source" type="text" placeholder="Search Source System" matInput
-              [matAutocomplete]="autoSource" OptionsValidator [options]="config.Source" />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoSource="matAutocomplete">
-              <mat-option *ngFor="let val of config.Source | ddlFilter: source.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.Source.errors?.validOptions">Value need to match available options</mat-error>
-          </mat-form-field> -->
 
           <mat-form-field [ngClass]="{'hidden':form.Source.disabled}">
             <mat-label>Source System</mat-label>
-            <mat-select formControlName="Source">  
+            <mat-select formControlName="Source">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.AuditSource" [value]="val">
                 {{val}}
@@ -241,24 +114,10 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
-            <mat-label>OSN2 Source</mat-label>
-            <input #osnSource formControlName="OSN2Source" type="text" placeholder="Search OSN2 Source" matInput
-              [matAutocomplete]="autoOSN2Source" OptionsValidator [options]="config.OSN2Source" />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoOSN2Source="matAutocomplete">
-              <mat-option *ngFor="let val of config.OSN2Source   | ddlFilter: osnSource.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.OSN2Source.errors?.validOptions">Value need to match available options</mat-error>
-          </mat-form-field> -->
 
           <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
             <mat-label>OSN2 Source</mat-label>
-            <mat-select formControlName="OSN2Source">  
+            <mat-select formControlName="OSN2Source">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.OSN2Source" [value]="val">
                 {{val}}
@@ -266,24 +125,10 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.PortingStatus.disabled}">
-            <mat-label>Porting Status</mat-label>
-            <input #portingStatus formControlName="PortingStatus" type="text" placeholder="Search Porting Status"
-              matInput [matAutocomplete]="autoPortingStatus" OptionsValidator [options]="config.PortingStatus  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoPortingStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.PortingStatus   | ddlFilter: portingStatus.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.PortingStatus.errors?.validOptions">Value need to match available options</mat-error>
-          </mat-form-field> -->
 
           <mat-form-field [ngClass]="{'hidden':form.PortingStatus.disabled}">
             <mat-label>Porting Status</mat-label>
-            <mat-select formControlName="PortingStatus">  
+            <mat-select formControlName="PortingStatus">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.PortingStatus" [value]="val">
                 {{val}}
@@ -291,32 +136,9 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.VodafoneRangeHolder.disabled}">
-            <mat-label>Vodafone Range Holder</mat-label>
-            <input #vodafoneRangeHolder formControlName="VodafoneRangeHolder" type="text"
-              placeholder="Search Vodafone Range Holder" matInput [matAutocomplete]="autovfRangeHolder" OptionsValidator
-              [options]="config.VodafoneRangeHolder  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autovfRangeHolder="matAutocomplete">
-              <mat-option *ngFor="let val of config.VodafoneRangeHolder   | ddlFilter: vodafoneRangeHolder.value"
-                [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.VodafoneRangeHolder.errors?.validOptions">Value need to match available options
-            </mat-error>
-            <!-- <mat-select id="VodafoneRangeHolder" formControlName="VodafoneRangeHolder">
-                            <mat-option></mat-option>
-                            <mat-option value="No">No</mat-option>
-                            <mat-option value="Yes">Yes</mat-option>
-                        </mat-select> -->
-          <!-- </mat-form-field>  -->
-
           <mat-form-field [ngClass]="{'hidden':form.VodafoneRangeHolder.disabled}">
             <mat-label>Vodafone Range Holder</mat-label>
-            <mat-select formControlName="VodafoneRangeHolder">  
+            <mat-select formControlName="VodafoneRangeHolder">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.VodafoneRangeHolder" [value]="val">
                 {{val}}
@@ -324,46 +146,10 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
-            <mat-label>Resolution Type</mat-label>
-            <input #resType formControlName="ResolutionType" type="text" placeholder="Search Resolution Type" matInput
-              [matAutocomplete]="autoResType" OptionsValidator [options]="config.ResolutionTypeAudit  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResType="matAutocomplete">
-              <mat-option *ngFor="let val of config.ResolutionTypeAudit   | ddlFilter: resType.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.ResolutionType.errors?.validOptions">Value need to match available options
-            </mat-error>
-            <!-- <mat-select id="ResType" formControlName="ResType">
-                            <mat-option></mat-option>
-                            <mat-option value="0"> New</mat-option>
-                            <mat-option value="100"> Under Investigation</mat-option>
-                            <mat-option value="105"> Under Governance</mat-option>
-                            <mat-option value="114"> Auto Failed</mat-option>
-                            <mat-option value="106"> Under Porting</mat-option>
-                            <mat-option value="107"> Port Req Complete</mat-option>
-                            <mat-option value="110">(END) Audit Transaction Override</mat-option>
-                            <mat-option value="111">(END) Auto Closed</mat-option>
-                            <mat-option value="113">(END) Auto Active</mat-option>
-                            <mat-option value="115">(END) Auto Modify</mat-option>
-                            <mat-option value="116">(END) Auto Cease</mat-option>
-                            <mat-option value="117">(END) Auto Special Cease</mat-option>
-                            <mat-option value="118">(END) Auto Logic Resolved</mat-option>
-                            <mat-option value="119">(END) Auto Resolved Areacall</mat-option>
-                            <mat-option value="120">(END) Audit Discrepancy Override</mat-option>
-                            <mat-option value="101">(END) Resolved</mat-option>
-                            <mat-option value="102">(END) Unresolved</mat-option>
-                            <mat-option value="109">(END) Auto Resolved</mat-option>
-                        </mat-select> -->
-          <!-- </mat-form-field>  -->
 
           <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="ResolutionType">  
+            <mat-select formControlName="ResolutionType">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.ResolutionTypeAudit" [value]="val">
                 {{val}}
@@ -371,30 +157,9 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.SwitchStatus.disabled}">
-            <mat-label>Switch Status</mat-label>
-            <input #switchStatus formControlName="SwitchStatus" type="text" placeholder="Search Switch Status" matInput
-              [matAutocomplete]="autoSwitchStatus" OptionsValidator [options]="config.SwitchStatus  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoSwitchStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.SwitchStatus   | ddlFilter: switchStatus.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.SwitchStatus.errors?.validOptions">Value need to match available options</mat-error>
-            <!-- <mat-select id="SwitchStatus" formControlName="SwitchStatus">
-                            <mat-option></mat-option>
-                            <mat-option value="Active">A-Active</mat-option>
-                            <mat-option value="Ceased">C-Ceased</mat-option>
-                            <mat-option value="Not Found">N-Not Found</mat-option>
-                        </mat-select> -->
-          <!-- </mat-form-field>  -->
-
           <mat-form-field [ngClass]="{'hidden':form.SwitchStatus.disabled}">
             <mat-label>Switch Status</mat-label>
-            <mat-select formControlName="SwitchStatus">  
+            <mat-select formControlName="SwitchStatus">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.SwitchStatus" [value]="val">
                 {{val}}
@@ -402,29 +167,10 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.MoriStatus.disabled}">
-            <mat-label>Mori Status</mat-label>
-            <input #moriStatus formControlName="MoriStatus" type="text" placeholder="Search Mori Status" matInput
-              [matAutocomplete]="autoMoriStatus" OptionsValidator [options]="config.MoriStatus  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoMoriStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.MoriStatus   | ddlFilter: moriStatus.value" [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.MoriStatus.errors?.validOptions">Value need to match available options</mat-error>
-            <!-- <mat-select id="MoriStatus" formControlName="MoriStatus">
-                            <mat-option></mat-option>
-                            <mat-option value="Active">Active</mat-option>
-                            <mat-option value="Ceased">Ceased</mat-option>
-                        </mat-select> -->
-          <!-- </mat-form-field>  -->
 
           <mat-form-field [ngClass]="{'hidden':form.MoriStatus.disabled}">
             <mat-label>Mori Status</mat-label>
-            <mat-select formControlName="MoriStatus">  
+            <mat-select formControlName="MoriStatus">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.MoriStatus" [value]="val">
                 {{val}}
@@ -432,32 +178,10 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
-            <mat-label>Post Code Difference</mat-label>
-            <input #postCodeDifference formControlName="PostcodeDifference" type="text"
-              placeholder="Search Postcode Difference" matInput [matAutocomplete]="autoPostCodeDifference"
-              OptionsValidator [options]="config.PostcodeDifference  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoPostCodeDifference="matAutocomplete">
-              <mat-option *ngFor="let val of config.PostcodeDifference   | ddlFilter: postCodeDifference.value"
-                [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.PostcodeDifference.errors?.validOptions">Value need to match available options
-            </mat-error>
-            <!-- <mat-select id="PostCodeDiff" formControlName="PostCodeDifference">
-                            <mat-option></mat-option>
-                            <mat-option value="No">No</mat-option>
-                            <mat-option value="Yes">Yes</mat-option>
-                        </mat-select> -->
-          <!-- </mat-form-field>  -->
 
           <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
             <mat-label>Postcode Difference</mat-label>
-            <mat-select formControlName="PostcodeDifference">  
+            <mat-select formControlName="PostcodeDifference">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.PostcodeDifference" [value]="val">
                 {{val}}
@@ -465,32 +189,10 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
-            <mat-label>Full Address Difference</mat-label>
-            <input #fullAddDifference formControlName="FullAddressDifference" type="text"
-              placeholder="Search Full Address Difference" matInput [matAutocomplete]="autofullAddDifference"
-              OptionsValidator [options]="config.FullAddressDifference  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autofullAddDifference="matAutocomplete">
-              <mat-option *ngFor="let val of config.FullAddressDifference   | ddlFilter: fullAddDifference.value"
-                [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.FullAddressDifference.errors?.validOptions">Value need to match available options
-            </mat-error>
-            <!-- <mat-select id="FullAddDiff" formControlName="FullAddDifference">
-                            <mat-option></mat-option>
-                            <mat-option value="No">No</mat-option>
-                            <mat-option value="Yes">Yes</mat-option>
-                        </mat-select> -->
-          <!-- </mat-form-field>  -->
 
           <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
             <mat-label>Full Address Difference</mat-label>
-            <mat-select formControlName="FullAddressDifference">  
+            <mat-select formControlName="FullAddressDifference">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.FullAddressDifference" [value]="val">
                 {{val}}
@@ -498,30 +200,9 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
-            <mat-label>Customer Difference</mat-label>
-            <input #customerDifference formControlName="CustomerDifference" type="text"
-              placeholder="Search Customer Difference" matInput [matAutocomplete]="autoCustomerDifference"
-              OptionsValidator [options]="config.CustomerDifference  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoCustomerDifference="matAutocomplete">
-              <mat-option *ngFor="let val of config.CustomerDifference   | ddlFilter: customerDifference.value"
-                [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <!-- <mat-select id="CustomerDiff" formControlName="CustomerDifference">
-                            <mat-option></mat-option>
-                            <mat-option value="No">No</mat-option>
-                            <mat-option value="Yes">Yes</mat-option>
-                        </mat-select> -->
-          <!-- </mat-form-field>  -->
-
           <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
             <mat-label>Customer Difference</mat-label>
-            <mat-select formControlName="CustomerDifference">  
+            <mat-select formControlName="CustomerDifference">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.CustomerDifference" [value]="val">
                 {{val}}
@@ -529,32 +210,9 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field [ngClass]="{'hidden':form.OverlappingStatus.disabled}">
-            <mat-label>Overlapping Status.</mat-label>
-            <input #overlappingStatus formControlName="OverlappingStatus" type="text"
-              placeholder="Search Overlapping Status" matInput [matAutocomplete]="autoOverlappingStatus"
-              OptionsValidator [options]="config.OverlappingStatus  " />
-            <span matSuffix mat-icon-button>
-              <mat-icon>arrow_drop_down</mat-icon>
-            </span>
-            <mat-autocomplete autoActiveFirstOption #autoOverlappingStatus="matAutocomplete">
-              <mat-option *ngFor="let val of config.OverlappingStatus   | ddlFilter: overlappingStatus.value"
-                [value]="val">
-                {{val}}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.OverlappingStatus.errors?.validOptions">Value need to match available options
-            </mat-error>
-            <!-- <mat-select id="OverlappingStatus" formControlName="OverlappingStatus">
-                            <mat-option></mat-option>
-                            <mat-option value="No">No</mat-option>
-                            <mat-option value="Yes">Yes</mat-option>
-                        </mat-select> -->
-          <!-- </mat-form-field>  -->
-
           <mat-form-field [ngClass]="{'hidden':form.OverlappingStatus.disabled}">
             <mat-label>Overlapping Status</mat-label>
-            <mat-select formControlName="OverlappingStatus">  
+            <mat-select formControlName="OverlappingStatus">
               <!-- <mat-option>None</mat-option>           -->
               <mat-option *ngFor="let val of config.OverlappingStatus" [value]="val">
                 {{val}}
@@ -622,22 +280,22 @@
                     </div>
                   </mat-error>
                 </mat-form-field> &nbsp; -->
-                
+
                 <ng-container *ngIf="updateDetails as con">
-                <mat-form-field>
-                  <mat-label>Resolution Type</mat-label>
-                  <mat-select  name="Resolution" formControlName="Resolution" required [(ngModel)]="resolutionType">
-                    <mat-option *ngFor="let val of con.ResolutionType" [value]="val">
-                      {{val}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error class="alert alert-danger">                          
-                    <div *ngIf="updateFormControls.Resolution.errors?.required">
-                      <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
-                      Select resolution type
-                    </div>
-                  </mat-error>
-                </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Resolution Type</mat-label>
+                    <mat-select name="Resolution" formControlName="Resolution" required [(ngModel)]="resolutionType">
+                      <mat-option *ngFor="let val of con.ResolutionType" [value]="val">
+                        {{val}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error class="alert alert-danger">
+                      <div *ngIf="updateFormControls.Resolution.errors?.required">
+                        <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                        Select resolution type
+                      </div>
+                    </mat-error>
+                  </mat-form-field>
                 </ng-container>
                 <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                   <mat-label>Remarks</mat-label>
