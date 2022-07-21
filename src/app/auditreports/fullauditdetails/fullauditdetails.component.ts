@@ -252,7 +252,12 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     { selectedValue: 'AutoPopulateSource', Message: 'Source', ManualAuditType: 'SRC' },
     { selectedValue: 'AutoPopulateBTSource', Message: 'BT & Source', ManualAuditType: 'BTSRC' },
     { selectedValue: 'AutoPopulateSpecialCease', Message: 'Special Cease', ManualAuditType: 'SPLCS' }
-  ]
+  ];
+
+  autoCorrectionCLIStatus: string[] = ['BA-BT Only - Source Active', 'DAD-MisMatched - Source Active MisMatched',
+    'DAS-MisMatched - Source Active Matched', 'DN-MisMatched - Source Not found', 'LS-Live in Source',
+    'SAD-Matched - Source Active MisMatched', 'SN-Matched - Source Not found', 'VA-OSN2 Only - Source Active',
+    'VN-OSN2 Only - Source Not Found'];
 
   dataCorrectionBtnConfig: ButtonCorretion[] = [
     { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
@@ -297,7 +302,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
   ) {
     super(auth, actRoute);
     this.intializeUser();
-  }
+  } 
 
   setAttributesForManualCorrections() {
     if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
@@ -323,6 +328,11 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
                   option.disabled = false;
                   subOpt.disabled = false;
                 }
+                else if ((option.name === 'Auto Correction' && this.autoCorrectionCLIStatus.includes(this.selectedFullAuditCLIStatus?.value))
+                  && (this.form.OSN2Source.value === 'DVA Siebel' || this.form.Source.value === 'DVA Siebel')) {
+                  option.disabled = false;
+                  subOpt.disabled = false;
+                }
                 else {
                   option.disabled = true;
                   subOpt.disabled = true;
@@ -337,7 +347,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       });
     }
   }
-
 
   resetForm(): void {
     debugger;
@@ -491,6 +500,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       selectCheckbox: true,
       showEmail: false,
       removeNoDataColumns: true,
+      isFavcols:true,
       setCellAttributes: this.cellAttrInfo,
       excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
