@@ -1,4 +1,16 @@
 .page-container {
     max-height: 490px;
-    overflow: auto;
+    min-width: 1111px;
 }
+
+.page-scroll {
+  overflow: auto;
+}
+
+.table-group-view::ng-deep.headerLvl2 th {
+    top: 62px !important;
+  }
+
+  .table-group-view::ng-deep.headerLvl3 th {
+    top: 124px !important;
+  }

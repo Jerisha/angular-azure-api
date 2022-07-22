@@ -1,4 +1,8 @@
 .page-container {
     max-height: 490px;
-    overflow: auto;
+    min-width: 1111px;
 }
+
+.page-scroll {
+    overflow: auto;
+  }

@@ -18,27 +18,29 @@
         </ng-template>
 
         <span [ngSwitch]="tab.tabType">
-            <div *ngSwitchCase="0" >
+            <div *ngSwitchCase="0" class="page-scroll">
                 <!-- <div *ngIf=" result.FullAuditSummary ; else NoData"> -->
                     <div class="page-container">
+                        <div class="table-group-view">
                 <app-table-group-header [GrpTableitem]="auditSummaryTable" [obsData] ="result.FullAuditSummary ? result.FullAuditSummary : []"></app-table-group-header>
-                </div>
+                        </div>
+                    </div>
             <!-- </div> -->
         </div>
 
-            <div *ngSwitchCase="1" >
+            <div *ngSwitchCase="1" class="page-scroll">
                 <div class="page-container">
                 <app-table-group-header [GrpTableitem]="progressReportTable" [obsData] ="result.FullAuditProgressReport ? result.FullAuditProgressReport : []"></app-table-group-header>
             </div>
             </div>
 
-           <div *ngSwitchCase="2" >
+           <div *ngSwitchCase="2" class="page-scroll">
             <div class="page-container">
                 <app-table-group-header [GrpTableitem]="monthReportTable"  [obsData] ="result.FullAuditMonthReport ? result.FullAuditMonthReport : []"></app-table-group-header>
             </div>
             </div>
 
-             <div *ngSwitchCase="3" >
+             <div *ngSwitchCase="3" class="page-scroll">
 
                  <!-- <div *ngIf=" isMonthFilter">
                      <div *ngIf="observerRes1 | async as result1">

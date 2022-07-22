@@ -13,7 +13,7 @@ th {
   color:black;
   font-size: small;
   font-weight: 600;
-  min-height: 20px;
+  /* min-height: 20px; */
   text-align: center;
   border: 0.5px solid grey;
   padding: 0 !important;
@@ -34,22 +34,23 @@ th.mat-sort-header-sorted {
    width: auto; 
   height: fit-content; 
   font-size:small;  
- 
 }
 
 .mat-header-row{
-  height: 62px;
+  /* height: 62px; */
+  height: fit-content;
   position: relative;
 }
 
 .headerLvl2 th {
-  top: 62px !important;
+  /* top: 62px !important; */
+  top: 22px !important;
 }
 
 .headerLvl3 th {
-  top: 124px !important;
+  /* top: 124px !important; */
+  top: 44px !important;
 }
-
 
 .mat-cell {
   font-size: 14px;
@@ -106,7 +107,7 @@ th.mat-header-cell,td.mat-cell {
 
 .truncate-cell {
   /* max-width: 120px;  */
-  white-space: nowrap;
+  /* white-space: nowrap; */
   overflow: hidden;
   text-overflow: ellipsis;
 }
