@@ -140,11 +140,11 @@
             <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field> -->
-          <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ResolveTypeUnsol.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="ResolutionType">  
-              <mat-option>-- Select --</mat-option> 
-              <mat-option *ngFor="let val of config.ResolutionType" [value]="val">
+            <mat-select formControlName="ResolveTypeUnsol">  
+              <!-- <mat-option>None</mat-option>           -->
+              <mat-option *ngFor="let val of config.ResolveTypeUnsol" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
