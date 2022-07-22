@@ -87,7 +87,8 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   defaultACTID: string = '';
   minDate: Date = new Date('01/01/2000');
   maxDate: Date = new Date();
-
+  public monthAndYear: Date | null ;
+  public date = new Date();
 
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
@@ -245,11 +246,13 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
        
         if (field == 'AuditMonth') {
       
-        if (StatisticMonth)
-        attributes.push({ Name: 'AuditMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
+        if (StatisticMonth){
+
+        let auditDate = this.monthAndYear?.toDateString()
+        attributes.push({ Name: 'AuditMonth', Value: [formatDate(auditDate || '', 'MMM-yyyy', 'en-US')] });
         
         
-        
+        }
         else
         attributes.push({ Name: 'AuditMonth' });
         }

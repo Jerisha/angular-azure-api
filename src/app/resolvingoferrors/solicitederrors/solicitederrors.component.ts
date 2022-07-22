@@ -20,6 +20,7 @@ import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
 
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
@@ -196,6 +197,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   model: any = { ErrorCode: "" };
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+// make ExampleHeaderComponent type available in our template:
+readonly CustomHeaderComponent = CustomHeaderComponent;
+
   ngOnInit(): void {
     this.createForm();
     debugger;
@@ -346,9 +350,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
-
     debugger;
     let errMsg = '';
+    this.alertService.clear();
     if (!this.thisForm.valid) return;
     errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
     if (errMsg) {
@@ -440,9 +444,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
-              //success message and same data reload
-              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+              //success message and same data reload              
               this.onFormSubmit(true);
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
           //this.isSaveDisable = true;

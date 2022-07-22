@@ -126,7 +126,8 @@ font-size: smaller;  ">
 
       <!-- custom footer container  -->
       <ng-container *ngFor="let columnName of footerColumns" [matColumnDef]="columnName">
-        <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getFooterDetails(columnName)}}</td>
+       
+        <td mat-footer-cell class="totalRow" *matFooterCellDef>  {{columnName==='f2_Select'? getFooterDetails(columnName):getFooterDetails(columnName)| number}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
@@ -136,11 +137,11 @@ font-size: smaller;  ">
       (change)="selectRow($event,row)" (click)="selection.toggle(row)"> </tr> -->
 
       <ng-container *ngIf="showTotalRow">
-        <tr class="totalRow" mat-footer-row *matFooterRowDef="dataColumns;sticky: true"></tr>
+        <tr class="totalRow" mat-footer-row *matFooterRowDef="dataColumns;sticky: false"></tr>
       </ng-container>
 
       <ng-container *ngIf="showCustomFooter">
-        <tr class="totalRow" mat-footer-row *matFooterRowDef="footerColumns;sticky: true"></tr>
+        <tr class="totalRow" mat-footer-row *matFooterRowDef="footerColumns;sticky: false"></tr>
       </ng-container>
 
     </table>

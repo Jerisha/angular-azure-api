@@ -41,6 +41,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   @Input() tableitem?: TableItem;
   @Input() sidePan: any;
   @Input() isShown: boolean = true;
+  @Input() reportName?: string;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   @Output() pageIndex = new EventEmitter<any>();
@@ -144,7 +145,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
         this.screenIdentifier = res?.params?.ScreenIdentifier;
         if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
         // this.dataSource.sort = this.sort;
-        this.spinner.hide();
+        this.spinner.hide();       
         this.disablePageSize = this.totalRows > 50 ? false : true;
         this.isDataloaded = true;
       },
@@ -152,6 +153,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       () => {
         if (this.currentPage > 0) {
           this.toggleAllSelection();
+          
         }
         this.spinner.hide();
         if (this.dataSource.data != undefined && this.tableitem?.isFavcols) {
@@ -248,7 +250,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   ngOnInit(): void {
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit() {    
     this.changeDetectorRef.detectChanges();
   }
 
@@ -257,7 +259,6 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.toggleAllSelection();
       this.isDataloaded = false;
     }
-
   }
 
   getTotal(cellname: string) {
@@ -272,26 +273,36 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       return '';
   }
 
-  getFooterDetails(cellname: string) {
-
-    // debugger 
-
+  getFooterDetailstemp(cell: string) {
+    debugger
+    var cellname = cell.replace('f2_', '');
     var cell = cellname ? cellname : '';
-
-    if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
-
-      return this.footerDetails.footerName;
-
+    if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
+      return 'Cumulative';
     }
-
-    if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
-
-      return this.footerDetails.footerValue;
-
+    if (this.totalRowCols.includes(cell) && this.dataColumns.includes(cell))
+      return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] === '') ? 0 : parseInt(b[cell])), 0);
     else
-
       return '';
+  }
 
+  getFooterDetails(cellname: string) {
+    if (this.reportName) {
+      var result = this.getFooterDetailstemp(cellname);
+      return result;
+    }
+    else {
+      var cell = cellname ? cellname : '';
+      if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
+        return this.footerDetails.footerName;
+      }
+
+      if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
+        return this.footerDetails.footerValue;
+
+      else
+        return '';
+    }
   }
 
   getColSpan(cellname: string) {
@@ -343,15 +354,14 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       if (this.allSelected) {
         this.select.options.forEach((item: MatOption) => item.select());
       } else {
-        this.select.options.forEach((item: MatOption, index) => { 
-          if (index == 0 || item.value == 'TelephoneNumber' || item.value == 'View' || item.value == 'Link' || item.value == 'Links')
-          {
+        this.select.options.forEach((item: MatOption, index) => {
+          if (index == 0 || item.value == 'TelephoneNumber' || item.value == 'View' || item.value == 'Link' || item.value == 'Links') {
             //  item.deselect();
             ;
-          }else {
+          } else {
             item.deselect();
           }
-         });
+        });
       }
     }
   }
@@ -478,7 +488,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.fontHighlightedCells.forEach(x => {
         if (x.cells.find(x => x === (disCol.headerValue)) && row[x.flag] === x.value) {
           applyStyles = {
-            'color': 'red',
+            'color': '#059710',
             'font-weight': '500'
           }
         }
@@ -500,6 +510,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
 
   getSelectedProfile(val: any) {
     debugger;
+   // this.spinner.show();
     this.dataColumns = [];
     let newStatus = true;
     let selectedColumns = this.favProfile?.find(x => x.favprofileid === val)?.favcolumnlist;
@@ -530,20 +541,23 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     this.allSelected = (actualCols === selectedColumns.length) ? true : false;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+
+    this.spinner.hide();
   }
 
   copyToClipboard() {
-     debugger;
     let data = "";
-
+    let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
+    let selectedCol = this.tableitem?.filter ?
+      this.select?.value?.filter((z: string) => colsExcludeImage?.includes(z)) : colsExcludeImage
     this.selection.selected.forEach((row: any, index) => {
       if (index === 0) {
-        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
+        let tablehead = this.gridFilter.filter(x => !x.isImage && selectedCol?.includes(x.headerValue)).map(e => e.header);
         data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
       }
       let tabValue: string[] = []
-      this.select?.value?.forEach((x: string) => {
-        if (x != 'View') tabValue.push(row[x] || ' ')
+      selectedCol?.forEach((x: string) => {
+        tabValue.push(row[x] || ' ')
       })
       data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });
@@ -551,12 +565,14 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   RequestExport2Excel() {
-    debugger;
+   // debugger;
     let ColumnMapping: any = []
-    //let tempColumns:string =''
+    let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
+    let selectedCol = this.tableitem?.filter ? 
+    this.select?.value?.filter((z:string)=> colsExcludeImage?.includes(z)) : colsExcludeImage
     let temp: any = {}
     this.gridFilter.forEach(x => {
-      if (x.headerValue != 'View' && this.select.value.includes(x.headerValue)) {
+      if (selectedCol.includes(x.headerValue)) {
         //console.log(`"${x.headerValue}":"${x.header}"`)
         //tempColumns +=`'${x.headerValue}':'${x.header}',`
         temp[x.headerValue] = x.header
@@ -601,7 +617,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     //this.requestExport2Excel.emit(excelHeaderParams);
   }
 
-  
+
   createProfile() {
     let selectedCols: string[] = [];
     this.select.options.forEach((item: MatOption) => {
@@ -704,6 +720,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     debugger;
     if (this.reportIdentifier) {
       let request = Utils.preparePyUIQuery('ManageUsers', 'FavouriteProfile', 'favprofileid', null, this.reportIdentifier)
+      console.log('fulladiu', JSON.stringify(request))
       this.service.uiApiDetails(request, WebMethods.UIQUERY).subscribe(result => {
         if (result) {
           this.favProfile = result.Data;

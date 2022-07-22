@@ -145,7 +145,7 @@
                     <span>
                       <ng-container *ngIf="Cuparr  as config">
                         <mat-form-field [ngClass]="{'hidden':g.CupID.disabled}" style="margin-left:2px;width:225px">
-                          <mat-label>CupID</mat-label>
+                          <mat-label>CupID *</mat-label>
                           <input #cupid formControlName="CupID" type="text" [(ngModel)]="model.CupId" placeholder="CupID" matInput
                             [matAutocomplete]="autoCupID" OptionsValidator (ngModelChange)="onmodelCupIDchange($event,'CupID')" [options]="config.CupID" />
                            
@@ -181,7 +181,7 @@
                       </mat-form-field> -->  
                        <ng-container *ngIf="SourceFranchisearr  as config1">
                         <mat-form-field *ngIf = "enableFrancise"  [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:225px;">
-                          <mat-label>Franchise</mat-label>
+                          <mat-label>Franchise *</mat-label>
                           <input #franchise formControlName="Franchise" [(ngModel)]="model.franchise" type="text" placeholder="Franchise" matInput
                             [matAutocomplete]="autoFranchise" OptionsValidator [options]="config1.Franchise" />
                           
@@ -220,7 +220,7 @@
                             <span>
                               <ng-container *ngIf="SourceFranchisearr  as config1">
                                 <mat-form-field *ngIf = "enableSource"   [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:260px;">
-                                  <mat-label>Source</mat-label>
+                                  <mat-label>Source *</mat-label>
                                   <input #source formControlName="Source" [(ngModel)]="model.source"  (ngModelChange)="onmodelSourcechange($event,'CupID')" type="text" placeholder="Source" matInput
                                     [matAutocomplete]="autoSource" OptionsValidator [options]="config1.Source" />
                                   <span matSuffix mat-icon-button>
@@ -256,7 +256,7 @@
                       <div class="vf-flex-container-col" style="margin: 2px; width: 273px;display: block;text-align: center;"> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.TransactionType.disabled}">
-                            <mat-label>Transaction Type</mat-label>
+                            <mat-label>Transaction Type *</mat-label>
                             <input #transactiontype formControlName="TransactionType" [(ngModel)]="model.TransactionType" type="text" placeholder="Transaction Type" matInput
                               [matAutocomplete]="autoTransactionType" OptionsValidator [options]="config.TransactionType" />
                             <span matSuffix mat-icon-button>
@@ -274,7 +274,7 @@
                         </div> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.LineType.disabled}">
-                            <mat-label>Line Type</mat-label>
+                            <mat-label>Line Type *</mat-label>
                             <input #linetype formControlName="LineType" [(ngModel)]="model.LineType"  type="text" placeholder="Line Type" matInput
                               [matAutocomplete]="autoLineType" OptionsValidator [options]="config.LineType" />
                             <span matSuffix mat-icon-button>
@@ -292,7 +292,7 @@
                         </div> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.TypeOfLine.disabled}">
-                            <mat-label>Type of Line</mat-label>
+                            <mat-label>Type of Line *</mat-label>
                             <input #typeofline formControlName="TypeOfLine" [(ngModel)]="model.TypeOfLine" type="text" placeholder="TypeOf Line" matInput
                               [matAutocomplete]="autoTypeOfLine" OptionsValidator [options]="config.TypeOfLine" />
                             <span matSuffix mat-icon-button>
@@ -309,13 +309,13 @@
                         </div> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'200px'}">
-                            <mat-label class="vf-label">Order Ref.</mat-label>
+                            <mat-label class="vf-label">Order Ref. *</mat-label>
                             <input type="text" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12" maxlength="12" value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')"> Enter OrderRef</mat-error>
                         
                           </mat-form-field>                             
                           <span *ngIf="isExportImportSelected" [ngStyle]="{'display': isExportImportSelected ? 'inline-flex' : 'none' }" ><mat-form-field   class="vf-mr-negative" style="width:106px;margin-left: 4px;">
-                            <mat-label class="vf-label">I/E CUPID</mat-label>
+                            <mat-label class="vf-label">I/E CUPID *</mat-label>
                             <input type="text" [(ngModel)]="model.IECUPID"  matInput formControlName="ImportExportCupId" matInput #input   placeholder="I/E CUPID" size="12" value="" (keypress)="numberOnly($event)"  onchange="gnSysChange=true;"   ondblclick="sysEditText('document.sf.txt[10]')">
                             <mat-error class="error-message" *ngIf="checkError('ImportExportCupId', 'required')"> Enter CUPID</mat-error>
                         
@@ -427,7 +427,7 @@
                   <mat-form-field   class="vf-mr-negative" style="width:100%;">
                       <mat-label class="vf-label">Post Code *</mat-label>
                       <input type="text" 
-                       matInput  placeholder="Post Code *" 
+                       matInput  placeholder="Post Code " 
                        name =postcode matInput formControlName="PostCode"
                        [(ngModel)]="transactionItem.customerAddress.postcode"
                        size="12" 

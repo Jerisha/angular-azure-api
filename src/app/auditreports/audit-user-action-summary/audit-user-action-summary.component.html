@@ -10,7 +10,7 @@
         <ng-container *ngIf="configDetails  as config">
           <div [ngStyle]="{'display':thisForm.controls.AuditMonth.disabled ? 'none' : 'block'}"
             style="padding-left: 11px;">
-            <mat-form-field [ngClass]="{'hidden':f.AuditMonth.disabled}">
+            <!-- <mat-form-field [ngClass]="{'hidden':f.AuditMonth.disabled}">
               <mat-label>Audit Month</mat-label>
               <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="dp" readonly placeholder="Month and Year" [formControl]="AuditMonth">
               <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
@@ -18,7 +18,8 @@
                 (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
               </mat-datepicker>
 
-            </mat-form-field>
+            </mat-form-field> -->
+            <app-monthpicker [formControl]="AuditMonth" [(monthAndYear)]="monthAndYear" [placeHolder]="'Audit Month'"></app-monthpicker>
           </div>
           <!-- <div [ngStyle]="{'display':thisForm.controls.AuditType.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
@@ -44,9 +45,9 @@
               (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])">
             </app-select-exp>
           <mat-form-field [ngClass]="{'hidden':f.AuditType.disabled}">
-            <mat-label>Audit Type</mat-label>
+            <mat-label>Audit Type *</mat-label>
             <mat-select formControlName="AuditType">  
-              <!-- <mat-option>None</mat-option>           -->
+              <!-- <mat-option>-- Select --</mat-option>  -->
               <mat-option *ngFor="let val of config.AuditType" [value]="val">
                 {{val}}
               </mat-option>
@@ -71,7 +72,7 @@
             <mat-form-field [ngClass]="{'hidden':f.ResolvedBy.disabled}">
               <mat-label>Resolved By</mat-label>
               <mat-select formControlName="ResolvedBy">  
-                <!-- <mat-option>None</mat-option>           -->
+                <mat-option>-- Select --</mat-option> 
                 <mat-option *ngFor="let val of config.UASResolvedBy" [value]="val">
                   {{val}}
                 </mat-option>
@@ -104,7 +105,7 @@
           <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolutionTypeAudit">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.UASResolutionType" [value]="val">
                 {{val}}
               </mat-option>
@@ -136,7 +137,7 @@
               (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])">
             </app-select-exp>
             <mat-form-field [ngClass]="{'hidden':f.AuditActID.disabled}">
-              <mat-label>Audit ACT ID</mat-label>
+              <mat-label>Audit ACT ID *</mat-label>
               <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
                   <mat-option *ngFor="let val of config.AuditActID" [value]="val">
                       {{val}} </mat-option>

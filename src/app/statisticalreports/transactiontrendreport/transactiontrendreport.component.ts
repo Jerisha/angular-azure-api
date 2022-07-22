@@ -400,7 +400,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       filter: true,
       //selectCheckbox: true,      
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 ,toolTipText: 'Telephone Details'}],
-      selectCheckbox:true
+      selectCheckbox:true,
+      isCustomFooter:true
     }
 
     //this.datevalue="";
@@ -666,9 +667,9 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         name: 'Telephone No Details'
       });
       // this.selectedTab = 1;
-      this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
+     
     }
-
+    this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
 
   }
   ngAfterViewInit() {
