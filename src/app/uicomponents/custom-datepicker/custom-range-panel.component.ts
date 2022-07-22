@@ -60,7 +60,7 @@ export class CustomRangePanelComponent<D> {
       }
       case 'this year': {
         const start = this.dateAdapter.createDate(year, 0, 1);
-        const end = this.dateAdapter.createDate(year, 11, 31);
+        const end = this.dateAdapter.today();//this.dateAdapter.createDate(year, 11, 31);
         return [start, end];
       }
       case 'last week': {
@@ -89,10 +89,11 @@ export class CustomRangePanelComponent<D> {
     const year = this.dateAdapter.getYear(forDay);
     const month = this.dateAdapter.getMonth(forDay);
     const start = this.dateAdapter.createDate(year, month, 1);
-    const end = this.dateAdapter.addCalendarDays(
-      start,
-      this.dateAdapter.getNumDaysInMonth(forDay) - 1
-    );
+    const end = this.dateAdapter.today();
+    // const end = this.dateAdapter.addCalendarDays(
+    //   start,
+    //   this.dateAdapter.getNumDaysInMonth(forDay) - 1
+    // );
     return [start, end];
   }
 
@@ -101,12 +102,12 @@ export class CustomRangePanelComponent<D> {
       this.dateAdapter.getFirstDayOfWeek() -
       this.dateAdapter.getDayOfWeek(forDay);
     const start = this.dateAdapter.addCalendarDays(forDay, deltaStart);
-    const end = this.dateAdapter.addCalendarDays(start, 6);
+    const end = this.dateAdapter.today();//this.dateAdapter.addCalendarDays(start, 6);
     return [start, end];
   }
 
   private get today(): D {
-    let date = new Date()//this.dateAdapter.today();
+    let date = new Date();//this.dateAdapter.today();
     const today = this.dateAdapter.getValidDateOrNull(date);
     if (today === null) {
       throw new Error('date creation failed');

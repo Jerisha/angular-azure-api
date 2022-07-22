@@ -9,7 +9,7 @@
             <div class="matsidenav-filter">      
                 <ng-container *ngIf="configDetails  as config">       
                 <mat-form-field [ngClass]="{'hidden':dataCorrectionForm.controls.AuditActId.disabled}">
-                    <mat-label>Audit ACT ID</mat-label>
+                    <mat-label>Audit ACT ID *</mat-label>
                     <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedOption">
                         <mat-option *ngFor="let val of config.FullAuditActID" [value]="val">{{val}}</mat-option>
                     </mat-select>
