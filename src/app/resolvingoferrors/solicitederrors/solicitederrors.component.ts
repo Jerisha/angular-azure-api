@@ -20,6 +20,7 @@ import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
 
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
@@ -196,6 +197,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   model: any = { ErrorCode: "" };
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+// make ExampleHeaderComponent type available in our template:
+readonly CustomHeaderComponent = CustomHeaderComponent;
+
   ngOnInit(): void {
     this.createForm();
     debugger;

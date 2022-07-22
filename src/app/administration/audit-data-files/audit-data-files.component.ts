@@ -176,20 +176,29 @@ export class AuditDataFilesComponent  extends UserProfile {
 
     /* download functionality */
     newTab(tab: any, tabType: number) {
+      this.downloadFile(tab.row.Path);
+    }
 
-      let downloadLink = document.createElement('a');
-
-      if(tabType)
-      {
-        downloadLink.download = tab.row.FileName + '.csv';
-        // downloadLink.href = "../../../assets/dataFiles/LiveInSwitch.csv";
-        downloadLink.href = "./assets/dataFiles/LiveInSwitch.csv";
-      } else {
-        downloadLink.download = tab.row.FileName;
-        downloadLink.href = "./assets/dataFiles/BTAuditFile.dat";
-      }    
-      downloadLink.click();
-      URL.revokeObjectURL(downloadLink.href);
+    downloadFile(FileFullPath:string) {
+      let request = Utils.preparePydownloadFile(FileFullPath);
+      this.service.downloadFileDetails(request).subscribe((response: any) => {     
+        if (response.ok) {        
+          let type = 'application/json';
+        //  let type =  'application/vnd.ms-excel'
+          // console.log(type,'type')
+            this.service.blob2File(response,type,FileFullPath.substring(FileFullPath.lastIndexOf('/')+1))
+        }
+        else {
+          console.log(response,'Download File request Error Response')       
+        }         
+     },       
+     (error: any) => {
+       //  console.log(error,'Download File API Function')  
+  
+     },
+     ()=>{
+       // console.log('Download File API Completed','Download File API Function')
+     });
     }
     
 }

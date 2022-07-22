@@ -145,7 +145,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
         this.screenIdentifier = res?.params?.ScreenIdentifier;
         if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
         // this.dataSource.sort = this.sort;
-        this.spinner.hide();
+        this.spinner.hide();       
         this.disablePageSize = this.totalRows > 50 ? false : true;
         this.isDataloaded = true;
       },
@@ -153,6 +153,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       () => {
         if (this.currentPage > 0) {
           this.toggleAllSelection();
+          
         }
         this.spinner.hide();
         if (this.dataSource.data != undefined && this.tableitem?.isFavcols) {
@@ -249,7 +250,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   ngOnInit(): void {
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit() {    
     this.changeDetectorRef.detectChanges();
   }
 
@@ -487,7 +488,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.fontHighlightedCells.forEach(x => {
         if (x.cells.find(x => x === (disCol.headerValue)) && row[x.flag] === x.value) {
           applyStyles = {
-            'color': 'red',
+            'color': '#059710',
             'font-weight': '500'
           }
         }
