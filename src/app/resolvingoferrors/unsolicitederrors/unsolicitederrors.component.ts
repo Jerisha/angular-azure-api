@@ -131,7 +131,7 @@ const FilterListItems: Select[] = [
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: false },
   { view: 'Is Final', viewValue: 'Final', default: false },
-  { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolveTypeUnsol', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
 
 
@@ -202,7 +202,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     this.createForm();
     //this.UpdateForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolveTypeUnsol']);
     console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
       console.log("res: " + JSON.stringify(res))
@@ -372,7 +372,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
       // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
       // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),     
       Source: new FormControl({ value: '', disabled: true }, []),
-      ResolutionType: new FormControl({ value: '', disabled: true }, []),
+      ResolveTypeUnsol: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Final: new FormControl({ value: '', disabled: true }, []),
