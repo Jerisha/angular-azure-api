@@ -47,7 +47,7 @@
           <mat-form-field [ngClass]="{'hidden':f.AuditType.disabled}">
             <mat-label>Audit Type *</mat-label>
             <mat-select formControlName="AuditType">  
-              <mat-option>-- Select --</mat-option> 
+              <!-- <mat-option>-- Select --</mat-option>  -->
               <mat-option *ngFor="let val of config.AuditType" [value]="val">
                 {{val}}
               </mat-option>
