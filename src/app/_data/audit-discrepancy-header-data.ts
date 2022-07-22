@@ -22,19 +22,22 @@ export class AuditdiscrepancyHeaderData {
                     Headers: "BA-BT Only - Source Active",
                     DataHeaders: "BABTOnlySourceActive",
                     rowspan: "1",
-                    colspan: "1"
+                    colspan: "1",
+                    isNumber: true
                 },
                 {
                     Headers: "BN-BT Only - Source Not Found",
                     DataHeaders: "BNBTOnlySourceNotFound",
                     rowspan: "1",
-                    colspan: "1"
+                    colspan: "1",
+                    isNumber: true
                 },
                 {
                     Headers: "BC-BT Only - Source Cease",
                     DataHeaders: "BCBTOnlySourceCease",
                     rowspan: "1",
-                    colspan: "1"
+                    colspan: "1",
+                    isNumber: true
                 },
                 {
                     Headers: "BT Only Total",
