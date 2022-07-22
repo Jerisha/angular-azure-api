@@ -79,6 +79,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.isShow = true;
   }
   onReportSelcted(reportName: string, reportIndex: number) {
+    this.alertService.clear();   
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     if (this.tabs.length < 5) {
       this.reportName = this.currentReportName = reportName;
@@ -124,10 +125,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       // }
     }
     else {
+      this.alertService.clear();
       this.alertService.info("Please close some Tabs, Max allowed  tabs is 5", { autoClose: true, keepAfterRouteChange: false });
     }
   }
   Onselecttabchange($event: any) {
+    this.alertService.clear();   
     //console.log('tab changed,Index: ',$event.index)   
     //this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
     // this.currentReportName = this.reportName = $event.index != -1 ? this.tabs[$event.index].name : "";
@@ -137,7 +140,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
     let selectedTab= $event.index != -1 ? this.reportReferenceService.reportTitleNames.find( x=> x.viewName === this.tabs[$event.index].name)?.name : "";
     if(selectedTab ==='')
-    {      
+    {    this.alertService.clear();  
       this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
       return 
     }
@@ -163,11 +166,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   }
   newTab() {
+    this.alertService.clear();   
     if (this.data != [] || this.displayedColumns != []) {     
       let tabName = this.reportReferenceService.reportTitleNames.find( x=> x.name === this.currentReportName)?.viewName
       tabName =tabName!= undefined? tabName:''
       if(tabName ==='')
-      {       
+      {  
+        this.alertService.clear();     
         this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
         return 
       }
@@ -184,20 +189,24 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         }
       }
       else {
+        this.alertService.clear();
         this.alertService.info("Please close some Tabs, Max allowed  tabs is 5", { autoClose: true, keepAfterRouteChange: false });
       }
     }
     else {
+      this.alertService.clear();
       this.alertService.warn("No data found, Please try later some time", { autoClose: true, keepAfterRouteChange: false });
     }
   }
   removeTab(index: number) {
     //let tabobj = this.tabs.find(x => x.tabType == (index))
+    this.alertService.clear();   
     let tabobj = this.tabs[index];    
     let tabName = this.reportReferenceService.reportTitleNames.find( x=> x.viewName === tabobj.name)?.name
       tabName =tabName!= undefined? tabName:''
       if(tabName ==='')
-      {       
+      {  
+        this.alertService.clear();     
         this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
         return 
       }
@@ -221,6 +230,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   onCreateRecord() {
+    this.alertService.clear();   
     if (this.editMode == "" || this.editMode === this.currentReportName) {
       if(this.editMode != "")
       {
@@ -240,10 +250,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
     else {
       //alert("close opened report:" + this.editMode)
+      this.alertService.clear();
       this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
     }
   }
   createRecordLogic() {
+    this.alertService.clear();   
     this.highlightedRows = '';
     this.eventName = 'Create';
     this.editMode = this.currentReportName;
@@ -254,6 +266,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.reportReferenceService.showDataForm = this.showDataForm = true;
   }
   refreshData() {
+    this.alertService.clear();   
     this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
       if(this.currentReportName ==='CUPIDCrossReference')
       {
@@ -334,6 +347,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   onEditRecord(element: any, event: any) {
+    this.alertService.clear();   
     if (this.editMode == "" || this.editMode == this.currentReportName) {
       if(this.editMode != "")
       {
@@ -352,11 +366,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
     else {
+      this.alertService.clear();
       this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
       // alert("close opened report:"+this.editMode)
     }
   }
   editRecordLogic(element: any) {
+    this.alertService.clear();   
     this.editMode = this.currentReportName;
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
     this.eventName = 'Update';
@@ -395,6 +411,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // console.log(this.editRecord, 'editrrecord2')
   }
   onDeleteRecord(record: any, event: any) {
+    this.alertService.clear();   
    // alert("Delete starts..."+JSON.stringify(this.record));
     const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
@@ -415,9 +432,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           // this.isLoading = false;
             if (x.StatusMessage === 'Success') {
               this.refreshData();
+              this.alertService.clear();
               this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
             }
             else {
+              this.alertService.clear();
               this.alertService.notification("Record delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
             }
@@ -425,10 +444,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         }
         else {
           //console.log(record[this.recordIdentifier], record, 'Internal Issues1')
+          this.alertService.clear();
           this.alertService.notification("Internal Issues Please try again or Contact Admin:(", { autoClose: true, keepAfterRouteChange: false });
         }
       }
       else {
+        this.alertService.clear();
         this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
       }
     },
@@ -452,6 +473,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   // }
 
   onDataFormSubmit(event: any[]) {
+    this.alertService.clear();   
     // debugger
     let reportName = this.editMode
     // console.log('event', event)
@@ -552,10 +574,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
               //success message and same data reloa
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
+              this.alertService.clear();
               this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             }
             else {
+              this.alertService.clear();
               this.alertService.notification("Record Update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
             }
@@ -572,6 +596,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
         }
         else {
+          this.alertService.clear();
           this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
         }
       });
@@ -591,10 +616,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // this.isLoading = false;
         if (x.StatusMessage === 'Success') {
           this.refreshData();
+          this.alertService.clear();
           this.alertService.success("Record create successfully!!", { autoClose: true, keepAfterRouteChange: false });
           // this.onFormSubmit(true);
         }
         else {
+          this.alertService.clear();
           this.alertService.notification("Create Record Aborted!!", { autoClose: true, keepAfterRouteChange: false });
 
         }
@@ -613,6 +640,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   }
   onDataFormCancel(event: any[]) {
+    this.alertService.clear();   
     this.editMode = "";
     // this.editModeIndex = -1;
     this.showDataForm = event[0];
@@ -620,6 +648,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.highlightedRows = '';
   }
   onExportTabFormat() {
+    this.alertService.clear();   
     //console.log( this.data, 'download')
         if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
          {
@@ -691,14 +720,17 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       // element.setAttribute('download', filename);
       c.click();
+      this.alertService.clear();
       this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
     }
     else {
+      this.alertService.clear();
       this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
     }
   }
 
   onExportXlsxFormat(){
+    this.alertService.clear();   
     
     if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
     {
@@ -754,10 +786,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
  }); 
 
  this.reportReferenceService.downloadXlsxFile(this.currentReportName,data,[header.map((x: { cDisplayName: any; })=>x.cDisplayName)])
-  
+ this.alertService.clear();
  this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
 }
 else {
+  this.alertService.clear();
  this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
 }
  }
@@ -814,5 +847,61 @@ else {
     this.onDestroyCreate.next();
     this.onDestroyDelete.next();
     this.metaDataSupscription.unsubscribe();
+  }
+  wrapTextToolTip:string = '';
+
+  calculateWidth(fieldName:string,elementValue:string){
+    let style:any ={};
+    if (fieldName ==='Comments')
+    {    
+    style ={'min-width':'400px'};
+    }
+    if(fieldName ==='ResolvingMessage')
+    {      
+      style ={'min-width':'400px'};
+      }
+      if(fieldName ==='ErrorMessage')
+      {        
+        style ={'min-width':'200px'};
+        }
+        if(fieldName ==='LineStatusTitle')
+        {        
+          style ={'min-width':'300px'};
+          }
+          if(fieldName ==='BTCupID')
+        {        
+          style ={'min-width':'100px'};
+          }
+          if(fieldName ==='InternalCupID')
+        {        
+          style ={'min-width':'100px'};
+          }
+          if(this.currentReportName !='Franchise' && fieldName ==='Franchise')
+        {        
+          style ={'min-width':'200px'};
+          }
+          
+          
+
+        
+        if(this.currentReportName ==='UnsolicitedAutoClose')
+        {
+          if(fieldName ==='ErrorCode')
+          {
+          style ={'min-width':'200px'};
+          }
+          
+        }
+
+    return style;
+
+  }
+
+  toolTipData(col:string, colData:string) {
+    let data ='';
+    if(col === 'Comments'){
+      data = colData;
+    }
+    return data;
   }
 }
