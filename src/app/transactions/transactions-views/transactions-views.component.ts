@@ -111,6 +111,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   passedRouteData: any;
   Cuparr:any;
   SourceFranchisearr:any;
+  RerportIdentifier: any;
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
@@ -557,12 +558,26 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   saveTran(val: string) {
-    console.log('save transaction');
+    
+   debugger
     this.spinner.show();
+    if (this.AuditPopulatevalue.length==0)
+    {
+      console.log('save transaction');
     let request2 = Utils.preparePyCreate('Transactions', 'Transactions', 'CreateParameters', this.prepareQueryParamsforCreate(val));
     console.log('create request', JSON.stringify(request2));
-    //  this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-    //  this.resetTel("");
+    this.service.create(request2).subscribe((x: { StatusMessage: string; }) => {
+      if (x.StatusMessage === 'Success') {
+        this.spinner.hide();
+        //success message and same data reload
+        this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+        this.resetTel("");
+      }
+    });
+  }
+  else{
+    let request2 = Utils.preparePyCreate('Transactions', this.RerportIdentifier, 'CreateParameters', this.prepareQueryParamsforCreateCorrection(val));
+    console.log('create request for correction', JSON.stringify(request2));
     this.service.create(request2).subscribe((x: { StatusMessage: string; }) => {
       if (x.StatusMessage === 'Success') {
         this.spinner.hide();
@@ -576,6 +591,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         }
       }
     });
+
+  }
     //this.spinner.hide();
     
   }
@@ -589,7 +606,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
 
   BindData(res: any, Type: string) {
-    
+    debugger
     //console.log('update bind method called',JSON.stringify(res));
     if (Type == 'Query') {
       if(Object.keys(res).length) {
@@ -761,9 +778,9 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
     else {
       this.spinner.show();
-    let RerportIdentifier=  this.AuditPopulatevalue.ReportIdentifier;
+    this.RerportIdentifier=  this.AuditPopulatevalue.ReportIdentifier;
      // let request = Utils.preparePyUpdate('ManualCorrections', 'FullAuditDetails', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-     let request = Utils.preparePyUpdate('ManualCorrections', RerportIdentifier, this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+     let request = Utils.preparePyUpdate('ManualCorrections', this.RerportIdentifier, this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
     
        console.log('update request',JSON.stringify( request));
       this.service.updateDetails(request).subscribe((res: any) => {
@@ -938,6 +955,55 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     return attributes;
   }
+
+  prepareQueryParamsforCreateCorrection(ForceToValidate: string): any {
+    debugger
+    let attributes: any = [
+      { Name: 'ForceValidate', Value: [ForceToValidate] }
+      , { Name: 'Franchise', Value: [this.model.franchise] }
+     , { Name: 'Cupid', Value: [this.model.CupId] }
+    ,{ Name: 'Source', Value: [this.model.source]  }
+    ];
+
+    attributes.push({ Name: 'TelephoneNumberRange', Value: [this.inputtelRange] });
+    for (const field in this.d) {
+      //if (field != 'Cupid') {
+        const control = this.view3Form.get(field);
+        if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+      //}
+    }
+    if (this.AuditPopulatevalue.ActId != "") {
+      attributes.push({ Name: "ActID", Value: [this.AuditPopulatevalue.ActId] });
+    }
+
+    else {
+      attributes.push({ Name: "ActID" });
+    }
+    if (this.AuditPopulatevalue.ManualAuditType != "") {
+      attributes.push({ Name: "ManualAuditType", Value: [this.AuditPopulatevalue.ManualAuditType[0]] });
+    }
+
+    else {
+      attributes.push({ Name: "ManualAuditType" });
+    }
+    if (this.AuditPopulatevalue.ResolutionRemarks != "") {
+      attributes.push({ Name: "ResolutionRemarks", Value: [this.AuditPopulatevalue.ResolutionRemarks] });
+    }
+
+    else {
+      attributes.push({ Name: "ResolutionRemarks" });
+    }
+    console.log(attributes);
+
+    return attributes;
+
+
+  }
+
+
   prepareQueryParamsforCreate(ForceToValidate: string): any {
     debugger
     let attributes: any = [

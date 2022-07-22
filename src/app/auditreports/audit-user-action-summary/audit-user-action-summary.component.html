@@ -45,9 +45,9 @@
               (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])">
             </app-select-exp>
           <mat-form-field [ngClass]="{'hidden':f.AuditType.disabled}">
-            <mat-label>Audit Type</mat-label>
+            <mat-label>Audit Type *</mat-label>
             <mat-select formControlName="AuditType">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.AuditType" [value]="val">
                 {{val}}
               </mat-option>
@@ -72,7 +72,7 @@
             <mat-form-field [ngClass]="{'hidden':f.ResolvedBy.disabled}">
               <mat-label>Resolved By</mat-label>
               <mat-select formControlName="ResolvedBy">  
-                <!-- <mat-option>None</mat-option>           -->
+                <mat-option>-- Select --</mat-option> 
                 <mat-option *ngFor="let val of config.UASResolvedBy" [value]="val">
                   {{val}}
                 </mat-option>
@@ -105,7 +105,7 @@
           <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolutionTypeAudit">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.UASResolutionType" [value]="val">
                 {{val}}
               </mat-option>
@@ -137,7 +137,7 @@
               (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])">
             </app-select-exp>
             <mat-form-field [ngClass]="{'hidden':f.AuditActID.disabled}">
-              <mat-label>Audit ACT ID</mat-label>
+              <mat-label>Audit ACT ID *</mat-label>
               <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
                   <mat-option *ngFor="let val of config.AuditActID" [value]="val">
                       {{val}} </mat-option>
