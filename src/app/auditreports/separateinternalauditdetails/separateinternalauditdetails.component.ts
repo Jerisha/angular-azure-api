@@ -20,6 +20,7 @@ import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { isNumeric } from 'rxjs/internal-compatibility';
 
 const FullAudit_Data: FullAuditDetails [] = [
   {
@@ -652,23 +653,33 @@ else{
             var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
             var startTelno = '';
             var endTelno = '';
+            // if (selectedCLI != '') {
+            //   let strCmts = selectedCLI.split('-');
+            //   var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
+            //   startTelno = range[0];
+            //   endTelno = range[1] ? range[1] : ''
+            // }
+            // else {
+            //   startTelno = this.selectListItems[0].TelephoneNumber;
+            // }
             if (selectedCLI != '') {
               let strCmts = selectedCLI.split('-');
               var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
-              startTelno = range[0];
+              startTelno = isNumeric(range[0]) ? range[0].toString() : this.selectListItems[0].TelephoneNumber;
               endTelno = range[1] ? range[1] : ''
+              endTelno = isNumeric(endTelno) ? endTelno.toString() : '';
             }
             else {
               startTelno = this.selectListItems[0].TelephoneNumber;
             }
             var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
-            if(endTelno=='')
-            {
-              endTelno=startTelno;
-            }
+            // if(endTelno=='')
+            // {
+            //   endTelno=startTelno;
+            // }
             let data = {
               StartphoneNumber: startTelno,
-             
+              AuditCLIStatus:this.selectedFullAuditCLIStatus.value,
               EndPhoneNumber: endTelno,
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
