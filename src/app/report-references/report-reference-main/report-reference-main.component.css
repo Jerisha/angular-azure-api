@@ -11,9 +11,9 @@
     padding-left: 33px;
 }
 .btn-icon{
-    background-color: #e60000;
+    background-color: #e60000 !important;
      margin: 5px;
-     width:30px;
+     width:30px; 
      height: 30px;
      font-size: small;
      z-index: 3;
@@ -122,30 +122,30 @@
   min-width: 64px;
 }
 .mat-header-row {
-  width: 100%;
-  min-height: 10px;
-  padding: 0px 0px 0px 4px;
+  width: 100% !important;
+  min-height: 10px !important;
+  padding: 0px 0px 0px 4px !important;
 }
 tr.mat-header-row {
-  height: 10px;
+  height: 10px !important;
 }
 tr.mat-row, tr.mat-footer-row {
-  height: 10px;  
+  height: 10px !important;  
 }
   .mat-header-cell {   
-    width: fit-content;
-    background-color: #e60000;
-    color: white;
-    text-align: justify;
-    padding: 1px 4px 1px;
-    font-size: 12px;
+    width: fit-content !important;
+    background-color: #e60000 !important;
+    color: white !important;
+    text-align: left !important;
+    padding: 1px 4px 1px !important;
+    font-size: 12px !important;
   }
   .mat-cell{    
-    width: 0px;
-    text-align: justify;
-    padding: 1px 4px 1px;
-    font-size: 12px;
-    max-height: 48px;      
+    width: 0px !important;
+    text-align: left !important;
+    padding: 1px 4px 1px !important;
+    font-size: 12px !important;
+    max-height: 48px !important;      
   } 
 
   .table-header{
@@ -204,12 +204,7 @@ tr.mat-row, tr.mat-footer-row {
   line-height:calc(90%-50px);
   margin-top: 6px;
   }
-  .table-spinner{
-    /* display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    color:#e60000; */
+  .table-spinner{    
     position: relative;
     margin-left: 40%;
     margin-top: 15%;
@@ -221,5 +216,14 @@ tr.mat-row, tr.mat-footer-row {
   }
   .highlighted{
     background-color: lightpink;
-  }
- 
+  }  
+.custom-tooltip{  
+  background-color: #007c92 !important; 
+  color: #ffffff !important; 
+  font-weight: 400;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 8px;
+  text-align: center;
+  box-shadow: 0 1px 3px 0 rgb(28 28 28 / 35%);
+}

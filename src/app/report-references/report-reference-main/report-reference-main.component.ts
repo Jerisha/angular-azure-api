@@ -1,5 +1,5 @@
 
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ReportReferenceService } from '../report-reference.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { IColoumnDef } from '../IControls';
@@ -26,6 +26,7 @@ import { stringify } from 'querystring';
       transition('collapsed => expanded', animate('500ms ease-out')),
     ]),
   ],
+  encapsulation: ViewEncapsulation.None,  
 })
 export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
@@ -73,6 +74,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   displayedColumnsValues: any
 
   displayReportName:string = '';
+  highlightedRecord:string ='';
 
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
@@ -257,6 +259,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   createRecordLogic() {
     this.alertService.clear();   
     this.highlightedRows = '';
+    this.highlightedRecord ='';
     this.eventName = 'Create';
     this.editMode = this.currentReportName;
       this.lstFields = this.reportReferenceService.setForm(this.editMode);
@@ -314,7 +317,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
             this.data = res.data["Companys"];
             this.recordIdentifier = res.params.RecordIdentifier;
             this.reportReferenceService.franchiseDropdowns = [];
-            debugger
+            //debugger
             let OloDropDown = res.data['OloDropDown']
             OloDropDown = OloDropDown != undefined ? OloDropDown[0] : []
             this.reportReferenceService.franchiseDropdowns.push(OloDropDown)
@@ -359,6 +362,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         editConfirm.afterClosed().subscribe(result => {
           if (result) {
             this.editRecordLogic(element);
+          }else {
+            this.highlightedRecord ='';
           }
         });
     } else {
@@ -377,7 +382,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
     this.eventName = 'Update';
     this.highlightedRows = element
-   // console.log(this.highlightedRows,'high')
+    this.highlightedRecord =element[this.recordIdentifier]
+    //console.log(this.highlightedRecord,'...> highlightedRecord')
+    //console.log(this.highlightedRows,'high')
     // console.log(event,'evetn')
     // this.showDataForm =true;
     // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
@@ -483,6 +490,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.showDataForm = event[0][0];
     this.showDetailsForm = event[0][1];
     this.highlightedRows = '';
+    this.highlightedRecord ='';
     let updaterecord1 = Object.assign({}, event[1]);
 
     //console.log(updaterecord1, 'null')
@@ -646,6 +654,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.showDataForm = event[0];
     this.showDetailsForm = event[1];
     this.highlightedRows = '';
+    this.highlightedRecord = '';
   }
   onExportTabFormat() {
     this.alertService.clear();   
@@ -753,8 +762,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
        copydata.forEach((row : any) => {
 
     
-     let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','ListType'])
+     let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
+       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','ListType'])
        {
          Reflect.deleteProperty(row,i)
        }
@@ -839,7 +848,7 @@ else {
 
   }
   ngAfterViewChecked() {
-    this.cdr.detectChanges();
+     this.cdr.detectChanges();
   }
   ngOnDestroy() {
     this.onDestroyQuery.next();
@@ -854,27 +863,27 @@ else {
     let style:any ={};
     if (fieldName ==='Comments')
     {    
-    style ={'min-width':'400px'};
+    style ={'min-width':'400px','text-align':'justify'};
     }
     if(fieldName ==='ResolvingMessage')
     {      
-      style ={'min-width':'400px'};
+      style ={'min-width':'400px','text-align':'justify'};
       }
       if(fieldName ==='ErrorMessage')
       {        
-        style ={'min-width':'200px'};
+        style ={'min-width':'200px','text-align':'justify'};
         }
         if(fieldName ==='LineStatusTitle')
         {        
-          style ={'min-width':'300px'};
+          style ={'min-width':'300px','text-align':'justify'};
           }
           if(fieldName ==='BTCupID')
         {        
-          style ={'min-width':'100px'};
+          style ={'min-width':'100px','text-align':'justify'};
           }
           if(fieldName ==='InternalCupID')
         {        
-          style ={'min-width':'100px'};
+          style ={'min-width':'100px','text-align':'justify'};
           }
           if(this.currentReportName !='Franchise' && fieldName ==='Franchise')
         {        
@@ -888,7 +897,7 @@ else {
         {
           if(fieldName ==='ErrorCode')
           {
-          style ={'min-width':'200px'};
+          style ={'min-width':'200px','text-align':'justify'};
           }
           
         }
