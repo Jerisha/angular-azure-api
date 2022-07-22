@@ -1,0 +1,14 @@
+$width: 128px;
+
+:host {
+  position: absolute;
+  width: $width;
+  right: -$width; // to render it on the right side, use "right: -$width" instead
+}
+
+:host(.touch-ui) {
+  position: relative;
+  left: 0;
+  display: flex;
+  width: 100%;
+}
