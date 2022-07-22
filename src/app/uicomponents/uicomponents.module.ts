@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../_shared/material/material.module';
-import { ReactiveFormsModule,FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {ClipboardModule} from '@angular/cdk/clipboard';
-import {MonthpickerComponent} from './monthpicker/monthpicker.component'
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MonthpickerComponent } from './monthpicker/monthpicker.component'
 
 import {
   TableSelectionComponent,
@@ -15,8 +15,9 @@ import {
   SelectSingleComponent,
   SelectExpressionComponent,
   TableExpansionComponent,
-  TableGroupHeaderComponent
-  
+  TableGroupHeaderComponent,
+  CustomHeaderComponent,
+  CustomRangePanelComponent
 } from './index';
 
 import { HelperModule } from '../_helper/helper.module';
@@ -24,7 +25,7 @@ import { SelectCheckboxComponent } from './select-checkbox/select-checkbox.compo
 import { TableExpansionNewComponent } from './table-expansion-new/table-expansion-new.component';
 
 @NgModule({
-  declarations: [    
+  declarations: [
     TableSelectionComponent,
     MenuListComponent,
     TopNavComponent,
@@ -37,8 +38,9 @@ import { TableExpansionNewComponent } from './table-expansion-new/table-expansio
     TableExpansionComponent,
     SelectCheckboxComponent,
     TableExpansionNewComponent,
-    MonthpickerComponent
-
+    MonthpickerComponent,
+    CustomHeaderComponent,
+    CustomRangePanelComponent
   ],
   imports: [
     CommonModule,
@@ -61,8 +63,9 @@ import { TableExpansionNewComponent } from './table-expansion-new/table-expansio
     TableExpansionComponent,
     SelectCheckboxComponent,
     TableExpansionNewComponent,
-    MonthpickerComponent
-
+    MonthpickerComponent,
+    CustomHeaderComponent,
+    CustomRangePanelComponent
   ],
- })
+})
 export class UicomponentsModule { }

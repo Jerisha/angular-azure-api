@@ -18,6 +18,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { expNumeric, expString, expDate,expDropdown,select } from 'src/app/_helper';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { AlertService } from 'src/app/_shared/alert';
 
 
 
@@ -145,9 +146,9 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
+    private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    private spinner: NgxSpinnerService) { }
+    ) { }
 
 
   listItems!: Select[];
@@ -333,6 +334,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.myForm.valid) return;
+    this.alertService.clear();
     this.tabs.splice(0);
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;

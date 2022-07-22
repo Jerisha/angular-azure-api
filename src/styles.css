@@ -34,7 +34,7 @@ body {
   display: flex;
   flex-flow: wrap;
   min-width: calc(100% + 946px) !important;
-  max-height: calc(100% + 380px) !important;
+  max-height: calc(100% + 410px) !important;
   height: auto;
   width: auto;
   transform: translateX(32px) !important;

@@ -11,9 +11,10 @@
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails as config">
           <mat-form-field>
-            <mat-label>Audit Type</mat-label>
+            <mat-label>Audit Type *</mat-label>
             <mat-select id="AuditType" formControlName="AuditType" [(ngModel)]="selectedAuditType"
               (selectionChange)="changedAuditType($event)">
+              
               <mat-option *ngFor="let val of config;" [value]="val.auditType">{{val.auditType}}</mat-option>
             </mat-select>
             <mat-error class="error-message">Please Select Audit Type
@@ -21,7 +22,7 @@
           </mat-form-field>
 
           <mat-form-field>
-            <mat-label>ACT ID</mat-label>
+            <mat-label>ACT ID *</mat-label>
             <mat-select id="AuditActId" [(ngModel)]="selectedActId" formControlName="AuditActId">
               <mat-option *ngFor="let actId of auditActIdDropdown" [value]="actId">{{actId}}</mat-option>
             </mat-select>
