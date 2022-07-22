@@ -26,10 +26,17 @@
     matColumnDef="{{column}}"
     *ngFor="let column of columnsToDisplay"
   >
-    <div *ngIf="column!='weight'&&column!='position'">
+    <div *ngIf="column!='weight'&&column!='position'&&column!='name'&&column!='symbol'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element">{{element[column]}}</td>
     </div>
+    <div *ngIf="column==='name'">
+      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+      <td mat-cell *matCellDef="let element ">
+        <mat-icon style="color:darkgoldenrod">folder</mat-icon>{{element[column]}}</td>
+      
+    </div>
+
     <div *ngIf="column==='weight'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element ">
@@ -52,6 +59,12 @@
         >
           <mat-icon>edit</mat-icon>Update
         </button>
+      </td>
+    </div>
+    <div *ngIf="column==='symbol'">
+      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+      <td mat-cell *matCellDef="let element ">
+          <mat-icon style="color:green"> unsubscribe</mat-icon>{{element[column]}}
       </td>
     </div>
   </ng-container>
@@ -77,9 +90,15 @@
             matColumnDef="{{column}}"
             *ngFor="let column of columnsToDisplay"
           >
-          <div *ngIf="column!='weight'&&column!='position'&&column!='symbol'">
+          <div *ngIf="column!='weight'&&column!='position'&&column!='symbol'&&column!='name'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+        </div>
+        <div *ngIf="column==='name'">
+          <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+          <td mat-cell *matCellDef="let element ">
+            <mat-icon style="color:darkgoldenrod">folder</mat-icon>{{element[column]}}</td>
+          
         </div>
         <div *ngIf="column==='weight'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
