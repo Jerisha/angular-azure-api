@@ -673,13 +673,15 @@ else{
               startTelno = this.selectListItems[0].TelephoneNumber;
             }
             var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
+
             // if(endTelno=='')
             // {
             //   endTelno=startTelno;
             // }
             let data = {
               StartphoneNumber: startTelno,
-              AuditCLIStatus:this.selectedFullAuditCLIStatus.value,
+              auditType:'Separate Internal Audit',
+              AuditStatus:this.selectListItems[0].CLIStatus,
               EndPhoneNumber: endTelno,
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,

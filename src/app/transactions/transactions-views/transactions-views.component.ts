@@ -982,8 +982,9 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     else {
       attributes.push({ Name: "AuditActId" });
     }
-    if (this.AuditPopulatevalue.ManualAuditType != "") {
-      attributes.push({ Name: "AuditType", Value: [this.AuditPopulatevalue.ManualAuditType[0]] });
+    if (this.AuditPopulatevalue.auditType != "") {
+     // attributes.push({ Name: "AuditType", Value: [this.AuditPopulatevalue.ManualAuditType[0]] });
+      attributes.push({ Name: "AuditType", Value: [this.AuditPopulatevalue.auditType] });
     }
 
     else {
@@ -996,14 +997,14 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     else {
       attributes.push({ Name: "ResolutionRemarks" });
     }
-    if (this.AuditPopulatevalue.AuditCLIStatus != "") {
-      attributes.push({ Name: "AuditStatus", Value: [this.AuditPopulatevalue.AuditCLIStatus] });
+    if (this.AuditPopulatevalue.AuditStatus != "") {
+      attributes.push({ Name: "AuditStatus", Value: [this.AuditPopulatevalue.AuditStatus] });
     }
 
     else {
       attributes.push({ Name: "AuditStatus" });
     }
-    attributes.push({ Name: "BatchID" ,Value:[null]});
+    attributes.push({ Name: "BatchID" ,Value:["6"]});
 
     console.log(attributes);
 

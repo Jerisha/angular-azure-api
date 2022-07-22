@@ -872,12 +872,20 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
             }
             var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
             let data = {
+              // StartphoneNumber: startTelno,
+              // EndPhoneNumber: endTelno,
+              // ActId: this.form.AuditActID.value,
+              // ResolutionRemarks: this.remarkstxt,
+              // ManualAuditType: auditType,
+              // ReportIdentifier: 'FullAuditDetails'
               StartphoneNumber: startTelno,
+              auditType:'Full Audit',
+              AuditStatus:this.selectListItems[0].FullAuditCLIStatus,
               EndPhoneNumber: endTelno,
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
               ManualAuditType: auditType,
-              ReportIdentifier: 'FullAuditDetails'
+              ReportIdentifier:'FullAuditDetails'
             }
             this.router.navigateByUrl('/transactions/transactions', { state: data });
           }
