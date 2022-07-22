@@ -667,9 +667,9 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         name: 'Telephone No Details'
       });
       // this.selectedTab = 1;
-      this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
+     
     }
-
+    this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
 
   }
   ngAfterViewInit() {

@@ -41,7 +41,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   @Input() tableitem?: TableItem;
   @Input() sidePan: any;
   @Input() isShown: boolean = true;
-  @Input() reportName?:string;
+  @Input() reportName?: string;
   @Output() rowChanges = new EventEmitter<any>();
   @Output() addNewTab = new EventEmitter<any>();
   @Output() pageIndex = new EventEmitter<any>();
@@ -102,7 +102,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   showFavCols: boolean = false;
   selectedUserProfileId: any;
   enableCustomization: boolean = false;
-   
+
   constructor(private changeDetectorRef: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
     private service: UIService,
@@ -258,7 +258,6 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.toggleAllSelection();
       this.isDataloaded = false;
     }
-
   }
 
   getTotal(cellname: string) {
@@ -272,9 +271,10 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     else
       return '';
   }
+
   getFooterDetailstemp(cell: string) {
     debugger
-    var cellname = cell.replace('f2_','');
+    var cellname = cell.replace('f2_', '');
     var cell = cellname ? cellname : '';
     if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
       return 'Cumulative';
@@ -284,31 +284,24 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     else
       return '';
   }
+
   getFooterDetails(cellname: string) {
-
-    if(this.reportName)
-    {
-       var result=this.getFooterDetailstemp(cellname);
-       return result;
+    if (this.reportName) {
+      var result = this.getFooterDetailstemp(cellname);
+      return result;
     }
-     else
-     {
-    var cell = cellname ? cellname : '';
+    else {
+      var cell = cellname ? cellname : '';
+      if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
+        return this.footerDetails.footerName;
+      }
 
-    if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
+      if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
+        return this.footerDetails.footerValue;
 
-      return this.footerDetails.footerName;
-
+      else
+        return '';
     }
-
-    if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
-
-      return this.footerDetails.footerValue;
-
-    else
-
-      return '';
-  }
   }
 
   getColSpan(cellname: string) {
@@ -516,6 +509,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
 
   getSelectedProfile(val: any) {
     debugger;
+   // this.spinner.show();
     this.dataColumns = [];
     let newStatus = true;
     let selectedColumns = this.favProfile?.find(x => x.favprofileid === val)?.favcolumnlist;
@@ -546,13 +540,15 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     this.allSelected = (actualCols === selectedColumns.length) ? true : false;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+
+    this.spinner.hide();
   }
 
   copyToClipboard() {
     let data = "";
     let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
-    let selectedCol = this.tableitem?.filter ? 
-    this.select?.value?.filter((z:string)=> colsExcludeImage?.includes(z)) : colsExcludeImage
+    let selectedCol = this.tableitem?.filter ?
+      this.select?.value?.filter((z: string) => colsExcludeImage?.includes(z)) : colsExcludeImage
     this.selection.selected.forEach((row: any, index) => {
       if (index === 0) {
         let tablehead = this.gridFilter.filter(x => !x.isImage && selectedCol?.includes(x.headerValue)).map(e => e.header);
@@ -723,6 +719,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     debugger;
     if (this.reportIdentifier) {
       let request = Utils.preparePyUIQuery('ManageUsers', 'FavouriteProfile', 'favprofileid', null, this.reportIdentifier)
+      console.log('fulladiu', JSON.stringify(request))
       this.service.uiApiDetails(request, WebMethods.UIQUERY).subscribe(result => {
         if (result) {
           this.favProfile = result.Data;
