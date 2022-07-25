@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'manageusers',  component: ManageUsersComponent,data: { id: 'MENU19' }  },
   { path: 'datacorrectionsummary',  component: DataCorrectionReportsComponent,data: { id: 'MENU16' }  },
   { path: 'auditstatustracker', component: AuditstatustrackerComponent,data: { id: 'MENU15' } },
-  { path: 'Franchise', component: FranchiseComponent,data: { id: '' } }
+  { path: '', component: FranchiseComponent,data: { id: '' } }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

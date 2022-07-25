@@ -41,8 +41,32 @@ table {
   .example-element-description {
     padding: 16px;
   }
+  th{
+   
+    width:auto;
+   font-size: 13px;
+    background-color:#e60000;
+    color:white;    
+    
+    text-align:justify;
+    /* text-align: center; */
+    /* column-gap: 30px;
+    max-width: 300px;  */
+  }
+  .table-row{
+    min-height:16px; 
+    height: auto;    
+    /* color:white; */
+  }
   
   .example-element-description-attribution {
     opacity: 0.5;
   }
+  .ui-grid-row:nth-child(odd) .ui-grid-cell {
+    background-color: yellow;
+}
+
+.ui-grid-row:nth-child(even) .ui-grid-cell {
+    background-color: blue;
+}
   

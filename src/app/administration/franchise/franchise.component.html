@@ -13,10 +13,10 @@
         aria-label="expand row"
         (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()"
       >
-        <mat-icon *ngIf="expandedElement !== element"
+        <mat-icon style="font-size:16px" *ngIf="expandedElement !== element"
           >keyboard_arrow_down</mat-icon
         >
-        <mat-icon *ngIf="expandedElement === element"
+        <mat-icon  style="font-size:16px" *ngIf="expandedElement === element"
           >keyboard_arrow_up</mat-icon
         >
       </button>
@@ -24,31 +24,26 @@
   </ng-container>
   <ng-container
     matColumnDef="{{column}}"
-    *ngFor="let column of columnsToDisplay"
+    *ngFor="let column of columnsToDisplay;"
   >
-    <div *ngIf="column!='weight'&&column!='position'&&column!='name'&&column!='symbol'">
+    <div *ngIf="column!='title'&&column!='Action'&&column!='olo'&&column!='usedOloFrnachise'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element">{{element[column]}}</td>
     </div>
-    <div *ngIf="column==='name'">
+    <div *ngIf="column==='olo'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element ">
-        <mat-icon style="color:darkgoldenrod">folder</mat-icon>{{element[column]}}</td>
+        <mat-icon style="color:darkgoldenrod;font-size:16px">folder</mat-icon>{{element[column]}}</td>
       
     </div>
 
-    <div *ngIf="column==='weight'">
+    <div *ngIf="column==='title'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element ">
-        <input
-          type="text"
-          matInput
-          value="Custom1"
-          placeholder="Profile Name"
-        />
+        <input type="text"  placeholder="Profile Name"/>
       </td>
     </div>
-    <div *ngIf="column==='position'">
+    <div *ngIf="column==='Action'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element ">
         <button
@@ -57,14 +52,14 @@
           class="btn-color"
           matTooltip="Click this button currently showning details will be Update"
         >
-          <mat-icon>edit</mat-icon>Update
+          <mat-icon style="font-size:16px">edit</mat-icon>Update
         </button>
       </td>
     </div>
-    <div *ngIf="column==='symbol'">
+    <div *ngIf="column==='usedOloFrnachise'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element ">
-          <mat-icon style="color:green"> unsubscribe</mat-icon>{{element[column]}}
+          <mat-icon   style="font-size: 16px;color:red"> unsubscribe</mat-icon>{{element[column]}}
       </td>
     </div>
   </ng-container>
@@ -74,7 +69,7 @@
     <td
       mat-cell
       *matCellDef="let element"
-      [attr.colspan]="columnsToDisplayWithExpand.length"
+      [attr.colspan]="columnsToDisplayWithExpandtwo.length"
     >
       <div
         class="example-element-detail"
@@ -88,31 +83,31 @@
         >
           <ng-container
             matColumnDef="{{column}}"
-            *ngFor="let column of columnsToDisplay"
+            *ngFor="let column of columnsToDisplaysecondlevel"
           >
-          <div *ngIf="column!='weight'&&column!='position'&&column!='symbol'&&column!='name'">
+          <div *ngIf="column!='title'&&column!='Action'&&column!='usedOloFrnachise'&&column!='co'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element">{{element[column]}}</td>
         </div>
-        <div *ngIf="column==='name'">
+        <div *ngIf="column==='co'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element ">
-            <mat-icon style="color:darkgoldenrod">folder</mat-icon>{{element[column]}}</td>
+            <mat-icon style="color:darkgoldenrod;font-size: 16px;">folder</mat-icon>{{element[column]}}</td>
           
         </div>
-        <div *ngIf="column==='weight'">
+        <div *ngIf="column==='title'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element ">
             <input type="text" value="test">
           </td>
         </div>
-        <div *ngIf="column==='symbol'">
+        <div *ngIf="column==='usedOloFrnachise'">
             <th mat-header-cell *matHeaderCellDef>{{column}}</th>
             <td mat-cell *matCellDef="let element ">
-                <mat-icon style="color:green"> unsubscribe</mat-icon>{{element[column]}}
+                <mat-icon style="color:green;font-size:16px"> unsubscribe</mat-icon>{{element[column]}}
             </td>
           </div>
-        <div *ngIf="column==='position'">
+        <div *ngIf="column==='Action'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element ">
             <button
@@ -121,25 +116,25 @@
               class="btn-color"
               matTooltip="Click this button currently showning details will be Update"
             >
-              <mat-icon>edit</mat-icon>Update
+              <mat-icon style="font-size:16px">edit</mat-icon>Update
             </button>
           </td>
         </div>
           </ng-container>
           <ng-container matColumnDef="expand">
-            <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions" >
               &nbsp;
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td  mat-cell *matCellDef="let element">
               <button
                 mat-icon-button
                 aria-label="expand row"
                 (click)="(expandedElementtwo = expandedElementtwo === element ? null : element); $event.stopPropagation()"
               >
-                <mat-icon *ngIf="expandedElementtwo !== element"
+                <mat-icon *ngIf="expandedElementtwo !== element" style="font-size:16px"
                   >keyboard_arrow_down</mat-icon
                 >
-                <mat-icon *ngIf="expandedElementtwo === element"
+                <mat-icon *ngIf="expandedElementtwo === element" style="font-size:16px"
                   >keyboard_arrow_up</mat-icon
                 >
               </button>
@@ -157,15 +152,113 @@
                 class="example-element-detail"
                 [@detailExpand]="element == expandedElementtwo ? 'expanded' : 'collapsed'"
               >
-                <span>siva</span>
+              
+              
+
+
+
+              <table
+              mat-table
+              
+              [dataSource]="datasourcetwo"
+              multiTemplateDataRows
+            >
+              <ng-container
+                matColumnDef="{{column}}"
+                *ngFor="let column of columnsToDisplaysecondlevel"
+              >
+              <div *ngIf="column!='title'&&column!='Action'&&column!='usedOloFrnachise'&&column!='co'">
+              <th mat-header-cell  *matHeaderCellDef>{{column}}</th>
+              <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+            </div>
+            <div *ngIf="column==='co'">
+              <th mat-header-cell  *matHeaderCellDef>Fran</th>
+              <td mat-cell *matCellDef="let element ">
+                <mat-icon style="color:darkgoldenrod;font-size: 16px;">folder</mat-icon>{{element[column]}}</td>
+              
+            </div>
+            <div *ngIf="column==='title'">
+              <th mat-header-cell  *matHeaderCellDef>{{column}}</th>
+              <td mat-cell *matCellDef="let element ">
+                <input type="text" value="test">
+              </td>
+            </div>
+            <div *ngIf="column==='usedOloFrnachise'">
+                <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+                <td mat-cell *matCellDef="let element ">
+                    <mat-icon style="color:green;font-size:16px"> unsubscribe</mat-icon>{{element[column]}}
+                </td>
+              </div>
+            <div *ngIf="column==='Action'">
+              <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+              <td mat-cell *matCellDef="let element ">
+                <button
+                  type="submit"
+                  mat-raised-button
+                  class="btn-color"
+                  matTooltip="Click this button currently showning details will be Update"
+                >
+                  <mat-icon style="font-size:16px">edit</mat-icon>Update
+                </button>
+              </td>
+            </div>
+              </ng-container>
+              <ng-container matColumnDef="expand">
+                <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+                  &nbsp;
+                </th>
+                <td mat-cell *matCellDef="let element">
+                 
+                </td>
+              </ng-container>
+    
+              <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+              <ng-container matColumnDef="expandedDetail" style="visibility:hidden">
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [attr.colspan]="columnsToDisplayWithExpand.length"
+                >
+                  <div
+                    class="example-element-detail"
+                    [@detailExpand]="element == expandedElementtwo ? 'expanded' : 'collapsed'"
+                  >
+                  
+                  </div>
+                </td>
+              </ng-container>
+    
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpandtwo"></tr>
+              <tr
+                mat-row
+                *matRowDef="let element; columns: columnsToDisplayWithExpandtwo;"
+                class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: ['expandedDetail']"
+                class="example-detail-row"
+              ></tr>
+            </table>
+
+
+
+
+
+
+
+
+
               </div>
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpandtwo"></tr>
           <tr
             mat-row
-            *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+            *matRowDef="let element; columns: columnsToDisplayWithExpandtwo;"
             class="example-element-row"
             [class.example-expanded-row]="expandedElement === element"
             (click)="expandedElement = expandedElement === element ? null : element"
