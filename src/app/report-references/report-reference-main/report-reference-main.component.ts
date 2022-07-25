@@ -419,6 +419,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   onDeleteRecord(record: any, event: any) {
     this.alertService.clear();   
+    this.highlightedRows = record
    // alert("Delete starts..."+JSON.stringify(this.record));
     const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
@@ -446,6 +447,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
               this.alertService.clear();
               this.alertService.notification("Record delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
+              this.highlightedRows='';
             }
           });
         }
@@ -453,11 +455,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           //console.log(record[this.recordIdentifier], record, 'Internal Issues1')
           this.alertService.clear();
           this.alertService.notification("Internal Issues Please try again or Contact Admin:(", { autoClose: true, keepAfterRouteChange: false });
+          this.highlightedRows='';
         }
       }
       else {
         this.alertService.clear();
         this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+        this.highlightedRows='';
       }
     },
       (error) => {

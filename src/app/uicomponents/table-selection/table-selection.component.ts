@@ -544,7 +544,18 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
 
     this.spinner.hide();
   }
-
+  checkNumberColumn(col:string)
+  {
+    let falg:boolean=false;
+    this.ColumnDetails.forEach((row: any, index) => {
+      if(row.headerValue===col&&row.isNumber)
+      {
+        falg= true;
+       
+      } 
+    });
+    return falg;
+  }
   copyToClipboard() {
     let data = "";
     let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
@@ -557,7 +568,13 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       }
       let tabValue: string[] = []
       selectedCol?.forEach((x: string) => {
-        tabValue.push(row[x] || ' ')
+        if(this.checkNumberColumn(x))
+        {
+          tabValue.push(row[x].replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ' ')
+        }
+        else{
+          tabValue.push(row[x] || ' ')
+        }   
       })
       data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });

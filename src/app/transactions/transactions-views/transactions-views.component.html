@@ -310,7 +310,7 @@
                         <div style="margin-bottom: 6px;">
                           <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'200px'}">
                             <mat-label class="vf-label">Order Ref. *</mat-label>
-                            <input type="text" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12" maxlength="12" value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
+                            <input type="text" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12"  value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')"> Enter OrderRef</mat-error>
                         
                           </mat-form-field>                             

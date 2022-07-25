@@ -45,7 +45,7 @@
                                   <td mat-cell *matCellDef="let element" class ="actions-cell"> 
                                     <ng-container>
                                       <mat-icon  (click)="onEditRecord(element,$event)"   style="cursor:pointer;font-size:18px">mode_edit_outline</mat-icon>
-                                      <mat-icon *ngIf ="this.editActionEnabled" (click)="onDeleteRecord(element,$event)"  style="color:#e60000;margin-left:10px;cursor:pointer; font-size:18px">delete_outline</mat-icon> 
+                                      <mat-icon *ngIf ="this.editActionEnabled" (click)="onDeleteRecord(element,$event)"   style="color:#e60000;margin-left:10px;cursor:pointer; font-size:18px">delete_outline</mat-icon> 
                                     </ng-container>
                                   </td>
                             </div>

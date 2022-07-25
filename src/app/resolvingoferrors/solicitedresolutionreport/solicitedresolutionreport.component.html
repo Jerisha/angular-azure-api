@@ -104,7 +104,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source System</mat-label>
             <mat-select formControlName="Source">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option>         
               <mat-option *ngFor="let val of config.Source" [value]="val">
                 {{val}}
               </mat-option>
@@ -141,7 +141,7 @@
         <mat-form-field [ngClass]="{'hidden':f.Status.disabled}">
             <mat-label>Status</mat-label>
             <mat-select formControlName="Status">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.ErrorStatus" [value]="val">
                 {{val}}
               </mat-option>
@@ -178,7 +178,7 @@
     <mat-form-field [ngClass]="{'hidden':f.TransactionCommand.disabled}">
       <mat-label>Transaction Command</mat-label>
       <mat-select formControlName="TransactionCommand">  
-        <!-- <mat-option>None</mat-option>           -->
+        <mat-option>-- Select --</mat-option> 
         <mat-option *ngFor="let val of config.TransactionCommand" [value]="val">
           {{val}}
         </mat-option>
@@ -228,7 +228,7 @@
           <mat-form-field [ngClass]="{'hidden':f.ResolveType.disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolveType">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.AllResolutionType" [value]="val">
                 {{val}}
               </mat-option>
@@ -264,7 +264,7 @@
         <mat-form-field [ngClass]="{'hidden':f.InternalCUPID.disabled}">
           <mat-label>Internal CUPID</mat-label>
           <mat-select formControlName="InternalCUPID">  
-            <!-- <mat-option>None</mat-option>           -->
+            <mat-option>-- Select --</mat-option> 
             <mat-option *ngFor="let val of config.InternalCupID" [value]="val">
               {{val}}
             </mat-option>
