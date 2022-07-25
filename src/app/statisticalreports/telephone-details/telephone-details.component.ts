@@ -14,6 +14,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from 'src/app/_shared/alert';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
   {
@@ -78,8 +79,7 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
   constructor(private formBuilder: FormBuilder,
     private service: statisticalreport,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService,
+   private alertService: AlertService,
     private auth: AuthenticationService,
     private actRoute: ActivatedRoute
     ) 
@@ -88,9 +88,7 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
     this.intializeUser();
      }
 
-  openSnackBar(message: string) {
-    this._snackBar.open(message);
-  }
+  
 
 
 
@@ -114,6 +112,7 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
   }
   formsubmit(isEmitted?: boolean) {
     // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.alertService.clear();
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
@@ -123,10 +122,10 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
     { "IsRemoveCache": this.isRemoveCache }];
     this.Datevalue = this.StatisticDate;
     let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TransactionCommand', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    console.log('request', JSON.stringify(request))
+    // console.log('request', JSON.stringify(request))
     this.queryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
-        console.log('result from telephone',JSON.stringify(res.data));
+        // console.log('result from telephone',JSON.stringify(res.data));
         let result = {
           datasource: res.data.TelephoneNumbers,
           params: res.params
