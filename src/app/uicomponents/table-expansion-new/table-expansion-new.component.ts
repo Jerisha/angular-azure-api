@@ -569,6 +569,18 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
       this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
       if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     }
+    checkNumberColumn(col:string)
+    {
+      let falg:boolean=false;
+      this.ColumnDetails.forEach((row: any, index) => {
+        if(row.headerValue===col&&row.isNumber)
+        {
+          falg= true;
+         
+        } 
+      });
+      return falg;
+    }
   
     copyToClipboard() {
     
@@ -584,7 +596,14 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
         }
         let tabValue: string[] = []
         this.select?.value?.forEach((x: string) => {
+          if(x != 'View'&&x != 'Inventory' &&this.checkNumberColumn(x))
+          {
+            tabValue.push(row[x].replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ' ')
+          }
+          else
+          {
           if (x != 'View'&&x != 'Inventory') tabValue.push(row[x] || ' ')
+          }
         })
         data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
       });
