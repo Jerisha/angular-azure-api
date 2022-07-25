@@ -455,6 +455,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     this.remarkstxt = '';
     //this.rowRange='';
 
+    this.alertService.clear();
     this.getTelnoValidation();
     if (this.fullAuditForm.invalid) { return; }
     var startTelno = this.form.StartTelephoneNumber?.value ? this.form.StartTelephoneNumber?.value : ''
@@ -761,8 +762,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-            this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+            
             this.onFormSubmit(true);
+            this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
           }
         });
       }
