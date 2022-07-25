@@ -1,9 +1,10 @@
 <p>franchise works!</p>
+<div class="div">
 <table
   mat-table
   [dataSource]="dataSource"
   multiTemplateDataRows
-  class="mat-elevation-z8"
+  class="mat-elevation-z8" style="width:50%;text-align: center;"
 >
   <ng-container matColumnDef="expand">
     <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
@@ -26,7 +27,7 @@
     matColumnDef="{{column}}"
     *ngFor="let column of columnsToDisplay;"
   >
-    <div *ngIf="column!='title'&&column!='Action'&&column!='olo'&&column!='usedOloFrnachise'">
+    <div *ngIf="column!='title'&&column!='Action'&&column!='olo'&&column!='usedOloFrnachise'&&column!='used'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element">{{element[column]}}</td>
     </div>
@@ -36,7 +37,12 @@
         <mat-icon style="color:darkgoldenrod;font-size:16px">folder</mat-icon>{{element[column]}}</td>
       
     </div>
-
+    <div *ngIf="column==='used'">
+      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+      <td mat-cell *matCellDef="let element ">
+       7
+      </td>
+    </div>
     <div *ngIf="column==='title'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element ">
@@ -46,20 +52,18 @@
     <div *ngIf="column==='Action'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element ">
-        <button
-          type="submit"
-          mat-raised-button
-          class="btn-color"
-          matTooltip="Click this button currently showning details will be Update"
-        >
-          <mat-icon style="font-size:16px">edit</mat-icon>Update
-        </button>
+        
+        <mat-icon style="color:darkgoldenrod;margin-left:20px">add_box</mat-icon>
+        <mat-icon  style="color:green;margin-left:20px">edit</mat-icon>
+     
+      <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+      style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
       </td>
     </div>
     <div *ngIf="column==='usedOloFrnachise'">
-      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+      <th mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
       <td mat-cell *matCellDef="let element ">
-          <mat-icon   style="font-size: 16px;color:red"> unsubscribe</mat-icon>{{element[column]}}
+          {{element[column]}}
       </td>
     </div>
   </ng-container>
@@ -85,7 +89,7 @@
             matColumnDef="{{column}}"
             *ngFor="let column of columnsToDisplaysecondlevel"
           >
-          <div *ngIf="column!='title'&&column!='Action'&&column!='usedOloFrnachise'&&column!='co'">
+          <div *ngIf="column!='title'&&column!='Action'&&column!='usedOloFrnachise'&&column!='co'&&column!='used'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element">{{element[column]}}</td>
         </div>
@@ -95,6 +99,12 @@
             <mat-icon style="color:darkgoldenrod;font-size: 16px;">folder</mat-icon>{{element[column]}}</td>
           
         </div>
+        <div *ngIf="column==='used'">
+          <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+          <td mat-cell *matCellDef="let element ">
+           7
+          </td>
+        </div>
         <div *ngIf="column==='title'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element ">
@@ -102,22 +112,21 @@
           </td>
         </div>
         <div *ngIf="column==='usedOloFrnachise'">
-            <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+            <th mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
             <td mat-cell *matCellDef="let element ">
-                <mat-icon style="color:green;font-size:16px"> unsubscribe</mat-icon>{{element[column]}}
+               {{element[column]}}
             </td>
           </div>
         <div *ngIf="column==='Action'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element ">
-            <button
-              type="submit"
-              mat-raised-button
-              class="btn-color"
-              matTooltip="Click this button currently showning details will be Update"
-            >
-              <mat-icon style="font-size:16px">edit</mat-icon>Update
-            </button>
+         
+            <mat-icon style="color:darkgoldenrod;margin-left:20px">add_box</mat-icon>
+              <mat-icon  style="color:green;margin-left:20px">edit</mat-icon>
+           
+            <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+            style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
+           
           </td>
         </div>
           </ng-container>
@@ -167,7 +176,7 @@
                 matColumnDef="{{column}}"
                 *ngFor="let column of columnsToDisplaysecondlevel"
               >
-              <div *ngIf="column!='title'&&column!='Action'&&column!='usedOloFrnachise'&&column!='co'">
+              <div *ngIf="column!='title'&&column!='Action'&&column!='usedOloFrnachise'&&column!='co'&&column!='used'">
               <th mat-header-cell  *matHeaderCellDef>{{column}}</th>
               <td mat-cell *matCellDef="let element">{{element[column]}}</td>
             </div>
@@ -177,29 +186,33 @@
                 <mat-icon style="color:darkgoldenrod;font-size: 16px;">folder</mat-icon>{{element[column]}}</td>
               
             </div>
+   
             <div *ngIf="column==='title'">
               <th mat-header-cell  *matHeaderCellDef>{{column}}</th>
               <td mat-cell *matCellDef="let element ">
                 <input type="text" value="test">
               </td>
             </div>
+            <div *ngIf="column==='used'">
+              <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+              <td mat-cell *matCellDef="let element ">
+                <mat-icon style="color:red;font-size:16px"> unsubscribe</mat-icon>
+              </td>
+            </div>
             <div *ngIf="column==='usedOloFrnachise'">
-                <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+                <th mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
                 <td mat-cell *matCellDef="let element ">
-                    <mat-icon style="color:green;font-size:16px"> unsubscribe</mat-icon>{{element[column]}}
+                   {{element[column]}}
                 </td>
               </div>
             <div *ngIf="column==='Action'">
               <th mat-header-cell *matHeaderCellDef>{{column}}</th>
               <td mat-cell *matCellDef="let element ">
-                <button
-                  type="submit"
-                  mat-raised-button
-                  class="btn-color"
-                  matTooltip="Click this button currently showning details will be Update"
-                >
-                  <mat-icon style="font-size:16px">edit</mat-icon>Update
-                </button>
+               
+        <mat-icon  style="color:green;margin-left:20px">edit</mat-icon>
+     
+      <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+      style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
               </td>
             </div>
               </ng-container>
@@ -287,6 +300,7 @@
     class="example-detail-row"
   ></tr>
 </table>
+</div>
 
 <!-- Copyright 2022 Google LLC. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that

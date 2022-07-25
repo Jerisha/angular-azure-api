@@ -41,8 +41,25 @@ table {
   .example-element-description {
     padding: 16px;
   }
+  tr.mat-header-row
+  {
+    height: 20px!important;
+  }
+  #div 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  td {
+    text-align: center;
+  }
+  th.mat-header-cell
+  {
+    text-align: center!important;
+  }
   th{
-   
+    text-align: center;
     width:auto;
    font-size: 13px;
     background-color:#e60000;

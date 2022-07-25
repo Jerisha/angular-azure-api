@@ -23,8 +23,8 @@ import {
 })
 export class FranchiseComponent implements OnInit {
   dataSource = ELEMENT_DATA;
-  columnsToDisplay = ['olo', 'title', 'usedOloFrnachise', 'Action'];
-  columnsToDisplaysecondlevel = ['co', 'title', 'usedOloFrnachise', 'Action'];
+  columnsToDisplay = ['olo', 'title','used', 'usedOloFrnachise', 'Action'];
+  columnsToDisplaysecondlevel = ['co', 'title','used', 'usedOloFrnachise', 'Action'];
   columnsToDisplaythirdlevel = ['Fran', 'title', 'usedOloFrnachise', 'Action'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   columnsToDisplayWithExpandtwo = [...this.columnsToDisplaysecondlevel, 'expand'];
@@ -41,6 +41,7 @@ export interface PeriodicElement {
   olo: string;
   Action: string;
   title: string; 
+  
   usedOloFrnachise: string;
   description: string;
 }
