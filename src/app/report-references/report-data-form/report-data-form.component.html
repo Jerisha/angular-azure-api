@@ -30,11 +30,8 @@
                       [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
                       [maxLength]="formData.cMaxLength"                                           
                       [readonly]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)"
-                      placeholder="{{formData.cDisplayName}}"
-                      cdkTextareaAutosize
-                      #autosize="cdkTextareaAutosize"
-                      cdkAutosizeMinRows="1"
-                      cdkAutosizeMaxRows="4"></textarea>                      
+                      placeholder="{{formData.cDisplayName}}"                     
+                     rows="5" style ="font-size: 10pt;"></textarea>                      
                       <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
                       <mat-error *ngIf="fieldError(formData.cName, 'maxlength')"> Max length {{formData.cMaxLength }}Limit exceed</mat-error>
                   </mat-form-field>

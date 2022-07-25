@@ -279,6 +279,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       {
         this.displayedColumns.splice(5,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description", ctooltip:""})
       }
+      // this.displayedColumns.push({cName:"UpdatedOn",cDisplayName:"Updated On", ctooltip:""})
+      // this.displayedColumns.push({cName:"UpdatedBy",cDisplayName:"Updated By", ctooltip:""})
       this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
     //console.log('refresh',this.reportName)
     if (this.currentReportName != '') {
@@ -756,7 +758,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       {
         header.splice(4,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description"})
       }
-   
+      // header.push({cName:"UpdatedOn",cDisplayName:"Updated On"})
+      // header.push({cName:"UpdatedBy",cDisplayName:"Updated By"})
      let copydata = JSON.parse(JSON.stringify(this.data))
     
      let data:any = [];
@@ -765,22 +768,22 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
      //data.push(dataHeaderRow);
        copydata.forEach((row : any) => {
 
-    
+        // ,'BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'
      let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
-       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','ListType'])
-       {
-         Reflect.deleteProperty(row,i)
-       }
-       if(this.currentReportName ==='ResolutionType'||this.currentReportName ==='AuditStatus')
-       for (const i of ['Description'])
-       {
-         Reflect.deleteProperty(row,i)
-       }
-       if(!['Status','ErrorCode','InterimCommands'].includes(this.currentReportName,0))
-       for (const i of ['Comments'])
-       {
-         Reflect.deleteProperty(row,i)
-       }
+      //  for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','ListType'])
+      //  {
+      //    Reflect.deleteProperty(row,i)
+      //  }
+      //  if(this.currentReportName ==='ResolutionType'||this.currentReportName ==='AuditStatus')
+      //  for (const i of ['Description'])
+      //  {
+      //    Reflect.deleteProperty(row,i)
+      //  }
+      //  if(!['Status','ErrorCode','InterimCommands'].includes(this.currentReportName,0))
+      //  for (const i of ['Comments'])
+      //  {
+      //    Reflect.deleteProperty(row,i)
+      //  }
        if( this.currentReportName ==='Olo')
        for (const i of ['OloCompanyFranchise'])
        {
@@ -799,19 +802,20 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
  }); 
 
  this.reportReferenceService.downloadXlsxFile(this.currentReportName,data,[header.map((x: { cDisplayName: any; })=>x.cDisplayName)])
- this.alertService.clear();
+//  this.alertService.clear();
  this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
 }
 else {
-  this.alertService.clear();
+  // this.alertService.clear();
  this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
 }
  }
-  
+  // reportDisplayName:any;
 
   ngOnChanges(changes: SimpleChanges) {
     // this.lstFields =this.reportReferenceService.setForm(this.reportName); 
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
+    // this.reportDisplayName = this.reportReferenceService.reportTitleNames.find( x=> x.name === this.editMode)?.viewName
     //console.log("onchanges:",changes);
   }
   constructor(private cdr: ChangeDetectorRef,
@@ -879,20 +883,36 @@ else {
         }
         if(fieldName ==='LineStatusTitle')
         {        
-          style ={'min-width':'300px','text-align':'justify'};
+          style ={'min-width':'300px','text-align':'left'};
           }
+          if(fieldName ==='Summary')
+        {        
+          style ={'min-width':'300px','text-align':'left'};
+          }
+          if(this.currentReportName ==='ResolutionType'  && fieldName ==='Description')
+          {        
+            style ={'min-width':'400px','text-align':'left'};
+            }
           if(fieldName ==='BTCupID')
         {        
-          style ={'min-width':'100px','text-align':'justify'};
+          style ={'min-width':'100px','text-align':'left'};
           }
           if(fieldName ==='InternalCupID')
         {        
-          style ={'min-width':'100px','text-align':'justify'};
+          style ={'min-width':'100px','text-align':'left'};
           }
           if(this.currentReportName !='Franchise' && fieldName ==='Franchise')
         {        
           style ={'min-width':'200px'};
           }
+          if(fieldName ==='Title')
+          {        
+            style ={'min-width':'100px','text-align':'left'};
+            }
+            if(fieldName ==='UpdatedOn')
+            {        
+              style ={'min-width':'100px','text-align':'left'};
+              }
           
           
 
