@@ -1,5 +1,5 @@
 
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { ReportReferenceService } from '../report-reference.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { IColoumnDef } from '../IControls';
@@ -25,8 +25,7 @@ import { stringify } from 'querystring';
       transition('expanded => collapsed', animate('500ms ease-in')),
       transition('collapsed => expanded', animate('500ms ease-out')),
     ]),
-  ],
-  encapsulation: ViewEncapsulation.None,  
+  ],    
 })
 export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
@@ -127,7 +126,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       // }
     }
     else {
-      this.alertService.clear();
+      // this.alertService.clear();
       this.alertService.info("Please close some Tabs, Max allowed  tabs is 5", { autoClose: true, keepAfterRouteChange: false });
     }
   }
@@ -142,7 +141,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
     let selectedTab= $event.index != -1 ? this.reportReferenceService.reportTitleNames.find( x=> x.viewName === this.tabs[$event.index].name)?.name : "";
     if(selectedTab ==='')
-    {    this.alertService.clear();  
+    {   
+      //  this.alertService.clear();  
       this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
       return 
     }
@@ -174,7 +174,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       tabName =tabName!= undefined? tabName:''
       if(tabName ==='')
       {  
-        this.alertService.clear();     
+        // this.alertService.clear();     
         this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
         return 
       }
@@ -191,12 +191,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         }
       }
       else {
-        this.alertService.clear();
+        // this.alertService.clear();
         this.alertService.info("Please close some Tabs, Max allowed  tabs is 5", { autoClose: true, keepAfterRouteChange: false });
       }
     }
     else {
-      this.alertService.clear();
+      // this.alertService.clear();
       this.alertService.warn("No data found, Please try later some time", { autoClose: true, keepAfterRouteChange: false });
     }
   }
@@ -208,7 +208,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       tabName =tabName!= undefined? tabName:''
       if(tabName ==='')
       {  
-        this.alertService.clear();     
+        // this.alertService.clear();     
         this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
         return 
       }
@@ -252,7 +252,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
     else {
       //alert("close opened report:" + this.editMode)
-      this.alertService.clear();
+      // this.alertService.clear();
       this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
     }
   }
@@ -371,7 +371,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
     else {
-      this.alertService.clear();
+      // this.alertService.clear();
       this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
       // alert("close opened report:"+this.editMode)
     }
@@ -440,11 +440,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           // this.isLoading = false;
             if (x.StatusMessage === 'Success') {
               this.refreshData();
-              this.alertService.clear();
+              // this.alertService.clear();
               this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
             }
             else {
-              this.alertService.clear();
+              // this.alertService.clear();
               this.alertService.notification("Record delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
               this.highlightedRows='';
@@ -453,13 +453,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         }
         else {
           //console.log(record[this.recordIdentifier], record, 'Internal Issues1')
-          this.alertService.clear();
+          // this.alertService.clear();
           this.alertService.notification("Internal Issues Please try again or Contact Admin:(", { autoClose: true, keepAfterRouteChange: false });
           this.highlightedRows='';
         }
       }
       else {
-        this.alertService.clear();
+        // this.alertService.clear();
         this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
         this.highlightedRows='';
       }
@@ -586,12 +586,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
               //success message and same data reloa
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
-              this.alertService.clear();
+              // this.alertService.clear();
               this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             }
             else {
-              this.alertService.clear();
+              // this.alertService.clear();
               this.alertService.notification("Record Update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
             }
@@ -608,7 +608,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
         }
         else {
-          this.alertService.clear();
+          // this.alertService.clear();
           this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
         }
       });
@@ -628,12 +628,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // this.isLoading = false;
         if (x.StatusMessage === 'Success') {
           this.refreshData();
-          this.alertService.clear();
+          // this.alertService.clear();
           this.alertService.success("Record create successfully!!", { autoClose: true, keepAfterRouteChange: false });
           // this.onFormSubmit(true);
         }
         else {
-          this.alertService.clear();
+          // this.alertService.clear();
           this.alertService.notification("Create Record Aborted!!", { autoClose: true, keepAfterRouteChange: false });
 
         }
@@ -733,11 +733,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       // element.setAttribute('download', filename);
       c.click();
-      this.alertService.clear();
+      // this.alertService.clear();
       this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
     }
     else {
-      this.alertService.clear();
+      // this.alertService.clear();
       this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
     }
   }
