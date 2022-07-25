@@ -195,6 +195,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
         return;
       }
       this.tabs.splice(0);
+      this.alertService.clear();
       // this.currentPage = isEmitted ? this.currentPage : '1';
       this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;

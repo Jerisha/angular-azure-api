@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { Utils } from 'src/app/_http';
+import { AlertService } from 'src/app/_shared/alert';
 import { AuditReportsService } from '../services/audit-reports.service';
 
 const myData = [{
@@ -54,7 +55,7 @@ LiveinSource: '	185705'
 export class FullAuditHistoryComponent extends UserProfile implements OnInit {
 
   constructor(private service:AuditReportsService, private spinner : NgxSpinnerService,private auth: AuthenticationService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute, private alertService: AlertService
     ) { 
       super(auth, actRoute);
       this.intializeUser();
@@ -77,6 +78,7 @@ export class FullAuditHistoryComponent extends UserProfile implements OnInit {
   dataColumns = this.ColumnDetails?.map((e:any) => e.headerValue);
 
   ngOnInit(): void {
+    this.alertService.clear();
     this.spinner.show();
     let request = Utils.preparePyGet('FullAuditHistory','FullAuditHistory',[{}]);
     console.log(request)
