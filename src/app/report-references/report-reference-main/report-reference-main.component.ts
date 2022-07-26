@@ -770,10 +770,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
         // ,'BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'
      let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
-      //  for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','ListType'])
-      //  {
-      //    Reflect.deleteProperty(row,i)
-      //  }
+       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','ListType'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
       //  if(this.currentReportName ==='ResolutionType'||this.currentReportName ==='AuditStatus')
       //  for (const i of ['Description'])
       //  {
