@@ -883,23 +883,23 @@ else {
         }
         if(fieldName ==='LineStatusTitle')
         {        
-          style ={'min-width':'300px','text-align':'left'};
+          style ={'min-width':'300px'};
           }
           if(fieldName ==='Summary')
         {        
-          style ={'min-width':'300px','text-align':'left'};
+          style ={'min-width':'300px'};
           }
           if(this.currentReportName ==='ResolutionType'  && fieldName ==='Description')
           {        
-            style ={'min-width':'400px','text-align':'left'};
+            style ={'min-width':'400px'};
             }
           if(fieldName ==='BTCupID')
         {        
-          style ={'min-width':'100px','text-align':'left'};
+          style ={'min-width':'100px'};
           }
           if(fieldName ==='InternalCupID')
         {        
-          style ={'min-width':'100px','text-align':'left'};
+          style ={'min-width':'100px'};
           }
           if(this.currentReportName !='Franchise' && fieldName ==='Franchise')
         {        
@@ -907,15 +907,12 @@ else {
           }
           if(fieldName ==='Title')
           {        
-            style ={'min-width':'100px','text-align':'left'};
+            style ={'min-width':'100px'};
             }
             if(fieldName ==='UpdatedOn')
             {        
-              style ={'min-width':'100px','text-align':'left'};
+              style ={'min-width':'100px'};
               }
-          
-          
-
         
         if(this.currentReportName ==='UnsolicitedAutoClose')
         {
@@ -928,8 +925,7 @@ else {
 
     return style;
 
-  }
-
+  }  
   toolTipData(col:string, colData:string) {
     let data ='';
     if(col === 'Comments'){
