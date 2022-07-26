@@ -558,6 +558,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
   copyToClipboard() {
     let data = "";
+    debugger
     let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
     let selectedCol = this.tableitem?.filter ?
       this.select?.value?.filter((z: string) => colsExcludeImage?.includes(z)) : colsExcludeImage
@@ -568,7 +569,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       }
       let tabValue: string[] = []
       selectedCol?.forEach((x: string) => {
-        if(this.checkNumberColumn(x))
+        if(this.checkNumberColumn(x) && row[x])
         {
           tabValue.push(row[x].replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ' ')
         }
