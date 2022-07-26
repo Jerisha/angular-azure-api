@@ -22,6 +22,7 @@ import { Custom } from 'src/app/_helper/Validators/Custom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { Console } from 'console';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -302,7 +303,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
   ) {
     super(auth, actRoute);
     this.intializeUser();
-  } 
+  }
 
   setAttributesForManualCorrections() {
     if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
@@ -358,7 +359,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     //this.fullAuditForm.reset();
     this.disableSave = true;
     this.disableProcess = true;
-    this.selectListItems = [];    
+    this.selectListItems = [];
     this.tabs.splice(0);
     // this.defaultACTID =  this.configDetails.FullAuditActID?this.configDetails.FullAuditActID[0]:'';
     window.location.reload();
@@ -445,6 +446,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     }
   }
 
+  wmPageNumber: number = 0;
 
   onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);
@@ -476,12 +478,12 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
-
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
-    //this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    this.wmPageNumber = this.currentPage;
+    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.wmPageNumber.toString()), reqParams);
+    console.log('Audit req', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -500,16 +502,16 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       selectCheckbox: true,
       showEmail: false,
       removeNoDataColumns: true,
-      isFavcols:true,
+      isFavcols: true,
       setCellAttributes: this.cellAttrInfo,
       excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '',toolTipText: 'User Comments', tabIndex: 2 },
-      { headerValue: 'RangeReport', icon: 'description', route: '',toolTipText: 'Range Report', tabIndex: 3 },
-      { headerValue: 'InflightOrder', icon: 'description', route: '',toolTipText: 'Inflight Order', tabIndex: 4 },
-      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '',toolTipText: 'Monthly Refresh Flag', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '',toolTipText: 'MoriCircuitStatus', tabIndex: 6 },
-      { headerValue: 'Comments', icon: 'description', route: '',toolTipText: 'User Comments', tabIndex: 7 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'User Comments', tabIndex: 2 },
+      { headerValue: 'RangeReport', icon: 'description', route: '', toolTipText: 'Range Report', tabIndex: 3 },
+      { headerValue: 'InflightOrder', icon: 'description', route: '', toolTipText: 'Inflight Order', tabIndex: 4 },
+      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', toolTipText: 'Monthly Refresh Flag', tabIndex: 5 },
+      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', toolTipText: 'MoriCircuitStatus', tabIndex: 6 },
+      { headerValue: 'Comments', icon: 'description', route: '', toolTipText: 'User Comments', tabIndex: 7 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({

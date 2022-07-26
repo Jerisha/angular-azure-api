@@ -36,8 +36,9 @@ font-size: smaller;  ">
         </button>
       </mat-optgroup>
       <ng-container *ngFor="let cols of (gridFilter || []); let fltIndex = index">
-        <mat-option [disabled]="fltIndex===0 || cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false" style="min-width:220px" color="primary"
-          (click)="optionClick()" [value]="cols.headerValue">
+        <mat-option
+          [disabled]="fltIndex===0 || cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false"
+          style="min-width:220px" color="primary" (click)="optionClick()" [value]="cols.headerValue">
           {{ cols.header }}
         </mat-option>
       </ng-container>
@@ -69,8 +70,17 @@ font-size: smaller;  ">
         <mat-icon>how_to_reg</mat-icon>Promote
       </button>
     </div>
-  </ng-container>
+  </ng-container> &nbsp;
+  <div *ngIf="!disablePageSize" class="colfilter" style="margin-left: 8px; margin-top:5px">
+    <mat-form-field style="width: 100px;">
+      <input numbersOnly placeholder="Page No" [(ngModel)]="apiPageNumber" matInput>
+    </mat-form-field>
+    <button style="height: 40px;" type="button" mat-raised-button color="primary" (click)="pageChanged()">Go
+    </button>
+  </div>
 </div>
+
+
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
 
 <div>
@@ -118,16 +128,19 @@ font-size: smaller;  ">
           <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"
             [ngStyle]="highlightCell(element,disCol)">
             <!-- {{element[disCol.headerValue]}} -->
-             <span [ngStyle]="disCol.isBold?{'font-weight': '1000'} : {'font-weight': '500'}">{{disCol.isNumber?(element[disCol.headerValue]| number) :element[disCol.headerValue]}}</span>
-            </td> 
+            <span
+              [ngStyle]="disCol.isBold?{'font-weight': '1000'} : {'font-weight': '500'}">{{disCol.isNumber?(element[disCol.headerValue]|
+              number) :element[disCol.headerValue]}}</span>
+          </td>
           <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getTotal(disCol.headerValue)|number}}</td>
         </div>
       </ng-container>
 
       <!-- custom footer container  -->
       <ng-container *ngFor="let columnName of footerColumns" [matColumnDef]="columnName">
-       
-        <td mat-footer-cell class="totalRow" *matFooterCellDef>  {{columnName==='f2_Select'? getFooterDetails(columnName):getFooterDetails(columnName)| number}}</td>
+
+        <td mat-footer-cell class="totalRow" *matFooterCellDef> {{columnName==='f2_Select'?
+          getFooterDetails(columnName):getFooterDetails(columnName)| number}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>

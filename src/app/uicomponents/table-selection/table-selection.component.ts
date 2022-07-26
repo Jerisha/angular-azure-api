@@ -21,6 +21,7 @@ import { AlertService } from 'src/app/_shared/alert';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 
 @Component({
@@ -112,14 +113,31 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     private actRoute: ActivatedRoute) {
     super(auth, actRoute)
     this.intializeUser();
-
   }
 
-  pageChanged(event: PageEvent) {
+  pageChanged(event?: PageEvent) {
     debugger;
-    this.currentPage = event.pageIndex;
-    this.pageProp.currentPage = this.currentPage + 1;
-    this.pageProp.pageSize = event.pageSize;
+    if (event != undefined) {
+      this.currentPage = event?.pageIndex ? event?.pageIndex : 0;
+      this.pageProp.currentPage = this.currentPage + 1;
+      this.pageProp.pageSize = event?.pageSize ? event?.pageSize : DefaultPageSize;
+      this.service.setPageSize(this.pageProp.pageSize);
+    }
+    else {
+      let totalPages = Math.ceil(this.totalRows / this.pageSize);
+      let currentAPIPageNo = Number(this.apiPageNumber);
+      if (currentAPIPageNo === 0 || (currentAPIPageNo > totalPages)) {
+        const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px',
+          disableClose: true,
+          data: { enableOk: false, message: 'Page number should not be exceeded than available limits', }
+        });
+        rangeConfirm.afterClosed().subscribe(result => { return result; })
+        return;
+      }
+      this.pageProp.currentPage = currentAPIPageNo;
+      this.service.pageSize$.subscribe((val: number) => { this.pageProp.pageSize = val; });
+    }
     this.pageIndex.emit(this.pageProp);
   }
 
@@ -509,7 +527,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
 
   getSelectedProfile(val: any) {
     debugger;
-   // this.spinner.show();
+    // this.spinner.show();
     this.dataColumns = [];
     let newStatus = true;
     let selectedColumns = this.favProfile?.find(x => x.favprofileid === val)?.favcolumnlist;
@@ -564,11 +582,11 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   RequestExport2Excel() {
-   // debugger;
+    // debugger;
     let ColumnMapping: any = []
     let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
-    let selectedCol = this.tableitem?.filter ? 
-    this.select?.value?.filter((z:string)=> colsExcludeImage?.includes(z)) : colsExcludeImage
+    let selectedCol = this.tableitem?.filter ?
+      this.select?.value?.filter((z: string) => colsExcludeImage?.includes(z)) : colsExcludeImage
     let temp: any = {}
     this.gridFilter.forEach(x => {
       if (selectedCol.includes(x.headerValue)) {
