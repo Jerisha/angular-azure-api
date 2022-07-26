@@ -732,7 +732,7 @@ else{
         else
           identifiers.push({ Name: 'AuditActID' });
 
-        identifiers.push({ Name: 'AuditType', Value: [`${'Full Audit'}`] });
+        identifiers.push({ Name: 'AuditType', Value: [`${'Separate Internal Audit'}`] });
         break;
       }
       case 'DataAutoCorrection': {
@@ -946,7 +946,7 @@ else{
     let attributes = [
       { Name: 'TelephoneNumber', Value: [`${telno}`] },
       { Name: 'AuditActID', Value: [`${auditACTID}`] },
-      { Name: 'AuditType', Value: [`${'Full Audit'}`] }
+      { Name: 'AuditType', Value: [`${'Separate Internal Audit'}`] }
     ];
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
       width: '800px',

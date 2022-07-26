@@ -446,6 +446,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         {
          // attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
          var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
+         console.log('result before',result);
        var newchar=  result.substring(1, result.length-1)
          attributes.push({ Name: 'StatisticMonth', Value: [newchar] });
         }

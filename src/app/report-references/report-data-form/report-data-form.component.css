@@ -60,6 +60,7 @@
   .vf-card{
     /* width:auto; */
     min-width: 90%;
+    /* width:100%; */
     min-height: 460px;
     /* display: flex;
     flex-direction: row;  
