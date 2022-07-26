@@ -18,7 +18,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Utils } from 'src/app/_http/common/utils';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
-import { AdministrationService } from '../../services/administration.service';
+import { AdministrationService } from '../../_services/administration.service';
 
   const AutoCorrectionSummary: string = 'AutoCorrectionSummary';
   const ManualCorrectionSummary: string = 'ManualCorrectionSummary';
