@@ -28,6 +28,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { AlertService } from 'src/app/_shared/alert';
 
 const moment = _rollupMoment || _moment;
 
@@ -226,8 +227,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   constructor(private formBuilder: FormBuilder,
     private service: statisticalreport,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService,
+    private alertService: AlertService,
     private auth: AuthenticationService,
     private actRoute: ActivatedRoute
     )
@@ -331,6 +331,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     debugger
     if (!this.thisForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
@@ -340,7 +341,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('DayToDay', 'TransactionCommand', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    console.log('source requst day to day',JSON.stringify(request));
+    // console.log('source requst day to day',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -445,6 +446,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         {
          // attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
          var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
+         console.log('result before',result);
        var newchar=  result.substring(1, result.length-1)
          attributes.push({ Name: 'StatisticMonth', Value: [newchar] });
         }

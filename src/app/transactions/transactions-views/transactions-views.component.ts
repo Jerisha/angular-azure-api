@@ -976,18 +976,19 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       //}
     }
     if (this.AuditPopulatevalue.ActId != "") {
-      attributes.push({ Name: "ActID", Value: [this.AuditPopulatevalue.ActId] });
+      attributes.push({ Name: "AuditActId", Value: [this.AuditPopulatevalue.ActId] });
     }
 
     else {
-      attributes.push({ Name: "ActID" });
+      attributes.push({ Name: "AuditActId" });
     }
-    if (this.AuditPopulatevalue.ManualAuditType != "") {
-      attributes.push({ Name: "ManualAuditType", Value: [this.AuditPopulatevalue.ManualAuditType[0]] });
+    if (this.AuditPopulatevalue.auditType != "") {
+     // attributes.push({ Name: "AuditType", Value: [this.AuditPopulatevalue.ManualAuditType[0]] });
+      attributes.push({ Name: "AuditType", Value: [this.AuditPopulatevalue.auditType] });
     }
 
     else {
-      attributes.push({ Name: "ManualAuditType" });
+      attributes.push({ Name: "AuditType" });
     }
     if (this.AuditPopulatevalue.ResolutionRemarks != "") {
       attributes.push({ Name: "ResolutionRemarks", Value: [this.AuditPopulatevalue.ResolutionRemarks] });
@@ -996,6 +997,15 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     else {
       attributes.push({ Name: "ResolutionRemarks" });
     }
+    if (this.AuditPopulatevalue.AuditStatus != "") {
+      attributes.push({ Name: "AuditStatus", Value: [this.AuditPopulatevalue.AuditStatus] });
+    }
+
+    else {
+      attributes.push({ Name: "AuditStatus" });
+    }
+    attributes.push({ Name: "BatchID" ,Value:["6"]});
+
     console.log(attributes);
 
     return attributes;

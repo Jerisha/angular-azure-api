@@ -350,9 +350,9 @@ readonly CustomHeaderComponent = CustomHeaderComponent;
   }
 
   onFormSubmit(isEmitted?: boolean): void {
-
     debugger;
     let errMsg = '';
+    this.alertService.clear();
     if (!this.thisForm.valid) return;
     errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
     if (errMsg) {
@@ -444,9 +444,9 @@ readonly CustomHeaderComponent = CustomHeaderComponent;
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
-              //success message and same data reload
-              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+              //success message and same data reload              
               this.onFormSubmit(true);
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
           //this.isSaveDisable = true;

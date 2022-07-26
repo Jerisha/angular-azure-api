@@ -19,6 +19,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from 'src/app/_shared/alert';
 
 let FilterListItems: Select[] = [  
 { view: 'Telephone', viewValue: 'StartTelephoneNumber', default: true },
@@ -55,6 +56,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
     private spinner: NgxSpinnerService,
     private telnoPipe: TelNoPipe,
     private auth: AuthenticationService,
+    private alertService : AlertService,
         private actRoute: ActivatedRoute)
         {
           super(auth, actRoute);
@@ -308,6 +310,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
   onFormSubmit(isEmitted?: boolean): void {    
     if(!this.thisForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
