@@ -9,7 +9,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Utils } from 'src/app/_http';
-import { AdministrationService } from '../services/administration.service';
+import { AdministrationService } from '../_services/administration.service';
 import { takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';

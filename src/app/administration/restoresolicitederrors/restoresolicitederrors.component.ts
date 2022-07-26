@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { AdministrationService } from '../services/administration.service';
+import { AdministrationService } from '../_services/administration.service';
 import { Select } from 'src/app/uicomponents/models/select';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatSelect } from '@angular/material/select';
