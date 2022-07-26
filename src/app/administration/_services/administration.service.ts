@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import FileSaver from 'file-saver';
 import { ObjectUnsubscribedError, Observable } from 'rxjs';
-import { HttpWrapperService, HttpVerbs, WebMethods } from 'src/app/_http/index';
+import { HttpWrapperService, HttpVerbs, WebMethods, ResponseType } from 'src/app/_http/index';
 import { ConfigDetails } from 'src/app/_http/models/config-details';
 
 @Injectable()
@@ -47,5 +48,18 @@ export class AdministrationService {
   }
   uiDeleteDetails(request: any): Observable<any> {
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UIDELETE, request);
+  }
+  downloadFileDetails(request: any) {
+    return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.BLOBOBJECT, request, ResponseType.BLOB)
+  }
+  blob2File(data: any, fileType: string, fileName: string) {
+    const blob = new Blob([data.body],     
+      { type: fileType }  // { type: 'application/vnd.ms-excel' }
+    );
+    //console.log(blob, 'blob')
+    const file = new File([blob], fileName,      
+      { type: fileType } // { type: 'application/vnd.ms-excel' }
+    );
+    FileSaver.saveAs(file);
   }
   }

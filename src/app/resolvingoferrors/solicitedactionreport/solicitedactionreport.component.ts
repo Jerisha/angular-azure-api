@@ -19,6 +19,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserProfile } from 'src/app/_auth/user-profile';
+import { AlertService } from 'src/app/_shared/alert';
 
 const ELEMENT_DATA: solicitedactionreport[] = [
   {
@@ -99,9 +100,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
+ private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    private spinner: NgxSpinnerService,
     private auth: AuthenticationService,
     private actRoute: ActivatedRoute
     ) {
@@ -223,6 +223,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     debugger;
     if (!this.myForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;

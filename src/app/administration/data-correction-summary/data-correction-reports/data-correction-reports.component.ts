@@ -18,7 +18,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Utils } from 'src/app/_http/common/utils';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
-import { AdministrationService } from '../../services/administration.service';
+import { AdministrationService } from '../../_services/administration.service';
 
   const AutoCorrectionSummary: string = 'AutoCorrectionSummary';
   const ManualCorrectionSummary: string = 'ManualCorrectionSummary';
@@ -389,7 +389,7 @@ if(this.switchBtn)
     this.tabs.splice(index, 1);
   }
 
-  newTab(tab: any) {
+  newTab(tabData: any, tab: any) {
     debugger;
     if (this.tabs === []) return;
 
@@ -405,24 +405,28 @@ if(this.switchBtn)
       // let updtab = this.tabs.find(x => x.tabType == 3);
       // if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelNo + ')'
     }
-
-    this.fetchTelNoList(tab);
+    
+    let requestIdentifier: string = '';
+    if(tab) {
+      tab.name === 'Auto Correction Summary' ? requestIdentifier = 'AutoCorrectionSummaryTelList' : requestIdentifier = 'ManualCorrectionSummaryTelList';
+    }
+    this.fetchTelNoList(tabData, requestIdentifier);
     
   }
 
-  prepareTelNoListParams(tab: any) {
+  prepareTelNoListParams(tabData: any) {
     let attributes: any = [
-      { Name: 'BatchID', Value: [`${tab.row.BatchId ? tab.row.BatchId : '' }`] },
-      { Name: 'AuditActID', Value: [`${tab.row.ActId ? tab.row.ActId : '' }`] },
-      { Name: 'Scenario', Value: [`${tab.row.Scenario ? tab.row.Scenario : '' }`] },
-      { Name: 'Flag', Value: [`${ tab.row.SuccessCount > 0 ? '1' : '2' }`] }
+      { Name: 'BatchID', Value: [`${tabData.row.BatchId ? tabData.row.BatchId : '' }`] },
+      { Name: 'AuditActID', Value: [`${tabData.row.ActId ? tabData.row.ActId : '' }`] },
+      { Name: 'Scenario', Value: [`${tabData.row.Scenario ? tabData.row.Scenario : '' }`] },
+      { Name: 'Flag', Value: [`${ tabData.row.SuccessCount > 0 ? '1' : '2' }`] }
     ];
     // console.log("Tel no list params " + JSON.stringify(attributes));
     return attributes;
   }
 
-  fetchTelNoList(tab: any) {
-    let request = Utils.preparePyQuery('TelephoneNumberList', 'DataCorrectionSummary', this.prepareTelNoListParams(tab));
+  fetchTelNoList(tabData: any, requestIdentifier: string) {
+    let request = Utils.preparePyQuery(requestIdentifier, 'DataCorrectionSummary', this.prepareTelNoListParams(tabData));
     this.spinner.show();
     this.service.queryDetails(request).subscribe((res: any) => {
           // this.telNoList =  [`${res.data ? res.data.TelephoneNumbers : ''}`]

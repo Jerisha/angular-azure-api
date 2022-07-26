@@ -113,7 +113,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
   }
   }
 
-  getTotal(cellname: string, element: any) {
+  getTotal(cellname: string) {
     var cell = cellname ? cellname : '';
     if (this.ColumnDetails[0].DataHeaders == cellname) {
       return 'Total';
@@ -227,7 +227,8 @@ export class TableGroupHeaderComponent implements OnDestroy {
       this.backgroundHighlightedCells.forEach(x => {
         if (x.cells.find(x => x === (disCol.DataHeaders))) {
           applyStyles = {
-            'background-color': '#ff9999'
+            'background-color': '#ff9999',
+            'font-weight': '600'
           };
         }
       })

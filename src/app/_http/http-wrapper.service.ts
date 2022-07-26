@@ -57,7 +57,6 @@ export class HttpWrapperService {
                         transData = val.Status[0]
                         transData.params = val.ResponseParams
                         transData.data = val.Data
-
                         break;
                     case WebMethods.UPDATE:
                     case WebMethods.CREATE:
@@ -92,6 +91,7 @@ export class HttpWrapperService {
             console.log("PyResponse: " + JSON.stringify(val) + "ResponseError: " + err);
             this.alertService.error("Incorrect PyResponse Format", { autoClose: true, keepAfterRouteChange: false });
         }
+       
         console.log("PyData :" + JSON.stringify(transData.data));
         return transData;
     }

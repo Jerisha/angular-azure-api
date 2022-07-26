@@ -57,13 +57,13 @@ export class AuthenticationService {
             .pipe(map((x: any) => {
                 let user = x.Data.UserDetails[0] as User;
 
-                if (user.emailaddress && user.token) {
+                if (user && user.token && user.profilename) {
                     sessionStorage.setItem('currentUser', JSON.stringify(user));
                     sessionStorage.setItem('token', user.token);
                     this.currentUserSubject.next(user);
                 }
                 else {
-
+                    console.log('Invalid user')
                 }
             }));
     }

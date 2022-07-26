@@ -45,7 +45,7 @@
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':form.AuditActID.disabled}">
-            <mat-label>Audit ACT ID</mat-label>
+            <mat-label>Audit ACT ID *</mat-label>
             <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
               <mat-option *ngFor="let val of config.SepInternalAuditActID" [value]="val">
                 {{val}} </mat-option>
@@ -75,7 +75,7 @@
           <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
             <mat-label>OSN2 Source</mat-label>
             <mat-select formControlName="OSN2Source">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.OSN2Source" [value]="val">
                 {{val}}
               </mat-option>
@@ -104,7 +104,7 @@
           <mat-form-field [ngClass]="{'hidden':form.InternalCLIStatus.disabled}">
             <mat-label>Internal CLI Status</mat-label>
             <mat-select formControlName="InternalCLIStatus">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.InternalCLIStatus" [value]="val">
                 {{val}}
               </mat-option>
@@ -131,7 +131,7 @@
             <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
               <mat-label>Resolution Type</mat-label>
               <mat-select formControlName="ResolutionType">  
-                <!-- <mat-option>None</mat-option>           -->
+                <mat-option>-- Select --</mat-option> 
                 <mat-option *ngFor="let val of config.ResolutionTypeAudit" [value]="val">
                   {{val}}
                 </mat-option>
@@ -158,7 +158,7 @@
           <mat-form-field [ngClass]="{'hidden':form.SourceStatus.disabled}">
             <mat-label>Source Status</mat-label>
             <mat-select formControlName="SourceStatus">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.SourceStatus" [value]="val">
                 {{val}}
               </mat-option>
@@ -187,7 +187,7 @@
           <mat-form-field [ngClass]="{'hidden':form.PostCodeDifference.disabled}">
             <mat-label>Post Code Difference</mat-label>
             <mat-select formControlName="PostCodeDifference">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.PostcodeDifference" [value]="val">
                 {{val}}
               </mat-option>
@@ -215,7 +215,7 @@
           <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
             <mat-label>Full Address Difference</mat-label>
             <mat-select formControlName="FullAddressDifference">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.FullAddressDifference" [value]="val">
                 {{val}}
               </mat-option>
@@ -241,7 +241,7 @@
           <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
             <mat-label>Customer Difference</mat-label>
             <mat-select formControlName="CustomerDifference">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.CustomerDifference" [value]="val">
                 {{val}}
               </mat-option>
