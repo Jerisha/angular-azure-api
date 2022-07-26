@@ -104,9 +104,9 @@
               </mat-form-field> -->
               
               <mat-form-field [ngClass]="{'hidden':f.Status.disabled}">
-                <mat-label>Status</mat-label>
+                <mat-label>Status *</mat-label>
                 <mat-select  [(ngModel)]="model.UnresolvedSource" formControlName="Status">  
-                  <mat-option>-- Select --</mat-option> 
+                  <!-- <mat-option>-- Select --</mat-option>  -->
                   <mat-option  *ngFor="let val of config.UnresolvedErrorStatus" [value]="val">
                     {{val}}
                   </mat-option>
