@@ -9,7 +9,7 @@ import { AuthenticationService } from 'src/app/_auth/services/authentication.ser
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { Utils } from 'src/app/_http';
-import { AdministrationService } from '../services/administration.service';
+import { AdministrationService } from '../_services/administration.service';
 
 @Component({
   selector: 'app-audit-data-files',
