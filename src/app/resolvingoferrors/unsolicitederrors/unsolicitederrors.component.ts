@@ -364,7 +364,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
       }
     }
     }
-    console.log(attributes);
+    // console.log(attributes);
 
     return attributes;
 
