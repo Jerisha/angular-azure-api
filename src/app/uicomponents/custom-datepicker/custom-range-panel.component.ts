@@ -81,7 +81,7 @@ export class CustomRangePanelComponent<D> {
         // rangeName has type never, if every possible value is handled in the switch cases.
         // Otherwise, the following line will result in compiler error:
         // "Type 'string' is not assignable to type '[start: D, end: D]'"
-       return [today,today];
+        return [today, today];
     }
   }
 
@@ -107,7 +107,7 @@ export class CustomRangePanelComponent<D> {
   }
 
   private get today(): D {
-    let date = new Date();//this.dateAdapter.today();
+    let date = this.dateAdapter.today();
     const today = this.dateAdapter.getValidDateOrNull(date);
     if (today === null) {
       throw new Error('date creation failed');
