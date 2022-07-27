@@ -445,10 +445,17 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         if (this.staticmontharray)
         {
          // attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
-         var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
-         console.log('result before',result);
-       var newchar=  result.substring(1, result.length-1)
-         attributes.push({ Name: 'StatisticMonth', Value: [newchar] });
+      //   var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
+      //  var result = this.staticmontharray;
+       var result= this.staticmontharray.replace(/,/g, "','") ;
+       //var newchar=  result.substring(1, result.length-1);
+        // console.log('result before',newresult);
+        debugger
+         attributes.push({ Name: 'StatisticMonth', Value: [`${result}`] });
+         let content:string=attributes[1].Value;
+         let contenttwo=content.replace(/'/g, '"');
+       attributes[1].Value=contenttwo;
+         
         }
         else
           attributes.push({ Name: 'StatisticMonth' });

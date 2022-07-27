@@ -143,7 +143,7 @@
           <mat-form-field [ngClass]="{'hidden':f.ResolveTypeUnsol.disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolveTypeUnsol">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option>
               <mat-option *ngFor="let val of config.ResolveTypeUnsol" [value]="val">
                 {{val}}
               </mat-option>

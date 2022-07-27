@@ -154,7 +154,7 @@ let TREE_DATA_three = [
             name: 'Audit Discrepancy Report',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU09',
+            MenuID: 'MENU11',
 
             Position: '44444444',
           },
@@ -162,86 +162,29 @@ let TREE_DATA_three = [
             name: 'External Audit Details',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU10',
+            MenuID: 'MENU06',
 
             Position: '44444444',
           },
           {
             name: 'Full Audit History',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU07',
+            Position: '44444444',
+          },
+          {
+            name: 'Audit User Action Summary',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU09',
+            Position: '44444444',
+          },
+          {
+            name: 'Separate Internal Audit Details',
             id: 77,
             isChecked: false,
             MenuID: 'MENU11',
-            Position: '44444444',
-          },
-          {
-            name: 'Audit User Action Summary',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU12',
-            Position: '44444444',
-          },
-          {
-            name: 'Saparateinternal Audit',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU13',
-
-            Position: '44444444',
-          }
-        ]
-      },
-      {
-        name: 'Audit Process Management',
-        id: 66,
-        isChecked: false,
-
-        Position: 33333,
-        children: [
-          {
-            name: 'Full Audit Details',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU14',
-
-            Position: '44444444',
-          },
-          {
-            name: 'Audit Discrepancy Report',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU15',
-
-            Position: '44444444',
-          },
-          {
-            name: 'External Audit Details',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU16',
-
-            Position: '44444444',
-          },
-          {
-            name: 'Full Audit History',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU17',
-            Position: '44444444',
-          },
-          {
-            name: 'Audit User Action Summary',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU18',
-
-            Position: '44444444',
-          },
-          {
-            name: 'Saparateinternal Audit',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU19',
-
             Position: '44444444',
           }
         ]
@@ -254,45 +197,31 @@ let TREE_DATA_three = [
         Position: 33333,
         children: [
           {
-            name: 'InFlight Records',
+            name: 'Live Records',
             id: 77,
             isChecked: false,
             MenuID: 'MENU20',
             Position: '44444444',
           },
           {
-            name: 'Telephone Range Report',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU21',
-            Position: '44444444',
-          },
-          {
-            name: 'Transaction Details Records',
+            name: 'InFlight Records',
             id: 77,
             isChecked: false,
             MenuID: 'MENU22',
             Position: '44444444',
           },
           {
-            name: 'Full Audit History',
+            name: 'Telephone Range Report',
             id: 77,
             isChecked: false,
             MenuID: 'MENU23',
             Position: '44444444',
           },
           {
-            name: 'Audit User Action Summary',
+            name: 'Transaction Details Records',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU24',
-            Position: '44444444',
-          },
-          {
-            name: 'Saparateinternal Audit',
-            id: 77,
-            isChecked: false,
-            MenuID: 'MENU25',
+            MenuID: 'MENU21',
             Position: '44444444',
           }
         ]
@@ -308,7 +237,7 @@ let TREE_DATA_three = [
             name: 'Transaction Trend for Source & Command',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU26',
+            MenuID: 'MENU24',
             Position: '44444444',
           },
 
@@ -326,28 +255,28 @@ let TREE_DATA_three = [
             name: 'Audit Status Tracker',
             id: 77,
             isChecked: false,
-            MenuID: 'MENUU7',
+            MenuID: 'MENU15',
             Position: '44444444',
           },
           {
             name: 'Audit Data Files',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU28',
+            MenuID: 'MENU14',
             Position: '44444444',
           },
           {
             name: 'Restore Solicited Errors',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU29',
+            MenuID: 'MENU26',
             Position: '44444444',
           },
           {
             name: 'Data Correction Summary',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU30',
+            MenuID: 'MENU16',
             Position: '44444444',
           },
 
@@ -355,21 +284,21 @@ let TREE_DATA_three = [
             name: 'Unresolved Transaction',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU31',
+            MenuID: 'MENU18',
             Position: '44444444',
           },
           {
             name: 'Unresolved Errors',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU32',
+            MenuID: 'MENU17',
             Position: '44444444',
           },
           {
             name: 'Manage Users',
             id: 77,
             isChecked: false,
-            MenuID: 'MENU33',
+            MenuID: 'MENU19',
             Position: '44444444',
           }
 
@@ -541,7 +470,7 @@ let TREE_DATA_three = [
 
   }
 ];
-let TREE_DATA_View = [
+let TREE_DATA_View= [
   {
     name: 'All',
     id: 111,
@@ -557,8 +486,8 @@ let TREE_DATA_View = [
             name: 'Solicited/Internal Discrepancy Process updated',
             id: 22,
             isChecked: false,
-            Position: '11111',
-            MenuID: 'Menu01',
+            Position: '44444444',
+            MenuID: 'MENU01',
 
 
           },
@@ -566,8 +495,8 @@ let TREE_DATA_View = [
             name: 'Solicited Resolution Report',
             id: 22,
             isChecked: false,
-            MenuID: 'Menu02',
-            Position: '11111',
+            MenuID: 'MENU02',
+            Position: '44444444',
 
 
           },
@@ -575,9 +504,9 @@ let TREE_DATA_View = [
             name: 'Solicited Actions Report',
             id: 22,
             isChecked: false,
-            MenuID: 'Menu03',
+            MenuID: 'MENU03',
 
-            Position: '11111',
+            Position: '44444444',
 
 
           },
@@ -585,8 +514,8 @@ let TREE_DATA_View = [
             name: 'Unsolicited Process',
             id: 22,
             isChecked: false,
-            MenuID: 'Menu04',
-            Position: '11111',
+            MenuID: 'MENU04',
+            Position: '44444444',
 
 
           },
@@ -594,8 +523,8 @@ let TREE_DATA_View = [
             name: 'Unsolicited Actions Report',
             id: 22,
             isChecked: false,
-            MenuID: 'Menu05',
-            Position: '11111',
+            MenuID: 'MENU05',
+            Position: '44444444',
           },
         ]
       },
@@ -607,7 +536,7 @@ let TREE_DATA_View = [
         Position: 33333,
         children: [
           {
-            MenuID: 'Menu06',
+            MenuID: 'MENU06',
             name: 'Create Record',
             id: 77,
             isChecked: false,
@@ -615,7 +544,7 @@ let TREE_DATA_View = [
             Position: '44444444',
           },
           {
-            MenuID: 'Menu07',
+            MenuID: 'MENU07',
             name: 'Create Internal Cease',
             id: 77,
             isChecked: false,
@@ -630,75 +559,20 @@ let TREE_DATA_View = [
         id: 66,
         isChecked: false,
 
-        Position: '33333',
-        children: [
-          {
-            name: 'Full Audit Details',
-            id: 77,
-            isChecked: false,
-            MenuID: 'Menu08',
-            Position: '44444444',
-          },
-          {
-            name: 'Audit Discrepancy Report',
-            id: 77,
-            isChecked: false,
-            MenuID: 'Menu09',
-
-            Position: '44444444',
-          },
-          {
-            name: 'External Audit Details',
-            id: 77,
-            isChecked: false,
-            MenuID: 'Menu10',
-
-            Position: '44444444',
-          },
-          {
-            name: 'Full Audit History',
-            id: 77,
-            isChecked: false,
-            MenuID: 'Menu11',
-            Position: '44444444',
-          },
-          {
-            name: 'Audit User Action Summary',
-            id: 77,
-            isChecked: false,
-            MenuID: 'Menu12',
-            Position: '44444444',
-          },
-          {
-            name: 'Saparateinternal Audit',
-            id: 77,
-            isChecked: false,
-            MenuID: 'Menu13',
-
-            Position: '44444444',
-          }
-        ]
-      },
-      {
-        name: 'Audit Process Management',
-        id: 66,
-        isChecked: false,
-
         Position: 33333,
         children: [
           {
             name: 'Full Audit Details',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu14',
-
+            MenuID: 'MENU08',
             Position: '44444444',
           },
           {
             name: 'Audit Discrepancy Report',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu15',
+            MenuID: 'MENU11',
 
             Position: '44444444',
           },
@@ -706,7 +580,7 @@ let TREE_DATA_View = [
             name: 'External Audit Details',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu16',
+            MenuID: 'MENU06',
 
             Position: '44444444',
           },
@@ -714,23 +588,21 @@ let TREE_DATA_View = [
             name: 'Full Audit History',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu17',
+            MenuID: 'MENU07',
             Position: '44444444',
           },
           {
             name: 'Audit User Action Summary',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu18',
-
+            MenuID: 'MENU09',
             Position: '44444444',
           },
           {
-            name: 'Saparateinternal Audit',
+            name: 'Separate Internal Audit Details',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu19',
-
+            MenuID: 'MENU11',
             Position: '44444444',
           }
         ]
@@ -743,45 +615,31 @@ let TREE_DATA_View = [
         Position: 33333,
         children: [
           {
+            name: 'Live Records',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU20',
+            Position: '44444444',
+          },
+          {
             name: 'InFlight Records',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu20',
+            MenuID: 'MENU22',
             Position: '44444444',
           },
           {
             name: 'Telephone Range Report',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu21',
+            MenuID: 'MENU23',
             Position: '44444444',
           },
           {
             name: 'Transaction Details Records',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu22',
-            Position: '44444444',
-          },
-          {
-            name: 'Full Audit History',
-            id: 77,
-            isChecked: false,
-            MenuID: 'Menu23',
-            Position: '44444444',
-          },
-          {
-            name: 'Audit User Action Summary',
-            id: 77,
-            isChecked: false,
-            MenuID: 'Menu24',
-            Position: '44444444',
-          },
-          {
-            name: 'Saparateinternal Audit',
-            id: 77,
-            isChecked: false,
-            MenuID: 'Menu25',
+            MenuID: 'MENU21',
             Position: '44444444',
           }
         ]
@@ -797,7 +655,7 @@ let TREE_DATA_View = [
             name: 'Transaction Trend for Source & Command',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu26',
+            MenuID: 'MENU24',
             Position: '44444444',
           },
 
@@ -815,28 +673,28 @@ let TREE_DATA_View = [
             name: 'Audit Status Tracker',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu27',
+            MenuID: 'MENU15',
             Position: '44444444',
           },
           {
             name: 'Audit Data Files',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu28',
+            MenuID: 'MENU14',
             Position: '44444444',
           },
           {
             name: 'Restore Solicited Errors',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu29',
+            MenuID: 'MENU26',
             Position: '44444444',
           },
           {
             name: 'Data Correction Summary',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu30',
+            MenuID: 'MENU16',
             Position: '44444444',
           },
 
@@ -844,21 +702,21 @@ let TREE_DATA_View = [
             name: 'Unresolved Transaction',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu31',
+            MenuID: 'MENU18',
             Position: '44444444',
           },
           {
             name: 'Unresolved Errors',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu32',
+            MenuID: 'MENU17',
             Position: '44444444',
           },
           {
             name: 'Manage Users',
             id: 77,
             isChecked: false,
-            MenuID: 'Menu33',
+            MenuID: 'MENU19',
             Position: '44444444',
           }
 
@@ -882,7 +740,7 @@ let TREE_DATA_View = [
                 name: 'AuditStatus',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu34',
+                MenuID: 'MENU34',
                 Position: '44444444',
 
               },
@@ -890,7 +748,7 @@ let TREE_DATA_View = [
                 name: 'Command',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu35',
+                MenuID: 'MENU35',
                 Position: '44444444',
 
               },
@@ -898,7 +756,7 @@ let TREE_DATA_View = [
                 name: 'CUPIDCrossReference',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu36',
+                MenuID: 'MENU36',
                 Position: '44444444',
 
               },
@@ -908,13 +766,13 @@ let TREE_DATA_View = [
                 isChecked: false,
 
                 Position: '44444444',
-                MenuID: 'Menu37',
+                MenuID: 'MENU37',
               },
               {
                 name: 'CustomerTitles',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu38',
+                MenuID: 'MENU38',
                 Position: '44444444',
 
               },
@@ -922,7 +780,7 @@ let TREE_DATA_View = [
                 name: 'ErrorCodes',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu39',
+                MenuID: 'MENU39',
                 Position: '44444444',
 
               },
@@ -930,7 +788,7 @@ let TREE_DATA_View = [
                 name: 'ErrorTypes',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu40',
+                MenuID: 'MENU40',
                 Position: '44444444',
 
               },
@@ -938,7 +796,7 @@ let TREE_DATA_View = [
                 name: 'Franchises',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu41',
+                MenuID: 'MENU41',
                 Position: '44444444',
 
               },
@@ -946,7 +804,7 @@ let TREE_DATA_View = [
                 name: 'InterimCommands',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu42',
+                MenuID: 'MENU42',
                 Position: '44444444',
 
               },
@@ -954,7 +812,7 @@ let TREE_DATA_View = [
                 name: 'LineTypes',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu43',
+                MenuID: 'MENU43',
                 Position: '44444444',
 
               },
@@ -962,7 +820,7 @@ let TREE_DATA_View = [
                 name: 'NextCommandCheck',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu44',
+                MenuID: 'MENU44',
                 Position: '44444444',
 
               },
@@ -970,7 +828,7 @@ let TREE_DATA_View = [
                 name: 'OsnProvideList',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu45',
+                MenuID: 'MENU45',
                 Position: '44444444',
 
               },
@@ -978,7 +836,7 @@ let TREE_DATA_View = [
                 name: 'PermittedLineStatus',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu46',
+                MenuID: 'MENU46',
                 Position: '44444444',
 
               },
@@ -986,7 +844,7 @@ let TREE_DATA_View = [
                 name: 'RejectedTelephonePrefix',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu47',
+                MenuID: 'MENU47',
                 Position: '44444444',
 
               },
@@ -994,7 +852,7 @@ let TREE_DATA_View = [
                 name: 'ResolutionTypes',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu48',
+                MenuID: 'MENU48',
                 Position: '44444444',
 
               },
@@ -1002,7 +860,7 @@ let TREE_DATA_View = [
                 name: 'ResolverEmails',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu49',
+                MenuID: 'MENU49',
                 Position: '44444444',
 
               },
@@ -1010,7 +868,7 @@ let TREE_DATA_View = [
                 name: 'Olo',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu50',
+                MenuID: 'MENU50',
                 Position: '44444444',
 
               },
@@ -1018,7 +876,7 @@ let TREE_DATA_View = [
                 name: 'Company',
                 id: 22,
                 isChecked: false,
-                MenuID: 'Menu51',
+                MenuID: 'MENU51',
                 Position: '44444444',
 
               },
@@ -1227,7 +1085,14 @@ export class ManageUsersComponent implements OnInit {
     true /* multiple */
   );
   Sourcedata: string;
-
+   clone(obj:any) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}
   InitializeTreeview(ProfileName?: string) {
     this.UserProfileForm?.get('profilename')?.disable();
     this.UserProfileForm?.get('profiledescription')?.disable();
@@ -1242,12 +1107,22 @@ export class ManageUsersComponent implements OnInit {
     this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
       (res: any) => {
         debugger
-        console.log('proifle items in view ', res.Data[0].profileitems);
-        if (res.Data[0].profileitems) {
-
-          if (TREE_DATA_View != undefined && TREE_DATA_View.length > 0) {
-            for (var i = 0; i < TREE_DATA_View.length; i++) {
-              let Tree = TREE_DATA_View[i];
+       // console.log('proifle items in view ', res.Data[0].profileitems);
+        this.resettreetreeview();
+      if(ProfileName!='Super Admin'&& ProfileName!='Admin')
+      {
+        if (res.Data[0]) {
+          //const tempMyObj:any[] =Object.create(TREE_DATA_View);
+         // const tempMyObj:any[] =this.clone(TREE_DATA_View);
+          let array:any[] = Object.assign({}, TREE_DATA_View);
+          var tempMyObj = Object.values(array);
+          //JSON.parse(JSON.stringify(TREE_DATA_View));
+        //  clone(TREE_DATA_View); Object.assign({}, TREE_DATA_View);
+         console.log('temp object length',tempMyObj.length);
+          if (tempMyObj != undefined && tempMyObj.length > 0) {
+            for (var i = 0; i < tempMyObj.length; i++) {
+              let Tree = tempMyObj[i];
+             
               for (var j = 0; j < Tree.children.length; j++) {
                 let tchild = Tree.children[j];
                 for (var k = 0; k < tchild.children.length; k++) {
@@ -1256,30 +1131,13 @@ export class ManageUsersComponent implements OnInit {
                   if (grandhchild.MenuID != undefined) {
                     let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
                     {
-                      if (menu != undefined) {
-                        if (grandhchild.name == '') {
-                          grandhchild.name = grandhchild.Position;
-                        }
+                      if (menu != undefined) 
+                      {
                         grandhchild.isChecked = true;
-
                       }
-                      else {
-                        if (res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === 'menu00')) {
-                          if (grandhchild.name == '') {
-                            grandhchild.name = grandhchild.Position
-                            // grandhchild.Position=grandhchild.name;
-                            //grandhchild.position=grandhchild.name;
-                          }
-                          //
-                        }
-                        else {
-                          grandhchild.Position = grandhchild.name;
-                          grandhchild.name = '';
-                        }
-
+                        
                       }
                     }
-                  }
                   else {
                     for (var l = 0; l < grandhchild.children.length; l++) {
                       let greatgrandchild = grandhchild.children[l];
@@ -1288,21 +1146,8 @@ export class ManageUsersComponent implements OnInit {
                         {
                           if (menu != undefined) {
                             greatgrandchild.isChecked = true;
-                            if (greatgrandchild.name == '') {
-                              greatgrandchild.name = greatgrandchild.Position
-                            }
                           }
-                          else {
-                            if (res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === 'menu00')) {
-                              if (greatgrandchild.name == '') {
-                                // grandhchild.name=grandhchild.position;
-                                greatgrandchild.name = greatgrandchild.Position;
-                              }
-                            }
-                            else {
-                              greatgrandchild.Position = greatgrandchild.name;
-                              greatgrandchild.name = '';
-                            }
+                         
                           }
                         }
                       }
@@ -1312,16 +1157,22 @@ export class ManageUsersComponent implements OnInit {
                 }
               }
             }
-            this.bindtreeedataview(TREE_DATA_View);
+            console.log('temp object',tempMyObj);
+            this.bindtreeedataview(tempMyObj[0].children);
           }
-        }
         else {
-
+       
           this.bindtreeedataview([]);
+
           //console.log('api menuitems',this.ApiMenuattributes);
         }
 
-
+      }
+      else{
+       this.resettreetreeviewforadmin();
+        this.bindtreeedataview(TREE_DATA_View);
+        console.log('treeview data',TREE_DATA_View);
+      }
         this.spinner.hide();
       });
   }
@@ -1419,7 +1270,7 @@ export class ManageUsersComponent implements OnInit {
             let tchild = Tree.children[j];
             for (var k = 0; k < tchild.children.length; k++) {
               let grandhchild: any = tchild.children[k];
-              console.log('gradchild', grandhchild.MenuID);
+            
               if (grandhchild.MenuID != undefined) {
 
                 grandhchild.isChecked = false;
@@ -1470,6 +1321,74 @@ export class ManageUsersComponent implements OnInit {
     // treeControl.expandAll();
     this.treeControl.expandAll();
   }
+  resettreetreeviewforadmin()
+  {
+    if (TREE_DATA_View != undefined && TREE_DATA_View.length > 0) {
+      for (var i = 0; i < TREE_DATA_View.length; i++) {
+        let Tree = TREE_DATA_View[i];
+        for (var j = 0; j < Tree.children.length; j++) {
+          let tchild = Tree.children[j];
+          for (var k = 0; k < tchild.children.length; k++) {
+            let grandhchild: any = tchild.children[k];
+          
+            if (grandhchild.MenuID != undefined) {
+              grandhchild.isChecked = true;
+            }
+            else {
+              for (var l = 0; l < grandhchild.children.length; l++) {
+                let greatgrandchild = grandhchild.children[l];
+                if (greatgrandchild.MenuID != undefined)
+              {
+                 grandhchild.isChecked = true;
+              }
+              }
+            }
+
+          }
+
+        }
+      }
+    }
+  }
+  resettreetreeview() {
+    debugger
+    if (TREE_DATA_View != undefined && TREE_DATA_View.length > 0) {
+      for (var i = 0; i < TREE_DATA_View.length; i++) {
+        let Tree = TREE_DATA_View[i];
+        for (var j = 0; j < Tree.children.length; j++) {
+          let tchild = Tree.children[j];
+          for (var k = 0; k < tchild.children.length; k++) {
+            let grandhchild: any = tchild.children[k];
+          
+            if (grandhchild.MenuID != undefined) {
+             
+            
+              grandhchild.isChecked = false;
+             
+
+            }
+            else {
+              for (var l = 0; l < grandhchild.children.length; l++) {
+                let greatgrandchild = grandhchild.children[l];
+                if (greatgrandchild.MenuID != undefined)
+              
+                 grandhchild.isChecked = false;
+                
+                 
+
+              }
+            }
+
+          }
+
+        }
+      }
+    }
+  }
+
+
+
+
   resettree() {
     if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
       for (var i = 0; i < TREE_DATA_three.length; i++) {
@@ -1478,7 +1397,7 @@ export class ManageUsersComponent implements OnInit {
           let tchild = Tree.children[j];
           for (var k = 0; k < tchild.children.length; k++) {
             let grandhchild: any = tchild.children[k];
-            console.log('gradchild', grandhchild.MenuID);
+         
             if (grandhchild.MenuID != undefined) {
 
               grandhchild.isChecked = false;
@@ -1516,6 +1435,7 @@ export class ManageUsersComponent implements OnInit {
    * The return value is the list of `TodoItemNode`.
    */
   buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
+    
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const item = obj[key];
       const node = new TodoItemNode();
@@ -2297,17 +2217,23 @@ export class ManageUsersComponent implements OnInit {
     //this.bindSource();
     if (this.eventName === 'Update') {
       if (record['sources']) {
-
+        this.filterItems.map((x: any) => {
+         
+            x.default = false;
+           //false;
+          });
+      console.log(this.filterItems,'filter items');
         let arr: any[] = record['sources'].split(',');
         //arr.push('SAS/COMS');
         arr.forEach((value: any) => {
           this.filterItems.map((x: any) => {
             if (x.view === value) {
               x.default = true;
+             //false;
             }
-            else {
-              x.default = false;
-            }
+            // else {
+            //   x.default = false;
+            // }
           });
         })
 
@@ -2622,7 +2548,7 @@ export class ManageUsersComponent implements OnInit {
       case 'User Access':
         const updateConfirm1 = this.dialog.open(ConfirmDialogComponent, {
           width: '300px', disableClose: true, data: {
-            message: 'Do you confirm update this record?'
+            message: 'Do you confirm delete this record?'
           }
         });
         updateConfirm1.afterClosed().subscribe((confirm: any) => {
@@ -2903,15 +2829,24 @@ export class ManageUsersComponent implements OnInit {
       }
 
     //User Profiles
+    debugger
     if (this.userprofilesdata)
       this.userprofilesdata.filterPredicate = (data: any, filter: string): boolean => {
         let searchString = JSON.parse(filter);
         let isProfileName = false;
         let isCreatedBy = false;
-
+        if (searchString.profilename.length) {
+          console.log('profile name',searchString.profilename);
+          console.log('data profilename',data.profilename?.toLowerCase());
+          for (const d of searchString.profilename) {
+           
+            }
+          }
+        
         if (searchString.profilename.length) {
           for (const d of searchString.profilename) {
-            if (data.profilename.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+           // console.log('console value',data.profilename.toLowerCase().indexOf(d));
+            if (data.profilename?.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
               isProfileName = true;
             }
           }
@@ -2921,7 +2856,7 @@ export class ManageUsersComponent implements OnInit {
 
         if (searchString.createdby.length) {
           for (const d of searchString.createdby) {
-            if (data.createdby.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            if (data.createdby?.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
               isCreatedBy = true;
             }
           }

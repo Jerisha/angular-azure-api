@@ -69,7 +69,7 @@
                                       
         
         
-             <app-select-checkbox [label]="'Sources'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
+             <app-select-checkbox [label]="'Source'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
               </app-select-checkbox>
         
         
@@ -163,16 +163,14 @@
                                   <mat-tree-node  
                                     *matTreeNodeDef="let node"
                                     matTreeNodeToggle
-                                    matTreeNodePadding [ngClass]="(node.Positio == '0')? 'treeview-a':'treeview-b'"
-                                 style="align-items:left!important" >
+                                    matTreeNodePadding 
+                                  >
                                     <!-- <button mat-icon-button disabled></button> -->
-                                    <b><span style="display: flex; flex-direction: column;align-items: left!important;;"><li>{{node.label}}</li></span></b>
-                                    <mat-checkbox style="visibility:hidden"
-                                      class="checklist-leaf-node" 
-                                      [checked]="descendantsAllSelected(node)"
-                                      (change)="todoLeafItemSelectionToggle(node,$event)"
-                                      >{{node.label}}</mat-checkbox
-                                    >
+                                    <!-- <b><span style="display: flex; flex-direction: column;align-items: left!important;;"><li </li></span></b> -->
+                                   <div *ngIf="node.isChecked" style="font-weight:1000;margin-left: 5px;">
+                                        <div><span>{{node.label}}</span></div>
+                                    
+                                   </div>
                                   </mat-tree-node>
                                 
                                   <mat-tree-node  style="align-items:left!important"
