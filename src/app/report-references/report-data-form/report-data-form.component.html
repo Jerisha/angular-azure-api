@@ -13,7 +13,8 @@
                     <mat-label>{{formData.cDisplayName}}</mat-label>
                     <input type="{{formData.cType}}" matInput name="{{formData.cName}}"
                       [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
-                      [maxLength]="formData.cMaxLength"                                           
+                      [maxLength]="formData.cMaxLength"      
+                      [required]="formData.cMandate"                                  
                       [readonly]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)"
                       placeholder="{{formData.cDisplayName}}">
                        <!-- [readonly]="this.eventName ==='Update' && (formData.cIsKey == true || formData.cReadOnly ==true)?  true: false " -->
@@ -28,7 +29,8 @@
                     <mat-label>{{formData.cDisplayName}}</mat-label>
                     <textarea matInput name="{{formData.cName}}"
                       [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
-                      [maxLength]="formData.cMaxLength"                                           
+                      [maxLength]="formData.cMaxLength"  
+                      [required]="formData.cMandate"                                            
                       [readonly]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)"
                       placeholder="{{formData.cDisplayName}}"                     
                      rows="5" style ="font-size: 10pt;"></textarea>                      
@@ -51,6 +53,7 @@
                     <mat-label>{{formData.cDisplayName}}</mat-label>
                       <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" 
                       disableOptionCentering panelClass="matselect-centering"
+                      [required]="formData.cMandate"   
                       [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)">
                       <mat-option   *ngFor="let opt of formData.cList" [value]="opt.internalValue">
                         {{opt.displayValue}}</mat-option>
@@ -65,7 +68,8 @@
                       <mat-label>{{formData.cDisplayName}}</mat-label>
                       <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" 
                       disableOptionCentering panelClass="matselect-centering" (selectionChange)="onDropDownChange($event)" 
-                      [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)">
+                      [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)"
+                      [required]="formData.cMandate"   >
                         <mat-option  *ngFor="let opt of formData.cList" [value]="opt.internalValue">
                           {{opt.displayValue}}</mat-option>
                       </mat-select>               
@@ -78,6 +82,7 @@
                       <mat-label>{{formData.cDisplayName}}</mat-label>
                     <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="firstDropdownVal" 
                     disableOptionCentering panelClass="matselect-centering" 
+                    [required]="formData.cMandate"   
                     [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)">
                         <mat-option *ngFor="let opt of companyDropdown" [value]="opt">
                           {{opt}}</mat-option>
@@ -95,7 +100,7 @@
                   <mat-label>{{formData.cDisplayName}}</mat-label>
                     <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" multiple 
                     disableOptionCentering panelClass="matselect-centering" (selectionChange)="onMultiselectDropDownChange($event)" 
-                    >
+                    [required]="formData.cMandate"   >
                     <!-- <mat-option>None</mat-option> -->
                     <mat-option   *ngFor="let opt of formData.cList" [value]="opt.internalValue">
                       {{opt.displayValue}}</mat-option>
@@ -110,7 +115,7 @@
                     <mat-label>{{formData.cDisplayName}}</mat-label>
                     <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" 
                     disableOptionCentering panelClass="matselect-centering" (selectionChange)="onDropDownChange($event)" 
-                    [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)">
+                    [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)"  [required]="formData.cMandate"   >
                       <mat-option  *ngFor="let opt of formData.cList" [value]="opt.internalValue">
                         {{opt.displayValue}}</mat-option>
                     </mat-select>               
@@ -122,7 +127,7 @@
                     <mat-label>{{formData.cDisplayName}}</mat-label>
                   <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="firstDropdownVal" 
                   disableOptionCentering panelClass="matselect-centering" 
-                  [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)">
+                  [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)"  [required]="formData.cMandate"   >
                       <mat-option *ngFor="let opt of companyDropdown" [value]="opt">
                         {{opt}}</mat-option>
                   </mat-select>   

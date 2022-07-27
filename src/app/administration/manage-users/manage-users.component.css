@@ -18,7 +18,14 @@
  font-weight: 100;
   /* display:contents; */
 }
+.mat-tree-node
+{
+  min-height: fit-content!important;
+}
 
+.detail-table{
+  color:green;
+}
 
 
 .treeview-a
