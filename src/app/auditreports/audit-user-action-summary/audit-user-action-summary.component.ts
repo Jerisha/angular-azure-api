@@ -310,19 +310,19 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
 this.OnOperatorClicked(['AuditMonth','Equal To']);
         switch(field)
         {
-          case 'AuditMonth': attributes.push({ Name: field, Value: this.AuditMonthArray?.length > 0 ? this.AuditMonthArray : ['']});
+          case 'AuditMonth': this.AuditMonthArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditMonthArray}) : attributes.push({ Name: field });
                               attributes.push(this.selectedExpression(field));
           break;
-          case 'AuditType': attributes.push({ Name: field, Value: this.AuditTypeArray?.length > 0 ? this.AuditTypeArray : ['']});
+          case 'AuditType': this.AuditTypeArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditTypeArray }) : attributes.push({ Name: field });
                               attributes.push(this.selectedExpression(field));
           break;
-          case 'ResolvedBy': attributes.push({ Name: field, Value: this.ResolvedByArray?.length > 0 ? this.ResolvedByArray : ['']});
+          case 'ResolvedBy': this.ResolvedByArray?.length > 0 ? attributes.push({ Name: field, Value: this.ResolvedByArray }) : attributes.push({ Name: field });
                               attributes.push(this.selectedExpression(field));
           break;
-          case 'ResolutionType': attributes.push({ Name: field, Value: this.ResolutionTypeArray?.length > 0 ? this.ResolutionTypeArray : ['']});
+          case 'ResolutionType': this.ResolutionTypeArray?.length > 0 ? attributes.push({ Name: field, Value: this.ResolutionTypeArray }) : attributes.push({ Name: field });
                               attributes.push(this.selectedExpression(field));
           break;
-          case 'AuditActID': attributes.push({ Name: field, Value: this.AuditActIdArray?.length > 0 ? this.AuditActIdArray : ['']});
+          case 'AuditActID': this.AuditActIdArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditActIdArray}) : attributes.push({ Name: field });
                               attributes.push(this.selectedExpression(field));
           break;
         }
@@ -430,7 +430,7 @@ this.OnOperatorClicked(['AuditMonth','Equal To']);
 
   selectedExpression(fieldName: string)
   {
-    let attribute: any =[''];
+    let attribute: any;
     let operator: string = fieldName + "Operator";
           if (this.expOperatorsKeyPair.length != 0) {
             let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
