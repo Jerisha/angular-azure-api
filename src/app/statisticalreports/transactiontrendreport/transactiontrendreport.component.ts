@@ -456,8 +456,13 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         // let contenttwo=content.replace(/'/g, '"');
        
       // attributes[1].Value=contenttwo;
-      attributes.push({ Name: 'StatisticMonth', Value: this.staticmontharray?.length > 0 ? this.staticmontharray : ['']});
-         
+      if(this.staticmontharray?.length > 0)
+      {
+      attributes.push({ Name: 'StatisticMonth', Value: this.staticmontharray?.length > 0 ? this.staticmontharray : [null]});
+      }
+      else{
+        attributes.push({ Name: 'StatisticMonth' });
+      }
         }
         else
           attributes.push({ Name: 'StatisticMonth' });

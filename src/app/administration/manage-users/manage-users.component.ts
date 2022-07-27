@@ -1014,7 +1014,7 @@ export class ManageUsersComponent implements OnInit {
   userreportscolums: any = [
     { header: 'User Name', headerValue: 'username' },
     { header: 'Email Address', headerValue: 'emailaddress' },
-    { header: 'Sources', headerValue: 'sources' },
+    { header: 'Source Systems', headerValue: 'sources' },
     { header: 'Menu Group', headerValue: 'menugroup' },
     { header: 'Report Name', headerValue: 'reportname' }
   ];
@@ -2070,8 +2070,8 @@ export class ManageUsersComponent implements OnInit {
     this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0), 1);
     this.Profilebutton = true;
     this.Formstatus = 'Profile';
-    this.UserEditForm?.get('profilename')?.enable();
-    this.UserEditForm?.get('profiledescription')?.enable();
+    this.UserEditForm?.get('profilename')?.disable();
+    this.UserEditForm?.get('profiledescription')?.disable();
     if (row) {
 
       this.initialize(Actiontype, row.profilename);
@@ -2111,6 +2111,8 @@ export class ManageUsersComponent implements OnInit {
     // });
     if (Actiontype == 'Create') {
       this.eventName = 'Create';
+      this.UserEditForm?.get('profilename')?.enable();
+      this.UserEditForm?.get('profiledescription')?.enable();
       this.UserEditForm.reset();
     }
     else {
@@ -2177,7 +2179,7 @@ export class ManageUsersComponent implements OnInit {
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
         tabType: 0,
-        name: 'Create'
+        name: 'Create User'
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
