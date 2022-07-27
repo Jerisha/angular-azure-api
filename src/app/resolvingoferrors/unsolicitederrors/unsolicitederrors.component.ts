@@ -350,12 +350,19 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
 
           continue;
         }
+        if( field === 'ResolveTypeUnsol')
+        {
+          if (control?.value)
+          attributes.push({ Name: 'ResolutionType', Value: [control?.value] });
+        else
+          attributes.push({ Name: 'ResolutionType' });
+        } else {
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
-
       }
+    }
     }
     console.log(attributes);
 
