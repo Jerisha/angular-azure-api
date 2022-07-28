@@ -36,8 +36,9 @@ font-size: smaller;  ">
         </button>
       </mat-optgroup>
       <ng-container *ngFor="let cols of (gridFilter || []); let fltIndex = index">
-        <mat-option [disabled]="fltIndex===0 || cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false" style="min-width:220px" color="primary"
-          (click)="optionClick()" [value]="cols.headerValue">
+        <mat-option
+          [disabled]="fltIndex===0 || cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false"
+          style="min-width:220px" color="primary" (click)="optionClick()" [value]="cols.headerValue">
           {{ cols.header }}
         </mat-option>
       </ng-container>
@@ -45,31 +46,36 @@ font-size: smaller;  ">
   </mat-form-field>
   <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
       {{selection.selected.length}}</b></span>
-  <ng-container *ngIf="showFavCols" style="margin-top:50px">
-    <div appearance="standard" class="colfilter" style="margin-left: 8px; margin-top:5px">
-      <mat-form-field>
-        <mat-select placeholder="User Profiles" [(ngModel)]="selectedUserProfileId"
-          (selectionChange)="getSelectedProfile($event.value)">
-          <mat-option *ngFor="let val of favProfile" [value]="val.favprofileid">
-            {{val.favprofname}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div style="margin-bottom: 10px;margin-top: 10px;">
-      <button type="button" mat-raised-button color="primary" (click)="createProfile()">
-        <mat-icon>add</mat-icon>Add
-      </button>
-      <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary"
-        (click)="deleteProfile()">
-        <mat-icon>delete</mat-icon>Delete
-      </button>
-      <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary"
-        (click)="promoteProfile()">
-        <mat-icon>how_to_reg</mat-icon>Promote
-      </button>
-    </div>
-  </ng-container>
+  <div *ngIf="showFavCols">
+    <mat-form-field appearance="standard" class="colfilter">
+      <mat-select placeholder="User Profiles" [(ngModel)]="selectedUserProfileId"
+        (selectionChange)="getSelectedProfile($event.value)">
+        <mat-select-trigger>
+          <span style="display: flex;">
+            <mat-icon matPrefix>star_border</mat-icon>
+            <span style="padding: 5px;">
+              Favourites
+            </span>
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let val of favProfile" [value]="val.favprofileid">
+          {{val.favprofname}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button type="button" mat-raised-button color="primary" (click)="createProfile()">
+      <mat-icon>add</mat-icon>Add
+    </button>
+    <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary" (click)="deleteProfile()">
+      <mat-icon>delete</mat-icon>Delete
+    </button>
+    <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary"
+      (click)="promoteProfile()">
+      <mat-icon>how_to_reg</mat-icon>Promote
+    </button>
+
+  </div>
 </div>
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
 
@@ -118,16 +124,19 @@ font-size: smaller;  ">
           <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"
             [ngStyle]="highlightCell(element,disCol)">
             <!-- {{element[disCol.headerValue]}} -->
-             <span [ngStyle]="disCol.isBold?{'font-weight': '1000'} : {'font-weight': '500'}">{{disCol.isNumber?(element[disCol.headerValue]| number) :element[disCol.headerValue]}}</span>
-            </td> 
+            <span
+              [ngStyle]="disCol.isBold?{'font-weight': '1000'} : {'font-weight': '500'}">{{disCol.isNumber?(element[disCol.headerValue]|
+              number) :element[disCol.headerValue]}}</span>
+          </td>
           <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getTotal(disCol.headerValue)|number}}</td>
         </div>
       </ng-container>
 
       <!-- custom footer container  -->
       <ng-container *ngFor="let columnName of footerColumns" [matColumnDef]="columnName">
-       
-        <td mat-footer-cell class="totalRow" *matFooterCellDef>  {{columnName==='f2_Select'? getFooterDetails(columnName):getFooterDetails(columnName)| number}}</td>
+
+        <td mat-footer-cell class="totalRow" *matFooterCellDef> {{columnName==='f2_Select'?
+          getFooterDetails(columnName):getFooterDetails(columnName)| number}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
