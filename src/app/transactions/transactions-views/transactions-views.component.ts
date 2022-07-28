@@ -244,8 +244,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   FillPaffAddress(Addressval: any[]): string {
     console.log('address values from main page',Addressval);
-    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
+    console.log('customer name ',this.transactionItem.customerAddress.customerName);
+   // this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
+   this.transactionItem.customerAddress = { customerName: this.transactionItem.customerAddress.customerName, address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
 
+    
     //console.log('paf address',Addressval)
     return "";
   }
@@ -542,6 +545,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   updateDefaultOfficeAddressDetails() {
+
     this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "Newbury", address3: "Berkshire", address4: "", postcode: "RG14 2FN" };
   }
   updateMatchedAddressDetails() {

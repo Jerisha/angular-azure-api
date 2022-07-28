@@ -292,8 +292,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   multipleSelect(event: any) {
     // console.log(event)
     if (event) {
-      console.log(event.toString());
-    this.staticmontharray = event.toString();
+      console.log(event);
+    this.staticmontharray = event;
     }
   }
 
@@ -447,15 +447,22 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
          // attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
       //   var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
       //  var result = this.staticmontharray;
-       var result= this.staticmontharray.replace(/,/g, "','") ;
+      // var result= this.staticmontharray.replace(/,/g, "','") ;
        //var newchar=  result.substring(1, result.length-1);
         // console.log('result before',newresult);
         debugger
-         attributes.push({ Name: 'StatisticMonth', Value: [`${result}`] });
-         let content:string=attributes[1].Value;
-         let contenttwo=content.replace(/'/g, '"');
-       attributes[1].Value=contenttwo;
-         
+      //   attributes.push({ Name: 'StatisticMonth', Value: [`${result}`] });
+        // let content:string=attributes[1].Value;
+        // let contenttwo=content.replace(/'/g, '"');
+       
+      // attributes[1].Value=contenttwo;
+      if(this.staticmontharray?.length > 0)
+      {
+      attributes.push({ Name: 'StatisticMonth', Value: this.staticmontharray?.length > 0 ? this.staticmontharray : [null]});
+      }
+      else{
+        attributes.push({ Name: 'StatisticMonth' });
+      }
         }
         else
           attributes.push({ Name: 'StatisticMonth' });

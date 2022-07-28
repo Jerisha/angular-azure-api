@@ -36,7 +36,7 @@
                     </ng-template>
                     <span [ngSwitch]="tableft.tabType">
                         <div *ngSwitchCase="0" style="height:100%;">
-                            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit('User Access Details')">
+                            <form [formGroup]="referenceForm" autocomplete="off" (ngSubmit)="onSubmit('User Access Details')">
                        
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
@@ -69,7 +69,7 @@
                                       
         
         
-             <app-select-checkbox [label]="'Source'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
+             <app-select-checkbox [label]="'Source Systems'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
               </app-select-checkbox>
         
         
@@ -88,7 +88,7 @@
                                        
                                         <mat-form-field>
                                             <mat-label>Email Address</mat-label>
-                                        <input type="text"  matInput   formControlName="emailaddress"
+                                        <input type="text" autocomplete=""  matInput   formControlName="emailaddress"
                                         placeholder="EmailAddress">
                                         <mat-error>
                                             <div *ngIf="referenceForm.controls['emailaddress'].touched && referenceForm.controls['emailaddress'].invalid" class="alert alert-danger">
@@ -491,7 +491,7 @@
                             </form>
                         </div>
                         <div *ngSwitchCase="3" style="height:100%;">
-                            <form [formGroup]="referenceUsernameform">
+                            <form [formGroup]="referenceUsernameform" autocomplete="off">
                        
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
@@ -524,7 +524,7 @@
             
                  
          <!-- UserProfile    -->  
-                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit('Start Up User Messages')">
+                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" autocomplete="off" (ngSubmit)="onSubmit('Start Up User Messages')">
                        
                         <div class="content-main vf-flex-container-row">
                             <div  class="content-submain vf-flex-container-col">
@@ -625,7 +625,7 @@
                         <div class="rightFilters-items">
                             <mat-form-field>
                             <mat-label >User Name</mat-label>
-                            <input type="text" matInput  
+                            <input type="text" matInput  autocomplete="off" 
                             placeholder="User Name" formControlName="username">
                             </mat-form-field>
                         </div>
@@ -633,7 +633,7 @@
                         <div class="rightFilters-items">
                             <mat-form-field>
                             <mat-label >Profile Name</mat-label>
-                            <input type="text" matInput  
+                            <input type="text" matInput   autocomplete="off"
                             placeholder="Profile Name" formControlName="profilename">
                             </mat-form-field>
                         </div>
@@ -715,7 +715,7 @@
                 </div>
                 <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
-                        <form [formGroup]="filterUserofReportForm" (ngSubmit)="onSearchFilter('UserOfReports')">
+                        <form [formGroup]="filterUserofReportForm" autocomplete="off" (ngSubmit)="onSearchFilter('UserOfReports')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>
@@ -726,7 +726,7 @@
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
-                                <mat-label >Sources</mat-label>
+                                <mat-label >Source Systems</mat-label>
                                 <input type="text" matInput  
                                 placeholder="Sources" formControlName="sources">
                                 </mat-form-field>
@@ -793,7 +793,7 @@
                 </div>
                 <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
-                        <form [formGroup]="filterNewsUpdateForm" (ngSubmit)="onSearchFilter('StartUpUserMessages')">
+                        <form [formGroup]="filterNewsUpdateForm" autocomplete="off" (ngSubmit)="onSearchFilter('StartUpUserMessages')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>
@@ -886,7 +886,7 @@
                 </div>
                 <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
-                        <form [formGroup]="filterUserProfilesForm" (ngSubmit)="onSearchFilter('UserProfiles')">
+                        <form [formGroup]="filterUserProfilesForm" autocomplete="off" (ngSubmit)="onSearchFilter('UserProfiles')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>
