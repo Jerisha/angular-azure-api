@@ -39,7 +39,8 @@ body {
   display: flex;
   flex-direction: inherit;
   overflow: auto; */
-  background-color: #007c92;
+  /* background-color: #007c92; */
+  background-color: #FED9B7;
   top: 32px;
   position: absolute;
   pointer-events: auto;
