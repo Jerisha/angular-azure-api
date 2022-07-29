@@ -578,7 +578,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
   copyToClipboard() {
     let data = "";
-    
+  
     let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
     let selectedCol = this.tableitem?.filter ?
       this.select?.value?.filter((z: string) => colsExcludeImage?.includes(z)) : colsExcludeImage
