@@ -45,7 +45,6 @@ font-size: smaller;  ">
     </mat-select>
   </mat-form-field>
   <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
-<<<<<<< HEAD
       {{selection.selected.length}}</b></span> &nbsp;
 
   <ng-container *ngIf="showFavCols" style="margin-top:50px">
@@ -75,39 +74,6 @@ font-size: smaller;  ">
     </div>
   </ng-container> 
 
-=======
-      {{selection.selected.length}}</b></span>
-  <div *ngIf="showFavCols">
-    <mat-form-field appearance="standard" class="colfilter">
-      <mat-select placeholder="User Profiles" [(ngModel)]="selectedUserProfileId"
-        (selectionChange)="getSelectedProfile($event.value)">
-        <mat-select-trigger>
-          <span style="display: flex;">
-            <mat-icon matPrefix>star_border</mat-icon>
-            <span style="padding: 5px;">
-              Favourites
-            </span>
-          </span>
-        </mat-select-trigger>
-        <mat-option *ngFor="let val of favProfile" [value]="val.favprofileid">
-          {{val.favprofname}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button type="button" mat-raised-button color="primary" (click)="createProfile()">
-      <mat-icon>add</mat-icon>Add
-    </button>
-    <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary" (click)="deleteProfile()">
-      <mat-icon>delete</mat-icon>Delete
-    </button>
-    <button [disabled]="!enableCustomization" type="button" mat-raised-button color="primary"
-      (click)="promoteProfile()">
-      <mat-icon>how_to_reg</mat-icon>Promote
-    </button>
-
-  </div>
->>>>>>> a414cf6688b0ab7e6329f6099d3917856ac6773b
 </div>
 
 
