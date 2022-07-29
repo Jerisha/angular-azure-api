@@ -547,7 +547,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   updateDefaultOfficeAddressDetails() {
 
-    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "Newbury", address3: "Berkshire", address4: "", postcode: "RG14 2FN" };
+    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "NEWBURY", address3: "BERKSHIRE", address4: "", postcode: "RG14 2FN" };
   }
   updateMatchedAddressDetails() {
     this.transactionItem.customerAddress = this.matchedAuditAddress;
