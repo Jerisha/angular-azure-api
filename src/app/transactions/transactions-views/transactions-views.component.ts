@@ -763,6 +763,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.model.telno = "";
     this.model.endTel = "";
     debugger
+    this.clearalert();
     if (Object.keys(this.AuditPopulatevalue).length === 0) {
       this.spinner.show();
       let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
@@ -961,6 +962,10 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     return attributes;
   }
+  clearalert()
+  {
+    this.alertService.clear();
+  }
 
   prepareQueryParamsforCreateCorrection(ForceToValidate: string): any {
     debugger
@@ -1129,6 +1134,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.view3Toggle = "display: block;visibility:visible;";
   }
   AuditTrail() {
+    this.clearalert();
     if (this.audittelephonenumbers instanceof Array) {
       this.AuditTrailSelected.emit(this.audittelephonenumbers);
     } else {
