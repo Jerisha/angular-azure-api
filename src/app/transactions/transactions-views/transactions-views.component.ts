@@ -112,6 +112,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   Cuparr:any;
   SourceFranchisearr:any;
   RerportIdentifier: any;
+  clirangecount: number;
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
@@ -574,7 +575,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       if (x.StatusMessage === 'Success') {
         this.spinner.hide();
         //success message and same data reload
-        this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+       
+        this.alertService.success( "Save " + `${this.clirangecount? this.clirangecount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
       }
     });
@@ -622,8 +624,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         let TypeOfLine: string = res.data.TypeOfLines[0].TypeOfLine;
         this.view3Form = this.formBuilder.group({
           TransactionType: new FormControl({ value: '', disabled: false }, [Validators.required]),
-
-          LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
+          LineType: new FormControl({ value: '', disabled: false },),
+          // LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
           TypeOfLine: new FormControl({ value: '', disabled: false }, [Validators.required]),
           OrderReference: new FormControl({ value: '', disabled: false }, [Validators.required]),
           ImportExportCupId: new FormControl({ value: '', disabled: false }, []),
@@ -928,11 +930,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     //Reference
     let telephonerangevalues: string = "";
-    this.Commentsstring="DDI Range: Pre-populated in DB while data loading.";
+   // this.Commentsstring="DDI Range: Pre-populated in DB while data loading.";
     for (let i = 0; i < this.CliRangeSet.length; i++) {
 
       if (this.CliRangeSet[i][1].toString() != "") {
-        telephonerangevalues += this.CliRangeSet[i][0].toString() + '|' + this.CliRangeSet[i][1].toString();
+       telephonerangevalues += this.CliRangeSet[i][0].toString() + '|' + this.CliRangeSet[i][1].toString();
       }
       else {
         telephonerangevalues += this.CliRangeSet[i][0].toString() + '|' + this.CliRangeSet[i][0].toString();
@@ -948,7 +950,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString() +' to '+this.CliRangeSet[i][1].toString()
         }
         else{
-          this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString()+' to '+this.CliRangeSet[i][0].toString();
+       // this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString()+' to '+this.CliRangeSet[i][0].toString();
         }
       }
     }
@@ -1228,11 +1230,13 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   checktotalrange(value: number) {
     debugger
+    this.clirangecount=0;
     let count: number = 0
     for (let i = 0; i < this.CliRangeSet.length; i++) {
       count = count + this.CliRangeSet[i][2];
     }
     count = count + value;
+    this.clirangecount=count;
     if (count > 10000) {
       return false;
     }
@@ -1256,7 +1260,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       }
       else {
         //count=this.model.telno-this.model.rangeEnd;
-        count = this.model.rangeEnd - this.model.telno;
+        count = this.model.rangeEnd - this.model.telno+1;
       }
       if (count <= 10000 && count > 0 && this.checktotalrange(count)) {
         if (this.checkduplicate(this.model.telno, this.model.rangeEnd)) {
