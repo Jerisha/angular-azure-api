@@ -30,9 +30,10 @@
   <table #mytable mat-table [dataSource]="dataSource" class="mat-elevation-z8">
    <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index">     
       <ng-container matColumnDef="{{disCol.DataHeaders}}">
-        <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" >
+        <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" matTooltip="{{disCol.isToolTip}}">
           {{disCol.Headers}}</th>
-        <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)">
+        <!-- <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)"> -->
+            <td mat-cell class="truncate-cell" *matCellDef="let element">
           <span [ngStyle]="highlightCell(element,disCol)">{{disCol.isNumber?(element[disCol.DataHeaders] | number) : element[disCol.DataHeaders]}}</span>
         </td>
         <ng-container *ngIf="isRowTotal">

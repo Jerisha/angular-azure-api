@@ -9,7 +9,7 @@ th {
 }
 
 .total-row{
-  background-color: #ff9999 !important;
+  /* background-color: #ff9999 !important; */
   color:black;
   font-size: small;
   font-weight: 600;
@@ -119,4 +119,11 @@ table td, table th {
 mat-form-field {
   margin-left: 10px;
   /* margin-top:10px; */
+}
+
+::ng-deep .mat-select-panel .mat-option {
+  min-width: calc(100% + 80px);
+}
+::ng-deep .mat-select-panel {
+  overflow-x: hidden;
 }

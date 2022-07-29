@@ -19,25 +19,28 @@ export class AuditdiscrepancyHeaderData {
                     colspan: "1"
                 },
                 {
-                    Headers: "BA-BT Only - Source Active",
+                    Headers: "BA",
                     DataHeaders: "BABTOnlySourceActive",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "BA-BT Only - Source Active"
                 },
                 {
-                    Headers: "BN-BT Only - Source Not Found",
+                    Headers: "BN",
                     DataHeaders: "BNBTOnlySourceNotFound",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "BN-BT Only - Source Not Found"
                 },
                 {
-                    Headers: "BC-BT Only - Source Cease",
+                    Headers: "BC",
                     DataHeaders: "BCBTOnlySourceCease",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "BC-BT Only - Source Cease"
                 },
                 {
                     Headers: "BT Only Total",
@@ -47,32 +50,36 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "DN-MisMatched - Source Not Found",
+                    Headers: "DN",
                     DataHeaders: "DNMisMatchedSourceNotFound",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "DN-MisMatched - Source Not Found"
                 },
                 {
-                    Headers: "DC-MisMatched - Source Cease",
+                    Headers: "DC",
                     DataHeaders: "DCMisMatchedSourceCease",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "DC-MisMatched - Source Cease"
                 },
                 {
-                    Headers: "DAS-MisMatched - Source Active Matched",
+                    Headers: "DAS",
                     DataHeaders: "DASMisMatchedSourceActiveMatched",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "DAS-MisMatched - Source Active Matched"
                 },
                 {
-                    Headers: "DAD-MisMatched - Source Active MisMatched",
+                    Headers: "DAD",
                     DataHeaders: "DADMisMatchedSourceActiveMisMatched",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "DAD-MisMatched - Source Active MisMatched"
                 },
                 {
                     Headers: "Mismatched Total",
@@ -82,32 +89,36 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "SN-Matched - Source Not Found",
+                    Headers: "SN",
                     DataHeaders: "SNMatchedSourceNotFound",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "SN-Matched - Source Not Found"
                 },
                 {
-                    Headers: "SC-Matched - Source Cease",
+                    Headers: "SC",
                     DataHeaders: "SCMatchedSourceCease",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "SC-Matched - Source Cease"
                 },
                 {
-                    Headers: "SAD-Matched - Source Active MisMatched",
+                    Headers: "SAD",
                     DataHeaders: "SADMatchedSourceActiveMisMatched",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "SAD-Matched - Source Active MisMatched"
                 },
                 {
-                    Headers: "SAS-Matched - Source Active Matched",
+                    Headers: "SAS",
                     DataHeaders: "SASMatchedSourceActiveMatched",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "SAS-Matched - Source Active Matched"
                 },
                 {
                     Headers: "Matched Total",
@@ -117,25 +128,28 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "VN-OSN2 Only - Source Not Found",
+                    Headers: "VN",
                     DataHeaders: "VNOSN2OnlySourceNotFound",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "VN-OSN2 Only - Source Not Found"
                 },
                 {
-                    Headers: "VA-OSN2 Only - Source Active",
+                    Headers: "VA",
                     DataHeaders: "VAOSN2OnlySourceActive",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "VA-OSN2 Only - Source Active"
                 },
                 {
-                    Headers: "VC-OSN2 Only - Source Cease",
+                    Headers: "VC",
                     DataHeaders: "VCOSN2OnlySourceCease",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "VC-OSN2 Only - Source Cease"
                 },
                 {
                     Headers: "OSN2 Only Total",
@@ -145,11 +159,12 @@ export class AuditdiscrepancyHeaderData {
                     isNumber: true
                 },
                 {
-                    Headers: "LS-Live In Source",
+                    Headers: "LS",
                     DataHeaders: "LSLiveInSource",
                     rowspan: "1",
                     colspan: "1",
-                    isNumber: true
+                    isNumber: true,
+                    isToolTip: "LS-Live In Source"
                 },
                 {
                     Headers: "Total",
