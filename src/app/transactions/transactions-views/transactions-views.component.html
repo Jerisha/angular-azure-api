@@ -340,7 +340,7 @@
                           <span>                        
                           <mat-form-field   class="vf-mr-negative" style="width:250px;">
                             <mat-label class="vf-label">Customer Name *</mat-label>
-                            <textarea matInput placeholder="Customer Name *"
+                            <textarea matInput placeholder="Customer Name *" onkeyup="this.value = this.value.toUpperCase();"
                             cdkTextareaAutosize matInput formControlName="CustomerName"
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1"
@@ -367,7 +367,7 @@
                             cdkTextareaAutosize  matInput formControlName="AddressLine1"
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1"
-                            cdkAutosizeMaxRows="2"
+                            cdkAutosizeMaxRows="2" onkeyup="this.value = this.value.toUpperCase();"
                           
                             size="20" maxlength="100" 
                             name =address1
@@ -382,7 +382,7 @@
                         <mat-label class="vf-label">Address2 *</mat-label>
                         <textarea matInput placeholder="Address2 *"
                           cdkTextareaAutosize matInput formControlName="AddressLine2"
-                          #autosize="cdkTextareaAutosize"
+                          #autosize="cdkTextareaAutosize" onkeyup="this.value = this.value.toUpperCase();"
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="2"
                           size="20" maxlength="100"   
@@ -398,7 +398,7 @@
                       <mat-label class="vf-label">Address3</mat-label>
                       <textarea matInput placeholder="Address3"
                         cdkTextareaAutosize matInput formControlName="AddressLine3"
-                        #autosize="cdkTextareaAutosize"
+                        #autosize="cdkTextareaAutosize" onkeyup="this.value = this.value.toUpperCase();"
                         cdkAutosizeMinRows="1"
                         cdkAutosizeMaxRows="2"
                       
@@ -413,7 +413,7 @@
                     <mat-label class="vf-label">Address4</mat-label>
                     <textarea matInput placeholder="Address4"
                       cdkTextareaAutosize matInput formControlName="AddressLine4"
-                      #autosize="cdkTextareaAutosize"
+                      #autosize="cdkTextareaAutosize" onkeyup="this.value = this.value.toUpperCase();"
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="2"
                    
@@ -427,7 +427,7 @@
                   <mat-form-field   class="vf-mr-negative" style="width:100%;">
                       <mat-label class="vf-label">Post Code *</mat-label>
                       <input type="text" 
-                       matInput  placeholder="Post Code " 
+                       matInput  placeholder="Post Code "  onkeyup="this.value = this.value.toUpperCase();"
                        name =postcode matInput formControlName="PostCode"
                        [(ngModel)]="transactionItem.customerAddress.postcode"
                        size="12" 
