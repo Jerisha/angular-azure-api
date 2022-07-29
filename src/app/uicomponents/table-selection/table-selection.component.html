@@ -38,7 +38,7 @@ font-size: smaller;  ">
       <ng-container *ngFor="let cols of (gridFilter || []); let fltIndex = index">
         <mat-option
           [disabled]="fltIndex===0 || cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false"
-          style="min-width:220px" color="primary" (click)="optionClick()" [value]="cols.headerValue">
+          style="min-width:220px;color: white;" color="primary" (click)="optionClick()" [value]="cols.headerValue">
           {{ cols.header }}
         </mat-option>
       </ng-container>

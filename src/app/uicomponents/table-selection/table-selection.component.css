@@ -68,7 +68,7 @@ table td, table th {
 
 .freezeselectall
 {
-  background-color:#EFEFEF;
+  /* background-color:#EFEFEF; */
   top: 0px;
   position: sticky;
   z-index: 4;

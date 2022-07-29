@@ -25,7 +25,7 @@ body {
   display: flex;
   flex-direction: inherit;
   overflow: auto; */
-
+  background-color: #007c92;
   top: 32px;
   position: absolute;
   pointer-events: auto;
@@ -262,7 +262,8 @@ div .mat-focus-indicator.mat-tab-label {
 
 /* Alternate Row Colour */
 .mat-row:nth-child(even) {
-  background-color: #F5F5F5;
+  /* background-color: #F5F5F5; */
+  background-color: #D9D9D9 ;
 }
 
 .table-icon {
