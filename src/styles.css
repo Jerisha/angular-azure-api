@@ -16,6 +16,20 @@ body {
   color: white;
 }
 
+.tblpagination .mat-form-field-infix {
+  padding: 0.5em 0;
+  border-top: 0em;
+  display: flex;
+}
+
+.tblpagination .mat-paginator-range-label {
+  margin: 0px!important;
+}
+
+.tblpagination .mat-paginator-container{
+  margin-top: -7px;
+}
+
 /* mat-select panel position start */
 .matselhorzPanel {
   /*position: relative;  

@@ -81,9 +81,7 @@ table td, table th {
   text-overflow: ellipsis;
 }
 
-.mat-paginator-range-label {
-  display: none;
-}
+
 
 .profile{
   margin-top: 2px;
@@ -148,6 +146,9 @@ table td, table th {
   background:#f77373; 
   border-radius: 10px;
 }
+
+
+
 
 /* Handle on hover */
 /* .table-container::-webkit-scrollbar-thumb:hover {
