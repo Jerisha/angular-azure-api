@@ -72,7 +72,7 @@ font-size: smaller;  ">
         <mat-icon>how_to_reg</mat-icon>Promote
       </button>
     </div>
-  </ng-container> 
+  </ng-container>
 
 </div>
 
@@ -157,28 +157,21 @@ font-size: smaller;  ">
 
   </div>
 </div>
-<div style="height: 35px;
-display: flow-root;
-margin: 5px">
-  <!-- <mat-paginator #paginator style="height: 5px;"  [length]="totalRows" showFirstLastButtons [pageIndex]="currentPage"
-    [pageSize]="pageSize" hidePageSize [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)">
-  </mat-paginator> -->
-
-  <div  class="tblpagination" style="float: right;
+<div style="height: 35px;display: flow-root;margin: 5px">
+  <div class="tblpagination" style="float: right;
   display: -webkit-box; align-items: center;">
-   <!-- <button  type="button" mat-raised-button color="primary" (click)="pageChanged()">>>
-   </button>  -->
-   <mat-paginator *ngIf="!disablePageSize" #paginator style="height: 5px;" [pageSizeOptions]="[50,100,250,500]"
-   [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize" [hidePageSize]="disablePageSize"
-   (page)="pageChanged($event)">
- </mat-paginator>
- <mat-form-field   *ngIf="!disablePageSize" style="width: 100px; align-items: baseline;">
-   <input numbersOnly   matTooltip= "Enter page no." [(ngModel)]="apiPageNumber" matInput  autocomplete="off" placeholder="Page no.">
+    <mat-paginator *ngIf="!disablePageSize" #paginator style="height: 5px;" [pageSizeOptions]="[50,100,250,500]"
+      [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize" [hidePageSize]="disablePageSize"
+      (page)="pageChanged($event)">
+    </mat-paginator>
+    <mat-form-field *ngIf="!disablePageSize" style="width: 100px; align-items: baseline;">
+      <input numbersOnly matTooltip="Enter page no." [(ngModel)]="apiPageNumber" matInput autocomplete="off"
+        placeholder="Page no.">
       <!-- <mat-icon style="font-size:20px; cursor: pointer;"  matTooltip= "Go to Page" (click)="pageChanged()">arrow_upward</mat-icon> -->
-   <mat-icon style="font-size:20px; cursor: pointer;"  matTooltip= "Go to Page" (click)="pageChanged()">fast_forward</mat-icon>
-  </mat-form-field>
-</div>
- 
+      <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page">fast_forward</mat-icon>
+    </mat-form-field>
+  </div>
+
 
   <!-- <div class="test-wrapper"> -->
   <div>
@@ -196,8 +189,6 @@ margin: 5px">
         <mat-icon>email</mat-icon> Export to email
       </button>
     </span>
-    
-
   </div>
 </div>
 <!-- <div style="margin: auto;" *ngIf="!isShown">

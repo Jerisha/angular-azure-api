@@ -122,6 +122,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.pageProp.currentPage = this.currentPage + 1;
       this.pageProp.pageSize = event?.pageSize ? event?.pageSize : DefaultPageSize;
       this.service.setPageSize(this.pageProp.pageSize);
+      
     }
     else {
       let totalPages = Math.ceil(this.totalRows / this.pageSize);
@@ -139,6 +140,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.service.pageSize$.subscribe((val: number) => { this.pageProp.pageSize = val; });
     }
     this.pageIndex.emit(this.pageProp);
+    
   }
 
   refresh(event: any) {
