@@ -1014,7 +1014,7 @@ export class ManageUsersComponent implements OnInit {
   userreportscolums: any = [
     { header: 'User Name', headerValue: 'username' },
     { header: 'Email Address', headerValue: 'emailaddress' },
-    { header: 'Sources', headerValue: 'sources' },
+    { header: 'Source Systems', headerValue: 'sources' },
     { header: 'Menu Group', headerValue: 'menugroup' },
     { header: 'Report Name', headerValue: 'reportname' }
   ];
@@ -1109,7 +1109,7 @@ export class ManageUsersComponent implements OnInit {
         debugger
        // console.log('proifle items in view ', res.Data[0].profileitems);
         this.resettreetreeview();
-      if(ProfileName!='Super Admin')
+      if(ProfileName!='Super Admin'&& ProfileName!='Admin')
       {
         if (res.Data[0]) {
           //const tempMyObj:any[] =Object.create(TREE_DATA_View);
@@ -1169,8 +1169,9 @@ export class ManageUsersComponent implements OnInit {
 
       }
       else{
-        this.resettreetreeview(true);
+       this.resettreetreeviewforadmin();
         this.bindtreeedataview(TREE_DATA_View);
+        console.log('treeview data',TREE_DATA_View);
       }
         this.spinner.hide();
       });
@@ -1269,7 +1270,7 @@ export class ManageUsersComponent implements OnInit {
             let tchild = Tree.children[j];
             for (var k = 0; k < tchild.children.length; k++) {
               let grandhchild: any = tchild.children[k];
-              console.log('gradchild', grandhchild.MenuID);
+            
               if (grandhchild.MenuID != undefined) {
 
                 grandhchild.isChecked = false;
@@ -1320,7 +1321,36 @@ export class ManageUsersComponent implements OnInit {
     // treeControl.expandAll();
     this.treeControl.expandAll();
   }
-  resettreetreeview(clear?:boolean) {
+  resettreetreeviewforadmin()
+  {
+    if (TREE_DATA_View != undefined && TREE_DATA_View.length > 0) {
+      for (var i = 0; i < TREE_DATA_View.length; i++) {
+        let Tree = TREE_DATA_View[i];
+        for (var j = 0; j < Tree.children.length; j++) {
+          let tchild = Tree.children[j];
+          for (var k = 0; k < tchild.children.length; k++) {
+            let grandhchild: any = tchild.children[k];
+          
+            if (grandhchild.MenuID != undefined) {
+              grandhchild.isChecked = true;
+            }
+            else {
+              for (var l = 0; l < grandhchild.children.length; l++) {
+                let greatgrandchild = grandhchild.children[l];
+                if (greatgrandchild.MenuID != undefined)
+              {
+                 grandhchild.isChecked = true;
+              }
+              }
+            }
+
+          }
+
+        }
+      }
+    }
+  }
+  resettreetreeview() {
     debugger
     if (TREE_DATA_View != undefined && TREE_DATA_View.length > 0) {
       for (var i = 0; i < TREE_DATA_View.length; i++) {
@@ -1329,28 +1359,21 @@ export class ManageUsersComponent implements OnInit {
           let tchild = Tree.children[j];
           for (var k = 0; k < tchild.children.length; k++) {
             let grandhchild: any = tchild.children[k];
-            console.log('gradchild', grandhchild.MenuID);
+          
             if (grandhchild.MenuID != undefined) {
-             if(clear)
-             {
-              grandhchild.isChecked = true;
-             }
-             else{
+             
+            
               grandhchild.isChecked = false;
-             }
+             
 
             }
             else {
               for (var l = 0; l < grandhchild.children.length; l++) {
                 let greatgrandchild = grandhchild.children[l];
                 if (greatgrandchild.MenuID != undefined)
-                if(clear)
-                {
-                 grandhchild.isChecked = true;
-                }
-                else{
+              
                  grandhchild.isChecked = false;
-                }
+                
                  
 
               }
@@ -1374,7 +1397,7 @@ export class ManageUsersComponent implements OnInit {
           let tchild = Tree.children[j];
           for (var k = 0; k < tchild.children.length; k++) {
             let grandhchild: any = tchild.children[k];
-            console.log('gradchild', grandhchild.MenuID);
+         
             if (grandhchild.MenuID != undefined) {
 
               grandhchild.isChecked = false;
@@ -1412,7 +1435,7 @@ export class ManageUsersComponent implements OnInit {
    * The return value is the list of `TodoItemNode`.
    */
   buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
-    debugger
+    
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const item = obj[key];
       const node = new TodoItemNode();
@@ -2047,8 +2070,8 @@ export class ManageUsersComponent implements OnInit {
     this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0), 1);
     this.Profilebutton = true;
     this.Formstatus = 'Profile';
-    this.UserEditForm?.get('profilename')?.enable();
-    this.UserEditForm?.get('profiledescription')?.enable();
+    this.UserEditForm?.get('profilename')?.disable();
+    this.UserEditForm?.get('profiledescription')?.disable();
     if (row) {
 
       this.initialize(Actiontype, row.profilename);
@@ -2088,6 +2111,8 @@ export class ManageUsersComponent implements OnInit {
     // });
     if (Actiontype == 'Create') {
       this.eventName = 'Create';
+      this.UserEditForm?.get('profilename')?.enable();
+      this.UserEditForm?.get('profiledescription')?.enable();
       this.UserEditForm.reset();
     }
     else {
@@ -2154,7 +2179,7 @@ export class ManageUsersComponent implements OnInit {
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
         tabType: 0,
-        name: 'Create'
+        name: 'Create User'
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
@@ -2806,15 +2831,24 @@ export class ManageUsersComponent implements OnInit {
       }
 
     //User Profiles
+    debugger
     if (this.userprofilesdata)
       this.userprofilesdata.filterPredicate = (data: any, filter: string): boolean => {
         let searchString = JSON.parse(filter);
         let isProfileName = false;
         let isCreatedBy = false;
-
+        if (searchString.profilename.length) {
+          console.log('profile name',searchString.profilename);
+          console.log('data profilename',data.profilename?.toLowerCase());
+          for (const d of searchString.profilename) {
+           
+            }
+          }
+        
         if (searchString.profilename.length) {
           for (const d of searchString.profilename) {
-            if (data.profilename.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+           // console.log('console value',data.profilename.toLowerCase().indexOf(d));
+            if (data.profilename?.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
               isProfileName = true;
             }
           }
@@ -2824,7 +2858,7 @@ export class ManageUsersComponent implements OnInit {
 
         if (searchString.createdby.length) {
           for (const d of searchString.createdby) {
-            if (data.createdby.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+            if (data.createdby?.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
               isCreatedBy = true;
             }
           }

@@ -144,7 +144,7 @@ tr.mat-header-row,tr.mat-row, tr.mat-footer-row {
     font-size: 12px;
     max-height: 48px;      
   } 
-.mat-header-row1 {
+/* .mat-header-row1 {
   width: 100% !important;
   min-height: 10px !important;
   padding: 0px 0px 0px 4px !important;
@@ -169,7 +169,7 @@ tr.mat-row1, tr.mat-footer-row1 {
     padding: 1px 4px 1px !important;
     font-size: 12px !important;
     max-height: 48px !important;      
-  } 
+  }  */
 
   .table-header{
     min-width:110px; 
@@ -240,7 +240,7 @@ tr.mat-row1, tr.mat-footer-row1 {
   .highlighted{
     background-color: lightpink;
   }  
-.custom-tooltip{  
+/* .vftooltip{  
   background-color: #007c92 !important; 
   color: #ffffff !important; 
   font-weight: 400;
@@ -250,7 +250,29 @@ tr.mat-row1, tr.mat-footer-row1 {
   text-align: center;
   box-shadow: 0 1px 3px 0 rgb(28 28 28 / 35%);
 }
-.cdk-overlay-pane .mat-tooltip-panel .mat-tooltip { 
+div.cdk-overlay-container{
+  background-color: #007c92 !important; 
+  color: #ffffff !important; 
+}
+.mat-tooltip.tooltip { color: blue !important; }
+
+::ng-deep .tooltip {
+  background-color: red;
+  color: blue;
+  font-size: 20px;
+} */
+/* mat-tooltip-component .mat-tooltip.tooltip {
+  color: blue !important;
+} */
+/* .mat-tooltip-panel .mat-tooltip{
+  background-color: #007c92 !important; 
+  color: #ffffff !important;
+}
+.mat-tooltip-trigger {
+  background-color: #007c92 !important; 
+  color: #ffffff !important;
+} */
+/* .cdk-overlay-pane .mat-tooltip-panel .mat-tooltip { 
   background-color: #007c92 !important; 
   color: #ffffff !important; 
   font-weight: 400;
@@ -259,7 +281,7 @@ tr.mat-row1, tr.mat-footer-row1 {
   padding: 8px;
   text-align: center;
   box-shadow: 0 1px 3px 0 rgb(28 28 28 / 35%);
-   } 
+   }  */
    /* .mat-tooltip { 
     background-color: #007c92 !important; 
     color: #ffffff !important; 
