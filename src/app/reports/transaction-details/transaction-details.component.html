@@ -22,7 +22,7 @@
                         class="alert alert-danger">
                         
                          <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                        <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                        <!-- <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
                     </div>
                 </mat-error>
             </mat-form-field>
@@ -44,7 +44,7 @@
             </app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.CreationDate.disabled}">
               <mat-label>Created On</mat-label>
-              <input readonly formControlName="CreationDate" matInput #CreationDate placeholder="Created On"
+              <input [min]="minDate" [max]="maxDate" readonly formControlName="CreationDate" matInput #CreationDate placeholder="Created On"
                 [matDatepicker]="picker">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
@@ -124,7 +124,7 @@
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
               <mat-label>Source System</mat-label>
                             <mat-select formControlName="Source">  
-                              <!-- <mat-option>None</mat-option>           -->
+                              <mat-option>-- Select --</mat-option> 
                               <mat-option *ngFor="let val of config.Source" [value]="val">
                                 {{val}}
                               </mat-option>
@@ -132,7 +132,7 @@
             </mat-form-field>
           </div>
 
-          <!-- <div [ngStyle]="{'display':thisForm.controls.Franchise.disabled? 'none' : 'block'}">
+          <div [ngStyle]="{'display':thisForm.controls.Franchise.disabled? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default"  [resetvalue]="resetExp" #FranchiseOperator
               (click)="OnOperatorClicked(['FranchiseOperator',FranchiseOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Franchise.disabled}">
@@ -143,7 +143,7 @@
                 <mat-icon>arrow_drop_down</mat-icon>
               </span>
               <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoFranchise="matAutocomplete">
-                <mat-option *ngFor="let val of config.Franchise | ddlFilter: franchise.value"
+                <mat-option  style = "font-size: 12px;" *ngFor="let val of config.Franchise | ddlFilter: franchise.value"
                   [value]="val">
                   {{val}}
                 </mat-option>
@@ -151,21 +151,21 @@
               <mat-error *ngIf="f.Franchise.errors?.validOptions">Value need to match available options</mat-error>
 
             </mat-form-field>
-          </div> -->
+          </div>
 
-          <div [ngStyle]="{'display':thisForm.controls.Franchise.disabled? 'none' : 'block'}">
+          <!-- <div [ngStyle]="{'display':thisForm.controls.Franchise.disabled? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default"  [resetvalue]="resetExp" #FranchiseOperator
               (click)="OnOperatorClicked(['FranchiseOperator',FranchiseOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Franchise.disabled}">
               <mat-label>Franchise</mat-label>
-              <mat-select formControlName="Franchise">  
+              <mat-select formControlName="Franchise">  -->
                 <!-- <mat-option>None</mat-option>           -->
-                <mat-option *ngFor="let val of config.Franchise" [value]="val">
+               <!-- <mat-option *ngFor="let val of config.Franchise" [value]="val">
                   {{val}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
+          </div> -->
         
           <!-- <div [ngStyle]="{'display':thisForm.controls.TransactionCommand.disabled? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp" #TransactionCommandOperator
@@ -195,7 +195,7 @@
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.TransactionCommand.disabled}">
               <mat-label>Transaction Command</mat-label>
               <mat-select formControlName="TransactionCommand">  
-                <!-- <mat-option>None</mat-option>           -->
+                <mat-option>-- Select --</mat-option> 
                 <mat-option *ngFor="let val of config.TransactionCommand" [value]="val">
                   {{val}}
                 </mat-option>
@@ -214,7 +214,7 @@
                 <mat-icon (click)="model.TypeOfLine=''">arrow_drop_down</mat-icon>
               </span>
               <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
-                <mat-option *ngFor="let option of config.TypeOfLine | ddlFilter: typeOfLine.value"
+                <mat-option style = "font-size: 12px;" *ngFor="let option of config.TypeOfLine | ddlFilter: typeOfLine.value"
                   [value]="option">
                   {{option}}
                 </mat-option>
@@ -224,6 +224,155 @@
 
             </mat-form-field>
           </div>
+
+          <!-- new req starts-->
+          <!-- <div [ngStyle]="{'display':thisForm.controls.Status.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp"#StatusOperator
+              (click)="OnOperatorClicked(['StatusOperator',StatusOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Status.disabled}">
+              <mat-label>Status</mat-label>
+              <input #Status formControlName="Status" [(ngModel)]="model.Status" type="text" placeholder="Search Status" matInput
+                [matAutocomplete]="autoStatus" maxlength="100" OptionsValidator [options]="config.Status " />
+              <span matSuffix mat-icon-button>
+                <mat-icon (click)="model.Status=''">arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoStatus="matAutocomplete">
+                <mat-option *ngFor="let option of config.Status | ddlFilter: Status.value"
+                  [value]="option">
+                  {{option}}
+                </mat-option>
+
+              </mat-autocomplete>
+              <mat-error *ngIf="f.Status.errors?.validOptions">Value need to match available options</mat-error>
+
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.SourceType.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp"#SourceTypeOperator
+              (click)="OnOperatorClicked(['SourceTypeOperator',SourceTypeOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.SourceType.disabled}">
+              <mat-label>Source Type</mat-label>
+              <input #SourceType formControlName="SourceType" [(ngModel)]="model.SourceType" type="text" placeholder="Search Source Type" matInput
+                [matAutocomplete]="autoSourceType" maxlength="100" OptionsValidator [options]="config.SourceType " />
+              <span matSuffix mat-icon-button>
+                <mat-icon (click)="model.SourceType=''">arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoSourceType="matAutocomplete">
+                <mat-option *ngFor="let option of config.SourceType | ddlFilter: SourceType.value"
+                  [value]="option">
+                  {{option}}
+                </mat-option>
+
+              </mat-autocomplete>
+              <mat-error *ngIf="f.SourceType.errors?.validOptions">Value need to match available options</mat-error>
+
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.InternalErrors.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp"#InternalErrorsOperator
+              (click)="OnOperatorClicked(['InternalErrorsOperator',InternalErrorsOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.InternalErrors.disabled}">
+              <mat-label>Internal Errors</mat-label>
+              <input #InternalErrors formControlName="InternalErrors" [(ngModel)]="model.InternalErrors" type="text" placeholder="Search Internal Errors" matInput
+                [matAutocomplete]="autoInternalErrors" maxlength="200" OptionsValidator [options]="config.InternalErrors " />
+              <span matSuffix mat-icon-button>
+                <mat-icon (click)="model.InternalErrors=''">arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoInternalErrors="matAutocomplete">
+                <mat-option *ngFor="let option of config.InternalErrors | ddlFilter: InternalErrors.value"
+                  [value]="option">
+                  {{option}}
+                </mat-option>
+
+              </mat-autocomplete>
+              <mat-error *ngIf="f.InternalErrors.errors?.validOptions">Value need to match available options</mat-error>
+
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.BtResponses.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp"#BtResponsesOperator
+              (click)="OnOperatorClicked(['BtResponsesOperator',BtResponsesOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.BtResponses.disabled}">
+              <mat-label>BT Responses</mat-label>
+              <input #BtResponses formControlName="BtResponses" [(ngModel)]="model.BtResponses" type="text" placeholder="BT Responses" matInput
+                [matAutocomplete]="autoBtResponses" maxlength="200" OptionsValidator [options]="config.BTResponses " />
+              <span matSuffix mat-icon-button>
+                <mat-icon (click)="model.BtResponses=''">arrow_drop_down</mat-icon>
+              </span>
+              <mat-autocomplete  panelWidth="auto" autoActiveFirstOption #autoBtResponses="matAutocomplete">
+                <mat-option *ngFor="let option of config.BTResponses | ddlFilter: BtResponses.value"
+                  [value]="option">
+                  {{option}}
+                </mat-option>
+
+              </mat-autocomplete>
+              <mat-error *ngIf="f.BtResponses.errors?.validOptions">Value need to match available options</mat-error>
+
+            </mat-form-field>
+          </div> -->
+          <div [ngStyle]="{'display':thisForm.controls.Status.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp"#StatusOperator
+              (click)="OnOperatorClicked(['StatusOperator',StatusOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Status.disabled}">
+              <mat-label>Status</mat-label> 
+              <mat-select formControlName="Status">
+                <mat-option>-- Select --</mat-option>               
+                <mat-option *ngFor="let option of config.Status" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.SourceType.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp"#SourceTypeOperator
+              (click)="OnOperatorClicked(['SourceTypeOperator',SourceTypeOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.SourceType.disabled}">
+              <mat-label>Source Type</mat-label>  
+              <mat-select formControlName="SourceType">  
+                <mat-option>-- Select --</mat-option>           
+                <mat-option *ngFor="let option of config.SourceType" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.InternalErrors.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp"#InternalErrorsOperator
+              (click)="OnOperatorClicked(['InternalErrorsOperator',InternalErrorsOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.InternalErrors.disabled}">
+              <mat-label>Internal Errors</mat-label>
+              <mat-select formControlName="InternalErrors">
+                <mat-option>-- Select --</mat-option> 
+                <mat-option *ngFor="let option of config.InternalErrors" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-select>             
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.BtResponses.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[3].default" [resetvalue]="resetExp"#BtResponsesOperator
+              (click)="OnOperatorClicked(['BtResponsesOperator',BtResponsesOperator.selectedViewValue])"></app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.BtResponses.disabled}">
+              <mat-label>BT Responses</mat-label>
+              <mat-select formControlName="BtResponses">
+                <mat-option>-- Select --</mat-option> 
+                <mat-option *ngFor="let option of config.BTResponses" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-select> 
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'display':thisForm.controls.BtFileName.disabled ? 'none' : 'block'}">
+            <app-select-exp [listItems]="expressions[1].default" [resetvalue]="resetExp"  #BtFileNameOperator
+              (click)="OnOperatorClicked(['BtFileNameOperator',BtFileNameOperator.selectedViewValue])">
+            </app-select-exp>
+            <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.BtFileName.disabled}">
+              <mat-label>BT File Name</mat-label>
+              <input formControlName="BtFileName" matInput #BtFileName maxlength="200" placeholder="BT File Name">
+            </mat-form-field>
+          </div>
+
+          <!--new req end-->
         </ng-container>
       </div>
       <div class="matsidenav-footer">

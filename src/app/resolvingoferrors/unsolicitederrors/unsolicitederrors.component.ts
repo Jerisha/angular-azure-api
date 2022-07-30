@@ -131,7 +131,7 @@ const FilterListItems: Select[] = [
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: false },
   { view: 'Is Final', viewValue: 'Final', default: false },
-  { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolveTypeUnsol', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
 
 
@@ -183,6 +183,8 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
   // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
@@ -190,30 +192,30 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     private cdr: ChangeDetectorRef, private telnoPipe: TelNoPipe, private dialog: MatDialog,
     private auth: AuthenticationService,
     private actRoute: ActivatedRoute
-    ) { 
-      super(auth, actRoute);
-      this.intializeUser();
-    }
+  ) {
+    super(auth, actRoute);
+    this.intializeUser();
+  }
 
   ngOnInit(): void {
 
     this.createForm();
     //this.UpdateForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolutionType']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolveTypeUnsol']);
     console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
       console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
 
     });
-    
+
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
     this.service.configDetails(updateRequest).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.updateDetails = res.data;
     });
-  
+
   }
 
   getNextSetRecords(pageEvent: any) {
@@ -348,14 +350,21 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
 
           continue;
         }
+        if( field === 'ResolveTypeUnsol')
+        {
+          if (control?.value)
+          attributes.push({ Name: 'ResolutionType', Value: [control?.value] });
+        else
+          attributes.push({ Name: 'ResolutionType' });
+        } else {
         if (control?.value)
           attributes.push({ Name: field, Value: [control?.value] });
         else
           attributes.push({ Name: field });
-
       }
     }
-    console.log(attributes);
+    }
+    // console.log(attributes);
 
     return attributes;
 
@@ -370,7 +379,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
       // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
       // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),     
       Source: new FormControl({ value: '', disabled: true }, []),
-      ResolutionType: new FormControl({ value: '', disabled: true }, []),
+      ResolveTypeUnsol: new FormControl({ value: '', disabled: true }, []),
       //Date: new FormControl({ value: '', disabled: true }, []),
       ErrorType: new FormControl({ value: '', disabled: true }, []),
       Final: new FormControl({ value: '', disabled: true }, []),
@@ -388,8 +397,8 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     debugger
     if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
       this.f.EndTelephoneNumber?.value?.length >= 10 &&
-      this.f.Source.value === "" 
-      && this.f.ErrorType.value === "" 
+      this.f.Source.value === ""
+      && this.f.ErrorType.value === ""
       && this.f.Final.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
@@ -423,8 +432,9 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+
             }
           });
           //this.isSaveDisable = true;
@@ -470,7 +480,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
 
   columns: ColumnDetails[] = [
     { header: 'Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Error Code', headerValue: 'ErrorCode', showDefault: true, isImage: false },
@@ -488,6 +498,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     debugger;
     let errMsg = '';
     if (!this.thisForm.valid) return;
+    this.alertService.clear();
     errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
     if (errMsg) {
 
@@ -543,10 +554,11 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
       filter: true,
       selectCheckbox: true,
       removeNoDataColumns: true,
+      //isFavcols:true,
       setCellAttributes: [{ flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true }],
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -614,14 +626,13 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            // name: 'Transaction Errors'
-            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
+            name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[tabIndex].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
+          this.tabs[tabIndex].name = 'Transaction History(' + this.telNo + '/' + this.tranId + ')';
         }
 
         break;

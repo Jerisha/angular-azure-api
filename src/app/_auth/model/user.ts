@@ -1,13 +1,4 @@
-﻿export class User {
-    // id!: number;
-    // username!: string;
-    // errorMessage?: string;
-    // firstName!: string;
-    // lastName!: string;
-    // profileName!: string;
-    // password!: string;
-    // token?: string;
-    // menuConfig?: any[] = [];
+﻿export class User {    
     username: string;
     firstname: string;
     lastname: string;
@@ -20,7 +11,7 @@
     profilename: string;
     menuitems: any[];
     favourites: any[];
-    messagedescription: string;
+    newsupdate: any[];
     iscompleteaccess:number
     iscustom:number;
    }

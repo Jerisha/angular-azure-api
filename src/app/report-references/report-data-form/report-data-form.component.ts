@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef,SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { NgxSpinnerService } from "ngx-spinner";
+import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef,SimpleChanges, Output, EventEmitter, NgZone, ViewChild } from '@angular/core';
 import { IColoumnDef } from "src/app/report-references/IControls";
 import { ReportReferenceService } from '../report-reference.service';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-data-form',
@@ -18,8 +18,8 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   data:any;
   
   @Input() reportName:string='';
-  @Input()
-  reportIndex!: number;
+  //@Input()
+  //reportIndex!: number;
   referenceForm!: FormGroup;
   @Input('lstFields') lstForm: IColoumnDef[] = [];
   title:string ="";
@@ -34,14 +34,13 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   firstDropdownVal: string = '' ;
 
 
+  // @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
-
-  constructor(private cdr: ChangeDetectorRef,
-    private spinner: NgxSpinnerService,
+  constructor(private cdr: ChangeDetectorRef,    
     private formBuilder: FormBuilder,
     private service: ReportReferenceService,
+    private _ngZone: NgZone
   ) { }
-
 ngOnInit(): void {
     this.referenceForm = this.formBuilder.group({});
     //this.lstForm  = this.service.setForm(this.reportName);
@@ -63,7 +62,7 @@ ngOnInit(): void {
     //console.log(JSON.stringify(this.record))
     
     this.referenceForm.markAsUntouched();
-    }
+    }   
 
 }
 ngOnChanges(changes: SimpleChanges) {
@@ -72,6 +71,8 @@ ngOnChanges(changes: SimpleChanges) {
     // this.data =this.service.data[this.reportIndex][this.reportName];    
     //console.log("onchanges:",changes);
     //this.lstForm  = this.service.setForm(this.reportName);
+    this.eventName = 'Create';
+    this.referenceForm?.reset();
     this.referenceForm = this.formValidation();
     if(this.record != undefined)
     {
@@ -93,7 +94,12 @@ ngOnChanges(changes: SimpleChanges) {
     this.referenceForm.markAsUntouched();
     }
 }
-
+// triggerResize() 
+// {
+//   // Wait for changes to be applied, then trigger textarea resize.
+//   this._ngZone.onStable.pipe(take(1))
+//       .subscribe(() => this.autosize.resizeToFitContent(true));
+// }
 formValidation() :FormGroup {
 
  const group: any = {};
@@ -104,11 +110,23 @@ for (var field of this.lstForm) {
    ]);
  }  
  else if (field.cType == 'text' && field.cMandate==true) {
-   if(['ID','NcID','ResolveId','StatusId','XrefID' , 'OloCompanyFranchise'].includes(field.cName))
+   if(['ID','NcID','ResolveId','XrefID' , 'OloCompanyFranchise'].includes(field.cName))
    {
     field.cValue = field.cValue ===null ||field.cValue === undefined ||field.cValue ===''?'0':field.cValue
    }
   group[field.cName] = new FormControl(field.cValue || '', [Validators.required,Validators.maxLength(field.cMaxLength)]);
+}
+if (field.cType == 'textarea' && field.cMandate ==false) {
+  group[field.cName] = new FormControl(field.cValue || '', [
+   Validators.maxLength(field.cMaxLength)
+  ]);
+}  
+else if (field.cType == 'textarea' && field.cMandate==true) {
+  if(['ID','NcID','ResolveId','XrefID' , 'OloCompanyFranchise'].includes(field.cName))
+  {
+   field.cValue = field.cValue ===null ||field.cValue === undefined ||field.cValue ===''?'0':field.cValue
+  }
+ group[field.cName] = new FormControl(field.cValue || '', [Validators.required,Validators.maxLength(field.cMaxLength)]);
 }
  else if (field.cType == 'select' && field.cMandate==true) {
    group[field.cName] = new FormControl(
@@ -121,7 +139,20 @@ for (var field of this.lstForm) {
       field.cValue || '',[]
       
     );
- } else if (field.cType == 'radio'  && field.cMandate==false) {
+ } 
+ else if (field.cType == 'multiselect' && field.cMandate==true) {
+  group[field.cName] = new FormControl(
+    field.cValue || '',
+    Validators.required
+  );
+}
+  else if (field.cType == 'multiselect' && field.cMandate==false) {
+   group[field.cName] = new FormControl(
+     field.cValue || '',[]
+     
+   );
+} 
+ else if (field.cType == 'radio'  && field.cMandate==false) {
   if(['SendBT','Allowed'].includes(field.cName))
   {
    field.cValue = field.cValue ===null ||field.cValue === undefined ||field.cValue ===''?'Y':field.cValue
@@ -144,11 +175,9 @@ for (var field of this.lstForm) {
 }
 return  new FormGroup(group);
 }
-
 public fieldError=(controlName: string, errorName: string) =>{
     return this.referenceForm.controls[controlName].hasError(errorName);
 }
-
 public setReadOnlyField(cIsKey:boolean,cReadOnly:boolean){
   switch(this.eventName){
     case 'Update':
@@ -169,17 +198,14 @@ public setReadOnlyField(cIsKey:boolean,cReadOnly:boolean){
   
 
 }
-
 ngAfterViewInit() 
  {  
    this.cdr.detectChanges();  
- }
-
+}
 ngAfterViewChecked() 
  {
    this.cdr.detectChanges();
- }
-
+}
 onEditRecord(record:any,event:Event){    
     this.record = record;
     this.eventName ='Update'
@@ -199,7 +225,11 @@ onDropDownChange(event:any){
 let Olo = event.value;
 this.setCompanyDropdownValue(Olo);
 }
+onMultiselectDropDownChange(event:any){
 
+ // console.log(event,'event')
+
+}
 setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
   if(OloValue != null) {
   const index = this.lstForm[2].cList.findIndex((x: any) => {
@@ -209,7 +239,6 @@ setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
   this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0];
 }
 }
-
 onSubmit(){
 // alert(this.eventName+" Completed.."+JSON.stringify(this.referenceForm.value));
 this.service.showDataForm =false;
@@ -218,7 +247,7 @@ let updatedRecord
 if (this.referenceForm.valid)
 {
 updatedRecord = this.referenceForm.value;
-// console.log(updatedRecord,'df updaterecord')
+ //console.log(updatedRecord,'df updaterecord')
 //console.log([[false,true],updatedRecord], 'de')
 this.submitBtnClicked.emit([[false,true],updatedRecord])
 this.onCancelDataForm();

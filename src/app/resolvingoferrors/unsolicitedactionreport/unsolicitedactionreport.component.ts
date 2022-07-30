@@ -18,6 +18,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { expNumeric, expString, expDate,expDropdown,select } from 'src/app/_helper';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { AlertService } from 'src/app/_shared/alert';
 
 
 
@@ -85,7 +86,7 @@ const FilterListItems: Select[] = [
   { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
   { view: 'Transaction Reference', viewValue: 'TransactionReference', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: true },
-  { view: 'ResolutionType', viewValue: 'ResolutionTypeAudit', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolveType', default: true },
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'Trans Command', viewValue: 'TransactionCommand', default: true },
@@ -139,13 +140,15 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
+    private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    private spinner: NgxSpinnerService) { }
+    ) { }
 
 
   listItems!: Select[];
@@ -168,7 +171,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     "SourceOperator",
     "ResolveTypeOperator",
     "StatusrOperator",
-    "TransactionCommandOperator",
+    "TranCommandOperator",
 
   ]; 
   expOperatorsKeyPair: [string, string][] = [];
@@ -180,7 +183,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
 
     this.createForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Source', 'ResolutionTypeAudit', 'TransactionCommand', 'Status']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'AllResolutionType', 'TransactionCommand', 'ErrorStatus']);
     this.service.configDetails(request).subscribe((res: any) => {
       console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
@@ -280,9 +283,10 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     //ToDate: new FormControl(new Date(year, month, date))
     
    this.myForm = new FormGroup({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")] ),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")] ),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       TransactionReference: new FormControl({ value: '', disabled: true }, []),
-      ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
+      ResolveType: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),
@@ -313,9 +317,10 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
 
   
   columns: ColumnDetails[] = [
-    { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
+    { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolveType', showDefault: true, isImage: false },
-    { header: 'TelephoneNo', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
+    
     { header: 'Transaction Ref', headerValue: 'TransactionReference', showDefault: true, isImage: false },
     { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
@@ -329,6 +334,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
     if (!this.myForm.valid) return;
+    this.alertService.clear();
     this.tabs.splice(0);
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
@@ -395,6 +401,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   }
 
   prepareQueryParams(pageNo: string): any {
+    // debugger;
     let attributes: any = [
       { Name: 'PageNumber', Value: [`${pageNo}`] }];
     //Reference
@@ -420,10 +427,38 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
            
           continue;
         }
-        if (field == 'ResolutionTypeAudit')
+        // if (field == 'ResolveType')
+        // {
+        // attributes.push({ Name: 'ResolveType', Value: [control?.value]});
+        // console.log('ResolveType',attributes)
+        // let operator: string = 'ResolveType' + "Operator";
+        // if (this.expOperatorsKeyPair.length != 0) {
+        //   let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        //   // console.log(expvals,"operatorVal1")
+        //   if (expvals.length != 0) {
+        //   //  console.log(control?.value,"True");
+        //       // if (control?.value) {
+        //         attributes.push({ Name: operator, Value: [expvals[0][1]] });
+        //         // console.log(expvals[0][1],"operatorVal");
+        //       // }
+        //       // else {
+        //       //   attributes.push({ Name: operator, Value: ['Equal To'] });
+        //       // }
+        //   }
+         
+        // }
+        // else {
+  
+        //   attributes.push({ Name: operator, Value: ['Equal To'] });
+        //   console.log('ResolveType1',attributes)
+        // }
+     
+       
+        // } 
+        if (field == 'TransactionCommand')
         {
-        attributes.push({ Name: 'ResolveType', Value: [control?.value]});
-        let operator: string = 'ResolveType' + "Operator";
+        attributes.push({ Name: 'TransactionCommand', Value: [control?.value]});
+        let operator: string = 'TranCommand' + "Operator";
         if (this.expOperatorsKeyPair.length != 0) {
           let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
           // console.log(expvals,"operatorVal1")
@@ -431,7 +466,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
           //  console.log(control?.value,"True");
               // if (control?.value) {
                 attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                console.log(expvals[0][1],"operatorVal");
+                // console.log(expvals[0][1],"operatorVal");
               // }
               // else {
               //   attributes.push({ Name: operator, Value: ['Equal To'] });
@@ -443,11 +478,9 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   
           attributes.push({ Name: operator, Value: ['Equal To'] });
   
-        }
-     
-       
+        }  
         } 
-
+         else{
         if (control?.value )
           attributes.push({ Name: field, Value: [control?.value] });
         else
@@ -467,7 +500,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
         //  console.log(control?.value,"True");
             // if (control?.value) {
               attributes.push({ Name: operator, Value: [expvals[0][1]] });
-              console.log(expvals[0][1],"operatorVal");
+              // console.log(expvals[0][1],"operatorVal");
             // }
             // else {
             //   attributes.push({ Name: operator, Value: ['Equal To'] });
@@ -482,10 +515,10 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
           }
         }
       }
-      else {
+      else  {
 
         attributes.push({ Name: operator, Value: ['Equal To'] });
-
+      }
       }
     }
     console.log('attri',attributes);

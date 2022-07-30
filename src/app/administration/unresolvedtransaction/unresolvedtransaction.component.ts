@@ -6,9 +6,9 @@ import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { UnresolvedTransaction } from '../models/administraion-ui.module';
+import { UnresolvedTransaction } from '../_models/administraion-ui.module';
 import { Utils } from 'src/app/_http/common/utils';
-import { AdministrationService } from '../services/administration.service';
+import { AdministrationService } from '../_services/administration.service';
 import { map, startWith } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { expDate, expDropdown, expNumeric, expString, select } from 'src/app/_helper/Constants/exp-const';
@@ -147,6 +147,8 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
   // currentPage: string = '1';
   //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   expressions: any = [expNumeric, expString, expDate, expDropdown];
   expOperators: string[] = [
     "TelephoneNumberOperator",
@@ -238,7 +240,8 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      TelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.maxLength(11),Validators.pattern("^[0-9]{10,11}$")]),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.maxLength(11),Validators.pattern("^[0-9]{10,11}$")]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       CustomerName: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
@@ -251,9 +254,10 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
     })
   }
   columns: ColumnDetails[] = [
-    { header: 'Link', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Trans ID', headerValue: 'TransactionId', showDefault: true, isImage: false },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Trans ID', headerValue: 'TransactionId', showDefault: true, isImage: false },
+   
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Transaction Ref', headerValue: 'TransactionRef', showDefault: true, isImage: false },
     { header: 'Provide Date', headerValue: 'ProvideDate', showDefault: true, isImage: false },
@@ -313,7 +317,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -448,12 +452,12 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')'
+            name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[this.selectedTab].name = 'Transaction Errors(' + this.telNo + '/' + this.tranId + ')';
+          this.tabs[this.selectedTab].name = 'Transaction History(' + this.telNo + '/' + this.tranId + ')';
         }
         break;
       }

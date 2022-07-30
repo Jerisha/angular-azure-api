@@ -32,11 +32,20 @@
       <ng-container matColumnDef="{{disCol.DataHeaders}}">
         <th mat-header-cell *matHeaderCellDef [attr.colspan]="disCol.colspan" [attr.rowspan]="disCol.rowspan" >
           {{disCol.Headers}}</th>
-        <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)"> {{element[disCol.DataHeaders]}} </td>
+        <td mat-cell class="truncate-cell" *matCellDef="let element" [ngStyle]="highlightCell(element,disCol)">
+          <span [ngStyle]="highlightCell(element,disCol)">{{disCol.isNumber?(element[disCol.DataHeaders] | number) : element[disCol.DataHeaders]}}</span>
+        </td>
         <ng-container *ngIf="isRowTotal">
+          <ng-container *ngIf="disCol.DataHeaders === this.ColumnDetails[0].DataHeaders ">
           <td class="total-row" [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell
-            *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders,'')}}
+            *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders)}}
           </td>
+        </ng-container>
+        <ng-container *ngIf="disCol.DataHeaders != this.ColumnDetails[0].DataHeaders ">
+          <td class="total-row" [attr.colspan]="getColSpan(disCol.DataHeaders)" mat-footer-cell
+            *matFooterCellDef="let element"> {{ getTotal(disCol.DataHeaders) | number }}
+          </td>
+        </ng-container>
         </ng-container>
       </ng-container>
     </ng-container>
@@ -53,7 +62,7 @@
 
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <ng-container *ngIf="isRowTotal">
-      <tr class="total-row" mat-footer-row *matFooterRowDef="totalCols;sticky: true"></tr>
+      <tr class="total-row" mat-footer-row *matFooterRowDef="totalCols;"></tr>
     </ng-container>
   </table>
 </div>

@@ -5,26 +5,29 @@ import { AuthenticationService } from "./services/authentication.service";
 
 @Injectable({ providedIn: 'root' })
 export class UserProfile {
+
     constructor(private authService: AuthenticationService,
         private activatedRoute: ActivatedRoute
     ) { }
 
 
-    userProfile: string;
+    userDetails: User;
     viewAccess: boolean;
     updateAccess: boolean;
     deleteAccess: boolean;
     createAccess: boolean;
 
+
     intializeUser(): void {
         debugger;
         let user: User = this.authService.currentUserValue;
-        this.userProfile = user?.profilename;
+        this.userDetails = user;
+        if (this.activatedRoute.snapshot.data['id'] === undefined) return;
 
-        let menu = user?.menuitems?.find(x => x.menuitemid?.toLowerCase() === (this.activatedRoute.snapshot.data['id'] as string).toLowerCase())
+        let menu = user.menuitems.find(x => x.menuid?.toLowerCase() === (this.activatedRoute.snapshot.data['id'] as string).toLowerCase())
         if (menu?.isfullaccess === 1 || user.iscompleteaccess === 1) {
             this.viewAccess = true;
-            this.updateAccess = true;           
+            this.updateAccess = true;
             this.createAccess = true;
             this.deleteAccess = true;
         }
@@ -35,7 +38,6 @@ export class UserProfile {
             this.createAccess = menu?.accesslevel?.substring(2, 3) === '1'
             this.deleteAccess = menu?.accesslevel?.substring(3, 4) === '1'
         }
-        //this.viewAccess = user.
     }
 
 

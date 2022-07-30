@@ -15,6 +15,7 @@ import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { AlertService } from 'src/app/_shared/alert';
 
 // const ELEMENT_DATA: any = [
 //   {
@@ -102,12 +103,12 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 const FilterListItems: Select[] = [
   { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
   { view: 'Transaction ID', viewValue: 'TransactionID', default: true },
-  { view: 'ChangeCUPID', viewValue: 'ChangeCUPID', default: true },
+  { view: 'Change CUPID', viewValue: 'ChangeCUPID', default: true },
   { view: 'Transaction Date', viewValue: 'TransactionDate', default: true },
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
   { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
-  { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolveType', default: true },
   { view: 'Internal CupID', viewValue: 'InternalCUPID', default: true }
 ];
 
@@ -121,8 +122,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService) { }
+    private alertService: AlertService) { }
 
   myTable!: TableItem;
   myForm!: FormGroup;
@@ -157,6 +157,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
   configDetails!: any;
   // currentPage: string = '1';
   updateDetails!: any;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
@@ -182,9 +184,9 @@ export class SolicitedresolutionreportComponent implements OnInit {
     this.createForm();
 
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['TransactionCommand', 'Source', 'ResolutionTypeAudit', 'Status', 'InternalCupID']);
+    let request = Utils.preparePyConfig(['Search'], ['TransactionCommand', 'Source', 'AllResolutionType', 'ErrorStatus', 'InternalCupID']);
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res))
+      //console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
 
@@ -276,33 +278,33 @@ export class SolicitedresolutionreportComponent implements OnInit {
            
           continue;
         }
-        if (field == 'ResolutionTypeAudit')
-        {
-        attributes.push({ Name: 'ResolveType', Value: [control?.value]});
-        let operator: string = 'ResolveType' + "Operator";
-        if (this.expOperatorsKeyPair.length != 0) {
-          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-          // console.log(expvals,"operatorVal1")
-          if (expvals.length != 0) {
-          //  console.log(control?.value,"True");
-              // if (control?.value) {
-                attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                console.log(expvals[0][1],"operatorVal");
-              // }
-              // else {
-              //   attributes.push({ Name: operator, Value: ['Equal To'] });
-              // }
-          }
+        // if (field == 'ResolveType')
+        // {
+        // attributes.push({ Name: 'ResolveType', Value: [control?.value]});
+        // let operator: string = 'ResolveType' + "Operator";
+        // if (this.expOperatorsKeyPair.length != 0) {
+        //   let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        //   // console.log(expvals,"operatorVal1")
+        //   if (expvals.length != 0) {
+        //   //  console.log(control?.value,"True");
+        //       // if (control?.value) {
+        //         attributes.push({ Name: operator, Value: [expvals[0][1]] });
+        //         // console.log(expvals[0][1],"operatorVal");
+        //       // }
+        //       // else {
+        //       //   attributes.push({ Name: operator, Value: ['Equal To'] });
+        //       // }
+        //   }
          
-        }
-        else {
+        // }
+        // else {
   
-          attributes.push({ Name: operator, Value: ['Equal To'] });
+        //   attributes.push({ Name: operator, Value: ['Equal To'] });
   
-        }
+        // }
      
        
-        } 
+        // } 
         if (field == 'TransactionCommand')
         {
         attributes.push({ Name: 'TransactionCommand', Value: [control?.value]});
@@ -314,13 +316,13 @@ export class SolicitedresolutionreportComponent implements OnInit {
           //  console.log(control?.value,"True");
               // if (control?.value) {
                 attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                console.log(expvals[0][1],"operatorVal");
+                // console.log(expvals[0][1],"operatorVal");
               // }
               // else {
               //   attributes.push({ Name: operator, Value: ['Equal To'] });
               // }
           }
-         
+ 
         }
         else {
   
@@ -350,7 +352,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
         //  console.log(control?.value,"True");
             // if (control?.value) {
               attributes.push({ Name: operator, Value: [expvals[0][1]] });
-              console.log(expvals[0][1],"operatorVal");
+              // console.log(expvals[0][1],"operatorVal");
             // }
             // else {
             //   attributes.push({ Name: operator, Value: ['Equal To'] });
@@ -403,7 +405,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.myForm = this.formBuilder.group({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       TransactionID: new FormControl({ value: '', disabled: true }, []),
       ChangeCUPID: new FormControl({ value: '', disabled: true }, []),
       // TransactionDate: new FormControl(),
@@ -411,7 +414,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
       TransactionCommand: new FormControl({ value: '', disabled: true }, []),
-      ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
+      ResolveType: new FormControl({ value: '', disabled: true }, []),
       InternalCUPID: new FormControl({ value: '', disabled: true }, [])
     });
   }
@@ -426,7 +429,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
     { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
@@ -468,6 +471,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     debugger;
     if (!this.myForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
@@ -506,7 +510,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       removeNoDataColumns: true,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -688,17 +692,20 @@ export class SolicitedresolutionreportComponent implements OnInit {
         break;
 
       case 2:
+        this.telNo = tab.row.TelephoneNumber;
+        this.tranId = tab.row.TransactionID;
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
+          let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
+          this.tabs[tabIndex].name = 'Transaction History(' + this.telNo + '/' + this.tranId + ')';
         }
-        this.telNo = tab.row.TelephoneNumber;
-        this.tranId = tab.row.TransactionId;
+        
         break;
       default:
         //statements; 

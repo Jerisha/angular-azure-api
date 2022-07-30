@@ -11,9 +11,9 @@
     padding-left: 33px;
 }
 .btn-icon{
-    background-color: #e60000;
+    background-color: #e60000 !important;
      margin: 5px;
-     width:30px;
+     width:30px; 
      height: 30px;
      font-size: small;
      z-index: 3;
@@ -21,6 +21,7 @@
 .fullPage{
     /* min-height: 80% !important; */
     min-height: 525px;
+    /* height: inherit; */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -36,6 +37,7 @@
 
 .container-page{
     min-height:525px;    
+    /* height: inherit; */
     width: auto;
     box-sizing: border-box;
   }
@@ -64,6 +66,7 @@
     width: auto;
     box-sizing: border-box;
     height: 490px;
+    /* height: inherit; */
   }
 
   
@@ -101,7 +104,7 @@
     max-height:420px;
     flex-wrap: wrap;
   }
-  .detail-table{
+  .detail-table{    
     margin-top: 10px;
      width: 100%;
      max-height:400px;
@@ -110,6 +113,64 @@
       width: 100%;          */
       /* overflow: auto; */
   }
+.actions-header{
+  /* padding: 1px 4px 1px; */
+  min-width: 64px;
+}
+.actions-cell{
+  /* padding: 1px 4px 1px; */
+  min-width: 64px;
+}
+.mat-header-row {
+  width: 100%;
+  min-height: 10px;
+  padding: 0px 0px 0px 4px;
+}
+tr.mat-header-row,tr.mat-row, tr.mat-footer-row {
+  height: 10px;  
+}
+  .mat-header-cell {   
+    width: fit-content;
+    background-color: #e60000;
+    color: white;
+    text-align: left;
+    padding: 1px 4px 1px;
+    font-size: 12px;
+  }
+  .mat-cell{    
+    width: 0px;
+    text-align: left;
+    padding: 1px 4px 1px;
+    font-size: 12px;
+    max-height: 48px;      
+  } 
+/* .mat-header-row1 {
+  width: 100% !important;
+  min-height: 10px !important;
+  padding: 0px 0px 0px 4px !important;
+}
+tr.mat-header-row1 {
+  height: 10px !important;
+}
+tr.mat-row1, tr.mat-footer-row1 {
+  height: 10px !important;  
+}
+  .mat-header-cell1 {   
+    width: fit-content !important;
+    background-color: #e60000 !important;
+    color: white !important;
+    text-align: left !important;
+    padding: 1px 4px 1px !important;
+    font-size: 12px !important;
+  }
+  .mat-cell1{    
+    width: 0px !important;
+    text-align: left !important;
+    padding: 1px 4px 1px !important;
+    font-size: 12px !important;
+    max-height: 48px !important;      
+  }  */
+
   .table-header{
     min-width:110px; 
     width:auto;
@@ -138,7 +199,7 @@
     /* padding: 6px; */
     
     /* column-gap: 30px; */
-  }
+  }  
   .dataform-title{
   font-size: 14px;
   background-color:#e60000;
@@ -159,19 +220,14 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  height: calc(90%-20px);
+  height: calc(90%-50px);
   width: 100%;
   /* color:#FFFFFF; */
   text-align: center;
-  line-height:calc(90%-20px);
+  line-height:calc(90%-50px);
   margin-top: 6px;
   }
-  .table-spinner{
-    /* display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    color:#e60000; */
+  .table-spinner{    
     position: relative;
     margin-left: 40%;
     margin-top: 15%;
@@ -183,5 +239,59 @@
   }
   .highlighted{
     background-color: lightpink;
-  }
- 
+  }  
+/* .vftooltip{  
+  background-color: #007c92 !important; 
+  color: #ffffff !important; 
+  font-weight: 400;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 8px;
+  text-align: center;
+  box-shadow: 0 1px 3px 0 rgb(28 28 28 / 35%);
+}
+div.cdk-overlay-container{
+  background-color: #007c92 !important; 
+  color: #ffffff !important; 
+}
+.mat-tooltip.tooltip { color: blue !important; }
+
+::ng-deep .tooltip {
+  background-color: red;
+  color: blue;
+  font-size: 20px;
+} */
+/* mat-tooltip-component .mat-tooltip.tooltip {
+  color: blue !important;
+} */
+/* .mat-tooltip-panel .mat-tooltip{
+  background-color: #007c92 !important; 
+  color: #ffffff !important;
+}
+.mat-tooltip-trigger {
+  background-color: #007c92 !important; 
+  color: #ffffff !important;
+} */
+/* .cdk-overlay-pane .mat-tooltip-panel .mat-tooltip { 
+  background-color: #007c92 !important; 
+  color: #ffffff !important; 
+  font-weight: 400;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 8px;
+  text-align: center;
+  box-shadow: 0 1px 3px 0 rgb(28 28 28 / 35%);
+   }  */
+   /* .mat-tooltip { 
+    background-color: #007c92 !important; 
+    color: #ffffff !important; 
+    font-weight: 400;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 8px;
+    text-align: center;
+    box-shadow: 0 1px 3px 0 rgb(28 28 28 / 35%);
+     }  */
+   /* cdk-describedby-message{
+    background-color: #e60000;
+   } */

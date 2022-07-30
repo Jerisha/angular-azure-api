@@ -18,6 +18,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from 'src/app/_shared/alert';
 
 const ELEMENT_DATA: ProvideReport[] = [
     {
@@ -88,6 +89,7 @@ export class ProvidereportComponent extends UserProfile implements OnInit {
     errorCode = new FormControl();
     constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
         private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe,private auth: AuthenticationService,
+        private alertService: AlertService,
         private actRoute: ActivatedRoute)
          {
             super(auth, actRoute);
@@ -134,9 +136,10 @@ export class ProvidereportComponent extends UserProfile implements OnInit {
 refresh(event: any)
 {
     this.onFormSubmit(true);
-    console.log('refresh');
+    // console.log('refresh');
 }
     onFormSubmit(isEmitted?: boolean): void {
+      
         debugger;
         // this.currentPage = isEmitted ? this.currentPage : '1';
         this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
@@ -148,6 +151,7 @@ refresh(event: any)
        
         this.Datetime =   formatDate( new Date, 'dd-MMM-yyyy HH:mm', 'en-US')
         this.tabs.splice(0);
+        this.alertService.clear();
         let request = Utils.preparePyQuery('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage.toString()), reqParams);
         this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
             if (Object.keys(res).length) {
@@ -166,11 +170,10 @@ refresh(event: any)
             data: this.queryResult$,
             removeNoDataColumns : true,
             Columns: this.columns,
-            filter: false,
+            filter: false,        
             excelQuery : this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
-            //selectionColumn: 'TranId',
-
+            
         }
         if (!this.tabs.find(x => x.tabType == 0)) {
             this.tabs.push({
@@ -229,8 +232,9 @@ refresh(event: any)
     createForm() {
         
         this.myForm = new FormGroup({
-            TelephoneNumber: new FormControl({ value: '', disabled: false },
-                [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+            // TelephoneNumber: new FormControl({ value: '', disabled: false },
+            //     [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+            TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
         })
         this.onFormSubmit(true);
     }

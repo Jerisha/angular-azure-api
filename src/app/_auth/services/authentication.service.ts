@@ -4,12 +4,13 @@ import { map } from 'rxjs/operators';
 import { User } from '../model/user';
 import { HttpVerbs, HttpWrapperService, WebMethods } from 'src/app/_http';
 import { Auth } from 'src/app/_http/common/auth';
+import { clear } from 'console';
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
+    private currentUser: Observable<User>;
     private redirectUrl: string | undefined = '/';
     private loginUrl: string = '/login';
     private isloggedIn: boolean = false;
@@ -29,7 +30,7 @@ export class AuthenticationService {
         //get loggedInUser from session
         //console.log("token"+sessionStorage.getItem('token'))
         let token = sessionStorage.getItem('token')
-        return token;        
+        return token;
     }
 
     public get isUserLoggedIn(): boolean {
@@ -38,26 +39,44 @@ export class AuthenticationService {
         return user && token;
     }
 
+    updateCurrentUser(user: User) {
+        if (user && user.token) {
+            //clear old data
+            sessionStorage.removeItem('currentUser');
+            this.currentUserSubject.next(null!);
+            //set new data
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+        }
+    }
+
     login(username: string, password: string) {
         debugger
         const now = new Date();
-         return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UILOGIN, Auth.preparePyLogin(username, password))
+        return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.UILOGIN, Auth.preparePyLogin(username, password))
             .pipe(map((x: any) => {
-                let user = x.Data.UserDetails[0];
-                sessionStorage.setItem('currentUser', JSON.stringify(user));
-                sessionStorage.setItem('token', user.token);
-                this.currentUserSubject
-                this.currentUserSubject.next(user as User);
+                let user = x.Data.UserDetails[0] as User;
 
-                // if (user) {
-                //     this.isloggedIn = true;
-                // } else {
-                //     this.isloggedIn = false;
-                // }
+                if (user && user.token && user.profilename) {
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    sessionStorage.setItem('token', user.token);
+                    this.currentUserSubject.next(user);
+                }
+                else {
+                    console.log('Invalid user')
+                }
             }));
     }
 
-    
+    logoutUser(): void {
+        this.isloggedIn = false;
+        // remove user from session storage to log user out
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('token');
+        sessionStorage.clear();
+        this.currentUserSubject.next(null!);
+    }
+
     getRedirectUrl(): string | undefined {
         return this.redirectUrl;
     }
@@ -72,13 +91,6 @@ export class AuthenticationService {
     //     //return sessionStorage.getItem('currentUser');
     //     return this.currentUser.pipe((x)=>x);
     // }
-    
-    logoutUser(): void {
-        this.isloggedIn = false;
-        // remove user from session storage to log user out
-        sessionStorage.removeItem('currentUser');
-        sessionStorage.removeItem('token');
-        sessionStorage.clear();
-        this.currentUserSubject.next(null!);
-    }
+
+
 }

@@ -3,6 +3,7 @@ export interface MergeTableItem {
     DataHeaders: string;
     rowspan?: string;
     colspan?: string;
+    isNumber?: boolean;
   }
 
   export interface GroupHeaderTableItem {

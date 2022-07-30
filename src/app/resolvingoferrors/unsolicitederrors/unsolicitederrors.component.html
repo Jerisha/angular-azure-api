@@ -56,7 +56,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source System</mat-label>
             <mat-select formControlName="Source">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.Source" [value]="val">
                 {{val}}
               </mat-option>
@@ -81,7 +81,7 @@
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <mat-select formControlName="ErrorType">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.ErrorDescription" [value]="val">
                 {{val}}
               </mat-option>
@@ -107,7 +107,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Final.disabled}">
             <mat-label>Is Final</mat-label>
             <mat-select formControlName="Final">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.Final" [value]="val">
                 {{val}}
               </mat-option>
@@ -116,7 +116,7 @@
 
           <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
             <mat-label>Date Range</mat-label>
-            <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
+            <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
               <input readonly formControlName="FromDate" matStartDate placeholder="From ">
               <input readonly formControlName="ToDate" matEndDate placeholder="To date">
             </mat-date-range-input>
@@ -140,11 +140,11 @@
             <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field> -->
-          <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ResolveTypeUnsol.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="ResolutionType">  
-              <!-- <mat-option>None</mat-option>           -->
-              <mat-option *ngFor="let val of config.ResolutionType" [value]="val">
+            <mat-select formControlName="ResolveTypeUnsol">  
+              <mat-option>-- Select --</mat-option>
+              <mat-option *ngFor="let val of config.ResolveTypeUnsol" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
@@ -203,19 +203,13 @@
                     <ng-container *ngIf="updateDetails  as con">
                       <mat-form-field>
                         <mat-label>Resolution Type</mat-label>
-                        <input name="resolution" required [(ngModel)]="Resolution" [ngModelOptions]="{standalone: true}"
-                          type="text" #resolution="ngModel" placeholder="Search Resolution Type" matInput
-                          [matAutocomplete]="autoResolutionType1" OptionsValidator [options]="con.ResolutionType " />
-                        <span matSuffix mat-icon-button>
-                          <mat-icon>arrow_drop_down</mat-icon>
-                        </span>
-                        <mat-autocomplete autoActiveFirstOption #autoResolutionType1="matAutocomplete">
-                          <mat-option *ngFor="let val of con.ResolutionType | ddlFilter: resolution.value"
-                            [value]="val">{{val}}</mat-option>
-                        </mat-autocomplete>
-                        <mat-error class="alert alert-danger">
-                          <div *ngIf="resolution.errors?.validOptions">Value need to match available options</div>
-                          <div *ngIf="!resolution.errors?.required">
+                        <mat-select #resolution="ngModel" name="resolution" required [(ngModel)]="Resolution">
+                          <mat-option *ngFor="let val of con.ResolutionType" [value]="val">
+                            {{val}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error class="alert alert-danger">                          
+                          <div *ngIf="resolution.errors?.required">
                             <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                             Select resolution type
                           </div>
@@ -236,7 +230,7 @@
                         [ngModelOptions]="{standalone: true}" matInput maxlength="500" placeholder="Remarks"></textarea>
                       <mat-hint align="end">{{remarks.value?.length || 0}}/500</mat-hint>
                       <mat-error>
-                        <div *ngIf="!remarks.errors?.required" class="alert alert-danger">
+                        <div *ngIf="remarks.errors?.required" class="alert alert-danger">
                           <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                           Add remarks for resolution
                         </div>

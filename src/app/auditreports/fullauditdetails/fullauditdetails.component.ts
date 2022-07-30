@@ -22,27 +22,28 @@ import { Custom } from 'src/app/_helper/Validators/Custom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { Console } from 'console';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Audit ActId', viewValue: 'AuditActID', default: true },
-  { view: 'CUP Id', viewValue: 'CUPID', default: true },
-  { view: 'Batch Id', viewValue: 'BatchID', default: true },
-  { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: true },
+  { view: 'CUP Id', viewValue: 'CUPID', default: false },
+  { view: 'Batch Id', viewValue: 'BatchID', default: false },
+  { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: false },
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
-  { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: true },
+  { view: 'Monthly Refresh Flag', viewValue: 'MonthlyRefreshFlag', default: false },
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'OSN2 Source', viewValue: 'OSN2Source', default: true },
   { view: 'Porting Status', viewValue: 'PortingStatus', default: true },
   { view: 'Vodafone Range Holder', viewValue: 'VodafoneRangeHolder', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Switch Status', viewValue: 'SwitchStatus', default: true },
-  { view: 'Mori Status', viewValue: 'MoriStatus', default: true },
-  { view: 'Post Code Diff', viewValue: 'PostcodeDifference', default: true },
-  { view: 'Full Address Diff', viewValue: 'FullAddressDifference', default: true },
-  { view: 'Customer Diff', viewValue: 'CustomerDifference', default: true },
-  { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: true },
+  { view: 'Mori Status', viewValue: 'MoriStatus', default: false },
+  { view: 'Post Code Diff', viewValue: 'PostcodeDifference', default: false },
+  { view: 'Full Address Diff', viewValue: 'FullAddressDifference', default: false },
+  { view: 'Customer Diff', viewValue: 'CustomerDifference', default: false },
+  { view: 'Overlapping Status', viewValue: 'OverlappingStatus', default: false },
 
 ];
 
@@ -170,7 +171,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
 
   colHeader: ColumnDetails[] = [
     { headerValue: 'TelephoneNumber', header: 'Telephone No', showDefault: true, isImage: false },
-    { headerValue: 'View', header: 'View', showDefault: true, isImage: true },
+    { headerValue: 'View', header: 'Inventory', showDefault: true, isImage: true },
     { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
     { headerValue: 'Source', header: 'Source', showDefault: true, isImage: false },
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
@@ -252,7 +253,12 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     { selectedValue: 'AutoPopulateSource', Message: 'Source', ManualAuditType: 'SRC' },
     { selectedValue: 'AutoPopulateBTSource', Message: 'BT & Source', ManualAuditType: 'BTSRC' },
     { selectedValue: 'AutoPopulateSpecialCease', Message: 'Special Cease', ManualAuditType: 'SPLCS' }
-  ]
+  ];
+
+  autoCorrectionCLIStatus: string[] = ['BA-BT Only - Source Active', 'DAD-MisMatched - Source Active MisMatched',
+    'DAS-MisMatched - Source Active Matched', 'DN-MisMatched - Source Not found', 'LS-Live in Source',
+    'SAD-Matched - Source Active MisMatched', 'SN-Matched - Source Not found', 'VA-OSN2 Only - Source Active',
+    'VN-OSN2 Only - Source Not Found'];
 
   dataCorrectionBtnConfig: ButtonCorretion[] = [
     { value: 'BA-BT Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateBTSource', 'AutoCorrectionVolume'], switchType: ['Active'] },
@@ -294,9 +300,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     private router: Router, private telnoPipe: TelNoPipe,
     private alertService: AlertService, private auth: AuthenticationService,
     private actRoute: ActivatedRoute
-    ) {
-      super(auth, actRoute);
-      this.intializeUser();
+  ) {
+    super(auth, actRoute);
+    this.intializeUser();
   }
 
   setAttributesForManualCorrections() {
@@ -323,6 +329,11 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
                   option.disabled = false;
                   subOpt.disabled = false;
                 }
+                else if ((option.name === 'Auto Correction' && this.autoCorrectionCLIStatus.includes(this.selectedFullAuditCLIStatus?.value))
+                  && (this.form.OSN2Source.value === 'DVA Siebel' || this.form.Source.value === 'DVA Siebel')) {
+                  option.disabled = false;
+                  subOpt.disabled = false;
+                }
                 else {
                   option.disabled = true;
                   subOpt.disabled = true;
@@ -339,16 +350,19 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
   }
 
   resetForm(): void {
+    debugger;
     this.showDataCorrection = false;
     this.selectedCorrectionType = '';
     this.resolutionType = '';
     this.remarkstxt = '';
     //this.rowRange = '';
-    this.fullAuditForm.reset();
+    //this.fullAuditForm.reset();
     this.disableSave = true;
     this.disableProcess = true;
     this.selectListItems = [];
     this.tabs.splice(0);
+    // this.defaultACTID =  this.configDetails.FullAuditActID?this.configDetails.FullAuditActID[0]:'';
+    window.location.reload();
   }
 
   openDialog(auditACTID: any, telno: any) {
@@ -390,8 +404,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     this.createUpdateForm();
     this.setDefaultValues();
 
-    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "Source", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume"]);
+    let request = Utils.preparePyConfig(['Search'], ["FullAuditActID", "CUPID", "ExternalCLIStatus", "FullAuditCLIStatus", "MonthlyRefreshFlag", "AuditSource", "OSN2Source", "PortingStatus", "VodafoneRangeHolder", "ResolutionTypeAudit", "SwitchStatus", "MoriStatus", "PostcodeDifference", "FullAddressDifference", "CustomerDifference", "OverlappingStatus", "ResolutionType", "AutoCorrectionVolume"]);
     let updateRequest = Utils.preparePyConfig(['Update'], ['ResolutionType']);
+    console.log('config', JSON.stringify(request))
 
     forkJoin([this.service.configDetails(request), this.service.configDetails(updateRequest)])
       .subscribe(results => {
@@ -431,6 +446,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     }
   }
 
+  wmPageNumber: number = 0;
 
   onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);
@@ -441,6 +457,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     this.remarkstxt = '';
     //this.rowRange='';
 
+    this.alertService.clear();
     this.getTelnoValidation();
     if (this.fullAuditForm.invalid) { return; }
     var startTelno = this.form.StartTelephoneNumber?.value ? this.form.StartTelephoneNumber?.value : ''
@@ -449,7 +466,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     if (errMsg) {
       const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '400px',
-        // height:'250px',
         disableClose: true,
         data: { enableOk: false, message: errMsg, }
       });
@@ -457,35 +473,23 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       return;
     }
 
-    // if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
-    //   && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
-    //   this.form.StartTelephoneNumber.setErrors({ incorrect: true });
-    //   this.icstartNo.nativeElement.focus();
-    //   this.icstartNo.nativeElement.blur();
-    //   return;
-    // }
-
 
     this.getPnlControlAttributes();
     this.setAttributesForManualCorrections();
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
-
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
-    //this.currentPage = isEmitted ? this.currentPage : '1';
-    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.currentPage.toString()), reqParams);
+    this.wmPageNumber = this.currentPage;
+    let request = Utils.preparePyQuery('Summary', 'FullAuditDetails', this.prepareQueryParams(this.wmPageNumber.toString()), reqParams);
+    console.log('Audit req', JSON.stringify(request))
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -499,15 +503,16 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       selectCheckbox: true,
       showEmail: false,
       removeNoDataColumns: true,
+      isFavcols: true,
       setCellAttributes: this.cellAttrInfo,
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
-      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', tabIndex: 2 },
-      { headerValue: 'RangeReport', icon: 'description', route: '', tabIndex: 3 },
-      { headerValue: 'InflightOrder', icon: 'description', route: '', tabIndex: 4 },
-      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', tabIndex: 5 },
-      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', tabIndex: 6 },
-      { headerValue: 'Comments', icon: 'description', route: '', tabIndex: 7 }]
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
+      imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'User Comments', tabIndex: 2 },
+      { headerValue: 'RangeReport', icon: 'description', route: '', toolTipText: 'Range Report', tabIndex: 3 },
+      { headerValue: 'InflightOrder', icon: 'description', route: '', toolTipText: 'Inflight Order', tabIndex: 4 },
+      { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', toolTipText: 'Monthly Refresh Flag', tabIndex: 5 },
+      { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', toolTipText: 'MoriCircuitStatus', tabIndex: 6 },
+      { headerValue: 'Comments', icon: 'description', route: '', toolTipText: 'User Comments', tabIndex: 7 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -719,8 +724,10 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
 
   createForm() {
     this.fullAuditForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
       CUPID: new FormControl({ value: '', disabled: true }),
       BatchID: new FormControl({ value: '', disabled: true }),
@@ -757,8 +764,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-            this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+            
             this.onFormSubmit(true);
+            this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
           }
         });
       }
@@ -868,7 +876,15 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
             }
             var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
             let data = {
+              // StartphoneNumber: startTelno,
+              // EndPhoneNumber: endTelno,
+              // ActId: this.form.AuditActID.value,
+              // ResolutionRemarks: this.remarkstxt,
+              // ManualAuditType: auditType,
+              // ReportIdentifier: 'FullAuditDetails'
               StartphoneNumber: startTelno,
+              auditType:'Full Audit',
+              AuditStatus:this.selectListItems[0].FullAuditCLIStatus,
               EndPhoneNumber: endTelno,
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
@@ -1126,6 +1142,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     ];
 
     let request = Utils.preparePyQuery('OverlappingRange', 'FullAuditDetails', attributes);
+    console.log('overlapling', JSON.stringify(request))
     this.overlappingQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {

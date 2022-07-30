@@ -4,6 +4,11 @@
     /* background-color: #ece7e7c7; */
     padding-block:1rem; 
   }
+  ::ng-deep .cdk-overlay-pane {
+    /* Do you changes here */
+      min-width:270px;
+
+}
   .vf-flex-container {
           display: flex;
           height: auto;

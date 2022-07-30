@@ -5,7 +5,6 @@ import { MaterialModule } from './material/material.module';
 import { TelephoneAuditTrailComponent } from './telephone-audit-trail/telephone-audit-trail.component';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
 import { AlertComponent } from './alert/alert.component';
-
 import { TransactionErrorsComponent } from './transaction-errors/transaction-errors.component';
 import { StartUpComponent } from './start-up/start-up.component';
 import { MatPaginatorIntl } from '@angular/material/paginator';
@@ -16,42 +15,38 @@ import { TelephoneNoComponent } from './telephone-no/telephone-no.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserCommentsDialogComponent } from './user-comments/user-comments-dialog.component';
 import { ExporttoexcelComponent } from './exporttoexcel/exporttoexcel.component';
-
-// @NgModule({
-//   declarations: [TelephoneAuditTrailComponent, 
-//     UserCommentsDialogComponent,TransactionErrorsComponent, StartUpComponent, 
-//     TelephoneNoComponent,AlertComponent,ConfirmDialogComponent],
+import { ProfileCreationDialogComponent} from './profile-creation-dialog/profile-creation-dialog.component'
 
 
 @NgModule({
   declarations: [TelephoneAuditTrailComponent,
-     TransactionErrorsComponent, 
-     StartUpComponent, 
-     TelephoneNoComponent,
-     AlertComponent,
-     UserCommentsDialogComponent,
-     ConfirmDialogComponent,
-      ExporttoexcelComponent],
+    TransactionErrorsComponent,
+    StartUpComponent,
+    TelephoneNoComponent,
+    AlertComponent,
+    UserCommentsDialogComponent,
+    ConfirmDialogComponent,
+    ExporttoexcelComponent,
+    ProfileCreationDialogComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
     MaterialModule,
     UicomponentsModule,
     RouterModule,
- FormsModule,
+    FormsModule,
     ReactiveFormsModule,
-    ],
-  exports :[
+  ],
+  exports: [
     TelephoneAuditTrailComponent,
-    TransactionErrorsComponent  ,
+    TransactionErrorsComponent,
     StartUpComponent,
     MaterialModule,
     UserCommentsDialogComponent,
     TelephoneNoComponent,
     AlertComponent,
-    ExporttoexcelComponent
-  ],
- 
-
+    ExporttoexcelComponent,
+    ProfileCreationDialogComponent
+  ]
 })
 export class SharedModule { }

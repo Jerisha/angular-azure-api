@@ -25,7 +25,7 @@ import { stringify } from 'querystring';
       transition('expanded => collapsed', animate('500ms ease-in')),
       transition('collapsed => expanded', animate('500ms ease-out')),
     ]),
-  ],
+  ],    
 })
 export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
@@ -33,7 +33,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   private readonly onDestroyUpdate = new Subject<void>();
   private readonly onDestroyCreate = new Subject<void>();
   private readonly onDestroyDelete = new Subject<void>();
-  reportNames!: string[];
+ // reportNames!: string[];
   title: string = "";
   reportName: string = "";
   showDataForm: boolean = false;
@@ -44,6 +44,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   oloDropDown: any = [];
   companyDropDown: any = [];
   dataObs$ !: Observable<any>;
+  reportTitleNames!:{name:string,viewName:string}[]
 
 
   StatusID: string = '';
@@ -62,7 +63,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   tabs: Tab[] = [];
   editRecord: any;
   editMode: string = "";
-  editModeIndex!: number;
+  // editModeIndex!: number;
   currentReportName: string = "";
   recordIdentifier: any = "";
   metaDataSupscription: Subscription = new Subscription;
@@ -71,11 +72,15 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   displayedColumnsValues: any
 
+  displayReportName:string = '';
+  highlightedRecord:string ='';
+
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     this.isShow = true;
   }
   onReportSelcted(reportName: string, reportIndex: number) {
+    this.alertService.clear();   
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     if (this.tabs.length < 5) {
       this.reportName = this.currentReportName = reportName;
@@ -90,8 +95,17 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       //this.displayedColumns = dispVal || [];
       // this.displayedColumns =  this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName] ||[]:[];
       //console.log('dispcol: ',this.displayedColumns);
-      this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
-      this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+      // this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+      // if(this.currentReportName ==='CUPIDCrossReference')
+      // {
+      //   this.displayedColumns.splice(2,0,{cName:"FranchiseCode",cDisplayName:"Franchise", ctooltip:""})
+      // }
+      // if(this.currentReportName ==='Command')
+      // {
+      //   this.displayedColumns.splice(5,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description", ctooltip:""})
+      // }
+      // this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+     
       //console.log(this.displayedColumns1)
       //let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
       // this.data = this.reportIndex != -1 ?this.reportReferenceService.data[this.reportIndex][this.reportName] || []:[];
@@ -108,21 +122,36 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.newTab();
       // }
       // else{
-      //   this.alertService.info("Data not found or some technical Issue, please try again :(", { autoClose: true, keepAfterRouteChange: false });
+      //   this.alertService.info("Data not found or some technical Issue, please try again", { autoClose: true, keepAfterRouteChange: false });
       // }
     }
     else {
-      this.alertService.info("Please close some Tabs, Max allowed  tabs is 5 :(", { autoClose: true, keepAfterRouteChange: false });
+      // this.alertService.clear();
+      this.alertService.info("Please close some Tabs, Max allowed  tabs is 5", { autoClose: true, keepAfterRouteChange: false });
     }
   }
   Onselecttabchange($event: any) {
+    this.alertService.clear();   
     //console.log('tab changed,Index: ',$event.index)   
     //this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
-    this.currentReportName = this.reportName = $event.index != -1 ? this.tabs[$event.index].name : "";
+    // this.currentReportName = this.reportName = $event.index != -1 ? this.tabs[$event.index].name : "";
+    if($event.index == -1)
+    {
+      return
+    }
+    let selectedTab= $event.index != -1 ? this.reportReferenceService.reportTitleNames.find( x=> x.viewName === this.tabs[$event.index].name)?.name : "";
+    if(selectedTab ==='')
+    {   
+      //  this.alertService.clear();  
+      this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
+      return 
+    }
+    this.currentReportName = this.reportName  =selectedTab !=undefined? selectedTab:''
+   
     //this.reportIndex = this.reportNames.findIndex(x => x == this.currentReportName);
     // this.displayedColumns = this.reportIndex != -1 ? this.reportReferenceService.displayedColumns[this.reportIndex][this.reportName]||[] : [];
-    this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
-    this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+    // this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+    // this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
     //  this.data = this.reportIndex != -1 ? this.reportReferenceService.data[this.reportIndex][this.reportName] || [] :[];
     this.refreshData()
     // if(this.refreshData())
@@ -139,34 +168,53 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   }
   newTab() {
-    if (this.data != [] || this.displayedColumns != []) {
-      let reportName = this.currentReportName
+    this.alertService.clear();   
+    if (this.data != [] || this.displayedColumns != []) {     
+      let tabName = this.reportReferenceService.reportTitleNames.find( x=> x.name === this.currentReportName)?.viewName
+      tabName =tabName!= undefined? tabName:''
+      if(tabName ==='')
+      {  
+        // this.alertService.clear();     
+        this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
+        return 
+      }
       if (this.tabs.length < 5) {
-        if (!this.tabs?.find(x => x.name == reportName)) {
+        if (!this.tabs?.find(x => x.name === tabName)) {
           this.tabs.push({
             tabType: this.tabs.length,
-            name: reportName,
+            name: tabName            
           });
-          this.selectedTab = this.tabs.findIndex(x => x.name == reportName) + 1;
+          this.selectedTab = this.tabs.findIndex(x => x.name === tabName) + 1;
         }
         else {
-          this.selectedTab = this.tabs.findIndex(x => x.name == reportName);
+          this.selectedTab = this.tabs.findIndex(x => x.name === tabName);
         }
       }
       else {
-        this.alertService.info("Please close some Tabs, Max allowed  tabs is 5 :(", { autoClose: true, keepAfterRouteChange: false });
+        // this.alertService.clear();
+        this.alertService.info("Please close some Tabs, Max allowed  tabs is 5", { autoClose: true, keepAfterRouteChange: false });
       }
     }
     else {
-      this.alertService.warn("No data found, Please try later some time :(", { autoClose: true, keepAfterRouteChange: false });
+      // this.alertService.clear();
+      this.alertService.warn("No data found, Please try later some time", { autoClose: true, keepAfterRouteChange: false });
     }
   }
   removeTab(index: number) {
     //let tabobj = this.tabs.find(x => x.tabType == (index))
-    let tabobj = this.tabs[index];
-    if (tabobj != undefined && tabobj.name == this.editMode) {
+    this.alertService.clear();   
+    let tabobj = this.tabs[index];    
+    let tabName = this.reportReferenceService.reportTitleNames.find( x=> x.viewName === tabobj.name)?.name
+      tabName =tabName!= undefined? tabName:''
+      if(tabName ==='')
+      {  
+        // this.alertService.clear();     
+        this.alertService.info("The Report Name is not Valid, please try again!", { autoClose: true, keepAfterRouteChange: false });
+        return 
+      }
+    if (tabobj != undefined &&  tabName === this.editMode ) {
       this.editMode = "";
-      this.editModeIndex = -1;
+      // this.editModeIndex = -1;
       this.showDataForm = false;
     }
     // else if (tabobj != undefined && tabobj.name != this.editMode){
@@ -184,21 +232,56 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   onCreateRecord() {
-    if (this.editMode == "" || this.editMode == this.currentReportName) {
-      this.editMode = this.currentReportName;
-      this.lstFields = this.reportReferenceService.setForm(this.editMode);
-      //console.log(this.lstFields,'formTemplateData')
-      this.editRecord = null;
-      this.eventName = 'Create';
-      this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
-      this.reportReferenceService.showDataForm = this.showDataForm = true;
+    this.alertService.clear();   
+    if (this.editMode == "" || this.editMode === this.currentReportName) {
+      if(this.editMode != "")
+      {
+        const createConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px', disableClose: true, data: {
+            message: 'Would you like to discard current changes and continue to Create?'
+          }
+        });
+        createConfirm.afterClosed().subscribe(result => {
+          if (result) {
+            this.createRecordLogic();
+          }
+        });
+    } else {
+      this.createRecordLogic();
+    }
     }
     else {
       //alert("close opened report:" + this.editMode)
-      this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
+      // this.alertService.clear();
+      this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
     }
   }
+  createRecordLogic() {
+    this.alertService.clear();   
+    this.highlightedRows = '';
+    this.highlightedRecord ='';
+    this.eventName = 'Create';
+    this.editMode = this.currentReportName;
+      this.lstFields = this.reportReferenceService.setForm(this.editMode);
+      //console.log(this.lstFields,'formTemplateData')
+      this.editRecord = null;
+      // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
+      this.reportReferenceService.showDataForm = this.showDataForm = true;
+  }
   refreshData() {
+    this.alertService.clear();   
+    this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+      if(this.currentReportName ==='CUPIDCrossReference')
+      {
+        this.displayedColumns.splice(2,0,{cName:"FranchiseCode",cDisplayName:"Franchise", ctooltip:""})
+      }
+      if(this.currentReportName ==='Command')
+      {
+        this.displayedColumns.splice(5,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description", ctooltip:""})
+      }
+      // this.displayedColumns.push({cName:"UpdatedOn",cDisplayName:"Updated On", ctooltip:""})
+      // this.displayedColumns.push({cName:"UpdatedBy",cDisplayName:"Updated By", ctooltip:""})
+      this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
     //console.log('refresh',this.reportName)
     if (this.currentReportName != '') {
       this.isLoading = true;
@@ -236,7 +319,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
             this.data = res.data["Companys"];
             this.recordIdentifier = res.params.RecordIdentifier;
             this.reportReferenceService.franchiseDropdowns = [];
-            debugger
+            //debugger
             let OloDropDown = res.data['OloDropDown']
             OloDropDown = OloDropDown != undefined ? OloDropDown[0] : []
             this.reportReferenceService.franchiseDropdowns.push(OloDropDown)
@@ -269,46 +352,76 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   onEditRecord(element: any, event: any) {
+    this.alertService.clear();   
     if (this.editMode == "" || this.editMode == this.currentReportName) {
-      this.editMode = this.currentReportName;
-      this.lstFields = this.reportReferenceService.setForm(this.editMode);
-      this.eventName = 'Update';
-      this.highlightedRows = element
-     // console.log(this.highlightedRows,'high')
-      // console.log(event,'evetn')
-      // this.showDataForm =true; 
-      this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
-      this.reportReferenceService.showDataForm = this.showDataForm = true;
-      let element1 = Object.assign({}, element);
-      this.editRecord = element1;
-      let lstRadio = this.lstFields.filter((t: IColoumnDef) => t.cType === 'radio');
-      Object.entries(element1).map(
-        (x: any) => {
-
-          let chkRadio = lstRadio.filter((y: IColoumnDef) => y.cName === x[0]).length > 0
-
-          if ((chkRadio) && (x[1] === 'Y' || x[1] === '1')) { element1[x[0]] = true }
-          else if ((chkRadio) && (x[1] === 'N' || x[1] === '0')) { element1[x[0]] = false }
-          //console.log('element val', x)
-
-          //   else if (x[1] === null) { element1[x[0]] = ('') 
-          //  console.log(x[1], x[0], 'null')
-          // }
-          else {
-            element1[x[0]]
+      if(this.editMode != "")
+      {
+        const editConfirm = this.dialog.open(ConfirmDialogComponent, {
+          width: '400px', disableClose: true, data: {
+            message: 'Would you like to discard current changes and continue to edit this records?'
           }
-
-        }
-
-      )
-      // console.log(this.editRecord, 'editrrecord2')
+        });
+        editConfirm.afterClosed().subscribe(result => {
+          if (result) {
+            this.editRecordLogic(element);
+          }else {
+            this.highlightedRecord ='';
+          }
+        });
+    } else {
+      this.editRecordLogic(element);
     }
+  }
     else {
-      this.alertService.warn("close opened report:" + this.editMode + ':(', { autoClose: true, keepAfterRouteChange: false });
+      // this.alertService.clear();
+      this.alertService.warn("close opened report:" + this.editMode, { autoClose: true, keepAfterRouteChange: false });
       // alert("close opened report:"+this.editMode)
     }
   }
+  editRecordLogic(element: any) {
+    this.alertService.clear();   
+    this.editMode = this.currentReportName;
+    this.lstFields = this.reportReferenceService.setForm(this.editMode);
+    this.eventName = 'Update';
+    this.highlightedRows = element
+    this.highlightedRecord =element[this.recordIdentifier]
+    //console.log(this.highlightedRecord,'...> highlightedRecord')
+    //console.log(this.highlightedRows,'high')
+    // console.log(event,'evetn')
+    // this.showDataForm =true;
+    // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
+    this.reportReferenceService.showDataForm = this.showDataForm = true;
+    let element1 = Object.assign({}, element);
+    this.editRecord = element1;
+    let lstRadio = this.lstFields.filter((t: IColoumnDef) => t.cType === 'radio');
+    Object.entries(element1).map(
+      (x: any) => {
+
+        let chkRadio = lstRadio.filter((y: IColoumnDef) => y.cName === x[0]).length > 0
+
+        if ((chkRadio) && (x[1] === 'Y' || x[1] === '1')) { element1[x[0]] = true }
+        else if ((chkRadio) && (x[1] === 'N' || x[1] === '0')) { element1[x[0]] = false }
+        //console.log('element val', x)
+
+        //   else if (x[1] === null) { element1[x[0]] = ('') 
+        //  console.log(x[1], x[0], 'null')
+        // }
+        else if( x[0] ==='LineStatus' && ( x[1] != null || x[1] != undefined))
+        {
+          element1[x[0]] = x[1].split('')
+        }
+        else {
+          element1[x[0]]
+        }
+
+      }
+
+    )
+    // console.log(this.editRecord, 'editrrecord2')
+  }
   onDeleteRecord(record: any, event: any) {
+    this.alertService.clear();   
+    this.highlightedRows = record
    // alert("Delete starts..."+JSON.stringify(this.record));
     const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
@@ -329,21 +442,28 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           // this.isLoading = false;
             if (x.StatusMessage === 'Success') {
               this.refreshData();
-              this.alertService.success("Record deleted successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              // this.alertService.clear();
+              this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
             }
             else {
+              // this.alertService.clear();
               this.alertService.notification("Record delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
+              this.highlightedRows='';
             }
           });
         }
         else {
           //console.log(record[this.recordIdentifier], record, 'Internal Issues1')
+          // this.alertService.clear();
           this.alertService.notification("Internal Issues Please try again or Contact Admin:(", { autoClose: true, keepAfterRouteChange: false });
+          this.highlightedRows='';
         }
       }
       else {
+        // this.alertService.clear();
         this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+        this.highlightedRows='';
       }
     },
       (error) => {
@@ -366,15 +486,17 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   // }
 
   onDataFormSubmit(event: any[]) {
+    this.alertService.clear();   
     // debugger
     let reportName = this.editMode
     // console.log('event', event)
 
     this.editMode = "";
-    this.editModeIndex = -1;
+    // this.editModeIndex = -1;
     this.showDataForm = event[0][0];
     this.showDetailsForm = event[0][1];
     this.highlightedRows = '';
+    this.highlightedRecord ='';
     let updaterecord1 = Object.assign({}, event[1]);
 
     //console.log(updaterecord1, 'null')
@@ -392,6 +514,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         //   else if (x[1] === null) { element1[x[0]] = ('') 
         //console.log(x[1], x[0], 'null')
         // }
+        else if( x[0]==='LineStatus'  && ( x[1] != null || x[1] != undefined))
+        {
+         // console.log(x[0],x[1],'LineStatus')
+          updaterecord1[x[0]] =x[1].join().replaceAll(',','')
+        }
         else {
           updaterecord1[x[0]]
         }
@@ -413,7 +540,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         if (x[1] === null || x[1] === undefined) {
           updaterecord1[x[0]] = ('')
           // console.log(x[1], x[0], 'nullvalues1')
-        }
+        }       
         else {
           updaterecord1[x[0]]
         }
@@ -461,10 +588,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
               //success message and same data reloa
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
-              this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+              // this.alertService.clear();
+              this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             }
             else {
+              // this.alertService.clear();
               this.alertService.notification("Record Update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
             }
@@ -481,6 +610,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
         }
         else {
+          // this.alertService.clear();
           this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
         }
       });
@@ -500,10 +630,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // this.isLoading = false;
         if (x.StatusMessage === 'Success') {
           this.refreshData();
-          this.alertService.success("Record create successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          // this.alertService.clear();
+          this.alertService.success("Record create successfully!!", { autoClose: true, keepAfterRouteChange: false });
           // this.onFormSubmit(true);
         }
         else {
+          // this.alertService.clear();
           this.alertService.notification("Create Record Aborted!!", { autoClose: true, keepAfterRouteChange: false });
 
         }
@@ -522,13 +654,16 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
   }
   onDataFormCancel(event: any[]) {
+    this.alertService.clear();   
     this.editMode = "";
-    this.editModeIndex = -1;
+    // this.editModeIndex = -1;
     this.showDataForm = event[0];
     this.showDetailsForm = event[1];
     this.highlightedRows = '';
+    this.highlightedRecord = '';
   }
-  onExport() {
+  onExportTabFormat() {
+    this.alertService.clear();   
     //console.log( this.data, 'download')
         if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
          {
@@ -555,7 +690,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         //  {    delete row.Comments  } 
          
           let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))           
-            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise'])
+            for (const i of ['Comments','UpdatedOn','UpdatedDate','UpdatedBy','BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail','OloCompanyFranchise','ListType'])
             {
               Reflect.deleteProperty(row,i)
             }
@@ -583,27 +718,104 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // data += result.toString().replace(/[,]+/g, '\t') + "\n";
       });
       //console.log(copydata, 'copydata12')
-      c.download = this.currentReportName + "_Report.tab";
+      c.download = this.currentReportName + "_Report.tab";      
       //+ new Date().toString()+
       // var t = new Blob([JSON.stringify(this.data)],
       var t = new Blob([data], {
 
         type: "data:text/plain;charset=utf-8"
+        
       });
+      // const file = new File([t], this.currentReportName + "_Report.tab",      
+      //   { type: "data:text/tab-separated-values;charset=utf-8" }
+      // );
+      
       c.href = window.URL.createObjectURL(t);
+     
       // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       // element.setAttribute('download', filename);
       c.click();
-      this.alertService.success(this.currentReportName + ' Download Completed :)', { autoClose: true, keepAfterRouteChange: false });
+      // this.alertService.clear();
+      this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
     }
     else {
-      this.alertService.info(this.currentReportName + ' No Data Found :(', { autoClose: true, keepAfterRouteChange: false });
+      // this.alertService.clear();
+      this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
     }
   }
+
+  onExportXlsxFormat(){
+    this.alertService.clear();   
+    
+    if (this.data != undefined && (this.data != []  &&  this.data.length != 0) )
+    {
+      let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
+      if(this.currentReportName ==='CUPIDCrossReference')
+      {
+        header.splice(1,0,{cName:"FranchiseCode",cDisplayName:"Franchise"})
+      }
+      if(this.currentReportName ==='Command')
+      {
+        header.splice(4,0,{cName:"LineStatusTitle",cDisplayName:"Line Status Description"})
+      }
+      // header.push({cName:"UpdatedOn",cDisplayName:"Updated On"})
+      // header.push({cName:"UpdatedBy",cDisplayName:"Updated By"})
+     let copydata = JSON.parse(JSON.stringify(this.data))
+    
+     let data:any = [];
+     //let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
+     // data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+     //data.push(dataHeaderRow);
+       copydata.forEach((row : any) => {
+
+        // ,'BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'
+     let disp = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:' '})))
+       for (const i of ['UpdatedOn','UpdatedDate','UpdatedBy','ListType'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
+      //  if(this.currentReportName ==='ResolutionType'||this.currentReportName ==='AuditStatus')
+      //  for (const i of ['Description'])
+      //  {
+      //    Reflect.deleteProperty(row,i)
+      //  }
+      //  if(!['Status','ErrorCode','InterimCommands'].includes(this.currentReportName,0))
+      //  for (const i of ['Comments'])
+      //  {
+      //    Reflect.deleteProperty(row,i)
+      //  }
+       if( this.currentReportName ==='Olo')
+       for (const i of ['OloCompanyFranchise'])
+       {
+         Reflect.deleteProperty(row,i)
+       }
+       
+   
+     let dataRow = Object.assign(disp,row)
+
+   // let val = Object.values(dataRow).join('|');
+   // val.replace(/[/t]+/g, ' ');
+
+   // data += val.replace(/[|]+/g, '\t') + "\n";
+   data.push(dataRow);
+   
+ }); 
+
+ this.reportReferenceService.downloadXlsxFile(this.currentReportName,data,[header.map((x: { cDisplayName: any; })=>x.cDisplayName)])
+//  this.alertService.clear();
+ this.alertService.success(this.currentReportName + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+}
+else {
+  // this.alertService.clear();
+ this.alertService.info(this.currentReportName + ' No Data Found', { autoClose: true, keepAfterRouteChange: false });
+}
+ }
+  // reportDisplayName:any;
 
   ngOnChanges(changes: SimpleChanges) {
     // this.lstFields =this.reportReferenceService.setForm(this.reportName); 
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
+    // this.reportDisplayName = this.reportReferenceService.reportTitleNames.find( x=> x.name === this.editMode)?.viewName
     //console.log("onchanges:",changes);
   }
   constructor(private cdr: ChangeDetectorRef,
@@ -637,13 +849,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
   ngOnInit(): void {
-    this.reportNames = this.reportReferenceService.reportNames;
+    //this.reportNames = this.reportReferenceService.reportNames;
     // console.log('reportnames1', this.reportNames)
     // console.log(this.reportReferenceService.metaDataCollection,'metacol')
+    this.reportTitleNames =this.reportReferenceService.reportTitleNames;    
 
   }
   ngAfterViewChecked() {
-    this.cdr.detectChanges();
+     this.cdr.detectChanges();
   }
   ngOnDestroy() {
     this.onDestroyQuery.next();
@@ -651,5 +864,73 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.onDestroyCreate.next();
     this.onDestroyDelete.next();
     this.metaDataSupscription.unsubscribe();
+  }
+  wrapTextToolTip:string = '';
+
+  calculateWidth(fieldName:string,elementValue:string){
+    let style:any ={};
+    if (fieldName ==='Comments')
+    {    
+    style ={'min-width':'400px','text-align':'justify'};
+    }
+    if(fieldName ==='ResolvingMessage')
+    {      
+      style ={'min-width':'400px','text-align':'justify'};
+      }
+      if(fieldName ==='ErrorMessage')
+      {        
+        style ={'min-width':'200px','text-align':'justify'};
+        }
+        if(fieldName ==='LineStatusTitle')
+        {        
+          style ={'min-width':'300px'};
+          }
+          if(fieldName ==='Summary')
+        {        
+          style ={'min-width':'300px'};
+          }
+          if(this.currentReportName ==='ResolutionType'  && fieldName ==='Description')
+          {        
+            style ={'min-width':'400px'};
+            }
+          if(fieldName ==='BTCupID')
+        {        
+          style ={'min-width':'100px'};
+          }
+          if(fieldName ==='InternalCupID')
+        {        
+          style ={'min-width':'100px'};
+          }
+          if(this.currentReportName !='Franchise' && fieldName ==='Franchise')
+        {        
+          style ={'min-width':'200px'};
+          }
+          if(fieldName ==='Title')
+          {        
+            style ={'min-width':'100px'};
+            }
+            if(fieldName ==='UpdatedOn')
+            {        
+              style ={'min-width':'100px'};
+              }
+        
+        if(this.currentReportName ==='UnsolicitedAutoClose')
+        {
+          if(fieldName ==='ErrorCode')
+          {
+          style ={'min-width':'200px','text-align':'justify'};
+          }
+          
+        }
+
+    return style;
+
+  }  
+  toolTipData(col:string, colData:string) {
+    let data ='';
+    if(col === 'Comments'){
+      data = colData;
+    }
+    return data;
   }
 }

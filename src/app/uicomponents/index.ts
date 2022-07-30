@@ -6,5 +6,7 @@ export * from './select-multiple/select-multiple.component';
 export * from './select-expression/select-expression.component';
 export * from  './select-single/select-single.component';
 export * from './table-expansion/table-expansion.component';
-
+export * from './table-expansion-new/table-expansion-new.component'
 export * from './table-group-header/table-group-header.component';
+export * from './custom-datepicker/custom-header.component'
+export * from './custom-datepicker/custom-range-panel.component'

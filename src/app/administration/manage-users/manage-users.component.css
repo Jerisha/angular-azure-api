@@ -18,6 +18,32 @@
  font-weight: 100;
   /* display:contents; */
 }
+.mat-tree-node
+{
+  min-height: fit-content!important;
+}
+
+.detail-table{
+  color:green;
+}
+
+
+.treeview-a
+{
+  display:inline-block;
+  padding:1px;
+   padding-left: 91px!important; 
+  /* background-color: gray; */
+}
+.treeview-b
+{
+ font-weight: 100;
+ display: flex; flex-direction: column;
+ padding-left: 91px!important;
+ height: 10px!important;
+ align-items: left!important;
+  /* display:contents; */
+}
   .header-menu{
     position: absolute;
     width: calc(100% - 6px);

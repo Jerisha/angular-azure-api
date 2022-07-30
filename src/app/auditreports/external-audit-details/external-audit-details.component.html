@@ -21,7 +21,7 @@
                             <!-- <div *ngIf="form.StartTelephoneNumber.errors?.incorrect">Enter Start Telephone No </div>
                             <div *ngIf="form.StartTelephoneNumber.errors?.invalidData">Start Telephone No should be less than End Telephone No </div> -->
                             <div *ngIf="form.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                            <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                            <!-- <div *ngIf="form.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
                           </div>
                         </mat-error>
                       </mat-form-field>
@@ -37,7 +37,7 @@
                             <!-- <div *ngIf="f.EndTelephoneNumber.errors?.invalidStartNo">Enter Start Telephone No </div> -->
                             <!-- <div *ngIf="f.EndTelephoneNumber.errors?.lesserStartNo">Start Telephone No should be less than End Telephone No</div> -->
                             <div *ngIf="form.EndTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>                            
-                            <div *ngIf="form.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                            <!-- <div *ngIf="form.EndTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
                           </div>
                         </mat-error>
                       </mat-form-field>
@@ -87,7 +87,7 @@
                     </mat-form-field> -->
 
                     <mat-form-field [ngClass]="{'hidden':form.AuditActID.disabled}">
-                        <mat-label>Audit ACT ID</mat-label>
+                        <mat-label>Audit ACT ID *</mat-label>
                         <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
                             <mat-option *ngFor="let val of config.ExternalAuditActID" [value]="val">
                                 {{val}} </mat-option>
@@ -118,7 +118,7 @@
                     <mat-form-field [ngClass]="{'hidden':form.CUPID.disabled}">
                         <mat-label>CUPID</mat-label>
                         <mat-select formControlName="CUPID">  
-                          <!-- <mat-option>None</mat-option>           -->
+                            <mat-option>-- Select --</mat-option> 
                           <mat-option *ngFor="let val of config.CUPID" [value]="val">
                             {{val}}
                           </mat-option>
@@ -147,7 +147,7 @@
                     <mat-form-field [ngClass]="{'hidden':form.OSN2Source.disabled}">
                         <mat-label>OSN2 Source</mat-label>
                         <mat-select formControlName="OSN2Source">  
-                          <!-- <mat-option>None</mat-option>           -->
+                            <mat-option>-- Select --</mat-option> 
                           <mat-option *ngFor="let val of config.OSN2Source" [value]="val">
                             {{val}}
                           </mat-option>
@@ -176,7 +176,7 @@
                     <mat-form-field [ngClass]="{'hidden':form.ExternalCLIStatus.disabled}">
                         <mat-label>External CLI Status</mat-label>
                         <mat-select formControlName="ExternalCLIStatus">  
-                          <!-- <mat-option>None</mat-option>           -->
+                            <mat-option>-- Select --</mat-option> 
                           <mat-option *ngFor="let val of config.ExternalCLIStatus" [value]="val">
                             {{val}}
                           </mat-option>
@@ -224,7 +224,7 @@
                       <mat-form-field [ngClass]="{'hidden':form.ResolutionType.disabled}">
                         <mat-label>Resolution Type</mat-label>
                         <mat-select formControlName="ResolutionType">  
-                          <!-- <mat-option>None</mat-option>           -->
+                            <mat-option>-- Select --</mat-option> 
                           <mat-option *ngFor="let val of config.ResolutionTypeAudit" [value]="val">
                             {{val}}
                           </mat-option>
@@ -259,7 +259,7 @@
                     <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
                         <mat-label>Postcode Difference</mat-label>
                         <mat-select formControlName="PostcodeDifference">  
-                          <!-- <mat-option>None</mat-option>           -->
+                            <mat-option>-- Select --</mat-option> 
                           <mat-option *ngFor="let val of config.PostcodeDifference" [value]="val">
                             {{val}}
                           </mat-option>
@@ -295,7 +295,7 @@
                     <mat-form-field [ngClass]="{'hidden':form.FullAddressDifference.disabled}">
                         <mat-label>Full Address Difference</mat-label>
                         <mat-select formControlName="FullAddressDifference">  
-                          <!-- <mat-option>None</mat-option>           -->
+                            <mat-option>-- Select --</mat-option> 
                           <mat-option *ngFor="let val of config.FullAddressDifference" [value]="val">
                             {{val}}
                           </mat-option>
@@ -328,7 +328,7 @@
                     <mat-form-field [ngClass]="{'hidden':form.CustomerDifference.disabled}">
                         <mat-label>Customer Difference</mat-label>
                         <mat-select formControlName="CustomerDifference">  
-                          <!-- <mat-option>None</mat-option>           -->
+                            <mat-option>-- Select --</mat-option> 
                           <mat-option *ngFor="let val of config.CustomerDifference" [value]="val">
                             {{val}}
                           </mat-option>
@@ -369,8 +369,8 @@
                         </app-table-selection>
                         <div class="mat-elevation-z8 side-bottom">
                             <!-- <div style="display:inline; margin-left: 15px;"> -->
-                            <form [formGroup]="updateForm" (ngSubmit)="onSaveSubmit()" autocomplete="off">
-                                <mat-form-field>
+                            <form [formGroup]="updateForm" (ngSubmit)="onSaveSubmit()" autocomplete="off" *ngIf="updateAccess">
+                                <!-- <mat-form-field>
                                     <mat-label>Resolution Type</mat-label>
                                     <input #resType [(ngModel)]="resolutionType" formControlName="Resolution"
                                         type="text" placeholder="Search Resolution Type" matInput
@@ -395,7 +395,23 @@
                                             Select Resolution Type
                                         </div>
                                     </mat-error>
-                                </mat-form-field> &nbsp;
+                                </mat-form-field> &nbsp; -->
+                                <ng-container *ngIf="updateDetails as con">
+                                    <mat-form-field>
+                                      <mat-label>Resolution Type</mat-label>
+                                      <mat-select  name="Resolution" formControlName="Resolution" required [(ngModel)]="resolutionType">
+                                        <mat-option *ngFor="let val of con.ResolutionType" [value]="val">
+                                          {{val}}
+                                        </mat-option>
+                                      </mat-select>
+                                      <mat-error class="alert alert-danger">                          
+                                        <div *ngIf="updateFormControls.Resolution.errors?.required">
+                                          <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
+                                          Select resolution type
+                                        </div>
+                                      </mat-error>
+                                    </mat-form-field>
+                                </ng-container>
                                 <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                                     <mat-label>Remarks</mat-label>
                                     <textarea id="remarks" required name="remarks" [(ngModel)]="remarkstxt"

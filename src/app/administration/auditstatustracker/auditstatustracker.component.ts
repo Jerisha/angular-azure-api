@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { AuditStatusTracker } from '../../auditreports/models/separateinternalauditdetails';
-import { AdministrationService } from '../services/administration.service';
+import { AdministrationService } from '../_services/administration.service';
 import { Utils } from 'src/app/_http';
 import { map, startWith } from 'rxjs/operators';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
@@ -95,7 +95,7 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
   reportIdentifier: string = "AuditStatusTracker";
   selectedAuditType!: string;
   selectedActId!: string;
-  SepAuditActId!:string;
+  SepAuditActId!: string;
   constructor(private formBuilder: FormBuilder,
     private service: AdministrationService,
     private cdr: ChangeDetectorRef,
@@ -103,13 +103,13 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
     private dialog: MatDialog,
     private auth: AuthenticationService,
     private actRoute: ActivatedRoute
-    ) { 
-      super(auth, actRoute);
-      this.intializeUser();
-    }
+  ) {
+    super(auth, actRoute);
+    this.intializeUser();
+  }
 
   ngOnInit(): void {
-    
+
     this.createForm();
 
     let request = Utils.preparePyConfig(['Search'], ["AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID"]);
@@ -220,9 +220,10 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
 
   onFormSubmit(isEmitted?: boolean): void {
     debugger;
-    this.SepAuditActId ='';
+    this.SepAuditActId = '';
     if (!this.thisForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
@@ -254,8 +255,8 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
       Columns: this.auditstatustrackercolumns,
       filter: true,
       selectCheckbox: true,
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
-      removeNoDataColumns: false
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
+      removeNoDataColumns: true
 
     }
     if (!this.tabs.find(x => x.tabType == 0)) {

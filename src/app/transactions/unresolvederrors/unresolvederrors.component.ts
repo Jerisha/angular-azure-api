@@ -205,7 +205,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
 
   columns: ColumnDetails[] = [
     { header: 'Tran.Id', headerValue: 'TransId', showDefault: true, isImage: false },
-    { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
+    { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Tel.No', headerValue: 'TelNo', showDefault: true, isImage: false },
     { header: 'Cmd', headerValue: 'Command', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
@@ -236,7 +236,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
       removeNoDataColumns: true,
       selectionColumn: 'TransId',
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
-      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction Error', tabIndex: 2 }]
+      { headerValue: 'View', icon: 'description', route: '', toolTipText: 'Transaction History', tabIndex: 2 }]
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -310,7 +310,7 @@ export class UnresolvederrorsComponent implements OnInit, AfterViewInit, AfterVi
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction Errors'
+            name: 'Transaction History'
           })
 
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;

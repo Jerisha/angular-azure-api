@@ -22,7 +22,7 @@
                                 class="alert alert-danger">
                                 
                                  <div *ngIf="f.StartTelephoneNumber.errors?.invalidPrefix">Telephone No Prefix is not valid</div>
-                                <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div>
+                                <!-- <div *ngIf="f.StartTelephoneNumber.errors?.pattern">Telephone No should be 10 or 11 digit</div> -->
                             </div>
                         </mat-error>
                     </mat-form-field>
@@ -51,7 +51,7 @@
                     (click) ="OnOperatorClicked(['CreationDateOperator',CreationDateOperator.selectedViewValue])"></app-select-exp> 
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.CreationDate.disabled}" appearance="outline">
                         <mat-label>Created On</mat-label>
-                        <input [readonly]="true" id="CreationDate" [matDatepicker]="picker" formControlName="CreationDate" matInput #input
+                        <input [min]="minDate" [max]="maxDate" [readonly]="true" id="CreationDate" [matDatepicker]="picker" formControlName="CreationDate" matInput #input
                             maxlength="20" placeholder="Created On">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
@@ -123,7 +123,7 @@
                         <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
                             <mat-label>Source System</mat-label>
                             <mat-select formControlName="Source">  
-                              <!-- <mat-option>None</mat-option>           -->
+                                <mat-option>-- Select --</mat-option> 
                               <mat-option *ngFor="let val of config.Source" [value]="val">
                                 {{val}}
                               </mat-option>
@@ -176,8 +176,23 @@
                         <mat-form-field [ngClass]="{'hidden':f.Franchise.disabled}">
                             <mat-label>Franchise</mat-label>
                             <mat-select formControlName="Franchise">  
-                              <!-- <mat-option>None</mat-option>           -->
+                                <mat-option>-- Select --</mat-option> 
                               <mat-option *ngFor="let val of config.Franchise" [value]="val">
+                                {{val}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                    
+                    <div [ngStyle]="{'display':myForm.controls.LineType.disabled ? 'none' : 'block'}">
+
+                        <app-select-exp [listItems]="expressions[3].default" #LineTypeOperator [resetvalue]="resetExp"
+                        (click) ="OnOperatorClicked(['LineTypeOperator',LineTypeOperator.selectedViewValue])"></app-select-exp> 
+                        <mat-form-field [ngClass]="{'hidden':f.LineType.disabled}">
+                            <mat-label>Line Type</mat-label>
+                            <mat-select formControlName="LineType">  
+                                <mat-option>-- Select --</mat-option> 
+                              <mat-option *ngFor="let val of config.LineType" [value]="val">
                                 {{val}}
                               </mat-option>
                             </mat-select>

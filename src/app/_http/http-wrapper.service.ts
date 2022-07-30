@@ -34,27 +34,8 @@ export class HttpWrapperService {
         return observerRes;
     }
 
-
-    private urlExtract(endPoint: WebMethods): string {
-        let url = '';
-        switch (endPoint) {
-            case WebMethods.UIQUERY:
-            case WebMethods.UILOGIN:
-            case WebMethods.UIUPDATE:
-            case WebMethods.UICREATE:
-            case WebMethods.UIDELETE:
-                url = `${environment.api_auth}${endPoint.toString()}`
-                break;
-            default:
-                url = `${environment.api_py_sit}${endPoint.toString()}`
-        }
-        return url;
-        // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
-        //     `${environment.api_py_sit}${endPoint.toString()}`;
-    }
-
     private resolvePyRespone(val: any, requestType: WebMethods) {
-        // debugger;
+        debugger;
         let jsonResult = '';
 
         let transData: any = [];
@@ -67,6 +48,7 @@ export class HttpWrapperService {
                         transData = val.ResponseParams
                         transData.data = val.Data.TelephoneNumber[0].ConfigParameters[0]
                         break;
+                        
                     case WebMethods.QUERY:
                     case WebMethods.GET:
                         transData.params = val.ResponseParams
@@ -76,7 +58,6 @@ export class HttpWrapperService {
                         transData = val.Status[0]
                         transData.params = val.ResponseParams
                         transData.data = val.Data
-
                         break;
                     case WebMethods.UPDATE:
                     case WebMethods.CREATE:
@@ -111,7 +92,8 @@ export class HttpWrapperService {
             console.log("PyResponse: " + JSON.stringify(val) + "ResponseError: " + err);
             this.alertService.error("Incorrect PyResponse Format", { autoClose: true, keepAfterRouteChange: false });
         }
-        console.log("PyData :" + JSON.stringify(transData));
+       
+        console.log("PyData :" + JSON.stringify(transData.data));
         return transData;
     }
 
@@ -125,7 +107,48 @@ export class HttpWrapperService {
         }
     }
 
+    private urlExtract(endPoint: WebMethods): string {
+        let url = '';
+        switch (endPoint) {
+            case WebMethods.UIQUERY:
+            case WebMethods.UILOGIN:
+            case WebMethods.UIUPDATE:
+            case WebMethods.UICREATE:
+            case WebMethods.UIDELETE:
+                url = `${environment.api_auth}${endPoint.toString()}`
+                break;
+            default:
+                url = `${environment.api_py_sit}${endPoint.toString()}`
+        }
+        return url;
+        // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
+        //     `${environment.api_py_sit}${endPoint.toString()}`;
+    }
 
+    private validateResponseStatus(wmResponse: any) {
+        let status = false;
+        //debugger
+        switch (wmResponse.MessageType as WMMessageType) {
+            case WMMessageType.Informational:
+                if (wmResponse.StatusCode != "EUI100")
+                    status = true;
+                    
+                else
+
+                    this.alertService.error( wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+                
+
+                    return status;
+                break;
+            case WMMessageType.Error:
+                this.alertService.error( wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+                return status;
+                break;
+        }
+    }
+
+
+    //#region  wM API Resolver
     processRequest<Type>(httpVerb: HttpVerbs, endPoint: WebMethods, body: {}, headers?: HttpHeaders, params?: HttpParams, responseType = ResponseType.JSON):
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
@@ -384,23 +407,8 @@ export class HttpWrapperService {
         console.log("StatusResponse :" + jsonCreation);
         return JSON.parse(jsonCreation);
     }
+    //#endregion
 
-    private validateResponseStatus(wmResponse: any) {
-        let status = false;
-        switch (wmResponse.MessageType as WMMessageType) {
-            case WMMessageType.Informational:
-                if (wmResponse.StatusCode != "EUI100")
-                    status = true;
-                else
-                    this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-                return status;
-                break;
-            case WMMessageType.Error:
-                this.alertService.error(wmResponse.StatusCode + "-" + wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-                return status;
-                break;
-        }
-    }
 }
 
 

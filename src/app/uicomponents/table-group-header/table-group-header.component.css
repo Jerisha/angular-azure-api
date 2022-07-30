@@ -12,13 +12,15 @@ th {
   background-color: #ff9999 !important;
   color:black;
   font-size: small;
-  /* font-weight: ; */
+  font-weight: 600;
   min-height: 20px;
   text-align: center;
   border: 0.5px solid grey;
   padding: 0 !important;
+}
 
-
+tr.mat-footer-row {
+  height: fit-content;
 }
 
 th.mat-sort-header-sorted {
@@ -71,10 +73,10 @@ th.mat-sort-header-sorted {
   width:auto;
 }
 
-.table-container {
+/* .table-container {
   height: 360px;
   overflow: auto;
-}
+} */
 
 .mat-paginator-sticky {
   bottom: 0px;
@@ -115,5 +117,5 @@ table td, table th {
 
 mat-form-field {
   margin-left: 10px;
-  margin-top:10px;
+  /* margin-top:10px; */
 }

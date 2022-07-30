@@ -102,9 +102,9 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
     { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
     { header: 'End Telephone No.', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false },
-    { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false },
-    { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false },
+    { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
     { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
@@ -195,6 +195,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
         return;
       }
       this.tabs.splice(0);
+      this.alertService.clear();
       // this.currentPage = isEmitted ? this.currentPage : '1';
       this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;

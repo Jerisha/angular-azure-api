@@ -14,6 +14,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from 'src/app/_shared/alert';
 
 const ELEMENT_DATA: TelephoneDetails[] = [
   {
@@ -78,8 +79,7 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
   constructor(private formBuilder: FormBuilder,
     private service: statisticalreport,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService,
+   private alertService: AlertService,
     private auth: AuthenticationService,
     private actRoute: ActivatedRoute
     ) 
@@ -88,21 +88,19 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
     this.intializeUser();
      }
 
-  openSnackBar(message: string) {
-    this._snackBar.open(message);
-  }
+  
 
 
 
   columns: ColumnDetails[] = [
-    { header: 'ViewDetails', headerValue: 'ViewDetails', showDefault: false, isImage: true },
+    { header: 'Inventory', headerValue: 'ViewDetails', showDefault: false, isImage: true, },
     { header: 'Telephone Nos', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'Add Commands', headerValue: 'AddCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Cease Commands', headerValue: 'CeaseCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Modifiy Commands', headerValue: 'ModifiyCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Export Commands', headerValue: 'ExportCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Import Commands', headerValue: 'ImportCommands', showDefault: true, isImage: false, isTotal: true },
-    { header: 'Total Commands', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true },
+    { header: 'Activate', headerValue: 'AddCommands', showDefault: true, isImage: false, isTotal: true,isNumber:true },
+    { header: 'Cease', headerValue: 'CeaseCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Modifiy', headerValue: 'ModifiyCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Export', headerValue: 'ExportCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Import', headerValue: 'ImportCommands', showDefault: true, isImage: false, isTotal: true },
+    { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false, isTotal: true,isBold:true,isNumber:true  },
   ];
   queryResult$!: Observable<any>;
 
@@ -114,6 +112,7 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
   }
   formsubmit(isEmitted?: boolean) {
     // this.currentPage = isEmitted ? this.currentPage : '1';
+    this.alertService.clear();
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
@@ -123,9 +122,10 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
     { "IsRemoveCache": this.isRemoveCache }];
     this.Datevalue = this.StatisticDate;
     let request = Utils.preparePyQuery('TelephoneNumberDetails', 'TransactionCommand', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    console.log('request', JSON.stringify(request))
+    // console.log('request', JSON.stringify(request))
     this.queryResult$=this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
+        // console.log('result from telephone',JSON.stringify(res.data));
         let result = {
           datasource: res.data.TelephoneNumbers,
           params: res.params
@@ -144,8 +144,9 @@ export class TelephoneDetailsComponent extends UserProfile implements OnChanges 
       filter: true,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       selectCheckbox: true,
+      removeNoDataColumns : true,
       // colToSetImage: ['View'],
-      imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1 },],
+      imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '', tabIndex: 1,toolTipText: 'View Audit Details' },],
       // showTotal: true,
       // totalRowCols:['ActivateTransactions','CeaseTransactions','ModifiyTransactions','ExportTransactions','ImportTransactions','TotalTransactions']
 

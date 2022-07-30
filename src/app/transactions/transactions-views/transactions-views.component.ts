@@ -24,6 +24,10 @@ import { AddressDetails } from 'src/app/_shared/models/address-details';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import { isBuffer } from 'util';
+import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { User } from 'src/app/_auth/model/user';
+//import { AuthenticationService } from '../_auth/services/authentication.service';
+//import { User } from '../_auth/model/user';
 
 @Component({
   selector: 'app-transactions-views',
@@ -107,10 +111,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   passedRouteData: any;
   Cuparr:any;
   SourceFranchisearr:any;
+  RerportIdentifier: any;
+  clirangecount: number;
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
-    public router: Router,private spinner: NgxSpinnerService) {
+    public router: Router,private spinner: NgxSpinnerService,private authService: AuthenticationService) {
     // this.passedRouteData = this.router.getCurrentNavigation()?.extras.state ? this.router.getCurrentNavigation()?.extras.state : '';
     // if (this.passedRouteData) {
     //   console.log('constructer name' + JSON.stringify(this.passedRouteData))
@@ -239,8 +245,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   FillPaffAddress(Addressval: any[]): string {
     console.log('address values from main page',Addressval);
-    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
+    console.log('customer name ',this.transactionItem.customerAddress.customerName);
+   // this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
+   this.transactionItem.customerAddress = { customerName: this.transactionItem.customerAddress.customerName, address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
 
+    
     //console.log('paf address',Addressval)
     return "";
   }
@@ -263,6 +272,22 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       this.SourceFranchisearr={Source:[],Franchise:[]};
       this.model.source="";
       this.model.franchise ="";
+     
+    }
+  }
+  onmodelSourcechange(value: string, ctrlName: string) {
+    debugger
+   
+    if (value != "")
+    {
+     console.log('vlaue changed');
+    }
+    else{
+      if(this.model.CupId === "13 - Cable & Wireless UK")
+  {
+      this.SourceFranchisearr={Franchise:[]};
+      this.model.franchise ="";
+  }
      
     }
   }
@@ -308,7 +333,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   onSourceChange(event: any) {
     debugger
    // model.CupId
-   
+  //  this.model.franchise='';
+  //  this.SourceFranchisearr={};
   if(this.model.CupId === "13 - Cable & Wireless UK")
   {
 
@@ -344,7 +370,10 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.SourceFranchisearr={Source:[],Franchise:[]};
     this.model.source="";
     this.model.franchise="";
-
+    let user: User = this.authService.currentUserValue;
+    let test =  user?.sources;
+    console.log('get values from auth',test);
+    
     if(event.option.value === "13 - Cable & Wireless UK")
     {
       let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
@@ -358,7 +387,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       let modelsource = Source.map((item: { DefaultSource: any; }) => item.DefaultSource)
         .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('default source values',modelsource);
-      this.model.source = modelsource[0];
+    
+        // this.model.source = modelsource[0];
       this.enableSource = true;
       this.enableFrancise = true;
       this.SourceFranchisearr={Source:this.SourceValues,Franchise:[]};
@@ -516,7 +546,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   updateDefaultOfficeAddressDetails() {
-    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "Newbury", address3: "Berkshire", address4: "", postcode: "RG14 2FN" };
+
+    this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: "THE CONNECTION", address2: "NEWBURY", address3: "BERKSHIRE", address4: "", postcode: "RG14 2FN" };
   }
   updateMatchedAddressDetails() {
     this.transactionItem.customerAddress = this.matchedAuditAddress;
@@ -532,12 +563,27 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   saveTran(val: string) {
-    console.log('save transaction');
+    
+   debugger
     this.spinner.show();
+    if (this.AuditPopulatevalue.length==0)
+    {
+      console.log('save transaction');
     let request2 = Utils.preparePyCreate('Transactions', 'Transactions', 'CreateParameters', this.prepareQueryParamsforCreate(val));
     console.log('create request', JSON.stringify(request2));
-    //  this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
-    //  this.resetTel("");
+    this.service.create(request2).subscribe((x: { StatusMessage: string; }) => {
+      if (x.StatusMessage === 'Success') {
+        this.spinner.hide();
+        //success message and same data reload
+       
+        this.alertService.success( "Save " + `${this.clirangecount? this.clirangecount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+        this.resetTel("");
+      }
+    });
+  }
+  else{
+    let request2 = Utils.preparePyCreate('Transactions', this.RerportIdentifier, 'CreateParameters', this.prepareQueryParamsforCreateCorrection(val));
+    console.log('create request for correction', JSON.stringify(request2));
     this.service.create(request2).subscribe((x: { StatusMessage: string; }) => {
       if (x.StatusMessage === 'Success') {
         this.spinner.hide();
@@ -551,6 +597,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         }
       }
     });
+
+  }
     //this.spinner.hide();
     
   }
@@ -564,7 +612,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
 
   BindData(res: any, Type: string) {
-    
+    debugger
     //console.log('update bind method called',JSON.stringify(res));
     if (Type == 'Query') {
       if(Object.keys(res).length) {
@@ -576,8 +624,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         let TypeOfLine: string = res.data.TypeOfLines[0].TypeOfLine;
         this.view3Form = this.formBuilder.group({
           TransactionType: new FormControl({ value: '', disabled: false }, [Validators.required]),
-
-          LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
+          LineType: new FormControl({ value: '', disabled: false },),
+          // LineType: new FormControl({ value: '', disabled: false }, [Validators.required]),
           TypeOfLine: new FormControl({ value: '', disabled: false }, [Validators.required]),
           OrderReference: new FormControl({ value: '', disabled: false }, [Validators.required]),
           ImportExportCupId: new FormControl({ value: '', disabled: false }, []),
@@ -609,9 +657,16 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         let test: any = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
         //console.log('uniquer values',test);
-        this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
+        let user: User = this.authService.currentUserValue;
+       let authsource =  user?.sources;
+        //let authsource = [''];
+        debugger  
+        if(authsource.length!=0)
+        {
+          this.cupIds = this.cupIds.filter((el: any) => authsource.includes(el.Source));
+        }
+          this.cupidValues = this.cupIds.map((item: { Cupid: any; }) => item.Cupid)
           .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
-         
           this.Cuparr ={CupID:this.cupidValues};  
         
         //update manual correction
@@ -708,6 +763,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.model.telno = "";
     this.model.endTel = "";
     debugger
+    this.clearalert();
     if (Object.keys(this.AuditPopulatevalue).length === 0) {
       this.spinner.show();
       let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
@@ -729,9 +785,9 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
     else {
       this.spinner.show();
-    let RerportIdentifier=  this.AuditPopulatevalue.ReportIdentifier;
+    this.RerportIdentifier=  this.AuditPopulatevalue.ReportIdentifier;
      // let request = Utils.preparePyUpdate('ManualCorrections', 'FullAuditDetails', this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
-     let request = Utils.preparePyUpdate('ManualCorrections', RerportIdentifier, this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
+     let request = Utils.preparePyUpdate('ManualCorrections', this.RerportIdentifier, this.prepareUpdateIdentifiers(), this.prepareUpdateParams());
     
        console.log('update request',JSON.stringify( request));
       this.service.updateDetails(request).subscribe((res: any) => {
@@ -875,11 +931,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     //Reference
     let telephonerangevalues: string = "";
-    this.Commentsstring="DDI Range: Pre-populated in DB while data loading.";
+   // this.Commentsstring="DDI Range: Pre-populated in DB while data loading.";
     for (let i = 0; i < this.CliRangeSet.length; i++) {
 
       if (this.CliRangeSet[i][1].toString() != "") {
-        telephonerangevalues += this.CliRangeSet[i][0].toString() + '|' + this.CliRangeSet[i][1].toString();
+       telephonerangevalues += this.CliRangeSet[i][0].toString() + '|' + this.CliRangeSet[i][1].toString();
       }
       else {
         telephonerangevalues += this.CliRangeSet[i][0].toString() + '|' + this.CliRangeSet[i][0].toString();
@@ -895,7 +951,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString() +' to '+this.CliRangeSet[i][1].toString()
         }
         else{
-          this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString()+' to '+this.CliRangeSet[i][0].toString();
+       // this.Commentsstring='DDI Range:'+this.CliRangeSet[i][0].toString()+' to '+this.CliRangeSet[i][0].toString();
         }
       }
     }
@@ -906,6 +962,69 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     return attributes;
   }
+  clearalert()
+  {
+    this.alertService.clear();
+  }
+
+  prepareQueryParamsforCreateCorrection(ForceToValidate: string): any {
+    debugger
+    let attributes: any = [
+      { Name: 'ForceValidate', Value: [ForceToValidate] }
+      , { Name: 'Franchise', Value: [this.model.franchise] }
+     , { Name: 'Cupid', Value: [this.model.CupId] }
+    ,{ Name: 'Source', Value: [this.model.source]  }
+    ];
+
+    attributes.push({ Name: 'TelephoneNumberRange', Value: [this.inputtelRange] });
+    for (const field in this.d) {
+      //if (field != 'Cupid') {
+        const control = this.view3Form.get(field);
+        if (control?.value)
+          attributes.push({ Name: field, Value: [control?.value] });
+        else
+          attributes.push({ Name: field });
+      //}
+    }
+    if (this.AuditPopulatevalue.ActId != "") {
+      attributes.push({ Name: "AuditActId", Value: [this.AuditPopulatevalue.ActId] });
+    }
+
+    else {
+      attributes.push({ Name: "AuditActId" });
+    }
+    if (this.AuditPopulatevalue.auditType != "") {
+     // attributes.push({ Name: "AuditType", Value: [this.AuditPopulatevalue.ManualAuditType[0]] });
+      attributes.push({ Name: "AuditType", Value: [this.AuditPopulatevalue.auditType] });
+    }
+
+    else {
+      attributes.push({ Name: "AuditType" });
+    }
+    if (this.AuditPopulatevalue.ResolutionRemarks != "") {
+      attributes.push({ Name: "ResolutionRemarks", Value: [this.AuditPopulatevalue.ResolutionRemarks] });
+    }
+
+    else {
+      attributes.push({ Name: "ResolutionRemarks" });
+    }
+    if (this.AuditPopulatevalue.AuditStatus != "") {
+      attributes.push({ Name: "AuditStatus", Value: [this.AuditPopulatevalue.AuditStatus] });
+    }
+
+    else {
+      attributes.push({ Name: "AuditStatus" });
+    }
+    attributes.push({ Name: "BatchID" ,Value:["6"]});
+
+    console.log(attributes);
+
+    return attributes;
+
+
+  }
+
+
   prepareQueryParamsforCreate(ForceToValidate: string): any {
     debugger
     let attributes: any = [
@@ -1015,6 +1134,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.view3Toggle = "display: block;visibility:visible;";
   }
   AuditTrail() {
+    this.clearalert();
     if (this.audittelephonenumbers instanceof Array) {
       this.AuditTrailSelected.emit(this.audittelephonenumbers);
     } else {
@@ -1116,11 +1236,13 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   checktotalrange(value: number) {
     debugger
+    this.clirangecount=0;
     let count: number = 0
     for (let i = 0; i < this.CliRangeSet.length; i++) {
       count = count + this.CliRangeSet[i][2];
     }
     count = count + value;
+    this.clirangecount=count;
     if (count > 10000) {
       return false;
     }
@@ -1144,7 +1266,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       }
       else {
         //count=this.model.telno-this.model.rangeEnd;
-        count = this.model.rangeEnd - this.model.telno;
+        count = this.model.rangeEnd - this.model.telno+1;
       }
       if (count <= 10000 && count > 0 && this.checktotalrange(count)) {
         if (this.checkduplicate(this.model.telno, this.model.rangeEnd)) {

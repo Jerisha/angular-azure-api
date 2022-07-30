@@ -1,16 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: small;}
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: small;
+}
 
 .mat-toolbar.mat-primary {
   background: #e60000;
   color: white;
 }
 
+.tblpagination .mat-form-field-infix {
+  padding: 0.5em 0;
+  border-top: 0em;
+  display: flex;
+}
+
+.tblpagination .mat-paginator-range-label {
+  margin: 0px!important;
+}
+
+.tblpagination .mat-paginator-container{
+  margin-top: -7px;
+}
+
 /* mat-select panel position start */
-.matselhorzPanel
-{
+.matselhorzPanel {
   /*position: relative;  
   min-width: calc(100% + 902px) !important;
   max-width: 100% !important;  
@@ -18,23 +39,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   display: flex;
   flex-direction: inherit;
   overflow: auto; */
-
+  /* background-color: #007c92; */
+  background-color: #FED9B7;
   top: 32px;
-  position:absolute;
-  pointer-events:auto;
-  box-sizing:border-box;
+  position: absolute;
+  pointer-events: auto;
+  box-sizing: border-box;
   /* z-index:1000; */
-  display:flex;
+  display: flex;
   flex-flow: wrap;
-  min-width: calc(100% + 946px) !important;  
- max-height: calc(100% + 250px) !important;
- height: auto;
- width: auto;
- transform: translateX(32px) !important; 
+  min-width: calc(100% + 946px) !important;
+  max-height: calc(100% + 410px) !important;
+  height: auto;
+  width: auto;
+  transform: translateX(32px) !important;
 }
 
-.matselrgtPanel
-{
+.matselrgtPanel {
   /*position: relative;  
   min-width: calc(100% + 902px) !important;
   max-width: 100% !important;  
@@ -43,18 +64,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   flex-direction: inherit;
   overflow: auto; 
   top: 26px;*/
-  position:absolute;
-  pointer-events:auto;
-  box-sizing:border-box;
+  position: absolute;
+  pointer-events: auto;
+  box-sizing: border-box;
   /* z-index:1000; */
   /* display:flex;
   flex-flow: wrap;
   min-width: calc(100% + 946px) !important;  
-  width: auto; */  
- /* height: auto; */ 
- max-height: calc(100% + 480px) !important;
- transform: translateX(840px) !important;
+  width: auto; */
+  /* height: auto; */
+  max-height: calc(100% + 480px) !important;
+  transform: translateX(840px) !important;
 }
+
 /* mat-select panel position ends */
 
 
@@ -66,6 +88,7 @@ app-select-multiple .mat-form-field-type-mat-select:not(.mat-form-field-disabled
   background-color: #EFEFEF;
   height: 37px;
 }
+
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
   margin: 0;
 }
@@ -73,83 +96,88 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-wrapper {
 /* to change border color on hover */
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #EFEFEF;
-  border:0
+  border: 0
 }
 
 /* to change border color after selection */
 app-select-multiple .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
   color: #EFEFEF;
-  border:0
+  border: 0
 }
+
 /* app-select-multiple .mat-focused{
   color: green;
 } */
 
 /* to adjust padding space between value and v icon */
-app-select-multiple  .mat-form-field-appearance-outline .mat-form-field-flex {
+app-select-multiple .mat-form-field-appearance-outline .mat-form-field-flex {
   padding: 0 1.50em 0 0.75em;
 }
 
 app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
-    padding: 0px;
+  padding: 0px;
 }
 
 /* filterbar-static */
-.filterdataby{
+.filterdataby {
   /* background-color:#007C92; */
-  background-color:#EFEFEF;
-  color: black; 
+  background-color: #EFEFEF;
+  color: black;
   height: 35px;
-  width:180px;
+  width: 180px;
   margin-left: 15px;
 }
 
 /* app-select-multiple - filter Ends */
 
 /* side-nav-page-header starts */
-.page-header
-  {   
-    background-color:#EFEFEF;
-    color: #54575a;
-    margin-top: -3px;
-    margin-bottom: 2px;
-    margin-right: 2px;
-    margin-left: 2px;
-    font-size:small;
-    display: flex;
-  }
-  .slidderbtn{
-    /* float: left; */
-     /* border:1px solid #e60000; */
-     /* border-radius: 12%; */
-     /* margin-left: -19px; */
-    cursor: pointer;
-    border:none;  
-    background-color: #e60000;
-    color:  #EFEFEF;    
-    font-size: small;    
-    height: 35px;
-    position: absolute;
-    z-index: 2;  
-  }
- /* side-nav-page-header ends */
-
-
-  
-  /* mat icon,buttons,fab icons desgin strats */
- 
-.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
-    color: white;
-    background-color: #54575a!important;
-    margin-left: 8px;    
+.page-header {
+  background-color: #EFEFEF;
+  color: #54575a;
+  margin-top: -3px;
+  margin-bottom: 2px;
+  margin-right: 2px;
+  margin-left: 2px;
+  font-size: small;
+  display: flex;
 }
 
-.mat-icon-button.mat-primary{
+.slidderbtn {
+  /* float: left; */
+  /* border:1px solid #e60000; */
+  /* border-radius: 12%; */
+  /* margin-left: -19px; */
+  cursor: pointer;
+  border: none;
+  background-color: #e60000;
+  color: #EFEFEF;
+  font-size: small;
+  height: 35px;
+  position: absolute;
+  z-index: 2;
+}
+
+/* side-nav-page-header ends */
+
+
+
+/* mat icon,buttons,fab icons desgin strats */
+
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary {
   color: white;
-    margin-left: 8px; 
+  background-color: #54575a !important;
+  margin-left: 8px;
 }
 
-  /* mat icon,buttons,fab icons desgin ends */
+.mat-icon-button.mat-primary {
+  color: white;
+  margin-left: 8px;
+}
+
+/* mat icon,buttons,fab icons desgin ends */
 
 /* .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 0.3em 0 0.3em 0 !important;
@@ -157,41 +185,46 @@ app-select-multiple .mat-form-field-appearance-outline .mat-form-field-infix {
 }  */
 
 /* tab design start */
- .mat-tab-list{
-  height: 35px ;
+.mat-tab-list {
+  height: 35px;
   overflow: hidden;
 }
-.mat-tab-label{
+
+.mat-tab-label {
   height: 35px !important;
   /* color: rgb(11, 11, 158); */
   color: block;
 }
 
- div.mat-tab-label {
+div.mat-tab-label {
   background-color: rgb(84, 87, 90);
   /* background-color: #007C92; */
-   /* background-color: #EFEFEF; 
+  /* background-color: #EFEFEF; 
   color:#e60000;     */
   border-right: solid 3px white;
   /* padding-left:initial ; */
-     border-top-right-radius: 10px;
-    border-top-left-radius: 10px; 
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 
-.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
   /* background-color: #e60000; */
-  background-color:rgb(255, 6, 6);
+  background-color: rgb(255, 6, 6);
   height: 4px;
-  
+
 }
+
 div .mat-focus-indicator.mat-tab-label {
   color: white !important;
 
 }
+
 .mat-tab-body-content {
-  
-  overflow: hidden!important;
+
+  overflow: hidden !important;
 }
+
 /* tab design end */
 
 
@@ -203,11 +236,12 @@ div .mat-focus-indicator.mat-tab-label {
 } */
 
 /* material form controls common design starts */
-.example-container .mat-form-field,.example-container .mat-form-field + .mat-form-field {
-  margin-left: 8px;  
+.example-container .mat-form-field,
+.example-container .mat-form-field+.mat-form-field {
+  margin-left: 8px;
   margin-bottom: 8px;
-  width:10%;
-  font-size: smaller;  
+  width: 10%;
+  font-size: smaller;
 }
 
 /* material form controls default design ends */
@@ -221,12 +255,12 @@ div .mat-focus-indicator.mat-tab-label {
 
 /* To remove padding-top for mat-form-field-wrapper  */
 .colfilter .mat-form-field-flex {
-  padding-top: 0em!important;
+  padding-top: 0em !important;
 }
 
 /* To remove padding-bottom for mat-form-field-wrapper  */
 .colfilter .mat-form-field-wrapper {
-  padding-bottom: 0em!important;
+  padding-bottom: 0em !important;
 }
 
 /* To remove underline for mat-form-field  */
@@ -235,22 +269,26 @@ div .mat-focus-indicator.mat-tab-label {
 }
 
 /* All mat-cell */
-.mat-cell{
-  color: black ;
+.mat-cell {
+  color: black;
   /* color: black !important; */
   font-weight: 500 !important;
 }
+
 /* Alternate Row Colour */
-.mat-row:nth-child(even){
-  background-color: #F5F5F5;
+.mat-row:nth-child(even) {
+  /* background-color: #F5F5F5; */
+  background-color: #D9D9D9 ;
 }
-.table-icon{
-  cursor: pointer; 
+
+.table-icon {
+  cursor: pointer;
   font-size: 18px;
   height: 0px;
-  width:auto;
+  width: auto;
   color: #e60000;
 }
+
 /* material table controls common design ends */
 
 /* Scrollbar */
@@ -262,19 +300,19 @@ div .mat-focus-indicator.mat-tab-label {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
+  box-shadow: inset 0 0 5px grey;
   border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background:#c2c0c0; 
+  background: #c2c0c0;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background:#686464; 
+  background: #686464;
 }
 
 /* Scrollbar Ends */
@@ -282,121 +320,126 @@ div .mat-focus-indicator.mat-tab-label {
 
 
 
- 
+
 /* Side-panel Starts */
 .mat-drawer-inner-container {
   overflow-x: hidden !important;
 }
 
-.side-nav form app-select-exp +  .mat-form-field
-{
-   margin-left: 0px;   
+.side-nav form app-select-exp+.mat-form-field {
+  margin-left: 0px;
   /* margin-bottom: 1px;  
   margin-top:1px;   */
-  font-size: smaller;  
+  font-size: smaller;
   width: 170px;
 }
 
-.side-nav form .mat-form-field,.side-nav form .mat-form-field + .mat-form-field {
-  margin-left: 24px;  
+.side-nav form .mat-form-field,
+.side-nav form .mat-form-field+.mat-form-field {
+  margin-left: 24px;
   /* margin-bottom: 1px;  
   margin-top:1px;   */
-  font-size: smaller;  
+  font-size: smaller;
   width: 170px;
-  
+
 }
 
-.side-nav button{
+.side-nav button {
   margin-left: 2px;
 }
 
-.side-nav {  
-  width: 220px!important; 
-   
+.side-nav {
+  width: 220px !important;
+
   /* margin: 10px;
   border: 1px solid #555; */
 }
 
-.filter-sticky
-{
+.filter-sticky {
   margin-left: 20px;
-  position:sticky;
-  top:0;  
+  position: sticky;
+  top: 0;
   z-index: 2;
   /* background-color:#EFEFEF; */
 }
-.res-save-div
-{
+
+.res-save-div {
   /* background-color: yellow; */
   /* float: right;   */
-/* position: relative; */
-display: inline-block;
-/* margin-top: -230px;
+  /* position: relative; */
+  display: inline-block;
+  /* margin-top: -230px;
 margin-left: 200px; */
 
 }
 
-.res-select{
-  margin:25px;
+.res-select {
+  margin: 25px;
   /* position: relative;
   margin-top:-85px; */
-  border-radius: 8%; 
+  border-radius: 8%;
   border: 2px solid rgb(245 245 245);
-  height:200px;
-  width:150px;
+  height: 200px;
+  width: 150px;
 }
 
-.side-container .side-bottom .mat-form-field
-{  /* margin-bottom: 1px;  
+.side-container .side-bottom .mat-form-field {
+  /* margin-bottom: 1px;  
   margin-top:1px;   */
   margin: 5px;
-  font-size: smaller;  
+  font-size: smaller;
   width: 170px;
 }
 
-.side-bottom .side-left-div .side-textarea{
+.side-bottom .side-left-div .side-textarea {
   /* background-color: lawngreen!important; */
   width: 360px;
-  font-size: smaller;  
-/* position:absolute; 
+  font-size: smaller;
+  /* position:absolute; 
 margin-top: 90px;*/
-/* margin-left: 200px; */
-  
+  /* margin-left: 200px; */
+
 }
-.side-left-div textarea{ height: 100px;}
+
+.side-left-div textarea {
+  height: 100px;
+}
+
 .side-container {
-    position: absolute;
-  width: 100%; 
-  height: inherit!important;
-  }
- 
-.side-content{
-    overflow: hidden!important;
-    min-height: 525px;
-  }
-
-.side-left-div{   
-    max-width: 50%;
-    float: left;
-    min-height: 200px;
-    /* background-color: lightseagreen; */
-  }
-
-.side-right-div{  
-    float: right;
-    max-width: 50%;
-        /* background-color:magenta; */
+  position: absolute;
+  width: 100%;
+  height: inherit !important;
 }
+
+.side-content {
+  overflow: hidden !important;
+  min-height: 525px;
+}
+
+.side-left-div {
+  max-width: 50%;
+  float: left;
+  min-height: 200px;
+  /* background-color: lightseagreen; */
+}
+
+.side-right-div {
+  float: right;
+  max-width: 50%;
+  /* background-color:magenta; */
+}
+
 /* Side-panel Ends */
 
 
 /* tool tip styles start */
 .mat-tooltip {
-  /* your own custom styles here */ 
-  background-color:#EFEFEF;
-  color:black !important;
+  /* your own custom styles here */
+  background-color: #EFEFEF;
+  color: black !important;
   font-size: 12px;
 }
+
 /* tool tip styles end */
 /* report container start */
 /* .side-container-report {  
@@ -420,18 +463,19 @@ box-sizing: border-box;
 /* filters  positions -starts */
 .matsidenav-footer {
   /* position:relative !important;                  */
-  bottom:0;                         
-  left:0; 
-  height:auto;  
+  bottom: 0;
+  left: 0;
+  height: auto;
   align-items: center;
- /* background-color: lightslategray; */
+  /* background-color: lightslategray; */
 
 }
 
 .matsidenav-filter {
-  overflow-x:hidden;
-  height:443px;
+  overflow-x: hidden;
+  height: 443px;
   max-height: 480px;
-  position:relative;   
+  position: relative;
 }
+
 /* filters  positions -ends */

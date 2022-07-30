@@ -45,7 +45,7 @@ export class UserCommentsDialogComponent {
 
   userCommentsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
-    { headerValue: 'TelePhoneNo', header: 'TelePhoneNo', showDefault: true, isImage: false },
+    { headerValue: 'TelephoneNumber', header: 'Telephone Number', showDefault: true, isImage: false },
     { headerValue: 'CreatedBy', header: 'Created By', showDefault: true, isImage: false },
     { headerValue: 'CreateDate', header: 'Created Date', showDefault: true, isImage: false },
     { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false },
@@ -67,6 +67,7 @@ export class UserCommentsDialogComponent {
 
   userCommentsTableInit() {
     this.telno = this.data.listOfIdentifiers.filter((x: any) => x.Name === 'TelephoneNumber').map((x: any) => x.Value);
+   console.log('report element for user comments',this.data.rptElements);
     let request = Utils.preparePyQuery('UserComments', this.data.rptElements, this.data.listOfIdentifiers);
     console.log('json dsf', JSON.stringify(request))
     const userCommentsQueryResult$ = new Observable(observer => {

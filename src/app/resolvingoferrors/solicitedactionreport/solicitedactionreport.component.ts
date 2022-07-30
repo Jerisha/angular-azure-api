@@ -19,6 +19,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserProfile } from 'src/app/_auth/user-profile';
+import { AlertService } from 'src/app/_shared/alert';
 
 const ELEMENT_DATA: solicitedactionreport[] = [
   {
@@ -72,12 +73,12 @@ const ELEMENT_DATA: solicitedactionreport[] = [
 
 const FilterListItems: Select[] = [
   { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
-  { view: 'TransactionID', viewValue: 'TransactionID', default: true },
+  { view: 'Transaction ID', viewValue: 'TransactionID', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: true },
-  { view: 'ResolutionType', viewValue: 'ResolutionTypeAudit', default: true },
+  { view: 'Resolution Type', viewValue: 'ResolveType', default: true },
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
-  { view: 'TransactionCommand', viewValue: 'TransactionCommand', default: true },
+  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
 
 ];
@@ -99,9 +100,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
+ private alertService: AlertService,
     private telnoPipe: TelNoPipe,
-    private spinner: NgxSpinnerService,
     private auth: AuthenticationService,
     private actRoute: ActivatedRoute
     ) {
@@ -125,6 +125,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   errorCodesOptions!: Observable<any[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
@@ -139,23 +141,24 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     "SourceOperator",
     "ResolveTypeOperator",
     "StatusOperator",
-    "TransactionCommandOperator",
+    "TranCommandOperator",
 
   ];
   expOperatorsKeyPair: [string, string][] = [];
   columns: ColumnDetails[] = [
     // { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-    { header: 'Links', headerValue: 'Links', showDefault: true, isImage: true },
+   
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
-    { header: 'ResolutionType', headerValue: 'ResolveType', showDefault: true, isImage: false },
-    { header: 'TransactionID', headerValue: 'TransactionID', showDefault: true, isImage: false },
-    { header: 'ResolveRemarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
+    { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
+    { header: 'Resolution Type', headerValue: 'ResolveType', showDefault: true, isImage: false },
+    { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
+    { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
-    { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
+    { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
+    { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'TransactionCommand', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
+    { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
 
   ];
 
@@ -176,7 +179,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
 
     this.createForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Source', 'ResolutionTypeAudit', 'TransactionCommand', 'Status']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'AllResolutionType', 'TransactionCommand', 'ErrorStatus']);
     this.service.configDetails(request).subscribe((res: any) => {
       console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
@@ -195,10 +198,11 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.myForm = new FormGroup({
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
       TransactionID: new FormControl({ value: '', disabled: true }, []),
       // CreatedOn: new FormControl({ value: '', disabled: true }, []),
-      ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
+      ResolveType: new FormControl({ value: '', disabled: true }, []),
       // ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
       Source: new FormControl({ value: '', disabled: true }, []),
       Status: new FormControl({ value: '', disabled: true }, []),
@@ -219,6 +223,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     debugger;
     if (!this.myForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
@@ -311,10 +316,37 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
            
           continue;
         }
-        if (field == 'ResolutionTypeAudit')
+        // if (field == 'ResolveType')
+        // {
+        // attributes.push({ Name: 'ResolveType', Value: [control?.value]});
+        // let operator: string = 'ResolveType' + "Operator";
+        // if (this.expOperatorsKeyPair.length != 0) {
+        //   let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+        //   // console.log(expvals,"operatorVal1")
+        //   if (expvals.length != 0) {
+        //   //  console.log(control?.value,"True");
+        //       // if (control?.value) {
+        //         attributes.push({ Name: operator, Value: [expvals[0][1]] });
+        //         // console.log(expvals[0][1],"operatorVal");
+        //       // }
+        //       // else {
+        //       //   attributes.push({ Name: operator, Value: ['Equal To'] });
+        //       // }
+        //   }
+         
+        // }
+        // else {
+  
+        //   attributes.push({ Name: operator, Value: ['Equal To'] });
+  
+        // }
+     
+       
+        // } 
+        if (field == 'TransactionCommand')
         {
-        attributes.push({ Name: 'ResolveType', Value: [control?.value]});
-        let operator: string = 'ResolveType' + "Operator";
+        attributes.push({ Name: 'TransactionCommand', Value: [control?.value]});
+        let operator: string = 'TranCommand' + "Operator";
         if (this.expOperatorsKeyPair.length != 0) {
           let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
           // console.log(expvals,"operatorVal1")
@@ -322,7 +354,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
           //  console.log(control?.value,"True");
               // if (control?.value) {
                 attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                console.log(expvals[0][1],"operatorVal");
+                // console.log(expvals[0][1],"operatorVal");
               // }
               // else {
               //   attributes.push({ Name: operator, Value: ['Equal To'] });
@@ -338,7 +370,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
      
        
         } 
-
+      else{
         if (control?.value )
           attributes.push({ Name: field, Value: [control?.value] });
         else
@@ -358,7 +390,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
         //  console.log(control?.value,"True");
             // if (control?.value) {
               attributes.push({ Name: operator, Value: [expvals[0][1]] });
-              console.log(expvals[0][1],"operatorVal");
+              // console.log(expvals[0][1],"operatorVal");
             // }
             // else {
             //   attributes.push({ Name: operator, Value: ['Equal To'] });
@@ -376,7 +408,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
       else {
 
         attributes.push({ Name: operator, Value: ['Equal To'] });
-
+      }
       }
     }
     console.log('attri',attributes);

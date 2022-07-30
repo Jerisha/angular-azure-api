@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { async, BehaviorSubject, of, Subject } from 'rxjs';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { TableItem } from 'src/app/uicomponents/models/table-item';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
@@ -9,7 +9,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Utils } from 'src/app/_http';
-import { AdministrationService } from '../services/administration.service';
+import { AdministrationService } from '../_services/administration.service';
 import { takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -20,6 +20,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { formatDate, NumberFormatStyle } from '@angular/common';
 import { DateRange } from '@angular/material/datepicker';
 import { debug } from 'console';
+import { SelectCheckboxComponent } from 'src/app/uicomponents/select-checkbox/select-checkbox.component';
+
 
 export class TodoItemNode {
   children: TodoItemNode[];
@@ -27,8 +29,8 @@ export class TodoItemNode {
   id: number;
   isChecked: boolean;
   isPlanType: boolean;
-  MenuID:string;
-  Position: number;
+  MenuID: string;
+  Position: string;
 }
 
 /** Flat to-do item node with expandable and level information */
@@ -37,462 +39,854 @@ export class TodoItemFlatNode {
   level: number;
   expandable: boolean;
   id: number;
-  MenuID:string;
-  isparent:boolean
+  MenuID: string;
+  isparent: boolean
   isChecked: boolean;
-  Position: number;
+  Position: string;
 }
 
-let profileitems=
- {
+let profileitems =
+{
   "menuid": "M",
   "accessname": "View|Update|Create|Delete",
   "accesslevel": "1000"
 };
 
-const TREE_DATA_three = [
+let TREE_DATA_three = [
   {
     name: 'All',
-    id:111,
-    children:[
-  {
-    name: 'Process Management',
-    id:111, 
-  
-    isChecked:false,
-    Position:11111,
+    id: 111,
     children: [
       {
-        name: 'Solicited/Internal Discrepancy Process updated',
-        id:22,
-        isChecked:false,     
-         Position:11111,
-         MenuID:'Menu01',
-        
-        
-      },
-      {
-        name: 'Solicited Resolution Report',
-        id:22,
-        isChecked:false, 
-        MenuID:'Menu02',
-         Position:11111,
-        
-     
-      },
-      {
-        name: 'Solicited Actions Report',
-        id:22,
-        isChecked:false, 
-        MenuID:'Menu03',
-        
-         Position:11111,
-        
-     
-      },
-      {
-        name: 'Unsolicited Process',
-        id:22,
-        isChecked:false, 
-        MenuID:'Menu04',
-         Position:11111,
-      
-     
-      },
-      {
-        name: 'Unsolicited Actions Report',
-        id:22,
-        isChecked:false, 
-        MenuID:'Menu05',
-         Position:11111,
-        
-     
-      },
+        name: 'Process Management',
+        id: 111,
+
+        isChecked: false,
+        Position: '44444444',
+        children: [
+          {
+            name: 'Solicited/Internal Discrepancy Process updated',
+            id: 22,
+            isChecked: false,
+            Position: '44444444',
+            MenuID: 'MENU01',
 
 
-    ]
-  },
-  {
-    name: 'Record Creation',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
-    children: [
-      {
-        MenuID:'Menu06',
-        name: 'Create Record',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
-      },
-      {
-        MenuID:'Menu07',
-        name: 'Create Internal Cease',
-        id:77,
-        isChecked:false,
-        
-        Position:44444444,
-      },
+          },
+          {
+            name: 'Solicited Resolution Report',
+            id: 22,
+            isChecked: false,
+            MenuID: 'MENU02',
+            Position: '44444444',
 
-    ]
-  },
-  {
-    name: 'Audit Process Management',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
-    children: [
-      {
-        name: 'Full Audit Details',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu08',
-        Position:44444444,
-      },
-      {
-        name: 'Audit Discrepancy Report',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu09',
-        
-        Position:44444444,
-      },
-      {
-        name: 'External Audit Details',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu10',
-        
-        Position:44444444,
-      },
-      {
-        name: 'Full Audit History',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu11',
-        Position:44444444,
-      },
-      {
-        name: 'Audit User Action Summary',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu12',
-        Position:44444444,
-      },
-      {
-        name: 'Saparateinternal Audit',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu13',
-        
-        Position:44444444,
-      }
-    ]
-  },
-  {
-    name: 'Audit Process Management',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
-    children: [
-      {
-        name: 'Full Audit Details',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu14',
-        
-        Position:44444444,
-      },
-      {
-        name: 'Audit Discrepancy Report',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu15',
-        
-        Position:44444444,
-      },
-      {
-        name: 'External Audit Details',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu16',
-        
-        Position:44444444,
-      },
-      {
-        name: 'Full Audit History',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu17',   
-        Position:44444444,
-      },
-      {
-        name: 'Audit User Action Summary',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu18',
-        
-        Position:44444444,
-      },
-      {
-        name: 'Saparateinternal Audit',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu19',
-        
-        Position:44444444,
-      }
-    ]
-  },
-  {
-    name: 'Inventory Records',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
-    children: [
-      {
-        name: 'InFlight Records',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu20',
-        Position:44444444,
-      },
-      {
-        name: 'Telephone Range Report',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu21',
-        Position:44444444,
-      },
-      {
-        name: 'Transaction Details Records',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu22',
-        Position:44444444,
-      },
-      {
-        name: 'Full Audit History',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu23',
-        Position:44444444,
-      },
-      {
-        name: 'Audit User Action Summary',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu24',
-        Position:44444444,
-      },
-      {
-        name: 'Saparateinternal Audit',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu25',
-        Position:44444444,
-      }
-    ]
-  },
-  {
-    name: 'Statistical Reports',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
-    children: [
-      {
-        name: 'Transaction Trend for Source & Command',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu26',
-        Position:44444444,
-      },
-     
-  
-    ]
-  },
-  {
-    name: 'Administration',
-    id:66,
-    isChecked:false,
-     
-     Position:33333,
-    children: [
-      {
-        name: 'Audit Status Tracker',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu27',
-        Position:44444444,
-      },
-      {
-        name: 'Audit Data Files',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu28',
-        Position:44444444,
-      },
-      {
-        name: 'Restore Solicited Errors',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu29',
-        Position:44444444,
-      },
-      {
-        name: 'Data Correction Summary',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu30',
-        Position:44444444,
-      },
 
-      {
-        name: 'Unresolved Transaction',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu31', 
-        Position:44444444,
-      },
-      {
-        name: 'Unresolved Errors',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu32',
-        Position:44444444,
-      },
-      {
-        name: 'Manage Users',
-        id:77,
-        isChecked:false,
-        MenuID:'Menu33',
-        Position:44444444,
-      }
-      
-    ]
-  },
-    {
-      name: 'Configurational Reference Data',
-      id:66,
-      isSelected:false,
-       
-       Position:33333,
-      children: [
-        {
-          name: 'Reference List',
-          id:77,
-          isSelected:false,
-          
-          Position:44444444,
-          children: [
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu34',
-               Position:11111,
-            
-            },
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu35',
-               Position:11111,
-               
-            },
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu36',
-               Position:11111,
-            
-            },
-            {
-              name: 'Franchise',
-              id:22,
-              isChecked:false, 
-              
-               Position:11111,
-               MenuID:'Menu37',
-            },
-            {
-              name: 'Olo',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu38',
-               Position:11111,
-             
-            },
-            {
-              name: 'Company',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu39',
-               Position:11111,
-             
-            },
-            {
-              name: 'SourceSystem',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu40',
-               Position:11111,
-              
-            },
-            {
-              name: 'Status',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu41',
-               Position:11111,
-              
-            },
-            {
-              name: 'AuditStatus',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu42',
-               Position:11111,
-             
-            },
-            {
-              name: 'CUPIDCrossReference',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu43',
-               Position:11111,
-             
-            },
-            {
-              name: 'LineTypes',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu44',
-               Position:11111,
-              
-            },
-            {
-              name: 'ResolverEmail',
-              id:22,
-              isChecked:false, 
-              MenuID:'Menu45',
-               Position:11111,
-              
-            },
-          ]
-        }]
-      
-  }]
+          },
+          {
+            name: 'Solicited Actions Report',
+            id: 22,
+            isChecked: false,
+            MenuID: 'MENU03',
 
-}
+            Position: '44444444',
+
+
+          },
+          {
+            name: 'Unsolicited Process',
+            id: 22,
+            isChecked: false,
+            MenuID: 'MENU04',
+            Position: '44444444',
+
+
+          },
+          {
+            name: 'Unsolicited Actions Report',
+            id: 22,
+            isChecked: false,
+            MenuID: 'MENU05',
+            Position: '44444444',
+          },
+        ]
+      },
+      {
+        name: 'Record Creation',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            MenuID: 'MENU06',
+            name: 'Create Record',
+            id: 77,
+            isChecked: false,
+
+            Position: '44444444',
+          },
+          {
+            MenuID: 'MENU07',
+            name: 'Create Internal Cease',
+            id: 77,
+            isChecked: false,
+
+            Position: '44444444',
+          },
+
+        ]
+      },
+      {
+        name: 'Audit Process Management',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Full Audit Details',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU08',
+            Position: '44444444',
+          },
+          {
+            name: 'Audit Discrepancy Report',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU11',
+
+            Position: '44444444',
+          },
+          {
+            name: 'External Audit Details',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU06',
+
+            Position: '44444444',
+          },
+          {
+            name: 'Full Audit History',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU07',
+            Position: '44444444',
+          },
+          {
+            name: 'Audit User Action Summary',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU09',
+            Position: '44444444',
+          },
+          {
+            name: 'Separate Internal Audit Details',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU11',
+            Position: '44444444',
+          }
+        ]
+      },
+      {
+        name: 'Inventory Records',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Live Records',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU20',
+            Position: '44444444',
+          },
+          {
+            name: 'InFlight Records',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU22',
+            Position: '44444444',
+          },
+          {
+            name: 'Telephone Range Report',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU23',
+            Position: '44444444',
+          },
+          {
+            name: 'Transaction Details Records',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU21',
+            Position: '44444444',
+          }
+        ]
+      },
+      {
+        name: 'Statistical Reports',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Transaction Trend for Source & Command',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU24',
+            Position: '44444444',
+          },
+
+
+        ]
+      },
+      {
+        name: 'Administration',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Audit Status Tracker',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU15',
+            Position: '44444444',
+          },
+          {
+            name: 'Audit Data Files',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU14',
+            Position: '44444444',
+          },
+          {
+            name: 'Restore Solicited Errors',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU26',
+            Position: '44444444',
+          },
+          {
+            name: 'Data Correction Summary',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU16',
+            Position: '44444444',
+          },
+
+          {
+            name: 'Unresolved Transaction',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU18',
+            Position: '44444444',
+          },
+          {
+            name: 'Unresolved Errors',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU17',
+            Position: '44444444',
+          },
+          {
+            name: 'Manage Users',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU19',
+            Position: '44444444',
+          }
+
+        ]
+      },
+      {
+        name: 'Configurational Reference Data',
+        id: 66,
+        isSelected: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Reference List',
+            id: 77,
+            isSelected: false,
+
+            Position: '44444444',
+            children: [
+              {
+                name: 'AuditStatus',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU34',
+                Position: '44444444',
+
+              },
+              {
+                name: 'Command',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU35',
+                Position: '44444444',
+
+              },
+              {
+                name: 'CUPIDCrossReference',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU36',
+                Position: '44444444',
+
+              },
+              {
+                name: 'CUPIDs',
+                id: 22,
+                isChecked: false,
+
+                Position: '44444444',
+                MenuID: 'MENU37',
+              },
+              {
+                name: 'CustomerTitles',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU38',
+                Position: '44444444',
+
+              },
+              {
+                name: 'ErrorCodes',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU39',
+                Position: '44444444',
+
+              },
+              {
+                name: 'ErrorTypes',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU40',
+                Position: '44444444',
+
+              },
+              {
+                name: 'Franchises',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU41',
+                Position: '44444444',
+
+              },
+              {
+                name: 'InterimCommands',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU42',
+                Position: '44444444',
+
+              },
+              {
+                name: 'LineTypes',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU43',
+                Position: '44444444',
+
+              },
+              {
+                name: 'NextCommandCheck',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU44',
+                Position: '44444444',
+
+              },
+              {
+                name: 'OsnProvideList',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU45',
+                Position: '44444444',
+
+              },
+              {
+                name: 'PermittedLineStatus',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU46',
+                Position: '44444444',
+
+              },
+              {
+                name: 'RejectedTelephonePrefix',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU47',
+                Position: '44444444',
+
+              },
+              {
+                name: 'ResolutionTypes',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU48',
+                Position: '44444444',
+
+              },
+              {
+                name: 'ResolverEmails',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU49',
+                Position: '44444444',
+
+              },
+              {
+                name: 'Olo',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU50',
+                Position: '44444444',
+
+              },
+              {
+                name: 'Company',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU51',
+                Position: '44444444',
+
+              },
+
+            ]
+          }]
+
+      }]
+
+  }
+];
+let TREE_DATA_View= [
+  {
+    name: 'All',
+    id: 111,
+    children: [
+      {
+        name: 'Process Management',
+        id: 111,
+
+        isChecked: false,
+        Position: '44444444',
+        children: [
+          {
+            name: 'Solicited/Internal Discrepancy Process updated',
+            id: 22,
+            isChecked: false,
+            Position: '44444444',
+            MenuID: 'MENU01',
+
+
+          },
+          {
+            name: 'Solicited Resolution Report',
+            id: 22,
+            isChecked: false,
+            MenuID: 'MENU02',
+            Position: '44444444',
+
+
+          },
+          {
+            name: 'Solicited Actions Report',
+            id: 22,
+            isChecked: false,
+            MenuID: 'MENU03',
+
+            Position: '44444444',
+
+
+          },
+          {
+            name: 'Unsolicited Process',
+            id: 22,
+            isChecked: false,
+            MenuID: 'MENU04',
+            Position: '44444444',
+
+
+          },
+          {
+            name: 'Unsolicited Actions Report',
+            id: 22,
+            isChecked: false,
+            MenuID: 'MENU05',
+            Position: '44444444',
+          },
+        ]
+      },
+      {
+        name: 'Record Creation',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            MenuID: 'MENU06',
+            name: 'Create Record',
+            id: 77,
+            isChecked: false,
+
+            Position: '44444444',
+          },
+          {
+            MenuID: 'MENU07',
+            name: 'Create Internal Cease',
+            id: 77,
+            isChecked: false,
+
+            Position: '44444444',
+          },
+
+        ]
+      },
+      {
+        name: 'Audit Process Management',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Full Audit Details',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU08',
+            Position: '44444444',
+          },
+          {
+            name: 'Audit Discrepancy Report',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU11',
+
+            Position: '44444444',
+          },
+          {
+            name: 'External Audit Details',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU06',
+
+            Position: '44444444',
+          },
+          {
+            name: 'Full Audit History',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU07',
+            Position: '44444444',
+          },
+          {
+            name: 'Audit User Action Summary',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU09',
+            Position: '44444444',
+          },
+          {
+            name: 'Separate Internal Audit Details',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU11',
+            Position: '44444444',
+          }
+        ]
+      },
+      {
+        name: 'Inventory Records',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Live Records',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU20',
+            Position: '44444444',
+          },
+          {
+            name: 'InFlight Records',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU22',
+            Position: '44444444',
+          },
+          {
+            name: 'Telephone Range Report',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU23',
+            Position: '44444444',
+          },
+          {
+            name: 'Transaction Details Records',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU21',
+            Position: '44444444',
+          }
+        ]
+      },
+      {
+        name: 'Statistical Reports',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Transaction Trend for Source & Command',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU24',
+            Position: '44444444',
+          },
+
+
+        ]
+      },
+      {
+        name: 'Administration',
+        id: 66,
+        isChecked: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Audit Status Tracker',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU15',
+            Position: '44444444',
+          },
+          {
+            name: 'Audit Data Files',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU14',
+            Position: '44444444',
+          },
+          {
+            name: 'Restore Solicited Errors',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU26',
+            Position: '44444444',
+          },
+          {
+            name: 'Data Correction Summary',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU16',
+            Position: '44444444',
+          },
+
+          {
+            name: 'Unresolved Transaction',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU18',
+            Position: '44444444',
+          },
+          {
+            name: 'Unresolved Errors',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU17',
+            Position: '44444444',
+          },
+          {
+            name: 'Manage Users',
+            id: 77,
+            isChecked: false,
+            MenuID: 'MENU19',
+            Position: '44444444',
+          }
+
+        ]
+      },
+      {
+        name: 'Configurational Reference Data',
+        id: 66,
+        isSelected: false,
+
+        Position: 33333,
+        children: [
+          {
+            name: 'Reference List',
+            id: 77,
+            isSelected: false,
+
+            Position: '44444444',
+            children: [
+              {
+                name: 'AuditStatus',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU34',
+                Position: '44444444',
+
+              },
+              {
+                name: 'Command',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU35',
+                Position: '44444444',
+
+              },
+              {
+                name: 'CUPIDCrossReference',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU36',
+                Position: '44444444',
+
+              },
+              {
+                name: 'CUPIDs',
+                id: 22,
+                isChecked: false,
+
+                Position: '44444444',
+                MenuID: 'MENU37',
+              },
+              {
+                name: 'CustomerTitles',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU38',
+                Position: '44444444',
+
+              },
+              {
+                name: 'ErrorCodes',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU39',
+                Position: '44444444',
+
+              },
+              {
+                name: 'ErrorTypes',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU40',
+                Position: '44444444',
+
+              },
+              {
+                name: 'Franchises',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU41',
+                Position: '44444444',
+
+              },
+              {
+                name: 'InterimCommands',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU42',
+                Position: '44444444',
+
+              },
+              {
+                name: 'LineTypes',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU43',
+                Position: '44444444',
+
+              },
+              {
+                name: 'NextCommandCheck',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU44',
+                Position: '44444444',
+
+              },
+              {
+                name: 'OsnProvideList',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU45',
+                Position: '44444444',
+
+              },
+              {
+                name: 'PermittedLineStatus',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU46',
+                Position: '44444444',
+
+              },
+              {
+                name: 'RejectedTelephonePrefix',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU47',
+                Position: '44444444',
+
+              },
+              {
+                name: 'ResolutionTypes',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU48',
+                Position: '44444444',
+
+              },
+              {
+                name: 'ResolverEmails',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU49',
+                Position: '44444444',
+
+              },
+              {
+                name: 'Olo',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU50',
+                Position: '44444444',
+
+              },
+              {
+                name: 'Company',
+                id: 22,
+                isChecked: false,
+                MenuID: 'MENU51',
+                Position: '44444444',
+
+              },
+
+            ]
+          }]
+
+      }]
+
+  }
 ];
 
 const ELEMENT_DATA = [
@@ -543,11 +937,11 @@ const UserProfiles = [
 ]
 
 const FilterListItems: Select[] = [
-  { view: 'Amdocs SOM', viewValue: 'Amdocs SOM', default: false },
-  { view: 'ONNET', viewValue: 'ONNET', default: false },
-  { view: 'Ring Central', viewValue: 'Ring Central', default: false },
-  { view: 'Audit', viewValue: 'Audit', default: false },
-  { view: 'EDGE', viewValue: 'EDGE', default: false }
+  // { view: 'Amdocs SOM', viewValue: 'Amdocs SOM', default: false },
+  // { view: 'ONNET', viewValue: 'ONNET', default: false },
+  // { view: 'Ring Central', viewValue: 'Ring Central', default: false },
+  // { view: 'Audit', viewValue: 'Audit', default: false },
+  // { view: 'EDGE', viewValue: 'EDGE', default: false }
 ];
 interface Access {
   value: string;
@@ -587,15 +981,16 @@ export class ManageUsersComponent implements OnInit {
   UserEditForm!: FormGroup;
   Header: string = '';
   isChecked?: boolean = false;
-   Menuattributes: any = [];
-   ApiMenuattributes:any=[];
-   Resultattributes:any=[]
+  Menuattributes: any = [];
+  ApiMenuattributes: any = [];
+  Resultattributes: any = []
   Acessrights: Access[] = [
     { value: '1', viewValue: 'Admin' },
     { value: '2', viewValue: 'SuperAdmin' },
     { value: '3', viewValue: 'Custom' }
   ];
-  filterItems: Select[] = FilterListItems;
+  filterItems: Select[] = [];
+  // FilterListItems;
   btAuditFileDetailsTableDetails: any = [
     { headerValue: 'ACTID', header: 'ACTID', showDefault: true, isImage: false },
     {
@@ -613,12 +1008,13 @@ export class ManageUsersComponent implements OnInit {
   UserProfilesForm: boolean = false;
   UserEditProfilesForm: boolean = false;
   isLeftPanel = false;
-   Formstatus:string='';
+  Profilebutton: boolean = true;
+  Formstatus: string = '';
   datauserreports = new MatTableDataSource<any>();
   userreportscolums: any = [
     { header: 'User Name', headerValue: 'username' },
     { header: 'Email Address', headerValue: 'emailaddress' },
-    { header: 'Sources', headerValue: 'sources' },
+    { header: 'Source Systems', headerValue: 'sources' },
     { header: 'Menu Group', headerValue: 'menugroup' },
     { header: 'Report Name', headerValue: 'reportname' }
   ];
@@ -656,12 +1052,14 @@ export class ManageUsersComponent implements OnInit {
   ];
   userprofilescolsvalues: any = this.userprofilescols.map((x: any) => x.headerValue);
   displayedColumns1: any = ['Actions', 'Menu Group', 'Screen Name', 'Access Level'];
-
+  @ViewChild(SelectCheckboxComponent) SelectCheckbox!: SelectCheckboxComponent;
   //Filter Form
   filterUserofReportForm: FormGroup;
   filterUserAccessForm: FormGroup;
   filterNewsUpdateForm: FormGroup;
-  filterUserProfilesForm: FormGroup; 
+  filterUserProfilesForm: FormGroup;
+
+  UserProfileRowData: any;
 
   private readonly onDestroyQuery = new Subject<void>();
 
@@ -681,251 +1079,368 @@ export class ManageUsersComponent implements OnInit {
   treeFlattener: MatTreeFlattener<TodoItemNode, TodoItemFlatNode>;
 
   dataSource: MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
-datasourceview:MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
+  datasourceview: MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
   /** The selection for checklist */
   checklistSelection = new SelectionModel<TodoItemFlatNode>(
     true /* multiple */
   );
-
-InitializeTreeview()
-{
-  let profileMenu:any;
-  console.log('profileitems',JSON.stringify(profileitems));
- 
-  let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
-  console.log('request',request);
- // this.bindtreeedataview(TREE_DATA_three);
-  this.spinner.show();
-  this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-    (res: any) => {
-      debugger
-      if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
-        for(var i=0;i<TREE_DATA_three.length;i++)
-        {
-        let  Tree=TREE_DATA_three[i];
-        for(var j=0;j<Tree.children.length;j++)
-        {
-         let tchild=Tree.children[j];
-          for(var k=0;k<tchild.children.length;k++)
-          {
-            let grandhchild:any=tchild.children[k];
-            console.log('gradchild',grandhchild.MenuID);
-            if(grandhchild.MenuID!=undefined)
-            {
-            let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
-            {
-              if(menu!=undefined)
-              {
-              this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
-              grandhchild.isChecked=true;
-             
-              }
-              else{
-                grandhchild.label='NO Access';
-              }
-            }
-          }
-          else{
-            for(var l=0;l<grandhchild.children.length;l++)
-          {
-            let greatgrandchild=grandhchild.children[l];
-            if(greatgrandchild.MenuID!=undefined)
-            {
-            let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (greatgrandchild.MenuID).toLowerCase())
-            {
-              if(menu!=undefined)
-              {
-              this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
-              greatgrandchild.isChecked=true;
-            
-              }
-              else{
-                greatgrandchild.label='NO Access';
-              }
-            }
-          }
-          }
-           
-        }
-      }
-        }
-      }
+  Sourcedata: string;
+   clone(obj:any) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
     }
-    this.bindtreeedataview(TREE_DATA_three);
-     console.log('api menuitems',this.ApiMenuattributes);
-
-    });
+    return copy;
 }
-
-
-  initialize(Event:string) {
-    
-    // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
-    //     file node as children.
-    if(Event!='Create')
-    {
-    let profileMenu:any;
-    console.log('profileitems',JSON.stringify(profileitems));
-   let Treedataupdate:any=TREE_DATA_three;
-    let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','','Admin');
-    console.log('request',request);
-    this.bindtreedata(Treedataupdate);
+  InitializeTreeview(ProfileName?: string) {
+    this.UserProfileForm?.get('profilename')?.disable();
+    this.UserProfileForm?.get('profiledescription')?.disable();
+    debugger
+    let profileMenu: any;
+    //console.log('profileitems',JSON.stringify(profileitems));
+    let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile', '', ProfileName);
+    //let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile','',ProfileName);
+    console.log('request', request);
+    this.bindtreeedataview([]);
     this.spinner.show();
     this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
       (res: any) => {
         debugger
-      //  this.userAccessData.data = res.Data;
-        console.log('data of Profile', res.Data);
-         profileitems=res.Data[0].profileitems;
-         this.UserEditForm = this.formBuilder.group({
-          ProfileName: new FormControl({},),
-          Description: new FormControl({},),
-          UserProfile: new FormControl({},)
-    
-        });
-        for (let field in this.UserEditForm.controls) {
-          let control = this.UserEditForm.get(field);
-          // c
-          // console.log(record[field]);
-    
-          if (field === 'ProfileName') {
-            control?.setValue(res.Data[0].profilename);
-          } else if (field === 'Description') {
-             control?.setValue(res.Data[0].profiledescription);
-    
-          } 
-        }
-        //this.record = record;
-        this.eventName = 'Update';
-     
-        if (Treedataupdate != undefined && Treedataupdate.length > 0) {
-          for(var i=0;i<Treedataupdate.length;i++)
-          {
-          let  Tree=Treedataupdate[i];
-          for(var j=0;j<Tree.children.length;j++)
-          {
-           let tchild=Tree.children[j];
-            for(var k=0;k<tchild.children.length;k++)
-            {
-              let grandhchild:any=tchild.children[k];
-              console.log('gradchild',grandhchild.MenuID);
-              if(grandhchild.MenuID!=undefined)
-              {
-              let menu =res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
-              {
-                if(menu!=undefined)
-                {
-                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
-                grandhchild.isChecked=true;
-                }
-              }
-            }
-            else{
-              for(var l=0;l<grandhchild.children.length;l++)
-            {
-              let greatgrandchild=grandhchild.children[l];
-              if(greatgrandchild.MenuID!=undefined)
-              {
-              let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (greatgrandchild.MenuID).toLowerCase())
-              {
-                if(menu!=undefined)
-                {
-                this.ApiMenuattributes.push({'MenuID':grandhchild.MenuID,'isChecked':true});
-                greatgrandchild.isChecked=true;
-                }
-              }
-            }
-            }
+       // console.log('proifle items in view ', res.Data[0].profileitems);
+        this.resettreetreeview();
+      if(ProfileName!='Super Admin'&& ProfileName!='Admin')
+      {
+        if (res.Data[0]) {
+          //const tempMyObj:any[] =Object.create(TREE_DATA_View);
+         // const tempMyObj:any[] =this.clone(TREE_DATA_View);
+          let array:any[] = Object.assign({}, TREE_DATA_View);
+          var tempMyObj = Object.values(array);
+          //JSON.parse(JSON.stringify(TREE_DATA_View));
+        //  clone(TREE_DATA_View); Object.assign({}, TREE_DATA_View);
+         console.log('temp object length',tempMyObj.length);
+          if (tempMyObj != undefined && tempMyObj.length > 0) {
+            for (var i = 0; i < tempMyObj.length; i++) {
+              let Tree = tempMyObj[i];
              
+              for (var j = 0; j < Tree.children.length; j++) {
+                let tchild = Tree.children[j];
+                for (var k = 0; k < tchild.children.length; k++) {
+                  let grandhchild: any = tchild.children[k];
+                  // console.log('gradchild',grandhchild.MenuID);
+                  if (grandhchild.MenuID != undefined) {
+                    let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
+                    {
+                      if (menu != undefined) 
+                      {
+                        grandhchild.isChecked = true;
+                      }
+                        
+                      }
+                    }
+                  else {
+                    for (var l = 0; l < grandhchild.children.length; l++) {
+                      let greatgrandchild = grandhchild.children[l];
+                      if (greatgrandchild.MenuID != undefined) {
+                        let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (greatgrandchild.MenuID).toLowerCase())
+                        {
+                          if (menu != undefined) {
+                            greatgrandchild.isChecked = true;
+                          }
+                         
+                          }
+                        }
+                      }
+                    }
+
+                  }
+                }
+              }
+            }
+            console.log('temp object',tempMyObj);
+            this.bindtreeedataview(tempMyObj[0].children);
           }
+        else {
+       
+          this.bindtreeedataview([]);
+
+          //console.log('api menuitems',this.ApiMenuattributes);
         }
-          }
-        }
+
       }
+      else{
+       this.resettreetreeviewforadmin();
+        this.bindtreeedataview(TREE_DATA_View);
+        console.log('treeview data',TREE_DATA_View);
+      }
+        this.spinner.hide();
+      });
+  }
+
+
+  initialize(Event: string, Profilename?: string) {
+    this.resettree();
+    // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
+    //     file node as children.
+    if (Event != 'Create') {
+      debugger
+      let profileMenu: any;
+      console.log('profileitems', JSON.stringify(profileitems));
+      let Treedataupdate: any = TREE_DATA_three;
+      let request = Utils.preparePyUIQuery('ManageUsers', 'UserProfile', '', Profilename);
+      console.log('request', request);
       this.bindtreedata(Treedataupdate);
-       console.log('api menuitems',this.ApiMenuattributes);
-      }
-    );
+      this.spinner.show();
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res: any) => {
+          debugger
+          //  this.userAccessData.data = res.Data;
+          console.log('data of Profile', res.Data);
+          this.ApiMenuattributes = [];
+          profileitems = res.Data[0]?.profileitems;
+          //  this.UserEditForm = this.formBuilder.group({
+          //   ProfileName: new FormControl({},),
+          //   Description: new FormControl({},),
+          //   UserProfile: new FormControl({},)
+
+          // });
+          // for (let field in this.UserEditForm.controls) {
+          //   let control = this.UserEditForm.get(field);
+          //   // c
+          //   // console.log(record[field]);
+
+          //   if (field === 'ProfileName') {
+          //     control?.setValue(res.Data[0].profilename);
+          //   } else if (field === 'Description') {
+          //      control?.setValue(res.Data[0].profiledescription);
+
+          //   } 
+          // }
+          //this.record = record;
+          this.eventName = 'Update';
+          if (profileitems) {
+            if (Treedataupdate != undefined && Treedataupdate.length > 0) {
+              for (var i = 0; i < Treedataupdate.length; i++) {
+                let Tree = Treedataupdate[i];
+                for (var j = 0; j < Tree.children.length; j++) {
+                  let tchild = Tree.children[j];
+                  for (var k = 0; k < tchild.children.length; k++) {
+                    let grandhchild: any = tchild.children[k];
+                    // console.log('gradchild',grandhchild.MenuID);
+                    if (grandhchild.MenuID != undefined) {
+                      let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (grandhchild.MenuID).toLowerCase())
+                      {
+                        if (menu != undefined) {
+                          this.ApiMenuattributes.push({ 'menuid': grandhchild.MenuID, 'isChecked': 1, 'accesslevel': '1111' });
+                          grandhchild.isChecked = true;
+                        }
+                      }
+                    }
+                    else {
+                      for (var l = 0; l < grandhchild.children.length; l++) {
+                        let greatgrandchild = grandhchild.children[l];
+                        if (greatgrandchild.MenuID != undefined) {
+                          let menu = res.Data[0].profileitems.find((x: { menuitemid: string; }) => x.menuitemid?.toLowerCase() === (greatgrandchild.MenuID).toLowerCase())
+                          {
+                            if (menu != undefined) {
+                              this.ApiMenuattributes.push({ 'menuid': grandhchild.MenuID, 'isChecked': 1, 'accesslevel': '1111' });
+                              greatgrandchild.isChecked = true;
+                            }
+                          }
+                        }
+                      }
+
+                    }
+                  }
+                }
+              }
+            }
+          }
+          this.bindtreedata(Treedataupdate);
+          console.log('api menuitems', this.ApiMenuattributes);
+        }
+      );
     }
-    else{
+    else {
       debugger
       if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
-        for(var i=0;i<TREE_DATA_three.length;i++)
-        {
-        let  Tree=TREE_DATA_three[i];
-        for(var j=0;j<Tree.children.length;j++)
-        {
-         let tchild=Tree.children[j];
-          for(var k=0;k<tchild.children.length;k++)
-          {
-            let grandhchild:any=tchild.children[k];
-            console.log('gradchild',grandhchild.MenuID);
-            if(grandhchild.MenuID!=undefined)
-            {
-           
-              grandhchild.isChecked=false;
-             
+        for (var i = 0; i < TREE_DATA_three.length; i++) {
+          let Tree = TREE_DATA_three[i];
+          for (var j = 0; j < Tree.children.length; j++) {
+            let tchild = Tree.children[j];
+            for (var k = 0; k < tchild.children.length; k++) {
+              let grandhchild: any = tchild.children[k];
+            
+              if (grandhchild.MenuID != undefined) {
+
+                grandhchild.isChecked = false;
+
+              }
+              else {
+                for (var l = 0; l < grandhchild.children.length; l++) {
+                  let greatgrandchild = grandhchild.children[l];
+                  if (greatgrandchild.MenuID != undefined)
+
+                    greatgrandchild.isChecked = false;
+
+                }
+              }
+
+            }
+
           }
-          else{
-            for(var l=0;l<grandhchild.children.length;l++)
-          {
-            let greatgrandchild=grandhchild.children[l];
-            if(greatgrandchild.MenuID!=undefined)
-          
-              greatgrandchild.isChecked=false;
-             
-          }
-          }
-           
-        }
-      
         }
       }
-    }
       this.bindtreedata(TREE_DATA_three);
     }
     //this.viewAccess = user.
-   
+
     debugger
-   
+
 
   }
-  bindSource()
-  {
+  bindSource() {
     let request = Utils.preparePyConfig(['Search'], ['Source']);
+    this.filterItems = [];
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("source from config: " + JSON.stringify(res))});
-      //this.configDetails = res.data;
+      console.log("source from config: " + JSON.stringify(res))
+
+      res.data.Source?.forEach((element: any) => {
+        this.filterItems.push({ view: element, viewValue: element, default: false })
+      });
+
+    });
   }
-bindtreedata(treestructure:any)
-{
-  this.spinner.hide();
-  const data = this.buildFileTree(treestructure, 0);
-  console.log(data);
-  this.dataSource.data = data;
-  // Notify the change.
-  this.dataChange.next(data);
-}
-bindtreeedataview(treestructure:any)
-{
-  debugger
-  this.spinner.hide();
-  const data = this.buildFileTree(treestructure, 0);
-  console.log(data);
-  this.datasourceview.data = data;
-  // Notify the change.
-  this.dataChange.next(data);
-}
+  bindtreedata(treestructure: any) {
+    this.spinner.hide();
+    const data = this.buildFileTree(treestructure, 0);
+    console.log(data);
+    this.dataSource.data = data;
+    // Notify the change.
+    this.dataChange.next(data);
+    // treeControl.expandAll();
+    this.treeControl.expandAll();
+  }
+  resettreetreeviewforadmin()
+  {
+    if (TREE_DATA_View != undefined && TREE_DATA_View.length > 0) {
+      for (var i = 0; i < TREE_DATA_View.length; i++) {
+        let Tree = TREE_DATA_View[i];
+        for (var j = 0; j < Tree.children.length; j++) {
+          let tchild = Tree.children[j];
+          for (var k = 0; k < tchild.children.length; k++) {
+            let grandhchild: any = tchild.children[k];
+          
+            if (grandhchild.MenuID != undefined) {
+              grandhchild.isChecked = true;
+            }
+            else {
+              for (var l = 0; l < grandhchild.children.length; l++) {
+                let greatgrandchild = grandhchild.children[l];
+                if (greatgrandchild.MenuID != undefined)
+              {
+                 grandhchild.isChecked = true;
+              }
+              }
+            }
+
+          }
+
+        }
+      }
+    }
+  }
+  resettreetreeview() {
+    debugger
+    if (TREE_DATA_View != undefined && TREE_DATA_View.length > 0) {
+      for (var i = 0; i < TREE_DATA_View.length; i++) {
+        let Tree = TREE_DATA_View[i];
+        for (var j = 0; j < Tree.children.length; j++) {
+          let tchild = Tree.children[j];
+          for (var k = 0; k < tchild.children.length; k++) {
+            let grandhchild: any = tchild.children[k];
+          
+            if (grandhchild.MenuID != undefined) {
+             
+            
+              grandhchild.isChecked = false;
+             
+
+            }
+            else {
+              for (var l = 0; l < grandhchild.children.length; l++) {
+                let greatgrandchild = grandhchild.children[l];
+                if (greatgrandchild.MenuID != undefined)
+              
+                 grandhchild.isChecked = false;
+                
+                 
+
+              }
+            }
+
+          }
+
+        }
+      }
+    }
+  }
+
+
+
+
+  resettree() {
+    if (TREE_DATA_three != undefined && TREE_DATA_three.length > 0) {
+      for (var i = 0; i < TREE_DATA_three.length; i++) {
+        let Tree = TREE_DATA_three[i];
+        for (var j = 0; j < Tree.children.length; j++) {
+          let tchild = Tree.children[j];
+          for (var k = 0; k < tchild.children.length; k++) {
+            let grandhchild: any = tchild.children[k];
+         
+            if (grandhchild.MenuID != undefined) {
+
+              grandhchild.isChecked = false;
+
+            }
+            else {
+              for (var l = 0; l < grandhchild.children.length; l++) {
+                let greatgrandchild = grandhchild.children[l];
+                if (greatgrandchild.MenuID != undefined)
+
+                  greatgrandchild.isChecked = false;
+
+              }
+            }
+
+          }
+
+        }
+      }
+    }
+  }
+
+
+  bindtreeedataview(treestructure: any) {
+    debugger
+    this.spinner.hide();
+    const data = this.buildFileTree(treestructure, 0);
+    console.log(data);
+    this.datasourceview.data = data;
+    // Notify the change.
+    this.dataChange.next(data);
+  }
   /**
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `TodoItemNode`.
    */
   buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
+    
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const item = obj[key];
       const node = new TodoItemNode();
       node.label = obj[key].name;
-    node.MenuID= obj[key].MenuID;
+      node.MenuID = obj[key].MenuID;
       node.id = obj[key].id;
       node.isChecked = obj[key].isChecked;
       node.Position = obj[key].Position;
@@ -955,11 +1470,6 @@ bindtreeedataview(treestructure:any)
     node.label = name;
     this.dataChange.next(this.data);
   }
-
-
-
-
-
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
   get data(): TodoItemNode[] {
     return this.dataChange.value;
@@ -1034,7 +1544,7 @@ bindtreeedataview(treestructure:any)
     flatNode.level = level;
     flatNode.id = node.id;
     flatNode.isChecked = node.isChecked;
-    flatNode.MenuID=node.MenuID
+    flatNode.MenuID = node.MenuID
     flatNode.Position = node.Position;
     flatNode.expandable = !!node.children;
     this.flatNodeMap.set(flatNode, node);
@@ -1079,13 +1589,13 @@ bindtreeedataview(treestructure:any)
       this.descendantsPartiallySelected(x));
     console.log('final result', this.checklistSelection.selected);
     debugger
-       descendants.forEach((char: any) => {
+    descendants.forEach((char: any) => {
       this.Menuattributes = this.Menuattributes.filter((item: { MenuID: any; }) => item.MenuID !== char.MenuID);
-      if(char.MenuID!=undefined)
-     this.Menuattributes.push({'MenuID':char.MenuID,'isChecked':event.checked});
+      if (char.MenuID != undefined)
+        this.Menuattributes.push({ 'menuid': char.MenuID, 'isChecked': event.checked });
     });
-     console.log('attributes',this.Menuattributes);
-    console.log('final result',  partialSelection);
+    console.log('attributes', this.Menuattributes);
+    console.log('final result', partialSelection);
 
   }
 
@@ -1098,10 +1608,10 @@ bindtreeedataview(treestructure:any)
     this.checkAllParentsSelection(node);
     debugger
     this.Menuattributes = this.Menuattributes.filter((item: { MenuID: any; }) => item.MenuID !== node.MenuID);
-   // delete this.Menuattributes[this.Menuattributes.findIndex((item: { MenuID: any; }) => item.MenuID == node.MenuID)];
+    // delete this.Menuattributes[this.Menuattributes.findIndex((item: { MenuID: any; }) => item.MenuID == node.MenuID)];
     //this.Menuattributes.splice()
-    this.Menuattributes.push({'MenuID':node.MenuID,'isChecked':event.checked});
-    console.log('attributes',this.Menuattributes);
+    this.Menuattributes.push({ 'menuid': node.MenuID, 'isChecked': event.checked });
+    console.log('attributes', this.Menuattributes);
   }
 
   /* Checks all the parents when a leaf node is selected/unselected */
@@ -1168,7 +1678,7 @@ bindtreeedataview(treestructure:any)
     //   UserId: new FormControl({ value: 'ashok' }'')
     // })
     this.createForms();
-    //this.bindSource();
+    this.bindSource();
     this.isLeftPanel = false;
 
   }
@@ -1182,12 +1692,36 @@ bindtreeedataview(treestructure:any)
     }
   }
   removeTabLeftPanel(index: number) {
-    this.tabsLeft.splice(index, 1);
-    // this.showDetails = this.tabsLeft.length > 0 ? true : false;
-    if (this.tabsLeft.length == 0) {
-      //this.isShow = false;
-      // this.showMenu = 'expanded';
-      this.isLeftPanel = false;
+    let indexnew = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
+    let indexuseraccess = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
+    console.log('button status', this.Profilebutton)
+    console.log(indexnew);
+    if (index == indexnew) {
+      if (this.Profilebutton) {
+        this.tabsLeft.splice(index, 1);
+        // this.showDetails = this.tabsLeft.length > 0 ? true : false;
+        if (this.tabsLeft.length == 0) {
+          //this.isShow = false;
+          // this.showMenu = 'expanded';
+          this.isLeftPanel = false;
+        }
+      }
+
+    }
+    else {
+
+      if (indexuseraccess == index) {
+        if (indexnew > 0) {
+          this.tabsLeft.splice(indexnew, 1);
+        }
+      }
+      this.tabsLeft.splice(index, 1);
+      // this.showDetails = this.tabsLeft.length > 0 ? true : false;
+      if (this.tabsLeft.length == 0) {
+        //this.isShow = false;
+        // this.showMenu = 'expanded';
+        this.isLeftPanel = false;
+      }
     }
 
   }
@@ -1255,11 +1789,12 @@ bindtreeedataview(treestructure:any)
       this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
-          this.userAccessData.data = res.Data;
+          console.log('userdata from response', res.Data);
+          this.userAccessData.data = res.Data[0].userdata;
           // User Profile Dropdown
-          this.userProfilesDropdown = res.Data[res.Data.length-1].userprofiles.map((x:any) =>x.profilename);
+          this.userProfilesDropdown = res.Data[res.Data.length - 1].userprofiles.filter((x: any) => x.iscustomprofile == 0).map((x: any) => x.profilename);
           this.userProfilesDropdown.push('Custom');
-    
+
           console.log('data of manage users', this.userAccessData);
           this.spinner.hide();
         }
@@ -1337,9 +1872,14 @@ bindtreeedataview(treestructure:any)
   onCancel() {
     this.isLeftPanel = false;
   }
-  onEditUserprofile(record: any, event: Event) {
-    this.InitializeTreeview();
+  onEditUserprofile(record: any, event: Event, row?: any) {
+    this.UserProfileForm.reset()
+    this.InitializeTreeview(row.profilename);
     //this.database.buildFileTree(TREE_DATA_two,0);
+    if (row) {
+      this.UserProfileForm.get('profilename')?.setValue(row.profilename);
+      this.UserProfileForm.get('profiledescription')?.setValue(row.profilename);
+    }
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find(x => x.tabType == 1)) {
@@ -1361,79 +1901,90 @@ bindtreeedataview(treestructure:any)
     this.UserProfilesForm = true;
 
     this.isLeftPanel = true;
-   
+
     event.stopPropagation();
   }
   onSelectEvent(value: any) {
+    console.log('event name', this.eventName);
 
     if (value == 'Custom') {
-      this.initialize(this.eventName);
+      this.Profilebutton = false;
+      this.Menuattributes = [];
+      this.UserEditForm.get('profilename')?.disable();
+      this.UserEditForm?.get('profiledescription')?.disable();
+
+
+      this.initialize(this.eventName, 'CUSTOM-' + this.referenceForm.controls.username?.value);
       this.onEditUserprofileAceessUserAccess('Create');
+      //this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
+
+    }
+    else {
+      let index = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2);
+      // console.log('index position',index);
+      if (index > 0)
+        this.tabsLeft.splice(this.tabsLeft?.findIndex((x: { tabType: number; }) => x.tabType == 2), 1);
     }
   }
-  
-  preparemenu()
-  {
+
+  preparemenu() {
     debugger
-  //this.Resultattributes:any=[];
-  if(this.eventName!='Create')
-  {
-    this.ApiMenuattributes.forEach((element: any) => {
-     let flage:boolean=true;
-      this.Menuattributes.forEach((char: any) => {
-      
-       
-          if(char.MenuID==element.MenuID)
-          {
-           this.Resultattributes.push({'MenuID':char.MenuID,'isfullaccess':char.isChecked});
-            flage=false;
-          }
-        
-        
-      });
-      if(flage)
-      {
-        this.Resultattributes.push({'MenuID':element.MenuID,'isfullaccess':element.isChecked});
-      }
 
-     
-    });
-    this.Menuattributes.forEach((element: any) => {
-      if(element.isChecked)
-      {
-        this.Resultattributes.push({'MenuID':element.MenuID,'isfullaccess':true});
-      }
-    });
-    console.log('Update Result ',this.Resultattributes);
-    }
-    else{
-      this.Menuattributes.forEach((char: any) => {
-        if(char.isChecked)
-      {
-         this.Resultattributes.push({'MenuID':char.MenuID,'isfullaccess':char.isChecked});
-      }
-          
+    this.Resultattributes = [];
+    if (this.eventName != 'Create') {
+      this.ApiMenuattributes.forEach((element: any) => {
+        let flage: boolean = true;
+        this.Menuattributes.forEach((char: any) => {
+
+
+          if (char.menuid == element.menuid) {
+            if (char.isChecked)
+              this.Resultattributes.push({ 'menuid': char.menuid, 'accesslevel': '1111', 'isfullaccess': (char.isChecked) ? 1 : 0 });
+            flage = false;
+          }
+
+
         });
-        console.log('Create Result',this.Resultattributes);
+        if (flage) {
+          this.Resultattributes.push({ 'menuid': element.menuid, 'accesslevel': '1111', 'isfullaccess': (element.isChecked) ? 1 : 0 });
+        }
+
+
+      });
+      this.Menuattributes.forEach((element: any) => {
+        if (element.isChecked) {
+          this.Resultattributes.push({ 'menuid': element.menuid, 'accesslevel': '1111', 'isfullaccess': 1 });
+        }
+      });
+      console.log('Update Result ', this.Resultattributes);
+
+      console.log('Update Result2 ', this.Resultattributes);
+    }
+    else {
+      this.Menuattributes.forEach((char: any) => {
+        if (char.isChecked) {
+          this.Resultattributes.push({ 'menuid': char.menuid, 'accesslevel': '1111', 'isfullaccess': (char.isChecked) ? 1 : 0 });
+        }
+
+      });
+      console.log('Create Result', this.Resultattributes);
     }
   }
-redirecttoForm()
-{
-  debugger
-if(this.Formstatus=='Profile')
-{
-  this.preparemenu();
-  this.onSubmit('User Profiles');
-}
-else{
+  redirecttoForm() {
+    debugger
+    if (this.Formstatus == 'Profile') {
+      this.preparemenu();
+      this.onSubmit('User Profiles');
+    }
+    else {
 
-  this.onreturnform();
-}
-}
+      this.onreturnform();
+    }
+  }
 
   onreturnform() {
     this.isShow = true;
-  this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2));
+    this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2));
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
@@ -1471,8 +2022,8 @@ else{
     // this.eventName = "Update";
   }
   onEditUserprofileAceessUserAccess(Actiontype: string) {
-   // this.Formstatus='Profile';
-    this.initialize(Actiontype);
+    // this.Formstatus='Profile';
+    //this.initialize(Actiontype);
     debugger
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1496,13 +2047,17 @@ else{
     this.StartupForm = false;
     this.UserEditProfilesForm = true;
     this.isLeftPanel = true;
-    this.UserEditForm = this.formBuilder.group({
+    // this.UserEditForm = this.formBuilder.group({
 
-      ProfileName: new FormControl(),
-      Description: new FormControl(),
-      UserProfile: new FormControl()
+    //   ProfileName: new FormControl(),
+    //   Description: new FormControl(),
+    //   UserProfile: new FormControl()
 
-    });
+    // });
+    this.UserEditForm.get('profilename')?.setValue('CUSTOM-' + this.referenceForm.controls.username?.value);
+    this.UserEditForm.get('profiledescription')?.setValue('Description');
+
+
     if (Actiontype == 'Create') {
       this.eventName = 'Create';
     }
@@ -1511,9 +2066,19 @@ else{
     }
 
   }
-  onEditUserprofileAceess(Actiontype: string) {
-    this.Formstatus='Profile';
-    this.initialize(Actiontype);
+  onEditUserprofileAceess(Actiontype: string, row?: any) {
+    this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0), 1);
+    this.Profilebutton = true;
+    this.Formstatus = 'Profile';
+    this.UserEditForm?.get('profilename')?.disable();
+    this.UserEditForm?.get('profiledescription')?.disable();
+    if (row) {
+
+      this.initialize(Actiontype, row.profilename);
+    }
+    else {
+      this.initialize(Actiontype);
+    }
     debugger
     this.isShow = true;
     this.showMenu = 'collapsed';
@@ -1537,18 +2102,25 @@ else{
     this.StartupForm = false;
     this.UserEditProfilesForm = true;
     this.isLeftPanel = true;
-    this.UserEditForm = this.formBuilder.group({
+    // this.UserEditForm = this.formBuilder.group({
 
-      ProfileName: new FormControl(),
-      Description: new FormControl(),
-      UserProfile: new FormControl()
+    //   ProfileName: new FormControl(),
+    //   Description: new FormControl(),
+    //   UserProfile: new FormControl()
 
-    });
+    // });
     if (Actiontype == 'Create') {
       this.eventName = 'Create';
+      this.UserEditForm?.get('profilename')?.enable();
+      this.UserEditForm?.get('profiledescription')?.enable();
+      this.UserEditForm.reset();
     }
     else {
+      debugger
       this.eventName = 'Update';
+      this.UserEditForm.get('profilename')?.setValue(row.profilename);
+      this.UserEditForm.get('profiledescription')?.setValue(row.profiledescription);
+      this.UserProfileRowData = row;
     }
 
   }
@@ -1575,14 +2147,14 @@ else{
     this.eventName = 'Update';
     for (let field in this.StartupUsermsgsForm.controls) {
       let control = this.StartupUsermsgsForm.get(field);
-      if(field === 'DateRange') {
+      if (field === 'DateRange') {
         let start = this.StartupUsermsgsForm.get('DateRange.startdate');
         start?.setValue(new Date(record['startdate']));
         let end = this.StartupUsermsgsForm.get('DateRange.expirydate');
         end?.setValue(new Date(record['expirydate']));
         console.log("Date  " + new Date(record['expirydate']));
-        
-      } 
+
+      }
       else {
         control?.setValue(record[field]);
       }
@@ -1591,18 +2163,23 @@ else{
 
   }
   changeevent(event: any) {
+    debugger
     console.log('event called', event);
+    //  this.Sourcedata=event;
+    //this.referenceForm.get('sources')?.setValue(JSON.stringify(event));
   }
 
   onEdituserDetails(record: any, event: Event) {
     debugger
-    this.Formstatus='UserAccessDetails'
+    this.Menuattributes = [];
+    this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2), 1);
+    this.Formstatus = 'UserAccessDetails'
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
         tabType: 0,
-        name: 'Create'
+        name: 'Create User'
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
@@ -1637,6 +2214,37 @@ else{
     this.eventName = 'Update'
     //this.showDataform =true; 
     //this.cdr.detectChanges();
+    //
+    debugger
+    //this.bindSource();
+    if (this.eventName === 'Update') {
+      if (record['sources']) {
+        this.filterItems.map((x: any) => {
+         
+            x.default = false;
+           //false;
+          });
+      console.log(this.filterItems,'filter items');
+        let arr: any[] = record['sources'].split(',');
+        //arr.push('SAS/COMS');
+        arr.forEach((value: any) => {
+          this.filterItems.map((x: any) => {
+            if (x.view === value) {
+              x.default = true;
+             //false;
+            }
+            // else {
+            //   x.default = false;
+            // }
+          });
+        })
+
+      }
+    }
+
+    this.SelectCheckbox?.clearvaluesselection();
+
+
     for (let field in this.referenceForm.controls) {
       let control = this.referenceForm.get(field);
       // control?.setValue(record[field]);
@@ -1646,13 +2254,27 @@ else{
         // record[field].push('Custom');
         // this.userProfilesDropdown = record[field];
         // this.userProfile = record['profilename'];
-        control?.setValue(record['profilename']);
-      } else if (field === 'source') {
+        if (record['iscustomprofile'] == 1) {
+          control?.setValue('Custom');
+          this.Profilebutton = false;
+          this.Menuattributes = [];
+          this.UserEditForm.get('profilename')?.disable();
+          this.UserEditForm?.get('profiledescription')?.disable();
+          this.initialize(this.eventName, 'CUSTOM-' + this.referenceForm.controls.username?.value);
+          this.onEditUserprofileAceessUserAccess('Create');
+        }
+        else {
+          control?.setValue(record['profilename']);
+        }
+      } else if (field === 'sources') {
         // control?.setValue(record[field]);
 
-      } else if (field === 'active'){
-        record[field]==='Yes' ? control?.setValue(true) : control?.setValue(false);
+
+
+      } else if (field === 'active') {
+        record[field] === 'Yes' ? control?.setValue(true) : control?.setValue(false);
       }
+
       else {
         control?.setValue(record[field]);
       }
@@ -1704,15 +2326,20 @@ else{
     // });
     this.eventName = "Create";
   }
+  backuseraccessform() {
 
+    this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
+
+  }
   onVerifyUserName() {
+    this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 2), 1);
     this.StartupForm = false;
     this.isShow = true;
     this.showMenu = 'collapsed';
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 3)) {
       this.tabsLeft.push({
         tabType: 3,
-        name: 'Check'
+        name: 'Create'
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
@@ -1721,10 +2348,8 @@ else{
       this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 3);
     }
     this.isLeftPanel = true;
-    this.referenceUsernameform = this.formBuilder.group({
+    this.referenceUsernameform.reset();
 
-      UserID: new FormControl()
-    });
   }
 
   onCreateuserDetails() {
@@ -1735,7 +2360,7 @@ else{
         if (res.Status && res.Status[0].StatusMessage === 'Success') {
           //success message and same data reload
           // this.refreshData();
-          this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.success("Record created successfully!)", { autoClose: true, keepAfterRouteChange: false });
           //this.getFileDetails('UserAccessDetails');
         }
       });
@@ -1760,12 +2385,15 @@ else{
     else {
       this.selectedTabLeft = this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0);
     }
+    this.referenceForm.reset();
+    this.referenceForm.get('username')?.setValue(this.referenceUsernameform.controls.UserID?.value);
+
     this.Header = "User Access Details";
     this.UserDetailsForm = true;
     this.StartupForm = false;
     this.UserProfilesForm = false;
     this.isLeftPanel = true;
-    this.referenceForm.reset();
+
     // this.referenceForm = this.formBuilder.group({
     //   username: new FormControl(),
     //   userprofiles: new FormControl(),
@@ -1776,37 +2404,12 @@ else{
     //   telephoneno: new FormControl(),
     // });
     this.eventName = "Create";
-
-    for (let field in this.referenceForm.controls) {
-      let control = this.referenceForm.get(field);
-      // control?.setValue(record[field]);
-      // console.log(record[field]);
-
-      if (field === 'userprofiles') {
-        this.userProfilesDropdown = [
-          "custom_beema",
-          "Super Admin",
-          "Admin",
-          "Requestor",
-          "Readonly",
-          "Custom"
-      ];
-        // this.userProfile = record['profilename'];
-        control?.setValue([
-          "custom_beema",
-          "Super Admin",
-          "Admin",
-          "Requestor",
-          "Readonly",
-          "Custom"
-      ]);
-      } else if (field === 'source') {
-        // control?.setValue(record[field]);
-
-      } else {
-       // control?.setValue(record[field]);
-      }
+    this.filterItems.map((x: any) => {
+      x.default = false;
     }
+
+    );
+    this.SelectCheckbox?.clearvaluesselection();
   }
   onSubmit(reportIdentifier?: string) {
     debugger
@@ -1825,14 +2428,14 @@ else{
           });
           updateConfirm1.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
-              let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm,'UserAccess'));
+              let request1 = Utils.preparePyUIUpdate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm, 'UserAccess'));
               console.log("Update request1 : " + JSON.stringify(request1));
               this.service.uiUpdateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record update successfully!)", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('UserAccessDetails');
                   }
                 });
@@ -1858,7 +2461,7 @@ else{
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record update successfully!)", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('StartUpUserMessages');
                   }
                 });
@@ -1877,20 +2480,20 @@ else{
           });
           updateConfirm3.afterClosed().subscribe((confirm: any) => {
             if (confirm) {
-              let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
+              let request3 = Utils.preparePyUIUpdate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.UserEditForm, 'UserProfileUpdate'));
               console.log("Update request3 : " + JSON.stringify(request3));
               this.service.uiUpdateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
                 (res: any) => {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record update successfully!)", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('UserProfiles')
                   }
                 });
             }
             else {
-              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.info("Record update Cancelled!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
           break;
@@ -1900,17 +2503,17 @@ else{
       // Create Logic
       switch (reportIdentifier) {
         case 'User Access Details':
-          let request1 = Utils.preparePyUICreate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm,'UserAccess'));
+          let request1 = Utils.preparePyUICreate('ManageUsers', 'UserAccess', 'UserName', this.prepareData(this.referenceForm, 'UserAccess'));
           console.log("Create request1 : " + JSON.stringify(request1));
-          // this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-          //   (res: any) => {
-          //     if (res.Status && res.Status[0].StatusMessage === 'Success') {
-          //       //success message and same data reload
-          //       // this.refreshData();
-          //       this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-          //       this.getFileDetails('UserAccessDetails');
-          //     }
-          //   });
+          this.service.uiCreateDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+            (res: any) => {
+              if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                //success message and same data reload
+                // this.refreshData();
+                this.alertService.success("Record created successfully!)", { autoClose: true, keepAfterRouteChange: false });
+                this.getFileDetails('UserAccessDetails');
+              }
+            });
           break;
         case 'Start Up User Messages':
           let request2 = Utils.preparePyUICreate('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareData(this.StartupUsermsgsForm));
@@ -1920,20 +2523,20 @@ else{
               if (res.Status && res.Status[0].StatusMessage === 'Success') {
                 //success message and same data reload
                 // this.refreshData();
-                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.alertService.success("Record created successfully!)", { autoClose: true, keepAfterRouteChange: false });
                 this.getFileDetails('StartUpUserMessages');
               }
             });
           break;
         case 'User Profiles':
-          let request3 = Utils.preparePyUICreate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.referenceForm));
+          let request3 = Utils.preparePyUICreate('ManageUsers', 'UserProfile', 'ProfileName', this.prepareData(this.UserEditForm, 'UserProfileCreate'));
           console.log("Create request3 : " + JSON.stringify(request3));
           this.service.uiCreateDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
             (res: any) => {
               if (res.Status && res.Status[0].StatusMessage === 'Success') {
                 //success message and same data reload
                 // this.refreshData();
-                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.alertService.success("Record created successfully!!", { autoClose: true, keepAfterRouteChange: false });
                 this.getFileDetails('UserProfiles');
               }
             });
@@ -1947,27 +2550,29 @@ else{
       case 'User Access':
         const updateConfirm1 = this.dialog.open(ConfirmDialogComponent, {
           width: '300px', disableClose: true, data: {
-            message: 'Do you confirm update this record?'
+            message: 'Do you confirm delete this record?'
           }
         });
         updateConfirm1.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
-        let request1 = Utils.preparePyUIDelete('ManageUsers', 'UserAccess', 'UserName', this.prepareDeleteData(record, reportName));
-        console.log("Delete request1 : " + JSON.stringify(request1));
-        this.service.uiDeleteDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-          (res: any) => {
-            if (res.Status && res.Status[0].StatusMessage === 'Success') {
-              //success message and same data reload
-              // this.refreshData();
-              this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-              this.getFileDetails('UserAccessDetails');
-            }
-            else {
-              this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
-            }
-          });
-        }
-      });
+            let request1 = Utils.preparePyUIDelete('ManageUsers', 'UserAccess', 'UserName', this.prepareDeleteData(record, reportName));
+            console.log("Delete request1 : " + JSON.stringify(request1));
+            this.service.uiDeleteDetails(request1).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+              (res: any) => {
+                if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                  //success message and same data reload
+                  // this.refreshData();
+                  this.alertService.success("Record delete successfully!)", { autoClose: true, keepAfterRouteChange: false });
+                  this.getFileDetails('UserAccessDetails');
+              this.isLeftPanel=false;
+             
+                }
+                else {
+                  this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+                }
+              });
+          }
+        });
         break;
       case 'News Update':
         const updateConfirm2 = this.dialog.open(ConfirmDialogComponent, {
@@ -1977,22 +2582,23 @@ else{
         });
         updateConfirm2.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
-        let request2 = Utils.preparePyUIDelete('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareDeleteData(record, reportName));
-        console.log("Delete request2 : " + JSON.stringify(request2));
-        this.service.uiDeleteDetails(request2).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-          (res: any) => {
-            if (res.Status && res.Status[0].StatusMessage === 'Success') {
-              //success message and same data reload
-              // this.refreshData();
-              this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-              this.getFileDetails('StartUpUserMessages');
-            }
-            else {
-              this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
-            }
-          });
-        }
-      });
+            let request2 = Utils.preparePyUIDelete('ManageUsers', 'NewsUpdate', 'NewsId', this.prepareDeleteData(record, reportName));
+            console.log("Delete request2 : " + JSON.stringify(request2));
+            this.service.uiDeleteDetails(request2).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+              (res: any) => {
+                if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                  //success message and same data reload
+                  // this.refreshData();
+                  this.alertService.success("Record delete successfully!)", { autoClose: true, keepAfterRouteChange: false });
+                  this.getFileDetails('StartUpUserMessages');
+                  this.isLeftPanel=false;
+                }
+                else {
+                  this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+                }
+              });
+          }
+        });
         break;
       case 'User Profiles':
         const updateConfirm3 = this.dialog.open(ConfirmDialogComponent, {
@@ -2002,29 +2608,31 @@ else{
         });
         updateConfirm3.afterClosed().subscribe((confirm: any) => {
           if (confirm) {
-        let request3 = Utils.preparePyUIDelete('ManageUsers', 'UserProfile', 'ProfileName', this.prepareDeleteData(record, reportName));
-        console.log("Delete request3 : " + JSON.stringify(request3));
-        this.service.uiDeleteDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
-          (res: any) => {
-            if (res.Status && res.Status[0].StatusMessage === 'Success') {
-              //success message and same data reload
-              // this.refreshData();
-              this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
-              this.getFileDetails('UserProfiles');
-            }
-            else {
-              this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
-            }
-          });
-        }
-      });
+            let request3 = Utils.preparePyUIDelete('ManageUsers', 'UserProfile', 'ProfileName', this.prepareDeleteData(record, reportName));
+            console.log("Delete request3 : " + JSON.stringify(request3));
+            this.service.uiDeleteDetails(request3).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+              (res: any) => {
+                if (res.Status && res.Status[0].StatusMessage === 'Success') {
+                  //success message and same data reload
+                  // this.refreshData();
+                  this.alertService.success("Record delete successfully!)", { autoClose: true, keepAfterRouteChange: false });
+                  this.getFileDetails('UserProfiles');
+                  this.isLeftPanel=false;
+                }
+                else {
+                  this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+                }
+              });
+          }
+        });
         break;
     }
   }
-  multipleSelect(event:any){
+  multipleSelect(event: any) {
     // console.log(event)
-    if(event){
-      console.log(event.toString())
+    if (event) {
+      console.log(event.toString());
+      this.Sourcedata = event.toString();
     }
   }
 
@@ -2040,64 +2648,63 @@ else{
 
   onSearchFilter(reportName: any) {
     this.onFilterPredicate();
-    switch(reportName)
-    {
+    switch (reportName) {
       case 'UserOfReports':
-        let  filteritem1 = {
-          username : [this.filterUserofReportForm.controls['username'].value ? this.filterUserofReportForm.controls['username'].value : '' ],
-          menugroup: [this.filterUserofReportForm.controls['menugroup'].value ? this.filterUserofReportForm.controls['menugroup'].value : '' ],
-          reportname : [this.filterUserofReportForm.controls['reportname'].value ? this.filterUserofReportForm.controls['reportname'].value : '' ],
-          sources: [this.filterUserofReportForm.controls['sources'].value ? this.filterUserofReportForm.controls['sources'].value : '' ]
+        let filteritem1 = {
+          username: [this.filterUserofReportForm.controls['username'].value ? this.filterUserofReportForm.controls['username'].value : ''],
+          menugroup: [this.filterUserofReportForm.controls['menugroup'].value ? this.filterUserofReportForm.controls['menugroup'].value : ''],
+          reportname: [this.filterUserofReportForm.controls['reportname'].value ? this.filterUserofReportForm.controls['reportname'].value : ''],
+          sources: [this.filterUserofReportForm.controls['sources'].value ? this.filterUserofReportForm.controls['sources'].value : '']
         }
         console.log(JSON.stringify(filteritem1));
         this.datauserreports.filter = JSON.stringify(filteritem1);
-      break;
+        break;
       case 'UserAccessDetails':
-        let  filteritem2 = {
-          username : [this.filterUserAccessForm.controls['username'].value ? this.filterUserAccessForm.controls['username'].value : '' ],
-          profilename: [this.filterUserAccessForm.controls['profilename'].value ? this.filterUserAccessForm.controls['profilename'].value : '' ]
+        let filteritem2 = {
+          username: [this.filterUserAccessForm.controls['username'].value ? this.filterUserAccessForm.controls['username'].value : ''],
+          profilename: [this.filterUserAccessForm.controls['profilename'].value ? this.filterUserAccessForm.controls['profilename'].value : '']
         }
         console.log(JSON.stringify(filteritem2));
         this.userAccessData.filter = JSON.stringify(filteritem2);
         break;
       case 'StartUpUserMessages':
-        let  filteritem3 = {
-          emailaddress : [this.filterNewsUpdateForm.controls['emailaddress'].value ? this.filterNewsUpdateForm.controls['emailaddress'].value : '' ],
-          startdate: [this.filterNewsUpdateForm.controls['startdate'].value ? this.filterNewsUpdateForm.controls['startdate'].value : '' ],
-          expirydate: [this.filterNewsUpdateForm.controls['expirydate'].value ? this.filterNewsUpdateForm.controls['expirydate'].value : '' ]
+        let filteritem3 = {
+          emailaddress: [this.filterNewsUpdateForm.controls['emailaddress'].value ? this.filterNewsUpdateForm.controls['emailaddress'].value : ''],
+          startdate: [this.filterNewsUpdateForm.controls['startdate'].value ? this.filterNewsUpdateForm.controls['startdate'].value : ''],
+          expirydate: [this.filterNewsUpdateForm.controls['expirydate'].value ? this.filterNewsUpdateForm.controls['expirydate'].value : '']
         }
         console.log(JSON.stringify(filteritem3));
         this.startupusermsgs.filter = JSON.stringify(filteritem3);
         break;
       case 'UserProfiles':
-        let  filteritem4 = {
-          profilename: [this.filterUserProfilesForm.controls['profilename'].value ? this.filterUserProfilesForm.controls['profilename'].value : '' ],
-          createdby: [this.filterUserProfilesForm.controls['createdby'].value ? this.filterUserProfilesForm.controls['createdby'].value : '' ]
+        let filteritem4 = {
+          profilename: [this.filterUserProfilesForm.controls['profilename'].value ? this.filterUserProfilesForm.controls['profilename'].value : ''],
+          createdby: [this.filterUserProfilesForm.controls['createdby'].value ? this.filterUserProfilesForm.controls['createdby'].value : '']
         }
         console.log(JSON.stringify(filteritem4));
         this.userprofilesdata.filter = JSON.stringify(filteritem4);
         break;
     }
   }
-  
-  resetFilter(reportName:any){
-    switch (reportName){
-      case 'UserOfReports' :
-        this.datauserreports.filter ='';
+
+  resetFilter(reportName: any) {
+    switch (reportName) {
+      case 'UserOfReports':
+        this.datauserreports.filter = '';
         this.filterUserofReportForm.reset();
         break;
-      case 'UserAccessDetails' :
-        this.userAccessData.filter ='';
+      case 'UserAccessDetails':
+        this.userAccessData.filter = '';
         this.filterUserAccessForm.reset();
         break;
-      case 'StartUpUserMessages' :
-        this.startupusermsgs.filter =''; 
+      case 'StartUpUserMessages':
+        this.startupusermsgs.filter = '';
         this.filterNewsUpdateForm.reset();
         break;
-      case 'UserProfiles' :
-        this.userprofilesdata.filter ='';
+      case 'UserProfiles':
+        this.userprofilesdata.filter = '';
         this.filterUserProfilesForm.reset();
-        break; 
+        break;
 
     }
   }
@@ -2105,202 +2712,252 @@ else{
   onFilterPredicate() {
 
     //UserOfReports
-    if(this.datauserreports)
-    this.datauserreports.filterPredicate = (data: any, filter: string): boolean => {
-      let searchString = JSON.parse(filter);
-      let isSources = false;
-      let isUserName = false;
-      let isMenuGroup = false;
-      let isReportName = false;
+    if (this.datauserreports)
+      this.datauserreports.filterPredicate = (data: any, filter: string): boolean => {
+        let searchString = JSON.parse(filter);
+        let isSources = false;
+        let isUserName = false;
+        let isMenuGroup = false;
+        let isReportName = false;
 
-      if (searchString.sources.length) {
-        for (const d of searchString.sources) {
-          if (data.sources.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isSources = true;
+        if (searchString.sources.length) {
+          for (const d of searchString.sources) {
+            if (data.sources.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isSources = true;
+            }
           }
         }
-      }
-      else 
-      isSources = true;
+        else
+          isSources = true;
 
-      if (searchString.username.length) {
-        for (const d of searchString.username) {
-          if (data.username.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isUserName = true;
+        if (searchString.username.length) {
+          for (const d of searchString.username) {
+            if (data.username.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isUserName = true;
+            }
           }
         }
-      }
-      else 
-      isUserName = true;
+        else
+          isUserName = true;
 
-      if (searchString.reportname.length) {
-        for (const d of searchString.reportname) {
-          if (data.reportname.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isReportName = true;
+        if (searchString.reportname.length) {
+          for (const d of searchString.reportname) {
+            if (data.reportname.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isReportName = true;
+            }
           }
         }
-      }
-      else 
-      isReportName = true;
+        else
+          isReportName = true;
 
-      if (searchString.menugroup.length) {
-        for (const d of searchString.menugroup) {
-          if (data.menugroup.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isMenuGroup = true;
+        if (searchString.menugroup.length) {
+          for (const d of searchString.menugroup) {
+            if (data.menugroup.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isMenuGroup = true;
+            }
           }
         }
-      }
-      else 
-      isMenuGroup = true;
+        else
+          isMenuGroup = true;
 
-      return isSources && isUserName && isReportName  && isMenuGroup;
-    }
+        return isSources && isUserName && isReportName && isMenuGroup;
+      }
 
     //News Update
-    if(this.startupusermsgs)
-    this.startupusermsgs.filterPredicate = (data: any, filter: string): boolean => {
-      let searchString = JSON.parse(filter);
-      let isEmailAddress = false;
-      let isStartDate = false;
-      let isExpiryDate = false;
+    if (this.startupusermsgs)
+      this.startupusermsgs.filterPredicate = (data: any, filter: string): boolean => {
+        let searchString = JSON.parse(filter);
+        let isEmailAddress = false;
+        let isStartDate = false;
+        let isExpiryDate = false;
 
-      if (searchString.emailaddress.length) {
-        for (const d of searchString.emailaddress) {
-          if (data.emailaddress.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isEmailAddress = true;
+        if (searchString.emailaddress.length) {
+          for (const d of searchString.emailaddress) {
+            if (data.emailaddress.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isEmailAddress = true;
+            }
           }
         }
-      }
-      else 
-      isEmailAddress = true;
+        else
+          isEmailAddress = true;
 
-      if (searchString.startdate.length) {
-        for (const d of searchString.startdate) {
-          if (data.startdate.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isStartDate = true;
+        if (searchString.startdate.length) {
+          for (const d of searchString.startdate) {
+            if (data.startdate.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isStartDate = true;
+            }
           }
         }
-      }
-      else 
-      isStartDate = true;
+        else
+          isStartDate = true;
 
-      if (searchString.expirydate.length) {
-        for (const d of searchString.expirydate) {
-          if (data.expirydate.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isExpiryDate = true;
+        if (searchString.expirydate.length) {
+          for (const d of searchString.expirydate) {
+            if (data.expirydate.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isExpiryDate = true;
+            }
           }
         }
-      }
-      else 
-      isExpiryDate = true;
+        else
+          isExpiryDate = true;
 
-      return isEmailAddress && isStartDate && isExpiryDate;
-    }
+        return isEmailAddress && isStartDate && isExpiryDate;
+      }
 
     //User Access
-    if(this.userAccessData)
-    this.userAccessData.filterPredicate = (data: any, filter: string): boolean => {
-      let searchString = JSON.parse(filter);
-      let isUserName = false;
-      let isProfileName = false;
+    if (this.userAccessData)
+      this.userAccessData.filterPredicate = (data: any, filter: string): boolean => {
+        let searchString = JSON.parse(filter);
+        let isUserName = false;
+        let isProfileName = false;
 
-      if (searchString.username.length) {
-        for (const d of searchString.username) {
-          if (data.username.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isUserName = true;
+        if (searchString.username.length) {
+          for (const d of searchString.username) {
+            if (data.username.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isUserName = true;
+            }
           }
         }
-      }
-      else 
-      isUserName = true;
+        else
+          isUserName = true;
 
-      if (searchString.profilename.length) {
-        for (const d of searchString.profilename) {
-          if (data.profilename.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isProfileName = true;
+        if (searchString.profilename.length) {
+          for (const d of searchString.profilename) {
+            if (data.profilename.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isProfileName = true;
+            }
           }
         }
-      }
-      else 
-      isProfileName = true;
+        else
+          isProfileName = true;
 
-      return isUserName && isProfileName;
-    }
+        return isUserName && isProfileName;
+      }
 
     //User Profiles
-    if(this.userprofilesdata)
-    this.userprofilesdata.filterPredicate = (data: any, filter: string): boolean => {
-      let searchString = JSON.parse(filter);
-      let isProfileName = false;
-      let isCreatedBy = false;
-
-      if (searchString.profilename.length) {
-        for (const d of searchString.profilename) {
-          if (data.profilename.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isProfileName = true;
+    debugger
+    if (this.userprofilesdata)
+      this.userprofilesdata.filterPredicate = (data: any, filter: string): boolean => {
+        let searchString = JSON.parse(filter);
+        let isProfileName = false;
+        let isCreatedBy = false;
+        if (searchString.profilename.length) {
+          console.log('profile name',searchString.profilename);
+          console.log('data profilename',data.profilename?.toLowerCase());
+          for (const d of searchString.profilename) {
+           
+            }
+          }
+        
+        if (searchString.profilename.length) {
+          for (const d of searchString.profilename) {
+           // console.log('console value',data.profilename.toLowerCase().indexOf(d));
+            if (data.profilename?.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isProfileName = true;
+            }
           }
         }
-      }
-      else 
-      isProfileName = true;
+        else
+          isProfileName = true;
 
-      if (searchString.createdby.length) {
-        for (const d of searchString.createdby) {
-          if (data.createdby.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
-            isCreatedBy = true;
+        if (searchString.createdby.length) {
+          for (const d of searchString.createdby) {
+            if (data.createdby?.trim().toLowerCase().indexOf(d.toLowerCase()) != -1) {
+              isCreatedBy = true;
+            }
           }
         }
-      }
-      else 
-      isCreatedBy = true;
+        else
+          isCreatedBy = true;
 
-      return isProfileName && isCreatedBy;
-    }
+        return isProfileName && isCreatedBy;
+      }
 
   }
 
-  prepareData(form: FormGroup,action?:string) {
+  prepareData(form: FormGroup, action?: string) {
+    console.log('form group data', form);
+    debugger;
     let attribute: any = {};
-    let profilename:string="";
+    let profilename: string = "";
     for (const field in form.controls) {
       const control = form.get(field);
-      if(field === 'userprofiles')
-      {
-        if(control?.value)
-        profilename=control.value;
+      if (field === 'userprofiles') {
+        if (control?.value)
+          profilename = control.value;
       }
-      else if(field === 'DateRange') {
+      else if (field === 'DateRange') {
         attribute.startdate = formatDate(form.get('DateRange.startdate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
         attribute.expirydate = formatDate(form.get('DateRange.expirydate')?.value, 'dd-MMM-yyyy hh:mm:ss', 'en-US');
-      } 
-      else if (field === 'active'){
-        control?.value == true ? attribute[field]='Yes' : attribute[field]='No';
+      }
+      else if (field === 'active') {
+        control?.value == true ? attribute[field] = 'Yes' : attribute[field] = 'No';
       }
       else if (control?.value) attribute[field] = control.value;
 
     }
-    if(action=='UserAccess')
-    {
+    if (action == 'UserAccess') {
 
-      let newattribute:any={};
-     if(profilename==='Custom')
-     {
-      newattribute['profilename']=profilename;
-      newattribute['profileitems']=this.Resultattributes;
-     }
-     else{
-      newattribute['profilename']=profilename;
-      newattribute['isdefaultprofile']=1;
-     // newattribute['profileitems']=this.Resultattributes;
-     }
-      newattribute['profiledescription']='This is custom';
-      newattribute['iseditprofile']=1;
-      
-     
-      
-      
-    
-      attribute['profiledata']=newattribute;
+      if (this.Sourcedata) {
+        attribute['sources'] = this.Sourcedata;
+      }
+
+      let newattribute: any = {};
+      if (profilename === 'Custom') {
+        this.preparemenu();
+        attribute['profilename'] = this.UserEditForm.controls.profilename?.value;
+        newattribute['iscustom'] = 1;
+        newattribute['iseditprofile'] = 1;
+        newattribute['isdefaultprofile'] = 0;
+        //newattribute['profilename']=profilename;
+        newattribute['profilename'] = this.UserEditForm.controls.profilename?.value;
+        newattribute['profileitems'] = this.Resultattributes;
+        attribute['iscustomprofile'] = 1;
+        // newattribute['profiledescription']='This is custom';
+      }
+
+      else {
+        attribute['profilename'] = profilename;
+        attribute['iscustomprofile'] = 0;
+        newattribute['profilename'] = profilename;
+        newattribute['iscustom'] = 0;
+        newattribute['iseditprofile'] = 1;
+        newattribute['isdefaultprofile'] = 1;
+        attribute['iscustomprofile'] = 0;
+        // newattribute['profileitems']=this.Resultattributes;
+      }
+      newattribute['isdelete'] = 1;
+
+      attribute['profiledata'] = newattribute;
+    }
+
+    if (action == 'UserProfileCreate') {
+
+      let newattribute: any = {};
+
+      attribute['isdefaultprofile'] = 0;
+      attribute['iseditprofile'] = 1;
+      attribute['iscustom'] = 0;
+      attribute['isdelete'] = 1;
+
+      attribute['profileitems'] = this.Resultattributes;
+
+      // attribute['profiledata']=newattribute;
+    }
+
+    if (action == 'UserProfileUpdate') {
+
+      let newattribute: any = {};
+      if (this.UserProfileRowData) {
+        attribute['isdefaultprofile'] = this.UserProfileRowData.isdefaultprofile;
+        attribute['iseditprofile'] = this.UserProfileRowData.iseditprofile;
+        attribute['iscustom'] = this.UserProfileRowData.iscustomprofile;
+        attribute['isdelete'] = this.UserProfileRowData.isdelete;
+      }
+
+      attribute['profileitems'] = this.Resultattributes;
+
+      // attribute['profiledata']=newattribute;
     }
     console.log(JSON.stringify(attribute));
     return attribute;
@@ -2324,26 +2981,43 @@ else{
 
   createForms() {
     this.referenceForm = this.formBuilder.group({
-      username: new FormControl({ value: '' },[Validators.required]),
-      userprofiles: new FormControl({ value:'' },[Validators.required]),
+      username: new FormControl({ value: '' }, [Validators.required]),
+      userprofiles: new FormControl({ value: '' }, [Validators.required]),
       yid: new FormControl({ value: '' }),
-      firstname: new FormControl({ value: '' },[Validators.required]),
-      lastname: new FormControl({ value: '' },[Validators.required]),
-      emailaddress: new FormControl({ value: '' },[Validators.required,Validators.email]),
-      telephoneno: new FormControl({ value: '' },[Validators.pattern("^[0-9]{11}$")]),
-      active: new FormControl({ value: '' },[Validators.required])
+      firstname: new FormControl({ value: '' }, [Validators.required]),
+      lastname: new FormControl({ value: '' }, [Validators.required]),
+      emailaddress: new FormControl({ value: '' }, [Validators.required, Validators.email]),
+      telephoneno: new FormControl({ value: '' }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+      active: new FormControl({ value: '' }, []),
+      sources: new FormControl({ value: '' }),
     });
+
 
     this.StartupUsermsgsForm = this.formBuilder.group({
       newsid: new FormControl({ value: '' }, []),
       newsdescription: new FormControl({ value: '' }, [Validators.required]),
       DateRange: this.formBuilder.group({
-        startdate: new FormControl({ value: '' },[Validators.required]),
-        expirydate: new FormControl({ value: '' },[Validators.required])
+        startdate: new FormControl({ value: '' }, [Validators.required]),
+        expirydate: new FormControl({ value: '' }, [Validators.required])
       }),
-      emailaddress: new FormControl({ value: '' },[Validators.required,Validators.email]),
-      newsheader: new FormControl({ value: '' },[Validators.required]),
+      emailaddress: new FormControl({ value: '' }, [Validators.required, Validators.email]),
+      newsheader: new FormControl({ value: '' }, [Validators.required]),
       newssubheader: new FormControl({ value: '' }, []),
+    });
+
+    this.UserEditForm = this.formBuilder.group({
+
+      profilename: new FormControl({ value: '' }, [Validators.required]),
+      profiledescription: new FormControl({ value: '' }, [Validators.required]),
+      // userprofile: new FormControl()
+
+    });
+    this.UserProfileForm = this.formBuilder.group({
+
+      profilename: new FormControl({ value: '' }, [Validators.required]),
+      profiledescription: new FormControl({ value: '' }, [Validators.required]),
+      // userprofile: new FormControl()
+
     });
 
     this.filterUserofReportForm = this.formBuilder.group({
@@ -2356,7 +3030,7 @@ else{
     this.filterNewsUpdateForm = this.formBuilder.group({
       emailaddress: new FormControl({ value: '' }, []),
       startdate: new FormControl({ value: '' }, []),
-      expirydate: new FormControl({ value: '' }, []), 
+      expirydate: new FormControl({ value: '' }, []),
     });
 
     this.filterUserAccessForm = this.formBuilder.group({
@@ -2368,59 +3042,65 @@ else{
       profilename: new FormControl({ value: '' }, []),
       createdby: new FormControl({ value: '' }, []),
     });
+    this.referenceUsernameform = this.formBuilder.group({
 
+      UserID: new FormControl({ value: '' }, [Validators.required]),
+    });
     this.StartupUsermsgsForm.reset();
     this.referenceForm.reset();
     this.filterUserofReportForm.reset();
     this.filterNewsUpdateForm.reset();
     this.filterUserAccessForm.reset();
     this.filterUserProfilesForm.reset();
-
+    this.UserEditForm.reset();
   }
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
 
-  onExport(tableHeader: any,tabName:string,tableData: any) {
-        if (tableData.data != undefined && (tableData.data != []  &&  tableData.data.length != 0) )
-         {
-          //  let header = this.reportReferenceService.getDownLoadHeaders(currentReportName)
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+  onExport(tableHeader: any, tabName: string, tableData: any) {
+    if (tableData.data != undefined && (tableData.data != [] && tableData.data.length != 0)) {
+      //  let header = this.reportReferenceService.getDownLoadHeaders(currentReportName)
 
-          let header = tableHeader ;
-          // header.filter((x:any) => x.headerValue != 'Actions');
-          let copydata = JSON.parse(JSON.stringify(tableData.data));
-          var c = document.createElement("a");
-          let data:any = [];
-          let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.headerValue]:x.header})))
-          Reflect.deleteProperty(dataHeaderRow,"Actions");
-          data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
-            copydata.forEach((row : any) => {
-              
-              for (const i of ['Actions','firstname','lastname','userprofiles','updateddttm','updatedby','profileitems','newsid','iseditprofile','iscustomprofile','isdefaultprofile','isdelete'])
-            {
-              Reflect.deleteProperty(row,i);
-            }
+      let header = tableHeader;
+      // header.filter((x:any) => x.headerValue != 'Actions');
+      let copydata = JSON.parse(JSON.stringify(tableData.data));
+      var c = document.createElement("a");
+      let data: any = [];
+      let dataHeaderRow = Object.assign({}, ...header.map((x: any) => ({ [x.headerValue]: x.header })))
+      Reflect.deleteProperty(dataHeaderRow, "Actions");
+      data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+      copydata.forEach((row: any) => {
 
-            if(tabName === 'News_Update') {
-              for (const i of ['createddttm','createdby','newssubheader'])
-              {
-                Reflect.deleteProperty(row,i);
-              }
-            }
-            if(tabName != 'User_Of_Reports') {
-              for (const i of ['sources'])
-              {
-                Reflect.deleteProperty(row,i);
-              }
-            }
+        for (const i of ['Actions', 'firstname', 'lastname', 'userprofiles', 'updateddttm', 'updatedby', 'profileitems', 'newsid', 'iseditprofile', 'iscustomprofile', 'isdefaultprofile', 'isdelete']) {
+          Reflect.deleteProperty(row, i);
+        }
 
-          let disp = Object.assign({} ,...header.map((x:any)=> ({[x.headerValue]:" "})))    
-          Reflect.deleteProperty(disp,"Actions");       
-          // console.log( "data value" +JSON.stringify(row));
-          // console.log( "header data value" +JSON.stringify(disp));
-          let dataRow = Object.assign(disp,row); 
-          Object.keys(dataRow).forEach((key:any) =>{
-            if(dataRow[key] =="")
-            dataRow[key]= " ";
-          });
-          // console.log( "data row value" +JSON.stringify(dataRow));
+        if (tabName === 'News_Update') {
+          for (const i of ['createddttm', 'createdby', 'newssubheader']) {
+            Reflect.deleteProperty(row, i);
+          }
+        }
+        if (tabName != 'User_Of_Reports') {
+          for (const i of ['sources']) {
+            Reflect.deleteProperty(row, i);
+          }
+        }
+
+        let disp = Object.assign({}, ...header.map((x: any) => ({ [x.headerValue]: " " })))
+        Reflect.deleteProperty(disp, "Actions");
+        // console.log( "data value" +JSON.stringify(row));
+        // console.log( "header data value" +JSON.stringify(disp));
+        let dataRow = Object.assign(disp, row);
+        Object.keys(dataRow).forEach((key: any) => {
+          if (dataRow[key] == "")
+            dataRow[key] = " ";
+        });
+        // console.log( "data row value" +JSON.stringify(dataRow));
         let val = Object.values(dataRow).join('|');
         val.replace(/[/t]+/g, ' ');
         data += val.replace(/[|]+/g, '\t') + "\n";
@@ -2432,10 +3112,10 @@ else{
       });
       c.href = window.URL.createObjectURL(t);
       c.click();
-      this.alertService.success('UserAccess' + ' Download Completed :)', { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.success('UserAccess' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
     }
     else {
-      this.alertService.info('UserAccess' + ' No Data Found :(', { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.info('UserAccess' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
     }
   }
 
