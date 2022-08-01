@@ -83,6 +83,7 @@ export class AuditDataFilesComponent  extends UserProfile {
           data: this.queryResult$,
           Columns: this.btAuditFileDetailsTableDetails,
           selectCheckbox: true,
+          excelQuery : this.prepareQueryParams(this.currentPage.toString()),
           imgConfig: [{ headerValue: 'DownloadFile', icon: 'save_alt', route: '', tabIndex: 1 }]
         }
     }
