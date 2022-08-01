@@ -167,7 +167,7 @@ font-size: smaller;  ">
       <input numbersOnly matTooltip="Enter page no." [(ngModel)]="apiPageNumber" matInput autocomplete="off"
         placeholder="Page no.">
       <!-- <mat-icon style="font-size:20px; cursor: pointer;"  matTooltip= "Go to Page" (click)="pageChanged()">arrow_upward</mat-icon> -->
-      <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page">fast_forward</mat-icon>
+      <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page" (click)="pageChanged()">fast_forward</mat-icon>
     </mat-form-field>
   </div>
 
