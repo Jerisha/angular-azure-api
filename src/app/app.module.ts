@@ -33,6 +33,7 @@ import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './_shared/error/error.component';
 import { ReportReferencesModule } from './report-references/report-references.module';
 import { UIService } from './uicomponents/_services/ui.service';
+import { DocumentAreaComponent } from './document-area/document-area.component';
 
 // import { GovernanceModule } from './governance/governance.module';
 
@@ -46,7 +47,8 @@ import { UIService } from './uicomponents/_services/ui.service';
     LoginComponent,
     AppLayoutComponent,
     HomeComponent,
-    ErrorComponent
+    ErrorComponent,
+    DocumentAreaComponent
     
     
                  

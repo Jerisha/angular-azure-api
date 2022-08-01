@@ -67,7 +67,7 @@ export const PyRequests = {
     },
     QUERY: {
         "RequestType": "QUERY",
-        "UserParams": [{"UserID":'BEEMA'}, {"RoleID":''}],
+        "UserParams": [{ "UserID": 'BEEMA' }, { "RoleID": '' }],
         //"RequestParams": ["Uniqueappreference", "Pagenumber", "Records per page", "ScreenIdentifer", "ReportIdentifer"],
         "RequestParams": ["Uniqueappreference", "ScreenIdentifer", "ReportIdentifer"],
         "wmRequest": {
@@ -479,136 +479,158 @@ export const PyRequests = {
         ,
         "Cache": ["ApplicationKey", "SessionID"]
     },
-    EXPSUMMARY:{ "RequestType" : "UIQUERY",
-    "UserParams":[
-        {"UserID" : "BEEMA"},
-        {"RoleID" : "" },
-        {"ScreenIdentifier" : "ExporttoExcelReport"},
-        {"ReportIdentifier" : [""]}
-        ] 
-    ,
-    "Cache":["ApplicationKey","SessionID"]
+    EXPSUMMARY: {
+        "RequestType": "UIQUERY",
+        "UserParams": [
+            { "UserID": "BEEMA" },
+            { "RoleID": "" },
+            { "ScreenIdentifier": "ExporttoExcelReport" },
+            { "ReportIdentifier": [""] }
+        ]
+        ,
+        "Cache": ["ApplicationKey", "SessionID"]
     },
-    DOWNLOADFILE:{
+    DOWNLOADFILE: {
         "RequestType": "QUERY",
         // "UserParams": ["BEEMA", "RoleID"],
         "UserParams": [
-            {"UserID" : "BEEMA"},
-            {"RoleID" :"Super Admin"}
-            ],
+            { "UserID": "BEEMA" },
+            { "RoleID": "Super Admin" }
+        ],
         "FilePath": "/opt/SP/rpiadmin/workspace/osn2/excel/TelephoneRangeReports_BEEMA_20220613_101009.xlsx"
-      },
-    UIQUERY:{ "RequestType" : "UIQUERY",
-      "UserParams":[
-          {"UserID" : "PODDARS5",
-          "Destination" : "OSN2"}
-      ],
-      "RequestParams":[
-          {"ReportIdenitifer":"ManageUsers",
-          "SubReportName":"UserReports",
-          }]
-      },
-      UIUPDATE:{ "RequestType" : "UIUPDATE",
-      "UserParams":[
-          {"UserID" : "PODDARS5",
-          "Destination" : "OSN2"}
-      ],
-      "RequestParams":[
-          {"ReportIdenitifer":"ManageUsers",
-          "SubReportName":"UserAccess",
-          "RecordIdentifier":"UserName"}],
-      "Data": [
-          {
-              "username": "PODDARS5",
-              "profilename": "Custom-PODDARS5",
-              "firstname":"Soumi",
-              "lastname":"Poddar",
-              "sources": "Amdocs",
-              "telephoneno": "11111",
-              "emailaddress": "soumi.poddar@vodafone.com",
-              "yid": "PODDARS5",
-              "active": "Yes",
-              "iscustomprofile": 1,
-              "profiledata":    {
-              "profilename": "CUSTOM-PODDARS5",
-              "profiledescription":"This is custom",
-              "iseditprofile": 1,
-              "iscustom": 0,
-              "isdelete": 1,
-              "isdefaultprofile": 0,
-              "profileitems": {
-                  "menuid": "Menu04",
-                  "isfullaccess": 1,
-                  "accesslevel": "1110"
-              }
-          }
-          }
-      ]
     },
-    UICREATE:{ "RequestType" : "UICREATE",
-    "UserParams":[
-        {"UserID" : "BEEMA",
-        "Destination" : "OSN2"}
-    ],
-    "RequestParams":[
-        {"ReportIdenitifer":"ManageUsers",
-        "SubReportName":"UserAccess",
-        "RecordIdentifier":"UserName"}],
-    "Data": [
-        {
-            "username": "PODDARS6",
-            "profilename": "Custom-PODDARS6",
-            "firstname":"Soumi",
-            "lastname":"Poddar",
-            "sources": "Amdocs",
-            "telephoneno": "11111",
-            "emailaddress": "soumi.poddar@vodafone.com",
-            "yid": "Y987654",
-            "active": "Yes",
-            "iscustomprofile": 1,
-            "profiledata":        {
-            "profilename": "Custom-PODDARS6",
-            "profiledescription":"Admin",
-            "iseditprofile": 1,
-            "iscustom": 0,
-            "isdelete": 1,
-            "isdefaultprofile": 0,
-            "profileitems": {
-                "menuid": "Menu05",
-                "isfullaccess": 1,
-                "accesslevel": "1110"
+    UIQUERY: {
+        "RequestType": "UIQUERY",
+        "UserParams": [
+            {
+                "UserID": "PODDARS5",
+                "Destination": "OSN2"
             }
-        }
-        }
-    ]
+        ],
+        "RequestParams": [
+            {
+                "ReportIdenitifer": "ManageUsers",
+                "SubReportName": "UserReports",
+            }]
     },
-    UICREATEFIRST:{
+    UIUPDATE: {
+        "RequestType": "UIUPDATE",
+        "UserParams": [
+            {
+                "UserID": "PODDARS5",
+                "Destination": "OSN2"
+            }
+        ],
+        "RequestParams": [
+            {
+                "ReportIdenitifer": "ManageUsers",
+                "SubReportName": "UserAccess",
+                "RecordIdentifier": "UserName"
+            }],
+        "Data": [
+            {
+                "username": "PODDARS5",
+                "profilename": "Custom-PODDARS5",
+                "firstname": "Soumi",
+                "lastname": "Poddar",
+                "sources": "Amdocs",
+                "telephoneno": "11111",
+                "emailaddress": "soumi.poddar@vodafone.com",
+                "yid": "PODDARS5",
+                "active": "Yes",
+                "iscustomprofile": 1,
+                "profiledata": {
+                    "profilename": "CUSTOM-PODDARS5",
+                    "profiledescription": "This is custom",
+                    "iseditprofile": 1,
+                    "iscustom": 0,
+                    "isdelete": 1,
+                    "isdefaultprofile": 0,
+                    "profileitems": {
+                        "menuid": "Menu04",
+                        "isfullaccess": 1,
+                        "accesslevel": "1110"
+                    }
+                }
+            }
+        ]
+    },
+    UICREATE: {
+        "RequestType": "UICREATE",
+        "UserParams": [
+            {
+                "UserID": "BEEMA",
+                "Destination": "OSN2"
+            }
+        ],
+        "RequestParams": [
+            {
+                "ReportIdenitifer": "ManageUsers",
+                "SubReportName": "UserAccess",
+                "RecordIdentifier": "UserName"
+            }],
+        "Data": [
+            {
+                "username": "PODDARS6",
+                "profilename": "Custom-PODDARS6",
+                "firstname": "Soumi",
+                "lastname": "Poddar",
+                "sources": "Amdocs",
+                "telephoneno": "11111",
+                "emailaddress": "soumi.poddar@vodafone.com",
+                "yid": "Y987654",
+                "active": "Yes",
+                "iscustomprofile": 1,
+                "profiledata": {
+                    "profilename": "Custom-PODDARS6",
+                    "profiledescription": "Admin",
+                    "iseditprofile": 1,
+                    "iscustom": 0,
+                    "isdelete": 1,
+                    "isdefaultprofile": 0,
+                    "profileitems": {
+                        "menuid": "Menu05",
+                        "isfullaccess": 1,
+                        "accesslevel": "1110"
+                    }
+                }
+            }
+        ]
+    },
+    UICREATEFIRST: {
         "Request": "UICreate",
-        "UserParams":[{"userid":"BEEMA",
-                    "destination":"OSN2"
-                        }],
+        "UserParams": [{
+            "userid": "BEEMA",
+            "destination": "OSN2"
+        }],
         "RequestParams":
-        [{"reportidentifier" :"ManageUsers",
-        "SubReportName" : "UserAccess",
-        "username":"",
-        "is_ldap_auth":""
-        
-        
-        }]
+            [{
+                "reportidentifier": "ManageUsers",
+                "SubReportName": "UserAccess",
+                "username": "",
+                "is_ldap_auth": ""
+
+
+            }]
     },
-    UIDELETE:{ "RequestType" : "UIDELETE",
-    "UserParams":[
-        {"UserID" : "BEEMA",
-        "Destination" : "OSN2"}
-    ],
-    "RequestParams":[
-        {"ReportIdenitifer":"ManageUsers",
-        "SubReportName":"UserAccess",
-        "RecordIdentifier":"UserName"}],
-    "Data": [
-        {
-    "username": "PODDARS6"
-    }
-    ]
+    UIDELETE: {
+        "RequestType": "UIDELETE",
+        "UserParams": [
+            {
+                "UserID": "BEEMA",
+                "Destination": "OSN2"
+            }
+        ],
+        "RequestParams": [
+            {
+                "ReportIdenitifer": "ManageUsers",
+                "SubReportName": "UserAccess",
+                "RecordIdentifier": "UserName"
+            }],
+        "Data": [
+            {
+                "username": "PODDARS6"
+            }
+        ]
     }
 }

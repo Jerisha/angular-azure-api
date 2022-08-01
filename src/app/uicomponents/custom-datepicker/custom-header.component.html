@@ -5,12 +5,12 @@
   <button
     mat-icon-button
     class="example-double-arrow"
-    (click)="previousClicked('year')"
+    (click)="previousClicked('year')" matTooltip="Previous Year"
   >
     <mat-icon>keyboard_arrow_left</mat-icon>
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
-  <button mat-icon-button (click)="previousClicked('month')">
+  <button mat-icon-button (click)="previousClicked('month')"  matTooltip="Previous Month">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
 
@@ -18,13 +18,13 @@
   <span class="example-header-label">{{ periodLabel }}</span>
 
   <!-- "next" buttons -->
-  <button mat-icon-button (click)="nextClicked('month')">
+  <button mat-icon-button (click)="nextClicked('month')"  matTooltip="Next Month">
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>
   <button
     mat-icon-button
     class="example-double-arrow"
-    (click)="nextClicked('year')"
+    (click)="nextClicked('year')" matTooltip="Next Year"
   >
     <mat-icon>keyboard_arrow_right</mat-icon>
     <mat-icon>keyboard_arrow_right</mat-icon>

@@ -34,7 +34,7 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   firstDropdownVal: string = '' ;
 
 
-  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+  // @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   constructor(private cdr: ChangeDetectorRef,    
     private formBuilder: FormBuilder,
@@ -94,12 +94,12 @@ ngOnChanges(changes: SimpleChanges) {
     this.referenceForm.markAsUntouched();
     }
 }
-triggerResize() 
-{
-  // Wait for changes to be applied, then trigger textarea resize.
-  this._ngZone.onStable.pipe(take(1))
-      .subscribe(() => this.autosize.resizeToFitContent(true));
-}
+// triggerResize() 
+// {
+//   // Wait for changes to be applied, then trigger textarea resize.
+//   this._ngZone.onStable.pipe(take(1))
+//       .subscribe(() => this.autosize.resizeToFitContent(true));
+// }
 formValidation() :FormGroup {
 
  const group: any = {};
