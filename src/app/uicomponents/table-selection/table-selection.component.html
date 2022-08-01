@@ -1,3 +1,4 @@
+<div class ="table-selection-container">
 <!-- <mat-form-field *ngIf="filter" style="margin-left: 8px;margin-top: 25px; width:10%;
 font-size: smaller;  ">
   <mat-label>Filter</mat-label>
@@ -10,7 +11,7 @@ font-size: smaller;  ">
   </button> -->
 
 
-<div style="display: flex">
+<div class ="table-selection-top">
   <mat-form-field appearance="standard" *ngIf="columnHeaderFilter" class="colfilter" style="margin-left: 8px;">
     <mat-select #select multiple disableOptionCentering panelClass="matselhorzPanel">
       <mat-select-trigger>
@@ -78,7 +79,7 @@ font-size: smaller;  ">
 
 <!-- <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="filterByColumn()"><mat-icon>search</mat-icon></button> -->
 
-<div>
+<!-- <div> -->
 
   <div class="table-container">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -155,8 +156,8 @@ font-size: smaller;  ">
     </table>
 
   </div>
-</div>
-<div style="height: 35px;display: flow-root;margin: 5px">
+<!-- </div> -->
+<div class ="table-selection-bottom">
   <div class="tblpagination" style="float: right;
   display: -webkit-box; align-items: center;">
     <mat-paginator *ngIf="!disablePageSize" #paginator style="height: 5px;" [pageSizeOptions]="[50,100,250,500]"
@@ -195,4 +196,5 @@ font-size: smaller;  ">
     <mat-icon>import_export</mat-icon>Refresh
   </button>&nbsp;&nbsp;
 </div> -->
-<mat-divider></mat-divider>
+<!-- <mat-divider></mat-divider> -->
+</div>
