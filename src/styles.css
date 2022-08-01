@@ -3,6 +3,7 @@
 html,
 body {
   height: 100%;
+  
 }
 
 body {
@@ -418,12 +419,7 @@ margin-top: 90px;*/
   height: inherit !important;
 }
 
-.side-content {
-  overflow: hidden !important;
-  min-height: 40em
-  /* min-height: 525px; */
-  /* height: inherit !important; */
-}
+
 
 .side-left-div {
   max-width: 50%;
@@ -497,12 +493,7 @@ box-sizing: border-box;
 .table-selection-top{
   display: flex
 }
-.table-container { 
-  height: 25em;  
-  /* height: calc(100% - 100px); */
-  /* height: inherit;    */
-  overflow: auto;  
-}
+
 .mat-tab-body-wrapper {
   height: inherit;
 }
@@ -569,4 +560,25 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     text-overflow: ellipsis;
     max-width: 21.42857em;
     display: block;
+  }
+
+  .side-content {
+    overflow: hidden !important;
+    min-height: 40em
+    /* min-height: 525px; */
+    /* height: inherit !important; */
+    /* min-height: calc(100vh - 300px); */
+    /* position: relative; */
+    
+  }
+  .table-container { 
+    height: 25em;  
+    /* height: calc(100% - 100px); */
+    /* height: inherit;    */
+    /* height: calc(100vh - 25em); */
+    overflow: auto; 
+    /* overflow: hidden !important;  */
+    /* position: relative; */
+    
+      
   }
