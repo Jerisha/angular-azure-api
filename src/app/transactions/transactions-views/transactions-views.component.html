@@ -36,7 +36,7 @@
                     </div>
                       <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
                         <mat-list style ="max-height:300px;overflow-x:hidden; overflow-y:auto;" #cliList>
-                          <mat-list-item style =" display: inline-flex; align-items:center;  height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white">                              
+                          <mat-list-item style =" display: inline-flex; align-items:center;  height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white;text-align:center;">                              
                             <!-- <p matLine > -->
                               <div style="display:inline-flex;">
                               <span style="width:160px;box-sizing: border-box;">Start Telephone No.</span>
@@ -46,9 +46,9 @@
                             </div>                                                        
                             <!-- </p>                                                       -->
                           </mat-list-item>  
-                          <mat-list-item  *ngFor="let cli of CliRangeSet; let index = index " style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);">                              
+                          <mat-list-item  *ngFor="let cli of CliRangeSet; let index = index " style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);text-align:center;">                              
                             <!-- <p matLine > -->
-                              <div style="display:inline-flex;">
+                              <div style="display:inline-flex;text-align: center;">
                               <span style="width:160px;box-sizing: border-box;">{{cli[0]}}</span>
                               <span style="width:160px;box-sizing: border-box;">{{cli[1]}}</span>
                               <span style="width:160px;box-sizing: border-box;">{{cli[2]}}</span>
@@ -143,10 +143,10 @@
                       </mat-form-field> -->
                     </span>
                     <span>
-                      <ng-container *ngIf="Cuparr  as config">
+                      <ng-container *ngIf="Cuparr  as config" style="font-size:11px">
                         <mat-form-field [ngClass]="{'hidden':g.CupID.disabled}" style="margin-left:2px;width:225px">
                           <mat-label>CupID *</mat-label>
-                          <input #cupid formControlName="CupID" type="text" [(ngModel)]="model.CupId" placeholder="CupID" matInput
+                          <input #cupid  style="font-size:11px" formControlName="CupID" type="text" [(ngModel)]="model.CupId" placeholder="CupID" matInput
                             [matAutocomplete]="autoCupID" OptionsValidator (ngModelChange)="onmodelCupIDchange($event,'CupID')" [options]="config.CupID" />
                            
                             <span matSuffix mat-icon-button>
@@ -154,7 +154,7 @@
                             <mat-icon style="display:contents!important" (click)="model.CupId=''">arrow_drop_down</mat-icon>
                           </span>
                           <mat-autocomplete (optionSelected)="onCupIDChange($event)"  autoActiveFirstOption #autoCupID="matAutocomplete">
-                            <mat-option *ngFor="let val of config.CupID | ddlFilter: cupid.value" [value]="val">
+                            <mat-option style="font-size:11px" *ngFor="let val of config.CupID | ddlFilter: cupid.value" [value]="val">
                               {{val}}
                             </mat-option>
                           </mat-autocomplete>
@@ -182,15 +182,15 @@
                        <ng-container *ngIf="SourceFranchisearr  as config1">
                         <mat-form-field *ngIf = "enableFrancise"  [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:225px;">
                           <mat-label>Franchise *</mat-label>
-                          <input #franchise formControlName="Franchise" [(ngModel)]="model.franchise" type="text" placeholder="Franchise" matInput
+                          <input #franchise style="font-size:11px" formControlName="Franchise" [(ngModel)]="model.franchise" type="text" placeholder="Franchise" matInput
                             [matAutocomplete]="autoFranchise" OptionsValidator [options]="config1.Franchise" />
                           
                             <span matSuffix mat-icon-button>
                             
                             <mat-icon style="display:contents!important" (click)="model.franchise=''">arrow_drop_down</mat-icon>
                           </span>
-                          <mat-autocomplete   autoActiveFirstOption #autoFranchise="matAutocomplete">
-                            <mat-option *ngFor="let val of config1.Franchise | dropDownListFranchise: franchise.value" [value]="val">
+                          <mat-autocomplete    autoActiveFirstOption #autoFranchise="matAutocomplete">
+                            <mat-option style="font-size:11px" *ngFor="let val of config1.Franchise | dropDownListFranchise: franchise.value" [value]="val">
                               {{val}}
                             </mat-option>
                           </mat-autocomplete>
@@ -221,14 +221,14 @@
                               <ng-container *ngIf="SourceFranchisearr  as config1">
                                 <mat-form-field *ngIf = "enableSource"   [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:260px;">
                                   <mat-label>Source *</mat-label>
-                                  <input #source formControlName="Source" [(ngModel)]="model.source"  (ngModelChange)="onmodelSourcechange($event,'CupID')" type="text" placeholder="Source" matInput
+                                  <input #source formControlName="Source" style="font-size:11px" [(ngModel)]="model.source"  (ngModelChange)="onmodelSourcechange($event,'CupID')" type="text" placeholder="Source" matInput
                                     [matAutocomplete]="autoSource" OptionsValidator [options]="config1.Source" />
                                   <span matSuffix mat-icon-button>
                                   
                                     <mat-icon style="display:contents!important" (click)="model.source=''">arrow_drop_down</mat-icon>
                                   </span>
                                   <mat-autocomplete (optionSelected)="onSourceChange($event)"   autoActiveFirstOption #autoSource="matAutocomplete">
-                                    <mat-option *ngFor="let val of config1.Source | ddlFilter: source.value" [value]="val">
+                                    <mat-option style="font-size:11px" *ngFor="let val of config1.Source | ddlFilter: source.value" [value]="val">
                                       {{val}}
                                     </mat-option>
                                   </mat-autocomplete>
@@ -257,13 +257,13 @@
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.TransactionType.disabled}">
                             <mat-label>Transaction Type *</mat-label>
-                            <input #transactiontype formControlName="TransactionType" [(ngModel)]="model.TransactionType" type="text" placeholder="Transaction Type" matInput
+                            <input #transactiontype style="font-size:11px" formControlName="TransactionType" [(ngModel)]="model.TransactionType" type="text" placeholder="Transaction Type" matInput
                               [matAutocomplete]="autoTransactionType" OptionsValidator [options]="config.TransactionType" />
                             <span matSuffix mat-icon-button>
                               <mat-icon (click)="model.TransactionType=''">arrow_drop_down</mat-icon>
                             </span>
                             <mat-autocomplete (optionSelected)="onSelectionChange($event)" autoActiveFirstOption #autoTransactionType="matAutocomplete">
-                              <mat-option *ngFor="let val of config.TransactionType | ddlFilter: transactiontype.value" [value]="val">
+                              <mat-option style="font-size:11px" *ngFor="let val of config.TransactionType | ddlFilter: transactiontype.value" [value]="val">
                                 {{val}}
                               </mat-option>
                             </mat-autocomplete>
@@ -274,14 +274,14 @@
                         </div> 
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.LineType.disabled}">
-                            <mat-label>Line Type *</mat-label>
-                            <input #linetype formControlName="LineType" [(ngModel)]="model.LineType"  type="text" placeholder="Line Type" matInput
+                            <mat-label>Line Type </mat-label>
+                            <input style="font-size:11px" #linetype formControlName="LineType" [(ngModel)]="model.LineType"  type="text" placeholder="Line Type" matInput
                               [matAutocomplete]="autoLineType" OptionsValidator [options]="config.LineType" />
                             <span matSuffix mat-icon-button>
                               <mat-icon (click)="model.LineType=''">arrow_drop_down</mat-icon>
                             </span>
                             <mat-autocomplete autoActiveFirstOption #autoLineType="matAutocomplete">
-                              <mat-option *ngFor="let val of config.LineType | ddlFilter: linetype.value" [value]="val">
+                              <mat-option style="font-size:11px" *ngFor="let val of config.LineType | ddlFilter: linetype.value" [value]="val">
                                 {{val}}
                               </mat-option>
                             </mat-autocomplete>
@@ -293,13 +293,13 @@
                         <div style="margin-bottom: 6px;">
                           <mat-form-field [ngClass]="{'hidden':d.TypeOfLine.disabled}">
                             <mat-label>Type of Line *</mat-label>
-                            <input #typeofline formControlName="TypeOfLine" [(ngModel)]="model.TypeOfLine" type="text" placeholder="TypeOf Line" matInput
+                            <input style="font-size:11px" #typeofline formControlName="TypeOfLine" [(ngModel)]="model.TypeOfLine" type="text" placeholder="TypeOf Line" matInput
                               [matAutocomplete]="autoTypeOfLine" OptionsValidator [options]="config.TypeOfLine" />
                             <span matSuffix mat-icon-button>
                               <mat-icon  (click)="model.TypeOfLine=''">arrow_drop_down</mat-icon>
                             </span>
                             <mat-autocomplete autoActiveFirstOption #autoTypeOfLine="matAutocomplete">
-                              <mat-option *ngFor="let val of config.TypeOfLine | ddlFilter: typeofline.value" [value]="val">
+                              <mat-option style="font-size:11px" *ngFor="let val of config.TypeOfLine | ddlFilter: typeofline.value" [value]="val">
                                 {{val}}
                               </mat-option>
                             </mat-autocomplete>
@@ -310,7 +310,7 @@
                         <div style="margin-bottom: 6px;">
                           <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'200px'}">
                             <mat-label class="vf-label">Order Ref. *</mat-label>
-                            <input type="text" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12"  value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
+                            <input type="text" onkeyup="this.value = this.value.toUpperCase();" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12"  value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')"> Enter OrderRef</mat-error>
                         
                           </mat-form-field>                             
@@ -340,7 +340,7 @@
                           <span>                        
                           <mat-form-field   class="vf-mr-negative" style="width:250px;">
                             <mat-label class="vf-label">Customer Name *</mat-label>
-                            <textarea matInput placeholder="Customer Name *"
+                            <textarea matInput placeholder="Customer Name *" onkeyup="this.value = this.value.toUpperCase();"
                             cdkTextareaAutosize matInput formControlName="CustomerName"
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1"
@@ -354,7 +354,7 @@
                                                         
                           </mat-form-field> 
                          
-                          <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:#d33a93;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
+                          <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:gray;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
                             <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle; display: inline-flex;align-items: center;justify-content: center;">content_copy</mat-icon>
                           </button>
                         </span>   
@@ -367,7 +367,7 @@
                             cdkTextareaAutosize  matInput formControlName="AddressLine1"
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1"
-                            cdkAutosizeMaxRows="2"
+                            cdkAutosizeMaxRows="2" onkeyup="this.value = this.value.toUpperCase();"
                           
                             size="20" maxlength="100" 
                             name =address1
@@ -382,7 +382,7 @@
                         <mat-label class="vf-label">Address2 *</mat-label>
                         <textarea matInput placeholder="Address2 *"
                           cdkTextareaAutosize matInput formControlName="AddressLine2"
-                          #autosize="cdkTextareaAutosize"
+                          #autosize="cdkTextareaAutosize" onkeyup="this.value = this.value.toUpperCase();"
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="2"
                           size="20" maxlength="100"   
@@ -398,7 +398,7 @@
                       <mat-label class="vf-label">Address3</mat-label>
                       <textarea matInput placeholder="Address3"
                         cdkTextareaAutosize matInput formControlName="AddressLine3"
-                        #autosize="cdkTextareaAutosize"
+                        #autosize="cdkTextareaAutosize" onkeyup="this.value = this.value.toUpperCase();"
                         cdkAutosizeMinRows="1"
                         cdkAutosizeMaxRows="2"
                       
@@ -413,7 +413,7 @@
                     <mat-label class="vf-label">Address4</mat-label>
                     <textarea matInput placeholder="Address4"
                       cdkTextareaAutosize matInput formControlName="AddressLine4"
-                      #autosize="cdkTextareaAutosize"
+                      #autosize="cdkTextareaAutosize" onkeyup="this.value = this.value.toUpperCase();"
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="2"
                    
@@ -427,7 +427,7 @@
                   <mat-form-field   class="vf-mr-negative" style="width:100%;">
                       <mat-label class="vf-label">Post Code *</mat-label>
                       <input type="text" 
-                       matInput  placeholder="Post Code " 
+                       matInput  placeholder="Post Code "  onkeyup="this.value = this.value.toUpperCase();"
                        name =postcode matInput formControlName="PostCode"
                        [(ngModel)]="transactionItem.customerAddress.postcode"
                        size="12" 

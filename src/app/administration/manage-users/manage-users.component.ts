@@ -2360,7 +2360,7 @@ export class ManageUsersComponent implements OnInit {
         if (res.Status && res.Status[0].StatusMessage === 'Success') {
           //success message and same data reload
           // this.refreshData();
-          this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.success("Record created successfully!)", { autoClose: true, keepAfterRouteChange: false });
           //this.getFileDetails('UserAccessDetails');
         }
       });
@@ -2435,7 +2435,7 @@ export class ManageUsersComponent implements OnInit {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record update successfully!)", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('UserAccessDetails');
                   }
                 });
@@ -2461,7 +2461,7 @@ export class ManageUsersComponent implements OnInit {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record update successfully!)", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('StartUpUserMessages');
                   }
                 });
@@ -2487,13 +2487,13 @@ export class ManageUsersComponent implements OnInit {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record update successfully!)", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('UserProfiles')
                   }
                 });
             }
             else {
-              this.alertService.info("Record update Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.info("Record update Cancelled!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
           break;
@@ -2510,7 +2510,7 @@ export class ManageUsersComponent implements OnInit {
               if (res.Status && res.Status[0].StatusMessage === 'Success') {
                 //success message and same data reload
                 // this.refreshData();
-                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.alertService.success("Record created successfully!)", { autoClose: true, keepAfterRouteChange: false });
                 this.getFileDetails('UserAccessDetails');
               }
             });
@@ -2523,7 +2523,7 @@ export class ManageUsersComponent implements OnInit {
               if (res.Status && res.Status[0].StatusMessage === 'Success') {
                 //success message and same data reload
                 // this.refreshData();
-                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.alertService.success("Record created successfully!)", { autoClose: true, keepAfterRouteChange: false });
                 this.getFileDetails('StartUpUserMessages');
               }
             });
@@ -2536,7 +2536,7 @@ export class ManageUsersComponent implements OnInit {
               if (res.Status && res.Status[0].StatusMessage === 'Success') {
                 //success message and same data reload
                 // this.refreshData();
-                this.alertService.success("Record created successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                this.alertService.success("Record created successfully!!", { autoClose: true, keepAfterRouteChange: false });
                 this.getFileDetails('UserProfiles');
               }
             });
@@ -2562,8 +2562,10 @@ export class ManageUsersComponent implements OnInit {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
                   //success message and same data reload
                   // this.refreshData();
-                  this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                  this.alertService.success("Record delete successfully!)", { autoClose: true, keepAfterRouteChange: false });
                   this.getFileDetails('UserAccessDetails');
+              this.isLeftPanel=false;
+             
                 }
                 else {
                   this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -2587,8 +2589,9 @@ export class ManageUsersComponent implements OnInit {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
                   //success message and same data reload
                   // this.refreshData();
-                  this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                  this.alertService.success("Record delete successfully!)", { autoClose: true, keepAfterRouteChange: false });
                   this.getFileDetails('StartUpUserMessages');
+                  this.isLeftPanel=false;
                 }
                 else {
                   this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -2612,8 +2615,9 @@ export class ManageUsersComponent implements OnInit {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
                   //success message and same data reload
                   // this.refreshData();
-                  this.alertService.success("Record delete successfully!! :)", { autoClose: true, keepAfterRouteChange: false });
+                  this.alertService.success("Record delete successfully!)", { autoClose: true, keepAfterRouteChange: false });
                   this.getFileDetails('UserProfiles');
+                  this.isLeftPanel=false;
                 }
                 else {
                   this.alertService.info("Record delete Cancelled!!", { autoClose: true, keepAfterRouteChange: false });
@@ -3108,10 +3112,10 @@ export class ManageUsersComponent implements OnInit {
       });
       c.href = window.URL.createObjectURL(t);
       c.click();
-      this.alertService.success('UserAccess' + ' Download Completed :)', { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.success('UserAccess' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
     }
     else {
-      this.alertService.info('UserAccess' + ' No Data Found :(', { autoClose: true, keepAfterRouteChange: false });
+      this.alertService.info('UserAccess' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
     }
   }
 
