@@ -562,6 +562,11 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
   }  
   .mat-table .cdk-table .mat-sort .mat-elevation-z8{
     height: inherit;
+  }  
+  
+  .mat-cell.mat-column-LatestUserComments {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 21.42857em;
+    display: block;
   }
-  
-  

@@ -148,7 +148,9 @@ table td, table th {
 }
 
 
-
+/* .mat-cell.mat-column-LatestUserComments {
+  background: red;
+} */
 
 /* Handle on hover */
 /* .table-container::-webkit-scrollbar-thumb:hover {
