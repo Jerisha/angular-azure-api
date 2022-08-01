@@ -42,7 +42,8 @@
                     <mat-form-field [ngClass]="{'hidden':myForm.controls.PostCode.disabled}" appearance="outline">
                         <mat-label>PostCode</mat-label>
                         <input id="PostCode" formControlName="PostCode" matInput #input maxlength="20"
-                            placeholder="PostCode">
+                        oninput="this.value = this.value.toUpperCase()"
+                            placeholder="PostCode" pattern="[A-Z]*">
                         
                     </mat-form-field>
                     </div>
