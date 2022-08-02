@@ -240,6 +240,11 @@ tr.mat-row1, tr.mat-footer-row1 {
   .highlighted{
     background-color: lightpink;
   }  
+  ::-webkit-scrollbar-thumb {
+    background: #007c92;
+    border-radius: 10px;
+  }
+  
 /* .vftooltip{  
   background-color: #007c92 !important; 
   color: #ffffff !important; 

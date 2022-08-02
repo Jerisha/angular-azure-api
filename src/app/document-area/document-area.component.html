@@ -1,19 +1,50 @@
-<!-- <mat-accordion *ngIf="AT.LiveDetails[0] as livedata; else elseBlock" [togglePosition]="'before'">
+<ng-container >
+
+<mat-accordion [togglePosition]="'before'">
     <div class="accordionWidth">
-    <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 0"
-        (opened)="setStep(0); panelOpenState1 = true;  setAddressDetails('TransactionDetails', livedata);"
-        (closed)="panelOpenState1 = false; setAddressDetails('RemoveAddress');">
+        <mat-expansion-panel #panel [hideToggle]="'true'" *ngFor="let menu of menuBind">
 
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <mat-icon class="table-icon">{{panelOpenState1 && step === 0 ? 'remove_box_outline' :
-                    'add_box_outline'}}</mat-icon>
-                &nbsp;&nbsp;
-                Current Live Details
-            </mat-panel-title>
-        </mat-expansion-panel-header>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="table-icon">{{ panel.opened ? 'remove_box_outline' :
+                        'add_box_outline'}}</mat-icon>
+                    &nbsp;&nbsp;
+                    {{menu.key}}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-table class="appTable" [tableitem]="menu.menuItems"></app-table>
+            <!-- <div class="table-container" *ngIf="dataSource">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                    <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index"
+                        matColumnDef="{{disCol.headerValue}}">
+                        <div *ngIf="disCol.headerValue=='Filepath'">
+                            <th mat-header-cell *matHeaderCellDef class="nowrap-cell-head">{{disCol.header}}</th>
+                            <td mat-cell *matCellDef="let element" class="nowrap-cell">
+                                <ng-container>
 
-      
-    </mat-expansion-panel>
+                                    <button type="button" [disabled]=" element.Status != 'Available'"
+                                        [ngClass]="element.Status =='Available'?'hyberlinkbtn':'removelink'"
+                                        (click)="downloadFile(element[disCol.headerValue])">{{
+                                        element[disCol.headerValue].substring(element[disCol.headerValue].lastIndexOf('/')+1)}}</button>
+
+                                </ng-container>
+                            </td>
+                        </div>
+
+                        <div *ngIf="disCol.headerValue!='Filepath'">
+                            <th mat-header-cell class="nowrap-cell-head" *matHeaderCellDef>{{disCol.header}}</th>
+                            <td mat-cell class="nowrap-cell" *matCellDef="let element">
+                                {{element[disCol.headerValue]}}
+                            </td>
+                        </div>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="dataColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: dataColumns;"> </tr>
+                </table>
+            </div> -->
+        </mat-expansion-panel>
     </div>
-</mat-accordion> -->
+</mat-accordion>
+</ng-container>

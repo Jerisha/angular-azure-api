@@ -25,6 +25,11 @@
       <img width='20px' height="20px" src='assets/images/Excel.svg'>
       <!-- <mat-icon matTooltip="Excel Reports" [matTooltipPosition]="position.value">import_export</mat-icon> -->
     </button>
+    <button mat-icon-button value="Export" color="primary" [routerLink]="'/document-area'" matTooltip="Docs Menu"
+      [matTooltipPosition]="position.value">
+      
+      <mat-icon matTooltip="Docs Menu" [matTooltipPosition]="position.value">folder_open</mat-icon>
+    </button>
     <button mat-icon-button matTooltip="Welcome {{user.username}}" [matMenuTriggerFor]="menu"
       [matTooltipPosition]="position.value" color="primary">
       <mat-icon>perm_identity</mat-icon>

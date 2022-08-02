@@ -6,6 +6,7 @@ import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ErrorComponent } from './_shared/error/error.component';
 import { ExporttoexcelComponent } from './_shared/exporttoexcel/exporttoexcel.component';
 import { AuthGuard } from './_auth/authentiation.guard'
+import { DocumentAreaComponent } from './document-area/document-area.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,14 @@ const routes: Routes = [
     component: ErrorComponent,
 
   },
+  {
+    path: 'document-area',
+    component: AppLayoutComponent,
+    children: [{ path: '', component: DocumentAreaComponent }],
+    //canLoad:[AuthGuard],
+    canActivateChild: [AuthGuard]
+  },
+
   {
     path: 'home',
     component: AppLayoutComponent,
