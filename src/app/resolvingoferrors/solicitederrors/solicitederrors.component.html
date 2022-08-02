@@ -313,7 +313,7 @@
                       <mat-label>Remarks</mat-label>
                       <textarea required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks"
                         [ngModelOptions]="{standalone: true}" #input matInput maxlength="500"
-                        placeholder="Remarks"></textarea>
+                        placeholder="Remarks" rows ="1"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                       <mat-error class="alert alert-danger">
                         <div *ngIf="remarks.errors?.required">
