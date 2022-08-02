@@ -24,7 +24,7 @@ justify-content: center;
     height: 80vh; 
     width: 79vw;
     /* background-color: rgb(230, 129, 176); */
-    overflow: auto;
+    /* overflow: auto; */
 }
 .tab-box1{
   /* min-height: 80vh; */

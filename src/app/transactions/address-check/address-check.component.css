@@ -14,11 +14,11 @@
   .internalMatGrid{  border:1px solid #e60000; min-width:80%;}
 .vf-flex-container {
     display: flex;
-    height: auto;
+    height: 100%;
     flex-direction: row;
     justify-content: center;        
-     margin-top: .5rem;
-    margin-bottom: .5rem; 
+     /* margin-top: .5rem;
+    margin-bottom: .5rem;  */
   }
   .vf-card-title{
     box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);

@@ -131,14 +131,10 @@ export class HttpWrapperService {
         switch (wmResponse.MessageType as WMMessageType) {
             case WMMessageType.Informational:
                 if (wmResponse.StatusCode != "EUI100")
-                    status = true;
-                    
+                    status = true;                    
                 else
-
                     this.alertService.error( wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
-                
-
-                    return status;
+                return status;
                 break;
             case WMMessageType.Error:
                 this.alertService.error( wmResponse.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
