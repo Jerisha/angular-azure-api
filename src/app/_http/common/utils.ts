@@ -215,6 +215,17 @@ transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers
     return transform;
   }
 
+  static preparePyUIQueryDoc(reportIdentifier: any, subReportName: any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIQUERY));
+    
+    transform.UserParams = user();    
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+
+    return transform;
+  }
+
+
   static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
     transform.UserParams = user();
