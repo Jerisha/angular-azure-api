@@ -210,9 +210,20 @@ div.mat-tab-label {
 
 .custom-tooltip {
   max-width: unset !important;
-  /* max-height: unset !important; */
-  white-space: pre-wrap;
-  font-size: 8px;
+ /* max-height: unset !important;  */
+ text-align: left;
+ /* border-radius: 6px; */
+  white-space: pre-line;
+  font-size: -8px !important;
+  background: #FED9B7 !important;
+  margin-left: -8px !important;
+  border-radius: 10px  solid rgb(20, 15, 15) !important ;
+  /* padding: 2px 0 !important; */
+  position: below !important;
+  top: -5px !important;
+ 
+  
+
 }
 .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
@@ -475,18 +486,20 @@ box-sizing: border-box;
 /* filters  positions -starts */
 .matsidenav-footer {
   /* position:relative !important;                  */
-  bottom: 35px;
+  /* bottom: 35px; */
+  bottom:0px;
   left: 0;
   height: auto;
   align-items: center;
+  position: sticky;
   /* background-color: lightslategray; */
 
 }
 
 .matsidenav-filter {
   overflow-x: hidden;
-  height: 31.6428em;
-  max-height: 34.1428em; 
+  /* height: 31.6428em; */
+  /* max-height: 34.1428em;  */
   /* max-height: calc(100% - 35px); */
   position: relative;
 }
@@ -568,6 +581,13 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     max-width: 21.42857em;
     display: block;
   }
+  .mat-cell.mat-column-Remarks {
+ 
+    text-align: center;
+    white-space: normal; 
+  width: 40em;
+    /* word-wrap: normal; */
+  }
 
   .side-content {
     overflow: hidden !important;
@@ -633,3 +653,4 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
 
  
   .hidden{display: none;}
+
