@@ -7,7 +7,7 @@
       </app-select-multiple>
     </div>
 
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+    <form  class ="search-pane-form" [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
@@ -193,7 +193,7 @@
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
             </app-table-selection>
-            <form name="form" (ngSubmit)="save.form.valid && onSaveSubmit()" #save="ngForm" autocomplete="off" *ngIf="updateAccess">
+            <form  class = "update-form" name="form" (ngSubmit)="save.form.valid && onSaveSubmit()" #save="ngForm" autocomplete="off" *ngIf="updateAccess">
               <div class="mat-elevation-z8 side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
@@ -257,10 +257,10 @@
               </div>
             </form>
           </div>
-          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+          <div *ngSwitchCase="1" class ="tab-container">
             <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
           </div>
-          <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
+          <div *ngSwitchCase="3" style="height: calc(100% - 8px);" class ="tab-container">
             <ng-container *ngIf="queryResultInfo$|async as config">
               <!-- {{config.Months |json }} -->
               <div style="display: flex;margin: 5px;">
@@ -272,7 +272,7 @@
           </div>
 
 
-          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+          <div *ngSwitchCase="2" class ="tab-container">
             <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
             </app-transaction-errors>
           </div>
