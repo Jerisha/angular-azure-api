@@ -564,6 +564,16 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
 
     this.spinner.hide();
   }
+
+  tooltipcol(col:string,disCol: any)
+  {
+    let data='';
+    if(col==='LatestUserComments'){
+     data=disCol;
+    }
+    return data;
+  }
+
   checkNumberColumn(col:string)
   {
     let falg:boolean=false;
