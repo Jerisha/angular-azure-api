@@ -401,7 +401,7 @@
           </button>
         </ng-template>
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+          <div *ngSwitchCase="0" class="table-view" style="height: calc(100% - 30px);">
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecords($event)"
               (addNewTab)="newTab($event)">
             </app-table-selection>

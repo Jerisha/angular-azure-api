@@ -250,7 +250,7 @@
                         <mat-icon style="font-size: large;">close</mat-icon>
                     </button>
                 </ng-template> <span [ngSwitch]="tab.tabType">
-                    <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+                    <div *ngSwitchCase="0" class="table-view">
                         <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable"  (pageIndex)="getNextSetRecords($event)"
                             (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
                     </app-table-selection>

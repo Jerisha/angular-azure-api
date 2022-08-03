@@ -592,6 +592,18 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
       
   }
 
+  .side-container .table-view .table-container { 
+    /* height: 25em;   */
+    /* height: calc(100% - 100px); */
+    /* height: inherit;    */
+    /* height: calc(100vh - 25em); */
+    overflow: auto; 
+    /* overflow: hidden !important;  */
+    /* position: relative; */
+    height: calc(100vh - 31vh);      
+  }
+
+
   .side-container .side-bottom .mat-form-field {
     width:18em;
     }
