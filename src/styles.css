@@ -213,12 +213,14 @@ div.mat-tab-label {
  /* max-height: unset !important;  */
  text-align: left;
  /* border-radius: 6px; */
-  white-space: pre-wrap;
-  font-size: 8px !important;
+  white-space: pre-line;
+  font-size: -8px !important;
   background: #FED9B7 !important;
-  margin-left: 8px !important;
+  margin-left: -8px !important;
   border-radius: 10px  solid rgb(20, 15, 15) !important ;
   /* padding: 2px 0 !important; */
+  position: below !important;
+  top: -5px !important;
  
   
 
@@ -581,7 +583,7 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
  
     text-align: center;
     white-space: normal; 
-  width: 35em;
+  width: 40em;
     /* word-wrap: normal; */
   }
 
