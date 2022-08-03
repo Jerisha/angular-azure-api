@@ -207,22 +207,18 @@ div.mat-tab-label {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 }
-
 .custom-tooltip {
-  max-width: unset !important;
- /* max-height: unset !important;  */
- text-align: left;
- /* border-radius: 6px; */
+
+  text-align: left;
   white-space: pre-line;
   font-size: -8px !important;
   background: #FED9B7 !important;
   margin-left: -8px !important;
-  border-radius: 10px  solid rgb(20, 15, 15) !important ;
+  border-radius: 10px solid rgb(20, 15, 15) !important;
   /* padding: 2px 0 !important; */
   position: below !important;
-  top: -5px !important;
- 
-  
+  /* top: -5px !important; */
+  top: 100% !important;
 
 }
 .mat-tab-group.mat-primary .mat-ink-bar,
