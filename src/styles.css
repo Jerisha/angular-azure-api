@@ -524,7 +524,7 @@ box-sizing: border-box;
 }
 .update-form{
  bottom:0;
- margin-top: 0.6em;
+ margin-top: 0.8em;
 }
 .span-container{
   height: inherit;
@@ -600,4 +600,18 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
   margin: 5px;
  
   }
+.full-audit-panel{
+    /* background-color: lawngreen!important; */
+    /* width: 360px; */
+    width:25em !important;
+    font-size: 0.8571em ;  
+  /* position:absolute; 
+  margin-top: 90px;*/
+  /* margin-left: 200px; */
+  margin: 5px;
+ 
+  }
+
+
+ 
   .hidden{display: none;}

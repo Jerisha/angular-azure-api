@@ -36,7 +36,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   favReports: string[] = [];
   userDetails!: User;
   title: any;
-  ignoreFavMenu: string[] = ['/home', '/exporttoexcel']
+  ignoreFavMenu: string[] = ['/home', '/exporttoexcel','/document-area']
   constructor(private navService: NavService, private service: UIService,
     private cdr: ChangeDetectorRef,
     private _router: Router, private alertService: AlertService,
