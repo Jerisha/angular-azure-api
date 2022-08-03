@@ -210,9 +210,18 @@ div.mat-tab-label {
 
 .custom-tooltip {
   max-width: unset !important;
-  /* max-height: unset !important; */
+ /* max-height: unset !important;  */
+ text-align: left;
+ /* border-radius: 6px; */
   white-space: pre-wrap;
-  font-size: 8px;
+  font-size: 8px !important;
+  background: #FED9B7 !important;
+  margin-left: 8px !important;
+  border-radius: 10px  solid rgb(20, 15, 15) !important ;
+  /* padding: 2px 0 !important; */
+ 
+  
+
 }
 .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
