@@ -50,22 +50,18 @@
         </ng-template>
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0"  class ="table-view"style="height: calc(100% - 30px);">
-            <div style="margin: 8px;">
+            <div >
             <span><b> List of Inflight Telephone Nos. to be processed as of "{{Datetime}} GMT"</b></span>
               <!-- <mat-icon style="float: right" matTooltip="Refresh" (click)="refresh($event)">sync</mat-icon> -->
-              <!-- <button class="re" type="reset" mat-raised-button color="primary" (click)="refresh($event)">
+              <button class="info" type="reset" mat-raised-button color="primary" (click)="refresh($event)">
                 <mat-icon>import_export</mat-icon>Refresh
-              </button>&nbsp;&nbsp;
-             -->
+              </button>
+            
             </div>
             <app-table-selection [sidePan]="pagesidenav" (pageIndex)="getNextSetRecords($event)" [tableitem]="myTable"
               [isShown]='false'>
             </app-table-selection>
-            <div style="margin-left: 10px; margin-top: 50px;" >
-              <button  type="reset" mat-raised-button color="primary" (click)="refresh($event)" >
-                <mat-icon>sync</mat-icon>Refresh
-              </button>
-            </div>
+         
           </div>
         </span>
       </mat-tab>
