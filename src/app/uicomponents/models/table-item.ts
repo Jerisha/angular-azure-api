@@ -35,6 +35,7 @@ export interface ColumnDetails {
     isFooter?: boolean;
     isBold?:boolean;
     isNumber?:boolean;
+    showTooltip?:boolean;
 }
 
 export interface CellAttributes{

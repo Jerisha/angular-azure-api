@@ -336,7 +336,7 @@ readonly CustomHeaderComponent = CustomHeaderComponent;
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
-    { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false ,showTooltip: true },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false }
     // { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];

@@ -120,9 +120,11 @@ font-size: smaller;  ">
 
         <!-- Other Columns -->
         <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">
-          <th mat-header-cell *matHeaderCellDef matToltip="disCol.header">{{disCol.header}}</th>
-          <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" [matTooltip]="tooltipcol(disCol.headerValue, element[disCol.headerValue])"
+          <th mat-header-cell *matHeaderCellDef>{{disCol.header}}</th>
+          <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" 
+          matTooltipClass="custom-tooltip" [matTooltipDisabled]="!disCol.showTooltip"  matTooltip="{{element[disCol.headerValue]}}"
             [ngStyle]="highlightCell(element,disCol)">
+            
             <!-- {{element[disCol.headerValue]}} -->
             <span
               [ngStyle]="disCol.isBold?{'font-weight': '1000'} : {'font-weight': '500'}">{{disCol.isNumber?(element[disCol.headerValue]|

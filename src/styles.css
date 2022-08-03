@@ -208,6 +208,12 @@ div.mat-tab-label {
   border-top-left-radius: 10px;
 }
 
+.custom-tooltip {
+  max-width: unset !important;
+  /* max-height: unset !important; */
+  white-space: pre-wrap;
+  font-size: 8px;
+}
 .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   /* background-color: #e60000; */
