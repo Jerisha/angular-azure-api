@@ -37,9 +37,9 @@ table td, table th {
   height: 10px;
 }
 
+/*  table-container class moved into global style sheet here renamed with '1' */
 
-
-.table-container {
+.table-container1 {
   /* min-height: 100px; */
   height: 350px;
   overflow: auto;
@@ -148,7 +148,9 @@ table td, table th {
 }
 
 
-
+/* .mat-cell.mat-column-LatestUserComments {
+  background: red;
+} */
 
 /* Handle on hover */
 /* .table-container::-webkit-scrollbar-thumb:hover {
