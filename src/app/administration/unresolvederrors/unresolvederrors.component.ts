@@ -10,7 +10,7 @@ import { UnresolvedError } from '../_models/administraion-ui.module';
 import { Utils } from 'src/app/_http';
 import { AdministrationService } from '../_services/administration.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/filterCustom';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/_shared/alert';
@@ -363,6 +363,8 @@ check999() {
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
+     //set removecache to 1 on update
+     if(!this.isSaveDisable)  this.isRemoveCache = 1;
 
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
