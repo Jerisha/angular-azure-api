@@ -16,7 +16,7 @@ import { Utils, WebMethods } from 'src/app/_http';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { ReportService } from '../services/report.service';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
-import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/filterCustom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
