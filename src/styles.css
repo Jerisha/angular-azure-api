@@ -626,7 +626,10 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     /* position: relative; */
     height: calc(100vh - 31vh);      
   }
-
+.table-fit-content{
+  width: fit-content;
+  
+}
 
   .side-container .side-bottom .mat-form-field {
     

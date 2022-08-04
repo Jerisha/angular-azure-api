@@ -1,4 +1,4 @@
-<div class="table-selection-container">
+<div class="table-selection-container"  [ngClass]="reportName === 'livereport'  ? 'table-fit-content' : {} ">
 
   <div class="table-selection-top">
     <mat-form-field appearance="standard" *ngIf="columnHeaderFilter" class="colfilter" style="margin-left: 8px;">
