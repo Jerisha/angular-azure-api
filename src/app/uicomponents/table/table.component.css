@@ -42,7 +42,7 @@ th.mat-sort-header-sorted {
   color: white;
   width: auto;
   font-size:smaller;  
-  text-align: center;
+  text-align: left;
 }
 
 .mat-header-row,.mat-row {
@@ -52,7 +52,7 @@ th.mat-sort-header-sorted {
 }
 .mat-cell
 {
-  text-align: center;
+  text-align: left;
   /* border: 1px solid black; */
 }
 

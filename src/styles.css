@@ -565,7 +565,12 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
   padding-left: 6px;
     padding-top: 0px;
     padding-bottom: 0px;
+    text-align: left;
   }  
+  td.mat-column-LiveRecords, th.mat-column-LiveRecords,td.mat-column-InactiveRecords,
+   th.mat-column-InactiveRecords,td.mat-column-NotAvailable, th.mat-column-NotAvailable {
+      text-align: center !important;
+    } 
   .mat-checkbox-inner-container{
     height: 0.8571em !important;
     width: 0.8571em !important;
@@ -778,6 +783,7 @@ tr.audit-trail-mat-row:nth-child(4n - 1) {
 .app-table-mat-row, .app-table-mat-header-cell{
   height: 1.5em !important;
     font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+    
 }
 /* .app-table-mat-cell{
   white-space: normal !important;

@@ -99,13 +99,13 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
   isRemoveCache: number = DefaultIsRemoveCache;
 
   columns: ColumnDetails[] =[
-    { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
-    { header: 'End Telephone No.', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Start Tel No', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'End Tel No', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
-    { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
-    { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
-    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'Live', headerValue: 'LiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'Inactive', headerValue: 'InactiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'NA', headerValue: 'NotAvailable', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'Line', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
