@@ -574,6 +574,8 @@ else{
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
+     //set removecache to 1 on update
+     if(!this.isSaveDisable)  this.isRemoveCache = 1;
 
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
