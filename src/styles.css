@@ -661,9 +661,7 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     height: calc(100vh - 18vh);
     overflow:auto;
   }
-  .live-records{
 
-  }
 
   .audit-trail-border {
     overflow:hidden;

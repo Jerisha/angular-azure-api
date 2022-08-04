@@ -1,7 +1,7 @@
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { Select } from 'src/app/uicomponents/models/select';
-import { Component, OnInit, ViewChild, ChangeDetectorRef , Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import { ProvideReport } from 'src/app/reports/models/provide-report';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Observable } from 'rxjs';
@@ -63,6 +63,7 @@ const Itemstwo: Select[] = [
 })
 export class InflightreportComponent extends UserProfile implements OnInit {
 
+    refreshClick: boolean;
     select: string = 'Exp';
     isDisabled = true;
     myTable!: TableItem;
@@ -74,7 +75,7 @@ export class InflightreportComponent extends UserProfile implements OnInit {
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
     // currentPage: string = '1';
-    Datetime: string= '';
+    Datetime: string = '';
     expOperatorsKeyPair: [string, string][] = [];
     expressions: any = [expNumeric, expString, expDate];
     currentPage: number = DefaultPageNumber;
@@ -82,19 +83,19 @@ export class InflightreportComponent extends UserProfile implements OnInit {
     isRemoveCache: number = DefaultIsRemoveCache;
     expOperators: string[] = [
         "StartTelephoneNumberOperator",
-     
-      ];
+
+    ];
 
     public tabs: Tab[] = [];
     errorCode = new FormControl();
+
     constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe,private auth: AuthenticationService,
+        private cdr: ChangeDetectorRef, private service: ReportService, private spinner: NgxSpinnerService, private telnoPipe: TelNoPipe, private auth: AuthenticationService,
         private alertService: AlertService,
-        private actRoute: ActivatedRoute)
-         {
-            super(auth, actRoute);
-            this.intializeUser();
-          }
+        private actRoute: ActivatedRoute) {
+        super(auth, actRoute);
+        this.intializeUser();
+    }
 
     errorCodeData: Select[] = [
         { view: '101', viewValue: '101', default: true },
@@ -115,7 +116,7 @@ export class InflightreportComponent extends UserProfile implements OnInit {
         this.createForm();
         debugger;
         this.listItems = Itemstwo;
-        
+
     }
     ngAfterViewInit() {
         this.cdr.detectChanges();
@@ -131,25 +132,27 @@ export class InflightreportComponent extends UserProfile implements OnInit {
         this.currentPage = pageEvent.currentPage;
         this.pageSize = pageEvent.pageSize
         this.onFormSubmit(true);
-      
+
     }
-refresh(event: any)
-{
-    this.onFormSubmit(true);
-    // console.log('refresh');
-}
+    refresh(event: any) {
+        this.refreshClick = true;
+        this.onFormSubmit(true);
+        // console.log('refresh');
+    }
     onFormSubmit(isEmitted?: boolean): void {
-      
+
         debugger;
         // this.currentPage = isEmitted ? this.currentPage : '1';
         this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
         this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
         this.isRemoveCache = isEmitted ? 0 : 1;
+        if (this.refreshClick) this.isRemoveCache = 1;
+
         var reqParams = [{ "Pagenumber": this.currentPage },
         { "RecordsperPage": this.pageSize },
         { "IsRemoveCache": this.isRemoveCache }];
-       
-        this.Datetime =   formatDate( new Date, 'dd-MMM-yyyy HH:mm', 'en-US')
+
+        this.Datetime = formatDate(new Date, 'dd-MMM-yyyy HH:mm', 'en-US')
         this.tabs.splice(0);
         this.alertService.clear();
         let request = Utils.preparePyQuery('TelephoneNumberDetails', 'ProvideReports', this.prepareQueryParams(this.currentPage.toString()), reqParams);
@@ -158,23 +161,23 @@ refresh(event: any)
                 let result = {
                     datasource: res.data.TelephoneNumbers,
                     params: res.params
-            //         totalrecordcount: res.TotalCount,
-            // totalpages: res.NumberOfPages,
-            // pagenumber: res.PageNumber,
-            // pagecount: res.Recordsperpage  
+                    //         totalrecordcount: res.TotalCount,
+                    // totalpages: res.NumberOfPages,
+                    // pagenumber: res.PageNumber,
+                    // pagecount: res.Recordsperpage  
                 }
                 return result;
             } else return res;
         }));
         this.myTable = {
             data: this.queryResult$,
-            removeNoDataColumns : true,
+            removeNoDataColumns: true,
             Columns: this.columns,
-            filter: false,        
-            excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+            filter: false,
+            excelQuery: this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
-            
-            
+
+
         }
         if (!this.tabs.find(x => x.tabType == 0)) {
             this.tabs.push({
@@ -192,22 +195,22 @@ refresh(event: any)
         let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
         console.log("operators event1", "vals ", vals);
         if (vals.length == 0) {
-          this.expOperatorsKeyPair.push(val);
-          console.log("if part", this.expOperatorsKeyPair);
+            this.expOperatorsKeyPair.push(val);
+            console.log("if part", this.expOperatorsKeyPair);
         }
         else {
-          this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
-          this.expOperatorsKeyPair.push(val);
-          console.log("else part", this.expOperatorsKeyPair);
+            this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
+            this.expOperatorsKeyPair.push(val);
+            console.log("else part", this.expOperatorsKeyPair);
         }
-      }
-    
-      getTupleValue(element: [string, string], keyvalue: string) {
+    }
+
+    getTupleValue(element: [string, string], keyvalue: string) {
         if (element[0] == keyvalue) { return element[1]; }
         else
-          return "";
-    
-      }
+            return "";
+
+    }
     get f() {
         return this.myForm.controls;
     }
@@ -231,7 +234,7 @@ refresh(event: any)
     }
 
     createForm() {
-        
+
         this.myForm = new FormGroup({
             // TelephoneNumber: new FormControl({ value: '', disabled: false },
             //     [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
@@ -246,17 +249,17 @@ refresh(event: any)
     onChange(value: string, ctrlName: string) {
         const ctrl = this.myForm.get(ctrlName) as FormControl;
         if (isNaN(<any>value.charAt(0))) {
-          //const val = coerceNumberProperty(value.slice(1, value.length));
-          ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+            //const val = coerceNumberProperty(value.slice(1, value.length));
+            ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
         } else {
-          ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
+            ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
         }
-      }
+    }
 
     resetForm(): void {
         this.myForm.reset();
         this.tabs.splice(0);
-      }
+    }
 
     addPrefix(control: string, value: any) {
         if (value.charAt(0) != 0) {
