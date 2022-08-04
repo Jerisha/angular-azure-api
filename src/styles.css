@@ -537,6 +537,9 @@ box-sizing: border-box;
 .app-transaction-errors-container{
   height: calc(100% - 10px); 
 }
+.transaction-error-container{
+  overflow: auto;
+}
 .update-form{
  bottom:0;
  margin-top: 0.8em;
@@ -714,6 +717,7 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     color: red;
     padding: 3px 0px ;
     text-align: center;
+    height: 1.715em;
   }
   .no-record-found-left {
     color: red;
