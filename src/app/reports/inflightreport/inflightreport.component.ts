@@ -57,11 +57,11 @@ const Itemstwo: Select[] = [
     { view: 'TelephoneNumber', viewValue: 'TelephoneNumber', default: true }
 ]
 @Component({
-    selector: 'app-providereport',
-    templateUrl: './providereport.component.html',
-    styleUrls: ['./providereport.component.css']
+    selector: 'app-inflightreport',
+    templateUrl: './inflightreport.component.html',
+    styleUrls: ['./inflightreport.component.css']
 })
-export class ProvidereportComponent extends UserProfile implements OnInit {
+export class InflightreportComponent extends UserProfile implements OnInit {
 
     select: string = 'Exp';
     isDisabled = true;
@@ -173,6 +173,7 @@ refresh(event: any)
             filter: false,        
             excelQuery : this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
+            
             
         }
         if (!this.tabs.find(x => x.tabType == 0)) {

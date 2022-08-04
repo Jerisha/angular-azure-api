@@ -32,7 +32,7 @@ width:180px;height: 35px;;
         <div>No results found!</div>
       </mat-optgroup>
       <div *ngIf="(filteredOptions | async)?.length != 0 && search.value==''" style="margin-top:2%;margin-left:10px;">
-        <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSelection()">
+        <mat-checkbox color="primary" [(ngModel)]="allSelected" (change)="toggleAllSelection()">
           Select All</mat-checkbox>
       </div>
       <mat-option (onSelectionChange)="selectionChange($event)" *ngFor="let option of filteredOptions | async"
