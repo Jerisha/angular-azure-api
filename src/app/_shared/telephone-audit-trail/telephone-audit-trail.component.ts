@@ -117,7 +117,8 @@ testfun(islive :boolean)
 
   customScroll(i:number, isUnSol?: boolean) {
   //  this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94);
-   setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 62); }, 200);
+  //  setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 62); }, 200);
+  setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*21.5) + 81) : this.scrollDemo.nativeElement.scrollTo(0,(i*21.5) + 51); }, 200);
   }
 
   setAddressDetails(section: string, element?: any) {

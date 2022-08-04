@@ -627,3 +627,130 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
 
  
   .hidden{display: none;}
+
+  /* audit trail styles start */
+  .audit-trail-container {
+    height: calc(100vh - 18vh);
+    overflow:auto;
+  }
+  .live-records{
+
+  }
+
+  .audit-trail-border {
+    overflow:hidden;
+    /* min-width: 960px; */
+  border: 2px solid grey;
+  padding: 8px;
+  margin: 8px 0;
+  height: 100%;
+  }
+
+  .container-fluid {
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 20px;
+  }
+
+  .fluid-item {
+    flex-shrink: 0;
+  }
+  .audit-trail-label {
+    display: inline-block;
+    font: 500 12px/14px Roboto, "Helvetica Neue" !important;
+    color: rgba(0, 0, 0, 1);
+    min-width: 160px;
+  }
+ 
+  .audit-trail-text-display {
+    font: 400 12px/14px Roboto, "Helvetica Neue" !important;
+    /* font-size: 0.8em;
+    font-weight: 400; */
+    color: rgba(0, 0, 0, 1);
+    /* padding: 2px 0px; */
+  }
+  .audit-trail-table-icon{
+    cursor: pointer;
+    font-size: 1.5em;
+    height: 0px !important;  
+    color: #e60000;
+  }
+  .audit-trail-accordion-width{
+    /* min-width: 1028px; */
+    min-width: 985px;
+  }
+  .audit-trail-mat-panel-title {
+    font-size: 0.8em;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 1);
+    padding: 3px 0px ;
+  }
+  .audit-trail-mat-expansion-panel-header{
+    height: 2em;
+  }
+  .no-record-found-centre {
+    color: red;
+    padding: 3px 0px ;
+    text-align: center;
+  }
+  .no-record-found-left {
+    color: red;
+    padding: 3px 0px ;
+    text-align: left;
+  }
+  .audit-trail-notification .audit-trail-page-header {    
+    background-color: #e60000;
+    color:  white;  
+    text-align: center;
+    font-size: 1em;
+    font-weight: 500;    
+    padding: 3px 0px ;
+  }
+  .over-flow-hidden{
+    overflow: hidden;
+  }
+  tr.audit-trail-example-detail-row {
+    height: 0px !important;
+    background-color: white !important;
+    border: 2px solid grey;
+  }
+  .audit-trail-example-element-row{
+    height: 1.5em !important;
+  }
+  .audit-trail-table-header{
+      background-color: #e60000;
+      color:white;
+  }
+  .audit-trail-mat-divider{
+    min-height: 1.25em;
+  }
+  .audit-trail-mat-header-row{
+    height: 1.5em !important;
+    font: 400 12px/14px Roboto, "Helvetica Neue", sans-serif;
+  }
+.audit-trail-table {
+  width: 100%;
+}
+.audit-trail-mat-expansion-panel-header.mat-expanded {
+  height: fit-content;
+}
+.audit-trail-liverecord-sec {
+  font: 500 12px/14px Roboto, "Helvetica Neue", sans-serif !important;
+}
+.audit-trail-highlighted {
+  background-color: lightgreen;
+}
+tr.audit-trail-mat-row:nth-child(4n - 1) {
+  background-color: #D9D9D9 !important;
+}
+/* audit trail style end */
+
+/* simple table style start */
+.app-table-mat-row, .app-table-mat-header-cell{
+  height: 1.5em !important;
+    font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+}
+/* .app-table-mat-cell{
+  white-space: normal !important;
+} */
+/* simple table style end */
