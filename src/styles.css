@@ -624,13 +624,16 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
 
 
   .side-container .side-bottom .mat-form-field {
-    width:18em;
+    
+    width:12em;
+    /* width:18%; */
     }
   .side-bottom .side-textarea{
     /* background-color: lawngreen!important; */
     /* width: 360px; */
-    width:46em !important;
-    font-size: 0.8571em ;  
+    width:26em !important;
+    font-size: 0.8571em ; 
+    /* width:45% !important; */
   /* position:absolute; 
   margin-top: 90px;*/
   /* margin-left: 200px; */

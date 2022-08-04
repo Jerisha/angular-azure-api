@@ -253,13 +253,15 @@
             </app-table-selection>
             <form class = "update-form" (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off"
               *ngIf="updateAccess">
-              <div class="mat-elevation-z8 side-bottom">
+              <!-- <div class="mat-elevation-z8 side-bottom"> -->
+                <div class="side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
                     <option *ngFor="let list of selectListItems"> {{list}} </option>
                   </select> -->
 
                   <div style="display: inline-block;">
+                    <!-- <div > -->
                     <ng-container *ngIf="updateDetails as con">
 
 
