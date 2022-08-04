@@ -248,8 +248,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     console.log('customer name ',this.transactionItem.customerAddress.customerName);
    // this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
    this.transactionItem.customerAddress = { customerName: this.transactionItem.customerAddress.customerName, address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
-
-    
+  
     //console.log('paf address',Addressval)
     return "";
   }
@@ -258,8 +257,14 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     this.addressDetails = Addressval;
     this.transactionItem.customerAddress = { customerName: this.addressDetails.CustomerName, address1: this.addressDetails.internalAddr1, address2: this.addressDetails.internalAddr2, address3: this.addressDetails.internalAddr3, address4: this.addressDetails.internalAddr4, postcode: this.addressDetails.postcode };
-
-    //console.log('paf address',Addressval)
+    // if(this.addressDetails.linetype)
+    // {
+    //  this.model.LineType=this.addressDetails.linetype;
+    // }
+    // if(this.addressDetails.typeofline)
+    // {
+    //  this.model.TypeOfLine=this.addressDetails.typeofline;
+    // }
     return "";
   }
   onmodelCupIDchange(value: string, ctrlName: string) {

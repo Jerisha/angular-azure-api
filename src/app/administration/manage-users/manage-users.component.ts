@@ -2677,7 +2677,7 @@ export class ManageUsersComponent implements OnInit {
         break;
       case 'StartUpUserMessages':
         let filteritem3 = {
-          emailaddress: [this.filterNewsUpdateForm.controls['emailaddress'].value ? this.filterNewsUpdateForm.controls['emailaddress'].value : ''],
+          emailaddress: [this.filterNewsUpdateForm.controls['emailaddress'].value ? this.filterNewsUpdateForm.controls['emailaddress'].value.trim() : ''],
           startdate: [this.filterNewsUpdateForm.controls['startdate'].value ? this.filterNewsUpdateForm.controls['startdate'].value : ''],
           expirydate: [this.filterNewsUpdateForm.controls['expirydate'].value ? this.filterNewsUpdateForm.controls['expirydate'].value : '']
         }
