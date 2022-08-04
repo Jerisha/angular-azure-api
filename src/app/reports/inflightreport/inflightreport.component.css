@@ -5,5 +5,8 @@
   margin: 5px;
   margin-right: 14px; */
   float: right;   
-  /* cursor: pointer; */
+  cursor: pointer;
+  font-size: small;
+  margin-right: 5px;
+  margin-top: 2px;
   }
