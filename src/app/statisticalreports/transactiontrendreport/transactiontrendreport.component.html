@@ -133,7 +133,7 @@
         <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
 
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+          <div *ngSwitchCase="0">
             
             
             <mat-slide-toggle (change)="changeView()"  [(ngModel)]="isChecked" class="toggleclass">
@@ -143,9 +143,11 @@
               <!-- <app-table-exp class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
                 [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecordsExps($event)">
               </app-table-exp> -->
+              <div class="table-view">
               <app-table-expansion-new class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
                 [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecords($event)">
               </app-table-expansion-new>
+              </div>
 
             </div>
 
