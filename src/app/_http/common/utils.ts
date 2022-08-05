@@ -1,9 +1,7 @@
-import { User } from 'src/app/_auth/model/user';
-import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+
 import { PyRequests } from 'src/app/_helper/Constants/pyrequests-const';
 // import { PyRequests } from 'src/app/_helper/Constants/pyrequests-const';
-import { WMRequests } from 'src/app/_helper/index'
-import { HttpWrapperService } from '../http-wrapper.service';
+import { WMRequests } from 'src/app/_helper/index';
 
 export class Utils {
 

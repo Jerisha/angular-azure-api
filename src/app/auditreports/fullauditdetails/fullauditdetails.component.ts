@@ -18,7 +18,7 @@ import { AlertService } from 'src/app/_shared/alert';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component'
-import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/filterCustom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';

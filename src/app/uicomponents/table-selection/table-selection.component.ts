@@ -40,6 +40,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   allSelected = true;
   selection = new SelectionModel<any>(true, []);
   @Input() tableitem?: TableItem;
+
   @Input() sidePan: any;
   @Input() isShown: boolean = true;
   @Input() reportName?: string;
@@ -574,15 +575,6 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
 
     this.spinner.hide();
-  }
-
-  tooltipcol(col:string,disCol: any)
-  {
-    let data='';
-    if(col==='LatestUserComments'){
-     data=disCol;
-    }
-    return data;
   }
 
   checkNumberColumn(col:string)

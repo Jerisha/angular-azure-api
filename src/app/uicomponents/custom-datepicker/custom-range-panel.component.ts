@@ -53,10 +53,10 @@ export class CustomRangePanelComponent<D> {
         return [start, today];
       }
       case 'this week': {
-        return this.calculateWeek(today);
+        return this.calculateWeek(today, rangeName);
       }
       case 'this month': {
-        return this.calculateMonth(today);
+        return this.calculateMonth(today, rangeName);
       }
       case 'this year': {
         const start = this.dateAdapter.createDate(year, 0, 1);
@@ -65,11 +65,11 @@ export class CustomRangePanelComponent<D> {
       }
       case 'last week': {
         const thisDayLastWeek = this.dateAdapter.addCalendarDays(today, -7);
-        return this.calculateWeek(thisDayLastWeek);
+        return this.calculateWeek(thisDayLastWeek, rangeName);
       }
       case 'last month': {
         const thisDayLastMonth = this.dateAdapter.addCalendarMonths(today, -1);
-        return this.calculateMonth(thisDayLastMonth);
+        return this.calculateMonth(thisDayLastMonth, rangeName);
       }
       case 'last year': {
         const start = this.dateAdapter.createDate(year - 1, 0, 1);
@@ -85,24 +85,30 @@ export class CustomRangePanelComponent<D> {
     }
   }
 
-  private calculateMonth(forDay: D): [start: D, end: D] {
+  private calculateMonth(forDay: D, range: string): [start: D, end: D] {
     const year = this.dateAdapter.getYear(forDay);
     const month = this.dateAdapter.getMonth(forDay);
     const start = this.dateAdapter.createDate(year, month, 1);
-    const end = this.dateAdapter.today();
-    // const end = this.dateAdapter.addCalendarDays(
-    //   start,
-    //   this.dateAdapter.getNumDaysInMonth(forDay) - 1
-    // );
+
+    let end = this.dateAdapter.addCalendarDays(
+      start,
+      this.dateAdapter.getNumDaysInMonth(forDay) - 1
+    );
+    if (range === 'this month')
+      end = this.dateAdapter.today();
     return [start, end];
   }
 
-  private calculateWeek(forDay: D): [start: D, end: D] {
+  private calculateWeek(forDay: D, range: string): [start: D, end: D] {
     const deltaStart =
       this.dateAdapter.getFirstDayOfWeek() -
       this.dateAdapter.getDayOfWeek(forDay);
     const start = this.dateAdapter.addCalendarDays(forDay, deltaStart);
-    const end = this.dateAdapter.today();//this.dateAdapter.addCalendarDays(start, 6);
+    let end = this.dateAdapter.addCalendarDays(start, 6);
+
+    if (range === 'this week')
+      end = this.dateAdapter.today();
+
     return [start, end];
   }
 

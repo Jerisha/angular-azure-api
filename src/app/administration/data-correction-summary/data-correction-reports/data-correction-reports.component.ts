@@ -20,8 +20,8 @@ import { Utils } from 'src/app/_http/common/utils';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component';
 import { AdministrationService } from '../../_services/administration.service';
 
-  const AutoCorrectionSummary: string = 'AutoCorrectionSummary';
-  const ManualCorrectionSummary: string = 'ManualCorrectionSummary';
+const AutoCorrectionSummary: string = 'AutoCorrectionSummary';
+const ManualCorrectionSummary: string = 'ManualCorrectionSummary';
 
 const ELEMENT_DATA: any[] = [
   {
@@ -118,27 +118,27 @@ const ELEMENT_DATA: any[] = [
 
 ];
 
-const ELEMENT_DATA1 :any[]=[{
-  TelNo:'01229122222', View:''
-},{
-  TelNo:'01229122223', View:''
-},{
-  TelNo:'01229122224', View:''
-},{
-  TelNo:'01229122225', View:''
-},{
-  TelNo:'01229122226', View:''
-},{
-  TelNo:'01229122227', View:''
+const ELEMENT_DATA1: any[] = [{
+  TelNo: '01229122222', View: ''
+}, {
+  TelNo: '01229122223', View: ''
+}, {
+  TelNo: '01229122224', View: ''
+}, {
+  TelNo: '01229122225', View: ''
+}, {
+  TelNo: '01229122226', View: ''
+}, {
+  TelNo: '01229122227', View: ''
 }
-,{
-  TelNo:'01229122228', View:''
-},{
-  TelNo:'01229122229', View:''
-},{
-  TelNo:'01229122232', View:''
-},{
-  TelNo:'01229122239', View:''
+  , {
+  TelNo: '01229122228', View: ''
+}, {
+  TelNo: '01229122229', View: ''
+}, {
+  TelNo: '01229122232', View: ''
+}, {
+  TelNo: '01229122239', View: ''
 }
 ]
 const Items: Select[] = [
@@ -208,9 +208,9 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
 
 
   ];
-  colHeader1: ColumnDetails[] = [    
+  colHeader1: ColumnDetails[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
-    { headerValue: 'View', header: 'Inventory', showDefault: true, isImage: true },  
+    { headerValue: 'View', header: 'Inventory', showDefault: true, isImage: true },
   ];
 
   // rowAttrInfo: CellAttributes[] = [
@@ -218,10 +218,9 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
   //   ];
 
   constructor(private dialog: MatDialog,
-    private formBuilder: FormBuilder, private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService,private auth: AuthenticationService,
-    private actRoute: ActivatedRoute)
-     {
-      super(auth, actRoute);
+    private formBuilder: FormBuilder, private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService, private auth: AuthenticationService,
+    private actRoute: ActivatedRoute) {
+    super(auth, actRoute);
     this.intializeUser();
   }
 
@@ -266,7 +265,7 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
   ngOnInit(): void {
     this.createForm();
     this.listItems = Items;
-    
+
     let request = Utils.preparePyConfig(['Search'], ["FullAuditActID"]);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
@@ -286,27 +285,26 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
     if (!this.dataCorrectionForm.valid) return;
 
     this.tabs.splice(0);
-  
-    
-if(this.switchBtn)
-{
-   this.tabName = this.switchBtn.checked ? 'Manual Correction Summary' : 'Auto Correction Summary';
-   this.switchBtn.checked ? this.fetchQueryResult(ManualCorrectionSummary) : this.fetchQueryResult(AutoCorrectionSummary);
-}  else {
-    this.fetchQueryResult(AutoCorrectionSummary);
-}
+
+
+    if (this.switchBtn) {
+      this.tabName = this.switchBtn.checked ? 'Manual Correction Summary' : 'Auto Correction Summary';
+      this.switchBtn.checked ? this.fetchQueryResult(ManualCorrectionSummary) : this.fetchQueryResult(AutoCorrectionSummary);
+    } else {
+      this.fetchQueryResult(AutoCorrectionSummary);
+    }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
         tabType: 0,
         name: this.tabName
       });
-    
-    this.selectedTab = this.tabs.length -1;
-    //console.log('selected Tab: ' + this.selectedTab, 'Tabs Length: ' + this.tabs.length);
-}
 
-}
+      this.selectedTab = this.tabs.length - 1;
+      //console.log('selected Tab: ' + this.selectedTab, 'Tabs Length: ' + this.tabs.length);
+    }
+
+  }
 
   fetchQueryResult(ObjectCategory: string, isEmitted?: boolean) {
 
@@ -344,18 +342,17 @@ if(this.switchBtn)
       // }),
       data: this.queryResult$,
       Columns: this.colHeader,
-      filter: true,      
-      removeNoDataColumns: false,  
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()), 
-      selectCheckbox: true,   
+      filter: true,
+      removeNoDataColumns: false,
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
+      selectCheckbox: true,
       highlightedCells: ['ACTID', 'BatchId', 'FullCLIStatus', 'SwitchStatus', 'Source', 'OSN2Source', 'Status', 'ResolveType', 'StartDate', 'EndDate', 'Scenario', 'SelectedVolume', 'SuccessCount', 'FailedCount', 'UserName', 'ViewTelNo', 'ViewFailedTelNo'],
       imgConfig: [{ headerValue: 'View', icon: 'description', route: '', toolTipText: 'Audit Trail Report', tabIndex: 2 }],
     }
 
   }
 
-  prepareQueryParams(pageNo: string)
-  {
+  prepareQueryParams(pageNo: string) {
     debugger
     let attributes: any = [
       { Name: 'PageNumber', Value: [`${pageNo}`] }];
@@ -363,10 +360,10 @@ if(this.switchBtn)
     for (const field in this.f) {
       const control = this.dataCorrectionForm.get(field);
       if (control?.value)
-          attributes.push({ Name: field, Value: [control?.value] });
-        else
-          attributes.push({ Name: field });
-      }
+        attributes.push({ Name: field, Value: [control?.value] });
+      else
+        attributes.push({ Name: field });
+    }
     // console.log(JSON.stringify(attributes));
 
     return attributes;
@@ -377,7 +374,7 @@ if(this.switchBtn)
     return this.dataCorrectionForm.controls;
   }
 
- 
+
 
   getNextSetRecords(pageEvent: any) {
     this.currentPage = pageEvent.currentPage;
@@ -398,28 +395,28 @@ if(this.switchBtn)
         tabType: 2,
         // name: 'Audit Trail Report(' + tab.row.TelNo + ')'
         name: 'Audit Trail Report'
-      });     
+      });
       this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
     } else {
       this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
       // let updtab = this.tabs.find(x => x.tabType == 3);
       // if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelNo + ')'
     }
-    
+
     let requestIdentifier: string = '';
-    if(tab) {
+    if (tab) {
       tab.name === 'Auto Correction Summary' ? requestIdentifier = 'AutoCorrectionSummaryTelList' : requestIdentifier = 'ManualCorrectionSummaryTelList';
     }
     this.fetchTelNoList(tabData, requestIdentifier);
-    
+
   }
 
   prepareTelNoListParams(tabData: any) {
     let attributes: any = [
-      { Name: 'BatchID', Value: [`${tabData.row.BatchId ? tabData.row.BatchId : '' }`] },
-      { Name: 'AuditActID', Value: [`${tabData.row.ActId ? tabData.row.ActId : '' }`] },
-      { Name: 'Scenario', Value: [`${tabData.row.Scenario ? tabData.row.Scenario : '' }`] },
-      { Name: 'Flag', Value: [`${ tabData.row.SuccessCount > 0 ? '1' : '2' }`] }
+      { Name: 'BatchID', Value: [`${tabData.row.BatchId ? tabData.row.BatchId : ''}`] },
+      { Name: 'AuditActID', Value: [`${tabData.row.ActId ? tabData.row.ActId : ''}`] },
+      { Name: 'Scenario', Value: [`${tabData.row.Scenario ? tabData.row.Scenario : ''}`] },
+      { Name: 'Flag', Value: [`${tabData.row.SuccessCount > 0 ? '1' : '2'}`] }
     ];
     // console.log("Tel no list params " + JSON.stringify(attributes));
     return attributes;
@@ -429,13 +426,13 @@ if(this.switchBtn)
     let request = Utils.preparePyQuery(requestIdentifier, 'DataCorrectionSummary', this.prepareTelNoListParams(tabData));
     this.spinner.show();
     this.service.queryDetails(request).subscribe((res: any) => {
-          // this.telNoList =  [`${res.data ? res.data.TelephoneNumbers : ''}`]
-          this.telNoList = res.data ? res.data.TelephoneNumbers[0].TelephoneNumber : [''];
-        this.spinner.hide();
+      // this.telNoList =  [`${res.data ? res.data.TelephoneNumbers : ''}`]
+      this.telNoList = res.data ? res.data.TelephoneNumbers[0].TelephoneNumber : [''];
+      this.spinner.hide();
     });
   }
 
-  OnTelephoneNoSelected(selectedTelNo: any){
+  OnTelephoneNoSelected(selectedTelNo: any) {
     this.auditTelNo = selectedTelNo;
   }
 
@@ -502,7 +499,7 @@ if(this.switchBtn)
   }
 
   switchTab(value: boolean) {
-    if(value) {
+    if (value) {
       this.tabs.splice(0);
       this.fetchQueryResult(ManualCorrectionSummary);
       if (!this.tabs.find(x => x.tabType == 1)) {

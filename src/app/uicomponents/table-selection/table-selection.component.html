@@ -1,4 +1,4 @@
-<div class="table-selection-container">
+<div class="table-selection-container"  [ngClass]="reportName === 'livereport'  ? 'table-fit-content' : {} ">
 
   <div class="table-selection-top">
     <mat-form-field appearance="standard" *ngIf="columnHeaderFilter" class="colfilter" style="margin-left: 8px;">
@@ -39,7 +39,7 @@
           (selectionChange)="getSelectedProfile($event.value)">
           <mat-select-trigger>
             <span style="display: flex;">
-              <mat-icon matPrefix>star_border</mat-icon>
+              <!-- <mat-icon matPrefix>star_border</mat-icon> -->
               <span style="padding: 5px;">
                 Favorites
               </span>
@@ -164,12 +164,12 @@
 
     <!-- <div class="test-wrapper"> -->
     <div>
-      <button type="button" mat-raised-button color="primary" (click)="RequestExport2Excel()">
+      <button *ngIf="tableitem?.selectCheckbox" type="button" mat-raised-button color="primary" (click)="RequestExport2Excel()">
         <mat-icon>import_export</mat-icon>Export
       </button>&nbsp;&nbsp;
       <!-- [cdkCopyToClipboard]="copyToClipboard()" 
   selection.selected.length > 0 ? false : true-->
-      <button type="button" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()"
+      <button *ngIf="tableitem?.selectCheckbox" type="button" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()"
         [disabled]="selection.selected.length > 0 ? false : true">
         <mat-icon>file_copy</mat-icon> Copy To Clipboard
       </button>

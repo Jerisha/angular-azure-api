@@ -6,16 +6,12 @@
 }
 
 .totalRow {
-  /* background-color: #e60000; */
-  background-color: #ff9999 !important;
+  /* background-color: #ff9999 !important; */
+  background-color: #FED9B7  !important;
   color:black;
-  
   font-size: small;
   font-weight: 600;
- 
   height: 20px;
- 
-  /* padding: 0 !important; */
   padding: 2px 10px;
 }
 .tbfitcontent
@@ -42,7 +38,7 @@ th.mat-sort-header-sorted {
   color: white;
   width: auto;
   font-size:smaller;  
-  text-align: center;
+  text-align: left;
 }
 
 .mat-header-row,.mat-row {
@@ -52,7 +48,7 @@ th.mat-sort-header-sorted {
 }
 .mat-cell
 {
-  text-align: center;
+  text-align: left;
   /* border: 1px solid black; */
 }
 
