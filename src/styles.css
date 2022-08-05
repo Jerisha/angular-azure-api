@@ -613,6 +613,8 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     /* overflow: hidden !important;  */
     /* position: relative; */
     height: calc(100vh - 46vh);
+    width: 100%;
+    max-width: fit-content;
       
   }
 
