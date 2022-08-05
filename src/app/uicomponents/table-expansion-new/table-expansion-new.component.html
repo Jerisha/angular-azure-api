@@ -83,7 +83,7 @@ font-size: smaller;  ">
           <!-- Checkbox Column -->
           <div *ngIf="disCol.headerValue === 'Select'">
             <th mat-header-cell *matHeaderCellDef>
-              <mat-checkbox style="margin-right:20px;" (change)="$event ? masterToggle() : null"
+              <mat-checkbox style="margin-right:7px;" (change)="$event ? masterToggle() : null"
                 [checked]="selection.hasValue() && isAllSelected()"
                 [indeterminate]="selection.hasValue() && !isAllSelected()">
               </mat-checkbox>
