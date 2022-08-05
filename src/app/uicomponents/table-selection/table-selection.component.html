@@ -168,12 +168,12 @@
 
     <!-- <div class="test-wrapper"> -->
     <div>
-      <button type="button" mat-raised-button color="primary" (click)="RequestExport2Excel()">
+      <button *ngIf="tableitem?.selectCheckbox" type="button" mat-raised-button color="primary" (click)="RequestExport2Excel()">
         <mat-icon>import_export</mat-icon>Export
       </button>&nbsp;&nbsp;
       <!-- [cdkCopyToClipboard]="copyToClipboard()" 
   selection.selected.length > 0 ? false : true-->
-      <button type="button" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()"
+      <button *ngIf="tableitem?.selectCheckbox" type="button" mat-raised-button color="primary" [cdkCopyToClipboard]="copyToClipboard()"
         [disabled]="selection.selected.length > 0 ? false : true">
         <mat-icon>file_copy</mat-icon> Copy To Clipboard
       </button>
