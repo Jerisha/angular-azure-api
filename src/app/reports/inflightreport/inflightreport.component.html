@@ -1,4 +1,4 @@
-<mat-sidenav-container class="side-container">
+<mat-sidenav-container class="side-container" >
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
     <div class="filterdataby">
       <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
@@ -58,8 +58,8 @@
               </button>
             
             </div>
-            <app-table-selection [sidePan]="pagesidenav" (pageIndex)="getNextSetRecords($event)" [tableitem]="myTable"
-              [isShown]='false'>
+            <app-table-selection   [sidePan]="pagesidenav" (pageIndex)="getNextSetRecords($event)" [tableitem]="myTable"
+              [isShown]='false' [reportName]="livereport">
             </app-table-selection>
          
           </div>

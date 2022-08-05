@@ -71,6 +71,7 @@ export class InflightreportComponent extends UserProfile implements OnInit {
     selectListItems: string[] = [];
     listItems!: Select[];
     myForm!: FormGroup;
+    livereport : string = 'livereport';
     errorCodesOptions!: Observable<any[]>;
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
