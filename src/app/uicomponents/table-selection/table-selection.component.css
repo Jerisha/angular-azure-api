@@ -148,6 +148,12 @@ table td, table th {
 }
 
 
+.wrap-cell{
+  overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 21.42857em;
+    display: block;
+}
 
 
 /* .mat-cell.mat-column-LatestUserComments {
