@@ -685,9 +685,9 @@
                                     <mat-divider class="audit-trail-mat-divider"></mat-divider>
     
     
-                                    <div class="error-response-sec">
+                                    <div class="audit-trail-error-response-sec">
                                         <!-- <div class="page-header">Error Data</div> -->
-                                        <div class="audit-trail-page-header">Error Data</div>
+                                        <div class="page-header audit-trail-page-header">Error Data</div>
     
                                         <!-- <div class="error" *ngIf="!element.VodafoneError">No Records Found.</div> -->
                                         <div class ="no-record-found-left" *ngIf="!element.VodafoneError">No Records Found.</div>
@@ -697,9 +697,9 @@
     
                                     <mat-divider class="audit-trail-mat-divider"></mat-divider>
     
-                                    <div class="response-sec">
+                                    <div class="audit-trail-response-sec">
                                         <!-- <div class="page-header">Response Data</div> -->
-                                        <div class="audit-trail-page-header">Response Data</div>
+                                        <div class="page-header audit-trail-page-header">Response Data</div>
                                         <!-- <h4>Response Data</h4> -->
                                         <!-- <div class="error" *ngIf="!element.SupplierError">No Records Found.</div> -->
                                         <div class ="no-record-found-left" *ngIf="!element.SupplierError">No Records Found.</div>
@@ -707,9 +707,9 @@
                                         <app-table [tableitem]="element.SupplierError"></app-table>
                                     </div>
                                     <mat-divider class="audit-trail-mat-divider"></mat-divider>
-                                    <div class="resolution-sec">
+                                    <div class="audit-trail-resolution-sec">
                                         <!-- <div class="page-header">Resolution Data</div> -->
-                                        <div class="audit-trail-page-header">Resolution Data</div>
+                                        <div class="page-header audit-trail-page-header">Resolution Data</div>
                                         <!-- <h4>Resolution Data</h4> -->
                                         <!-- <div class="error" *ngIf="!element.ResolutionHistory">No Records Found.</div>
                                         <app-table class="appTable" [tableitem]="element.ResolutionHistory"></app-table> -->
@@ -754,7 +754,7 @@
                             [ngTemplateOutletContext]="{ $implicit : AT.SeperateInternalAudit != null ? 'Separate Internal Audit Trail' : 'No Records for Separate Internal Audit Trail'}">
                         </ng-container>
                     </div> -->
-    
+    <div class="audit-trail-internal-audit-wrapper">
                         <div class="page-header" *ngIf="AT.SeperateInternalAudit != null">Separate Internal Audit Trail
                         </div>
     
@@ -770,12 +770,12 @@
                                         matColumnDef="{{col.headerValue}}">
                                         <ng-container *ngIf="col.header != 'User Comment'">
                                             <th mat-header-cell *matHeaderCellDef class="audit-trail-table-header">{{col.header}}</th>
-                                            <td mat-cell *matCellDef="let element">{{element[col.headerValue]}}</td>
+                                            <td mat-cell *matCellDef="let element" class="audit-trail-table-cell">{{element[col.headerValue]}}</td>
                                         </ng-container>
                                         <ng-container *ngIf="col.header === 'User Comment'">
     
                                             <th mat-header-cell *matHeaderCellDef class="audit-trail-table-header">{{col.header}}</th>
-                                            <td mat-cell *matCellDef="let element">
+                                            <td mat-cell *matCellDef="let element" class="audit-trail-table-cell">
                                                 <mat-icon class="audit-trail-table-icon"
                                                     (click)="(expandedElement = expandedElement === element ? null : element);">
                                                     {{expandedElement === element ? 'remove_box_outline' :
@@ -815,7 +815,9 @@
                             </ng-container>
                         </div>
                         <mat-divider class="audit-trail-mat-divider" *ngIf="AT.SeperateInternalAudit != null"></mat-divider>
-    
+                    </div>
+
+                    <div class="audit-trail-full-audit-wrapper">
                         <div class="page-header" [ngClass]="{'no-record-found-left' : !(AT.FullAudit != null) }">
                             <ng-container [ngTemplateOutlet]="noRecordsMessage"
                                 [ngTemplateOutletContext]="{ $implicit : AT.FullAudit != null ? 'Full Audit Trail' : 'No Records for Full Audit Trail'}">
@@ -829,12 +831,12 @@
                                         matColumnDef="{{col.headerValue }}">
                                         <ng-container *ngIf="col.header != 'User Comment'">
                                             <th mat-header-cell *matHeaderCellDef class="audit-trail-table-header">{{col.header}}</th>
-                                            <td mat-cell *matCellDef="let element">{{element[col.headerValue]}}</td>
+                                            <td mat-cell *matCellDef="let element" class="audit-trail-table-cell">{{element[col.headerValue]}}</td>
                                         </ng-container>
                                         <ng-container *ngIf="col.header === 'User Comment'">
     
                                             <th mat-header-cell *matHeaderCellDef class="audit-trail-table-header">{{col.header}}</th>
-                                            <td mat-cell *matCellDef="let element">
+                                            <td mat-cell *matCellDef="let element" class="audit-trail-table-cell">
                                                 <mat-icon class="audit-trail-table-icon"
                                                     (click)="(expandedElement = expandedElement === element ? null : element);">
                                                     {{expandedElement === element ? 'remove_box_outline' :
@@ -875,6 +877,7 @@
                             </ng-container>
                         </div>
                         <mat-divider class="audit-trail-mat-divider"></mat-divider>
+                    </div>
                     </mat-expansion-panel>
                     </div>
                 </mat-accordion>
