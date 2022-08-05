@@ -48,7 +48,7 @@ export class TableComponent implements OnInit {
     }
     
     this.imageItem = [
-      {headerValue:'Inventory',icon:'tab',route:'',tabIndex: 1 }
+      {headerValue:'Inventory',icon:'tab',route:'',tabIndex: 1,toolTipText:'Telephone Details' }
     ];
     
   }
