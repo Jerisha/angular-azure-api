@@ -311,9 +311,12 @@
                                 <div class="content-main vf-flex-container-row">
                                     <div  class="content-submain vf-flex-container-col">
                                         <mat-form-field>
-                                            <mat-label>Profile Name</mat-label>
+                                            <mat-label>Profile Name Test</mat-label>
                                         <input type="text"  matInput  value="Custom"  formControlName="profilename"
-                                        placeholder="Profile Name">
+                                        placeholder="Profile Name" appAdmin>
+                                        <mat-error>
+                                        <div *ngIf="f.profilename.errors?.invalidPrefix"> Admin name not allowed</div>
+                                        </mat-error>
                                         </mat-form-field>
                                     </div> 
                                     <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
