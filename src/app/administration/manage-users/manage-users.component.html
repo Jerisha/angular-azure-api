@@ -2,10 +2,10 @@
     <mat-icon style ="font-size: small;" (click)="btnClicked()">class</mat-icon></button>
 <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
     <div class="menu-button-wrapper">
-    <button mat-button (click)="getFileDetails('UserAccessDetails')">User Access</button>
-    <button mat-button (click)="getFileDetails('UserOfReports')">User Of Reports</button>
-    <button mat-button (click)="getFileDetails('StartUpUserMessages')">News Update</button>
-    <button mat-button (click)="getFileDetails('UserProfiles')">User Profiles</button>
+    <button mat-button (click)="getFileDetails('UserAccessDetails',true)">User Access</button>
+    <button mat-button (click)="getFileDetails('UserOfReports',true)">User Of Reports</button>
+    <button mat-button (click)="getFileDetails('StartUpUserMessages',true)">News Update</button>
+    <button mat-button (click)="getFileDetails('UserProfiles',true)">User Profiles</button>
     <!-- <mat-button-toggle-group name="files" aria-label="Files" multiple (change)="getFileDetails($event)">
         <mat-button-toggle value="BTAuditFileDetails">BT Audit File Details</mat-button-toggle>
         <mat-button-toggle value="DataLiveinSwitchOnly">Data - Live in Switch Only</mat-button-toggle>
