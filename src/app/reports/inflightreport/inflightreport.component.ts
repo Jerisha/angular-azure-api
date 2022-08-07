@@ -241,7 +241,7 @@ export class InflightreportComponent extends UserProfile implements OnInit {
             //     [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
             TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
         })
-        this.onFormSubmit(true);
+        this.onFormSubmit(false);
     }
 
     selected(s: string): void {

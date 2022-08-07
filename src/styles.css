@@ -613,6 +613,8 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     /* overflow: hidden !important;  */
     /* position: relative; */
     height: calc(100vh - 46vh);
+    width: 100%;
+    max-width: fit-content;
       
   }
 
@@ -781,6 +783,7 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
 }
 .audit-trail-liverecord-sec {
   font: 500 12px/14px Roboto, "Helvetica Neue", sans-serif !important;
+  min-width: 685px;
 }
 .audit-trail-highlighted {
   background-color: lightgreen;
