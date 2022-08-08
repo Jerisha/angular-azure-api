@@ -368,6 +368,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         this.views.view3 = true;
       }
     }
+    else
+    {
+      this.enableSource = true;
+      this.enableFrancise = true;
+      this.views.view3 = true;
+    }
 }
   onCupIDChange(event: any) {
     debugger
