@@ -86,7 +86,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source System</mat-label>
             <mat-select formControlName="Source">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.Source" [value]="val">
                 {{val}}
               </mat-option>
@@ -133,7 +133,7 @@
         <!-- <span *ngIf="tableitem?.selectCheckbox"><b>No of selected rows : {{selection.selected.length}}</b></span> -->
 
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+          <div *ngSwitchCase="0">
             
             
             <mat-slide-toggle (change)="changeView()"  [(ngModel)]="isChecked" class="toggleclass">
@@ -143,15 +143,17 @@
               <!-- <app-table-exp class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
                 [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecordsExps($event)">
               </app-table-exp> -->
+              <div class="table-view">
               <app-table-expansion-new class="childtb" [sidePan]="pagesidenav" (addNewTab)="OnTelephoneDetailSelected($event)"
                 [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecords($event)">
               </app-table-expansion-new>
+              </div>
 
             </div>
 
             <div *ngIf="isChecked">
               <div class="table-view">
-              <app-table-selection class="childtb" [sidePan]="pagesidenav" (addNewTab)="OndayTodayselected($event)"
+              <app-table-selection [reportName]="repIdentifier" class="childtb" [sidePan]="pagesidenav" (addNewTab)="OndayTodayselected($event)"
                 [tableitem]="myTableChild" (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"></app-table-selection>
                 </div>
             </div>

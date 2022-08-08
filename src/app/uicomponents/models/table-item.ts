@@ -33,7 +33,9 @@ export interface ColumnDetails {
     //isFlag?:boolean;
     imgDesc?:boolean;
     isFooter?: boolean;
-    isBold?:boolean
+    isBold?:boolean;
+    isNumber?:boolean;
+    showTooltip?:boolean;
 }
 
 export interface CellAttributes{

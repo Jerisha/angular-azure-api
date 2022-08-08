@@ -7,7 +7,7 @@
       </app-select-multiple>
     </div>
 
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+    <form  class ="search-pane-form" [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
@@ -56,7 +56,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source System</mat-label>
             <mat-select formControlName="Source">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.Source" [value]="val">
                 {{val}}
               </mat-option>
@@ -81,7 +81,7 @@
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <mat-select formControlName="ErrorType">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.ErrorDescription" [value]="val">
                 {{val}}
               </mat-option>
@@ -107,7 +107,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Final.disabled}">
             <mat-label>Is Final</mat-label>
             <mat-select formControlName="Final">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.Final" [value]="val">
                 {{val}}
               </mat-option>
@@ -140,11 +140,11 @@
             <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
             <mat-error *ngIf="f.ResolutionType.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field> -->
-          <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
+          <mat-form-field [ngClass]="{'hidden':f.ResolveTypeUnsol.disabled}">
             <mat-label>Resolution Type</mat-label>
-            <mat-select formControlName="ResolutionType">  
-              <!-- <mat-option>None</mat-option>           -->
-              <mat-option *ngFor="let val of config.ResolutionType" [value]="val">
+            <mat-select formControlName="ResolveTypeUnsol">  
+              <mat-option>-- Select --</mat-option>
+              <mat-option *ngFor="let val of config.ResolveTypeUnsol" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
@@ -193,7 +193,7 @@
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
               (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
             </app-table-selection>
-            <form name="form" (ngSubmit)="save.form.valid && onSaveSubmit()" #save="ngForm" autocomplete="off" *ngIf="updateAccess">
+            <form  class = "update-form" name="form" (ngSubmit)="save.form.valid && onSaveSubmit()" #save="ngForm" autocomplete="off" *ngIf="updateAccess">
               <div class="mat-elevation-z8 side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
@@ -257,10 +257,10 @@
               </div>
             </form>
           </div>
-          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
+          <div *ngSwitchCase="1" class ="tab-container">
             <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
           </div>
-          <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
+          <div *ngSwitchCase="3" style="height: calc(100% - 8px);" class ="tab-container">
             <ng-container *ngIf="queryResultInfo$|async as config">
               <!-- {{config.Months |json }} -->
               <div style="display: flex;margin: 5px;">
@@ -272,7 +272,7 @@
           </div>
 
 
-          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
+          <div *ngSwitchCase="2" class ="tab-container">
             <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
             </app-transaction-errors>
           </div>

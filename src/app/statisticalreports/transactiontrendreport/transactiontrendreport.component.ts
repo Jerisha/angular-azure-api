@@ -28,6 +28,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { AlertService } from 'src/app/_shared/alert';
 
 const moment = _rollupMoment || _moment;
 
@@ -191,12 +192,12 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Inventory', headerValue: 'Link', showDefault: true, isImage: true },
       { header: 'Statistic Month', headerValue: 'Month', showDefault: false, isImage: false },
       { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
-      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false,isTotal:true,isFooter:true },
-      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false,isTotal:true,isFooter:true },
-      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true},
-      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true},
-      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true},
-      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true,isTotal:true,isFooter:true }
+      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false,isTotal:true,isFooter:true,isNumber:true },
+      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false,isTotal:true,isFooter:true,isNumber:true },
+      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true,isTotal:true,isFooter:true ,isNumber:true}
     ];
 
   columnsChild: ColumnDetails[] =
@@ -204,12 +205,12 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
       { header: 'Statistic Date', headerValue: 'StatisticDate', showDefault: false, isImage: false },
       { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false},
-      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false,isTotal:true  },
-      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false,isTotal:true  },
-      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false,isTotal:true  },
-      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false ,isTotal:true },
-      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false,isTotal:true  },
-      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true ,isTotal:true }
+      { header: 'Activate', headerValue: 'AddCommands', showDefault: false, isImage: false,isTotal:true,isNumber:true  },
+      { header: 'Cease', headerValue: 'CeaseCommands', showDefault: false, isImage: false,isTotal:true ,isNumber:true },
+      { header: 'Modify', headerValue: 'ModifyCommands', showDefault: false, isImage: false,isTotal:true,isNumber:true  },
+      { header: 'Export', headerValue: 'ExportCommands', showDefault: false, isImage: false ,isTotal:true,isNumber:true },
+      { header: 'Import', headerValue: 'ImportCommands', showDefault: false, isImage: false,isTotal:true,isNumber:true  },
+      { header: 'Total Cmds', headerValue: 'TotalCommands', showDefault: false, isImage: false,isBold:true ,isTotal:true ,isNumber:true}
     ];
 
 
@@ -226,8 +227,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   constructor(private formBuilder: FormBuilder,
     private service: statisticalreport,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService,
+    private alertService: AlertService,
     private auth: AuthenticationService,
     private actRoute: ActivatedRoute
     )
@@ -292,8 +292,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
   multipleSelect(event: any) {
     // console.log(event)
     if (event) {
-      console.log(event.toString());
-    this.staticmontharray = event.toString();
+      console.log(event);
+    this.staticmontharray = event;
     }
   }
 
@@ -331,6 +331,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     debugger
     if (!this.thisForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
@@ -340,7 +341,7 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('DayToDay', 'TransactionCommand', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    console.log('source requst day to day',JSON.stringify(request));
+    // console.log('source requst day to day',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
@@ -400,7 +401,8 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
       filter: true,
       //selectCheckbox: true,      
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', tabIndex: 1 ,toolTipText: 'Telephone Details'}],
-      selectCheckbox:true
+      selectCheckbox:true,
+      isCustomFooter:true
     }
 
     //this.datevalue="";
@@ -443,9 +445,24 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         if (this.staticmontharray)
         {
          // attributes.push({ Name: 'StatisticMonth', Value: [formatDate(StatisticMonth, 'MMM-yyyy', 'en-US')] });
-         var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
-       var newchar=  result.substring(1, result.length-1)
-         attributes.push({ Name: 'StatisticMonth', Value: [newchar] });
+      //   var result = '\'' + this.staticmontharray.split(',').join('\',\'') + '\'';
+      //  var result = this.staticmontharray;
+      // var result= this.staticmontharray.replace(/,/g, "','") ;
+       //var newchar=  result.substring(1, result.length-1);
+        // console.log('result before',newresult);
+        debugger
+      //   attributes.push({ Name: 'StatisticMonth', Value: [`${result}`] });
+        // let content:string=attributes[1].Value;
+        // let contenttwo=content.replace(/'/g, '"');
+       
+      // attributes[1].Value=contenttwo;
+      if(this.staticmontharray?.length > 0)
+      {
+      attributes.push({ Name: 'StatisticMonth', Value: this.staticmontharray?.length > 0 ? this.staticmontharray : [null]});
+      }
+      else{
+        attributes.push({ Name: 'StatisticMonth' });
+      }
         }
         else
           attributes.push({ Name: 'StatisticMonth' });
@@ -666,9 +683,9 @@ export class TransactionsourcecommandhistoryComponent extends UserProfile implem
         name: 'Telephone No Details'
       });
       // this.selectedTab = 1;
-      this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
+     
     }
-
+    this.tabGroup.selectedIndex = this.tabs.findIndex(x => x.tabType == 1);
 
   }
   ngAfterViewInit() {

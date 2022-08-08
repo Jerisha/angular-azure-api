@@ -34,7 +34,8 @@
             </app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.CustomerName.disabled}">
               <mat-label>Customer Name</mat-label>
-              <input formControlName="CustomerName" matInput #CustomerName maxlength="500" placeholder="Customer Name">
+              <input formControlName="CustomerName" matInput #CustomerName maxlength="500"
+              oninput="this.value = this.value.toUpperCase()" pattern="[A-Z,0-9, ,]*" placeholder="Customer Name">
             </mat-form-field>
           </div>
 
@@ -56,7 +57,8 @@
               (click)="OnOperatorClicked(['PostCodeOperator',PostCodeOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.PostCode.disabled}">
               <mat-label>Postcode</mat-label>
-              <input formControlName="PostCode" matInput #PostCode maxlength="20" placeholder="Postcode">
+              <input formControlName="PostCode" matInput #PostCode maxlength="20"  oninput="this.value = this.value.toUpperCase()" pattern="[A-Z,0-9, ,]*"
+               placeholder="Postcode">
             </mat-form-field>
           </div>
 
@@ -65,7 +67,8 @@
               (click)="OnOperatorClicked(['PremisesOperator',PremisesOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Premises.disabled}">
               <mat-label>Premises</mat-label>
-              <input formControlName="Premises" matInput #AddressPremises maxlength="100" placeholder="Premises">
+              <input formControlName="Premises" matInput #AddressPremises maxlength="100" 
+              oninput="this.value = this.value.toUpperCase()" pattern="[A-Z,0-9, ,]*" placeholder="Premises">
             </mat-form-field>
           </div>
 
@@ -75,7 +78,8 @@
             </app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Thoroughfare.disabled}">
               <mat-label>Thoroughfare</mat-label>
-              <input formControlName="Thoroughfare" matInput #Thoroughfare maxlength="100" placeholder="Thoroughfare">
+              <input formControlName="Thoroughfare" matInput #Thoroughfare maxlength="100"
+              oninput="this.value = this.value.toUpperCase()" pattern="[A-Z,0-9, ,]*" placeholder="Thoroughfare">
             </mat-form-field>
           </div>
 
@@ -84,7 +88,8 @@
               (click)="OnOperatorClicked(['LocalityOperator',LocalityOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Locality.disabled}">
               <mat-label>Locality</mat-label>
-              <input formControlName="Locality" matInput #Locality maxlength="100" placeholder="Locality">
+              <input formControlName="Locality" matInput #Locality maxlength="100" 
+              oninput="this.value = this.value.toUpperCase()" pattern="[A-Z,0-9, ,]*" placeholder="Locality">
             </mat-form-field>
           </div>
 
@@ -124,7 +129,7 @@
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Source.disabled}">
               <mat-label>Source System</mat-label>
                             <mat-select formControlName="Source">  
-                              <!-- <mat-option>None</mat-option>           -->
+                              <mat-option>-- Select --</mat-option> 
                               <mat-option *ngFor="let val of config.Source" [value]="val">
                                 {{val}}
                               </mat-option>
@@ -195,7 +200,7 @@
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.TransactionCommand.disabled}">
               <mat-label>Transaction Command</mat-label>
               <mat-select formControlName="TransactionCommand">  
-                <!-- <mat-option>None</mat-option>           -->
+                <mat-option>-- Select --</mat-option> 
                 <mat-option *ngFor="let val of config.TransactionCommand" [value]="val">
                   {{val}}
                 </mat-option>
@@ -315,7 +320,8 @@
               (click)="OnOperatorClicked(['StatusOperator',StatusOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.Status.disabled}">
               <mat-label>Status</mat-label> 
-              <mat-select formControlName="Status">              
+              <mat-select formControlName="Status">
+                <mat-option>-- Select --</mat-option>               
                 <mat-option *ngFor="let option of config.Status" [value]="option">
                   {{option}}
                 </mat-option>
@@ -327,7 +333,8 @@
               (click)="OnOperatorClicked(['SourceTypeOperator',SourceTypeOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.SourceType.disabled}">
               <mat-label>Source Type</mat-label>  
-              <mat-select formControlName="SourceType">            
+              <mat-select formControlName="SourceType">  
+                <mat-option>-- Select --</mat-option>           
                 <mat-option *ngFor="let option of config.SourceType" [value]="option">
                   {{option}}
                 </mat-option>
@@ -339,7 +346,8 @@
               (click)="OnOperatorClicked(['InternalErrorsOperator',InternalErrorsOperator.selectedViewValue])"></app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.InternalErrors.disabled}">
               <mat-label>Internal Errors</mat-label>
-              <mat-select formControlName="SourceType">
+              <mat-select formControlName="InternalErrors">
+                <mat-option>-- Select --</mat-option> 
                 <mat-option *ngFor="let option of config.InternalErrors" [value]="option">
                   {{option}}
                 </mat-option>
@@ -352,6 +360,7 @@
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.BtResponses.disabled}">
               <mat-label>BT Responses</mat-label>
               <mat-select formControlName="BtResponses">
+                <mat-option>-- Select --</mat-option> 
                 <mat-option *ngFor="let option of config.BTResponses" [value]="option">
                   {{option}}
                 </mat-option>
@@ -364,7 +373,8 @@
             </app-select-exp>
             <mat-form-field appearance="outline" [ngClass]="{'hidden':thisForm.controls.BtFileName.disabled}">
               <mat-label>BT File Name</mat-label>
-              <input formControlName="BtFileName" matInput #BtFileName maxlength="200" placeholder="BT File Name">
+              <input formControlName="BtFileName" matInput #BtFileName maxlength="200" 
+              oninput="this.value = this.value.toUpperCase()" pattern="[A-Z,0-9, ,]*" placeholder="BT File Name">
             </mat-form-field>
           </div>
 
@@ -397,7 +407,7 @@
           </button>
         </ng-template>
         <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
+          <div *ngSwitchCase="0" class="table-view" style="height: calc(100% - 30px);">
             <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)" (pageIndex)="getNextSetRecords($event)"
               (addNewTab)="newTab($event)">
             </app-table-selection>

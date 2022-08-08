@@ -219,6 +219,7 @@ let s:string=this.childEvent.FillPaffAddress(Addressval);
   }
   AuditTrailAddress(AuditAddress:any)
   {
+    console.log('audit address from clicked in audit',AuditAddress);
     this.addressDetails = AuditAddress[0];
     //this.childEvent.FillAuditAddress(AuditAddress);
     //console.log('audit we got',test);

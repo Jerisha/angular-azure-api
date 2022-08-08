@@ -37,9 +37,9 @@ table td, table th {
   height: 10px;
 }
 
+/*  table-container class moved into global style sheet here renamed with '1' */
 
-
-.table-container {
+.table-container1 {
   /* min-height: 100px; */
   height: 350px;
   overflow: auto;
@@ -68,7 +68,7 @@ table td, table th {
 
 .freezeselectall
 {
-  background-color:#EFEFEF;
+  /* background-color:#EFEFEF; */
   top: 0px;
   position: sticky;
   z-index: 4;
@@ -81,9 +81,7 @@ table td, table th {
   text-overflow: ellipsis;
 }
 
-.mat-paginator-range-label {
-  display: none;
-}
+
 
 .profile{
   margin-top: 2px;
@@ -106,7 +104,7 @@ table td, table th {
 
 .totalRow {
   /* background-color: #e60000; */
-  background-color: #ff9999 !important;
+  background-color: #FED9B7  !important;
   color:black;
   
   font-size: small;
@@ -145,9 +143,16 @@ table td, table th {
 
 /* Handle */
 .table-container::-webkit-scrollbar-thumb {
-  background:#f77373; 
+  background:#007c92; 
   border-radius: 10px;
 }
+
+
+
+
+/* .mat-cell.mat-column-LatestUserComments {
+  background: red;
+} */
 
 /* Handle on hover */
 /* .table-container::-webkit-scrollbar-thumb:hover {

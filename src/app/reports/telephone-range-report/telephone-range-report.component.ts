@@ -16,7 +16,7 @@ import { Utils, WebMethods } from 'src/app/_http';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { ReportService } from '../services/report.service';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
-import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/filterCustom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
@@ -99,13 +99,13 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
   isRemoveCache: number = DefaultIsRemoveCache;
 
   columns: ColumnDetails[] =[
-    { header: 'Start Telephone No.', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
-    { header: 'End Telephone No.', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'Start Tel No', headerValue: 'StartTelephoneNumber', showDefault: true, isImage: false },
+    { header: 'End Tel No', headerValue: 'EndTelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Live Records', headerValue: 'LiveRecords', showDefault: true, isImage: false },
-    { header: 'Inactive Records', headerValue: 'InactiveRecords', showDefault: true, isImage: false },
-    { header: 'Not Available', headerValue: 'NotAvailable', showDefault: true, isImage: false },
-    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'Live', headerValue: 'LiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'Inactive', headerValue: 'InactiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'NA', headerValue: 'NotAvailable', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'Line', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
@@ -195,6 +195,7 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
         return;
       }
       this.tabs.splice(0);
+      this.alertService.clear();
       // this.currentPage = isEmitted ? this.currentPage : '1';
       this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;

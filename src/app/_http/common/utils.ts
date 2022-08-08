@@ -1,9 +1,7 @@
-import { User } from 'src/app/_auth/model/user';
-import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+
 import { PyRequests } from 'src/app/_helper/Constants/pyrequests-const';
 // import { PyRequests } from 'src/app/_helper/Constants/pyrequests-const';
-import { WMRequests } from 'src/app/_helper/index'
-import { HttpWrapperService } from '../http-wrapper.service';
+import { WMRequests } from 'src/app/_helper/index';
 
 export class Utils {
 
@@ -79,7 +77,9 @@ export class Utils {
   //Python Requests //
   static preparePyConfig(action: any, configParams: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.CONFIG));
-    //assign filter attributes
+    // assign userId
+    transform.wmRequest.ConfigObjectRequest.ConfigObjectRequestType.RequestIdentifiers.Identifier[0].Value = [userId()];
+     //assign filter attributes
     transform.wmRequest.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[0].Value = action;
     transform.wmRequest.ConfigObjectRequest.ConfigObjectRequestType.ListofConfigObjectCategory.ConfigObjectCategory[0].ListofAttributes.Attribute[1].Value = configParams;
     return transform;
@@ -88,6 +88,8 @@ export class Utils {
   static preparePyQuery(pageIdentifier: string, reportIdentifier: string, queryParams: any, reqParams?: any): any {
     debugger;
     let transform = JSON.parse(JSON.stringify(PyRequests.QUERY));
+    // assign userId
+    transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers.Identifier[0].Value = [userId()];
     //userparams
     transform.UserParams = user();
     //updating request params 
@@ -106,6 +108,8 @@ export class Utils {
     let transform = JSON.parse(JSON.stringify(PyRequests.GET));
     transform.wmRequest.GetObjectRequest.GetObjectRequestType.ListofGetObjectCategory.GetObjectCategory[0].ItemName = pageIdentifier;
 
+     // assign userId
+     transform.wmRequest.GetObjectRequest.GetObjectRequestType.RequestIdentifiers.Identifier[0].Value = [userId()];
     //identifier
     transform.wmRequest.GetObjectRequest.GetObjectRequestType.ListofGetObjectCategory.GetObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
     //Getparameters
@@ -115,6 +119,9 @@ export class Utils {
 
   static preparePyUpdate(pageIdentifier: string, reportIdentifier: string, updateIdentifier: any, updateParams: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UPDATE));
+ // assign userId
+ transform.wmRequest.UpdateObjectRequest.UpdateObjectRequestType.RequestIdentifiers.Identifier[0].Value = [userId()];
+
     transform.wmRequest.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ItemName = pageIdentifier;
     //identifier
     transform.wmRequest.UpdateObjectRequest.UpdateObjectRequestType.ListofUpdateObjectCategory.UpdateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
@@ -127,6 +134,9 @@ export class Utils {
 
   static preparePyCreate(pageIdentifier: string, reportIdentifier: string, createIdentifier: any, createParams: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.CREATE));
+// assign userId
+transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.RequestIdentifiers.Identifier[0].Value = [userId()];
+
     transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ItemName = pageIdentifier;
     //identifier
     transform.wmRequest.CreateObjectRequest.CreateObjectRequestType.ListofCreateObjectCategory.CreateObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
@@ -139,6 +149,9 @@ export class Utils {
 
   static preparePyDelete(pageIdentifier: string, reportIdentifier: string, deleteIdentifier: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.DELETE));
+// assign userId
+transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.RequestIdentifiers.Identifier[0].Value = [userId()];
+
     transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdentifier;
 
     transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
@@ -149,17 +162,13 @@ export class Utils {
 
   static preparePyPaf(PAFIdentifiers: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.PAFQUERY));
-    //transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ItemName = pageIdentifier;
-    transform.AddressParams = PAFIdentifiers;
-    // transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
-    //Deleteidentifier
-    // transform.wmRequest.DeleteObjectRequest.DeleteObjectRequestType.ListofDeleteObjectCategory.DeleteObjectCategory[0].ListofDeleteObjectCharacteristics.DeleteObjectCharacteristics[0].ListofIdentifiers.Identifier = deleteIdentifier;
+    transform.AddressParams = PAFIdentifiers;    
     return transform;
   }
 
   static preparePyMetaData(configParams: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.METADATA));
-    //console.log(transform,"meta data")
+    
     transform.MetaDataRequest.MetaDataRequestType.ListofMetaDataObjectCategory.MetaDataObjectCategory[0].ListofAttributes.Attribute[0].Value = configParams;
     return transform;
   }
@@ -167,6 +176,9 @@ export class Utils {
   static preparePyExportQuery(pageIdentifier: string, reportIdentifier: string, queryParams: any, colounmMapping: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.EXPQUERY));
     transform.RequestParams[7] = colounmMapping
+    // assign userId
+transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers.Identifier[0].Value = [userId()];
+
     transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ItemName = pageIdentifier;
     //identifier
     transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.ListofQueryObjectCategory.QueryObjectCategory[0].ListofIdentifiers.Identifier[0].Value = [reportIdentifier];
@@ -197,9 +209,20 @@ export class Utils {
     transform.RequestParams[0].ReportName = reportName;
 
 
-    console.log(JSON.stringify(transform))
+    // console.log(JSON.stringify(transform))
     return transform;
   }
+
+  static preparePyUIQueryDoc(reportIdentifier: any, subReportName: any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIQUERY));
+    
+    transform.UserParams = user();    
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+
+    return transform;
+  }
+
 
   static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
@@ -255,4 +278,9 @@ function user(): any {
     { "UserID": user?.username },
     { "RoleID": user?.profilename }
   ]
+}
+
+function userId(): any {
+  let user = JSON.parse(sessionStorage.getItem('currentUser') || '{}')
+  return user?.username 
 }

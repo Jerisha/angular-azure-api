@@ -6,9 +6,62 @@
       </app-select-multiple>
     </div>
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+      
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
-          <div [ngStyle]="{'display':thisForm.controls.AuditMonth.disabled ? 'none' : 'block'}"
+
+          <!-- added as a part of multi-select dropdown changes -->
+        <div style="margin-bottom:10px" [ngClass]="{'hidden': showAuditMonth}">
+          <app-select-exp [listItems]="expressions[3].default" #AuditMonthOperator  [resetvalue]="resetExp"
+          (click) ="OnOperatorClicked(['AuditMonthOperator',AuditMonthOperator.selectedViewValue])"></app-select-exp>
+        
+        
+          <app-select-checkbox style="margin-left:0px" [label]="'Audit Month'" #selMultiple [listItems]="AuditMonthFilter" (changes)="multipleSelect($event, 'AuditMonth')" [icon]="'filter_alt'" >
+          </app-select-checkbox>
+        
+        </div>
+
+        <div style="margin-bottom:10px" [ngClass]="{'hidden': showAuditType}">
+          <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator  [resetvalue]="resetExp"
+          (click) ="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])"></app-select-exp>
+        
+        
+          <app-select-checkbox style="margin-left:0px" [label]="'Audit Type'" #selMultiple [listItems]="AuditTypeFilter" (changes)="multipleSelect($event, 'AuditType')" [icon]="'filter_alt'" >
+          </app-select-checkbox>
+        
+        </div>
+
+        <div style="margin-bottom:10px" [ngClass]="{'hidden': showResolvedBy}">
+          <app-select-exp [listItems]="expressions[3].default" #ResolvedByOperator  [resetvalue]="resetExp"
+          (click) ="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])"></app-select-exp>
+        
+        
+          <app-select-checkbox style="margin-left:0px" [label]="'Resolved By'" #selMultiple [listItems]="ResolvedByFilter" (changes)="multipleSelect($event, 'ResolvedBy')" [icon]="'filter_alt'" >
+          </app-select-checkbox>
+        
+        </div>
+
+        <div style="margin-bottom:10px" [ngClass]="{'hidden': showResolutionType}">
+          <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeOperator  [resetvalue]="resetExp"
+          (click) ="OnOperatorClicked(['ResolutionTypeOperator',ResolutionTypeOperator.selectedViewValue])"></app-select-exp>
+        
+        
+          <app-select-checkbox style="margin-left:0px" [label]="'Resolution Type'" #selMultiple [listItems]="ResolutionTypeFilter" (changes)="multipleSelect($event, 'ResolutionType')" [icon]="'filter_alt'" >
+          </app-select-checkbox>
+        
+        </div>
+
+        <div style="margin-bottom:10px" [ngClass]="{'hidden': showAuditActId}">
+          <app-select-exp [listItems]="expressions[3].default" #AuditActIdOperator  [resetvalue]="resetExp"
+          (click) ="OnOperatorClicked(['AuditActIdOperator',AuditActIdOperator.selectedViewValue])"></app-select-exp>
+        
+        
+          <app-select-checkbox style="margin-left:0px" [label]="'Audit Act Id'" #selMultiple [listItems]="AuditActIdFilter" (changes)="multipleSelect($event, 'AuditActId')" [icon]="'filter_alt'" >
+          </app-select-checkbox>
+        
+        </div>
+          
+          <!-- <div [ngStyle]="{'display':thisForm.controls.AuditMonth.disabled ? 'none' : 'block'}"
             style="padding-left: 11px;">
             <mat-form-field [ngClass]="{'hidden':f.AuditMonth.disabled}">
               <mat-label>Audit Month</mat-label>
@@ -18,8 +71,12 @@
                 (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
               </mat-datepicker>
 
-            </mat-form-field>
-          </div>
+            </mat-form-field> -->
+
+            <!-- commented as a part of multi-select dropdown changes -->
+            <!-- <app-monthpicker [formControl]="AuditMonth" [(monthAndYear)]="monthAndYear" [placeHolder]="'Audit Month'"></app-monthpicker> -->
+
+          <!-- </div> -->
           <!-- <div [ngStyle]="{'display':thisForm.controls.AuditType.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])">
@@ -39,20 +96,21 @@
             </mat-form-field>
           </div> -->
            
-          <div [ngStyle]="{'display':thisForm.controls.AuditType.disabled ? 'none' : 'block'}">
+          <!-- commented as a part of multi-select dropdown changes -->
+          <!-- <div [ngStyle]="{'display':thisForm.controls.AuditType.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #AuditTypeOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['AuditTypeOperator',AuditTypeOperator.selectedViewValue])">
             </app-select-exp>
           <mat-form-field [ngClass]="{'hidden':f.AuditType.disabled}">
-            <mat-label>Audit Type</mat-label>
+            <mat-label>Audit Type *</mat-label>
             <mat-select formControlName="AuditType">  
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.AuditType" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          </div>
+          </div> -->
 
           <!-- <div [ngStyle]="{'display':thisForm.controls.ResolvedBy.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[0].default" #ResolvedByOperator [resetvalue]="resetExp"
@@ -64,20 +122,23 @@
                 placeholder="ResolvedBy">
             </mat-form-field>
           </div> -->
-          <div [ngStyle]="{'display':thisForm.controls.ResolvedBy.disabled ? 'none' : 'block'}">
+
+          <!-- commented as a part of multi-select dropdown changes -->
+          <!-- <div [ngStyle]="{'display':thisForm.controls.ResolvedBy.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #ResolvedByOperator
                 [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolvedByOperator',ResolvedByOperator.selectedViewValue])">
             </app-select-exp>
             <mat-form-field [ngClass]="{'hidden':f.ResolvedBy.disabled}">
               <mat-label>Resolved By</mat-label>
               <mat-select formControlName="ResolvedBy">  
-                <!-- <mat-option>None</mat-option>           -->
+                <mat-option>-- Select --</mat-option> 
                 <mat-option *ngFor="let val of config.UASResolvedBy" [value]="val">
                   {{val}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-        </div>
+        </div> -->
+
 <!--   <div [ngStyle]="{'display':thisForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeOperator
                 [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolutionTypeOperator',ResolutionTypeOperator.selectedViewValue])">
@@ -97,20 +158,21 @@
           </mat-form-field>
         </div> -->
 
-        <div [ngStyle]="{'display':thisForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
+        <!-- commented as a part of multi-select dropdown changes -->
+        <!-- <div [ngStyle]="{'display':thisForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
           <app-select-exp [listItems]="expressions[3].default" #ResolutionTypeOperator
               [resetvalue]="resetExp" (click)="OnOperatorClicked(['ResolutionTypeOperator',ResolutionTypeOperator.selectedViewValue])">
           </app-select-exp>
           <mat-form-field [ngClass]="{'hidden':f.ResolutionTypeAudit.disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolutionTypeAudit">  
-              <!-- <mat-option>None</mat-option>           -->
-              <mat-option *ngFor="let val of config.ResolutionTypeAudit" [value]="val">
+              <mat-option>-- Select --</mat-option> 
+              <mat-option *ngFor="let val of config.UASResolutionType" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-      </div>
+      </div> -->
 
           <!-- <div [ngStyle]="{'display':thisForm.controls.AuditActID.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #AuditActIDOperator [resetvalue]="resetExp"
@@ -131,12 +193,13 @@
             </mat-form-field>
           </div> -->
 
-          <div [ngStyle]="{'display':thisForm.controls.AuditActID.disabled ? 'none' : 'block'}">
+          <!-- commented as a part of multi-select dropdown changes -->
+          <!-- <div [ngStyle]="{'display':thisForm.controls.AuditActID.disabled ? 'none' : 'block'}">
             <app-select-exp [listItems]="expressions[3].default" #AuditActIDOperator [resetvalue]="resetExp"
               (click)="OnOperatorClicked(['AuditActIDOperator',AuditActIDOperator.selectedViewValue])">
             </app-select-exp>
             <mat-form-field [ngClass]="{'hidden':f.AuditActID.disabled}">
-              <mat-label>Audit ACT ID</mat-label>
+              <mat-label>Audit ACT ID *</mat-label>
               <mat-select #auditACTId formControlName="AuditActID" [(ngModel)]="defaultACTID">
                   <mat-option *ngFor="let val of config.AuditActID" [value]="val">
                       {{val}} </mat-option>
@@ -147,13 +210,13 @@
                   </div>
               </mat-error>
           </mat-form-field>
-          </div>
+          </div> -->
 
         </ng-container>
       </div>
 
       <div class="matsidenav-footer">
-        <button type="submit" mat-raised-button color="primary">
+        <button type="submit" mat-raised-button color="primary" >
           <mat-icon>search</mat-icon>Search
         </button>
         <button type="button" mat-raised-button color="primary" (click)="resetForm()">

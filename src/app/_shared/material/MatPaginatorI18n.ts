@@ -3,7 +3,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 
 @Injectable()
 export class MatPaginatorI18n extends MatPaginatorIntl {
-  itemsPerPageLabel = 'Records per page';
+  itemsPerPageLabel = 'Show';
   nextPageLabel = 'Next page';
   previousPageLabel = 'Previous page';
   getRangeLabel = (page: number, pageSize: number, totalResults: number) => {
@@ -16,8 +16,8 @@ export class MatPaginatorI18n extends MatPaginatorIntl {
     const endIndex =
       startIndex < totalResults ?
         Math.min(startIndex + pageSize, totalResults) :
-        startIndex + pageSize;
-  //  return `Total Records: ${startIndex + 1} - ${endIndex} of ${totalResults} & Total Pages: ${pageNumber} `
-    return `Page ${pageNumber}, Records: ${startIndex + 1} - ${endIndex} of ${totalResults}`;
+        startIndex + pageSize;  
+    //return `Page ${pageNumber}, Records: ${startIndex + 1} - ${endIndex} of ${totalResults}`;
+    return `Page ${pageNumber}, Records: ${totalResults}`;
   }
 }

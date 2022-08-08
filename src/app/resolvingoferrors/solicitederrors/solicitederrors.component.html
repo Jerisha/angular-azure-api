@@ -15,7 +15,7 @@
         (changes)="setControlAttribute($event)">
       </app-select-multiple>
     </div>
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+    <form class ="search-pane-form" [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
@@ -68,7 +68,7 @@
           <mat-form-field [ngClass]="{'hidden':f.Command.disabled}">
             <mat-label>Command</mat-label>
             <mat-select formControlName="Command">
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option>          
               <mat-option *ngFor="let val of config.Command" [value]="val">
                 {{val}}
               </mat-option>
@@ -92,14 +92,14 @@
           <mat-form-field [ngClass]="{'hidden':f.Source.disabled}">
             <mat-label>Source System</mat-label>
             <mat-select formControlName="Source">
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option>  
               <mat-option *ngFor="let val of config.Source" [value]="val">
                 {{val}}
               </mat-option>
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
+          <!-- <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
             <mat-label>Date Range</mat-label>
             <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
               <input readonly formControlName="FromDate" matStartDate placeholder="From ">
@@ -107,7 +107,20 @@
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
-            <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
+            <mat-hint align="end">Here's the date picker</mat-hint>
+          </mat-form-field> -->
+
+          <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
+            <mat-label>Date Range</mat-label>
+            <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
+              <input matStartDate formControlName="FromDate" placeholder="Start date" />
+              <input matEndDate formControlName="ToDate" placeholder="End date" />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker
+              #picker
+              [calendarHeaderComponent]="CustomHeaderComponent"              
+            ></mat-date-range-picker>
           </mat-form-field>
 
           <!-- <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
@@ -129,7 +142,7 @@
           <mat-form-field [ngClass]="{'hidden':f.ResolutionType.disabled}">
             <mat-label>Resolution Type</mat-label>
             <mat-select formControlName="ResolutionType">
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option>  
               <mat-option *ngFor="let val of config.ResolutionType" [value]="val">
                 {{val}}
               </mat-option>
@@ -156,7 +169,7 @@
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
             <mat-label>Error Type</mat-label>
             <mat-select formControlName="ErrorType" (selectionChange)="errorTypeChanges($event)">
-              <!-- <mat-option>None</mat-option>           -->
+              <mat-option>-- Select --</mat-option>  
               <mat-option *ngFor="let val of config.ErrorType" [value]="val">
                 {{val}}
               </mat-option>
@@ -233,31 +246,34 @@
           </button>
         </ng-template>
 
-        <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
+        <span [ngSwitch]="tab.tabType" class ="span-container">
+          <div *ngSwitchCase="0"  class ="tab-container">
+            <app-table-selection class ="app-table-selection-container" [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
               (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
             </app-table-selection>
-            <form (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off"
+            <form class = "update-form" (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off"
               *ngIf="updateAccess">
-              <div class="mat-elevation-z8 side-bottom">
+              <!-- <div class="mat-elevation-z8 side-bottom"> -->
+                <div class="side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
                     <option *ngFor="let list of selectListItems"> {{list}} </option>
                   </select> -->
 
                   <div style="display: inline-block;">
+                    <!-- <div > -->
                     <ng-container *ngIf="updateDetails as con">
 
 
                       <mat-form-field>
                         <mat-label>Resolution Type</mat-label>
                         <mat-select #resolution="ngModel" name="resolution" required [(ngModel)]="Resolution">
+                          <mat-option>-- Select --</mat-option>  
                           <mat-option *ngFor="let val of con.ResolutionType" [value]="val">
                             {{val}}
                           </mat-option>
                         </mat-select>
-                        <mat-error class="alert alert-danger">                          
+                        <mat-error class="alert alert-danger">
                           <div *ngIf="resolution.errors?.required">
                             <!-- <div *ngIf="f.StartTelephoneNumber.errors?.required">Please enter Telephone No</div> -->
                             Select resolution type
@@ -299,7 +315,7 @@
                       <mat-label>Remarks</mat-label>
                       <textarea required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks"
                         [ngModelOptions]="{standalone: true}" #input matInput maxlength="500"
-                        placeholder="Remarks"></textarea>
+                        placeholder="Remarks" rows ="1"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                       <mat-error class="alert alert-danger">
                         <div *ngIf="remarks.errors?.required">
@@ -326,11 +342,11 @@
               </div>
             </form>
           </div>
-          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-            <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+          <div *ngSwitchCase="1"class ="tab-container" >
+            <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier" class ="app-telephone-audit-trail-container"></app-telephone-audit-trail>
           </div>
-          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
-            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
+          <div *ngSwitchCase="2" class ="tab-container">
+            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier" class ="app-transaction-errors-container">
             </app-transaction-errors>
           </div>
           <div *ngSwitchDefault>

@@ -15,11 +15,12 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
-import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/filterCustom';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
 
 // import { ConsoleReporter } from 'jasmine';
 const ELEMENT_DATA: any = [
@@ -196,6 +197,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   model: any = { ErrorCode: "" };
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+  // make ExampleHeaderComponent type available in our template:
+  readonly CustomHeaderComponent = CustomHeaderComponent;
+
   ngOnInit(): void {
     this.createForm();
     debugger;
@@ -324,15 +328,15 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
+    { header: 'Change Cupid', headerValue: 'ChangeCupId', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Change Cupid', headerValue: 'ChangeCupId', showDefault: true, isImage: false },
+    { header: 'Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false, showTooltip: true },
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false }
     // { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
@@ -346,9 +350,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
-
     debugger;
     let errMsg = '';
+    this.alertService.clear();
     if (!this.thisForm.valid) return;
     errMsg = Custom.compareStartAndEndTelNo(this.f.StartTelephoneNumber?.value, this.f.EndTelephoneNumber?.value);
     if (errMsg) {
@@ -366,10 +370,12 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     this.Resolution = this.Remarks = this.Refer = ''
     // reset selectedrows
     this.selectedGridRows = [];
-    // this.currentPage = isEmitted ? this.currentPage : '1';
+
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
-    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
+    this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;    
     this.isRemoveCache = isEmitted ? 0 : 1;
+    //set removecache to 1 on update
+    if(!this.isSaveDisable)  this.isRemoveCache = 1;
 
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
@@ -382,10 +388,6 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         let result = {
           datasource: res.data.SolicitedError,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -440,9 +442,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
           //update 
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
-              //success message and same data reload
-              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+              //success message and same data reload              
               this.onFormSubmit(true);
+              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
           //this.isSaveDisable = true;
@@ -608,7 +610,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     }
     return true;
   }
-  onTabChanged(event:any){
+  onTabChanged(event: any) {
     //this.alertService.clear();
   }
   newTab(tab: any) {

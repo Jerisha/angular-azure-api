@@ -20,6 +20,7 @@ import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+import { isNumeric } from 'rxjs/internal-compatibility';
 
 const FullAudit_Data: FullAuditDetails [] = [
   {
@@ -414,13 +415,13 @@ else{
   ];
   dataCorrectionBtnConfig: ButtonCorretion[] = [
     { value: 'SO-Amdocs SOM Only', buttonVal: ['AutoPopulateSource'] },
-    { value: 'R-Clarify Only', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
+    { value: 'R-Clarify Only', buttonVal: ['AutoPopulateSource'] },
     { value: 'DO-DVA Siebel only', buttonVal: ['AutoPopulateSource'] },
-    { value: 'S-Matched', buttonVal: ['AutoPopulateSource'] },
-    { value: 'D-Mismatched', buttonVal: ['AutoPopulateSource']},
-    { value: 'V-OSN2 Only', buttonVal: ['AutoPopulateSource'] },
+    { value: 'S-Matched', buttonVal: [] },
+    { value: 'D-Mismatched', buttonVal: ['AutoPopulateSource','AutoPopulateOSN2']},
+    { value: 'V-OSN2 Only', buttonVal: ['AutoPopulateOSN2'] },
     { value: 'C-SAS/COMS Only', buttonVal: ['AutoPopulateSource'] },
-    { value: 'E-VA/WAD Only', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateOSN2']},
+    { value: 'E-VA/WAD Only', buttonVal: ['AutoPopulateSource',]},
      ];
   DisplayFullAuditDetailsTab( TelephoneNumber:string)
   {
@@ -573,6 +574,8 @@ else{
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
+     //set removecache to 1 on update
+     if(!this.isSaveDisable)  this.isRemoveCache = 1;
 
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
@@ -652,23 +655,35 @@ else{
             var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
             var startTelno = '';
             var endTelno = '';
+            // if (selectedCLI != '') {
+            //   let strCmts = selectedCLI.split('-');
+            //   var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
+            //   startTelno = range[0];
+            //   endTelno = range[1] ? range[1] : ''
+            // }
+            // else {
+            //   startTelno = this.selectListItems[0].TelephoneNumber;
+            // }
             if (selectedCLI != '') {
               let strCmts = selectedCLI.split('-');
               var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
-              startTelno = range[0];
+              startTelno = isNumeric(range[0]) ? range[0].toString() : this.selectListItems[0].TelephoneNumber;
               endTelno = range[1] ? range[1] : ''
+              endTelno = isNumeric(endTelno) ? endTelno.toString() : '';
             }
             else {
               startTelno = this.selectListItems[0].TelephoneNumber;
             }
             var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
-            if(endTelno=='')
-            {
-              endTelno=startTelno;
-            }
+
+            // if(endTelno=='')
+            // {
+            //   endTelno=startTelno;
+            // }
             let data = {
               StartphoneNumber: startTelno,
-             
+              auditType:'Separate Internal Audit',
+              AuditStatus:this.selectListItems[0].CLIStatus,
               EndPhoneNumber: endTelno,
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
@@ -719,7 +734,7 @@ else{
         else
           identifiers.push({ Name: 'AuditActID' });
 
-        identifiers.push({ Name: 'AuditType', Value: [`${'Full Audit'}`] });
+        identifiers.push({ Name: 'AuditType', Value: [`${'Separate Internal Audit'}`] });
         break;
       }
       case 'DataAutoCorrection': {
@@ -933,7 +948,7 @@ else{
     let attributes = [
       { Name: 'TelephoneNumber', Value: [`${telno}`] },
       { Name: 'AuditActID', Value: [`${auditACTID}`] },
-      { Name: 'AuditType', Value: [`${'Full Audit'}`] }
+      { Name: 'AuditType', Value: [`${'Separate Internal Audit'}`] }
     ];
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
       width: '800px',

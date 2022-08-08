@@ -24,6 +24,7 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from 'src/app/_shared/alert';
 
 const ELEMENT_DATA: liverecords[] = [
   {
@@ -469,7 +470,7 @@ export class LiverecordsComponent extends UserProfile implements OnInit {
      private formBuilder: FormBuilder,
      private cdr: ChangeDetectorRef,
      private service: ReportService,
-     private spinner: NgxSpinnerService , 
+     private alertService: AlertService , 
      private telnoPipe: TelNoPipe,
      private auth: AuthenticationService,
      private actRoute: ActivatedRoute)
@@ -617,6 +618,7 @@ resetExp:boolean = false;
     debugger;
     if(!this.myForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;

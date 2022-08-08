@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportsRoutingModule } from './reports-routing.module';
-import { ProvidereportComponent } from './providereport/providereport.component';
+import { InflightreportComponent } from './inflightreport/inflightreport.component';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
-import { DialogComponent } from './providereport/dialog/dialog.component';
+import { DialogComponent } from './inflightreport/dialog/dialog.component';
 import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 import { TelephoneRangeReportComponent } from './telephone-range-report/telephone-range-report.component';
 import { SharedModule } from '../_shared/shared.module';
@@ -31,7 +31,7 @@ const MY_FORMATS = {
 
 @NgModule({
   declarations: [
-    ProvidereportComponent,
+    InflightreportComponent,
     DialogComponent,
     TelephoneRangeReportComponent,
     TransactionDetailsComponent,    

@@ -1,3 +1,4 @@
+<div class="transaction-error-container">
 <ng-container *ngIf="tranErr$ | async as tran ;">
 <div  class="header">
     <ng-container [ngTemplateOutlet]="noRecordsMessage"
@@ -39,6 +40,7 @@
     <app-table class="appTable" [tableitem]="tran.ResolutionHistory"></app-table>
 </div>
 </ng-container>
+</div>
 
 <!-- <ng-template #NoData>
     <div  class="header">

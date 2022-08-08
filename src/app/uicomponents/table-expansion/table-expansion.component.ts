@@ -337,20 +337,18 @@ export class TableExpansionComponent implements OnDestroy {
   }
 
   copyToClipboard() {
-    
     let data = "";
-
+    let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
+    let selectedCol = this.tableitem?.filter ? 
+    this.select?.value?.filter((z:string)=> colsExcludeImage?.includes(z)) : colsExcludeImage
     this.selection.selected.forEach((row: any, index) => {
-      //console.log('row data',row);
-      delete row.Link
       if (index === 0) {
-        let tablehead = this.gridFilter.filter(x => x.headerValue != 'View' &&  x.headerValue != 'Inventory' && this.select?.value?.includes(x.headerValue)).map(e => e.header);
-        let  datahead   = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
-        data =datahead.toString().replace('Inventory', '');
+        let tablehead = this.gridFilter.filter(x => !x.isImage && selectedCol?.includes(x.headerValue)).map(e => e.header);
+        data = tablehead.toString().replace(/[,]+/g, '\t') + "\n";
       }
       let tabValue: string[] = []
-      this.select?.value?.forEach((x: string) => {
-        if (x != 'View'&&x != 'Inventory') tabValue.push(row[x] || ' ')
+      selectedCol?.forEach((x: string) => {
+        tabValue.push(row[x] || ' ')
       })
       data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });
@@ -358,13 +356,22 @@ export class TableExpansionComponent implements OnDestroy {
   }
 
   exportToExcel() {
-    debugger;
-
     let ColumnMapping: any = []
+    let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
+    let selectedCol = this.tableitem?.filter ? 
+    this.select?.value?.filter((z:string)=> colsExcludeImage?.includes(z)) : colsExcludeImage
+    let temp: any = {}
     this.gridFilter.forEach(x => {
-      if (x.headerValue != 'View' && this.select.value.includes(x.headerValue))
-        ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))
+      if (selectedCol.includes(x.headerValue)) {
+        //console.log(`"${x.headerValue}":"${x.header}"`)
+        //tempColumns +=`'${x.headerValue}':'${x.header}',`
+        temp[x.headerValue] = x.header
+        //ColumnMapping.push([[x.headerValue, x.header]].reduce((obj, d) => Object.assign(obj, { [d[0]]: d[1] }), {}))        
+      }
     });
+    //ColumnMapping.push(`{${tempColumns}}`)
+    ColumnMapping.push(temp)
+    //console.log(ColumnMapping,'columnMapping')
 
     const exportConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
@@ -372,33 +379,30 @@ export class TableExpansionComponent implements OnDestroy {
       }
     });
     exportConfirm.afterClosed().subscribe(confirm => {
+      
       if (confirm) {
         let request = Utils.preparePyQuery(this.screenIdentifier, this.reportIdentifier, this.excelQueryObj, [{ "isExporttoExcel": "Y" }, { 'ColumnMapping': ColumnMapping }]);
         this.service.queryDetails(request).subscribe(x => {
           //update msg
           const excelDetail = this.dialog.open(ConfirmDialogComponent, {
-            width: '680px', disableClose: false, data: {
+            width: '680px', disableClose: true, data: {
               // message: `Add your content here use break for adding new line? <br/>
-              //   ${x.ResponseParams}`
               message:
-              `Please Note the following:<br/>
+                `Please Note the following:<br/>
                 1. Excel spreadsheets can take some time to produce and there may be delay of up to 15 minutes.<br/>
                 2. The background processing is performed in order of user requests.<br/>
                 3. The file name will be<strong> ${x.data.ExportData[0].FileName}</strong> .<br/>
                 4. The progress can be monitored by clicking on excel reports icon towards the right on top corner.<br/>
                 5. When spread sheet is available,clicking on the file name will allow to download to the local disk.<br/>
                 6. The previous week spread sheet will be deleted.<br/>`
+              //  ${JSON.stringify(x.data.ExportData)}`
             }
           });
-
           excelDetail.afterClosed().subscribe();
-
         });
       }
     });
 
-    //console.log(this.ColumnDetails, selectedColumns)
-    //this.requestExport2Excel.emit(excelHeaderParams);
   }
 
   pageChanged(event: PageEvent) {

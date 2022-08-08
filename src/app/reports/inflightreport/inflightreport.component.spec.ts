@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProvidereportComponent } from './providereport.component';
+import { ProvidereportComponent } from './inflightreport.component';
 
 describe('ProvidereportComponent', () => {
   let component: ProvidereportComponent;

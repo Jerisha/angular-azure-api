@@ -9,7 +9,7 @@ import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
-import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/filterCustom';
 import { Utils } from 'src/app/_http';
 import { AlertService } from 'src/app/_shared/alert';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
@@ -104,12 +104,12 @@ export class ExternalAuditDetailsComponent extends UserProfile implements OnInit
 
     this.resolutionType = '';
     this.remarkstxt = '';
-    this.externalAuditForm.reset();
+    //this.externalAuditForm.reset();
     this.updateForm.reset();
     this.disableSave = true;
     this.selectListItems = [];
     this.tabs.splice(0);
-
+    window.location.reload();
   }
 
   cellAttrInfo: CellAttributes[] = [

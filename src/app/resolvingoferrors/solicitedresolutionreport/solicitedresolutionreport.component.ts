@@ -15,6 +15,7 @@ import { ConfigDetails } from 'src/app/_http/models/config-details';
 import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
+import { AlertService } from 'src/app/_shared/alert';
 
 // const ELEMENT_DATA: any = [
 //   {
@@ -121,8 +122,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
-    private _snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService) { }
+    private alertService: AlertService) { }
 
   myTable!: TableItem;
   myForm!: FormGroup;
@@ -186,7 +186,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['TransactionCommand', 'Source', 'AllResolutionType', 'ErrorStatus', 'InternalCupID']);
     this.service.configDetails(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res))
+      //console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
 
@@ -471,6 +471,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
     debugger;
     if (!this.myForm.valid) return;
     this.tabs.splice(0);
+    this.alertService.clear();
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;

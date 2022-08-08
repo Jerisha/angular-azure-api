@@ -2,10 +2,10 @@
     <mat-icon style ="font-size: small;" (click)="btnClicked()">class</mat-icon></button>
 <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
     <div class="menu-button-wrapper">
-    <button mat-button (click)="getFileDetails('UserAccessDetails')">User Access</button>
-    <button mat-button (click)="getFileDetails('UserOfReports')">User Of Reports</button>
-    <button mat-button (click)="getFileDetails('StartUpUserMessages')">News Update</button>
-    <button mat-button (click)="getFileDetails('UserProfiles')">User Profiles</button>
+    <button mat-button (click)="getFileDetails('UserAccessDetails',true)">User Access</button>
+    <button mat-button (click)="getFileDetails('UserOfReports',true)">User Of Reports</button>
+    <button mat-button (click)="getFileDetails('StartUpUserMessages',true)">News Update</button>
+    <button mat-button (click)="getFileDetails('UserProfiles',true)">User Profiles</button>
     <!-- <mat-button-toggle-group name="files" aria-label="Files" multiple (change)="getFileDetails($event)">
         <mat-button-toggle value="BTAuditFileDetails">BT Audit File Details</mat-button-toggle>
         <mat-button-toggle value="DataLiveinSwitchOnly">Data - Live in Switch Only</mat-button-toggle>
@@ -18,7 +18,7 @@
 <div class="container-page wrap">
 
     
-    <mat-card *ngIf="isLeftPanel" class="left-box mat-elevation-z3" style="height:430px" id="tabset">
+    <mat-card *ngIf="isLeftPanel" class="left-box mat-elevation-z3" style="height:430px;padding-top: 1px!important;;" id="tabset">
         <!-- <mat-card-title style="margin:0px; padding:0px; font-size:medium" class="top-label" style="visibility:hidden">
             {{Header}}
         </mat-card-title> -->
@@ -26,7 +26,7 @@
                          
             <mat-card-content> 
               <!-- UserProfile    -->
-              <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTabLeft">
+              <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTabLeft" style="padding-top:1px!important">
                 <mat-tab *ngFor="let tableft of tabsLeft; let index = index" style="background-color:red!important">
                     <ng-template mat-tab-label >
                         <div style="background-color:#e60000!important" class="col" style="margin-left: 20px;">{{tableft.name}}</div>
@@ -36,7 +36,7 @@
                     </ng-template>
                     <span [ngSwitch]="tableft.tabType">
                         <div *ngSwitchCase="0" style="height:100%;">
-                            <form [formGroup]="referenceForm" (ngSubmit)="onSubmit('User Access Details')">
+                            <form [formGroup]="referenceForm" autocomplete="off" (ngSubmit)="onSubmit('User Access Details')">
                        
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
@@ -69,7 +69,7 @@
                                       
         
         
-             <app-select-checkbox [label]="'Sources'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
+             <app-select-checkbox [label]="'Source System'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
               </app-select-checkbox>
         
         
@@ -88,7 +88,7 @@
                                        
                                         <mat-form-field>
                                             <mat-label>Email Address</mat-label>
-                                        <input type="text"  matInput   formControlName="emailaddress"
+                                        <input type="text" autocomplete=""  matInput   formControlName="emailaddress"
                                         placeholder="EmailAddress">
                                         <mat-error>
                                             <div *ngIf="referenceForm.controls['emailaddress'].touched && referenceForm.controls['emailaddress'].invalid" class="alert alert-danger">
@@ -155,24 +155,20 @@
                                 </mat-form-field>
                             </div>
 
-                            <div class="userprofilerighttable" style="padding:10px;width:50vw">
+                            <div class="userprofilerighttable" style="width:50vw">
                             <div style="max-height: 250px;overflow:auto">
-                                <button (click)="checkAll()" style="visibility:hidden">Toggle Select All</button>
-                                <button (click)="GetCheckAll()" style="visibility:hidden">Get Select All</button>
-                                <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
+                                 <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
                                   <mat-tree-node  
                                     *matTreeNodeDef="let node"
                                     matTreeNodeToggle
-                                    matTreeNodePadding [ngClass]="(node.Positio == '0')? 'treeview-a':'treeview-b'"
-                                 style="align-items:left!important" >
+                                    matTreeNodePadding 
+                                  >
                                     <!-- <button mat-icon-button disabled></button> -->
-                                    <b><span style="display: flex; flex-direction: column;align-items: left!important;;"><li>{{node.label}}</li></span></b>
-                                    <mat-checkbox style="visibility:hidden"
-                                      class="checklist-leaf-node" 
-                                      [checked]="descendantsAllSelected(node)"
-                                      (change)="todoLeafItemSelectionToggle(node,$event)"
-                                      >{{node.label}}</mat-checkbox
-                                    >
+                                    <!-- <b><span style="display: flex; flex-direction: column;align-items: left!important;;"><li </li></span></b> -->
+                                   <div *ngIf="node.isChecked" style="font-weight:1000;margin-left: 5px;">
+                                        <div><span>{{node.label}}</span></div>
+                                    
+                                   </div>
                                   </mat-tree-node>
                                 
                                   <mat-tree-node  style="align-items:left!important"
@@ -327,11 +323,9 @@
                                         </mat-form-field>
                                     </div>
         
-                                    <div class="userprofilerighttable" style="padding:10px;width:50vw;height:303px">
+                                    <div class="userprofilerighttable" style="padding:5spx;width:50vw;height:303px">
                                     <div style="max-height: 250px;overflow:auto">
-                                        <button (click)="checkAll()" style="visibility:hidden">Toggle Select All</button>
-                                        <button (click)="GetCheckAll()" style="visibility:hidden">Get Select All</button>
-                                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                                           <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                                           <mat-tree-node
                                             *matTreeNodeDef="let node"
                                             matTreeNodeToggle
@@ -485,18 +479,11 @@
                                           </button>                       
                                         </mat-card-actions>                  
                                       </div> 
-
-
-
-
-
-
-
                                 </div>
                             </form>
                         </div>
                         <div *ngSwitchCase="3" style="height:100%;">
-                            <form [formGroup]="referenceUsernameform">
+                            <form [formGroup]="referenceUsernameform" autocomplete="off">
                        
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
@@ -529,7 +516,7 @@
             
                  
          <!-- UserProfile    -->  
-                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" (ngSubmit)="onSubmit('Start Up User Messages')">
+                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" autocomplete="off" (ngSubmit)="onSubmit('Start Up User Messages')">
                        
                         <div class="content-main vf-flex-container-row">
                             <div  class="content-submain vf-flex-container-col">
@@ -598,18 +585,9 @@
                               </div> 
                         </div>
                     </form>
-
-                   
-                    
-
-                  
             </mat-card-content>     
-                        
-        
     </mat-card>
     
-
-
  <div *ngIf="showDetails" class="right-box">
     <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
         <mat-tab *ngFor="let tab of tabs; let index = index">
@@ -630,7 +608,7 @@
                         <div class="rightFilters-items">
                             <mat-form-field>
                             <mat-label >User Name</mat-label>
-                            <input type="text" matInput  
+                            <input type="text" matInput  autocomplete="off" 
                             placeholder="User Name" formControlName="username">
                             </mat-form-field>
                         </div>
@@ -638,7 +616,7 @@
                         <div class="rightFilters-items">
                             <mat-form-field>
                             <mat-label >Profile Name</mat-label>
-                            <input type="text" matInput  
+                            <input type="text" matInput   autocomplete="off"
                             placeholder="Profile Name" formControlName="profilename">
                             </mat-form-field>
                         </div>
@@ -720,7 +698,7 @@
                 </div>
                 <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
-                        <form [formGroup]="filterUserofReportForm" (ngSubmit)="onSearchFilter('UserOfReports')">
+                        <form [formGroup]="filterUserofReportForm" autocomplete="off" (ngSubmit)="onSearchFilter('UserOfReports')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>
@@ -731,7 +709,7 @@
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
-                                <mat-label >Sources</mat-label>
+                                <mat-label >Source System</mat-label>
                                 <input type="text" matInput  
                                 placeholder="Sources" formControlName="sources">
                                 </mat-form-field>
@@ -798,7 +776,7 @@
                 </div>
                 <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
-                        <form [formGroup]="filterNewsUpdateForm" (ngSubmit)="onSearchFilter('StartUpUserMessages')">
+                        <form [formGroup]="filterNewsUpdateForm" autocomplete="off" (ngSubmit)="onSearchFilter('StartUpUserMessages')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>
@@ -885,13 +863,11 @@
                                 </span>
                             </div>
                         </div>
-    
                         </div>
-
                 </div>
                 <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
-                        <form [formGroup]="filterUserProfilesForm" (ngSubmit)="onSearchFilter('UserProfiles')">
+                        <form [formGroup]="filterUserProfilesForm" autocomplete="off" (ngSubmit)="onSearchFilter('UserProfiles')">
                         <div class="rightFilters">
                             <div class="rightFilters-items">
                                 <mat-form-field>

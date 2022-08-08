@@ -22,6 +22,7 @@ import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 
 @Component({
   selector: 'app-table-expansion-new',
@@ -122,12 +123,32 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
   
     }
   
-    pageChanged(event: PageEvent) {
+    pageChanged(event?: PageEvent) {
       debugger;
-      this.currentPage = event.pageIndex;
-      this.pageProp.currentPage = this.currentPage + 1;
-      this.pageProp.pageSize = event.pageSize;
+      if (event != undefined) {
+        this.currentPage = event?.pageIndex ? event?.pageIndex : 0;
+        this.pageProp.currentPage = this.currentPage + 1;
+        this.pageProp.pageSize = event?.pageSize ? event?.pageSize : DefaultPageSize;
+        this.service.setPageSize(this.pageProp.pageSize);
+        
+      }
+      else {
+        let totalPages = Math.ceil(this.totalRows / this.pageSize);
+        let currentAPIPageNo = Number(this.apiPageNumber);
+        if (currentAPIPageNo === 0 || (currentAPIPageNo > totalPages)) {
+          const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
+            width: '400px',
+            disableClose: true,
+            data: { enableOk: false, message: 'Page number should not be exceeded than available limits', }
+          });
+          rangeConfirm.afterClosed().subscribe(result => { return result; })
+          return;
+        }
+        this.pageProp.currentPage = currentAPIPageNo;
+        this.service.pageSize$.subscribe((val: number) => { this.pageProp.pageSize = val; });
+      }
       this.pageIndex.emit(this.pageProp);
+      
     }
   
     refresh(event: any) {
@@ -159,7 +180,10 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
           if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
           // this.dataSource.sort = this.sort;
           this.spinner.hide();
+          debugger
           this.disablePageSize = this.totalRows > 50 ? false : true;
+          this.showTotalRow =this.totalRows? true : false;
+          this.showCustomFooter =this.totalRows? true : false;
           this.isDataloaded = true;
         },
         (error) => { this.spinner.hide(); },
@@ -200,6 +224,8 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
       this.gridFilter = this.ColumnDetails?.filter(x => x.headerValue != 'Select');
       this.dataColumns = this.ColumnDetails?.map((e) => e.headerValue);
       if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
+      //temp
+      //if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => x);
     }
   
     newTab(tab: any) {
@@ -292,28 +318,44 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
       else
         return '';
     }
-  
-    getFooterDetails(cellname: string) {
-  
-      debugger 
-  console.log('footer details',this.footerDetails);
-      var cell = cellname ? cellname : '';
-  
-      if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
-  
-      //  return this.footerDetails.footerName;
-  return 'Cumulative'
-      }
-  
-      if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
-  
-       // return this.footerDetails.footerValue;
-  return 500;
-      else
-  
-        return '';
-  
+    isNumber(o:any): boolean {
+      return ! isNaN (o-0) && o !== null && o !== "" && o !== false;
     }
+    //Temp
+    getFooterDetails(cell: string) {
+      debugger
+      var cellname = cell.replace('f2_','');
+      var cell = cellname ? cellname : '';
+      if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
+        return 'Cumulative';
+      }
+      if (this.totalRowCols.includes(cell) && this.dataColumns.includes(cell))
+        return this.dataSource?.data.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] === '') ? 0 : parseInt(b[cell])), 0);
+      else
+        return '';
+    }
+  
+  //   getFooterDetails(cellname: string) {
+  
+  //     debugger 
+  // console.log('footer details',this.footerDetails);
+  //     var cell = cellname ? cellname : '';
+  
+  //     if (this.footerColumns[0] === cellname && !this.footerDisplayCols.includes(cell)) {
+  
+  //     //  return this.footerDetails.footerName;
+  // return 'Cumulative'
+  //     }
+  
+  //     if (this.footerDisplayCols.includes(cell) && this.footerColumns.includes(cell))
+  
+  //      // return this.footerDetails.footerValue;
+  // return 500;
+  //     else
+  
+  //       return '';
+  
+  //   }
   
     getColSpan(cellname: string) {
       if (this.dataColumns[0] === cellname) {
@@ -551,6 +593,18 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
       this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
       if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
     }
+    checkNumberColumn(col:string)
+    {
+      let falg:boolean=false;
+      this.ColumnDetails.forEach((row: any, index) => {
+        if(row.headerValue===col&&row.isNumber)
+        {
+          falg= true;
+         
+        } 
+      });
+      return falg;
+    }
   
     copyToClipboard() {
     
@@ -566,7 +620,14 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
         }
         let tabValue: string[] = []
         this.select?.value?.forEach((x: string) => {
+          if(x != 'View'&&x != 'Inventory' &&this.checkNumberColumn(x))
+          {
+            tabValue.push(row[x].replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ' ')
+          }
+          else
+          {
           if (x != 'View'&&x != 'Inventory') tabValue.push(row[x] || ' ')
+          }
         })
         data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
       });

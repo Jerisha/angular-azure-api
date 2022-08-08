@@ -36,7 +36,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   favReports: string[] = [];
   userDetails!: User;
   title: any;
-  ignoreFavMenu: string[] = ['/home', '/exporttoexcel']
+  ignoreFavMenu: string[] = ['/home', '/exporttoexcel','/document-area']
   constructor(private navService: NavService, private service: UIService,
     private cdr: ChangeDetectorRef,
     private _router: Router, private alertService: AlertService,
@@ -66,7 +66,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
     this.navService.appDrawer = this.appDrawer;
     this.navService.currentUrl.subscribe((url: any) => {
       this.userDetails = this.authService.currentUserValue;
-      this.favReports = this.userDetails.favourites;
+      this.favReports = this.userDetails?.favourites;
       if (!this.ignoreFavMenu.includes(url)) {
         this.navItems.forEach(item => {
           var val = item.children?.filter(child => url.includes(child.route)) ? item.children?.filter(child => url.includes(child.route)) : [];
