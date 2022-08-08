@@ -1130,7 +1130,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   resetTel(sf: any) {
     this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" ,source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
     this.transactionItem.customerAddress = { customerName: "", address1: "", address2: "", address3: "", address4: "", postcode: "" };
-
+    this.clirangecount='';
     this.views.view3 = false;
     this.views.view2 = false;
     this.views.view1 = true;
