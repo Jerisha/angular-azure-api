@@ -112,7 +112,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   Cuparr:any;
   SourceFranchisearr:any;
   RerportIdentifier: any;
-  clirangecount: number;
+  clirangecount?: any;
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
@@ -214,6 +214,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   removeRangeCli(rangeIndex: number) {
     this.CliRangeSet.splice(rangeIndex, 1);
+    this.clirangecount=0;
+    let count: number = 0
+    for (let i = 0; i < this.CliRangeSet.length; i++) {
+      count = count + this.CliRangeSet[i][2];
+    }
+    this.clirangecount=count;
     if (this.CliRangeSet.length > 0) {
 
       this.searchTelState = false;
@@ -589,6 +595,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
        
         this.alertService.success( "Save " + `${this.clirangecount? this.clirangecount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
+        this.clirangecount='';
       }
     });
   }
@@ -788,6 +795,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         else {
           this.spinner.hide();
           this.resetTel("");
+          this.clirangecount='';
           this.alertService.clear();
           this.alertService.error("No Data found on given input!", { autoClose: true, keepAfterRouteChange: false });
           
@@ -1282,24 +1290,29 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       if (count <= 10000 && count > 0 && this.checktotalrange(count)) {
         if (this.checkduplicate(this.model.telno, this.model.rangeEnd)) {
           this.CliRangeSet.push([this.model.telno, this.model.rangeEnd, count]);
+
           this.searchTelState = false;
           this.btncolor = "vf-primary-btn";
           this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" };
         }
         else {
           this.alertService.clear();
+          this.countrange();
           this.alertService.notification("Duplicate Numbers Not Allowed!", { autoClose: true, keepAfterRouteChange: false });
         }
       }
       else {
+        this.countrange();
         if (!this.checktotalrange(count)) {
           this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs!", { autoClose: true, keepAfterRouteChange: false });
 
         }
         else if (count >= 10000) {
+          this.countrange();
           this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs", { autoClose: true, keepAfterRouteChange: false });
         }
         else {
+          this.countrange();
           this.alertService.notification("Start Telephone No should be less than End Telephone No", { autoClose: true, keepAfterRouteChange: false });
 
         }
@@ -1317,6 +1330,15 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
 
 
+  }
+  countrange()
+  {
+    this.clirangecount=0;
+    let count: number = 0
+    for (let i = 0; i < this.CliRangeSet.length; i++) {
+      count = count + this.CliRangeSet[i][2];
+    }
+    this.clirangecount=count;
   }
   check_franchise() {
     this.views.view3 = true;
