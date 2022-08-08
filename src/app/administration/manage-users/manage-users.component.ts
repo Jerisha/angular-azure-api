@@ -2078,6 +2078,7 @@ export class ManageUsersComponent implements OnInit {
 
   }
   onEditUserprofileAceess(Actiontype: string, row?: any) {
+    this.clearalert();
     this.tabsLeft.splice(this.tabsLeft.findIndex((x: { tabType: number; }) => x.tabType == 0), 1);
     this.Profilebutton = true;
     this.Formstatus = 'Profile';
