@@ -180,8 +180,10 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
           if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
           // this.dataSource.sort = this.sort;
           this.spinner.hide();
+          debugger
           this.disablePageSize = this.totalRows > 50 ? false : true;
-         
+          this.showTotalRow =this.totalRows? true : false;
+          this.showCustomFooter =this.totalRows? true : false;
           this.isDataloaded = true;
         },
         (error) => { this.spinner.hide(); },

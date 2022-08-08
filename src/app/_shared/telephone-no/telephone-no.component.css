@@ -1,14 +1,23 @@
 
  ::ng-deep .mat-menu-panel {
-  min-width:calc(100vh - 10px); 
-  max-width:max-content;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  max-height: calc(100vh - 48px);
-  border-radius: 4px;
-  outline: 0;
-  min-height: 64px;
+  min-width:fit-content !important;
+  min-height:auto!important;
+ /* max-width:max-content; */
+ overflow: inherit;
+ -webkit-overflow-scrolling: touch;
+ /* max-height: calc(100vh - 48px); */
+ border-radius: 4px;
+ outline: 0;
+ padding: 0px 0px !important;
+ /* min-height: 64px; */
+ 
 }
+
+
+.cdk-overlay-pane {
+  min-width: fit-content;
+}
+
 
 .vf-panel-btn{    
     background-color:#54575a;
@@ -30,7 +39,7 @@
     background-color:#007c92;
   }
   .mat-menu-panel {
-      max-width: fit-content!important;
+      /* max-width: fit-content!important; */
     }
   .vf-panel-title-btn{    
         background-color:#54575a;
@@ -45,4 +54,5 @@
   .mat-radio-group {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      width: auto;
     }
