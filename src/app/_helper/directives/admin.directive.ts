@@ -15,7 +15,7 @@ export class AdminDirective  implements Validator {
       let selection: any = control.value ? control.value : null;
       // console.log('validator is calling',selection);
       if (selection != null) {
-           if(selection.trim().toLowerCase().includes('admin'))
+           if(selection.trim().toLowerCase().includes('custom'))
            {
             return { invalidPrefix: true };
            }

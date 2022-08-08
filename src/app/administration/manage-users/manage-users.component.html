@@ -302,16 +302,16 @@
                     </form>
                         </div>
                         <div *ngSwitchCase="2" style="height:100%;">
-                            <form [formGroup]="UserEditForm"   >
+                            <form [formGroup]="UserEditForm"   autocomplete="off">
                        
                                 <div class="content-main vf-flex-container-row">
                                     <div  class="content-submain vf-flex-container-col">
                                         <mat-form-field>
-                                            <mat-label>Profile Name Test</mat-label>
+                                            <mat-label>Profile Name</mat-label>
                                         <input type="text"  matInput  value="Custom"  formControlName="profilename"
                                         placeholder="Profile Name" appAdmin>
                                         <mat-error>
-                                        <div *ngIf="f.profilename.errors?.invalidPrefix"> Admin name not allowed</div>
+                                        <div *ngIf="f.profilename.errors?.invalidPrefix"> Custom name not allowed</div>
                                         </mat-error>
                                         </mat-form-field>
                                     </div> 
