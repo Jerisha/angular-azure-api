@@ -682,12 +682,13 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       data: { selectedColsArray: selectedCols }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(profileName => {
       this.isExportDisable = true;
-      if (result != '') {
+      debugger;
+      if ((profileName || '').trim().length > 0) {
         debugger;
-        var profileName = this.userDetails.username + '-' + result;
-        var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: result, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 0 };
+       // var profileName = this.userDetails.username + '-' + result;
+        var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: profileName, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 0 };
         let request = Utils.preparePyUICreate('ManageUsers', 'FavouriteProfile', 'ReportMenuItem', profile)
         this.service.uiApiDetails(request, WebMethods.UICREATE).subscribe(response => {
           if (response.Status[0].StatusCode === 'PY1000') {

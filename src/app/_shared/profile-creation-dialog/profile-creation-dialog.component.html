@@ -5,14 +5,8 @@
 			<p><em>Enter a favorite Title</em></p>
 			<mat-form-field>
 				<!-- <mat-label>Enter Title</mat-label> -->
-				<input minlength="12" matInput placeholder="Title" [(ngModel)]="profileName"
-					#uname="ngModel">
-				<!-- <mat-hint align="end">{{uname.value?.length || 0}}/12</mat-hint> -->
-				<mat-error>
-					<div *ngIf="uname.errors?.minlength">
-						Title has to atleast 12 characters
-					</div>
-				</mat-error>
+				<input matInput placeholder="Title" [(ngModel)]="profileName"
+					#uname="ngModel">		
 			</mat-form-field>
 		</div>
 

@@ -15,7 +15,8 @@ export class ProfileCreationDialogComponent implements OnInit {
   }
 
   get checkInvalid() {
-    if (this.profileName == '' || this.profileName == null || this.profileName.length < 12) {
+    if (this.profileName == '' || this.profileName == null ||
+      (this.profileName || '').trim().length === 0) {
       return true;
     } else {
       return false;
