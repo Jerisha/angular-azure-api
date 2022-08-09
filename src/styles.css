@@ -632,7 +632,19 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
   width: 40em;
     /* word-wrap: normal; */
   }
+  td.mat-cell.mat-column-Comments ,  td.mat-cell.mat-column-Description ,   td.mat-cell.mat-column-ResolvingMessage 
+ {
 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 16em;
+    /* display: block;  */
+  }
+  td.mat-cell.mat-column-Summary{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 10em;
+  }
   .side-content {
     overflow: hidden !important;
     /* min-height: 40em */
