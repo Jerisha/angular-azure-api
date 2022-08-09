@@ -134,7 +134,7 @@ debugger
       this.addressDetails.internalAddr3 = element.InternalAddress3;
       this.addressDetails.internalAddr4 = element.InternalAddress4;
       this.addressDetails.linetype=element.LineType;
-      this.addressDetails.typeofline=element.TypeofLine;
+      this.addressDetails.typeofline=element.TypeOfLine;
       this.AddressCheckSelected.emit([this.addressDetails]) // need to check
     console.log('audit trail log',this.addressDetails);
     } else if (section === 'RemoveAddress') {

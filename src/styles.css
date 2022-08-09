@@ -590,6 +590,23 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     max-width: 21.42857em;
     display: block;
   }
+  
+  .mat-cell.mat-column-CustomerAddress {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    /* background-color: aqua; */
+    max-width: 200px;   
+   
+  }
+
+  .mat-cell.mat-column-CustomerName {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    /* background-color: aqua; */
+    max-width: 200px;
+  
+  }
+
   .mat-cell.mat-column-Remarks {
  
     text-align: center;

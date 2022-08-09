@@ -3,7 +3,7 @@
   min-width:fit-content !important;
   min-height:auto!important;
  /* max-width:max-content; */
- overflow: inherit;
+ overflow: auto;
  -webkit-overflow-scrolling: touch;
  /* max-height: calc(100vh - 48px); */
  border-radius: 4px;
