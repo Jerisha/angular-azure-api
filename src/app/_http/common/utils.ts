@@ -189,11 +189,13 @@ transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers
 
   static preparePyExportSummary(): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.EXPSUMMARY));
+    transform.UserParams = user();
     return transform;
   }
 
   static preparePydownloadFile(fullFilePath: string): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.DOWNLOADFILE));
+    transform.UserParams = user();
     transform.FilePath = fullFilePath
     return transform;
   }
@@ -222,7 +224,6 @@ transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers
 
     return transform;
   }
-
 
   static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
