@@ -194,6 +194,7 @@ transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers
 
   static preparePydownloadFile(fullFilePath: string): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.DOWNLOADFILE));
+    transform.UserParams = user();
     transform.FilePath = fullFilePath
     return transform;
   }
