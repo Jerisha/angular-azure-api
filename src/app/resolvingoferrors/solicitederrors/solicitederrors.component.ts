@@ -328,7 +328,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
-    { header: 'Change Cupid', headerValue: 'ChangeCupId', showDefault: true, isImage: false },
+    { header: 'LCP/GCP', headerValue: 'ChangeCupId', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },

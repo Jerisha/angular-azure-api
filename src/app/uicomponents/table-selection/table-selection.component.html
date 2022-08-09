@@ -12,7 +12,7 @@
           </span>
         </mat-select-trigger>
         <mat-optgroup class="freezeselectall" style="min-width:220px">
-          <mat-checkbox color="primary" style="color:black" [(ngModel)]="allSelected" #selectAll
+          <mat-checkbox color="primary" [(ngModel)]="allSelected" #selectAll
             [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
             {{ selectAll.checked ? 'Deselect All' : 'Select All' }}</mat-checkbox>
           <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns(select)"
@@ -23,14 +23,14 @@
         <ng-container *ngFor="let cols of (gridFilter || []); let fltIndex = index">
           <mat-option
             [disabled]="fltIndex===0 || cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false"
-            style="min-width:220px;color: black;" color="primary" (click)="optionClick()" [value]="cols.headerValue">
+            style="min-width:220px" color="primary" (click)="optionClick()" [value]="cols.headerValue">
             {{ cols.header }}
           </mat-option>
         </ng-container>
       </mat-select>
     </mat-form-field>
-    <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
-        {{selection.selected.length}}</b></span> &nbsp;
+    <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox">No of selected rows :
+      <b>{{selection.selected.length}}</b></span> &nbsp;
 
     <ng-container *ngIf="showFavCols" >
 
