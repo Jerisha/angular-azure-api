@@ -520,8 +520,8 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.fontHighlightedCells.forEach(x => {
         if (x.cells.find(x => x === (disCol.headerValue)) && row[x.flag] === x.value) {
           applyStyles = {
-            'color': '#059710',
-            'font-weight': '500'
+            'color': '#66ff00',//059710//66ff00
+           'font-weight' : '500'
           }
         }
       })
