@@ -607,10 +607,10 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
   
   }
 
-  .mat-cell.mat-column-Comments {
+  /* .mat-cell.mat-column-Comments {
     white-space: normal !important;
     word-wrap: break-word !important;
-  }
+  } */
 
   .mat-cell.mat-column-Remarks {
  
@@ -619,9 +619,9 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
   width: 40em;
     /* word-wrap: normal; */
   }
-  td.mat-cell.mat-column-Comments ,  td.mat-cell.mat-column-Description ,   td.mat-cell.mat-column-ResolvingMessage 
+  td.mat-cell.mat-column-Comments ,  td.mat-cell.mat-column-Description , 
+    td.mat-cell.mat-column-ResolvingMessage ,td.mat-cell.mat-column-ErrorMessage
  {
-
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 16em;
