@@ -49,11 +49,17 @@
                                     </ng-container>
                                   </td>
                             </div>
-                            <div *ngIf ="disCol.cName!='Actions'">
-                              <th mat-header-cell *matHeaderCellDef   matTooltip="{{disCol.ctooltip}}" matTooltipPosition="above" > {{disCol.cDisplayName}} </th>
-                              <!-- <td mat-cell *matCellDef="let element"  (click)="$event.stopPropagation()" [ngStyle]="calculateWidth(disCol.cName,element[disCol.cName])" [matTooltip]="toolTipData(disCol.cName,element[disCol.cName])" [matTooltipClass]="'custom-tooltip'"> {{element[disCol.cName]}}  </td> -->
-                              <td mat-cell *matCellDef="let element"  (click)="$event.stopPropagation()" [ngStyle]="calculateWidth(disCol.cName,element[disCol.cName])" [matTooltip]="toolTipData(disCol.cName,element[disCol.cName])"  > {{element[disCol.cName]}}  </td>
-                            </div>                           
+                            <div *ngIf="disCol.cName!='Actions'">
+                              <th mat-header-cell *matHeaderCellDef matTooltip="{{disCol.ctooltip}}" matTooltipClass="custom-tooltip"
+                                matTooltipPosition="above"> {{disCol.cDisplayName}} </th>
+                              <!-- <td mat-cell *matCellDef="let element"  (click)="$event.stopPropagation()" [ngStyle]="calculateWidth(disCol.cName,element[disCol.cName])" [matTooltip]="
+                                (disCol.cName,element[disCol.cName])" [matTooltipClass]="'custom-tooltip'"> {{element[disCol.cName]}}  </td> -->
+                              <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"
+                                matTooltipClass="custom-tooltip" [matTooltipDisabled]="disCol.ctooltip === disCol.cDisplayName  ? false : true "
+                                [matTooltip]="(element[disCol.cName])">
+                                {{element[disCol.cName]}}
+                              </td>
+                            </div>                          
                           </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumnsValues sticky: true"  ></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"   [ngClass]="{ 'highlighted' : row === highlightedRows } "  ></tr>  
