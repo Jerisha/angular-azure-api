@@ -483,11 +483,12 @@ export const PyRequests = {
         "RequestType": "UIQUERY",
         "UserParams": [
             { "UserID": "BEEMA" },
-            { "RoleID": "" },
+            { "RoleID": "" }           
+        ],
+        "RequestParams": [
             { "ScreenIdentifier": "ExporttoExcelReport" },
             { "ReportIdentifier": [""] }
-        ]
-        ,
+        ],
         "Cache": ["ApplicationKey", "SessionID"]
     },
     DOWNLOADFILE: {

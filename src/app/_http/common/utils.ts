@@ -189,6 +189,7 @@ transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers
 
   static preparePyExportSummary(): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.EXPSUMMARY));
+    transform.UserParams = user();
     return transform;
   }
 
@@ -223,7 +224,6 @@ transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers
 
     return transform;
   }
-
 
   static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
