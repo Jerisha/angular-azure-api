@@ -1,3 +1,24 @@
+
+ ::ng-deep .mat-menu-panel {
+  min-width:fit-content !important;
+  min-height:auto!important;
+ /* max-width:max-content; */
+ overflow: auto;
+ -webkit-overflow-scrolling: touch;
+ /* max-height: calc(100vh - 48px); */
+ border-radius: 4px;
+ outline: 0;
+ padding: 0px 0px !important;
+ /* min-height: 64px; */
+ 
+}
+
+
+.cdk-overlay-pane {
+  min-width: fit-content;
+}
+
+
 .vf-panel-btn{    
     background-color:#54575a;
     color:black;
@@ -5,8 +26,20 @@
     border-radius: 3px;
     vertical-align: middle;
   }
+  ::ng-deep  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle
+  {
+    background-color:#007c92;
+    color: gray;
+    border-color: gray;
+  }
+
+  
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle
+  {
+    background-color:#007c92;
+  }
   .mat-menu-panel {
-      max-width: fit-content!important;
+      /* max-width: fit-content!important; */
     }
   .vf-panel-title-btn{    
         background-color:#54575a;
@@ -18,7 +51,8 @@
   .mat-radio-button{
         padding-left: 3px;
   }
-  /* .mat-radio-group {
+  .mat-radio-group {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-    } */
+      width: auto;
+    }

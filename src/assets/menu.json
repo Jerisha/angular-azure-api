@@ -112,7 +112,7 @@
       {
         "displayName": "InFlight Records",
         "iconName": "",
-        "route": "reports/providereport",
+        "route": "reports/inflightreport",
         "menuId" :"MENU22"
       },
       {

@@ -18,7 +18,7 @@ import { AlertService } from 'src/app/_shared/alert';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { UserCommentsDialogComponent } from 'src/app/_shared/user-comments/user-comments-dialog.component'
-import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/filterCustom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
@@ -115,11 +115,11 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     { headerValue: 'OrderReference', header: 'Order Ref', showDefault: true, isImage: false },
   ];
   inflightTableDetails: ColumnDetails[] = [
-    { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
-    { headerValue: 'Range', header: 'Range', showDefault: true, isImage: false },
-    { headerValue: 'OrderRef', header: 'Order Ref', showDefault: true, isImage: false },
+    { headerValue: 'TelephoneNumber', header: 'TelNo', showDefault: true, isImage: false },
+    { headerValue: 'TelephoneRange', header: 'Range', showDefault: true, isImage: false },
+    { headerValue: 'OrderReference', header: 'Order Ref', showDefault: true, isImage: false },
     { headerValue: 'OrderType', header: 'Order Type', showDefault: true, isImage: false },
-    { headerValue: 'OrderUpdateDate', header: 'Order Updated Date', showDefault: true, isImage: false },
+    { headerValue: 'OrderUpdatedDate', header: 'Order Updated Date', showDefault: true, isImage: false },
   ];
   moriCicuitTableDetails: ColumnDetails[] = [
     { headerValue: 'CircuitReference', header: 'Circuit Reference', showDefault: true, isImage: false },
@@ -849,6 +849,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       });
 
       dataCorrectionConfirm.afterClosed().subscribe(result => {
+        var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
         if (result) {
           if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
             let request = Utils.preparePyUpdate('AutoSpecialCease', 'FullAuditDetails', this.prepareUpdateIdentifiers('DataManualCorrection'), [{}]);
@@ -861,10 +862,13 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
             });
           }
           else {
+            debugger;
+            var conditionalCorrectionTypes =['BT', 'OSN'];
+            var conditionalCorrections = conditionalCorrectionTypes.filter(x=>auditType.includes(x));
             var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
             var startTelno = '';
             var endTelno = '';
-            if (selectedCLI != '') {
+            if (selectedCLI != ''  && conditionalCorrections.length===0) {
               let strCmts = selectedCLI.split('-');
               var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
               startTelno = isNumeric(range[0]) ? range[0].toString() : this.selectListItems[0].TelephoneNumber;
@@ -873,15 +877,8 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
             }
             else {
               startTelno = this.selectListItems[0].TelephoneNumber;
-            }
-            var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
+            }           
             let data = {
-              // StartphoneNumber: startTelno,
-              // EndPhoneNumber: endTelno,
-              // ActId: this.form.AuditActID.value,
-              // ResolutionRemarks: this.remarkstxt,
-              // ManualAuditType: auditType,
-              // ReportIdentifier: 'FullAuditDetails'
               StartphoneNumber: startTelno,
               auditType:'Full Audit',
               AuditStatus:this.selectListItems[0].FullAuditCLIStatus,
@@ -1054,8 +1051,8 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     this.inflightReportQueryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
-          datasource: res.data.Reports,
-          totalrecordcount: res.data.Reports.length,
+          datasource: res.data.TelephoneNumbers,
+          totalrecordcount: res.data.TelephoneNumbers.length,
           totalpages: 1,
           pagenumber: 1
         }

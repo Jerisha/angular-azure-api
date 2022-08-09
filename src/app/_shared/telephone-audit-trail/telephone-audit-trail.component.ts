@@ -117,12 +117,15 @@ testfun(islive :boolean)
 
   customScroll(i:number, isUnSol?: boolean) {
   //  this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94);
-   setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 62); }, 200);
+  //  setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 62); }, 200);
+  setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*21.5) + 81) : this.scrollDemo.nativeElement.scrollTo(0,(i*21.5) + 51); }, 200);
   }
 
   setAddressDetails(section: string, element?: any) {
     // console.log(element.details.postcode);
+debugger
     if (section === 'TransactionDetails') {
+      console.log('audit trail live data',element);
       this.addressDetails.isData = true;
       this.addressDetails.postcode = element.Postcode;
       this.addressDetails.CustomerName = element.CustomerName;
@@ -130,8 +133,10 @@ testfun(islive :boolean)
       this.addressDetails.internalAddr2 = element.InternalAddress2;
       this.addressDetails.internalAddr3 = element.InternalAddress3;
       this.addressDetails.internalAddr4 = element.InternalAddress4;
+      this.addressDetails.linetype=element.LineType;
+      this.addressDetails.typeofline=element.TypeOfLine;
       this.AddressCheckSelected.emit([this.addressDetails]) // need to check
- 
+    console.log('audit trail log',this.addressDetails);
     } else if (section === 'RemoveAddress') {
       this.addressDetails = new AddressDetails();
     }

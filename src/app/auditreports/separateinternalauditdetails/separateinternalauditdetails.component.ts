@@ -415,13 +415,13 @@ else{
   ];
   dataCorrectionBtnConfig: ButtonCorretion[] = [
     { value: 'SO-Amdocs SOM Only', buttonVal: ['AutoPopulateSource'] },
-    { value: 'R-Clarify Only', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2'] },
+    { value: 'R-Clarify Only', buttonVal: ['AutoPopulateSource'] },
     { value: 'DO-DVA Siebel only', buttonVal: ['AutoPopulateSource'] },
-    { value: 'S-Matched', buttonVal: ['AutoPopulateSource'] },
-    { value: 'D-Mismatched', buttonVal: ['AutoPopulateSource']},
-    { value: 'V-OSN2 Only', buttonVal: ['AutoPopulateSource'] },
+    { value: 'S-Matched', buttonVal: [] },
+    { value: 'D-Mismatched', buttonVal: ['AutoPopulateSource','AutoPopulateOSN2']},
+    { value: 'V-OSN2 Only', buttonVal: ['AutoPopulateOSN2'] },
     { value: 'C-SAS/COMS Only', buttonVal: ['AutoPopulateSource'] },
-    { value: 'E-VA/WAD Only', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateOSN2']},
+    { value: 'E-VA/WAD Only', buttonVal: ['AutoPopulateSource',]},
      ];
   DisplayFullAuditDetailsTab( TelephoneNumber:string)
   {
@@ -574,6 +574,8 @@ else{
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
+     //set removecache to 1 on update
+     if(!this.isSaveDisable)  this.isRemoveCache = 1;
 
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },

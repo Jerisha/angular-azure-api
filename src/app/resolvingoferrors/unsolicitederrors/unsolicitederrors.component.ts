@@ -18,7 +18,7 @@ import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert/alert.service';
-import { Custom } from 'src/app/_helper/Validators/Custom';
+import { Custom } from 'src/app/_helper/Validators/filterCustom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
@@ -350,19 +350,18 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
 
           continue;
         }
-        if( field === 'ResolveTypeUnsol')
-        {
+        if (field === 'ResolveTypeUnsol') {
           if (control?.value)
-          attributes.push({ Name: 'ResolutionType', Value: [control?.value] });
-        else
-          attributes.push({ Name: 'ResolutionType' });
+            attributes.push({ Name: 'ResolutionType', Value: [control?.value] });
+          else
+            attributes.push({ Name: 'ResolutionType' });
         } else {
-        if (control?.value)
-          attributes.push({ Name: field, Value: [control?.value] });
-        else
-          attributes.push({ Name: field });
+          if (control?.value)
+            attributes.push({ Name: field, Value: [control?.value] });
+          else
+            attributes.push({ Name: field });
+        }
       }
-    }
     }
     // console.log(attributes);
 
@@ -486,7 +485,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     { header: 'Error Code', headerValue: 'ErrorCode', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false, showTooltip: true },
     { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
@@ -520,10 +519,12 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     this.Resolution = this.Remarks = this.Refer = ''
     // reset selectedrows
     this.selectedGridRows = [];
-    // this.currentPage = isEmitted ? this.currentPage : '1';
+
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
+    //set removecache to 1 on update
+    if (!this.isSaveDisable) this.isRemoveCache = 1;
 
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },

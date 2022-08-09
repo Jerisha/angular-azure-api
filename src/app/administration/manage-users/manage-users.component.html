@@ -2,10 +2,10 @@
     <mat-icon style ="font-size: small;" (click)="btnClicked()">class</mat-icon></button>
 <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
     <div class="menu-button-wrapper">
-    <button mat-button (click)="getFileDetails('UserAccessDetails')">User Access</button>
-    <button mat-button (click)="getFileDetails('UserOfReports')">User Of Reports</button>
-    <button mat-button (click)="getFileDetails('StartUpUserMessages')">News Update</button>
-    <button mat-button (click)="getFileDetails('UserProfiles')">User Profiles</button>
+    <button mat-button (click)="getFileDetails('UserAccessDetails',true)">User Access</button>
+    <button mat-button (click)="getFileDetails('UserOfReports',true)">User Of Reports</button>
+    <button mat-button (click)="getFileDetails('StartUpUserMessages',true)">News Update</button>
+    <button mat-button (click)="getFileDetails('UserProfiles',true)">User Profiles</button>
     <!-- <mat-button-toggle-group name="files" aria-label="Files" multiple (change)="getFileDetails($event)">
         <mat-button-toggle value="BTAuditFileDetails">BT Audit File Details</mat-button-toggle>
         <mat-button-toggle value="DataLiveinSwitchOnly">Data - Live in Switch Only</mat-button-toggle>
@@ -18,7 +18,7 @@
 <div class="container-page wrap">
 
     
-    <mat-card *ngIf="isLeftPanel" class="left-box mat-elevation-z3" style="height:430px" id="tabset">
+    <mat-card *ngIf="isLeftPanel" class="left-box mat-elevation-z3" style="height:430px;padding-top: 1px!important;;" id="tabset">
         <!-- <mat-card-title style="margin:0px; padding:0px; font-size:medium" class="top-label" style="visibility:hidden">
             {{Header}}
         </mat-card-title> -->
@@ -26,7 +26,7 @@
                          
             <mat-card-content> 
               <!-- UserProfile    -->
-              <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTabLeft">
+              <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTabLeft" style="padding-top:1px!important">
                 <mat-tab *ngFor="let tableft of tabsLeft; let index = index" style="background-color:red!important">
                     <ng-template mat-tab-label >
                         <div style="background-color:#e60000!important" class="col" style="margin-left: 20px;">{{tableft.name}}</div>
@@ -69,7 +69,7 @@
                                       
         
         
-             <app-select-checkbox [label]="'Source Systems'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
+             <app-select-checkbox [label]="'Source System'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
               </app-select-checkbox>
         
         
@@ -155,11 +155,9 @@
                                 </mat-form-field>
                             </div>
 
-                            <div class="userprofilerighttable" style="padding:10px;width:50vw">
+                            <div class="userprofilerighttable" style="width:50vw">
                             <div style="max-height: 250px;overflow:auto">
-                                <button (click)="checkAll()" style="visibility:hidden">Toggle Select All</button>
-                                <button (click)="GetCheckAll()" style="visibility:hidden">Get Select All</button>
-                                <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
+                                 <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
                                   <mat-tree-node  
                                     *matTreeNodeDef="let node"
                                     matTreeNodeToggle
@@ -322,11 +320,9 @@
                                         </mat-form-field>
                                     </div>
         
-                                    <div class="userprofilerighttable" style="padding:10px;width:50vw;height:303px">
+                                    <div class="userprofilerighttable" style="padding:5spx;width:50vw;height:303px">
                                     <div style="max-height: 250px;overflow:auto">
-                                        <button (click)="checkAll()" style="visibility:hidden">Toggle Select All</button>
-                                        <button (click)="GetCheckAll()" style="visibility:hidden">Get Select All</button>
-                                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                                           <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                                           <mat-tree-node
                                             *matTreeNodeDef="let node"
                                             matTreeNodeToggle
@@ -480,13 +476,6 @@
                                           </button>                       
                                         </mat-card-actions>                  
                                       </div> 
-
-
-
-
-
-
-
                                 </div>
                             </form>
                         </div>
@@ -593,18 +582,9 @@
                               </div> 
                         </div>
                     </form>
-
-                   
-                    
-
-                  
             </mat-card-content>     
-                        
-        
     </mat-card>
     
-
-
  <div *ngIf="showDetails" class="right-box">
     <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
         <mat-tab *ngFor="let tab of tabs; let index = index">
@@ -726,7 +706,7 @@
                             </div>
                             <div class="rightFilters-items">
                                 <mat-form-field>
-                                <mat-label >Source Systems</mat-label>
+                                <mat-label >Source System</mat-label>
                                 <input type="text" matInput  
                                 placeholder="Sources" formControlName="sources">
                                 </mat-form-field>
@@ -880,9 +860,7 @@
                                 </span>
                             </div>
                         </div>
-    
                         </div>
-
                 </div>
                 <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">

@@ -112,7 +112,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   Cuparr:any;
   SourceFranchisearr:any;
   RerportIdentifier: any;
-  clirangecount: number;
+  clirangecount?: any;
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
@@ -214,6 +214,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   removeRangeCli(rangeIndex: number) {
     this.CliRangeSet.splice(rangeIndex, 1);
+    this.clirangecount=0;
+    let count: number = 0
+    for (let i = 0; i < this.CliRangeSet.length; i++) {
+      count = count + this.CliRangeSet[i][2];
+    }
+    this.clirangecount=count;
     if (this.CliRangeSet.length > 0) {
 
       this.searchTelState = false;
@@ -248,8 +254,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     console.log('customer name ',this.transactionItem.customerAddress.customerName);
    // this.transactionItem.customerAddress = { customerName: "VODAFONE", address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
    this.transactionItem.customerAddress = { customerName: this.transactionItem.customerAddress.customerName, address1: Addressval[1], address2: Addressval[2], address3: Addressval[3], address4: Addressval[4], postcode: Addressval[5] };
-
-    
+  
     //console.log('paf address',Addressval)
     return "";
   }
@@ -258,8 +263,14 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
     this.addressDetails = Addressval;
     this.transactionItem.customerAddress = { customerName: this.addressDetails.CustomerName, address1: this.addressDetails.internalAddr1, address2: this.addressDetails.internalAddr2, address3: this.addressDetails.internalAddr3, address4: this.addressDetails.internalAddr4, postcode: this.addressDetails.postcode };
-
-    //console.log('paf address',Addressval)
+    if(this.addressDetails.linetype)
+    {
+     this.model.LineType=this.addressDetails.linetype;
+    }
+    if(this.addressDetails.typeofline)
+    {
+     this.model.TypeOfLine=this.addressDetails.typeofline;
+    }
     return "";
   }
   onmodelCupIDchange(value: string, ctrlName: string) {
@@ -362,6 +373,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       {
         this.views.view3 = true;
       }
+    }
+    else
+    {
+      this.enableSource = true;
+      this.enableFrancise = true;
+      this.views.view3 = true;
     }
 }
   onCupIDChange(event: any) {
@@ -578,6 +595,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
        
         this.alertService.success( "Save " + `${this.clirangecount? this.clirangecount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
+        this.clirangecount='';
       }
     });
   }
@@ -777,6 +795,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         else {
           this.spinner.hide();
           this.resetTel("");
+          this.clirangecount='';
           this.alertService.clear();
           this.alertService.error("No Data found on given input!", { autoClose: true, keepAfterRouteChange: false });
           
@@ -1111,7 +1130,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   resetTel(sf: any) {
     this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" ,source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
     this.transactionItem.customerAddress = { customerName: "", address1: "", address2: "", address3: "", address4: "", postcode: "" };
-
+    this.clirangecount='';
     this.views.view3 = false;
     this.views.view2 = false;
     this.views.view1 = true;
@@ -1271,24 +1290,29 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       if (count <= 10000 && count > 0 && this.checktotalrange(count)) {
         if (this.checkduplicate(this.model.telno, this.model.rangeEnd)) {
           this.CliRangeSet.push([this.model.telno, this.model.rangeEnd, count]);
+
           this.searchTelState = false;
           this.btncolor = "vf-primary-btn";
           this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" };
         }
         else {
           this.alertService.clear();
+          this.countrange();
           this.alertService.notification("Duplicate Numbers Not Allowed!", { autoClose: true, keepAfterRouteChange: false });
         }
       }
       else {
+        this.countrange();
         if (!this.checktotalrange(count)) {
           this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs!", { autoClose: true, keepAfterRouteChange: false });
 
         }
         else if (count >= 10000) {
+          this.countrange();
           this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs", { autoClose: true, keepAfterRouteChange: false });
         }
         else {
+          this.countrange();
           this.alertService.notification("Start Telephone No should be less than End Telephone No", { autoClose: true, keepAfterRouteChange: false });
 
         }
@@ -1306,6 +1330,15 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
 
 
+  }
+  countrange()
+  {
+    this.clirangecount=0;
+    let count: number = 0
+    for (let i = 0; i < this.CliRangeSet.length; i++) {
+      count = count + this.CliRangeSet[i][2];
+    }
+    this.clirangecount=count;
   }
   check_franchise() {
     this.views.view3 = true;

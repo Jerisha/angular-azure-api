@@ -5,6 +5,8 @@ export interface IAddressDetails {
     internalAddr3:	string;
     internalAddr4: string;
     CustomerName: string;
+    linetype:string;
+    typeofline:string
 }
 
 export class AddressDetails implements IAddressDetails {
@@ -15,5 +17,7 @@ export class AddressDetails implements IAddressDetails {
     internalAddr3: string = '';
     internalAddr4: string = '';
     CustomerName: string = '';
+    linetype:string='';
+    typeofline:string='';
     
 }

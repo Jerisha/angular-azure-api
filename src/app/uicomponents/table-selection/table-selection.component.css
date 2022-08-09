@@ -37,9 +37,9 @@ table td, table th {
   height: 10px;
 }
 
+/*  table-container class moved into global style sheet here renamed with '1' */
 
-
-.table-container {
+.table-container1 {
   /* min-height: 100px; */
   height: 350px;
   overflow: auto;
@@ -104,7 +104,7 @@ table td, table th {
 
 .totalRow {
   /* background-color: #e60000; */
-  background-color: #ff9999 !important;
+  background-color: #FED9B7  !important;
   color:black;
   
   font-size: small;
@@ -148,7 +148,15 @@ table td, table th {
 }
 
 
+.wrap-cell{
+  word-wrap: break-word;
+  word-break:break-all;
+}
 
+
+/* .mat-cell.mat-column-LatestUserComments {
+  background: red;
+} */
 
 /* Handle on hover */
 /* .table-container::-webkit-scrollbar-thumb:hover {

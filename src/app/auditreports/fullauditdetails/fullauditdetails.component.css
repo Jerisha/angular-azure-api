@@ -61,16 +61,13 @@ button{
     margin-right:20px
   }
 
-  .side-bottom .side-textarea{
-    /* background-color: lawngreen!important; */
+  /* .side-bottom .side-textarea{
+    
     width: 300px;
-    font-size: smaller;
-  /* position:absolute;
-  margin-top: 90px;*/
-  /* margin-left: 200px; */
+    font-size: smaller; 
   margin: 5px;
 
-  }
+  } */
 
 
   /* ::ng-deep .mat-optgroup.hideLabel .mat-optgroup-label .mat-option.hideLabel {

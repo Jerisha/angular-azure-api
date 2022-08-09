@@ -14,11 +14,11 @@
   .internalMatGrid{  border:1px solid #e60000; min-width:80%;}
 .vf-flex-container {
     display: flex;
-    height: auto;
+    height: 100%;
     flex-direction: row;
     justify-content: center;        
-     margin-top: .5rem;
-    margin-bottom: .5rem; 
+     /* margin-top: .5rem;
+    margin-bottom: .5rem;  */
   }
   .vf-card-title{
     box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
@@ -34,6 +34,7 @@
     /* background-color:#007c92; */
     /* color: white; */
     color:  rgb(118, 120, 139);
+    font-weight: 50;
   }
   .vf-sub-title{
     /* border: 1px solid #4a4d4e;  */
@@ -46,7 +47,7 @@
     color:#000000; 
     /* color: white; */
     font-size: small; 
-    font-weight:500;    
+    font-weight:50;    
     /* color: #54575a; */
     /* border-style:double; */ 
     padding-top: 3px;
@@ -59,7 +60,7 @@
     /* background-color:#666666; */
     /* color:#000000;  */
     font-size: small; 
-    font-weight:300;  
+    font-weight:500;  
     box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
     /* border-style:solid */
     /* padding-left: 3px; */
@@ -76,7 +77,7 @@
     /* background-color:#666666; */
     /* color:#000000;  */
     font-size:smaller;
-    font-weight:300;  
+    font-weight:500;  
     box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
     /* border-style:solid */
     /* padding-left: 3px; */
@@ -89,7 +90,7 @@
     color:white;
     box-shadow: 0 1px 1.5px -.5px rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.14), 0 .5px 3px 0 rgba(0,0,0,.12);
     font-size: small; 
-    font-weight:500;
+    font-weight:50;
     /* padding-left: 3px; */
     padding-top: 3px;
     padding-bottom: 3px;

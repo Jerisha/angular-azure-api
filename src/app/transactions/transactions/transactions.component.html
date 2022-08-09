@@ -1,7 +1,7 @@
 <!-- <mat-toolbar class ="docs-primary-header component-page-header"> -->
 
 <!-- <div style="font-size: 12px;color:slategray;padding-left:1%;margin-block:0;">Transactions > Transactions</div> -->
-<div class="container-page">
+<div class="container-page" >
 <div class="wrap">
   <div class="left-box">
     <ng-container>
@@ -16,7 +16,7 @@
     </ng-container>
   </div>
   <div class="right-box" *ngIf="addressCheckSuccess||auditTrailSuccess">
-    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab" style="overflow-y: auto;padding-left: 1rem;">     
+    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab" style="padding-left: 1rem;">     
       <!-- <mat-tab label="Address Check"  *ngIf="addressCheckSuccess" isActive="addCheckState"> -->
         <mat-tab *ngFor="let tab of tabs; let index = index" >
           <ng-template mat-tab-label>
@@ -39,7 +39,7 @@
             </button>
           </div>
             <div class="audit-trail-view">
-            <app-telephone-audit-trail [telNo]="telNo" (AddressCheckSelected)="AuditTrailAddress($event)" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+            <app-telephone-audit-trail  [telNo]="telNo" (AddressCheckSelected)="AuditTrailAddress($event)" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
            
           </div>
         </ng-container>

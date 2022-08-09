@@ -15,7 +15,7 @@
         (changes)="setControlAttribute($event)">
       </app-select-multiple>
     </div>
-    <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+    <form class ="search-pane-form" [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
           <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
@@ -246,20 +246,22 @@
           </button>
         </ng-template>
 
-        <span [ngSwitch]="tab.tabType">
-          <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
+        <span [ngSwitch]="tab.tabType" class ="span-container">
+          <div *ngSwitchCase="0"  class ="tab-container">
+            <app-table-selection class ="app-table-selection-container" [sidePan]="pagesidenav" [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
               (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event)">
             </app-table-selection>
-            <form (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off"
+            <form class = "update-form" (ngSubmit)="save.form.valid && onSaveSubmit(save)" #save="ngForm" autocomplete="off"
               *ngIf="updateAccess">
-              <div class="mat-elevation-z8 side-bottom">
+              <!-- <div class="mat-elevation-z8 side-bottom"> -->
+                <div class="side-bottom">
                 <div>
                   <!-- <select class="res-select" Name="Name_of_list_box" size="4">
                     <option *ngFor="let list of selectListItems"> {{list}} </option>
                   </select> -->
 
                   <div style="display: inline-block;">
+                    <!-- <div > -->
                     <ng-container *ngIf="updateDetails as con">
 
 
@@ -313,7 +315,7 @@
                       <mat-label>Remarks</mat-label>
                       <textarea required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks"
                         [ngModelOptions]="{standalone: true}" #input matInput maxlength="500"
-                        placeholder="Remarks"></textarea>
+                        placeholder="Remarks" rows ="1"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
                       <mat-error class="alert alert-danger">
                         <div *ngIf="remarks.errors?.required">
@@ -340,11 +342,11 @@
               </div>
             </form>
           </div>
-          <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-            <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"></app-telephone-audit-trail>
+          <div *ngSwitchCase="1"class ="tab-container" >
+            <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier" class ="app-telephone-audit-trail-container"></app-telephone-audit-trail>
           </div>
-          <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
-            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier">
+          <div *ngSwitchCase="2" class ="tab-container">
+            <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier" class ="app-transaction-errors-container">
             </app-transaction-errors>
           </div>
           <div *ngSwitchDefault>

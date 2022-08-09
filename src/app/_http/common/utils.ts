@@ -1,9 +1,7 @@
-import { User } from 'src/app/_auth/model/user';
-import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
+
 import { PyRequests } from 'src/app/_helper/Constants/pyrequests-const';
 // import { PyRequests } from 'src/app/_helper/Constants/pyrequests-const';
-import { WMRequests } from 'src/app/_helper/index'
-import { HttpWrapperService } from '../http-wrapper.service';
+import { WMRequests } from 'src/app/_helper/index';
 
 export class Utils {
 
@@ -214,6 +212,17 @@ transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers
     // console.log(JSON.stringify(transform))
     return transform;
   }
+
+  static preparePyUIQueryDoc(reportIdentifier: any, subReportName: any): any {
+    let transform = JSON.parse(JSON.stringify(PyRequests.UIQUERY));
+    
+    transform.UserParams = user();    
+    transform.RequestParams[0].ReportIdenitifer = reportIdentifier;
+    transform.RequestParams[0].SubReportName = subReportName;
+
+    return transform;
+  }
+
 
   static preparePyUIUpdate(reportIdentifier: string, subReportName: string, recordIdentifier: string, updateData: any): any {
     let transform = JSON.parse(JSON.stringify(PyRequests.UIUPDATE));
