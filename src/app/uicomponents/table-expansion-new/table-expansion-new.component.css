@@ -51,7 +51,10 @@ th.mat-sort-header-sorted {
   z-index: 10;
   height: 5px;
 }
-
+.app-table-scroll::ng-deep .apptable-container
+{
+  max-height: fit-content !important;
+}
 .select-submit{
     border:none;  
   
