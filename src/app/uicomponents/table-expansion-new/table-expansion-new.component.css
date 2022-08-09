@@ -145,7 +145,10 @@ th.mat-sort-header-sorted {
   border-radius: 10px;
 }
 
-
+.app-table-scroll::ng-deep .apptable-container
+{
+  max-height: fit-content !important;
+}
 
 
 /* .mat-cell.mat-column-LatestUserComments {
