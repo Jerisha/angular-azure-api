@@ -217,7 +217,8 @@ div.mat-tab-label {
   text-align: left;
   white-space: pre-line;
   font-size: -8px !important;
-  background: #FED9B7 !important;
+  background: white !important; /*#FED9B7  */
+  color:#3f51b5;
   margin-left: -8px !important;
   border-radius: 10px solid rgb(20, 15, 15) !important;
   /* padding: 2px 0 !important; */
@@ -349,9 +350,9 @@ div .mat-focus-indicator.mat-tab-label {
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   background: #686464;
-}
+} */
 
 /* Scrollbar Ends */
 
@@ -471,8 +472,8 @@ margin-top: 90px;*/
 /* tool tip styles start */
 .mat-tooltip {
   /* your own custom styles here */
-  background-color: #EFEFEF;
-  color: black !important;
+  background-color: white;
+  color: #3f51b5 !important;
   /* font-size: 12px; */
   font-size: 0.8571em !important;
 }
@@ -738,18 +739,19 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     flex-shrink: 0;
   }
   .audit-trail-label {
+    color:#3f51b5;
     display: inline-block;
     font: 500 12px/14px Roboto, "Helvetica Neue" !important;
-    color: rgba(0, 0, 0, 1);
     min-width: 160px;
+  }
+  .audit-trail-telNo-color{
+    color:#3f51b5;
+    padding-left: 3px;
   }
  
   .audit-trail-text-display {
+    color:#3f51b5;
     font: 400 12px/14px Roboto, "Helvetica Neue" !important;
-    /* font-size: 0.8em;
-    font-weight: 400; */
-    color: rgba(0, 0, 0, 1);
-    /* padding: 2px 0px; */
   }
   .audit-trail-table-icon{
     cursor: pointer;
@@ -772,14 +774,14 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     height: 2em;
   }
   .no-record-found-centre {
-    color: black;
+    color:#3f51b5;
     padding: 3px 0px ;
     text-align: center;
     height: 1.715em;
     font-weight: 500;
   }
   .no-record-found-left {
-    color: black;
+    color:#3f51b5;
     padding: 3px 3px ;
     text-align: left;
   }

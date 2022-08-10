@@ -1,15 +1,15 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
   
-    <div class="filterdataby">
+    <!-- <div class="filterdataby">
       <button style="font-size: small;padding-left: 10px;" matPrefix mat-icon-button aria-label="Clear">
       <mat-icon>filter_alt</mat-icon>
           Filter Data By
-      </button>
+      </button> -->
       <!-- <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
         (changes)="setControlAttribute($event)">
       </app-select-multiple> -->
-    </div>
+    <!-- </div> -->
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':thisForm.controls.StartTelephoneNumber.disabled}">
