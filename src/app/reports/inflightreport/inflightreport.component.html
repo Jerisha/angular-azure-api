@@ -50,7 +50,7 @@
         </ng-template>
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0"  class ="table-view"style="height: calc(100% - 30px);">
-            <div style="display:flex;margin: 2px;">
+            <div style="display:flex;margin: 2px; align-content:space-around;">
             <span> List of Inflight : <b> {{Datetime}} GMT"</b></span>
              &nbsp;&nbsp;
             <mat-icon style="font-size: 30px;" matTooltip="Refresh" (click)="refresh($event)">autorenew</mat-icon>
