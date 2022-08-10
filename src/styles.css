@@ -217,7 +217,8 @@ div.mat-tab-label {
   text-align: left;
   white-space: pre-line;
   font-size: -8px !important;
-  background: #FED9B7 !important;
+  background: white !important; /*#FED9B7  */
+  color:#3f51b5;
   margin-left: -8px !important;
   border-radius: 10px solid rgb(20, 15, 15) !important;
   /* padding: 2px 0 !important; */
@@ -471,8 +472,8 @@ margin-top: 90px;*/
 /* tool tip styles start */
 .mat-tooltip {
   /* your own custom styles here */
-  background-color: #EFEFEF;
-  color: black !important;
+  background-color: white;
+  color: #3f51b5 !important;
   /* font-size: 12px; */
   font-size: 0.8571em !important;
 }
