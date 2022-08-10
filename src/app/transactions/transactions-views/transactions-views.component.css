@@ -21,7 +21,8 @@
   /* background-color: red; */
   justify-content: left;
   overflow-y:hidden;
-  overflow: scroll;
+  overflow-x:scroll;
+  /* overflow: scroll; */
  }
 } 
   .vf-flex-container {
