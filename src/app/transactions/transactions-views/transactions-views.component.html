@@ -109,7 +109,7 @@
                         </div> 
                     <div class ="vf-flex-container"style= "height: 141px;">
                      
-                        <form  [formGroup]="viewForm"  autocomplete="off"  (ngSubmit)="onSfSubmit()">
+                        <form  [formGroup]="viewForm"  class="screenview" autocomplete="off"  (ngSubmit)="onSfSubmit()">
                           <div>
                             <div style="float: left;">
                                 <span style="font-size:x-small;padding-left:6px;"><strong>Provide: </strong>{{Provide}}</span>                             
@@ -128,7 +128,7 @@
                      </div>                        
                     </div> 
                     <div style="padding-top: 1rem;">
-                      <div class="vf-flex-container" style="margin-top:30px">
+                      <div class="vf-flex-container" style="margin-top: 30px;width: 100%;">
                         <div class="vf-flex-container-col" style="margin: 2px;"> 
                           <div style="margin-bottom: 6px;width:273px">
                       <span>
@@ -207,19 +207,7 @@
                         </div>
                         <div class="vf-flex-container-col" style="margin: 2px;float: left;display: block;">
                           <div style="margin-bottom: 6px;"> 
-                            <!-- <span>
-                              <mat-form-field  *ngIf = "enableSource"   style="margin-left:5px;width:260px;" [ngClass]="{'hidden':g.CupID.disabled}">
-                                <mat-label class="vf-label" >Source</mat-label> 
-                                <mat-select formControlName="Source" [(value)]="model.source" [(ngModel)]="model.source" name="Source" placeholder="Source *"   style ="font-size:x-small;">
-                                  
-                                  <mat-option *ngFor="let val of SourceValues" [value]="val">
-                                    {{val}}
-                                  </mat-option>
-                                </mat-select>  
-                                <mat-error class="error-message" *ngIf="checkErrorinFrom('Source', 'required')">Select Source
-                                </mat-error>               
-                              </mat-form-field>
-                            </span> -->
+                           
                             <span>
                               <ng-container *ngIf="SourceFranchisearr  as config1">
                                 <mat-form-field *ngIf = "enableSource"   [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:260px;">
@@ -241,7 +229,17 @@
                                 </mat-form-field>
                             </ng-container>
                             </span>
-                      </div>   
+                      </div> 
+                      <div style="margin-bottom: 6px;"> 
+                           
+                        <span>
+                          <ng-container>
+                           
+                        </ng-container>
+                        </span>
+                  </div> 
+                      
+
                         </div>
                       </div>
                     </div>
@@ -311,7 +309,7 @@
                           </mat-form-field>
                         </div> 
                         <div style="margin-bottom: 6px;">
-                          <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'200px'}">
+                          <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'225px'}">
                             <mat-label class="vf-label">Order Ref. *</mat-label>
                             <input type="text" onkeyup="this.value = this.value.toUpperCase();" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12"  value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')"> Enter OrderRef</mat-error>
@@ -325,7 +323,7 @@
                           </mat-form-field> </span>
                         </div>
                         <div >
-                          <mat-form-field  style="height:83px;margin: 0px;">
+                          <mat-form-field  style="height:83px;margin: 0px;width:225px">
                           <mat-label class="vf-label">Comment</mat-label>
                           <textarea matInput placeholder="Comment"
                             cdkTextareaAutosize matInput formControlName="Comments"

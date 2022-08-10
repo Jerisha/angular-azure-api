@@ -32,19 +32,13 @@
     <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
         {{selection.selected.length}}</b></span> &nbsp;
 
-    <ng-container *ngIf="showFavCols">
+    <ng-container *ngIf="showFavCols" >
 
-      <mat-form-field appearance="standard" class="colfilter">
-        <mat-select placeholder="User Profiles" [(ngModel)]="selectedUserProfileId"
+      <mat-form-field class="colfavorite">
+        <mat-label> Favorites</mat-label>
+        <mat-select placeholder="Favorites" [(ngModel)]="selectedUserProfileId"
           (selectionChange)="getSelectedProfile($event.value)">
-          <mat-select-trigger>
-            <span style="display: flex;">
-              <!-- <mat-icon matPrefix>star_border</mat-icon> -->
-              <span style="padding: 5px;">
-                Favorites
-              </span>
-            </span>
-          </mat-select-trigger>
+          
           <mat-option *ngFor="let val of favProfile" [value]="val.favprofileid">
             {{val.favprofname}}
           </mat-option>
@@ -52,7 +46,7 @@
       </mat-form-field>
 
 
-      <div style="margin-top: 5px">
+      <div style="padding: 5px">
         <button type="button" mat-raised-button color="primary" (click)="createProfile()">
           <mat-icon>add</mat-icon>Add
         </button>
@@ -109,7 +103,7 @@
         <!-- Other Columns -->
         <div *ngIf="disCol.headerValue != 'Select' && !disCol.isImage">
           <th mat-header-cell *matHeaderCellDef  >{{disCol.header}}</th>
-          <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"  
+          <td  mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"  
           matTooltipClass="custom-tooltip"  [matTooltipDisabled]="!disCol.showTooltip" matTooltip="{{element[disCol.headerValue]}}"
             [ngStyle]="highlightCell(element,disCol)">
 
@@ -120,14 +114,10 @@
           </td>
           <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getTotal(disCol.headerValue)|number}}</td>
         </div>
-
-
-
       </ng-container>
 
       <!-- custom footer container  -->
       <ng-container *ngFor="let columnName of footerColumns" [matColumnDef]="columnName">
-
         <td mat-footer-cell class="totalRow" *matFooterCellDef> {{columnName==='f2_Select'?
           getFooterDetails(columnName):getFooterDetails(columnName)| number}}</td>
       </ng-container>

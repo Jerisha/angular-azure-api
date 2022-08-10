@@ -16,7 +16,11 @@ body {
   background: #e60000;
   color: white;
 }
+.colfavorite .mat-form-field-wrapper {
+  padding-bottom: 0em !important;
+}
 
+/* table-selection paginator position starts */
 .tblpagination .mat-form-field-infix {
   padding: 0.5em 0;
   border-top: 0em;
@@ -30,6 +34,7 @@ body {
 .tblpagination .mat-paginator-container{
   margin-top: -7px;
 }
+/* table-selection paginator position ends */
 
 /* mat-select panel position start */
 .matselhorzPanel {
@@ -585,6 +590,23 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
     max-width: 21.42857em;
     display: block;
   }
+  
+  .mat-cell.mat-column-CustomerAddress {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    /* background-color: aqua; */
+    max-width: 200px;   
+   
+  }
+
+  .mat-cell.mat-column-CustomerName {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    /* background-color: aqua; */
+    max-width: 200px;
+  
+  }
+
   .mat-cell.mat-column-Remarks {
  
     text-align: center;

@@ -148,6 +148,10 @@ table td, table th {
 }
 
 
+.wrap-cell{
+  word-wrap: break-word;
+  word-break:break-all;
+}
 
 
 /* .mat-cell.mat-column-LatestUserComments {

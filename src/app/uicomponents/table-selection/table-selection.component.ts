@@ -148,6 +148,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     event.stopPropagation();
     this.refreshtab.emit({ event });
   }
+  isWrappedCell:boolean =true;
 
   ngOnChanges(changes: SimpleChanges) {
     this.initializeTableAttributes();
@@ -490,6 +491,16 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       });
     }
     return flag && loopFlag;
+  }
+  cellsWrapped:string[]=['CustomerAddress','CustomerName'];
+
+  applyCellWrapStyle(disCol: any){
+    debugger;
+    if(this.cellsWrapped.includes(disCol.headerValue)){
+      return true;
+    }
+    return false;
+
   }
 
   highlightCell(row: any, disCol: any) {
