@@ -282,6 +282,7 @@
                               <mat-icon (click)="model.LineType=''">arrow_drop_down</mat-icon>
                             </span>
                             <mat-autocomplete autoActiveFirstOption #autoLineType="matAutocomplete">
+                              <mat-option>-- Select --</mat-option> 
                               <mat-option style="font-size:11px" *ngFor="let val of config.LineType | ddlFilter: linetype.value" [value]="val">
                                 {{val}}
                               </mat-option>
