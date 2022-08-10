@@ -13,8 +13,10 @@
           display: flex;
           height: auto;
           flex-direction: row;
-          justify-content: center;   
-          flex-wrap: wrap;     
+
+          /* //causing issue */
+          /* justify-content: center;    */
+          /* flex-wrap: wrap;      */
           /* margin-top: .5rem;
           margin-bottom: .5rem; */
         }
