@@ -36,7 +36,7 @@
 
                       <mat-label style="font-size:large;padding-right:1rem;"><strong>Total CLI(s) </strong>{{clirangecount}}</mat-label>                                                          
                     </div>
-                      <div  *ngIf="CliRangeSet.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
+                      <div  *ngIf="CliRangeSetMain.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
                         <mat-list style ="max-height:300px;overflow-x:hidden; overflow-y:auto;" #cliList>
                           <mat-list-item style =" display: inline-flex; align-items:center;  height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white;text-align:center;">                              
                             <!-- <p matLine > -->
@@ -48,7 +48,7 @@
                             </div>                                                        
                             <!-- </p>                                                       -->
                           </mat-list-item>  
-                          <mat-list-item  *ngFor="let cli of CliRangeSet; let index = index " style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);text-align:center;">                              
+                          <mat-list-item  *ngFor="let cli of CliRangeSetMain; let index = index " style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);text-align:center;">                              
                             <!-- <p matLine > -->
                               <div style="display:inline-flex;text-align: center;">
                               <span style="width:160px;box-sizing: border-box;">{{cli[0]}}</span>
@@ -93,9 +93,9 @@
                               <mat-label style="font-size:small;" *ngIf="CliRangeSet[0][1]>0"><strong>End Telephone No.</strong>{{CliRangeSet[0][1]}}</mat-label>                          
                             </div>
                             <!-- <div *ngIf="multiRangeChecked == !true" style ="padding-bottom: 10px;"> -->
-                              <div *ngIf="CliRangeSet.length>1" style ="padding-bottom: 10px;">
+                              <div *ngIf="CliRangeSet.length>1" style ="padding-bottom: 30px;">
                               <span style ="float:left;">
-                              <mat-label style="font-size:large;padding-right:1rem;"><strong>Total CLI(s) </strong>{{clirangecount}}</mat-label> 
+                              <mat-label style="font-size:large;padding-right:1rem;"><strong>Total CLI(s) </strong>{{clirangecountOnsave}}</mat-label> 
                               <!-- CliRangeSet.length                                                          -->
                               
                             </span>
@@ -313,7 +313,7 @@
                           </mat-form-field>
                         </div> 
                         <div style="margin-bottom: 6px;">
-                          <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'225px'}">
+                          <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'112px' :'225px'}">
                             <mat-label class="vf-label">Order Ref. *</mat-label>
                             <input type="text" onkeyup="this.value = this.value.toUpperCase();" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12"  value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')"> Enter OrderRef</mat-error>
