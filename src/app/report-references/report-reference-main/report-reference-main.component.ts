@@ -13,6 +13,9 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Utils } from 'src/app/_http';
 import { element } from 'protractor';
 import { stringify } from 'querystring';
+import { timeStamp } from 'console';
+import { MatTableDataSource } from '@angular/material/table';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -45,14 +48,14 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   companyDropDown: any = [];
   dataObs$ !: Observable<any>;
   reportTitleNames!:{name:string,viewName:string}[]
-
-
+  select = '';
+  configDetails!: any;
   StatusID: string = '';
   Summary: string = '';
   Description: string = '';
   displayedColumns: any = [];
   lstFields: IColoumnDef[] = [];
-
+  dataSource =new MatTableDataSource<any>()
   isShow: boolean = false;
   showMenu: string = 'expanded';
   record!: null;
@@ -65,7 +68,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   editMode: string = "";
   // editModeIndex!: number;
   currentReportName: string = "";
-  recordIdentifier: any = "";
+  recordIdentifier: string = "";
   metaDataSupscription: Subscription = new Subscription;
   editActionEnabled = true;
   isLoading: boolean = true;
@@ -73,8 +76,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   displayedColumnsValues: any
 
   displayReportName:string = '';
-  highlightedRecord:string ='';
-
+  highlightedRecord: any  = null;
+  ErrorTypeList: string[] = [];
+  ActionList: string[] = [];
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     this.isShow = true;
@@ -231,6 +235,97 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.showMenu = 'expanded';
     }
   }
+  
+  filterValues = {
+    ErrorType: [],
+    Action: [],
+    
+  }
+  filterForm = new FormGroup({
+    ErrorTypeFilter: new FormControl(''),
+    ActionFilter: new FormControl(''),
+   
+  });
+  formControlsSubscribe() {
+    this.filterForm.controls['ErrorTypeFilter'].valueChanges.subscribe(ErrorTypeValues => {
+      this.filterValues.ErrorType = ErrorTypeValues;
+      this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+
+    this.filterForm.controls['ActionFilter'].valueChanges.subscribe(ActionValue => {
+      this.filterValues.Action = ActionValue;
+      this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+
+   
+
+  }
+  createFilter() {
+    this.dataSource.filterPredicate = (data, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isErrorType = false;
+      let isAction = false;
+      
+
+      if (searchString.ErrorType.length) {
+        for (const d of searchString.ErrorType) {
+          if (data.ErrorType.trim() === d) {
+            isErrorType = true;
+          }
+        }
+      } else {
+        isErrorType = true;
+      }
+      if (searchString.Action.length) {
+        for (const d of searchString.Action) {
+          if (data.Action.trim() === d) {
+            isAction = true;
+          }
+        }
+      } else {
+        isAction = true;
+      }
+    
+
+      const result = isErrorType && isAction ;
+      return result;
+    }
+
+    this.dataSource.filter = JSON.stringify(this.filterValues);
+    console.log("Filter end "+ JSON.stringify(this.filterValues) )
+  }
+  onfilter(filter: any) {
+    this.onFilterPredicate();
+    console.log(filter)
+    let filteritem1 = {
+      ListName: filter.value,
+      ErrorType: filter.value
+    }
+    console.log(filteritem1);
+    this.dataSource.filter = JSON.stringify(filteritem1);
+  }
+  onFilterPredicate() {
+    this.dataSource.filterPredicate = (data: any, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let isListNames = false;
+      let isErrorType = false;
+      if (searchString.ListName.length >0) {
+        for (const d of searchString.ListName) {
+          if (data.ListName?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
+            isListNames = true;
+          }
+        
+        }
+      }
+      else
+        isListNames = true;
+
+       
+      return isListNames ;
+    }
+    
+
+  }
   onCreateRecord() {
     this.alertService.clear();   
     if (this.editMode == "" || this.editMode === this.currentReportName) {
@@ -259,7 +354,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   createRecordLogic() {
     this.alertService.clear();   
     this.highlightedRows = '';
-    this.highlightedRecord ='';
+    this.highlightedRecord =null;
     this.eventName = 'Create';
     this.editMode = this.currentReportName;
       this.lstFields = this.reportReferenceService.setForm(this.editMode);
@@ -300,6 +395,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       this.reportReferenceService.prepareData(reportName, 'ReferenceList').pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           this.isLoading = false;
+      
+          this.data = res.data[reportName];
+          this.recordIdentifier = res.params.RecordIdentifier;
           if (this.currentReportName === 'Franchise') {
             this.data = res.data[reportName];
             this.recordIdentifier = res.params.RecordIdentifier;
@@ -331,7 +429,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
           //}
           else {
-            this.data = res.data[reportName];
+            // this.data = res.data[reportName];
+            this.dataSource.data = res.data[reportName];
             this.recordIdentifier = res.params.RecordIdentifier;
           }
         },
@@ -351,8 +450,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       return false;
     }
   }
+ 
   onEditRecord(element: any, event: any) {
     this.alertService.clear();   
+    this.highlightedRecord=null;
     if (this.editMode == "" || this.editMode == this.currentReportName) {
       if(this.editMode != "")
       {
@@ -365,7 +466,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           if (result) {
             this.editRecordLogic(element);
           }else {
-            this.highlightedRecord ='';
+            // this.highlightedRecord=null;
           }
         });
     } else {
@@ -383,10 +484,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.editMode = this.currentReportName;
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
     this.eventName = 'Update';
-    this.highlightedRows = element
-    this.highlightedRecord =element[this.recordIdentifier]
+   this.highlightedRows = element
+    // this.highlightedRecord =element[this.recordIdentifier]
+
     //console.log(this.highlightedRecord,'...> highlightedRecord')
-    //console.log(this.highlightedRows,'high')
+    console.log(this.highlightedRows,'high')
     // console.log(event,'evetn')
     // this.showDataForm =true;
     // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
@@ -495,8 +597,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // this.editModeIndex = -1;
     this.showDataForm = event[0][0];
     this.showDetailsForm = event[0][1];
-    this.highlightedRows = '';
-    this.highlightedRecord ='';
+   
+    this.highlightedRecord=null;
     let updaterecord1 = Object.assign({}, event[1]);
 
     //console.log(updaterecord1, 'null')
@@ -580,12 +682,20 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       });
       updateConfirm.afterClosed().subscribe(confirm => {
         if (confirm) {
-
+          
           // this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', this.prepareUpdateIdentifiers(), [{}]).subscribe(x => {
           this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', reqdata, [{}]).pipe(takeUntil(this.onDestroyUpdate)).subscribe(x => {
             // this.isLoading = false;
+            
+console.log( x )
             if (x.StatusMessage === 'Success') {
               //success message and same data reloa
+             this.highlightedRecord = {'recordIdentifier' : this.recordIdentifier  , 'recordIdentifierValue' : x.params.RecordIdentifier} 
+
+            //  this.highlightedRecord.recordIdentifier = this.recordIdentifier;
+            //  this.highlightedRecord.recordIdentifierValue = x.params.recordIdentifier;
+              console.log(this.highlightedRecord);
+              
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
               // this.alertService.clear();
@@ -631,8 +741,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         if (x.StatusMessage === 'Success') {
           this.refreshData();
           // this.alertService.clear();
+          // this.highlightedRecord = {'recordIdentifier' : this.recordIdentifier  , 'recordIdentifierValue' : x.params.RecordIdentifier} 
           this.alertService.success("Record create successfully!!", { autoClose: true, keepAfterRouteChange: false });
           // this.onFormSubmit(true);
+          this.highlightedRecord = {'recordIdentifier' : this.recordIdentifier  , 'recordIdentifierValue' : x.params.RecordIdentifier} 
         }
         else {
           // this.alertService.clear();
@@ -660,7 +772,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.showDataForm = event[0];
     this.showDetailsForm = event[1];
     this.highlightedRows = '';
-    this.highlightedRecord = '';
+    this.highlightedRecord =  null;
   }
   onExportTabFormat() {
     this.alertService.clear();   
@@ -811,12 +923,17 @@ else {
 }
  }
   // reportDisplayName:any;
-
+ 
   ngOnChanges(changes: SimpleChanges) {
     // this.lstFields =this.reportReferenceService.setForm(this.reportName); 
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
+    // this.ErrorTypeList = [...new Set(this.filterSelectedItems[1])];
+    // this.ActionList = [...new Set(this.filterSelectedItems[2])];
     // this.reportDisplayName = this.reportReferenceService.reportTitleNames.find( x=> x.name === this.editMode)?.viewName
     //console.log("onchanges:",changes);
+    
+    this.formControlsSubscribe();
+    this.createFilter();
   }
   constructor(private cdr: ChangeDetectorRef,
     private reportReferenceService: ReportReferenceService,
@@ -852,7 +969,14 @@ else {
     //this.reportNames = this.reportReferenceService.reportNames;
     // console.log('reportnames1', this.reportNames)
     // console.log(this.reportReferenceService.metaDataCollection,'metacol')
-    this.reportTitleNames =this.reportReferenceService.reportTitleNames;    
+    this.reportTitleNames =this.reportReferenceService.reportTitleNames;   
+    // console.log(this.highlightedRecord) 
+    debugger;
+    let request = Utils.preparePyConfig(['Search'], ['ErrorType']);
+    this.reportReferenceService.configDetails(request).subscribe((res: any) => {
+      //console.log("res: " + JSON.stringify(res))
+      this.configDetails = res.data;
+    });
 
   }
   ngAfterViewChecked() {
@@ -933,4 +1057,16 @@ else {
     }
     return data;
   }
+  // rowHighlightCheck(rowData: any) {
+  //   //console.log(rowData);
+    
+    
+  //   if(rowData['StatusId'] === '101')
+  //   {
+  //     console.log(parseInt(rowData['StatusId'].equals(this.recordIdentifier)));
+  //     return true;
+  //   } 
+  //   return false;
+  // }
+
 }

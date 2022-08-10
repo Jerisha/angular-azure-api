@@ -237,14 +237,58 @@ tr.mat-row1, tr.mat-footer-row1 {
     font: 400 14px/20px Roboto, "Helvetica Neue" !important;
     padding: 20px;
   }
-  .highlighted{
+  .highlighted , .highlighted1{
     background-color: lightpink;
   }  
+  
   ::-webkit-scrollbar-thumb {
     background: #007c92;
     border-radius: 10px;
   }
   
+    
+.topfilter {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.filterosn {
+  flex-shrink: 1;
+}
+
+
+.filterosn .mat-form-field .mat-form-field-wrapper {
+  width: 250px !important;
+  padding-bottom: 3px !important;
+  background-color: #007c92;
+}
+.filterosn .mat-form-field-appearance-outline .mat-form-field-wrapper{
+  margin: 0px !important;
+}
+.filter{
+  flex-shrink: 1;
+  }
+  .filter mat-form-field{
+  width: 90px;
+  }
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix  {
+  padding: 6px 0 6px 0 !important;     
+} 
+.filterpaneoff {
+  max-height: 400px;
+  overflow: auto
+}
+
+.filterpaneon {
+  max-height: 340px;
+  overflow: auto
+}
+  
+
 /* .vftooltip{  
   background-color: #007c92 !important; 
   color: #ffffff !important; 

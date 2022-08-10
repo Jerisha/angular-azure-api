@@ -104,11 +104,11 @@ export class TelephoneRangeReportComponent extends UserProfile implements OnInit
     { header: 'Source', headerValue: 'Source', showDefault: true, isImage: false },
     { header: 'Live', headerValue: 'LiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
     { header: 'Inactive', headerValue: 'InactiveRecords', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
-    { header: 'NA', headerValue: 'NotAvailable', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
-    { header: 'Line', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'N/A', headerValue: 'NotAvailable', showDefault: true, isImage: false ,isTotal:true,isFooter:true,isNumber:true},
+    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
     { header: 'Customer Name', headerValue: 'CustomerName', showDefault: true, isImage: false },
     { header: 'Customer Address', headerValue: 'CustomerAddress', showDefault: true, isImage: false },
-    { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
+    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false },
   ];
   //data1:TelephoneRangeReport[] = ELEMENT_DATA;
   queryResult$!: Observable<any>;

@@ -63,6 +63,7 @@ export class HttpWrapperService {
                     case WebMethods.CREATE:
                     case WebMethods.DELETE:
                         transData = val.Status[0]
+                         transData.params = val.ResponseParams
                         transData.data = val.Data
                         break;
                     case WebMethods.METADATA:
@@ -80,6 +81,7 @@ export class HttpWrapperService {
                     case WebMethods.UIDELETE:
                         transData = val
                         break;
+
                     case WebMethods.EXPSUMMARY:
                         transData = val.ResponseParams
                         transData.data = val.Data;
@@ -118,7 +120,7 @@ export class HttpWrapperService {
                 url = `${environment.api_auth}${endPoint.toString()}`
                 break;
             default:
-                url = `${environment.api_py_uat}${endPoint.toString()}`
+                url = `${environment.api_py_sit}${endPoint.toString()}`
         }
         return url;
         // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
