@@ -16,15 +16,15 @@ export class MatPaginatorI18n extends MatPaginatorIntl {
     const endIndex =
       startIndex < totalResults ?
         Math.min(startIndex + pageSize, totalResults) :
-        startIndex + pageSize; 
+        startIndex + pageSize;
 
     //return `Page ${pageNumber}, Records: ${startIndex + 1} - ${endIndex} of ${totalResults}`;
     return `Page ${pageNumber}, Records: ${this.numberWithCommas(totalResults)}`;
   }
 
-  numberWithCommas(number:any) {
+  numberWithCommas(number: any) {
     var parts = number.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
-}
+  }
 }

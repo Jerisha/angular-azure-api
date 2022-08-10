@@ -153,6 +153,20 @@ table td, table th {
   word-break:break-all;
 }
 
+.fav-button{
+  padding: 5px;
+}
+
+.fav-button button{
+height:31px;
+font-size: smaller;
+}
+
+/* .tblpagination .mat-paginator-range-label {
+  margin: 0px!important;
+  font-weight: bold;
+} */
+
 
 /* .mat-cell.mat-column-LatestUserComments {
   background: red;
