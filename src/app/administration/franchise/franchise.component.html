@@ -14,12 +14,12 @@
         aria-label="expand row"
         (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()"
       >
-        <mat-icon style="font-size:16px" *ngIf="expandedElement !== element"
-          >keyboard_arrow_down</mat-icon
-        >
-        <mat-icon  style="font-size:16px" *ngIf="expandedElement === element"
-          >keyboard_arrow_up</mat-icon
-        >
+      <mat-icon *ngIf="expandedElementtwo !== element" style="font-size:16px"
+      > add_box_outline</mat-icon
+    >
+    <mat-icon *ngIf="expandedElementtwo === element" style="font-size:16px"
+      > remove_box_outline</mat-icon
+    >
       </button>
     </td>
   </ng-container>
@@ -27,45 +27,23 @@
     matColumnDef="{{column}}"
     *ngFor="let column of columnsToDisplay;"
   >
-    <div *ngIf="column!='title'&&column!='Action'&&column!='olo'&&column!='usedOloFrnachise'&&column!='used'">
+    <div *ngIf="column!='Action'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element">{{element[column]}}</td>
     </div>
-    <div *ngIf="column==='olo'">
-      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-      <td mat-cell *matCellDef="let element ">
-        <mat-icon style="color:darkgoldenrod;font-size:16px">folder</mat-icon>{{element[column]}}</td>
-      
-    </div>
-    <div *ngIf="column==='used'">
-      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-      <td mat-cell *matCellDef="let element ">
-       7
-      </td>
-    </div>
-    <div *ngIf="column==='title'">
-      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-      <td mat-cell *matCellDef="let element ">
-        <input type="text"  placeholder="Profile Name"/>
-      </td>
-    </div>
+    
     <div *ngIf="column==='Action'">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
       <td mat-cell *matCellDef="let element ">
         
-        <mat-icon style="color:darkgoldenrod;margin-left:20px">add_box</mat-icon>
+        <!-- <mat-icon style="color:darkgoldenrod;margin-left:20px">add_box</mat-icon> -->
         <mat-icon  style="color:green;margin-left:20px">edit</mat-icon>
      
-      <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
-      style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
+      <!-- <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+      style="color:#e60000;margin-left:20px">delete_outline</mat-icon> -->
       </td>
     </div>
-    <div *ngIf="column==='usedOloFrnachise'">
-      <th mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
-      <td mat-cell *matCellDef="let element ">
-          {{element[column]}}
-      </td>
-    </div>
+   
   </ng-container>
 
   <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
@@ -89,30 +67,14 @@
             matColumnDef="{{column}}"
             *ngFor="let column of columnsToDisplaysecondlevel"
           >
-          <div *ngIf="column!='title'&&column!='Action'&&column!='usedOloFrnachise'&&column!='co'&&column!='used'">
+          <div *ngIf="column!='Action'&&column!='usedOloFrnachise'">
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element">{{element[column]}}</td>
         </div>
-        <div *ngIf="column==='co'">
-          <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-          <td mat-cell *matCellDef="let element ">
-            <mat-icon style="color:darkgoldenrod;font-size: 16px;">folder</mat-icon>{{element[column]}}</td>
-          
-        </div>
-        <div *ngIf="column==='used'">
-          <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-          <td mat-cell *matCellDef="let element ">
-           7
-          </td>
-        </div>
-        <div *ngIf="column==='title'">
-          <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-          <td mat-cell *matCellDef="let element ">
-            <input type="text" value="test">
-          </td>
-        </div>
+       
+       
         <div *ngIf="column==='usedOloFrnachise'">
-            <th mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
+            <th mat-header-cell *matHeaderCellDef>usedOloFrnachise</th>
             <td mat-cell *matCellDef="let element ">
                {{element[column]}}
             </td>
@@ -121,11 +83,11 @@
           <th mat-header-cell *matHeaderCellDef>{{column}}</th>
           <td mat-cell *matCellDef="let element ">
          
-            <mat-icon style="color:darkgoldenrod;margin-left:20px">add_box</mat-icon>
+            <!-- <mat-icon style="color:darkgoldenrod;margin-left:20px">add_box</mat-icon> -->
               <mat-icon  style="color:green;margin-left:20px">edit</mat-icon>
            
-            <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
-            style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
+            <!-- <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+            style="color:#e60000;margin-left:20px">delete_outline</mat-icon> -->
            
           </td>
         </div>
@@ -141,10 +103,10 @@
                 (click)="(expandedElementtwo = expandedElementtwo === element ? null : element); $event.stopPropagation()"
               >
                 <mat-icon *ngIf="expandedElementtwo !== element" style="font-size:16px"
-                  >keyboard_arrow_down</mat-icon
+                  > add_box_outline</mat-icon
                 >
                 <mat-icon *ngIf="expandedElementtwo === element" style="font-size:16px"
-                  >keyboard_arrow_up</mat-icon
+                  > remove_box_outline</mat-icon
                 >
               </button>
             </td>
@@ -162,45 +124,23 @@
                 [@detailExpand]="element == expandedElementtwo ? 'expanded' : 'collapsed'"
               >
               
-              
-
-
-
-              <table
+              <table 
               mat-table
               
-              [dataSource]="datasourcetwo"
+              [dataSource]="datasourcethree"
               multiTemplateDataRows
             >
               <ng-container
                 matColumnDef="{{column}}"
-                *ngFor="let column of columnsToDisplaysecondlevel"
+                *ngFor="let column of columnsToDisplaythirdlevel"
               >
-              <div *ngIf="column!='title'&&column!='Action'&&column!='usedOloFrnachise'&&column!='co'&&column!='used'">
+              <div *ngIf="column!='Action'&&column!='usedOloFrnachise'">
               <th mat-header-cell  *matHeaderCellDef>{{column}}</th>
               <td mat-cell *matCellDef="let element">{{element[column]}}</td>
             </div>
-            <div *ngIf="column==='co'">
-              <th mat-header-cell  *matHeaderCellDef>Fran</th>
-              <td mat-cell *matCellDef="let element ">
-                <mat-icon style="color:darkgoldenrod;font-size: 16px;">folder</mat-icon>{{element[column]}}</td>
-              
-            </div>
-   
-            <div *ngIf="column==='title'">
-              <th mat-header-cell  *matHeaderCellDef>{{column}}</th>
-              <td mat-cell *matCellDef="let element ">
-                <input type="text" value="test">
-              </td>
-            </div>
-            <div *ngIf="column==='used'">
-              <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-              <td mat-cell *matCellDef="let element ">
-                <mat-icon style="color:red;font-size:16px"> unsubscribe</mat-icon>
-              </td>
-            </div>
+           
             <div *ngIf="column==='usedOloFrnachise'">
-                <th mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
+                <th mat-header-cell *matHeaderCellDef>usedOloFrnachise</th>
                 <td mat-cell *matCellDef="let element ">
                    {{element[column]}}
                 </td>
@@ -211,8 +151,8 @@
                
         <mat-icon  style="color:green;margin-left:20px">edit</mat-icon>
      
-      <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
-      style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
+      <!-- <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+      style="color:#e60000;margin-left:20px">delete_outline</mat-icon> -->
               </td>
             </div>
               </ng-container>
@@ -255,15 +195,6 @@
                 class="example-detail-row"
               ></tr>
             </table>
-
-
-
-
-
-
-
-
-
               </div>
             </td>
           </ng-container>
