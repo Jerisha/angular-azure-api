@@ -110,6 +110,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   addressDetails = new AddressDetails();
   passedRouteData: any;
   Cuparr:any;
+  backstate:boolean;
   SourceFranchisearr:any;
   RerportIdentifier: any;
   clirangecount?: any;
@@ -139,6 +140,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.views.view1 = true;
     this.formsGroup = this.fb.group({});
     this.initForm();
+    this.backstate=false;
     console.log('constructor values', this.AuditPopulatevalue);
     if (this.AuditPopulatevalue != []){ 
      if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
@@ -381,6 +383,18 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       this.views.view3 = true;
     }
 }
+GoBack()
+{
+  this.views.view1 = false;
+  this.views.view2 = true;
+  this.views.view3 = false;
+  this.panelOpenState = true;
+  this.views.view3 = true;
+  this.searchTelState = true;
+  this.addCliState = true;
+  this.btncolor = "secondary";
+  this.addbtncolor = "secondary";
+}
   onCupIDChange(event: any) {
     debugger
     this.isExportImportSelected = false;
@@ -621,6 +635,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     
   }
   ReviewCli() {
+    this.backstate=true;
     this.ResetTabs.emit(["true"]);
     this.views.view1 = true;
     this.views.view2 = false;
@@ -1128,6 +1143,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   /* field Validation End */
 
   resetTel(sf: any) {
+    this.backstate=false;
     this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" ,source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
     this.transactionItem.customerAddress = { customerName: "", address1: "", address2: "", address3: "", address4: "", postcode: "" };
     this.clirangecount='';

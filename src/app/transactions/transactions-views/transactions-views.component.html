@@ -72,6 +72,9 @@
                         <button type="button"  mat-raised-button [ngClass]="defaultbtn" style ="margin-left:10px" (click)="SearchTel()" [disabled]="searchTelState">
                           <mat-icon>search</mat-icon>Search
                         </button>
+                        <button type="button"  mat-raised-button [ngClass]="defaultbtn" style ="margin-left:10px" (click)="GoBack()" *ngIf="backstate">
+                          <mat-icon>search</mat-icon>Go Back
+                        </button>
                       </span>
                       </div>
                  
