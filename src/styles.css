@@ -349,9 +349,9 @@ div .mat-focus-indicator.mat-tab-label {
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   background: #686464;
-}
+} */
 
 /* Scrollbar Ends */
 
