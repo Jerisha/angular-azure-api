@@ -9,13 +9,23 @@
       min-width:270px;
 
 }
+ @media only screen and (max-width: 1200px) {
+ 
+  #vftrans1
+ {
+  /* background-color: red; */
+  justify-content: left;
+  overflow-y:hidden;
+  overflow: scroll;
+ }
+} 
   .vf-flex-container {
           display: flex;
           height: auto;
           flex-direction: row;
 
           /* //causing issue */
-          /* justify-content: center;    */
+          justify-content: center;   
           /* flex-wrap: wrap;      */
           /* margin-top: .5rem;
           margin-bottom: .5rem; */
