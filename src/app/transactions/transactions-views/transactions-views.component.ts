@@ -801,6 +801,8 @@ GoBack()
     this.model.telno = "";
     this.model.endTel = "";
     this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" };
+    this.transactionItem.customerAddress = { customerName:"", address1:"", address2: "", address3: "", address4: "", postcode:""};
+   
     this.clirangecount
     debugger
     this.clearalert();
