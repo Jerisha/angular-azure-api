@@ -16,6 +16,7 @@ import { stringify } from 'querystring';
 import { timeStamp } from 'console';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Select } from 'src/app/uicomponents/models/select';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -79,6 +80,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   highlightedRecord: any  = null;
   ErrorTypeList: string[] = [];
   ActionList: string[] = [];
+  ListNameFilter: String[] = [];
+  filterSelectedItems!: Array<string[]>;
+  ListFilter: Select[] = [];
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     this.isShow = true;
@@ -298,8 +302,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.onFilterPredicate();
     console.log(filter)
     let filteritem1 = {
-      ListName: filter.value,
-      ErrorType: filter.value
+      ListName: filter,
+      ErrorType: filter
     }
     console.log(filteritem1);
     this.dataSource.filter = JSON.stringify(filteritem1);
@@ -396,10 +400,22 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         (res: any) => {
           this.isLoading = false;
       
-          this.data = res.data[reportName];
+          // this.data = res.data[reportName];
+          this.dataSource.data = res.data[reportName];
+          if(reportName === 'OsnProvideList')
+          {
+          this.filterSelectedItems = [this.dataSource.data.map((x: any) => x?.ListName)];
+          this.ListNameFilter = [...new Set(this.filterSelectedItems[0])];
+          this.ListNameFilter?.forEach((element: any) => {
+          this.ListFilter.push({ view: element, viewValue: element, default: false });
+    });
+    // console.log((this.ListFilter));
+  }
+    
           this.recordIdentifier = res.params.RecordIdentifier;
           if (this.currentReportName === 'Franchise') {
-            this.data = res.data[reportName];
+            // this.data = res.data[reportName];
+            this.dataSource.data = res.data[reportName];
             this.recordIdentifier = res.params.RecordIdentifier;
             this.reportReferenceService.franchiseDropdowns = [];
             let OloDropDown = res.data['OloDropDown']
@@ -411,10 +427,12 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
             // this.reportReferenceService.franchiseDropdowns.push(CompanyDropDown)
             this.reportReferenceService.companyDropdown.push(CompanyDropDown);
           } else if (this.currentReportName === 'Olo') {
-            this.data = res.data["Olos"];
+            // this.data = res.data["Olos"];
+            this.dataSource.data = res.data["Olos"];
             this.recordIdentifier = res.params.RecordIdentifier;
           } else if (this.currentReportName === 'Company') {
-            this.data = res.data["Companys"];
+            // this.data = res.data["Companys"];
+            this.dataSource.data = res.data["Companys"];
             this.recordIdentifier = res.params.RecordIdentifier;
             this.reportReferenceService.franchiseDropdowns = [];
             //debugger
@@ -686,8 +704,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           // this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', this.prepareUpdateIdentifiers(), [{}]).subscribe(x => {
           this.reportReferenceService.prepareUpdate(this.currentReportName, 'ReferenceList', reqdata, [{}]).pipe(takeUntil(this.onDestroyUpdate)).subscribe(x => {
             // this.isLoading = false;
-            
-console.log( x )
             if (x.StatusMessage === 'Success') {
               //success message and same data reloa
              this.highlightedRecord = {'recordIdentifier' : this.recordIdentifier  , 'recordIdentifierValue' : x.params.RecordIdentifier} 
@@ -973,11 +989,16 @@ else {
     // console.log(this.highlightedRecord) 
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['ErrorType']);
-    this.reportReferenceService.configDetails(request).subscribe((res: any) => {
+    this.reportReferenceService.getConfig(request).subscribe((res: any) => {
       //console.log("res: " + JSON.stringify(res))
       this.configDetails = res.data;
     });
-
+    
+  }
+  ListNameArray: String[];
+  multipleSelect(event: any) {
+    this.ListNameArray = event;
+    this.onfilter(this.ListNameArray);
   }
   ngAfterViewChecked() {
      this.cdr.detectChanges();

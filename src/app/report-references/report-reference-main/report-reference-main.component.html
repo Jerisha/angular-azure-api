@@ -104,7 +104,7 @@
                                   </mat-select>
                                 </mat-form-field>
                               </div>
-                              <div class="filter">
+                              <!-- <div class="filter">
                                 <mat-form-field>
                                   <mat-label>Solicited</mat-label>
                                   <mat-select formControlName="SolicitedFilter" multiple (selectionChange)="onfilter($event)">
@@ -123,7 +123,7 @@
                                     <mat-option value="N">N</mat-option>
                                   </mat-select>
                                 </mat-form-field>
-                              </div>
+                              </div> -->
                             </div>
                           </form>
                         </div>
@@ -133,7 +133,7 @@
                           <div *ngIf="this.currentReportName === 'OsnProvideList'" class="topfilter"
                             style="min-height: 13px;overflow-y:hidden;overflow-x:auto;display: flex;margin-bottom: 0%;">
                             <div class="filterosn">
-                              <mat-form-field  style="width: 250px;">
+                              <!-- <mat-form-field  style="width: 250px;">
                                 <mat-label>List Names</mat-label>
                                 <mat-select formControlName="ListNamesFilter" multiple [(ngModel)]="select"
                                   (selectionChange)="onfilter($event)">
@@ -143,9 +143,9 @@
                                   <mat-option value="Connection Type">Connection Type</mat-option>
                                   <mat-option value="Line Type">Line Type</mat-option>
                                 </mat-select>
-                              </mat-form-field>
-          
-          
+                              </mat-form-field> -->
+                              <app-select-checkbox style="margin-left:0px" [label]="'List Name'" #selMultiple [listItems]="ListFilter" (changes)="multipleSelect($event); " [icon]="'filter_alt'" >
+                              </app-select-checkbox>
                             </div>
                           </div>
                           <div
