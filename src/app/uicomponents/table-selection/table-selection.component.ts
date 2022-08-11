@@ -157,6 +157,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     this.spinner.show();
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
+        //alert(JSON.stringify(res))
         this.dataSource.data = res.datasource;
         this.loadDataRelatedAttributes(this.dataSource.data);
         this.totalRows = (res?.params?.TotalCount) as number;
@@ -520,8 +521,8 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.fontHighlightedCells.forEach(x => {
         if (x.cells.find(x => x === (disCol.headerValue)) && row[x.flag] === x.value) {
           applyStyles = {
-            'color': '#059710',
-            'font-weight': '500'
+            'color': '#66ff00',//059710//66ff00
+           'font-weight' : '500'
           }
         }
       })
@@ -682,12 +683,13 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       data: { selectedColsArray: selectedCols }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(profileName => {
       this.isExportDisable = true;
-      if (result != '') {
+      debugger;
+      if ((profileName || '').trim().length > 0) {
         debugger;
-        var profileName = this.userDetails.username + '-' + result;
-        var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: result, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 0 };
+       // var profileName = this.userDetails.username + '-' + result;
+        var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: profileName, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 0 };
         let request = Utils.preparePyUICreate('ManageUsers', 'FavouriteProfile', 'ReportMenuItem', profile)
         this.service.uiApiDetails(request, WebMethods.UICREATE).subscribe(response => {
           if (response.Status[0].StatusCode === 'PY1000') {
