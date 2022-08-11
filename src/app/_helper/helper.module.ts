@@ -10,7 +10,8 @@ import {
   TelphoneNoValidatorDirective,
   OnlynumberDirective,
   CompareStartEndTelNo,
-  DropDownListFranchisePipe
+  DropDownListFranchisePipe,
+  AdminDirective
 } from './index';
 
 
@@ -25,7 +26,8 @@ import {
     TelphoneNoValidatorDirective,
     OnlynumberDirective,
     CompareStartEndTelNo,
-    DropDownListFranchisePipe
+    DropDownListFranchisePipe,
+    AdminDirective
   ],
   imports: [
     CommonModule
@@ -39,6 +41,8 @@ import {
     TelphoneNoValidatorDirective,
     OnlynumberDirective,
     CompareStartEndTelNo,
-    DropDownListFranchisePipe]
+    DropDownListFranchisePipe,
+    AdminDirective
+  ]
 })
 export class HelperModule { }

@@ -1022,9 +1022,10 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Reports,
-          totalrecordcount: res.data.Reports.length,
-          totalpages: 1,
-          pagenumber: 1
+          params: res.params
+          // totalrecordcount: res.data.Reports.length,
+          // totalpages: 1,
+          // pagenumber: 1
         }
         return result;
       } else return {
@@ -1052,9 +1053,10 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
-          totalrecordcount: res.data.TelephoneNumbers.length,
-          totalpages: 1,
-          pagenumber: 1
+          params: res.params
+          // totalrecordcount: res.data.TelephoneNumbers.length,
+          // totalpages: 1,
+          // pagenumber: 1
         }
         return result;
       } else return {
@@ -1082,9 +1084,11 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber
+          // datasource: res.data.TelephoneNumbers,
+          params: res.params
         }
         return result;
       } else return {
@@ -1111,10 +1115,11 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Circuits,
-          totalrecordcount: res.data.Circuits.length,
-          totalpages: 1,
-          pagenumber: 1,
-          pagecount: 50
+          params: res.params
+          // totalrecordcount: res.data.Circuits.length,
+          // totalpages: 1,
+          // pagenumber: 1,
+          // pagecount: 50
         }
         return result;
       } else {
@@ -1144,9 +1149,10 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Range,
-          totalrecordcount: res.data.Range.length,
-          totalpages: 1,
-          pagenumber: 1
+          params: res.params
+          // totalrecordcount: res.data.Range.length,
+          // totalpages: 1,
+          // pagenumber: 1
         }
         return result;
       } else return {

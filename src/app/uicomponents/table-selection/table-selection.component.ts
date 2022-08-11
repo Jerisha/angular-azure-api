@@ -157,6 +157,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     this.spinner.show();
     this.dataObs$.pipe(takeUntil(this.onDestroy)).subscribe(
       (res: any) => {
+        //alert(JSON.stringify(res))
         this.dataSource.data = res.datasource;
         this.loadDataRelatedAttributes(this.dataSource.data);
         this.totalRows = (res?.params?.TotalCount) as number;

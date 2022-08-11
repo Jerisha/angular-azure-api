@@ -35,11 +35,127 @@
                           </mat-progress-spinner>
                           <div class="spinner-loading">Loading...</div>
                         </div> 
-                      <div *ngIf="!isLoading" style ="max-height: 455px;overflow:auto">   
-                      <div style ="max-height: 400px;overflow:auto">
-                        
-                        <table mat-table class="detail-table mat-elevation-z8" [dataSource]="data" multiTemplateDataRows  >
-                          <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol.cName}}">        
+                        <div *ngIf="!isLoading" style="max-height: 450px;overflow:auto">
+                          <div>
+                          <form   [formGroup]="filterForm" autocomplete="off" >
+                            <div *ngIf="this.currentReportName ==='ErrorCode' " class="topfilter"
+                              style="min-height: 13px;overflow-y:hidden;overflow-x:auto;display: flex; padding-top: 10px;margin-bottom: 0%;">
+                              <div class="filter">
+                                <mat-form-field style="height:15px">
+                                  <mat-label>Error Code</mat-label>
+                                  <input type="text" matInput placeholder="Error Code" multiple
+                                    (selectionChange)="onfilter($event)">
+                                </mat-form-field>
+                              </div>
+          
+                              <div class="filter">
+                                <mat-form-field>
+                                  <mat-label>BT Error</mat-label>
+                                  <input type="text" matInput placeholder="BT Error" multiple
+                                    (selectionChange)="onfilter($event)">
+                                </mat-form-field>
+                              </div>
+          
+                              <mat-form-field>
+                                <mat-label>Error Type</mat-label>
+                                <mat-select disableOptionCentering panelClass="matselect-centering" multiple
+                                   formControlName="ErrorTypeFilter">
+                                  <mat-option value="">--Select--</mat-option>
+                                  <mat-option value="BT Successful transaction end">BT Successful transaction end</mat-option>
+                                  <mat-option value="Error Message">Error Message</mat-option>
+                                  <mat-option value="Infomation Message">Infomation Message</mat-option>
+                                  <mat-option value="Message">Message</mat-option>
+                                  <mat-option value="Warning Message">Warning Message</mat-option>
+          
+                                </mat-select>
+                              </mat-form-field>
+                             
+                            
+                              <div class="filter">
+                                <mat-form-field>
+                                  <mat-label>Action</mat-label>
+                                  <mat-select disableOptionCentering panelClass="matselect-centering" multiple
+                                   >
+                                    <mat-option value="">--Select--</mat-option>
+                                    <mat-option value="Y">Y</mat-option>
+                                    <mat-option value="N">N</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="filter">
+                                <mat-form-field>
+                                  <mat-label>Unused</mat-label>
+                                  <mat-select disableOptionCentering panelClass="matselect-centering" multiple
+                                    (selectionChange)="onfilter($event)">
+                                    <mat-option value="">--Select--</mat-option>
+                                    <mat-option value="Y">Y</mat-option>
+                                    <mat-option value="N">N</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="filter">
+                                <mat-form-field>
+                                  <mat-label>Final</mat-label>
+                                  <mat-select disableOptionCentering panelClass="matselect-centering" multiple
+                                    (selectionChange)="onfilter($event)">
+                                    <mat-option value="">--Select--</mat-option>
+                                    <mat-option value="Y">Y</mat-option>
+                                    <mat-option value="N">N</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="filter">
+                                <mat-form-field>
+                                  <mat-label>Solicited</mat-label>
+                                  <mat-select formControlName="SolicitedFilter" multiple (selectionChange)="onfilter($event)">
+                                    <mat-option value="">--Select--</mat-option>
+                                    <mat-option value="Y">Y</mat-option>
+                                    <mat-option value="N">N</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="filter">
+                                <mat-form-field>
+                                  <mat-label>UnSolicited</mat-label>
+                                  <mat-select formControlName="UnSolicitedFilter" multiple (selectionChange)="onfilter($event)">
+                                    <mat-option value="">--Select--</mat-option>
+                                    <mat-option value="Y">Y</mat-option>
+                                    <mat-option value="N">N</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                          <div [ngClass]="{ 'filterpaneoff' : this.currentReportName !='OsnProvideList' ,
+                          'filterpaneon' : this.currentReportName ==='OsnProvideList' }">
+                          </div>
+                          <div *ngIf="this.currentReportName === 'OsnProvideList'" class="topfilter"
+                            style="min-height: 13px;overflow-y:hidden;overflow-x:auto;display: flex;margin-bottom: 0%;">
+                            <div class="filterosn">
+                              <mat-form-field  style="width: 250px;">
+                                <mat-label>List Names</mat-label>
+                                <mat-select formControlName="ListNamesFilter" multiple [(ngModel)]="select"
+                                  (selectionChange)="onfilter($event)">
+                                 <mat-option value="">--Select--</mat-option>
+                                  <mat-option value="Access Method">Access Method</mat-option>
+                                  <mat-option value="Configuration Key-Values">Configuration Key-Values</mat-option>
+                                  <mat-option value="Connection Type">Connection Type</mat-option>
+                                  <mat-option value="Line Type">Line Type</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+          
+          
+                            </div>
+                          </div>
+                          <div
+                            [ngClass]="{ 'filterpaneoff' : this.currentReportName !='ErrorCode' &&  this.currentReportName !='OsnProvideList' ,
+                            'filterpaneon' : this.currentReportName ==='ErrorCode' || this.currentReportName ==='OsnProvideList'}">
+                          </div>
+                          <div style="max-height: 400px;overflow:auto">
+          
+                            <table mat-table class="detail-table mat-elevation-z8" [dataSource]="dataSource"
+                              multiTemplateDataRows><ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol.cName}}">        
                             <div *ngIf ="disCol.cName==='Actions'" >
                                 <th mat-header-cell *matHeaderCellDef class ="actions-header">Actions</th>
                                   <td mat-cell *matCellDef="let element" class ="actions-cell"> 
@@ -62,7 +178,12 @@
                             </div>                          
                           </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumnsValues sticky: true"  ></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"   [ngClass]="{ 'highlighted' : row === highlightedRows } "  ></tr>  
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"  [ngClass]="{ 'highlighted' : row === highlightedRows } " 
+                             [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
+                             row[highlightedRecord.recordIdentifier] === highlightedRecord.recordIdentifierValue : false  } " 
+                             ></tr> 
+                           
+                            <!-- <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"   [ngClass]="{ 'highlighted' : rowHighlightCheck(row) } "  ></tr>   -->
                             <tr class="mat-row" *matNoDataRow>
                               <td class="mat-cell" colspan="columns.length">No data found</td>
                             </tr>          

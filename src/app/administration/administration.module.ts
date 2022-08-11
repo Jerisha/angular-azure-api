@@ -11,6 +11,7 @@ import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolv
 import { AdministrationService } from './_services/administration.service';
 import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
 import { AuditstatustrackerComponent } from '../administration/auditstatustracker/auditstatustracker.component';
+import { FranchiseComponent } from './franchise/franchise.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
@@ -34,7 +35,8 @@ const MY_FORMATS = {
     ManageUsersComponent,
     DataCorrectionReportsComponent,
     UnresolvederrorsComponent,
-    AuditstatustrackerComponent
+    AuditstatustrackerComponent,
+    FranchiseComponent
   ],
   imports: [
     CommonModule,

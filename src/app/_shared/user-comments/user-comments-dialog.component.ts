@@ -75,9 +75,10 @@ export class UserCommentsDialogComponent {
         if (Object.keys(res).length) {
           let result = {
             datasource: res.data.Comments,
-            totalrecordcount: res.data.Comments.length,
-            totalpages: 1,
-            pagenumber: 1
+            params: res.params
+            // totalrecordcount: res.data.Comments.length,
+            // totalpages: 1,
+            // pagenumber: 1
           }
           return result;
         } else return {

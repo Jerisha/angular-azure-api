@@ -4,7 +4,7 @@ import {AuditstatustrackerComponent,AuditDataFilesComponent, Restoresolicitederr
 
 import { UnresolvederrorsComponent } from './unresolvederrors/unresolvederrors.component';
 import { UnresolvedtransactionComponent } from './unresolvedtransaction/unresolvedtransaction.component';
-
+import{FranchiseComponent} from './franchise/franchise.component'
 
 const routes: Routes = [
   { path: 'auditdatafiles',  component: AuditDataFilesComponent,data: { id: 'MENU14' }  },
@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'restoresolicitederrors',  component: RestoresolicitederrorsComponent,data: { id: '' }  },
   { path: 'manageusers',  component: ManageUsersComponent,data: { id: 'MENU19' }  },
   { path: 'datacorrectionsummary',  component: DataCorrectionReportsComponent,data: { id: 'MENU16' }  },
-  { path: 'auditstatustracker', component: AuditstatustrackerComponent,data: { id: 'MENU15' } }
+  { path: 'auditstatustracker', component: AuditstatustrackerComponent,data: { id: 'MENU15' } },
+  { path: '', component: FranchiseComponent,data: { id: '' } }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
