@@ -2181,7 +2181,9 @@ export class ManageUsersComponent implements OnInit {
     //  this.Sourcedata=event;
     //this.referenceForm.get('sources')?.setValue(JSON.stringify(event));
   }
-
+  get f() {
+    return this.UserEditForm.controls;
+  }
   onEdituserDetails(record: any, event: Event) {
     this.clearalert();
     debugger

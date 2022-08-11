@@ -836,7 +836,7 @@ mat-footer-row, mat-row, td.mat-cell, td.mat-footer-cell {
   min-width: 685px;
 }
 .audit-trail-highlighted {
-  background-color: #66ff00;
+  color: #66ff00;
 }
 tr.audit-trail-mat-row:nth-child(4n - 1) {
   background-color: #D9D9D9 !important;
