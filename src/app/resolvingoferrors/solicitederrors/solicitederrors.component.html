@@ -177,7 +177,7 @@
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
-            <mat-label>Error Code</mat-label>
+            <mat-label>Error Codes</mat-label>
             <input #errorcode formControlName="ErrorCode" [(ngModel)]="model.ErrorCode" type="text"
               placeholder="Search Error Code" matInput [matAutocomplete]="auto" OptionsValidator
               [options]="errorCodes" />
@@ -200,7 +200,7 @@
           </mat-form-field>
 
           <mat-form-field [ngClass]="{'hidden':f.OrderReference.disabled}">
-            <mat-label>Order Reference</mat-label>
+            <mat-label>Order Ref</mat-label>
             <input formControlName="OrderReference" matInput #input maxlength="50" placeholder="Order Reference">
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
