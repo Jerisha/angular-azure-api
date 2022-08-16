@@ -50,7 +50,7 @@
                   <input readonly formControlName="EndDate" matEndDate placeholder="EndDate">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-date-range-picker #picker [calendarHeaderComponent]="CustomHeaderComponent"></mat-date-range-picker>
                 <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
               </mat-form-field>
             </div>
