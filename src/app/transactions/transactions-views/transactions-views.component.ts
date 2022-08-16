@@ -609,7 +609,7 @@ GoBack()
         this.spinner.hide();
         //success message and same data reload
        
-        this.alertService.success( "Save " + `${this.clirangecountOnsave? this.clirangecountOnsave : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success(+ `${this.clirangecountOnsave? this.clirangecountOnsave : ''}` + " record(s) saved successful!!", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
         this.clirangecountOnsave='';
         this.clirangecount='';
@@ -974,7 +974,7 @@ GoBack()
   }
 
   prepareQueryParams(pageNo: string): any {
-
+    this.Commentsstring='';
     //Reference
     let telephonerangevalues: string = "";
    // this.Commentsstring="DDI Range: Pre-populated in DB while data loading.";
@@ -1331,18 +1331,18 @@ GoBack()
         else {
           this.alertService.clear();
           this.countrange();
-          this.alertService.notification("Duplicate Numbers Not Allowed!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Duplicate entries not allowed!", { autoClose: true, keepAfterRouteChange: false });
         }
       }
       else {
         this.countrange();
         if (!this.checktotalrange(count)) {
-          this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s !", { autoClose: true, keepAfterRouteChange: false });
 
         }
         else if (count >= 10000) {
           this.countrange();
-          this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s ", { autoClose: true, keepAfterRouteChange: false });
         }
         else {
           this.countrange();
@@ -1363,6 +1363,21 @@ GoBack()
 
 
 
+  }
+  keyPress(event:any)
+  {
+    debugger
+    if(event.keyCode == 13){
+      if(!this.addCliState)
+      {
+        this.addRangeTel();
+      }
+      else if(!this.searchTelState)
+      {
+        this.SearchTel();
+      }
+     //alert('Entered Click Event!');
+   }
   }
   countragneOnSave()
   {

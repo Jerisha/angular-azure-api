@@ -20,6 +20,7 @@ import { AuthenticationService } from 'src/app/_auth/services/authentication.ser
 import { ActivatedRoute } from '@angular/router';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AlertService } from 'src/app/_shared/alert';
+import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
 
 const ELEMENT_DATA: solicitedactionreport[] = [
   {
@@ -127,6 +128,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   destroy$: Subject<boolean> = new Subject<boolean>();
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+   // make ExampleHeaderComponent type available in our template:
+   readonly CustomHeaderComponent = CustomHeaderComponent;
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
