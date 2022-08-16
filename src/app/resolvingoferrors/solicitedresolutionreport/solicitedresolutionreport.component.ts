@@ -16,6 +16,7 @@ import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { AlertService } from 'src/app/_shared/alert';
+import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
 
 // const ELEMENT_DATA: any = [
 //   {
@@ -159,6 +160,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
   updateDetails!: any;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+  // make ExampleHeaderComponent type available in our template:
+  readonly CustomHeaderComponent = CustomHeaderComponent;
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
