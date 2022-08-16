@@ -609,7 +609,7 @@ GoBack()
         this.spinner.hide();
         //success message and same data reload
        
-        this.alertService.success( "Save " + `${this.clirangecountOnsave? this.clirangecountOnsave : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success(+ `${this.clirangecountOnsave? this.clirangecountOnsave : ''}` + " record(s) saved successful!!", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
         this.clirangecountOnsave='';
         this.clirangecount='';
