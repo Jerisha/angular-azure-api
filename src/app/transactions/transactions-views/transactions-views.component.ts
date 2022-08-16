@@ -499,7 +499,7 @@ GoBack()
   }
   onChangeEvent(event: any, control: string) {
     debugger
-
+this.alertService.clear();
     if (control == "StartTelephoneNumber") {
       this.model.telno.trim();
       if (this.model.telno.length == 10 || this.model.telno.length == 9) {
@@ -1331,10 +1331,14 @@ GoBack()
         else {
           this.alertService.clear();
           this.countrange();
+          this.model.telno = "" ;
+           this.model.rangeEnd = "";
           this.alertService.notification("Duplicate entries not allowed!", { autoClose: true, keepAfterRouteChange: false });
         }
       }
       else {
+        this.model.telno = "" ;
+        this.model.rangeEnd = "";
         this.countrange();
         if (!this.checktotalrange(count)) {
           this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s !", { autoClose: true, keepAfterRouteChange: false });
