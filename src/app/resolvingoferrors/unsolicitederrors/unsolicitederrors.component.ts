@@ -129,8 +129,8 @@ const FilterListItems: Select[] = [
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
-  { view: 'Date Range', viewValue: 'DateRange', default: false },
-  { view: 'Is Final', viewValue: 'Final', default: false },
+  { view: 'Date Range', viewValue: 'DateRange', default: true },
+  // { view: 'Is Final', viewValue: 'Final', default: false },
   { view: 'Resolution Type', viewValue: 'ResolveTypeUnsol', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
 
@@ -202,7 +202,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     this.createForm();
     //this.UpdateForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'Final', 'ResolveTypeUnsol']);
+    let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'ResolveTypeUnsol']);
     console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
       console.log("res: " + JSON.stringify(res))
@@ -373,19 +373,19 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
 
   createForm() {
     this.thisForm = this.formBuilder.group({
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
-      // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),     
-      Source: new FormControl({ value: '', disabled: true }, []),
-      ResolveTypeUnsol: new FormControl({ value: '', disabled: true }, []),
-      //Date: new FormControl({ value: '', disabled: true }, []),
-      ErrorType: new FormControl({ value: '', disabled: true }, []),
-      Final: new FormControl({ value: '', disabled: true }, []),
-      Reference: new FormControl({ value: '', disabled: true }, []),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{10,11}$")]),     
+      Source: new FormControl({ value: '', disabled: false }, []),
+      ResolveTypeUnsol: new FormControl({ value: '', disabled: false }, []),
+      //Date: new FormControl({ value: '', disabled: false }, []),
+      ErrorType: new FormControl({ value: '', disabled: false }, []),
+      // Final: new FormControl({ value: '', disabled: false }, []),
+      Reference: new FormControl({ value: '', disabled: false }, []),
       DateRange: this.formBuilder.group({
         FromDate: new FormControl(),
-        ToDate: new FormControl(), disabled: true
+        ToDate: new FormControl(), disabled: false
       })
     })
   }
@@ -482,14 +482,14 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false },
-    { header: 'Error Code', headerValue: 'ErrorCode', showDefault: true, isImage: false },
+    { header: 'Error Codes', headerValue: 'ErrorCode', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comments', headerValue: 'LatestUserComments', showDefault: true, isImage: false, showTooltip: true },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false, showTooltip: true },
+    { header: 'Latest Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
-    { header: 'Difference in Days', headerValue: 'Difference', showDefault: true, isImage: false },
+    { header: 'Diff in Days', headerValue: 'Difference', showDefault: true, isImage: false },
 
   ];
 

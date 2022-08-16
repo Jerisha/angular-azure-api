@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ContentChild, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
@@ -134,8 +134,8 @@ const FilterListItems: Select[] = [
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Date Range', viewValue: 'DateRange', default: true },
-  { view: 'Error Code', viewValue: 'ErrorCode', default: true },
-  { view: '999 Reference', viewValue: 'Reference', default: true },
+  { view: 'Error Codes', viewValue: 'ErrorCode', default: true },
+  { view: '999 Ref', viewValue: 'Reference', default: true },
   { view: 'Order Reference', viewValue: 'OrderReference', default: true }
 ];
 
@@ -216,7 +216,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         this.updateDetails = res.data;
       });
     }
-
+   
     //this.service.configTest(request);
     // this.service.configDetails(request);
     // this.configResult$ = this.service.configDetails(request).pipe(map((res: any) => res[0]));
@@ -226,14 +226,12 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     return data ? data.split(',') : [];
   }
 
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
-  }
-
   ngAfterViewChecked() {
     this.isEnable();
+    //this.setControlAttribute(this.selMultiple);
     this.cdr.detectChanges();
   }
+  
 
   prepareQueryParams(pageNo: string): any {
     let attributes: any = [
@@ -292,25 +290,25 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.thisForm = this.formBuilder.group({
-      // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      Command: new FormControl({ value: '', disabled: true }, []),
-      Source: new FormControl({ value: '', disabled: true }, []),
-      ResolutionType: new FormControl({ value: '', disabled: true }, []),
-      ErrorCode: new FormControl({ value: '', disabled: true }, []),
-      ErrorType: new FormControl({ value: '', disabled: true }, []),
-      Reference: new FormControl({ value: '', disabled: true }, []),
-      OrderReference: new FormControl({ value: '', disabled: true }, []),
+      // StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.pattern("^[0-9]{10,11}$")]),
+      // EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.pattern("^[0-9]{10,11}$")]),
+      
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      Command: new FormControl({ value: '', disabled: false }, []),
+      Source: new FormControl({ value: '', disabled: false }, []),
+      ResolutionType: new FormControl({ value: '', disabled: false }, []),
+      ErrorCode: new FormControl({ value: '', disabled: false }, []),
+      ErrorType: new FormControl({ value: '', disabled: false }, []),
+      Reference: new FormControl({ value: '', disabled: false }, []),
+      OrderReference: new FormControl({ value: '', disabled: false }, []),
       DateRange: this.formBuilder.group({
-        FromDate: new FormControl(),
-        ToDate: new FormControl(),
-        disabled: true
+        FromDate: new FormControl({ value: '', disabled: false }),
+        ToDate: new FormControl({ value: '', disabled: false }),
+        disabled: false
       })
-
     })
-
+  //  this.f['DateRange'].disable();
 
   }
 
@@ -518,7 +516,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   setControlAttribute(matSelect: MatSelect) {
-    matSelect.options.forEach((item) => {
+  
+    matSelect?.options.forEach((item) => {
       if (item.selected) {
         this.thisForm.controls[item.value].enable();
       }
@@ -526,6 +525,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         this.thisForm.controls[item.value].disable();
       }
     });
+    
   }
 
   rowDetect(selectedRows: any) {
