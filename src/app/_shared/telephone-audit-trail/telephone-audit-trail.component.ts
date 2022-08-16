@@ -35,7 +35,8 @@ export class TelephoneAuditTrailComponent  {
   @ViewChild('auditTabScroll') scrollDemo!: ElementRef;
   isLoading: boolean = true;
   @Output() isLiveRecord = new EventEmitter<any>();
-  
+  deafultload:boolean
+  defultdata: any;
 testfun(islive :boolean)
 {
   this.isLiveRecord.emit(islive )
@@ -71,6 +72,7 @@ testfun(islive :boolean)
   {header: 'User Comment', headerValue: 'UserComment'}];
 
   ngOnChanges(changes: SimpleChanges) {
+    this.deafultload=true
     if(changes.telNo.currentValue != '')
     {
     if (changes.telNo.currentValue != changes.telNo.previousValue) {
@@ -82,17 +84,23 @@ testfun(islive :boolean)
       // Value : [ "01171617562" ] }]);
       this.isLoading = true;
       this.spinner.show();
+      let datafromresponse:any=[];
       this.auditTrailReport$ = this.service.getDetails(request).pipe(map((res: any) => {
         let transform: any = [];
         transform = res.data;
+        console.log(JSON.stringify(res.data.AuditDetailedReport[0].DetailedReport),'AUDIT DATA');
+       // datafromresponse=res.data.AuditDetailedReport[0].DetailedReport;    
         if(res.params.TelephoneNumber) transform.TelephoneNumber = res.params.TelephoneNumber;
         this.isLoading = false;
         this.spinner.hide();
+        this.setAddressDetailsdefault('TransactionDetails', res.data?.AuditDetailedReport[0]?.DetailedReport);
         return transform;
+
       }
-
+   
       ));
-
+      console.log(datafromresponse,'response from data');
+     
     }
   }
 
@@ -120,7 +128,25 @@ testfun(islive :boolean)
   //  setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 94) : this.scrollDemo.nativeElement.scrollTo(0,(i*25) + 62); }, 200);
   setTimeout(()=>{ isUnSol ? this.scrollDemo.nativeElement.scrollTo(0,(i*21.5) + 81) : this.scrollDemo.nativeElement.scrollTo(0,(i*21.5) + 51); }, 200);
   }
+  setAddressDetailsdefault(section: string, element?: any) {
 
+    this.defultdata=element;
+    if(this.defultdata[0].CustomerName)
+    {
+    this.addressDetails.isData = true;
+      this.addressDetails.postcode = this.defultdata[0].Postcode;
+      this.addressDetails.CustomerName = this.defultdata[0].CustomerName;
+      this.addressDetails.internalAddr1 = this.defultdata[0].InternalAddress1;
+      this.addressDetails.internalAddr2 =this.defultdata[0].InternalAddress2;
+      this.addressDetails.internalAddr3 = this.defultdata[0].InternalAddress3;
+      this.addressDetails.internalAddr4 = this.defultdata[0].InternalAddress4;
+      this.addressDetails.linetype=this.defultdata[0].LineType;
+      this.addressDetails.typeofline=this.defultdata[0].TypeOfLine;
+      this.AddressCheckSelected.emit([this.addressDetails]);
+    }
+   
+  }
+  
   setAddressDetails(section: string, element?: any) {
     // console.log(element.details.postcode);
 debugger
@@ -138,7 +164,8 @@ debugger
       this.AddressCheckSelected.emit([this.addressDetails]) // need to check
     console.log('audit trail log',this.addressDetails);
     } else if (section === 'RemoveAddress') {
-      this.addressDetails = new AddressDetails();
+      console.log(this.defultdata,'defulat data');
+    this.addressDetails = new AddressDetails();
     }
     // console.log(this.addressDetails);
   }

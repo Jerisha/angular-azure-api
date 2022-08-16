@@ -123,7 +123,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.pageProp.currentPage = this.currentPage + 1;
       this.pageProp.pageSize = event?.pageSize ? event?.pageSize : DefaultPageSize;
       this.service.setPageSize(this.pageProp.pageSize);
-      
+
     }
     else {
       let totalPages = Math.ceil(this.totalRows / this.pageSize);
@@ -141,14 +141,14 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       this.service.pageSize$.subscribe((val: number) => { this.pageProp.pageSize = val; });
     }
     this.pageIndex.emit(this.pageProp);
-    
+
   }
 
   refresh(event: any) {
     event.stopPropagation();
     this.refreshtab.emit({ event });
   }
-  isWrappedCell:boolean =true;
+  isWrappedCell: boolean = true;
 
   ngOnChanges(changes: SimpleChanges) {
     this.initializeTableAttributes();
@@ -168,7 +168,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
         this.screenIdentifier = res?.params?.ScreenIdentifier;
         if (this.showCustomFooter) this.footerDetails = res.FooterDetails;
         // this.dataSource.sort = this.sort;
-        this.spinner.hide();       
+        this.spinner.hide();
         this.disablePageSize = this.totalRows > 50 ? false : true;
         this.isDataloaded = true;
       },
@@ -176,7 +176,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       () => {
         if (this.currentPage > 0) {
           this.toggleAllSelection();
-          
+
         }
         this.spinner.hide();
         if (this.dataSource.data != undefined && this.tableitem?.isFavcols) {
@@ -273,7 +273,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   ngOnInit(): void {
   }
 
-  ngAfterViewInit() {    
+  ngAfterViewInit() {
     this.changeDetectorRef.detectChanges();
   }
 
@@ -493,11 +493,11 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     }
     return flag && loopFlag;
   }
-  cellsWrapped:string[]=['CustomerAddress','CustomerName'];
+  cellsWrapped: string[] = ['CustomerAddress', 'CustomerName'];
 
-  applyCellWrapStyle(disCol: any){
+  applyCellWrapStyle(disCol: any) {
     debugger;
-    if(this.cellsWrapped.includes(disCol.headerValue)){
+    if (this.cellsWrapped.includes(disCol.headerValue)) {
       return true;
     }
     return false;
@@ -578,21 +578,19 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     this.spinner.hide();
   }
 
-  checkNumberColumn(col:string)
-  {
-    let falg:boolean=false;
+  checkNumberColumn(col: string) {
+    let falg: boolean = false;
     this.ColumnDetails.forEach((row: any, index) => {
-      if(row.headerValue===col&&row.isNumber)
-      {
-        falg= true;
-       
-      } 
+      if (row.headerValue === col && row.isNumber) {
+        falg = true;
+
+      }
     });
     return falg;
   }
   copyToClipboard() {
     let data = "";
-  
+
     let colsExcludeImage = this.gridFilter.filter(x => !x.isImage).map(y => y.headerValue);
     let selectedCol = this.tableitem?.filter ?
       this.select?.value?.filter((z: string) => colsExcludeImage?.includes(z)) : colsExcludeImage
@@ -603,13 +601,12 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       }
       let tabValue: string[] = []
       selectedCol?.forEach((x: string) => {
-        if(this.checkNumberColumn(x) && row[x])
-        {
+        if (this.checkNumberColumn(x) && row[x]) {
           tabValue.push(row[x].replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ' ')
         }
-        else{
+        else {
           tabValue.push(row[x] || ' ')
-        }   
+        }
       })
       data += tabValue.join('$$').replace(/[$$]+/g, '\t') + "\n";
     });
@@ -688,7 +685,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       debugger;
       if ((profileName || '').trim().length > 0) {
         debugger;
-       // var profileName = this.userDetails.username + '-' + result;
+        // var profileName = this.userDetails.username + '-' + result;
         var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: profileName, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 0 };
         let request = Utils.preparePyUICreate('ManageUsers', 'FavouriteProfile', 'ReportMenuItem', profile)
         this.service.uiApiDetails(request, WebMethods.UICREATE).subscribe(response => {

@@ -2,7 +2,7 @@ import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, of } from 'rxjs';
-import { SelectMultipleComponent } from 'src/app/uicomponents';
+import { CustomHeaderComponent, SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
@@ -185,6 +185,8 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
   isSaveDisable: boolean = true;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+  // make ExampleHeaderComponent type available in our template:
+  readonly CustomHeaderComponent = CustomHeaderComponent;
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
