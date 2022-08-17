@@ -197,6 +197,7 @@
     .rl-tab-icon{
   
     }
+
       
   .topfilter {
     display: flex;
@@ -227,8 +228,15 @@
     }
   
   :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix  {
-    padding: 6px 0 6px 0 !important;     
+    padding: 6px 0 6px 0 !important;  
+    height: 12px;
+    width: 90px !important;
+
   } 
+  .filter::ng-deep .mat-form-field{
+    width: 115px !important;       
+    
+    }
   .filterpaneoff {
     max-height: 400px;
     overflow: auto
