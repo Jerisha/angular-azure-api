@@ -456,7 +456,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // return isErrorCode && isBtError && isErrorType;
                     }
     //   // return isListName;
-      return false;
+      return true;
     }
     
 
@@ -1129,13 +1129,13 @@ else {
         this.isLoading = false;
         //   console.log(JSON.stringify(res))
         this.reportReferenceService.metaDataCollection = res
-        // console.log("metaData",res)
+        console.log("metaData",res)
         // this.reportReferenceService.reportNames = res[0]
         //for mock 
 
       },
       (error) => {
-        //  console.log(error,'Dynamic JSON API Function')
+         console.log(error,'Dynamic JSON API Function')
         this.isLoading = false;
 
       },
@@ -1155,12 +1155,12 @@ else {
     // console.log(this.reportReferenceService.metaDataCollection,'metacol')
     this.reportTitleNames =this.reportReferenceService.reportTitleNames;   
     // console.log(this.highlightedRecord) 
-    debugger;
-    let request = Utils.preparePyConfig(['Search'], ['ErrorType']);
-    this.reportReferenceService.getConfig(request).subscribe((res: any) => {
-      console.log("res: " + JSON.stringify(res));
-      this.configDetails = res.data;
-    });
+    // debugger;
+    // let request = Utils.preparePyConfig(['Search'], ['ErrorType']);
+    // this.reportReferenceService.getConfig(request).subscribe((res: any) => {
+    //   console.log("res: " + JSON.stringify(res));
+    //   this.configDetails = res.data;
+    // });
     
   }
   ListNameArray: String[];

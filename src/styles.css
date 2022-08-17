@@ -875,3 +875,12 @@ tr.transaction-trend-mat-row:nth-child(4n - 1) {
   color: #e60000;
 }
 /* Transaction-Trend style End */
+
+
+/* Reference List report changes starts */
+mat-form-field.pb-0 .mat-form-field-wrapper
+ {
+  padding-bottom: 0;
+} 
+
+/* Reference List report changes End */
