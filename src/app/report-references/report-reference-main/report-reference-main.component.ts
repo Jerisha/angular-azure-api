@@ -1,5 +1,5 @@
 
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, SimpleChanges, ViewChild } from '@angular/core';
 import { ReportReferenceService } from '../report-reference.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { IColoumnDef } from '../IControls';
@@ -17,6 +17,7 @@ import { timeStamp } from 'console';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Select } from 'src/app/uicomponents/models/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-report-reference-main',
@@ -81,8 +82,19 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   ErrorTypeList: string[] = [];
   ActionList: string[] = [];
   ListNameFilter: String[] = [];
+  ErrorCodeFilter: String[] = [];
+  BtErrorFilter: String[] = [];
+  ErrorTypeFilter: String[] = [];
   filterSelectedItems!: Array<string[]>;
-  ListFilter: Select[] = [];
+  ListNameDropdownFilter: Select[] = [];
+  ErrorCodeDropdownFilter: Select[] = [];
+  BtErrorDropdownFilter: Select[] = [];
+  ErrorTypeDropdownFilter: Select[] = [];
+  ActionDropdownFilter: Select[] = [];
+  UnusedDropdownFilter: Select[] = [];
+  FinalDropdownFilter: Select[] = [];
+  SolicitedFilterDropdownFilter: Select[] = [];
+  UnSolicitedFilterDropdownFilter: Select[] = [];
   onMenuClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     this.isShow = true;
@@ -246,24 +258,28 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     
   }
   filterForm = new FormGroup({
-    ErrorTypeFilter: new FormControl(''),
-    ActionFilter: new FormControl(''),
-   
+    // ErrorTypeFilter: new FormControl(''),
+    // ActionFilter: new FormControl(''),
+    ErrorCode: new FormControl(''),
+    BtError: new FormControl(''),
+    ErrorType: new FormControl(''),
+    Action: new FormControl(''),
+    UnusedFlag: new FormControl(''),
+    FinalFlag: new FormControl(''),
+    SolicitedFlag: new FormControl(''),
+    UnSolicitedFlag: new FormControl(''),
   });
-  formControlsSubscribe() {
-    this.filterForm.controls['ErrorTypeFilter'].valueChanges.subscribe(ErrorTypeValues => {
-      this.filterValues.ErrorType = ErrorTypeValues;
-      this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
+  // formControlsSubscribe() {
+  //   this.filterForm.controls['ErrorTypeFilter'].valueChanges.subscribe(ErrorTypeValues => {
+  //     this.filterValues.ErrorType = ErrorTypeValues;
+  //     this.dataSource.filter = JSON.stringify(this.filterValues);
+  //   });
 
-    this.filterForm.controls['ActionFilter'].valueChanges.subscribe(ActionValue => {
-      this.filterValues.Action = ActionValue;
-      this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
-   
-
-  }
+  //   this.filterForm.controls['ActionFilter'].valueChanges.subscribe(ActionValue => {
+  //     this.filterValues.Action = ActionValue;
+  //     this.dataSource.filter = JSON.stringify(this.filterValues);
+  //   });
+  // }
   createFilter() {
     this.dataSource.filterPredicate = (data, filter: string): boolean => {
       let searchString = JSON.parse(filter);
@@ -298,38 +314,167 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = JSON.stringify(this.filterValues);
     console.log("Filter end "+ JSON.stringify(this.filterValues) )
   }
-  onfilter(filter: any) {
-    this.onFilterPredicate();
-    console.log(filter)
-    let filteritem1 = {
-      ListName: filter,
-      ErrorType: filter
-    }
-    console.log(filteritem1);
-    this.dataSource.filter = JSON.stringify(filteritem1);
+  onfilter(filter: any, filterName?: string) {
+    this.onFilterPredicate(filterName);
+    // console.log(this.filterForm.value);
+    // this.dataSource.filter = JSON.stringify(this.filterForm.value);
+    this.dataSource.filter = filter;
+    
   }
-  onFilterPredicate() {
+  onFilterPredicate(test?: string) {
     this.dataSource.filterPredicate = (data: any, filter: string): boolean => {
       let searchString = JSON.parse(filter);
-      let isListNames = false;
+      // let searchString = filter;
+      // console.log(test);
+      // console.log(!Number.isNaN(Number(filter[0])));
+      // console.log(data[`${test}`]);
+      let isListName = false;
       let isErrorType = false;
-      if (searchString.ListName.length >0) {
-        for (const d of searchString.ListName) {
-          if (data.ListName?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
-            isListNames = true;
-          }
-        
-        }
-      }
-      else
-        isListNames = true;
+      let isErrorCode = false;
+      let isBtError = false;
+      let isAction = false;
+      let isUnused = false;
+      let isFinal = false;
+      let isSolicitedFilter = false;
+      let isUnSolicitedFilter = false;
 
-       
-      return isListNames ;
+      
+      if(this.currentReportName === 'OsnProvideList')
+      {
+        if (searchString.ListName.length >0) {
+          for (const d of searchString.ListName) {
+            if (data.ListName?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
+              isListName = true;
+            }
+          }
+        }
+        else
+          isListName = true;
+
+    return isListName;
+    }
+
+    if(this.currentReportName === 'ErrorCode')
+    {
+
+    //   for(let key in searchString)
+    //   {
+    //     if (searchString.hasOwnProperty(key)) {
+    //     // console.log("key " + searchString[key]);
+    //     if (searchString[`${key}`].length >0) {
+    //       for (const d of searchString[`${key}`]) {
+    //         if (data[`${key}`]?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
+    //           isErrorType = true;
+    //         }
+    //       }
+    //     }
+    //     else
+    //       isErrorType = true;
+    //   }
+    // }
+        if (searchString.ErrorType.length >0) {
+          for (const d of searchString.ErrorType) {
+            if (data.ErrorType?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
+              isErrorType = true;
+            }
+          }
+        }
+        else
+          isErrorType = true;
+
+          if (searchString.ErrorCode.length >0) {
+            for (const d of searchString.ErrorCode) {
+              if (data.ErrorCode?.trim().toLowerCase().indexOf(d.toLowerCase()) != -1 ) {
+                isErrorCode = true;
+              }
+            }
+          }
+          else
+            isErrorCode = true;
+
+            if (searchString.BtError.length >0) {
+              for (const d of searchString.BtError) {
+                if (data.BtError?.trim().toLowerCase().indexOf(d.toLowerCase()) != -1 ) {
+                  isBtError = true;
+                }
+              }
+            }
+            else
+              isBtError = true;
+
+              if (searchString.Action.length >0) {
+                for (const d of searchString.Action) {
+                  if (data.Action?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
+                    isAction = true;
+                  }
+                }
+              }
+              else
+                isAction = true;
+
+                if (searchString.UnusedFlag.length >0) {
+                  for (const d of searchString.UnusedFlag) {
+                    if (data.UnusedFlag?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
+                      isUnused = true;
+                    }
+                  }
+                }
+                else
+                  isUnused = true;
+
+                  if (searchString.FinalFlag.length >0) {
+                    for (const d of searchString.FinalFlag) {
+                      if (data.FinalFlag?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
+                        isFinal = true;
+                      }
+                    }
+                  }
+                  else
+                    isFinal = true;
+
+                    if (searchString.SolicitedFlag.length >0) {
+                      for (const d of searchString.SolicitedFlag) {
+                        if (data.SolicitedFlag?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
+                          isSolicitedFilter = true;
+                        }
+                      }
+                    }
+                    else
+                      isSolicitedFilter = true;
+
+                      if (searchString.UnSolicitedFlag.length >0) {
+                        for (const d of searchString.UnSolicitedFlag) {
+                          if (data.UnSolicitedFlag?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
+                            isUnSolicitedFilter = true;
+                          }
+                        }
+                      }
+                      else
+                        isUnSolicitedFilter = true;
+
+      return isErrorType && isErrorCode && isBtError && isAction && isUnused && isFinal && isSolicitedFilter && isUnSolicitedFilter ;
+    // return isErrorCode && isBtError && isErrorType;
+                    }
+    //   // return isListName;
+      return true;
     }
     
 
   }
+  clearFilter(){
+    this.filterForm.patchValue({
+      ErrorCode: [''],
+    BtError: [''],
+    ErrorType: [''],
+    Action: [''],
+    UnusedFlag: [''],
+    FinalFlag: [''],
+    SolicitedFlag: [''],
+    UnSolicitedFlag: [''],
+    });
+    this.dataSource.filter = JSON.stringify(this.filterForm.value);
+    }
+  
   onCreateRecord() {
     this.alertService.clear();   
     if (this.editMode == "" || this.editMode === this.currentReportName) {
@@ -407,11 +552,34 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           this.filterSelectedItems = [this.dataSource.data.map((x: any) => x?.ListName)];
           this.ListNameFilter = [...new Set(this.filterSelectedItems[0])];
           this.ListNameFilter?.forEach((element: any) => {
-          this.ListFilter.push({ view: element, viewValue: element, default: false });
+          this.ListNameDropdownFilter.push({ view: element, viewValue: element, default: false });
     });
-    // console.log((this.ListFilter));
+    console.log((this.ListNameDropdownFilter));
   }
-    
+  if(reportName === 'ErrorCode')
+  {
+    let dropdownValue = ['Y','N'];
+  dropdownValue?.forEach((element: any) => {
+          this.ActionDropdownFilter.push({ view: element, viewValue: element, default: false });
+          this.UnusedDropdownFilter.push({ view: element, viewValue: element, default: false });
+          this.FinalDropdownFilter.push({ view: element, viewValue: element, default: false });
+          this.SolicitedFilterDropdownFilter.push({ view: element, viewValue: element, default: false });
+          this.UnSolicitedFilterDropdownFilter.push({ view: element, viewValue: element, default: false });
+});
+this.filterSelectedItems = [this.dataSource.data.map((x: any) => x?.ErrorCode), this.dataSource.data.map((x: any) => x?.BtError), this.dataSource.data.map((x: any) => x?.ErrorType)];
+this.ErrorCodeFilter = [...new Set(this.filterSelectedItems[0])];
+this.ErrorCodeFilter?.forEach((element: any) => {
+this.ErrorCodeDropdownFilter.push({ view: element, viewValue: element, default: false });
+});
+this.BtErrorFilter = [...new Set(this.filterSelectedItems[1])];
+this.BtErrorFilter?.forEach((element: any) => {
+this.BtErrorDropdownFilter.push({ view: element, viewValue: element, default: false });
+});
+this.ErrorTypeFilter = [...new Set(this.filterSelectedItems[2])];
+this.ErrorTypeFilter?.forEach((element: any) => {
+this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: false });
+});
+}
           this.recordIdentifier = res.params.RecordIdentifier;
           if (this.currentReportName === 'Franchise') {
             // this.data = res.data[reportName];
@@ -948,7 +1116,7 @@ else {
     // this.reportDisplayName = this.reportReferenceService.reportTitleNames.find( x=> x.name === this.editMode)?.viewName
     //console.log("onchanges:",changes);
     
-    this.formControlsSubscribe();
+    // this.formControlsSubscribe();
     this.createFilter();
   }
   constructor(private cdr: ChangeDetectorRef,
@@ -990,16 +1158,63 @@ else {
     debugger;
     let request = Utils.preparePyConfig(['Search'], ['ErrorType']);
     this.reportReferenceService.getConfig(request).subscribe((res: any) => {
-      //console.log("res: " + JSON.stringify(res))
+      console.log("res: " + JSON.stringify(res));
       this.configDetails = res.data;
     });
     
   }
   ListNameArray: String[];
-  multipleSelect(event: any) {
-    this.ListNameArray = event;
-    this.onfilter(this.ListNameArray);
+  filter1: any;
+  filter2: any;
+  filter3: any;
+  filter4: any;
+  filter5: any;
+  filter6: any;
+  filter7: any;
+  filter8: any;
+  filteritem = {
+      ListName: [],
+      ErrorCode: [],
+      BtError: [],
+      ErrorType: [],
+      Action: [],
+      UnusedFlag: [],
+      FinalFlag: [],
+      SolicitedFlag: [],
+      UnSolicitedFlag: [],
+    }
+  multipleSelect(event: any, filterName: string) {
+    // console.log(this.filterForm);
+    // this.ListNameArray = event;
+    // this.onfilter(this.ListNameArray, filterName);
+    console.log(this.currentReportName);
+    
+     switch(filterName)
+    {
+      case 'ListName': this.filteritem.ListName = event;
+      break;
+      case 'ErrorCode': this.filteritem.ErrorCode = event;
+      break;
+      case 'BtError': this.filteritem.BtError = event;
+      break;
+      case 'ErrorType': this.filteritem.ErrorType = event;
+      break;
+      case 'Action': this.filteritem.Action = event;
+      break;
+      case 'UnusedFlag': this.filteritem.UnusedFlag = event;
+      break;
+      case 'FinalFlag': this.filteritem.FinalFlag = event;
+      break;
+      case 'SolicitedFlag': this.filteritem.SolicitedFlag = event;
+      break;
+      case 'UnSolicitedFlag': this.filteritem.UnSolicitedFlag = event;
+      break;
+    }
+    console.log(JSON.stringify(this.filteritem));
+    
+    this.onfilter(JSON.stringify(this.filteritem), this.currentReportName);
   }
+
   ngAfterViewChecked() {
      this.cdr.detectChanges();
   }
