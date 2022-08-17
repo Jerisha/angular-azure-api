@@ -487,7 +487,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     { header: 'Error Codes', headerValue: 'ErrorCode', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false, showTooltip: true },    
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
