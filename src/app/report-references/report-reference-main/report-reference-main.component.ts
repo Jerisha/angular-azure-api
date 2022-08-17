@@ -456,7 +456,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // return isErrorCode && isBtError && isErrorType;
                     }
     //   // return isListName;
-      return false;
+      return true;
     }
     
 
