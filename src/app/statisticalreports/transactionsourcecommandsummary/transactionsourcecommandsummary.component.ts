@@ -1,151 +1,352 @@
-import { Component, OnInit } from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import { Transactionsourcecommandsummary } from '../models/transactionsourcecommandsummary';
-import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
-import {FormControl} from '@angular/forms';
-import{statisticalreport}from '../services/statisticalreports.service';
+import {
+  Component,
+  ViewChild,
+  ViewChildren,
+  QueryList,
+  ChangeDetectorRef,
+  OnInit
+} from '@angular/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 
-const ELEMENT_DATA: Transactionsourcecommandsummary[] = [
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
-  { 
-    ViewDetails: 'image',TelephoneNos: '90032222', AddCommands: '2,784',CeaseCommands: '36,008',ModifiyCommands: '46,436',ExportCommands: '7,697	',ImportCommands: '3,029',TotalCommands: '95,954' 
-  },
 
-];
 
 @Component({
   selector: 'app-transactionsourcecommandsummary',
   templateUrl: './transactionsourcecommandsummary.component.html',
-  styleUrls: ['./transactionsourcecommandsummary.component.css']
+  styleUrls: ['./transactionsourcecommandsummary.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      )
+    ])
+  ]
 })
 export class TransactionsourcecommandsummaryComponent implements OnInit {
 
-  select:string='Exp';
-    isDisabled = true;
-    myTable!: TableItem;
-    selectedRowsCount: number = 0;
-  selectListItems: string[] = [];
-  selectedTab!: number;
-  public tabs = [{
-    tabType: 0,
-    name: 'Telephone No.Details'
-  }
-  ];
-  constructor(private _snackBar: MatSnackBar,private service: statisticalreport) {}
-
-    openSnackBar(message: string) {
-      this._snackBar.open(message);
-    }
-  
-  ctrl = new FormControl(true); 
-    
-  columns: ColumnDetails[] = [
-    { header: 'Inventory', headerValue: 'Link', showDefault: true, isImage: true },
-    { header: 'Statistic Month', headerValue: 'StatisticMonth', showDefault: true, isImage: false },
-    { header: 'Source System', headerValue: 'Source', showDefault: false, isImage: false },
-    { header: 'Activate', headerValue: 'Adds', showDefault: true, isImage: false },
-    { header: 'Cease', headerValue: 'Ceases', showDefault: true, isImage: false },
-    { header: 'Modifi', headerValue: 'Modifies', showDefault: true, isImage: false },
-    { header: 'Export', headerValue: 'Exports', showDefault: true, isImage: false },
-    { header: 'Import', headerValue: 'Imports', showDefault: true, isImage: false },
-    { header: 'Total Cmds', headerValue: 'TotalCmds', showDefault: true, isImage: false },
-  ];
-
-  ngOnInit(): void {
-
-    this.myTable = {
-      data: ELEMENT_DATA,
-      Columns: this.columns,
-      filter: true,
-      selectCheckbox: true,
-      // colToSetImage: ['View'],
-      imgConfig: [{ headerValue: 'ViewDetails', icon: 'description', route: '',tabIndex:1 },]
-
-    }  
-}
+  @ViewChild('outerSort', { static: true }) sort: MatSort;
+  @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
+  @ViewChildren('innerTables') innerTables: QueryList<MatTable<Address>>;
+  data: User[] = USERS;
+  olocompanyfranchise: string;
+  olo: string;
+  company: string;
+  Franchise:string;
+  FranchiseTitle:string;
+  used:string;
+  dataSource: MatTableDataSource<User>;
+  usersData: User[] = [];
+  columnsToDisplay = ['Action','Expand','olocompanyfranchise', 'olo', 'company', 'Franchise', 'FranchiseTitle','used'];
+  innerDisplayedColumns = ['Action','Expand','olocompanyfranchise', 'olo', 'company', 'Franchise', 'FranchiseTitle','used'];
+  innerInnerDisplayedColumns = ['Action','Expand','olocompanyfranchise', 'olo', 'company', 'Franchise', 'FranchiseTitle','used'];
  
-selected(s:string): void{
-  this.select= s;
-}
+  expandedElements: any[] = [];
+  step: number;
 
-rowDetect(item: any) {
-  //debugger;
-  this.selectedRowsCount = item.length;
-  if (item.length == 0) {
-    this.selectListItems = [];
-  } else {
-    item.forEach((el: string) => {
-      if (!this.selectListItems.includes(el)) {
-        this.selectListItems.push(el)
-      }
-      else {
-        if (this.selectListItems.includes(el)) {
-          let index = this.selectListItems.indexOf(el);
-          this.selectListItems.splice(index, 1)
-        }
+  constructor(private cd: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    USERS.forEach(user => {
+      if (
+        user.addresses &&
+        Array.isArray(user.addresses) &&
+        user.addresses.length
+      ) {
+        this.usersData = [
+          ...this.usersData,
+          { ...user, addresses: new MatTableDataSource(user.addresses) }
+        ];
+      } else {
+        this.usersData = [...this.usersData, user];
       }
     });
+    this.dataSource = new MatTableDataSource(this.usersData);
+    this.dataSource.sort = this.sort;
   }
+
+  applyFilter(filterValue: string) {
+    this.innerTables.forEach(
+      (table, index) =>
+        ((table.dataSource as MatTableDataSource<
+          Address
+        >).filter = filterValue.trim().toLowerCase())
+    );
+  }
+
+  toggleRow(element: User) {
+    element.addresses &&
+    (element.addresses as MatTableDataSource<Address>).data.length
+      ? this.toggleElement(element)
+      : null;
+    this.cd.detectChanges();
+    this.innerTables.forEach(
+      (table, index) =>
+        ((table.dataSource as MatTableDataSource<
+          Address
+        >).sort = this.innerSort.toArray()[index])
+    );
+  }
+
+  isExpanded(row: User): string {
+    const index = this.expandedElements.findIndex(x => x.olocompanyfranchise == row.olocompanyfranchise);
+    if (index !== -1) {
+      return 'expanded';
+    }
+    return 'collapsed';
+  }
+  setStep(index: number) {
+    this.step = index;
+    }
+  setAddressDetails(section: string, element: any) {
+    // console.log(element.details.postcode);
+    
+    }
+  toggleElement(row: User) {
+    const index = this.expandedElements.findIndex(x => x.olocompanyfranchise == row.olocompanyfranchise);
+    if (index === -1) {
+      this.expandedElements.push(row);
+    } else {
+      this.expandedElements.splice(index, 1);
+    }
+
+    //console.log(this.expandedElements);
+
+  }
+  expandedElement: PeriodicElement | null | undefined;
 }
 
-removeTab(index: number) {
-  this.tabs.splice(index, 1);
+
+export interface User {
+  olocompanyfranchise: string;
+  olo: string;
+  company: string;
+  Franchise:string;
+  FranchiseTitle:string;
+  used:string;
+  addresses?: Address[] | MatTableDataSource<Address>;
 }
 
-newTab(tab: any) {
-  switch (tab.tabType) {
-    case 1: {
-      //console.log('New Tab: '+ JSON.stringify(tab.row) )
-      //tab.row contains row data- fetch data from api and bind to respetive component
-      if (!this.tabs.find(x => x.tabType == 1)) {
-        this.tabs.push({
-          tabType: 1,
-          name: 'Audit Trail Report'
-        });
-        this.selectedTab = 1;
+export interface Comment{
+  olocompanyfranchise: string;
+  olo: string;
+  company: string;
+  Franchise:string;
+  FranchiseTitle:string;
+  used:string
+}
+
+export interface Address {
+  olocompanyfranchise: string;
+  olo: string;
+  company: string;
+  Franchise:string;
+  FranchiseTitle:string;
+  used:string;
+  comments?: Comment[] | MatTableDataSource<Comment>;
+}
+
+const USERS: User[] = [
+  {
+    olocompanyfranchise: 'ATC',
+    olo: 'ATC',
+    company: '',
+    FranchiseTitle:'',
+    Franchise:'',
+    used:'3',
+    addresses: [
+      {
+        olocompanyfranchise: 'ATC-ATC',
+        olo: '',
+        company: 'ATC',
+        FranchiseTitle:'',
+        Franchise:'',
+        used:'3',
+        comments: [
+          {
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: '',
+            company: '',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          },
+          {
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: '',
+            company: '',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          },{
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: '',
+            company: '',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          },
+        ]
+      },
+      {
+        olocompanyfranchise: 'ATC-ATC',
+        olo: '',
+        company: 'ATC',
+        FranchiseTitle:'',
+        Franchise:'',
+        used:'',
+        comments: [
+          {
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: 'ATC',
+            company: 'ATC',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          }
+        ]
       }
-      break;
-    }
-    // case 2: {
-    //   if (!this.tabs.find(x => x.tabType == 2)) {
-    //     this.tabs.push({
-    //       tabType: 2,
-    //       name: 'Transaction Errors'
-    //     })
-    //     this.selectedTab = 2;
-    //   }
-    //   break;
-    // }
-    default: {
-      //statements; 
-      break;
-    }
+    ]
+  },
+ 
+  {
+    olocompanyfranchise: 'ATC',
+    olo: 'ATC',
+    company: '',
+    FranchiseTitle:'',
+    Franchise:'',
+    used:'3',
+    addresses: [
+      {
+        olocompanyfranchise: 'ATC-ATC',
+        olo: 'ATC',
+        company: 'ATC',
+        FranchiseTitle:'',
+        Franchise:'',
+        used:'3',
+        comments: [
+          {
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: 'ATC',
+            company: 'ATC',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          },
+          {
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: 'ATC',
+            company: 'ATC',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          },{
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: 'ATC',
+            company: 'ATC',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          },
+        ]
+      },
+      {
+        olocompanyfranchise: 'ATC',
+        olo: 'ATC',
+        company: '',
+        FranchiseTitle:'',
+        Franchise:'',
+        used:'',
+        comments: [
+          {
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: 'ATC',
+            company: 'ATC',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    olocompanyfranchise: 'ATC',
+    olo: 'ATC',
+    company: '',
+    FranchiseTitle:'',
+    Franchise:'',
+    used:'3',
+    addresses: [
+      {
+        olocompanyfranchise: 'ATC-ATC',
+        olo: 'ATC',
+        company: 'ATC',
+        FranchiseTitle:'',
+        Franchise:'',
+        used:'3',
+        comments: [
+          {
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: 'ATC',
+            company: 'ATC',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          },
+          {
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: 'ATC',
+            company: 'ATC',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          },{
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: 'ATC',
+            company: 'ATC',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          },
+        ]
+      },
+      {
+        olocompanyfranchise: 'ATC-ATC',
+        olo: 'ATC',
+        company: 'ATC',
+        FranchiseTitle:'',
+        Franchise:'',
+        used:'',
+        comments: [
+          {
+            olocompanyfranchise: 'ATC-ATC-QWE',
+            olo: 'ATC',
+            company: 'ATC',
+            FranchiseTitle:'Title',
+            Franchise:'QWE',
+            used:'1'
+          }
+        ]
+      }
+    ]
   }
-}
-}
+];
+interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+  description: string;
+  }
+  const ele: PeriodicElement[] = [];
