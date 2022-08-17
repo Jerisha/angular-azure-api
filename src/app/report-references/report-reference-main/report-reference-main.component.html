@@ -41,22 +41,42 @@
                             <div *ngIf="this.currentReportName ==='ErrorCode' " class="topfilter"
                               style="min-height: 13px;overflow-y:hidden;overflow-x:auto;display: flex; padding-top: 10px;margin-bottom: 0%;">
                               <div class="filter">
-                                <mat-form-field style="height:15px">
+                                <!-- <mat-form-field style="height:15px">
                                   <mat-label>Error Code</mat-label>
                                   <input type="text" matInput placeholder="Error Code" multiple
                                     (selectionChange)="onfilter($event)">
-                                </mat-form-field>
+                                </mat-form-field> -->
+                                <app-select-checkbox style="margin-left:0px" [label]="'Error Code'"  [listItems]="ErrorCodeDropdownFilter" (changes)="multipleSelect($event, 'ErrorCode')" [icon]="'filter_alt'" >
+                                </app-select-checkbox>
+                                <!-- <mat-form-field style="height:15px">
+                                  <mat-label>Error Code</mat-label>
+                                  <mat-select disableOptionCentering panelClass="matselect-centering" multiple (selectionChange)="onfilter($event, 'Error Code')"
+                                   formControlName="ErrorCode">
+                                  <mat-option value="">--Select--</mat-option>
+                                  <mat-option *ngFor="let ErrorCode of ErrorCodeDropdownFilter" value="{{ErrorCode.viewValue}}">{{ErrorCode.viewValue}}</mat-option>
+                                </mat-select>
+                                </mat-form-field> -->
                               </div>
           
                               <div class="filter">
-                                <mat-form-field>
+                                <!-- <mat-form-field>
                                   <mat-label>BT Error</mat-label>
                                   <input type="text" matInput placeholder="BT Error" multiple
                                     (selectionChange)="onfilter($event)">
-                                </mat-form-field>
+                                </mat-form-field> -->
+                                <app-select-checkbox style="margin-left:0px" [label]="'BT Error'" #selMultiple [listItems]="BtErrorDropdownFilter" (changes)="multipleSelect($event, 'BtError')" [icon]="'filter_alt'" >
+                                </app-select-checkbox>
+                                <!-- <mat-form-field style="height:15px">
+                                  <mat-label>BT Error</mat-label>
+                                  <mat-select disableOptionCentering panelClass="matselect-centering" multiple (selectionChange)="onfilter($event, 'Error Code')"
+                                   formControlName="BtError">
+                                  <mat-option value="">--Select--</mat-option>
+                                  <mat-option *ngFor="let BtError of BtErrorDropdownFilter" value="{{BtError.viewValue}}">{{BtError.viewValue}}</mat-option>
+                                </mat-select>
+                                </mat-form-field> -->
                               </div>
           
-                              <mat-form-field>
+                              <!-- <mat-form-field>
                                 <mat-label>Error Type</mat-label>
                                 <mat-select disableOptionCentering panelClass="matselect-centering" multiple
                                    formControlName="ErrorTypeFilter">
@@ -68,62 +88,89 @@
                                   <mat-option value="Warning Message">Warning Message</mat-option>
           
                                 </mat-select>
-                              </mat-form-field>
+                              </mat-form-field> -->
+                              <div class="filter">
+                                <app-select-checkbox style="margin-left:0px" [label]="'Error Type'" #selMultiple [listItems]="ErrorTypeDropdownFilter" (changes)="multipleSelect($event, 'ErrorType')" [icon]="'filter_alt'" >
+                                </app-select-checkbox>
+                                <!-- <mat-form-field style="height:15px">
+                                  <mat-label>Error Type</mat-label>
+                                  <mat-select disableOptionCentering panelClass="matselect-centering" multiple (selectionChange)="onfilter($event, 'Error Code')"
+                                   formControlName="ErrorType">
+                                  <mat-option value="">--Select--</mat-option>
+                                  <mat-option *ngFor="let ErrorType of ErrorTypeDropdownFilter" value="{{ErrorType.viewValue}}">{{ErrorType.viewValue}}</mat-option>
+                                </mat-select>
+                                </mat-form-field> -->
+                              </div>
                              
                             
                               <div class="filter">
-                                <mat-form-field>
+                                <!-- <mat-form-field>
                                   <mat-label>Action</mat-label>
-                                  <mat-select disableOptionCentering panelClass="matselect-centering" multiple
-                                   >
-                                    <mat-option value="">--Select--</mat-option>
+                                  <mat-select #allSelect  disableOptionCentering panelClass="matselect-centering" (selectionChange)="onfilter($event, 'Error Code')" multiple
+                                  formControlName="Action">
+                                  <mat-checkbox color="primary" #check (change)="toggleAllSelection(allSelect, check)" >
+                                    Select All</mat-checkbox>
+                                    <mat-option value="" (click)="toggleAllSelection(allSelect)">--Select--</mat-option>
                                     <mat-option value="Y">Y</mat-option>
                                     <mat-option value="N">N</mat-option>
                                   </mat-select>
-                                </mat-form-field>
+                                </mat-form-field> -->
+                                <app-select-checkbox style="margin-left:0px" [label]="'Action'" #selMultiple [listItems]="ActionDropdownFilter" (changes)="multipleSelect($event, 'Action')" [icon]="'filter_alt'" >
+                                </app-select-checkbox>
                               </div>
                               <div class="filter">
-                                <mat-form-field>
+                                <!-- <mat-form-field>
                                   <mat-label>Unused</mat-label>
-                                  <mat-select disableOptionCentering panelClass="matselect-centering" multiple
-                                    (selectionChange)="onfilter($event)">
-                                    <mat-option value="">--Select--</mat-option>
+                                  <mat-select #allSelect1 disableOptionCentering panelClass="matselect-centering" multiple
+                                  (selectionChange)="onfilter($event, 'Error Code')" formControlName="UnusedFlag">
+                                    <mat-option value="" (click)="toggleAllSelection(allSelect1)">--Select--</mat-option>
                                     <mat-option value="Y">Y</mat-option>
                                     <mat-option value="N">N</mat-option>
                                   </mat-select>
-                                </mat-form-field>
+                                </mat-form-field> -->
+                                <app-select-checkbox style="margin-left:0px" [label]="'Unused'" #selMultiple [listItems]="UnusedDropdownFilter" (changes)="multipleSelect($event, 'UnusedFlag')" [icon]="'filter_alt'" >
+                                </app-select-checkbox>
                               </div>
                               <div class="filter">
-                                <mat-form-field>
+                                <!-- <mat-form-field>
                                   <mat-label>Final</mat-label>
                                   <mat-select disableOptionCentering panelClass="matselect-centering" multiple
-                                    (selectionChange)="onfilter($event)">
+                                  (selectionChange)="onfilter($event, 'Error Code')" formControlName="FinalFlag">
                                     <mat-option value="">--Select--</mat-option>
                                     <mat-option value="Y">Y</mat-option>
                                     <mat-option value="N">N</mat-option>
                                   </mat-select>
-                                </mat-form-field>
-                              </div>
-                              <!-- <div class="filter">
-                                <mat-form-field>
-                                  <mat-label>Solicited</mat-label>
-                                  <mat-select formControlName="SolicitedFilter" multiple (selectionChange)="onfilter($event)">
-                                    <mat-option value="">--Select--</mat-option>
-                                    <mat-option value="Y">Y</mat-option>
-                                    <mat-option value="N">N</mat-option>
-                                  </mat-select>
-                                </mat-form-field>
+                                </mat-form-field> -->
+                                <app-select-checkbox style="margin-left:0px" [label]="'Final'" #selMultiple [listItems]="FinalDropdownFilter" (changes)="multipleSelect($event, 'FinalFlag')" [icon]="'filter_alt'" >
+                                </app-select-checkbox>
                               </div>
                               <div class="filter">
-                                <mat-form-field>
-                                  <mat-label>UnSolicited</mat-label>
-                                  <mat-select formControlName="UnSolicitedFilter" multiple (selectionChange)="onfilter($event)">
+                                <!-- <mat-form-field>
+                                  <mat-label>Solicited</mat-label>
+                                  <mat-select multiple (selectionChange)="onfilter($event, 'Error Code')"
+                                  formControlName="SolicitedFlag">
                                     <mat-option value="">--Select--</mat-option>
                                     <mat-option value="Y">Y</mat-option>
                                     <mat-option value="N">N</mat-option>
                                   </mat-select>
-                                </mat-form-field>
-                              </div> -->
+                                </mat-form-field> -->
+                                <app-select-checkbox style="margin-left:0px" [label]="'Solicited Filter'" #selMultiple [listItems]="SolicitedFilterDropdownFilter" (changes)="multipleSelect($event, 'SolicitedFlag')" [icon]="'filter_alt'" >
+                                </app-select-checkbox>
+                              </div>
+                              <div class="filter">
+                                <!-- <mat-form-field>
+                                  <mat-label>UnSolicited</mat-label>
+                                  <mat-select multiple (selectionChange)="onfilter($event, 'Error Code')"
+                                  formControlName="UnSolicitedFlag">
+                                    <mat-option value="">--Select--</mat-option>
+                                    <mat-option value="Y">Y</mat-option>
+                                    <mat-option value="N">N</mat-option>
+                                  </mat-select>
+                                </mat-form-field> -->
+                                <app-select-checkbox style="margin-left:0px" [label]="'UnSolicited Filter'" #selMultiple [listItems]="UnSolicitedFilterDropdownFilter" (changes)="multipleSelect($event, 'UnSolicitedFlag')" [icon]="'filter_alt'" >
+                                </app-select-checkbox>
+                              </div>
+                              <!-- <button (click)="clearFilter()">Clear</button> -->
                             </div>
                           </form>
                         </div>
@@ -144,7 +191,7 @@
                                   <mat-option value="Line Type">Line Type</mat-option>
                                 </mat-select>
                               </mat-form-field> -->
-                              <app-select-checkbox style="margin-left:0px" [label]="'List Name'" #selMultiple [listItems]="ListFilter" (changes)="multipleSelect($event); " [icon]="'filter_alt'" >
+                              <app-select-checkbox style="margin-left:0px" [label]="'List Name'" #selMultiple [listItems]="ListNameDropdownFilter" (changes)="multipleSelect($event, 'ListName'); " [icon]="'filter_alt'" >
                               </app-select-checkbox>
                             </div>
                           </div>
