@@ -154,7 +154,7 @@
                                     <mat-option value="N">N</mat-option>
                                   </mat-select>
                                 </mat-form-field> -->
-                                <app-select-checkbox style="margin-left:0px" [label]="'Solicited Filter'" #selMultiple [listItems]="SolicitedFilterDropdownFilter" (changes)="multipleSelect($event, 'SolicitedFlag')" [icon]="'filter_alt'" >
+                                <app-select-checkbox style="margin-left:0px" [label]="'Solicited'" #selMultiple [listItems]="SolicitedFilterDropdownFilter" (changes)="multipleSelect($event, 'SolicitedFlag')" [icon]="'filter_alt'" >
                                 </app-select-checkbox>
                               </div>
                               <div class="filter">
@@ -167,7 +167,7 @@
                                     <mat-option value="N">N</mat-option>
                                   </mat-select>
                                 </mat-form-field> -->
-                                <app-select-checkbox style="margin-left:0px" [label]="'UnSolicited Filter'" #selMultiple [listItems]="UnSolicitedFilterDropdownFilter" (changes)="multipleSelect($event, 'UnSolicitedFlag')" [icon]="'filter_alt'" >
+                                <app-select-checkbox style="margin-left:0px" [label]="'UnSolicited'" #selMultiple [listItems]="UnSolicitedFilterDropdownFilter" (changes)="multipleSelect($event, 'UnSolicitedFlag')" [icon]="'filter_alt'" >
                                 </app-select-checkbox>
                               </div>
                               <!-- <button (click)="clearFilter()">Clear</button> -->
