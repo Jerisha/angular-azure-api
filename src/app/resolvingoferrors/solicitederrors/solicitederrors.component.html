@@ -18,7 +18,7 @@
     <form class="search-pane-form" [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
-          <mat-form-field hintLabel="Max 11 characters" *ngIf="f.StartTelephoneNumber.disabled">
+          <mat-form-field hintLabel="Max 11 characters" [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}">
             <mat-label>Start Telephone No</mat-label>
             <!-- <span ngIf="f.StartTelephoneNumber.value?.length==10" matPrefix>0 &nbsp;</span> -->
             <input formControlName="StartTelephoneNumber" numbersOnly matInput maxlength="11"
