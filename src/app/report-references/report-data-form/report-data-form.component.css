@@ -132,7 +132,7 @@
       align-content: center;
       flex-wrap: wrap;
       flex-direction: column;
-      position: absolute;
+      /* position: absolute; */
       bottom: 0;
    }
   
