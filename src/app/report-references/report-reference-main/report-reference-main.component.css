@@ -238,7 +238,7 @@ tr.mat-row1, tr.mat-footer-row1 {
     padding: 20px;
   }
   .highlighted , .highlighted1{
-    background-color: lightpink;
+    background-color: #FED9B7;
   }  
   
   ::-webkit-scrollbar-thumb {
@@ -268,15 +268,20 @@ tr.mat-row1, tr.mat-footer-row1 {
 .filterosn .mat-form-field-appearance-outline .mat-form-field-wrapper{
   margin: 0px !important;
 }
-.filter{
+.filter {
   flex-shrink: 1;
   }
   .filter mat-form-field{
   width: 90px;
   }
+.filter::ng-deep .mat-form-field{
+width: 115px !important;
 
+}
 :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix  {
   padding: 6px 0 6px 0 !important;     
+  height: 12px;
+  width: 90px !important;
 } 
 .filterpaneoff {
   max-height: 400px;
