@@ -434,7 +434,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
               this.onFormSubmit(true);
-              this.alertService.success("Save " + `${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successful!!", { autoClose: true, keepAfterRouteChange: false });
 
             }
           });
@@ -487,8 +487,8 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     { header: 'Error Codes', headerValue: 'ErrorCode', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false, showTooltip: true },
     { header: 'Latest Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false, showTooltip: true },    
     { header: 'Request Start Date', headerValue: 'FirstDate', showDefault: true, isImage: false },
     { header: 'Request End Date', headerValue: 'LastDate', showDefault: true, isImage: false },
     { header: 'Diff in Days', headerValue: 'Difference', showDefault: true, isImage: false },
