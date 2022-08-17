@@ -533,6 +533,7 @@ resetExp:boolean = false;
   isRemoveCache: number = DefaultIsRemoveCache;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+  postCodeDefaultItem:string ='Starts With'
 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },

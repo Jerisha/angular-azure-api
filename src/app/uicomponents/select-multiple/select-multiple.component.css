@@ -11,3 +11,5 @@
     max-height: calc(100% + 250px) !important;
     margin-left: -20px;
 }
+
+.hidden{display: none;}

@@ -1,3 +1,11 @@
+.mat-list >  .mat-list-item:nth-child(2n+1){
+  background-color:white;
+}
+.mat-list >  .mat-list-item:nth-child(2n){
+  background-color:#D9D9D9
+}
+
+
 #vftrans1 {
     /* zoom:73%; */
     /* background-color: #ce0e3e73; */

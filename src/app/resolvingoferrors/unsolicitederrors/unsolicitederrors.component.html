@@ -1,11 +1,11 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
-
+<!-- 
     <div class="filter-sticky">
       <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
         (changes)="setControlAttribute($event)">
       </app-select-multiple>
-    </div>
+    </div> -->
 
     <form  class ="search-pane-form" [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
@@ -79,7 +79,7 @@
           </mat-form-field> -->
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorType.disabled}">
-            <mat-label>Error Type</mat-label>
+            <mat-label>Error Codes</mat-label>
             <mat-select formControlName="ErrorType">  
               <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.ErrorDescription" [value]="val">
@@ -104,7 +104,7 @@
             <mat-error *ngIf="f.Final.errors?.validOptions">Value need to match available options</mat-error>
           </mat-form-field> --> 
 
-          <mat-form-field [ngClass]="{'hidden':f.Final.disabled}">
+          <!-- <mat-form-field [ngClass]="{'hidden':f.Final.disabled}">
             <mat-label>Is Final</mat-label>
             <mat-select formControlName="Final">  
               <mat-option>-- Select --</mat-option> 
@@ -112,7 +112,7 @@
                 {{val}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
 
           <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}">
             <mat-label>Date Range</mat-label>
@@ -121,7 +121,7 @@
               <input readonly formControlName="ToDate" matEndDate placeholder="To date">
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-date-range-picker #picker [calendarHeaderComponent]="CustomHeaderComponent"></mat-date-range-picker>
             <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
           </mat-form-field>
 

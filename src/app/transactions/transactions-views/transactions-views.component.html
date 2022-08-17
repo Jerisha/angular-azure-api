@@ -2,7 +2,7 @@
     <mat-card class="mat-elevation-z8" style="padding-top:5px;padding-bottom:4px;">         
         <ng-container *ngIf="views.view1" >            
               <mat-card-content >
-                <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
+                <form [formGroup]="thisForm"  (keydown)="keyPress($event)" (ngSubmit)="onFormSubmit()" autocomplete="off">
                   <div class="vf-flex-container-col"> 
                     <div style="display: flex; align-items: center; justify-content: center;">
                       <mat-form-field  [ngClass]="{'hidden':f.StartTelephoneNumber.disabled}" style="margin-left:2px; margin-top: 1rem; width:180px">
@@ -34,29 +34,30 @@
                       </mat-form-field>
                       <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip="Maximum CLIs 10000 Only" matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon>                         -->
 
-                      <mat-label style="font-size:large;padding-right:1rem;"><strong>Total CLI(s) </strong>{{clirangecount}}</mat-label>                                                          
+                      <mat-label style="padding-right:1rem;padding-left: 1rem;">Total CLI(s)<strong>{{clirangecount|number}}</strong></mat-label>                                                          
                     </div>
                       <div  *ngIf="CliRangeSetMain.length >0" style ="margin-bottom: 2rem;" #MultiRangeList > 
-                        <mat-list style ="max-height:300px;overflow-x:hidden; overflow-y:auto;" #cliList>
-                          <mat-list-item style =" display: inline-flex; align-items:center;  height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);background-color:gray;color:white;text-align:center;">                              
+                        <mat-list style ="max-height:300px;overflow-x:hidden; overflow-y:auto;min-height:75px;" #cliList>
+                          <mat-list-item style =" display: inline-flex; align-items:center;  height: 12px;padding-top: 5px;padding-bottom: 3px;border-top: 3px;background-color:#e60000;color:white;text-align:center;">                              
                             <!-- <p matLine > -->
                               <div style="display:inline-flex;">
-                              <span style="width:160px;box-sizing: border-box;">Start Telephone No.</span>
-                              <span style="width:160px;box-sizing: border-box;">End Telephone No.</span>
+                              <span style="width:160px;box-sizing: border-box;">Start Tel No.</span>
+                              <span style="width:160px;box-sizing: border-box;">End Tel No.</span>
                               <span style="width:160px;box-sizing: border-box;">CLI Count</span>
                               <span style="width:100px;box-sizing: border-box;">Remove</span>    
                             </div>                                                        
                             <!-- </p>                                                       -->
                           </mat-list-item>  
-                          <mat-list-item  *ngFor="let cli of CliRangeSetMain; let index = index " style ="height: 12px;padding-top: 3px;padding-bottom: 3px;border-top: 3px solid rgb(60, 190, 180);text-align:center;">                              
+                          <mat-list-item  *ngFor="let cli of CliRangeSetMain; let index = index " style ="height: 12px;padding-top: 8px;padding-bottom: 8px;border-top: 5px;text-align:center;color:#3f51b5;font-size: 0.8571em !important;font-weight: 500;">                              
                             <!-- <p matLine > -->
-                              <div style="display:inline-flex;text-align: center;">
+                              <div style="display:inline-flex;text-align: center;padding-top: 2px;">
                               <span style="width:160px;box-sizing: border-box;">{{cli[0]}}</span>
                               <span style="width:160px;box-sizing: border-box;">{{cli[1]}}</span>
-                              <span style="width:160px;box-sizing: border-box;">{{cli[2]}}</span>
+                              <span style="width:160px;box-sizing: border-box;">{{cli[2]|number}}</span>
                               <!-- <span style="min-width:5%;text-align:end;box-sizing: border-box;"> -->
-                                <button type="button" mat-mini-fab  style="margin-left: 2rem; width: 12px;height:12px;font-size: small;line-height: 0px !important;  background-color:rgb(255, 0, 0); justify-content: end;" matTooltip="Remove Telephone Range"  (click)="removeRangeCli(index)">-                                  
-                                </button>
+                                   <mat-icon (click)="removeRangeCli(index)" 
+                                  style="color:#e60000;margin-left:36px">delete_outline</mat-icon>                                  
+                                
                               <!-- </span>   -->
                             </div>                                                          
                             <!-- </p>                                                       -->

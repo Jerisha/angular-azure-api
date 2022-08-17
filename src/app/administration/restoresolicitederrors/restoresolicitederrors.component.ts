@@ -24,6 +24,7 @@ import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { Custom } from 'src/app/_helper/Validators/filterCustom';
+import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
 
 
 
@@ -198,6 +199,8 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     updateDetails!: any;
     minDate = new Date(2000, 0, 1);
     maxDate = new Date();
+     // make ExampleHeaderComponent type available in our template:
+    readonly CustomHeaderComponent = CustomHeaderComponent;
     model: any = { ErrorCode: "" };
   ngOnInit(): void {
  
