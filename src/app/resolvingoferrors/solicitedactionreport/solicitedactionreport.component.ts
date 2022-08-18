@@ -201,17 +201,17 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     //ToDate: new FormControl(new Date(year, month, date))
 
     this.myForm = new FormGroup({
-      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      TransactionID: new FormControl({ value: '', disabled: true }, []),
-      // CreatedOn: new FormControl({ value: '', disabled: true }, []),
-      ResolveType: new FormControl({ value: '', disabled: true }, []),
-      // ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
-      Source: new FormControl({ value: '', disabled: true }, []),
-      Status: new FormControl({ value: '', disabled: true }, []),
-      TransactionCommand: new FormControl({ value: '', disabled: true }, []),
-      Reference: new FormControl({ value: '', disabled: true }, []),
-      DateRange: this.formBuilder.group({StartDate: new FormControl(),EndDate: new FormControl(), disabled: true})
+      // TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      TransactionID: new FormControl({ value: '', disabled: false }, []),
+      // CreatedOn: new FormControl({ value: '', disabled: false }, []),
+      ResolveType: new FormControl({ value: '', disabled: false }, []),
+      // ResolutionTypeAudit: new FormControl({ value: '', disabled: false }, []),
+      Source: new FormControl({ value: '', disabled: false }, []),
+      Status: new FormControl({ value: '', disabled: false }, []),
+      TransactionCommand: new FormControl({ value: '', disabled: false }, []),
+      Reference: new FormControl({ value: '', disabled: false }, []),
+      DateRange: this.formBuilder.group({StartDate: new FormControl(),EndDate: new FormControl(), disabled: false})
     })
   }
 

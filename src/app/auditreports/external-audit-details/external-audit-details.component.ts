@@ -429,16 +429,16 @@ export class ExternalAuditDetailsComponent extends UserProfile implements OnInit
     this.externalAuditForm = this.formBuilder.group({
       // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      CUPID: new FormControl({ value: '', disabled: true }),
-      OSN2Source: new FormControl({ value: '', disabled: true }),
-      ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
-      ResolutionType: new FormControl({ value: '', disabled: true }),
-      PostcodeDifference: new FormControl({ value: '', disabled: true }),
-      FullAddressDifference: new FormControl({ value: '', disabled: true }),
-      CustomerDifference: new FormControl({ value: '', disabled: true }),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      AuditActID: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      CUPID: new FormControl({ value: '', disabled: false }),
+      OSN2Source: new FormControl({ value: '', disabled: false }),
+      ExternalCLIStatus: new FormControl({ value: '', disabled: false }),
+      ResolutionType: new FormControl({ value: '', disabled: false }),
+      PostcodeDifference: new FormControl({ value: '', disabled: false }),
+      FullAddressDifference: new FormControl({ value: '', disabled: false }),
+      CustomerDifference: new FormControl({ value: '', disabled: false }),
     })
   }
 

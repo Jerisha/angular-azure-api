@@ -243,15 +243,15 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
   createForm() {
     this.thisForm = this.formBuilder.group({
       // TelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.maxLength(11),Validators.pattern("^[0-9]{10,11}$")]),
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      CustomerName: new FormControl({ value: '', disabled: true }, []),
-      Source: new FormControl({ value: '', disabled: true }, []),
-      Status: new FormControl({ value: '', disabled: true }, []),
-      TransactionCommand: new FormControl({ value: '', disabled: true }, []),
-      SourceType: new FormControl({ value: '', disabled: true }, []),
+      TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      CustomerName: new FormControl({ value: '', disabled: false }, []),
+      Source: new FormControl({ value: '', disabled: false }, []),
+      Status: new FormControl({ value: '', disabled: false }, []),
+      TransactionCommand: new FormControl({ value: '', disabled: false }, []),
+      SourceType: new FormControl({ value: '', disabled: false }, []),
       DateRange: this.formBuilder.group({
         StartDate: new FormControl(),
-        EndDate: new FormControl(), disabled: true
+        EndDate: new FormControl(), disabled: false
       })
     })
   }
