@@ -100,6 +100,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.isShow = true;
   }
   onReportSelcted(reportName: string, reportIndex: number) {
+    // console.log("new record selected");
+    
     this.alertService.clear();   
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
     if (this.tabs.length < 5) {
@@ -151,6 +153,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
   }
   Onselecttabchange($event: any) {
+    // console.log("tab changed");
+    // this.clearFilterData();
     this.alertService.clear();   
     //console.log('tab changed,Index: ',$event.index)   
     //this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
@@ -214,6 +218,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
         // this.alertService.clear();
         this.alertService.info("Please close some Tabs, Max allowed  tabs is 5", { autoClose: true, keepAfterRouteChange: false });
       }
+      // console.log("selected tab "+ this.selectedTab);
     }
     else {
       // this.alertService.clear();
@@ -474,7 +479,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     });
     this.dataSource.filter = JSON.stringify(this.filterForm.value);
     }
-  
+
   onCreateRecord() {
     this.alertService.clear();   
     if (this.editMode == "" || this.editMode === this.currentReportName) {
@@ -551,6 +556,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           {
           this.filterSelectedItems = [this.dataSource.data.map((x: any) => x?.ListName)];
           this.ListNameFilter = [...new Set(this.filterSelectedItems[0])];
+          this.ListNameDropdownFilter = [];
           this.ListNameFilter?.forEach((element: any) => {
           this.ListNameDropdownFilter.push({ view: element, viewValue: element, default: false });
     });
@@ -559,6 +565,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   if(reportName === 'ErrorCode')
   {
     let dropdownValue = ['Y','N'];
+    this.ActionDropdownFilter = [];
+    this.UnusedDropdownFilter = [];
+    this.FinalDropdownFilter = [];
+    this.SolicitedFilterDropdownFilter = [];
+    this.UnSolicitedFilterDropdownFilter = [];
   dropdownValue?.forEach((element: any) => {
           this.ActionDropdownFilter.push({ view: element, viewValue: element, default: false });
           this.UnusedDropdownFilter.push({ view: element, viewValue: element, default: false });
@@ -568,14 +579,17 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 });
 this.filterSelectedItems = [this.dataSource.data.map((x: any) => x?.ErrorCode), this.dataSource.data.map((x: any) => x?.BtError), this.dataSource.data.map((x: any) => x?.ErrorType)];
 this.ErrorCodeFilter = [...new Set(this.filterSelectedItems[0])];
+this.ErrorCodeDropdownFilter = [];
 this.ErrorCodeFilter?.forEach((element: any) => {
 this.ErrorCodeDropdownFilter.push({ view: element, viewValue: element, default: false });
 });
 this.BtErrorFilter = [...new Set(this.filterSelectedItems[1])];
+this.BtErrorDropdownFilter = [];
 this.BtErrorFilter?.forEach((element: any) => {
 this.BtErrorDropdownFilter.push({ view: element, viewValue: element, default: false });
 });
 this.ErrorTypeFilter = [...new Set(this.filterSelectedItems[2])];
+this.ErrorTypeDropdownFilter = [];
 this.ErrorTypeFilter?.forEach((element: any) => {
 this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: false });
 });
@@ -636,7 +650,6 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
       return false;
     }
   }
- 
   onEditRecord(element: any, event: any) {
     this.alertService.clear();   
     this.highlightedRecord=null;
@@ -1187,7 +1200,7 @@ else {
     // console.log(this.filterForm);
     // this.ListNameArray = event;
     // this.onfilter(this.ListNameArray, filterName);
-    console.log(this.currentReportName);
+    // console.log(this.currentReportName);
     
      switch(filterName)
     {
@@ -1210,7 +1223,7 @@ else {
       case 'UnSolicitedFlag': this.filteritem.UnSolicitedFlag = event;
       break;
     }
-    console.log(JSON.stringify(this.filteritem));
+    // console.log(JSON.stringify(this.filteritem));
     
     this.onfilter(JSON.stringify(this.filteritem), this.currentReportName);
   }
