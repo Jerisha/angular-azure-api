@@ -39,7 +39,7 @@
       /* min-height: 80% !important; */
       /* min-height: 525px; */
       height: inherit;
-      min-height: calc(100vh - 10vh);
+      min-height: calc(100vh - 12vh);
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
@@ -52,6 +52,7 @@
   .flex-items{
       /* flex: 30% 1 1; */
       flex: 40% 1 1;
+      /* flex: 46% 50 0; */
       z-index: 4;
       
   }
@@ -64,8 +65,8 @@
       overflow: auto;
     }
     .left-box{        
-          width: 60vw;        
-          overflow: auto;   
+          width: 60vw;  
+          /* overflow: auto;    */
           /* max-height: 490px;   */
           margin-left: 20px; 
       }
@@ -84,27 +85,39 @@
     .rl-tab-container {
       /* max-height: 455px;
       overflow:auto */
-      height: calc(100vh - 16vh) !important;
+      /* height: calc(100vh - 16vh) !important; */
      
     }
   
     .mat-tab-body-wrapper{
-      height: calc(100vh - 16vh) !important;
+      /* height: calc(100vh - 16vh) !important; */
     }
+    .rl-table-container-with-filter-pane{
+      /* max-height: 450px; */
+      /* max-height: calc(100vh - 25vh); */
+      /* max-height: calc(100vh - 35vh); */
+      max-height: calc(100vh - 33vh);
+      overflow:auto
+    } 
     .rl-table-container{
       /* max-height: 450px; */
       /* max-height: calc(100vh - 25vh); */
-      max-height: calc(100vh - 35vh);
+      max-height: calc(100vh - 23vh);
       overflow:auto
     } 
     .rl-fixed-bottom-bar-main {
-      margin-top: 6px;
-      bottom: 0;
-      /* position: fixed; */
-      /* position: sticky; */
-      position: absolute;
-      margin-bottom: 3px;
-      
+    margin-top: 6px;
+    bottom: 0;
+    /* position: absolute; */
+    /* position: sticky; */
+    margin-bottom: 3px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row;  
+    
     }
     .rl-fixed-bottom-bar-main .mat-raised-button {
       background-color: #4a4d4e;
@@ -162,10 +175,13 @@
     } 
     
     
-  
-  
-  
+    td.mat-cell:first-of-type{
+      padding-left: 0px !important;
+    }
     
+    th.mat-header-cell:first-of-type{
+      padding-left: 6px !important;
+    }
     
     .table-spinner{    
       position: relative;
@@ -191,7 +207,7 @@
       font-size: 1em !important;
       height: 0px !important;
       width: auto;
-      padding-left: 2em;
+      padding-left: 1em;
       color: #e60000;
     }
     .rl-tab-icon{

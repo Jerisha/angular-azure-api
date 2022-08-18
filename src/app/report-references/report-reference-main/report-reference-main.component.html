@@ -202,7 +202,9 @@
                               </div>
                             <!-- filter pane changes End-->
                          
-                            <div class="rl-table-container">          
+                            <!-- <div class="rl-table-container">           -->
+                              <div [ngClass]="{ 'rl-table-container' :this.currentReportName !='ErrorCode' &&  this.currentReportName !='OsnProvideList' ,
+                               'rl-table-container-with-filter-pane' : this.currentReportName ==='ErrorCode' || this.currentReportName ==='OsnProvideList'}">   
                               <table mat-table class="rl-query-pane-table mat-elevation-z8" [dataSource]="dataSource"
                                 multiTemplateDataRows><ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol.cName}}">        
                               <div *ngIf ="disCol.cName==='Actions'" >

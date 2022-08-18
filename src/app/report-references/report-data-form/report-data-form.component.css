@@ -63,7 +63,7 @@
       /* min-width: 90%;     */
       /* min-height: 460px;    */
       /* min-height: inherit; */
-      min-height: calc(100vh - 16vh);
+      /* min-height: calc(100vh - 16vh); */
     }
     .mat-card-actions, .mat-card-subtitle {
       margin-bottom: 1px;
