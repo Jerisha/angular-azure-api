@@ -44,8 +44,8 @@ font-size: smaller;  ">
         </ng-container>
       </mat-select>
     </mat-form-field>
-    <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox"><b>No of selected rows :
-        {{selection.selected.length}}</b></span>
+    <span style="padding: 10px;" *ngIf="tableitem?.selectCheckbox">No of selected rows :
+        <b>{{selection.selected.length}}</b></span>
     <ng-container *ngIf="showFavCols" style="margin-top:50px">
       <div appearance="standard" class="colfilter" style="margin-left: 8px; margin-top:5px">
         <mat-form-field>
