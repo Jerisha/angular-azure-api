@@ -1,17 +1,20 @@
 <!-- <app-top-nav class="fixed-topnav" fxHide.gt-xs></app-top-nav> -->
 
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
 
 <mat-sidenav-container>
-  <mat-sidenav  #appDrawer mode="over" opened="false" style="background-color: rgb(236, 236, 236); width:290px">
+  <mat-sidenav #appDrawer mode="over" opened="false" style="background-color: rgb(236, 236, 236); width:290px">
 
     <div style="background-color: #e60000;">
       <div style="margin-left: 3%;
       margin-top: 0%;">
         <img src="assets/images/vodafone.png" class="search-logo" alt="Logo">
         <!-- <mat-form-field class="example-full-width" style="margin-left:4%; margin-top: 4%;"  > -->
-          <mat-form-field appearance="standard" class="main-search colfilter"  >
-          <input  matInput name="strSearch" [(ngModel)]="strSearch"  placeholder="Search" autocomplete="off" style="padding-left: 30px;width: 150px;height: 16px;padding-top: 10px;">
+        <mat-form-field appearance="standard" class="main-search colfilter">
+          <input matInput name="strSearch" [(ngModel)]="strSearch" placeholder="Search" autocomplete="off"
+            style="padding-left: 30px;width: 150px;height: 16px;padding-top: 10px;">
           <button *ngIf="strSearch" matSuffix mat-icon-button aria-label="Clear" (click)="strSearch=''">
             <mat-icon>close</mat-icon>
           </button>
@@ -19,8 +22,10 @@
       </div>
     </div>
 
-    <mat-nav-list >
-      <app-menu-list *ngFor="let item of navItems | filter:strSearch" [item]="item"></app-menu-list>
+    <mat-nav-list>
+      <ng-container *ngFor="let item of navItems | filter:strSearch">
+        <app-menu-list *ngIf="item.children.length > 0" [item]="item"></app-menu-list>
+      </ng-container>
     </mat-nav-list>
   </mat-sidenav>
 
@@ -28,22 +33,24 @@
   <!-- <ng-container *ngIf="!isError"> -->
 
   <app-top-nav fxHide.xs></app-top-nav>
-  <div class="page-header">    
-       <div style="padding: 2px;"> {{baseRoot}}</div>
-      <mat-icon>arrow_right</mat-icon>
-      <div style="padding: 2px;">{{childRoot}}</div> 
-     
-      <ng-container *ngIf="showFavorites">
-      <mat-icon class="info" *ngIf="!isFav"  (click)="addRemoveFavoriteReport('Add')" matTooltip="Add to Favorite ">star_border</mat-icon>
-      <mat-icon class="info" *ngIf="isFav"  (click)="addRemoveFavoriteReport('Remove')"  matTooltip="Remove from Favorite ">star</mat-icon>  
+  <div class="page-header">
+    <div style="padding: 2px;"> {{baseRoot}}</div>
+    <mat-icon>arrow_right</mat-icon>
+    <div style="padding: 2px;">{{childRoot}}</div>
+
+    <ng-container *ngIf="showFavorites">
+      <mat-icon class="info" *ngIf="!isFav" (click)="addRemoveFavoriteReport('Add')" matTooltip="Add to Favorite ">
+        star_border</mat-icon>
+      <mat-icon class="info" *ngIf="isFav" (click)="addRemoveFavoriteReport('Remove')"
+        matTooltip="Remove from Favorite ">star</mat-icon>
     </ng-container>
-    </div>
+  </div>
   <alert></alert>
   <div fxFlex>
-  <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
   </div>
-  
-<!-- 
+
+  <!-- 
   <div style="background-color: #EFEFEF;">
     <span class="version-info">Build version: {{version.full ? version.full : version}}</span>
   </div> -->
@@ -52,8 +59,8 @@
   <!-- <ng-container>
   <router-outlet name="errorPage" (activate)="removeError()" (deactivate)="Unsubscribe()"></router-outlet>
 </ng-container> -->
-<!-- </ng-container> -->
-<!-- <ng-container *ngIf="!isLoginSuccessfull">
+  <!-- </ng-container> -->
+  <!-- <ng-container *ngIf="!isLoginSuccessfull">
 
   <app-login (loginState)="loginSuccessfull($event)"></app-login>
 </ng-container> -->
@@ -61,6 +68,3 @@
 </mat-sidenav-container>
 
 <!-- <router-outlet name="loginPage" ></router-outlet> -->
-
-
-
