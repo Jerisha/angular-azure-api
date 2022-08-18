@@ -178,10 +178,10 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
   createForm() {
     this.thisForm = this.formBuilder.group({
       // StartTelephoneNumber: new FormControl({ value: '', disabled: true },  [Validators.pattern("^[0-9]{10,11}$")]),
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]), 
-      CustomerName: new FormControl({ value: '', disabled: true }, []),
-      CreationDate: new FormControl({ value: '', disabled: true },[]),
-      PostCode: new FormControl({ value: '', disabled: true }, []),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]), 
+      CustomerName: new FormControl({ value: '', disabled: false }, []),
+      CreationDate: new FormControl({ value: '', disabled: false },[]),
+      PostCode: new FormControl({ value: '', disabled: false }, []),
       Premises: new FormControl({ value: '', disabled: true }, []),      
       Thoroughfare: new FormControl({ value: '', disabled: true }, []),
       Locality: new FormControl({ value: '', disabled: true }, []),

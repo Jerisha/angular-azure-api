@@ -4,7 +4,19 @@
   
 }
 
-
+.totalRow {
+  /* background-color: #e60000; */
+  /* background-color: #FED9B7  !important; */
+  color:black;
+  
+  font-size: small;
+  font-weight: 600;
+ 
+  height: 20px;
+ 
+  /* padding: 0 !important; */
+  padding: 2px 10px;
+}
 
 table
 {    width:100%;

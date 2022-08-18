@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, of, Subject } from 'rxjs';
-import { SelectMultipleComponent } from 'src/app/uicomponents';
+import { CustomHeaderComponent, SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
@@ -142,6 +142,8 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
   isSaveDisable: boolean = true;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+   // make ExampleHeaderComponent type available in our template:
+   readonly CustomHeaderComponent = CustomHeaderComponent;
 
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
@@ -283,16 +285,16 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
     //ToDate: new FormControl(new Date(year, month, date))
     
    this.myForm = new FormGroup({
-      // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")] ),
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      TransactionReference: new FormControl({ value: '', disabled: true }, []),
-      ResolveType: new FormControl({ value: '', disabled: true }, []),
-      Source: new FormControl({ value: '', disabled: true }, []),
-      Status: new FormControl({ value: '', disabled: true }, []),
-      TransactionCommand: new FormControl({ value: '', disabled: true }, []),
-      // TransCommand: new FormControl({ value: '', disabled: true }, []),
-      Reference: new FormControl({ value: '', disabled: true }, []),
-      DateRange: this.formBuilder.group({StartDate: new FormControl(), EndDate: new FormControl(), disabled: true })
+      // TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")] ),
+      TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      TransactionReference: new FormControl({ value: '', disabled: false }, []),
+      ResolveType: new FormControl({ value: '', disabled: false }, []),
+      Source: new FormControl({ value: '', disabled: false }, []),
+      Status: new FormControl({ value: '', disabled: false }, []),
+      TransactionCommand: new FormControl({ value: '', disabled: false }, []),
+      // TransCommand: new FormControl({ value: '', disabled: false }, []),
+      Reference: new FormControl({ value: '', disabled: false }, []),
+      DateRange: this.formBuilder.group({StartDate: new FormControl(), EndDate: new FormControl(), disabled: false })
     })
   }
 

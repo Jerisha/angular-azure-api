@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, of } from 'rxjs';
-import { SelectExpressionComponent, SelectMultipleComponent } from 'src/app/uicomponents';
+import { CustomHeaderComponent, SelectExpressionComponent, SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
@@ -149,6 +149,8 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
   isSaveDisable: boolean = true;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+   // make ExampleHeaderComponent type available in our template:
+  readonly CustomHeaderComponent = CustomHeaderComponent;
   expressions: any = [expNumeric, expString, expDate, expDropdown];
   expOperators: string[] = [
     "TelephoneNumberOperator",
@@ -241,15 +243,15 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
   createForm() {
     this.thisForm = this.formBuilder.group({
       // TelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.maxLength(11),Validators.pattern("^[0-9]{10,11}$")]),
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      CustomerName: new FormControl({ value: '', disabled: true }, []),
-      Source: new FormControl({ value: '', disabled: true }, []),
-      Status: new FormControl({ value: '', disabled: true }, []),
-      TransactionCommand: new FormControl({ value: '', disabled: true }, []),
-      SourceType: new FormControl({ value: '', disabled: true }, []),
+      TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      CustomerName: new FormControl({ value: '', disabled: false }, []),
+      Source: new FormControl({ value: '', disabled: false }, []),
+      Status: new FormControl({ value: '', disabled: false }, []),
+      TransactionCommand: new FormControl({ value: '', disabled: false }, []),
+      SourceType: new FormControl({ value: '', disabled: false }, []),
       DateRange: this.formBuilder.group({
         StartDate: new FormControl(),
-        EndDate: new FormControl(), disabled: true
+        EndDate: new FormControl(), disabled: false
       })
     })
   }

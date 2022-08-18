@@ -499,7 +499,7 @@ GoBack()
   }
   onChangeEvent(event: any, control: string) {
     debugger
-
+this.alertService.clear();
     if (control == "StartTelephoneNumber") {
       this.model.telno.trim();
       if (this.model.telno.length == 10 || this.model.telno.length == 9) {
@@ -609,7 +609,7 @@ GoBack()
         this.spinner.hide();
         //success message and same data reload
        
-        this.alertService.success( "Save " + `${this.clirangecountOnsave? this.clirangecountOnsave : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success(+ `${this.clirangecountOnsave? this.clirangecountOnsave : ''}` + " record(s) saved successful!!", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
         this.clirangecountOnsave='';
         this.clirangecount='';
@@ -801,6 +801,8 @@ GoBack()
     this.model.telno = "";
     this.model.endTel = "";
     this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" };
+    this.transactionItem.customerAddress = { customerName:"", address1:"", address2: "", address3: "", address4: "", postcode:""};
+   
     this.clirangecount
     debugger
     this.clearalert();
@@ -972,7 +974,7 @@ GoBack()
   }
 
   prepareQueryParams(pageNo: string): any {
-
+    this.Commentsstring='';
     //Reference
     let telephonerangevalues: string = "";
    // this.Commentsstring="DDI Range: Pre-populated in DB while data loading.";
@@ -1291,9 +1293,12 @@ GoBack()
     count = count + value;
     this.clirangecount=count;
     if (count > 10000) {
+      count = count - value;
+      this.clirangecount=count;
       return false;
     }
     else {
+      
       return true;
     }
   }
@@ -1329,18 +1334,22 @@ GoBack()
         else {
           this.alertService.clear();
           this.countrange();
-          this.alertService.notification("Duplicate Numbers Not Allowed!", { autoClose: true, keepAfterRouteChange: false });
+          this.model.telno = "" ;
+           this.model.rangeEnd = "";
+          this.alertService.notification("Duplicate entries not allowed!", { autoClose: true, keepAfterRouteChange: false });
         }
       }
       else {
+        this.model.telno = "" ;
+        this.model.rangeEnd = "";
         this.countrange();
         if (!this.checktotalrange(count)) {
-          this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s !", { autoClose: true, keepAfterRouteChange: false });
 
         }
         else if (count >= 10000) {
           this.countrange();
-          this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s ", { autoClose: true, keepAfterRouteChange: false });
         }
         else {
           this.countrange();
@@ -1361,6 +1370,21 @@ GoBack()
 
 
 
+  }
+  keyPress(event:any)
+  {
+    debugger
+    if(event.keyCode == 13){
+      if(!this.addCliState)
+      {
+        this.addRangeTel();
+      }
+      else if(!this.searchTelState)
+      {
+        this.SearchTel();
+      }
+     //alert('Entered Click Event!');
+   }
   }
   countragneOnSave()
   {

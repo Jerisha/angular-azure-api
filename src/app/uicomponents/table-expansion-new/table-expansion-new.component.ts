@@ -323,7 +323,7 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
     }
     //Temp
     getFooterDetails(cell: string) {
-      debugger
+     
       var cellname = cell.replace('f2_','');
       var cell = cellname ? cellname : '';
       if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
