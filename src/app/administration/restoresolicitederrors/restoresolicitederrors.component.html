@@ -179,7 +179,7 @@
           </mat-form-field> -->
 
           <mat-form-field [ngClass]="{'hidden':f.ErrorCode.disabled}">
-            <mat-label>Error Code</mat-label>
+            <mat-label>Error Codes</mat-label>
             <mat-select formControlName="ErrorCode">  
               <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.ErrorCode" [value]="val">

@@ -1293,9 +1293,12 @@ this.alertService.clear();
     count = count + value;
     this.clirangecount=count;
     if (count > 10000) {
+      count = count - value;
+      this.clirangecount=count;
       return false;
     }
     else {
+      
       return true;
     }
   }
