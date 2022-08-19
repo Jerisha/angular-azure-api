@@ -1343,14 +1343,15 @@ this.alertService.clear();
         this.model.telno = "" ;
         this.model.rangeEnd = "";
         this.countrange();
-        if (!this.checktotalrange(count)) {
-          this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s !", { autoClose: true, keepAfterRouteChange: false });
-
-        }
-        else if (count >= 10000) {
+        if (count >= 10000) {
           this.countrange();
           this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s ", { autoClose: true, keepAfterRouteChange: false });
         }
+       
+        else if (!this.checktotalrange(count)) {
+          // this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s !", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Unable to add Tel No’s as this will exceed the maximum 10K limit ", { autoClose: true, keepAfterRouteChange: false })
+         }
         else {
           this.countrange();
           this.alertService.notification("Start Telephone No should be less than End Telephone No", { autoClose: true, keepAfterRouteChange: false });
