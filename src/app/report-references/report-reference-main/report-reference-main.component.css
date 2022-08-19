@@ -274,3 +274,30 @@
     height: 2em !important;
     font-size: .8571em !important;
 }
+
+/* Frachise new code */
+
+tr.example-detail-row {
+  height: 0px !important;
+  background-color: white !important;
+  /* border: 2px solid grey; */
+}
+table
+{    width:100%;
+}
+td.fracmatcell{
+  padding: 0px 4px;
+}
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type
+{
+    padding-right: 0px!important;
+}
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type
+{
+    padding-left: 0px!important;
+
+}
+tr .mat-row {
+  background-color: white !important;
+}

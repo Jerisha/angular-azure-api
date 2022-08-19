@@ -1,55 +1,57 @@
-<div #main class ="container-page">  
-    <div #menuSection>
-      <button *ngIf="isShow" mat-mini-fab class ="btn-icon" (click)="onMenuClicked()" >
-      <mat-icon style ="font-size: small;">class</mat-icon></button>
-        <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
-          <!-- <div  class ="flex-items" *ngFor ="let reportName of reportNames let reportIndex = index">
+<div #main class="container-page">
+  <div #menuSection>
+    <button *ngIf="isShow" mat-mini-fab class="btn-icon" (click)="onMenuClicked()">
+      <mat-icon style="font-size: small;">class</mat-icon>
+    </button>
+    <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
+      <!-- <div  class ="flex-items" *ngFor ="let reportName of reportNames let reportIndex = index">
             <button mat-button (click)="onReportSelcted(reportName,reportIndex)">{{reportName.split('|')[0]}}</button>
           </div> -->
-          <div  class ="flex-items" *ngFor ="let reportName of reportTitleNames let reportIndex = index">
-            <button mat-button (click)="onReportSelcted(reportName.name,reportIndex)">{{reportName.viewName}}</button>
-          </div>
-        </div>    
+      <div class="flex-items" *ngFor="let reportName of reportTitleNames let reportIndex = index">
+        <button mat-button (click)="onReportSelcted(reportName.name,reportIndex)">{{reportName.viewName}}</button>
       </div>
-    <div #contentSection class="container-section">
-        <div class="wrap">
-          <div class="left-box" *ngIf=showDataForm>         
-            <app-report-data-form  #dataForm  [reportName]="editMode"  
-            [lstFields] ="lstFields" (cancelBtnClicked)="onDataFormCancel($event)" 
-            (submitBtnClicked) = "onDataFormSubmit($event)" [record]="editRecord"
-            ></app-report-data-form>
-          </div>
-          <div class="right-box" *ngIf="showDetailsForm" > 
-            <mat-tab-group  [(selectedIndex)]="selectedTab" (selectedTabChange)="Onselecttabchange($event)" dynamicHeight class = "rl-mat-tab-group"> 
-              <mat-tab *ngFor="let tab of tabs; let index = index;" >
-                  <ng-template mat-tab-label>
-                      <div style="margin-left: 10px;">{{tab.name}}</div>
-                      <button *ngIf=tab.name matSuffix mat-icon-button  (click)="removeTab(index)">
-                      <mat-icon class ="rl-tab-icon">close</mat-icon>
-                      </button>
-                  </ng-template>           
-                    <ng-container   select ="details-form" >  
-                      <div *ngIf="isLoading" class ="table-spinner">
-                            <mat-progress-spinner      
-                              mode="indeterminate"  color="primary">
-                            </mat-progress-spinner>
-                            <div class="spinner-loading">Loading...</div>
-                          </div> 
-                          <div *ngIf="!isLoading" class="rl-tab-container" >
-                            <!-- filter pane changes starts-->
-                            <div>
-                              <form   [formGroup]="filterForm" autocomplete="off" >
-                                <div *ngIf="this.currentReportName ==='ErrorCode' " class="topfilter"
-                                  style="min-height: 13px;overflow-y:hidden;overflow-x:auto;display: flex; padding-top: 10px;margin-bottom: 0%;">
-                                  <div class="filter">
-                                    <!-- <mat-form-field style="height:15px">
+    </div>
+  </div>
+  <div #contentSection class="container-section">
+    <div class="wrap">
+      <div class="left-box" *ngIf=showDataForm>
+        <app-report-data-form #dataForm [reportName]="editMode" [lstFields]="lstFields"
+          (cancelBtnClicked)="onDataFormCancel($event)" (submitBtnClicked)="onDataFormSubmit($event)"
+          [record]="editRecord"></app-report-data-form>
+      </div>
+      <div class="right-box" *ngIf="showDetailsForm">
+        <mat-tab-group [(selectedIndex)]="selectedTab" (selectedTabChange)="Onselecttabchange($event)" dynamicHeight
+          class="rl-mat-tab-group">
+          <mat-tab *ngFor="let tab of tabs; let index = index;">
+            <ng-template mat-tab-label>
+              <div style="margin-left: 10px;">{{tab.name}}</div>
+              <button *ngIf=tab.name matSuffix mat-icon-button (click)="removeTab(index)">
+                <mat-icon class="rl-tab-icon">close</mat-icon>
+              </button>
+            </ng-template>
+            <ng-container select="details-form">
+              <div *ngIf="isLoading" class="table-spinner">
+                <mat-progress-spinner mode="indeterminate" color="primary">
+                </mat-progress-spinner>
+                <div class="spinner-loading">Loading...</div>
+              </div>
+              <div *ngIf="!isLoading" class="rl-tab-container">
+                <!-- filter pane changes starts-->
+                <div>
+                  <form [formGroup]="filterForm" autocomplete="off">
+                    <div *ngIf="this.currentReportName ==='ErrorCode' " class="topfilter"
+                      style="min-height: 13px;overflow-y:hidden;overflow-x:auto;display: flex; padding-top: 10px;margin-bottom: 0%;">
+                      <div class="filter">
+                        <!-- <mat-form-field style="height:15px">
                                       <mat-label>Error Code</mat-label>
                                       <input type="text" matInput placeholder="Error Code" multiple
                                         (selectionChange)="onfilter($event)">
                                     </mat-form-field> -->
-                                    <app-select-checkbox style="margin-left:0px" [label]="'Error Code'"  [listItems]="ErrorCodeDropdownFilter" (changes)="multipleSelect($event, 'ErrorCode')" [icon]="'filter_alt'" >
-                                    </app-select-checkbox>
-                                    <!-- <mat-form-field style="height:15px">
+                        <app-select-checkbox style="margin-left:0px" [label]="'Error Code'"
+                          [listItems]="ErrorCodeDropdownFilter" (changes)="multipleSelect($event, 'ErrorCode')"
+                          [icon]="'filter_alt'">
+                        </app-select-checkbox>
+                        <!-- <mat-form-field style="height:15px">
                                       <mat-label>Error Code</mat-label>
                                       <mat-select disableOptionCentering panelClass="matselect-centering" multiple (selectionChange)="onfilter($event, 'Error Code')"
                                        formControlName="ErrorCode">
@@ -57,17 +59,19 @@
                                       <mat-option *ngFor="let ErrorCode of ErrorCodeDropdownFilter" value="{{ErrorCode.viewValue}}">{{ErrorCode.viewValue}}</mat-option>
                                     </mat-select>
                                     </mat-form-field> -->
-                                  </div>
-              
-                                  <div class="filter">
-                                    <!-- <mat-form-field>
+                      </div>
+
+                      <div class="filter">
+                        <!-- <mat-form-field>
                                       <mat-label>BT Error</mat-label>
                                       <input type="text" matInput placeholder="BT Error" multiple
                                         (selectionChange)="onfilter($event)">
                                     </mat-form-field> -->
-                                    <app-select-checkbox style="margin-left:0px" [label]="'BT Error'" #selMultiple [listItems]="BtErrorDropdownFilter" (changes)="multipleSelect($event, 'BtError')" [icon]="'filter_alt'" >
-                                    </app-select-checkbox>
-                                    <!-- <mat-form-field style="height:15px">
+                        <app-select-checkbox style="margin-left:0px" [label]="'BT Error'" #selMultiple
+                          [listItems]="BtErrorDropdownFilter" (changes)="multipleSelect($event, 'BtError')"
+                          [icon]="'filter_alt'">
+                        </app-select-checkbox>
+                        <!-- <mat-form-field style="height:15px">
                                       <mat-label>BT Error</mat-label>
                                       <mat-select disableOptionCentering panelClass="matselect-centering" multiple (selectionChange)="onfilter($event, 'Error Code')"
                                        formControlName="BtError">
@@ -75,9 +79,9 @@
                                       <mat-option *ngFor="let BtError of BtErrorDropdownFilter" value="{{BtError.viewValue}}">{{BtError.viewValue}}</mat-option>
                                     </mat-select>
                                     </mat-form-field> -->
-                                  </div>
-              
-                                  <!-- <mat-form-field>
+                      </div>
+
+                      <!-- <mat-form-field>
                                     <mat-label>Error Type</mat-label>
                                     <mat-select disableOptionCentering panelClass="matselect-centering" multiple
                                        formControlName="ErrorTypeFilter">
@@ -90,10 +94,12 @@
               
                                     </mat-select>
                                   </mat-form-field> -->
-                                  <div class="filter">
-                                    <app-select-checkbox style="margin-left:0px" [label]="'Error Type'" #selMultiple [listItems]="ErrorTypeDropdownFilter" (changes)="multipleSelect($event, 'ErrorType')" [icon]="'filter_alt'" >
-                                    </app-select-checkbox>
-                                    <!-- <mat-form-field style="height:15px">
+                      <div class="filter">
+                        <app-select-checkbox style="margin-left:0px" [label]="'Error Type'" #selMultiple
+                          [listItems]="ErrorTypeDropdownFilter" (changes)="multipleSelect($event, 'ErrorType')"
+                          [icon]="'filter_alt'">
+                        </app-select-checkbox>
+                        <!-- <mat-form-field style="height:15px">
                                       <mat-label>Error Type</mat-label>
                                       <mat-select disableOptionCentering panelClass="matselect-centering" multiple (selectionChange)="onfilter($event, 'Error Code')"
                                        formControlName="ErrorType">
@@ -101,11 +107,11 @@
                                       <mat-option *ngFor="let ErrorType of ErrorTypeDropdownFilter" value="{{ErrorType.viewValue}}">{{ErrorType.viewValue}}</mat-option>
                                     </mat-select>
                                     </mat-form-field> -->
-                                  </div>
-                                 
-                                
-                                  <div class="filter">
-                                    <!-- <mat-form-field>
+                      </div>
+
+
+                      <div class="filter">
+                        <!-- <mat-form-field>
                                       <mat-label>Action</mat-label>
                                       <mat-select #allSelect  disableOptionCentering panelClass="matselect-centering" (selectionChange)="onfilter($event, 'Error Code')" multiple
                                       formControlName="Action">
@@ -116,11 +122,13 @@
                                         <mat-option value="N">N</mat-option>
                                       </mat-select>
                                     </mat-form-field> -->
-                                    <app-select-checkbox style="margin-left:0px" [label]="'Action'" #selMultiple [listItems]="ActionDropdownFilter" (changes)="multipleSelect($event, 'Action')" [icon]="'filter_alt'" >
-                                    </app-select-checkbox>
-                                  </div>
-                                  <div class="filter">
-                                    <!-- <mat-form-field>
+                        <app-select-checkbox style="margin-left:0px" [label]="'Action'" #selMultiple
+                          [listItems]="ActionDropdownFilter" (changes)="multipleSelect($event, 'Action')"
+                          [icon]="'filter_alt'">
+                        </app-select-checkbox>
+                      </div>
+                      <div class="filter">
+                        <!-- <mat-form-field>
                                       <mat-label>Unused</mat-label>
                                       <mat-select #allSelect1 disableOptionCentering panelClass="matselect-centering" multiple
                                       (selectionChange)="onfilter($event, 'Error Code')" formControlName="UnusedFlag">
@@ -129,11 +137,13 @@
                                         <mat-option value="N">N</mat-option>
                                       </mat-select>
                                     </mat-form-field> -->
-                                    <app-select-checkbox style="margin-left:0px" [label]="'Unused'" #selMultiple [listItems]="UnusedDropdownFilter" (changes)="multipleSelect($event, 'UnusedFlag')" [icon]="'filter_alt'" >
-                                    </app-select-checkbox>
-                                  </div>
-                                  <div class="filter">
-                                    <!-- <mat-form-field>
+                        <app-select-checkbox style="margin-left:0px" [label]="'Unused'" #selMultiple
+                          [listItems]="UnusedDropdownFilter" (changes)="multipleSelect($event, 'UnusedFlag')"
+                          [icon]="'filter_alt'">
+                        </app-select-checkbox>
+                      </div>
+                      <div class="filter">
+                        <!-- <mat-form-field>
                                       <mat-label>Final</mat-label>
                                       <mat-select disableOptionCentering panelClass="matselect-centering" multiple
                                       (selectionChange)="onfilter($event, 'Error Code')" formControlName="FinalFlag">
@@ -142,11 +152,13 @@
                                         <mat-option value="N">N</mat-option>
                                       </mat-select>
                                     </mat-form-field> -->
-                                    <app-select-checkbox style="margin-left:0px" [label]="'Final'" #selMultiple [listItems]="FinalDropdownFilter" (changes)="multipleSelect($event, 'FinalFlag')" [icon]="'filter_alt'" >
-                                    </app-select-checkbox>
-                                  </div>
-                                  <div class="filter">
-                                    <!-- <mat-form-field>
+                        <app-select-checkbox style="margin-left:0px" [label]="'Final'" #selMultiple
+                          [listItems]="FinalDropdownFilter" (changes)="multipleSelect($event, 'FinalFlag')"
+                          [icon]="'filter_alt'">
+                        </app-select-checkbox>
+                      </div>
+                      <div class="filter">
+                        <!-- <mat-form-field>
                                       <mat-label>Solicited</mat-label>
                                       <mat-select multiple (selectionChange)="onfilter($event, 'Error Code')"
                                       formControlName="SolicitedFlag">
@@ -155,11 +167,13 @@
                                         <mat-option value="N">N</mat-option>
                                       </mat-select>
                                     </mat-form-field> -->
-                                    <app-select-checkbox style="margin-left:0px" [label]="'Solicited'" #selMultiple [listItems]="SolicitedFilterDropdownFilter" (changes)="multipleSelect($event, 'SolicitedFlag')" [icon]="'filter_alt'" >
-                                    </app-select-checkbox>
-                                  </div>
-                                  <div class="filter">
-                                    <!-- <mat-form-field>
+                        <app-select-checkbox style="margin-left:0px" [label]="'Solicited'" #selMultiple
+                          [listItems]="SolicitedFilterDropdownFilter"
+                          (changes)="multipleSelect($event, 'SolicitedFlag')" [icon]="'filter_alt'">
+                        </app-select-checkbox>
+                      </div>
+                      <div class="filter">
+                        <!-- <mat-form-field>
                                       <mat-label>UnSolicited</mat-label>
                                       <mat-select multiple (selectionChange)="onfilter($event, 'Error Code')"
                                       formControlName="UnSolicitedFlag">
@@ -168,20 +182,22 @@
                                         <mat-option value="N">N</mat-option>
                                       </mat-select>
                                     </mat-form-field> -->
-                                    <app-select-checkbox style="margin-left:0px" [label]="'UnSolicited'" #selMultiple [listItems]="UnSolicitedFilterDropdownFilter" (changes)="multipleSelect($event, 'UnSolicitedFlag')" [icon]="'filter_alt'" >
-                                    </app-select-checkbox>
-                                  </div>
-                                  <!-- <button (click)="clearFilter()">Clear</button> -->
-                                </div>
-                              </form>
-                            </div>
-                              <div [ngClass]="{ 'filterpaneoff' : this.currentReportName !='OsnProvideList' ,
+                        <app-select-checkbox style="margin-left:0px" [label]="'UnSolicited'" #selMultiple
+                          [listItems]="UnSolicitedFilterDropdownFilter"
+                          (changes)="multipleSelect($event, 'UnSolicitedFlag')" [icon]="'filter_alt'">
+                        </app-select-checkbox>
+                      </div>
+                      <!-- <button (click)="clearFilter()">Clear</button> -->
+                    </div>
+                  </form>
+                </div>
+                <div [ngClass]="{ 'filterpaneoff' : this.currentReportName !='OsnProvideList' ,
                               'filterpaneon' : this.currentReportName ==='OsnProvideList' }">
-                              </div>
-                              <div *ngIf="this.currentReportName === 'OsnProvideList'" class="topfilter"
-                                style="min-height: 13px;overflow-y:hidden;overflow-x:auto;display: flex;margin-bottom: 0%;">
-                                <div class="filterosn">
-                                  <!-- <mat-form-field  style="width: 250px;">
+                </div>
+                <div *ngIf="this.currentReportName === 'OsnProvideList'" class="topfilter"
+                  style="min-height: 13px;overflow-y:hidden;overflow-x:auto;display: flex;margin-bottom: 0%;">
+                  <div class="filterosn">
+                    <!-- <mat-form-field  style="width: 250px;">
                                     <mat-label>List Names</mat-label>
                                     <mat-select formControlName="ListNamesFilter" multiple [(ngModel)]="select"
                                       (selectionChange)="onfilter($event)">
@@ -192,74 +208,235 @@
                                       <mat-option value="Line Type">Line Type</mat-option>
                                     </mat-select>
                                   </mat-form-field> -->
-                                  <app-select-checkbox style="margin-left:0px" [label]="'List Name'" #selMultiple [listItems]="ListNameDropdownFilter" (changes)="multipleSelect($event, 'ListName'); " [icon]="'filter_alt'" >
-                                  </app-select-checkbox>
-                                </div>
-                              </div>
-                              <div
-                                [ngClass]="{ 'filterpaneoff' : this.currentReportName !='ErrorCode' &&  this.currentReportName !='OsnProvideList' ,
+                    <app-select-checkbox style="margin-left:0px" [label]="'List Name'" #selMultiple
+                      [listItems]="ListNameDropdownFilter" (changes)="multipleSelect($event, 'ListName'); "
+                      [icon]="'filter_alt'">
+                    </app-select-checkbox>
+                  </div>
+                </div>
+                <div
+                  [ngClass]="{ 'filterpaneoff' : this.currentReportName !='ErrorCode' &&  this.currentReportName !='OsnProvideList' ,
                                 'filterpaneon' : this.currentReportName ==='ErrorCode' || this.currentReportName ==='OsnProvideList'}">
-                              </div>
-                            <!-- filter pane changes End-->
-                         
-                            <!-- <div class="rl-table-container">           -->
-                              <div [ngClass]="{ 'rl-table-container' :this.currentReportName !='ErrorCode' &&  this.currentReportName !='OsnProvideList' ,
-                               'rl-table-container-with-filter-pane' : this.currentReportName ==='ErrorCode' || this.currentReportName ==='OsnProvideList'}">   
-                              <table mat-table class="rl-query-pane-table mat-elevation-z8" [dataSource]="dataSource"
-                                multiTemplateDataRows><ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol.cName}}">        
-                              <div *ngIf ="disCol.cName==='Actions'" >
-                                  <th mat-header-cell *matHeaderCellDef >Actions</th>
-                                    <td mat-cell *matCellDef="let element"> 
-                                      <ng-container>
-                                        <mat-icon  (click)="onEditRecord(element,$event)" class ="rl-table-icon">mode_edit_outline</mat-icon>
-                                        <mat-icon *ngIf ="this.editActionEnabled" (click)="onDeleteRecord(element,$event)" class ="rl-table-icon">delete_outline</mat-icon> 
-                                      </ng-container>
-                                    </td>
-                              </div>
-                              <div *ngIf="disCol.cName!='Actions'">
-                                <th mat-header-cell *matHeaderCellDef matTooltip="{{disCol.ctooltip}}" matTooltipClass="custom-tooltip"
-                                  matTooltipPosition="above"> {{disCol.cDisplayName}} </th>
-                                <!-- <td mat-cell *matCellDef="let element"  (click)="$event.stopPropagation()" [ngStyle]="calculateWidth(disCol.cName,element[disCol.cName])" [matTooltip]="
-                                  (disCol.cName,element[disCol.cName])" [matTooltipClass]="'custom-tooltip'"> {{element[disCol.cName]}}  </td> -->
-                                <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"
-                                  matTooltipClass="custom-tooltip" [matTooltipDisabled]="disCol.ctooltip === disCol.cDisplayName  ? false : true "
-                                  [matTooltip]="(element[disCol.cName])">
-                                  {{element[disCol.cName]}}
-                                </td>
-                              </div>                          
+                </div>
+                <!-- filter pane changes End-->
+
+                <div class="rl-table-container">
+                  <ng-container *ngIf="this.currentReportName != 'Franchise'">
+                    <table mat-table class="rl-query-pane-table mat-elevation-z8" [dataSource]="dataSource"
+                      multiTemplateDataRows>
+                      <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index"
+                        matColumnDef="{{disCol.cName}}">
+                        <div *ngIf="disCol.cName==='Actions'">
+                          <th mat-header-cell *matHeaderCellDef>Actions</th>
+                          <td mat-cell *matCellDef="let element">
+                            <ng-container>
+                              <mat-icon (click)="onEditRecord(element,$event)" class="rl-table-icon">mode_edit_outline
+                              </mat-icon>
+                              <mat-icon *ngIf="this.editActionEnabled" (click)="onDeleteRecord(element,$event)"
+                                class="rl-table-icon">delete_outline</mat-icon>
                             </ng-container>
-                              <tr mat-header-row *matHeaderRowDef="displayedColumnsValues sticky: true"  ></tr>
-                              <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"  [ngClass]="{ 'highlighted' : row === highlightedRows } " 
-                               [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
-                               row[highlightedRecord.recordIdentifier] === highlightedRecord.recordIdentifierValue : false  } " 
-                               ></tr> 
-                             
-                              <!-- <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"   [ngClass]="{ 'highlighted' : rowHighlightCheck(row) } "  ></tr>   -->
-                              <tr *matNoDataRow>
-                                <td  colspan="columns.length">No data found</td>
-                              </tr>          
-                          </table>                         
-                        </div>              
-                        <div class = "rl-fixed-bottom-bar-main">            
-                          <span>
-                              <button  type="button" (click)=onCreateRecord() mat-raised-button >
-                              <mat-icon >add_box</mat-icon>Create
-                              </button>
-                              <button  type="button" (click)=onExportXlsxFormat()  mat-raised-button >
-                              <mat-icon >file_download</mat-icon>Download
-                              </button>                           
-                          </span>                              
+                          </td>
                         </div>
-                      </div>  
-                    </ng-container> 
-              </mat-tab>
-            </mat-tab-group>                        
-          </div>        
-        </div>
+                        <div *ngIf="disCol.cName!='Actions'">
+                          <th mat-header-cell *matHeaderCellDef matTooltip="{{disCol.ctooltip}}"
+                            matTooltipClass="custom-tooltip" matTooltipPosition="above"> {{disCol.cDisplayName}} </th>
+                          <!-- <td mat-cell *matCellDef="let element"  (click)="$event.stopPropagation()" [ngStyle]="calculateWidth(disCol.cName,element[disCol.cName])" [matTooltip]="
+                                  (disCol.cName,element[disCol.cName])" [matTooltipClass]="'custom-tooltip'"> {{element[disCol.cName]}}  </td> -->
+                          <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"
+                            matTooltipClass="custom-tooltip"
+                            [matTooltipDisabled]="disCol.ctooltip === disCol.cDisplayName  ? false : true "
+                            [matTooltip]="(element[disCol.cName])">
+                            {{element[disCol.cName]}}
+                          </td>
+                        </div>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumnsValues sticky: true"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"
+                        [ngClass]="{ 'highlighted' : row === highlightedRows } "
+                        [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
+                               row[highlightedRecord.recordIdentifier] === highlightedRecord.recordIdentifierValue : false  } "></tr>
+
+                      <!-- <tr mat-row *matRowDef="let row; columns: displayedColumnsValues;"   [ngClass]="{ 'highlighted' : rowHighlightCheck(row) } "  ></tr>   -->
+                      <tr *matNoDataRow>
+                        <td colspan="columns.length">No data found</td>
+                      </tr>
+                    </table>
+                  </ng-container>
+
+                  <ng-container *ngIf="this.currentReportName === 'Franchise'">
+                    <table mat-table [dataSource]="dataSourceFranchise" multiTemplateDataRows matSort style="width:50%;font-size: small!important;">
+                      <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
+                        <div *ngIf="column === 'Expand'">
+                          
+                          <th  mat-header-cell *matHeaderCellDef>{{column}}</th>
+                          <td class="fracmatcell" mat-cell *matCellDef="let row "
+                          [class.example-element-row]="row.addresses?.length" [class.example-expanded-row]="row?.expanded"
+                          (click)="row.expanded = !row?.expanded" 
+                          >
+                            <ng-container>
+                    
+                              <mat-icon style="cursor: pointer;" class="transaction-trend-table-icon"
+                                (click)="(expandedElement = expandedElement === row ? null : row);  setStep(2) ">
+                                {{row.expanded ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
+                    
+                            </ng-container>
+                          </td>
+                        </div>
+                        <div *ngIf="column === 'olocompanyfranchise'">
+                                              
+                          <th  mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
+                          <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                        </div>
+                        <div *ngIf="column === 'FranchiseTitle'">
+                                              
+                          <th  mat-header-cell *matHeaderCellDef>Title</th>
+                          <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                        </div>
+                        <div *ngIf="column === 'Action'">
+                          <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                          <td  class="fracmatcell" mat-cell *matCellDef="let element"> 
+                            <mat-icon   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                              mode_edit_outline</mat-icon>
+                          </td>
+                          </div>
+                        <div *ngIf="column != 'Expand'&&column != 'Action' && column!='olocompanyfranchise' && column!='FranchiseTitle'">
+                        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                        <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                        </div>
+                      </ng-container>
+                      <ng-container matColumnDef="expandedDetail">
+                        <td  class="fracmatcell" mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                          <div class="example-element-detail" [@detailExpand]="element?.expanded"  *ngIf="element?.expanded">
+                            <div style="width: 100%;">
+                              <table mat-table id="innertable" [dataSource]="element.addresses" multiTemplateDataRows matSort style="font-size:small!important">
+                                <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of innerDisplayedColumns"> 
+                                  <div *ngIf="innerColumn === 'Action'">
+                                    <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
+                                    <td class="fracmatcell" mat-cell *matCellDef="let element"> 
+                                      <mat-icon   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                                        mode_edit_outline</mat-icon>
+                              
+                                    </td>
+                                    </div>
+                                    <div *ngIf="innerColumn === 'Expand'"  >
+                                      <th mat-header-cell *matHeaderCellDef>{{innerColumn}}</th>
+                                      <td class="fracmatcell" mat-cell *matCellDef="let row " 
+                                      [class.example-element-row]="row.comments?.length" [class.example-expanded-row]="row?.expanded"
+                                  (click)="row.expanded = !row?.expanded"
+                                      > 
+                                        <ng-container>
+                                
+                                          <mat-icon style="cursor: pointer;" class="transaction-trend-table-icon"
+                                            (click)="(expandedElement = expandedElement === row ? null : row);  setStep(2) ">
+                                            {{row.expanded ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
+                                            
+                                
+                                        </ng-container>
+                                      </td>
+                                    </div>
+                                    <div *ngIf="innerColumn === 'olocompanyfranchise'">
+                                              
+                                      <th  mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
+                                      <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[innerColumn]}} </td>
+                                    </div>
+                                    <div *ngIf="innerColumn === 'FranchiseTitle'">
+                                              
+                                      <th  mat-header-cell *matHeaderCellDef>Title</th>
+                                      <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[innerColumn]}} </td>
+                                    </div>
+                                    <div *ngIf="innerColumn != 'Action'&&innerColumn != 'Expand'&& innerColumn!='olocompanyfranchise' && innerColumn!='FranchiseTitle'">
+                                  <th mat-header-cell *matHeaderCellDef > {{innerColumn}} </th>
+                                  <td class="fracmatcell" mat-cell *matCellDef="let address"  > {{address[innerColumn]}} </td>
+                                    </div>
+                                </ng-container>
+                                <ng-container matColumnDef="expandedExpandedDetail">
+                                  <td  class="fracmatcell" mat-cell *matCellDef="let address" [attr.colspan]="innerInnerDisplayedColumns.length">
+                                    <div class="example-element-detail" [@detailExpand]="address?.expanded" *ngIf="address?.expanded">
+                                      <div style="width: 100%;">
+                                        <table style="width: 100%;" #inneTables mat-table #innrSort="matSort"
+                                          [dataSource]="address?.comments" matSort style="font-size:small!important">
+                                          <ng-container matColumnDef="{{col}}" *ngFor="let col of innerInnerDisplayedColumns">
+                                            <div *ngIf="col === 'Action'">
+                                              <th mat-header-cell *matHeaderCellDef> {{col}} </th>
+                                              <td class="fracmatcell" mat-cell *matCellDef="let element"> 
+                                                <mat-icon   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                                                  mode_edit_outline</mat-icon>
+                                        
+                                              </td>
+                                              </div>
+                                              <div *ngIf="col === 'olocompanyfranchise'">
+                                              
+                                                <th  mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
+                                                <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[col]}} </td>
+                                              </div>
+                                              <div *ngIf="col === 'FranchiseTitle'">
+                                              
+                                                <th  mat-header-cell *matHeaderCellDef>Title</th>
+                                                <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[col]}} </td>
+                                              </div>
+                                              <div *ngIf="col != 'Action'&& col!='olocompanyfranchise' && col!='FranchiseTitle'">
+                                            <th mat-header-cell *matHeaderCellDef > {{col}} </th>
+                                            <td class="fracmatcell" mat-cell *matCellDef="let comment"> {{comment[col]}} </td>
+                                              </div>
+                                          </ng-container>
+                    
+                    
+                                          <tr mat-header-row *matHeaderRowDef="innerInnerDisplayedColumns"  style="visibility:collapse"></tr>
+                                          <tr mat-row *matRowDef="let comment; columns: innerInnerDisplayedColumns;" class="innertab">
+                                          </tr>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </ng-container>
+                    
+                                <tr mat-header-row *matHeaderRowDef="innerDisplayedColumns" style="visibility:collapse"></tr>
+                                <tr mat-row *matRowDef="let address; columns: innerDisplayedColumns;"
+                                  >
+                                </tr>
+                                <tr mat-row *matRowDef="let row; columns: ['expandedExpandedDetail']" class="example-detail-row">
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                        </td>
+                      </ng-container>
+                    
+                      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr> 
+                      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+                      >
+                      </tr>
+                      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    </table>
+                    
+                    
+                    <!-- Copyright 2019 Google Inc. All Rights Reserved.
+                        Use of this source code is governed by an MIT-style license that
+                        can be found in the LICENSE file at http://angular.io/license -->
+                    
+                  </ng-container>
+
+                </div>
+                <div class="rl-fixed-bottom-bar-main">
+                  <span>
+                    <button type="button" (click)=onCreateRecord() mat-raised-button>
+                      <mat-icon>add_box</mat-icon>Create
+                    </button>
+                    <button type="button" (click)=onExportXlsxFormat() mat-raised-button>
+                      <mat-icon>file_download</mat-icon>Download
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </ng-container>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
     </div>
   </div>
-  
-  <!-- <div *ngIf="isLoading" class ="table-spinner" >
+</div>
+
+<!-- <div *ngIf="isLoading" class ="table-spinner" >
     <mat-progress-spinner                              
       mode="indeterminate" color="accent">
     </mat-progress-spinner>
