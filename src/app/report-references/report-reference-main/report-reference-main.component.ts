@@ -132,7 +132,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       //let dat = this.reportReferenceService.data[this.reportIndex][this.reportName];
       // this.data = this.reportIndex != -1 ?this.reportReferenceService.data[this.reportIndex][this.reportName] || []:[];
       //console.log('data: ',JSON.stringify(this.data));
-      this.refreshData()
+      if (this.tabs.length === 0) {
+        this.preRefreshData();
+        this.refreshData();
+      } else {
+        this.preRefreshData();
+      }
+      // this.refreshData()
       // if(this.refreshData())
       // {
       // this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
@@ -154,7 +160,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   }
   Onselecttabchange($event: any) {
     // console.log("tab changed");
-    // this.clearFilterData();
     this.alertService.clear();   
     //console.log('tab changed,Index: ',$event.index)   
     //this.currentReportName = this.reportName = this.tabs.find(x => x.tabType == $event.index)?.name || '';
@@ -177,7 +182,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     // this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
     // this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
     //  this.data = this.reportIndex != -1 ? this.reportReferenceService.data[this.reportIndex][this.reportName] || [] :[];
-    this.refreshData()
+    this.preRefreshData();
+    this.refreshData();
+    // this.refreshData()
     // if(this.refreshData())
     // {
     // this.reportReferenceService.prepareData(this.reportName,'ReferenceList').pipe(takeUntil(this.onDestroy)).subscribe((res: any) =>{
@@ -208,11 +215,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
             tabType: this.tabs.length,
             name: tabName            
           });
-          this.selectedTab = this.tabs.findIndex(x => x.name === tabName) + 1;
+          this.selectedTab = this.tabs.findIndex(x => x.name === tabName);
         }
         else {
           this.selectedTab = this.tabs.findIndex(x => x.name === tabName);
         }
+        // console.log(this.tabs);
+        // console.log("selected tab " + this.selectedTab);
       }
       else {
         // this.alertService.clear();
@@ -317,12 +326,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     }
 
     this.dataSource.filter = JSON.stringify(this.filterValues);
-    console.log("Filter end "+ JSON.stringify(this.filterValues) )
   }
   onfilter(filter: any, filterName?: string) {
     this.onFilterPredicate(filterName);
-    // console.log(this.filterForm.value);
-    // this.dataSource.filter = JSON.stringify(this.filterForm.value);
     this.dataSource.filter = filter;
     
   }
@@ -361,22 +367,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
     if(this.currentReportName === 'ErrorCode')
     {
-
-    //   for(let key in searchString)
-    //   {
-    //     if (searchString.hasOwnProperty(key)) {
-    //     // console.log("key " + searchString[key]);
-    //     if (searchString[`${key}`].length >0) {
-    //       for (const d of searchString[`${key}`]) {
-    //         if (data[`${key}`]?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
-    //           isErrorType = true;
-    //         }
-    //       }
-    //     }
-    //     else
-    //       isErrorType = true;
-    //   }
-    // }
         if (searchString.ErrorType.length >0) {
           for (const d of searchString.ErrorType) {
             if (data.ErrorType?.trim().toLowerCase().indexOf(d.toLowerCase()) !=  -1  ) {
@@ -517,7 +507,251 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
       // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);
       this.reportReferenceService.showDataForm = this.showDataForm = true;
   }
+  preRefreshData() {
+
+    this.alertService.clear();
+
+    this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+
+    if (this.currentReportName === 'CUPIDCrossReference') {
+
+      this.displayedColumns.splice(2, 0, { cName: "FranchiseCode", cDisplayName: "Franchise", ctooltip: "" })
+
+    }
+
+    if (this.currentReportName === 'Command') {
+
+      this.displayedColumns.splice(5, 0, { cName: "LineStatusTitle", cDisplayName: "Line Status Description", ctooltip: "" })
+
+    }
+
+    // this.displayedColumns.push({cName:"UpdatedOn",cDisplayName:"Updated On", ctooltip:""}) 
+
+    // this.displayedColumns.push({cName:"UpdatedBy",cDisplayName:"Updated By", ctooltip:""}) 
+
+    this.displayedColumnsValues = this.displayedColumns.map((x: any) => x.cName)
+
+  }
+
+
+
   refreshData() {
+    if (this.currentReportName != '') {
+
+      this.isLoading = true;
+
+      // if(this.reportName == 'Source') 
+
+      // this.reportName ='SourceSystem' 
+
+      //this.data = this.reportReferenceService.data[this.reportIndex][this.reportName] || []; 
+
+      let reportName: string;
+
+      if (this.currentReportName === 'Franchise' || this.currentReportName === 'Olo' || this.currentReportName === 'Company') {
+
+        reportName = 'Franchise'
+
+        this.editActionEnabled = false;
+
+      } else {
+
+        reportName = this.currentReportName
+
+        this.editActionEnabled = true;
+
+      }
+
+      this.reportReferenceService.prepareData(reportName, 'ReferenceList').pipe(takeUntil(this.onDestroyQuery)).subscribe(
+
+        (res: any) => {
+
+          this.isLoading = false;
+
+
+
+          // this.data = res.data[reportName]; 
+
+          this.dataSource.data = res.data[reportName];
+
+          if (reportName === 'OsnProvideList') {
+
+            this.filterSelectedItems = [this.dataSource.data.map((x: any) => x?.ListName)];
+
+            this.ListNameFilter = [...new Set(this.filterSelectedItems[0])];
+
+            this.ListNameDropdownFilter = [];
+
+            this.ListNameFilter?.forEach((element: any) => {
+
+              this.ListNameDropdownFilter.push({ view: element, viewValue: element, default: false });
+
+            });
+
+            // console.log((this.ListNameDropdownFilter));
+
+          }
+
+          if (reportName === 'ErrorCode') {
+
+            let dropdownValue = ['Y', 'N'];
+
+            this.ActionDropdownFilter = [];
+
+            this.UnusedDropdownFilter = [];
+
+            this.FinalDropdownFilter = [];
+
+            this.SolicitedFilterDropdownFilter = [];
+
+            this.UnSolicitedFilterDropdownFilter = [];
+
+            dropdownValue?.forEach((element: any) => {
+
+              this.ActionDropdownFilter.push({ view: element, viewValue: element, default: false });
+
+              this.UnusedDropdownFilter.push({ view: element, viewValue: element, default: false });
+
+              this.FinalDropdownFilter.push({ view: element, viewValue: element, default: false });
+
+              this.SolicitedFilterDropdownFilter.push({ view: element, viewValue: element, default: false });
+
+              this.UnSolicitedFilterDropdownFilter.push({ view: element, viewValue: element, default: false });
+
+            });
+
+            this.filterSelectedItems = [this.dataSource.data.map((x: any) => x?.ErrorCode), this.dataSource.data.map((x: any) => x?.BtError), this.dataSource.data.map((x: any) => x?.ErrorType)];
+
+            this.ErrorCodeFilter = [...new Set(this.filterSelectedItems[0])];
+
+            this.ErrorCodeDropdownFilter = [];
+
+            this.ErrorCodeFilter?.forEach((element: any) => {
+
+              this.ErrorCodeDropdownFilter.push({ view: element, viewValue: element, default: false });
+
+            });
+
+            this.BtErrorFilter = [...new Set(this.filterSelectedItems[1])];
+
+            this.BtErrorDropdownFilter = [];
+
+            this.BtErrorFilter?.forEach((element: any) => {
+
+              this.BtErrorDropdownFilter.push({ view: element, viewValue: element, default: false });
+
+            });
+
+            this.ErrorTypeFilter = [...new Set(this.filterSelectedItems[2])];
+
+            this.ErrorTypeDropdownFilter = [];
+
+            this.ErrorTypeFilter?.forEach((element: any) => {
+
+              this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: false });
+
+            });
+
+          }
+
+          this.recordIdentifier = res.params.RecordIdentifier;
+
+          if (this.currentReportName === 'Franchise') {
+
+            // this.data = res.data[reportName]; 
+
+            this.dataSource.data = res.data[reportName];
+
+            this.recordIdentifier = res.params.RecordIdentifier;
+
+            this.reportReferenceService.franchiseDropdowns = [];
+
+            let OloDropDown = res.data['OloDropDown']
+
+            // let CompanyDropDown = res.data['OloCompanyDropDown'] 
+
+            let CompanyDropDown = res.data.OloCompanyDropDown ? res.data.OloCompanyDropDown : [];
+
+            OloDropDown = OloDropDown != undefined ? OloDropDown[0] : [];
+
+            this.reportReferenceService.franchiseDropdowns.push(OloDropDown);
+
+            // CompanyDropDown = CompanyDropDown!=undefined ? CompanyDropDown:[] 
+
+            // this.reportReferenceService.franchiseDropdowns.push(CompanyDropDown) 
+
+            this.reportReferenceService.companyDropdown.push(CompanyDropDown);
+
+          } else if (this.currentReportName === 'Olo') {
+
+            // this.data = res.data["Olos"]; 
+
+            this.dataSource.data = res.data["Olos"];
+
+            this.recordIdentifier = res.params.RecordIdentifier;
+
+          } else if (this.currentReportName === 'Company') {
+
+            // this.data = res.data["Companys"]; 
+
+            this.dataSource.data = res.data["Companys"];
+
+            this.recordIdentifier = res.params.RecordIdentifier;
+
+            this.reportReferenceService.franchiseDropdowns = [];
+
+            //debugger 
+
+            let OloDropDown = res.data['OloDropDown']
+
+            OloDropDown = OloDropDown != undefined ? OloDropDown[0] : []
+
+            this.reportReferenceService.franchiseDropdowns.push(OloDropDown)
+
+          }
+
+          // this.dataOlos =res.data["Olos"]; 
+
+          // this.dataCompanys = res.data["Companys"]; 
+
+          // this.oloDropDown =""; 
+
+          // this.companyDropDown=""; 
+
+
+
+
+          //} 
+
+          else {
+
+            // this.data = res.data[reportName]; 
+
+            this.dataSource.data = res.data[reportName];
+
+            this.recordIdentifier = res.params.RecordIdentifier;
+
+          }
+
+        },
+
+        (error) => {
+          // console.log(error,'Refresh Function') 
+          this.isLoading = false;
+        },
+        () => {
+          // console.log('Refresh Completed', 'Refresh Function')
+          this.isLoading = false;
+          this.onDestroyQuery.complete();
+        }
+      );
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  refreshData1() {
     this.alertService.clear();   
     this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
       if(this.currentReportName ==='CUPIDCrossReference')
@@ -560,7 +794,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           this.ListNameFilter?.forEach((element: any) => {
           this.ListNameDropdownFilter.push({ view: element, viewValue: element, default: false });
     });
-    console.log((this.ListNameDropdownFilter));
+    // console.log((this.ListNameDropdownFilter));
   }
   if(reportName === 'ErrorCode')
   {
@@ -687,7 +921,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     // this.highlightedRecord =element[this.recordIdentifier]
 
     //console.log(this.highlightedRecord,'...> highlightedRecord')
-    console.log(this.highlightedRows,'high')
+    // console.log(this.highlightedRows,'high')
     // console.log(event,'evetn')
     // this.showDataForm =true;
     // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
