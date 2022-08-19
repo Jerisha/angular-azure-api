@@ -8,7 +8,7 @@ import { WMRequests } from '../_helper';
 import { PyRequests } from '../_helper/Constants/pyrequests-const';
 import { HttpVerbs, HttpWrapperService, Utils, WebMethods } from '../_http';
 import { MetaRequests } from './Common/MetaRequests';
-import { ReportMetaDataRequest, ReportMetaDataResponse } from './Common/mock-ReportMetaData-ReqRes';
+import { ReportFranchiseResponse } from './Common/mock-ReportMetaData-ReqRes';
 
 import * as XLSX from "xlsx";
 
@@ -574,8 +574,14 @@ export class ReportReferenceService {
   prepareData(pageIdentifier: string, reportIdentifier: string): Observable<any> {
     //let request = ReportReferenceService.prepareQueryRequest(pageIdentifier, reportIdentifier);
     //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
+    
     let request = Utils.preparePyQuery(pageIdentifier, reportIdentifier,[{}]);
-    // console.log(JSON.stringify(request));
+    console.log(JSON.stringify(request));
+    if(pageIdentifier === 'Franchise')
+    {
+      console.log(ReportFranchiseResponse,'cg')
+    return of(ReportFranchiseResponse)
+    }
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
   updateDetails(request: any): Observable<any> {

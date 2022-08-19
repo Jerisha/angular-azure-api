@@ -106,10 +106,10 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   UnSolicitedFilterDropdownFilter: Select[] = [];
 
   //franchise new code 
-  @ViewChild('outerSort', { static: true }) sort: MatSort;
-  @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
-  @ViewChildren('innerTables') innerTables: QueryList<MatTable<Address>>;
-  dataFran: User[] = USERS;
+  // @ViewChild('outerSort', { static: true }) sort: MatSort;
+  // @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
+  // @ViewChildren('innerTables') innerTables: QueryList<MatTable<Address>>;
+ 
   olocompanyfranchise: string;
 
   OLO: string;
@@ -117,11 +117,11 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   Franchise: string;
   Title: string;
   Used: string;
-  dataSourceFranchise: MatTableDataSource<User>;
-  usersData: User[] = [];
-  columnsToDisplay = ['Action', 'Expand', 'OLO', 'Company', 'Franchise', 'Title', 'Used', 'olocompanyfranchise'];
-  innerDisplayedColumns = ['Action', 'Expand', 'OLO', 'Company', 'Franchise', 'Title', 'Used', 'olocompanyfranchise'];
-  innerInnerDisplayedColumns = ['Action', 'Expand', 'OLO', 'Company', 'Franchise', 'Title', 'Used', 'olocompanyfranchise'];
+ 
+  
+  columnsToDisplay = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
+  innerDisplayedColumns = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
+  innerInnerDisplayedColumns = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
 
   expandedElement: any[] = [];
   step: number;
@@ -602,25 +602,25 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
           this.dataSource.data = res.data[reportName];
      //Franchise new code
-     if (reportName === 'Franchise') {
-      USERS.forEach(user => {
-        if (
-          user.addresses &&
-          Array.isArray(user.addresses) &&
-          user.addresses.length
-        ) {
-          this.usersData = [
-            ...this.usersData,
-            { ...user, addresses: new MatTableDataSource(user.addresses) }
-          ];
-        } else {
-          this.usersData = [...this.usersData, user];
-        }
-      });
-      this.dataSourceFranchise = new MatTableDataSource(this.usersData);
-      this.dataSourceFranchise.sort = this.sort;
-    }
-  
+          // if (reportName === 'Franchise') {
+          //   USERS.forEach(user => {
+          //     if (
+          //       user.addresses &&
+          //       Array.isArray(user.addresses) &&
+          //       user.addresses.length
+          //     ) {
+          //       this.usersData = [
+          //         ...this.usersData,
+          //         { ...user, addresses: new MatTableDataSource(user.addresses) }
+          //       ];
+          //     } else {
+          //       this.usersData = [...this.usersData, user];
+          //     }
+          //   });
+          //   this.dataSourceFranchise = new MatTableDataSource(this.usersData);
+          //   this.dataSourceFranchise.sort = this.sort;
+          // }
+        
           if (reportName === 'OsnProvideList') {
 
             this.filterSelectedItems = [this.dataSource.data.map((x: any) => x?.ListName)];
@@ -709,7 +709,8 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
 
             this.dataSource.data = res.data[reportName];
 
-            this.recordIdentifier = res.params.RecordIdentifier;
+             this.recordIdentifier = res.params.RecordIdentifier;
+           
 
             this.reportReferenceService.franchiseDropdowns = [];
 
@@ -832,25 +833,25 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
           // this.data = res.data[reportName];
           this.dataSource.data = res.data[reportName];
 
-          //Franchise new code
-          if (reportName === 'Franchise') {
-            USERS.forEach(user => {
-              if (
-                user.addresses &&
-                Array.isArray(user.addresses) &&
-                user.addresses.length
-              ) {
-                this.usersData = [
-                  ...this.usersData,
-                  { ...user, addresses: new MatTableDataSource(user.addresses) }
-                ];
-              } else {
-                this.usersData = [...this.usersData, user];
-              }
-            });
-            this.dataSourceFranchise = new MatTableDataSource(this.usersData);
-            this.dataSourceFranchise.sort = this.sort;
-          }
+          // //Franchise new code
+          // if (reportName === 'Franchise') {
+          //   USERS.forEach(user => {
+          //     if (
+          //       user.addresses &&
+          //       Array.isArray(user.addresses) &&
+          //       user.addresses.length
+          //     ) {
+          //       this.usersData = [
+          //         ...this.usersData,
+          //         { ...user, addresses: new MatTableDataSource(user.addresses) }
+          //       ];
+          //     } else {
+          //       this.usersData = [...this.usersData, user];
+          //     }
+          //   });
+          //   this.dataSourceFranchise = new MatTableDataSource(this.usersData);
+          //   this.dataSourceFranchise.sort = this.sort;
+          // }
         
           if(reportName === 'OsnProvideList')
           {
@@ -1597,36 +1598,36 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
 }
 
 
-export interface User {
-  olocompanyfranchise: string;
-  OLO: string;
-  Company: string;
-  Franchise: string;
-  Title: string;
-  Used: string;
-  addresses?: Address[] | MatTableDataSource<Address>;
-}
+// export interface User {
+//   olocompanyfranchise: string;
+//   OLO: string;
+//   Company: string;
+//   Franchise: string;
+//   Title: string;
+//   Used: string;
+//   addresses?: Address[] | MatTableDataSource<Address>;
+// }
 
-export interface Comment {
-  olocompanyfranchise: string;
-  OLO: string;
-  Company: string;
-  Franchise: string;
-  Title: string;
-  Used: string
-}
+// export interface Comment {
+//   olocompanyfranchise: string;
+//   OLO: string;
+//   Company: string;
+//   Franchise: string;
+//   Title: string;
+//   Used: string
+// }
 
-export interface Address {
-  olocompanyfranchise: string;
-  OLO: string;
-  Company: string;
-  Franchise: string;
-  Title: string;
-  Used: string;
-  comments?: Comment[] | MatTableDataSource<Comment>;
-}
+// export interface Address {
+//   olocompanyfranchise: string;
+//   OLO: string;
+//   Company: string;
+//   Franchise: string;
+//   Title: string;
+//   Used: string;
+//   comments?: Comment[] | MatTableDataSource<Comment>;
+// }
 
-const USERS: User[] = [
+const USERS = [
   {
 
     OLO: 'ATC',
