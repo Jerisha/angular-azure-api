@@ -541,6 +541,7 @@ th.mat-header-cell:first-of-type{
       position: relative;
       text-align: left;
       font-size: .8em;
+      margin-bottom: 12px!important;
       font-weight: 500; 
     }
     tr.mat-header-row,tr.mat-row, tr.mat-footer-row {
