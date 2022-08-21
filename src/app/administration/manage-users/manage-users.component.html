@@ -158,7 +158,7 @@
                                 </mat-form-field>
                             </div>
 
-                            <div class="userprofilerighttable" style="width:50vw">
+                            <div class="userprofilerighttable" >
                             <div style="max-height: 250px;overflow:auto">
                                  <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
                                   <mat-tree-node  
@@ -307,9 +307,9 @@
                         <div *ngSwitchCase="2" style="height:100%;">
                             <form [formGroup]="UserEditForm"   autocomplete="off">
                        
-                                <div class="content-main vf-flex-container-row">
+                                <div class="content-main vf-flex-container-row" style="max-height:fit-content!important">
                                     <div  class="content-submain vf-flex-container-col">
-                                        <mat-form-field>
+                                        <mat-form-field class ="col-width-16 pb-0">
                                             <mat-label>Profile Name</mat-label>
                                         <input type="text"  matInput  value="Custom"  formControlName="profilename"
                                         placeholder="Profile Name" appAdmin>
@@ -319,15 +319,15 @@
                                         </mat-form-field>
                                     </div> 
                                     <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
-                                        <mat-form-field>
+                                        <mat-form-field class ="col-width-16 pb-0">
                                             <mat-label>Description</mat-label>
                                         <input type="text"  matInput value="Custom Content"    formControlName="profiledescription"
                                         placeholder="Description">
                                         </mat-form-field>
                                     </div>
         
-                                    <div class="userprofilerighttable" style="padding:5spx;width:50vw;height:303px">
-                                    <div style="max-height: 250px;overflow:auto">
+                                    <div class="userprofilerighttable" style="padding: 5spx;/* height: 303px; */overflow: auto;">
+                                    <div style="max-height: calc(100vh - 37vh);;overflow:auto">
                                            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                                           <mat-tree-node
                                             *matTreeNodeDef="let node"
@@ -459,7 +459,7 @@
                                         </table>  -->
                                     </div>
                                 </div>
-                                    <div class ="fixed-button-bar" *ngIf = "Profilebutton">    
+                                    <div class ="rl-fixed-bottom-bar"  style='width:100%' *ngIf = "Profilebutton">    
                                         <mat-card-actions>
                                           <button  *ngIf = "eventName==='Create'" [disabled]="UserEditForm.invalid"  (click)=redirecttoForm()   type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
                                             <mat-icon >save</mat-icon>Go to
@@ -490,9 +490,9 @@
                        
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
-                                    <mat-form-field hintLabel="Max 10 characters">
+                                    <mat-form-field hintLabel="Max 10 characters" class ="col-width-16 pb-0">
                                       <mat-label>User Name</mat-label>
-                                      <input formControlName="UserID" matInput #input maxlength="10"
+                                      <input formControlName="UserID"  matInput #input maxlength="10"
                                         placeholder="User Name">
                                       
                                     </mat-form-field>
@@ -519,11 +519,11 @@
             
                  
          <!-- UserProfile    -->  
-                    <form [formGroup]="StartupUsermsgsForm" *ngIf="StartupForm" autocomplete="off" (ngSubmit)="onSubmit('Start Up User Messages')">
+                    <form [formGroup]="StartupUsermsgsForm" class = "data-form" *ngIf="StartupForm" autocomplete="off" (ngSubmit)="onSubmit('Start Up User Messages')">
                        
                         <div class="content-main vf-flex-container-row">
-                            <div  class="content-submain vf-flex-container-col">
-                                <mat-form-field>
+                            <div class="content-submain vf-flex-container-col">
+                                <mat-form-field class ="col-width-16 pb-0">
                                     <mat-label>Email Address</mat-label>
                                 <input type="text"  matInput   formControlName="emailaddress"
                                 placeholder="Email Address">
@@ -535,11 +535,11 @@
                                     </div>
                                 </mat-error>
                                 </mat-form-field>
-                                <mat-form-field>
+                                <mat-form-field class ="col-width-16 pb-0">
                                     <mat-label>Date Range</mat-label>
                                     <mat-date-range-input formGroupName="DateRange" [rangePicker]="picker">
-                                    <input readonly formControlName="startdate" matStartDate placeholder="Start Date">
-                                    <input readonly formControlName="expirydate" matEndDate placeholder="Expiry Date">
+                                    <input  readonly formControlName="startdate" matStartDate placeholder="Start Date">
+                                    <input  readonly formControlName="expirydate" matEndDate placeholder="Expiry Date">
                                     </mat-date-range-input>
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-date-range-picker #picker></mat-date-range-picker>
@@ -557,23 +557,23 @@
                                 <input type="text"  matInput   formControlName="expirydate"
                                 placeholder="Expiry Date">
                                 </mat-form-field> -->
-                                <mat-form-field>
+                                <mat-form-field class ="col-width-16 pb-0">
                                     <mat-label>News Header</mat-label>
-                                <input type="text"  matInput   formControlName="newsheader"
+                                <input type="text"   matInput   formControlName="newsheader"
                                 placeholder="News Header">
                                 </mat-form-field>
-                                <mat-form-field>
+                                <mat-form-field class ="col-width-16 pb-0" >
                                     <mat-label>News Sub Header</mat-label>
                                 <input type="text"  matInput   formControlName="newssubheader"
                                 placeholder="News Sub Header">
                                 </mat-form-field>
-                                <mat-form-field>
+                                <mat-form-field class ="col-width-16 pb-0">
                                     <mat-label>News Description</mat-label>
-                                <textarea type="text" style="min-height:100px;"  matInput   formControlName="newsdescription"
+                                <textarea type="text"  style="min-height:100px;"  matInput   formControlName="newsdescription"
                                 placeholder="News Description"></textarea>
                                 </mat-form-field>
                             </div> 
-                            <div class ="fixed-button-bar">   
+                            <div class ="rl-fixed-bottom-bar"style='width:100%'>   
                                 <mat-card-actions>
                                   <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled]="StartupUsermsgsForm.invalid"  matTooltip="Click this button currently showning  details will be create new Record"  >
                                     <mat-icon >save</mat-icon>Save
@@ -592,7 +592,7 @@
     </mat-card>
     
  <div *ngIf="showDetails" class="right-box">
-    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
+    <mat-tab-group   class="rl-mat-tab-group" dynamicHeight [(selectedIndex)]="selectedTab">
         <mat-tab *ngFor="let tab of tabs; let index = index">
             <ng-template mat-tab-label>
                 <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
@@ -823,7 +823,7 @@
                         <!-- table start -->
                          
                         <div class='rl-table-container-with-filter-pane'>
-                                <table mat-table [dataSource]="startupusermsgs" multiTemplateDataRows  class="detail-table mat-elevation-z8 ">
+                                <table mat-table [dataSource]="startupusermsgs" multiTemplateDataRows  class="rl-query-pane-table mat-elevation-z8">
                                     <ng-container *ngFor="let disCol of startupusermsgscols; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
                                         <!-- Edit Coloumn -->
                                         <div *ngIf="disCol.headerValue==='Actions'">
