@@ -988,7 +988,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     // this.highlightedRecord =element[this.recordIdentifier]
 
     //console.log(this.highlightedRecord,'...> highlightedRecord')
-    console.log(this.highlightedRows, 'high')
+    // console.log(this.highlightedRows, 'high')
     // console.log(event,'evetn')
     // this.showDataForm =true;
     // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
