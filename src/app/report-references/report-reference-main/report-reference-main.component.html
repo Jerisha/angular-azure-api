@@ -276,13 +276,13 @@
                           (click)="row.expanded = !row?.expanded" 
                           >
                             <ng-container>
-                              <mat-icon style="cursor: pointer;" class="transaction-trend-table-icon"
+                              <mat-icon style="cursor: pointer;" class="franchtable"
                                 (click)="(expandedElement = expandedElement === row ? null : row);  setStep(2) ">
                                 {{row.expanded ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                             </ng-container>
                           </td>
                         </div>
-                        <div *ngIf="column === 'olocompanyfranchise'">
+                        <div *ngIf="column === 'OloCompanyFranchise'">
                                               
                           <th  mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
                           <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column]}} </td>
@@ -295,11 +295,11 @@
                         <div *ngIf="column === 'Action'">
                           <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                           <td  class="fracmatcell" mat-cell *matCellDef="let element"> 
-                            <mat-icon   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                            <mat-icon style="color: #e60000;" class="frachicon" (click)="onEditRecord(element,$event)"   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                               mode_edit_outline</mat-icon>
                           </td>
                           </div>
-                        <div *ngIf="column != 'Expand'&&column != 'Action' && column!='olocompanyfranchise' && column!='FranchiseTitle'">
+                        <div *ngIf="column != 'Expand'&&column != 'Action' && column!='OloCompanyFranchise' && column!='FranchiseTitle'">
                         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                         <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column]}} </td>
                         </div>
@@ -308,12 +308,12 @@
                         <td  class="fracmatcell" mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
                           <div class="example-element-detail" [@detailExpand]="element?.expanded"  *ngIf="element?.expanded">
                             <div style="width: 100%;">
-                              <table mat-table id="innertable" [dataSource]="element.Company" multiTemplateDataRows matSort style="font-size:small!important">
+                              <table mat-table id="innertable" [dataSource]="element.CompanyDetails" multiTemplateDataRows matSort style="font-size:small!important">
                                 <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of innerDisplayedColumns"> 
                                   <div *ngIf="innerColumn === 'Action'">
                                     <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
                                     <td class="fracmatcell" mat-cell *matCellDef="let element"> 
-                                      <mat-icon   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                                      <mat-icon style="color: #e60000;" class="frachicon" (click)="onEditRecord(element,$event)" mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                         mode_edit_outline</mat-icon>
                               
                                     </td>
@@ -321,7 +321,7 @@
                                     <div *ngIf="innerColumn === 'Expand'"  >
                                       <th mat-header-cell *matHeaderCellDef>{{innerColumn}}</th>
                                       <td class="fracmatcell" mat-cell *matCellDef="let row " 
-                                      [class.example-element-row]="row.FranchiseDeatils?.length" [class.example-expanded-row]="row?.expanded"
+                                      [class.example-element-row]="row.FranchiseDetails?.length" [class.example-expanded-row]="row?.expanded"
                                   (click)="row.expanded = !row?.expanded"
                                       > 
                                         <ng-container>
@@ -334,7 +334,7 @@
                                         </ng-container>
                                       </td>
                                     </div>
-                                    <div *ngIf="innerColumn === 'olocompanyfranchise'">
+                                    <div *ngIf="innerColumn === 'OloCompanyFranchise'">
                                               
                                       <th  mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
                                       <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[innerColumn]}} </td>
@@ -344,7 +344,7 @@
                                       <th  mat-header-cell *matHeaderCellDef>Title</th>
                                       <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[innerColumn]}} </td>
                                     </div>
-                                    <div *ngIf="innerColumn != 'Action'&&innerColumn != 'Expand'&& innerColumn!='olocompanyfranchise' && innerColumn!='FranchiseTitle'">
+                                    <div *ngIf="innerColumn != 'Action'&&innerColumn != 'Expand'&& innerColumn!='z' && innerColumn!='FranchiseTitle'">
                                   <th mat-header-cell *matHeaderCellDef > {{innerColumn}} </th>
                                   <td class="fracmatcell" mat-cell *matCellDef="let Company"  > {{Company[innerColumn]}} </td>
                                     </div>
@@ -354,17 +354,17 @@
                                     <div class="example-element-detail" [@detailExpand]="Company?.expanded" *ngIf="Company?.expanded">
                                       <div style="width: 100%;">
                                         <table style="width: 100%;" #inneTables mat-table #innrSort="matSort"
-                                          [dataSource]="Company?.FranchiseDeatils" matSort style="font-size:small!important">
+                                          [dataSource]="Company?.FranchiseDetails" matSort style="font-size:small!important">
                                           <ng-container matColumnDef="{{col}}" *ngFor="let col of innerInnerDisplayedColumns">
                                             <div *ngIf="col === 'Action'">
                                               <th mat-header-cell *matHeaderCellDef> {{col}} </th>
                                               <td class="fracmatcell" mat-cell *matCellDef="let element"> 
-                                                <mat-icon   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                                                <mat-icon style="color: #e60000;" class="frachicon" (click)="onEditRecord(element,$event)" mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                                   mode_edit_outline</mat-icon>
                                         
                                               </td>
                                               </div>
-                                              <div *ngIf="col === 'olocompanyfranchise'">
+                                              <div *ngIf="col === 'OloCompanyFranchise'">
                                               
                                                 <th  mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
                                                 <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[col]}} </td>
@@ -374,7 +374,7 @@
                                                 <th  mat-header-cell *matHeaderCellDef>Title</th>
                                                 <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[col]}} </td>
                                               </div>
-                                              <div *ngIf="col != 'Action'&& col!='olocompanyfranchise' && col!='FranchiseTitle'">
+                                              <div *ngIf="col != 'Action'&& col!='OloCompanyFranchise' && col!='FranchiseTitle'">
                                             <th mat-header-cell *matHeaderCellDef > {{col}} </th>
                                             <td class="fracmatcell" mat-cell *matCellDef="let comment"> {{comment[col]}} </td>
                                               </div>

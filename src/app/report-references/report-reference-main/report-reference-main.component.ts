@@ -110,7 +110,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   // @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
   // @ViewChildren('innerTables') innerTables: QueryList<MatTable<Address>>;
  
-  olocompanyfranchise: string;
+  OloCompanyFranchise: string;
 
   OLO: string;
   Company: string;
@@ -119,9 +119,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   Used: string;
  
   
-  columnsToDisplay = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
-  innerDisplayedColumns = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
-  innerInnerDisplayedColumns = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
+  columnsToDisplay = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'Used', 'OloCompanyFranchise'];
+  innerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'Used', 'OloCompanyFranchise'];
+  innerInnerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'Used', 'OloCompanyFranchise'];
 
   expandedElement: any[] = [];
   step: number;
@@ -988,7 +988,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     // this.highlightedRecord =element[this.recordIdentifier]
 
     //console.log(this.highlightedRecord,'...> highlightedRecord')
-    console.log(this.highlightedRows, 'high')
+    // console.log(this.highlightedRows, 'high')
     // console.log(event,'evetn')
     // this.showDataForm =true;
     // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      

@@ -95,6 +95,18 @@ ngOnChanges(changes: SimpleChanges) {
     //console.log(JSON.stringify(this.record))
     this.referenceForm.markAsUntouched();
     }
+    else {
+      console.log("create");
+      console.log(this.lstForm[1].cList);
+      let fDropdown: string[] = [];
+      this.lstForm[1].cList.forEach((x:any) =>{
+        fDropdown.push(x.displayValue);
+      });
+      console.log(fDropdown);
+      this.franchiseList = fDropdown;
+      
+      
+    }
 }
 // triggerResize() 
 // {
