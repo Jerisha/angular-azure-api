@@ -353,9 +353,9 @@ th.mat-header-cell:first-of-type{
   width: 115px !important;       
   
   }
-  ::ng-deep .mat-form-field-wrapper {
+  /* ::ng-deep .mat-form-field-wrapper {
     padding-bottom: 1px!important;; 
-}
+} */
 .filterpaneoff {
   max-height: 400px;
   overflow: auto
@@ -532,6 +532,18 @@ th.mat-header-cell:first-of-type{
     max-height: calc(100vh - 28vh);
     /* overflow-y: hidden; */
     overflow: auto;
+  }
+  ::ng-deep .mat-hint
+  {
+    margin-top: 10px!important;
+  }
+  .filter::ng-deep .mat-form-field{
+    width: 115px !important;       
+    
+    }
+  ::ng-deep .mat-select-panel{margin-top: 40px !important; }
+  .matselect-centering{
+    margin-top: 40px !important; 
   }
   .col-width-16{
     width: 16vw;

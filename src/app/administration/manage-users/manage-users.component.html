@@ -69,13 +69,13 @@
                                            </mat-form-field> -->
                                            <div  class="col-width-16 pb-0 mat-form-field">
                                            
-                                      
+                                  
         
         
              <app-select-checkbox [label]="'Source System'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
               </app-select-checkbox>
         
-        
+                                
         
             </div>
                                        
@@ -144,22 +144,22 @@
                         
                         <div class="content-main vf-flex-container-row">
                             <div  class="content-submain vf-flex-container-col">
-                                <mat-form-field>
+                                <mat-form-field class ="col-width-16 pb-0" >
                                     <mat-label>Profile Name</mat-label>
                                 <input type="text"  matInput    formControlName="profilename"
                                 placeholder="Profile Name">
                                 </mat-form-field>
                             </div> 
                             <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
-                                <mat-form-field>
+                                <mat-form-field class ="col-width-16 pb-0">
                                     <mat-label>Description</mat-label>
-                                <input type="text"  matInput    formControlName="profiledescription"
+                                <input type="text"  matInput     formControlName="profiledescription"
                                 placeholder="Description">
                                 </mat-form-field>
                             </div>
 
-                            <div class="userprofilerighttable" >
-                            <div style="max-height: 250px;overflow:auto">
+                            <div class="userprofilerighttable" style="padding: 5spx;/* height: 303px; */overflow: auto;">
+                                <div style="max-height: calc(100vh - 37vh);;overflow:auto">
                                  <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
                                   <mat-tree-node  
                                     *matTreeNodeDef="let node"
@@ -525,7 +525,7 @@
                             <div class="content-submain vf-flex-container-col">
                                 <mat-form-field class ="col-width-16 pb-0">
                                     <mat-label>Email Address</mat-label>
-                                <input type="text"  matInput   formControlName="emailaddress"
+                                <input type="text" (keydown.space)="$event.preventDefault()"  matInput   formControlName="emailaddress"
                                 placeholder="Email Address">
                                 <mat-error>
                                     <div *ngIf="StartupUsermsgsForm.controls['emailaddress'].touched && StartupUsermsgsForm.controls['emailaddress'].invalid" class="alert alert-danger">
@@ -607,7 +607,7 @@
                     <!-- right side filter -->
                     <div style="padding: 10px;">
                         <form [formGroup]="filterUserAccessForm" (ngSubmit)="onSearchFilter('UserAccessDetails')">
-                    <div class="rightFilters">
+                    <div class="rightFilters" style="height:32px;">
                         <div class="rightFilters-items">
                             <mat-form-field>
                             <mat-label >User Name</mat-label>
@@ -704,7 +704,7 @@
                 <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
                         <form [formGroup]="filterUserofReportForm" autocomplete="off" (ngSubmit)="onSearchFilter('UserOfReports')">
-                        <div class="rightFilters">
+                        <div class="rightFilters" style="height:32px;"> 
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >User Name</mat-label>
@@ -783,7 +783,7 @@
                 <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
                     <div >
                         <form [formGroup]="filterNewsUpdateForm" autocomplete="off" (ngSubmit)="onSearchFilter('StartUpUserMessages')">
-                        <div class="rightFilters">
+                        <div class="rightFilters" style="height:32px;">
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Email Address</mat-label>
@@ -875,9 +875,9 @@
                 <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
                         <form [formGroup]="filterUserProfilesForm" autocomplete="off" (ngSubmit)="onSearchFilter('UserProfiles')">
-                        <div class="rightFilters">
+                        <div class="rightFilters" style="height:32px;">
                             <div class="rightFilters-items">
-                                <mat-form-field>
+                                <mat-form-field class ="col-width-16 pb-0">
                                 <mat-label >Profile Name</mat-label>
                                 <input type="text" matInput  
                                 placeholder="Profile Name" formControlName="profilename">
@@ -885,7 +885,7 @@
                             </div>
 
                             <div class="rightFilters-items">
-                                <mat-form-field>
+                                <mat-form-field class ="col-width-16 pb-0">
                                 <mat-label >Created By</mat-label>
                                 <input type="text" matInput  
                                 placeholder="Created By" formControlName="createdby">
