@@ -310,10 +310,7 @@ th.mat-header-cell:first-of-type{
     padding-left: 1em;
     color: #e60000;
   }
-  .rl-tab-icon{
-
-  }
-
+ 
     
 .topfilter {
   display: flex;
@@ -379,19 +376,6 @@ th.mat-header-cell:first-of-type{
 }
 
 
-
-
-  /* .left-box{        
-        width: 60vw;        
-        overflow: hidden;
-        margin-right: 10px;       
-    }
-  .right-box{
-     
-      width: 96vw;         
-      overflow: auto;
-      min-height: 500px;
-  } */
 
   .top-label{
     align-items: center;
