@@ -220,7 +220,9 @@
                 </div>
                 <!-- filter pane changes End-->
 
-                <div class="rl-table-container">
+                <!-- <div class="rl-table-container"> -->
+                  <div [ngClass]="{ 'rl-table-container' :this.currentReportName !='ErrorCode' &&  this.currentReportName !='OsnProvideList' ,
+                  'rl-table-container-with-filter-pane' : this.currentReportName ==='ErrorCode' || this.currentReportName ==='OsnProvideList'}">   
                   <ng-container *ngIf="this.currentReportName != 'Franchise'">
                     <table mat-table class="rl-query-pane-table mat-elevation-z8" [dataSource]="dataSource"
                       multiTemplateDataRows>
@@ -264,7 +266,7 @@
                   </ng-container>
 
                   <ng-container *ngIf="this.currentReportName === 'Franchise'">
-                    <table mat-table [dataSource]="dataSourceFranchise" multiTemplateDataRows matSort style="width:50%;font-size: small!important;">
+                    <table  class="rl-query-pane-table mat-elevation-z8" mat-table [dataSource]="dataSource" multiTemplateDataRows>
                       <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
                         <div *ngIf="column === 'Expand'">
                           
@@ -274,11 +276,9 @@
                           (click)="row.expanded = !row?.expanded" 
                           >
                             <ng-container>
-                    
                               <mat-icon style="cursor: pointer;" class="transaction-trend-table-icon"
                                 (click)="(expandedElement = expandedElement === row ? null : row);  setStep(2) ">
                                 {{row.expanded ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
-                    
                             </ng-container>
                           </td>
                         </div>
@@ -308,7 +308,7 @@
                         <td  class="fracmatcell" mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
                           <div class="example-element-detail" [@detailExpand]="element?.expanded"  *ngIf="element?.expanded">
                             <div style="width: 100%;">
-                              <table mat-table id="innertable" [dataSource]="element.addresses" multiTemplateDataRows matSort style="font-size:small!important">
+                              <table mat-table id="innertable" [dataSource]="element.Company" multiTemplateDataRows matSort style="font-size:small!important">
                                 <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of innerDisplayedColumns"> 
                                   <div *ngIf="innerColumn === 'Action'">
                                     <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
@@ -321,7 +321,7 @@
                                     <div *ngIf="innerColumn === 'Expand'"  >
                                       <th mat-header-cell *matHeaderCellDef>{{innerColumn}}</th>
                                       <td class="fracmatcell" mat-cell *matCellDef="let row " 
-                                      [class.example-element-row]="row.comments?.length" [class.example-expanded-row]="row?.expanded"
+                                      [class.example-element-row]="row.FranchiseDeatils?.length" [class.example-expanded-row]="row?.expanded"
                                   (click)="row.expanded = !row?.expanded"
                                       > 
                                         <ng-container>
@@ -346,15 +346,15 @@
                                     </div>
                                     <div *ngIf="innerColumn != 'Action'&&innerColumn != 'Expand'&& innerColumn!='olocompanyfranchise' && innerColumn!='FranchiseTitle'">
                                   <th mat-header-cell *matHeaderCellDef > {{innerColumn}} </th>
-                                  <td class="fracmatcell" mat-cell *matCellDef="let address"  > {{address[innerColumn]}} </td>
+                                  <td class="fracmatcell" mat-cell *matCellDef="let Company"  > {{Company[innerColumn]}} </td>
                                     </div>
                                 </ng-container>
                                 <ng-container matColumnDef="expandedExpandedDetail">
-                                  <td  class="fracmatcell" mat-cell *matCellDef="let address" [attr.colspan]="innerInnerDisplayedColumns.length">
-                                    <div class="example-element-detail" [@detailExpand]="address?.expanded" *ngIf="address?.expanded">
+                                  <td  class="fracmatcell" mat-cell *matCellDef="let Company" [attr.colspan]="innerInnerDisplayedColumns.length">
+                                    <div class="example-element-detail" [@detailExpand]="Company?.expanded" *ngIf="Company?.expanded">
                                       <div style="width: 100%;">
                                         <table style="width: 100%;" #inneTables mat-table #innrSort="matSort"
-                                          [dataSource]="address?.comments" matSort style="font-size:small!important">
+                                          [dataSource]="Company?.FranchiseDeatils" matSort style="font-size:small!important">
                                           <ng-container matColumnDef="{{col}}" *ngFor="let col of innerInnerDisplayedColumns">
                                             <div *ngIf="col === 'Action'">
                                               <th mat-header-cell *matHeaderCellDef> {{col}} </th>
