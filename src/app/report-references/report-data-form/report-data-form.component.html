@@ -59,7 +59,7 @@
                     <ng-container *ngIf="reportName === 'Franchise'">
                       <div *ngIf="!(formData.cName === 'Company')">
                       <mat-form-field class ="col-width-30 pb-0">
-                        <mat-label>{{formData.cDisplayName}}</mat-label>
+                        <!-- <mat-label>{{formData.cDisplayName}}</mat-label>
                         <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="formData.cValue" 
                         disableOptionCentering panelClass="matselect-centering" (selectionChange)="onDropDownChange($event)" 
                         [disabled]= "setReadOnlyField( formData.cIsKey,formData.cReadOnly)"
@@ -67,13 +67,25 @@
                           <mat-option  *ngFor="let opt of formData.cList" [value]="opt.internalValue">
                             {{opt.displayValue}}</mat-option>
                         </mat-select>               
-                        <!-- <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error> -->
-                        <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error>
+                        <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
+                        <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error> -->
+                          <mat-label>{{formData.cDisplayName}}</mat-label>
+                          <input #Olo style="font-size:11px" [formControlName]="formData.cName" [(ngModel)]="franchiseValue" type="text" placeholder="{{formData.cValue}}" matInput
+                            [matAutocomplete]="autoOloType" [required]="formData.cMandate" minlength="3" OptionsValidator [options]="franchiseList"/>
+                          <span matSuffix mat-icon-button>
+                            <mat-icon (click)="franchiseValue=''">arrow_drop_down</mat-icon>
+                          </span>
+                          <mat-autocomplete  autoActiveFirstOption #autoOloType="matAutocomplete" (optionSelected)="onDropDownChange($event)">
+                            <mat-option style="font-size:11px" *ngFor="let val of franchiseList | ddlFilter: Olo.value" [value]="val">
+                              {{val}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error>
                       </mat-form-field>
                       </div>
                       <div *ngIf="formData.cName === 'Company'">
                       <mat-form-field class =" col-width-30 pb-0">
-                        <mat-label>{{formData.cDisplayName}}</mat-label>
+                        <!-- <mat-label>{{formData.cDisplayName}}</mat-label>
                       <mat-select [id]="formData.cName" [formControlName]="formData.cName" [(ngModel)]="firstDropdownVal" 
                       disableOptionCentering panelClass="matselect-centering" 
                       [required]="formData.cMandate"   
@@ -81,8 +93,20 @@
                           <mat-option *ngFor="let opt of companyDropdown" [value]="opt">
                             {{opt}}</mat-option>
                       </mat-select>   
-                      <!-- <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error> -->
-                      <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error>
+                      <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error>
+                      <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error> -->
+                          <mat-label>{{formData.cDisplayName}}</mat-label>
+                          <input #Company style="font-size:11px" [formControlName]="formData.cName" [(ngModel)]="firstDropdownVal" type="text" placeholder="{{formData.cValue}}" matInput
+                            [matAutocomplete]="autoCompanyType" [required]="formData.cMandate" minlength="3" OptionsValidator [options]="franchiseList"/>
+                          <span matSuffix mat-icon-button>
+                            <mat-icon (click)="firstDropdownVal=''">arrow_drop_down</mat-icon>
+                          </span>
+                          <mat-autocomplete  autoActiveFirstOption #autoCompanyType="matAutocomplete" (optionSelected)="onDropDownChange($event)">
+                            <mat-option style="font-size:11px" *ngFor="let val of companyDropdown | ddlFilter: Company.value" [value]="val">
+                              {{val}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error>
                     </mat-form-field>
                   </div>
                     </ng-container>

@@ -16,6 +16,8 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   showDetailsForm:boolean =true;
   displayedColumns: string[] = [];
   data:any;
+  franchiseList: string[] = ['ATC', 'ATG'];
+  franchiseValue: string = '';
   
   @Input() reportName:string='';
   //@Input()
@@ -222,7 +224,9 @@ onEditRecord(record:any,event:Event){
 }
 onDropDownChange(event:any){
 // alert('dp:'+event.value)
-let Olo = event.value;
+console.log(event);
+
+let Olo = event.option.value;
 this.setCompanyDropdownValue(Olo);
 }
 onMultiselectDropDownChange(event:any){

@@ -8,6 +8,7 @@ import { ReportReferenceMainComponent } from './report-reference-main/report-ref
 import { ReportDataFormComponent } from './report-data-form/report-data-form.component';
 import { ReportReferenceComponent } from './report-reference/report-reference.component';
 import { UicomponentsModule } from '../uicomponents/uicomponents.module';
+import { HelperModule } from '../_helper/helper.module';
 
 
 
@@ -23,7 +24,8 @@ import { UicomponentsModule } from '../uicomponents/uicomponents.module';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    UicomponentsModule 
+    UicomponentsModule,
+    HelperModule
   ]
 })
 export class ReportReferencesModule { }
