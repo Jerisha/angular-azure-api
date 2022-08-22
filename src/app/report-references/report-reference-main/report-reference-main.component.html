@@ -295,7 +295,7 @@
                         <div *ngIf="column === 'Action'">
                           <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                           <td  class="fracmatcell" mat-cell *matCellDef="let element"> 
-                            <mat-icon   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                            <mat-icon  (click)="onEditRecord(element,$event)" mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                               mode_edit_outline</mat-icon>
                           </td>
                           </div>
@@ -313,7 +313,7 @@
                                   <div *ngIf="innerColumn === 'Action'">
                                     <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
                                     <td class="fracmatcell" mat-cell *matCellDef="let element"> 
-                                      <mat-icon   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                                      <mat-icon (click)="onEditRecord(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                         mode_edit_outline</mat-icon>
                               
                                     </td>
@@ -359,7 +359,7 @@
                                             <div *ngIf="col === 'Action'">
                                               <th mat-header-cell *matHeaderCellDef> {{col}} </th>
                                               <td class="fracmatcell" mat-cell *matCellDef="let element"> 
-                                                <mat-icon   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                                                <mat-icon (click)="onEditRecord(element,$event)"  mat-tooltip="Click this button, this row Record will be open in Edit Pane">
                                                   mode_edit_outline</mat-icon>
                                         
                                               </td>
