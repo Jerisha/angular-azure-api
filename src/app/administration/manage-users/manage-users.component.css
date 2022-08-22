@@ -289,13 +289,7 @@ th.mat-header-cell:first-of-type{
     margin-top: 15%;
   }
   
-  .spinner-loading {
-    font: 400 14px/20px Roboto, "Helvetica Neue" !important;
-    padding: 20px;
-  }
-  .highlighted , .highlighted1{
-    background-color: rgb(255, 215, 182);
-  }  
+ 
   
   ::-webkit-scrollbar-thumb {
     background: #007c92;
