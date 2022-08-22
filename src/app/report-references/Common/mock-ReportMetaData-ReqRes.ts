@@ -390,68 +390,53 @@ export const ReportFranchiseResponse = {
     },
     "data": {
       "Franchise":[
-    {
-      olocompanyfranchise: 'ATC',
-      olo: 'ATC',
-      company: '',
-      Title:'',
-      Franchise:'',
-      used:'1',
-      Company: [
         {
-          olocompanyfranchise: 'ATC-ATC',
-          olo: '',
-          company: 'ATC',
-          Title:'',
+          OloCompanyFranchise: 'ATC',
+          Olo: 'ATC',
+          Company: '',
+          Title:'AT Communications1',
           Franchise:'',
-          used:'3',
-          FranchiseDeatils: [
+          Used:'1',
+          CompanyDetails: [
             {
-              olocompanyfranchise: 'ATC-ATC-QWE',
-              olo: '',
-              company: '',
-              Title:'Title',
-              Franchise:'QWE',
-              used:'1'
+              OloCompanyFranchise: 'ATC-ATC',
+              Olo: '',
+              Company: 'ATC',
+              Title:'AT Communications',
+              Franchise:'',
+              Used:'3',
+              FranchiseDetails: [
+                {
+                  OloCompanyFranchise: 'ATC-ATC-QWE',
+                  Olo: '',
+                  Company: '',
+                  Title:'nomessagetest',
+                  Franchise:'QWE',
+                  Used:''
+                },
+                {
+                  OloCompanyFranchise: 'ATC-ATC-TTT',
+                  Olo: '',
+                  Company: '',
+                  Title:'Testing',
+                  Franchise:'TTT',
+                  Used:''
+                },{
+                  OloCompanyFranchise: 'ATC-ATC-V07',
+                  Olo: '',
+                  Company: '',
+                  Title:'Telewest VO7',
+                  Franchise:'V07',
+                  Used:''
+                },
+              ]
             },
-            {
-              olocompanyfranchise: 'ATC-ATC-QWE',
-              olo: '',
-              company: '',
-              Title:'Title',
-              Franchise:'QWE',
-              used:'1'
-            },{
-              olocompanyfranchise: 'ATC-ATC-QWE',
-              olo: '',
-              company: '',
-              FranchiseTitle:'Title',
-              Franchise:'QWE',
-              used:'1'
-            },
+          
           ]
         },
-        {
-          olocompanyfranchise: 'ATC-ATC',
-          olo: '',
-          company: 'ATC',
-          FranchiseTitle:'',
-          Franchise:'',
-          used:'',
-          FranchiseDetails: [
-            {
-              olocompanyfranchise: 'ATC-ATC-QWE',
-              olo: 'ATC',
-              company: 'ATC',
-              Title:'Title',
-              Franchise:'QWE',
-              used:'1'
-            }
-          ]
-        }
-      ]
-    },
-      ],
+       
+          ],
+    
 
     "OloDropDown": [{
         "Olo": ["ATC", "ATG", "BLG", "CGU", "CWA", "CWC", "CWN", "CWR", "CWV", "EFG", "EVO", "FDF", "FTE", "JOE", "NTL", "OBS", "RSL", "TES", "TLW", "VOD", "XYZ"]

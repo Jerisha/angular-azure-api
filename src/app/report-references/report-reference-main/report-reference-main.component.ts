@@ -110,7 +110,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   // @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
   // @ViewChildren('innerTables') innerTables: QueryList<MatTable<Address>>;
  
-  olocompanyfranchise: string;
+  OloCompanyFranchise: string;
 
   OLO: string;
   Company: string;
@@ -119,9 +119,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   Used: string;
  
   
-  columnsToDisplay = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
-  innerDisplayedColumns = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
-  innerInnerDisplayedColumns = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
+  columnsToDisplay = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'Used', 'OloCompanyFranchise'];
+  innerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'Used', 'OloCompanyFranchise'];
+  innerInnerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'Used', 'OloCompanyFranchise'];
 
   expandedElement: any[] = [];
   step: number;
