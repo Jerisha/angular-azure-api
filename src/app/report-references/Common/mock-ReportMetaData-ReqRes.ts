@@ -435,7 +435,7 @@ export const ReportFranchiseResponse = {
           ]
         },
         {
-          OloCompnayFranchise: 'TWL',
+          OloCompanyFranchise: 'TWL',
           Olo: 'TWL',
           Company: '',
           Title:'Telewest',
@@ -443,7 +443,7 @@ export const ReportFranchiseResponse = {
           Used:'8',
           CompanyDetails: [
             {
-              OloCompnayFranchise: 'TLW-CLP',
+              OloCompanyFranchise: 'TLW-CLP',
               Olo: '',
               Company: 'CLP',
               Title:'CABLE LONDON',
@@ -451,7 +451,7 @@ export const ReportFranchiseResponse = {
               Used:'5',
               FranchiseDetails: [
                 {
-                  OloCompnayFranchise: 'TLW-CLP-EF1',
+                  OloCompanyFranchise: 'TLW-CLP-EF1',
                   Olo: '',
                   Company: '',
                   Title:'EF1 Efield',
@@ -459,14 +459,14 @@ export const ReportFranchiseResponse = {
                   Used:''
                 },
                 {
-                  OloCompnayFranchise: 'TLW-BCC-HA1',
+                  OloCompanyFranchise: 'TLW-BCC-HA1',
                   Olo: '',
                   Company: '',
                   Title:'HA1 Harrih',
                   Franchise:'HA1',
                   Used:''
                 },{
-                  OloCompnayFranchise: 'TLW-BCC-BH3',
+                  OloCompanyFranchise: 'TLW-BCC-BH3',
                   Olo: '',
                   Company: '',
                   Title:'BH3 City Centre',
@@ -476,7 +476,7 @@ export const ReportFranchiseResponse = {
               ]
             },
             {
-              OloCompnayFranchise: 'TLW-BCC',
+              OloCompanyFranchise: 'TLW-BCC',
               Olo: '',
               Company: 'BCC',
               Title:'BIRMINGHAM CABLE',
@@ -484,7 +484,7 @@ export const ReportFranchiseResponse = {
               Used:'5',
               FranchiseDetails: [
                 {
-                  OloCompnayFranchise: 'TLW-BCC-BH1',
+                  OloCompanyFranchise: 'TLW-BCC-BH1',
                   Olo: '',
                   Company: '',
                   Title:'BH1 Small Heath',
@@ -492,14 +492,14 @@ export const ReportFranchiseResponse = {
                   Used:''
                 },
                 {
-                  OloCompnayFranchise: 'TLW-BCC-BH2',
+                  OloCompanyFranchise: 'TLW-BCC-BH2',
                   Olo: '',
                   Company: '',
                   Title:'BH2 Witton',
                   Franchise:'BH2',
                   Used:''
                 },{
-                  OloCompnayFranchise: 'TLW-BCC-BH3',
+                  OloCompanyFranchise: 'TLW-BCC-BH3',
                   Olo: '',
                   Company: '',
                   Title:'BH3 City Centre',
