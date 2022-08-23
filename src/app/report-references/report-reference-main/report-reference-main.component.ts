@@ -955,7 +955,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
   onEditRecord(element: any, event: any, reportType?: any) {   
     let oloCompanyFranchise = element.OloCompanyFranchise.split('-');
     // console.log(oloCompanyFranchise);
-    let elementData = element;
+    let elementData = Object.assign({}, element);
     if(reportType === 'Company') elementData.Olo = oloCompanyFranchise[0];
     if(reportType === 'Franchise') {
       elementData.Olo = oloCompanyFranchise[0];
