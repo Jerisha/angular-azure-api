@@ -3,7 +3,7 @@ import { IColoumnDef } from "src/app/report-references/IControls";
 import { ReportReferenceService } from '../report-reference.service';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
-import {take} from 'rxjs/operators';
+import {filter, take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-data-form',
@@ -57,6 +57,7 @@ ngOnInit(): void {
     {      
         let control = this.referenceForm.get(field);    
         control?.setValue(this.record[field]);
+       
     }
     this.updatedBy = this.record['UpdatedBy'] != undefined ?'UpdatedBy:'+ this.record['UpdatedBy']:''
     this.updatedOn = this.record['UpdatedOn'] != undefined?'UpdatedOn:'+this.record['UpdatedOn']:''
@@ -65,6 +66,15 @@ ngOnInit(): void {
     
     this.referenceForm.markAsUntouched();
     }   
+    else {
+      if (this.reportName === 'Franchise' && this.eventName === 'Create') {
+        console.log(this.referenceForm)
+        this.referenceForm.controls['Franchise'].disable();
+        this.referenceForm.controls['Company'].disable();
+        this.referenceForm.controls['UsedCount'].disable();
+       
+      }
+    }
 
 }
 ngOnChanges(changes: SimpleChanges) {
@@ -232,13 +242,58 @@ onEditRecord(record:any,event:Event){
     this.referenceForm.markAsUntouched();
 
 }
-onDropDownChange(event:any){
+onDropDownChange(event:any,filterName? : string){
 // alert('dp:'+event.value)
-console.log(event);
-// this.referenceForm.controls['Franchise'].disable();
+console.log(event,'l');
 let Olo = event.option.value;
 this.setCompanyDropdownValue(Olo);
+// if(Olo != event){
+if(filterName === 'OloFilter'){
+this.referenceForm.controls['Company'].enable();
 }
+else if(filterName === 'Compnayfilter'){
+
+  this.referenceForm.controls['Franchise'].enable();
+  this.referenceForm.controls['UsedCount'].enable();
+}
+
+}
+
+OnOloFocusChange(OloValue: any, Ololength: number)
+{
+  // console.log(this.referenceForm,'f1')
+  // console.log(OloValue.length,'value')
+  // console.log(Ololength,'number')
+  if(OloValue != null || undefined){
+  if(this.franchiseList?.includes(OloValue.toUpperCase() )   ){
+        this.referenceForm.controls['Company'].enable();
+        // console.log(this.referenceForm,'f2')
+  }
+  else{
+    this.referenceForm.controls['Company'].disable();
+  }
+}
+  // console.log(this.referenceForm)
+}
+OnCompanyFocusChange(CompanyValue: any, Companylength: number)
+{
+  console.log(this.referenceForm,'c1')
+  console.log(CompanyValue,'c2')
+  console.log(Companylength,'c3')
+  if(CompanyValue !=  null || undefined){
+  if( this.companyDropdown?.includes(CompanyValue.toUpperCase()) ){
+        this.referenceForm.controls['Franchise'].enable();
+        this.referenceForm.controls['UsedCount'].enable();
+        console.log(this.referenceForm,'f2')
+  }
+  else{
+    this.referenceForm.controls['Franchise'].disable();
+    this.referenceForm.controls['UsedCount'].disable();
+  }
+}
+  console.log(this.referenceForm)
+}
+
 onMultiselectDropDownChange(event:any){
 
  // console.log(event,'event')
