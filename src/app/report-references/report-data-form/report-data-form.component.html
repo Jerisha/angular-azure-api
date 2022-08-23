@@ -61,15 +61,15 @@
                         <mat-form-field class ="col-width-30 pb-0">
                         <mat-label>{{formData.cDisplayName}}</mat-label>
                         <!-- <div [id]="'demo'+this.dynamic_id"></div> -->
-                        <input  [id]="formData.cName"  #searchOlo [formControlName]="formData.cName" [(ngModel)]="formData.cValue"
+                        <input  [id]="formData.cName"  #searchOlo [formControlName]="formData.cName" [(ngModel)]="franchiseValue"
                          type="text" placeholder={{formData.cDisplayName}} matInput
                           [matAutocomplete]="autoOlo"   />
                         <span matSuffix mat-icon-button>
-                          <mat-icon (click)="formData.cName=''">arrow_drop_down</mat-icon>
+                          <mat-icon (click)="franchiseValue=''">arrow_drop_down</mat-icon>
                         </span>
                         <mat-autocomplete (optionSelected)="onDropDownChange($event)" autoActiveFirstOption #autoOlo="matAutocomplete">
-                          <mat-option *ngFor="let opt of formData.cList | ddlFilter: searchOlo.value" [value]="opt.internalValue">
-                            {{opt.displayValue}}
+                          <mat-option *ngFor="let opt of franchiseList | ddlFilter: searchOlo.value" [value]="opt">
+                            {{opt}}
                           </mat-option>
                         </mat-autocomplete>
                         <!-- <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error> -->
