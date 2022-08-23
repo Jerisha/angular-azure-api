@@ -96,14 +96,14 @@ ngOnChanges(changes: SimpleChanges) {
     this.referenceForm.markAsUntouched();
     }
     else {
-      console.log("create");
-      console.log(this.lstForm[1].cList);
-      let fDropdown: string[] = [];
-      this.lstForm[1].cList.forEach((x:any) =>{
-        fDropdown.push(x.displayValue);
-      });
-      console.log(fDropdown);
-      this.franchiseList = fDropdown;
+      // console.log("create");
+  // console.log(this.lstForm[1].cList);
+  let fDropdown: string[] = [];
+  this.lstForm[1].cList.forEach((x:any) =>{
+    fDropdown.push(x.displayValue);
+  });
+  // console.log(fDropdown);
+  this.franchiseList = fDropdown;
     }
 }
 // triggerResize() 
@@ -235,7 +235,7 @@ onEditRecord(record:any,event:Event){
 onDropDownChange(event:any){
 // alert('dp:'+event.value)
 console.log(event);
-
+// this.referenceForm.controls['Franchise'].disable();
 let Olo = event.option.value;
 this.setCompanyDropdownValue(Olo);
 }
@@ -250,7 +250,7 @@ setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
     return x.displayValue === OloValue;
   });
   this.companyDropdown =  this.lstForm[2].cList[index]?.companyDropdown;
-  this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0] ? this.companyDropdown[0] : '';
+  // this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0] ? this.companyDropdown[0] : '';
 }
 }
 onSubmit(){
@@ -281,6 +281,11 @@ onCancelDataForm(){
  this.service.showDetailsForm=true; 
  this.cancelBtnClicked.emit([false,true]);
 }
+// threeCharValidation(event: any, value: string){
+//   console.log(event);
+//   console.log(value);
+  
+// }
 
 }
 

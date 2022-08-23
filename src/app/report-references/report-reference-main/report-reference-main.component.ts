@@ -952,7 +952,16 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     }
   }
 
-  onEditRecord(element: any, event: any) {
+  onEditRecord(element: any, event: any, reportType?: any) {   
+    let oloCompanyFranchise = element.OloCompanyFranchise.split('-');
+    // console.log(oloCompanyFranchise);
+    if(reportType === 'Company') element.Olo = oloCompanyFranchise[0];
+    if(reportType === 'Franchise') {
+      element.Olo = oloCompanyFranchise[0];
+      element.Company = oloCompanyFranchise[1];
+    }
+    console.log(element);
+    
     this.alertService.clear();
     this.highlightedRecord = null;
     if (this.editMode == "" || this.editMode == this.currentReportName) {
