@@ -16,7 +16,7 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   showDetailsForm:boolean =true;
   displayedColumns: string[] = [];
   data:any;
-  franchiseList: string[] = ['ATC', 'ATG'];
+  franchiseList: string[] = [];
   franchiseValue: string = '';
   
   @Input() reportName:string='';
@@ -104,8 +104,6 @@ ngOnChanges(changes: SimpleChanges) {
       });
       console.log(fDropdown);
       this.franchiseList = fDropdown;
-      
-      
     }
 }
 // triggerResize() 
@@ -251,8 +249,8 @@ setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
   const index = this.lstForm[2].cList.findIndex((x: any) => {
     return x.displayValue === OloValue;
   });
-  this.companyDropdown =  this.lstForm[2].cList[index].companyDropdown;
-  this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0];
+  this.companyDropdown =  this.lstForm[2].cList[index]?.companyDropdown;
+  this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0] ? this.companyDropdown[0] : '';
 }
 }
 onSubmit(){
