@@ -63,7 +63,7 @@
                         <!-- <div [id]="'demo'+this.dynamic_id"></div> -->
                         <input  [id]="formData.cName"  #searchOlo [formControlName]="formData.cName" [(ngModel)]="franchiseValue"
                          type="text" placeholder={{formData.cDisplayName}} matInput
-                          [matAutocomplete]="autoOlo"   />
+                          [matAutocomplete]="autoOlo"  [required]="formData.cMandate" minlength="formData.cMaxLength" maxlength="formData.cMaxLength" />
                         <span matSuffix mat-icon-button>
                           <mat-icon (click)="franchiseValue=''">arrow_drop_down</mat-icon>
                         </span>
@@ -90,7 +90,7 @@
                       <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error> -->
                           <mat-label>{{formData.cDisplayName}}</mat-label>
                           <input #Company style="font-size:11px" [formControlName]="formData.cName" [(ngModel)]="firstDropdownVal" type="text" placeholder="{{formData.cValue}}" matInput
-                            [matAutocomplete]="autoCompanyType" [required]="formData.cMandate" minlength="3" OptionsValidator [options]="franchiseList"/>
+                            [matAutocomplete]="autoCompanyType" [required]="formData.cMandate" minlength="formData.cMaxLength" maxlength="formData.cMaxLength"/>
                           <span matSuffix mat-icon-button>
                             <mat-icon (click)="firstDropdownVal=''">arrow_drop_down</mat-icon>
                           </span>
@@ -99,7 +99,7 @@
                               {{val}}
                             </mat-option>
                           </mat-autocomplete>
-                          <!-- <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error> -->
+                          <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error>
                     </mat-form-field>
                   </div>
                     </ng-container>
