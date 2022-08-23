@@ -434,6 +434,83 @@ export const ReportFranchiseResponse = {
           
           ]
         },
+        {
+          OloCompnayFranchise: 'TWL',
+          Olo: 'TWL',
+          Company: '',
+          Title:'Telewest',
+          Franchise:'',
+          Used:'8',
+          CompanyDetails: [
+            {
+              OloCompnayFranchise: 'TLW-CLP',
+              Olo: '',
+              Company: 'CLP',
+              Title:'CABLE LONDON',
+              Franchise:'',
+              Used:'5',
+              FranchiseDetails: [
+                {
+                  OloCompnayFranchise: 'TLW-CLP-EF1',
+                  Olo: '',
+                  Company: '',
+                  Title:'EF1 Efield',
+                  Franchise:'EF1',
+                  Used:''
+                },
+                {
+                  OloCompnayFranchise: 'TLW-BCC-HA1',
+                  Olo: '',
+                  Company: '',
+                  Title:'HA1 Harrih',
+                  Franchise:'HA1',
+                  Used:''
+                },{
+                  OloCompnayFranchise: 'TLW-BCC-BH3',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH3 City Centre',
+                  Franchise:'BH3',
+                  Used:''
+                },
+              ]
+            },
+            {
+              OloCompnayFranchise: 'TLW-BCC',
+              Olo: '',
+              Company: 'BCC',
+              Title:'BIRMINGHAM CABLE',
+              Franchise:'',
+              Used:'5',
+              FranchiseDetails: [
+                {
+                  OloCompnayFranchise: 'TLW-BCC-BH1',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH1 Small Heath',
+                  Franchise:'BH1',
+                  Used:''
+                },
+                {
+                  OloCompnayFranchise: 'TLW-BCC-BH2',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH2 Witton',
+                  Franchise:'BH2',
+                  Used:''
+                },{
+                  OloCompnayFranchise: 'TLW-BCC-BH3',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH3 City Centre',
+                  Franchise:'BH3',
+                  Used:''
+                },
+              ]
+            },
+          
+          ]
+        },
        
           ],
     

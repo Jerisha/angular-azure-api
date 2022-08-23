@@ -326,3 +326,6 @@ font-size: 1.5em;
 height: 0px !important;
 color: #e60000;
 }
+th{
+  width: 150px!important;;
+}
