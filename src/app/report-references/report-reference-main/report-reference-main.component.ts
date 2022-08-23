@@ -119,9 +119,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   Used: string;
  
   
-  columnsToDisplay = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'Used', 'OloCompanyFranchise'];
-  innerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'Used', 'OloCompanyFranchise'];
-  innerInnerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'Used', 'OloCompanyFranchise'];
+  columnsToDisplay = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
+  innerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
+  innerInnerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
 
   expandedElement: any[] = [];
   step: number;
@@ -955,12 +955,13 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
   onEditRecord(element: any, event: any, reportType?: any) {   
     let oloCompanyFranchise = element.OloCompanyFranchise.split('-');
     // console.log(oloCompanyFranchise);
-    if(reportType === 'Company') element.Olo = oloCompanyFranchise[0];
+    let elementData = element;
+    if(reportType === 'Company') elementData.Olo = oloCompanyFranchise[0];
     if(reportType === 'Franchise') {
-      element.Olo = oloCompanyFranchise[0];
-      element.Company = oloCompanyFranchise[1];
+      elementData.Olo = oloCompanyFranchise[0];
+      elementData.Company = oloCompanyFranchise[1];
     }
-    console.log(element);
+    console.log(elementData);
     
     this.alertService.clear();
     this.highlightedRecord = null;
@@ -973,13 +974,13 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
         });
         editConfirm.afterClosed().subscribe(result => {
           if (result) {
-            this.editRecordLogic(element);
+            this.editRecordLogic(elementData);
           } else {
             // this.highlightedRecord=null;
           }
         });
       } else {
-        this.editRecordLogic(element);
+        this.editRecordLogic(elementData);
       }
     }
     else {

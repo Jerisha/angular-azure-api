@@ -396,7 +396,7 @@ export const ReportFranchiseResponse = {
           Company: '',
           Title:'AT Communications1',
           Franchise:'',
-          Used:'1',
+          UsedCount:'1',
           CompanyDetails: [
             {
               OloCompanyFranchise: 'ATC-ATC',
@@ -404,7 +404,7 @@ export const ReportFranchiseResponse = {
               Company: 'ATC',
               Title:'AT Communications',
               Franchise:'',
-              Used:'3',
+              UsedCount:'3',
               FranchiseDetails: [
                 {
                   OloCompanyFranchise: 'ATC-ATC-QWE',
@@ -412,7 +412,7 @@ export const ReportFranchiseResponse = {
                   Company: '',
                   Title:'nomessagetest',
                   Franchise:'QWE',
-                  Used:''
+                  UsedCount:''
                 },
                 {
                   OloCompanyFranchise: 'ATC-ATC-TTT',
@@ -420,14 +420,14 @@ export const ReportFranchiseResponse = {
                   Company: '',
                   Title:'Testing',
                   Franchise:'TTT',
-                  Used:''
+                  UsedCount:''
                 },{
                   OloCompanyFranchise: 'ATC-ATC-V07',
                   Olo: '',
                   Company: '',
                   Title:'Telewest VO7',
                   Franchise:'V07',
-                  Used:''
+                  UsedCount:''
                 },
               ]
             },
@@ -440,7 +440,7 @@ export const ReportFranchiseResponse = {
           Company: '',
           Title:'Telewest',
           Franchise:'',
-          Used:'8',
+          UsedCount:'8',
           CompanyDetails: [
             {
               OloCompanyFranchise: 'TLW-CLP',
@@ -448,7 +448,7 @@ export const ReportFranchiseResponse = {
               Company: 'CLP',
               Title:'CABLE LONDON',
               Franchise:'',
-              Used:'5',
+              UsedCount:'5',
               FranchiseDetails: [
                 {
                   OloCompanyFranchise: 'TLW-CLP-EF1',
@@ -456,7 +456,7 @@ export const ReportFranchiseResponse = {
                   Company: '',
                   Title:'EF1 Efield',
                   Franchise:'EF1',
-                  Used:''
+                  UsedCount:''
                 },
                 {
                   OloCompanyFranchise: 'TLW-BCC-HA1',
@@ -464,14 +464,14 @@ export const ReportFranchiseResponse = {
                   Company: '',
                   Title:'HA1 Harrih',
                   Franchise:'HA1',
-                  Used:''
+                  UsedCount:''
                 },{
                   OloCompanyFranchise: 'TLW-BCC-BH3',
                   Olo: '',
                   Company: '',
                   Title:'BH3 City Centre',
                   Franchise:'BH3',
-                  Used:''
+                  UsedCount:''
                 },
               ]
             },
@@ -481,7 +481,7 @@ export const ReportFranchiseResponse = {
               Company: 'BCC',
               Title:'BIRMINGHAM CABLE',
               Franchise:'',
-              Used:'5',
+              UsedCount:'5',
               FranchiseDetails: [
                 {
                   OloCompanyFranchise: 'TLW-BCC-BH1',
@@ -489,7 +489,7 @@ export const ReportFranchiseResponse = {
                   Company: '',
                   Title:'BH1 Small Heath',
                   Franchise:'BH1',
-                  Used:''
+                  UsedCount:''
                 },
                 {
                   OloCompanyFranchise: 'TLW-BCC-BH2',
@@ -497,14 +497,14 @@ export const ReportFranchiseResponse = {
                   Company: '',
                   Title:'BH2 Witton',
                   Franchise:'BH2',
-                  Used:''
+                  UsedCount:''
                 },{
                   OloCompanyFranchise: 'TLW-BCC-BH3',
                   Olo: '',
                   Company: '',
                   Title:'BH3 City Centre',
                   Franchise:'BH3',
-                  Used:''
+                  UsedCount:''
                 },
               ]
             },
