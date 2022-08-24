@@ -117,7 +117,8 @@ table td, table th {
 }
 
 .highlight {
-  background-color: #dee2e6;
+  /* background-color: #dee2e6; */
+  background-color: #FED9B7;
 }
 
 .rowFontHighlight1 td {
