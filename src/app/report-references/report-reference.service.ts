@@ -38,8 +38,8 @@ export class ReportReferenceService {
   // ];
   reportTitleNames: {name:string,viewName:string}[] =[
     {name:'Franchise',viewName:'Franchises'},
-    {name:'Olo',viewName:'OLOs'},
-    {name:'Company',viewName:'Companys'},
+    // {name:'Olo',viewName:'OLOs'},
+    // {name:'Company',viewName:'Companys'},
     {name:'Status',viewName:'Statuses'},
     {name:'ErrorCode',viewName:'Error Codes'},
     {name:'CUPIDCrossReference',viewName:'CUPID Cross Reference'},
