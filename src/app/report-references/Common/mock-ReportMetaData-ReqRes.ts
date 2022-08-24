@@ -390,68 +390,130 @@ export const ReportFranchiseResponse = {
     },
     "data": {
       "Franchise":[
-    {
-      olocompanyfranchise: 'ATC',
-      olo: 'ATC',
-      company: '',
-      Title:'',
-      Franchise:'',
-      used:'1',
-      Company: [
         {
-          olocompanyfranchise: 'ATC-ATC',
-          olo: '',
-          company: 'ATC',
-          Title:'',
+          OloCompanyFranchise: 'ATC',
+          Olo: 'ATC',
+          Company: '',
+          Title:'AT Communications1',
           Franchise:'',
-          used:'3',
-          FranchiseDeatils: [
+          UsedCount:'1',
+          CompanyDetails: [
             {
-              olocompanyfranchise: 'ATC-ATC-QWE',
-              olo: '',
-              company: '',
-              Title:'Title',
-              Franchise:'QWE',
-              used:'1'
+              OloCompanyFranchise: 'ATC-ATC',
+              Olo: '',
+              Company: 'ATC',
+              Title:'AT Communications',
+              Franchise:'',
+              UsedCount:'3',
+              FranchiseDetails: [
+                {
+                  OloCompanyFranchise: 'ATC-ATC-QWE',
+                  Olo: '',
+                  Company: '',
+                  Title:'nomessagetest',
+                  Franchise:'QWE',
+                  UsedCount:''
+                },
+                {
+                  OloCompanyFranchise: 'ATC-ATC-TTT',
+                  Olo: '',
+                  Company: '',
+                  Title:'Testing',
+                  Franchise:'TTT',
+                  UsedCount:''
+                },{
+                  OloCompanyFranchise: 'ATC-ATC-V07',
+                  Olo: '',
+                  Company: '',
+                  Title:'Telewest VO7',
+                  Franchise:'V07',
+                  UsedCount:''
+                },
+              ]
             },
-            {
-              olocompanyfranchise: 'ATC-ATC-QWE',
-              olo: '',
-              company: '',
-              Title:'Title',
-              Franchise:'QWE',
-              used:'1'
-            },{
-              olocompanyfranchise: 'ATC-ATC-QWE',
-              olo: '',
-              company: '',
-              FranchiseTitle:'Title',
-              Franchise:'QWE',
-              used:'1'
-            },
+          
           ]
         },
         {
-          olocompanyfranchise: 'ATC-ATC',
-          olo: '',
-          company: 'ATC',
-          FranchiseTitle:'',
+          OloCompanyFranchise: 'TWL',
+          Olo: 'TWL',
+          Company: '',
+          Title:'Telewest',
           Franchise:'',
-          used:'',
-          FranchiseDetails: [
+          UsedCount:'8',
+          CompanyDetails: [
             {
-              olocompanyfranchise: 'ATC-ATC-QWE',
-              olo: 'ATC',
-              company: 'ATC',
-              Title:'Title',
-              Franchise:'QWE',
-              used:'1'
-            }
+              OloCompanyFranchise: 'TLW-CLP',
+              Olo: '',
+              Company: 'CLP',
+              Title:'CABLE LONDON',
+              Franchise:'',
+              UsedCount:'5',
+              FranchiseDetails: [
+                {
+                  OloCompanyFranchise: 'TLW-CLP-EF1',
+                  Olo: '',
+                  Company: '',
+                  Title:'EF1 Efield',
+                  Franchise:'EF1',
+                  UsedCount:''
+                },
+                {
+                  OloCompanyFranchise: 'TLW-BCC-HA1',
+                  Olo: '',
+                  Company: '',
+                  Title:'HA1 Harrih',
+                  Franchise:'HA1',
+                  UsedCount:''
+                },{
+                  OloCompanyFranchise: 'TLW-BCC-BH3',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH3 City Centre',
+                  Franchise:'BH3',
+                  UsedCount:''
+                },
+              ]
+            },
+            {
+              OloCompanyFranchise: 'TLW-BCC',
+              Olo: '',
+              Company: 'BCC',
+              Title:'BIRMINGHAM CABLE',
+              Franchise:'',
+              UsedCount:'5',
+              FranchiseDetails: [
+                {
+                  OloCompanyFranchise: 'TLW-BCC-BH1',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH1 Small Heath',
+                  Franchise:'BH1',
+                  UsedCount:''
+                },
+                {
+                  OloCompanyFranchise: 'TLW-BCC-BH2',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH2 Witton',
+                  Franchise:'BH2',
+                  UsedCount:''
+                },{
+                  OloCompanyFranchise: 'TLW-BCC-BH3',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH3 City Centre',
+                  Franchise:'BH3',
+                  UsedCount:''
+                },
+              ]
+            },
+          
           ]
-        }
-      ]
-    },
-      ],
+        },
+       
+          ],
+    
 
     "OloDropDown": [{
         "Olo": ["ATC", "ATG", "BLG", "CGU", "CWA", "CWC", "CWN", "CWR", "CWV", "EFG", "EVO", "FDF", "FTE", "JOE", "NTL", "OBS", "RSL", "TES", "TLW", "VOD", "XYZ"]

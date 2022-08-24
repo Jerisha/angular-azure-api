@@ -110,7 +110,7 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   // @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
   // @ViewChildren('innerTables') innerTables: QueryList<MatTable<Address>>;
  
-  olocompanyfranchise: string;
+  OloCompanyFranchise: string;
 
   OLO: string;
   Company: string;
@@ -119,9 +119,9 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   Used: string;
  
   
-  columnsToDisplay = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
-  innerDisplayedColumns = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
-  innerInnerDisplayedColumns = ['Action', 'Expand', 'olo', 'company', 'Franchise', 'Title', 'used', 'olocompanyfranchise'];
+  columnsToDisplay = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
+  innerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
+  innerInnerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
 
   expandedElement: any[] = [];
   step: number;
@@ -952,7 +952,17 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     }
   }
 
-  onEditRecord(element: any, event: any) {
+  onEditRecord(element: any, event: any, reportType?: any) {   
+    let oloCompanyFranchise = element.OloCompanyFranchise.split('-');
+    // console.log(oloCompanyFranchise);
+    let elementData = Object.assign({}, element);
+    if(reportType === 'Company') elementData.Olo = oloCompanyFranchise[0];
+    if(reportType === 'Franchise') {
+      elementData.Olo = oloCompanyFranchise[0];
+      elementData.Company = oloCompanyFranchise[1];
+    }
+    console.log(elementData);
+    
     this.alertService.clear();
     this.highlightedRecord = null;
     if (this.editMode == "" || this.editMode == this.currentReportName) {
@@ -964,13 +974,13 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
         });
         editConfirm.afterClosed().subscribe(result => {
           if (result) {
-            this.editRecordLogic(element);
+            this.editRecordLogic(elementData);
           } else {
             // this.highlightedRecord=null;
           }
         });
       } else {
-        this.editRecordLogic(element);
+        this.editRecordLogic(elementData);
       }
     }
     else {
@@ -988,7 +998,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     // this.highlightedRecord =element[this.recordIdentifier]
 
     //console.log(this.highlightedRecord,'...> highlightedRecord')
-    console.log(this.highlightedRows, 'high')
+    // console.log(this.highlightedRows, 'high')
     // console.log(event,'evetn')
     // this.showDataForm =true;
     // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      

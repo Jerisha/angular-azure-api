@@ -127,7 +127,9 @@ background-color: #3f51b5!important;
 }
 ::ng-deep .mat-checkbox-layout .mat-checkbox-label {
   line-height: 24px;
-  margin-right: 32px!important;
+  margin-right: 68px!important;
+  font-size: 0.8571em !important;
+  font-weight: 500;
 }
 .rl-mat-tab-group{
   overflow-y: auto;
@@ -173,7 +175,7 @@ background-color: #3f51b5!important;
     .rl-fixed-bottom-bar-table .mat-raised-button {
       background-color: #4a4d4e;
       color: white;
-      width: 9vw;
+      /* width: 9vw; */
       line-height: 2em;
       font-size: .85em;
       margin-left: 1vw;
@@ -402,7 +404,7 @@ th.mat-header-cell:first-of-type{
     width: auto;
     flex-direction: row;    
     /* margin-top: 10px;     */
-    gap:2vh 2vw;
+    /* gap:1vh 1vw; */
     max-height: calc(100vh - 23vh);
   }
 
