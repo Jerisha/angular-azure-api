@@ -167,7 +167,7 @@
                                     *matTreeNodeDef="let node; when: hasNoContent"
                                     matTreeNodePadding
                                   >
-                                    <button mat-icon-button disabled></button>
+                                    <button mat-icon-button disabled ></button>
                                    
                                        </mat-tree-node>
                                 
@@ -323,7 +323,7 @@
                                             matTreeNodeToggle
                                             matTreeNodePadding   [ngClass]="(node.Position == '0')? 'a':'b'" 
                                           >
-                                            <button mat-icon-button disabled></button>
+                                            <button mat-icon-button disabled style="visibility:hidden"></button>
                                             <mat-checkbox  
                                               class="checklist-leaf-node"
                                              
@@ -339,7 +339,7 @@
                                             *matTreeNodeDef="let node; when: hasNoContent"
                                             matTreeNodePadding
                                           >
-                                            <button mat-icon-button disabled></button>
+                                            <button mat-icon-button disabled style="visibility:hidden"></button>
                                                  </mat-tree-node>
                                         
                                           <mat-tree-node   *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
