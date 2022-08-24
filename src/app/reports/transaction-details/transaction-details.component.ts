@@ -338,6 +338,7 @@ export class TransactionDetailsComponent extends UserProfile implements OnInit {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      isFavcols: true,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
 
       removeNoDataColumns: true,

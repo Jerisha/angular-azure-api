@@ -262,6 +262,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      isFavcols:true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
