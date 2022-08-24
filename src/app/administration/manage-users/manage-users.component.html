@@ -114,10 +114,10 @@
                                 </div>
                                     <div class ="rl-fixed-bottom-bar">    
                                         <mat-card-actions >
-                                          <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled]="referenceForm.invalid"  matTooltip="Click this button currently showning  details will be create new Record"  >
+                                          <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled]="referenceForm.invalid"  matTooltip="Click this button currently showing  details will be create new Record"  >
                                             <mat-icon >save</mat-icon>Save
                                           </button>
-                                          <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled]="referenceForm.invalid" matTooltip="Click this button currently showning details will be Update"  >
+                                          <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled]="referenceForm.invalid" matTooltip="Click this button currently showing details will be Update"  >
                                                 <mat-icon >edit</mat-icon>Update
                                           </button>
                                           <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
@@ -279,10 +279,10 @@
                         </div>
                             <!-- <div class ="fixed-button-bar">   
                                 <mat-card-actions>
-                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showing  details will be create new Record"  >
                                     <mat-icon >save</mat-icon>Save
                                   </button>
-                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showing details will be Update"  >
                                         <mat-icon >edit</mat-icon>Update
                                   </button>
                                   <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
@@ -450,10 +450,10 @@
                                 </div>
                                     <div class ="rl-fixed-bottom-bar"  style='width:100%' *ngIf = "Profilebutton">    
                                         <mat-card-actions>
-                                          <button  *ngIf = "eventName==='Create'" [disabled]="UserEditForm.invalid"  (click)=redirecttoForm()   type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showning  details will be create new Record"  >
+                                          <button  *ngIf = "eventName==='Create'" [disabled]="UserEditForm.invalid"  (click)=redirecttoForm()   type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showing  details will be create new Record"  >
                                             <mat-icon >save</mat-icon>Go to
                                           </button>
-                                          <button  *ngIf = "eventName==='Update'" [disabled]="UserEditForm.invalid" (click)=redirecttoForm()  type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showning details will be Update"  >
+                                          <button  *ngIf = "eventName==='Update'" [disabled]="UserEditForm.invalid" (click)=redirecttoForm()  type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showing details will be Update"  >
                                                 <mat-icon >edit</mat-icon>Update
                                           </button>
                                           <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
@@ -564,10 +564,10 @@
                             </div> 
                             <div class ="rl-fixed-bottom-bar"style='width:100%'>   
                                 <mat-card-actions>
-                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled]="StartupUsermsgsForm.invalid"  matTooltip="Click this button currently showning  details will be create new Record"  >
+                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color" [disabled]="StartupUsermsgsForm.invalid"  matTooltip="Click this button currently showing  details will be create new Record"  >
                                     <mat-icon >save</mat-icon>Save
                                   </button>
-                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled]="StartupUsermsgsForm.invalid" matTooltip="Click this button currently showning details will be Update"  >
+                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color" [disabled]="StartupUsermsgsForm.invalid" matTooltip="Click this button currently showing details will be Update"  >
                                         <mat-icon >edit</mat-icon>Update
                                   </button>
                                   <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
@@ -595,8 +595,11 @@
                     </app-table-selection> -->
                     <!-- right side filter -->
                     <div style="padding: 10px;">
-                        <form [formGroup]="filterUserAccessForm" (ngSubmit)="onSearchFilter('UserAccessDetails')">
-                    <div class="rightFilters" style="height:32px;">
+                        <form [formGroup]="filterUserAccessForm"  style="
+                        overflow-x: auto;
+                        overflow-y: hidden;
+                    " (ngSubmit)="onSearchFilter('UserAccessDetails')">
+                    <div class="rightFilters" style="height:34px;">
                         <div class="rightFilters-items">
                             <mat-form-field>
                             <mat-label >User Name</mat-label>
@@ -692,8 +695,11 @@
                 </div>
                 <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
-                        <form [formGroup]="filterUserofReportForm" autocomplete="off" (ngSubmit)="onSearchFilter('UserOfReports')">
-                        <div class="rightFilters" style="height:32px;"> 
+                        <form [formGroup]="filterUserofReportForm"  style="
+                        overflow-x: auto;
+                        overflow-y: hidden;
+                    " autocomplete="off" (ngSubmit)="onSearchFilter('UserOfReports')">
+                        <div class="rightFilters" style="height:34px;"> 
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >User Name</mat-label>
@@ -771,8 +777,11 @@
                 </div>
                 <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
                     <div >
-                        <form [formGroup]="filterNewsUpdateForm" autocomplete="off" (ngSubmit)="onSearchFilter('StartUpUserMessages')">
-                        <div class="rightFilters" style="height:32px;">
+                        <form [formGroup]="filterNewsUpdateForm" style="
+                        overflow-x: auto;
+                        overflow-y: hidden;
+                    " autocomplete="off" (ngSubmit)="onSearchFilter('StartUpUserMessages')">
+                        <div class="rightFilters" style="height:36px;">
                             <div class="rightFilters-items">
                                 <mat-form-field>
                                 <mat-label >Email Address</mat-label>
@@ -863,8 +872,11 @@
                
                 <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
-                        <form [formGroup]="filterUserProfilesForm" autocomplete="off" (ngSubmit)="onSearchFilter('UserProfiles')">
-                        <div class="rightFilters" style="height:32px;">
+                        <form [formGroup]="filterUserProfilesForm"  style="
+                        overflow-x: auto;
+                        overflow-y: hidden;
+                    " autocomplete="off" (ngSubmit)="onSearchFilter('UserProfiles')">
+                        <div class="rightFilters" style="height:34px;">
                             <div class="rightFilters-items">
                                 <mat-form-field class ="col-width-16 pb-0">
                                 <mat-label >Profile Name</mat-label>
