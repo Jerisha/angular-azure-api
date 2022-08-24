@@ -186,10 +186,14 @@ background-color: #3f51b5!important;
       height:min-content;
       width: min-content;
     } 
+   ::ng-deep .mat-button-disabled
+   {
+    background-color: lightgray!important;
+   }
 .rl-fixed-bottom-bar .mat-raised-button {
   background-color: #4a4d4e;
   color: white;
-  width: 9vw;
+  /* width: 9vw; */
   line-height: 2em;
   font-size: .85em;
   margin-left: 1vw;

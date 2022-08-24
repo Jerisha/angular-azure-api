@@ -287,9 +287,9 @@
                           <th  mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
                           <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column]}} </td>
                         </div>
-                        <div *ngIf="column === 'FranchiseTitle'">
+                        <div *ngIf="column === 'UsedCount'">
                                               
-                          <th  mat-header-cell *matHeaderCellDef>Title</th>
+                          <th  mat-header-cell *matHeaderCellDef>Used</th>
                           <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column]}} </td>
                         </div>
                         <div *ngIf="column === 'Action'">
@@ -299,7 +299,7 @@
                               mode_edit_outline</mat-icon>
                           </td>
                           </div>
-                        <div *ngIf="column != 'Expand'&&column != 'Action' && column!='OloCompanyFranchise' && column!='FranchiseTitle'">
+                        <div *ngIf="column != 'Expand'&&column != 'Action' && column!='OloCompanyFranchise' && column!='UsedCount'">
                         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                         <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column]}} </td>
                         </div>
@@ -339,12 +339,12 @@
                                       <th  mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
                                       <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[innerColumn]}} </td>
                                     </div>
-                                    <div *ngIf="innerColumn === 'FranchiseTitle'">
+                                    <div *ngIf="innerColumn === 'UsedCount'">
                                               
-                                      <th  mat-header-cell *matHeaderCellDef>Title</th>
+                                      <th  mat-header-cell *matHeaderCellDef>Used</th>
                                       <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[innerColumn]}} </td>
                                     </div>
-                                    <div *ngIf="innerColumn != 'Action'&&innerColumn != 'Expand'&& innerColumn!='z' && innerColumn!='FranchiseTitle'">
+                                    <div *ngIf="innerColumn != 'Action'&&innerColumn != 'Expand'&& innerColumn!='z' && innerColumn!='UsedCount'">
                                   <th mat-header-cell *matHeaderCellDef > {{innerColumn}} </th>
                                   <td class="fracmatcell" mat-cell *matCellDef="let Company"  > {{Company[innerColumn]}} </td>
                                     </div>
@@ -369,12 +369,12 @@
                                                 <th  mat-header-cell *matHeaderCellDef>OLO-CO-FRN</th>
                                                 <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[col]}} </td>
                                               </div>
-                                              <div *ngIf="col === 'FranchiseTitle'">
+                                              <div *ngIf="col === 'UsedCount'">
                                               
-                                                <th  mat-header-cell *matHeaderCellDef>Title</th>
+                                                <th  mat-header-cell *matHeaderCellDef>Used</th>
                                                 <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[col]}} </td>
                                               </div>
-                                              <div *ngIf="col != 'Action'&& col!='OloCompanyFranchise' && col!='FranchiseTitle'">
+                                              <div *ngIf="col != 'Action'&& col!='OloCompanyFranchise' && col!='UsedCount'">
                                             <th mat-header-cell *matHeaderCellDef > {{col}} </th>
                                             <td class="fracmatcell" mat-cell *matCellDef="let comment"> {{comment[col]}} </td>
                                               </div>
