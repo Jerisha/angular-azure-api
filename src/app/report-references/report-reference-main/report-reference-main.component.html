@@ -272,7 +272,7 @@
                           
                           <th  mat-header-cell *matHeaderCellDef>{{column}}</th>
                           <td class="fracmatcell" mat-cell *matCellDef="let row "
-                          [class.example-element-row]="row.addresses?.length" [class.example-expanded-row]="row?.expanded"
+                          [class.example-element-row]="row.CompanyDetails?.length" [class.example-expanded-row]="row?.expanded"
                           (click)="row.expanded = !row?.expanded" 
                           >
                             <ng-container>
@@ -295,7 +295,7 @@
                         <div *ngIf="column === 'Action'">
                           <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                           <td  class="fracmatcell" mat-cell *matCellDef="let element"> 
-                            <mat-icon class="rl-table-icon" (click)="onEditRecord(element,$event)"   mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                            <mat-icon class="rl-table-icon" (click)="onEditRecord(element,$event)">
                               mode_edit_outline</mat-icon>
                           </td>
                           </div>
@@ -308,7 +308,7 @@
                         <td  class="fracmatcell" mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
                           <div class="example-element-detail" [@detailExpand]="element?.expanded"  *ngIf="element?.expanded">
                             <div style="width: 100%;">
-                              <table mat-table id="innertable" [dataSource]="element.CompanyDetails" multiTemplateDataRows matSort style="font-size:small!important">
+                              <table mat-table id="innertable" [dataSource]="element.CompanyDetails" multiTemplateDataRows style="font-size:small!important">
                                 <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of innerDisplayedColumns"> 
                                   <div *ngIf="innerColumn === 'Action'">
                                     <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
@@ -353,13 +353,13 @@
                                   <td  class="fracmatcell" mat-cell *matCellDef="let Company" [attr.colspan]="innerInnerDisplayedColumns.length">
                                     <div class="example-element-detail" [@detailExpand]="Company?.expanded" *ngIf="Company?.expanded">
                                       <div style="width: 100%;">
-                                        <table style="width: 100%;" #inneTables mat-table #innrSort="matSort"
-                                          [dataSource]="Company?.FranchiseDetails" matSort style="font-size:small!important">
+                                        <table style="width: 100%;" #inneTables mat-table 
+                                          [dataSource]="Company?.FranchiseDetails" style="font-size:small!important">
                                           <ng-container matColumnDef="{{col}}" *ngFor="let col of innerInnerDisplayedColumns">
                                             <div *ngIf="col === 'Action'">
                                               <th mat-header-cell *matHeaderCellDef> {{col}} </th>
                                               <td class="fracmatcell" mat-cell *matCellDef="let element"> 
-                                                <mat-icon  class="rl-table-icon" (click)="onEditRecord(element,$event,'Franchise')" mat-tooltip="Click this button, this row Record will be open in Edit Pane">
+                                                <mat-icon  class="rl-table-icon" (click)="onEditRecord(element,$event,'Franchise')" >
                                                   mode_edit_outline</mat-icon>
                                         
                                               </td>
@@ -403,17 +403,10 @@
                       </ng-container>
                     
                       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr> 
-                      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-                      >
+                      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;">
                       </tr>
                       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-                    </table>
-                    
-                    
-                    <!-- Copyright 2019 Google Inc. All Rights Reserved.
-                        Use of this source code is governed by an MIT-style license that
-                        can be found in the LICENSE file at http://angular.io/license -->
-                    
+                    </table>                    
                   </ng-container>
 
                 </div>
