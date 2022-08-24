@@ -396,7 +396,7 @@ export const ReportFranchiseResponse = {
           Company: '',
           Title:'AT Communications1',
           Franchise:'',
-          Used:'1',
+          UsedCount:'1',
           CompanyDetails: [
             {
               OloCompanyFranchise: 'ATC-ATC',
@@ -404,7 +404,7 @@ export const ReportFranchiseResponse = {
               Company: 'ATC',
               Title:'AT Communications',
               Franchise:'',
-              Used:'3',
+              UsedCount:'3',
               FranchiseDetails: [
                 {
                   OloCompanyFranchise: 'ATC-ATC-QWE',
@@ -412,7 +412,7 @@ export const ReportFranchiseResponse = {
                   Company: '',
                   Title:'nomessagetest',
                   Franchise:'QWE',
-                  Used:''
+                  UsedCount:''
                 },
                 {
                   OloCompanyFranchise: 'ATC-ATC-TTT',
@@ -420,14 +420,91 @@ export const ReportFranchiseResponse = {
                   Company: '',
                   Title:'Testing',
                   Franchise:'TTT',
-                  Used:''
+                  UsedCount:''
                 },{
                   OloCompanyFranchise: 'ATC-ATC-V07',
                   Olo: '',
                   Company: '',
                   Title:'Telewest VO7',
                   Franchise:'V07',
-                  Used:''
+                  UsedCount:''
+                },
+              ]
+            },
+          
+          ]
+        },
+        {
+          OloCompanyFranchise: 'TWL',
+          Olo: 'TWL',
+          Company: '',
+          Title:'Telewest',
+          Franchise:'',
+          UsedCount:'8',
+          CompanyDetails: [
+            {
+              OloCompanyFranchise: 'TLW-CLP',
+              Olo: '',
+              Company: 'CLP',
+              Title:'CABLE LONDON',
+              Franchise:'',
+              UsedCount:'5',
+              FranchiseDetails: [
+                {
+                  OloCompanyFranchise: 'TLW-CLP-EF1',
+                  Olo: '',
+                  Company: '',
+                  Title:'EF1 Efield',
+                  Franchise:'EF1',
+                  UsedCount:''
+                },
+                {
+                  OloCompanyFranchise: 'TLW-BCC-HA1',
+                  Olo: '',
+                  Company: '',
+                  Title:'HA1 Harrih',
+                  Franchise:'HA1',
+                  UsedCount:''
+                },{
+                  OloCompanyFranchise: 'TLW-BCC-BH3',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH3 City Centre',
+                  Franchise:'BH3',
+                  UsedCount:''
+                },
+              ]
+            },
+            {
+              OloCompanyFranchise: 'TLW-BCC',
+              Olo: '',
+              Company: 'BCC',
+              Title:'BIRMINGHAM CABLE',
+              Franchise:'',
+              UsedCount:'5',
+              FranchiseDetails: [
+                {
+                  OloCompanyFranchise: 'TLW-BCC-BH1',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH1 Small Heath',
+                  Franchise:'BH1',
+                  UsedCount:''
+                },
+                {
+                  OloCompanyFranchise: 'TLW-BCC-BH2',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH2 Witton',
+                  Franchise:'BH2',
+                  UsedCount:''
+                },{
+                  OloCompanyFranchise: 'TLW-BCC-BH3',
+                  Olo: '',
+                  Company: '',
+                  Title:'BH3 City Centre',
+                  Franchise:'BH3',
+                  UsedCount:''
                 },
               ]
             },

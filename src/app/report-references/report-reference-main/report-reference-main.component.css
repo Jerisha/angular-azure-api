@@ -288,9 +288,9 @@ td.fracmatcell{
 padding: 0px 4px;
 
 }
-ng::deep td.mat-cell{
+/* ::ng-deep td.mat-cell{
 line-height: 0px !important;
-}
+} */
 
 th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type
 {
@@ -325,4 +325,8 @@ cursor: pointer;
 font-size: 1.5em;
 height: 0px !important;
 color: #e60000;
+}
+th{
+  width: 150px!important;
+  height: 20px !important;
 }
