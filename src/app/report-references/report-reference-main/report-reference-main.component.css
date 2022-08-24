@@ -119,9 +119,13 @@
   flex-direction: row;  
   
   }
+  .btn-color{
+    background-color: #4a4d4e; 
+    color: white;
+  }
   .rl-fixed-bottom-bar-main .mat-raised-button {
-    background-color: #4a4d4e;
-    color: white;    
+    /* background-color: #4a4d4e;
+    color: white;     */
     line-height: 2em;
     font-size: .85em;
     margin-left: 1vw;

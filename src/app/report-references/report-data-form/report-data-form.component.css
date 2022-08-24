@@ -55,9 +55,15 @@
       /* margin-top: 10px;     */
       gap:2vh 2vw;
       max-height: calc(100vh - 23vh);
+      padding-top:0.8em;
     }
     .mat-checkbox-layout .mat-checkbox-label {
       line-height: .8571em;
+  }
+
+  .btn-color{
+    background-color: #4a4d4e; 
+    color: white;
   }
     .vf-card{   
       /* min-width: 90%;     */
@@ -137,8 +143,8 @@
    }
   
     .rl-fixed-bottom-bar .mat-raised-button {
-      background-color: #4a4d4e;
-      color: white;
+      /* background-color: #4a4d4e; */
+      /* color: white; */
       width: 9vw;
       line-height: 2em;
       font-size: .85em;

@@ -143,14 +143,14 @@
             <div class="rl-fixed-bottom-bar">
               <mat-card-actions>
                 <button *ngIf="eventName==='Create'" type="submit" mat-raised-button
-                  [disabled]="referenceForm.invalid"  (click) = "onSubmit()">
+                  [disabled]="referenceForm.invalid"  [ngClass] = "!referenceForm.invalid ? 'btn-color':''"  (click) = "onSubmit()">
                   <mat-icon>save</mat-icon>Save
                 </button>
                 <button *ngIf="eventName==='Update'" type="submit" mat-raised-button
-                  [disabled]="referenceForm.invalid" (click) ="onSubmit()">
+                  [disabled]="referenceForm.invalid" [ngClass] = "!referenceForm.invalid ? 'btn-color':''"   (click) ="onSubmit()">
                   <mat-icon>edit</mat-icon>Update
                 </button>
-                <button type="button" mat-raised-button (click)=onCancelDataForm() >
+                <button type="button" mat-raised-button  color = "primary" (click)="onCancelDataForm()">
                   <mat-icon>cancel</mat-icon>Cancel
                 </button>
               </mat-card-actions>

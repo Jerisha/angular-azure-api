@@ -419,10 +419,12 @@
                 </div>
                 <div class="rl-fixed-bottom-bar-main">
                   <span>
-                    <button type="button" (click)=onCreateRecord() mat-raised-button>
+                    <button type="button" (click)=onCreateRecord() mat-raised-button 
+                    class = "btn-color">
                       <mat-icon>add_box</mat-icon>Create
                     </button>
-                    <button type="button" (click)=onExportXlsxFormat() mat-raised-button>
+                    <button type="button" (click)=onExportXlsxFormat() mat-raised-button [disabled] = "dataSource.data.length ==0"
+                    [ngClass] = "dataSource.data.length !=0? 'btn-color':''">
                       <mat-icon>file_download</mat-icon>Download
                     </button>
                   </span>
