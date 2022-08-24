@@ -4,11 +4,14 @@ import { ReportReferenceService } from '../report-reference.service';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {filter, take} from 'rxjs/operators';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-report-data-form',
   templateUrl: './report-data-form.component.html',
-  styleUrls: ['./report-data-form.component.css']
+  styleUrls: ['./report-data-form.component.css'],
+  providers: [ UpperCasePipe ]
+
 })
 export class ReportDataFormComponent implements OnInit,AfterViewInit {
 
@@ -41,7 +44,7 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   constructor(private cdr: ChangeDetectorRef,    
     private formBuilder: FormBuilder,
     private service: ReportReferenceService,
-    private _ngZone: NgZone
+    private _ngZone: NgZone , private uppercasePipe: UpperCasePipe
   ) { }
 ngOnInit(): void {
     this.referenceForm = this.formBuilder.group({});
