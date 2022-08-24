@@ -316,6 +316,7 @@ export class UnresolvedtransactionComponent extends UserProfile implements OnIni
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
+      isFavcols:true,
       excelQuery : this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true,
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },

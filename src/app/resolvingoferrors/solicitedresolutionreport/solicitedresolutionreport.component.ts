@@ -489,15 +489,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
-          params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
-          // datasource: ELEMENT_DATA,
-          // totalrecordcount: 1,
-          // totalpages: 1,
-          // pagenumber: 1
+          params: res.params          
         }
         return result;
       } else return {
@@ -508,6 +500,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       data: this.queryResult$,
       Columns: this.columns,
       filter: true,
+      isFavcols:true,
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
