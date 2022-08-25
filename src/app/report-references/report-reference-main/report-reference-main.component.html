@@ -266,7 +266,7 @@
                   </ng-container>
 
                   <ng-container *ngIf="this.currentReportName === 'Franchise'">
-                    <table  class="rl-query-pane-table mat-elevation-z8" mat-table [dataSource]="dataSource" multiTemplateDataRows>
+                    <table  class="frn-query-pane-table mat-elevation-z8" mat-table [dataSource]="dataSource" multiTemplateDataRows>
                       <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
                         <div *ngIf="column === 'Expand'">
                           
@@ -276,7 +276,7 @@
                           (click)="row.expanded = !row?.expanded" 
                           >
                             <ng-container>
-                              <mat-icon  class="rl-table-icon"
+                              <mat-icon  class="frn-table-icon"
                                 (click)="(expandedElement = expandedElement === row ? null : row);  setStep(2) ">
                                 {{row.expanded ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                             </ng-container>
@@ -295,7 +295,7 @@
                         <div *ngIf="column === 'Action'">
                           <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                           <td  class="fracmatcell" mat-cell *matCellDef="let element"> 
-                            <mat-icon class="rl-table-icon" (click)="onEditRecord(element)">
+                            <mat-icon class="frn-table-icon" (click)="onEditRecord(element)">
                               mode_edit_outline</mat-icon>
                           </td>
                           </div>
@@ -313,7 +313,7 @@
                                   <div *ngIf="innerColumn === 'Action'">
                                     <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
                                     <td class="fracmatcell" mat-cell *matCellDef="let element"> 
-                                      <mat-icon class="rl-table-icon" (click)="onEditRecord(element,'Company')" >
+                                      <mat-icon class="frn-table-icon" (click)="onEditRecord(element,'Company')" >
                                         mode_edit_outline</mat-icon>
                               
                                     </td>
@@ -326,7 +326,7 @@
                                       > 
                                         <ng-container>
                                 
-                                          <mat-icon  class="rl-table-icon"
+                                          <mat-icon  class="frn-table-icon"
                                             (click)="(expandedElement = expandedElement === row ? null : row);  setStep(2) ">
                                             {{row.expanded ? 'remove_box_outline' : 'add_box_outline'}}</mat-icon>
                                             
@@ -344,7 +344,7 @@
                                       <th  mat-header-cell *matHeaderCellDef>Used</th>
                                       <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[innerColumn]}} </td>
                                     </div>
-                                    <div *ngIf="innerColumn != 'Action'&&innerColumn != 'Expand'&& innerColumn!='z' && innerColumn!='UsedCount'">
+                                    <div *ngIf="innerColumn != 'Action'&&innerColumn != 'Expand'&& innerColumn!='OloCompanyFranchise' && innerColumn!='UsedCount'">
                                   <th mat-header-cell *matHeaderCellDef > {{innerColumn}} </th>
                                   <td class="fracmatcell" mat-cell *matCellDef="let Company"  > {{Company[innerColumn]}} </td>
                                     </div>
@@ -359,7 +359,7 @@
                                             <div *ngIf="col === 'Action'">
                                               <th mat-header-cell *matHeaderCellDef> {{col}} </th>
                                               <td class="fracmatcell" mat-cell *matCellDef="let element"> 
-                                                <mat-icon  class="rl-table-icon" (click)="onEditRecord(element,'Franchise')" >
+                                                <mat-icon  class="frn-table-icon" (click)="onEditRecord(element,'Franchise')" >
                                                   mode_edit_outline</mat-icon>
                                         
                                               </td>
