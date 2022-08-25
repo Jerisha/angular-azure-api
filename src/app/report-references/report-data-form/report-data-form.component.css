@@ -171,10 +171,10 @@
     margin-top: 6px; 
     } */
    
-   input[readonly]
+   /* input[readonly]
   {
       background-color:#ccc;
-  }
+  } */
   /* :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 6px 0 6px 0 !important;     
   }  */
@@ -203,4 +203,17 @@
     .disable{
       color: lightgrey !important;
     }
+    .custom-icon{
+
+    }
+    .mat-form-field-suffix .mat-icon {
+      font-size: 1.6em !important;
+      line-height: 1.125;
+  }.mat-autocomplete-panel {
+    min-width: none !important;
+  }
   
+  
+   .col-width-18{
+      width: 18vw;
+      }

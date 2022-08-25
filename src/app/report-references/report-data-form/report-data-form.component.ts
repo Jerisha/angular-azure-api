@@ -282,6 +282,7 @@ this.setCompanyDropdownValue(Olo);
 // if(Olo != event){
 if(filterName === 'OloFilter'){
 this.referenceForm.controls['Company'].enable();
+this.firstDropdownVal ='';
 }
 else if(filterName === 'Companyfilter'){
 
@@ -303,27 +304,29 @@ OnOloFocusChange(OloValue: any, Ololength: number)
   }
   else{
     this.referenceForm.controls['Company'].disable();
+    this.referenceForm.controls['Franchise'].disable();
   }
 }
   // console.log(this.referenceForm)
 }
 OnCompanyFocusChange(CompanyValue: any, Companylength: number)
 {
-  console.log(this.referenceForm,'c1')
-  console.log(CompanyValue,'c2')
-  console.log(Companylength,'c3')
+  // console.log(this.referenceForm,'c1')
+  // console.log(CompanyValue,'c2')
+  // console.log(Companylength,'c3')
   if(CompanyValue !=  null || undefined){
   if( this.companyDropdown?.includes(CompanyValue.toUpperCase()) ){
         this.referenceForm.controls['Franchise'].enable();
         this.referenceForm.controls['UsedCount'].enable();
-        console.log(this.referenceForm,'f2')
+        // console.log(this.referenceForm,'f2')
   }
   else{
     this.referenceForm.controls['Franchise'].disable();
     this.referenceForm.controls['UsedCount'].disable();
+    this.referenceForm.controls['Franchise'].setValue('');
   }
 }
-  console.log(this.referenceForm)
+  // console.log(this.referenceForm)
 }
 
 onMultiselectDropDownChange(event:any){
