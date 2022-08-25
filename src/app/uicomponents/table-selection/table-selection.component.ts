@@ -692,7 +692,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
           if (response.Status[0].StatusCode === 'PY1000') {
             profile.favprofileid = response.Data[0].favprofileid;
             this.favProfile.push(profile);
-            this.alertService.success("User Profile Created Successfully!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.success("Preferred Header list Created Successfully!", { autoClose: true, keepAfterRouteChange: false });
             this.selectedUserProfileId = profile.favprofileid;
             this.getSelectedProfile(this.selectedUserProfileId);
           }
@@ -706,8 +706,8 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     var selectedProfile = this.favProfile.find(x => x.favprofileid === this.selectedUserProfileId);
     const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '400px', disableClose: true, data: {
-        message: !selectedProfile?.favprofname.startsWith('All') ? 'Do you want to promote this report to All Users?'
-          : 'Do you want make this report for private use only?'
+        message: !selectedProfile?.favprofname.startsWith('All') ? 'Do you want to promote this header list to All Users?'
+          : 'Do you want make this header list for private use only?'
       }
     });
     deleteConfirm.afterClosed().subscribe(result => {
@@ -733,7 +733,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
             this.favProfile = this.favProfile.filter(x => x.favprofileid != profile.favprofileid);
             profile.favprofname = profileName;
             this.favProfile.push(profile);
-            this.alertService.success("User Profile Promoted Successfully!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.success("Preferred Header List Promoted Successfully!", { autoClose: true, keepAfterRouteChange: false });
             this.selectedUserProfileId = profile.favprofileid;
             this.getSelectedProfile(this.selectedUserProfileId);
           }
@@ -745,7 +745,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   deleteProfile() {
     const deleteConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '300px', disableClose: true, data: {
-        message: 'Do you want to Delete this User profile?'
+        message: 'Do you want to Delete this Preferred Header List?'
       }
     });
     deleteConfirm.afterClosed().subscribe(result => {
@@ -756,7 +756,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
         let request = Utils.preparePyUIDelete('ManageUsers', 'FavouriteProfile', 'favprofileid', data)
         this.service.uiApiDetails(request, WebMethods.UIDELETE).subscribe(result => {
           if (result.Status[0].StatusCode === 'PY1000') {
-            this.alertService.success("User Profile Deleted Successfully!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.success("Preferred Header Deleted Successfully!", { autoClose: true, keepAfterRouteChange: false });
             this.favProfile = this.favProfile.filter(x => x.favprofileid != this.selectedUserProfileId);
             this.selectedUserProfileId = this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid ? this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid : 0;
             this.getSelectedProfile(this.selectedUserProfileId);
