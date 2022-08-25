@@ -129,9 +129,16 @@
                   <!-- <div *ngSwitchCase="formData.cType === 'radio'"
                     [ngClass]="{'radio1': reportName != 'ErrorCode', 'radio2' : reportName === 'ErrorCode' }"> -->
                     <div *ngSwitchCase="formData.cType === 'radio'" >
-                    <mat-checkbox [ngClass]="{'hidden-control': !referenceForm.controls['Franchise'].value}"  color="primary" [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
+                      <ng-container *ngIf="reportName != 'Franchise'">
+                    <mat-checkbox color="primary" [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
                       [formControlName]="formData.cName" [(ngModel)]="formData.cValue">{{formData.cDisplayName}}
                     </mat-checkbox>
+                    </ng-container>
+                    <ng-container *ngIf="reportName === 'Franchise'">
+                      <mat-checkbox [ngClass]="{'hidden-control': !referenceForm.controls['Franchise'].value}"  color="primary" [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
+                        [formControlName]="formData.cName" [(ngModel)]="formData.cValue">{{formData.cDisplayName}}
+                      </mat-checkbox>
+                      </ng-container>
                     <!-- <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error> -->
                     <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error>
                   </div>

@@ -232,9 +232,9 @@
                           <th mat-header-cell *matHeaderCellDef>Actions</th>
                           <td mat-cell *matCellDef="let element">
                             <ng-container>
-                              <mat-icon (click)="onEditRecord(element,$event)" class="rl-table-icon">mode_edit_outline
+                              <mat-icon (click)="onEditRecord(element)" class="rl-table-icon">mode_edit_outline
                               </mat-icon>
-                              <mat-icon *ngIf="this.editActionEnabled" (click)="onDeleteRecord(element,$event)"
+                              <mat-icon *ngIf="this.editActionEnabled" (click)="onDeleteRecord(element)"
                                 class="rl-table-icon">delete_outline</mat-icon>
                             </ng-container>
                           </td>
@@ -295,7 +295,7 @@
                         <div *ngIf="column === 'Action'">
                           <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                           <td  class="fracmatcell" mat-cell *matCellDef="let element"> 
-                            <mat-icon class="rl-table-icon" (click)="onEditRecord(element,$event)">
+                            <mat-icon class="rl-table-icon" (click)="onEditRecord(element)">
                               mode_edit_outline</mat-icon>
                           </td>
                           </div>
@@ -313,7 +313,7 @@
                                   <div *ngIf="innerColumn === 'Action'">
                                     <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
                                     <td class="fracmatcell" mat-cell *matCellDef="let element"> 
-                                      <mat-icon class="rl-table-icon" (click)="onEditRecord(element,$event,'Company')" >
+                                      <mat-icon class="rl-table-icon" (click)="onEditRecord(element,'Company')" >
                                         mode_edit_outline</mat-icon>
                               
                                     </td>
@@ -359,7 +359,7 @@
                                             <div *ngIf="col === 'Action'">
                                               <th mat-header-cell *matHeaderCellDef> {{col}} </th>
                                               <td class="fracmatcell" mat-cell *matCellDef="let element"> 
-                                                <mat-icon  class="rl-table-icon" (click)="onEditRecord(element,$event,'Franchise')" >
+                                                <mat-icon  class="rl-table-icon" (click)="onEditRecord(element,'Franchise')" >
                                                   mode_edit_outline</mat-icon>
                                         
                                               </td>

@@ -952,8 +952,12 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     }
   }
 
-  onEditRecord(element: any, event: any, reportType?: any) {   
-    let oloCompanyFranchise = element.OloCompanyFranchise.split('-');
+  onEditRecord(element: any, reportType?: any) {   
+    let oloCompanyFranchise;
+    if(reportType === 'Company' || reportType === 'Franchise')
+    {
+       oloCompanyFranchise = element.OloCompanyFranchise.split('-');
+    }
     // console.log(oloCompanyFranchise);
     let elementData = Object.assign({}, element);
     if(reportType === 'Company') elementData.Olo = oloCompanyFranchise[0];
@@ -1030,7 +1034,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     )
     // console.log(this.editRecord, 'editrrecord2')
   }
-  onDeleteRecord(record: any, event: any) {
+  onDeleteRecord(record: any) {
     this.alertService.clear();
     this.highlightedRows = record
     // alert("Delete starts..."+JSON.stringify(this.record));
