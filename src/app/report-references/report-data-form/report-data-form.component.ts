@@ -279,17 +279,8 @@ onDropDownChange(event:any,filterName? : string){
 console.log(event,'l');
 let Olo = event.option.value;
 this.setCompanyDropdownValue(Olo);
-// if(Olo != event){
-if(filterName === 'OloFilter'){
 this.referenceForm.controls['Company'].enable();
 this.firstDropdownVal ='';
-}
-else if(filterName === 'Companyfilter'){
-
-  this.referenceForm.controls['Franchise'].enable();
-  this.referenceForm.controls['UsedCount'].enable();
-}
-
 }
 
 OnOloFocusChange(OloValue: any, Ololength: number)
@@ -305,6 +296,8 @@ OnOloFocusChange(OloValue: any, Ololength: number)
   else{
     this.referenceForm.controls['Company'].disable();
     this.referenceForm.controls['Franchise'].disable();
+    this.firstDropdownVal= '';
+    this.referenceForm.controls['Franchise'].setValue('');
   }
 }
   // console.log(this.referenceForm)

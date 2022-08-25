@@ -70,7 +70,7 @@
                         <span matSuffix mat-icon-button >
                           <mat-icon [ngClass]="{'disable': referenceForm.controls['Olo'].disabled}" (click)="franchiseValue=''">arrow_drop_down</mat-icon>
                         </span>
-                        <mat-autocomplete (optionSelected)="onDropDownChange($event,'OloFilter')" autoActiveFirstOption #autoOlo="matAutocomplete">
+                        <mat-autocomplete (optionSelected)="onDropDownChange($event)" autoActiveFirstOption #autoOlo="matAutocomplete">
                           <mat-option *ngFor="let opt of franchiseList | ddlFilter: searchOlo.value" [value]="opt" >
                             {{opt}}
                           </mat-option>
