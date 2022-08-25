@@ -576,12 +576,12 @@ export class ReportReferenceService {
     //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
     
     let request = Utils.preparePyQuery(pageIdentifier, reportIdentifier,[{}]);
-    console.log(JSON.stringify(request));
-    if(pageIdentifier === 'Franchise')
-    {
-      console.log(ReportFranchiseResponse,'cg')
-    return of(ReportFranchiseResponse)
-    }
+    // console.log(JSON.stringify(request));
+    // if(pageIdentifier === 'Franchise')
+    // {
+    //   console.log(ReportFranchiseResponse,'cg')
+    // return of(ReportFranchiseResponse)
+    // }
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
   updateDetails(request: any): Observable<any> {
