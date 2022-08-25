@@ -402,7 +402,7 @@ export const ReportFranchiseResponse = {
               OloCompanyFranchise: 'ATC-ATC',
               Olo: '',
               Company: 'ATC',
-              Title:'AT Communications',
+              Title:'AT Communications1',
               Franchise:'',
               UsedCount:'3',
               FranchiseDetails: [
@@ -410,7 +410,7 @@ export const ReportFranchiseResponse = {
                   OloCompanyFranchise: 'ATC-ATC-QWE',
                   Olo: '',
                   Company: '',
-                  Title:'nomessagetest',
+                  Title:'AT Communications1',
                   Franchise:'QWE',
                   UsedCount:''
                 },
@@ -418,14 +418,14 @@ export const ReportFranchiseResponse = {
                   OloCompanyFranchise: 'ATC-ATC-TTT',
                   Olo: '',
                   Company: '',
-                  Title:'Testing',
+                  Title:'AT Communications1',
                   Franchise:'TTT',
                   UsedCount:''
                 },{
                   OloCompanyFranchise: 'ATC-ATC-V07',
                   Olo: '',
                   Company: '',
-                  Title:'Telewest VO7',
+                  Title:'AT Communications1',
                   Franchise:'V07',
                   UsedCount:''
                 },
@@ -434,83 +434,83 @@ export const ReportFranchiseResponse = {
           
           ]
         },
-        {
-          OloCompanyFranchise: 'TWL',
-          Olo: 'TWL',
-          Company: '',
-          Title:'Telewest',
-          Franchise:'',
-          UsedCount:'8',
-          CompanyDetails: [
-            {
-              OloCompanyFranchise: 'TLW-CLP',
-              Olo: '',
-              Company: 'CLP',
-              Title:'CABLE LONDON',
-              Franchise:'',
-              UsedCount:'5',
-              FranchiseDetails: [
-                {
-                  OloCompanyFranchise: 'TLW-CLP-EF1',
-                  Olo: '',
-                  Company: '',
-                  Title:'EF1 Efield',
-                  Franchise:'EF1',
-                  UsedCount:''
-                },
-                {
-                  OloCompanyFranchise: 'TLW-BCC-HA1',
-                  Olo: '',
-                  Company: '',
-                  Title:'HA1 Harrih',
-                  Franchise:'HA1',
-                  UsedCount:''
-                },{
-                  OloCompanyFranchise: 'TLW-BCC-BH3',
-                  Olo: '',
-                  Company: '',
-                  Title:'BH3 City Centre',
-                  Franchise:'BH3',
-                  UsedCount:''
-                },
-              ]
-            },
-            {
-              OloCompanyFranchise: 'TLW-BCC',
-              Olo: '',
-              Company: 'BCC',
-              Title:'BIRMINGHAM CABLE',
-              Franchise:'',
-              UsedCount:'5',
-              FranchiseDetails: [
-                {
-                  OloCompanyFranchise: 'TLW-BCC-BH1',
-                  Olo: '',
-                  Company: '',
-                  Title:'BH1 Small Heath',
-                  Franchise:'BH1',
-                  UsedCount:''
-                },
-                {
-                  OloCompanyFranchise: 'TLW-BCC-BH2',
-                  Olo: '',
-                  Company: '',
-                  Title:'BH2 Witton',
-                  Franchise:'BH2',
-                  UsedCount:''
-                },{
-                  OloCompanyFranchise: 'TLW-BCC-BH3',
-                  Olo: '',
-                  Company: '',
-                  Title:'BH3 City Centre',
-                  Franchise:'BH3',
-                  UsedCount:''
-                },
-              ]
-            },
+        // {
+        //   OloCompanyFranchise: 'TWL',
+        //   Olo: 'TWL',
+        //   Company: '',
+        //   Title:'AT Communications1',
+        //   Franchise:'',
+        //   UsedCount:'8',
+        //   CompanyDetails: [
+        //     {
+        //       OloCompanyFranchise: 'TLW-CLP',
+        //       Olo: '',
+        //       Company: 'CLP',
+        //       Title:'AT Communications1',
+        //       Franchise:'',
+        //       UsedCount:'5',
+        //       FranchiseDetails: [
+        //         {
+        //           OloCompanyFranchise: 'TLW-CLP-EF1',
+        //           Olo: '',
+        //           Company: '',
+        //           Title:'AT Communications1',
+        //           Franchise:'EF1',
+        //           UsedCount:''
+        //         },
+        //         {
+        //           OloCompanyFranchise: 'TLW-BCC-HA1',
+        //           Olo: '',
+        //           Company: '',
+        //           Title:'AT Communications1',
+        //           Franchise:'HA1',
+        //           UsedCount:''
+        //         },{
+        //           OloCompanyFranchise: 'TLW-BCC-BH3',
+        //           Olo: '',
+        //           Company: '',
+        //           Title:'AT Communications1',
+        //           Franchise:'BH3',
+        //           UsedCount:''
+        //         },
+        //       ]
+        //     },
+        //     {
+        //       OloCompanyFranchise: 'TLW-BCC',
+        //       Olo: '',
+        //       Company: 'BCC',
+        //       Title:'AT Communications1',
+        //       Franchise:'',
+        //       UsedCount:'5',
+        //       FranchiseDetails: [
+        //         {
+        //           OloCompanyFranchise: 'TLW-BCC-BH1',
+        //           Olo: '',
+        //           Company: '',
+        //           Title:'BH1 Small Heath',
+        //           Franchise:'BH1',
+        //           UsedCount:''
+        //         },
+        //         {
+        //           OloCompanyFranchise: 'TLW-BCC-BH2',
+        //           Olo: '',
+        //           Company: '',
+        //           Title:'BH2 Witton',
+        //           Franchise:'BH2',
+        //           UsedCount:''
+        //         },{
+        //           OloCompanyFranchise: 'TLW-BCC-BH3',
+        //           Olo: '',
+        //           Company: '',
+        //           Title:'BH3 City Centre',
+        //           Franchise:'BH3',
+        //           UsedCount:''
+        //         },
+        //       ]
+        //     },
           
-          ]
-        },
+        //   ]
+        // },
        
           ],
     

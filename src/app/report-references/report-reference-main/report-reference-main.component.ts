@@ -117,11 +117,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   Franchise: string;
   Title: string;
   Used: string;
- 
-  
-  columnsToDisplay = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
-  innerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
-  innerInnerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
 
   expandedElement: any[] = [];
   step: number;
@@ -539,7 +534,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.alertService.clear();
 
     this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+    
+    if (this.currentReportName === 'Franchise') {
 
+      this.displayedColumns.splice(1, 0, { cName: "Expand", cDisplayName: "Expand", ctooltip: "" })
+      console.log(this.displayedColumns);
+    }
+    
     if (this.currentReportName === 'CUPIDCrossReference') {
 
       this.displayedColumns.splice(2, 0, { cName: "FranchiseCode", cDisplayName: "Franchise", ctooltip: "" })
@@ -952,8 +953,12 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     }
   }
 
-  onEditRecord(element: any, event: any, reportType?: any) {   
-    let oloCompanyFranchise = element.OloCompanyFranchise.split('-');
+  onEditRecord(element: any, reportType?: any) {   
+    let oloCompanyFranchise;
+    if(reportType === 'Company' || reportType === 'Franchise')
+    {
+       oloCompanyFranchise = element.OloCompanyFranchise.split('-');
+    }
     // console.log(oloCompanyFranchise);
     let elementData = Object.assign({}, element);
     if(reportType === 'Company') elementData.Olo = oloCompanyFranchise[0];
@@ -1030,7 +1035,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     )
     // console.log(this.editRecord, 'editrrecord2')
   }
-  onDeleteRecord(record: any, event: any) {
+  onDeleteRecord(record: any) {
     this.alertService.clear();
     this.highlightedRows = record
     // alert("Delete starts..."+JSON.stringify(this.record));
@@ -1167,11 +1172,24 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     // console.log(entries1.map, 'entri')
     let data1 = Object.entries(data)
     let reqdata = data1.map(([key, val]) => ({ Name: key, Value: [val] }));
-    if (this.eventName === 'Create' && (reportName === 'Franchise' || reportName === 'Olo' || reportName === 'Company')) {
-      let newval = reportName === 'Franchise' ? '3' : reportName === 'Olo' ? '1' : '2'
+    // if (this.eventName === 'Create' && (reportName === 'Franchise' || reportName === 'Olo' || reportName === 'Company')) {
+    //   let newval = reportName === 'Franchise' ? '3' : reportName === 'Olo' ? '1' : '2'
 
-      reqdata.push({ Name: 'CreationFlag', Value: [newval] })
+    if (this.eventName === 'Create' && (reportName === 'Franchise')) {
+      // reqdata[3].Name === 
+      console.log(reqdata, 'creations1')
+      // let newval =  reqdata[3]?.Name === 'Franchise' ? '3' :  reqdata[2]?.Name === 'Company' ? '2' : '1'
+      let creationFlag = 0;
+        for (let index = reqdata.length-1; index > 0; index--) {
+        if(reqdata[index].Name === 'Olo' || reqdata[index].Name === 'Company' || reqdata[index].Name === 'Franchise') {
+          creationFlag++;
+        }
+      }
+      console.log("CreationFlag ", creationFlag );
+      reqdata.push({ Name: 'CreationFlag', Value: [creationFlag.toString()] })
+      
     }
+    
     // let data = updaterecord1.entries().map((x:any) => (
     //   { Name: x[0], Value: [x[1]]}
     //   ));

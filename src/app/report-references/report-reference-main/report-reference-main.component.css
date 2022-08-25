@@ -119,9 +119,13 @@
   flex-direction: row;  
   
   }
+  .btn-color{
+    background-color: #4a4d4e; 
+    color: white;
+  }
   .rl-fixed-bottom-bar-main .mat-raised-button {
-    background-color: #4a4d4e;
-    color: white;    
+    /* background-color: #4a4d4e;
+    color: white;     */
     line-height: 2em;
     font-size: .85em;
     margin-left: 1vw;
@@ -204,7 +208,7 @@ tr.mat-header-row,tr.mat-row, tr.mat-footer-row {
   .rl-table-icon{
     cursor: pointer;  
     /* font-size: 0.8571em !important; */
-    font-size: 1em !important;
+    font-size: 1.5em !important;
     height: 0px !important;
     width: auto;
     padding-left: 1em;
@@ -329,4 +333,29 @@ color: #e60000;
 th{
   width: 150px!important;
   height: 20px !important;
+}
+th{
+  width: 100px!important;
+  /* height: 20px !important; */
+}
+
+.frn-table-icon{
+  cursor: pointer;  
+  /* font-size: 0.8571em !important; */
+  font-size: 1.5em !important;
+  height: 0px !important;
+  /* width: auto; */
+  /* padding-left: 1em; */
+  color: #e60000;
+}
+ .frn-query-pane-table{    
+  margin-top: 10px;
+   width: 100%;
+   /* max-height:400px; */
+   /* width:fit-content; */
+   /* width: auto; */
+   overflow: auto; 
+   /* min-height: 400px; 
+    width: 100%;          */
+    /* overflow: auto; */
 }
