@@ -117,11 +117,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   Franchise: string;
   Title: string;
   Used: string;
- 
-  
-  columnsToDisplay = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
-  innerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
-  innerInnerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
 
   expandedElement: any[] = [];
   step: number;
@@ -539,7 +534,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.alertService.clear();
 
     this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+    
+    if (this.currentReportName === 'Franchise') {
 
+      this.displayedColumns.splice(1, 0, { cName: "Expand", cDisplayName: "Expand", ctooltip: "" })
+      console.log(this.displayedColumns);
+    }
+    
     if (this.currentReportName === 'CUPIDCrossReference') {
 
       this.displayedColumns.splice(2, 0, { cName: "FranchiseCode", cDisplayName: "Franchise", ctooltip: "" })
