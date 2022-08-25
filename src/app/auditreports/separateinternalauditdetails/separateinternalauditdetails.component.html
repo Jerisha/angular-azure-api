@@ -184,9 +184,9 @@
 
           </mat-form-field> -->
 
-          <mat-form-field [ngClass]="{'hidden':form.PostCodeDifference.disabled}">
+          <mat-form-field [ngClass]="{'hidden':form.PostcodeDifference.disabled}">
             <mat-label>Post Code Difference</mat-label>
-            <mat-select formControlName="PostCodeDifference">  
+            <mat-select formControlName="PostcodeDifference">  
               <mat-option>-- Select --</mat-option> 
               <mat-option *ngFor="let val of config.PostcodeDifference" [value]="val">
                 {{val}}
