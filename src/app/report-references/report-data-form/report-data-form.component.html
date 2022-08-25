@@ -67,8 +67,8 @@
                             [maxLength]="formData.cMaxLength" 
                           (blur)="OnOloFocusChange(searchOlo.value,formData.cMaxLength)" 
                           />
-                        <span matSuffix mat-icon-button>
-                          <mat-icon (click)="franchiseValue=''">arrow_drop_down</mat-icon>
+                        <span matSuffix mat-icon-button >
+                          <mat-icon [ngClass]="{'disable': referenceForm.controls['Olo'].disabled}" (click)="franchiseValue=''">arrow_drop_down</mat-icon>
                         </span>
                         <mat-autocomplete (optionSelected)="onDropDownChange($event,'OloFilter')" autoActiveFirstOption #autoOlo="matAutocomplete">
                           <mat-option *ngFor="let opt of franchiseList | ddlFilter: searchOlo.value" [value]="opt" >
@@ -98,7 +98,7 @@
                             [maxLength]="formData.cMaxLength" 
                             (blur)="OnCompanyFocusChange(Company.value,formData.cMaxLength)"/>
                           <span matSuffix mat-icon-button >
-                            <mat-icon (click)="firstDropdownVal=''">arrow_drop_down</mat-icon>
+                            <mat-icon [ngClass]="{'disable': referenceForm.controls['Company'].disabled}" (click)="firstDropdownVal=''">arrow_drop_down</mat-icon>
                           </span>
                           <mat-autocomplete  autoActiveFirstOption #autoCompanyType="matAutocomplete" (optionSelected)="onDropDownChange($event,'CompanyFilter')">
                             <mat-option style="font-size:11px" *ngFor="let val of companyDropdown | ddlFilter: Company.value" [value]="val">
@@ -129,9 +129,16 @@
                   <!-- <div *ngSwitchCase="formData.cType === 'radio'"
                     [ngClass]="{'radio1': reportName != 'ErrorCode', 'radio2' : reportName === 'ErrorCode' }"> -->
                     <div *ngSwitchCase="formData.cType === 'radio'" >
-                    <mat-checkbox   color="primary" [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
+                      <ng-container *ngIf="reportName != 'Franchise'">
+                    <mat-checkbox color="primary" [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
                       [formControlName]="formData.cName" [(ngModel)]="formData.cValue">{{formData.cDisplayName}}
                     </mat-checkbox>
+                    </ng-container>
+                    <ng-container *ngIf="reportName === 'Franchise'">
+                      <mat-checkbox [ngClass]="{'hidden-control': !referenceForm.controls['Franchise'].value}"  color="primary" [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
+                        [formControlName]="formData.cName" [(ngModel)]="formData.cValue">{{formData.cDisplayName}}
+                      </mat-checkbox>
+                      </ng-container>
                     <!-- <mat-error *ngIf="fieldError(formData.cName, 'required')">{{formData.cDisplayName}} is required</mat-error> -->
                     <mat-error *ngIf="fieldError(formData.cName, 'required')"></mat-error>
                   </div>

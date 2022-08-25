@@ -117,11 +117,6 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
   Franchise: string;
   Title: string;
   Used: string;
- 
-  
-  columnsToDisplay = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
-  innerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
-  innerInnerDisplayedColumns = ['Action', 'Expand', 'Olo', 'Company', 'Franchise', 'Title', 'UsedCount', 'OloCompanyFranchise'];
 
   expandedElement: any[] = [];
   step: number;
@@ -539,7 +534,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
     this.alertService.clear();
 
     this.displayedColumns = this.reportReferenceService.getDisplayNames(this.currentReportName);
+    
+    if (this.currentReportName === 'Franchise') {
 
+      this.displayedColumns.splice(1, 0, { cName: "Expand", cDisplayName: "Expand", ctooltip: "" })
+      console.log(this.displayedColumns);
+    }
+    
     if (this.currentReportName === 'CUPIDCrossReference') {
 
       this.displayedColumns.splice(2, 0, { cName: "FranchiseCode", cDisplayName: "Franchise", ctooltip: "" })
@@ -952,8 +953,12 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     }
   }
 
-  onEditRecord(element: any, event: any, reportType?: any) {   
-    let oloCompanyFranchise = element.OloCompanyFranchise.split('-');
+  onEditRecord(element: any, reportType?: any) {   
+    let oloCompanyFranchise;
+    if(reportType === 'Company' || reportType === 'Franchise')
+    {
+       oloCompanyFranchise = element.OloCompanyFranchise.split('-');
+    }
     // console.log(oloCompanyFranchise);
     let elementData = Object.assign({}, element);
     if(reportType === 'Company') elementData.Olo = oloCompanyFranchise[0];
@@ -974,13 +979,13 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
         });
         editConfirm.afterClosed().subscribe(result => {
           if (result) {
-            this.editRecordLogic(elementData);
+            this.editRecordLogic(elementData,element);
           } else {
             // this.highlightedRecord=null;
           }
         });
       } else {
-        this.editRecordLogic(elementData);
+        this.editRecordLogic(elementData,element);
       }
     }
     else {
@@ -989,7 +994,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
       // alert("close opened report:"+this.editMode)
     }
   }
-  editRecordLogic(element: any) {
+  editRecordLogic(elementData: any,element: any) {
     this.alertService.clear();
     this.editMode = this.currentReportName;
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
@@ -1003,7 +1008,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     // this.showDataForm =true;
     // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
     this.reportReferenceService.showDataForm = this.showDataForm = true;
-    let element1 = Object.assign({}, element);
+    let element1 = Object.assign({}, elementData);
     this.editRecord = element1;
     let lstRadio = this.lstFields.filter((t: IColoumnDef) => t.cType === 'radio');
     Object.entries(element1).map(
@@ -1030,7 +1035,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     )
     // console.log(this.editRecord, 'editrrecord2')
   }
-  onDeleteRecord(record: any, event: any) {
+  onDeleteRecord(record: any) {
     this.alertService.clear();
     this.highlightedRows = record
     // alert("Delete starts..."+JSON.stringify(this.record));

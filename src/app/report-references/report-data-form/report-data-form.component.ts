@@ -55,35 +55,33 @@ ngOnInit(): void {
       
       this.referenceForm.controls['Franchise'].disable();
       this.referenceForm.controls['Company'].disable();
-      this.referenceForm.controls['UsedCount'].disable();
+      // this.referenceForm.controls['UsedCount'].disable();
       
       }  
     if(this.record != undefined)
     {
       // console.log('oninit')
       this.eventName ='Update'  
-      if(this.reportName === 'Franchise'){
-        this.referenceForm.controls['Olo'].disable();
-        // console.log(this.referenceForm,'ij')
-        // console.log(this.referenceForm.controls['Franchise']?.value)
-        if(this.referenceForm.controls['Franchise']?.value !=  ''){
-          console.log("!null in")
-          //console.log("valujesnull",this.referenceForm.controls['Franchise'])
-          this.referenceForm.controls['UsedCount'].enable();
-          }
-          else{
-            console.log("null in")
-          this.referenceForm.controls['UsedCount'].disable();
-          }
-       
-        }  
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
     {      
         let control = this.referenceForm.get(field);    
         control?.setValue(this.record[field]);
-       
     }
+    if(this.reportName === 'Franchise'){
+      this.referenceForm.controls['Olo'].disable();
+      // console.log(this.referenceForm,'ij')
+      // console.log(this.referenceForm.controls['Franchise']?.value)
+      if(this.referenceForm.controls['Franchise']?.value !=  ''){
+        console.log("!null init")
+        //console.log("valujesnull",this.referenceForm.controls['Franchise'])
+        this.referenceForm.controls['UsedCount'].enable();
+        }
+        else{
+          console.log("null init")
+        this.referenceForm.controls['UsedCount'].disable();
+        }
+      }  
     this.updatedBy = this.record['UpdatedBy'] != undefined ?'UpdatedBy:'+ this.record['UpdatedBy']:''
     this.updatedOn = this.record['UpdatedOn'] != undefined?'UpdatedOn:'+this.record['UpdatedOn']:''
     //console.log(this.updatedBy,this.updatedOn,this.record['UpdatedBy'],this.record['UpdatedOn'],'log')
@@ -105,25 +103,12 @@ ngOnChanges(changes: SimpleChanges) {
       
     this.referenceForm.controls['Franchise'].disable();
     this.referenceForm.controls['Company'].disable();
-    this.referenceForm.controls['UsedCount'].disable();
+    // this.referenceForm.controls['UsedCount'].disable();
     }
     if(this.record != undefined)
     {
       //console.log('onChanges')
-      this.eventName ='Update'   
-      if(this.reportName === 'Franchise'){
-        this.referenceForm.controls['Olo'].disable();
-        // console.log(this.referenceForm,'ijc')
-        // console.log(this.referenceForm.controls['Franchise']?.value)
-        if(this.referenceForm.controls['Franchise']?.value !=  ''){
-          console.log("!null on")
-        this.referenceForm.controls['UsedCount'].enable();
-        }
-        else{
-          console.log("null on")
-        this.referenceForm.controls['UsedCount'].disable();
-        }
-        }   
+      this.eventName ='Update'     
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
     {      
@@ -131,8 +116,21 @@ ngOnChanges(changes: SimpleChanges) {
         control?.setValue(this.record[field]);
 
         // set company dropdown based on Olo selected for Franchise report
-      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo'], this.record['Company']);  
+      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo']);  
     }
+    if(this.reportName === 'Franchise'){
+      this.referenceForm.controls['Olo'].disable();
+      // console.log(this.referenceForm,'ijc')
+      // console.log(this.referenceForm.controls['Franchise']?.value)
+      if(this.referenceForm.controls['Franchise']?.value !=  ''){
+        console.log("!null changes")
+      this.referenceForm.controls['UsedCount'].enable();
+      }
+      else{
+        console.log("null changes")
+      this.referenceForm.controls['UsedCount'].disable();
+      }
+      } 
     this.updatedBy = this.record['UpdatedBy'] != undefined ?'UpdatedBy:'+ this.record['UpdatedBy']:''
     this.updatedOn = this.record['UpdatedOn'] != undefined?'UpdatedOn:'+this.record['UpdatedOn']:''
     //console.log(this.updatedBy,this.updatedOn,this.record['UpdatedBy'],this.record['UpdatedOn'],'log')
@@ -285,7 +283,7 @@ this.setCompanyDropdownValue(Olo);
 if(filterName === 'OloFilter'){
 this.referenceForm.controls['Company'].enable();
 }
-else if(filterName === 'Compnayfilter'){
+else if(filterName === 'Companyfilter'){
 
   this.referenceForm.controls['Franchise'].enable();
   this.referenceForm.controls['UsedCount'].enable();
@@ -333,12 +331,12 @@ onMultiselectDropDownChange(event:any){
  // console.log(event,'event')
 
 }
-setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
+setCompanyDropdownValue(OloValue: any) {
   if(OloValue != null) {
-  const index = this.lstForm[2].cList.findIndex((x: any) => {
+  const index = this.lstForm[1].cList.findIndex((x: any) => {
     return x.displayValue === OloValue;
   });
-  this.companyDropdown =  this.lstForm[2].cList[index]?.companyDropdown;
+  this.companyDropdown =  this.lstForm[1].cList[index]?.companyDropdown;
   // this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0] ? this.companyDropdown[0] : '';
 }
 }

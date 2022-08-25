@@ -38,8 +38,8 @@ export class ReportReferenceService {
   // ];
   reportTitleNames: {name:string,viewName:string}[] =[
     {name:'Franchise',viewName:'Franchises'},
-    {name:'Olo',viewName:'OLOs'},
-    {name:'Company',viewName:'Companys'},
+    // {name:'Olo',viewName:'OLOs'},
+    // {name:'Company',viewName:'Companys'},
     {name:'Status',viewName:'Statuses'},
     {name:'ErrorCode',viewName:'Error Codes'},
     {name:'CUPIDCrossReference',viewName:'CUPID Cross Reference'},
@@ -576,12 +576,12 @@ export class ReportReferenceService {
     //return this.wrapperService.processRequest(HttpVerbs.POST, WebMethods.QUERY, request);
     
     let request = Utils.preparePyQuery(pageIdentifier, reportIdentifier,[{}]);
-    console.log(JSON.stringify(request));
-    if(pageIdentifier === 'Franchise')
-    {
-      console.log(ReportFranchiseResponse,'cg')
-    return of(ReportFranchiseResponse)
-    }
+    // console.log(JSON.stringify(request));
+    // if(pageIdentifier === 'Franchise')
+    // {
+    //   console.log(ReportFranchiseResponse,'cg')
+    // return of(ReportFranchiseResponse)
+    // }
     return this.wrapperService.processPyRequest(HttpVerbs.POST, WebMethods.QUERY, request);
   }
   updateDetails(request: any): Observable<any> {
