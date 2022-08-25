@@ -366,7 +366,7 @@
                     
                                 <tr mat-header-row *matHeaderRowDef="displayedColumnsValues" style="visibility:collapse"></tr>
                                 <tr mat-row *matRowDef="let CompanyDetails; columns: displayedColumnsValues;"
-                               
+                                style="background-color: #BFBFBF !important;"
                                 [ngClass]="{ 'highlighted' : CompanyDetails === highlightedRows } "
                                 [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
                                 CompanyDetails[highlightedRecord.recordIdentifier] === highlightedRecord.recordIdentifierValue : false  } " >
