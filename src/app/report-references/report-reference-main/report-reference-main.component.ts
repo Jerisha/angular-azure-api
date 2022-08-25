@@ -979,13 +979,13 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
         });
         editConfirm.afterClosed().subscribe(result => {
           if (result) {
-            this.editRecordLogic(elementData);
+            this.editRecordLogic(elementData,element);
           } else {
             // this.highlightedRecord=null;
           }
         });
       } else {
-        this.editRecordLogic(elementData);
+        this.editRecordLogic(elementData,element);
       }
     }
     else {
@@ -994,7 +994,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
       // alert("close opened report:"+this.editMode)
     }
   }
-  editRecordLogic(element: any) {
+  editRecordLogic(elementData: any,element: any) {
     this.alertService.clear();
     this.editMode = this.currentReportName;
     this.lstFields = this.reportReferenceService.setForm(this.editMode);
@@ -1008,7 +1008,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
     // this.showDataForm =true;
     // this.editModeIndex = this.reportNames.findIndex(x => x == this.editMode);      
     this.reportReferenceService.showDataForm = this.showDataForm = true;
-    let element1 = Object.assign({}, element);
+    let element1 = Object.assign({}, elementData);
     this.editRecord = element1;
     let lstRadio = this.lstFields.filter((t: IColoumnDef) => t.cType === 'radio');
     Object.entries(element1).map(

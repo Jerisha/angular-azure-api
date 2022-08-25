@@ -116,7 +116,7 @@ ngOnChanges(changes: SimpleChanges) {
         control?.setValue(this.record[field]);
 
         // set company dropdown based on Olo selected for Franchise report
-      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo'], this.record['Company']);  
+      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo']);  
     }
     if(this.reportName === 'Franchise'){
       this.referenceForm.controls['Olo'].disable();
@@ -283,7 +283,7 @@ this.setCompanyDropdownValue(Olo);
 if(filterName === 'OloFilter'){
 this.referenceForm.controls['Company'].enable();
 }
-else if(filterName === 'Compnayfilter'){
+else if(filterName === 'Companyfilter'){
 
   this.referenceForm.controls['Franchise'].enable();
   this.referenceForm.controls['UsedCount'].enable();
@@ -331,12 +331,12 @@ onMultiselectDropDownChange(event:any){
  // console.log(event,'event')
 
 }
-setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
+setCompanyDropdownValue(OloValue: any) {
   if(OloValue != null) {
-  const index = this.lstForm[2].cList.findIndex((x: any) => {
+  const index = this.lstForm[1].cList.findIndex((x: any) => {
     return x.displayValue === OloValue;
   });
-  this.companyDropdown =  this.lstForm[2].cList[index]?.companyDropdown;
+  this.companyDropdown =  this.lstForm[1].cList[index]?.companyDropdown;
   // this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0] ? this.companyDropdown[0] : '';
 }
 }
