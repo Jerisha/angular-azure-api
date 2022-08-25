@@ -1866,6 +1866,11 @@ export class ManageUsersComponent implements OnInit {
       this.spinner.show();
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
+          console.log('profile data',res.Data);
+          if(res.Data.length>1)
+          {
+          res.Data.length=res.Data.length-1;
+          }
           this.userprofilesdata.data = res.Data;
           this.spinner.hide();
         }
