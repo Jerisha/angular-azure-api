@@ -269,8 +269,9 @@ check999() {
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              
               this.onFormSubmit(true);
+              this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successfully !!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
           this.isSaveDisable = true;
