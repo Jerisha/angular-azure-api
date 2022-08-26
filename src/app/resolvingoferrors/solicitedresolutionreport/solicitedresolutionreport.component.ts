@@ -16,6 +16,7 @@ import { formatDate } from '@angular/common';
 import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { AlertService } from 'src/app/_shared/alert';
+import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
 
 // const ELEMENT_DATA: any = [
 //   {
@@ -159,6 +160,8 @@ export class SolicitedresolutionreportComponent implements OnInit {
   updateDetails!: any;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+  // make ExampleHeaderComponent type available in our template:
+  readonly CustomHeaderComponent = CustomHeaderComponent;
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
@@ -406,16 +409,16 @@ export class SolicitedresolutionreportComponent implements OnInit {
 
     this.myForm = this.formBuilder.group({
       // TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
-      TelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      TransactionID: new FormControl({ value: '', disabled: true }, []),
-      ChangeCUPID: new FormControl({ value: '', disabled: true }, []),
+      TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      TransactionID: new FormControl({ value: '', disabled: false }, []),
+      ChangeCUPID: new FormControl({ value: '', disabled: false }, []),
       // TransactionDate: new FormControl(),
-      TransactionDate: this.formBuilder.group({StartDate: new FormControl(),EndDate: new FormControl(), disabled: true}),
-      Source: new FormControl({ value: '', disabled: true }, []),
-      Status: new FormControl({ value: '', disabled: true }, []),
-      TransactionCommand: new FormControl({ value: '', disabled: true }, []),
-      ResolveType: new FormControl({ value: '', disabled: true }, []),
-      InternalCUPID: new FormControl({ value: '', disabled: true }, [])
+      TransactionDate: this.formBuilder.group({StartDate: new FormControl(),EndDate: new FormControl(), disabled: false}),
+      Source: new FormControl({ value: '', disabled: false }, []),
+      Status: new FormControl({ value: '', disabled: false }, []),
+      TransactionCommand: new FormControl({ value: '', disabled: false }, []),
+      ResolveType: new FormControl({ value: '', disabled: false }, []),
+      InternalCUPID: new FormControl({ value: '', disabled: false }, [])
     });
   }
 
@@ -486,15 +489,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
-          params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
-          // datasource: ELEMENT_DATA,
-          // totalrecordcount: 1,
-          // totalpages: 1,
-          // pagenumber: 1
+          params: res.params          
         }
         return result;
       } else return {
@@ -505,6 +500,7 @@ export class SolicitedresolutionreportComponent implements OnInit {
       data: this.queryResult$,
       Columns: this.columns,
       filter: true,
+      isFavcols:true,
       selectCheckbox: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,

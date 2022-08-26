@@ -533,6 +533,7 @@ resetExp:boolean = false;
   isRemoveCache: number = DefaultIsRemoveCache;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
+  postCodeDefaultItem:string ='Starts With'
 
   columns: ColumnDetails[] = [
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: false, isImage: false },
@@ -551,14 +552,14 @@ resetExp:boolean = false;
     { header: 'Source Type', headerValue: 'SourceType', showDefault: true, isImage: false },
     { header: 'Created by', headerValue: 'Createdby', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
+    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
+    { header: 'Parent CUPID', headerValue: 'ParentCupid', showDefault: true, isImage: false },
+    { header: 'Child CUPID', headerValue: 'ChildCupid', showDefault: true, isImage: false },
     { header: 'Address Line 1', headerValue: 'AddressLine1', showDefault: true, isImage: false },
     { header: 'Address Line 2', headerValue: 'AddressLine2', showDefault: true, isImage: false },
     { header: 'Address Line 3', headerValue: 'AddressLine3', showDefault: true, isImage: false },
-    { header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },
-    { header: 'Parent CUPID', headerValue: 'ParentCupid', showDefault: true, isImage: false },
-    { header: 'Child CUPID', headerValue: 'ChildCupid', showDefault: true, isImage: false },
-    { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
-    { header: 'Line Type', headerValue: 'LineType', showDefault: true, isImage: false },
+    { header: 'Address Line 4', headerValue: 'AddressLine4', showDefault: true, isImage: false },    
     { header: 'Retailer ID', headerValue: 'RetailerID', showDefault: true, isImage: false },
     { header: 'New Telephone No', headerValue: 'NewTelNo', showDefault: true, isImage: false },
     { header: 'Transaction Reference', headerValue: 'TransactionReference', showDefault: true, isImage: false },
@@ -809,10 +810,10 @@ resetExp:boolean = false;
 
     this.myForm = new FormGroup({
       // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11),  Validators.pattern("^[0-9]{10,11}$")]),
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      CustomerName: new FormControl({ value: '', disabled: true }, []),
-      PostCode: new FormControl({ value: '', disabled: true }, []),
-      CreationDate: new FormControl({ value: '', disabled: true }, []),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      CustomerName: new FormControl({ value: '', disabled: false }, []),
+      PostCode: new FormControl({ value: '', disabled: false }, []),
+      CreationDate: new FormControl({ value: '', disabled: false }, []),
       Premises: new FormControl({ value: '', disabled: true }, []),
       Thoroughfare: new FormControl({ value: '', disabled: true }, []),
       Locality: new FormControl({ value: '', disabled: true }, []),

@@ -726,20 +726,20 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     this.fullAuditForm = this.formBuilder.group({
       // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      AuditActID: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      AuditActID: new FormControl({ value: '', disabled: false }, [Validators.required]),
       CUPID: new FormControl({ value: '', disabled: true }),
       BatchID: new FormControl({ value: '', disabled: true }),
       ExternalCLIStatus: new FormControl({ value: '', disabled: true }),
-      FullAuditCLIStatus: new FormControl({ value: '', disabled: true }),
+      FullAuditCLIStatus: new FormControl({ value: '', disabled: false }),
       MonthlyRefreshFlag: new FormControl({ value: '', disabled: true }),
-      Source: new FormControl({ value: '', disabled: true }),
-      OSN2Source: new FormControl({ value: '', disabled: true }),
-      PortingStatus: new FormControl({ value: '', disabled: true }),
-      VodafoneRangeHolder: new FormControl({ value: '', disabled: true }),
-      ResolutionType: new FormControl({ value: '', disabled: true }),
-      SwitchStatus: new FormControl({ value: '', disabled: true }),
+      Source: new FormControl({ value: '', disabled: false }),
+      OSN2Source: new FormControl({ value: '', disabled: false }),
+      PortingStatus: new FormControl({ value: '', disabled: false }),
+      VodafoneRangeHolder: new FormControl({ value: '', disabled: false }),
+      ResolutionType: new FormControl({ value: '', disabled: false }),
+      SwitchStatus: new FormControl({ value: '', disabled: false }),
       MoriStatus: new FormControl({ value: '', disabled: true }),
       PostcodeDifference: new FormControl({ value: '', disabled: true }),
       FullAddressDifference: new FormControl({ value: '', disabled: true }),
@@ -1022,9 +1022,10 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Reports,
-          totalrecordcount: res.data.Reports.length,
-          totalpages: 1,
-          pagenumber: 1
+          params: res.params
+          // totalrecordcount: res.data.Reports.length,
+          // totalpages: 1,
+          // pagenumber: 1
         }
         return result;
       } else return {
@@ -1052,9 +1053,10 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
-          totalrecordcount: res.data.TelephoneNumbers.length,
-          totalpages: 1,
-          pagenumber: 1
+          params: res.params
+          // totalrecordcount: res.data.TelephoneNumbers.length,
+          // totalpages: 1,
+          // pagenumber: 1
         }
         return result;
       } else return {
@@ -1082,9 +1084,11 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
-          totalrecordcount: res.TotalCount,
-          totalpages: res.NumberOfPages,
-          pagenumber: res.PageNumber
+          // totalrecordcount: res.TotalCount,
+          // totalpages: res.NumberOfPages,
+          // pagenumber: res.PageNumber
+          // datasource: res.data.TelephoneNumbers,
+          params: res.params
         }
         return result;
       } else return {
@@ -1111,10 +1115,11 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Circuits,
-          totalrecordcount: res.data.Circuits.length,
-          totalpages: 1,
-          pagenumber: 1,
-          pagecount: 50
+          params: res.params
+          // totalrecordcount: res.data.Circuits.length,
+          // totalpages: 1,
+          // pagenumber: 1,
+          // pagecount: 50
         }
         return result;
       } else {
@@ -1144,9 +1149,10 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Range,
-          totalrecordcount: res.data.Range.length,
-          totalpages: 1,
-          pagenumber: 1
+          params: res.params
+          // totalrecordcount: res.data.Range.length,
+          // totalpages: 1,
+          // pagenumber: 1
         }
         return result;
       } else return {

@@ -30,7 +30,7 @@ import { DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
   styleUrls: ['./table-expansion-new.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('collapsed', style({ height: '0px', minHeight: '0', display:'none' })),
       state('expanded', style({ height: '*', visibility: 'visible' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
@@ -323,7 +323,7 @@ export class TableExpansionNewComponent extends UserProfile implements OnDestroy
     }
     //Temp
     getFooterDetails(cell: string) {
-      debugger
+     
       var cellname = cell.replace('f2_','');
       var cell = cellname ? cellname : '';
       if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {

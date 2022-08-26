@@ -24,6 +24,7 @@ import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { Custom } from 'src/app/_helper/Validators/filterCustom';
+import { CustomHeaderComponent } from 'src/app/uicomponents/custom-datepicker/custom-header.component';
 
 
 
@@ -137,7 +138,7 @@ const FilterListItems: Select[] = [
   { view: 'Command', viewValue: 'Command', default: true },
   { view: 'Error Type', viewValue: 'ErrorType', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  { view: 'Date Range', viewValue: 'DateRange', default: true },
+  { view: 'Date Range', viewValue: 'DateRange', default: false },
   { view: 'Error Code', viewValue: 'ErrorCode', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true },
   { view: 'Order Reference', viewValue: 'OrderReference', default: true }
@@ -198,6 +199,8 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     updateDetails!: any;
     minDate = new Date(2000, 0, 1);
     maxDate = new Date();
+     // make ExampleHeaderComponent type available in our template:
+    readonly CustomHeaderComponent = CustomHeaderComponent;
     model: any = { ErrorCode: "" };
   ngOnInit(): void {
  
@@ -292,23 +295,22 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     this.thisForm = this.formBuilder.group({
       // StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
       // EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.pattern("^[0-9]{10,11}$")]),
-      StartTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      EndTelephoneNumber: new FormControl({ value: '', disabled: true }, [Validators.maxLength(11)]),
-      Command: new FormControl({ value: '', disabled: true }, []),
-      Source: new FormControl({ value: '', disabled: true }, []),
-      ResolutionType: new FormControl({ value: '', disabled: true }, []),
-      ErrorCode: new FormControl({ value: '', disabled: true }, []),
-      ErrorType: new FormControl({ value: '', disabled: true }, []),
-      Reference: new FormControl({ value: '', disabled: true }, []),
-      OrderReference: new FormControl({ value: '', disabled: true }, []),
+      StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
+      Command: new FormControl({ value: '', disabled: false }, []),
+      Source: new FormControl({ value: '', disabled: false }, []),
+      ResolutionType: new FormControl({ value: '', disabled: false }, []),
+      ErrorCode: new FormControl({ value: '', disabled: false }, []),
+      ErrorType: new FormControl({ value: '', disabled: false }, []),
+      Reference: new FormControl({ value: '', disabled: false }, []),
+      OrderReference: new FormControl({ value: '', disabled: false }, []),
       DateRange: this.formBuilder.group({
         FromDate: new FormControl(),
         ToDate: new FormControl(),
         disabled: true
       })
-
     })
-
+this.f['DateRange'].disable();
 
   }
 
@@ -330,10 +332,10 @@ export class RestoresolicitederrorsComponent extends UserProfile implements OnIn
     { header: 'Created On', headerValue: 'CreatedOn', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
     { header: 'Resolution Type', headerValue: 'ResolutionType', showDefault: true, isImage: false },
-    { header: 'Error List', headerValue: 'ErrorList', showDefault: true, isImage: false },
+    { header: 'Error Codes', headerValue: 'ErrorList', showDefault: true, isImage: false },
     { header: '999Reference', headerValue: '999Reference', showDefault: true, isImage: false },
-    { header: 'Latest User Comment', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
-    { header: 'Latest Comment Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
+    { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false },
+    { header: 'Latest Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Parent Cupid', headerValue: 'ParentCupId', showDefault: true, isImage: false },
     { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];

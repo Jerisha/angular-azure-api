@@ -1,0 +1,239 @@
+<p>franchise works!</p>
+<div class="div">
+<table
+  mat-table
+  [dataSource]="dataSource"
+  multiTemplateDataRows
+  class="mat-elevation-z8" style="width:50%;text-align: center;"
+>
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        aria-label="expand row"
+        (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()"
+      >
+      <mat-icon *ngIf="expandedElementtwo !== element" style="font-size:16px"
+      > add_box_outline</mat-icon
+    >
+    <mat-icon *ngIf="expandedElementtwo === element" style="font-size:16px"
+      > remove_box_outline</mat-icon
+    >
+      </button>
+    </td>
+  </ng-container>
+  <ng-container
+    matColumnDef="{{column}}"
+    *ngFor="let column of columnsToDisplay;"
+  >
+    <div *ngIf="column!='Action'">
+      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+      <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+    </div>
+    
+    <div *ngIf="column==='Action'">
+      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+      <td mat-cell *matCellDef="let element ">
+        
+        <!-- <mat-icon style="color:darkgoldenrod;margin-left:20px">add_box</mat-icon> -->
+        <mat-icon  style="color:green;margin-left:20px">edit</mat-icon>
+     
+      <!-- <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+      style="color:#e60000;margin-left:20px">delete_outline</mat-icon> -->
+      </td>
+    </div>
+   
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td
+      mat-cell
+      *matCellDef="let element"
+      [attr.colspan]="columnsToDisplayWithExpandtwo.length"
+    >
+      <div
+        class="example-element-detail"
+        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+      >
+        <table
+          mat-table
+          
+          [dataSource]="datasourcetwo"
+          multiTemplateDataRows
+        >
+          <ng-container
+            matColumnDef="{{column}}"
+            *ngFor="let column of columnsToDisplaysecondlevel"
+          >
+          <div *ngIf="column!='Action'&&column!='usedOloFrnachise'">
+          <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+          <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+        </div>
+       
+       
+        <div *ngIf="column==='usedOloFrnachise'">
+            <th mat-header-cell *matHeaderCellDef>usedOloFrnachise</th>
+            <td mat-cell *matCellDef="let element ">
+               {{element[column]}}
+            </td>
+          </div>
+        <div *ngIf="column==='Action'">
+          <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+          <td mat-cell *matCellDef="let element ">
+         
+            <!-- <mat-icon style="color:darkgoldenrod;margin-left:20px">add_box</mat-icon> -->
+              <mat-icon  style="color:green;margin-left:20px">edit</mat-icon>
+           
+            <!-- <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+            style="color:#e60000;margin-left:20px">delete_outline</mat-icon> -->
+           
+          </td>
+        </div>
+          </ng-container>
+          <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions" >
+              &nbsp;
+            </th>
+            <td  mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="(expandedElementtwo = expandedElementtwo === element ? null : element); $event.stopPropagation()"
+              >
+                <mat-icon *ngIf="expandedElementtwo !== element" style="font-size:16px"
+                  > add_box_outline</mat-icon
+                >
+                <mat-icon *ngIf="expandedElementtwo === element" style="font-size:16px"
+                  > remove_box_outline</mat-icon
+                >
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [attr.colspan]="columnsToDisplayWithExpand.length"
+            >
+              <div
+                class="example-element-detail"
+                [@detailExpand]="element == expandedElementtwo ? 'expanded' : 'collapsed'"
+              >
+              
+              <table 
+              mat-table
+              
+              [dataSource]="datasourcethree"
+              multiTemplateDataRows
+            >
+              <ng-container
+                matColumnDef="{{column}}"
+                *ngFor="let column of columnsToDisplaythirdlevel"
+              >
+              <div *ngIf="column!='Action'&&column!='usedOloFrnachise'">
+              <th mat-header-cell  *matHeaderCellDef>{{column}}</th>
+              <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+            </div>
+           
+            <div *ngIf="column==='usedOloFrnachise'">
+                <th mat-header-cell *matHeaderCellDef>usedOloFrnachise</th>
+                <td mat-cell *matCellDef="let element ">
+                   {{element[column]}}
+                </td>
+              </div>
+            <div *ngIf="column==='Action'">
+              <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+              <td mat-cell *matCellDef="let element ">
+               
+        <mat-icon  style="color:green;margin-left:20px">edit</mat-icon>
+     
+      <!-- <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
+      style="color:#e60000;margin-left:20px">delete_outline</mat-icon> -->
+              </td>
+            </div>
+              </ng-container>
+              <ng-container matColumnDef="expand">
+                <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+                  &nbsp;
+                </th>
+                <td mat-cell *matCellDef="let element">
+                 
+                </td>
+              </ng-container>
+    
+              <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+              <ng-container matColumnDef="expandedDetail" style="visibility:hidden">
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [attr.colspan]="columnsToDisplayWithExpand.length"
+                >
+                  <div
+                    class="example-element-detail"
+                    [@detailExpand]="element == expandedElementtwo ? 'expanded' : 'collapsed'"
+                  >
+                  
+                  </div>
+                </td>
+              </ng-container>
+    
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpandtwo"></tr>
+              <tr
+                mat-row
+                *matRowDef="let element; columns: columnsToDisplayWithExpandtwo;"
+                class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: ['expandedDetail']"
+                class="example-detail-row"
+              ></tr>
+            </table>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpandtwo"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: columnsToDisplayWithExpandtwo;"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="expandedElement = expandedElement === element ? null : element"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: ['expandedDetail']"
+            class="example-detail-row"
+          ></tr>
+        </table>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+  <tr
+    mat-row
+    *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+    class="example-element-row"
+    [class.example-expanded-row]="expandedElement === element"
+    (click)="expandedElement = expandedElement === element ? null : element"
+  ></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: ['expandedDetail']"
+    class="example-detail-row"
+  ></tr>
+</table>
+</div>
+
+<!-- Copyright 2022 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at https://angular.io/license -->
+

@@ -104,7 +104,7 @@ table td, table th {
 
 .totalRow {
   /* background-color: #e60000; */
-  background-color: #FED9B7  !important;
+  /* background-color: #FED9B7  !important; */
   color:black;
   
   font-size: small;
@@ -117,7 +117,8 @@ table td, table th {
 }
 
 .highlight {
-  background-color: #dee2e6;
+  /* background-color: #dee2e6; */
+  background-color: #FED9B7;
 }
 
 .rowFontHighlight1 td {
@@ -152,6 +153,20 @@ table td, table th {
   word-wrap: break-word;
   word-break:break-all;
 }
+
+.fav-button{
+  padding: 5px;
+}
+
+.fav-button button{
+height:31px;
+font-size: smaller;
+}
+
+/* .tblpagination .mat-paginator-range-label {
+  margin: 0px!important;
+  font-weight: bold;
+} */
 
 
 /* .mat-cell.mat-column-LatestUserComments {

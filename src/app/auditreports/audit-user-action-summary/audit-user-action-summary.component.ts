@@ -226,10 +226,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
 
   createForm() {
 
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    const date = today.getDate();
+    
 
     this.thisForm = this.formBuilder.group({
       AuditMonth: new FormControl({ value: '', disabled: true }),

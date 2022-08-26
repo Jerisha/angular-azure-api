@@ -3,12 +3,15 @@ import { IColoumnDef } from "src/app/report-references/IControls";
 import { ReportReferenceService } from '../report-reference.service';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
-import {take} from 'rxjs/operators';
+import {filter, take} from 'rxjs/operators';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-report-data-form',
   templateUrl: './report-data-form.component.html',
-  styleUrls: ['./report-data-form.component.css']
+  styleUrls: ['./report-data-form.component.css'],
+  providers: [ UpperCasePipe ]
+
 })
 export class ReportDataFormComponent implements OnInit,AfterViewInit {
 
@@ -16,6 +19,8 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   showDetailsForm:boolean =true;
   displayedColumns: string[] = [];
   data:any;
+  franchiseList: string[] = [];
+  franchiseValue: string = '';
   
   @Input() reportName:string='';
   //@Input()
@@ -39,23 +44,44 @@ export class ReportDataFormComponent implements OnInit,AfterViewInit {
   constructor(private cdr: ChangeDetectorRef,    
     private formBuilder: FormBuilder,
     private service: ReportReferenceService,
-    private _ngZone: NgZone
+    private _ngZone: NgZone , private uppercasePipe: UpperCasePipe
   ) { }
 ngOnInit(): void {
     this.referenceForm = this.formBuilder.group({});
     //this.lstForm  = this.service.setForm(this.reportName);
     this.referenceForm = this.formValidation();
     this.title = this.reportName;
+    if(this.reportName === 'Franchise'){
+      
+      this.referenceForm.controls['Franchise'].disable();
+      this.referenceForm.controls['Company'].disable();
+      // this.referenceForm.controls['UsedCount'].disable();
+      
+      }  
     if(this.record != undefined)
     {
       // console.log('oninit')
-      this.eventName ='Update'    
+      this.eventName ='Update'  
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
     {      
         let control = this.referenceForm.get(field);    
         control?.setValue(this.record[field]);
     }
+    if(this.reportName === 'Franchise'){
+      this.referenceForm.controls['Olo'].disable();
+      // console.log(this.referenceForm,'ij')
+      // console.log(this.referenceForm.controls['Franchise']?.value)
+      if(this.referenceForm.controls['Franchise']?.value !=  ''){
+        console.log("!null init")
+        //console.log("valujesnull",this.referenceForm.controls['Franchise'])
+        this.referenceForm.controls['UsedCount'].enable();
+        }
+        else{
+          console.log("null init")
+        this.referenceForm.controls['UsedCount'].disable();
+        }
+      }  
     this.updatedBy = this.record['UpdatedBy'] != undefined ?'UpdatedBy:'+ this.record['UpdatedBy']:''
     this.updatedOn = this.record['UpdatedOn'] != undefined?'UpdatedOn:'+this.record['UpdatedOn']:''
     //console.log(this.updatedBy,this.updatedOn,this.record['UpdatedBy'],this.record['UpdatedOn'],'log')
@@ -63,7 +89,6 @@ ngOnInit(): void {
     
     this.referenceForm.markAsUntouched();
     }   
-
 }
 ngOnChanges(changes: SimpleChanges) {
 
@@ -74,10 +99,16 @@ ngOnChanges(changes: SimpleChanges) {
     this.eventName = 'Create';
     this.referenceForm?.reset();
     this.referenceForm = this.formValidation();
+    if(this.reportName === 'Franchise'){
+      
+    this.referenceForm.controls['Franchise'].disable();
+    this.referenceForm.controls['Company'].disable();
+    // this.referenceForm.controls['UsedCount'].disable();
+    }
     if(this.record != undefined)
     {
       //console.log('onChanges')
-      this.eventName ='Update'    
+      this.eventName ='Update'     
       this.cdr.detectChanges();
     for (let field in this.referenceForm.controls) 
     {      
@@ -85,13 +116,36 @@ ngOnChanges(changes: SimpleChanges) {
         control?.setValue(this.record[field]);
 
         // set company dropdown based on Olo selected for Franchise report
-      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo'], this.record['Company']);  
+      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo']);  
     }
+    if(this.reportName === 'Franchise'){
+      this.referenceForm.controls['Olo'].disable();
+      // console.log(this.referenceForm,'ijc')
+      // console.log(this.referenceForm.controls['Franchise']?.value)
+      if(this.referenceForm.controls['Franchise']?.value !=  ''){
+        console.log("!null changes")
+      this.referenceForm.controls['UsedCount'].enable();
+      }
+      else{
+        console.log("null changes")
+      this.referenceForm.controls['UsedCount'].disable();
+      }
+      } 
     this.updatedBy = this.record['UpdatedBy'] != undefined ?'UpdatedBy:'+ this.record['UpdatedBy']:''
     this.updatedOn = this.record['UpdatedOn'] != undefined?'UpdatedOn:'+this.record['UpdatedOn']:''
     //console.log(this.updatedBy,this.updatedOn,this.record['UpdatedBy'],this.record['UpdatedOn'],'log')
     //console.log(JSON.stringify(this.record))
     this.referenceForm.markAsUntouched();
+    }
+    else {
+      // console.log("create");
+  // console.log(this.lstForm[1].cList);
+  let fDropdown: string[] = [];
+  this.lstForm[1].cList.forEach((x:any) =>{
+    fDropdown.push(x.displayValue);
+  });
+  // console.log(fDropdown);
+  this.franchiseList = fDropdown;
     }
 }
 // triggerResize() 
@@ -220,23 +274,66 @@ onEditRecord(record:any,event:Event){
     this.referenceForm.markAsUntouched();
 
 }
-onDropDownChange(event:any){
+onDropDownChange(event:any,filterName? : string){
 // alert('dp:'+event.value)
-let Olo = event.value;
+console.log(event,'l');
+let Olo = event.option.value;
 this.setCompanyDropdownValue(Olo);
+this.referenceForm.controls['Company'].enable();
+this.firstDropdownVal ='';
 }
+
+OnOloFocusChange(OloValue: any, Ololength: number)
+{
+  // console.log(this.referenceForm,'f1')
+  // console.log(OloValue.length,'value')
+  // console.log(Ololength,'number')
+  if(OloValue != null || undefined){
+  if(this.franchiseList?.includes(OloValue.toUpperCase() )   ){
+        this.referenceForm.controls['Company'].enable();
+        // console.log(this.referenceForm,'f2')
+  }
+  else{
+    this.referenceForm.controls['Company'].disable();
+    this.referenceForm.controls['Franchise'].disable();
+    this.firstDropdownVal= '';
+    this.referenceForm.controls['Franchise'].setValue('');
+  }
+}
+  // console.log(this.referenceForm)
+}
+OnCompanyFocusChange(CompanyValue: any, Companylength: number)
+{
+  // console.log(this.referenceForm,'c1')
+  // console.log(CompanyValue,'c2')
+  // console.log(Companylength,'c3')
+  if(CompanyValue !=  null || undefined){
+  if( this.companyDropdown?.includes(CompanyValue.toUpperCase()) ){
+        this.referenceForm.controls['Franchise'].enable();
+        this.referenceForm.controls['UsedCount'].enable();
+        // console.log(this.referenceForm,'f2')
+  }
+  else{
+    this.referenceForm.controls['Franchise'].disable();
+    this.referenceForm.controls['UsedCount'].disable();
+    this.referenceForm.controls['Franchise'].setValue('');
+  }
+}
+  // console.log(this.referenceForm)
+}
+
 onMultiselectDropDownChange(event:any){
 
  // console.log(event,'event')
 
 }
-setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
+setCompanyDropdownValue(OloValue: any) {
   if(OloValue != null) {
-  const index = this.lstForm[2].cList.findIndex((x: any) => {
+  const index = this.lstForm[1].cList.findIndex((x: any) => {
     return x.displayValue === OloValue;
   });
-  this.companyDropdown =  this.lstForm[2].cList[index].companyDropdown;
-  this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0];
+  this.companyDropdown =  this.lstForm[1].cList[index]?.companyDropdown;
+  // this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0] ? this.companyDropdown[0] : '';
 }
 }
 onSubmit(){
@@ -267,6 +364,11 @@ onCancelDataForm(){
  this.service.showDetailsForm=true; 
  this.cancelBtnClicked.emit([false,true]);
 }
+// threeCharValidation(event: any, value: string){
+//   console.log(event);
+//   console.log(value);
+  
+// }
 
 }
 

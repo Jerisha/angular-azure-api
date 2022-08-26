@@ -84,7 +84,8 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   @Input()
   AuditPopulatevalue: any = [];
-  CliRangeSet: [number, number, number][] = [];
+  CliRangeSetMain: [number, number, number,boolean][] = [];
+  CliRangeSet: [number, number, number,boolean][] = [];
 
   panelOpenState = false;
   btncolor: string = "secondary"
@@ -110,9 +111,11 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   addressDetails = new AddressDetails();
   passedRouteData: any;
   Cuparr:any;
+  backstate:boolean;
   SourceFranchisearr:any;
   RerportIdentifier: any;
   clirangecount?: any;
+  clirangecountOnsave?:any;
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
     private cdr: ChangeDetectorRef, private fb: FormBuilder, private formBuilder: FormBuilder,
     private alertService: AlertService, private telnoPipe: TelNoPipe,
@@ -139,6 +142,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     this.views.view1 = true;
     this.formsGroup = this.fb.group({});
     this.initForm();
+    this.backstate=false;
     console.log('constructor values', this.AuditPopulatevalue);
     if (this.AuditPopulatevalue != []){ 
      if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
@@ -213,14 +217,14 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
   }
   removeRangeCli(rangeIndex: number) {
-    this.CliRangeSet.splice(rangeIndex, 1);
+    this.CliRangeSetMain.splice(rangeIndex, 1);
     this.clirangecount=0;
     let count: number = 0
-    for (let i = 0; i < this.CliRangeSet.length; i++) {
-      count = count + this.CliRangeSet[i][2];
+    for (let i = 0; i < this.CliRangeSetMain.length; i++) {
+      count = count + this.CliRangeSetMain[i][2];
     }
     this.clirangecount=count;
-    if (this.CliRangeSet.length > 0) {
+    if (this.CliRangeSetMain.length > 0) {
 
       this.searchTelState = false;
     }
@@ -381,6 +385,18 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       this.views.view3 = true;
     }
 }
+GoBack()
+{
+  this.views.view1 = false;
+  this.views.view2 = true;
+  this.views.view3 = false;
+  this.panelOpenState = true;
+  this.views.view3 = true;
+  this.searchTelState = true;
+  this.addCliState = true;
+  this.btncolor = "secondary";
+  this.addbtncolor = "secondary";
+}
   onCupIDChange(event: any) {
     debugger
     this.isExportImportSelected = false;
@@ -483,7 +499,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
   onChangeEvent(event: any, control: string) {
     debugger
-
+this.alertService.clear();
     if (control == "StartTelephoneNumber") {
       this.model.telno.trim();
       if (this.model.telno.length == 10 || this.model.telno.length == 9) {
@@ -593,9 +609,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
         this.spinner.hide();
         //success message and same data reload
        
-        this.alertService.success( "Save " + `${this.clirangecount? this.clirangecount : ''}` + " record(s) successful!!", { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success(+ `${this.clirangecountOnsave? this.clirangecountOnsave : ''}` + " record(s) saved successful!!", { autoClose: true, keepAfterRouteChange: false });
         this.resetTel("");
+        this.clirangecountOnsave='';
         this.clirangecount='';
+        this.CliRangeSet=[];
+        this.CliRangeSetMain=[];
       }
     });
   }
@@ -621,6 +640,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     
   }
   ReviewCli() {
+    this.backstate=true;
     this.ResetTabs.emit(["true"]);
     this.views.view1 = true;
     this.views.view2 = false;
@@ -780,8 +800,15 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     let call: string = 'Query';
     this.model.telno = "";
     this.model.endTel = "";
+    this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" };
+    this.transactionItem.customerAddress = { customerName:"", address1:"", address2: "", address3: "", address4: "", postcode:""};
+   
+    this.clirangecount
     debugger
     this.clearalert();
+   
+    this.CliRangeSet=this.CliRangeSetMain;
+    this.countragneOnSave();
     if (Object.keys(this.AuditPopulatevalue).length === 0) {
       this.spinner.show();
       let request2 = Utils.preparePyQuery('Transactions', 'Transactions', this.prepareQueryParams(this.currentPage));
@@ -947,7 +974,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
 
   prepareQueryParams(pageNo: string): any {
-
+    this.Commentsstring='';
     //Reference
     let telephonerangevalues: string = "";
    // this.Commentsstring="DDI Range: Pre-populated in DB while data loading.";
@@ -1128,9 +1155,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   /* field Validation End */
 
   resetTel(sf: any) {
+    this.backstate=false;
     this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" ,source: "", franchise: "",IECUPID:"",TransactionType:"",LineType:"",TypeOfLine:"" };
     this.transactionItem.customerAddress = { customerName: "", address1: "", address2: "", address3: "", address4: "", postcode: "" };
     this.clirangecount='';
+    this.clirangecountOnsave='';
+    this.CliRangeSetMain=[];
     this.views.view3 = false;
     this.views.view2 = false;
     this.views.view1 = true;
@@ -1224,21 +1254,21 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   checkduplicate(startnumber: string, endnumber: string) {
     debugger
 
-    for (let i = 0; i < this.CliRangeSet.length; i++) {
-      if ((startnumber == this.CliRangeSet[i][0].toString() || startnumber == this.CliRangeSet[i][1].toString() && startnumber != "") || (endnumber == this.CliRangeSet[i][0].toString() || endnumber == this.CliRangeSet[i][1].toString() && endnumber != "")) {
+    for (let i = 0; i < this.CliRangeSetMain.length; i++) {
+      if ((startnumber == this.CliRangeSetMain[i][0].toString() || startnumber == this.CliRangeSetMain[i][1].toString() && startnumber != "") || (endnumber == this.CliRangeSetMain[i][0].toString() || endnumber == this.CliRangeSetMain[i][1].toString() && endnumber != "")) {
         return false;
       }
-      if (this.CliRangeSet[i][0].toString() != '' && this.CliRangeSet[i][1].toString() != '') {
-        if ((Number(startnumber) > Number(this.CliRangeSet[i][0].toString()) && Number(startnumber) < Number(this.CliRangeSet[i][1].toString())) || Number(endnumber) > Number(this.CliRangeSet[i][0].toString()) && Number(endnumber) < Number(this.CliRangeSet[i][1].toString())) {
+      if (this.CliRangeSetMain[i][0].toString() != '' && this.CliRangeSetMain[i][1].toString() != '') {
+        if ((Number(startnumber) > Number(this.CliRangeSetMain[i][0].toString()) && Number(startnumber) < Number(this.CliRangeSetMain[i][1].toString())) || Number(endnumber) > Number(this.CliRangeSetMain[i][0].toString()) && Number(endnumber) < Number(this.CliRangeSetMain[i][1].toString())) {
           return false;
         }
-        if((Number(startnumber)<Number(this.CliRangeSet[i][0].toString()))&&(Number(endnumber)>Number(this.CliRangeSet[i][0].toString())))
+        if((Number(startnumber)<Number(this.CliRangeSetMain[i][0].toString()))&&(Number(endnumber)>Number(this.CliRangeSetMain[i][0].toString())))
         {
           //32<35&&51>35
           return false;
         }
-        if (Number(this.CliRangeSet[i][0].toString()) == Number(this.CliRangeSet[i][1].toString())) {
-          if (Number(this.CliRangeSet[i][0].toString()) < Number(endnumber) && Number(this.CliRangeSet[i][0].toString()) > Number(startnumber)) {
+        if (Number(this.CliRangeSetMain[i][0].toString()) == Number(this.CliRangeSetMain[i][1].toString())) {
+          if (Number(this.CliRangeSetMain[i][0].toString()) < Number(endnumber) && Number(this.CliRangeSetMain[i][0].toString()) > Number(startnumber)) {
             return false;
           }
         }
@@ -1246,7 +1276,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       }
       
       else {
-        if (Number(this.CliRangeSet[i][0].toString()) < Number(endnumber) && Number(this.CliRangeSet[i][0].toString()) > Number(startnumber)) {
+        if (Number(this.CliRangeSetMain[i][0].toString()) < Number(endnumber) && Number(this.CliRangeSetMain[i][0].toString()) > Number(startnumber)) {
           return false;
         }
       }
@@ -1257,21 +1287,25 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     debugger
     this.clirangecount=0;
     let count: number = 0
-    for (let i = 0; i < this.CliRangeSet.length; i++) {
-      count = count + this.CliRangeSet[i][2];
+    for (let i = 0; i < this.CliRangeSetMain.length; i++) {
+      count = count + this.CliRangeSetMain[i][2];
     }
     count = count + value;
     this.clirangecount=count;
     if (count > 10000) {
+      count = count - value;
+      this.clirangecount=count;
       return false;
     }
     else {
+      
       return true;
     }
   }
    
   addRangeTel() {
     debugger
+    this.alertService.clear();
     if(!isNaN(Number(this.model.telno.toString())))
     {
     if (this.model.telno != "" || this.model.rangeEnd != "") {
@@ -1289,28 +1323,35 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
       }
       if (count <= 10000 && count > 0 && this.checktotalrange(count)) {
         if (this.checkduplicate(this.model.telno, this.model.rangeEnd)) {
-          this.CliRangeSet.push([this.model.telno, this.model.rangeEnd, count]);
+          this.CliRangeSetMain.push([this.model.telno, this.model.rangeEnd, count,false]);
 
           this.searchTelState = false;
           this.btncolor = "vf-primary-btn";
-          this.model = { telno: "", rangeEnd: "", CupId: "", Franchise: "" };
+          // this.model = { telno: "", rangeEnd: "" };
+          this.model.telno='';
+          this.model.rangeEnd='';
         }
         else {
           this.alertService.clear();
           this.countrange();
-          this.alertService.notification("Duplicate Numbers Not Allowed!", { autoClose: true, keepAfterRouteChange: false });
+          this.model.telno = "" ;
+           this.model.rangeEnd = "";
+          this.alertService.notification("Duplicate entries not allowed!", { autoClose: true, keepAfterRouteChange: false });
         }
       }
       else {
+        this.model.telno = "" ;
+        this.model.rangeEnd = "";
         this.countrange();
-        if (!this.checktotalrange(count)) {
-          this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs!", { autoClose: true, keepAfterRouteChange: false });
-
-        }
-        else if (count >= 10000) {
+        if (count >= 10000) {
           this.countrange();
-          this.alertService.notification("Telephone Number range should be less than or equal to 10000 CLIs", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s ", { autoClose: true, keepAfterRouteChange: false });
         }
+       
+        else if (!this.checktotalrange(count)) {
+          // this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s !", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Unable to add Tel No’s as this will exceed the maximum 10K limit ", { autoClose: true, keepAfterRouteChange: false })
+         }
         else {
           this.countrange();
           this.alertService.notification("Start Telephone No should be less than End Telephone No", { autoClose: true, keepAfterRouteChange: false });
@@ -1331,12 +1372,36 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
 
 
   }
+  keyPress(event:any)
+  {
+    debugger
+    if(event.keyCode == 13){
+      if(!this.addCliState)
+      {
+        this.addRangeTel();
+      }
+      else if(!this.searchTelState)
+      {
+        this.SearchTel();
+      }
+     //alert('Entered Click Event!');
+   }
+  }
+  countragneOnSave()
+  {
+    this.clirangecountOnsave=0;
+    let count: number = 0
+    for (let i = 0; i < this.CliRangeSet.length; i++) {
+      count = count + this.CliRangeSet[i][2];
+    }
+    this.clirangecountOnsave=count;
+  }
   countrange()
   {
     this.clirangecount=0;
     let count: number = 0
-    for (let i = 0; i < this.CliRangeSet.length; i++) {
-      count = count + this.CliRangeSet[i][2];
+    for (let i = 0; i < this.CliRangeSetMain.length; i++) {
+      count = count + this.CliRangeSetMain[i][2];
     }
     this.clirangecount=count;
   }

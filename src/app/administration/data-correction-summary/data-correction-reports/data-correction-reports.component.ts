@@ -459,24 +459,15 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
 
   createForm() {
     this.dataCorrectionForm = this.formBuilder.group({
-      TelNoStart: new FormControl({ value: '', disabled: true },
-        [
-          Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
-        ]
-      ),
-      TelNoEnd: new FormControl({ value: '', disabled: true },
-        [
-          Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")
-        ]
-      ),
-      AuditActId: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      CUPId: new FormControl({ value: '', disabled: true }),
-      OSN2Source: new FormControl({ value: '', disabled: true }),
-      CLIStatus: new FormControl({ value: '', disabled: true }),
-      ResType: new FormControl({ value: '', disabled: true }),
-      PostCodeDiff: new FormControl({ value: '', disabled: true }),
-      FullAddDiff: new FormControl({ value: '', disabled: true }),
-      CustomerDiff: new FormControl({ value: '', disabled: true }),
+      TelNoStart: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]), TelNoEnd: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
+      AuditActId: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      CUPId: new FormControl({ value: '', disabled: false }),
+      OSN2Source: new FormControl({ value: '', disabled: false }),
+      CLIStatus: new FormControl({ value: '', disabled: false }),
+      ResType: new FormControl({ value: '', disabled: false }),
+      PostCodeDiff: new FormControl({ value: '', disabled: false }),
+      FullAddDiff: new FormControl({ value: '', disabled: false }),
+      CustomerDiff: new FormControl({ value: '', disabled: false }),
     })
   }
 
