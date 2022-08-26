@@ -442,7 +442,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
             if (x.StatusMessage === 'Success') {
               //success message and same data reload              
               this.onFormSubmit(true);
-              this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successfully !!", { autoClose: true, keepAfterRouteChange: false });
             }
           });
           //this.isSaveDisable = true;

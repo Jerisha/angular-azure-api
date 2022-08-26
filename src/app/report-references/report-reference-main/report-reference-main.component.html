@@ -282,16 +282,7 @@
                             </ng-container>
                           </td>
                         </div>
-                        <!-- <div *ngIf="column.cName === 'OloCompanyFranchise'">
-                                              
-                          <th  mat-header-cell *matHeaderCellDef>{{column.cDisplayName}}</th>
-                          <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column.cName]}} </td>
-                        </div>
-                        <div *ngIf="column.cName === 'UsedCount'">
-                                              
-                          <th  mat-header-cell *matHeaderCellDef>{{column.cDisplayName}}</th>
-                          <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[column.cName]}} </td>
-                        </div> -->
+ 
                         <div *ngIf="column.cName === 'Actions'">
                           <th mat-header-cell *matHeaderCellDef> {{column.cDisplayName}} </th>
                           <td  class="fracmatcell" mat-cell *matCellDef="let element"> 
@@ -334,16 +325,7 @@
                                         </ng-container>
                                       </td>
                                     </div>
-                                    <!-- <div *ngIf="innerColumn.cName === 'OloCompanyFranchise'">
-                                              
-                                      <th  mat-header-cell *matHeaderCellDef>{{innerColumn.cDisplayName}}</th>
-                                      <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[innerColumn.cName]}} </td>
-                                    </div>
-                                    <div *ngIf="innerColumn.cName === 'UsedCount'">
-                                              
-                                      <th  mat-header-cell *matHeaderCellDef>{{innerColumn.cDisplayName}}</th>
-                                      <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[innerColumn.cName]}} </td>
-                                    </div> -->
+                                
                                     <div *ngIf="innerColumn.cName != 'Actions' && innerColumn.cName != 'Expand'">
                                   <th mat-header-cell *matHeaderCellDef > {{innerColumn.cDisplayName}} </th>
                                   <td class="fracmatcell" mat-cell *matCellDef="let element"  > {{element[innerColumn.cName]}} </td>
@@ -364,25 +346,17 @@
                                         
                                               </td>
                                               </div>
-                                              <!-- <div *ngIf="col.cName === 'OloCompanyFranchise'">
-                                              
-                                                <th  mat-header-cell *matHeaderCellDef>{{col.cDisplayName}}</th>
-                                                <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[col.cName]}} </td>
-                                              </div>
-                                              <div *ngIf="col.cName === 'UsedCount'">
-                                              
-                                                <th  mat-header-cell *matHeaderCellDef>{{col.cDisplayName}}</th>
-                                                <td  class="fracmatcell" mat-cell *matCellDef="let element"> {{element[col.cName]}} </td>
-                                              </div> -->
+
                                               <div *ngIf="col.cName != 'Actions'">
                                             <th mat-header-cell *matHeaderCellDef > {{col.cDisplayName}} </th>
                                             <td class="fracmatcell" mat-cell *matCellDef="let comment"> {{comment[col.cName]}} </td>
                                               </div>
                                           </ng-container>
-                    
-                    
                                           <tr mat-header-row *matHeaderRowDef="displayedColumnsValues"  style="visibility:collapse"></tr>
-                                          <tr mat-row *matRowDef="let comment; columns: displayedColumnsValues;" class="innertab">
+                                          <tr mat-row *matRowDef="let comment; columns: displayedColumnsValues;" class="innertab"   style="background-color: #BFBFBF !important;" 
+                                          [ngClass]="{ 'highlighted' : comment === highlightedRows } "
+                                          [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
+                                                 comment[highlightedRecord.recordIdentifier] === highlightedRecord.recordIdentifierValue : false  } ">
                                           </tr>
                                         </table>
                                       </div>
@@ -392,7 +366,10 @@
                     
                                 <tr mat-header-row *matHeaderRowDef="displayedColumnsValues" style="visibility:collapse"></tr>
                                 <tr mat-row *matRowDef="let CompanyDetails; columns: displayedColumnsValues;"
-                                  >
+                                 style="background-color: #F2F2F2 !important;"
+                                [ngClass]="{ 'highlighted' : CompanyDetails === highlightedRows } "
+                                [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
+                                CompanyDetails[highlightedRecord.recordIdentifier] === highlightedRecord.recordIdentifierValue : false  } " >
                                 </tr>
                                 <tr mat-row *matRowDef="let row; columns: ['expandedExpandedDetail']" class="example-detail-row">
                                 </tr>
@@ -403,10 +380,19 @@
                       </ng-container>
                     
                       <tr mat-header-row *matHeaderRowDef="displayedColumnsValues"></tr> 
-                      <tr mat-row *matRowDef="let element; columns: displayedColumnsValues;">
+                      <tr mat-row *matRowDef="let element; columns: displayedColumnsValues; "
+                      [ngClass]="{ 'highlighted' : element === highlightedRows } "
+                      [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
+                      element[highlightedRecord.recordIdentifier] === highlightedRecord.recordIdentifierValue : false  } "
+                   >
                       </tr>
                       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-                    </table>                    
+                    
+                      <tr *matNoDataRow>
+                        <td colspan="columns.length">No data found</td>
+                      </tr>
+                    </table> 
+
                   </ng-container>
 
                 </div>

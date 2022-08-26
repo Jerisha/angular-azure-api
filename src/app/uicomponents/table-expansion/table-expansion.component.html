@@ -16,7 +16,7 @@
     <mat-optgroup class="freezeselectall">
       <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">
         Select All</mat-checkbox>
-      <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns(select)" matTooltip="Submit">
+      <button class="select-submit" mat-basic-button color="primary" (click)="filterGridColumns(select)">
         <!-- <mat-icon>play_arrow</mat-icon> -->
         Submit
       </button>

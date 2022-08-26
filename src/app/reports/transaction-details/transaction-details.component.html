@@ -348,7 +348,7 @@
               <mat-label>Internal Errors</mat-label>
               <mat-select formControlName="InternalErrors">
                 <mat-option>-- Select --</mat-option> 
-                <mat-option *ngFor="let option of config.InternalErrors" [value]="option">
+                <mat-option *ngFor="let option of config.InternalErrors" [value]="option" matTooltip="{{option}}">
                   {{option}}
                 </mat-option>
               </mat-select>             

@@ -116,7 +116,7 @@ ngOnChanges(changes: SimpleChanges) {
         control?.setValue(this.record[field]);
 
         // set company dropdown based on Olo selected for Franchise report
-      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo'], this.record['Company']);  
+      if(this.reportName === 'Franchise' && field === 'Company') this.setCompanyDropdownValue(this.record['Olo']);  
     }
     if(this.reportName === 'Franchise'){
       this.referenceForm.controls['Olo'].disable();
@@ -279,16 +279,8 @@ onDropDownChange(event:any,filterName? : string){
 console.log(event,'l');
 let Olo = event.option.value;
 this.setCompanyDropdownValue(Olo);
-// if(Olo != event){
-if(filterName === 'OloFilter'){
 this.referenceForm.controls['Company'].enable();
-}
-else if(filterName === 'Compnayfilter'){
-
-  this.referenceForm.controls['Franchise'].enable();
-  this.referenceForm.controls['UsedCount'].enable();
-}
-
+this.firstDropdownVal ='';
 }
 
 OnOloFocusChange(OloValue: any, Ololength: number)
@@ -303,27 +295,31 @@ OnOloFocusChange(OloValue: any, Ololength: number)
   }
   else{
     this.referenceForm.controls['Company'].disable();
+    this.referenceForm.controls['Franchise'].disable();
+    this.firstDropdownVal= '';
+    this.referenceForm.controls['Franchise'].setValue('');
   }
 }
   // console.log(this.referenceForm)
 }
 OnCompanyFocusChange(CompanyValue: any, Companylength: number)
 {
-  console.log(this.referenceForm,'c1')
-  console.log(CompanyValue,'c2')
-  console.log(Companylength,'c3')
+  // console.log(this.referenceForm,'c1')
+  // console.log(CompanyValue,'c2')
+  // console.log(Companylength,'c3')
   if(CompanyValue !=  null || undefined){
   if( this.companyDropdown?.includes(CompanyValue.toUpperCase()) ){
         this.referenceForm.controls['Franchise'].enable();
         this.referenceForm.controls['UsedCount'].enable();
-        console.log(this.referenceForm,'f2')
+        // console.log(this.referenceForm,'f2')
   }
   else{
     this.referenceForm.controls['Franchise'].disable();
     this.referenceForm.controls['UsedCount'].disable();
+    this.referenceForm.controls['Franchise'].setValue('');
   }
 }
-  console.log(this.referenceForm)
+  // console.log(this.referenceForm)
 }
 
 onMultiselectDropDownChange(event:any){
@@ -331,12 +327,12 @@ onMultiselectDropDownChange(event:any){
  // console.log(event,'event')
 
 }
-setCompanyDropdownValue(OloValue: any, defaultCompany?: string) {
+setCompanyDropdownValue(OloValue: any) {
   if(OloValue != null) {
-  const index = this.lstForm[2].cList.findIndex((x: any) => {
+  const index = this.lstForm[1].cList.findIndex((x: any) => {
     return x.displayValue === OloValue;
   });
-  this.companyDropdown =  this.lstForm[2].cList[index]?.companyDropdown;
+  this.companyDropdown =  this.lstForm[1].cList[index]?.companyDropdown;
   // this.firstDropdownVal = defaultCompany ? defaultCompany : this.companyDropdown[0] ? this.companyDropdown[0] : '';
 }
 }
