@@ -26,7 +26,7 @@
 </div>
 
 <div>
-<div class="table-container">
+<div class="table-group-container">
   <table #mytable mat-table [dataSource]="dataSource" class="mat-elevation-z8">
    <ng-container *ngFor="let disCol of ColumnDetails; let colIndex = index">     
       <ng-container matColumnDef="{{disCol.DataHeaders}}">

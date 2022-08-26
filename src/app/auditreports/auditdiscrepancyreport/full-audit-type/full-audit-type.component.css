@@ -1,7 +1,9 @@
-.page-container {
-    max-height: 490px;
-    min-width: 1111px;
-}
+/* .page-container { */
+    /* max-height: 490px; */
+    /* max-height: 100vh; */
+    /* min-width: 1111px; */
+    /* min-width: 1160px; */
+/* } */
 
 .page-scroll {
   overflow: auto;

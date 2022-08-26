@@ -30,7 +30,6 @@ th.mat-sort-header-sorted {
 .mat-header-cell {
   color: white;
   position: relative;
-
    width: auto; 
   height: fit-content; 
   font-size:small;  
@@ -44,12 +43,14 @@ th.mat-sort-header-sorted {
 
 .headerLvl2 th {
   /* top: 62px !important; */
-  top: 22px !important;
+  /* top: 22px !important; */
+  top: 16px !important;
 }
 
 .headerLvl3 th {
   /* top: 124px !important; */
-  top: 44px !important;
+  /* top: 44px !important; */
+  top: 32px !important;
 }
 
 .mat-cell {
@@ -126,4 +127,8 @@ mat-form-field {
 }
 ::ng-deep .mat-select-panel {
   overflow-x: hidden;
+}
+
+th.mat-header-cell, .headerLvl2 th, .headerLvl3 th{
+  white-space: normal !important;
 }
