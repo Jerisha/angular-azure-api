@@ -1333,8 +1333,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
             Reflect.deleteProperty(row, i)
           }
 
-        let dataRow = Object.assign(disp, row)
-        //console.log(dataRow,'dataRow')         
+        let dataRow = Object.assign(disp, row)     
         //data += Object.values(dataRow).toString().replace(/[,]+/g, '\|') + "\n";
         let val = Object.values(dataRow).join('|');
         val.replace(/[/t]+/g, ' ');
@@ -1380,7 +1379,8 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
   onExportXlsxFormat() {
     this.alertService.clear();
 
-    if (this.data != undefined && (this.data != [] && this.data.length != 0)) {
+    // if (this.data != undefined && (this.data != [] && this.data.length != 0)) {
+      if (this.dataSource.data != undefined && (this.dataSource.data != [] && this.dataSource.data.length != 0)) {
       let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
       if (this.currentReportName === 'CUPIDCrossReference') {
         header.splice(1, 0, { cName: "FranchiseCode", cDisplayName: "Franchise" })
@@ -1390,7 +1390,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
       }
       // header.push({cName:"UpdatedOn",cDisplayName:"Updated On"})
       // header.push({cName:"UpdatedBy",cDisplayName:"Updated By"})
-      let copydata = JSON.parse(JSON.stringify(this.data))
+      let copydata = JSON.parse(JSON.stringify(this.dataSource.data))
 
       let data: any = [];
       //let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
@@ -1400,6 +1400,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
 
         // ,'BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'
         let disp = Object.assign({}, ...header.map((x: any) => ({ [x.cName]: ' ' })))
+        
         for (const i of ['UpdatedOn', 'UpdatedDate', 'UpdatedBy', 'ListType']) {
           Reflect.deleteProperty(row, i)
         }
@@ -1413,21 +1414,53 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
         //  {
         //    Reflect.deleteProperty(row,i)
         //  }
-        if (this.currentReportName === 'Olo')
-          for (const i of ['OloCompanyFranchise']) {
-            Reflect.deleteProperty(row, i)
-          }
+        // if (this.currentReportName === 'Olo')
+        //   for (const i of ['OloCompanyFranchise']) {
+        //     Reflect.deleteProperty(row, i)
+        //   }
 
 
         let dataRow = Object.assign(disp, row)
-
+        
+          
         // let val = Object.values(dataRow).join('|');
         // val.replace(/[/t]+/g, ' ');
 
         // data += val.replace(/[|]+/g, '\t') + "\n";
+          
+        if(this.currentReportName === 'Franchise'){
+          delete disp['CompanyDetails'];
+          let franchise = Object.assign({}, row);
+          let dataRow1 = Object.assign(disp, row);
+          for (const i of ['CompanyDetails','expanded']) {
+            Reflect.deleteProperty(dataRow1, i)
+          }
+          data.push(dataRow1);
+          // console.log("row",row);
+          // console.log("dataRow1",dataRow1);
+          
+          franchise?.CompanyDetails?.forEach((row: any) => {
+            let companyData = Object.assign({}, row);
+            // console.log("company data",franchise);
+            for (const i of ['FranchiseDetails','expanded']) {
+              Reflect.deleteProperty(row, i)
+            }
+            data.push(row);
+            companyData?.FranchiseDetails?.forEach((row: any) => {
+              data.push(row);
+    
+              }); // franchise data
+
+            }); // Company data
+
+        } else {
         data.push(dataRow);
+        }
 
       });
+
+      // console.log("data ",data);
+      // console.log(" stringify data ", JSON.stringify(data));
 
       this.reportReferenceService.downloadXlsxFile(this.currentReportName, data, [header.map((x: { cDisplayName: any; }) => x.cDisplayName)])
       //  this.alertService.clear();
