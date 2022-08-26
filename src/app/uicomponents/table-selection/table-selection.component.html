@@ -116,7 +116,7 @@
 
             <!-- {{element[disCol.headerValue]}} -->
             <span
-              [ngStyle]="disCol.isBold?{'font-weight': '1000'} : {'font-weight': '500'}">{{disCol.isNumber?(element[disCol.headerValue]|
+            [ngClass]="disCol.isBold === true ? 'bold-blackfont' : 'default-font-weight'">{{disCol.isNumber?(element[disCol.headerValue]|
               number) :element[disCol.headerValue]}}</span>
           </td>
           <td mat-footer-cell class="totalRow" *matFooterCellDef> {{ getTotal(disCol.headerValue)|number}}</td>
