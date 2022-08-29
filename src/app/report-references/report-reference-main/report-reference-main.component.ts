@@ -1059,11 +1059,13 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
             if (x.StatusMessage === 'Success') {
               this.refreshData();
               // this.alertService.clear();
-              this.alertService.success( this.currentReportName + " deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
+              // this.alertService.success( this.currentReportName + " deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
             }
             else {
               // this.alertService.clear();
-              this.alertService.notification(this.currentReportName + " delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+              // this.alertService.notification(this.currentReportName + " delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.notification("Record delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
               this.highlightedRows = '';
             }
@@ -1223,12 +1225,14 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
               // this.alertService.clear();
-              this.alertService.success(this.currentReportName + " update successfully!!", { autoClose: true, keepAfterRouteChange: false });
+              // this.alertService.success(this.currentReportName + " update successfully!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             }
             else {
               // this.alertService.clear();
-              this.alertService.notification(this.currentReportName + " update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+              // this.alertService.notification(this.currentReportName + " update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.notification("Record update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
             }
           },
@@ -1266,13 +1270,15 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
           this.refreshData();
           // this.alertService.clear();
           // this.highlightedRecord = {'recordIdentifier' : this.recordIdentifier  , 'recordIdentifierValue' : x.params.RecordIdentifier} 
-          this.alertService.success(this.currentReportName + " create successfully!!", { autoClose: true, keepAfterRouteChange: false });
+          // this.alertService.success(this.currentReportName + " create successfully!!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.success("Record create successfully!!", { autoClose: true, keepAfterRouteChange: false });
           // this.onFormSubmit(true);
           this.highlightedRecord = { 'recordIdentifier': this.recordIdentifier, 'recordIdentifierValue': x.params.RecordIdentifier }
         }
         else {
           // this.alertService.clear();
-          this.alertService.notification(this.currentReportName + " create Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+          // this.alertService.notification(this.currentReportName + " create Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Record create Aborted!!", { autoClose: true, keepAfterRouteChange: false });
 
         }
       },

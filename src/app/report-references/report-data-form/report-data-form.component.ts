@@ -141,7 +141,7 @@ ngOnChanges(changes: SimpleChanges) {
       // console.log("create");
   // console.log(this.lstForm[1].cList);
   let fDropdown: string[] = [];
-  this.lstForm[1].cList.forEach((x:any) =>{
+  this.lstForm[0].cList.forEach((x:any) =>{
     fDropdown.push(x.displayValue);
   });
   // console.log(fDropdown);
