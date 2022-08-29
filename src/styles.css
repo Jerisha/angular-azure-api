@@ -216,19 +216,19 @@ div.mat-tab-label {
 }
 
 .custom-tooltip {
-
-  text-align: left;
+  margin: 0px !important;
+  /* text-align: left; */
   white-space: pre-line;
-  font-size: -8px !important;
-  background: white !important;
+  /* font-size: -8px !important; */
+  /* background: white !important; */
   /*#FED9B7  */
-  color: #3f51b5;
-  margin-left: -8px !important;
-  border-radius: 10px solid rgb(20, 15, 15) !important;
+  /* color: #3f51b5; */
+  /* margin-left: -8px !important; */
+  /* border-radius: 10px solid rgb(20, 15, 15) !important; */
   /* padding: 2px 0 !important; */
-  position: below !important;
+  /* position: below !important; */
   /* top: -5px !important; */
-  top: 100% !important;
+  /* top: 100% !important; */
 
 }
 
@@ -940,3 +940,12 @@ mat-form-field.pb-0 .mat-form-field-wrapper {
 }
 
 /* Reference List report changes End */
+/* Black and Bold font for Totalcmd coloumn    */
+.bold-blackfont
+{
+  font-weight: 1000;
+  color: black !important;;
+}
+.default-font-weight{
+font-weight: 500;
+}

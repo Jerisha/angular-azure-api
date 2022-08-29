@@ -426,8 +426,7 @@ export class UnsolicitedactionreportComponent implements OnInit, AfterViewInit, 
           if (endDate?.value)
             attributes.push({ Name: 'EndDate', Value: [formatDate(endDate?.value, 'dd-MMM-yyyy', 'en-US')] });
           else
-            attributes.push({ Name: 'EndDate' });
-           
+            attributes.push({ Name: 'EndDate' });           
           continue;
         }
         // if (field == 'ResolveType')

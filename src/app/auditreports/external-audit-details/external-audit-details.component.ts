@@ -211,8 +211,9 @@ export class ExternalAuditDetailsComponent extends UserProfile implements OnInit
         console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-            this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+            
             this.onFormSubmit(true);
+            this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successfully !!", { autoClose: true, keepAfterRouteChange: false });
           }
         });
       }

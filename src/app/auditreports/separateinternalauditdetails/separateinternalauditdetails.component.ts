@@ -647,8 +647,9 @@ else{
             console.log('manual', JSON.stringify(request));
             this.service.updateDetails(request).subscribe(x => {
               if (x.StatusCode === 'EUI000') {
-                this.alertService.success(x.StatusMessage, { autoClose: true, keepAfterRouteChange: false });
+                
                 this.onFormSubmit(true);
+                this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successfully !!", { autoClose: true, keepAfterRouteChange: false });
               }
             });
           }

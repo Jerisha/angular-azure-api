@@ -11,7 +11,7 @@ import { Utils } from 'src/app/_http/index';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ResolvingOfErrorsService } from '../services/resolving-of-errors.service';
-import { expDate, expNumeric, expString,expDropdown, select } from 'src/app/_helper/Constants/exp-const';
+import { expDate, expNumeric, expString, expDropdown, select } from 'src/app/_helper/Constants/exp-const';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { formatDate } from '@angular/common';
 import { map } from 'rxjs/operators';
@@ -67,7 +67,7 @@ const ELEMENT_DATA: solicitedactionreport[] = [
     Link: 'Image', ResolveType: 'Superseded', TelephoneNumber: '01179844346', TransactionID: '1001454956', ResolveRemarks: 'Superseded', CreatedBy: 'SYSTEM@VODAFONE.COM', CreatedOn: '14 MAR 2015', Duration: '00:13', Source: 'C - SAS/COMS',
     Status: 'ERROR FINAL', TransactionCommand: 'A-Activate Customer',
   },
- 
+
 
 
 ]
@@ -75,11 +75,11 @@ const ELEMENT_DATA: solicitedactionreport[] = [
 const FilterListItems: Select[] = [
   { view: 'Telephone No', viewValue: 'TelephoneNumber', default: true },
   { view: 'Transaction ID', viewValue: 'TransactionID', default: true },
-  { view: 'Date Range', viewValue: 'DateRange', default: true },
+  { view: 'Created On', viewValue: 'CreatedOn', default: true },
   { view: 'Resolution Type', viewValue: 'ResolveType', default: true },
   { view: 'Source System', viewValue: 'Source', default: true },
   { view: 'Status', viewValue: 'Status', default: true },
-  { view: 'Transaction Command', viewValue: 'TransactionCommand', default: true },
+  { view: 'Transaction Command', viewValue: 'TranCommand', default: true },
   { view: '999 Reference', viewValue: 'Reference', default: true }
 
 ];
@@ -101,14 +101,14 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   constructor(private formBuilder: FormBuilder,
     private service: ResolvingOfErrorsService,
     private cdr: ChangeDetectorRef,
- private alertService: AlertService,
+    private alertService: AlertService,
     private telnoPipe: TelNoPipe,
     private auth: AuthenticationService,
     private actRoute: ActivatedRoute
-    ) {
-      super(auth, actRoute);
-      this.intializeUser();
-     }
+  ) {
+    super(auth, actRoute);
+    this.intializeUser();
+  }
 
   myForm!: FormGroup;
   public tabs: Tab[] = [];
@@ -121,15 +121,15 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   configDetails!: any;
   // currentPage: string = '1';
   resetExp: boolean = false;
-  expressions: any = [expNumeric, expString, expDate,expDropdown];
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   errorCodesOptions!: Observable<any[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
-   // make ExampleHeaderComponent type available in our template:
-   readonly CustomHeaderComponent = CustomHeaderComponent;
+  // make ExampleHeaderComponent type available in our template:
+  readonly CustomHeaderComponent = CustomHeaderComponent;
   errorCodeData: Select[] = [
     { view: '101', viewValue: '101', default: true },
     { view: '202', viewValue: '202', default: true },
@@ -140,7 +140,8 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
   expOperators: string[] = [
 
     "TelephoneNumberOperator",
-    "TransactionIDOperator",    
+    "TransactionIDOperator",
+    "CreationDateOperator",
     "SourceOperator",
     "ResolveTypeOperator",
     "StatusOperator",
@@ -148,20 +149,22 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
 
   ];
   expOperatorsKeyPair: [string, string][] = [];
+
+  opsCollection: { Key: string, Value: string }[] = [];
   columns: ColumnDetails[] = [
     // { header: 'View', headerValue: 'View', showDefault: true, isImage: true },
-   
+
     { header: 'Telephone No', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Inventory', headerValue: 'Links', showDefault: true, isImage: true },
     { header: 'Resolution Type', headerValue: 'ResolveType', showDefault: true, isImage: false },
     { header: 'Transaction ID', headerValue: 'TransactionID', showDefault: true, isImage: false },
-    { header: 'Resolve Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
+    { header: 'Latest User Remarks', headerValue: 'ResolveRemarks', showDefault: true, isImage: false },
     { header: 'Created By', headerValue: 'CreatedBy', showDefault: true, isImage: false },
     { header: 'Created On', headerValue: 'CreationDate', showDefault: true, isImage: false },
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
+    { header: 'Transaction Command', headerValue: 'TranCommand', showDefault: true, isImage: false },
 
   ];
 
@@ -204,14 +207,14 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
       // TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11), Validators.pattern("^[0-9]{11}$")]),
       TelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
       TransactionID: new FormControl({ value: '', disabled: false }, []),
-      // CreatedOn: new FormControl({ value: '', disabled: false }, []),
+      CreatedDate: new FormControl({ value: '', disabled: false }, []),
       ResolveType: new FormControl({ value: '', disabled: false }, []),
       // ResolutionTypeAudit: new FormControl({ value: '', disabled: false }, []),
       Source: new FormControl({ value: '', disabled: false }, []),
       Status: new FormControl({ value: '', disabled: false }, []),
-      TransactionCommand: new FormControl({ value: '', disabled: false }, []),
+      TranCommand: new FormControl({ value: '', disabled: false }, []),
       Reference: new FormControl({ value: '', disabled: false }, []),
-      DateRange: this.formBuilder.group({StartDate: new FormControl(),EndDate: new FormControl(), disabled: false})
+      // DateRange: this.formBuilder.group({StartDate: new FormControl(),EndDate: new FormControl(), disabled: false})
     })
   }
 
@@ -262,10 +265,10 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      isFavcols:true,
+      isFavcols: true,
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
     }
 
@@ -277,13 +280,13 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     }
     //this.isEnable();
   }
-  
+
 
   isEnable() {
 
     //debugger
     if ((this.f.TelephoneNumber?.value?.length === 11 && this.f.TransactionID.value === "" && this.f.ResolutionType.value === "" && this.f.Source.value === "" &&
-    this.f.Status.value === "" && this.f.TransactionCommand.value === "" && this.f.Reference.value === "")
+      this.f.Status.value === "" && this.f.TranCommand.value === "" && this.f.Reference.value === "")
       || (this.selectedGridRows.length > 0)) {
       this.isSaveDisable = false;
     }
@@ -292,7 +295,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     //console.log('isSaveDisable',this.isSaveDisable)
   }
 
-  
+
 
   prepareQueryParams(pageNo: string): any {
     let attributes: any = [
@@ -303,193 +306,35 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
       attributes.push({ Name: '999Reference', Value: [control?.value] });
     else
       attributes.push({ Name: '999Reference' });
+
+    //other parameter
     for (const field in this.f) {
-      if (field != 'Reference' ) {
-        const control = this.myForm.get(field);
-        if (field == 'DateRange') {
-          const startDate = this.myForm.get('DateRange.StartDate');
-          if (startDate?.value)
-            attributes.push({ Name: 'StartDate', Value: [formatDate(startDate?.value, 'dd-MMM-yyyy', 'en-US')] });
-          else
-            attributes.push({ Name: 'StartDate' });
-          const endDate = this.myForm.get('DateRange.EndDate');
-          if (endDate?.value)
-            attributes.push({ Name: 'EndDate', Value: [formatDate(endDate?.value, 'dd-MMM-yyyy', 'en-US')] });
-          else
-            attributes.push({ Name: 'EndDate' });
-           
-          continue;
-        }
-        // if (field == 'ResolveType')
-        // {
-        // attributes.push({ Name: 'ResolveType', Value: [control?.value]});
-        // let operator: string = 'ResolveType' + "Operator";
-        // if (this.expOperatorsKeyPair.length != 0) {
-        //   let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-        //   // console.log(expvals,"operatorVal1")
-        //   if (expvals.length != 0) {
-        //   //  console.log(control?.value,"True");
-        //       // if (control?.value) {
-        //         attributes.push({ Name: operator, Value: [expvals[0][1]] });
-        //         // console.log(expvals[0][1],"operatorVal");
-        //       // }
-        //       // else {
-        //       //   attributes.push({ Name: operator, Value: ['Equal To'] });
-        //       // }
-        //   }
-         
-        // }
-        // else {
-  
-        //   attributes.push({ Name: operator, Value: ['Equal To'] });
-  
-        // }
-     
-       
-        // } 
-        if (field == 'TransactionCommand')
-        {
-        attributes.push({ Name: 'TransactionCommand', Value: [control?.value]});
-        let operator: string = 'TranCommand' + "Operator";
-        if (this.expOperatorsKeyPair.length != 0) {
-          let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-          // console.log(expvals,"operatorVal1")
-          if (expvals.length != 0) {
-          //  console.log(control?.value,"True");
-              // if (control?.value) {
-                attributes.push({ Name: operator, Value: [expvals[0][1]] });
-                // console.log(expvals[0][1],"operatorVal");
-              // }
-              // else {
-              //   attributes.push({ Name: operator, Value: ['Equal To'] });
-              // }
-          }
-         
-        }
-        else {
-  
-          attributes.push({ Name: operator, Value: ['Equal To'] });
-  
-        }
-     
-       
-        } 
-      else{
-        if (control?.value )
-          attributes.push({ Name: field, Value: [control?.value] });
-        else
-          attributes.push({ Name: field });
+      debugger
+      if (field === 'Reference') continue;
 
-      }
-      let operator: string = field + "Operator";
+      const control = this.myForm.get(field);
+      if (field == "CreatedDate" && control?.value)
+        attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
+      else
+        attributes.push({ Name: field, Value: [control?.value] });
 
-      // console.log("op vals",this.expOperatorsKeyPair);
 
-      //this.expOperatorsKeyPair.filter((i)=> this.getTupleValue(i,operator))
-      //  console.log("op ",operatorVal);
-      if (this.expOperatorsKeyPair.length != 0) {
-        let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-        // console.log(expvals,"operatorVal1")
-        if (expvals.length != 0) {
-        //  console.log(control?.value,"True");
-            // if (control?.value) {
-              attributes.push({ Name: operator, Value: [expvals[0][1]] });
-              // console.log(expvals[0][1],"operatorVal");
-            // }
-            // else {
-            //   attributes.push({ Name: operator, Value: ['Equal To'] });
-            // }
-        }
-        else {
-          if (field == 'TelephoneNumber' || field == 'DateRange') {
-            attributes.push({ Name: operator, Value: ['Equal To'] });
-          }
-          else {
-            attributes.push({ Name: operator, Value: ['Equal To'] });
-          }
-        }
-      }
-      else {
-
-        attributes.push({ Name: operator, Value: ['Equal To'] });
-      }
-      }
+      //operator value
+      let genOpt = field + 'Operator'
+      //let expvals = this.expOperatorsKeyPair?.filter((i) => this.getTupleValue(i, genOpt));
+      let found = this.opsCollection.find(x=> x.Key===genOpt);
+      if (found)
+        attributes.push({ Name: genOpt, Value: [found?.Value] });
+      else
+        attributes.push({ Name: genOpt, Value: ['Equal To'] });
     }
-    console.log('attri',attributes);
+    console.log('attri', attributes);
 
     return attributes;
 
   }
 
-  // prepareQueryParams(pageNo: string): any {
-  //   let attributes: any = [
-  //     { Name: 'PageNumber', Value: [`${pageNo}`] }];
-  //   for (const field in this.myForm?.controls) {
-  //     const control = this.myForm.get(field);  
-  //     if (control?.value) {
-  //       if (field == "CreationDate") {
-  //         attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
-  //       }
-  //       else{
-  //       attributes.push({ Name: field, Value: [control?.value] }); }
-  //       let operator: string = field + "Operator";
-  //       if (this.expOperatorsKeyPair.length != 0) {
-  //         let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-  //         if (expvals.length != 0) {
-  //           attributes.push({ Name: operator, Value: [expvals[0][1]] });
-  //         }
-         
-  //         else {
-  //           if (field == 'StartTelephoneNumber' || field == 'CreationDate') {
-  //             attributes.push({ Name: operator, Value: ['Equal To'] });
-  //           }
-  //           else {
-  //             attributes.push({ Name: operator, Value: ['Equal To'] });
-  //           }
-  //         }
-  //       }
-  //        else{
-  //         if(field=='StartTelephoneNumber'|| field=='CreationDate')
-  //         {
-  //              attributes.push({ Name: operator, Value: ['Equal To'] }); 
-  //         }
-  //        else
-  //         {
-  //             attributes.push({ Name: operator, Value: ['Equal To'] });  
-  //         }
 
-        
-  //       }
-      
-  //     }
-  //   }
-
-  //   console.log('attri', attributes);
-  //   return attributes;
-
-  // }
-  // onFormSubmit(): void {
-  //   this.myTable = {
-  //     data: of({
-  //       datasource: ELEMENT_DATA,
-  //       totalrecordcount: 100,
-  //       totalpages: 1,
-  //       pagenumber: 1
-  //     }),
-  //     Columns: this.columns,
-  //     filter: true,
-  //     selectCheckbox: true,
-  //     removeNoDataColumns: true,
-  //     imgConfig: [{ headerValue: 'Links', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
-
-  //   }
-  //   if (!this.tabs.find(x => x.tabType == 0)) {
-  //     this.tabs.push({
-  //       tabType: 0,
-  //       name: 'Summary'
-  //     });
-  //   }
-  // }
   setControlAttribute(matSelect: MatSelect) {
     matSelect.options.forEach((item) => {
       if (item.selected) {
@@ -519,7 +364,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     let filteredList = this.errorCodeData.filter(option => option.view.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
   }
-  
+
   onChange(value: string, ctrlName: string) {
     const ctrl = this.myForm.get(ctrlName) as FormControl;
     if (isNaN(<any>value.charAt(0))) {
@@ -630,17 +475,28 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     return true;
   }
   OnOperatorClicked(val: [string, string]) {
-    let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
-    if (vals.length == 0) {
-      this.expOperatorsKeyPair.push(val);
-    }
-    else {
-      this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
-      this.expOperatorsKeyPair.push(val);
-    }
+    debugger;
+    // if(this.expOperatorsKeyPair.includes(val))
+    // this.expOperatorsKeyPair.splice(this.expOperatorsKeyPair.indexOf(val))
+    // this.expOperatorsKeyPair.push(val);
+    this.opsCollection.filter((x, index) => {
+      if(x.Key === val[0])
+      this.opsCollection.splice(index, 1);
+    })
+
+    this.opsCollection.push({ Key: val[0], Value: val[1] });
+
+    // let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
+    // if (vals.length == 0) {
+    //   this.expOperatorsKeyPair.push(val);
+    // }
+    // else {
+    //   this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
+    //   this.expOperatorsKeyPair.push(val);
+    // }
   }
 
-  
+
   getTupleValue(element: [string, string], keyvalue: string) {
     // console.log(element, keyvalue,"gettuple");
     if (element[0] == keyvalue) { return element[1]; }
