@@ -353,7 +353,7 @@
                                               </div>
                                           </ng-container>
                                           <tr mat-header-row *matHeaderRowDef="displayedColumnsValues"  style="visibility:collapse"></tr>
-                                          <tr mat-row *matRowDef="let comment; columns: displayedColumnsValues;" class="innertab" 
+                                          <tr mat-row *matRowDef="let comment; columns: displayedColumnsValues;" class="innertab" class ="bg-color1"
                                           [ngClass]="{ 'highlighted' : comment === highlightedRows } "
                                           [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
                                                  comment[highlightedRecord.recordIdentifier] === highlightedRecord.recordIdentifierValue : false  } ">
@@ -365,7 +365,8 @@
                                 </ng-container>
                     
                                 <tr mat-header-row *matHeaderRowDef="displayedColumnsValues" style="visibility:collapse"></tr>
-                                <tr mat-row *matRowDef="let CompanyDetails; columns: displayedColumnsValues;"
+                                <tr mat-row *matRowDef="let CompanyDetails; columns: displayedColumnsValues;" 
+                                class = "bg-color2"
                                 [ngClass]="{ 'highlighted' : CompanyDetails === highlightedRows } "
                                 [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
                                 CompanyDetails[highlightedRecord.recordIdentifier] === highlightedRecord.recordIdentifierValue : false  } " >
