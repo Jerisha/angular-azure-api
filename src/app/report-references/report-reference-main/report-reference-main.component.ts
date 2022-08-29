@@ -722,13 +722,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
             let CompanyDropDown = res.data.OloCompanyDropDown ? res.data.OloCompanyDropDown : [];
 
             OloDropDown = OloDropDown != undefined ? OloDropDown[0] : [];
-
+            this.reportReferenceService.franchiseDropdowns.splice(0);
             this.reportReferenceService.franchiseDropdowns.push(OloDropDown);
 
             // CompanyDropDown = CompanyDropDown!=undefined ? CompanyDropDown:[] 
 
             // this.reportReferenceService.franchiseDropdowns.push(CompanyDropDown) 
-
+            this.reportReferenceService.companyDropdown.splice(0);
             this.reportReferenceService.companyDropdown.push(CompanyDropDown);
 
           } else if (this.currentReportName === 'Olo') {
