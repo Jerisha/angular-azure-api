@@ -122,12 +122,14 @@ table td, table th {
 }
 
 .rowFontHighlight1 td {
-  color: green;
+  /* color: green; */
+  color: #3f51b5;
   font-weight: 500;
 }
 
 .rowFontHighlight2 td {
-  color: red;
+  /* color: red; */
+  color: #059710;
   font-weight: 500;
 }
 
