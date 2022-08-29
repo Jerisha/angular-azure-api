@@ -1177,15 +1177,15 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
 
     if (this.eventName === 'Create' && (reportName === 'Franchise')) {
       // reqdata[3].Name === 
-      console.log(reqdata, 'creations1')
+      // console.log(reqdata, 'creations1')
       // let newval =  reqdata[3]?.Name === 'Franchise' ? '3' :  reqdata[2]?.Name === 'Company' ? '2' : '1'
       let creationFlag = 0;
-        for (let index = reqdata.length-1; index > 0; index--) {
+        for (let index = reqdata.length-1; index >= 0; index--) {
         if(reqdata[index].Name === 'Olo' || reqdata[index].Name === 'Company' || reqdata[index].Name === 'Franchise') {
           creationFlag++;
         }
       }
-      console.log("CreationFlag ", creationFlag );
+      // console.log("CreationFlag ", creationFlag );
       reqdata.push({ Name: 'CreationFlag', Value: [creationFlag.toString()] })
       
     }
