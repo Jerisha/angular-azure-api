@@ -722,13 +722,13 @@ export class ReportReferenceMainComponent implements OnInit, AfterViewInit {
             let CompanyDropDown = res.data.OloCompanyDropDown ? res.data.OloCompanyDropDown : [];
 
             OloDropDown = OloDropDown != undefined ? OloDropDown[0] : [];
-
+            this.reportReferenceService.franchiseDropdowns.splice(0);
             this.reportReferenceService.franchiseDropdowns.push(OloDropDown);
 
             // CompanyDropDown = CompanyDropDown!=undefined ? CompanyDropDown:[] 
 
             // this.reportReferenceService.franchiseDropdowns.push(CompanyDropDown) 
-
+            this.reportReferenceService.companyDropdown.splice(0);
             this.reportReferenceService.companyDropdown.push(CompanyDropDown);
 
           } else if (this.currentReportName === 'Olo') {
@@ -1059,10 +1059,12 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
             if (x.StatusMessage === 'Success') {
               this.refreshData();
               // this.alertService.clear();
+              // this.alertService.success( this.currentReportName + " deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
               this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
             }
             else {
               // this.alertService.clear();
+              // this.alertService.notification(this.currentReportName + " delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               this.alertService.notification("Record delete Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
               this.highlightedRows = '';
@@ -1177,15 +1179,15 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
 
     if (this.eventName === 'Create' && (reportName === 'Franchise')) {
       // reqdata[3].Name === 
-      console.log(reqdata, 'creations1')
+      // console.log(reqdata, 'creations1')
       // let newval =  reqdata[3]?.Name === 'Franchise' ? '3' :  reqdata[2]?.Name === 'Company' ? '2' : '1'
       let creationFlag = 0;
-        for (let index = reqdata.length-1; index > 0; index--) {
+        for (let index = reqdata.length-1; index >= 0; index--) {
         if(reqdata[index].Name === 'Olo' || reqdata[index].Name === 'Company' || reqdata[index].Name === 'Franchise') {
           creationFlag++;
         }
       }
-      console.log("CreationFlag ", creationFlag );
+      // console.log("CreationFlag ", creationFlag );
       reqdata.push({ Name: 'CreationFlag', Value: [creationFlag.toString()] })
       
     }
@@ -1223,12 +1225,14 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
               this.refreshData();
               // console.log(JSON.stringify(request), 'updaterequest')
               // this.alertService.clear();
+              // this.alertService.success(this.currentReportName + " update successfully!!", { autoClose: true, keepAfterRouteChange: false });
               this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
               // this.onFormSubmit(true);
             }
             else {
               // this.alertService.clear();
-              this.alertService.notification("Record Update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+              // this.alertService.notification(this.currentReportName + " update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.notification("Record update Aborted!!", { autoClose: true, keepAfterRouteChange: false });
               //need to check the api error response message
             }
           },
@@ -1266,13 +1270,15 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
           this.refreshData();
           // this.alertService.clear();
           // this.highlightedRecord = {'recordIdentifier' : this.recordIdentifier  , 'recordIdentifierValue' : x.params.RecordIdentifier} 
+          // this.alertService.success(this.currentReportName + " create successfully!!", { autoClose: true, keepAfterRouteChange: false });
           this.alertService.success("Record create successfully!!", { autoClose: true, keepAfterRouteChange: false });
           // this.onFormSubmit(true);
           this.highlightedRecord = { 'recordIdentifier': this.recordIdentifier, 'recordIdentifierValue': x.params.RecordIdentifier }
         }
         else {
           // this.alertService.clear();
-          this.alertService.notification("Create Record Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+          // this.alertService.notification(this.currentReportName + " create Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Record create Aborted!!", { autoClose: true, keepAfterRouteChange: false });
 
         }
       },
@@ -1333,8 +1339,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
             Reflect.deleteProperty(row, i)
           }
 
-        let dataRow = Object.assign(disp, row)
-        //console.log(dataRow,'dataRow')         
+        let dataRow = Object.assign(disp, row)     
         //data += Object.values(dataRow).toString().replace(/[,]+/g, '\|') + "\n";
         let val = Object.values(dataRow).join('|');
         val.replace(/[/t]+/g, ' ');
@@ -1380,7 +1385,8 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
   onExportXlsxFormat() {
     this.alertService.clear();
 
-    if (this.data != undefined && (this.data != [] && this.data.length != 0)) {
+    // if (this.data != undefined && (this.data != [] && this.data.length != 0)) {
+      if (this.dataSource.data != undefined && (this.dataSource.data != [] && this.dataSource.data.length != 0)) {
       let header = this.reportReferenceService.getDownLoadHeaders(this.currentReportName)
       if (this.currentReportName === 'CUPIDCrossReference') {
         header.splice(1, 0, { cName: "FranchiseCode", cDisplayName: "Franchise" })
@@ -1390,7 +1396,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
       }
       // header.push({cName:"UpdatedOn",cDisplayName:"Updated On"})
       // header.push({cName:"UpdatedBy",cDisplayName:"Updated By"})
-      let copydata = JSON.parse(JSON.stringify(this.data))
+      let copydata = JSON.parse(JSON.stringify(this.dataSource.data))
 
       let data: any = [];
       //let dataHeaderRow = Object.assign({} ,...header.map((x:any)=> ({[x.cName]:x.cDisplayName})))
@@ -1400,6 +1406,7 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
 
         // ,'BlankLineTypeValue','MandatoryLineTypeValue','PortingEmail','NonPortingEmail'
         let disp = Object.assign({}, ...header.map((x: any) => ({ [x.cName]: ' ' })))
+        
         for (const i of ['UpdatedOn', 'UpdatedDate', 'UpdatedBy', 'ListType']) {
           Reflect.deleteProperty(row, i)
         }
@@ -1413,21 +1420,53 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
         //  {
         //    Reflect.deleteProperty(row,i)
         //  }
-        if (this.currentReportName === 'Olo')
-          for (const i of ['OloCompanyFranchise']) {
-            Reflect.deleteProperty(row, i)
-          }
+        // if (this.currentReportName === 'Olo')
+        //   for (const i of ['OloCompanyFranchise']) {
+        //     Reflect.deleteProperty(row, i)
+        //   }
 
 
         let dataRow = Object.assign(disp, row)
-
+        
+          
         // let val = Object.values(dataRow).join('|');
         // val.replace(/[/t]+/g, ' ');
 
         // data += val.replace(/[|]+/g, '\t') + "\n";
+          
+        if(this.currentReportName === 'Franchise'){
+          delete disp['CompanyDetails'];
+          let franchise = Object.assign({}, row);
+          let dataRow1 = Object.assign(disp, row);
+          for (const i of ['CompanyDetails','expanded']) {
+            Reflect.deleteProperty(dataRow1, i)
+          }
+          data.push(dataRow1);
+          // console.log("row",row);
+          // console.log("dataRow1",dataRow1);
+          
+          franchise?.CompanyDetails?.forEach((row: any) => {
+            let companyData = Object.assign({}, row);
+            // console.log("company data",franchise);
+            for (const i of ['FranchiseDetails','expanded']) {
+              Reflect.deleteProperty(row, i)
+            }
+            data.push(row);
+            companyData?.FranchiseDetails?.forEach((row: any) => {
+              data.push(row);
+    
+              }); // franchise data
+
+            }); // Company data
+
+        } else {
         data.push(dataRow);
+        }
 
       });
+
+      // console.log("data ",data);
+      // console.log(" stringify data ", JSON.stringify(data));
 
       this.reportReferenceService.downloadXlsxFile(this.currentReportName, data, [header.map((x: { cDisplayName: any; }) => x.cDisplayName)])
       //  this.alertService.clear();

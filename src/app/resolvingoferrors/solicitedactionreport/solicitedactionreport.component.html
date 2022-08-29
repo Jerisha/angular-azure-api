@@ -40,20 +40,20 @@
                                 placeholder="TransactionID">
                         </mat-form-field>
                     </div>
-                    <!-- <div [ngStyle]="{'display':myForm.controls.CreatedOn.disabled ? 'none' : 'block'}">
+                    <div [ngStyle]="{'display':myForm.controls.CreatedDate.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[2].default" #CreationDateOperator
                             [resetvalue]="resetExp"
-                            (click)="OnOperatorClicked(['CreationDateOperator',CreationDateOperator.selectedViewValue])">
+                            (click)="OnOperatorClicked(['CreatedDateOperator',CreationDateOperator.selectedViewValue])">
                         </app-select-exp>
-                        <mat-form-field [ngClass]="{'hidden':myForm.controls.CreatedOn.disabled}" appearance="outline">
+                        <mat-form-field [ngClass]="{'hidden':myForm.controls.CreatedDate.disabled}" appearance="outline">
                             <mat-label>Created On</mat-label>
-                            <input [readonly]="true" id="CreatedOn" [matDatepicker]="picker" formControlName="CreatedOn"
+                            <input [readonly]="true" id="CreatedDate" [matDatepicker]="picker" formControlName="CreatedDate"
                                 matInput #input maxlength="20" placeholder="Created On">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-                    </div> -->
-                    <div [ngStyle]="{'display':myForm.controls.DateRange.disabled ? 'none' : 'block'}"style="padding-left: 11px;">
+                    </div>
+                    <!-- <div [ngStyle]="{'display':myForm.controls.DateRange.disabled ? 'none' : 'block'}"style="padding-left: 11px;">
                     <mat-form-field [ngClass]="{'hidden':f.DateRange.disabled}"> 
                         <mat-label>Date Range</mat-label>
                         <mat-date-range-input [min]="minDate" [max]="maxDate" formGroupName="DateRange" [rangePicker]="picker">
@@ -62,9 +62,9 @@
                         </mat-date-range-input>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-date-range-picker #picker [calendarHeaderComponent]="CustomHeaderComponent"></mat-date-range-picker>
-                        <!-- <mat-hint align="end">Here's the date picker</mat-hint> -->
+                       
                       </mat-form-field>
-                    </div>
+                    </div> -->
                     
                     <!-- <div [ngStyle]="{'display':myForm.controls.ResolutionTypeAudit.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[3].default" #ResolveTypeOperator
@@ -193,14 +193,14 @@
                       </mat-form-field>
                     </div> -->
 
-                    <div [ngStyle]="{'display':myForm.controls.TransactionCommand.disabled ? 'none' : 'block'}">
+                    <div [ngStyle]="{'display':myForm.controls.TranCommand.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[3].default" #TranCommandOperator
                             [resetvalue]="resetExp"
                             (click)="OnOperatorClicked(['TranCommandOperator',TranCommandOperator.selectedViewValue])">
                         </app-select-exp>
-                        <mat-form-field [ngClass]="{'hidden':f.TransactionCommand.disabled}">
+                        <mat-form-field [ngClass]="{'hidden':f.TranCommand.disabled}">
                             <mat-label>Transaction Command</mat-label>
-                            <mat-select formControlName="TransactionCommand">  
+                            <mat-select formControlName="TranCommand">  
                               <mat-option>-- Select --</mat-option> 
                               <mat-option *ngFor="let val of config.TransactionCommand" [value]="val">
                                 {{val}}

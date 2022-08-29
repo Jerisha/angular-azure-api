@@ -134,7 +134,7 @@
                       [formControlName]="formData.cName" [(ngModel)]="formData.cValue">{{formData.cDisplayName}}
                     </mat-checkbox>
                     </ng-container>
-                    <ng-container *ngIf="reportName === 'Franchise'">
+                    <ng-container *ngIf="reportName === 'Franchise' && eventName === 'Update'">
                       <mat-checkbox [ngClass]="{'hidden-control': !referenceForm.controls['Franchise'].value}"  color="primary" [checked]="formData.cValue === 'Y' ||formData.cValue === '1'? true:false"
                         [formControlName]="formData.cName" [(ngModel)]="formData.cValue">{{formData.cDisplayName}}
                       </mat-checkbox>
