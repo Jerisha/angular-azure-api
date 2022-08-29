@@ -514,7 +514,7 @@
                             <div class="content-submain vf-flex-container-col">
                                 <mat-form-field class ="col-width-16 pb-0">
                                     <mat-label>Email Address</mat-label>
-                                <input type="text" (keydown.space)="$event.preventDefault()"  matInput   formControlName="emailaddress"
+                                <input type="text" (keydown.space)="$event.preventDefault()" (paste)="onPaste($event)"   matInput   formControlName="emailaddress"
                                 placeholder="Email Address">
                                 <mat-error>
                                     <div *ngIf="StartupUsermsgsForm.controls['emailaddress'].touched && StartupUsermsgsForm.controls['emailaddress'].invalid" class="alert alert-danger">
