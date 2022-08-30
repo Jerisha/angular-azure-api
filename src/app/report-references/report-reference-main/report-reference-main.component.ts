@@ -1278,7 +1278,8 @@ this.ErrorTypeDropdownFilter.push({ view: element, viewValue: element, default: 
         else {
           // this.alertService.clear();
           // this.alertService.notification(this.currentReportName + " create Aborted!!", { autoClose: true, keepAfterRouteChange: false });
-          this.alertService.notification("Record create Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+          // this.alertService.notification("Record create Aborted!!", { autoClose: true, keepAfterRouteChange: false });
+          this.alertService.notification("Record already exists!!", { autoClose: true, keepAfterRouteChange: false });
 
         }
       },
