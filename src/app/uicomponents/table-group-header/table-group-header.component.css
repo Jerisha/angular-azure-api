@@ -20,7 +20,8 @@ th {
 }
 
 tr.mat-footer-row {
-  height: fit-content;
+  /* height: fit-content; */
+  height: 1.25em;
 }
 
 th.mat-sort-header-sorted {
@@ -64,7 +65,7 @@ th.mat-sort-header-sorted {
 }
 
 .mat-row {
-  height: 10px;
+  height: 1.25em;
 
 }
 
@@ -132,3 +133,12 @@ mat-form-field {
 th.mat-header-cell, .headerLvl2 th, .headerLvl3 th{
   white-space: normal !important;
 }
+
+.mat-cell.mat-column-TotalMonth,
+.mat-cell.mat-column-TotalBacklog,
+.mat-cell.mat-column-EndStatusYTotal,
+.mat-cell.mat-column-InProgressTotal{
+  color: black;
+  font-weight: 600 !important;
+}
+

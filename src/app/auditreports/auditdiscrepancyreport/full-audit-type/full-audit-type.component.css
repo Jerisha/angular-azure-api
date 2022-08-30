@@ -5,14 +5,16 @@
     /* min-width: 1160px; */
 /* } */
 
+.table-fixed-view{
+  min-width: 1170px;
+}
+
 .page-scroll {
   overflow: auto;
 }
 
-.table-group-view::ng-deep.headerLvl2 th {
-    top: 62px !important;
+.table-group-view::ng-deep #full-audit-header-sticky-lvl2 th {
+    /* top: 62px !important; */
+    top: 44px !important;
   }
 
-  .table-group-view::ng-deep.headerLvl3 th {
-    top: 124px !important;
-  }

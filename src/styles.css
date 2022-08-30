@@ -685,7 +685,7 @@ th.mat-column-NotAvailable {
 
   .table-group-container{
     max-height: calc(100vh - 30vh);
-    min-width: 1160px;
+    /* min-width: 1160px; */
     overflow: auto; 
     width: 100%;
     /* max-width: fit-content; */
