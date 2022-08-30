@@ -80,7 +80,7 @@
                                        
                                         <mat-form-field class ="col-width-16 pb-0">
                                             <mat-label>Email Address</mat-label>
-                                        <input type="text" autocomplete=""  matInput   formControlName="emailaddress"
+                                        <input type="text" autocomplete="" (keydown.space)="$event.preventDefault()" (paste)="onPasteEmail($event)"   matInput   formControlName="emailaddress"
                                         placeholder="EmailAddress">
                                         <mat-error>
                                             <div *ngIf="referenceForm.controls['emailaddress'].touched && referenceForm.controls['emailaddress'].invalid" class="alert alert-danger">

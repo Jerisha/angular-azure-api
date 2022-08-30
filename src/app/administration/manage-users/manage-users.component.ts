@@ -3159,4 +3159,18 @@ export class ManageUsersComponent implements OnInit {
   // }
 }
 
+onPasteEmail(event: ClipboardEvent) {
+  debugger
+  let clipboardData = event.clipboardData;
+  //let regexp = new RegExp('/\s/g');
+  let pastedText:any = clipboardData?.getData('text');
+  //let test = regexp.test(pastedText);
+  let trimmedText = pastedText.replace(/\s/g, "");;
+  this.referenceForm.get('emailaddress')?.setValue(trimmedText);
+  event.preventDefault();
+//   if (test) {
+//     event.preventDefault();
+// }
+}
+
 }
