@@ -3145,5 +3145,18 @@ export class ManageUsersComponent implements OnInit {
       this.alertService.info('UserAccess' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
     }
   }
+  onPaste(event: ClipboardEvent) {
+    debugger
+    let clipboardData = event.clipboardData;
+    //let regexp = new RegExp('/\s/g');
+    let pastedText:any = clipboardData?.getData('text');
+    //let test = regexp.test(pastedText);
+    let trimmedText = pastedText.replace(/\s/g, "");;
+    this.StartupUsermsgsForm.get('emailaddress')?.setValue(trimmedText);
+    event.preventDefault();
+  //   if (test) {
+  //     event.preventDefault();
+  // }
+}
 
 }
