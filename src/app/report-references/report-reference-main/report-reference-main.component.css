@@ -175,7 +175,8 @@ tr.mat-header-row,tr.mat-row, tr.mat-footer-row {
     text-align: left;
     padding: 1px 4px 1px;
     font-size: 12px;
-    max-height: 48px;      
+    max-height: 48px; 
+    min-width: fit-content;     
   } 
   
   
@@ -333,13 +334,10 @@ height: 0px !important;
 color: #e60000;
 }
 th{
-  width: 150px!important;
-  height: 20px !important;
+  width: 170px !important;
+
 }
-th{
-  width: 100px!important;
-  /* height: 20px !important; */
-}
+
 
 .frn-table-icon{
   cursor: pointer;  
