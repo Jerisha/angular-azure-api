@@ -1,11 +1,11 @@
 <mat-sidenav-container class="side-container">
     <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
 
-        <div class="filter-sticky">
+        <!-- <div class="filter-sticky">
             <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
                 (changes)="setControlAttribute($event)">
             </app-select-multiple>
-        </div>
+        </div> -->
         <form [formGroup]="myForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
             <div class="matsidenav-filter">
                 <ng-container *ngIf="configDetails  as config">

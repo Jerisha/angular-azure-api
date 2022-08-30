@@ -164,7 +164,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     { header: 'Duration', headerValue: 'Duration', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'SourceSystem', showDefault: true, isImage: false },
     { header: 'Status', headerValue: 'Status', showDefault: true, isImage: false },
-    { header: 'Transaction Command', headerValue: 'TranCommand', showDefault: true, isImage: false },
+    { header: 'Transaction Command', headerValue: 'TransactionCommand', showDefault: true, isImage: false },
 
   ];
 
@@ -239,20 +239,13 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('Summary', 'SolicitedActionReport', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    // console.log('request', JSON.stringify(request))
+
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
-          // datasource: ELEMENT_DATA,
-          // totalrecordcount: 1,
-          // totalpages: 1,
-          // pagenumber: 1
+
         }
         return result;
       } else return {
@@ -322,7 +315,7 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
       //operator value
       let genOpt = field + 'Operator'
       //let expvals = this.expOperatorsKeyPair?.filter((i) => this.getTupleValue(i, genOpt));
-      let found = this.opsCollection.find(x=> x.Key===genOpt);
+      let found = this.opsCollection.find(x => x.Key === genOpt);
       if (found)
         attributes.push({ Name: genOpt, Value: [found?.Value] });
       else
@@ -375,30 +368,9 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     }
   }
 
-  // numberOnly(event: any): boolean {
-  //   const charCode = (event.which) ? event.which : event.keyCode;
-  //   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
-  // reference(event: any, ctrlName: string): boolean {
-  //   const charCode = (event.which) ? event.which : event.keyCode;
-  //   const ctrl = this.thisForm.get(ctrlName) as FormControl;
-  //   const ctrlValue = ctrlName != 'Refer' ? ctrl?.value : this.Refer;
-  //   if (charCode === 32) {
-  //     return false;
-  //   }
-  //   else if (ctrlValue?.charAt(0) != 9 && ctrlValue?.substring(0, 3) != '999') {
-  //     let newValue = '999' + ctrlValue;
-  //     if (ctrlName != 'Refer')
-  //       ctrl.setValue(newValue);
-  //     else
-  //       this.Refer = newValue;
-  //   }
-  //   return true;
-  // }
+
+
   rowDetect(selectedRows: any) {
     debugger;
     selectedRows.forEach((item: any) => {
@@ -454,9 +426,6 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
 
   ngOnDestroy() {
     this.destroy$.next(true);
-    //debugger;
-    //console.log('destroying')
-    // Unsubscribe from the subject
     this.destroy$.unsubscribe();
   }
 
@@ -475,25 +444,12 @@ export class SolicitedactionreportComponent extends UserProfile implements OnIni
     return true;
   }
   OnOperatorClicked(val: [string, string]) {
-    debugger;
-    // if(this.expOperatorsKeyPair.includes(val))
-    // this.expOperatorsKeyPair.splice(this.expOperatorsKeyPair.indexOf(val))
-    // this.expOperatorsKeyPair.push(val);
     this.opsCollection.filter((x, index) => {
-      if(x.Key === val[0])
-      this.opsCollection.splice(index, 1);
+      if (x.Key === val[0])
+        this.opsCollection.splice(index, 1);
     })
 
     this.opsCollection.push({ Key: val[0], Value: val[1] });
-
-    // let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
-    // if (vals.length == 0) {
-    //   this.expOperatorsKeyPair.push(val);
-    // }
-    // else {
-    //   this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
-    //   this.expOperatorsKeyPair.push(val);
-    // }
   }
 
 
