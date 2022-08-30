@@ -3090,6 +3090,7 @@ export class ManageUsersComponent implements OnInit {
     }
   }
   onExport(tableHeader: any, tabName: string, tableData: any) {
+    console.log('tab name',tabName);
     if (tableData.data != undefined && (tableData.data != [] && tableData.data.length != 0)) {
       //  let header = this.reportReferenceService.getDownLoadHeaders(currentReportName)
 
@@ -3139,10 +3140,47 @@ export class ManageUsersComponent implements OnInit {
       });
       c.href = window.URL.createObjectURL(t);
       c.click();
-      this.alertService.success('UserAccess' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
-    }
+      if(tabName=='User_Of_Reports')
+      {
+        this.alertService.success('UserOfReports' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else if(tabName=='User_Access')
+      {
+        this.alertService.success('UserAccess' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else if(tabName=='User_Profiles')
+      {
+        this.alertService.success('UserProfiles' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else{
+        this.alertService.success('NewsUpdate' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      }
     else {
-      this.alertService.info('UserAccess' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+      if(tabName=='User_Of_Reports')
+      {
+      this.alertService.info('UserOfReports' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+      }
+      else if(tabName=='User_Access')
+      {
+        this.alertService.info('UserAccess' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else if(tabName=='User_Profiles')
+      {
+        this.alertService.info('UserProfiles' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else{
+        this.alertService.info('NewsUpdate' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+    
+
     }
   }
   onPaste(event: ClipboardEvent) {
