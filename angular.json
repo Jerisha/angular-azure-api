@@ -66,6 +66,38 @@
                   "maximumError": "8kb"
                 }
               ]
+            },
+            "uat": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.uat.ts"
+                }
+              ],
+           
+              "optimization": {
+                "scripts": true,
+                 "styles": true,
+                 "fonts": false
+             },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
+                }
+              ]
             }
           }
         },
@@ -78,6 +110,9 @@
           "configurations": {
             "production": {
               "browserTarget": "OSNWeb:build:production"
+            },
+            "uat": {
+              "browserTarget": "OSNWeb:build:uat"
             }
           }
         },
@@ -126,6 +161,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "OSNWeb:serve:production"
+            },
+            "uat": {
+              "devServerTarget": "OSNWeb:serve:uat"
             }
           }
         }
