@@ -1777,6 +1777,7 @@ export class ManageUsersComponent implements OnInit {
 
 
   getFileDetails(fileType: string,Clear:boolean) {
+    debugger
     if(Clear)
     {
     this.clearalert();
@@ -1799,6 +1800,7 @@ export class ManageUsersComponent implements OnInit {
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           console.log('userdata from response', res.Data);
+         
           this.userAccessData.data = res.Data[0].userdata;
           // User Profile Dropdown
           this.userProfilesDropdown = res.Data[res.Data.length - 1].userprofiles.filter((x: any) => x.iscustomprofile == 0).map((x: any) => x.profilename);
@@ -1879,7 +1881,24 @@ export class ManageUsersComponent implements OnInit {
     this.resetFilter(fileType);
     this.showDetails = true;
   }
+useraccessdetailsupdate()
+{
+  let request = Utils.preparePyUIQuery('ManageUsers', 'UserAccess');
+      this.spinner.show();
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res: any) => {
+          console.log('userdata from response', res.Data);
+         
+          this.userAccessData.data = res.Data[0].userdata;
+          // User Profile Dropdown
+          this.userProfilesDropdown = res.Data[res.Data.length - 1].userprofiles.filter((x: any) => x.iscustomprofile == 0).map((x: any) => x.profilename);
+          this.userProfilesDropdown.push('Custom');
 
+          console.log('data of manage users', this.userAccessData);
+          this.spinner.hide();
+        }
+      );
+}
   btnClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
 
@@ -2200,7 +2219,7 @@ export class ManageUsersComponent implements OnInit {
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
         tabType: 0,
-        name: 'Create User'
+        name: 'Update User'
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
@@ -2459,7 +2478,7 @@ export class ManageUsersComponent implements OnInit {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record updated successfully!!", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('UserAccessDetails',false);
                   }
                 });
@@ -2485,7 +2504,7 @@ export class ManageUsersComponent implements OnInit {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record updated successfully!!", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('StartUpUserMessages',false);
                   }
                 });
@@ -2511,7 +2530,7 @@ export class ManageUsersComponent implements OnInit {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record updated successfully!!", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('UserProfiles',false);
                   }
                 });
@@ -2563,6 +2582,7 @@ export class ManageUsersComponent implements OnInit {
                 //success message and same data reload
                 // this.refreshData();
                 this.alertService.success("Record created successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                this.useraccessdetailsupdate();
                 this.getFileDetails('UserProfiles',false);
               }
             });
@@ -2589,7 +2609,7 @@ export class ManageUsersComponent implements OnInit {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
                   //success message and same data reload
                   // this.refreshData();
-                  this.alertService.success("Record delete successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                  this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
                   this.getFileDetails('UserAccessDetails',false);
               this.isLeftPanel=false;
              
@@ -2616,7 +2636,7 @@ export class ManageUsersComponent implements OnInit {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
                   //success message and same data reload
                   // this.refreshData();
-                  this.alertService.success("Record delete successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                  this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
                   this.getFileDetails('StartUpUserMessages',false);
                   this.isLeftPanel=false;
                 }
@@ -2642,7 +2662,7 @@ export class ManageUsersComponent implements OnInit {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
                   //success message and same data reload
                   // this.refreshData();
-                  this.alertService.success("Record delete successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                  this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
                   this.getFileDetails('UserProfiles',false);
                   this.isLeftPanel=false;
                 }
@@ -3142,21 +3162,21 @@ export class ManageUsersComponent implements OnInit {
       c.click();
       if(tabName=='User_Of_Reports')
       {
-        this.alertService.success('UserOfReports' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success('User of Reports download successful', { autoClose: true, keepAfterRouteChange: false });
    
       }
       else if(tabName=='User_Access')
       {
-        this.alertService.success('UserAccess' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success('User Access download successful', { autoClose: true, keepAfterRouteChange: false });
    
       }
       else if(tabName=='User_Profiles')
       {
-        this.alertService.success('UserProfiles' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success('User Profiles download successful', { autoClose: true, keepAfterRouteChange: false });
    
       }
       else{
-        this.alertService.success('NewsUpdate' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
+        this.alertService.success('News Update download successful', { autoClose: true, keepAfterRouteChange: false });
    
       }
       }

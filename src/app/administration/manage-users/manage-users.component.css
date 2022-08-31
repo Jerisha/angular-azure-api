@@ -480,7 +480,7 @@ th.mat-header-cell:first-of-type{
       /* overflow: auto; */
   }
   .table-header{
-    min-width:110px; 
+    /* min-width:110px;  */
     width:auto;
     min-height:16px; 
     background-color:#e60000;
