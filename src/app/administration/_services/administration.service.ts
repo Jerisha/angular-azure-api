@@ -4,7 +4,7 @@ import FileSaver from 'file-saver';
 import { ObjectUnsubscribedError, Observable } from 'rxjs';
 import { HttpWrapperService, HttpVerbs, WebMethods, ResponseType } from 'src/app/_http/index';
 import { ConfigDetails } from 'src/app/_http/models/config-details';
-
+import * as XLSX from "xlsx";
 @Injectable()
 export class AdministrationService {
   test!: ConfigDetails[];
@@ -61,5 +61,13 @@ export class AdministrationService {
       { type: fileType } // { type: 'application/vnd.ms-excel' }
     );
     FileSaver.saveAs(file);
+  }
+  downloadXlsxFile(sheetName:string,sheetData:any,sheetHeader:[[]]){      
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(sheetData);
+    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);  
+    XLSX.utils.sheet_add_aoa(worksheet, sheetHeader, { origin: "A1" });  
+    
+     XLSX.writeFile(workbook,sheetName+'.xlsx' );
   }
   }

@@ -1,4 +1,20 @@
-.page-container {
-    max-height: 490px;
-    overflow: auto;
+/* .page-container { */
+    /* max-height: 490px; */
+    /* max-height: 100vh; */
+    /* min-width: 1111px; */
+    /* min-width: 1160px; */
+/* } */
+
+.table-fixed-view{
+  min-width: 1170px;
 }
+
+.page-scroll {
+  overflow: auto;
+}
+
+.table-group-view::ng-deep #full-audit-header-sticky-lvl2 th {
+    /* top: 62px !important; */
+    top: 44px !important;
+  }
+

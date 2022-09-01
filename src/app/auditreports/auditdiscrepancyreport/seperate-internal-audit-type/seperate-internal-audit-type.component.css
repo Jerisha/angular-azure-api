@@ -1,4 +1,12 @@
-.page-container {
+/* .page-container {
     max-height: 490px;
+    min-width: 1111px;
+} */
+
+.page-scroll {
     overflow: auto;
-}
+  }
+
+  .table-fixed-view{
+    min-width: 1170px;
+  }

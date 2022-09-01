@@ -1777,6 +1777,7 @@ export class ManageUsersComponent implements OnInit {
 
 
   getFileDetails(fileType: string,Clear:boolean) {
+    debugger
     if(Clear)
     {
     this.clearalert();
@@ -1799,6 +1800,7 @@ export class ManageUsersComponent implements OnInit {
       this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
         (res: any) => {
           console.log('userdata from response', res.Data);
+         
           this.userAccessData.data = res.Data[0].userdata;
           // User Profile Dropdown
           this.userProfilesDropdown = res.Data[res.Data.length - 1].userprofiles.filter((x: any) => x.iscustomprofile == 0).map((x: any) => x.profilename);
@@ -1879,7 +1881,24 @@ export class ManageUsersComponent implements OnInit {
     this.resetFilter(fileType);
     this.showDetails = true;
   }
+useraccessdetailsupdate()
+{
+  let request = Utils.preparePyUIQuery('ManageUsers', 'UserAccess');
+      this.spinner.show();
+      this.service.uiQueryDetails(request).pipe(takeUntil(this.onDestroyQuery)).subscribe(
+        (res: any) => {
+          console.log('userdata from response', res.Data);
+         
+          this.userAccessData.data = res.Data[0].userdata;
+          // User Profile Dropdown
+          this.userProfilesDropdown = res.Data[res.Data.length - 1].userprofiles.filter((x: any) => x.iscustomprofile == 0).map((x: any) => x.profilename);
+          this.userProfilesDropdown.push('Custom');
 
+          console.log('data of manage users', this.userAccessData);
+          this.spinner.hide();
+        }
+      );
+}
   btnClicked() {
     this.showMenu = this.showMenu == 'expanded' ? 'collapsed' : 'expanded';
 
@@ -2200,7 +2219,7 @@ export class ManageUsersComponent implements OnInit {
     if (!this.tabsLeft.find((x: { tabType: number; }) => x.tabType == 0)) {
       this.tabsLeft.push({
         tabType: 0,
-        name: 'Create User'
+        name: 'Update User'
       });
       this.showDetails = true;
       this.selectedTabLeft = this.tabsLeft.length;
@@ -2459,7 +2478,7 @@ export class ManageUsersComponent implements OnInit {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record updated successfully!!", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('UserAccessDetails',false);
                   }
                 });
@@ -2485,7 +2504,7 @@ export class ManageUsersComponent implements OnInit {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record updated successfully!!", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('StartUpUserMessages',false);
                   }
                 });
@@ -2511,7 +2530,7 @@ export class ManageUsersComponent implements OnInit {
                   if (res.Status && res.Status[0].StatusMessage === 'Success') {
                     //success message and same data reload
                     // this.refreshData();
-                    this.alertService.success("Record update successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                    this.alertService.success("Record updated successfully!!", { autoClose: true, keepAfterRouteChange: false });
                     this.getFileDetails('UserProfiles',false);
                   }
                 });
@@ -2563,6 +2582,7 @@ export class ManageUsersComponent implements OnInit {
                 //success message and same data reload
                 // this.refreshData();
                 this.alertService.success("Record created successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                this.useraccessdetailsupdate();
                 this.getFileDetails('UserProfiles',false);
               }
             });
@@ -2589,7 +2609,7 @@ export class ManageUsersComponent implements OnInit {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
                   //success message and same data reload
                   // this.refreshData();
-                  this.alertService.success("Record delete successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                  this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
                   this.getFileDetails('UserAccessDetails',false);
               this.isLeftPanel=false;
              
@@ -2616,7 +2636,7 @@ export class ManageUsersComponent implements OnInit {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
                   //success message and same data reload
                   // this.refreshData();
-                  this.alertService.success("Record delete successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                  this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
                   this.getFileDetails('StartUpUserMessages',false);
                   this.isLeftPanel=false;
                 }
@@ -2642,7 +2662,7 @@ export class ManageUsersComponent implements OnInit {
                 if (res.Status && res.Status[0].StatusMessage === 'Success') {
                   //success message and same data reload
                   // this.refreshData();
-                  this.alertService.success("Record delete successfully!!", { autoClose: true, keepAfterRouteChange: false });
+                  this.alertService.success("Record deleted successfully!!", { autoClose: true, keepAfterRouteChange: false });
                   this.getFileDetails('UserProfiles',false);
                   this.isLeftPanel=false;
                 }
@@ -3090,17 +3110,21 @@ export class ManageUsersComponent implements OnInit {
     }
   }
   onExport(tableHeader: any, tabName: string, tableData: any) {
+    console.log('tab name',tabName);
     if (tableData.data != undefined && (tableData.data != [] && tableData.data.length != 0)) {
       //  let header = this.reportReferenceService.getDownLoadHeaders(currentReportName)
 
       let header = tableHeader;
+      console.log('table header',tableHeader);
       // header.filter((x:any) => x.headerValue != 'Actions');
       let copydata = JSON.parse(JSON.stringify(tableData.data));
-      var c = document.createElement("a");
+    //  var c = document.createElement("a");
       let data: any = [];
       let dataHeaderRow = Object.assign({}, ...header.map((x: any) => ({ [x.headerValue]: x.header })))
+    
       Reflect.deleteProperty(dataHeaderRow, "Actions");
-      data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+    console.log('header row',dataHeaderRow);
+      // data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
       copydata.forEach((row: any) => {
 
         for (const i of ['Actions', 'firstname', 'lastname', 'userprofiles', 'updateddttm', 'updatedby', 'profileitems', 'newsid', 'iseditprofile', 'iscustomprofile', 'isdefaultprofile', 'isdelete']) {
@@ -3108,12 +3132,12 @@ export class ManageUsersComponent implements OnInit {
         }
 
         if (tabName === 'News_Update') {
-          for (const i of ['createddttm', 'createdby', 'newssubheader']) {
+          for (const i of ['Actions','createddttm', 'createdby', 'newssubheader']) {
             Reflect.deleteProperty(row, i);
           }
         }
         if (tabName != 'User_Of_Reports') {
-          for (const i of ['sources']) {
+          for (const i of ['sources','istemporary']) {
             Reflect.deleteProperty(row, i);
           }
         }
@@ -3121,28 +3145,75 @@ export class ManageUsersComponent implements OnInit {
         let disp = Object.assign({}, ...header.map((x: any) => ({ [x.headerValue]: " " })))
         Reflect.deleteProperty(disp, "Actions");
         // console.log( "data value" +JSON.stringify(row));
-        // console.log( "header data value" +JSON.stringify(disp));
+         console.log( "header data value", header);
         let dataRow = Object.assign(disp, row);
-        Object.keys(dataRow).forEach((key: any) => {
-          if (dataRow[key] == "")
-            dataRow[key] = " ";
-        });
-        // console.log( "data row value" +JSON.stringify(dataRow));
-        let val = Object.values(dataRow).join('|');
-        val.replace(/[/t]+/g, ' ');
-        data += val.replace(/[|]+/g, '\t') + "\n";
+        data.push(dataRow);
       });
-      c.download = tabName + "_Report.tab";
-      var t = new Blob([data], {
+      //   Object.keys(dataRow).forEach((key: any) => {
+      //     if (dataRow[key] == "")
+      //       dataRow[key] = " ";
+      //   });
+      //   // console.log( "data row value" +JSON.stringify(dataRow));
+      //   let val = Object.values(dataRow).join('|');
+      //   val.replace(/[/t]+/g, ' ');
+      //   data += val.replace(/[|]+/g, '\t') + "\n";
+      // });
+      // c.download = tabName + "_Report.xlsx";
+      // var t = new Blob([data], {
 
-        type: "data:text/plain;charset=utf-8"
-      });
-      c.href = window.URL.createObjectURL(t);
-      c.click();
-      this.alertService.success('UserAccess' + ' Download Completed', { autoClose: true, keepAfterRouteChange: false });
-    }
+      //   type: "data:text/plain;charset=utf-8"
+      // });
+    //  c.href = window.URL.createObjectURL(t);
+    //  c.click();
+  console.log('data',data);
+  let index=header.findIndex((x: { header: string; })=>x.header==='Actions');
+if(index>-1)
+  header.splice(index,1);
+  //delete header[Object.keys(header)[0]];
+  console.log('header splice',header);
+      this.service.downloadXlsxFile(tabName, data, [header.map((x: {header : any; }) => x.header)])
+    
+      if(tabName=='User_Of_Reports')
+      {
+        this.alertService.success('User of Reports download successful', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else if(tabName=='User_Access')
+      {
+        this.alertService.success('User Access download successful', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else if(tabName=='User_Profiles')
+      {
+        this.alertService.success('User Profiles download successful', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else{
+        this.alertService.success('News Update download successful', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      }
     else {
-      this.alertService.info('UserAccess' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+      if(tabName=='User_Of_Reports')
+      {
+      this.alertService.info('UserOfReports' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+      }
+      else if(tabName=='User_Access')
+      {
+        this.alertService.info('UserAccess' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else if(tabName=='User_Profiles')
+      {
+        this.alertService.info('UserProfiles' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+      else{
+        this.alertService.info('NewsUpdate' + ' No Data Found ', { autoClose: true, keepAfterRouteChange: false });
+   
+      }
+    
+
     }
   }
   onPaste(event: ClipboardEvent) {
@@ -3157,6 +3228,20 @@ export class ManageUsersComponent implements OnInit {
   //   if (test) {
   //     event.preventDefault();
   // }
+}
+
+onPasteEmail(event: ClipboardEvent) {
+  debugger
+  let clipboardData = event.clipboardData;
+  //let regexp = new RegExp('/\s/g');
+  let pastedText:any = clipboardData?.getData('text');
+  //let test = regexp.test(pastedText);
+  let trimmedText = pastedText.replace(/\s/g, "");;
+  this.referenceForm.get('emailaddress')?.setValue(trimmedText);
+  event.preventDefault();
+//   if (test) {
+//     event.preventDefault();
+// }
 }
 
 }

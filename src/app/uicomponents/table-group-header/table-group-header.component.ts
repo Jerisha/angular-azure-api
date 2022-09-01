@@ -121,7 +121,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
     var totalcell = this.totalCols.filter(x => x.includes(cell))
     if (totalcell.length > 0) {
       // return this.dataSource?.filteredData.reduce((a: number, b: any) => a + b[cell], 0);
-      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='')  ? 0 : parseInt(b[cell])), 0);
+      return this.dataSource?.filteredData.reduce((a: number, b: any) => a + ((b[cell] === undefined || b[cell] ==='' || b[cell] === '-')  ? 0 : parseInt(b[cell])), 0);
     }
     return '';
   }
@@ -227,7 +227,7 @@ export class TableGroupHeaderComponent implements OnDestroy {
       this.backgroundHighlightedCells.forEach(x => {
         if (x.cells.find(x => x === (disCol.DataHeaders))) {
           applyStyles = {
-            'background-color': '#ff9999',
+            // 'background-color': '#ff9999',
             'font-weight': '600'
           };
         }

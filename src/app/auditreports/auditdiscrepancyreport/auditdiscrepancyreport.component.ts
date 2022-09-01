@@ -181,8 +181,12 @@ prepareQueryParams()
 
 
   onReset(){
-  // this.auditType = '';
+  this.auditType = '';
   this.auditDiscrepancyForm.reset();
+  this.auditDiscrepancyForm.controls['AuditType'].setValue(this.configValues[0].auditType);
+  let index = this.configValues.findIndex(x => x.auditType == this.configValues[0].auditType);
+  this.auditActIdDropdown = this.configValues[index].auditActId;
+  this.auditDiscrepancyForm.controls['AuditActId'].setValue(this.auditActIdDropdown[0]);
   }
 
 }

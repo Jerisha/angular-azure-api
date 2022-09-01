@@ -4,6 +4,7 @@ export interface MergeTableItem {
     rowspan?: string;
     colspan?: string;
     isNumber?: boolean;
+    isToolTip?: string;
   }
 
   export interface GroupHeaderTableItem {

@@ -9,18 +9,19 @@ th {
 }
 
 .total-row{
-  background-color: #ff9999 !important;
+  /* background-color: #ff9999 !important; */
   color:black;
   font-size: small;
   font-weight: 600;
-  min-height: 20px;
+  /* min-height: 20px; */
   text-align: center;
   border: 0.5px solid grey;
   padding: 0 !important;
 }
 
 tr.mat-footer-row {
-  height: fit-content;
+  /* height: fit-content; */
+  height: 1.25em;
 }
 
 th.mat-sort-header-sorted {
@@ -30,26 +31,28 @@ th.mat-sort-header-sorted {
 .mat-header-cell {
   color: white;
   position: relative;
-
    width: auto; 
   height: fit-content; 
   font-size:small;  
- 
 }
 
 .mat-header-row{
-  height: 62px;
+  /* height: 62px; */
+  height: fit-content;
   position: relative;
 }
 
 .headerLvl2 th {
-  top: 62px !important;
+  /* top: 62px !important; */
+  /* top: 22px !important; */
+  top: 16px !important;
 }
 
 .headerLvl3 th {
-  top: 124px !important;
+  /* top: 124px !important; */
+  /* top: 44px !important; */
+  top: 32px !important;
 }
-
 
 .mat-cell {
   font-size: 14px;
@@ -62,7 +65,7 @@ th.mat-sort-header-sorted {
 }
 
 .mat-row {
-  height: 10px;
+  height: 1.25em;
 
 }
 
@@ -119,3 +122,23 @@ mat-form-field {
   margin-left: 10px;
   /* margin-top:10px; */
 }
+
+::ng-deep .mat-select-panel .mat-option {
+  min-width: calc(100% + 80px);
+}
+::ng-deep .mat-select-panel {
+  overflow-x: hidden;
+}
+
+th.mat-header-cell, .headerLvl2 th, .headerLvl3 th{
+  white-space: normal !important;
+}
+
+.mat-cell.mat-column-TotalMonth,
+.mat-cell.mat-column-TotalBacklog,
+.mat-cell.mat-column-EndStatusYTotal,
+.mat-cell.mat-column-InProgressTotal{
+  color: black;
+  font-weight: 600 !important;
+}
+
