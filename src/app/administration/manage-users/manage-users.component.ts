@@ -3115,13 +3115,16 @@ useraccessdetailsupdate()
       //  let header = this.reportReferenceService.getDownLoadHeaders(currentReportName)
 
       let header = tableHeader;
+      console.log('table header',tableHeader);
       // header.filter((x:any) => x.headerValue != 'Actions');
       let copydata = JSON.parse(JSON.stringify(tableData.data));
-      var c = document.createElement("a");
+    //  var c = document.createElement("a");
       let data: any = [];
       let dataHeaderRow = Object.assign({}, ...header.map((x: any) => ({ [x.headerValue]: x.header })))
+    
       Reflect.deleteProperty(dataHeaderRow, "Actions");
-      data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
+    console.log('header row',dataHeaderRow);
+      // data += Object.values(dataHeaderRow).toString().replace(/[,]+/g, '\t') + "\n";
       copydata.forEach((row: any) => {
 
         for (const i of ['Actions', 'firstname', 'lastname', 'userprofiles', 'updateddttm', 'updatedby', 'profileitems', 'newsid', 'iseditprofile', 'iscustomprofile', 'isdefaultprofile', 'isdelete']) {
@@ -3129,12 +3132,12 @@ useraccessdetailsupdate()
         }
 
         if (tabName === 'News_Update') {
-          for (const i of ['createddttm', 'createdby', 'newssubheader']) {
+          for (const i of ['Actions','createddttm', 'createdby', 'newssubheader']) {
             Reflect.deleteProperty(row, i);
           }
         }
         if (tabName != 'User_Of_Reports') {
-          for (const i of ['sources']) {
+          for (const i of ['sources','istemporary']) {
             Reflect.deleteProperty(row, i);
           }
         }
@@ -3142,24 +3145,34 @@ useraccessdetailsupdate()
         let disp = Object.assign({}, ...header.map((x: any) => ({ [x.headerValue]: " " })))
         Reflect.deleteProperty(disp, "Actions");
         // console.log( "data value" +JSON.stringify(row));
-        // console.log( "header data value" +JSON.stringify(disp));
+         console.log( "header data value", header);
         let dataRow = Object.assign(disp, row);
-        Object.keys(dataRow).forEach((key: any) => {
-          if (dataRow[key] == "")
-            dataRow[key] = " ";
-        });
-        // console.log( "data row value" +JSON.stringify(dataRow));
-        let val = Object.values(dataRow).join('|');
-        val.replace(/[/t]+/g, ' ');
-        data += val.replace(/[|]+/g, '\t') + "\n";
+        data.push(dataRow);
       });
-      c.download = tabName + "_Report.tab";
-      var t = new Blob([data], {
+      //   Object.keys(dataRow).forEach((key: any) => {
+      //     if (dataRow[key] == "")
+      //       dataRow[key] = " ";
+      //   });
+      //   // console.log( "data row value" +JSON.stringify(dataRow));
+      //   let val = Object.values(dataRow).join('|');
+      //   val.replace(/[/t]+/g, ' ');
+      //   data += val.replace(/[|]+/g, '\t') + "\n";
+      // });
+      // c.download = tabName + "_Report.xlsx";
+      // var t = new Blob([data], {
 
-        type: "data:text/plain;charset=utf-8"
-      });
-      c.href = window.URL.createObjectURL(t);
-      c.click();
+      //   type: "data:text/plain;charset=utf-8"
+      // });
+    //  c.href = window.URL.createObjectURL(t);
+    //  c.click();
+  console.log('data',data);
+  let index=header.findIndex((x: { header: string; })=>x.header==='Actions');
+if(index>-1)
+  header.splice(index,1);
+  //delete header[Object.keys(header)[0]];
+  console.log('header splice',header);
+      this.service.downloadXlsxFile(tabName, data, [header.map((x: {header : any; }) => x.header)])
+    
       if(tabName=='User_Of_Reports')
       {
         this.alertService.success('User of Reports download successful', { autoClose: true, keepAfterRouteChange: false });
