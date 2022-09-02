@@ -120,7 +120,7 @@ export class HttpWrapperService {
                 url = `${environment.api_auth}${endPoint.toString()}`
                 break;
             default:
-                url = `${environment.api_py_sit}${endPoint.toString()}`
+                url = `${environment.api_al}${endPoint.toString()}`
         }
         return url;
         // return endPoint === WebMethods.UIQUERY ? `${environment.api_auth}${endPoint.toString()}` :
@@ -151,8 +151,7 @@ export class HttpWrapperService {
         Observable<Type> {
         const observerRes = new Observable((observer: Observer<Type>) => {
             this.http(httpVerb.toString(),
-                `${environment.api_py_sit}${endPoint.toString()}`,
-                //`${environment.api_py}${endPoint.toString()}`,
+                `${environment.api_al}${endPoint.toString()}`,                
                 JSON.stringify(body),
                 responseType,
                 headers,

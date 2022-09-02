@@ -352,7 +352,7 @@
                                             <td class="fracmatcell" mat-cell *matCellDef="let comment"> {{comment[col.cName]}} </td>
                                               </div>
                                           </ng-container>
-                                          <tr mat-header-row *matHeaderRowDef="displayedColumnsValues"  style="visibility:collapse"></tr>
+                                          <tr mat-header-row *matHeaderRowDef="displayedColumnsValues; sticky:true;"  style="visibility:collapse"></tr>
                                           <tr mat-row *matRowDef="let comment; columns: displayedColumnsValues;" class="innertab" class ="bg-color1"
                                           [ngClass]="{ 'highlighted' : comment === highlightedRows } "
                                           [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  
@@ -364,7 +364,7 @@
                                   </td>
                                 </ng-container>
                     
-                                <tr mat-header-row *matHeaderRowDef="displayedColumnsValues" style="visibility:collapse"></tr>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsValues; sticky:true;" style="visibility:collapse"></tr>
                                 <tr mat-row *matRowDef="let CompanyDetails; columns: displayedColumnsValues;" 
                                 class = "bg-color2"
                                 [ngClass]="{ 'highlighted' : CompanyDetails === highlightedRows } "
@@ -379,7 +379,7 @@
                         </td>
                       </ng-container>
                     
-                      <tr mat-header-row *matHeaderRowDef="displayedColumnsValues"></tr> 
+                      <tr mat-header-row *matHeaderRowDef="displayedColumnsValues; sticky:true;"></tr> 
                       <tr mat-row *matRowDef="let element; columns: displayedColumnsValues; "
                       [ngClass]="{ 'highlighted' : element === highlightedRows } "
                       [ngClass]="{ 'highlighted' : highlightedRecord!=null   ?  

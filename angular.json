@@ -67,11 +67,107 @@
                 }
               ]
             },
+            "sit": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.sit.ts"
+                }
+              ],
+           
+              "optimization": {
+                "scripts": true,
+                 "styles": true,
+                 "fonts": false
+             },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
+                }
+              ]
+            },
             "uat": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.uat.ts"
+                }
+              ],
+           
+              "optimization": {
+                "scripts": true,
+                 "styles": true,
+                 "fonts": false
+             },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
+                }
+              ]
+            },
+            "prod1": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod1.ts"
+                }
+              ],
+           
+              "optimization": {
+                "scripts": true,
+                 "styles": true,
+                 "fonts": false
+             },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
+                }
+              ]
+            },
+            "prod2": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod2.ts"
                 }
               ],
            
@@ -111,8 +207,17 @@
             "production": {
               "browserTarget": "OSNWeb:build:production"
             },
+            "sit": {
+              "browserTarget": "OSNWeb:build:sit"
+            },
             "uat": {
               "browserTarget": "OSNWeb:build:uat"
+            },
+            "prod1": {
+              "browserTarget": "OSNWeb:build:prod1"
+            },
+            "prod2": {
+              "browserTarget": "OSNWeb:build:prod2"
             }
           }
         },
@@ -162,8 +267,17 @@
             "production": {
               "devServerTarget": "OSNWeb:serve:production"
             },
+            "sit": {
+              "devServerTarget": "OSNWeb:serve:sit"
+            },
             "uat": {
               "devServerTarget": "OSNWeb:serve:uat"
+            },
+            "prod1": {
+              "devServerTarget": "OSNWeb:serve:prod1"
+            },
+            "prod2": {
+              "devServerTarget": "OSNWeb:serve:prod2"
             }
           }
         }
