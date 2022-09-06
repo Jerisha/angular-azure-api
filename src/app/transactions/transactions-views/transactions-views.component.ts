@@ -114,6 +114,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   backstate:boolean;
   SourceFranchisearr:any;
   RerportIdentifier: any;
+  redirectionflag:boolean;
   clirangecount?: any;
   clirangecountOnsave?:any;
   constructor(private service: TransactionDataService, private _ngZone: NgZone,
@@ -149,6 +150,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
      {
       this.model.telno = this.AuditPopulatevalue.StartphoneNumber;
       this.model.rangeEnd = this.AuditPopulatevalue.EndPhoneNumber;
+      this.addCliState=false;
      }
      else{
       this.AuditPopulatevalue = [];
@@ -307,6 +309,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
     }
   }
   onChange(value: string, ctrlName: string) {
+   // alert('model change called');
     if (!this.evntflage) {
       debugger
 
@@ -340,6 +343,19 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
           this.addCliState = true;
           this.btncolor = "secondary";
           this.addbtncolor = "secondary";
+        }
+      }
+      //Redirection from audit
+      if(ctrlName == 'EndTelephoneNumber'&&!this.redirectionflag)
+      {
+        if(!isNaN(this.AuditPopulatevalue.StartphoneNumber) )
+        {
+          this.redirectionflag=true;
+          this.isExportImportSelected = true;
+          //this.searchTelState =false;
+          this.addCliState = false;
+          this.btncolor = "vf-primary-btn";
+          this.addbtncolor = "vf-add-btn";
         }
       }
     }
