@@ -105,6 +105,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
 
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
+  opsCollection: { Key: string, Value: string }[] = [];
   columns: ColumnDetails[]= [
     { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false, isFooter: false},
     { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
@@ -234,7 +235,7 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
       ResolvedBy: new FormControl({ value: '', disabled: true }, []),
       // ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
-      AuditActID: new FormControl({ value: '', disabled: true }, []),
+      AuditActId: new FormControl({ value: '', disabled: true }, []),
     })
 
   }
@@ -296,134 +297,169 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
     }
  
   }
-  prepareQueryParams(pageNo: string): any {
-    debugger;
-    let attributes: any = [
-      { Name: 'PageNumber', Value: [`${pageNo}`] }];
-      for (const field in this.f) {
-        // const StatisticMonth = this.datevalue;
-        // const control = this.thisForm.get(field);
+//   prepareQueryParams(pageNo: string): any {
+//     debugger;
+//     let attributes: any = [
+//       { Name: 'PageNumber', Value: [`${pageNo}`] }];
+//       for (const field in this.f) {
+//         // const StatisticMonth = this.datevalue;
+//         // const control = this.thisForm.get(field);
 
-this.OnOperatorClicked(['AuditMonth','Equal To']);
-        switch(field)
-        {
-          case 'AuditMonth': this.AuditMonthArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditMonthArray}) : attributes.push({ Name: field });
-                              attributes.push(this.selectedExpression(field));
-          break;
-          case 'AuditType': this.AuditTypeArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditTypeArray }) : attributes.push({ Name: field });
-                              attributes.push(this.selectedExpression(field));
-          break;
-          case 'ResolvedBy': this.ResolvedByArray?.length > 0 ? attributes.push({ Name: field, Value: this.ResolvedByArray }) : attributes.push({ Name: field });
-                              attributes.push(this.selectedExpression(field));
-          break;
-          case 'ResolutionType': this.ResolutionTypeArray?.length > 0 ? attributes.push({ Name: field, Value: this.ResolutionTypeArray }) : attributes.push({ Name: field });
-                              attributes.push(this.selectedExpression(field));
-          break;
-          case 'AuditActID': this.AuditActIdArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditActIdArray}) : attributes.push({ Name: field });
-                              attributes.push(this.selectedExpression(field));
-          break;
-        }
+// this.OnOperatorClicked(['AuditMonth','Equal To']);
+//         switch(field)
+//         {
+//           case 'AuditMonth': this.AuditMonthArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditMonthArray}) : attributes.push({ Name: field });
+//                               attributes.push(this.selectedExpression(field));
+//           break;
+//           case 'AuditType': this.AuditTypeArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditTypeArray }) : attributes.push({ Name: field });
+//                               attributes.push(this.selectedExpression(field));
+//           break;
+//           case 'ResolvedBy': this.ResolvedByArray?.length > 0 ? attributes.push({ Name: field, Value: this.ResolvedByArray }) : attributes.push({ Name: field });
+//                               attributes.push(this.selectedExpression(field));
+//           break;
+//           case 'ResolutionType': this.ResolutionTypeArray?.length > 0 ? attributes.push({ Name: field, Value: this.ResolutionTypeArray }) : attributes.push({ Name: field });
+//                               attributes.push(this.selectedExpression(field));
+//           break;
+//           case 'AuditActID': this.AuditActIdArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditActIdArray}) : attributes.push({ Name: field });
+//                               attributes.push(this.selectedExpression(field));
+//           break;
+//         }
 
-        // if (field != 'AuditMonth' && field != 'ResolutionTypeAudit') {
-        //   if (control?.value)
-        //   attributes.push({ Name: field, Value: [control?.value] });
-        //   else
-        //   attributes.push({ Name: field });
-        //   }
+//         // if (field != 'AuditMonth' && field != 'ResolutionTypeAudit') {
+//         //   if (control?.value)
+//         //   attributes.push({ Name: field, Value: [control?.value] });
+//         //   else
+//         //   attributes.push({ Name: field });
+//         //   }
        
-    //     if (field == 'AuditMonth') {
+//     //     if (field == 'AuditMonth') {
       
-    //     if (this.AuditMonthArray.length > 0){
-    //     // let auditDate = this.monthAndYear?.toDateString()
-    //     // attributes.push({ Name: 'AuditMonth', Value: [formatDate(auditDate || '', 'MMM-yyyy', 'en-US')] });
-    //     attributes.push({ Name: 'AuditMonth', Value: this.AuditMonthArray });
-    //     let operator: string = 'AuditMonth' + "Operator";
-    //     if (this.expOperatorsKeyPair.length != 0) {
-    //       let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+//     //     if (this.AuditMonthArray.length > 0){
+//     //     // let auditDate = this.monthAndYear?.toDateString()
+//     //     // attributes.push({ Name: 'AuditMonth', Value: [formatDate(auditDate || '', 'MMM-yyyy', 'en-US')] });
+//     //     attributes.push({ Name: 'AuditMonth', Value: this.AuditMonthArray });
+//     //     let operator: string = 'AuditMonth' + "Operator";
+//     //     if (this.expOperatorsKeyPair.length != 0) {
+//     //       let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
          
-    //       if (expvals.length != 0) {
-    //           attributes.push({ Name: operator, Value: [expvals[0][1]] });
-    //            // console.log(expvals[0][1],"operatorVal");
+//     //       if (expvals.length != 0) {
+//     //           attributes.push({ Name: operator, Value: [expvals[0][1]] });
+//     //            // console.log(expvals[0][1],"operatorVal");
            
-    //       }
+//     //       }
          
-    //     }
-    //     else {
-    //        attributes.push({ Name: operator, Value: ['Equal To'] });
-    //       }
+//     //     }
+//     //     else {
+//     //        attributes.push({ Name: operator, Value: ['Equal To'] });
+//     //       }
 
-    //     }
-    //     else
-    //     attributes.push({ Name: 'AuditMonth' });
-    //     }
-    //     if (field == 'ResolutionTypeAudit')
-    //     {
-    //     attributes.push({ Name: 'ResolutionType', Value: [control?.value]});
-    //     let operator: string = 'ResolutionType' + "Operator";
-    //     if (this.expOperatorsKeyPair.length != 0) {
-    //       let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+//     //     }
+//     //     else
+//     //     attributes.push({ Name: 'AuditMonth' });
+//     //     }
+//     //     if (field == 'ResolutionTypeAudit')
+//     //     {
+//     //     attributes.push({ Name: 'ResolutionType', Value: [control?.value]});
+//     //     let operator: string = 'ResolutionType' + "Operator";
+//     //     if (this.expOperatorsKeyPair.length != 0) {
+//     //       let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
          
-    //       if (expvals.length != 0) {
-    //           attributes.push({ Name: operator, Value: [expvals[0][1]] });
-    //            // console.log(expvals[0][1],"operatorVal");
+//     //       if (expvals.length != 0) {
+//     //           attributes.push({ Name: operator, Value: [expvals[0][1]] });
+//     //            // console.log(expvals[0][1],"operatorVal");
            
-    //       }
+//     //       }
          
-    //     }
-    //     else {
-    //        attributes.push({ Name: operator, Value: ['Equal To'] });
-    //       }
-    //   } 
-    //     else{
-    //       if(field != 'AuditMonth'){
+//     //     }
+//     //     else {
+//     //        attributes.push({ Name: operator, Value: ['Equal To'] });
+//     //       }
+//     //   } 
+//     //     else{
+//     //       if(field != 'AuditMonth'){
 
-    //     let operator: string = field + "Operator";
+//     //     let operator: string = field + "Operator";
       
-    //     if (this.expOperatorsKeyPair.length != 0) {
-    //     let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-    //     if (expvals.length != 0) {
-    //     // if (field == 'AuditMonth') {
-    //     // if (StatisticMonth) {
-    //     // attributes.push({ Name: operator, Value: [expvals[0][1]] });
-    //     // }
-    //     // else {
-    //     // attributes.push({ Name: operator, Value: ['Equal To'] });
-    //     // }
-    //     // }
-    //     // else {
-    //     // if (control?.value) {
-    //     // attributes.push({ Name: operator, Value: [expvals[0][1]] });
-    //     // }
-    //     // else {
-    //     // attributes.push({ Name: operator, Value: ['Equal To'] });
-    //     // }
+//     //     if (this.expOperatorsKeyPair.length != 0) {
+//     //     let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+//     //     if (expvals.length != 0) {
+//     //     // if (field == 'AuditMonth') {
+//     //     // if (StatisticMonth) {
+//     //     // attributes.push({ Name: operator, Value: [expvals[0][1]] });
+//     //     // }
+//     //     // else {
+//     //     // attributes.push({ Name: operator, Value: ['Equal To'] });
+//     //     // }
+//     //     // }
+//     //     // else {
+//     //     // if (control?.value) {
+//     //     // attributes.push({ Name: operator, Value: [expvals[0][1]] });
+//     //     // }
+//     //     // else {
+//     //     // attributes.push({ Name: operator, Value: ['Equal To'] });
+//     //     // }
         
-    //     // }
+//     //     // }
        
-    //     }
-    //     else {
-    //     if (field == 'Source' || field == 'StatisticMonth') {
-    //     attributes.push({ Name: operator, Value: ['Equal To'] });
-    //     }
-    //     else {
-    //     attributes.push({ Name: operator, Value: ['Equal To'] });
-    //     }
-    //     }
-    //     }
-    //     else {
+//     //     }
+//     //     else {
+//     //     if (field == 'Source' || field == 'StatisticMonth') {
+//     //     attributes.push({ Name: operator, Value: ['Equal To'] });
+//     //     }
+//     //     else {
+//     //     attributes.push({ Name: operator, Value: ['Equal To'] });
+//     //     }
+//     //     }
+//     //     }
+//     //     else {
         
-    //     attributes.push({ Name: operator, Value: ['Equal To'] });
+//     //     attributes.push({ Name: operator, Value: ['Equal To'] });
         
-    //     }
-    //   }
-    // }
-        }
+//     //     }
+//     //   }
+//     // }
+//         }
 
-    // console.log('attri',attributes);
+//     // console.log('attri',attributes);
 
-    return attributes;
+//     return attributes;
 
+//   }
+OnOperatorClicked(val: [string, string]) {
+  this.opsCollection.filter((x, index) => {
+    if (x.Key === val[0])
+      this.opsCollection.splice(index, 1);
+  })
+
+  this.opsCollection.push({ Key: val[0], Value: val[1] });
+}
+prepareQueryParams(pageNo: string): any {
+  let attributes: any = [
+    { Name: 'PageNumber', Value: [`${pageNo}`] }];
+  //other parameter
+  for (const field in this.f) {
+    debugger
+    const control = this.thisForm.get(field);
+    if (field == "CreatedDate" && control?.value)
+      attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
+    else
+      attributes.push({ Name: field, Value: [control?.value] });
+
+
+    //operator value
+    let genOpt = field + 'Operator'
+    //let expvals = this.expOperatorsKeyPair?.filter((i) => this.getTupleValue(i, genOpt));
+    let found = this.opsCollection.find(x => x.Key === genOpt);
+    if (found)
+      attributes.push({ Name: genOpt, Value: [found?.Value] });
+    else
+      attributes.push({ Name: genOpt, Value: ['Equal To'] });
   }
+  console.log('attri', attributes);
+
+  return attributes;
+
+}
 
   selectedExpression(fieldName: string)
   {
@@ -469,16 +505,16 @@ this.OnOperatorClicked(['AuditMonth','Equal To']);
     this.datevalue=ctrlValue;
     datepicker.close();
   }
-  OnOperatorClicked(val: [string, string]) {
-    let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
-    if (vals.length == 0) {
-      this.expOperatorsKeyPair.push(val);
-    }
-    else {
-      this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
-      this.expOperatorsKeyPair.push(val);
-    }
-  }
+  // OnOperatorClicked(val: [string, string]) {y
+  //   let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
+  //   if (vals.length == 0) {
+  //     this.expOperatorsKeyPair.push(val);
+  //   }
+  //   else {
+  //     this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
+  //     this.expOperatorsKeyPair.push(val);
+  //   }
+  // }
 
   getTupleValue(element: [string, string], keyvalue: string) {
     // console.log(element, keyvalue,"gettuple");
