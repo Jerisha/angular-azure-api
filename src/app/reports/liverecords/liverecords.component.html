@@ -141,7 +141,7 @@
                   
                     <div [ngStyle]="{'display':myForm.controls.TypeOfLine.disabled ? 'none' : 'block'}">
                         <app-select-exp [listItems]="expressions[3].default" #TypeOfLineOperator [resetvalue]="resetExp"
-                        (click) ="OnOperatorClicked(['TypeOfLineeOperator',TypeOfLineOperator.selectedViewValue])"></app-select-exp> 
+                        (click) ="OnOperatorClicked(['TypeOfLineOperator',TypeOfLineOperator.selectedViewValue])"></app-select-exp> 
                         <mat-form-field appearance="outline" [ngClass]="{'hidden':f.TypeOfLine.disabled}">
                             <mat-label>Type Of Line</mat-label>
                             <input #TypeOfLine formControlName="TypeOfLine"  [(ngModel)]="model.TypeOfLine" type="text" placeholder="Search TypeOfLine" matInput
