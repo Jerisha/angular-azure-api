@@ -1,15 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges, AfterViewChecked } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
-import { Observable, of } from 'rxjs';
-import { SelectMultipleComponent } from 'src/app/uicomponents';
+import { Observable } from 'rxjs';
 import { Select } from 'src/app/uicomponents/models/select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { AuditStatusTracker } from '../../auditreports/models/separateinternalauditdetails';
 import { AdministrationService } from '../_services/administration.service';
 import { Utils } from 'src/app/_http';
-import { map, startWith } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from 'src/app/_shared/alert';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,28 +15,6 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
-
-const AuditStatusTracker_Data: AuditStatusTracker[] = [
-  {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
-  },
-  {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
-  },
-  {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
-  },
-  {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
-  },
-  {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
-  },
-  {
-    ActId: '50', StatusDate: '20-Apr-2022 12:44:59 PM', StatusCode: '101', StatusDescription: 'BT File Size Checkingex', ErrorDescription: 'Exception Logging: table or view does not exist'
-  },
-
-]
 
 const FilterListItems: Select[] = [
   { view: 'Audit Type', viewValue: 'AuditType', default: true },
@@ -62,7 +38,6 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
   filterItems: Select[] = FilterListItems;
   multiplevalues: any;
   filtered: string[] = [];
-
   selectedGridRows: any[] = [];
   selectedRowsCount: number = 0;
   selectedTab!: number;
@@ -75,7 +50,6 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
   auditTelNo?: any;
   telNo?: any;
   tranId?: any;
-
   queryResult$!: Observable<any>;
   configResult$!: Observable<any>;
   updateResult$!: Observable<any>;
@@ -83,14 +57,10 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
   auditActIdDropdown: any = [];
   updateDetails!: any;
   queryResultInfo$!: Observable<any>;
-
   selected: string = '';
-  // currentPage: string = '1';
-  //isSaveDisable: string = 'true';
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
-
   isSaveDisable: boolean = true;
   reportIdentifier: string = "AuditStatusTracker";
   selectedAuditType!: string;
@@ -109,28 +79,18 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
   }
 
   ngOnInit(): void {
-
     this.createForm();
-
     let request = Utils.preparePyConfig(['Search'], ["AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID"]);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = [
         { auditType: res.data.AuditType[0], auditActId: res.data.FullAuditActID },
         { auditType: res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID },
         { auditType: res.data.AuditType[2], auditActId: res.data.ExternalAuditActID }];
-
       this.selectedAuditType = this.configDetails[0].auditType;
       this.auditActIdDropdown = this.configDetails[0].auditActId;
       this.selectedActId = this.auditActIdDropdown[0];
     });
-
-
-
-
-
   }
-
-
 
   splitData(data: string | undefined): string[] {
     return data ? data.split(',') : [];
@@ -138,8 +98,6 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-
-
 
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
@@ -156,57 +114,29 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
     return true;
   }
 
-
   ngAfterViewChecked() {
-
     this.cdr.detectChanges();
-
   }
-
 
   get f() {
     return this.thisForm.controls;
   }
 
-
-
-
   createForm() {
     this.thisForm = this.formBuilder.group({
       AuditType: new FormControl({ value: '', disabled: false }, [Validators.required]),
       AuditActId: new FormControl({ value: '', disabled: false }, [Validators.required]),
-    })
-
-    // this.thisForm.controls.AuditType.valueChanges.pipe(
-    //   startWith<string>(''),
-    //   map(name => this.changedAuditType(name))
-    // );
+    });
   }
 
   changedAuditType(val: MatSelectChange) {
-    debugger;
+    // debugger;
     let index = this.configDetails.findIndex((x: any) => x.auditType == val.value);
     this.auditActIdDropdown = this.configDetails[index].auditActId;
     this.selectedActId = this.auditActIdDropdown[0];
   }
 
-
-  onSaveSubmit() {
-  }
-
   InternalErrorInformation: any;
-
-
-  setControlAttribute(matSelect: MatSelect) {
-    matSelect.options.forEach((item) => {
-      if (item.selected) {
-        this.thisForm.controls[item.value].enable();
-      }
-      else {
-        this.thisForm.controls[item.value].disable();
-      }
-    });
-  }
 
   auditstatustrackercolumns: ColumnDetails[] = [
     { header: 'ACT ID', headerValue: 'ActId', showDefault: true, isImage: false },
@@ -216,15 +146,12 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
     { header: 'Error Description', headerValue: 'ErrorDescription', showDefault: true, isImage: false },
   ];
 
-
-
   onFormSubmit(isEmitted?: boolean): void {
-    debugger;
+    // debugger;
     this.SepAuditActId = '';
     if (!this.thisForm.valid) return;
     this.tabs.splice(0);
     this.alertService.clear();
-    // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
@@ -232,16 +159,11 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('AuditStatusTracker', this.reportIdentifier, this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    // console.log(JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.AuditStatusTracker,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage     
         }
         return result;
       } else return {
@@ -257,7 +179,6 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
       selectCheckbox: true,
       excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       removeNoDataColumns: true
-
     }
     if (!this.tabs.find(x => x.tabType == 0)) {
       this.tabs.push({
@@ -266,14 +187,9 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
       });
     }
     this.selectedTab = this.tabs.length;
-
   }
 
-
-
   onReset(): void {
-    //this.thisForm.reset();
-    //this.tabs.splice(0);
     window.location.reload();
   }
 
@@ -287,7 +203,6 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
       else
         attributes.push({ Name: field });
     }
-    // console.log(JSON.stringify(attributes));
 
     return attributes;
 
@@ -307,8 +222,6 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
         this.selectedGridRows.splice(index, 1)
       }
     })
-
-    // console.log("selectedGridRows" + this.selectedGridRows)
   }
 
   getNextSetRecords(pageEvent: any) {
@@ -316,7 +229,6 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
     this.currentPage = pageEvent.currentPage;
     this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
-    //console.log('page number in parent',pageIndex)
   }
 
   removeTab(index: number) {
@@ -366,30 +278,8 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
     }
   }
 
-
-
-  selChangeMultiple(matSelect: MatSelect) {
-
-    matSelect.options.forEach((item) => {
-      if (item.selected) {
-        if (!this.filtered.includes(item.value))
-          this.filtered.push(item.value)
-        //this.myform.controls[value].enable();
-      }
-      else {
-        if (this.filtered.includes(item.value)) {
-          let index = this.filtered.indexOf(item.value);
-          this.filtered.splice(index, 1)
-        }
-        //this.myform.controls[value].disable();
-      }
-    });
-  }
-
   separateAuditTrail() {
-    debugger;
-
-
+    // debugger;
     const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
       width: '400px', disableClose: false, data: {
         message: `Are you sure you want to start Audit? <br/>
@@ -397,7 +287,6 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
       }
     });
     rangeConfirm.afterClosed().subscribe(result => {
-      //window.location.reload();
       if (result) {
         let request = Utils.preparePyUpdate('StartSeparateInternalAudit', this.reportIdentifier, [{}], [{}]);
         //update 
@@ -416,12 +305,6 @@ export class AuditstatustrackerComponent extends UserProfile implements OnInit, 
         });
       }
     });
-
-  }
-
-  selChangeSingle(matSelect: MatSelect) {
-    console.log(matSelect.value);
-    this.selected = matSelect.value;
   }
 
 }

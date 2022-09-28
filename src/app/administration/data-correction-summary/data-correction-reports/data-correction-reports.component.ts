@@ -1,17 +1,16 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-// import { UserCommentsDialogComponent } from 'src/app/auditreports/fullauditdetails/user-comments-dialog.component';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
-import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
+import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
@@ -23,124 +22,6 @@ import { AdministrationService } from '../../_services/administration.service';
 const AutoCorrectionSummary: string = 'AutoCorrectionSummary';
 const ManualCorrectionSummary: string = 'ManualCorrectionSummary';
 
-const ELEMENT_DATA: any[] = [
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 0, FailedCount: 1, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 1, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 0, FailedCount: 334, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 0, FailedCount: 22, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 0,
-
-
-  },
-  {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
-
-
-  }, {
-    OSN2Source: 'SAS/COMS', Source: 'SAS/COMS', ACTID: '29', SwitchStatus: 'Active', InflightOrder: 'Details-Vie', Status: 'COMPLETED', StartDate: '17-FEB-22 04.55.02.035445 PM', EndDate: '17-FEB-22 05.03.28.403061 PM', Scenario: 'BA- BT Only -Source Active',
-    SuccessCount: 6856, FailedCount: 0, UserName: '', SelectedVolume: 10000,
-    CUPID: '13', BatchId: 2, FullCLIStatus: 'BA- BT Only -Source Active', ResolveType: 'Auto Active', IsSuccess: 1,
-
-
-  },
-
-
-
-
-];
-
-const ELEMENT_DATA1: any[] = [{
-  TelNo: '01229122222', View: ''
-}, {
-  TelNo: '01229122223', View: ''
-}, {
-  TelNo: '01229122224', View: ''
-}, {
-  TelNo: '01229122225', View: ''
-}, {
-  TelNo: '01229122226', View: ''
-}, {
-  TelNo: '01229122227', View: ''
-}
-  , {
-  TelNo: '01229122228', View: ''
-}, {
-  TelNo: '01229122229', View: ''
-}, {
-  TelNo: '01229122232', View: ''
-}, {
-  TelNo: '01229122239', View: ''
-}
-]
 const Items: Select[] = [
   { view: 'TelNo Start', viewValue: 'TelNoStart', default: true },
   { view: 'TelNo End', viewValue: 'TelNoEnd', default: true },
@@ -177,7 +58,6 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
   comments: string = 'No Records Found';
   configDetails!: any;
   selectedOption = '';
-  // currentPage: string = '1';
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
@@ -202,20 +82,12 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
     { headerValue: 'SuccessCount', header: 'Success Count', showDefault: true, isImage: false },
     { headerValue: 'FailedCount', header: 'Failed Count', showDefault: true, isImage: false },
     { headerValue: 'UserName', header: 'User Name', showDefault: true, isImage: false },
-    // { headerValue: 'IsSuccess', header: 'Is Success', showDefault: true, isImage: false },
-    // { headerValue: 'ViewTelNo', header: 'View TelNo', showDefault: true, isImage: true },
-    // { headerValue: 'ViewFailedTelNo', header: 'View Failed TelNo', showDefault: true, isImage: true },
-
-
   ];
+
   colHeader1: ColumnDetails[] = [
     { headerValue: 'TelNo', header: 'TelNo', showDefault: true, isImage: false },
     { headerValue: 'View', header: 'Inventory', showDefault: true, isImage: true },
   ];
-
-  // rowAttrInfo: CellAttributes[] = [
-  //   { flag: 'IsSuccess', cells: ['View','ActId','BatchId','FullCLIStatus','SwitchStatus','Source','OSN2Source','Status','ResolveType','StartDate','EndDate','Scenario','SelectedVolume','SuccessCount','FailedCount','UserName'], value: 1, isFontHighlighted: true}
-  //   ];
 
   constructor(private dialog: MatDialog,
     private formBuilder: FormBuilder, private telnoPipe: TelNoPipe, private cdr: ChangeDetectorRef, private service: AdministrationService, private spinner: NgxSpinnerService, private auth: AuthenticationService,
@@ -225,7 +97,6 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
   }
 
   resetForm(): void {
-    // this.selectedOption = '';
     this.dataCorrectionForm.reset();
     this.tabs.splice(0);
   }
@@ -240,22 +111,19 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
 
   get form() {
     return this.dataCorrectionForm.controls;
-
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-      width: '500px',
-      // height: '400px',
-      data: { defaultValue: this.comments }
-    }
-    );
-  }
+  // openDialog() {
+  //   const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
+  //     width: '500px',
+  //     data: { defaultValue: this.comments }
+  //   }
+  //   );
+  // }
 
   onChange(value: string, ctrlName: string) {
     const ctrl = this.dataCorrectionForm.get(ctrlName) as FormControl;
     if (isNaN(<any>value.charAt(0))) {
-      //const val = coerceNumberProperty(value.slice(1, value.length));
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
     } else {
       ctrl.setValue(this.telnoPipe.transform(value), { emitEvent: false, emitViewToModelChange: false });
@@ -265,7 +133,6 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
   ngOnInit(): void {
     this.createForm();
     this.listItems = Items;
-
     let request = Utils.preparePyConfig(['Search'], ["FullAuditActID"]);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
@@ -286,7 +153,6 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
 
     this.tabs.splice(0);
 
-
     if (this.switchBtn) {
       this.tabName = this.switchBtn.checked ? 'Manual Correction Summary' : 'Auto Correction Summary';
       this.switchBtn.checked ? this.fetchQueryResult(ManualCorrectionSummary) : this.fetchQueryResult(AutoCorrectionSummary);
@@ -301,14 +167,10 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
       });
 
       this.selectedTab = this.tabs.length - 1;
-      //console.log('selected Tab: ' + this.selectedTab, 'Tabs Length: ' + this.tabs.length);
     }
-
   }
 
   fetchQueryResult(ObjectCategory: string, isEmitted?: boolean) {
-
-    // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
@@ -322,10 +184,6 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
         let result = {
           datasource: res.data.AutoCorrectionSummary ? res.data.AutoCorrectionSummary : res.data.ManualCorrectionSummary,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage 
         }
         return result;
       } else return {
@@ -334,12 +192,6 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
     }));
 
     this.myTable = {
-      // data: of({
-      //   datasource: ELEMENT_DATA,
-      //   totalrecordcount: 13,
-      //   totalpages: 10,
-      //   pagenumber: 1
-      // }),
       data: this.queryResult$,
       Columns: this.colHeader,
       filter: true,
@@ -349,7 +201,6 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
       highlightedCells: ['ACTID', 'BatchId', 'FullCLIStatus', 'SwitchStatus', 'Source', 'OSN2Source', 'Status', 'ResolveType', 'StartDate', 'EndDate', 'Scenario', 'SelectedVolume', 'SuccessCount', 'FailedCount', 'UserName', 'ViewTelNo', 'ViewFailedTelNo'],
       imgConfig: [{ headerValue: 'View', icon: 'description', route: '', toolTipText: 'Audit Trail Report', tabIndex: 2 }],
     }
-
   }
 
   prepareQueryParams(pageNo: string) {
@@ -364,22 +215,16 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
       else
         attributes.push({ Name: field });
     }
-    // console.log(JSON.stringify(attributes));
-
     return attributes;
-
   }
 
   get f() {
     return this.dataCorrectionForm.controls;
   }
 
-
-
   getNextSetRecords(pageEvent: any) {
     this.currentPage = pageEvent.currentPage;
     this.pageSize = pageEvent.pageSize
-    //  this.fetchQueryResult(true);
   }
 
   removeTab(index: number) {
@@ -393,14 +238,11 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
     if (!this.tabs?.find(x => x.tabType == 2)) {
       this.tabs.push({
         tabType: 2,
-        // name: 'Audit Trail Report(' + tab.row.TelNo + ')'
         name: 'Audit Trail Report'
       });
       this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
     } else {
       this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-      // let updtab = this.tabs.find(x => x.tabType == 3);
-      // if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelNo + ')'
     }
 
     let requestIdentifier: string = '';
@@ -418,7 +260,6 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
       { Name: 'Scenario', Value: [`${tabData.row.Scenario ? tabData.row.Scenario : ''}`] },
       { Name: 'Flag', Value: [`${tabData.row.SuccessCount > 0 ? '1' : '2'}`] }
     ];
-    // console.log("Tel no list params " + JSON.stringify(attributes));
     return attributes;
   }
 
@@ -426,7 +267,6 @@ export class DataCorrectionReportsComponent extends UserProfile implements OnIni
     let request = Utils.preparePyQuery(requestIdentifier, 'DataCorrectionSummary', this.prepareTelNoListParams(tabData));
     this.spinner.show();
     this.service.queryDetails(request).subscribe((res: any) => {
-      // this.telNoList =  [`${res.data ? res.data.TelephoneNumbers : ''}`]
       this.telNoList = res.data ? res.data.TelephoneNumbers[0].TelephoneNumber : [''];
       this.spinner.hide();
     });

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CellHighlight, GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
@@ -28,15 +28,14 @@ export class ExternalAuditTypeComponent implements OnInit {
   @Input() QueryParams: any;
 
   cellAttrInfoSummary: CellHighlight[] = [
-    { cells: ['Total'], isBackgroundHighlighted: true}
+    { cells: ['Total'], isBackgroundHighlighted: true }
   ];
 
   cellAttrInfoProgress: CellHighlight[] = [
-    { cells: ['InProgressTotal','EndStatusYTotal'], isBackgroundHighlighted: true}
+    { cells: ['InProgressTotal', 'EndStatusYTotal'], isBackgroundHighlighted: true }
   ];
 
-
-  constructor( private cdref: ChangeDetectorRef, private spinner: NgxSpinnerService, private service: AuditReportsService) {
+  constructor(private cdref: ChangeDetectorRef, private spinner: NgxSpinnerService, private service: AuditReportsService) {
     this.tabsName = ['AuditSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];
   }
 
@@ -62,24 +61,23 @@ export class ExternalAuditTypeComponent implements OnInit {
 
   }
 
-  ngOnChanges(changes: SimpleChanges)
-  {
-    if(changes.QueryParams)
-    {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.QueryParams) {
       this.queryFetch();
-    } 
+    }
   }
-  
+
   queryFetch() {
     let request = Utils.preparePyQuery('ExternalAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
     console.log(JSON.stringify(request));
     this.spinner.show();
-      this.observerResult =this.service.queryDetails(request).pipe(map((res: any) => {
-        return res.data}));
-        this.AddressReportTab();
-          this.AuditSummaryTab();
-          this.ProgressReportTab();
-          this.MonthReportTab();
+    this.observerResult = this.service.queryDetails(request).pipe(map((res: any) => {
+      return res.data
+    }));
+    this.AddressReportTab();
+    this.AuditSummaryTab();
+    this.ProgressReportTab();
+    this.MonthReportTab();
   }
 
 
@@ -89,14 +87,12 @@ export class ExternalAuditTypeComponent implements OnInit {
   }
 
   AuditSummaryTab() {
-
     var headerswithDetails: string[];
     var displayedColumns: string[];
     var detailedColumnsArray: string[];
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'AuditSummary';
     var gridDesignDetails = this.ExternalAuditTableDetails.filter(x => x.TableName == labelName);
-
     headerswithDetails = ['ActId', 'SourceSystem', 'ExternalAuditCLIStatus', 'AttributeDifference', 'ResolutionType'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
@@ -110,18 +106,15 @@ export class ExternalAuditTypeComponent implements OnInit {
       isRowLvlTotal: true,
       setCellAttributes: this.cellAttrInfoSummary,
     }
- 
-}
+  }
 
-ProgressReportTab() {
-
+  ProgressReportTab() {
     var headerswithDetails: string[];
     var displayedColumns: string[];
     var detailedColumnsArray: string[];
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'ProgressReport';
     var gridDesignDetails = this.ExternalAuditTableDetails.filter(x => x.TableName == labelName);
-
     headerswithDetails = ['ActId', 'SourceSystem', 'ExternalAuditCLIStatus', 'New', 'AutoFailed'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
@@ -138,39 +131,34 @@ ProgressReportTab() {
       isMonthFilter: false,
       setCellAttributes: this.cellAttrInfoProgress,
     }
-   
-}
+  }
 
-MonthReportTab() {
-
-var headerswithDetails: string[];
+  MonthReportTab() {
+    var headerswithDetails: string[];
     var displayedColumns: string[];
     var detailedColumnsArray: string[];
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'MonthReport';
     var gridDesignDetails = this.ExternalAuditTableDetails.filter(x => x.TableName == labelName);
+    displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
+    detailedColumnsArray = gridDesignDetails[0].GroupHeaders.map(x => x.DataHeaders);
+    grpHdrColumnsArray = [detailedColumnsArray];
+    this.monthReportTable = {
+      ColumnDetails: gridDesignDetails[0].ColumnDetails,
+      GroupHeaders: gridDesignDetails[0].GroupHeaders,
+      DisplayedColumns: displayedColumns,
+      DetailedColumns: displayedColumns,
+      GroupHeaderColumnsArray: grpHdrColumnsArray
+    }
+  }
 
-          displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
-          detailedColumnsArray = gridDesignDetails[0].GroupHeaders.map(x => x.DataHeaders);
-          grpHdrColumnsArray = [detailedColumnsArray];
-          this.monthReportTable = {
-            ColumnDetails: gridDesignDetails[0].ColumnDetails,
-            GroupHeaders: gridDesignDetails[0].GroupHeaders,
-            DisplayedColumns: displayedColumns,
-            DetailedColumns: displayedColumns,
-            GroupHeaderColumnsArray: grpHdrColumnsArray
-          }
-
-}
-
-AddressReportTab() {
-var headerswithDetails: string[];
+  AddressReportTab() {
+    var headerswithDetails: string[];
     var displayedColumns: string[];
     var detailedColumnsArray: string[];
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'AddressReport';
     var gridDesignDetails = this.ExternalAuditTableDetails.filter(x => x.TableName == labelName);
-
     var headerswithDetails = ['ActId', 'SourceSystem', 'ExternalAuditCLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
     var displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     var detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
@@ -186,6 +174,6 @@ var headerswithDetails: string[];
       isRowLvlTotal: true,
       isMonthFilter: true,
     }
-}
+  }
 
 }

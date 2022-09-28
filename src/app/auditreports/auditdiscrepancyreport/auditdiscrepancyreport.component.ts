@@ -1,5 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -21,7 +20,6 @@ import { AuditReportsService } from '../services/audit-reports.service';
 })
 
 export class AuditdiscrepancyreportComponent extends UserProfile implements OnInit {
-
   auditDiscrepancyForm!: FormGroup;
   auditType: string = '';
   selectedAuditType!: string;
@@ -44,26 +42,26 @@ export class AuditdiscrepancyreportComponent extends UserProfile implements OnIn
   grpInternalAuditTableDetails: GroupHeaderTableDetails[] = [];
   grpExternalAuditTableDetails: GroupHeaderTableDetails[] = [];
 
-  totalColmns:any;
-  datamenu:any;
+  totalColmns: any;
+  datamenu: any;
 
   public sidep = new Subject<MatSidenav>();
 
-data = new AuditdiscrepancyHeaderData();
+  data = new AuditdiscrepancyHeaderData();
   configDetails!: any;
   configValues!: IAuditActId[];
   auditActIdDropdown: any = [];
   queryResult!: Observable<any>;
   QueryParams: any;
 
-  constructor( private formBuilder: FormBuilder, private service:AuditReportsService, private auth: AuthenticationService,
+  constructor(private formBuilder: FormBuilder, private service: AuditReportsService, private auth: AuthenticationService,
     private actRoute: ActivatedRoute) {
 
-      super(auth, actRoute);
-      this.intializeUser();  
+    super(auth, actRoute);
+    this.intializeUser();
     this.createForm();
-    this.datamenu=this.data.headers;
-   
+    this.datamenu = this.data.headers;
+
 
     this.ColumnDetails = [
       { Headers: 'Act ID', DataHeaders: 'ACTID', rowspan: "2", colspan: "1" },
@@ -96,28 +94,27 @@ data = new AuditdiscrepancyHeaderData();
     this.detailedColumnsArray = this.displayedColumns.filter(x => !this.headerswithDetails.includes(x));
     this.grpHdrColumnsArray = [this.headerswithDetails];
 
-    var colm =['ACTID', 'SourceSystem']
-    this.totalColmns= this.displayedColumns.filter(x=>!colm.includes(x));
+    var colm = ['ACTID', 'SourceSystem']
+    this.totalColmns = this.displayedColumns.filter(x => !colm.includes(x));
   }
 
   ngOnInit(): void {
 
     this.grpTblHdrDtls = this.datamenu;
 
-    let request = Utils.preparePyConfig(['Search'], [ "AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID" ]);
+    let request = Utils.preparePyConfig(['Search'], ["AuditType", "FullAuditActID", "SepInternalAuditActID", "ExternalAuditActID"]);
     this.service.configDetails(request).subscribe((res: any) => {
       this.configValues = [
-        { auditType : res.data.AuditType[0], auditActId: res.data.FullAuditActID ? res.data.FullAuditActID : [''] },
-      { auditType : res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID ? res.data.SepInternalAuditActID : [''] },
-    { auditType : res.data.AuditType[2], auditActId: res.data.ExternalAuditActID ? res.data.ExternalAuditActID : ['']} ];
+        { auditType: res.data.AuditType[0], auditActId: res.data.FullAuditActID ? res.data.FullAuditActID : [''] },
+        { auditType: res.data.AuditType[1], auditActId: res.data.SepInternalAuditActID ? res.data.SepInternalAuditActID : [''] },
+        { auditType: res.data.AuditType[2], auditActId: res.data.ExternalAuditActID ? res.data.ExternalAuditActID : [''] }];
 
-    console.log(JSON.stringify(this.configValues));
+      // console.log(JSON.stringify(this.configValues));
 
       this.selectedAuditType = this.configValues[0].auditType;
-      this.auditActIdDropdown =  this.configValues[0].auditActId;
-      this.selectedActId =  this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
+      this.auditActIdDropdown = this.configValues[0].auditActId;
+      this.selectedActId = this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
     });
-
   }
 
   createForm() {
@@ -133,9 +130,7 @@ data = new AuditdiscrepancyHeaderData();
   }
 
   submitAuditDiscrepancyForm() {
-
     this.QueryParams = this.prepareQueryParams();
-
     var grpTblHdrDtls1: any;
     this.auditType = this.selectedAuditType;
     if (this.auditType == 'Full Audit') {
@@ -152,21 +147,18 @@ data = new AuditdiscrepancyHeaderData();
     }
   }
 
-prepareQueryParams()
-  {
-    debugger
+  prepareQueryParams() {
+    // debugger;
     let attributes: any = [];
     for (const field in this.f) {
       const control = this.auditDiscrepancyForm.get(field);
       if (control?.value)
-          attributes.push({ Name: field, Value: [control?.value] });
-        else
-          attributes.push({ Name: field });
-      }
+        attributes.push({ Name: field, Value: [control?.value] });
+      else
+        attributes.push({ Name: field });
+    }
     // console.log(JSON.stringify(attributes));
-
     return attributes;
-
   }
 
   get f() {
@@ -176,17 +168,16 @@ prepareQueryParams()
   changedAuditType(type: MatSelectChange) {
     let index = this.configValues.findIndex(x => x.auditType == type.value);
     this.auditActIdDropdown = this.configValues[index].auditActId;
-    this.selectedActId =  this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
+    this.selectedActId = this.auditActIdDropdown ? this.auditActIdDropdown[0] : '';
   }
 
-
-  onReset(){
-  this.auditType = '';
-  this.auditDiscrepancyForm.reset();
-  this.auditDiscrepancyForm.controls['AuditType'].setValue(this.configValues[0].auditType);
-  let index = this.configValues.findIndex(x => x.auditType == this.configValues[0].auditType);
-  this.auditActIdDropdown = this.configValues[index].auditActId;
-  this.auditDiscrepancyForm.controls['AuditActId'].setValue(this.auditActIdDropdown[0]);
+  onReset() {
+    this.auditType = '';
+    this.auditDiscrepancyForm.reset();
+    this.auditDiscrepancyForm.controls['AuditType'].setValue(this.configValues[0].auditType);
+    let index = this.configValues.findIndex(x => x.auditType == this.configValues[0].auditType);
+    this.auditActIdDropdown = this.configValues[index].auditActId;
+    this.auditDiscrepancyForm.controls['AuditActId'].setValue(this.auditActIdDropdown[0]);
   }
 
 }

@@ -257,30 +257,7 @@
               <!-- <div style="display:inline; margin-left: 15px;"> -->
               <!-- <form name="form" (ngSubmit)="updateForm.valid && onSaveSubmit(updateForm)" #updateForm="ngForm" autocomplete="off">                                     -->
               <form [formGroup]="updateForm" (ngSubmit)="onSaveSubmit()" autocomplete="off" *ngIf="updateAccess">
-                <!-- <mat-form-field>
-                  <mat-label>Resolution Type</mat-label>
-                  <input #resType [(ngModel)]="resolutionType" formControlName="Resolution" type="text"
-                    placeholder="Search Resolution Type" matInput [matAutocomplete]="autoResType" OptionsValidator
-                    [options]="updateDetails.ResolutionType" />
-                  <span matSuffix mat-icon-button>
-                    <mat-icon>arrow_drop_down</mat-icon>
-                  </span>
-                  <mat-autocomplete panelWidth="auto" autoActiveFirstOption #autoResType="matAutocomplete">
-                    <mat-option *ngFor="let val of updateDetails.ResolutionType | ddlFilter: resType.value"
-                      [value]="val">
-                      {{val}}
-                    </mat-option>
-                  </mat-autocomplete>
-                  <mat-error>
-                    <div *ngIf="updateFormControls.Resolution.errors?.validOptions">
-                      Value need to match available options
-                    </div>
-                    <div *ngIf="updateFormControls.Resolution.hasError('required')">
-                      Select Resolution Type
-                    </div>
-                  </mat-error>
-                </mat-form-field> &nbsp; -->
-
+              
                 <ng-container *ngIf="updateDetails as con">
                   <mat-form-field>
                     <mat-label>Resolution Type</mat-label>

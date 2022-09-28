@@ -1,14 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { forkJoin, Observable, of, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { SelectMultipleComponent } from 'src/app/uicomponents';
 import { Select } from 'src/app/uicomponents/models/select';
 import { Tab } from 'src/app/uicomponents/models/tab';
 import { CellAttributes, ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 import { AuditReportsService } from '../services/audit-reports.service';
-// import { UserCommentsDialogComponent } from './user-comments-dialog.component';
 import { ApplyAttributes, ButtonCorretion } from '../models/full-audit-details/SetAttributes';
 import { TelNoPipe } from 'src/app/_helper/pipe/telno.pipe';
 import { Utils } from 'src/app/_http';
@@ -22,7 +21,6 @@ import { Custom } from 'src/app/_helper/Validators/filterCustom';
 import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/app/_helper/Constants/pagination-const';
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
-import { Console } from 'console';
 
 const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
@@ -85,7 +83,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
   disableProcess: boolean = true;
   disableSave: boolean = true;
   configDetails!: any;
-  //currentPage: string = '1';
   auditTelNo: any;
   repIdentifier = "FullAuditDetails";
   autoCorrectionRange: string = '';
@@ -189,10 +186,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     { headerValue: 'SwitchPortingStatus', header: 'Switch Porting Status', showDefault: true, isImage: false },
     { headerValue: 'PortingPrefixOwner', header: 'Porting Prefix Owner', showDefault: true, isImage: false },
     { headerValue: 'SwitchType', header: 'Switch Type', showDefault: true, isImage: false },
-    // { headerValue: 'CDMSNMSRPIPO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },
-    // { headerValue: 'CDMSNMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
-    // { headerValue: 'CDMSNMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
-    // { headerValue: 'CDMSNMSRAreacall', header: 'CDMS/NMSR Areacall', showDefault: true, isImage: false },
     { headerValue: 'CDMS/NMSRPI/PO', header: 'CDMS/NMSR PI/PO', showDefault: true, isImage: false },
     { headerValue: 'CDMS/NMSRPrefix', header: 'CDMS/NMSR Prefix', showDefault: true, isImage: false },
     { headerValue: 'CDMS/NMSRType', header: 'CDMS/NMSR Type', showDefault: true, isImage: false },
@@ -273,7 +266,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     { value: 'DAD-MisMatched - Source Active MisMatched', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active'] },
     { value: 'DC-MisMatched - Source Cease', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
     { value: 'DN-MisMatched - Source Not found', buttonVal: ['AutoPopulateOSN2', 'AutoPopulateBT', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
-    { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume','AutoPopulateSpecialCease'], switchType: ['Active'] },
+    { value: 'VA-OSN2 Only - Source Active', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoCorrectionVolume', 'AutoPopulateSpecialCease'], switchType: ['Active'] },
     { value: 'VC-OSN2 Only - Source Ceased', buttonVal: ['AutoPopulateSource', 'AutoPopulateOSN2', 'AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Active', 'Ceased', 'Not Found'] },
     { value: 'VN-OSN2 Only - Source Not Found', buttonVal: ['AutoPopulateSpecialCease', 'AutoCorrectionVolume'], switchType: ['Ceased', 'Not Found'] },
   ];
@@ -426,11 +419,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
-
-  // getNextSetRecords(pageIndex: any) {
-  //   this.currentPage = pageIndex;
-  //   this.onFormSubmit(true);
-  // }
 
   getNextSetRecords(pageEvent: any) {
     debugger;
@@ -764,7 +752,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-            
+
             this.onFormSubmit(true);
             this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successfully !!", { autoClose: true, keepAfterRouteChange: false });
           }
@@ -780,10 +768,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         this.disableProcess = false;
       }
       else {
-        // if (this.selectListItems.length >= 1 &&
-        //   this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
-        //   this.disableProcess = false;
-        // }
         if (this.selectListItems.length === 1) {
           let endStatusFlag = this.endStatus.find(x => x === this.selectListItems[0].ResolutionType) ? true : false;
           this.disableProcess = endStatusFlag;
@@ -863,12 +847,12 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
           }
           else {
             debugger;
-            var conditionalCorrectionTypes =['BT', 'OSN'];
-            var conditionalCorrections = conditionalCorrectionTypes.filter(x=>auditType.includes(x));
+            var conditionalCorrectionTypes = ['BT', 'OSN'];
+            var conditionalCorrections = conditionalCorrectionTypes.filter(x => auditType.includes(x));
             var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
             var startTelno = '';
             var endTelno = '';
-            if (selectedCLI != ''  && conditionalCorrections.length===0) {
+            if (selectedCLI != '' && conditionalCorrections.length === 0) {
               let strCmts = selectedCLI.split('-');
               var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
               startTelno = isNumeric(range[0]) ? range[0].toString() : this.selectListItems[0].TelephoneNumber;
@@ -877,16 +861,16 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
             }
             else {
               startTelno = this.selectListItems[0].TelephoneNumber;
-            }           
+            }
             let data = {
               StartphoneNumber: startTelno,
-              auditType:'Full Audit',
-              AuditStatus:this.selectListItems[0].FullAuditCLIStatus,
+              auditType: 'Full Audit',
+              AuditStatus: this.selectListItems[0].FullAuditCLIStatus,
               EndPhoneNumber: endTelno,
               ActId: this.form.AuditActID.value,
               ResolutionRemarks: this.remarkstxt,
               ManualAuditType: auditType,
-              ReportIdentifier:'FullAuditDetails'
+              ReportIdentifier: 'FullAuditDetails'
             }
             this.router.navigateByUrl('/transactions/transactions', { state: data });
           }
@@ -953,11 +937,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         else
           identifiers.push({ Name: 'Source', Value: [''] });
 
-        // if (this.fullAuditForm.controls['OSN2Source'].value != '')
-        //   identifiers.push({ Name: 'OSN2Source', Value: [this.fullAuditForm.controls['OSN2Source'].value] });
-        // else
-        //   identifiers.push({ Name: 'OSN2Source', Value: [''] });
-
         break;
       }
       case 'DataManualCorrection': {
@@ -1023,9 +1002,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         let result = {
           datasource: res.data.Reports,
           params: res.params
-          // totalrecordcount: res.data.Reports.length,
-          // totalpages: 1,
-          // pagenumber: 1
         }
         return result;
       } else return {
@@ -1054,9 +1030,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         let result = {
           datasource: res.data.TelephoneNumbers,
           params: res.params
-          // totalrecordcount: res.data.TelephoneNumbers.length,
-          // totalpages: 1,
-          // pagenumber: 1
         }
         return result;
       } else return {
@@ -1084,10 +1057,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.TelephoneNumbers,
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber
-          // datasource: res.data.TelephoneNumbers,
           params: res.params
         }
         return result;
@@ -1116,10 +1085,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         let result = {
           datasource: res.data.Circuits,
           params: res.params
-          // totalrecordcount: res.data.Circuits.length,
-          // totalpages: 1,
-          // pagenumber: 1,
-          // pagecount: 50
         }
         return result;
       } else {
@@ -1150,9 +1115,6 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         let result = {
           datasource: res.data.Range,
           params: res.params
-          // totalrecordcount: res.data.Range.length,
-          // totalpages: 1,
-          // pagenumber: 1
         }
         return result;
       } else return {

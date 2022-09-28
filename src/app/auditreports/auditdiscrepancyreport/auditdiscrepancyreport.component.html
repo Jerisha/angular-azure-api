@@ -3,28 +3,31 @@
     <div class="">
       <form [formGroup]="auditDiscrepancyForm" (ngSubmit)="submitAuditDiscrepancyForm()">
         <ng-container *ngIf="configValues as config">
-        <mat-form-field>
-          <mat-label>Audit Type *</mat-label>
-          <mat-select id="AuditType" formControlName="AuditType" [(ngModel)]="selectedAuditType" (selectionChange)="changedAuditType($event)">
-            <mat-option *ngFor="let val of config;" [value]="val.auditType" >{{val.auditType}}</mat-option>
-          </mat-select>
-          <mat-error class="error-message" *ngIf="checkError('AuditType', 'required')">Please Select Audit Type
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>ACT ID *</mat-label>
-          <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedActId">
-            <mat-option *ngFor="let actId of auditActIdDropdown" [value]="actId">{{actId}}</mat-option>           
-          </mat-select>
-          <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select AuditActId</mat-error>
-        </mat-form-field>
-        <button type="submit" mat-raised-button color="primary" [disabled]="auditDiscrepancyForm.invalid">
-          <mat-icon>search</mat-icon>Search
-        </button>
-        <button type="reset" mat-raised-button (click)="onReset()" color="primary" [disabled]="!auditDiscrepancyForm.touched || auditDiscrepancyForm.pristine">
-          <mat-icon>refresh</mat-icon>Reset
-        </button>
-      </ng-container>
+          <mat-form-field>
+            <mat-label>Audit Type *</mat-label>
+            <mat-select id="AuditType" formControlName="AuditType" [(ngModel)]="selectedAuditType"
+              (selectionChange)="changedAuditType($event)">
+              <mat-option *ngFor="let val of config;" [value]="val.auditType">{{val.auditType}}</mat-option>
+            </mat-select>
+            <mat-error class="error-message" *ngIf="checkError('AuditType', 'required')">Please Select Audit Type
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>ACT ID *</mat-label>
+            <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedActId">
+              <mat-option *ngFor="let actId of auditActIdDropdown" [value]="actId">{{actId}}</mat-option>
+            </mat-select>
+            <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select AuditActId
+            </mat-error>
+          </mat-form-field>
+          <button type="submit" mat-raised-button color="primary" [disabled]="auditDiscrepancyForm.invalid">
+            <mat-icon>search</mat-icon>Search
+          </button>
+          <button type="reset" mat-raised-button (click)="onReset()" color="primary"
+            [disabled]="!auditDiscrepancyForm.touched || auditDiscrepancyForm.pristine">
+            <mat-icon>refresh</mat-icon>Reset
+          </button>
+        </ng-container>
       </form>
     </div>
   </mat-sidenav>
@@ -33,16 +36,19 @@
   <mat-sidenav-content class="side-content">
     <div [ngSwitch]="auditType">
       <div *ngSwitchCase="'Full Audit'">
-          <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails" [QueryParams]="QueryParams" >
-          </app-full-audit-type>
+        <app-full-audit-type [sidePan]="pagesidenav" [FullAuditTableDetails]="grpFullAuditTableDetails"
+          [QueryParams]="QueryParams">
+        </app-full-audit-type>
 
       </div>
       <div *ngSwitchCase="'Separate Internal Audit'">
-        <app-seperate-internal-audit-type [sidePan]="pagesidenav" [InternalAuditTableDetails]="grpInternalAuditTableDetails" [QueryParams]="QueryParams">
+        <app-seperate-internal-audit-type [sidePan]="pagesidenav"
+          [InternalAuditTableDetails]="grpInternalAuditTableDetails" [QueryParams]="QueryParams">
         </app-seperate-internal-audit-type>
       </div>
       <div *ngSwitchCase="'External Audit'">
-        <app-external-audit-type [sidePan]="pagesidenav" [ExternalAuditTableDetails]="grpExternalAuditTableDetails" [QueryParams]="QueryParams">
+        <app-external-audit-type [sidePan]="pagesidenav" [ExternalAuditTableDetails]="grpExternalAuditTableDetails"
+          [QueryParams]="QueryParams">
         </app-external-audit-type>
       </div>
       <div *ngSwitchDefault>
