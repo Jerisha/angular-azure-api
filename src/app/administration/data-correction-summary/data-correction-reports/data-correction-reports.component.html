@@ -6,16 +6,16 @@
             </app-select-multiple>
         </div> -->
         <form [formGroup]="dataCorrectionForm" (ngSubmit)="onFormSubmit()">
-            <div class="matsidenav-filter">      
-                <ng-container *ngIf="configDetails  as config">       
-                <mat-form-field [ngClass]="{'hidden':dataCorrectionForm.controls.AuditActId.disabled}">
-                    <mat-label>Audit ACT ID *</mat-label>
-                    <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedOption">
-                        <mat-option *ngFor="let val of config.FullAuditActID" [value]="val">{{val}}</mat-option>
-                    </mat-select>
-                    <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select
-                        Audit ACTID</mat-error>
-                </mat-form-field>
+            <div class="matsidenav-filter">
+                <ng-container *ngIf="configDetails  as config">
+                    <mat-form-field [ngClass]="{'hidden':dataCorrectionForm.controls.AuditActId.disabled}">
+                        <mat-label>Audit ACT ID *</mat-label>
+                        <mat-select id="AuditActId" formControlName="AuditActId" [(ngModel)]="selectedOption">
+                            <mat-option *ngFor="let val of config.FullAuditActID" [value]="val">{{val}}</mat-option>
+                        </mat-select>
+                        <mat-error class="error-message" *ngIf="checkError('AuditActId', 'required')">Please Select
+                            Audit ACTID</mat-error>
+                    </mat-form-field>
                 </ng-container>
 
             </div>
@@ -23,7 +23,8 @@
                 <button type="submit" mat-raised-button color="primary" [disabled]="dataCorrectionForm.invalid">
                     <mat-icon>search</mat-icon>Search
                 </button>
-                <button type="button" mat-raised-button color="primary" (click)="resetForm()" [disabled]="!dataCorrectionForm.touched">
+                <button type="button" mat-raised-button color="primary" (click)="resetForm()"
+                    [disabled]="!dataCorrectionForm.touched">
                     <mat-icon>refresh</mat-icon>Reset
                 </button>
             </div>
@@ -33,14 +34,15 @@
     <mat-sidenav-content class="side-content">
         <app-start-up *ngIf="tabs.length===0"></app-start-up>
         <div class="toggleclass" *ngIf="tabs.length!=0">
-        <mat-slide-toggle #switchbtn  (change)="switchTab(switchbtn.checked)">{{ switchbtn.checked ? 'Switch to Auto Correction Summary' : 'Switch to Manual Correction Summary'}}</mat-slide-toggle>
-    </div>
+            <mat-slide-toggle #switchbtn (change)="switchTab(switchbtn.checked)">{{ switchbtn.checked ? 'Switch to Auto
+                Correction Summary' : 'Switch to Manual Correction Summary'}}</mat-slide-toggle>
+        </div>
         <div>
-        <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary"
-            (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
-            <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
-        </button>
-    </div>
+            <button *ngIf="tabs.length!=0" class="slidderbtn" mat-basic-button color="primary"
+                (click)="pagesidenav.toggle()" matTooltip="{{pagesidenav.opened ? 'Hide Filters' : 'Show Filters'}}">
+                <mat-icon>{{pagesidenav.opened ? 'keyboard_arrow_left' : 'keyboard_arrow_right'}}</mat-icon>
+            </button>
+        </div>
 
         <mat-tab-group [(selectedIndex)]="selectedTab">
             <mat-tab *ngFor="let tab of tabs; let index = index">
@@ -50,25 +52,22 @@
                         <mat-icon style="font-size: large;">close</mat-icon>
                     </button>
                 </ng-template>
-                
+
 
                 <span [ngSwitch]="tab.tabType">
                     <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
-                    
-                        <app-table-selection [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"
-                            (addNewTab)="newTab($event,tab)">
+                        <app-table-selection [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
+                            (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event,tab)">
                         </app-table-selection>
                     </div>
                     <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-                        <!-- <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
-                        </app-telephone-audit-trail> -->
-                        <!-- <app-table [tableitem]="myTable"></app-table> -->
-                        <app-table-selection [tableitem]="myTable"  (pageIndex)="getNextSetRecords($event)" (rowChanges)="rowDetect($event)"
-                            (addNewTab)="newTab($event,tab)">
+                        <app-table-selection [tableitem]="myTable" (pageIndex)="getNextSetRecords($event)"
+                            (rowChanges)="rowDetect($event)" (addNewTab)="newTab($event,tab)">
                         </app-table-selection>
                     </div>
                     <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
-                        <app-telephone-no [telNoArray]="telNoList" (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
+                        <app-telephone-no [telNoArray]="telNoList"
+                            (TelephoneNoSelected)="OnTelephoneNoSelected($event)"></app-telephone-no>
                         <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier">
                         </app-telephone-audit-trail>
                     </div>
@@ -76,7 +75,6 @@
                     </div>
                 </span>
             </mat-tab>
-
         </mat-tab-group>
     </mat-sidenav-content>
 </mat-sidenav-container>

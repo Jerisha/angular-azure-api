@@ -1,12 +1,12 @@
-<button *ngIf="isShow" mat-mini-fab style="background-color: #e60000; margin: 5px;"><mat-icon (click)="btnClicked()">class</mat-icon></button>
+<button *ngIf="isShow" mat-mini-fab style="background-color: #e60000; margin: 5px;">
+    <mat-icon (click)="btnClicked()">class</mat-icon>
+</button>
 <div class="header-menu mat-elevation-z3" [ngClass]="{'fullPage' : !(isShow) }" [@toggleMenu]="showMenu">
     <div class="menu-button-wrapper">
-    <button mat-button (click)="getFileDetails('BTAuditFileDetails', false)">BT Audit File Details</button>
-    <button mat-button (click)="getFileDetails('LiveSwitchData', false)">Data - Live in Switch Only</button>
+        <button mat-button (click)="getFileDetails('BTAuditFileDetails', false)">BT Audit File Details</button>
+        <button mat-button (click)="getFileDetails('LiveSwitchData', false)">Data - Live in Switch Only</button>
+    </div>
 </div>
-</div>
-
-
 
 <div *ngIf="showDetails" class="center mat-elevation-z3">
     <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
@@ -19,15 +19,13 @@
             </ng-template>
             <span [ngSwitch]="tab.tabType">
                 <div *ngSwitchCase="0" style="height: calc(100% - 50px);">
-                    <app-table-selection [tableitem]="btAuditFileDetailsTable" 
-                    (pageIndex)="getNextSetRecords($event, tab.tabType)"
-                    (addNewTab)="newTab($event, tab.tabType)">
+                    <app-table-selection [tableitem]="btAuditFileDetailsTable"
+                        (pageIndex)="getNextSetRecords($event, tab.tabType)" (addNewTab)="newTab($event, tab.tabType)">
                     </app-table-selection>
                 </div>
                 <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
-                    <app-table-selection [tableitem]="dataLiveInSwitchTable" 
-                    (pageIndex)="getNextSetRecords($event, tab.tabType)"
-                    (addNewTab)="newTab($event, tab.tabType)">
+                    <app-table-selection [tableitem]="dataLiveInSwitchTable"
+                        (pageIndex)="getNextSetRecords($event, tab.tabType)" (addNewTab)="newTab($event, tab.tabType)">
                     </app-table-selection>
                 </div>
                 <div *ngSwitchDefault>
@@ -35,5 +33,4 @@
             </span>
         </mat-tab>
     </mat-tab-group>
-
 </div>

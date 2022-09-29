@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CellHighlight, GroupHeaderTableDetails, GroupHeaderTableItem } from 'src/app/uicomponents/models/merge-table-item-model';
 import { Tab } from 'src/app/uicomponents/models/tab';
@@ -26,15 +26,15 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
   @Input() QueryParams: any;
 
   cellAttrInfoSummary: CellHighlight[] = [
-    { cells: ['Total'], isBackgroundHighlighted: true}
+    { cells: ['Total'], isBackgroundHighlighted: true }
   ];
 
   cellAttrInfoProgress: CellHighlight[] = [
-    { cells: ['InProgressTotal','EndStatusYTotal'], isBackgroundHighlighted: true}
+    { cells: ['InProgressTotal', 'EndStatusYTotal'], isBackgroundHighlighted: true }
   ];
 
   observerResult!: Observable<any>;
-  constructor( private spinner: NgxSpinnerService, private service: AuditReportsService) {
+  constructor(private spinner: NgxSpinnerService, private service: AuditReportsService) {
     this.tabsName = ['InternalSummary', 'ProgressReport', 'MonthReport', 'AddressReport'];
   }
 
@@ -59,43 +59,37 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
     ];
   }
 
-  ngOnChanges(changes: SimpleChanges)
-  {
-    if(changes.QueryParams)
-    {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.QueryParams) {
       this.queryFetch();
     }
   }
-  
-  queryFetch() {
 
+  queryFetch() {
     let request = Utils.preparePyQuery('InternalAuditDiscrepancy', 'AuditDiscrepancyReport', this.QueryParams);
     console.log(JSON.stringify(request));
     this.spinner.show();
-      this.observerResult =this.service.queryDetails(request).pipe(map((res: any) => {
-        this.spinner.hide();
-        return res.data}));
-        this.AddressReportTab();
-          this.AuditSummaryTab();
-          this.ProgressReportTab();
-          this.MonthReportTab();
+    this.observerResult = this.service.queryDetails(request).pipe(map((res: any) => {
+      this.spinner.hide();
+      return res.data
+    }));
+    this.AddressReportTab();
+    this.AuditSummaryTab();
+    this.ProgressReportTab();
+    this.MonthReportTab();
   }
 
   trackTabs(index: number, tab: any) {
     return tab ? tab.data : undefined;
   }
 
-  
   AuditSummaryTab() {
-
     var headerswithDetails: string[];
     var displayedColumns: string[];
     var detailedColumnsArray: string[];
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'InternalSummary';
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
-
- 
     headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'AttributeDifference', 'ResolutionType'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
@@ -106,20 +100,18 @@ export class SeperateInternalAuditTypeComponent implements OnInit {
       DisplayedColumns: displayedColumns,
       DetailedColumns: detailedColumnsArray,
       GroupHeaderColumnsArray: grpHdrColumnsArray,
-      isRowLvlTotal:true,
+      isRowLvlTotal: true,
       setCellAttributes: this.cellAttrInfoSummary,
     }
-}
+  }
 
-ProgressReportTab() {
-
+  ProgressReportTab() {
     var headerswithDetails: string[];
     var displayedColumns: string[];
     var detailedColumnsArray: string[];
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'ProgressReport';
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
-    
     headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'New'];
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
@@ -131,21 +123,19 @@ ProgressReportTab() {
       DetailedColumns: detailedColumnsArray,
       GroupHeaderColumnsArray: grpHdrColumnsArray,
       FilterValues: 'Separate Internal Audit',
-      isRowLvlTotal:true,
+      isRowLvlTotal: true,
       FilterColumn: true,
       isMonthFilter: false,
       setCellAttributes: this.cellAttrInfoProgress,
     }
-}
+  }
 
-MonthReportTab() {
-
+  MonthReportTab() {
     var displayedColumns: string[];
     var detailedColumnsArray: string[];
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'MonthReport';
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
-
     displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     detailedColumnsArray = gridDesignDetails[0].GroupHeaders.map(x => x.DataHeaders);
     grpHdrColumnsArray = [detailedColumnsArray];
@@ -155,18 +145,16 @@ MonthReportTab() {
       DisplayedColumns: displayedColumns,
       DetailedColumns: displayedColumns,
       GroupHeaderColumnsArray: grpHdrColumnsArray,
-
     }
-}
+  }
 
-AddressReportTab() {
-var headerswithDetails: string[];
+  AddressReportTab() {
+    var headerswithDetails: string[];
     var displayedColumns: string[];
     var detailedColumnsArray: string[];
     var grpHdrColumnsArray: Array<string[]>;
     var labelName = 'AddressReport';
     var gridDesignDetails = this.InternalAuditTableDetails.filter(x => x.TableName == labelName);
-
     var headerswithDetails = ['ActId', 'SourceSystem', 'InternalAuditCLIStatus', 'OutstandingCLICount', 'OutstandingMonthsDifference', 'SelectedMonthCLICountsENDStatusY', 'SelectedMonthDifferenceENDStatusY']
     var displayedColumns = gridDesignDetails[0].ColumnDetails.map(x => x.DataHeaders);
     var detailedColumnsArray = displayedColumns.filter(x => !headerswithDetails.includes(x));
@@ -179,12 +167,9 @@ var headerswithDetails: string[];
       GroupHeaderColumnsArray: grpHdrColumnsArray,
       FilterValues: 'Separate Internal Audit',
       FilterColumn: true,
-      isRowLvlTotal:true,
+      isRowLvlTotal: true,
       isMonthFilter: true,
-      
     }
-
-}
-
+  }
 
 }

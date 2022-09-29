@@ -1,12 +1,6 @@
 <mat-sidenav-container class="side-container">
   <mat-sidenav #pagesidenav class="side-nav" mode="side" opened>
 
-    <!-- <div class="filter-sticky">
-        <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
-          (changes)="setControlAttribute($event)">
-        </app-select-multiple>
-      </div> -->
-
     <form [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails as config">
@@ -14,7 +8,7 @@
             <mat-label>Audit Type *</mat-label>
             <mat-select id="AuditType" formControlName="AuditType" [(ngModel)]="selectedAuditType"
               (selectionChange)="changedAuditType($event)">
-              
+
               <mat-option *ngFor="let val of config;" [value]="val.auditType">{{val.auditType}}</mat-option>
             </mat-select>
             <mat-error class="error-message">Please Select Audit Type
@@ -64,24 +58,24 @@
         <span [ngSwitch]="tab.tabType">
           <div *ngSwitchCase="0" style="height: calc(100% - 30px);">
             <ng-container *ngIf="!SepAuditActId">
-
-            <button style="float:right;"  type="submit" mat-raised-button color="primary" (click)="separateAuditTrail()">
-              Start Separate Internal Audit
-            </button>
-
-            <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
-              (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
-            </app-table-selection>
+              <button style="float:right;" type="submit" mat-raised-button color="primary"
+                (click)="separateAuditTrail()">
+                Start Separate Internal Audit
+              </button>
+              <app-table-selection [sidePan]="pagesidenav" [tableitem]="myTable" (rowChanges)="rowDetect($event)"
+                (addNewTab)="newTab($event)" (pageIndex)="getNextSetRecords($event)">
+              </app-table-selection>
             </ng-container>
-          <ng-container *ngIf="SepAuditActId">
-            <div style="margin: 5px;">
-            Please note the following :<br/>
-                   1. Audit ACT ID is : <b>{{SepAuditActId}}</b><br/>
-                   2. Audit can take sometime to produce and there may be delay of up to 15 minutes before the processing starts. <br/>
-                   3. Audit has been started in backgound.<br />
-                   4. Check latest Audit ACT ID in Audit Tracker Screen.<br/>
-                  </div>
-          </ng-container>
+            <ng-container *ngIf="SepAuditActId">
+              <div style="margin: 5px;">
+                Please note the following :<br />
+                1. Audit ACT ID is : <b>{{SepAuditActId}}</b><br />
+                2. Audit can take sometime to produce and there may be delay of up to 15 minutes before the processing
+                starts. <br />
+                3. Audit has been started in backgound.<br />
+                4. Check latest Audit ACT ID in Audit Tracker Screen.<br />
+              </div>
+            </ng-container>
           </div>
 
           <div *ngSwitchDefault>

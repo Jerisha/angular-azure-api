@@ -6,7 +6,7 @@ import { Tab } from 'src/app/uicomponents/models/tab';
 import { ColumnDetails, TableItem } from 'src/app/uicomponents/models/table-item';
 
 import * as _moment from 'moment';
-import { default as _rollupMoment, Moment} from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -32,15 +32,14 @@ const MY_FORMATS = {
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
   },
-}; 
+};
 
 const FilterListItems: Select[] = [
   { view: 'Audit Month', viewValue: 'AuditMonth', default: true },
   { view: 'Audit Type', viewValue: 'AuditType', default: true },
   { view: 'Resolved By', viewValue: 'ResolvedBy', default: true },
-  // { view: 'Resolution Type', viewValue: 'ResolutionTypeAudit', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
-  { view: 'Audit ACT ID', viewValue: 'AuditActID', default:true },
+  { view: 'Audit ACT ID', viewValue: 'AuditActID', default: true },
 ];
 const Itemstwo: Select[] = [
   { view: 'Audit Month', viewValue: 'AuditMonth', default: true },
@@ -48,7 +47,7 @@ const Itemstwo: Select[] = [
   { view: 'Resolved By', viewValue: 'ResolvedBy', default: true },
   { view: 'Resolution Type', viewValue: 'ResolutionType', default: true },
   { view: 'Audit Act ID', viewValue: 'AuditActID', default: true },
-  
+
 ]
 @Component({
   selector: 'app-audit-user-action-summary',
@@ -61,11 +60,10 @@ const Itemstwo: Select[] = [
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class AuditUserActionSummaryComponent  extends UserProfile {
-  
+export class AuditUserActionSummaryComponent extends UserProfile {
   thisForm!: FormGroup;
   filterItems: Select[] = FilterListItems;
   auditUserActionSummary!: TableItem;
@@ -76,19 +74,18 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   isRemoveCache: number = DefaultIsRemoveCache;
   showDetails: boolean = false;
   selectedTab: number = 0;
-  datevalue?:string;
+  datevalue?: string;
   configDetails!: any;
   repIdentifier = "AuditUserActionSummary";
-  expressions: any = [expNumeric, expString, expDate,expDropdown];
+  expressions: any = [expNumeric, expString, expDate, expDropdown];
   resetExp: boolean = false;
-  // currentPage: string = '1';
   queryResult$: any;
   myTable!: TableItem;
   listItems!: Select[];
   defaultACTID: string = '';
   minDate: Date = new Date('01/01/2000');
   maxDate: Date = new Date();
-  public monthAndYear: Date | null ;
+  public monthAndYear: Date | null;
   public date = new Date();
 
   AuditMonthFilter: Select[] = [];
@@ -106,25 +103,25 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   expOperatorsKeyPair: [string, string][] = [];
   selectedGridRows: any[] = [];
   opsCollection: { Key: string, Value: string }[] = [];
-  columns: ColumnDetails[]= [
-    { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false, isFooter: false},
-    { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
-    { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false, isFooter: false},
-    { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false, isFooter: false},
-    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false, isFooter: false},
-    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true, isFooter: true,isNumber:true },
+  columns: ColumnDetails[] = [
+    { headerValue: 'AuditACTID', header: 'Audit Act ID', showDefault: true, isImage: false, isTotal: false, isFooter: false },
+    { headerValue: 'AuditType', header: 'Audit Type', showDefault: true, isImage: false, isTotal: false, isFooter: false },
+    { headerValue: 'ResolvedBy', header: 'Resolved By', showDefault: true, isImage: false, isTotal: false, isFooter: false },
+    { headerValue: 'ResolvedMonth', header: 'Resolved Month', showDefault: true, isImage: false, isTotal: false, isFooter: false },
+    { headerValue: 'ResolutionType', header: 'Resolution Type', showDefault: true, isImage: false, isTotal: false, isFooter: false },
+    { headerValue: 'Count', header: 'Count', showDefault: true, isImage: false, isTotal: true, isFooter: true, isNumber: true },
   ]
- 
-    
+
+
 
   constructor(private formBuilder: FormBuilder,
     private service: AuditReportsService,
-    private cdr: ChangeDetectorRef,private auth: AuthenticationService,
+    private cdr: ChangeDetectorRef, private auth: AuthenticationService,
     private actRoute: ActivatedRoute
-    ) {
-      super(auth, actRoute);
-      this.intializeUser();
-     }
+  ) {
+    super(auth, actRoute);
+    this.intializeUser();
+  }
 
   ngOnInit(): void {
     this.listItems = Itemstwo;
@@ -150,12 +147,12 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
     });
 
   }
- 
+
   resetForm() {
     window.location.reload();
   }
   rowDetect(selectedRows: any) {
-    debugger;
+    // debugger;
     selectedRows.forEach((item: any) => {
       // this.selectedRowsCount = item.length;
       if (item && item.length == 0) return
@@ -167,58 +164,40 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
         this.selectedGridRows.splice(index, 1)
       }
     })
-
   }
 
   setControlAttribute(matSelect: MatSelect) {
-    debugger;    
+    // debugger;
     matSelect.options.forEach((item) => {
-      if(item.selected)
-      {
-        switch(item.value)
-        {
+      if (item.selected) {
+        switch (item.value) {
           case 'AuditMonth': this.showAuditMonth = false;
-          break;
+            break;
           case 'AuditType': this.showAuditType = false;
-          break;
+            break;
           case 'ResolvedBy': this.showResolvedBy = false;
-          break;
+            break;
           case 'ResolutionType': this.showResolutionType = false;
-          break;
+            break;
           case 'AuditActID': this.showAuditActId = false;
-          break;
+            break;
         }// switch
-      } else{
-        switch(item.value)
-        {
+      } else {
+        switch (item.value) {
           case 'AuditMonth': this.showAuditMonth = true;
-          break;
+            break;
           case 'AuditType': this.showAuditType = true;
-          break;
+            break;
           case 'ResolvedBy': this.showResolvedBy = true;
-          break;
+            break;
           case 'ResolutionType': this.showResolutionType = true;
-          break;
+            break;
           case 'AuditActID': this.showAuditActId = true;
-          break;
+            break;
         }
       }
-    
-    });
-    
-    // matSelect.options.forEach((item) => {
-    //   if (item.selected) {
-    //     this.showAuditMonth = false;
-    //     console.log(item.value);
-    //     // this.thisForm.controls[item.value].enable();
-    //   }
-    //   else {
-    //     this.showAuditMonth = true;
-    //     // console.log("item  not selected " + JSON.stringify(item));
-    //     // this.thisForm.controls[item.value].disable();
-    //   }
-    // });
 
+    });
   }
 
   get f() {
@@ -226,31 +205,26 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
   }
 
   createForm() {
-
-    
-
     this.thisForm = this.formBuilder.group({
       AuditMonth: new FormControl({ value: '', disabled: true }),
       AuditType: new FormControl({ value: '', disabled: true }, []),
       ResolvedBy: new FormControl({ value: '', disabled: true }, []),
-      // ResolutionTypeAudit: new FormControl({ value: '', disabled: true }, []),
       ResolutionType: new FormControl({ value: '', disabled: true }, []),
       AuditActId: new FormControl({ value: '', disabled: true }, []),
     })
 
   }
   getNextSetRecords(pageEvent: any) {
-    debugger;
+    // debugger;
     this.currentPage = pageEvent.currentPage;
     this.pageSize = pageEvent.pageSize
     this.onFormSubmit(true);
   }
-  
+
   onFormSubmit(isEmitted?: boolean): void {
-    debugger;
+    // debugger;
     // if (!this.thisForm.valid) return;
     this.tabs.splice(0);
-    // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
@@ -259,18 +233,12 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
     let request = Utils.preparePyQuery('AuditUserActionSummaryOptions', 'AuditUserActionSummary', this.prepareQueryParams(this.currentPage.toString()), reqParams);
-    // console.log('request', JSON.stringify(request))
-    //console.log('req',JSON.stringify(request));
     this.queryResult$ = this.service.queryDetails(request).pipe(map((res: any) => {
       if (Object.keys(res).length) {
         let result = {
           datasource: res.data.Summary,
           params: res.params,
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage,
-          FooterDetails: {footerName: "Cumulative", footerValue: `${res.params.CumulativeCount ? res.params.CumulativeCount : ''}`}
+          FooterDetails: { footerName: "Cumulative", footerValue: `${res.params.CumulativeCount ? res.params.CumulativeCount : ''}` }
         }
         return result;
       } else return {
@@ -283,10 +251,10 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
       Columns: this.columns,
       filter: true,
       selectCheckbox: true,
-      excelQuery : this.prepareQueryParams(this.currentPage.toString()),
+      excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       highlightedCells: ['TelephoneNumber'],
       removeNoDataColumns: true,
-     isCustomFooter: true
+      isCustomFooter: true
     }
 
     if (!this.tabs.find(x => x.tabType == 0)) {
@@ -295,198 +263,70 @@ export class AuditUserActionSummaryComponent  extends UserProfile {
         name: 'Summary'
       });
     }
- 
+
   }
-//   prepareQueryParams(pageNo: string): any {
-//     debugger;
-//     let attributes: any = [
-//       { Name: 'PageNumber', Value: [`${pageNo}`] }];
-//       for (const field in this.f) {
-//         // const StatisticMonth = this.datevalue;
-//         // const control = this.thisForm.get(field);
 
-// this.OnOperatorClicked(['AuditMonth','Equal To']);
-//         switch(field)
-//         {
-//           case 'AuditMonth': this.AuditMonthArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditMonthArray}) : attributes.push({ Name: field });
-//                               attributes.push(this.selectedExpression(field));
-//           break;
-//           case 'AuditType': this.AuditTypeArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditTypeArray }) : attributes.push({ Name: field });
-//                               attributes.push(this.selectedExpression(field));
-//           break;
-//           case 'ResolvedBy': this.ResolvedByArray?.length > 0 ? attributes.push({ Name: field, Value: this.ResolvedByArray }) : attributes.push({ Name: field });
-//                               attributes.push(this.selectedExpression(field));
-//           break;
-//           case 'ResolutionType': this.ResolutionTypeArray?.length > 0 ? attributes.push({ Name: field, Value: this.ResolutionTypeArray }) : attributes.push({ Name: field });
-//                               attributes.push(this.selectedExpression(field));
-//           break;
-//           case 'AuditActID': this.AuditActIdArray?.length > 0 ? attributes.push({ Name: field, Value: this.AuditActIdArray}) : attributes.push({ Name: field });
-//                               attributes.push(this.selectedExpression(field));
-//           break;
-//         }
+  OnOperatorClicked(val: [string, string]) {
+    this.opsCollection.filter((x, index) => {
+      if (x.Key === val[0])
+        this.opsCollection.splice(index, 1);
+    })
 
-//         // if (field != 'AuditMonth' && field != 'ResolutionTypeAudit') {
-//         //   if (control?.value)
-//         //   attributes.push({ Name: field, Value: [control?.value] });
-//         //   else
-//         //   attributes.push({ Name: field });
-//         //   }
-       
-//     //     if (field == 'AuditMonth') {
-      
-//     //     if (this.AuditMonthArray.length > 0){
-//     //     // let auditDate = this.monthAndYear?.toDateString()
-//     //     // attributes.push({ Name: 'AuditMonth', Value: [formatDate(auditDate || '', 'MMM-yyyy', 'en-US')] });
-//     //     attributes.push({ Name: 'AuditMonth', Value: this.AuditMonthArray });
-//     //     let operator: string = 'AuditMonth' + "Operator";
-//     //     if (this.expOperatorsKeyPair.length != 0) {
-//     //       let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-         
-//     //       if (expvals.length != 0) {
-//     //           attributes.push({ Name: operator, Value: [expvals[0][1]] });
-//     //            // console.log(expvals[0][1],"operatorVal");
-           
-//     //       }
-         
-//     //     }
-//     //     else {
-//     //        attributes.push({ Name: operator, Value: ['Equal To'] });
-//     //       }
-
-//     //     }
-//     //     else
-//     //     attributes.push({ Name: 'AuditMonth' });
-//     //     }
-//     //     if (field == 'ResolutionTypeAudit')
-//     //     {
-//     //     attributes.push({ Name: 'ResolutionType', Value: [control?.value]});
-//     //     let operator: string = 'ResolutionType' + "Operator";
-//     //     if (this.expOperatorsKeyPair.length != 0) {
-//     //       let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-         
-//     //       if (expvals.length != 0) {
-//     //           attributes.push({ Name: operator, Value: [expvals[0][1]] });
-//     //            // console.log(expvals[0][1],"operatorVal");
-           
-//     //       }
-         
-//     //     }
-//     //     else {
-//     //        attributes.push({ Name: operator, Value: ['Equal To'] });
-//     //       }
-//     //   } 
-//     //     else{
-//     //       if(field != 'AuditMonth'){
-
-//     //     let operator: string = field + "Operator";
-      
-//     //     if (this.expOperatorsKeyPair.length != 0) {
-//     //     let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-//     //     if (expvals.length != 0) {
-//     //     // if (field == 'AuditMonth') {
-//     //     // if (StatisticMonth) {
-//     //     // attributes.push({ Name: operator, Value: [expvals[0][1]] });
-//     //     // }
-//     //     // else {
-//     //     // attributes.push({ Name: operator, Value: ['Equal To'] });
-//     //     // }
-//     //     // }
-//     //     // else {
-//     //     // if (control?.value) {
-//     //     // attributes.push({ Name: operator, Value: [expvals[0][1]] });
-//     //     // }
-//     //     // else {
-//     //     // attributes.push({ Name: operator, Value: ['Equal To'] });
-//     //     // }
-        
-//     //     // }
-       
-//     //     }
-//     //     else {
-//     //     if (field == 'Source' || field == 'StatisticMonth') {
-//     //     attributes.push({ Name: operator, Value: ['Equal To'] });
-//     //     }
-//     //     else {
-//     //     attributes.push({ Name: operator, Value: ['Equal To'] });
-//     //     }
-//     //     }
-//     //     }
-//     //     else {
-        
-//     //     attributes.push({ Name: operator, Value: ['Equal To'] });
-        
-//     //     }
-//     //   }
-//     // }
-//         }
-
-//     // console.log('attri',attributes);
-
-//     return attributes;
-
-//   }
-OnOperatorClicked(val: [string, string]) {
-  this.opsCollection.filter((x, index) => {
-    if (x.Key === val[0])
-      this.opsCollection.splice(index, 1);
-  })
-
-  this.opsCollection.push({ Key: val[0], Value: val[1] });
-}
-prepareQueryParams(pageNo: string): any {
-  let attributes: any = [
-    { Name: 'PageNumber', Value: [`${pageNo}`] }];
-  //other parameter
-  for (const field in this.f) {
-    debugger
-    const control = this.thisForm.get(field);
-    if (field == "CreatedDate" && control?.value)
-      attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
-    else
-      attributes.push({ Name: field, Value: [control?.value] });
-
-
-    //operator value
-    let genOpt = field + 'Operator'
-    //let expvals = this.expOperatorsKeyPair?.filter((i) => this.getTupleValue(i, genOpt));
-    let found = this.opsCollection.find(x => x.Key === genOpt);
-    if (found)
-      attributes.push({ Name: genOpt, Value: [found?.Value] });
-    else
-      attributes.push({ Name: genOpt, Value: ['Equal To'] });
+    this.opsCollection.push({ Key: val[0], Value: val[1] });
   }
-  console.log('attri', attributes);
+  prepareQueryParams(pageNo: string): any {
+    let attributes: any = [
+      { Name: 'PageNumber', Value: [`${pageNo}`] }];
+    //other parameter
+    for (const field in this.f) {
+      // debugger
+      const control = this.thisForm.get(field);
+      if (field == "CreatedDate" && control?.value)
+        attributes.push({ Name: field, Value: [formatDate(control?.value, 'dd-MMM-yyyy', 'en-US')] });
+      else
+        attributes.push({ Name: field, Value: [control?.value] });
 
-  return attributes;
 
-}
+      //operator value
+      let genOpt = field + 'Operator'
+      //let expvals = this.expOperatorsKeyPair?.filter((i) => this.getTupleValue(i, genOpt));
+      let found = this.opsCollection.find(x => x.Key === genOpt);
+      if (found)
+        attributes.push({ Name: genOpt, Value: [found?.Value] });
+      else
+        attributes.push({ Name: genOpt, Value: ['Equal To'] });
+    }
+    console.log('attri', attributes);
 
-  selectedExpression(fieldName: string)
-  {
+    return attributes;
+
+  }
+
+  selectedExpression(fieldName: string) {
     let attribute: any;
     let operator: string = fieldName + "Operator";
-          if (this.expOperatorsKeyPair.length != 0) {
-            let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
-            console.log("expvals " + expvals.length);
-            
-            if (expvals.length != 0) {
-                attribute = { Name: operator, Value: [expvals[0][1]] };
-            } else {
-              attribute = { Name: operator, Value: ['Equal To'] };
-            }
-          }
-          return attribute;
+    if (this.expOperatorsKeyPair.length != 0) {
+      let expvals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, operator));
+      console.log("expvals " + expvals.length);
+
+      if (expvals.length != 0) {
+        attribute = { Name: operator, Value: [expvals[0][1]] };
+      } else {
+        attribute = { Name: operator, Value: ['Equal To'] };
+      }
+    }
+    return attribute;
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
     this.showDetails = this.tabs.length > 0 ? true : false;
-    if(this.tabs.length == 0) {
+    if (this.tabs.length == 0) {
 
     }
   }
 
- 
+
 
   AuditMonth = new FormControl();
   chosenYearHandler(normalizedYear: Moment) {
@@ -495,26 +335,16 @@ prepareQueryParams(pageNo: string): any {
     ctrlValue.year(normalizedYear.year());
     this.AuditMonth.setValue(ctrlValue);
   }
-  
+
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    
+
     const ctrlValue = this.AuditMonth.value;
     ctrlValue?.month(normalizedMonth.month());
     //let datevaluetest=formatDate(ctrlValue, 'MMM-yyyy', 'en-US')
     this.AuditMonth.setValue(ctrlValue);
-    this.datevalue=ctrlValue;
+    this.datevalue = ctrlValue;
     datepicker.close();
   }
-  // OnOperatorClicked(val: [string, string]) {y
-  //   let vals = this.expOperatorsKeyPair.filter((i) => this.getTupleValue(i, val[0]));
-  //   if (vals.length == 0) {
-  //     this.expOperatorsKeyPair.push(val);
-  //   }
-  //   else {
-  //     this.expOperatorsKeyPair = this.expOperatorsKeyPair.filter((i) => i[0] != val[0]);
-  //     this.expOperatorsKeyPair.push(val);
-  //   }
-  // }
 
   getTupleValue(element: [string, string], keyvalue: string) {
     // console.log(element, keyvalue,"gettuple");
@@ -526,7 +356,7 @@ prepareQueryParams(pageNo: string): any {
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-  
+
   ngAfterViewChecked() {
 
     this.cdr.detectChanges();
@@ -539,26 +369,20 @@ prepareQueryParams(pageNo: string): any {
   AuditActIdArray: String[];
   isFormValid: boolean = false;
   multipleSelect(event: any, filterType: string) {
-    console.log(event);
-    // if (event) {
-      // console.log(event.toString());
-    // this.AuditMonthArray = event;
-    // console.log(this.AuditMonthArray);
-    switch(filterType)
-    {
+    // console.log(event);
+    switch (filterType) {
       case 'AuditMonth': this.AuditMonthArray = event;
-      this.isFormValid = this.AuditMonthArray?.length > 0 ? true : false;
-                          break;
+        this.isFormValid = this.AuditMonthArray?.length > 0 ? true : false;
+        break;
       case 'AuditType': this.AuditTypeArray = event;
-                          break;
+        break;
       case 'ResolvedBy': this.ResolvedByArray = event;
-                          break;
+        break;
       case 'ResolutionType': this.ResolutionTypeArray = event;
-                          break;
+        break;
       case 'AuditActId': this.AuditActIdArray = event;
-                          break;
+        break;
     }
-    }
-  // }
+  }
 
 }
