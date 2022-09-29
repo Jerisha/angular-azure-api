@@ -395,13 +395,13 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
 
 
   isEnable() {
-    debugger
-    if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
+    debugger   
+if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
       this.f.EndTelephoneNumber?.value?.length >= 10 &&
-      this.f.Source.value === ""
-      && this.f.ErrorType.value === ""
-      && this.f.Final.value === "")
-      || (this.selectedGridRows.length > 0)) {
+      this.f.Source?.value === ""
+      && this.f.ErrorType?.value === "")
+      // && this.f.Final?.value === "")
+      || (this.selectedGridRows?.length > 0)) {
       this.isSaveDisable = false;
     }
     else {
