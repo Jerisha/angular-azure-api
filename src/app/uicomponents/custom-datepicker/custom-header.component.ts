@@ -21,7 +21,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CustomHeaderComponent<D> implements OnDestroy {
   private readonly destroy$ = new Subject<void>();
-  public currDiv: boolean;
+  public currDiv: boolean=true;
 
   constructor(
     private calendar: MatCalendar<D>, // calendar instance of picker
