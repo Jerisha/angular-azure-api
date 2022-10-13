@@ -315,17 +315,18 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
       Reference: new FormControl({ value: '', disabled: true }, []),
       OrderReference: new FormControl({ value: '', disabled: true }, []),
       DateRange: this.formBuilder.group({
-        FromDate: new FormControl({ value: '', disabled: false }),
+        FromDate: new FormControl({ value: '', disabled:false }),
         ToDate: new FormControl({ value: '', disabled: false }),
         disabled: true
       })
     })
-  //  this.f['DateRange'].disable();
+   this.f['DateRange'].disable();
 
   }
 
   get f() {
     return this.thisForm.controls;
+   
   }
 
   // get s() {
