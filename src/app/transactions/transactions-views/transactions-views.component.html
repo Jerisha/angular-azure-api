@@ -101,11 +101,7 @@
                               
                             </span>
                             <span style ="float: right;margin-right: 40px;">
-                              <!-- <button type="button" mat-mini-fab  style="margin-left: 6px; width: 24px;height:24px;font-size: small;line-height: 3px !important; padding: 0px !important;  background-color:rgb(230, 60, 160);" matTooltip="Multi Range Telephone List" matTooltipPosition="above" (click)="ReviewCli()"> -->
-                                <!-- <mat-icon style ="font-size:small;width:24px;height: 24px;">info</mat-icon> i-->
-                              <!-- </button> -->
-                              <!-- <mat-icon  class = info-icon style = "margin-left:3px" matTooltip= mutliRangeTelephoneList matTooltipPosition="above" [matTooltipClass]="'tooltip'">info</mat-icon> -->
-                              <button type="button" mat-raised-button   [ngClass]="defaultbtn" style="margin-left: 10px; padding-left:2px;width:auto;height:2em;font-size: small;line-height: 16px !important;"   (click)="ReviewCli()">
+                                  <button type="button" mat-raised-button   [ngClass]="defaultbtn" style="margin-left: 10px; padding-left:2px;width:auto;height:2em;font-size: small;line-height: 16px !important;"   (click)="ReviewCli()">
                                 <i class="material-icons" style ="font-size:larger;width:30px; vertical-align: middle;">edit</i>Review
                               </button>  
                             </span>                         
@@ -136,18 +132,7 @@
                         <div class="vf-flex-container-col" style="margin: 2px;"> 
                           <div style="margin-bottom: 6px;width:273px">
                       <span>
-                      <!-- <mat-form-field    style="margin-left:5px;width:260px;" [ngClass]="{'hidden':g.CupID.disabled}">
-                        <mat-label class="vf-label" >CUPID</mat-label>  
-                        <mat-select formControlName="CupID" [(value)]="model.CupId" [(ngModel)]="model.CupId" name="CupID" placeholder="CupID *" (selectionChange)="onCupIdChange($event);" style ="font-size:x-small;">
-                          <mat-option [value]="">                  
-                          </mat-option>
-                          <mat-option *ngFor="let cupid of cupidValues" [value]="cupid">
-                            {{cupid}}
-                          </mat-option>
-                        </mat-select>  
-                        <mat-error class="error-message" *ngIf="checkErrorinFrom('CupID', 'required')">Select CupID
-                        </mat-error>               
-                      </mat-form-field> -->
+                   
                     </span>
                     <span>
                       <ng-container *ngIf="Cuparr  as config" style="font-size:11px">
@@ -174,18 +159,7 @@
                     </span>
                    
                     <span>           
-                      <!-- <mat-form-field *ngIf = "enableFrancise" 
-                        style="margin-left:2px;width:260px;" [ngClass]="{'hidden':g.Franchise.disabled}">
-                        <mat-label class="vf-label">Franchise</mat-label>             
-                        <mat-select formControlName="Franchise"  [(value)]="model.franchise"  [(ngModel)]="model.franchise"  #franchise name="txtFranchise"  (selectionChange)="check_franchise();" style ="font-size:x-small;">
-                         
-                          <mat-option *ngFor="let val of franchiseValues" [value]="val">
-                            {{val}}
-                          </mat-option>
-                          </mat-select> 
-                          <mat-error class="error-message" *ngIf="checkErrorinFrom('Franchise', 'required')">Select Franchise
-                          </mat-error> 
-                      </mat-form-field> -->  
+                      
                        <ng-container *ngIf="SourceFranchisearr  as config1">
                         <mat-form-field *ngIf = "enableFrancise"  [ngClass]="{'hidden':g.Franchise.disabled}" style="margin-left:2px;width:225px;">
                           <mat-label>Franchise *</mat-label>
@@ -466,235 +440,7 @@
                 <form #tf ="ngForm" (ngSubmit)="onTfSubmit()" class="vf-box-shadow1" (change)="OnstateItemChange($event)">
                     <div class="vf-flex-container-col">
                         <div class="vf-flex-container">
-                            <!-- <div class="vf-flex-container-col" style="margin: 2px;"> 
-                                <div style="margin-bottom: 6px;">
-                                  <mat-form-field   class="vf-mr-negative" >
-                                    <mat-label class="vf-label">Tran. Type *</mat-label>
-                                    <mat-select >
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value="A">Activate Customer</mat-option>
-                                    <mat-option value="C">Cease Customer</mat-option>
-                                    <mat-option value="E">Export</mat-option>
-                                    <mat-option value="I">Import</mat-option>
-                                    <mat-option value="M">Modify</mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
-                                </div>                                
-                                <div style="margin-bottom: 6px;">
-                                  <mat-form-field   class="vf-mr-negative">
-                                    <mat-label class="vf-label">Line Type</mat-label>
-                                    <mat-select >
-                                      <mat-option value=""></mat-option>
-                                      <mat-option value="D">DDI</mat-option>
-                                      <mat-option value="V">VOIP</mat-option>
-                                    </mat-select>
-                                  </mat-form-field>             
-                              </div> 
-                                <div style="margin-bottom: 6px;">
-                                  <mat-form-field   class="vf-mr-negative" >
-                                    <mat-label class="vf-label">Type of Line *</mat-label> 
-                                      <mat-select name="txt" onchange="check_list(this,24)" style="font-size:x-small;">
-                                        <mat-option value=""></mat-option>
-                                        <mat-option value="AC">AC - Areacall Products/Numbers</mat-option>
-                                        <mat-option value="AUD">AUD - Audit</mat-option>
-                                        <mat-option value="BB">BB - Multisite and Dual Parenting Bothway</mat-option>
-                                        <mat-option value="BI">BI - Multisite and Dual Parenting Incoming</mat-option>
-                                        <mat-option value="BO">BO - Multisite and Dual Parenting Outgoing</mat-option>
-                                        <mat-option value="BW">BW - Bothway</mat-option>
-                                        <mat-option value="C">C - IP Handset</mat-option>
-                                        <mat-option value="C1">C1 - SIP Trunking Fixed C20 Numbers</mat-option>
-                                        <mat-option value="C3">C3 - SIP Trunking Nom C20 Numbers</mat-option>
-                                        <mat-option value="C6">C6 VCC SIP Trunk Nom C20 Numbers</mat-option>
-                                        <mat-option value="CC">CC - Complete Contact Number Mgmt</mat-option>
-                                        <mat-option value="CE">CE - IP Centrex (CS2K Numbers)</mat-option>
-                                        <mat-option value="CX">CX - IP Centrex (IN Numbers)</mat-option>
-                                        <mat-option value="DVA">DVA Siebel (Digital Voice Assistant)</mat-option>
-                                        <mat-option value="FM">FM - FMC Geographic Numbers</mat-option>
-                                        <mat-option value="G1">G1 - Genesys SIP Trunking Fixed</mat-option>
-                                        <mat-option value="G2">G2 - Genesys SIP Trunking Plus Fixed</mat-option>
-                                        <mat-option value="GC">GC - Genesys SIP Tnk FXD C20 Number</mat-option>
-                                        <mat-option value="IC">IC - Incoming</mat-option>
-                                        <mat-option value="IT">IT - INTERNATIONAL  IP TRUNKING</mat-option>
-                                        <mat-option value="K1">K1 - Sub-Allocated To Skype</mat-option>
-                                        <mat-option value="K2">K2 - Skype Number Ported Out</mat-option>
-                                        <mat-option value="M">M - Analogue Gateway</mat-option>
-                                        <mat-option value="MB">MB - Multisite Bothway</mat-option>
-                                        <mat-option value="MI">MI - Multisite Incoming</mat-option>
-                                        <mat-option value="MO">MO - Multisite Outgoing</mat-option>
-                                        <mat-option value="MS">MS - Multi-Site (Over-ride LT, see LTOV)</mat-option>
-                                        <mat-option value="OF">OF - Unknown location for C&amp;W ofcom orders</mat-option>
-                                        <mat-option value="OG">OG - Outgoing</mat-option>
-                                        <mat-option value="ON">ON - ONENET</mat-option>
-                                        <mat-option value="P1">P1 - STORM SIP TRUNKING-NOMADIC</mat-option>
-                                        <mat-option value="PB">PB - IP Trunking Plus Bothway</mat-option>
-                                        <mat-option value="R">R - Roaming (used by EDIS)</mat-option>
-                                        <mat-option value="S">S - Intelligent Working</mat-option>
-                                        <mat-option value="S1">S1 - SIP Trunking Fixed (CS2K Numbers)</mat-option>
-                                        <mat-option value="S2">S2 - SIP Trunking Plus Fixed  (CS2K Numbers)</mat-option>
-                                        <mat-option value="S3">S3 - SIP Trunking Nomadic (CS2K numbers)</mat-option>
-                                        <mat-option value="S4">S4 - SIP Trunking Plus Nomadic model (CS2K)</mat-option>
-                                        <mat-option value="S5">S5 - Microsoft Lync SIP Trunking CS2K numbers</mat-option>
-                                        <mat-option value="SB">SB - TDM SINGLE HUB SITE</mat-option>
-                                        <mat-option value="SS">SS - SIP Evolved Voice over public internet</mat-option>
-                                        <mat-option value="SX">SX - STORM IP CENTREX-IN Numbers</mat-option>
-                                        <mat-option value="TB">TB - IP trunking Bothway</mat-option>
-                                        <mat-option value="TD">TD - Combined - B/W, I/C &amp; O/G group for CDMS</mat-option>
-                                        <mat-option value="TS">TS - SWI (TDM) Satellite site SysX numbers</mat-option>
-                                        <mat-option value="TX">TX - SWI (TDM) Satellite site IN numbers</mat-option>
-                                        <mat-option value="V1">V1 - IP Trunking FIXED new ver (CS2K Numbers)</mat-option>
-                                        <mat-option value="V2">V2 - IP Trunking+ FIXED new ver (CS2K numbers</mat-option>
-                                        <mat-option value="V3">V3 - IP Trunking NOMADIC new ver (CS2K Nos)</mat-option>
-                                        <mat-option value="V4">V4 - IP Trunking+ NOMADIC new ver (CS2K Nos)</mat-option>
-                                        <mat-option value="S6">VCC Sip Trunking Nomadic (CS2K)</mat-option>
-                                        <mat-option value="VM">VM -VOM - VONE-M1 (UK Prov)</mat-option>
-                                        <mat-option value="M2">VM2 - VONE-M2 (Group Prov )</mat-option>
-                                        <mat-option value="VC">VONE-C (Voda Onenet - Cisco) (VOC)</mat-option>
-                                        <mat-option value="WB">WB - PBX Gateway Bothway</mat-option>
-                                        <mat-option value="WI">WI - PBX Gateway Incoming</mat-option>
-                                        <mat-option value="WO">WO - PBX Gateway Outgoing</mat-option>
-                                        <mat-option value="X1">X1 - IP Trunking FIXED new ver (IN numbers)</mat-option>
-                                        <mat-option value="X2">X2 - IP Trunking+ FIXED new ver (IN numbers)</mat-option>
-                                        <mat-option value="X3">X3 - SIP Trunking FIXED (IN Numbers)</mat-option>
-                                        <mat-option value="X4">X4 - SIP Trunking Plus FIXED (IN Numbers)</mat-option>
-                                        <mat-option value="X5">X5 - IP Trunking NOMADIC new ver (IN Nos)</mat-option>
-                                        <mat-option value="X6">X6 - SIP Trunking Nomadic IN Numbers</mat-option>
-                                        <mat-option value="X7">X7 - IP Trunking Plus (IN Numbers)</mat-option>
-                                        <mat-option value="X8">X8 - SIP Trunking Plus Nomadic model (IN)</mat-option>
-                                        <mat-option value="X9">X9 - VCC Sip Trunking Nomadic (IN)</mat-option>
-                                        <mat-option value="Z1">Z1 - Sip Trunk FXD IN Numbers on C20</mat-option>
-                                        <mat-option value="Z3">Z3 - SIP Tnk Nom IN Numbers on C20</mat-option>
-                                        <mat-option value="Z6">Z6 - VCC SIP Tnk Nom IN No-s on C20</mat-option>
-                                      </mat-select>               
-                                  </mat-form-field>
-                                </div>                                                                                                                            
-                            <div style="margin-bottom: 6px;">
-                              <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'90px' :'200px'}">
-                                <mat-label class="vf-label">Order Ref.*</mat-label>
-                                <input type="text" matInput  placeholder="Order Ref.*"  size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
-                              </mat-form-field>                             
-                              <span [ngStyle]="{'display': isExportImportSelected ? 'inline-flex' : 'none' }" ><mat-form-field   class="vf-mr-negative" style="width:106px;margin-left: 4px;">
-                                <mat-label class="vf-label">I/E CUPID</mat-label>
-                                <input type="text" matInput  placeholder="I/E CUPID" size="12" maxlength="12" value="" onblur="check_text(this,11,'','')" onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
-                            </mat-form-field> </span>
-                            </div>
-                            <div >
-                              <mat-form-field  style="height:83px;margin: 0px;">
-                              <mat-label class="vf-label">Comment</mat-label>
-                              <textarea matInput placeholder="Comment"
-                                cdkTextareaAutosize
-                                #autosize="cdkTextareaAutosize"
-                                cdkAutosizeMinRows="3"
-                                cdkAutosizeMaxRows="3"
-                                onblur="triggerResize()" 
-                                size="20" maxlength="40"         
-                              ></textarea>              
-                            </mat-form-field>
-                          </div> 
-                                </div>       -->
-                              <!-- <div class="vf-flex-container-col" style="margin: 2px;float: left;">
-                                <div style="margin-bottom: 6px;"> 
-                                  <span>                        
-                                  <mat-form-field   class="vf-mr-negative" style="width:250px;">
-                                    <mat-label class="vf-label">Customer Name *</mat-label>
-                                    <textarea matInput placeholder="Customer Name *"
-                                    cdkTextareaAutosize
-                                    #autosize="cdkTextareaAutosize"
-                                    cdkAutosizeMinRows="1"
-                                    cdkAutosizeMaxRows="2"
-                                    onblur="triggerResize()" 
-                                    size="20" maxlength="20" 
-                                    name =customerName
-                                    [(ngModel)]="transactionItem.customerAddress.customerName"
-                                    ></textarea>                                  
-                                  </mat-form-field> 
-                                  <button type="button" mat-mini-fab  style="margin-left: 6px;margin-bottom: 9px; height:30px;width:30px;vertical-align:middle; font-size: small;line-height: 0px !important;  background-color:#4a4d4e;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()">
-                                    <mat-icon style ="font-size:small;width:24px;height:24px;vertical-align:middle; display: inline-flex;align-items: center;justify-content: center;">content_copy</mat-icon>
-                                  </button>
-                                </span>   
-                                  <!-- <div style ="display: flex;justify-content: center;width: 24px;"> -->
-                                    <!-- <button mat-icon-button type="button"  style = "background-color: red;width: fit-content;"aria-label="update Default Office Address Details"  matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->
-                                      <!-- <mat-icon>content-copy</mat-icon>V -->
-                                    <!-- </button> -->
-                                  <!-- </div> -->
-                                  <!-- <button type="submit" mat-raised-button  [ngClass]="btncolor" style="margin-left: 10px; height: 2em;font-size: small;line-height: 16px !important;" matTooltip="Update Default Office Address Details"  (click)="updateDefaultOfficeAddressDetails()"> -->
-                                    <!-- <mat-icon style ="font-size:small;width:50px;height: 16px; color: deeppink;">content-copy</mat-icon> -->
-                                  <!-- </button>
-                              </div>       
-                                <div style="margin-bottom: 6px;">
-                                        <mat-form-field   class="vf-mr-negative"style="width:300px;" >
-                                          <mat-label class="vf-label">Address1 *</mat-label>
-                                          <textarea matInput placeholder="Address1 *"
-                                            cdkTextareaAutosize
-                                            #autosize="cdkTextareaAutosize"
-                                            cdkAutosizeMinRows="1"
-                                            cdkAutosizeMaxRows="2"
-                                            onblur="triggerResize()" 
-                                            size="20" maxlength="40" 
-                                            name =address1
-                                            [(ngModel)]="transactionItem.customerAddress.address1"                 
-                                          ></textarea>              
-                                        </mat-form-field>
-                                    </div>
-                                    <div style="margin-bottom: 6px;">
-                                      <mat-form-field   class="vf-mr-negative" style="width:300px;">
-                                        <mat-label class="vf-label">Address2 *</mat-label>
-                                        <textarea matInput placeholder="Address2 *"
-                                          cdkTextareaAutosize
-                                          #autosize="cdkTextareaAutosize"
-                                          cdkAutosizeMinRows="1"
-                                          cdkAutosizeMaxRows="2"
-                                          onblur="triggerResize()" 
-                                          size="20" maxlength="40"   
-                                          name =address2
-                                          [(ngModel)]="transactionItem.customerAddress.address2"                
-                                        ></textarea>              
-                                      </mat-form-field>
-                                  </div>
-                                  <div style="margin-bottom: 6px;">
-                                    <mat-form-field   class="vf-mr-negative" style="width:300px;">
-                                      <mat-label class="vf-label">Address3</mat-label>
-                                      <textarea matInput placeholder="Address3"
-                                        cdkTextareaAutosize
-                                        #autosize="cdkTextareaAutosize"
-                                        cdkAutosizeMinRows="1"
-                                        cdkAutosizeMaxRows="2"
-                                        onblur="triggerResize()" 
-                                        size="20" maxlength="40"  
-                                        name =address3
-                                        [(ngModel)]="transactionItem.customerAddress.address3"                 
-                                      ></textarea>              
-                                    </mat-form-field>
-                                </div>
-                                <div style="margin-bottom: 6px;">
-                                  <mat-form-field   class="vf-mr-negative" style="width:300px;">
-                                    <mat-label class="vf-label">Address4</mat-label>
-                                    <textarea matInput placeholder="Address4"
-                                      cdkTextareaAutosize
-                                      #autosize="cdkTextareaAutosize"
-                                      cdkAutosizeMinRows="1"
-                                      cdkAutosizeMaxRows="2"
-                                      onblur="triggerResize()" 
-                                      size="20" maxlength="40"
-                                      name =address4
-                                      [(ngModel)]="transactionItem.customerAddress.address4"                   
-                                    ></textarea>              
-                                  </mat-form-field>
-                                </div>
-                                <div >
-                                  <mat-form-field   class="vf-mr-negative" style="width:100%;">
-                                      <mat-label class="vf-label">Post Code *</mat-label>
-                                      <input type="text"
-                                       matInput  placeholder="Post Code *" 
-                                       name =postcode
-                                       [(ngModel)]="transactionItem.customerAddress.postcode"
-                                       size="12" 
-                                       maxlength="12" 
-                                       >
-                                  </mat-form-field>                                  
-                                  </div>                                                  
-                                </div>                                -->
                         </div>                        
-                            
                       </div>  
                   </form> 
               </mat-card-content>

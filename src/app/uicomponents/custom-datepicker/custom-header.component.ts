@@ -21,6 +21,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CustomHeaderComponent<D> implements OnDestroy {
   private readonly destroy$ = new Subject<void>();
+  public currDiv: boolean;
 
   constructor(
     private calendar: MatCalendar<D>, // calendar instance of picker
@@ -51,7 +52,16 @@ export class CustomHeaderComponent<D> implements OnDestroy {
   nextClicked(mode: 'month' | 'year'): void {
     this.changeDate(mode, 1);
   }
+  ShowDiv() {
+    if(this.currDiv)
+    {
+    this.currDiv = false;
+    }
+    else{
+      this.currDiv=true;
+    }
 
+}
   private changeDate(mode: 'month' | 'year', amount: -1 | 1): void {
     // increment or decrement month or year
     this.calendar.activeDate =
@@ -63,4 +73,5 @@ export class CustomHeaderComponent<D> implements OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(); // will trigger unsubscription in takeUntil
   }
+ 
 }

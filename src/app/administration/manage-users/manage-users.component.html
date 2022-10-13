@@ -8,25 +8,12 @@
     <button mat-button (click)="getFileDetails('UserOfReports',true)">User Of Reports</button>
     <button mat-button (click)="getFileDetails('StartUpUserMessages',true)">News Update</button>
     <button mat-button (click)="getFileDetails('UserProfiles',true)">User Profiles</button>
-    <!-- <mat-button-toggle-group name="files" aria-label="Files" multiple (change)="getFileDetails($event)">
-        <mat-button-toggle value="BTAuditFileDetails">BT Audit File Details</mat-button-toggle>
-        <mat-button-toggle value="DataLiveinSwitchOnly">Data - Live in Switch Only</mat-button-toggle>
-    </mat-button-toggle-group> -->
-
-    <!-- <p style="color: black;">Please click on the above options to retrieve the respective data file and its details</p> -->
-</div>
+   </div>
 </div>
     </div>
     <div #contentSection class="container-section">
 <div class="wrap">
-
-    
     <mat-card *ngIf="isLeftPanel" class="left-box mat-elevation-z3" id="tabset">
-        <!-- <mat-card-title style="margin:0px; padding:0px; font-size:medium" class="top-label" style="visibility:hidden">
-            {{Header}}
-        </mat-card-title> -->
-        <!-- <mat-divider></mat-divider> -->
-                         
             <mat-card-content> 
               <!-- UserProfile    -->
               <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTabLeft" style="padding-top:1px!important">
@@ -40,7 +27,6 @@
                     <span [ngSwitch]="tableft.tabType">
                         <div *ngSwitchCase="0" style="height:100%;">
                             <form [formGroup]="referenceForm" autocomplete="off" class = "data-form" (ngSubmit)="onSubmit('User Access Details')">
-                       
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
                                     <mat-form-field  class ="col-width-16 pb-0">
@@ -51,33 +37,24 @@
                                     </mat-form-field>
                                     <mat-form-field class ="col-width-16 pb-0">
                                         <mat-label>Profile *</mat-label>
-                                        <mat-select formControlName="userprofiles" (selectionChange)="onSelectEvent($event.value)">
+                                        <mat-select panelClass="matselect-centering" formControlName="userprofiles" (selectionChange)="onSelectEvent($event.value)">
                                             <mat-option>--</mat-option>
                                             <mat-option *ngFor="let profile of userProfilesDropdown" [value]="profile">
                                             {{profile}}
                                           </mat-option>
                                         </mat-select>
                                       </mat-form-field>
-                                  
                                            <div  class="col-width-16 pb-0 mat-form-field">
-                                           
              <app-select-checkbox [label]="'Source System'" #selMultiple [listItems]="filterItems" (changes)="multipleSelect($event)" [icon]="'filter_alt'" >
               </app-select-checkbox>
-        
-                                
-        
             </div>
-                                       
                                                <mat-form-field class ="col-width-16 pb-0">
                                                 <mat-label >First Name *</mat-label>
                                             <input type="text" matInput   formControlName="firstname"
                                             placeholder="First Name">
                                             </mat-form-field>
-                                            
-                                            
                                 </div>  
                                     <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
-                                       
                                         <mat-form-field class ="col-width-16 pb-0">
                                             <mat-label>Email Address *</mat-label>
                                         <input type="text" autocomplete="" (keydown.space)="$event.preventDefault()" (paste)="onPasteEmail($event)"   matInput   formControlName="emailaddress"
@@ -90,7 +67,6 @@
                                             </div>
                                         </mat-error>
                                         </mat-form-field>
-                                       
                                         <mat-form-field class ="col-width-16 pb-0">
                                             <mat-label >YID</mat-label>
                                         <input type="text" matInput  formControlName="yid"
@@ -110,7 +86,6 @@
                                         formControlName="active">Active
                                         </mat-checkbox>
                                     </div> 
-                                   
                                 </div>
                                     <div class ="rl-fixed-bottom-bar">    
                                         <mat-card-actions >
@@ -126,11 +101,9 @@
                                         </mat-card-actions>                  
                                       </div> 
                             </form>
-                          
                         </div>
                         <div *ngSwitchCase="1" style="height:100%;">
                              <form [formGroup]="UserProfileForm"  >
-                        
                         <div class="content-main vf-flex-container-row">
                             <div  class="content-submain vf-flex-container-col">
                                 <mat-form-field class ="col-width-16 pb-0" >
@@ -146,7 +119,6 @@
                                 placeholder="Description">
                                 </mat-form-field>
                             </div>
-
                             <div class="userprofilerighttable" style="padding: 5spx;/* height: 303px; */overflow: auto;">
                                 <div style="max-height: calc(100vh - 37vh);;overflow:auto">
                                  <mat-tree [dataSource]="datasourceview" [treeControl]="treeControl">
@@ -159,18 +131,14 @@
                                     <!-- <b><span style="display: flex; flex-direction: column;align-items: left!important;;"><li </li></span></b> -->
                                    <div *ngIf="node.isChecked" style="font-weight:500;margin-left: 5px;">
                                         <div><span>{{node.label}}</span></div>
-                                    
                                    </div>
                                   </mat-tree-node>
-                                
                                   <mat-tree-node  style="align-items:left!important"
                                     *matTreeNodeDef="let node; when: hasNoContent"
                                     matTreeNodePadding
                                   >
                                     <button mat-icon-button disabled ></button>
-                                   
                                        </mat-tree-node>
-                                
                                   <mat-tree-node   style="align-items:left!important"  *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
                                     <button
                                       mat-icon-button
@@ -182,7 +150,6 @@
                                       </mat-icon>
                                     </button>{{node.label}}
                                     <mat-checkbox
-                                     
                                     [checked]="descendantsAllSelected(node)" style="visibility:hidden"
                                      [indeterminate]="descendantsPartiallySelected(node)"
                                       (change)="todoItemSelectionToggle(node,$event)"
@@ -190,112 +157,13 @@
                                     >
                                   </mat-tree-node>
                                 </mat-tree>
-                                
-                                <!-- Copyright 2018 Google Inc. All Rights Reserved.
-                                    Use of this source code is governed by an MIT-style license that
-                                    can be found in the LICENSE file at http://angular.io/license -->
-                                
-                                <!-- <table mat-table [dataSource]="data0" multiTemplateDataRows  class="detail-table mat-elevation-z8" style="height:310px">
-                                    <ng-container *ngFor="let disCol of displayedColumns1; let colIndex = index" matColumnDef="{{disCol}}">
-                                        <!-- Edit Coloumn -->
-                                        <!-- <div *ngIf="disCol==='Actions'">
-                                            <th mat-header-cell *matHeaderCellDef class="table-header"> <mat-icon >add_box</mat-icon></th>
-                                            <td mat-cell *matCellDef="let element" class="table-coloumn">
-                                                <ng-container>
-                                                    
-                                                        <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
-                                                        style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
-                                         
-                                                </ng-container>
-                                            </td>
-                                        </div> -->
-                                        <!-- Delete Coloumn -->
-                                        <!-- <div *ngIf="disCol==='Delete'">
-                                            <th mat-header-cell *matHeaderCellDef class="table-header">Delete</th>
-                                            <td mat-cell *matCellDef="let element" class="table-coloumn">
-                                                <ng-container>
-                                                     </ng-container>
-                                            </td>
-                                        </div> -->
-                                        
-                                        <!-- <div *ngIf="disCol=='Menu Group'">
-                                            <th mat-header-cell *matHeaderCellDef class="table-header"> Menu Group </th>
-                                            <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
-                                                <div  class="content-submain vf-flex-container-col">
-                                                    <mat-form-field style="width:100px;height:20px;font-size:smaller;">
-                                                        <mat-label>User Profile1</mat-label>
-                                                        <mat-select formControlName="UserProfile">
-                                                          <mat-option></mat-option>
-                                                          <mat-option>User Profile1</mat-option>
-                                                          <mat-option>User Profile2</mat-option>
-                                                          <mat-option>User Profile3</mat-option>
-                                                              </mat-select>
-                                                           </mat-form-field>
-                                                </div> </td>
-                                        </div>
-                                        <div *ngIf="disCol=='Screen Name'">
-                                            <th mat-header-cell *matHeaderCellDef class="table-header"> Screen Name </th>
-                                            <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
-                                                <div  class="content-submain vf-flex-container-col">
-                                                    <mat-form-field style="width:100px;height:20px;font-size:smaller">
-                                                        <mat-label>Screen Name</mat-label>
-                                                        <mat-select formControlName="UserProfile">
-                                                          <mat-option></mat-option>
-                                                          <mat-option>User Profile1</mat-option>
-                                                          <mat-option>User Profile2</mat-option>
-                                                          <mat-option>User Profile3</mat-option>
-                                                              </mat-select>
-                                                           </mat-form-field>
-                                                </div> </td>
-                                        </div>
-                                        <div *ngIf="disCol=='Access Level'">
-                                            <th mat-header-cell *matHeaderCellDef class="table-header"> Access Level </th>
-                                            <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
-                                                <div  class="content-submain vf-flex-container-col">
-                                                    <mat-form-field style="width:100px;height:20px;font-size:smaller">
-                                                        <mat-label>Access Level</mat-label>
-                                                        <mat-select formControlName="UserProfile">
-                                                          <mat-option></mat-option>
-                                                          <mat-option>User Profile1</mat-option>
-                                                          <mat-option>User Profile2</mat-option>
-                                                          <mat-option>User Profile3</mat-option>
-                                                              </mat-select>
-                                                           </mat-form-field>
-                                                </div> </td>
-                                        </div>
-                                        <div *ngIf="disCol!='Actions'">
-                                            <th mat-header-cell *matHeaderCellDef class="table-header"> {{disCol}} </th>
-                                            <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
-                                                {{element[disCol]}} </td>
-                                        </div>
-                                    </ng-container>
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1 sticky: true" class="table-row"></tr>
-                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;" class="table-row"></tr>
-                                    <tr class="mat-row" *matNoDataRow>
-                                        <td class="mat-cell" colspan="columns.length">No data found</td>
-                                    </tr>
-                                </table>  -->
-                            </div>
+                           </div>
                         </div>
-                            <!-- <div class ="fixed-button-bar">   
-                                <mat-card-actions>
-                                  <button  *ngIf = "eventName==='Create'" type="submit" mat-raised-button class ="btn-color"   matTooltip="Click this button currently showing  details will be create new Record"  >
-                                    <mat-icon >save</mat-icon>Save
-                                  </button>
-                                  <button  *ngIf = "eventName==='Update'" type="submit" mat-raised-button class ="btn-color"  matTooltip="Click this button currently showing details will be Update"  >
-                                        <mat-icon >edit</mat-icon>Update
-                                  </button>
-                                  <button type="button" mat-raised-button  (click)=onCancel() class ="btn-color" matTooltip="Click this button will clear or cancel the shown details" >
-                                    <mat-icon >cancel</mat-icon>Cancel
-                                  </button>                       
-                                </mat-card-actions>                  
-                              </div>  -->
                         </div>
                     </form>
                         </div>
                         <div *ngSwitchCase="2" style="height:100%;">
                             <form [formGroup]="UserEditForm"   autocomplete="off">
-                       
                                 <div class="content-main vf-flex-container-row" style="max-height:fit-content!important">
                                     <div  class="content-submain vf-flex-container-col">
                                         <mat-form-field class ="col-width-16 pb-0">
@@ -314,7 +182,6 @@
                                         placeholder="Description">
                                         </mat-form-field>
                                     </div>
-        
                                     <div class="userprofilerighttable" style="padding: 5spx;/* height: 303px; */overflow: auto;">
                                     <div style="max-height: calc(100vh - 37vh);;overflow:auto">
                                            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
@@ -326,22 +193,18 @@
                                             <button mat-icon-button disabled style="visibility:hidden"></button>
                                             <mat-checkbox  
                                               class="checklist-leaf-node"
-                                             
                                               [checked]="checklistSelection.isSelected(node)"
                                               [checked]="node.isChecked"
-                                             
                                               (change)="todoLeafItemSelectionToggle(node,$event)"
                                               >{{node.label}}</mat-checkbox
                                             >
                                           </mat-tree-node>
-                                        
                                           <mat-tree-node 
                                             *matTreeNodeDef="let node; when: hasNoContent"
                                             matTreeNodePadding
                                           >
                                             <button mat-icon-button disabled style="visibility:hidden"></button>
                                                  </mat-tree-node>
-                                        
                                           <mat-tree-node   *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
                                             <button
                                               mat-icon-button
@@ -361,92 +224,7 @@
                                             >
                                           </mat-tree-node>
                                         </mat-tree>
-                                        
-                                        <!-- Copyright 2018 Google Inc. All Rights Reserved.
-                                            Use of this source code is governed by an MIT-style license that
-                                            can be found in the LICENSE file at http://angular.io/license -->
-                                        
-                                        <!-- <table mat-table [dataSource]="data0" multiTemplateDataRows  class="detail-table mat-elevation-z8" style="height:310px">
-                                            <ng-container *ngFor="let disCol of displayedColumns1; let colIndex = index" matColumnDef="{{disCol}}">
-                                                <!-- Edit Coloumn -->
-                                                <!-- <div *ngIf="disCol==='Actions'">
-                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> <mat-icon >add_box</mat-icon></th>
-                                                    <td mat-cell *matCellDef="let element" class="table-coloumn">
-                                                        <ng-container>
-                                                            
-                                                                <mat-icon  mat-tooltip="Click this button,this row Record will be Deleted"
-                                                                style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
-                                                 
-                                                        </ng-container>
-                                                    </td>
-                                                </div> -->
-                                                <!-- Delete Coloumn -->
-                                                <!-- <div *ngIf="disCol==='Delete'">
-                                                    <th mat-header-cell *matHeaderCellDef class="table-header">Delete</th>
-                                                    <td mat-cell *matCellDef="let element" class="table-coloumn">
-                                                        <ng-container>
-                                                             </ng-container>
-                                                    </td>
-                                                </div> -->
-                                                
-                                                <!-- <div *ngIf="disCol=='Menu Group'">
-                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> Menu Group </th>
-                                                    <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
-                                                        <div  class="content-submain vf-flex-container-col">
-                                                            <mat-form-field style="width:100px;height:20px;font-size:smaller;">
-                                                                <mat-label>User Profile1</mat-label>
-                                                                <mat-select formControlName="UserProfile">
-                                                                  <mat-option></mat-option>
-                                                                  <mat-option>User Profile1</mat-option>
-                                                                  <mat-option>User Profile2</mat-option>
-                                                                  <mat-option>User Profile3</mat-option>
-                                                                      </mat-select>
-                                                                   </mat-form-field>
-                                                        </div> </td>
-                                                </div>
-                                                <div *ngIf="disCol=='Screen Name'">
-                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> Screen Name </th>
-                                                    <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
-                                                        <div  class="content-submain vf-flex-container-col">
-                                                            <mat-form-field style="width:100px;height:20px;font-size:smaller">
-                                                                <mat-label>Screen Name</mat-label>
-                                                                <mat-select formControlName="UserProfile">
-                                                                  <mat-option></mat-option>
-                                                                  <mat-option>User Profile1</mat-option>
-                                                                  <mat-option>User Profile2</mat-option>
-                                                                  <mat-option>User Profile3</mat-option>
-                                                                      </mat-select>
-                                                                   </mat-form-field>
-                                                        </div> </td>
-                                                </div>
-                                                <div *ngIf="disCol=='Access Level'">
-                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> Access Level </th>
-                                                    <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
-                                                        <div  class="content-submain vf-flex-container-col">
-                                                            <mat-form-field style="width:100px;height:20px;font-size:smaller">
-                                                                <mat-label>Access Level</mat-label>
-                                                                <mat-select formControlName="UserProfile">
-                                                                  <mat-option></mat-option>
-                                                                  <mat-option>User Profile1</mat-option>
-                                                                  <mat-option>User Profile2</mat-option>
-                                                                  <mat-option>User Profile3</mat-option>
-                                                                      </mat-select>
-                                                                   </mat-form-field>
-                                                        </div> </td>
-                                                </div>
-                                                <div *ngIf="disCol!='Actions'">
-                                                    <th mat-header-cell *matHeaderCellDef class="table-header"> {{disCol}} </th>
-                                                    <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
-                                                        {{element[disCol]}} </td>
-                                                </div>
-                                            </ng-container>
-                                            <tr mat-header-row *matHeaderRowDef="displayedColumns1 sticky: true" class="table-row"></tr>
-                                            <tr mat-row *matRowDef="let row; columns: displayedColumns1;" class="table-row"></tr>
-                                            <tr class="mat-row" *matNoDataRow>
-                                                <td class="mat-cell" colspan="columns.length">No data found</td>
-                                            </tr>
-                                        </table>  -->
-                                    </div>
+                                </div>
                                 </div>
                                     <div class ="rl-fixed-bottom-bar"  style='width:100%' *ngIf = "Profilebutton">    
                                         <mat-card-actions>
@@ -476,43 +254,34 @@
                         </div>
                         <div *ngSwitchCase="3" style="height:100%;">
                             <form [formGroup]="referenceUsernameform" autocomplete="off">
-                       
                                 <div class="content-main vf-flex-container-row">
                                 <div class="content-submain vf-flex-container-col">
                                     <mat-form-field  class ="col-width-16 pb-0">
                                       <mat-label>User Name *</mat-label>
                                       <input formControlName="UserID"  matInput #input maxlength="10"
                                         placeholder="User Name">
-                                      
                                     </mat-form-field>
                                     <div class ="rl-fixed-bottom-bar" >
                                     <mat-card-actions style="height:29px">
-                                       
                                         <button type="button" [disabled]="referenceUsernameform.invalid" mat-raised-button  (click)=onCreateuserDetails() class ="btn-color"  >
                                             <mat-icon >save</mat-icon>Proceed
                                         </button>  
-                                                        
                                       </mat-card-actions> 
                                     </div>
                                 </div>
                                 <div class="content-submain vf-flex-container-col">
-
                                 </div>
                                 </div>
                             </form>
                         </div>
-                      
                         <div *ngSwitchDefault>
                         </div>
                     </span>
                 </mat-tab>
               </mat-tab-group>
             <!-- </mat-card-content> -->
-            
-                 
          <!-- UserProfile    -->  
                     <form [formGroup]="StartupUsermsgsForm" class = "data-form" *ngIf="StartupForm" autocomplete="off" (ngSubmit)="onSubmit('Start Up User Messages')">
-                       
                         <div class="content-main vf-flex-container-row">
                             <div class="content-submain vf-flex-container-col">
                                 <mat-form-field class ="col-width-16 pb-0">
@@ -538,17 +307,6 @@
                                </mat-form-field>
                             </div> 
                             <div style="padding-left:5%;" class="content-submain vf-flex-container-col">
-                                
-                                <!-- <mat-form-field>
-                                    <mat-label>Start Date</mat-label>
-                                <input type="text"  matInput   formControlName="startdate"
-                                placeholder="Start Date">
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>Expiry Date</mat-label>
-                                <input type="text"  matInput   formControlName="expirydate"
-                                placeholder="Expiry Date">
-                                </mat-form-field> -->
                                 <mat-form-field class ="col-width-16 pb-0">
                                     <mat-label>News Header *</mat-label>
                                 <input type="text"   matInput   formControlName="newsheader"
@@ -582,7 +340,6 @@
                     </form>
             </mat-card-content>     
     </mat-card>
-    
  <div *ngIf="showDetails" class="right-box">
     <mat-tab-group   class="rl-mat-tab-group" dynamicHeight [(selectedIndex)]="selectedTab">
         <mat-tab *ngFor="let tab of tabs; let index = index">
@@ -610,7 +367,6 @@
                             placeholder="User Name" formControlName="username">
                             </mat-form-field>
                         </div>
-                    
                         <div class="rightFilters-items">
                             <mat-form-field>
                             <mat-label >Profile Name</mat-label>
@@ -619,11 +375,6 @@
                             </mat-form-field>
                         </div>
                        <div class="rl-fixed-bottom-bar-table">
-                        <!-- <div >
-                            <button type="submit" style="visibility:collapse" class="mat-raised-button" mat-raised-button color="primary">
-                                <mat-icon >search</mat-icon>Submit
-                            </button>
-                        </div> -->
                         <div  >
                             <button  class="mat-raised-button" (click)="resetFilter('UserAccessDetails')" type="reset" mat-raised-button color="primary">
                                 <mat-icon >refresh</mat-icon>Clear
@@ -632,7 +383,6 @@
                        </div>
                     </div>
                     </form>
-
                     <!-- table start -->
                     <div class='filterpaneon'>   </div>
                         <div class='rl-table-container-with-filter-pane'>
@@ -647,7 +397,6 @@
                                                     mode_edit_outline</mat-icon>
                                                     <mat-icon class ="rl-table-icon" (click)="onDeleteRecord(element,tab.name)"
                                                     >delete_outline</mat-icon>
-                                     
                                             </ng-container>
                                         </td>
                                     </div>
@@ -656,18 +405,9 @@
                                         <td mat-cell *matCellDef="let element" class="table-coloumn">
                                             <ng-container>
                                                <input type="button" (click)="onEditUserprofile(element,$event,element)" class="linkbutton" style="width:150px;" value="{{element[disCol.headerValue]}}"/>
-                                             
                                             </ng-container>
                                         </td>
                                     </div>
-                                    <!-- Delete Coloumn -->
-                                    <!-- <div *ngIf="disCol==='Delete'">
-                                        <th mat-header-cell *matHeaderCellDef class="table-header">Delete</th>
-                                        <td mat-cell *matCellDef="let element" class="table-coloumn">
-                                            <ng-container>
-                                                 </ng-container>
-                                        </td>
-                                    </div> -->
                                     <div *ngIf="disCol.headerValue!='Actions'&&disCol.headerValue!='Profile'">
                                         <th mat-header-cell *matHeaderCellDef class="table-header"> {{disCol.header}} </th>
                                         <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
@@ -680,8 +420,6 @@
                                     <td class="mat-cell" colspan="columns.length">No data found</td>
                                 </tr>
                             </table>
-                        
-                      
                     </div>
                     <div class='rl-fixed-bottom-bar-main'>
                         <span>
@@ -693,7 +431,6 @@
                             </button>
                         </span>
                     </div>
-
                     </div>
                 </div>
                 <div *ngSwitchCase="1" style="height: calc(100% - 8px);">
@@ -745,13 +482,11 @@
                          </div>
                         </div>
                         </form>
-    
                         <!-- table start -->
                         <div>   
                             <div class='rl-table-container-with-filter-pane'>
                                 <table mat-table [dataSource]="datauserreports" multiTemplateDataRows  class="rl-query-pane-table mat-elevation-z8">
                                     <ng-container *ngFor="let disCol of userreportscolums; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
-                                       
                                         <div *ngIf="disCol!='Actions'">
                                             <th mat-header-cell *matHeaderCellDef class="table-header"> {{disCol.header}} </th>
                                             <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
@@ -770,13 +505,10 @@
                                     <button type="button" (click)="onExport(userreportscolums,'User_Of_Reports',datauserreports)" mat-raised-button color="primary" class="rm6">
                                         <mat-icon>import_export</mat-icon>Download
                                     </button>
-                                   
                                 </span>
                             </div>
                         </div>
-    
                         </div>
-
                 </div>
                 <div *ngSwitchCase="2" style="height: calc(100% - 8px);">
                     <div >
@@ -820,9 +552,7 @@
                          </div>
                         </div>
                         </form>
-    
                         <!-- table start -->
-                         
                         <div class='rl-table-container-with-filter-pane'>
                                 <table mat-table [dataSource]="startupusermsgs" multiTemplateDataRows  class="rl-query-pane-table mat-elevation-z8">
                                     <ng-container *ngFor="let disCol of startupusermsgscols; let colIndex = index" matColumnDef="{{disCol.headerValue}}">
@@ -835,18 +565,9 @@
                                                         mode_edit_outline</mat-icon>
                                                         <mat-icon class ="rl-table-icon" (click)="onDeleteRecord(element,tab.name)" 
                                                         style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
-                                         
                                                 </ng-container>
                                             </td>
                                         </div>
-                                        <!-- Delete Coloumn -->
-                                        <!-- <div *ngIf="disCol==='Delete'">
-                                            <th mat-header-cell *matHeaderCellDef class="table-header">Delete</th>
-                                            <td mat-cell *matCellDef="let element" class="table-coloumn">
-                                                <ng-container>
-                                                     </ng-container>
-                                            </td>
-                                        </div> -->
                                         <div *ngIf="disCol.headerValue!='Actions'">
                                             <th mat-header-cell *matHeaderCellDef class="table-header"> {{disCol.header}} </th>
                                             <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
@@ -872,7 +593,6 @@
                             </div>
                         </div>
                         </div>
-               
                 <div *ngSwitchCase="3" style="height: calc(100% - 8px);">
                     <div style="padding: 10px;">
                         <form [formGroup]="filterUserProfilesForm"  style="
@@ -887,7 +607,6 @@
                                 placeholder="Profile Name" formControlName="profilename">
                                 </mat-form-field>
                             </div>
-
                             <div class="rightFilters-items">
                                 <mat-form-field class ="col-width-16 pb-0">
                                 <mat-label >Created By</mat-label>
@@ -896,11 +615,6 @@
                                 </mat-form-field>
                             </div>
                             <div class="rl-fixed-bottom-bar-table">
-                            <!-- <div  class="rightFilters-items">
-                                <button type="submit" mat-raised-button color="primary">
-                                    <mat-icon >search</mat-icon>Submit
-                                </button>
-                            </div> -->
                             <div  class="rightFilters-items">
                                 <button (click)="resetFilter('UserProfiles')" type="reset" mat-raised-button color="primary">
                                     <mat-icon >refresh</mat-icon>Clear
@@ -909,7 +623,6 @@
                             </div>
                         </div>
                     </form>
-   
                         <!-- table start -->
                         <div class='rl-table-container-with-filter-pane'>
                                 <table mat-table [dataSource]="userprofilesdata" multiTemplateDataRows  class="detail-table mat-elevation-z8 ">
@@ -923,18 +636,9 @@
                                                         mode_edit_outline</mat-icon>
                                                         <mat-icon class ="rl-table-icon"  [ngStyle]="{'margin-left':element.iseditprofile!=1?'40px' :'2opx'}"  *ngIf="element.isdelete==1" (click)="onDeleteRecord(element,tab.name)" 
                                                         style="color:#e60000;margin-left:20px">delete_outline</mat-icon>
-                                         
                                                 </ng-container>
                                             </td>
                                         </div>
-                                        <!-- Delete Coloumn -->
-                                        <!-- <div *ngIf="disCol==='Delete'">
-                                            <th mat-header-cell *matHeaderCellDef class="table-header">Delete</th>
-                                            <td mat-cell *matCellDef="let element" class="table-coloumn">
-                                                <ng-container>
-                                                     </ng-container>
-                                            </td>
-                                        </div> -->
                                         <div *ngIf="disCol.headerValue!='Actions'">
                                             <th mat-header-cell *matHeaderCellDef class="table-header"> {{disCol.header}} </th>
                                             <td mat-cell *matCellDef="let element" class="table-coloumn" (click)="$event.stopPropagation()">
@@ -959,8 +663,6 @@
                                 </span>
                             </div>
                         </div>
-    
-                        
                 </div>
                 <div *ngSwitchDefault>
                 </div>
@@ -968,7 +670,6 @@
         </mat-tab>
     </mat-tab-group>
 </div>
-
 </div>
     </div>
 </div>

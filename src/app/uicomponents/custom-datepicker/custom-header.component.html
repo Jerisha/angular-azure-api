@@ -1,4 +1,7 @@
+
+<div *ngIf="!currDiv">
 <app-custom-range-panel></app-custom-range-panel>
+</div>
 
 <div class="example-header">
   <!-- "previous" buttons -->
@@ -21,12 +24,11 @@
   <button mat-icon-button (click)="nextClicked('month')"  matTooltip="Next Month">
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>
-  <button
-    mat-icon-button
-    class="example-double-arrow"
-    (click)="nextClicked('year')" matTooltip="Next Year"
-  >
+  <button mat-icon-button class="example-double-arrow" (click)="nextClicked('year')" matTooltip="Next Year">
     <mat-icon>keyboard_arrow_right</mat-icon>
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>
+  <button mat-icon-button class="example-double-arrow" type="button" (click)="ShowDiv()">
+    <mat-icon>keyboard_arrow_upward</mat-icon>
+    </button>
 </div>
