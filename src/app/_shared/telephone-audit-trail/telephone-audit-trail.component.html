@@ -6,7 +6,7 @@
     
     </ng-template>
         <ng-container *ngIf="auditTrailReport$ | async  as AT;else NoData">
-            {{AT.LiveDetails ? testfun(false) :testfun(true) }}
+        <ng-container *ngIf="repIdentifier === 'CeaseTransaction'"> {{AT.LiveDetails ? IsLiveDataCheck(false) : IsLiveDataCheck(true) }} </ng-container>
             <div  class = "live-records" *ngIf="AT.LiveDetails; else elseBlock">            
                 <mat-accordion *ngIf="AT.LiveDetails[0] as livedata; else elseBlock" [togglePosition]="'before'">
                     <!-- <div class="accordionWidth"> -->
@@ -211,6 +211,264 @@
                     <span>No Current Live Records Found</span>
                 </div>
                 </ng-template>
+
+                <div  class = "inflight-records" *ngIf="AT.ProvideDetails;"> 
+                <mat-accordion *ngIf=" AT.ProvideDetails[0] as element" [togglePosition]="'before'">
+                        <div class = "audit-trail-accordion-width">
+                    <mat-expansion-panel [hideToggle]="'true'" [expanded]="step === 4" (opened)="setStep(4); panelOpenState3 = true;"
+                        (closed)="panelOpenState3 = false">
+                        <mat-expansion-panel-header class ="audit-trail-mat-expansion-panel-header">
+                            <mat-panel-title class ="audit-trail-mat-panel-title">
+                                <mat-icon class="audit-trail-table-icon">{{panelOpenState3 && step === 4 ? 'remove_box_outline' :
+                                    'add_box_outline'}}</mat-icon>
+                                &nbsp;&nbsp;
+                                Inflight Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+            
+                            <div class="audit-trail-inflight-sec audit-trail-border">
+                                    <div class="container-fluid">
+                                        <div class="fluid-item inflight-sec-1">
+                                            <div>
+                                                <span class="audit-trail-label"> Provide ID</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.ProvideId}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Transaction Type</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.TransactionType}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Parent CUPID</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.ParentCupid}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Child CUPID</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.ChildCupid}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Change CUPID</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.ChangeCupid}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Customer Title</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.CustomerTitle}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Customer Forename</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.CustomerForename}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Customer Name</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.CustomerName}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Full Name</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.FullName}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Business Suffix</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.BusinessSuffix}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Postcode</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Postcode}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Retailer ID</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.RetailerId}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Address ID</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.AddressId}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Address ID Source</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.AddressIdSource}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">SAR Reference No.</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.SarReferenceNumber}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">SAR Transaction No.</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.SarTransactionNumber}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Reference</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Reference}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Connection Type</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.ConnectionType}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Access Method</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.AccessMethod}}</span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="fluid-item inflight-sec-2">
+
+                                            <div>
+                                                <span class="audit-trail-label">Source System</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Source}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Franchise</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Franchise}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Order Reference</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.OrderReference}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Created On</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.CreatedOn}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Created By</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.CreatedBy}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Source Type</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.SourceType}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Address 1</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Address1}}</span>
+                                            </div>
+                                            <div>
+                                                <span class="audit-trail-label">Address 2</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Address2}}</span>
+                                            </div>
+                                            <div>
+                                                <span class="audit-trail-label">Address 3</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Address3}}</span>
+                                            </div>
+                                            <div>
+                                                <span class="audit-trail-label">Address 4</span>
+                                                <span class="audit-trail-text-display">
+
+                                                    {{element.Address4}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Postcode</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Postcode}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Force validate</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.ForceValidate}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">New Telephone No.</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.NewTelephoneNumber}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">XReference</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.XReference}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Line Type</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.LineType}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Received</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Received}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Effective</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Effective}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Callback</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.Callback}}</span>
+                                            </div>
+
+                                            <div>
+                                                <span class="audit-trail-label">Type of Line</span>
+                                                <span class="audit-trail-text-display">
+                                                    {{element.TypeOfLine}}</span>
+                                            </div>
+
+                                        </div>
+
+                                    </div> <!-- container-fluid -->
+
+ 
+                        </div>
+                    </mat-expansion-panel>
+                    </div>
+                    </mat-accordion>
+                    </div>
     
         <mat-accordion *ngIf=" AT.UnsolicitedDetails != null" [togglePosition]="'before'">
             <!-- <div class="accordionWidth"> -->
