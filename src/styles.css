@@ -898,7 +898,8 @@ tr.audit-trail-example-detail-row {
   height: fit-content;
 }
 
-.audit-trail-liverecord-sec {
+.audit-trail-liverecord-sec,
+.audit-trail-inflight-sec {
   font: 500 12px/14px Roboto, "Helvetica Neue", sans-serif !important;
   min-width: 685px;
 }
@@ -979,3 +980,6 @@ font-weight: 500;
   height: 2em!important;
 }
 /* .mat-select-panel{margin-top: 35px !important; } */
+.transaction-history-left-margin{
+  margin-left: 10px;
+}
