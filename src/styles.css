@@ -657,7 +657,17 @@ th.mat-column-NotAvailable {
   width: 40em;
     /* word-wrap: normal; */
   }
+  /* .mat-column-LatestUserComments:hover {
 
+    background-color: rgb(196, 23, 138);
+      
+    } */
+  .mat-cell.mat-column-LatestUserComments:hover {
+
+    background-color:blue;
+    color:white;
+     
+    }
   .side-content {
     overflow: hidden !important;
     /* min-height: 40em */
@@ -949,3 +959,13 @@ mat-form-field.pb-0 .mat-form-field-wrapper {
 .default-font-weight{
 font-weight: 500;
 }
+/* .mat-option {
+  line-height: 2em;
+  height: 2em!important;
+} */
+.mat-select-panel .mat-optgroup-label, .mat-select-panel .mat-option, .mat-option{
+  font-size: inherit;
+  line-height: 2em!important;
+  height: 2em!important;
+}
+/* .mat-select-panel{margin-top: 35px !important; } */

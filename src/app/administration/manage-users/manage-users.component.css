@@ -125,21 +125,18 @@ overflow: auto;
 {
 background-color: #3f51b5!important;
 }
-::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+/* ::ng-deep .mat-checkbox-layout .mat-checkbox-label {
   line-height: 24px;
   margin-right: 68px!important;
   font-size: 0.8571em !important;
   font-weight: 500;
-}
+} */
 .rl-mat-tab-group{
   overflow-y: auto;
   padding-left: 1.5rem; 
   height:auto;
 }
 .rl-table-container-with-filter-pane{
-  /* max-height: 450px; */
-  /* max-height: calc(100vh - 25vh); */
-  /* max-height: calc(100vh - 35vh); */
   max-height: calc(100vh - 33vh);
   overflow:auto
 } 
@@ -364,16 +361,16 @@ th.mat-header-cell:first-of-type{
 } 
   
 
-::ng-deep .mat-select-panel
+/* ::ng-deep .mat-select-panel
 {
   max-width: 180px  !important;
  
-}
-::ng-deep .mat-option {
+} */
+/* ::ng-deep .mat-option {
   line-height: 1em !important;
   height: 2em !important;
   font-size: .8571em !important;
-}
+} */
 
 
 
@@ -525,10 +522,10 @@ th.mat-header-cell:first-of-type{
     width: 115px !important;       
     
     }
-  ::ng-deep .mat-select-panel{margin-top: 40px !important; }
-  .matselect-centering{
+  /* ::ng-deep .mat-select-panel{margin-top: 40px !important; } */
+  /* .matselect-centering{
     margin-top: 40px !important; 
-  }
+  } */
   .col-width-16{
     width: 16vw;
     }
@@ -559,3 +556,6 @@ th.mat-header-cell:first-of-type{
       font-size: 12px;
       max-height: 48px;      
     } 
+    .matselect-centering{
+      margin-top: 30px !important; 
+    }

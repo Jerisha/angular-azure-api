@@ -342,6 +342,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     // else {
     //   this.dataSource.data = this.dataSource.data.concat(row);
     // }
+    this.alertService.clear();
     this.rowChanges.emit([row]);
   }
   /** Whether the number of selected elements matches the total number of rows. */

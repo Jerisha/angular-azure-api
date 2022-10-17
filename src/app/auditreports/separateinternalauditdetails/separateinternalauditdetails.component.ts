@@ -21,7 +21,6 @@ import { DefaultIsRemoveCache, DefaultPageNumber, DefaultPageSize } from 'src/ap
 import { UserProfile } from 'src/app/_auth/user-profile';
 import { AuthenticationService } from 'src/app/_auth/services/authentication.service';
 import { isNumeric } from 'rxjs/internal-compatibility';
-
 const FullAudit_Data: FullAuditDetails [] = [
   {
     Telno: '01131100030', SourceSystem: 'image', ActId: 'Source Only', Cupid: 'Amdocs SOM', ExternalCliStatus: '39', FullAuditCliStatus:'Amdocs SOM Only', ResolutionType: 'New',  SourceSystemStatus: 'Active', SwitchSource:'',  AuditDate: '07-04-2022', 
@@ -38,7 +37,6 @@ const FullAudit_Data: FullAuditDetails [] = [
     ParentCupid: '13', ChildCupid: '13', LineType: 'V',  Franchise: 'SOM', OrderReference: 'SIPEV005428241', TypeOfLine: 'BW'
   }
 ]
-
 const ELEMENT_DATA: SeparateInternalAuditDetails[] = [
   {
     Telno: '01131100030', View: 'image', Osn2Source: 'Source Only', Source: 'Amdocs SOM', ActId: '39', CliStatus:'Amdocs SOM Only', ResolutionType: 'New',  SourceStatus: 'Active', AuditDate: '07-04-2022', 
@@ -125,9 +123,6 @@ const ELEMENT_DATA: SeparateInternalAuditDetails[] = [
     ParentCupid: '13', ChildCupid: '13', LineType: 'V',  Franchise: 'SOM', OrderReference: 'SIPEV005428241', TypeOfLine: 'BW', Comments:''
   },
 ];
-
-
-
 const FilterListItems: Select[] = [
   { view: 'Tel No. Start', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'Tel No. End', viewValue: 'EndTelephoneNumber', default: true },
@@ -161,7 +156,6 @@ export class SeparateinternalauditdetailsComponent extends UserProfile implement
   currentPage: number = DefaultPageNumber;
   pageSize: number = DefaultPageSize;
   isRemoveCache: number = DefaultIsRemoveCache;
-
   selectedGridRows: any[] = [];
   selectedRowsCount: number = 0;
   selectedTab!: number;
@@ -187,8 +181,6 @@ export class SeparateinternalauditdetailsComponent extends UserProfile implement
   queryResultInfo$!: Observable<any>;
   resolutionType: string = '';
   selected: string = '';
-  // currentPage: string = '1';
-  //isSaveDisable: string = 'true';
   isSaveDisable: boolean = true;
   defaultACTID: string = '';
   remarkstxt: string = '';
@@ -198,7 +190,6 @@ export class SeparateinternalauditdetailsComponent extends UserProfile implement
   disableProcess: boolean = true;
   fullauditattributes: any = [];
   constructor(private formBuilder: FormBuilder, private dialog: MatDialog,private telnoPipe: TelNoPipe,
-   
     private cdr: ChangeDetectorRef, public router: Router, private service:AuditReportsService, private alertService: AlertService,private auth: AuthenticationService,
     private actRoute: ActivatedRoute
     ) {
@@ -219,7 +210,6 @@ export class SeparateinternalauditdetailsComponent extends UserProfile implement
         { selectedValue: 'AutoPopulateSource', Message: 'Source', ManualAuditType: 'SRC' }
       ]
   ngOnInit(): void {
-
     this.createForm();
     this.createUpdateForm();
     //this.listItems = Items;
@@ -234,13 +224,7 @@ export class SeparateinternalauditdetailsComponent extends UserProfile implement
     this.defaultACTID = this.configDetails.SepInternalAuditActID[0];    
     this.updateDetails = results[1].data;
   }); 
-  
-    // this.service.configDetails(request).subscribe((res: any) => {
-    //   console.log("res: " + JSON.stringify(res))
-    //   this.configDetails = res.data;
-    // });
   }
-  
   createUpdateForm() {
     this.updateForm = this.formBuilder.group({
       Resolution: new FormControl('', [Validators.required]),
@@ -259,8 +243,6 @@ export class SeparateinternalauditdetailsComponent extends UserProfile implement
       this.form.StartTelephoneNumber.reset();
     }
   }
-
-
   getPnlControlAttributes(control?: string) {
     if (this.selectListItems.length > 0 || (this.form.StartTelephoneNumber.value != '' && this.form.StartTelephoneNumber.value != null)
       && (this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)) {
@@ -269,10 +251,8 @@ export class SeparateinternalauditdetailsComponent extends UserProfile implement
     else {
       this.disableSave = true;
     }
-
 if (this.selectListItems.length > 1 )
 {
-  
   this.disableAudit =false ;
 }
 else{
@@ -280,7 +260,6 @@ else{
 }
     if (control === 'EndTelNo')
       this.getTelnoValidation();
-
   }
   addPrefix(control: string, value: any) {
     if (value.charAt(0) != 0) {
@@ -288,7 +267,6 @@ else{
     }
     this.form[control].setValue(value);
   }
-
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -296,8 +274,6 @@ else{
     }
     return true;
   }
-
-
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
@@ -307,19 +283,14 @@ else{
   get selectedSwitchTypeStatus() {
     return this.form.SwitchStatus;
   }
-
   get selectedFullAuditCLIStatus() {
     return this.form.InternalCLIStatus;
   }
-
   get form() {
     return this.thisForm.controls;
   }
-
   createForm() {
     this.thisForm = this.formBuilder.group({
-      // StartTelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.pattern("^[0-9]{10,11}$")]),
-      // EndTelephoneNumber: new FormControl({ value: '', disabled: true },[Validators.pattern("^[0-9]{10,11}$")]),
       StartTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
       EndTelephoneNumber: new FormControl({ value: '', disabled: false }, [Validators.maxLength(11)]),
       AuditActID: new FormControl({ value: '', disabled: false }),
@@ -334,12 +305,7 @@ else{
      // Resolutiony:new FormControl({ value: '', disabled: false }),
     })
   }
-
-
- 
   InternalErrorInformation: any;
-  
-
   setControlAttribute(matSelect: MatSelect) {
     debugger
     matSelect.options.forEach((item) => {
@@ -351,7 +317,6 @@ else{
       }
     });
   }
-
   fullauditdetailscolumns: ColumnDetails[] = [
     { header: 'Telephone Number', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Source System', headerValue: 'OSN2Source', showDefault: true, isImage: true },
@@ -385,7 +350,6 @@ else{
     { header: 'Order Reference', headerValue: 'OrderReference', showDefault: true, isImage: false },
     { header: 'Type Of Line', headerValue: 'TypeOfLine', showDefault: true, isImage: false },
   ];
-
   columns: ColumnDetails[] = [
     { header: 'Tel.No.', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
     { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
@@ -430,26 +394,6 @@ else{
     var isEmitted!:boolean;
     this.currentPage = 1;
     this.fullauditattributes=this.prepareQueryParamsfullAudit(this.currentPage.toString(),TelephoneNumber)
-    // let requestAudit = Utils.preparePyQuery('Summary', 'SeparateInternalAuditDetails', this.prepareQueryParamsfullAudit(this.currentPage));
-    // console.log('full audit query request',JSON.stringify(requestAudit));
-    // this.queryResultfullAudit$ = this.service.queryDetails(requestAudit).pipe(map((res: any) => {
-    //     console.log('query response',JSON.stringify(res));
-    // }));()
-
-
-    // this.fullAuditTable = {
-    //   data: of({
-    //     datasource: FullAudit_Data,
-    //     totalrecordcount: 100,
-    //     totalpages: 1,
-    //     pagenumber: 1
-    //     }),
-    //   Columns: this.fullauditdetailscolumns,
-    //   filter: true,
-    //   selectCheckbox: true,
-    //   removeNoDataColumns: true,
-    // }
-  
   }
   setAttributesForManualCorrections() {
     if (this.selectedFullAuditCLIStatus?.value === '' || this.selectedFullAuditCLIStatus?.value === undefined ||
@@ -489,37 +433,28 @@ else{
       });
     }
   }
- 
   prepareQueryParams(pageNo: string): any {
     let attributes: any = [];
-
     for (const field in this.form) {
      ///if (field != 'AuditActID') {
       const control = this.thisForm.get(field);
-
       if (control?.value)
         attributes.push({ Name: field, Value: [control?.value] });
       else
         attributes.push({ Name: field });
   // }
   }
-  
-  
   //attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
- 
     attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
    console.log('console attributes',attributes);
     return attributes;
-
   }
   prepareQueryParamsfullAudit(pageNo: string,TelphoneNumber:string): any {
     let attributes: any = [];
-
     for (const field in this.form) {
      // if (field != 'AuditActID'&&field != 'StartTelephoneNumber')
      if (field != 'StartTelephoneNumber' && field!='AuditActID') {
       const control = this.thisForm.get(field);
-
       if (control?.value)
         attributes.push({ Name: field, Value: [control?.value] });
       else
@@ -530,23 +465,14 @@ else{
       attributes.push({ Name: field, Value: [TelphoneNumber] });
     }
   }
-  
-  //attributes.push({ Name: 'AuditActID', Value: [`39-07 APR 2022`] })
- // attributes.push({ Name: 'AuditActID', Value: [`29 - 20 NOV 2020`] })
-    //attributes.push({ Name: 'PageNumber', Value: [`${pageNo}`] })
-
     return attributes;
-
   }
-  
   cellAttrInfo: CellAttributes[] = [
-
     { flag: 'CustomerDiffFlag', cells: ['OSN2Customer', 'SourceCustomer'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'PostCodeDiffFlag', cells: ['OSN2Postcode', 'SourcePostcode'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'FullAddFlag', cells: ['OSN2Locality', 'OSN2Premise', 'OSN2Thouroughfare', 'SourceLocality', 'SourcePremise', 'SourceThouroughfare'], value: 'Y', isBackgroundHighlighted: true },
     { flag: 'IsLive', cells: ['TelephoneNumber'], value: "1", isFontHighlighted: true } 
    ];
-
   onFormSubmit(isEmitted?: boolean): void {
     this.tabs.splice(0);
     this.selectListItems = [];
@@ -555,9 +481,7 @@ else{
     this.updateForm.reset();
     this.remarkstxt = '';
     this.getTelnoValidation();
-
     if (this.thisForm.invalid) { return; }
-
     if ((this.form.EndTelephoneNumber.value != '' && this.form.EndTelephoneNumber.value != null)
       && (this.form.StartTelephoneNumber.value === '' || this.form.StartTelephoneNumber.value == null)) {
       this.form.StartTelephoneNumber.setErrors({ incorrect: true });
@@ -565,19 +489,14 @@ else{
       this.icstartNo.nativeElement.blur();
       return;
     }
-
     this.getPnlControlAttributes();
     this.setAttributesForManualCorrections();
-
-
-
     // this.currentPage = isEmitted ? this.currentPage : '1';
     this.currentPage = isEmitted ? this.currentPage : DefaultPageNumber;
     this.pageSize = isEmitted ? this.pageSize : DefaultPageSize;
     this.isRemoveCache = isEmitted ? 0 : 1;
      //set removecache to 1 on update
      if(!this.isSaveDisable)  this.isRemoveCache = 1;
-
     var reqParams = [{ "Pagenumber": this.currentPage },
     { "RecordsperPage": this.pageSize },
     { "IsRemoveCache": this.isRemoveCache }];
@@ -589,10 +508,6 @@ else{
         let result = {
           datasource: res.data.SeparateInternalAuditDetails,
           params: res.params
-          // totalrecordcount: res.TotalCount,
-          // totalpages: res.NumberOfPages,
-          // pagenumber: res.PageNumber,
-          // pagecount: res.Recordsperpage
         }
         return result;
       } else return {
@@ -619,27 +534,21 @@ else{
       });
     }
     this.selectedTab = this.tabs.length;
-
   }
-
   processDataCorrection() {
-   
       var msg = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.Message);
       var processMessage = 'Do you want to proceed with raising transaction using ' + msg + ' Data?';
-
       if (this.updateFormControls.Remarks.invalid) {
         this.updateFormControls.Remarks.setErrors({ incorrect: true });
         this.icRemarks.nativeElement.focus();
         this.icRemarks.nativeElement.blur();
         return;
       };
-
       const dataCorrectionConfirm = this.dialog.open(ConfirmDialogComponent, {
         width: '600px', disableClose: true, data: {
           message: processMessage
         }
       });
-
       dataCorrectionConfirm.afterClosed().subscribe(result => {
         if (result) {
           if (this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
@@ -647,7 +556,6 @@ else{
             console.log('manual', JSON.stringify(request));
             this.service.updateDetails(request).subscribe(x => {
               if (x.StatusCode === 'EUI000') {
-                
                 this.onFormSubmit(true);
                 this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successfully !!", { autoClose: true, keepAfterRouteChange: false });
               }
@@ -657,15 +565,6 @@ else{
             var selectedCLI = this.selectListItems[0].Comments ? this.selectListItems[0].Comments : '';
             var startTelno = '';
             var endTelno = '';
-            // if (selectedCLI != '') {
-            //   let strCmts = selectedCLI.split('-');
-            //   var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
-            //   startTelno = range[0];
-            //   endTelno = range[1] ? range[1] : ''
-            // }
-            // else {
-            //   startTelno = this.selectListItems[0].TelephoneNumber;
-            // }
             if (selectedCLI != '') {
               let strCmts = selectedCLI.split('-');
               var range = strCmts.filter((x: any) => !x.includes('DDI RANGE'));
@@ -677,11 +576,6 @@ else{
               startTelno = this.selectListItems[0].TelephoneNumber;
             }
             var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
-
-            // if(endTelno=='')
-            // {
-            //   endTelno=startTelno;
-            // }
             let data = {
               StartphoneNumber: startTelno,
               auditType:'Separate Internal Audit',
@@ -696,13 +590,9 @@ else{
           }
         }
       })
-    
    // return identifiers;
   }
-
   resetForm(): void {
-    //this.thisForm.reset();
-    //this.tabs.splice(0);
     window.location.reload();
   }
   get auditACTID() {
@@ -722,7 +612,6 @@ else{
           identifiers.push({ Name: 'TelephoneNumber', Value: [`${this.form.StartTelephoneNumber.value + '|' + this.form.EndTelephoneNumber.value}`] });
         } else
           identifiers.push({ Name: 'TelephoneNumber', Value: [""] });
-
         if (this.resolutionType != '')
           identifiers.push({ Name: 'ResolutionType', Value: [this.resolutionType] });
         else
@@ -735,7 +624,6 @@ else{
           identifiers.push({ Name: 'AuditActID', Value: [this.auditACTID.value] });
         else
           identifiers.push({ Name: 'AuditActID' });
-
         identifiers.push({ Name: 'AuditType', Value: [`${'Separate Internal Audit'}`] });
         break;
       }
@@ -744,32 +632,22 @@ else{
           identifiers.push({ Name: 'ActID', Value: [this.auditACTID.value] });
         else
           identifiers.push({ Name: 'ActID' });
-
         if (this.selectedSwitchTypeStatus.value)
           identifiers.push({ Name: 'SwitchStatus', Value: [this.selectedSwitchTypeStatus.value] });
         else
           identifiers.push({ Name: 'SwitchStatus' });
-
         if (this.selectedFullAuditCLIStatus.value)
           identifiers.push({ Name: 'FullAuditCLIStatus', Value: [this.selectedFullAuditCLIStatus.value] });
         else
           identifiers.push({ Name: 'FullAuditCLIStatus' });
-
         if (this.rowRange != '')
           identifiers.push({ Name: 'AutoCorrectionVolume', Value: [this.rowRange] });
         else
           identifiers.push({ Name: 'AutoCorrectionVolume' });
-
         if (this.thisForm.controls['Source'].value != '')
           identifiers.push({ Name: 'Source', Value: [this.thisForm.controls['Source'].value] });
         else
           identifiers.push({ Name: 'Source', Value: [''] });
-
-        // if (this.fullAuditForm.controls['OSN2Source'].value != '')
-        //   identifiers.push({ Name: 'OSN2Source', Value: [this.fullAuditForm.controls['OSN2Source'].value] });
-        // else
-        //   identifiers.push({ Name: 'OSN2Source', Value: [''] });
-
         break;
       }
       case 'DataManualCorrection': {
@@ -779,28 +657,22 @@ else{
         }
         else
           identifiers.push({ Name: 'TelephoneNumberRange' });
-
         let name = this.selectedCorrectionType === 'AutoPopulateSpecialCease' ? 'AuditActID' : 'ActID';
         if (this.auditACTID.value != '') {
-
           identifiers.push({ Name: name, Value: [this.auditACTID.value] });
         }
         else
           identifiers.push({ Name: name });
-
-
         if (this.remarkstxt != '')
           identifiers.push({ Name: 'ResolutionRemarks', Value: [this.remarkstxt] });
         else
           identifiers.push({ Name: 'ResolutionRemarks' });
-
         if (this.selectedCorrectionType != '') {
           var auditType = this.manualDataCorrectionConfig.filter(x => x.selectedValue === this.selectedCorrectionType).map(x => x.ManualAuditType);
           identifiers.push({ Name: 'ManualAuditType', Value: [`${auditType}`] });
         }
         else
           identifiers.push({ Name: 'ManualAuditType' });
-
         break;
       }
     }
@@ -812,10 +684,6 @@ else{
         this.disableProcess = false;
       }
       else {
-        // if (this.selectListItems.length >= 1 &&
-        //   this.selectedCorrectionType === 'AutoPopulateSpecialCease') {
-        //   this.disableProcess = false;
-        // }
         if (this.selectListItems.length === 1) {
           this.disableProcess = false;
         }
@@ -825,7 +693,6 @@ else{
       }
     }
   }
-
   DisplaySelectedFullAuditDetails()
   {
     let TelehponeNumbers:string='';
@@ -834,7 +701,6 @@ else{
     this.selectListItems?.forEach(x => { telno.push(x.TelephoneNumber) })
     //identifiers.push({ Name: 'TelephoneNumber', Value: telno });
     TelehponeNumbers+=telno+',';
-    
   }
   TelehponeNumbers=TelehponeNumbers.slice(0,-1);
   console.log('telephonestring',TelehponeNumbers);
@@ -847,8 +713,6 @@ else{
     }
    this.selectedTab = 3;
 }
-
-
   onSaveSubmit(): void {
     if (this.updateForm.invalid) { return; }
     const rangeConfirm = this.dialog.open(ConfirmDialogComponent, {
@@ -873,7 +737,6 @@ else{
   rowDetect(selectedRows: any) {
     selectedRows.forEach((item: any) => {
       if (item && item.length == 0) return;
-
       if (!this.selectListItems.includes(item))
         this.selectListItems.push(item)
       else if (this.selectListItems.find(x => x.TelephoneNumber === item.TelephoneNumber)) {
@@ -884,8 +747,6 @@ else{
     this.getSelectedDataCorrection();
     this.getPnlControlAttributes();
   }
- 
-
   getNextSetRecords(pageEvent: any) {
     debugger;
     this.currentPage = pageEvent.currentPage;
@@ -893,11 +754,9 @@ else{
     this.onFormSubmit(true);
     //console.log('page number in parent',pageIndex)
   }
-
   removeTab(index: number) {
     this.tabs.splice(index, 1);
   }
-
   newTab(tab: any) {
     if (this.tabs === []) return;
     var auditACTID = this.auditACTID.value;
@@ -910,7 +769,6 @@ else{
             tabType: 1,
             name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
           });
-
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
@@ -925,18 +783,15 @@ else{
         break;
       }
       case 3: {
-       
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
             name: 'View Full Audit details('+tab.row.TelephoneNumber+')'
           })
-
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
         }
-         
         this.DisplayFullAuditDetailsTab(tab.row.TelephoneNumber);
         break;
       }
@@ -954,18 +809,13 @@ else{
     ];
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
       width: '800px',
-      //width: 'auto',
       height: 'auto',
       panelClass: 'custom-dialog-container',
-      //data: { defaultValue: attributes, telno: telno }
       data: { listOfIdentifiers: attributes, rptElements: 'SeparateInternalAuditDetails' }
     }
     );
   }
-
-
   selChangeMultiple(matSelect: MatSelect) {
-
     matSelect.options.forEach((item) => {
       if (item.selected) {
         if (!this.filtered.includes(item.value))
@@ -981,11 +831,8 @@ else{
       }
     });
   }
-
   selChangeSingle(matSelect: MatSelect) {
     console.log(matSelect.value);
     this.selected = matSelect.value;
   }
-
 }
-

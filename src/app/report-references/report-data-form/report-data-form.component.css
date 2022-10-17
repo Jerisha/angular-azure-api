@@ -178,7 +178,7 @@
   /* :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 6px 0 6px 0 !important;     
   }  */
-  ::ng-deep .mat-select-panel{margin-top: 40px !important; }
+  /* ::ng-deep .mat-select-panel{margin-top: 40px !important; } */
   .matselect-centering{
     margin-top: 40px !important; 
   }

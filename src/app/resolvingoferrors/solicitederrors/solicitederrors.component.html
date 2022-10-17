@@ -10,11 +10,11 @@
       </div> 
     </div> -->
 
-    <!-- <div class="filter-sticky">
-      <app-select-multiple #selMultiple [listItems]="filterItems" [icon]="'filter_alt'"
+    <div class="filter-sticky">
+      <app-select-multiple #selMultiple [listItems]="listItems" [icon]="'filter_alt'"
         (changes)="setControlAttribute($event)">
       </app-select-multiple>
-    </div> -->
+    </div>
     <form class="search-pane-form" [formGroup]="thisForm" (ngSubmit)="onFormSubmit()" autocomplete="off">
       <div class="matsidenav-filter">
         <ng-container *ngIf="configDetails  as config">
@@ -310,7 +310,7 @@
 
                     <mat-form-field class="side-textarea" hintLabel="Max 500 characters">
                       <mat-label>Remarks</mat-label>
-                      <textarea required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks"
+                      <textarea (keyup)="autoGrowTextZone($event)" required name="remarks" #remarks="ngModel" [(ngModel)]="Remarks"
                         [ngModelOptions]="{standalone: true}" #input matInput maxlength="500" placeholder="Remarks"
                         rows="1"></textarea>
                       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
@@ -343,7 +343,7 @@
             <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"
               class="app-telephone-audit-trail-container"></app-telephone-audit-trail>
           </div>
-          <div *ngSwitchCase="2" class="tab-container">
+          <div *ngSwitchCase="2" class="tab-container" style="margin-left:10px">
             <app-transaction-errors [telNo]="telNo" [tranId]="tranId" [repIdentifier]="repIdentifier"
               class="app-transaction-errors-container">
             </app-transaction-errors>
