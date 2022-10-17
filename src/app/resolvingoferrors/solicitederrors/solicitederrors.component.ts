@@ -348,7 +348,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
-    debugger;
+   // debugger;
     let errMsg = '';
     this.alertService.clear();
     if (!this.thisForm.valid) return;
@@ -424,7 +424,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   onSaveSubmit(form: any): void {
     //console.log("save", form);
-    debugger;
+   // debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
       (this.Resolution && this.check999() && this.Remarks)) {
 
@@ -529,7 +529,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   rowDetect(selectedRows: any) {
-    debugger;
+    //debugger;
     selectedRows.forEach((item: any) => {
       // this.selectedRowsCount = item.length;
       if (item && item.length == 0) return
@@ -576,7 +576,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   onPaste(event: any): boolean {
-    debugger;
+   // debugger;
     let clipboardData = event.clipboardData;
     let pastedText = clipboardData.getData('text');
     //console.log("pastedText :"+ pastedText+ isNaN(pastedText));
@@ -666,7 +666,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
 
   errorTypeChanges(event: any) {
-    debugger;
+   // debugger;
     let errType = event.value;
     let code = errType === 'Internal Errors' ? '2' : '1';
     this.errorCodes = this.configDetails?.ErrorCode.filter((x: string) => x.startsWith(code))

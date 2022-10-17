@@ -810,6 +810,10 @@ this.alertService.clear();
     }
   }
 
+  makeUppercase(event:any,data:string){
+    alert('event'+event);
+this.view3Form.controls['AddressLine1'].setValue(data.toUpperCase())  }
+
 
   SearchTel() {
     //this.views.view3 = false;

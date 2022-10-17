@@ -369,7 +369,7 @@
                       <div style="margin-bottom: 20px;">
                         <mat-form-field   class="vf-mr-negative"style="width:300px;" >
                           <mat-label class="vf-label">Address1 *</mat-label>
-                          <textarea matInput placeholder="Address1 *"
+                          <textarea  matInput placeholder="Address1 *"
                             cdkTextareaAutosize  matInput formControlName="AddressLine1"
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1"
@@ -377,7 +377,8 @@
                           
                             size="20" maxlength="100" 
                             name =address1
-                            [(ngModel)]="transactionItem.customerAddress.address1"                 
+                            [(ngModel)]="transactionItem.customerAddress.address1"   
+                            (blur)="makeUppercase($event.target,'AddressLine1')"              
                           ></textarea>       
                           <mat-error class="error-message" *ngIf="checkError('AddressLine1', 'required')"> Enter address1</mat-error>
                                
