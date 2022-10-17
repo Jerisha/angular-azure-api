@@ -649,6 +649,15 @@ th.mat-column-NotAvailable {
 
 }
 
+.mat-header-cell.mat-column-FirstDate,
+.mat-header-cell.mat-column-LastDate {
+  white-space: normal !important;
+}
+
+.mat-header-cell.mat-column-Difference {
+  white-space: normal !important;
+  min-width: 40px;
+}
 
 .mat-cell.mat-column-Remarks {
 
@@ -657,6 +666,7 @@ th.mat-column-NotAvailable {
   width: 40em;
     /* word-wrap: normal; */
   }
+
   /* .mat-column-LatestUserComments:hover {
 
     background-color: rgb(196, 23, 138);
@@ -888,7 +898,8 @@ tr.audit-trail-example-detail-row {
   height: fit-content;
 }
 
-.audit-trail-liverecord-sec {
+.audit-trail-liverecord-sec,
+.audit-trail-inflight-sec {
   font: 500 12px/14px Roboto, "Helvetica Neue", sans-serif !important;
   min-width: 685px;
 }
@@ -969,3 +980,6 @@ font-weight: 500;
   height: 2em!important;
 }
 /* .mat-select-panel{margin-top: 35px !important; } */
+.transaction-history-left-margin{
+  margin-left: 10px;
+}

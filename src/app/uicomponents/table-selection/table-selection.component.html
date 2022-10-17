@@ -21,7 +21,7 @@
         </mat-optgroup>
         <ng-container *ngFor="let cols of (gridFilter || []); let fltIndex = index">
           <mat-option
-            [disabled]="fltIndex===0 || cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false"
+            [disabled]="cols.header==='Inventory' || cols.headerValue ==='TelephoneNumber' ? true:false"
             style="min-width:220px;color: #3f51b5;" color="primary" (click)="optionClick()" [value]="cols.headerValue">
             {{ cols.header }}
           </mat-option>
