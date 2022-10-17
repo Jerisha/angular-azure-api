@@ -44,7 +44,7 @@
       <mat-tab *ngFor="let tab of tabs; let index = index">
         <ng-template mat-tab-label>
           <div class="col" style="margin-left: 20px;">{{tab.name}}</div>
-          <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button>
+          <button *ngIf="tab.tabType !== 0" style="color:black" matSuffix mat-icon-button (click)="removeTab(index)">
             <mat-icon style="font-size: large;">close</mat-icon>
           </button>
         </ng-template>
@@ -61,9 +61,13 @@
             
             </div>
             <app-table-selection   [sidePan]="pagesidenav" (pageIndex)="getNextSetRecords($event)" [tableitem]="myTable"
-              [isShown]='false' [reportName]="livereport">
+              [isShown]='false' [reportName]="livereport" (addNewTab)="newTab($event)">
             </app-table-selection>
          
+          </div>
+          <div *ngSwitchCase="1" class="tab-container">
+            <app-telephone-audit-trail [telNo]="auditTelNo" [repIdentifier]="repIdentifier"
+              class="app-telephone-audit-trail-container"></app-telephone-audit-trail>
           </div>
         </span>
       </mat-tab>
