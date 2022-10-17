@@ -704,15 +704,12 @@ this.alertService.clear();
       }
     }
   }
-<<<<<<< HEAD
 
   makeUppercase(event:any,data:string){
     alert('event'+event);
 this.view3Form.controls['AddressLine1'].setValue(data.toUpperCase())  }
 
 
-=======
->>>>>>> 8d685580ff2d7f5fbb5c3c64e428302277428748
   SearchTel() {
     //this.views.view3 = false;
     let call: string = 'Query';
