@@ -136,7 +136,7 @@ const Items: Select[] = [
   { view: 'Error Codes', viewValue: 'ErrorCode', default: false },
   { view: '999 Ref', viewValue: 'Reference', default: false },
   { view: 'Order Reference', viewValue: 'OrderReference', default: false },
-  { view: 'LcpGcp', viewValue: 'LcpGcp', default: false }
+  { view: 'Lcp/Gcp', viewValue: 'LcpGcp', default: false }
   
 
 ];
@@ -693,17 +693,17 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   }
   autoGrowTextZone(e:any) {
-    // console.log(e.target.style);
-    // e.target.style.height = "58px";
-    // if(e.target.scrollHeight>58)
-    // {
-    //   e.target.style.height = (e.target.scrollHeight)+"px";
-    // }
     console.log(e.target.style);
-    e.target.style.height = "0px";
-    e.target.style.height = (e.target.scrollHeight)+"px";
+    e.target.style.height = "58px";
+    if(e.target.scrollHeight>58)
+    {
+      e.target.style.height = (e.target.scrollHeight)+"px";
+    }
+    // console.log(e.target.style);
+    // e.target.style.height = "0px";
+    // e.target.style.height = (e.target.scrollHeight)+"px";
   }
     
   }
 
-}
+
