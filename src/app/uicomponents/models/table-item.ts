@@ -45,6 +45,7 @@ export interface CellAttributes{
     isImage?:boolean;
     isFontHighlighted?:boolean;
     isBackgroundHighlighted?:boolean;
+    removeFrmFilter?:boolean;
    // isFlag?:boolean;
 
 }

@@ -290,7 +290,10 @@
                         <div style="margin-bottom: 6px;">
                           <mat-form-field class="vf-mr-negative" [ngStyle]="{'width':isExportImportSelected?'112px' :'225px'}">
                             <mat-label class="vf-label">Order Ref. *</mat-label>
-                            <input type="text" onkeyup="this.value = this.value.toUpperCase();" formControlName="OrderReference" matInput #input  placeholder="Order Ref. *"  size="12"  value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
+                            <input type="text" formControlName="OrderReference" 
+                            [(ngModel)]="transactionItem.orderRef"
+                            (blur)="makeUppercase(transactionItem.orderRef,'OrderReference')" 
+                            matInput #input  placeholder="Order Ref. *"  size="12"  value=""  onchange="gnSysChange=true;" ondblclick="sysEditText('document.sf.txt[10]')">
                             <mat-error class="error-message" *ngIf="checkError('OrderReference', 'required')"> Enter OrderRef</mat-error>
                         
                           </mat-form-field>                             
@@ -320,7 +323,7 @@
                           <span>                        
                           <mat-form-field   class="vf-mr-negative" style="width:250px;">
                             <mat-label class="vf-label">Customer Name *</mat-label>
-                            <textarea matInput placeholder="Customer Name *" onkeyup="this.value = this.value.toUpperCase();"
+                            <textarea matInput placeholder="Customer Name *" 
                             cdkTextareaAutosize matInput formControlName="CustomerName"
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1"
@@ -329,6 +332,7 @@
                             size="20" maxlength="50" 
                             name =customerName
                             [(ngModel)]="transactionItem.customerAddress.customerName"
+                            (blur)="makeUppercase(transactionItem.customerAddress.customerName,'CustomerName')" 
                             ></textarea>  
                             <mat-error class="error-message" *ngIf="checkError('CustomerName', 'required')"> Enter Customer Name</mat-error>
                                                         
@@ -343,15 +347,16 @@
                       <div style="margin-bottom: 20px;">
                         <mat-form-field   class="vf-mr-negative"style="width:300px;" >
                           <mat-label class="vf-label">Address1 *</mat-label>
-                          <textarea matInput placeholder="Address1 *"
+                          <textarea  matInput placeholder="Address1 *"
                             cdkTextareaAutosize  matInput formControlName="AddressLine1"
                             #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1"
-                            cdkAutosizeMaxRows="2" onkeyup="this.value = this.value.toUpperCase();"
+                            cdkAutosizeMaxRows="2"                           
                           
                             size="20" maxlength="100" 
                             name =address1
-                            [(ngModel)]="transactionItem.customerAddress.address1"                 
+                            [(ngModel)]="transactionItem.customerAddress.address1"   
+                            (blur)="makeUppercase(transactionItem.customerAddress.address1,'AddressLine1')"              
                           ></textarea>       
                           <mat-error class="error-message" *ngIf="checkError('AddressLine1', 'required')"> Enter address1</mat-error>
                                
@@ -362,12 +367,13 @@
                         <mat-label class="vf-label">Address2 *</mat-label>
                         <textarea matInput placeholder="Address2 *"
                           cdkTextareaAutosize matInput formControlName="AddressLine2"
-                          #autosize="cdkTextareaAutosize" onkeyup="this.value = this.value.toUpperCase();"
+                          #autosize="cdkTextareaAutosize" 
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="2"
                           size="20" maxlength="100"   
                           name =address2
-                          [(ngModel)]="transactionItem.customerAddress.address2"                
+                          [(ngModel)]="transactionItem.customerAddress.address2"    
+                          (blur)="makeUppercase(transactionItem.customerAddress.address2,'AddressLine2')"              
                         ></textarea>  
                         <mat-error class="error-message" *ngIf="checkError('AddressLine2', 'required')"> Enter Address2</mat-error>
                                    
@@ -378,13 +384,14 @@
                       <mat-label class="vf-label">Address3</mat-label>
                       <textarea matInput placeholder="Address3"
                         cdkTextareaAutosize matInput formControlName="AddressLine3"
-                        #autosize="cdkTextareaAutosize" onkeyup="this.value = this.value.toUpperCase();"
+                        #autosize="cdkTextareaAutosize" 
                         cdkAutosizeMinRows="1"
                         cdkAutosizeMaxRows="2"
                       
                         size="20" maxlength="100"  
                         name =address3
-                        [(ngModel)]="transactionItem.customerAddress.address3"                 
+                        [(ngModel)]="transactionItem.customerAddress.address3"   
+                        (blur)="makeUppercase(transactionItem.customerAddress.address3,'AddressLine3')"               
                       ></textarea>              
                     </mat-form-field>
                 </div>
@@ -393,13 +400,14 @@
                     <mat-label class="vf-label">Address4</mat-label>
                     <textarea matInput placeholder="Address4"
                       cdkTextareaAutosize matInput formControlName="AddressLine4"
-                      #autosize="cdkTextareaAutosize" onkeyup="this.value = this.value.toUpperCase();"
+                      #autosize="cdkTextareaAutosize" 
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="2"
                    
                       size="20" maxlength="100"
                       name =address4
-                      [(ngModel)]="transactionItem.customerAddress.address4"                   
+                      [(ngModel)]="transactionItem.customerAddress.address4"   
+                      (blur)="makeUppercase(transactionItem.customerAddress.address4,'AddressLine4')"                 
                     ></textarea>              
                   </mat-form-field>
                 </div>
@@ -407,9 +415,10 @@
                   <mat-form-field   class="vf-mr-negative" style="width:100%;">
                       <mat-label class="vf-label">Post Code *</mat-label>
                       <input type="text" 
-                       matInput  placeholder="Post Code "  onkeyup="this.value = this.value.toUpperCase();"
+                       matInput  placeholder="Post Code "  
                        name =postcode matInput formControlName="PostCode"
                        [(ngModel)]="transactionItem.customerAddress.postcode"
+                       (blur)="makeUppercase(transactionItem.customerAddress.postcode,'PostCode')" 
                        size="12" 
                        maxlength="20" 
                        >

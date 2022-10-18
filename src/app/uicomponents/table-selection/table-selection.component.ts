@@ -117,7 +117,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   pageChanged(event?: PageEvent) {
-    debugger;
+    //debugger;
     if (event != undefined) {
       this.currentPage = event?.pageIndex ? event?.pageIndex : 0;
       this.pageProp.currentPage = this.currentPage + 1;
@@ -176,7 +176,6 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       () => {
         if (this.currentPage > 0) {
           this.toggleAllSelection();
-
         }
         this.spinner.hide();
         if (this.dataSource.data != undefined && this.tableitem?.isFavcols) {
@@ -297,7 +296,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   getFooterDetailstemp(cell: string) {
-    debugger
+   // debugger
     var cellname = cell.replace('f2_', '');
     var cell = cellname ? cellname : '';
     if (this.dataColumns[0] === cellname && !this.totalRowCols.includes(cell)) {
@@ -407,7 +406,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   // }
 
   filterGridColumns(event: any) {
-    debugger;
+   // debugger;
     let selectedColumns: string[] = this.select.value;
     this.dataColumns = this.tableitem?.selectCheckbox ? ['Select'].concat(selectedColumns) : selectedColumns;
     if (this.tableitem?.isCustomFooter) this.footerColumns = this.dataColumns.map(x => `f2_${x}`);
@@ -443,37 +442,67 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
     this.nonemptyColumns = [];
     this.emptyColumns = [];
     this.unSelectListItems = [];
-
     data?.forEach((item: any) => this.checkIsNullOrEmptyProperties(item));
-    //console.log('non', this.nonemptyColumns)
     this.tableitem?.Columns?.forEach(x => {
       if (this.nonemptyColumns.find(c => c === x.headerValue) || x.isImage) {
         this.ColumnDetails.push(x);
       }
     })
+    //To remove the null or empty image columns    
+    debugger;
+    var imgCells = this.ColumnDetails.filter(x => x.isImage).map(x => x.headerValue);
+    var imgDesc = this.ColumnDetails.filter(x => x.isImage && x.imgDesc).map(x => x.headerValue);
+    var imgAttrCells = this.imageAttrCells.map(x => x.cells);
+    var dynamicImgcells: string[] = [];
+    imgAttrCells.forEach(cells => {
+      cells.forEach(cell => {
+        dynamicImgcells.push(cell);
+      });
+    });
+    debugger;
+    if (dynamicImgcells && dynamicImgcells.length > 0) {
+      imgCells = imgCells.filter(x => !dynamicImgcells.includes(x));
+    }
+
+    // Adding image with description cell if it's not null(ex: Comments from FullAuditDetails)
+    this.nonemptyColumns.find(x => imgDesc.includes(x)) ? this.nonemptyColumns.push(...imgDesc) : this.nonemptyColumns;
+    // Adding Non Dynamic Image cells irrespective of empty cells
+    this.nonemptyColumns.push(...imgCells);
+    // Filtering cells in order to show cells in grid profile and column filters
+    this.ColumnDetails = this.ColumnDetails.filter(x => this.nonemptyColumns.includes(x.headerValue));
   }
 
   removeNullOrEmpty(data: any) {
     this.tableitem?.Columns?.forEach(x => {
       let col = data[x.headerValue];
-    })
-
+    });
   }
 
   checkIsNullOrEmptyProperties(obj: any) {
+   // debugger;
     for (var key in obj) {
-      // if ((this.tableitem?.Columns?.filter(x => key === (x.headerValue)).length == 0)) {
-      //   this.emptyColumns.push(key);
-      // }
       if ((obj[key] === null || obj[key] === "")) {
         this.emptyColumns.push(key);
       }
       else {
-        this.nonemptyColumns.push(key)
+       // this.nonemptyColumns.push(key);
+        var cells = this.imageAttrCells.filter(x => x.cells.includes(key));
+      //  debugger;
+        if (cells.length > 0) {
+          cells.forEach(x => {
+            if (x.cells.find(x => x === (key)) && obj[x.flag] === x.value) {
+              this.nonemptyColumns.push(key);           
+            }
+            // else{
+            //   this.emptyColumns.push(key);
+            // }
+          });       
+        }
+        else{ 
+          this.nonemptyColumns.push(key);
+        }
       }
-      // debugger;
-      // this.checkImgcols(obj)     
-    }
+    }   
   }
 
   setImageCellAttributes(row: any, cell: any) {
@@ -486,18 +515,20 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
       cells.forEach(x => {
         if (x.cells.find(x => x === (cell)) && row[x.flag] === x.value) {
           loopFlag = true;
-        }
+                }
         else {
+        
           flag = false;
         }
       });
     }
     return flag && loopFlag;
   }
+
   cellsWrapped: string[] = ['CustomerAddress', 'CustomerName'];
 
   applyCellWrapStyle(disCol: any) {
-    debugger;
+    //debugger;
     if (this.cellsWrapped.includes(disCol.headerValue)) {
       return true;
     }
@@ -543,17 +574,23 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   getSelectedProfile(val: any) {
-    debugger;
+   // debugger;
     // this.spinner.show();
     this.dataColumns = [];
     let newStatus = true;
     let selectedColumns = this.favProfile?.find(x => x.favprofileid === val)?.favcolumnlist;
+    //selectedColumns.push('RangeReportFlag')
+    console.log('selectedcols', selectedColumns)    
     selectedColumns = this.ColumnDetails.filter(x => selectedColumns?.includes(x.headerValue)).map(x => x.headerValue)
+    //selectedColumns = this.nonemptyColumns.filter(x => x.includes(selectedColumns)).map(x => x);
+    
+    console.log('latest coldetails', this.ColumnDetails)
     selectedColumns = selectedColumns ? selectedColumns : []
     this.enableCustomization = this.favProfile?.find(x => x.favprofileid === val)?.isdefaultprofile === 1 ? false : true;
 
     //updating column headers attributes
-    this.gridFilter.forEach((x: any) => {
+    //this.gridFilter.forEach((x: any) => {
+    this.ColumnDetails.forEach((x: any) => {
       if (selectedColumns?.includes(x.headerValue) && x.headerValue != 'Select') {
         x.showDefault = true;
       }
@@ -683,9 +720,9 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
 
     dialogRef.afterClosed().subscribe(profileName => {
       this.isExportDisable = true;
-      debugger;
+      //debugger;
       if ((profileName || '').trim().length > 0) {
-        debugger;
+      //  debugger;
         // var profileName = this.userDetails.username + '-' + result;
         var profile: FavoriteProfile = { reportname: this.reportIdentifier, favprofname: profileName, favprofileid: profileName, favcolumnlist: selectedCols.toString(), isdefaultprofile: 0, issharedprofile: 0 };
         let request = Utils.preparePyUICreate('ManageUsers', 'FavouriteProfile', 'ReportMenuItem', profile)
@@ -693,7 +730,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
           if (response.Status[0].StatusCode === 'PY1000') {
             profile.favprofileid = response.Data[0].favprofileid;
             this.favProfile.push(profile);
-            this.alertService.success("Preferred Header list Created Successfully!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.success("Preferred Header list Created Successfully", { autoClose: true, keepAfterRouteChange: false });
             this.selectedUserProfileId = profile.favprofileid;
             this.getSelectedProfile(this.selectedUserProfileId);
           }
@@ -734,7 +771,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
             this.favProfile = this.favProfile.filter(x => x.favprofileid != profile.favprofileid);
             profile.favprofname = profileName;
             this.favProfile.push(profile);
-            this.alertService.success("Preferred Header List Promoted Successfully!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.success("Preferred Header List Promoted Successfully", { autoClose: true, keepAfterRouteChange: false });
             this.selectedUserProfileId = profile.favprofileid;
             this.getSelectedProfile(this.selectedUserProfileId);
           }
@@ -757,7 +794,7 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
         let request = Utils.preparePyUIDelete('ManageUsers', 'FavouriteProfile', 'favprofileid', data)
         this.service.uiApiDetails(request, WebMethods.UIDELETE).subscribe(result => {
           if (result.Status[0].StatusCode === 'PY1000') {
-            this.alertService.success("Preferred Header Deleted Successfully!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.success("Preferred Header Deleted Successfully", { autoClose: true, keepAfterRouteChange: false });
             this.favProfile = this.favProfile.filter(x => x.favprofileid != this.selectedUserProfileId);
             this.selectedUserProfileId = this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid ? this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid : 0;
             this.getSelectedProfile(this.selectedUserProfileId);
@@ -768,13 +805,13 @@ export class TableSelectionComponent extends UserProfile implements OnDestroy, A
   }
 
   loadFavProfile() {
-    debugger;
+   // debugger;
     if (this.reportIdentifier) {
       let request = Utils.preparePyUIQuery('ManageUsers', 'FavouriteProfile', 'favprofileid', null, this.reportIdentifier)
-      console.log('fulladiu', JSON.stringify(request))
       this.service.uiApiDetails(request, WebMethods.UIQUERY).subscribe(result => {
         if (result) {
           this.favProfile = result.Data;
+          //this.nonemptyColumns
           this.selectedUserProfileId = this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid ? this.favProfile.find(x => x.isdefaultprofile === 1)?.favprofileid : 0;
           this.getSelectedProfile(this.selectedUserProfileId);
         }

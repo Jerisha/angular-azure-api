@@ -26,7 +26,7 @@ const Items: Select[] = [
   { view: 'Start Telephone No', viewValue: 'StartTelephoneNumber', default: true },
   { view: 'End Telephone No', viewValue: 'EndTelephoneNumber', default: true },
   { view: 'Audit ActId', viewValue: 'AuditActID', default: true },
-  { view: 'CUP Id', viewValue: 'CUPID', default: false },
+  { view: 'CUPID', viewValue: 'CUPID', default: false },
   { view: 'Batch Id', viewValue: 'BatchID', default: false },
   { view: 'External CLI Status', viewValue: 'ExternalCLIStatus', default: false },
   { view: 'FullAudit CLI Status', viewValue: 'FullAuditCLIStatus', default: true },
@@ -154,8 +154,8 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
   };
 
   cellAttrInfo: CellAttributes[] = [
-    { flag: 'InflightOrderFlag', cells: ['InflightOrder'], value: 'Y', isImage: true },
-    { flag: 'RangeReportFlag', cells: ['RangeReport'], value: 'Y', isImage: true },
+    { flag: 'InflightOrderFlag', cells: ['InflightOrderFlag'], value: 'Y', isImage: true },
+    { flag: 'RangeReportFlag', cells: ['RangeReportFlag'], value: 'Y', isImage: true },
     { flag: 'OverlappingFlag', cells: ['Comments'], value: 'Y', isImage: true },
     { flag: 'OSN2Source', cells: ['Comments'], value: 'SAS/COMS', isImage: true },
     { flag: 'MonthlyRefreshFlag', cells: ['MonthlyRefreshFlag'], value: 'Y', isImage: true },
@@ -172,8 +172,8 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
     { headerValue: 'OSN2Source', header: 'OSN2 Source', showDefault: false, isImage: false },
     { headerValue: 'Source', header: 'Source', showDefault: true, isImage: false },
     { headerValue: 'ACTID', header: 'ACT ID', showDefault: true, isImage: false },
-    { headerValue: 'RangeReport', header: 'Range Report', showDefault: true, isImage: true },
-    { headerValue: 'InflightOrder', header: 'Inflight Order', showDefault: true, isImage: true },
+    { headerValue: 'RangeReportFlag', header: 'Range Report', showDefault: true, isImage: true },
+    { headerValue: 'InflightOrderFlag', header: 'Inflight Order', showDefault: true, isImage: true },
     { headerValue: 'CUPID', header: 'CUPID', showDefault: true, isImage: false },
     { headerValue: 'BatchId', header: 'Batch Id', showDefault: true, isImage: false },
     { headerValue: 'ExternalCLIStatus', header: 'External CLI Status', showDefault: true, isImage: false },
@@ -365,9 +365,9 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       { Name: 'AuditType', Value: [`${'Full Audit'}`] }
     ];
     const dialogRef = this.dialog.open(UserCommentsDialogComponent, {
-      width: '800px',
-      //width: 'auto',
-      height: 'auto',
+      //width: '800px',
+      width: 'auto',
+      height: '450px',
       panelClass: 'custom-dialog-container',
       //data: { defaultValue: attributes, telno: telno }
       data: { listOfIdentifiers: attributes, rptElements: 'FullAuditDetails' }
@@ -496,8 +496,8 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
       excelQuery: this.prepareQueryParams(this.currentPage.toString()),
       imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 },
       { headerValue: 'View', icon: 'description', route: '', toolTipText: 'User Comments', tabIndex: 2 },
-      { headerValue: 'RangeReport', icon: 'description', route: '', toolTipText: 'Range Report', tabIndex: 3 },
-      { headerValue: 'InflightOrder', icon: 'description', route: '', toolTipText: 'Inflight Order', tabIndex: 4 },
+      { headerValue: 'RangeReportFlag', icon: 'description', route: '', toolTipText: 'Range Report', tabIndex: 3 },
+      { headerValue: 'InflightOrderFlag', icon: 'description', route: '', toolTipText: 'Inflight Order', tabIndex: 4 },
       { headerValue: 'MonthlyRefreshFlag', icon: 'description', route: '', toolTipText: 'Monthly Refresh Flag', tabIndex: 5 },
       { headerValue: 'MoriCircuitStatus', icon: 'description', route: '', toolTipText: 'MoriCircuitStatus', tabIndex: 6 },
       { headerValue: 'Comments', icon: 'description', route: '', toolTipText: 'User Comments', tabIndex: 7 }]
@@ -752,13 +752,11 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
         console.log('remarks', JSON.stringify(request))
         this.service.updateDetails(request).subscribe(x => {
           if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-
             this.onFormSubmit(true);
-            this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successfully !!", { autoClose: true, keepAfterRouteChange: false });
+            this.alertService.success(`${x.UpdatedCount ? x.UpdatedCount : ''}` + " record(s) saved successfully", { autoClose: true, keepAfterRouteChange: false });
           }
         });
       }
-
     });
   }
 
@@ -808,7 +806,7 @@ export class FullauditdetailsComponent extends UserProfile implements OnInit, Af
           console.log('auto correction', JSON.stringify(request));
           this.service.updateDetails(request).subscribe(x => {
             if (x.StatusMessage === 'Success' || x.StatusMessage === 'SUCCESS') {
-              this.alertService.success("Save successful!!", { autoClose: true, keepAfterRouteChange: false });
+              this.alertService.success("Save successful", { autoClose: true, keepAfterRouteChange: false });
               this.onFormSubmit(true);
             }
           });

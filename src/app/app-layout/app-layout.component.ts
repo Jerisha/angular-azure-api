@@ -45,7 +45,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    debugger;
+   // debugger;
    
     this.navService.appDrawer = this.appDrawer;
     if (this.authService.currentUserValue.iscompleteaccess === 0) {
@@ -90,7 +90,7 @@ export class AppLayoutComponent implements AfterViewInit, OnInit {
   }
 
   addRemoveFavoriteReport(action: string) {
-    debugger;
+    //debugger;
     var request!: Observable<any>;
     var reqJson: any;
     var data: any;

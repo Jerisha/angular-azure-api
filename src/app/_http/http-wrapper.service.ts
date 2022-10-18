@@ -35,7 +35,7 @@ export class HttpWrapperService {
     }
 
     private resolvePyRespone(val: any, requestType: WebMethods) {
-        debugger;
+       // debugger;
         let jsonResult = '';
 
         let transData: any = [];
@@ -187,7 +187,7 @@ export class HttpWrapperService {
                         jsonResult = this.processGetObject(categories);
                     break;
                 case WebMethods.UPDATE:
-                    debugger
+                   // debugger
                     categories = val.UpdateObjectResponse.UpdateObjectResponseType.ListofUpdateObjectCategory.UpdateObjectCategory;
                     let responseStatus = this.resolveResponseStatus(categories);
                     if (this.validateResponseStatus(responseStatus))
