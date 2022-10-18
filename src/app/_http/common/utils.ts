@@ -86,7 +86,7 @@ export class Utils {
   }
 
   static preparePyQuery(pageIdentifier: string, reportIdentifier: string, queryParams: any, reqParams?: any): any {
-    debugger;
+   // debugger;
     let transform = JSON.parse(JSON.stringify(PyRequests.QUERY));
     // assign userId
     transform.wmRequest.QueryObjectRequest.QueryObjectRequestType.RequestIdentifiers.Identifier[0].Value = [userId()];

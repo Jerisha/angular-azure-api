@@ -704,6 +704,12 @@ this.alertService.clear();
       }
     }
   }
+
+  makeUppercase(data: any, control: string) {
+    this.view3Form.controls[control].setValue(data.toUpperCase())
+  }
+
+
   SearchTel() {
     //this.views.view3 = false;
     let call: string = 'Query';

@@ -135,7 +135,9 @@ const Items: Select[] = [
   { view: 'Date Range', viewValue: 'DateRange', default: false },
   { view: 'Error Codes', viewValue: 'ErrorCode', default: false },
   { view: '999 Ref', viewValue: 'Reference', default: false },
-  { view: 'Order Reference', viewValue: 'OrderReference', default: false }
+  { view: 'Order Reference', viewValue: 'OrderReference', default: false },
+  { view: 'LcpGcp', viewValue: 'LcpGcp', default: false }
+  
 
 ];
 // const FilterListItems: Select[] = [
@@ -215,9 +217,11 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   ngOnInit(): void {
     this.createForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode','LcpGcp']);
+    console.log('request',JSON.stringify(request));
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
+      console.log(res.data);
       this.errorCodes = res.data?.ErrorCode
     });
 
@@ -318,7 +322,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         FromDate: new FormControl({ value: '', disabled:false }),
         ToDate: new FormControl({ value: '', disabled: false }),
         disabled: true
-      })
+      }),
+      LcpGcp: new FormControl({ value: '', disabled: true }, [])
+      
     })
    this.f['DateRange'].disable();
 
@@ -361,7 +367,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   onFormSubmit(isEmitted?: boolean): void {
-    debugger;
+   // debugger;
     let errMsg = '';
     this.alertService.clear();
     if (!this.thisForm.valid) return;
@@ -437,7 +443,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   onSaveSubmit(form: any): void {
     //console.log("save", form);
-    debugger;
+   // debugger;
     if ((this.selectedGridRows.length > 0 || (this.f.StartTelephoneNumber?.value && this.f.EndTelephoneNumber?.value)) &&
       (this.Resolution && this.check999() && this.Remarks)) {
 
@@ -542,7 +548,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   rowDetect(selectedRows: any) {
-    debugger;
+    //debugger;
     selectedRows.forEach((item: any) => {
       // this.selectedRowsCount = item.length;
       if (item && item.length == 0) return
@@ -589,7 +595,7 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   }
 
   onPaste(event: any): boolean {
-    debugger;
+   // debugger;
     let clipboardData = event.clipboardData;
     let pastedText = clipboardData.getData('text');
     //console.log("pastedText :"+ pastedText+ isNaN(pastedText));
@@ -680,16 +686,24 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
 
   errorTypeChanges(event: any) {
-    debugger;
+   // debugger;
     let errType = event.value;
     let code = errType === 'Internal Errors' ? '2' : '1';
     this.errorCodes = this.configDetails?.ErrorCode.filter((x: string) => x.startsWith(code))
 
   }
   autoGrowTextZone(e:any) {
+    // console.log(e.target.style);
+    // e.target.style.height = "58px";
+    // if(e.target.scrollHeight>58)
+    // {
+    //   e.target.style.height = (e.target.scrollHeight)+"px";
+    // }
     console.log(e.target.style);
     e.target.style.height = "0px";
     e.target.style.height = (e.target.scrollHeight)+"px";
   }
+    
+  }
 
-}
+
