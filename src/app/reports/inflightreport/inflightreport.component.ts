@@ -67,6 +67,8 @@ export class InflightreportComponent extends UserProfile implements OnInit {
     select: string = 'Exp';
     isDisabled = true;
     myTable!: TableItem;
+    auditTelNo?: any;
+    repIdentifier = "ProvideReports";
     selectedTab!: number;
     selectListItems: string[] = [];
     listItems!: Select[];
@@ -107,6 +109,7 @@ export class InflightreportComponent extends UserProfile implements OnInit {
     columns: ColumnDetails[] = [
 
         { header: 'TelephoneNumber', headerValue: 'TelephoneNumber', showDefault: true, isImage: false },
+        { header: 'Inventory', headerValue: 'View', showDefault: true, isImage: true },
         { header: 'Command', headerValue: 'Command', showDefault: true, isImage: false },
         { header: 'Source System', headerValue: 'Source', showDefault: true, isImage: false }
     ];
@@ -177,7 +180,7 @@ export class InflightreportComponent extends UserProfile implements OnInit {
             filter: false,
             excelQuery: this.prepareQueryParams(this.currentPage.toString()),
             selectCheckbox: false,
-
+            imgConfig: [{ headerValue: 'View', icon: 'tab', route: '', toolTipText: 'Audit Trail Report', tabIndex: 1 }]
 
         }
         if (!this.tabs.find(x => x.tabType == 0)) {
@@ -189,6 +192,29 @@ export class InflightreportComponent extends UserProfile implements OnInit {
         this.selectedTab = this.tabs.length;
 
     }
+
+    newTab(tab: any) {
+        if (this.tabs === []) return;
+    
+            //tab.row contains row data- fetch data from api and bind to respetive component
+            if (!this.tabs?.find(x => x.tabType == 1)) {
+              this.tabs.push({
+                tabType: 1,
+                name: 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
+              });
+    
+              this.selectedTab = this.tabs.findIndex(x => x.tabType == 1) + 1;
+            } else {
+              this.selectedTab = this.tabs.findIndex(x => x.tabType == 1);
+              let updtab = this.tabs.find(x => x.tabType == 1);
+              if (updtab) updtab.name = 'Audit Trail Report(' + tab.row.TelephoneNumber + ')'
+            }
+            this.auditTelNo = tab.row.TelephoneNumber;
+        }    
+
+        removeTab(index: number) {
+            this.tabs.splice(index, 1);
+          }
 
     OnOperatorClicked(val: [string, string]) {
         // if (event.target.value !="")

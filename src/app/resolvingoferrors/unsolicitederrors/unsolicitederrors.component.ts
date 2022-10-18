@@ -204,7 +204,7 @@ export class UnsolicitederrorsComponent extends UserProfile implements OnInit, A
     this.createForm();
     //this.UpdateForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Source', 'ErrorDescription', 'ResolveTypeUnsol']);
+    let request = Utils.preparePyConfig(['Search'], ['UnsolicitedSource', 'ErrorDescription', 'ResolveTypeUnsol']);
     console.log("res: " + JSON.stringify(request))
     this.service.configDetails(request).subscribe((res: any) => {
       console.log("res: " + JSON.stringify(res))
@@ -629,13 +629,13 @@ if ((this.f.StartTelephoneNumber?.value?.length >= 10 &&
         if (!this.tabs.find(x => x.tabType == 2)) {
           this.tabs.push({
             tabType: 2,
-            name: 'Transaction History(' + this.telNo + '/' + this.tranId + ')'
+            name: 'Transaction History(' + this.telNo + ')'
           })
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2) + 1;
         } else {
           let tabIndex: number = this.tabs.findIndex(x => x.tabType == 2);
           this.selectedTab = this.tabs.findIndex(x => x.tabType == 2);
-          this.tabs[tabIndex].name = 'Transaction History(' + this.telNo + '/' + this.tranId + ')';
+          this.tabs[tabIndex].name = 'Transaction History(' + this.telNo + ')';
         }
 
         break;
