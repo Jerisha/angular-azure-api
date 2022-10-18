@@ -154,7 +154,7 @@
         (page)="pageChanged($event)">
       </mat-paginator>
       <mat-form-field *ngIf="!disablePageSize"  style="width: 100px; align-items: baseline;">
-        <input numbersOnly matTooltip="Enter page no." [(ngModel)]="apiPageNumber" matInput autocomplete="off"
+        <input numbersOnly matTooltip="Enter page no." matTooltipPosition="above" [(ngModel)]="apiPageNumber" matInput autocomplete="off"
           placeholder="Page no.">
         <!-- <mat-icon style="font-size:20px; cursor: pointer;"  matTooltip= "Go to Page" (click)="pageChanged()">arrow_upward</mat-icon> -->
         <mat-icon style="font-size:20px; cursor: pointer;" matTooltip="Go to Page" (click)="pageChanged()">fast_forward
