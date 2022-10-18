@@ -135,7 +135,9 @@ const Items: Select[] = [
   { view: 'Date Range', viewValue: 'DateRange', default: false },
   { view: 'Error Codes', viewValue: 'ErrorCode', default: false },
   { view: '999 Ref', viewValue: 'Reference', default: false },
-  { view: 'Order Reference', viewValue: 'OrderReference', default: false }
+  { view: 'Order Reference', viewValue: 'OrderReference', default: false },
+  { view: 'LcpGcp', viewValue: 'LcpGcp', default: false }
+  
 
 ];
 // const FilterListItems: Select[] = [
@@ -215,9 +217,11 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
   ngOnInit(): void {
     this.createForm();
     debugger;
-    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode']);
+    let request = Utils.preparePyConfig(['Search'], ['Command', 'Source', 'ResolutionType', 'ErrorType', 'ErrorCode','LcpGcp']);
+    console.log('request',JSON.stringify(request));
     this.service.configDetails(request).subscribe((res: any) => {
       this.configDetails = res.data;
+      console.log(res.data);
       this.errorCodes = res.data?.ErrorCode
     });
 
@@ -318,7 +322,9 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
         FromDate: new FormControl({ value: '', disabled:false }),
         ToDate: new FormControl({ value: '', disabled: false }),
         disabled: true
-      })
+      }),
+      LcpGcp: new FormControl({ value: '', disabled: true }, [])
+      
     })
    this.f['DateRange'].disable();
 
@@ -687,9 +693,17 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   }
   autoGrowTextZone(e:any) {
+    // console.log(e.target.style);
+    // e.target.style.height = "58px";
+    // if(e.target.scrollHeight>58)
+    // {
+    //   e.target.style.height = (e.target.scrollHeight)+"px";
+    // }
     console.log(e.target.style);
     e.target.style.height = "0px";
     e.target.style.height = (e.target.scrollHeight)+"px";
+  }
+    
   }
 
 }
