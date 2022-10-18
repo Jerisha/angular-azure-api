@@ -705,9 +705,9 @@ this.alertService.clear();
     }
   }
 
-  makeUppercase(event:any,data:string){
-    alert('event'+event);
-this.view3Form.controls['AddressLine1'].setValue(data.toUpperCase())  }
+  makeUppercase(data: any, control: string) {
+    this.view3Form.controls[control].setValue(data.toUpperCase())
+  }
 
 
   SearchTel() {
