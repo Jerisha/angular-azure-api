@@ -3,9 +3,9 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 
 @Injectable()
 export class MatPaginatorI18n extends MatPaginatorIntl {
-  // itemsPerPageLabel = 'Show';
-  // nextPageLabel = 'Next page';
-  // previousPageLabel = 'Previous page';
+  itemsPerPageLabel = 'Show';
+  nextPageLabel = 'Next page';
+  previousPageLabel = 'Previous page';
   getRangeLabel = (page: number, pageSize: number, totalResults: number) => {
     if (!totalResults) { return 'No result'; }
     totalResults = Math.max(totalResults, 0);
