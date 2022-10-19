@@ -354,7 +354,8 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
     { header: '999 Reference', headerValue: '999Reference', showDefault: true, isImage: false },
     { header: 'Remarks Date', headerValue: 'LatestCommentDate', showDefault: true, isImage: false },
     { header: 'Latest User Remarks', headerValue: 'LatestUserComments', showDefault: true, isImage: false, showTooltip: true },
-    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false }
+    { header: 'Order Ref', headerValue: 'OrderReference', showDefault: true, isImage: false },
+    { header: 'Overdue', headerValue: 'Overdue', showDefault: true, isImage: false }
     // { header: 'Child Cupid', headerValue: 'ChildCupId', showDefault: true, isImage: false }
   ];
 
