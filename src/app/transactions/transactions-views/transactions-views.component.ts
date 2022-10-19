@@ -78,6 +78,7 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   panelOpenState = false;
   btncolor: string = "secondary"
   defaultbtn: string = "vf-primary-btn";
+  saveformbtncolor:string='vf-add-btn';
   savebtnColor: string = "secondary"
   addbtncolor: string = "secondary"
   formsGroup!: FormGroup;
@@ -378,7 +379,22 @@ GoBack()
         return obj.Cupid === event.option.value;
       });
       this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
-      .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+      .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+      this.enableSource = true;
+      this.enableFrancise = true;
+      this.SourceFranchisearr={Source:this.SourceValues,Franchise:[]};
+      this.model.source = this.SourceValues[0];
+      let frnachaise = this.cupIds.filter((obj: { Cupid: string; }) => {
+        return obj.Cupid === event.option.value;
+      });
+      this.franchiseValues = frnachaise.map((item: { Franchise: any; }) => item.Franchise)
+        .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
+        this.SourceFranchisearr={Source:this.SourceValues,Franchise:this.franchiseValues};
+       
+      if(this.model.franchise!='')
+      {
+        this.views.view3 = true;
+      }
     }
     else
     {
