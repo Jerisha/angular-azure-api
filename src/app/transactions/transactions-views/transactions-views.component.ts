@@ -246,8 +246,12 @@ export class TransactionsViewsComponent implements OnInit, AfterViewInit {
   }
     }
   }
+  ClearBanner()
+  {
+    this.clearBanner();
+  }
   onChange(value: string, ctrlName: string) {
-   // alert('model change called');
+    //alert('model change called');
     if (!this.evntflage) {
       debugger
       const ctrl = this.thisForm.get(ctrlName) as FormControl;
@@ -368,6 +372,14 @@ GoBack()
         this.views.view3 = true;
       }
     }
+   else if(event.option.value === "170 - Vodafone Access")
+    {
+      let Source = this.cupIds.filter((obj: { Cupid: string; }) => {
+        return obj.Cupid === event.option.value;
+      });
+      this.SourceValues = Source.map((item: { Source: any; }) => item.Source)
+      .filter((value: any, index: number, self: any) => self.indexOf(value) === index)
+    }
     else
     {
     if (event.option.value !== "") {
@@ -436,6 +448,10 @@ GoBack()
       this.model.IECUPID="";
     }
     //ctrlthree.clearValidators();
+  }
+  clearBanner()
+  {
+    this.alertService.clear();
   }
   onChangeEvent(event: any, control: string) {
     debugger
@@ -1135,10 +1151,11 @@ this.alertService.clear();
         this.countrange();
         if (count >= 10000) {
           this.countrange();
+
           this.alertService.notification("Telephone Number range should be less than or equal to 10,000 CLI’s ", { autoClose: true, keepAfterRouteChange: false });
         }
         else if (!this.checktotalrange(count)) {
-           this.alertService.notification("Unable to add Tel No’s as this will exceed the maximum 10K limit ", { autoClose: true, keepAfterRouteChange: false })
+           this.alertService.notification("Unable to add the CLIs, as this will exceed the 10,000 CLIs limit", { autoClose: true, keepAfterRouteChange: false })
          }
         else {
           this.countrange();

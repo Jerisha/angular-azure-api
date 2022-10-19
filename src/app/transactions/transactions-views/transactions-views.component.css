@@ -174,3 +174,10 @@ vf-list-value1 {
   background-color:#eb9800;
   background-color:#000000;
 }
+input.leftAligned {
+  direction:ltr;
+  overflow:hidden;
+}
+input.leftAligned:not(:focus) {
+  text-align: center;
+}
