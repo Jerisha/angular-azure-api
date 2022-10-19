@@ -694,12 +694,12 @@ export class SolicitederrorsComponent extends UserProfile implements OnInit {
 
   }
   autoGrowTextZone(e:any) {
-    console.log(e.target.style);
-    e.target.style.height = "58px";
-    if(e.target.scrollHeight>58)
-    {
-      e.target.style.height = (e.target.scrollHeight)+"px";
-    }
+    // console.log(e.target.style);
+    // e.target.style.height = "58px";
+    // if(e.target.scrollHeight>58)
+    // {
+    //   e.target.style.height = (e.target.scrollHeight)+"px";
+    // }
     // console.log(e.target.style);
     // e.target.style.height = "0px";
     // e.target.style.height = (e.target.scrollHeight)+"px";
